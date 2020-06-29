@@ -17,6 +17,7 @@ import Loader from 'Component/Loader';
 import ContentWrapper from 'Component/ContentWrapper';
 import './ConfirmAccountPage.style';
 
+/** @middleware Route/ConfirmAccountPage/Component */
 export class ConfirmAccountPage extends ExtensiblePureComponent {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
@@ -90,4 +91,4 @@ export class ConfirmAccountPage extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ConfirmAccountPage, 'Route/ConfirmAccountPage/Component');
+export default ConfirmAccountPage;

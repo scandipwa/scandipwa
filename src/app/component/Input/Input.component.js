@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+/** @middleware Component/Input/Component */
 export class Input extends ExtensiblePureComponent {
     static propTypes = {
         formRef: PropTypes.oneOfType([
@@ -27,4 +28,4 @@ export class Input extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Input, 'Component/Input/Component');
+export default Input;

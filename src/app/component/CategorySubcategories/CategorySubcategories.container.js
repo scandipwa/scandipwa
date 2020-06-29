@@ -18,10 +18,12 @@ import { hideActiveOverlay } from 'Store/Overlay';
 
 import CategorySubcategories from './CategorySubcategories.component';
 
+/** @middleware Component/CategorySubcategories/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
+/** @middleware Component/CategorySubcategories/Container */
 export class CategorySubcategoriesContainer extends ExtensiblePureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -59,12 +61,8 @@ export class CategorySubcategoriesContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @middleware Component/CategorySubcategories/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CategorySubcategories/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CategorySubcategories/Container/mapDispatchToProps')
-)(
-    middleware(CategorySubcategoriesContainer, 'Component/CategorySubcategories/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CategorySubcategoriesContainer);

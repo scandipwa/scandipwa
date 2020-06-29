@@ -16,6 +16,7 @@ import { ProductType, FilterType } from 'Type/ProductList';
 
 import './WishlistItem.style';
 
+/** @middleware Component/WishlistItem/Component */
 export class WishlistItem extends ExtensiblePureComponent {
     static propTypes = {
         addToCart: PropTypes.func,
@@ -118,4 +119,4 @@ export class WishlistItem extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(WishlistItem, 'Component/WishlistItem/Component');
+export default WishlistItem;

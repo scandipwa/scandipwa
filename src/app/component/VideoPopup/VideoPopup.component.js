@@ -99,7 +99,8 @@ export class VideoPopup extends ExtensiblePureComponent {
      * Parses the video URL and renders the video accordingly
      * @returns {null|*}
      * @private
-     */
+     * @middleware Component/VideoPopup/Component
+ */
     _renderVideoContent() {
         const {
             payload: {
@@ -139,4 +140,4 @@ export class VideoPopup extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(VideoPopup, 'Component/VideoPopup/Component');
+export default VideoPopup;

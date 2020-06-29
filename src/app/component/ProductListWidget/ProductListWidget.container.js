@@ -21,12 +21,15 @@ import { updateNoMatch } from 'Store/NoMatch';
 
 import './ProductListWidget.style';
 
+/** @middleware Component/ProductListWidget/Container/mapStateToProps */
+/** @middleware Component/ProductListWidget/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({
     updateNoMatch,
     showNotification
 });
 
+/** @middleware Component/ProductListWidget/Container */
 export class ProductListWidgetContainer extends DataContainer {
     static propTypes = {
         showPager: PropTypes.number,
@@ -170,9 +173,4 @@ export class ProductListWidgetContainer extends DataContainer {
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/ProductListWidget/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/ProductListWidget/Container/mapDispatchToProps')
-)(
-    middleware(ProductListWidgetContainer, 'Component/ProductListWidget/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductListWidgetContainer);

@@ -201,7 +201,8 @@ export class ProductGallery extends ExtensiblePureComponent {
      * @param media
      * @param index
      * @returns {null|*}
-     */
+     * @middleware Component/ProductGallery/Component
+ */
     renderSlide(media, index) {
         const { media_type } = media;
 
@@ -275,4 +276,4 @@ export class ProductGallery extends ExtensiblePureComponent {
     }
 }
 
-export default withRouter(middleware(ProductGallery, 'Component/ProductGallery/Component'));
+export default withRouter(ProductGallery);

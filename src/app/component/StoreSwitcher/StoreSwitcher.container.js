@@ -18,14 +18,17 @@ import ConfigQuery from 'Query/Config.query';
 
 import StoreSwitcher from './StoreSwitcher.component';
 
+/** @middleware Component/StoreSwitcher/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     currentStoreCode: state.ConfigReducer.code
 });
 
+/** @middleware Component/StoreSwitcher/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showErrorNotification: message => dispatch(showNotification('error', message))
 });
 
+/** @middleware Component/StoreSwitcher/Container */
 export class StoreSwitcherContainer extends DataContainer {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
@@ -109,9 +112,4 @@ export class StoreSwitcherContainer extends DataContainer {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/StoreSwitcher/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/StoreSwitcher/Container/mapDispatchToProps')
-)(
-    middleware(StoreSwitcherContainer, 'Component/StoreSwitcher/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(StoreSwitcherContainer);

@@ -16,17 +16,20 @@ import { showNotification } from 'Store/Notification';
 import { ProductType } from 'Type/ProductList';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
+/** @middleware Component/MyAccountMyWishlist/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isWishlistLoading: state.WishlistReducer.isLoading
 });
 
+/** @middleware Component/MyAccountMyWishlist/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
     moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
     showNotification: message => dispatch(showNotification('success', message))
 });
 
+/** @middleware Component/MyAccountMyWishlist/Container */
 export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
     static propTypes = {
         clearWishlist: PropTypes.func.isRequired,
@@ -96,9 +99,4 @@ export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/MyAccountMyWishlist/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/MyAccountMyWishlist/Container/mapDispatchToProps')
-)(
-    middleware(MyAccountMyWishlistContainer, 'Component/MyAccountMyWishlist/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyWishlistContainer);

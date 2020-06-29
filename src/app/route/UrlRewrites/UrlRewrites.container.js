@@ -13,10 +13,12 @@ import { connect } from 'react-redux';
 import { UrlRewritesDispatcher } from 'Store/UrlRewrites';
 import UrlRewrites from './UrlRewrites.component';
 
+/** @middleware Route/UrlRewrites/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite
 });
 
+/** @middleware Route/UrlRewrites/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     requestUrlRewrite: (options) => {
         UrlRewritesDispatcher.handleData(dispatch, options);
@@ -26,7 +28,4 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
-export default connect(
-    middleware(mapStateToProps, 'Route/UrlRewrites/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/UrlRewrites/Container/mapDispatchToProps')
-)(UrlRewrites);
+export default connect(mapStateToProps, mapDispatchToProps)(UrlRewrites);

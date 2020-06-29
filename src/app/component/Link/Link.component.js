@@ -14,6 +14,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { stringify } from 'rebem-classname';
 import { ChildrenType } from 'Type/Common';
 
+/** @middleware Component/Link/Component */
 export class Link extends ExtensiblePureComponent {
     static propTypes = {
         to: PropTypes.oneOfType([
@@ -96,4 +97,4 @@ export class Link extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Link, 'Component/Link/Component');
+export default Link;

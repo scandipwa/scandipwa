@@ -17,6 +17,7 @@ import Html from 'Component/Html';
 
 import './CmsPage.style';
 
+/** @middleware Route/CmsPage/Component */
 export class CmsPage extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
@@ -82,4 +83,4 @@ export class CmsPage extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CmsPage, 'Route/CmsPage/Component');
+export default CmsPage;

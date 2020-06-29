@@ -12,6 +12,7 @@
 import { ProductType } from 'Type/ProductList';
 import ProductInformation from './ProductInformation.component';
 
+/** @middleware Component/ProductInformation/Container */
 export class ProductInformationContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired
@@ -51,4 +52,4 @@ export class ProductInformationContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductInformationContainer, 'Component/ProductInformation/Container');
+export default ProductInformationContainer;

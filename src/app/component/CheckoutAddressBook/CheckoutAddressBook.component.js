@@ -19,6 +19,7 @@ import CheckoutAddressForm from 'Component/CheckoutAddressForm';
 import './CheckoutAddressBook.style';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
+/** @middleware Component/CheckoutAddressBook/Component */
 export class CheckoutAddressBook extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
@@ -175,4 +176,4 @@ export class CheckoutAddressBook extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CheckoutAddressBook, 'Component/CheckoutAddressBook/Component');
+export default CheckoutAddressBook;

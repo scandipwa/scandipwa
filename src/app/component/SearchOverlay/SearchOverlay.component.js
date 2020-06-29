@@ -23,6 +23,7 @@ import './SearchOverlay.style';
 export const SEARCH_TIMEOUT = 500;
 export const AMOUNT_OF_PLACEHOLDERS = 5;
 
+/** @middleware Component/SearchOverlay/Component */
 export class SearchOverlay extends ExtensiblePureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -188,4 +189,4 @@ export class SearchOverlay extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(SearchOverlay, 'Component/SearchOverlay/Component');
+export default SearchOverlay;

@@ -19,6 +19,7 @@ import './Popup.style';
 
 export const ESCAPE_KEY = 27;
 
+/** @middleware Component/Popup/Component */
 export class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
@@ -136,4 +137,4 @@ export class Popup extends Overlay {
     }
 }
 
-export default middleware(Popup, 'Component/Popup/Component');
+export default Popup;

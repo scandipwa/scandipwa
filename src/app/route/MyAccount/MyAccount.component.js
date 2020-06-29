@@ -31,6 +31,7 @@ import {
 
 import './MyAccount.style';
 
+/** @middleware Route/MyAccount/Component */
 export class MyAccount extends ExtensiblePureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
@@ -98,4 +99,4 @@ export class MyAccount extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(MyAccount, 'Route/MyAccount/Component');
+export default MyAccount;

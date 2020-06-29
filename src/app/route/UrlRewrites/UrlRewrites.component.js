@@ -26,6 +26,7 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
  * Additional types possible:
  * const TYPE_PWA = 'PWA_ROUTER';
  * const TYPE_CUSTOM = 'CUSTOM';
+ * @middleware Route/UrlRewrites/Component
  */
 export class UrlRewrites extends ExtensiblePureComponent {
     static propTypes = {
@@ -141,4 +142,4 @@ export class UrlRewrites extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(UrlRewrites, 'Route/UrlRewrites/Component');
+export default UrlRewrites;

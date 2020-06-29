@@ -20,6 +20,7 @@ import './Footer.style';
 /**
  * Page footer
  * @class Footer
+ * @middleware Component/Footer/Component
  */
 export class Footer extends ExtensiblePureComponent {
     static propTypes = {
@@ -85,4 +86,4 @@ export class Footer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Footer, 'Component/Footer/Component');
+export default Footer;

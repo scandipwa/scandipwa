@@ -14,6 +14,7 @@ import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddr
 import Loader from 'Component/Loader';
 import './CheckoutAddressTable.style';
 
+/** @middleware Component/CheckoutAddressTable/Component */
 export class CheckoutAddressTable extends MyAccountAddressTable {
     static propTypes = {
         ...MyAccountAddressTable.propTypes,
@@ -59,4 +60,4 @@ export class CheckoutAddressTable extends MyAccountAddressTable {
     }
 }
 
-export default middleware(CheckoutAddressTable, 'Component/CheckoutAddressTable/Component');
+export default CheckoutAddressTable;

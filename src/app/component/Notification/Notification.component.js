@@ -58,7 +58,8 @@ export class Notification extends ExtensiblePureComponent {
     /**
      * Remove notification from screen
      * @return {void}
-     */
+     * @middleware Component/Notification/Component
+ */
     hideNotification = () => {
         const { onHideNotification, notificationId } = this.props;
         this.setState({ isNotificationVisible: false });
@@ -106,4 +107,4 @@ export class Notification extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Notification, 'Component/Notification/Component');
+export default Notification;

@@ -29,6 +29,7 @@ export const STATE_CONFIRM_EMAIL = 'confirmEmail';
 
 export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';
 
+/** @middleware Component/MyAccountOverlay/Component */
 export class MyAccountOverlay extends ExtensiblePureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
@@ -372,5 +373,5 @@ export class MyAccountOverlay extends ExtensiblePureComponent {
 }
 
 export default withRouter(
-    middleware(MyAccountOverlay, 'Component/MyAccountOverlay/Component')
+    MyAccountOverlay
 );

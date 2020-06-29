@@ -14,15 +14,18 @@ import { connect } from 'react-redux';
 import { OrderDispatcher } from 'Store/Order';
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
+/** @middleware Component/MyAccountMyOrders/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     orderList: state.OrderReducer.orderList,
     isLoading: state.OrderReducer.isLoading
 });
 
+/** @middleware Component/MyAccountMyOrders/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     getOrderList: () => OrderDispatcher.requestOrders(dispatch)
 });
 
+/** @middleware Component/MyAccountMyOrders/Container */
 export class MyAccountMyOrdersContainer extends ExtensiblePureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired
@@ -42,9 +45,4 @@ export class MyAccountMyOrdersContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/MyAccountMyOrders/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/MyAccountMyOrders/Container/mapDispatchToProps')
-)(
-    middleware(MyAccountMyOrdersContainer, 'Component/MyAccountMyOrders/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyOrdersContainer);

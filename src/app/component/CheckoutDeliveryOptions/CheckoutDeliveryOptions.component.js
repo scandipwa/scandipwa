@@ -16,6 +16,7 @@ import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 
 import './CheckoutDeliveryOptions.style';
 
+/** @middleware Component/CheckoutDeliveryOptions/Component */
 export class CheckoutDeliveryOptions extends ExtensiblePureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
@@ -96,4 +97,4 @@ export class CheckoutDeliveryOptions extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CheckoutDeliveryOptions, 'Component/CheckoutDeliveryOptions/Component');
+export default CheckoutDeliveryOptions;

@@ -14,6 +14,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
+/** @middleware Component/ExpandableContent/Component */
 export class ExpandableContent extends ExtensiblePureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
@@ -135,4 +136,4 @@ export class ExpandableContent extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ExpandableContent, 'Component/ExpandableContent/Component');
+export default ExpandableContent;

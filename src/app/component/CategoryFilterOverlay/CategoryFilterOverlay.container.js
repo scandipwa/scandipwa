@@ -21,12 +21,14 @@ import { LocationType } from 'Type/Router';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
+/** @middleware Component/CategoryFilterOverlay/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     isProductsLoading: state.ProductListReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages
 });
 
+/** @middleware Component/CategoryFilterOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
@@ -35,6 +37,7 @@ export const mapDispatchToProps = dispatch => ({
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
 });
 
+/** @middleware Component/CategoryFilterOverlay/Container */
 export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         location: LocationType.isRequired,
@@ -171,10 +174,5 @@ export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
 }
 
 export default withRouter(
-    connect(
-        middleware(mapStateToProps, 'Component/CategoryFilterOverlay/Container/mapStateToProps'),
-        middleware(mapDispatchToProps, 'Component/CategoryFilterOverlay/Container/mapDispatchToProps'),
-    )(
-        middleware(CategoryFilterOverlayContainer, 'Component/CategoryFilterOverlay/Container')
-    )
+    connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer)
 );

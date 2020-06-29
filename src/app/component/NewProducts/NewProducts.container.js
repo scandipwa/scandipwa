@@ -18,14 +18,17 @@ import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
 import NewProducts from './NewProducts.component';
 
+/** @middleware Component/NewProducts/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     timezone: state.ConfigReducer.timezone
 });
 
+/** @middleware Component/NewProducts/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
+/** @middleware Component/NewProducts/Container */
 export class NewProductsContainer extends ExtensiblePureComponent {
     static propTypes = {
         category: PropTypes.string,
@@ -129,9 +132,4 @@ export class NewProductsContainer extends ExtensiblePureComponent {
     render = () => <NewProducts { ...this.props } { ...this.state } />;
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/NewProducts/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/NewProducts/Container/mapDispatchToProps')
-)(
-    middleware(NewProductsContainer, 'Component/NewProducts/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(NewProductsContainer);

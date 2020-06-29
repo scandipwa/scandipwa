@@ -13,6 +13,7 @@ import { customerType } from 'Type/Account';
 import PropTypes from 'prop-types';
 import KeyValueTable from 'Component/KeyValueTable';
 
+/** @middleware Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {
         customer: customerType.isRequired,
@@ -74,4 +75,4 @@ export class MyAccountCustomerTable extends KeyValueTable {
     }
 }
 
-export default middleware(MyAccountCustomerTable, 'Component/MyAccountCustomerForm/Component');
+export default MyAccountCustomerTable;

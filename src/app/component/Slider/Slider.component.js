@@ -27,6 +27,7 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
 /**
  * Slider component
  * @class Slider
+ * @middleware Component/Slider/Component
  */
 export class Slider extends ExtensiblePureComponent {
     static propTypes = {
@@ -335,4 +336,4 @@ export class Slider extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Slider, 'Component/Slider/Component');
+export default Slider;

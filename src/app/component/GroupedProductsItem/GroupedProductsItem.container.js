@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import GroupedProductsItem from './GroupedProductsItem.component';
 
+/** @middleware Component/GroupedProductsItem/Container */
 export class GroupedProductsItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -65,4 +66,4 @@ export class GroupedProductsItemContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(GroupedProductsItemContainer, 'Component/GroupedProductsItem/Container');
+export default GroupedProductsItemContainer;

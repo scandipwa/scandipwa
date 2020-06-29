@@ -21,6 +21,7 @@ export const DEFAULT_PLACEHOLDER_COUNT = 4;
 /**
  * Placeholder for List of category product
  * @class CategoryProductListPlaceholder
+ * @middleware Component/CategoryProductListPlaceholder/Component
  */
 export class CategoryProductListPlaceholder extends ExtensiblePureComponent {
     static propTypes = {
@@ -125,5 +126,5 @@ export class CategoryProductListPlaceholder extends ExtensiblePureComponent {
 }
 
 export default withRouter(
-    middleware(CategoryProductListPlaceholder, 'Component/CategoryProductListPlaceholder/Component')
+    CategoryProductListPlaceholder
 );

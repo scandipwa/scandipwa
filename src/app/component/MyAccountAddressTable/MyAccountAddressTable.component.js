@@ -18,6 +18,7 @@ import { MixType } from 'Type/Common';
 
 import './MyAccountAddressTable.style';
 
+/** @middleware Component/MyAccountAddressTable/Component */
 export class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
         mix: MixType,
@@ -154,4 +155,4 @@ export class MyAccountAddressTable extends KeyValueTable {
     }
 }
 
-export default middleware(MyAccountAddressTable, 'Component/MyAccountAddressTable/Component');
+export default MyAccountAddressTable;

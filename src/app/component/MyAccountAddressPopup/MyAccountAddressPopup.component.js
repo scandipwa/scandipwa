@@ -23,6 +23,7 @@ export const EDIT_ADDRESS = 'EDIT_ADDRESS';
 export const DELETE_ADDRESS = 'DELETE_ADDRESS';
 export const ADD_ADDRESS = 'ADD_ADDRESS';
 
+/** @middleware Component/MyAccountAddressPopup/Component */
 export class MyAccountAddressPopup extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
@@ -95,4 +96,4 @@ export class MyAccountAddressPopup extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(MyAccountAddressPopup, 'Component/MyAccountAddressPopup/Component');
+export default MyAccountAddressPopup;

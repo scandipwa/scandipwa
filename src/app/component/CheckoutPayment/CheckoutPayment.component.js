@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { paymentMethodType } from 'Type/Checkout';
 import './CheckoutPayment.style';
 
+/** @middleware Component/CheckoutPayment/Component */
 export class CheckoutPayment extends ExtensiblePureComponent {
     static propTypes = {
         method: paymentMethodType.isRequired,
@@ -55,4 +56,4 @@ export class CheckoutPayment extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CheckoutPayment, 'Component/CheckoutPayment/Component');
+export default CheckoutPayment;

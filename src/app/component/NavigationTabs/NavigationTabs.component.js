@@ -19,6 +19,7 @@ export const ACCOUNT_TAB = 'ACCOUNT_TAB';
 export const CART_TAB = 'CART_TAB';
 export const CHECKOUT_TAB = 'CHECKOUT_TAB';
 
+/** @middleware Component/NavigationTabs/Component */
 export class NavigationTabs extends NavigationAbstract {
     defaultStateName = MENU_TAB;
 
@@ -165,4 +166,4 @@ export class NavigationTabs extends NavigationAbstract {
     }
 }
 
-export default middleware(NavigationTabs, 'Component/NavigationTabs/Component');
+export default NavigationTabs;

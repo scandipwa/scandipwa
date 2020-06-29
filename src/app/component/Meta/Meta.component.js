@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 /**
  * Page Meta data
  * @class Meta
+ * @middleware Component/Meta/Component
  */
 export class Meta extends ExtensiblePureComponent {
     static propTypes = {
@@ -84,4 +85,4 @@ export class Meta extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Meta, 'Component/Meta/Component');
+export default Meta;

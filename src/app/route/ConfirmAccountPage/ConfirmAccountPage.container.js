@@ -21,10 +21,12 @@ import { updateMeta } from 'Store/Meta';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 
+/** @middleware Route/ConfirmAccountPage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
+/** @middleware Route/ConfirmAccountPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
@@ -35,6 +37,7 @@ export const mapDispatchToProps = dispatch => ({
     signIn: options => MyAccountDispatcher.signIn(options, dispatch)
 });
 
+/** @middleware Route/ConfirmAccountPage/Container */
 export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         location: LocationType.isRequired,
@@ -121,9 +124,4 @@ export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Route/ConfirmAccountPage/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/ConfirmAccountPage/Container/mapDispatchToProps')
-)(
-    middleware(ConfirmAccountPageContainer, 'Route/ConfirmAccountPage/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmAccountPageContainer);

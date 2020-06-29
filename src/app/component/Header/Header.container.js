@@ -40,6 +40,7 @@ import Header, {
     CHECKOUT
 } from './Header.component';
 
+/** @middleware Component/Header/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
@@ -50,6 +51,7 @@ export const mapStateToProps = state => ({
     activeOverlay: state.OverlayReducer.activeOverlay
 });
 
+/** @middleware Component/Header/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
@@ -62,6 +64,7 @@ export const DEFAULT_HEADER_STATE = {
     isHiddenOnMobile: true
 };
 
+/** @middleware Component/Header/Container */
 export class HeaderContainer extends NavigationAbstractContainer {
     static propTypes = {
         showOverlay: PropTypes.func.isRequired,
@@ -487,10 +490,5 @@ export class HeaderContainer extends NavigationAbstractContainer {
 }
 
 export default withRouter(
-    connect(
-        middleware(mapStateToProps, 'Component/Header/Container/mapStateToProps'),
-        middleware(mapDispatchToProps, 'Component/Header/Container/mapDispatchToProps')
-    )(
-        middleware(HeaderContainer, 'Component/Header/Container')
-    )
+    connect(mapStateToProps, mapDispatchToProps)(HeaderContainer)
 );

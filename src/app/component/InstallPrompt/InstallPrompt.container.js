@@ -15,6 +15,7 @@ import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
+/** @middleware Component/InstallPrompt/Container */
 export class InstallPromptContainer extends ExtensiblePureComponent {
     installPromptEvent = null;
 
@@ -83,4 +84,4 @@ export class InstallPromptContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(InstallPromptContainer, 'Component/InstallPrompt/Container');
+export default InstallPromptContainer;

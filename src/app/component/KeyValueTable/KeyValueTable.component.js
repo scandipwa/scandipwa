@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import './KeyValueTable.style';
 
+/** @middleware Component/KeyValueTable/Component */
 export class KeyValueTable extends ExtensiblePureComponent {
     static propTypes = {
         title: PropTypes.string
@@ -93,4 +94,4 @@ export class KeyValueTable extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(KeyValueTable, 'Component/KeyValueTable/Component');
+export default KeyValueTable;

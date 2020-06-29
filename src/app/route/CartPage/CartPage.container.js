@@ -30,12 +30,14 @@ import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import CartPage from './CartPage.component';
 
+/** @middleware Route/CartPage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout
 });
 
+/** @middleware Route/CartPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
@@ -44,6 +46,7 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
+/** @middleware Route/CartPage/Container */
 export class CartPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
@@ -176,9 +179,4 @@ export class CartPageContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Route/CartPage/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/CartPage/Container/mapDispatchToProps')
-)(
-    middleware(CartPageContainer, 'Route/CartPage/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);

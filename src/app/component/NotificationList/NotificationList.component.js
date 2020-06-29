@@ -17,6 +17,7 @@ import './NotificationList.style';
 /**
  * Notification List
  * @class NotificationList
+ * @middleware Component/NotificationList/Component
  */
 export class NotificationList extends ExtensiblePureComponent {
     static propTypes = {
@@ -42,4 +43,4 @@ export class NotificationList extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(NotificationList, 'Component/NotificationList/Component');
+export default NotificationList;

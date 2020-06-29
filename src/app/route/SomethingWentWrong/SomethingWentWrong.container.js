@@ -15,10 +15,12 @@ import { connect } from 'react-redux';
 import { updateMeta } from 'Store/Meta';
 import SomethingWentWrong from './SomethingWentWrong.component';
 
+/** @middleware Route/SomethingWentWrong/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
+/** @middleware Route/SomethingWentWrong/Container */
 export class SomethingWentWrongContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired
@@ -39,12 +41,8 @@ export class SomethingWentWrongContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @middleware Route/SomethingWentWrong/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Route/SomethingWentWrong/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/SomethingWentWrong/Container/mapDispatchToProps')
-)(
-    middleware(SomethingWentWrongContainer, 'Route/SomethingWentWrong/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SomethingWentWrongContainer);

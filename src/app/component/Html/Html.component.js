@@ -211,7 +211,8 @@ export class Html extends ExtensiblePureComponent {
      * @param {{ attribs: Object }} { attribs }
      * @returns {null|JSX} Return Widget
      * @memberof Html
-     */
+     * @middleware Component/Html/Component
+ */
     replaceWidget({ attribs }) {
         return <WidgetFactory { ...this.attributesToProps(attribs) } />;
     }
@@ -249,4 +250,4 @@ export class Html extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Html, 'Component/Html/Component');
+export default Html;

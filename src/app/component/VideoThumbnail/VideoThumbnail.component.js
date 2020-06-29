@@ -28,7 +28,8 @@ export class VideoThumbnail extends ExtensiblePureComponent {
 
     /**
      * Renders an icon indicating that the video can be played
-     */
+     * @middleware Component/VideoThumbnail/Component
+ */
     renderPlayIcon() {
         return (
             <span block="VideoThumbnail" elem="PlayIcon">
@@ -72,4 +73,4 @@ export class VideoThumbnail extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(VideoThumbnail, 'Component/VideoThumbnail/Component');
+export default VideoThumbnail;

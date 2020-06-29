@@ -21,6 +21,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 
 export const COOKIE_POPUP = 'cookie_popup';
 
+/** @middleware Component/CookiePopup/Component */
 export class CookiePopup extends ExtensiblePureComponent {
     static propTypes = {
         cookieText: PropTypes.string,
@@ -95,4 +96,4 @@ export class CookiePopup extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CookiePopup, 'Component/CookiePopup/Component');
+export default CookiePopup;

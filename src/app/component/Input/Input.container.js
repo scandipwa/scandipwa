@@ -1,6 +1,7 @@
 import { PropTypes } from 'prop-types';
 import Input from './Input.component';
 
+/** @middleware Component/Input/Container */
 export class InputContainer extends ExtensiblePureComponent {
     static propTypes = {
         dispatch: PropTypes.func,
@@ -71,4 +72,4 @@ export class InputContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(InputContainer, 'Component/Input/Container');
+export default InputContainer;

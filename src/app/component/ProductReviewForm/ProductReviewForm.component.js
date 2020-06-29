@@ -22,6 +22,7 @@ import './ProductReviewForm.style';
 /**
  * ProductReviewForm
  * @class ProductReviewForm
+ * @middleware Component/ProductReviewForm/Component
  */
 export class ProductReviewForm extends ExtensiblePureComponent {
     static propTypes = {
@@ -183,4 +184,4 @@ export class ProductReviewForm extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductReviewForm, 'Component/ProductReviewForm/Component');
+export default ProductReviewForm;

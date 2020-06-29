@@ -17,14 +17,17 @@ import { showNotification } from 'Store/Notification';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
 
+/** @middleware Component/CheckoutGuestForm/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
+/** @middleware Component/CheckoutGuestForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showErrorNotification: error => dispatch(showNotification('error', error[0].message))
 });
 
+/** @middleware Component/CheckoutGuestForm/Container */
 export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
     static propTypes = {
         isBilling: PropTypes.bool,
@@ -123,9 +126,4 @@ export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CheckoutGuestForm/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CheckoutGuestForm/Container/mapDispatchToProps')
-)(
-    middleware(CheckoutGuestFormContainer, 'Component/CheckoutGuestForm/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutGuestFormContainer);

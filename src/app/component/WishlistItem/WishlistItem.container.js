@@ -20,6 +20,7 @@ import WishlistItem from './WishlistItem.component';
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
+/** @middleware Component/WishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
@@ -27,6 +28,7 @@ export const mapDispatchToProps = dispatch => ({
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
 });
 
+/** @middleware Component/WishlistItem/Container */
 export class WishlistItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -150,12 +152,8 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @middleware Component/WishlistItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/WishlistItem/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/WishlistItem/Container/mapDispatchToProps')
-)(
-    middleware(WishlistItemContainer, 'Component/WishlistItem/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(WishlistItemContainer);

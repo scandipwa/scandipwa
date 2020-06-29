@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { customerType } from 'Type/Account';
 import FieldForm from 'Component/FieldForm';
 
+/** @middleware Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerForm extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
@@ -61,4 +62,4 @@ export class MyAccountCustomerForm extends FieldForm {
     }
 }
 
-export default middleware(MyAccountCustomerForm, 'Component/MyAccountCustomerForm/Component');
+export default MyAccountCustomerForm;

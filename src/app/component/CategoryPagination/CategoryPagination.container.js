@@ -19,6 +19,7 @@ import { LocationType } from 'Type/Router';
 
 import CategoryPagination from './CategoryPagination.component';
 
+/** @middleware Component/CategoryPagination/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     paginationFrame: state.ConfigReducer.pagination_frame,
     paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
@@ -26,6 +27,7 @@ export const mapStateToProps = state => ({
     anchorTextNext: state.ConfigReducer.anchor_text_for_next
 });
 
+/** @middleware Component/CategoryPagination/Container */
 export class CategoryPaginationContainer extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
@@ -74,14 +76,10 @@ export class CategoryPaginationContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @middleware Component/CategoryPagination/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
 export default withRouter(
-    connect(
-        middleware(mapStateToProps, 'Component/CategoryPagination/Container/mapStateToProps'),
-        middleware(mapDispatchToProps, 'Component/CategoryPagination/Container/mapDispatchToProps')
-    )(
-        middleware(CategoryPaginationContainer, 'Component/CategoryPagination/Container')
-    )
+    connect(mapStateToProps, mapDispatchToProps)(CategoryPaginationContainer)
 );

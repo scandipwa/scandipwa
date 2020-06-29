@@ -23,16 +23,19 @@ import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
 
+/** @middleware Component/MyAccountNewsletterSubscription/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
+/** @middleware Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
     showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
     showSuccessNotification: message => dispatch(showNotification('success', message))
 });
 
+/** @middleware Component/MyAccountNewsletterSubscription/Container */
 export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
@@ -91,9 +94,4 @@ export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComp
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/MyAccountNewsletterSubscription/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps')
-)(
-    middleware(MyAccountNewsletterSubscriptionContainer, 'Component/MyAccountNewsletterSubscription/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountNewsletterSubscriptionContainer);

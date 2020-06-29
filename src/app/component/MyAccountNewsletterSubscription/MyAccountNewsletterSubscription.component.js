@@ -15,6 +15,7 @@ import { customerType } from 'Type/Account';
 import FieldForm from 'Component/FieldForm';
 import './MyAccountNewsletterSubscription.style.scss';
 
+/** @middleware Component/MyAccountNewsletterSubscription/Component */
 export class MyAccountNewsletterSubscription extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
@@ -74,4 +75,4 @@ export class MyAccountNewsletterSubscription extends FieldForm {
     }
 }
 
-export default middleware(MyAccountNewsletterSubscription, 'Component/MyAccountNewsletterSubscription/Component');
+export default MyAccountNewsletterSubscription;

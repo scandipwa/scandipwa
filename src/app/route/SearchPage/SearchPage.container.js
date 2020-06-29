@@ -22,6 +22,7 @@ import { debounce } from 'Util/Request';
 
 import SearchPage from './SearchPage.component';
 
+/** @middleware Route/SearchPage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
@@ -33,6 +34,7 @@ export const mapStateToProps = state => ({
     totalPages: state.ProductListReducer.totalPages
 });
 
+/** @middleware Route/SearchPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
@@ -48,6 +50,7 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
+/** @middleware Route/SearchPage/Container */
 export class SearchPageContainer extends CategoryPageContainer {
     static defaultProps = {
         ...this.defaultProps,
@@ -180,9 +183,4 @@ export class SearchPageContainer extends CategoryPageContainer {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Route/SearchPage/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/SearchPage/Container/mapDispatchToProps')
-)(
-    middleware(SearchPageContainer, 'Route/SearchPage/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPageContainer);

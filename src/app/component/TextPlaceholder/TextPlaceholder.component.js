@@ -16,6 +16,7 @@ import './TextPlaceholder.style';
 /**
  * Text placeholder
  * @class TextPlaceholder
+ * @middleware Component/TextPlaceholder/Component
  */
 export class TextPlaceholder extends ExtensiblePureComponent {
     static propTypes = {
@@ -51,4 +52,4 @@ export class TextPlaceholder extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(TextPlaceholder, 'Component/TextPlaceholder/Component');
+export default TextPlaceholder;

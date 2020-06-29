@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import './NoMatch.style';
 
+/** @middleware Route/NoMatch/Component */
 export class NoMatch extends ExtensiblePureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired
@@ -75,4 +76,4 @@ export class NoMatch extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(NoMatch, 'Route/NoMatch/Component');
+export default NoMatch;

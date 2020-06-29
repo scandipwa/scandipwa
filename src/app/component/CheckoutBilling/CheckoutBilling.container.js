@@ -25,6 +25,7 @@ import {
 
 import CheckoutBilling from './CheckoutBilling.component';
 
+/** @middleware Component/CheckoutBilling/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
     totals: state.CartReducer.cartTotals,
@@ -32,11 +33,13 @@ export const mapStateToProps = state => ({
     termsAndConditions: state.ConfigReducer.checkoutAgreements
 });
 
+/** @middleware Component/CheckoutBilling/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showErrorNotification: message => dispatch(showNotification('error', message)),
     showPopup: payload => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 
+/** @middleware Component/CheckoutBilling/Container */
 export class CheckoutBillingContainer extends ExtensiblePureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
@@ -200,9 +203,4 @@ export class CheckoutBillingContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CheckoutBilling/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CheckoutBilling/Container/mapDispatchToProps')
-)(
-    middleware(CheckoutBillingContainer, 'Component/CheckoutBilling/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutBillingContainer);

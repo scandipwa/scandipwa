@@ -35,11 +35,13 @@ import {
 
 import ProductPage from './ProductPage.component';
 
+/** @middleware Route/ProductPage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product
 });
 
+/** @middleware Route/ProductPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
@@ -49,6 +51,7 @@ export const mapDispatchToProps = dispatch => ({
     updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
 });
 
+/** @middleware Route/ProductPage/Container */
 export class ProductPageContainer extends ExtensiblePureComponent {
     state = {
         configurableVariantIndex: -1,
@@ -358,10 +361,5 @@ export class ProductPageContainer extends ExtensiblePureComponent {
 }
 
 export default withRouter(
-    connect(
-        middleware(mapStateToProps, 'Route/ProductPage/Container/mapStateToProps'),
-        middleware(mapDispatchToProps, 'Route/ProductPage/Container/mapDispatchToProps')
-    )(
-        middleware(ProductPageContainer, 'Route/ProductPage/Container')
-    )
+    connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer)
 );

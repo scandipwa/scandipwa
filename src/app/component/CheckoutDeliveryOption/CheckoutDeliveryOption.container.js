@@ -12,14 +12,13 @@
 import { connect } from 'react-redux';
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
 
+/** @middleware Component/CheckoutDeliveryOption/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals
 });
 
+/** @middleware Component/CheckoutDeliveryOption/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CheckoutDeliveryOption/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CheckoutDeliveryOption/Container/mapDispatchToProps')
-)(CheckoutDeliveryOption);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOption);

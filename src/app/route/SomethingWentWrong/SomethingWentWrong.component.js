@@ -16,6 +16,7 @@ import Link from 'Component/Link';
 import ContentWrapper from 'Component/ContentWrapper';
 import './SomethingWentWrong.style';
 
+/** @middleware Route/SomethingWentWrong/Component */
 export class SomethingWentWrong extends ExtensiblePureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
@@ -73,4 +74,4 @@ export class SomethingWentWrong extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(SomethingWentWrong, 'Route/SomethingWentWrong/Component');
+export default SomethingWentWrong;

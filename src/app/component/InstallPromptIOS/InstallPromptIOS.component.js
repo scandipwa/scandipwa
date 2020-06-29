@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import './InstallPromptIOS.style';
 
+/** @middleware Component/InstallPromptIOS/Component */
 export class InstallPromptIOS extends ExtensiblePureComponent {
     static propTypes = {
         handleBannerClose: PropTypes.func.isRequired
@@ -52,4 +53,4 @@ export class InstallPromptIOS extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(InstallPromptIOS, 'Component/InstallPromptIOS/Component');
+export default InstallPromptIOS;

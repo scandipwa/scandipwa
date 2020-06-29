@@ -20,6 +20,7 @@ import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
 import Router from './Router.component';
 
+/** @middleware Component/Router/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isLoading: state.ConfigReducer.isLoading,
     default_description: state.ConfigReducer.default_description,
@@ -31,6 +32,7 @@ export const mapStateToProps = state => ({
     isBigOffline: state.OfflineReducer.isBig
 });
 
+/** @middleware Component/Router/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     init: (options) => {
@@ -41,6 +43,7 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
+/** @middleware Component/Router/Container */
 export class RouterContainer extends ExtensiblePureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired,
@@ -147,9 +150,4 @@ export class RouterContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/Router/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/Router/Container/mapDispatchToProps')
-)(
-    middleware(RouterContainer, 'Component/Router/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(RouterContainer);

@@ -24,6 +24,7 @@ import ProductPrice from './ProductPrice.component';
 /**
  * Product price
  * @class ProductPrice
+ * @middleware Component/ProductPrice/Container
  */
 export class ProductPriceContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -74,4 +75,4 @@ export class ProductPriceContainer extends ExtensiblePureComponent {
 }
 
 
-export default middleware(ProductPriceContainer, 'Component/ProductPrice/Container');
+export default ProductPriceContainer;

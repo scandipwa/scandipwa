@@ -21,17 +21,20 @@ import { OrderQuery } from 'Query';
 
 import MyAccountOrderPopup, { ORDER_POPUP_ID } from './MyAccountOrderPopup.component';
 
+/** @middleware Component/MyAccountOrderPopup/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     order: state.OrderReducer.order,
     payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
     currency_code: state.ConfigReducer.default_display_currency_code
 });
 
+/** @middleware Component/MyAccountOrderPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     getOrder: orderId => OrderDispatcher.getOrderById(dispatch, orderId)
 });
 
+/** @middleware Component/MyAccountOrderPopup/Container */
 export class MyAccountOrderPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         payload: PropTypes.shape({
@@ -109,9 +112,4 @@ export class MyAccountOrderPopupContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/MyAccountOrderPopup/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/MyAccountOrderPopup/Container/mapDispatchToProps')
-)(
-    middleware(MyAccountOrderPopupContainer, 'Component/MyAccountOrderPopup/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOrderPopupContainer);

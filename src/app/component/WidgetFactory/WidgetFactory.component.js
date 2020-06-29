@@ -17,6 +17,7 @@ export const SLIDER = 'Slider';
 export const NEW_PRODUCTS = 'NewProducts';
 export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
 
+/** @middleware Component/WidgetFactory/Component */
 export class WidgetFactory extends ExtensiblePureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired
@@ -42,4 +43,4 @@ export class WidgetFactory extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(WidgetFactory, 'Component/WidgetFactory/Component');
+export default WidgetFactory;

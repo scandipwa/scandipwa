@@ -25,10 +25,12 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import MyAccountCustomerPopup, { CUSTOMER_POPUP_ID } from './MyAccountCustomerPopup.component';
 
+/** @middleware Component/MyAccountCustomerPopup/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {}
 });
 
+/** @middleware Component/MyAccountCustomerPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
@@ -37,6 +39,7 @@ export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
+/** @middleware Component/MyAccountCustomerPopup/Container */
 export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateCustomer: PropTypes.func.isRequired,
@@ -117,9 +120,4 @@ export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/MyAccountCustomerPopup/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/MyAccountCustomerPopup/Container/mapDispatchToProps')
-)(
-    middleware(MyAccountCustomerPopupContainer, 'Component/MyAccountCustomerPopup/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountCustomerPopupContainer);

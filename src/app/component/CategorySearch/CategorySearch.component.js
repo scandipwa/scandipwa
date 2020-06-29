@@ -15,6 +15,7 @@ import './CategorySearch.style';
 export const CATEGORY_SEARCH_TIMEOUT = 500;
 
 // TODO: add to template
+/** @middleware Component/CategorySearch/Component */
 export class CategorySearch extends ExtensiblePureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
@@ -61,4 +62,4 @@ export class CategorySearch extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CategorySearch, 'Component/CategorySearch/Component');
+export default CategorySearch;
