@@ -95,6 +95,12 @@
                     --header-color: var(--primary-base-color);
                 }
             }
+
+            .Header-MinicartItemCount {
+                @include after-mobile {
+                    color: var(--primary-base-color);
+                }
+            }
         }
 
         &_menu,
@@ -327,6 +333,10 @@
             padding-right: .4rem;
             text-transform: uppercase;
             color: var(--header-color);
+
+            @include mobile {
+                display: none;
+            }
         }
     }
 
