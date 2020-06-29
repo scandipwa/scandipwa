@@ -36,7 +36,6 @@
     "@scandipwa/scandipwa-guidelines/derived-class-names": "error",
     "@scandipwa/scandipwa-guidelines/no-non-extensible-components": "error",
     "@scandipwa/scandipwa-guidelines/use-extensible-base": "error",
-    "@scandipwa/scandipwa-guidelines/use-middleware": "error",
     "fp/no-let": "error",
     "fp/no-arguments": "error",
     "fp/no-loops": "error",
