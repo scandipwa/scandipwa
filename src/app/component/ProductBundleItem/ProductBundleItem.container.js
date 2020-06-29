@@ -179,7 +179,7 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
             price_type,
             quantity,
             can_change_quantity,
-            product: { price: { minimalPrice: { amount: { value } } } }
+            product: { price_range: { minimum_price: { regular_price: { value } } } }
         }) => {
             const dropdownLabel = !can_change_quantity
                 ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, value) }`

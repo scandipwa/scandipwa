@@ -415,14 +415,15 @@ export default class ProductActions extends PureComponent {
         let productPrice;
 
         if (type_id === BUNDLE) {
-            const { price: { regularPrice: { amount: { currency } } } } = productOrVariant;
-            const priceValue = {
-                amount: {
-                    value: selectedBundlePrice, currency
+            const { price_range: { minimum_price: { regular_price: { currency } } } } = product;
+            const priceValue = { value: selectedBundlePrice, currency };
+
+            productPrice = {
+                minimum_price: {
+                    final_price: priceValue,
+                    regular_price: priceValue
                 }
             };
-
-            productPrice = { minimalPrice: priceValue, regularPrice: priceValue };
         } else {
             productPrice = price_range;
         }

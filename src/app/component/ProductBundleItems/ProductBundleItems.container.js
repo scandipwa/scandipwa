@@ -79,7 +79,7 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
 
                 options.reduce((acc, { id: optionId, product }) => {
                     if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
-                        const { price: { regularPrice: { amount: { value } } } } = product;
+                        const { price_range: { minimum_price: { regular_price: { value } } } } = product;
                         price += (value * quantity);
                     }
 

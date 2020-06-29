@@ -58,7 +58,7 @@ class ProductBundleItem extends ProductCustomizableOption {
         const {
             id,
             label,
-            product: { price: { minimalPrice: { amount: { value } } } },
+            product: { price_range: { minimum_price: { regular_price: { value } } } },
             price_type,
             quantity,
             is_default
