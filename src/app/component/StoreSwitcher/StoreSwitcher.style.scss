@@ -18,6 +18,8 @@
     @include before-desktop {
         --input-padding: 1rem;
         border-bottom: 1px solid var(--primary-divider-color);
+        order: 1;
+        margin-bottom: 1rem;
     }
 
     select,

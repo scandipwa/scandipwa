@@ -68,6 +68,11 @@
     }
 
     &-MainCategories {
+        @include before-desktop {
+            display: flex;
+            flex-direction: column;
+        }
+
         @include desktop {
             display: block;
             padding-left: 1rem;
@@ -93,13 +98,16 @@
                     pointer-events: auto;
                     width: min-content;
                 }
+
+                @include before-desktop {
+                    order: 2;
+                }
             }
 
             &_subcategory {
                 background: var(--menu-background-color);
                 grid-auto-rows: max-content;
-                grid-row-gap: 2rem;
-                padding: 1rem;
+                padding: 0 1rem;
 
                 @include desktop {
                     display: grid;
@@ -269,6 +277,10 @@
         margin: auto;
     }
 
+    &-Promotion {
+        order: 3;
+    }
+
     &-SubCategories {
         padding: 40px 55px 60px 1rem;
     }
@@ -318,7 +330,6 @@
     &-SubItemWrapper {
         > .Menu-Link {
             display: block;
-            font-size: 12px;
 
             @include desktop {
                 color: var(--menu-second-level-color);
@@ -385,6 +396,10 @@
         color: inherit;
         white-space: nowrap;
         padding-left: 0;
+
+        @include mobile {
+            padding: 1rem 0;
+        }
 
         @include desktop {
             display: block;
