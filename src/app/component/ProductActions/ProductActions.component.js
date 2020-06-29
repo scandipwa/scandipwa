@@ -59,7 +59,9 @@ export default class ProductActions extends PureComponent {
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        productOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.object.isRequired,
+        selectedBundlePrice: PropTypes.number.isRequired,
+        setBundlePrice: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -204,7 +206,8 @@ export default class ProductActions extends PureComponent {
             product: { items, type_id },
             maxQuantity,
             getSelectedCustomizableOptions,
-            productOptionsData
+            productOptionsData,
+            setBundlePrice
         } = this.props;
 
         if (type_id !== BUNDLE) {
@@ -222,6 +225,7 @@ export default class ProductActions extends PureComponent {
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                   maxQuantity={ maxQuantity }
                   productOptionsData={ productOptionsData }
+                  setBundlePrice={ setBundlePrice }
                 />
             </section>
         );
@@ -400,8 +404,9 @@ export default class ProductActions extends PureComponent {
     renderPriceWithSchema() {
         const {
             product,
-            product: { variants },
-            configurableVariantIndex
+            product: { variants, type_id },
+            configurableVariantIndex,
+            selectedBundlePrice
         } = this.props;
 
         // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
@@ -411,6 +416,21 @@ export default class ProductActions extends PureComponent {
             : product;
 
         const { name, price, stock_status } = productOrVariant;
+        // eslint-disable-next-line fp/no-let
+        let productPrice;
+
+        if (type_id === BUNDLE) {
+            const { price: { regularPrice: { amount: { currency } } } } = productOrVariant;
+            const priceValue = {
+                amount: {
+                    value: selectedBundlePrice, currency
+                }
+            };
+
+            productPrice = { minimalPrice: priceValue, regularPrice: priceValue };
+        } else {
+            productPrice = price;
+        }
 
         return (
             <div>
@@ -418,7 +438,7 @@ export default class ProductActions extends PureComponent {
                 <ProductPrice
                   isSchemaRequired
                   variantsCount={ this.getOfferCount() }
-                  price={ price }
+                  price={ productPrice }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
             </div>

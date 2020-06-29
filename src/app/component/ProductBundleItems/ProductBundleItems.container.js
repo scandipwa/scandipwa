@@ -1,3 +1,4 @@
+/* eslint-disable fp/no-let */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,6 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import ProductCustomizableOptionsContainer
     from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.container';
 import { ProductItemsType } from 'Type/ProductList';
@@ -17,7 +19,8 @@ import ProductBundleItems from './ProductBundleItems.component';
 class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
     static propTypes = {
         ...ProductCustomizableOptionsContainer.propTypes,
-        items: ProductItemsType
+        items: ProductItemsType,
+        setBundlePrice: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -66,18 +69,74 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
         this.setState({ isLoading: false });
     }
 
-    updateSelectedOptions() {
-        const { getSelectedCustomizableOptions } = this.props;
-        const { selectedDropdownOptions, selectedCheckboxValues } = this.state;
-        const customizableOptions = [];
+    getOptionPrice(item, selectedValues) {
+        const { option_id } = item;
+        let price = 0;
 
-        customizableOptions.push(
-            ...customizableOptions,
+        selectedValues.reduce((acc, { id, quantity, value }) => {
+            if (option_id === id) {
+                const { options } = item;
+
+                options.reduce((acc, { id: optionId, product }) => {
+                    if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
+                        const { price: { regularPrice: { amount: { value } } } } = product;
+                        price += (value * quantity);
+                    }
+
+                    return acc;
+                }, []);
+            }
+
+            return acc;
+        }, []);
+
+        return price;
+    }
+
+    getItemsPrice = (item) => {
+        const { selectedDropdownOptions, selectedCheckboxValues } = this.state;
+        let price = 0;
+
+        if (selectedCheckboxValues.length) {
+            price += this.getOptionPrice(item, selectedCheckboxValues);
+        }
+
+        if (selectedDropdownOptions.length) {
+            price += this.getOptionPrice(item, selectedDropdownOptions);
+        }
+
+        return price;
+    };
+
+    getTotalPrice() {
+        const { items } = this.props;
+        let totalPrice = 0;
+
+        const priceValues = items.map(this.getItemsPrice);
+
+        priceValues.reduce((acc, item) => {
+            totalPrice += item;
+
+            return acc;
+        }, []);
+
+        return totalPrice;
+    }
+
+    updateSelectedOptions() {
+        const { getSelectedCustomizableOptions, setBundlePrice } = this.props;
+        const { selectedDropdownOptions, selectedCheckboxValues } = this.state;
+        const bundleOptions = [];
+        const bundlePrice = this.getTotalPrice();
+
+        bundleOptions.push(
+            ...bundleOptions,
             ...selectedCheckboxValues,
             ...selectedDropdownOptions
         );
 
-        getSelectedCustomizableOptions(customizableOptions);
+        getSelectedCustomizableOptions(bundleOptions);
+        setBundlePrice(bundlePrice);
     }
 
     setSelectedDropdownValue(id, option) {

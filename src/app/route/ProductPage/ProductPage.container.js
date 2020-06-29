@@ -54,13 +54,15 @@ export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
         parameters: {},
-        productOptionsData: {}
+        productOptionsData: {},
+        selectedBundlePrice: 0
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
         getLink: this.getLink.bind(this),
-        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
+        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
+        setBundlePrice: this.setBundlePrice.bind(this)
     };
 
     static propTypes = {
@@ -204,8 +206,13 @@ export class ProductPageContainer extends PureComponent {
         }, []);
 
         return this.setState({
-            productOptionsData: { ...productOptionsData, requiredOptions }
+            productOptionsData:
+                { ...productOptionsData, requiredOptions }
         });
+    }
+
+    setBundlePrice(price) {
+        this.setState({ selectedBundlePrice: price });
     }
 
     getSelectedCustomizableOptions(values, updateArray = false) {

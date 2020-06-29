@@ -10,6 +10,15 @@
  */
 
 .ProductBundleItem {
+    &-Wrapper {
+        margin-bottom: 1rem;
+    }
+
+    &-Title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
     &-Heading {
         font-weight: normal;
 
@@ -22,7 +31,7 @@
         display: flex;
 
         .Field_type_number {
-            margin-left: 20px;
+            margin-left: 1.2rem;
         }
     }
 

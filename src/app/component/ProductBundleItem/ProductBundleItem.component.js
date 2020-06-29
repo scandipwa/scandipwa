@@ -164,7 +164,16 @@ class ProductBundleItem extends ProductCustomizableOption {
             return null;
         }
 
-        return render();
+        const { option: { title } } = this.props;
+
+        return (
+            <div block="ProductBundleItem" elem="Wrapper">
+                <div block="ProductBundleItem" elem="Title">
+                    { title }
+                </div>
+                { render() }
+            </div>
+        );
     }
 }
 
