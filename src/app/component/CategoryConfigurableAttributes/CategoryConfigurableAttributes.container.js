@@ -13,6 +13,7 @@
 import ProductConfigurableAttributesContainer from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
 import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.component';
 
+/** @namespace Component/CategoryConfigurableAttributes/Container */
 export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
     render() {
         return (
@@ -24,6 +25,4 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
     }
 }
 
-export default middleware(
-    CategoryConfigurableAttributesContainer, 'Component/CategoryConfigurableAttributes/Container'
-);
+export default CategoryConfigurableAttributesContainer;

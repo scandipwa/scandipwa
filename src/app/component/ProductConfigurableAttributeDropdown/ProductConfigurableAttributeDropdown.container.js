@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { AttributeType } from 'Type/ProductList';
 import ProductConfigurableAttributeDropdown from './ProductConfigurableAttributeDropdown.component';
 
+/** @namespace Component/ProductConfigurableAttributeDropdown/Container */
 export class ProductConfigurableAttributeDropdownContainer extends ExtensiblePureComponent {
     static propTypes = {
         option: AttributeType.isRequired,
@@ -87,6 +88,4 @@ export class ProductConfigurableAttributeDropdownContainer extends ExtensiblePur
     }
 }
 
-export default middleware(
-    ProductConfigurableAttributeDropdownContainer, 'Component/ProductConfigurableAttributeDropdown/Container'
-);
+export default ProductConfigurableAttributeDropdownContainer;
