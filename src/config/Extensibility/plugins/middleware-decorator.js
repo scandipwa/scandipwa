@@ -1,5 +1,3 @@
-/* eslint-disable prefer-destructuring */
-
 const namespaceExtractor = /@namespace +(?<namespace>[^ ]+)/;
 
 const extractNamespaceFromComments = (comments = []) => comments.reduce(
@@ -7,28 +5,42 @@ const extractNamespaceFromComments = (comments = []) => comments.reduce(
         if (acquired) {
             return acquired;
         }
-
         const { groups: { namespace } = {} } = testable.value.match(namespaceExtractor) || {};
         return namespace;
     },
     ''
 );
 
-module.exports = ({ types, traverse }) => ({
-    name: 'comment-middlewares',
+const getLeadingComments = (path) => {
+    const { node } = path;
+    if (node.leadingComments) {
+        return node.leadingComments;
+    }
+
+    if (
+        path.parent.type === 'ExportNamedDeclaration'
+    && path.parent.leadingComments
+    ) {
+        return path.parent.leadingComments;
+    }
+};
+
+
+const getNamespaceFromPath = (path) => {
+    const leadingComments = getLeadingComments(path);
+    if (!leadingComments) {
+        return null;
+    }
+
+    return extractNamespaceFromComments(leadingComments);
+};
+
+module.exports = ({ types }) => ({
+    name: 'middleware-decorators',
     visitor: {
         /* Transform leading comments of anonymous arrow functions */
         ArrowFunctionExpression: (path) => {
-            const {
-                node,
-                node: { leadingComments }
-            } = path;
-
-            if (!leadingComments) {
-                return;
-            }
-
-            const namespace = extractNamespaceFromComments(leadingComments);
+            const namespace = getNamespaceFromPath(path);
             if (!namespace) {
                 return;
             }
@@ -36,64 +48,86 @@ module.exports = ({ types, traverse }) => ({
             path.replaceWith(
                 types.callExpression(
                     types.identifier('middleware'),
-                    [node, types.stringLiteral(namespace)]
+                    [path.node, types.stringLiteral(namespace)]
                 )
             );
         },
 
-        /* Transform all encounters of decorated declaree except of declaration itself */
-        'VariableDeclaration|FunctionDeclaration|ClassDeclaration|ExportNamedDeclaration': (path, state) => {
-            const { node } = path;
-            const { leadingComments } = node;
-            if (!leadingComments) {
-                return;
-            }
-
-            const namespace = extractNamespaceFromComments(leadingComments);
+        VariableDeclaration: (path) => {
+            const namespace = getNamespaceFromPath(path);
             if (!namespace) {
                 return;
             }
 
-            const declarationNode = ['ExportNamedDeclaration', 'ExportDefaultDeclaration'].includes(node.type)
-                ? node.declaration
-                : node;
+            const declarator = path.get('declarations')[0];
+            const init = declarator.get('init');
 
-            // eslint-disable-next-line fp/no-let
-            let name;
-            if (declarationNode.type === 'VariableDeclaration') {
-                name = declarationNode.declarations[0].id.name;
-            } else if (['FunctionDeclaration', 'ClassDeclaration'].includes(declarationNode.type)) {
-                name = declarationNode.id.name;
+            init.replaceWith(
+                types.callExpression(
+                    types.identifier('middleware'),
+                    [init.node, types.stringLiteral(namespace)]
+                )
+            );
+        },
+
+        FunctionDeclaration: (path) => {
+            const namespace = getNamespaceFromPath(path);
+            if (!namespace) {
+                return;
             }
 
-            // TODO move to pre-plugin
-            const {
-                file: { ast }
-            } = state;
+            const { node: { id: { name }, params, body } } = path;
 
-            traverse(ast, {
-                Identifier(path) {
-                    const { node } = path;
+            const functionExpression = types.functionExpression(
+                types.identifier(name),
+                params,
+                body
+            );
 
-                    // If one of these conditions fulfills - return
-                    if ([
-                        types.isDeclaration(path.parent) && !types.isExportDefaultDeclaration(path.parent),
-                        types.isCallExpression(path.parent) && path.parent.callee.name === 'middleware',
-                        path.parent.type === 'VariableDeclarator',
-                        node.name !== name
-                    ].filter(Boolean).length) {
-                        return;
-                    }
+            const middlewaredFunctionExpression = types.callExpression(
+                types.identifier('middleware'),
+                [functionExpression, types.stringLiteral(namespace)]
+            );
 
-                    // Else middleware the node with corresponding namespace.
-                    path.replaceWith(
-                        types.callExpression(types.identifier('middleware'), [
-                            path.node,
-                            types.stringLiteral(namespace)
-                        ])
-                    );
-                }
-            });
+            const declarator = types.variableDeclarator(
+                types.identifier(name),
+                middlewaredFunctionExpression
+            );
+
+            const declaration = types.variableDeclaration('let', [declarator]);
+            path.replaceWith(declaration);
+        },
+
+        ClassDeclaration: (path) => {
+            const namespace = getNamespaceFromPath(path);
+            if (!namespace) return;
+
+            const { node: { name } } = path.get('id');
+            const newName = `__nonMiddlewared__${name}`;
+            path.get('id').node.name = newName;
+
+            const wrappedInMiddeware = types.callExpression(
+                types.identifier('middleware'),
+                [types.identifier(newName), types.stringLiteral(namespace)]
+            );
+
+            const declarator = types.variableDeclarator(
+                types.identifier(name),
+                wrappedInMiddeware
+            );
+
+            const newDeclaration = types.variableDeclaration('const', [declarator])
+            const newExport = types.exportNamedDeclaration(newDeclaration, []);
+
+            path.insertAfter(newExport);
+
+            // Remove export from initial classes declaration
+            // TODO fix
+            // AST explorer handles this OK, but our babel throws
+            // if (path.parentPath.type === 'ExportNamedDeclaration') {
+            //     path.parentPath.skip();
+            //     path.parentPath.replaceWith(path);
+            // }
         }
     }
 });
