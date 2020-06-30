@@ -35,7 +35,7 @@ const getNamespaceFromPath = (path) => {
     return extractNamespaceFromComments(leadingComments);
 };
 
-module.exports = ({ types }) => ({
+module.exports = ({ types, parse }) => ({
     name: 'middleware-decorators',
     visitor: {
         /* Transform leading comments of anonymous arrow functions */
@@ -118,8 +118,10 @@ module.exports = ({ types }) => ({
 
             const newDeclaration = types.variableDeclaration('const', [declarator])
             const newExport = types.exportNamedDeclaration(newDeclaration, []);
+            const renaming = parse(`Object.defineProperty(${newName}, 'name', { value: '${name}' })`);
 
             path.insertAfter(newExport);
+            path.insertAfter(renaming);
 
             // Remove export from initial classes declaration
             // TODO fix
