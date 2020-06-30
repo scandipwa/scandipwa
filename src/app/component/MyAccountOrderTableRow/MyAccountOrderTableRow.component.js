@@ -15,7 +15,7 @@ import './MyAccountOrderTableRow.style';
 
 import { baseOrderInfoType } from 'Type/Account';
 
-/** @middleware Component/MyAccountOrderTableRow/Component */
+/** @namespace Component/MyAccountOrderTableRow/Component */
 export class MyAccountOrderTableRow extends ExtensiblePureComponent {
     static propTypes = {
         currency_code: PropTypes.string.isRequired,

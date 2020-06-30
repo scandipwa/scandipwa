@@ -35,6 +35,7 @@ export const PLACEHOLDER_TYPE = 'placeholder';
 /**
  * Product gallery
  * @class ProductGallery
+ * @namespace Component/ProductGallery/Component
  */
 export class ProductGallery extends ExtensiblePureComponent {
     static propTypes = {
@@ -201,7 +202,7 @@ export class ProductGallery extends ExtensiblePureComponent {
      * @param media
      * @param index
      * @returns {null|*}
-     * @middleware Component/ProductGallery/Component
+     * @namespace Component/ProductGallery/Component
  */
     renderSlide(media, index) {
         const { media_type } = media;

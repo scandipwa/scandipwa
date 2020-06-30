@@ -24,7 +24,7 @@ import ProductPrice from './ProductPrice.component';
 /**
  * Product price
  * @class ProductPrice
- * @middleware Component/ProductPrice/Container
+ * @namespace Component/ProductPrice/Container
  */
 export class ProductPriceContainer extends ExtensiblePureComponent {
     static propTypes = {

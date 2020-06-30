@@ -21,7 +21,7 @@ import './Breadcrumbs.style';
 /**
  * Breadcrumbs
  * @class Breadcrumbs
- * @middleware Component/Breadcrumbs/Component
+ * @namespace Component/Breadcrumbs/Component
  */
 export class Breadcrumbs extends ExtensiblePureComponent {
     static propTypes = {

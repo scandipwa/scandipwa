@@ -17,7 +17,7 @@ import { isSignedIn } from 'Util/Auth';
 
 import './ProductWishlistButton.style';
 
-/** @middleware Component/ProductWishlistButton/Component */
+/** @namespace Component/ProductWishlistButton/Component */
 export class ProductWishlistButton extends ExtensiblePureComponent {
     static propTypes = {
         isReady: PropTypes.bool,

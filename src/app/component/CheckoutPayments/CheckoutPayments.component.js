@@ -24,7 +24,7 @@ export const KLARNA = 'klarna_kp';
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 
-/** @middleware Component/CheckoutPayments/Component */
+/** @namespace Component/CheckoutPayments/Component */
 export class CheckoutPayments extends ExtensiblePureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,

@@ -35,7 +35,7 @@ import './ProductActions.style';
 /**
  * Product actions
  * @class ProductActions
- * @middleware Component/ProductActions/Component
+ * @namespace Component/ProductActions/Component
  */
 export class ProductActions extends ExtensiblePureComponent {
     static propTypes = {

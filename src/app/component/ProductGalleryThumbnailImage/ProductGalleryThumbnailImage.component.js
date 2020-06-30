@@ -17,7 +17,7 @@ import Image from 'Component/Image';
 
 import './ProductGalleryThumbnailImage.style';
 
-/** @middleware Component/ProductGalleryThumbnailImage/Component */
+/** @namespace Component/ProductGalleryThumbnailImage/Component */
 export class ProductGalleryThumbnailImage extends ExtensiblePureComponent {
     static propTypes = {
         media: PropTypes.shape({

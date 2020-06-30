@@ -12,13 +12,13 @@
 import { connect } from 'react-redux';
 import MyAccountAddressForm from './MyAccountAddressForm.component';
 
-/** @middleware Component/MyAccountAddressForm/Container/mapStateToProps */
+/** @namespace Component/MyAccountAddressForm/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     countries: state.ConfigReducer.countries,
     default_country: state.ConfigReducer.default_country
 });
 
-/** @middleware Component/MyAccountAddressForm/Container/mapDispatchToProps */
+/** @namespace Component/MyAccountAddressForm/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

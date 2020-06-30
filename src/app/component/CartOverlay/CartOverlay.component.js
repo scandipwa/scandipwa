@@ -22,7 +22,7 @@ import { CART_OVERLAY } from 'Component/Header';
 
 import './CartOverlay.style';
 
-/** @middleware Component/CartOverlay/Component */
+/** @namespace Component/CartOverlay/Component */
 export class CartOverlay extends ExtensiblePureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,

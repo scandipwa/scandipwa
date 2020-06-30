@@ -31,7 +31,7 @@ import {
 
 import './MyAccount.style';
 
-/** @middleware Route/MyAccount/Component */
+/** @namespace Route/MyAccount/Component */
 export class MyAccount extends ExtensiblePureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,

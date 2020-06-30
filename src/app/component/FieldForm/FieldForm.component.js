@@ -15,7 +15,7 @@ import Field from 'Component/Field';
 
 import './FieldForm.style';
 
-/** @middleware Component/FieldForm/Component */
+/** @namespace Component/FieldForm/Component */
 export class FieldForm extends ExtensiblePureComponent {
     onFormSuccess() {
         // TODO: implement

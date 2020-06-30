@@ -17,7 +17,7 @@ import {
 import PropTypes from 'prop-types';
 import { ChildrenType } from 'Type/Common';
 
-/** @middleware Component/ClickOutside/Component */
+/** @namespace Component/ClickOutside/Component */
 export class ClickOutside extends ExtensiblePureComponent {
     static propTypes = {
         onClick: PropTypes.func,

@@ -19,7 +19,7 @@ import {
 
 import CheckoutAddressTable from './CheckoutAddressTable.component';
 
-/** @middleware Component/CheckoutAddressTable/Container */
+/** @namespace Component/CheckoutAddressTable/Container */
 export class CheckoutAddressTableContainer extends MyAccountAddressTableContainer {
     render() {
         return (

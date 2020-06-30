@@ -13,14 +13,14 @@ import { connect } from 'react-redux';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import NoMatch from './NoMatch.component';
 
-/** @middleware Route/NoMatch/Container/mapDispatchToProps */
+/** @namespace Route/NoMatch/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     }
 });
 
-/** @middleware Route/NoMatch/Container/mapStateToProps */
+/** @namespace Route/NoMatch/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 

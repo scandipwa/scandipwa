@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import isMobile from 'Util/Mobile';
 import './DemoNotice.style';
 
-/** @middleware Component/DemoNotice/Component */
+/** @namespace Component/DemoNotice/Component */
 export class DemoNotice extends ExtensiblePureComponent {
     static propTypes = {
         isDemoNoticeEnabled: PropTypes.bool

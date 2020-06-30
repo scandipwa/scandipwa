@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import ProductList from 'Component/ProductList';
 import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
 
-/** @middleware Component/CategoryProductList/Container/mapStateToProps */
+/** @namespace Component/CategoryProductList/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     pages: state.ProductListReducer.pages,
     isOffline: state.OfflineReducer.isOffline,
@@ -23,13 +23,13 @@ export const mapStateToProps = state => ({
     totalPages: state.ProductListReducer.totalPages
 });
 
-/** @middleware Component/CategoryProductList/Container/mapDispatchToProps */
+/** @namespace Component/CategoryProductList/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     requestProductList: options => ProductListDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateLoadStatus(isLoading))
 });
 
-/** @middleware Component/CategoryProductList/Container */
+/** @namespace Component/CategoryProductList/Container */
 export class CategoryProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired

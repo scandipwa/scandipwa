@@ -22,7 +22,7 @@ import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
-/** @middleware Component/ProductList/Container */
+/** @namespace Component/ProductList/Container */
 export class ProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,

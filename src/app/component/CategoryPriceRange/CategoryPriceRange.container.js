@@ -20,13 +20,13 @@ import { setQueryParams, getQueryParam } from 'Util/Url';
 
 import CategoryPriceRange from './CategoryPriceRange.component';
 
-/** @middleware Component/CategoryPriceRange/Container/mapStateToProps */
+/** @namespace Component/CategoryPriceRange/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     minPriceValue: state.ProductListInfoReducer.minPrice,
     maxPriceValue: state.ProductListInfoReducer.maxPrice
 });
 
-/** @middleware Component/CategoryPriceRange/Container */
+/** @namespace Component/CategoryPriceRange/Container */
 export class CategoryPriceRangeContainer extends ExtensiblePureComponent {
     static propTypes = {
         minPriceValue: PropTypes.number.isRequired,
@@ -91,7 +91,7 @@ export class CategoryPriceRangeContainer extends ExtensiblePureComponent {
     }
 }
 
-/** @middleware Component/CategoryPriceRange/Container/mapStateToProps */
+/** @namespace Component/CategoryPriceRange/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

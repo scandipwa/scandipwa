@@ -21,7 +21,7 @@ import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
 import './MyAccountDashboard.style';
 import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 
-/** @middleware Component/MyAccountDashboard/Component */
+/** @namespace Component/MyAccountDashboard/Component */
 export class MyAccountDashboard extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,

@@ -18,7 +18,7 @@ import ProductCard from 'Component/ProductCard';
 
 import './NewProducts.style';
 
-/** @middleware Component/NewProducts/Component */
+/** @namespace Component/NewProducts/Component */
 export class NewProducts extends ExtensiblePureComponent {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),

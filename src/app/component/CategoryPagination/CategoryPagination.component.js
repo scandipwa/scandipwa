@@ -15,7 +15,7 @@ import './CategoryPagination.style';
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
-/** @middleware Component/CategoryPagination/Component */
+/** @namespace Component/CategoryPagination/Component */
 export class CategoryPagination extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,

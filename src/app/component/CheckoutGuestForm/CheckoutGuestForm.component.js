@@ -15,7 +15,7 @@ import FormPortal from 'Component/FormPortal';
 import Field from 'Component/Field';
 import FieldForm from 'Component/FieldForm/FieldForm.component';
 
-/** @middleware Component/CheckoutGuestForm/Component */
+/** @namespace Component/CheckoutGuestForm/Component */
 export class CheckoutGuestForm extends FieldForm {
     static propTypes = {
         formId: PropTypes.string.isRequired,

@@ -14,7 +14,7 @@ import Link from 'Component/Link';
 
 import './CheckoutSuccess.style';
 
-/** @middleware Component/CheckoutSuccess/Component */
+/** @namespace Component/CheckoutSuccess/Component */
 export class CheckoutSuccess extends ExtensiblePureComponent {
     static propTypes = {
         orderID: PropTypes.string.isRequired

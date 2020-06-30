@@ -17,7 +17,7 @@ import Html from 'Component/Html';
 
 import './CmsPage.style';
 
-/** @middleware Route/CmsPage/Component */
+/** @namespace Route/CmsPage/Component */
 export class CmsPage extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,

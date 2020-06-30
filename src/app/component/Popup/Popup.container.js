@@ -19,20 +19,20 @@ import { POPUP } from 'Component/Header';
 
 import Popup from './Popup.component';
 
-/** @middleware Component/Popup/Container/mapStateToProps */
+/** @namespace Component/Popup/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     payload: state.PopupReducer.popupPayload
 });
 
-/** @middleware Component/Popup/Container/mapDispatchToProps */
+/** @namespace Component/Popup/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-/** @middleware Component/Popup/Container */
+/** @namespace Component/Popup/Container */
 export class PopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         payload: PropTypes.objectOf(

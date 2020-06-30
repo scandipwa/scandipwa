@@ -26,7 +26,7 @@ import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './CartPage.style';
 
-/** @middleware Route/CartPage/Component */
+/** @namespace Route/CartPage/Component */
 export class CartPage extends ExtensiblePureComponent {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,

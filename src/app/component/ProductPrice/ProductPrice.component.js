@@ -19,7 +19,7 @@ import './ProductPrice.style';
 /**
  * Product price
  * @class ProductPrice
- * @middleware Component/ProductPrice/Component
+ * @namespace Component/ProductPrice/Component
  */
 export class ProductPrice extends ExtensiblePureComponent {
     static propTypes = {

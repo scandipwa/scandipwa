@@ -17,12 +17,12 @@ import InstallPrompt from 'Component/InstallPrompt';
 
 import './HomePage.style';
 
-/** @middleware Route/HomePage/Container/mapStateToProps */
+/** @namespace Route/HomePage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 
-/** @middleware Route/HomePage/Container */
+/** @namespace Route/HomePage/Container */
 export const HomePageContainer = props => (
     <div block="HomePage">
         <InstallPrompt />
@@ -31,7 +31,7 @@ export const HomePageContainer = props => (
     </div>
 );
 
-/** @middleware Route/HomePage/Container/mapDispatchToProps */
+/** @namespace Route/HomePage/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

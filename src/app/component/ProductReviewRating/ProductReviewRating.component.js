@@ -19,7 +19,7 @@ import './ProductReviewRating.style';
 
 /**
  * @class ProductReviewRating
- * @middleware Component/ProductReviewRating/Component
+ * @namespace Component/ProductReviewRating/Component
  */
 export class ProductReviewRating extends ExtensiblePureComponent {
     static propTypes = {

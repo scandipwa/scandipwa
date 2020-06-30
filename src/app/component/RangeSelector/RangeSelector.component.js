@@ -70,7 +70,7 @@ export class RangeSelector extends ExtensiblePureComponent {
      * Limit selected value to min and max bounds
      * @param {Object} value sliders mix and max values
      * @return {Number} value within bounds
-     * @middleware Component/RangeSelector/Component
+     * @namespace Component/RangeSelector/Component
  */
     limitValueToBounds(value) {
         const { minValue, maxValue } = this.props;

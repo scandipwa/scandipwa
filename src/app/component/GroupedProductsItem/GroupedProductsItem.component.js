@@ -23,7 +23,7 @@ import './GroupedProductsItem.style';
 /**
  * Grouped Product Item
  * @class GroupedProduct
- * @middleware Component/GroupedProductsItem/Component
+ * @namespace Component/GroupedProductsItem/Component
  */
 export class GroupedProductsItem extends ExtensiblePureComponent {
     static propTypes = {

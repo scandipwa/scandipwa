@@ -20,12 +20,12 @@ import isMobile from 'Util/Mobile';
 
 import './MenuPage.style';
 
-/** @middleware Route/MenuPage/Container/mapDispatchToProps */
+/** @namespace Route/MenuPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
-/** @middleware Route/MenuPage/Container */
+/** @namespace Route/MenuPage/Container */
 export class MenuPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
@@ -55,7 +55,7 @@ export class MenuPageContainer extends ExtensiblePureComponent {
     }
 }
 
-/** @middleware Route/MenuPage/Container/mapStateToProps */
+/** @namespace Route/MenuPage/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 

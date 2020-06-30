@@ -27,7 +27,7 @@ export const IMAGE_LOADED = 1;
 export const IMAGE_NOT_FOUND = 2;
 export const IMAGE_NOT_SPECIFIED = 3;
 
-/** @middleware Component/Image/Component */
+/** @namespace Component/Image/Component */
 export class Image extends ExtensiblePureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,

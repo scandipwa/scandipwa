@@ -27,7 +27,7 @@ export const RENDER_PAGE_FREQUENCY = 150; // (ms)
 /**
  * List of category products
  * @class CategoryProductList
- * @middleware Component/ProductList/Component
+ * @namespace Component/ProductList/Component
  */
 export class ProductList extends ExtensiblePureComponent {
     static propTypes = {

@@ -22,7 +22,7 @@ import './ProductReviewForm.style';
 /**
  * ProductReviewForm
  * @class ProductReviewForm
- * @middleware Component/ProductReviewForm/Component
+ * @namespace Component/ProductReviewForm/Component
  */
 export class ProductReviewForm extends ExtensiblePureComponent {
     static propTypes = {

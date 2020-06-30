@@ -24,6 +24,7 @@ export const ERROR_TYPE = 'error';
 /**
  * Notification block
  * @class Notification
+ * @namespace Component/Notification/Component
  */
 export class Notification extends ExtensiblePureComponent {
     static propTypes = {
@@ -58,7 +59,7 @@ export class Notification extends ExtensiblePureComponent {
     /**
      * Remove notification from screen
      * @return {void}
-     * @middleware Component/Notification/Component
+     * @namespace Component/Notification/Component
  */
     hideNotification = () => {
         const { onHideNotification, notificationId } = this.props;

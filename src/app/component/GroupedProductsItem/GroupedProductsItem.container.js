@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import GroupedProductsItem from './GroupedProductsItem.component';
 
-/** @middleware Component/GroupedProductsItem/Container */
+/** @namespace Component/GroupedProductsItem/Container */
 export class GroupedProductsItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,

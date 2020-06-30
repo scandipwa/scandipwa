@@ -12,13 +12,13 @@
 import { connect } from 'react-redux';
 import Breadcrumbs from './Breadcrumbs.component';
 
-/** @middleware Component/Breadcrumbs/Container/mapStateToProps */
+/** @namespace Component/Breadcrumbs/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     breadcrumbs: state.BreadcrumbsReducer.breadcrumbs,
     areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible
 });
 
-/** @middleware Component/Breadcrumbs/Container/mapDispatchToProps */
+/** @namespace Component/Breadcrumbs/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

@@ -32,7 +32,7 @@ export const BILLING_STEP = 'BILLING_STEP';
 export const DETAILS_STEP = 'DETAILS_STEP';
 export const CHECKOUT_URL = '/checkout';
 
-/** @middleware Route/Checkout/Component */
+/** @namespace Route/Checkout/Component */
 export class Checkout extends ExtensiblePureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,

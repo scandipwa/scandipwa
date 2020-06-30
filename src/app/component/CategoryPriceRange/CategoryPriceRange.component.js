@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import ExpandableContent from 'Component/ExpandableContent';
 import RangeSelector from 'Component/RangeSelector';
 
-/** @middleware Component/CategoryPriceRange/Component */
+/** @namespace Component/CategoryPriceRange/Component */
 export class CategoryPriceRange extends ExtensiblePureComponent {
     static propTypes = {
         minPriceValue: PropTypes.number.isRequired,

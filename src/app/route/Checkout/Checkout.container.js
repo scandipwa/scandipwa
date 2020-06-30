@@ -35,14 +35,14 @@ import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 
-/** @middleware Route/Checkout/Container/mapStateToProps */
+/** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout
 });
 
-/** @middleware Route/Checkout/Container/mapDispatchToProps */
+/** @namespace Route/Checkout/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
@@ -53,7 +53,7 @@ export const mapDispatchToProps = dispatch => ({
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
 });
 
-/** @middleware Route/Checkout/Container */
+/** @namespace Route/Checkout/Container */
 export class CheckoutContainer extends ExtensiblePureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,

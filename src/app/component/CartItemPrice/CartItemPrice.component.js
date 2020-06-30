@@ -13,7 +13,7 @@ import { formatCurrency, roundPrice } from 'Util/Price';
 import { MixType } from 'Type/Common';
 import PropTypes from 'prop-types';
 
-/** @middleware Component/CartItemPrice/Component */
+/** @namespace Component/CartItemPrice/Component */
 export class CartItemPrice extends ExtensiblePureComponent {
     static propTypes = {
         row_total: PropTypes.number.isRequired,

@@ -18,7 +18,7 @@ import Loader from 'Component/Loader';
 
 import './MyAccountMyWishlist.style';
 
-/** @middleware Component/MyAccountMyWishlist/Component */
+/** @namespace Component/MyAccountMyWishlist/Component */
 export class MyAccountMyWishlist extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,

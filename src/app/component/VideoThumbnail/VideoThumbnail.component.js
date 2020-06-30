@@ -28,7 +28,7 @@ export class VideoThumbnail extends ExtensiblePureComponent {
 
     /**
      * Renders an icon indicating that the video can be played
-     * @middleware Component/VideoThumbnail/Component
+     * @namespace Component/VideoThumbnail/Component
  */
     renderPlayIcon() {
         return (

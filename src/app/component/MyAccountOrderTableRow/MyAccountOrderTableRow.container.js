@@ -16,17 +16,17 @@ import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopu
 import { orderType } from 'Type/Account';
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
-/** @middleware Component/MyAccountOrderTableRow/Container/mapStateToProps */
+/** @namespace Component/MyAccountOrderTableRow/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     currency_code: state.ConfigReducer.default_display_currency_code
 });
 
-/** @middleware Component/MyAccountOrderTableRow/Container/mapDispatchToProps */
+/** @namespace Component/MyAccountOrderTableRow/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload))
 });
 
-/** @middleware Component/MyAccountOrderTableRow/Container */
+/** @namespace Component/MyAccountOrderTableRow/Container */
 export class MyAccountOrderTableRowContainer extends ExtensiblePureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,

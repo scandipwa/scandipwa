@@ -12,12 +12,12 @@
 import { connect } from 'react-redux';
 import Field from './Field.component';
 
-/** @middleware Component/Field/Container/mapStateToProps */
+/** @namespace Component/Field/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
-/** @middleware Component/Field/Container/mapDispatchToProps */
+/** @namespace Component/Field/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

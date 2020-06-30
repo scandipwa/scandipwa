@@ -16,7 +16,7 @@ import './Loader.style';
  * Loader component
  * Loaders overlay to identify loading
  * @class Loader
- * @middleware Component/Loader/Component
+ * @namespace Component/Loader/Component
  */
 export class Loader extends ExtensiblePureComponent {
     static propTypes = {

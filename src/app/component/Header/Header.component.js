@@ -48,7 +48,7 @@ export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
 export const MY_ACCOUNT = 'my-account';
 
-/** @middleware Component/Header/Component */
+/** @namespace Component/Header/Component */
 export class Header extends NavigationAbstract {
     static propTypes = {
         navigationState: PropTypes.object.isRequired,

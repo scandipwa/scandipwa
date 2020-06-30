@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { tabType } from 'Type/Account';
 import './MyAccountTabListItem.style';
 
-/** @middleware Component/MyAccountTabListItem/Component */
+/** @namespace Component/MyAccountTabListItem/Component */
 export class MyAccountTabListItem extends ExtensiblePureComponent {
     static propTypes = {
         tabEntry: PropTypes.arrayOf(

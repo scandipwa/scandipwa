@@ -20,7 +20,7 @@ import './Footer.style';
 /**
  * Page footer
  * @class Footer
- * @middleware Component/Footer/Component
+ * @namespace Component/Footer/Component
  */
 export class Footer extends ExtensiblePureComponent {
     static propTypes = {

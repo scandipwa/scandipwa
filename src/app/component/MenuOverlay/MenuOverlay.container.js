@@ -17,13 +17,13 @@ import { hideActiveOverlay } from 'Store/Overlay';
 
 import MenuOverlay from './MenuOverlay.component';
 
-/** @middleware Component/MenuOverlay/Container/mapStateToProps */
+/** @namespace Component/MenuOverlay/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     menu: state.HeaderAndFooterReducer.menu,
     blocks: state.CmsBlocksAndSliderReducer.blocks
 });
 
-/** @middleware Component/MenuOverlay/Container/mapDispatchToProps */
+/** @namespace Component/MenuOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),

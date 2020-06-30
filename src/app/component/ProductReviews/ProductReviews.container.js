@@ -18,19 +18,19 @@ import { isSignedIn } from 'Util/Auth';
 
 import ProductReviews, { REVIEW_POPUP_ID } from './ProductReviews.component';
 
-/** @middleware Component/ProductReviews/Container/mapStateToProps */
+/** @namespace Component/ProductReviews/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
     isGuestEnabled: state.ConfigReducer.reviews_allow_guest
 });
 
-/** @middleware Component/ProductReviews/Container/mapDispatchToProps */
+/** @namespace Component/ProductReviews/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
     showInfoNotification: message => dispatch(showNotification('info', message))
 });
 
-/** @middleware Component/ProductReviews/Container */
+/** @namespace Component/ProductReviews/Container */
 export class ProductReviewsContainer extends ExtensiblePureComponent {
     static propTypes = {
         showInfoNotification: PropTypes.func.isRequired,

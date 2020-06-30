@@ -23,12 +23,12 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import MyAccountAddressPopup, { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.component';
 
-/** @middleware Component/MyAccountAddressPopup/Container/mapStateToProps */
+/** @namespace Component/MyAccountAddressPopup/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     payload: state.PopupReducer.popupPayload[ADDRESS_POPUP_ID] || {}
 });
 
-/** @middleware Component/MyAccountAddressPopup/Container/mapDispatchToProps */
+/** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
@@ -37,7 +37,7 @@ export const mapDispatchToProps = dispatch => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
-/** @middleware Component/MyAccountAddressPopup/Container */
+/** @namespace Component/MyAccountAddressPopup/Container */
 export class MyAccountAddressPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,

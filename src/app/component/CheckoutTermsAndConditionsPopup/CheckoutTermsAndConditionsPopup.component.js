@@ -16,7 +16,7 @@ import Html from 'Component/Html';
 
 export const TERMS_AND_CONDITIONS_POPUP_ID = 'CheckoutTermsAndConditionsPopup';
 
-/** @middleware Component/CheckoutTermsAndConditionsPopup/Component */
+/** @namespace Component/CheckoutTermsAndConditionsPopup/Component */
 export class CheckoutTermsAndConditionsPopup extends ExtensiblePureComponent {
     static propTypes = {
         payload: PropTypes.shape({

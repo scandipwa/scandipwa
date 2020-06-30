@@ -15,7 +15,7 @@ import MyAccountTabListItem from 'Component/MyAccountTabListItem';
 import './MyAccountTabList.style';
 import ExpandableContent from 'Component/ExpandableContent';
 
-/** @middleware Component/MyAccountTabList/Component */
+/** @namespace Component/MyAccountTabList/Component */
 export class MyAccountTabList extends ExtensiblePureComponent {
     static propTypes = {
         tabMap: tabMapType.isRequired,

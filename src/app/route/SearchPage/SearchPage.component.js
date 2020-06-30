@@ -1,7 +1,7 @@
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
 import ContentWrapper from 'Component/ContentWrapper';
 
-/** @middleware Route/SearchPage/Component */
+/** @namespace Route/SearchPage/Component */
 export class SearchPage extends CategoryPage {
     renderSearchDetails() {
         const { search } = this.props;

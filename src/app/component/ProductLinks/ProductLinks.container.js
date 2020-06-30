@@ -6,12 +6,12 @@ import { ProductType } from 'Type/ProductList';
 
 import ProductLinks from './ProductLinks.component';
 
-/** @middleware Component/ProductLinks/Container/mapStateToProps */
+/** @namespace Component/ProductLinks/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 
-/** @middleware Component/ProductLinks/Container */
+/** @namespace Component/ProductLinks/Container */
 export class ProductLinksContainer extends ExtensiblePureComponent {
     static propTypes = {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
@@ -40,7 +40,7 @@ export class ProductLinksContainer extends ExtensiblePureComponent {
     }
 }
 
-/** @middleware Component/ProductLinks/Container/mapDispatchToProps */
+/** @namespace Component/ProductLinks/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

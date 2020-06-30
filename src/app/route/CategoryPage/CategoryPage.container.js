@@ -41,7 +41,7 @@ import {
 
 import CategoryPage from './CategoryPage.component';
 
-/** @middleware Route/CategoryPage/Container/mapStateToProps */
+/** @namespace Route/CategoryPage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
@@ -51,7 +51,7 @@ export const mapStateToProps = state => ({
     totalPages: state.ProductListReducer.totalPages
 });
 
-/** @middleware Route/CategoryPage/Container/mapDispatchToProps */
+/** @namespace Route/CategoryPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
@@ -70,7 +70,7 @@ export const mapDispatchToProps = dispatch => ({
 export const UPDATE_FILTERS_FREQUENCY = 0;
 export const LOADING_TIME = 500;
 
-/** @middleware Route/CategoryPage/Container */
+/** @namespace Route/CategoryPage/Container */
 export class CategoryPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,

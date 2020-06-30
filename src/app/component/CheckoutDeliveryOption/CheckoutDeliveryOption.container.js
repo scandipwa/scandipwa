@@ -12,12 +12,12 @@
 import { connect } from 'react-redux';
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
 
-/** @middleware Component/CheckoutDeliveryOption/Container/mapStateToProps */
+/** @namespace Component/CheckoutDeliveryOption/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals
 });
 
-/** @middleware Component/CheckoutDeliveryOption/Container/mapDispatchToProps */
+/** @namespace Component/CheckoutDeliveryOption/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

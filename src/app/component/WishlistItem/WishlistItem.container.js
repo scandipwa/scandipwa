@@ -20,7 +20,7 @@ import WishlistItem from './WishlistItem.component';
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
-/** @middleware Component/WishlistItem/Container/mapDispatchToProps */
+/** @namespace Component/WishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
@@ -28,7 +28,7 @@ export const mapDispatchToProps = dispatch => ({
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
 });
 
-/** @middleware Component/WishlistItem/Container */
+/** @namespace Component/WishlistItem/Container */
 export class WishlistItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -152,7 +152,7 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
     }
 }
 
-/** @middleware Component/WishlistItem/Container/mapStateToProps */
+/** @namespace Component/WishlistItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 

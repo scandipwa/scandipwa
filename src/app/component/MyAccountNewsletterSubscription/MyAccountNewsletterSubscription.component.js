@@ -15,7 +15,7 @@ import { customerType } from 'Type/Account';
 import FieldForm from 'Component/FieldForm';
 import './MyAccountNewsletterSubscription.style.scss';
 
-/** @middleware Component/MyAccountNewsletterSubscription/Component */
+/** @namespace Component/MyAccountNewsletterSubscription/Component */
 export class MyAccountNewsletterSubscription extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,

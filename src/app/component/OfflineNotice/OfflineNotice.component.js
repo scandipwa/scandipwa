@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 
 import './OfflineNotice.style';
 
-/** @middleware Component/OfflineNotice/Component */
+/** @namespace Component/OfflineNotice/Component */
 export class OfflineNotice extends ExtensiblePureComponent {
     static propTypes = {
         isPage: PropTypes.bool.isRequired,

@@ -16,7 +16,7 @@ import './ContentWrapper.style';
 /**
  * Content Wrapper
  * @class ContentWrapper
- * @middleware Component/ContentWrapper/Component
+ * @namespace Component/ContentWrapper/Component
  */
 export class ContentWrapper extends ExtensiblePureComponent {
     static propTypes = {

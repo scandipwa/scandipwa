@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
 import Input from './Input.component';
 
-/** @middleware Component/Input/Container */
+/** @namespace Component/Input/Container */
 export class InputContainer extends ExtensiblePureComponent {
     static propTypes = {
         dispatch: PropTypes.func,

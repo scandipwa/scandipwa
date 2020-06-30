@@ -17,7 +17,7 @@ import './ProductReviewList.style';
 
 /**
  * @class ProductReviewList
- * @middleware Component/ProductReviewList/Component
+ * @namespace Component/ProductReviewList/Component
  */
 export class ProductReviewList extends ExtensiblePureComponent {
     static propTypes = {

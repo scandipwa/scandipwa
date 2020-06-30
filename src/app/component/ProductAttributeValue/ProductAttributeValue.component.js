@@ -17,7 +17,7 @@ import { MixType } from 'Type/Common';
 import Field from 'Component/Field/Field.component';
 import './ProductAttributeValue.style';
 
-/** @middleware Component/ProductAttributeValue/Component */
+/** @namespace Component/ProductAttributeValue/Component */
 export class ProductAttributeValue extends ExtensiblePureComponent {
     static propTypes = {
         getLink: PropTypes.func,

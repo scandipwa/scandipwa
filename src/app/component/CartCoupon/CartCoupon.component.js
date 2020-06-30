@@ -14,7 +14,7 @@ import Loader from 'Component/Loader';
 import PropTypes from 'prop-types';
 import './CartCoupon.style';
 
-/** @middleware Component/CartCoupon/Component */
+/** @namespace Component/CartCoupon/Component */
 export class CartCoupon extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,

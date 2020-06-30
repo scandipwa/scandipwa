@@ -17,7 +17,7 @@ import Router from 'Component/Router';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import SharedTransition from 'Component/SharedTransition';
 
-/** @middleware Component/App/Component */
+/** @namespace Component/App/Component */
 export class App extends ExtensiblePureComponent {
     productionFunctions = [
         this.disableReactDevTools.bind(this),

@@ -12,13 +12,13 @@
 import { connect } from 'react-redux';
 import OverlayComponent from './Overlay.component';
 
-/** @middleware Component/Overlay/Container/mapStateToProps */
+/** @namespace Component/Overlay/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen
 });
 
-/** @middleware Component/Overlay/Container/mapDispatchToProps */
+/** @namespace Component/Overlay/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

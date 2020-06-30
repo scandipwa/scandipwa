@@ -20,7 +20,7 @@ import FormPortalCollector from 'Util/FormPortalCollector';
 import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
-/** @middleware Component/Form/Component */
+/** @namespace Component/Form/Component */
 export class Form extends ExtensiblePureComponent {
     static propTypes = {
         onSubmitSuccess: PropTypes.func,

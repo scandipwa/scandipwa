@@ -16,7 +16,7 @@ import './TextPlaceholder.style';
 /**
  * Text placeholder
  * @class TextPlaceholder
- * @middleware Component/TextPlaceholder/Component
+ * @namespace Component/TextPlaceholder/Component
  */
 export class TextPlaceholder extends ExtensiblePureComponent {
     static propTypes = {

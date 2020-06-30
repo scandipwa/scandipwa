@@ -16,7 +16,7 @@ import { ProductType } from 'Type/ProductList';
 /**
  * Product description
  * @class GroupedProductList
- * @middleware Component/GroupedProductList/Component
+ * @namespace Component/GroupedProductList/Component
  */
 export class GroupedProductList extends ExtensiblePureComponent {
     static propTypes = {

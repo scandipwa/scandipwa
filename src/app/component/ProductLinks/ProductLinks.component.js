@@ -17,7 +17,7 @@ import { ProductType } from 'Type/ProductList';
 
 import './ProductLinks.style';
 
-/** @middleware Component/ProductLinks/Component */
+/** @namespace Component/ProductLinks/Component */
 export class ProductLinks extends ExtensiblePureComponent {
     static propTypes = {
         numberOfProductsToDisplay: PropTypes.number,

@@ -18,12 +18,12 @@ import { customerType } from 'Type/Account';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
-/** @middleware Component/CheckoutShipping/Container/mapStateToProps */
+/** @namespace Component/CheckoutShipping/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
-/** @middleware Component/CheckoutShipping/Container */
+/** @namespace Component/CheckoutShipping/Container */
 export class CheckoutShippingContainer extends ExtensiblePureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
@@ -107,7 +107,7 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
     }
 }
 
-/** @middleware Component/CheckoutShipping/Container/mapDispatchToProps */
+/** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

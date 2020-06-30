@@ -20,7 +20,7 @@ import {
 
 /**
  * Checkout Order Summary component
- * @middleware Component/CheckoutOrderSummary/Component
+ * @namespace Component/CheckoutOrderSummary/Component
  */
 export class CheckoutOrderSummary extends ExtensiblePureComponent {
     static propTypes = {

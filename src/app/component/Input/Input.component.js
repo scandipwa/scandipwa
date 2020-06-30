@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-/** @middleware Component/Input/Component */
+/** @namespace Component/Input/Component */
 export class Input extends ExtensiblePureComponent {
     static propTypes = {
         formRef: PropTypes.oneOfType([

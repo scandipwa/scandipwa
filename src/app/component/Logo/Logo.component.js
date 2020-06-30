@@ -18,7 +18,7 @@ import Image, {
 
 import './Logo.style';
 
-/** @middleware Component/Logo/Component */
+/** @namespace Component/Logo/Component */
 export class Logo extends Image {
     renderPlaceholderLogo() {
         return (

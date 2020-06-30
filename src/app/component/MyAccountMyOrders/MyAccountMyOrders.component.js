@@ -19,7 +19,7 @@ import isMobile from 'Util/Mobile';
 
 import './MyAccountMyOrders.style';
 
-/** @middleware Component/MyAccountMyOrders/Component */
+/** @namespace Component/MyAccountMyOrders/Component */
 export class MyAccountMyOrders extends ExtensiblePureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,

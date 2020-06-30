@@ -17,12 +17,12 @@ import { withRouter } from 'react-router-dom';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import NoMatchHandler from './NoMatchHandler.component';
 
-/** @middleware Route/NoMatchHandler/Container/mapStateToProps */
+/** @namespace Route/NoMatchHandler/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     noMatch: state.NoMatchReducer.noMatch
 });
 
-/** @middleware Route/NoMatchHandler/Container/mapDispatchToProps */
+/** @namespace Route/NoMatchHandler/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
@@ -30,7 +30,7 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
-/** @middleware Route/NoMatchHandler/Container */
+/** @namespace Route/NoMatchHandler/Container */
 export class NoMatchHandlerContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,

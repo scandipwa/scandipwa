@@ -19,7 +19,7 @@ import { MixType } from 'Type/Common';
 
 import './ProductConfigurableAttributes.style';
 
-/** @middleware Component/ProductConfigurableAttributes/Component */
+/** @namespace Component/ProductConfigurableAttributes/Component */
 export class ProductConfigurableAttributes extends ExtensiblePureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,

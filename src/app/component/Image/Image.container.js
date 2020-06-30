@@ -14,12 +14,12 @@ import { connect } from 'react-redux';
 import { MixType } from 'Type/Common';
 import Image from './Image.component';
 
-/** @middleware Component/Image/Container/mapStateToProps */
+/** @namespace Component/Image/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
 
-/** @middleware Component/Image/Container */
+/** @namespace Component/Image/Container */
 export class ImageContainer extends ExtensiblePureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
@@ -113,7 +113,7 @@ export class ImageContainer extends ExtensiblePureComponent {
     }
 }
 
-/** @middleware Component/Image/Container/mapDispatchToProps */
+/** @namespace Component/Image/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

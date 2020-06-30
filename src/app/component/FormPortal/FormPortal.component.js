@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import Form from 'Component/Form/Form.component';
 
-/** @middleware Component/FormPortal/Component */
+/** @namespace Component/FormPortal/Component */
 export class FormPortal extends Form {
     static propTypes = {
         ...Form.propTypes,

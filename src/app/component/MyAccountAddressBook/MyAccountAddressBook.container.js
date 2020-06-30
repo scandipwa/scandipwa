@@ -18,17 +18,17 @@ import { showPopup } from 'Store/Popup';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 
-/** @middleware Component/MyAccountAddressBook/Container/mapStateToProps */
+/** @namespace Component/MyAccountAddressBook/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
-/** @middleware Component/MyAccountAddressBook/Container/mapDispatchToProps */
+/** @namespace Component/MyAccountAddressBook/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
 });
 
-/** @middleware Component/MyAccountAddressBook/Container */
+/** @namespace Component/MyAccountAddressBook/Container */
 export class MyAccountAddressBookContainer extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,

@@ -23,7 +23,7 @@ import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style';
 
-/** @middleware Route/ProductPage/Component */
+/** @namespace Route/ProductPage/Component */
 export class ProductPage extends ExtensiblePureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,

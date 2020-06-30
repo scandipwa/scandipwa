@@ -28,6 +28,7 @@ export const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v
 /**
  * A popup capable of displaying a video
  * @class VideoPopup
+ * @namespace Component/VideoPopup/Component
  */
 export class VideoPopup extends ExtensiblePureComponent {
     static propTypes = {
@@ -99,7 +100,7 @@ export class VideoPopup extends ExtensiblePureComponent {
      * Parses the video URL and renders the video accordingly
      * @returns {null|*}
      * @private
-     * @middleware Component/VideoPopup/Component
+     * @namespace Component/VideoPopup/Component
  */
     _renderVideoContent() {
         const {

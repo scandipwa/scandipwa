@@ -15,7 +15,7 @@ import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import './MyAccountAddressBook.style';
 
-/** @middleware Component/MyAccountAddressBook/Component */
+/** @namespace Component/MyAccountAddressBook/Component */
 export class MyAccountAddressBook extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,

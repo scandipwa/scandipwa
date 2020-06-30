@@ -17,7 +17,7 @@ export const SLIDER = 'Slider';
 export const NEW_PRODUCTS = 'NewProducts';
 export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
 
-/** @middleware Component/WidgetFactory/Component */
+/** @namespace Component/WidgetFactory/Component */
 export class WidgetFactory extends ExtensiblePureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired

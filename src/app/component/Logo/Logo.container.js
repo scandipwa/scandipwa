@@ -12,7 +12,7 @@
 import ImageContainer from 'Component/Image/Image.container';
 import Logo from './Logo.component';
 
-/** @middleware Component/Logo/Container */
+/** @namespace Component/Logo/Container */
 export class LogoContainer extends ImageContainer {
     render() {
         return (

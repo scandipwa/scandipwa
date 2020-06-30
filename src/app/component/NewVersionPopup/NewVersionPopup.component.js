@@ -16,7 +16,7 @@ import './NewVersionPopup.style';
 
 export const NEW_VERSION_POPUP_ID = 'new_version';
 
-/** @middleware Component/NewVersionPopup/Component */
+/** @namespace Component/NewVersionPopup/Component */
 export class NewVersionPopup extends ExtensiblePureComponent {
     static propTypes = {
         toggleNewVersion: PropTypes.func.isRequired

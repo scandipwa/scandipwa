@@ -16,7 +16,7 @@ import { ChildrenType } from 'Type/Common';
 /**
  * Cms Block
  * @class CmsBlock
- * @middleware Component/CmsBlock/Component
+ * @namespace Component/CmsBlock/Component
  */
 export class CmsBlock extends ExtensiblePureComponent {
     static propTypes = {

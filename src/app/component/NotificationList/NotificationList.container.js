@@ -13,12 +13,12 @@ import { connect } from 'react-redux';
 import { hideNotification } from 'Store/Notification';
 import NotificationList from './NotificationList.component';
 
-/** @middleware Component/NotificationList/Container/mapStateToProps */
+/** @namespace Component/NotificationList/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     notifications: state.NotificationReducer.notifications
 });
 
-/** @middleware Component/NotificationList/Container/mapDispatchToProps */
+/** @namespace Component/NotificationList/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     onHideNotification: (id) => {
         dispatch(hideNotification(id));
