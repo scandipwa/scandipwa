@@ -18,6 +18,7 @@ import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
  * Url Rewrite Dispathcer
  * @class UrlRewritesDispatcher
  * @extends RequestDispatcher
+ * @namespace Store/UrlRewrites/Dispatcher
  */
 export class UrlRewritesDispatcher extends QueryDispatcher {
     constructor() {
@@ -52,4 +53,4 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(UrlRewritesDispatcher, 'Store/UrlRewrites/Dispatcher'))();
+export default new (UrlRewritesDispatcher)();

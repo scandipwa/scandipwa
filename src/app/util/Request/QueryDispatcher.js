@@ -20,6 +20,7 @@ export const ONE_MONTH_IN_SECONDS = 2592000;
  * Abstract request dispatcher.
  * IMPORTANT: it is required to implement `prepareRequest(options)` before using!
  * @class QueryDispatcher
+ * @namespace Util/Request/QueryDispatcher
  */
 export class QueryDispatcher extends ExtensibleClass {
     /**
@@ -118,4 +119,4 @@ export class QueryDispatcher extends ExtensibleClass {
     onError(error, dispatch) {}
 }
 
-export default middleware(QueryDispatcher, 'Util/Request/QueryDispatcher');
+export default QueryDispatcher;

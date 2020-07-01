@@ -20,6 +20,7 @@ import {
     UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
 } from './MyAccount.action';
 
+/** @namespace Store/MyAccount/Reducer/getInitialState */
 export const getInitialState = () => ({
     isSignedIn: isInitiallySignedIn(),
     passwordResetStatus: false,
@@ -27,8 +28,9 @@ export const getInitialState = () => ({
     customer: {}
 });
 
+/** @namespace Store/MyAccount/Reducer */
 export const MyAccountReducer = (
-    state = middleware(getInitialState, 'Store/MyAccount/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const { status, customer } = action;
@@ -63,4 +65,4 @@ export const MyAccountReducer = (
     }
 };
 
-export default middleware(MyAccountReducer, 'Store/MyAccount/Reducer');
+export default MyAccountReducer;

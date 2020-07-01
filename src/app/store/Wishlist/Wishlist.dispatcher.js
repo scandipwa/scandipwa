@@ -25,6 +25,7 @@ import { WishlistQuery } from 'Query';
 /**
  * Product Wishlist Dispatcher
  * @class WishlistDispatcher
+ * @namespace Store/Wishlist/Dispatcher
  */
 export class WishlistDispatcher extends ExtensibleClass {
     updateInitialWishlistData(dispatch) {
@@ -134,4 +135,4 @@ export class WishlistDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (middleware(WishlistDispatcher, 'Store/Wishlist/Dispatcher'))();
+export default new (WishlistDispatcher)();

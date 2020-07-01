@@ -17,6 +17,7 @@ import { updateSearchBar, updateLoadStatus, clearSearchResults } from './SearchB
  * Search Bar Dispatcher
  * @class SearchBarDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/SearchBar/Dispatcher
  */
 export class SearchBarDispatcher extends QueryDispatcher {
     constructor() {
@@ -46,4 +47,4 @@ export class SearchBarDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(SearchBarDispatcher, 'Store/SearchBar/Dispatcher'))();
+export default new (SearchBarDispatcher)();

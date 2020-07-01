@@ -15,6 +15,7 @@ import { hash } from 'Util/Request/Hash';
 import { makeCancelable } from 'Util/Promise';
 import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
+/** @namespace Util/Request/DataContainer */
 export class DataContainer extends ExtensiblePureComponent {
     dataModelName = 'DataContainer';
 
@@ -52,4 +53,4 @@ export class DataContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(DataContainer, 'Util/Request/DataContainer');
+export default DataContainer;

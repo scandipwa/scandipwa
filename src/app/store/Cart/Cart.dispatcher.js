@@ -23,6 +23,7 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
 /**
  * Product Cart Dispatcher
  * @class CartDispatcher
+ * @namespace Store/Cart/Dispatcher
  */
 export class CartDispatcher extends ExtensibleClass {
     updateInitialCartData(dispatch) {
@@ -226,4 +227,4 @@ export class CartDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (middleware(CartDispatcher, 'Store/Cart/Dispatcher'))();
+export default new (CartDispatcher)();

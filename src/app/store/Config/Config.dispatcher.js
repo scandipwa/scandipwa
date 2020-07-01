@@ -16,6 +16,7 @@ import { updateConfig } from 'Store/Config';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
+/** @namespace Store/Config/Dispatcher */
 export class ConfigDispatcher extends QueryDispatcher {
     constructor() {
         super('Config');
@@ -42,4 +43,4 @@ export class ConfigDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(ConfigDispatcher, 'Store/Config/Dispatcher'))();
+export default new (ConfigDispatcher)();

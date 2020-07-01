@@ -12,6 +12,7 @@
 import { fetchMutation } from 'Util/Request';
 import { Field } from 'Util/Query';
 
+/** @namespace Util/Braintree */
 export class Braintree extends ExtensibleClass {
     isLoading = false;
 
@@ -39,4 +40,4 @@ export class Braintree extends ExtensibleClass {
     requestPaymentNonce = () => this.braintreeDropIn.requestPaymentMethod();
 }
 
-export default middleware(Braintree, 'Util/Braintree');
+export default Braintree;

@@ -13,6 +13,7 @@
  * Builds GraphQL query according to https://graphql.org/learn/queries/ documentation
  * @class Query
  * @extends Field
+ * @namespace Util/Query/Field
  */
 export class Field extends ExtensibleClass {
     /**
@@ -287,4 +288,4 @@ export class Field extends ExtensibleClass {
     }
 }
 
-export default middleware(Field, 'Util/Query/Field');
+export default Field;

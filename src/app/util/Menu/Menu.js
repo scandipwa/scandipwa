@@ -26,6 +26,7 @@ export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
     { parent_id: prevPID, position: prevP }
 ) => (PID - prevPID) || (P - prevP));
 
+/** @namespace Util/Menu */
 export class Menu extends ExtensibleClass {
     getMenuUrl({ cms_page_identifier, url_type, url }) {
         switch (url_type) {
@@ -91,4 +92,4 @@ export class Menu extends ExtensibleClass {
     }
 }
 
-export default new (middleware(Menu, 'Util/Menu'))();
+export default new (Menu)();

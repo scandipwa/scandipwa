@@ -21,6 +21,7 @@ import {
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
+/** @namespace Store/Wishlist/Reducer/getInitialState */
 export const getInitialState = () => ({
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
     isLoading: true
@@ -82,8 +83,9 @@ export const updateItemOptions = (options, { productsInWishlist }) => {
     return { productsInWishlist: products };
 };
 
+/** @namespace Store/Wishlist/Reducer */
 export const WishlistReducer = (
-    state = middleware(getInitialState, 'Store/Wishlist/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const { type, options } = action;
@@ -128,4 +130,4 @@ export const WishlistReducer = (
     }
 };
 
-export default middleware(WishlistReducer, 'Store/Wishlist/Reducer');
+export default WishlistReducer;

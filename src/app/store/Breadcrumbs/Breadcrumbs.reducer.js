@@ -11,13 +11,15 @@
 
 import { UPDATE_BREADCRUMBS, TOGGLE_BREADCRUMBS } from './Breadcrumbs.action';
 
+/** @namespace Store/Breadcrumbs/Reducer/getInitialState */
 export const getInitialState = () => ({
     breadcrumbs: [],
     areBreadcrumbsVisible: true
 });
 
+/** @namespace Store/Breadcrumbs/Reducer */
 export const BreadcrumbsReducer = (
-    state = middleware(getInitialState, 'Store/Breadcrumbs/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     switch (action.type) {
@@ -42,4 +44,4 @@ export const BreadcrumbsReducer = (
     }
 };
 
-export default middleware(BreadcrumbsReducer, 'Store/Breadcrumbs/Reducer');
+export default BreadcrumbsReducer;

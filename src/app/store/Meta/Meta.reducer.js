@@ -27,6 +27,7 @@ export const filterData = (data) => {
     return { ...data, ...updated };
 };
 
+/** @namespace Store/Meta/Reducer/getInitialState */
 export const getInitialState = () => ({
     title: '',
     title_prefix: '',
@@ -36,8 +37,9 @@ export const getInitialState = () => ({
     canonical_url: ''
 });
 
+/** @namespace Store/Meta/Reducer */
 export const MetaReducer = (
-    state = middleware(getInitialState, 'Store/Meta/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const { payload = {}, type } = action;
@@ -56,4 +58,4 @@ export const MetaReducer = (
     }
 };
 
-export default middleware(MetaReducer, 'Store/Meta/Reducer');
+export default MetaReducer;

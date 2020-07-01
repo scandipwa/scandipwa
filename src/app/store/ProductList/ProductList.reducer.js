@@ -16,6 +16,7 @@ import {
 } from 'Store/ProductList';
 import { getIndexedProducts } from 'Util/Product';
 
+/** @namespace Store/ProductList/Reducer/getInitialState */
 export const getInitialState = () => ({
     pages: {},
     totalItems: 0,
@@ -27,8 +28,9 @@ export const defaultConfig = {
     itemsPerPageCount: 12
 };
 
+/** @namespace Store/ProductList/Reducer */
 export const ProductListReducer = (
-    state = middleware(getInitialState, 'Store/ProductList/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const {
@@ -70,4 +72,4 @@ export const ProductListReducer = (
     }
 };
 
-export default middleware(ProductListReducer, 'Store/ProductList/Reducer');
+export default ProductListReducer;

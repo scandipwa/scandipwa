@@ -23,6 +23,7 @@ export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
  * Linked Prodcts List Dispatcher
  * @class LinkedProductsDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/LinkedProducts/Dispatcher
  */
 export class LinkedProductsDispatcher extends QueryDispatcher {
     constructor() {
@@ -109,4 +110,4 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(LinkedProductsDispatcher, 'Store/LinkedProducts/Dispatcher'))();
+export default new (LinkedProductsDispatcher)();
