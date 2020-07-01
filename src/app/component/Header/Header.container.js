@@ -163,6 +163,21 @@ export class HeaderContainer extends NavigationAbstractContainer {
         this.handleHeaderVisibility();
     }
 
+    getNavigationState() {
+        const { pathname } = location;
+        const { state: { state = {} } = {} } = window.history;
+        const { navigationState } = this.props;
+
+        const activeRoute = Object.keys(this.routeMap)
+            .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
+
+        if (state.category || state.product) { // keep state if it category is in state
+            return navigationState;
+        }
+
+        return this.routeMap[activeRoute] || this.default_state;
+    }
+
     hideSearchOnStateChange(prevProps) {
         const { navigationState: { name: prevName } } = prevProps;
         const { navigationState: { name } } = this.props;
