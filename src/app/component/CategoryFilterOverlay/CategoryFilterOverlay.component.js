@@ -149,7 +149,16 @@ export default class CategoryFilterOverlay extends PureComponent {
     }
 
     renderLoader() {
-        const { isInfoLoading } = this.props;
+        const {
+            isInfoLoading,
+            availableFilters
+        } = this.props;
+
+        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
+
+        if (!isLoaded) { // hide loader if filters were not yet loaded (even once!)
+            return null;
+        }
 
         return (
             <Loader isLoading={ isInfoLoading } />
