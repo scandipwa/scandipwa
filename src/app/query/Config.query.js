@@ -11,6 +11,7 @@
 
 import { Field } from 'Util/Query';
 
+/** @namespace Query/Config */
 export class ConfigQuery extends ExtensibleClass {
     getStoreListField() {
         return new Field('storeList')
@@ -81,4 +82,4 @@ export class ConfigQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(ConfigQuery, 'Query/Config'))();
+export default new (ConfigQuery)();

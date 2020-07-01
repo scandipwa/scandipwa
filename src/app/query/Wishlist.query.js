@@ -12,6 +12,7 @@
 import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 
+/** @namespace Query/Wishlist */
 export class WishlistQuery extends ExtensibleClass {
     getWishlistQuery() {
         return new Field('wishlist')
@@ -66,4 +67,4 @@ export class WishlistQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(WishlistQuery, 'Query/Wishlist'))();
+export default new (WishlistQuery)();

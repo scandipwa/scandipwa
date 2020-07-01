@@ -14,6 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * CMS Page Query
  * @class CmsPageQuery
+ * @namespace Query/CmsPage
  */
 export class CmsPageQuery extends ExtensibleClass {
     /**
@@ -52,4 +53,4 @@ export class CmsPageQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(CmsPageQuery, 'Query/CmsPage'))();
+export default new (CmsPageQuery)();

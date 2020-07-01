@@ -13,6 +13,7 @@ import { Field } from 'Util/Query';
 /**
  * Menu Query
  * @class MenuQuery
+ * @namespace Query/Menu
  */
 export class MenuQuery extends ExtensibleClass {
     /**
@@ -56,4 +57,4 @@ export class MenuQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(MenuQuery, 'Query/Menu'))();
+export default new (MenuQuery)();

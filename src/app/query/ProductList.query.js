@@ -14,6 +14,7 @@ import { Field, Fragment } from 'Util/Query';
 /**
  * Product List Query
  * @class ProductListQuery
+ * @namespace Query/ProductList
  */
 export class ProductListQuery extends ExtensibleClass {
     constructor() {
@@ -671,4 +672,4 @@ export class ProductListQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(ProductListQuery, 'Query/ProductList'))();
+export default new (ProductListQuery)();
