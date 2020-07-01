@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
-import isMobile from 'Util/Mobile';
 import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
@@ -29,13 +28,12 @@ import './CartPage.style';
 
 export default class CartPage extends PureComponent {
     static propTypes = {
-        isEditing: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired
     };
 
     renderCartItems() {
-        const { isEditing, totals: { items, quote_currency_code } } = this.props;
+        const { totals: { items, quote_currency_code } } = this.props;
 
         if (!items || items.length < 1) {
             return (
