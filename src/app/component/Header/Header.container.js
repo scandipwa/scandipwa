@@ -164,9 +164,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     getNavigationState() {
-        const { pathname } = location;
-        const { state: { state = {} } = {} } = window.history;
         const { navigationState } = this.props;
+
+        const { pathname } = location;
+        const { historyState = {} } = window.history;
+        const { state = {} } = historyState || {};
 
         const activeRoute = Object.keys(this.routeMap)
             .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));

@@ -222,7 +222,8 @@ export class ProductListQuery {
                 fields.push(
                     this._getCategoriesField(),
                     this._getReviewsField(),
-                    this._getVirtualProductFragment()
+                    this._getVirtualProductFragment(),
+                    this._getCustomizableProductFragment()
                 );
             }
         }
