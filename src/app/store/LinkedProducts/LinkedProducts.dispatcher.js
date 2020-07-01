@@ -104,7 +104,9 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      */
     clearLinkedProducts(dispatch) {
         dispatch(updateLinkedProducts({
-            linkedProducts: { upsell: [], related: [], crosssell: [] }
+            upsell: { total_count: 0, items: [] },
+            related: { total_count: 0, items: [] },
+            crosssell: { total_count: 0, items: [] }
         }));
     }
 }

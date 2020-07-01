@@ -11,6 +11,7 @@
 
 .TextPlaceholder {
     pointer-events: none;
+    animation: appear 150ms 100ms forwards;
 
     &::after {
         font-family: 'Courier New', Courier, monospace;

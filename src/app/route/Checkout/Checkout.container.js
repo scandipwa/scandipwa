@@ -183,7 +183,7 @@ export class CheckoutContainer extends PureComponent {
 
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
         } else {
-            history.push('/');
+            history.push('/cart');
         }
     }
 
