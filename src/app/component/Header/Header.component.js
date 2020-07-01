@@ -125,8 +125,7 @@ export default class Header extends NavigationAbstract {
             search: true
         },
         [CART]: {
-            title: true,
-            edit: true
+            title: true
         },
         [CART_OVERLAY]: {
             title: true,

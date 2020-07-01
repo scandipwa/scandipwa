@@ -73,7 +73,7 @@ export class ProductPageContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         isOffline: PropTypes.bool.isRequired,
-        productsIds: PropTypes.number,
+        productSKU: PropTypes.string,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired
@@ -82,7 +82,7 @@ export class ProductPageContainer extends PureComponent {
     static defaultProps = {
         location: { state: {} },
         isOnlyPlaceholder: false,
-        productsIds: -1
+        productSKU: ''
     };
 
     static getDerivedStateFromProps(props) {
@@ -134,7 +134,7 @@ export class ProductPageContainer extends PureComponent {
         const {
             location: { pathname },
             product: { id, options },
-            productsIds,
+            productSKU,
             isOnlyPlaceholder
         } = this.props;
 
@@ -144,14 +144,14 @@ export class ProductPageContainer extends PureComponent {
                 id: prevId,
                 options: prevOptions
             },
-            productsIds: prevProductsIds,
+            productSKU: prevProductSKU,
             isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
         if (
             pathname !== prevPathname
             || isOnlyPlaceholder !== prevIsOnlyPlaceholder
-            || productsIds !== prevProductsIds
+            || productSKU !== prevProductSKU
         ) {
             this._requestProduct();
         }
@@ -349,11 +349,13 @@ export class ProductPageContainer extends PureComponent {
         const {
             location,
             match,
-            productsIds
+            productSKU
         } = this.props;
 
-        if (productsIds !== -1) {
-            return { productsIds };
+        if (productSKU) {
+            return {
+                productsSkuArray: [productSKU]
+            };
         }
 
         return {

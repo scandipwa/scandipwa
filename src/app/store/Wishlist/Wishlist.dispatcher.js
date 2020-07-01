@@ -71,7 +71,10 @@ export class WishlistDispatcher {
                 }
             },
             // eslint-disable-next-line no-console
-            error => console.log(error)
+            (error) => {
+                console.log(error);
+                dispatch(updateIsLoading(false));
+            }
         );
     }
 

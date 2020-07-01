@@ -17,7 +17,7 @@
         }
 
         @include desktop {
-            grid-template-columns: minmax(200px, 300px) auto;
+            grid-template-columns: 280px auto;
             grid-column-gap: 4rem;
         }
 

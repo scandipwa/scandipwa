@@ -15,10 +15,6 @@ import { connect } from 'react-redux';
 import { MixType } from 'Type/Common';
 import Image from './Image.component';
 
-export const mapStateToProps = state => ({
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
-});
-
 export class ImageContainer extends PureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
@@ -112,4 +108,4 @@ export class ImageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(ImageContainer);
+export default ImageContainer;

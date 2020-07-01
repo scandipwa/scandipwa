@@ -38,7 +38,7 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderCartItems() {
-        const { isEditing, totals: { items, quote_currency_code } } = this.props;
+        const { totals: { items, quote_currency_code } } = this.props;
 
         if (!items || items.length < 1) {
             return this.renderNoCartItems();
@@ -51,7 +51,7 @@ export default class CartOverlay extends PureComponent {
                       key={ item.item_id }
                       item={ item }
                       currency_code={ quote_currency_code }
-                      isEditing={ !isMobile.any() || isEditing }
+                      isEditing
                     />
                 )) }
             </ul>

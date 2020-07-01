@@ -57,7 +57,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export const DEFAULT_HEADER_STATE = {
     name: DEFAULT_STATE_NAME,
-    isHiddenOnMobile: true
+    isHiddenOnMobile: false
 };
 
 export class HeaderContainer extends NavigationAbstractContainer {
@@ -83,7 +83,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         '/cart': { name: CART },
         '/menu': { name: MENU },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
-        '/': this.default_state
+        '/': { name: DEFAULT_STATE_NAME, isHiddenOnMobile: true }
     };
 
     containerFunctions = {

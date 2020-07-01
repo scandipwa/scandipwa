@@ -41,7 +41,7 @@ export class NavigationAbstractContainer extends PureComponent {
 
     componentDidMount() {
         const { setNavigationState } = this.props;
-        setNavigationState(this.getNavigationState(location.pathname));
+        setNavigationState(this.getNavigationState());
         history.listen(history => this.setState(this.onRouteChanged(history)));
     }
 
@@ -53,7 +53,9 @@ export class NavigationAbstractContainer extends PureComponent {
         return this.handleMobileUrlChange(history);
     }
 
-    getNavigationState(pathname) {
+    getNavigationState() {
+        const { pathname } = location;
+
         const activeRoute = Object.keys(this.routeMap)
             .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
 
@@ -62,7 +64,7 @@ export class NavigationAbstractContainer extends PureComponent {
 
     goToDefaultHeaderState() {
         const { setNavigationState } = this.props;
-        const state = this.getNavigationState(location.pathname);
+        const state = this.getNavigationState();
 
         setNavigationState(state);
     }
@@ -88,7 +90,7 @@ export class NavigationAbstractContainer extends PureComponent {
         const { pathname } = history;
 
         // Find the new state name
-        const newNavigationState = this.getNavigationState(pathname);
+        const newNavigationState = this.getNavigationState();
 
         // Update the state if new name is set
         if (name !== newNavigationState.name) {

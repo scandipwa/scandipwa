@@ -58,7 +58,6 @@ export class ProductListQuery {
 
                 return filters;
             },
-            productsIds: id => [`id: { eq: ${id} }`],
             productsSkuArray: sku => [`sku: { in: [${sku}] }`],
             productUrlPath: url => [`url_key: { eq: ${url}}`],
             customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (

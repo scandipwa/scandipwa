@@ -37,6 +37,7 @@ export class UrlRewrites extends PureComponent {
         urlRewrite: PropTypes.shape({
             id: PropTypes.number,
             type: PropTypes.string,
+            sku: PropTypes.string,
             notFound: PropTypes.bool
         }).isRequired
     };
@@ -140,19 +141,21 @@ export class UrlRewrites extends PureComponent {
             requestUrlRewrite
         } = props;
 
-        const {
-            actionName: { type } = {}
-        } = window;
-
         this.state = {
             isNotFound: false,
-            type,
+            type: UrlRewrites.getType(props),
             id: null,
             prevId: null,
             prevPathname: pathname
         };
 
         requestUrlRewrite(pathname);
+    }
+
+    renderDefaultPage() {
+        return (
+            <main />
+        );
     }
 
     renderEmptyPage() {
@@ -163,7 +166,7 @@ export class UrlRewrites extends PureComponent {
         }
 
         // TODO: add some loader?
-        return <main />;
+        return this.renderDefaultPage();
     }
 
     getCategoryProps(id) {
@@ -193,13 +196,23 @@ export class UrlRewrites extends PureComponent {
         return props;
     }
 
-    renderPage() {
+    getCurrentType() {
         const { type } = this.state;
-        const { urlRewrite: { id } } = this.props;
+
+        if (type) {
+            return type;
+        }
+
+        return UrlRewrites.getType(this.props);
+    }
+
+    renderPage() {
+        const type = this.getCurrentType();
+        const { urlRewrite: { id, sku } } = this.props;
 
         switch (type) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...this.props } productsIds={ id } />;
+            return <ProductPage { ...this.props } productSKU={ sku } />;
         case TYPE_CMS_PAGE:
             return <CmsPage { ...this.props } pageIds={ id } />;
         case TYPE_CATEGORY:
@@ -212,7 +225,7 @@ export class UrlRewrites extends PureComponent {
     }
 
     renderPlaceholders() {
-        const { type } = this.state;
+        const type = this.getCurrentType();
 
         switch (type) {
         case TYPE_PRODUCT:

@@ -417,10 +417,10 @@ export class CategoryPageContainer extends PureComponent {
         } else {
             updateMetaFromCategory(category);
             this._updateBreadcrumbs();
-            this._updateHeaderState();
-            this._updateNavigationState();
         }
 
+        this._updateHeaderState();
+        this._updateNavigationState();
         this._updateHistory();
     }
 

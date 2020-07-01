@@ -56,7 +56,7 @@ export default class CartPage extends PureComponent {
                           key={ item.item_id }
                           item={ item }
                           currency_code={ quote_currency_code }
-                          isEditing={ !isMobile.any() || isEditing }
+                          isEditing
                           isLikeTable
                         />
                     )) }
