@@ -16,6 +16,7 @@ import { GET_ORDER_LIST } from './Order.action';
 
 export const ORDERS = 'orders';
 
+/** @namespace Store/Order/Reducer/getFormattedDate */
 export const getFormattedDate = (rawDate = '') => {
     const date = new Date(rawDate.replace(/\s/, 'T'));
     const RADIX = 10;
@@ -28,6 +29,7 @@ export const getFormattedDate = (rawDate = '') => {
     return `${day}.${month}.${date.getFullYear()}`;
 };
 
+/** @namespace Store/Order/Reducer/formatOrders */
 export const formatOrders = orders => orders.reduce((acc, order) => {
     const { base_order_info } = order;
     const { created_at } = base_order_info;

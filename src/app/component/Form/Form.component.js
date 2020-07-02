@@ -187,6 +187,7 @@ export class Form extends ExtensiblePureComponent {
         }, []));
 
         asyncData.then(
+            /** @namespace Component/Form/Component/then */
             (asyncDataList) => {
                 if (!invalidFields.length) {
                     onSubmitSuccess(inputValues, asyncDataList);
@@ -195,6 +196,7 @@ export class Form extends ExtensiblePureComponent {
 
                 onSubmitError(inputValues, invalidFields);
             },
+            /** @namespace Component/Form/Component/then */
             e => onSubmitError(inputValues, invalidFields, e)
         );
     };

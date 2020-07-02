@@ -11,6 +11,7 @@
 
 export const SHOW_POPUP = 'SHOW_POPUP';
 
+/** @namespace Store/Popup/Action/showPopup */
 export const showPopup = (overlayKey, payload) => ({
     type: SHOW_POPUP,
     overlayKey,

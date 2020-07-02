@@ -38,7 +38,9 @@ export class ReviewDispatcher extends ExtensibleClass {
         return fetchMutation(ReviewQuery.getAddProductReviewMutation(
             reviewItem
         )).then(
+            /** @namespace Store/Review/Dispatcher/fetchMutationThen */
             () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
+            /** @namespace Store/Review/Dispatcher/fetchMutationThen */
             // eslint-disable-next-line no-console
             error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
         );

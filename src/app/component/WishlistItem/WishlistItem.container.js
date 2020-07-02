@@ -122,11 +122,19 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
 
         return addProductToCart({ product, quantity })
             .then(
+                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
                 () => this.removeItem(id),
+                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
                 () => this.showNotification('error', __('Error Adding Product To Cart'))
             )
-            .then(() => showNotification('success', __('Product Added To Cart')))
-            .catch(() => this.showNotification('error', __('Error cleaning wishlist')));
+            .then(
+                /** @namespace Component/WishlistItem/Container/addProductToCartThenThen */
+                () => showNotification('success', __('Product Added To Cart'))
+            )
+            .catch(
+                /** @namespace Component/WishlistItem/Container/addProductToCartThenThenCatch */
+                () => this.showNotification('error', __('Error cleaning wishlist'))
+            );
     }
 
     showNotification(...args) {

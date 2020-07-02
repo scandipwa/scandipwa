@@ -265,6 +265,7 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         };
 
         createAccount(customerData).then(
+            /** @namespace Component/MyAccountOverlay/Container/createAccountThen */
             (code) => {
                 // if user needs confirmation
                 if (code === 2) {
@@ -282,10 +283,13 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
 
-        forgotPassword(fields).then(() => {
-            this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
-            this.stopLoading();
-        }, this.stopLoading);
+        forgotPassword(fields).then(
+            /** @namespace Component/MyAccountOverlay/Container/forgotPasswordThen */
+            () => {
+                this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
+                this.stopLoading();
+            }, this.stopLoading
+        );
     }
 
     onForgotPasswordAttempt() {

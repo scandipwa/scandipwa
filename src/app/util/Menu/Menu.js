@@ -20,6 +20,7 @@ export const TYPE_CATEGORY = 2;
  *
  * @param unsortedItems an array of items to be sorted
  * @returns {array} the sorted array
+ * @namespace Util/Menu/getSortedItems
  */
 export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
     { parent_id: PID, position: P },

@@ -20,6 +20,7 @@ export const REMOVE_COUPON_FROM_CART = 'REMOVE_COUPON_FROM_CART';
  * @param  {Array<Object>} items List of products returned from fetch
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
+ * @namespace Store/Cart/Action/addProductToCart
  */
 export const addProductToCart = newProduct => ({
     type: ADD_PRODUCT_TO_CART,
@@ -30,6 +31,7 @@ export const addProductToCart = newProduct => ({
  * Remove specified product from cart
  * @param  {Object} product Product which should be removed
  * @return {void}
+ * @namespace Store/Cart/Action/removeProductFromCart
  */
 export const removeProductFromCart = product => ({
     type: REMOVE_PRODUCT_FROM_CART,
@@ -40,6 +42,7 @@ export const removeProductFromCart = product => ({
  * Update totals block
  * @param  {Object} totals Object of calculated totals
  * @return {void}
+ * @namespace Store/Cart/Action/updateTotals
  */
 export const updateTotals = cartData => ({
     type: UPDATE_TOTALS,
@@ -50,6 +53,7 @@ export const updateTotals = cartData => ({
  * Apply coupon to cart
  * @param  {String} string Coupon code
  * @return {void}
+ * @namespace Store/Cart/Action/applyCouponToCart
  */
 export const applyCouponToCart = couponCode => ({
     type: APPLY_COUPON_TO_CART,
@@ -59,6 +63,7 @@ export const applyCouponToCart = couponCode => ({
 /**
  * Remove coupon from cart
  * @return {void}
+ * @namespace Store/Cart/Action/removeCouponFromCart
  */
 export const removeCouponFromCart = () => ({
     type: REMOVE_COUPON_FROM_CART

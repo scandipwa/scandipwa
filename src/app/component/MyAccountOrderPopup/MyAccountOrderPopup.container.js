@@ -90,12 +90,14 @@ export class MyAccountOrderPopupContainer extends ExtensiblePureComponent {
         const { payload: { order: { base_order_info: { id } } } } = this.props;
 
         fetchQuery(OrderQuery.getOrderByIdQuery(id)).then(
+            /** @namespace Component/MyAccountOrderPopup/Container/fetchQueryThen */
             ({ getOrderById: rawOrder }) => {
                 const { order_products = [] } = rawOrder;
                 const indexedProducts = getIndexedProducts(order_products);
                 const order = { ...rawOrder, order_products: indexedProducts };
                 this.setState({ order, isLoading: false });
             },
+            /** @namespace Component/MyAccountOrderPopup/Container/fetchQueryThen */
             () => {
                 showNotification('error', __('Error getting Order by ID!'));
                 this.setState({ isLoading: false });

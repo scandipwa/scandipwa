@@ -168,8 +168,10 @@ export class AddToCartContainer extends ExtensiblePureComponent {
             product: productToAdd,
             quantity
         }).then(
+            /** @namespace Component/AddToCart/Container/addProductThen */
             () => this._afterAdded()
         ).catch(
+            /** @namespace Component/AddToCart/Container/addProductThenCatch */
             () => this.resetLoading()
         );
     }

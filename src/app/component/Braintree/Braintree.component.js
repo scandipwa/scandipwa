@@ -28,7 +28,10 @@ export class Braintree extends ExtensiblePureComponent {
     componentDidMount() {
         const { init } = this.props;
 
-        init().then(() => this.setState({ isLoading: false }));
+        init().then(
+            /** @namespace Component/Braintree/Component/initThen */
+            () => this.setState({ isLoading: false })
+        );
     }
 
     render() {

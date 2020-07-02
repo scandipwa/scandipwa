@@ -27,8 +27,10 @@ export const getInitialState = () => ({
     isLoading: true
 });
 
+/** @namespace Store/Wishlist/Reducer/deleteProperty */
 export const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
 
+/** @namespace Store/Wishlist/Reducer/removeItemFromWishlist */
 export const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProducts }) => {
     const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
 
@@ -40,6 +42,7 @@ export const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initia
     return { productsInWishlist };
 };
 
+/** @namespace Store/Wishlist/Reducer/clearWishlist */
 export const clearWishlist = () => {
     const productsInWishlist = {};
 
@@ -47,6 +50,7 @@ export const clearWishlist = () => {
     return { productsInWishlist };
 };
 
+/** @namespace Store/Wishlist/Reducer/updateAllProductsInWishlist */
 export const updateAllProductsInWishlist = (action) => {
     const { products: initialProducts } = action;
 
@@ -60,6 +64,7 @@ export const updateAllProductsInWishlist = (action) => {
     return { productsInWishlist: products, isLoading: false };
 };
 
+/** @namespace Store/Wishlist/Reducer/updateItemOptions */
 export const updateItemOptions = (options, { productsInWishlist }) => {
     const { item_id } = options;
     const cleanedOptions = deleteProperty('item_id', options) || {};

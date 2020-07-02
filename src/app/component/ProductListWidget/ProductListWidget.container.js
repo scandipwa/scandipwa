@@ -170,6 +170,7 @@ export class ProductListWidgetContainer extends DataContainer {
     }
 }
 
+/** @namespace Component/ProductListWidget/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 

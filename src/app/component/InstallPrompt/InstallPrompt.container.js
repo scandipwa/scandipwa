@@ -41,14 +41,17 @@ export class InstallPromptContainer extends ExtensiblePureComponent {
         this.installPromptEvent.prompt();
 
         // Wait for the user to respond to the prompt
-        this.installPromptEvent.userChoice.then((choice) => {
-            if (choice.outcome === 'accepted') {
-                this.setState({ isBannerClosed: true });
-            }
+        this.installPromptEvent.userChoice.then(
+            /** @namespace Component/InstallPrompt/Container/then */
+            (choice) => {
+                if (choice.outcome === 'accepted') {
+                    this.setState({ isBannerClosed: true });
+                }
 
-            // Clear the saved prompt since it can't be used again
-            this.installPromptEvent = null;
-        });
+                // Clear the saved prompt since it can't be used again
+                this.installPromptEvent = null;
+            }
+        );
     }
 
     handleBannerClose() {

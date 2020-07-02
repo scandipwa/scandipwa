@@ -116,22 +116,25 @@ export class ProductReviewFormContainer extends ExtensiblePureComponent {
                 detail,
                 product_sku,
                 rating_data
-            }).then((success) => {
-                if (success) {
-                    this.setState({
-                        ratingData: {},
-                        reviewData: {},
-                        isLoading: false
-                    });
+            }).then(
+                /** @namespace Component/ProductReviewForm/Container/addReviewThen */
+                (success) => {
+                    if (success) {
+                        this.setState({
+                            ratingData: {},
+                            reviewData: {},
+                            isLoading: false
+                        });
 
-                    goToPreviousHeaderState();
-                    hideActiveOverlay();
+                        goToPreviousHeaderState();
+                        hideActiveOverlay();
 
-                    return;
+                        return;
+                    }
+
+                    this.setState({ isLoading: false });
                 }
-
-                this.setState({ isLoading: false });
-            });
+            );
         }
     }
 

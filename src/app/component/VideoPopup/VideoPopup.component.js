@@ -37,10 +37,16 @@ export class VideoPopup extends ExtensiblePureComponent {
 
     componentDidMount() {
         this.loadVimeoLibrary()
-            .then(() => this.forceUpdate());
+            .then(
+                /** @namespace Component/VideoPopup/Component/loadVimeoLibraryThen */
+                () => this.forceUpdate()
+            );
 
         this.loadYoutubeLibrary()
-            .then(() => this.forceUpdate());
+            .then(
+                /** @namespace Component/VideoPopup/Component/loadYoutubeLibraryThen */
+                () => this.forceUpdate()
+            );
     }
 
     /**

@@ -15,6 +15,7 @@ export const UPDATE_NOMATCH = 'UPDATE_NOMATCH';
  * Update router to show NoMatch page
  * @param  {Boolean} noMatch New noMatch value
  * @return {void}
+ * @namespace Store/NoMatch/Action/updateNoMatch
  */
 export const updateNoMatch = noMatch => ({
     type: UPDATE_NOMATCH,

@@ -15,6 +15,7 @@ export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
  * Update Current Category
  * @param {String} categoryUrlPath url path Main Category object
  * @return {void}
+ * @namespace Store/Category/Action/updateCurrentCategory
  */
 export const updateCurrentCategory = category => ({
     type: UPDATE_CURRENT_CATEGORY,

@@ -62,6 +62,7 @@ export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
         this.setState({ isLoading: true });
 
         return moveWishlistToCart().then(
+            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart')
         );
     };
@@ -72,6 +73,7 @@ export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
         this.setState({ isLoading: true });
 
         return clearWishlist().then(
+            /** @namespace Component/MyAccountMyWishlist/Container/clearWishlistThen */
             () => this.showNotificationAndRemoveLoading('Wishlist cleared')
         );
     };

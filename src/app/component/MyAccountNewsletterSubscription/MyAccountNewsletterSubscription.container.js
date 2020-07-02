@@ -67,6 +67,7 @@ export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComp
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
+            /** @namespace Component/MyAccountNewsletterSubscription/Container/fetchMutationThen */
             ({ updateCustomer: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
 

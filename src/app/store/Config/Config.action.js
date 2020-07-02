@@ -10,6 +10,7 @@
  */
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 
+/** @namespace Store/Config/Action/updateConfig */
 export const updateConfig = config => ({
     type: UPDATE_CONFIG,
     config

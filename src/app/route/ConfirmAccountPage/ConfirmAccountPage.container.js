@@ -87,9 +87,18 @@ export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
         const { email } = options;
 
         confirmAccount({ ...options, password })
-            .then(() => signIn({ email, password }))
-            .then(() => this.setState({ redirect: true }))
-            .catch(() => this.setState({ isLoading: false }));
+            .then(
+                /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThen */
+                () => signIn({ email, password })
+            )
+            .then(
+                /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThenThen */
+                () => this.setState({ redirect: true })
+            )
+            .catch(
+                /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThenThenCatch */
+                () => this.setState({ isLoading: false })
+            );
     }
 
     onFormError() {

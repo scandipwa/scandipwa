@@ -45,6 +45,7 @@ export class CartCouponContainer extends ExtensiblePureComponent {
         this.setState({ isLoading: true });
 
         applyCouponToCart(couponCode).then(
+            /** @namespace Component/CartCoupon/Container/applyCouponToCartThen */
             () => this.setState({ isLoading: false })
         );
     }
@@ -55,6 +56,7 @@ export class CartCouponContainer extends ExtensiblePureComponent {
         this.setState({ isLoading: true });
 
         removeCouponFromCart().then(
+            /** @namespace Component/CartCoupon/Container/removeCouponFromCartThen */
             () => this.setState({ isLoading: false })
         );
     }

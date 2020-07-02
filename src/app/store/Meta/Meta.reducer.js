@@ -18,6 +18,7 @@ export const updateEveryTime = [
     'canonical_url'
 ];
 
+/** @namespace Store/Meta/Reducer/filterData */
 export const filterData = (data) => {
     const updated = updateEveryTime.reduce((acc, key) => {
         acc[key] = data[key];

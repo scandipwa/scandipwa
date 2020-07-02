@@ -19,6 +19,7 @@ import Image from 'Component/Image/Image.container';
 /**
  * VideoThumbnail component
  * @class VideoThumbnail
+ * @namespace Component/VideoThumbnail/Component/videoThumbnail
  */
 export class VideoThumbnail extends ExtensiblePureComponent {
     static propTypes = {

@@ -66,12 +66,15 @@ export class MyAccountAddressPopupContainer extends ExtensiblePureComponent {
             goToPreviousHeaderState
         } = this.props;
 
-        updateCustomerDetails().then(() => {
-            this.setState({ isLoading: false }, () => {
-                hideActiveOverlay();
-                goToPreviousHeaderState();
-            });
-        }, showErrorNotification);
+        updateCustomerDetails().then(
+            /** @namespace Component/MyAccountAddressPopup/Container/updateCustomerDetailsThen */
+            () => {
+                this.setState({ isLoading: false }, () => {
+                    hideActiveOverlay();
+                    goToPreviousHeaderState();
+                });
+            }, showErrorNotification
+        );
     };
 
     handleError = (error) => {

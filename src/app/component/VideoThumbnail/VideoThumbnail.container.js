@@ -23,6 +23,7 @@ export const mapDispatchToProps = dispatch => ({
 
 /**
  * @class VideoThumbnailContainer
+ * @namespace Component/VideoThumbnail/Container/videoThumbnailContainer
  */
 export class VideoThumbnailContainer extends ExtensiblePureComponent {
     static propTypes = {

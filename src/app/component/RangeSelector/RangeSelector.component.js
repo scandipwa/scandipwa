@@ -17,6 +17,7 @@ import './RangeSelector.style';
 /**
  * Product Sort
  * @class ProductSort
+ * @namespace Component/RangeSelector/Component/rangeSelector
  */
 export class RangeSelector extends ExtensiblePureComponent {
     static propTypes = {

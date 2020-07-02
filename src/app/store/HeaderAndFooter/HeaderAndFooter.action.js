@@ -12,11 +12,13 @@
 export const UPDATE_MENU = 'UPDATE_MENU';
 export const TOGGLE_HEADER_AND_FOOTER = 'TOGGLE_HEADER_AND_FOOTER';
 
+/** @namespace Store/HeaderAndFooter/Action/updateMenu */
 export const updateMenu = menu => ({
     type: UPDATE_MENU,
     menu
 });
 
+/** @namespace Store/HeaderAndFooter/Action/toggleHeaderAndFooter */
 export const toggleHeaderAndFooter = isHeaderAndFooterVisible => ({
     type: TOGGLE_HEADER_AND_FOOTER,
     isHeaderAndFooterVisible

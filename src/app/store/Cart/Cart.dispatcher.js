@@ -38,16 +38,21 @@ export class CartDispatcher extends ExtensibleClass {
         } else {
             // This is guest, cart is empty
             // Need to create empty cart and save quote
-            this._createEmptyCart(dispatch).then((data) => {
-                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                this._updateCartData({}, dispatch);
-            });
+            this._createEmptyCart(dispatch).then(
+                /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
+                (data) => {
+                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                    this._updateCartData({}, dispatch);
+                }
+            );
         }
     }
 
     _createEmptyCart(dispatch) {
         return fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ createEmptyCart }) => createEmptyCart,
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -58,10 +63,13 @@ export class CartDispatcher extends ExtensibleClass {
 
     handle_syncCartWithBEError(dispatch) {
         return this._createEmptyCart(dispatch)
-            .then((data) => {
-                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                this._updateCartData({}, dispatch);
-            });
+            .then(
+                /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
+                (data) => {
+                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                    this._updateCartData({}, dispatch);
+                }
+            );
     }
 
     _syncCartWithBE(dispatch) {
@@ -69,7 +77,9 @@ export class CartDispatcher extends ExtensibleClass {
         fetchQuery(CartQuery.getCartQuery(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
+            /** @namespace Store/Cart/Dispatcher/fetchQueryThen */
             result => this.handle_syncCartWithBESuccess(dispatch, result),
+            /** @namespace Store/Cart/Dispatcher/fetchQueryThen */
             error => this.handle_syncCartWithBEError(dispatch, error)
         );
     }
@@ -86,16 +96,21 @@ export class CartDispatcher extends ExtensibleClass {
             { sku, item_id, quantity },
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             (error) => {
                 const [{ debugMessage = '' }] = error || [{}];
 
                 if (debugMessage.match('No such entity with cartId ')) {
-                    return this._createEmptyCart(dispatch).then((data) => {
-                        BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                        this._updateCartData({}, dispatch);
-                        return this.changeItemQty(dispatch, options, tries + 1);
-                    });
+                    return this._createEmptyCart(dispatch).then(
+                        /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
+                        (data) => {
+                            BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                            this._updateCartData({}, dispatch);
+                            return this.changeItemQty(dispatch, options, tries + 1);
+                        }
+                    );
                 }
 
                 dispatch(showNotification('error', error[0].message));
@@ -119,7 +134,9 @@ export class CartDispatcher extends ExtensibleClass {
             return fetchMutation(CartQuery.getSaveCartItemMutation(
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
+                /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
                 ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
+                /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
                 ([{ message }]) => {
                     dispatch(showNotification('error', message));
                     return Promise.reject();
@@ -135,7 +152,9 @@ export class CartDispatcher extends ExtensibleClass {
             item_id,
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -144,10 +163,12 @@ export class CartDispatcher extends ExtensibleClass {
         return fetchMutation(CartQuery.getApplyCouponMutation(
             couponCode, !isSignedIn() && this._getGuestQuoteId()
         )).then(
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ applyCoupon: { cartData } }) => {
                 this._updateCartData(cartData, dispatch);
                 dispatch(showNotification('success', __('Coupon was applied!')));
             },
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -156,10 +177,12 @@ export class CartDispatcher extends ExtensibleClass {
         return fetchMutation(CartQuery.getRemoveCouponMutation(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ removeCoupon: { cartData } }) => {
                 this._updateCartData(cartData, dispatch);
                 dispatch(showNotification('success', __('Coupon was removed!')));
             },
+            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             error => dispatch(showNotification('error', error[0].message))
         );
     }

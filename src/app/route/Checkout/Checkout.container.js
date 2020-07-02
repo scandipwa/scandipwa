@@ -159,6 +159,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
             address,
             this._getGuestCartId()
         )).then(
+            /** @namespace Route/Checkout/Container/fetchMutationThen */
             ({ estimateShippingCosts: shippingMethods }) => {
                 const { requestsSent } = this.state;
 
@@ -262,6 +263,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
             this._getGuestCartId()
         )).then(
+            /** @namespace Route/Checkout/Container/fetchQueryThen */
             ({ getPaymentMethods: paymentMethods }) => {
                 this.setState({ isLoading: false, paymentMethods });
             },
@@ -284,6 +286,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
         return fetchMutation(mutation).then(
+            /** @namespace Route/Checkout/Container/fetchMutationThen */
             ({ setGuestEmailOnCart: data }) => {
                 if (data) {
                     this.setState({ isGuestEmailSaved: true });
@@ -356,6 +359,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
             addressInformation,
             this._getGuestCartId()
         )).then(
+            /** @namespace Route/Checkout/Container/fetchMutationThen */
             ({ saveAddressInformation: data }) => {
                 const { payment_methods, totals } = data;
 

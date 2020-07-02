@@ -15,6 +15,7 @@ import { UPDATE_TOTALS } from './Cart.action';
 
 export const CART_TOTALS = 'cart_totals';
 
+/** @namespace Store/Cart/Reducer/updateCartTotals */
 export const updateCartTotals = (action) => {
     const { cartData: cartTotals } = action;
 

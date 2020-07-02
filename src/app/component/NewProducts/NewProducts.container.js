@@ -125,8 +125,14 @@ export class NewProductsContainer extends ExtensiblePureComponent {
 
         const query = [ProductListQuery.getQuery(options)];
         executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
-            .then(({ products: { items } }) => this.setState({ products: getIndexedProducts(items) }))
-            .catch(e => showNotification('error', 'Error fetching NewProducts!', e));
+            .then(
+                /** @namespace Component/NewProducts/Container/executeGetThen */
+                ({ products: { items } }) => this.setState({ products: getIndexedProducts(items) })
+            )
+            .catch(
+                /** @namespace Component/NewProducts/Container/executeGetThenCatch */
+                e => showNotification('error', 'Error fetching NewProducts!', e)
+            );
     }
 
     render = () => <NewProducts { ...this.props } { ...this.state } />;

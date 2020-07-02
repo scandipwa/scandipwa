@@ -16,6 +16,7 @@ export const SET_BIG_OFFLINE_NOTICE = 'SET_BIG_OFFLINE_NOTICE';
  * Show offline notice.
  * @param  {boolean} msgType
  * @return {void}
+ * @namespace Store/Offline/Action/showOfflineNotice
  */
 export const showOfflineNotice = isOffline => ({
     type: SHOW_OFFLINE_NOTICE,
@@ -26,6 +27,7 @@ export const showOfflineNotice = isOffline => ({
  * Set offline notice size to big.
  * @param  {boolean} isBig
  * @return {void}
+ * @namespace Store/Offline/Action/setBigOfflineNotice
  */
 export const setBigOfflineNotice = isBig => ({
     type: SET_BIG_OFFLINE_NOTICE,

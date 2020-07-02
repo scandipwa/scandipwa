@@ -34,7 +34,10 @@ export class Braintree extends ExtensibleClass {
 
     requestBraintreeClientToken() {
         const mutation = (new Field('createBraintreeClientToken')).setAlias('token');
-        return fetchMutation(mutation).then(({ token }) => token);
+        return fetchMutation(mutation).then(
+            /** @namespace Util/Braintree/fetchMutationThen */
+            ({ token }) => token
+        );
     }
 
     requestPaymentNonce = () => this.braintreeDropIn.requestPaymentMethod();

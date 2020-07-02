@@ -17,6 +17,7 @@ export const getInitialState = () => ({
     formattedConfigurableOptions: {}
 });
 
+/** @namespace Store/Product/Reducer/formatConfigurableOptions */
 export const formatConfigurableOptions = configurable_options => configurable_options
     .reduce((prev, option) => {
         const {

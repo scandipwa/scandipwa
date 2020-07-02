@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+/** @namespace Util/Address/trimCustomerAddress */
 export const trimCustomerAddress = (customerAddress) => {
     const {
         city,
@@ -39,6 +40,7 @@ export const trimCustomerAddress = (customerAddress) => {
     };
 };
 
+/** @namespace Util/Address/trimAddressFields */
 export const trimAddressFields = (fields) => {
     const {
         region_string: region,

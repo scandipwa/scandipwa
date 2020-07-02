@@ -47,10 +47,12 @@ export class MyAccountDispatcher extends ExtensibleClass {
         }
 
         return executePost(prepareQuery([query])).then(
+            /** @namespace Store/MyAccount/Dispatcher/executePostThen */
             ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
+            /** @namespace Store/MyAccount/Dispatcher/executePostThen */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -74,7 +76,9 @@ export class MyAccountDispatcher extends ExtensibleClass {
     forgotPassword(options = {}, dispatch) {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
         return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             () => dispatch(updateCustomerPasswordForgotStatus()),
+            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -89,7 +93,9 @@ export class MyAccountDispatcher extends ExtensibleClass {
         const mutation = MyAccountQuery.getResetPasswordMutation(options);
 
         return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
     }
@@ -104,6 +110,7 @@ export class MyAccountDispatcher extends ExtensibleClass {
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
         return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             (data) => {
                 const { createCustomer: { customer } } = data;
                 const { confirmation_required } = customer;
@@ -114,6 +121,7 @@ export class MyAccountDispatcher extends ExtensibleClass {
 
                 return this.signIn({ email, password }, dispatch);
             },
+            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             (error) => {
                 dispatch(showNotification('error', error[0].message));
                 Promise.reject();
@@ -132,7 +140,9 @@ export class MyAccountDispatcher extends ExtensibleClass {
         const mutation = MyAccountQuery.getConfirmAccountMutation(options);
 
         return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             () => dispatch(showNotification('success', __('Your account is confirmed!'))),
+            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
         );
     }

@@ -14,6 +14,7 @@ import {
     UPDATE_INFO_LOAD_STATUS
 } from 'Store/ProductListInfo';
 
+/** @namespace Store/ProductListInfo/Reducer/reduceFilters */
 export const reduceFilters = filters => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,

@@ -20,9 +20,11 @@ export class OrderDispatcher extends ExtensibleClass {
         const query = OrderQuery.getOrderListQuery();
 
         return fetchQuery(query).then(
+            /** @namespace Store/Order/Dispatcher/fetchQueryThen */
             ({ getOrderList: orders }) => {
                 dispatch(getOrderList(orders, false));
             },
+            /** @namespace Store/Order/Dispatcher/fetchQueryThen */
             error => dispatch(showNotification('error', error[0].message))
         );
     }

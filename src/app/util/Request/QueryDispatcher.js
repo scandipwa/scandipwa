@@ -61,18 +61,23 @@ export class QueryDispatcher extends ExtensibleClass {
             new Promise((resolve, reject) => {
                 executeGet(prepareQuery(queries), name, cacheTTL)
                     .then(
+                        /** @namespace Util/Request/executeGetThen */
                         data => resolve(data),
+                        /** @namespace Util/Request/executeGetThen */
                         error => reject(error)
                     );
             })
         );
 
         this.promise.promise.then(
+            /** @namespace Util/Request/then */
             data => this.onSuccess(data, dispatch, options),
+            /** @namespace Util/Request/then */
             error => this.onError(error, dispatch, options),
         );
 
         listenForBroadCast(name).then(
+            /** @namespace Util/Request/listenForBroadCastThen */
             data => this.onUpdate(data, dispatch, options),
         );
     }
