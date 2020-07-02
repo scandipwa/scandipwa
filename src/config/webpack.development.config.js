@@ -21,7 +21,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
-const FallbackPlugin = require('./Extensibility/FallbackPlugin');
+const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 
 const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');

@@ -17,7 +17,7 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 const webpack = require('webpack');
 
 const { getBabelConfig } = require('./babel.config');
-const FallbackPlugin = require('./Extensibility/FallbackPlugin');
+const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
