@@ -16,6 +16,7 @@ import './Loader.style';
  * Loader component
  * Loaders overlay to identify loading
  * @class Loader
+ * @namespace Component/Loader/Component
  */
 export class Loader extends ExtensiblePureComponent {
     static propTypes = {
@@ -39,4 +40,4 @@ export class Loader extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Loader, 'Component/Loader/Component');
+export default Loader;

@@ -19,6 +19,7 @@ export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
  * @param {Number} minPrice Minimal products price returned from fetch
  * @param {Number} maxPrice Maximal products price returned from fetch
  * @param {Number} currentPage Number of requested page
+ * @namespace Store/ProductList/Action/appendPage
  */
 export const appendPage = (items, currentPage) => ({
     type: APPEND_PAGE,
@@ -32,6 +33,7 @@ export const appendPage = (items, currentPage) => ({
  * @param {Number} currentPage Number of requested page
  * @param {Number} total_count Number of requested page
  * @return {void}
+ * @namespace Store/ProductList/Action/updateProductListItems
  */
 export const updateProductListItems = (items, currentPage, total_count, total_pages) => ({
     type: UPDATE_PRODUCT_LIST_ITEMS,
@@ -45,6 +47,7 @@ export const updateProductListItems = (items, currentPage, total_count, total_pa
  * Update loading status
  * @param {Boolean} status Loading indication boolean
  * @return {void}
+ * @namespace Store/ProductList/Action/updateLoadStatus
  */
 export const updateLoadStatus = status => ({
     type: UPDATE_LOAD_STATUS,

@@ -13,6 +13,7 @@ import { Field } from 'Util/Query';
 /**
  * UrlRewrites Query
  * @class UrlRewritesQuery
+ * @namespace Query/UrlRewrites
  */
 export class UrlRewritesQuery extends ExtensibleClass {
     getQuery({ urlParam }) {
@@ -31,4 +32,4 @@ export class UrlRewritesQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(UrlRewritesQuery, 'Query/UrlRewrites'))();
+export default new (UrlRewritesQuery)();

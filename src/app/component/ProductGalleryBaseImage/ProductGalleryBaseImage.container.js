@@ -21,6 +21,7 @@ export const TRANSFORMATION_DELAY = 0;
 export const TRANSFORMATION_SPEED = 0;
 export const INITIAL_SCALE = 1;
 
+/** @namespace Component/ProductGalleryBaseImage/Container */
 export class ProductGalleryBaseImageContainer extends ExtensibleComponent {
     static propTypes = {
         disableZoom: PropTypes.func.isRequired,
@@ -109,5 +110,5 @@ export class ProductGalleryBaseImageContainer extends ExtensibleComponent {
 }
 
 export default withRouter(
-    middleware(ProductGalleryBaseImageContainer, 'Component/ProductGalleryBaseImage/Container')
+    ProductGalleryBaseImageContainer
 );

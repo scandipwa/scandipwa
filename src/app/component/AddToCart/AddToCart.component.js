@@ -17,6 +17,7 @@ import './AddToCart.style';
 /**
  * Button for adding product to Cart
  * @class AddToCart
+ * @namespace Component/AddToCart/Component
  */
 export class AddToCart extends ExtensiblePureComponent {
     static propTypes = {
@@ -70,4 +71,4 @@ export class AddToCart extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(AddToCart, 'Component/AddToCart/Component');
+export default AddToCart;

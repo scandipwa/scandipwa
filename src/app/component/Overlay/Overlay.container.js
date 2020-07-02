@@ -12,15 +12,14 @@
 import { connect } from 'react-redux';
 import OverlayComponent from './Overlay.component';
 
+/** @namespace Component/Overlay/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen
 });
 
+/** @namespace Component/Overlay/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/Overlay/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/Overlay/Container/mapDispatchToProps')
-)(OverlayComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(OverlayComponent);

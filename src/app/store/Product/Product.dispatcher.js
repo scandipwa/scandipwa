@@ -19,6 +19,7 @@ import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
  * Product List Dispatcher
  * @class ProductDispatcher
  * @extends ProductDispatcher
+ * @namespace Store/Product/Dispatcher
  */
 export class ProductDispatcher extends QueryDispatcher {
     constructor() {
@@ -86,4 +87,4 @@ export class ProductDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(ProductDispatcher, 'Store/Product/Dispatcher'))();
+export default new (ProductDispatcher)();

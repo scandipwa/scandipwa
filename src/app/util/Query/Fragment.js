@@ -11,6 +11,7 @@
 
 import Field from 'Util/Query/Field';
 
+/** @namespace Util/Query/Fragment */
 export class Fragment extends Field {
     /**
      * Creates an instance of Fragment.
@@ -47,4 +48,4 @@ export class Fragment extends Field {
     }
 }
 
-export default middleware(Fragment, 'Util/Query/Fragment');
+export default Fragment;

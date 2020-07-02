@@ -14,6 +14,7 @@ import {
     UPDATE_INFO_LOAD_STATUS
 } from 'Store/ProductListInfo';
 
+/** @namespace Store/ProductListInfo/Reducer/reduceFilters */
 export const reduceFilters = filters => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
@@ -58,6 +59,7 @@ export const reduceFilters = filters => filters.reduce((co, item) => {
     };
 }, {});
 
+/** @namespace Store/ProductListInfo/Reducer/getInitialState */
 export const getInitialState = () => ({
     minPrice: 0,
     maxPrice: 0,
@@ -66,8 +68,9 @@ export const getInitialState = () => ({
     isLoading: true
 });
 
+/** @namespace Store/ProductListInfo/Reducer */
 export const ProductListReducer = (
-    state = middleware(getInitialState, 'Store/ProductListInfo/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const {
@@ -103,4 +106,4 @@ export const ProductListReducer = (
     }
 };
 
-export default middleware(ProductListReducer, 'Store/ProductListInfo/Reducer');
+export default ProductListReducer;

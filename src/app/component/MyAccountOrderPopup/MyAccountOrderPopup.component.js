@@ -22,6 +22,7 @@ import './MyAccountOrderPopup.style';
 
 export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
 
+/** @namespace Component/MyAccountOrderPopup/Component */
 export class MyAccountOrderPopup extends ExtensiblePureComponent {
     static propTypes = {
         order: orderType.isRequired,
@@ -227,4 +228,4 @@ export class MyAccountOrderPopup extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(MyAccountOrderPopup, 'Component/MyAccountOrderPopup/Component');
+export default MyAccountOrderPopup;

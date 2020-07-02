@@ -23,12 +23,14 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
+/** @namespace Component/ProductReviewForm/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 
+/** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     addReview: options => ReviewDispatcher.submitProductReview(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
@@ -36,6 +38,7 @@ export const mapDispatchToProps = dispatch => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
+/** @namespace Component/ProductReviewForm/Container */
 export class ProductReviewFormContainer extends ExtensiblePureComponent {
     static propTypes = {
         showNotification: PropTypes.func.isRequired,
@@ -113,22 +116,25 @@ export class ProductReviewFormContainer extends ExtensiblePureComponent {
                 detail,
                 product_sku,
                 rating_data
-            }).then((success) => {
-                if (success) {
-                    this.setState({
-                        ratingData: {},
-                        reviewData: {},
-                        isLoading: false
-                    });
+            }).then(
+                /** @namespace Component/ProductReviewForm/Container/addReviewThen */
+                (success) => {
+                    if (success) {
+                        this.setState({
+                            ratingData: {},
+                            reviewData: {},
+                            isLoading: false
+                        });
 
-                    goToPreviousHeaderState();
-                    hideActiveOverlay();
+                        goToPreviousHeaderState();
+                        hideActiveOverlay();
 
-                    return;
+                        return;
+                    }
+
+                    this.setState({ isLoading: false });
                 }
-
-                this.setState({ isLoading: false });
-            });
+            );
         }
     }
 
@@ -155,9 +161,4 @@ export class ProductReviewFormContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/ProductReviewForm/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/ProductReviewForm/Container/mapDispatchToProps')
-)(
-    middleware(ProductReviewFormContainer, 'Component/ProductReviewForm/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductReviewFormContainer);

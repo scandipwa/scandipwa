@@ -14,6 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * Email availability check Query
  * @class CheckEmailQuery
+ * @namespace Query/CheckEmail
  */
 export class CheckEmailQuery extends ExtensibleClass {
     getIsEmailAvailableQuery(email) {
@@ -25,4 +26,4 @@ export class CheckEmailQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(CheckEmailQuery, 'Query/CheckEmail'))();
+export default new (CheckEmailQuery)();

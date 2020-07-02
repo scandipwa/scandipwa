@@ -17,9 +17,10 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 const webpack = require('webpack');
 
 const { getBabelConfig } = require('./babel.config');
-const FallbackPlugin = require('./Extensibility/FallbackPlugin');
+const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
 const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const parentRoot = parentTheme
@@ -60,7 +61,11 @@ module.exports = (_, options) => {
             ],
             plugins: [
                 new FallbackPlugin({
-                    fallbackRoot, projectRoot, parentRoot
+                    projectRoot,
+                    fallbackRoot,
+                    fallbackThemeSpecifier,
+                    parentRoot,
+                    parentThemeSpecifier: parentTheme
                 })
             ]
         },

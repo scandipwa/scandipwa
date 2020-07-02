@@ -12,6 +12,7 @@
 import { Field } from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
 
+/** @namespace Query/Checkout */
 export class CheckoutQuery extends ExtensibleClass {
     getPaymentMethodsQuery(guestCartId) {
         const query = new Field('getPaymentMethods')
@@ -190,4 +191,4 @@ export class CheckoutQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(CheckoutQuery, 'Query/Checkout'))();
+export default new (CheckoutQuery)();

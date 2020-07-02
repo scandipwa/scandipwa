@@ -20,6 +20,7 @@ import './SliderWidget.style';
 /**
  * Homepage slider
  * @class SliderWidget
+ * @namespace Component/SliderWidget/Component
  */
 export class SliderWidget extends ExtensiblePureComponent {
     static propTypes = {
@@ -111,4 +112,4 @@ export class SliderWidget extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(SliderWidget, 'Component/SliderWidget/Component');
+export default SliderWidget;

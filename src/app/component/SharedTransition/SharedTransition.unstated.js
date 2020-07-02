@@ -18,6 +18,7 @@ export const sharedTransitionInitialState = {
     startingPosition: {}
 };
 
+/** @namespace Component/SharedTransition/Unstated */
 export class SharedTransitionUnstated extends ExtensibleUnstatedContainer {
     state = sharedTransitionInitialState;
 
@@ -56,4 +57,4 @@ export class SharedTransitionUnstated extends ExtensibleUnstatedContainer {
     };
 }
 
-export default new (middleware(SharedTransitionUnstated, 'Component/SharedTransition/Unstated'))();
+export default new (SharedTransitionUnstated)();

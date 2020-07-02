@@ -16,6 +16,7 @@ export const UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS';
  * @param  {Array<Object>} items List of products returned from fetch
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
+ * @namespace Store/Product/Action/updateProductDetails
  */
 export const updateProductDetails = product => ({
     type: UPDATE_PRODUCT_DETAILS,

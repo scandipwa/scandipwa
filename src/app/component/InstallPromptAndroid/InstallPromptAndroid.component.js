@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import './InstallPromptAndroid.style';
 
+/** @namespace Component/InstallPromptAndroid/Component */
 export class InstallPromptAndroid extends ExtensiblePureComponent {
     static propTypes = {
         handleBannerClose: PropTypes.func.isRequired,
@@ -54,4 +55,4 @@ export class InstallPromptAndroid extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(InstallPromptAndroid, 'Component/InstallPromptAndroid/Component');
+export default InstallPromptAndroid;

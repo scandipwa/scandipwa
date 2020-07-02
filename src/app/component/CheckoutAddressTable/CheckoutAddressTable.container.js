@@ -19,6 +19,7 @@ import {
 
 import CheckoutAddressTable from './CheckoutAddressTable.component';
 
+/** @namespace Component/CheckoutAddressTable/Container */
 export class CheckoutAddressTableContainer extends MyAccountAddressTableContainer {
     render() {
         return (
@@ -30,9 +31,4 @@ export class CheckoutAddressTableContainer extends MyAccountAddressTableContaine
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Compnent/CheckoutAddressTable/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Compnent/CheckoutAddressTable/Container/mapDispatchToProps')
-)(
-    middleware(CheckoutAddressTableContainer, 'Component/CheckoutAddressTable/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressTableContainer);

@@ -16,13 +16,15 @@ import {
     HIDE_ACTIVE_OVERLAY
 } from './Overlay.action';
 
+/** @namespace Store/Overlay/Reducer/getInitialState */
 export const getInitialState = () => ({
     activeOverlay: '',
     areOtherOverlaysOpen: false
 });
 
+/** @namespace Store/Overlay/Reducer */
 export const OverlayReducer = (
-    state = middleware(getInitialState, 'Store/Overlay/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const { overlayKey } = action;
@@ -54,4 +56,4 @@ export const OverlayReducer = (
     }
 };
 
-export default middleware(OverlayReducer, 'Store/Overlay/Reducer');
+export default OverlayReducer;

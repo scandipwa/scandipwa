@@ -15,6 +15,7 @@ import { showNotification } from 'Store/Notification';
 import { updateMenu } from 'Store/HeaderAndFooter';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
 
+/** @namespace Store/HeaderAndFooter/Dispatcher */
 export class HeaderAndFooterDispatcher extends QueryDispatcher {
     constructor() {
         super('HeaderAndFooter');
@@ -46,4 +47,4 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(HeaderAndFooterDispatcher, 'Store/HeaderAndFooter/Dispatcher'))();
+export default new (HeaderAndFooterDispatcher)();

@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import './ResetButton.style';
 
+/** @namespace Component/ResetButton/Component */
 export class ResetButton extends ExtensiblePureComponent {
     static propTypes = {
         mix: MixType,
@@ -60,4 +61,4 @@ export class ResetButton extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ResetButton, 'Component/ResetButton/Component');
+export default ResetButton;

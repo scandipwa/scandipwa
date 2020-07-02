@@ -12,14 +12,13 @@
 import { connect } from 'react-redux';
 import VideoPopup, { VIDEO_POPUP_ID } from './VideoPopup.component';
 
+/** @namespace Component/VideoPopup/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     payload: state.PopupReducer.popupPayload[VIDEO_POPUP_ID] || {}
 });
 
+/** @namespace Component/VideoPopup/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/VideoPopup/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/VideoPopup/Container/mapDispatchToProps')
-)(VideoPopup);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoPopup);

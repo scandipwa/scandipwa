@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Meta from './Meta.component';
 
+/** @namespace Component/Meta/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     default_description: state.MetaReducer.default_description,
     default_keywords: state.MetaReducer.default_keywords,
@@ -16,6 +17,7 @@ export const mapStateToProps = state => ({
     title: state.MetaReducer.title
 });
 
+/** @namespace Component/Meta/Container */
 export class MetaContainer extends ExtensiblePureComponent {
     static propTypes = {
         default_description: PropTypes.string,
@@ -91,12 +93,8 @@ export class MetaContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @namespace Component/Meta/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/Meta/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/Meta/Container/mapDispatchToProps')
-)(
-    middleware(MetaContainer, 'Component/Meta/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MetaContainer);

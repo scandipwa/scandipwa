@@ -14,6 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * Slider Query
  * @class Slider
+ * @namespace Query/Slider
  */
 export class SliderQuery extends ExtensibleClass {
     getQuery(options) {
@@ -50,4 +51,4 @@ export class SliderQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(SliderQuery, 'Query/Slider'))();
+export default new (SliderQuery)();

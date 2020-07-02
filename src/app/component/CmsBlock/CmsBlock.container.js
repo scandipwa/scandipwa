@@ -13,10 +13,12 @@ import { connect } from 'react-redux';
 import { BlockListType } from 'Type/CMS';
 import CmsBlock from './CmsBlock.component';
 
+/** @namespace Component/CmsBlock/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     blocks: state.CmsBlocksAndSliderReducer.blocks
 });
 
+/** @namespace Component/CmsBlock/Container */
 export class CmsBlockContainer extends ExtensiblePureComponent {
     constructor(props) {
         super(props);
@@ -50,12 +52,8 @@ CmsBlockContainer.propTypes = {
     blocks: BlockListType.isRequired
 };
 
+/** @namespace Component/CmsBlock/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CmsBlock/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CmsBlock/Container/mapDispatchToProps')
-)(
-    middleware(CmsBlockContainer, 'Component/CmsBlock/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CmsBlockContainer);

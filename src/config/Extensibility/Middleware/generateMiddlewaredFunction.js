@@ -9,19 +9,19 @@ const getWrapperFromPlugin = require('./getWrapperFromPlugin');
  */
 module.exports = (origMember = () => {}, sortedPlugins, origContext) => {
     return function (...args) {
-        const starter = typeof origMember === 'function'
-            ? (...originalArgs) => origMember.apply(origContext, originalArgs)
-            : origMember;
-
         const newMember = sortedPlugins.reduce(
             (acc, plugin) => () => {
                 const wrapper = getWrapperFromPlugin(plugin, origMember.name);
 
                 return typeof origMember === 'object'
                     ? wrapper(acc, origContext)
-                    : wrapper(args, acc, origContext);
+                    : wrapper(
+                        args,
+                        acc.bind(origContext),
+                        origContext
+                    );
             },
-            starter
+            origMember
         );
 
         return newMember(args);

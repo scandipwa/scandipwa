@@ -11,6 +11,7 @@
 
 export const GET_ORDER_LIST = 'GET_ORDER_LIST';
 
+/** @namespace Store/Order/Action/getOrderList */
 export const getOrderList = (orderList, status) => ({
     type: GET_ORDER_LIST,
     orderList,

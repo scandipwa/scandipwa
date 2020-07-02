@@ -13,12 +13,14 @@ import {
     UPDATE_NOMATCH
 } from './NoMatch.action';
 
+/** @namespace Store/NoMatch/Reducer/getInitialState */
 export const getInitialState = () => ({
     noMatch: false
 });
 
+/** @namespace Store/NoMatch/Reducer */
 export const NoMatchReducer = (
-    state = middleware(getInitialState, 'Store/NoMatch/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     switch (action.type) {
@@ -32,4 +34,4 @@ export const NoMatchReducer = (
     }
 };
 
-export default middleware(NoMatchReducer, 'Store/NoMatch/Reducer');
+export default NoMatchReducer;

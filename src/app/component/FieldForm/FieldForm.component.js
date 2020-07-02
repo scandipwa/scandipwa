@@ -15,6 +15,7 @@ import Field from 'Component/Field';
 
 import './FieldForm.style';
 
+/** @namespace Component/FieldForm/Component */
 export class FieldForm extends ExtensiblePureComponent {
     onFormSuccess() {
         // TODO: implement
@@ -78,4 +79,4 @@ export class FieldForm extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(FieldForm, 'Component/FieldForm/Component');
+export default FieldForm;

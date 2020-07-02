@@ -17,6 +17,7 @@ import './CheckoutAddressForm.style';
 
 export const UPDATE_STATE_FREQUENCY = 1000; // (ms)
 
+/** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm {
     static propTypes = {
         ...MyAccountAddressForm.propTypes,
@@ -153,4 +154,4 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
     }
 }
 
-export default middleware(CheckoutAddressForm, 'Component/CheckoutAddressForm/Component');
+export default CheckoutAddressForm;

@@ -23,6 +23,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 
 export const REVIEW_POPUP_ID = 'REVIEW_POPUP_ID';
 
+/** @namespace Component/ProductReviews/Component */
 export class ProductReviews extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -189,4 +190,4 @@ export class ProductReviews extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductReviews, 'Component/ProductReviews/Component');
+export default ProductReviews;

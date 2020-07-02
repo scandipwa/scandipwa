@@ -22,11 +22,13 @@ import NewVersionPopup, {
     NEW_VERSION_POPUP_ID
 } from './NewVersionPopup.component';
 
+/** @namespace Component/NewVersionPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
+/** @namespace Component/NewVersionPopup/Container */
 export class NewVersionPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
@@ -67,12 +69,8 @@ export class NewVersionPopupContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @namespace Component/NewVersionPopup/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/NewVersionPopup/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/NewVersionPopup/Container/mapDispatchToProps')
-)(
-    middleware(NewVersionPopupContainer, 'Component/NewVersionPopup/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(NewVersionPopupContainer);

@@ -11,12 +11,14 @@
 
 import { SHOW_POPUP } from './Popup.action';
 
+/** @namespace Store/Popup/Reducer/getInitialState */
 export const getInitialState = () => ({
     popupPayload: {}
 });
 
+/** @namespace Store/Popup/Reducer */
 export const PopupReducer = (
-    state = middleware(getInitialState, 'Store/Popup/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const { payload, type } = action;
@@ -29,4 +31,4 @@ export const PopupReducer = (
     }
 };
 
-export default middleware(PopupReducer, 'Store/Popup/Reducer');
+export default PopupReducer;

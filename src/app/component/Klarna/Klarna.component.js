@@ -23,6 +23,7 @@ import './Klarna.style';
 export const KLARNA_SCRIPT_ID = 'klarna_script';
 export const KLARNA_PAYMENTS_CONTAINER_ID = 'klarna-payments-container';
 
+/** @namespace Component/Klarna/Component */
 export class Klarna extends ExtensiblePureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
@@ -96,4 +97,4 @@ export class Klarna extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Klarna, 'Component/Klarna/Component');
+export default Klarna;

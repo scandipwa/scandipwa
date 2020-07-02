@@ -13,6 +13,7 @@ import { updateMeta } from 'Store/Meta';
 /**
  * Meta Dispatcher
  * @class MetaDispatcher
+ * @namespace Util/Meta/Dispatcher
  */
 export class MetaDispatcher extends ExtensibleClass {
     /**
@@ -78,4 +79,4 @@ export class MetaDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (middleware(MetaDispatcher, 'Util/Meta/Dispatcher'))();
+export default new (MetaDispatcher)();

@@ -18,6 +18,7 @@ import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
  * CMS Blocks And Slider Dispatcher
  * @class CmsBlocksAndSliderDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/CmsBlocksAndSlider/Dispatcher
  */
 export class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
     constructor() {
@@ -50,4 +51,4 @@ export class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(CmsBlocksAndSliderDispatcher, 'Store/CmsBlocksAndSlider/Dispatcher'))();
+export default new (CmsBlocksAndSliderDispatcher)();

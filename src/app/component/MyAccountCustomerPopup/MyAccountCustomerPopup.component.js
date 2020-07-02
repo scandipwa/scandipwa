@@ -22,6 +22,7 @@ export const CUSTOMER_POPUP_ID = 'MyAccountCustomerPopup';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const EDIT_CUSTOMER = 'EDIT_CUSTOMER';
 
+/** @namespace Component/MyAccountCustomerPopup/Component */
 export class MyAccountCustomerPopup extends ExtensiblePureComponent {
     static propTypes = {
         onCustomerSave: PropTypes.func.isRequired,
@@ -86,4 +87,4 @@ export class MyAccountCustomerPopup extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(MyAccountCustomerPopup, 'Component/MyAccountCustomerPopup/Component');
+export default MyAccountCustomerPopup;

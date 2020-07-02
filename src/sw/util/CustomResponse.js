@@ -16,10 +16,8 @@
  * @param status
  * @param statusText
  * @returns {Promise<any>}
+ * @namespace SW/Handler/StaleWhileRevalidateHandler/generateCustomResponse
  */
-const generateCustomResponse = middleware(
-    (body, status = 200, statusText = 'OK') => new Response(body, { status, statusText }),
-    'SW/Handler/StaleWhileRevalidateHandler/generateCustomResponse'
-);
+const generateCustomResponse = (body, status = 200, statusText = 'OK') => new Response(body, { status, statusText });
 
 export default generateCustomResponse;

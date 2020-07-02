@@ -18,6 +18,7 @@ import Image, {
 
 import './Logo.style';
 
+/** @namespace Component/Logo/Component */
 export class Logo extends Image {
     renderPlaceholderLogo() {
         return (
@@ -63,4 +64,4 @@ export class Logo extends Image {
     }
 }
 
-export default middleware(Logo, 'Component/Logo/Component');
+export default Logo;

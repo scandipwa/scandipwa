@@ -14,13 +14,15 @@ import {
     SET_BIG_OFFLINE_NOTICE
 } from './Offline.action';
 
+/** @namespace Store/Offline/Reducer/getInitialState */
 export const getInitialState = () => ({
     isOffline: true,
     isBig: false
 });
 
+/** @namespace Store/Offline/Reducer */
 export const OfflineReducer = (
-    state = middleware(getInitialState, 'Store/Offline/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     switch (action.type) {
@@ -43,4 +45,4 @@ export const OfflineReducer = (
     }
 };
 
-export default middleware(OfflineReducer, 'Store/Offline/Reducer');
+export default OfflineReducer;

@@ -27,7 +27,7 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 
 const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
-const FallbackPlugin = require('./Extensibility/FallbackPlugin');
+const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');

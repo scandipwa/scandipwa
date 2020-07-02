@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 import { setQueryParams } from 'Util/Url';
 import ResetButton from './ResetButton.component';
 
+/** @namespace Component/ResetButton/Container */
 export class ResetButtonContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
@@ -58,5 +59,5 @@ export class ResetButtonContainer extends ExtensiblePureComponent {
 }
 
 export default withRouter(
-    middleware(ResetButtonContainer, 'Component/ResetButton/Container')
+    ResetButtonContainer
 );

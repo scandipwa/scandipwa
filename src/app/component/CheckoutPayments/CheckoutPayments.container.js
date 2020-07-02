@@ -20,10 +20,12 @@ import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import CheckoutPayments, { BRAINTREE, KLARNA } from './CheckoutPayments.component';
 
+/** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showError: message => dispatch(showNotification('error', message))
 });
 
+/** @namespace Component/CheckoutPayments/Container */
 export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
     static propTypes = {
         onPaymentMethodSelect: PropTypes.func.isRequired,
@@ -110,12 +112,8 @@ export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @namespace Component/CheckoutPayments/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CheckoutPayments/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CheckoutPayments/Container/mapDispatchToProps')
-)(
-    middleware(CheckoutPaymentsContainer, 'Component/CheckoutPayments/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPaymentsContainer);

@@ -19,6 +19,7 @@ import Image from 'Component/Image/Image.container';
 /**
  * VideoThumbnail component
  * @class VideoThumbnail
+ * @namespace Component/VideoThumbnail/Component/videoThumbnail
  */
 export class VideoThumbnail extends ExtensiblePureComponent {
     static propTypes = {
@@ -28,7 +29,8 @@ export class VideoThumbnail extends ExtensiblePureComponent {
 
     /**
      * Renders an icon indicating that the video can be played
-     */
+     * @namespace Component/VideoThumbnail/Component
+ */
     renderPlayIcon() {
         return (
             <span block="VideoThumbnail" elem="PlayIcon">
@@ -72,4 +74,4 @@ export class VideoThumbnail extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(VideoThumbnail, 'Component/VideoThumbnail/Component');
+export default VideoThumbnail;

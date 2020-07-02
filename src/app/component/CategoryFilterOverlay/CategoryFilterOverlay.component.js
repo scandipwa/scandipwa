@@ -17,6 +17,7 @@ import './CategoryFilterOverlay.style';
 
 export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
 
+/** @namespace Component/CategoryFilterOverlay/Component */
 export class CategoryFilterOverlay extends ExtensiblePureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
@@ -177,4 +178,4 @@ export class CategoryFilterOverlay extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CategoryFilterOverlay, 'Component/CategoryFilterOverlay/Component');
+export default CategoryFilterOverlay;

@@ -18,14 +18,17 @@ import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
 import NewProducts from './NewProducts.component';
 
+/** @namespace Component/NewProducts/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     timezone: state.ConfigReducer.timezone
 });
 
+/** @namespace Component/NewProducts/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
+/** @namespace Component/NewProducts/Container */
 export class NewProductsContainer extends ExtensiblePureComponent {
     static propTypes = {
         category: PropTypes.string,
@@ -122,16 +125,17 @@ export class NewProductsContainer extends ExtensiblePureComponent {
 
         const query = [ProductListQuery.getQuery(options)];
         executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
-            .then(({ products: { items } }) => this.setState({ products: getIndexedProducts(items) }))
-            .catch(e => showNotification('error', 'Error fetching NewProducts!', e));
+            .then(
+                /** @namespace Component/NewProducts/Container/executeGetThen */
+                ({ products: { items } }) => this.setState({ products: getIndexedProducts(items) })
+            )
+            .catch(
+                /** @namespace Component/NewProducts/Container/executeGetThenCatch */
+                e => showNotification('error', 'Error fetching NewProducts!', e)
+            );
     }
 
     render = () => <NewProducts { ...this.props } { ...this.state } />;
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/NewProducts/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/NewProducts/Container/mapDispatchToProps')
-)(
-    middleware(NewProductsContainer, 'Component/NewProducts/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(NewProductsContainer);

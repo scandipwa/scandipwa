@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import CategorySort from './CategorySort.component';
 
+/** @namespace Component/CategorySort/Container */
 export class CategorySortContainer extends ExtensiblePureComponent {
     static propTypes = {
         sortFields: PropTypes.oneOfType([
@@ -107,4 +108,4 @@ export class CategorySortContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CategorySortContainer, 'Component/CategorySort/Container');
+export default CategorySortContainer;

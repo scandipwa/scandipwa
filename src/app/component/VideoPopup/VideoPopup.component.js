@@ -28,6 +28,7 @@ export const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v
 /**
  * A popup capable of displaying a video
  * @class VideoPopup
+ * @namespace Component/VideoPopup/Component
  */
 export class VideoPopup extends ExtensiblePureComponent {
     static propTypes = {
@@ -36,10 +37,16 @@ export class VideoPopup extends ExtensiblePureComponent {
 
     componentDidMount() {
         this.loadVimeoLibrary()
-            .then(() => this.forceUpdate());
+            .then(
+                /** @namespace Component/VideoPopup/Component/loadVimeoLibraryThen */
+                () => this.forceUpdate()
+            );
 
         this.loadYoutubeLibrary()
-            .then(() => this.forceUpdate());
+            .then(
+                /** @namespace Component/VideoPopup/Component/loadYoutubeLibraryThen */
+                () => this.forceUpdate()
+            );
     }
 
     /**
@@ -99,7 +106,8 @@ export class VideoPopup extends ExtensiblePureComponent {
      * Parses the video URL and renders the video accordingly
      * @returns {null|*}
      * @private
-     */
+     * @namespace Component/VideoPopup/Component
+ */
     _renderVideoContent() {
         const {
             payload: {
@@ -139,4 +147,4 @@ export class VideoPopup extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(VideoPopup, 'Component/VideoPopup/Component');
+export default VideoPopup;

@@ -25,6 +25,7 @@ import { hash } from 'Util/Request/Hash';
  * Html content parser
  * Component converts HTML strings to React components
  * @class Html
+ * @namespace Component/Html/Component
  */
 export class Html extends ExtensiblePureComponent {
     static propTypes = {
@@ -211,7 +212,8 @@ export class Html extends ExtensiblePureComponent {
      * @param {{ attribs: Object }} { attribs }
      * @returns {null|JSX} Return Widget
      * @memberof Html
-     */
+     * @namespace Component/Html/Component
+ */
     replaceWidget({ attribs }) {
         return <WidgetFactory { ...this.attributesToProps(attribs) } />;
     }
@@ -249,4 +251,4 @@ export class Html extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Html, 'Component/Html/Component');
+export default Html;

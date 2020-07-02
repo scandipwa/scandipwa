@@ -14,6 +14,7 @@ import Link from 'Component/Link';
 
 import './CheckoutSuccess.style';
 
+/** @namespace Component/CheckoutSuccess/Component */
 export class CheckoutSuccess extends ExtensiblePureComponent {
     static propTypes = {
         orderID: PropTypes.string.isRequired
@@ -46,4 +47,4 @@ export class CheckoutSuccess extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CheckoutSuccess, 'Component/CheckoutSuccess/Component');
+export default CheckoutSuccess;

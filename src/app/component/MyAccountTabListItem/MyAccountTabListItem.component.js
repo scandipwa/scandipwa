@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { tabType } from 'Type/Account';
 import './MyAccountTabListItem.style';
 
+/** @namespace Component/MyAccountTabListItem/Component */
 export class MyAccountTabListItem extends ExtensiblePureComponent {
     static propTypes = {
         tabEntry: PropTypes.arrayOf(
@@ -55,4 +56,4 @@ export class MyAccountTabListItem extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(MyAccountTabListItem, 'Component/MyAccountTabListItem/Component');
+export default MyAccountTabListItem;

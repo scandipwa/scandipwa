@@ -11,6 +11,7 @@
 
 import { Field } from 'Util/Query';
 
+/** @namespace Query/Review */
 export class ReviewQuery extends ExtensibleClass {
     getAddProductReviewMutation(reviewItem) {
         return new Field('addProductReview')
@@ -51,4 +52,4 @@ export class ReviewQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(ReviewQuery, 'Query/Review'))();
+export default new (ReviewQuery)();

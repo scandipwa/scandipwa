@@ -18,6 +18,7 @@ import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 export const THUMBNAIL_KEY = 'small_image';
 export const AMOUNT_OF_PLACEHOLDERS = 0;
 
+/** @namespace Component/ProductGallery/Container */
 export class ProductGalleryContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -169,4 +170,4 @@ export class ProductGalleryContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductGalleryContainer, 'Component/ProductGallery/Container');
+export default ProductGalleryContainer;

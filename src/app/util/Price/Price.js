@@ -12,6 +12,7 @@
 /* eslint-disable import/prefer-default-export */
 import currencyMap from './Price.config';
 
+/** @namespace Util/Price/formatCurrency */
 export const formatCurrency = (currency = 'USD') => currencyMap[currency];
 
 /**
@@ -19,6 +20,7 @@ export const formatCurrency = (currency = 'USD') => currencyMap[currency];
  * @param {Number} min minimum price
  * @param {Number} reg regular price
  * @return {Number} discount percentage
+ * @namespace Util/Price/calculateDiscountPercentage
  */
 // eslint-disable-next-line no-magic-numbers
 export const calculateDiscountPercentage = (min, reg) => Math.floor(Math.round((1 - min / reg) * 100));
@@ -29,6 +31,7 @@ export const calculateDiscountPercentage = (min, reg) => Math.floor(Math.round((
  * @param {Number} min minimum price
  * @param {Number} reg regular price
  * @return {Number} final price
+ * @namespace Util/Price/calculateFinalPrice
  */
 export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg);
 
@@ -36,5 +39,6 @@ export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg
  * Calculate final price
  * @param {Number} price
  * @return {Number} price rounded to 2 digits
+ * @namespace Util/Price/roundPrice
  */
 export const roundPrice = price => parseFloat(price).toFixed(2);

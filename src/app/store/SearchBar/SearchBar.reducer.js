@@ -16,13 +16,15 @@ import {
     CLEAR_SEARCH_RESULTS
 } from './SearchBar.action';
 
+/** @namespace Store/SearchBar/Reducer/getInitialState */
 export const getInitialState = () => ({
     productsInSearch: [],
     isLoading: true
 });
 
+/** @namespace Store/SearchBar/Reducer */
 export const SearchBarReducer = (
-    state = middleware(getInitialState, 'Store/SearchBar/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     switch (action.type) {
@@ -53,4 +55,4 @@ export const SearchBarReducer = (
     }
 };
 
-export default middleware(SearchBarReducer, 'Store/SearchBar/Reducer');
+export default SearchBarReducer;

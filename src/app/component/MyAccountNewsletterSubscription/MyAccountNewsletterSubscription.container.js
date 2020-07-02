@@ -23,16 +23,19 @@ import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
 
+/** @namespace Component/MyAccountNewsletterSubscription/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
+/** @namespace Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
     showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
     showSuccessNotification: message => dispatch(showNotification('success', message))
 });
 
+/** @namespace Component/MyAccountNewsletterSubscription/Container */
 export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
@@ -64,6 +67,7 @@ export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComp
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
+            /** @namespace Component/MyAccountNewsletterSubscription/Container/fetchMutationThen */
             ({ updateCustomer: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
 
@@ -91,9 +95,4 @@ export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComp
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/MyAccountNewsletterSubscription/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps')
-)(
-    middleware(MyAccountNewsletterSubscriptionContainer, 'Component/MyAccountNewsletterSubscription/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountNewsletterSubscriptionContainer);

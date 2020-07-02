@@ -18,10 +18,12 @@ import { updateMeta } from 'Store/Meta';
 import { showNotification } from 'Store/Notification';
 import PasswordChangePage from './PasswordChangePage.component';
 
+/** @namespace Route/PasswordChangePage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus
 });
 
+/** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
@@ -38,6 +40,7 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
+/** @namespace Route/PasswordChangePage/Container */
 export class PasswordChangePageContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired
@@ -58,9 +61,4 @@ export class PasswordChangePageContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Route/PasswordChangePage/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/PasswordChangePage/Container/mapDispatchToProps')
-)(
-    middleware(PasswordChangePageContainer, 'Route/PasswordChangePage/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordChangePageContainer);

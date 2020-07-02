@@ -15,13 +15,15 @@ import {
     TOGGLE_HEADER_AND_FOOTER
 } from './HeaderAndFooter.action';
 
+/** @namespace Store/HeaderAndFooter/Reducer/getInitialState */
 export const getInitialState = () => ({
     menu: {},
     isHeaderAndFooterVisible: true
 });
 
+/** @namespace Store/HeaderAndFooter/Reducer */
 export const HeaderAndFooterReducer = (
-    state = middleware(getInitialState, 'Store/HeaderAndFooter/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const { type, isHeaderAndFooterVisible, menu } = action;
@@ -36,4 +38,4 @@ export const HeaderAndFooterReducer = (
     }
 };
 
-export default middleware(HeaderAndFooterReducer, 'Store/HeaderAndFooter/Reducer');
+export default HeaderAndFooterReducer;

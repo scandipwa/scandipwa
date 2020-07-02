@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import './ReviewStar.style';
 
+/** @namespace Component/ReviewStar/Component */
 export class ReviewStar extends ExtensiblePureComponent {
     static propTypes = {
         value: PropTypes.number.isRequired,
@@ -58,4 +59,4 @@ export class ReviewStar extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ReviewStar, 'Component/ReviewStar/Component');
+export default ReviewStar;

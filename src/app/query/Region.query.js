@@ -14,6 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * RegionQuery Mutations
  * @class RegionQuery
+ * @namespace Query/Region
  */
 export class RegionQuery extends ExtensibleClass {
     getCountriesQuery() {
@@ -43,4 +44,4 @@ export class RegionQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(RegionQuery, 'Query/Region'))();
+export default new (RegionQuery)();

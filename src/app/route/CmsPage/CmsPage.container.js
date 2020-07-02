@@ -27,10 +27,12 @@ import history from 'Util/History';
 
 import CmsPage from './CmsPage.component';
 
+/** @namespace Route/CmsPage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline
 });
 
+/** @namespace Route/CmsPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
@@ -44,6 +46,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export const LOADING_TIME = 300;
 
+/** @namespace Route/CmsPage/Container */
 export class CmsPageContainer extends DataContainer {
     static propTypes = {
         match: MatchType.isRequired,
@@ -210,9 +213,4 @@ export class CmsPageContainer extends DataContainer {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Route/CmsPage/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/CmsPage/Container/mapDispatchToProps')
-)(
-    middleware(CmsPageContainer, 'Route/CmsPage/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CmsPageContainer);

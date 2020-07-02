@@ -14,7 +14,7 @@ const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { getBabelConfig } = require('./babel.config');
-const FallbackPlugin = require('./Extensibility/FallbackPlugin');
+const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 const { I18nPlugin } = require('./I18nPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');

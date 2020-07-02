@@ -27,6 +27,7 @@ import { FilterType, FilterInputType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
 import './CategoryPage.style.scss';
 
+/** @namespace Route/CategoryPage/Component */
 export class CategoryPage extends ExtensiblePureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
@@ -207,4 +208,4 @@ export class CategoryPage extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CategoryPage, 'Route/CategoryPage/Component');
+export default CategoryPage;

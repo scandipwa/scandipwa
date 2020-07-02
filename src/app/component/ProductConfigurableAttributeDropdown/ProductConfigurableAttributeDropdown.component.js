@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import './ProductConfigurableAttributeDropdown.style';
 
+/** @namespace Component/ProductConfigurableAttributeDropdown/Component */
 export class ProductConfigurableAttributeDropdown extends ExtensiblePureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
@@ -44,6 +45,4 @@ export class ProductConfigurableAttributeDropdown extends ExtensiblePureComponen
     }
 }
 
-export default middleware(
-    ProductConfigurableAttributeDropdown, 'Component/ProductConfigurableAttributeDropdown/Component'
-);
+export default ProductConfigurableAttributeDropdown;

@@ -18,11 +18,13 @@ import { ProductType } from 'Type/ProductList';
 import { getExtensionAttributes } from 'Util/Product';
 import ProductWishlistButton from './ProductWishlistButton.component';
 
+/** @namespace Component/ProductWishlistButton/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
     isLoading: state.WishlistReducer.isLoading
 });
 
+/** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     addProductToWishlist: wishlistItem => WishlistDispatcher.addItemToWishlist(dispatch, wishlistItem),
     removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
@@ -31,6 +33,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED';
 
+/** @namespace Component/ProductWishlistButton/Container */
 export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
     static propTypes = {
         quantity: PropTypes.number,
@@ -164,9 +167,4 @@ export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/ProductWishlistButton/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/ProductWishlistButton/Container/mapDispatchToProps')
-)(
-    middleware(ProductWishlistButtonContainer, 'Component/ProductWishlistButton/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductWishlistButtonContainer);
