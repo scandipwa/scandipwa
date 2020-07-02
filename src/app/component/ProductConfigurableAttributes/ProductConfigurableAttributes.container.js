@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
 
+/** @namespace Component/ProductConfigurableAttributes/Container */
 export class ProductConfigurableAttributesContainer extends ExtensiblePureComponent {
     static propTypes = {
         getLink: PropTypes.func.isRequired,
@@ -68,4 +69,4 @@ export class ProductConfigurableAttributesContainer extends ExtensiblePureCompon
     }
 }
 
-export default middleware(ProductConfigurableAttributesContainer, 'Component/ProductConfigurableAttributes/Container');
+export default ProductConfigurableAttributesContainer;

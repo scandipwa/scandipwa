@@ -35,12 +35,14 @@ import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 
+/** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout
 });
 
+/** @namespace Route/Checkout/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
@@ -51,6 +53,7 @@ export const mapDispatchToProps = dispatch => ({
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
 });
 
+/** @namespace Route/Checkout/Container */
 export class CheckoutContainer extends ExtensiblePureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
@@ -156,6 +159,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
             address,
             this._getGuestCartId()
         )).then(
+            /** @namespace Route/Checkout/Container/fetchMutationThen */
             ({ estimateShippingCosts: shippingMethods }) => {
                 const { requestsSent } = this.state;
 
@@ -259,6 +263,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
             this._getGuestCartId()
         )).then(
+            /** @namespace Route/Checkout/Container/fetchQueryThen */
             ({ getPaymentMethods: paymentMethods }) => {
                 this.setState({ isLoading: false, paymentMethods });
             },
@@ -281,6 +286,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
         return fetchMutation(mutation).then(
+            /** @namespace Route/Checkout/Container/fetchMutationThen */
             ({ setGuestEmailOnCart: data }) => {
                 if (data) {
                     this.setState({ isGuestEmailSaved: true });
@@ -353,6 +359,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
             addressInformation,
             this._getGuestCartId()
         )).then(
+            /** @namespace Route/Checkout/Container/fetchMutationThen */
             ({ saveAddressInformation: data }) => {
                 const { payment_methods, totals } = data;
 
@@ -420,9 +427,4 @@ export class CheckoutContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Route/Checkout/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/Checkout/Container/mapDispatchToProps')
-)(
-    middleware(CheckoutContainer, 'Route/Checkout/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutContainer);

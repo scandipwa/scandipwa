@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+/** @namespace Util/FormPortalCollector */
 export class FormPortalCollector extends ExtensibleClass {
     portalsObservers = {};
 
@@ -35,4 +36,4 @@ export class FormPortalCollector extends ExtensibleClass {
     }
 }
 
-export default middleware(FormPortalCollector, 'Util/FormPortalCollector');
+export default FormPortalCollector;

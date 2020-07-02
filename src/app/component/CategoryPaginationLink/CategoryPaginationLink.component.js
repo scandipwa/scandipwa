@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import './CategoryPaginationLink.style';
 
+/** @namespace Component/CategoryPaginationLink/Component */
 export class CategoryPaginationLink extends ExtensiblePureComponent {
     static propTypes = {
         text: PropTypes.string.isRequired,
@@ -62,4 +63,4 @@ export class CategoryPaginationLink extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CategoryPaginationLink, 'Component/CategoryPaginationLink/Component');
+export default CategoryPaginationLink;

@@ -36,15 +36,11 @@ self.addEventListener('activate', (event) => {
         caches.open(self.CACHE_NAME).then((cache) => {
             cache.keys().
                 then(keys => keys.filter(
-                    middleware(
-                        ({ url }) => url.match(/.+(.css|.js)$/),
-                        'SW/keyFilter'
-                    )
+                    /** @namespace SW/keyFilter */
+                    ({ url }) => url.match(/.+(.css|.js)$/)
                 ).map(
-                    middleware(
-                        ({ url }) => cache.delete(url),
-                        'SW/keyDeleter'
-                    )
+                    /** @namespace SW/keyDeleter */
+                    ({ url }) => cache.delete(url),
                 ));
         })
     );
@@ -55,16 +51,14 @@ self.addEventListener('activate', (event) => {
 
 self.CACHE_NAME = 'app-runtime-static';
 
-const registerRoutes = middleware(
-    () => {
-        /** Handle URLs (not assets) */
-        workbox.routing.registerRoute(getCacheUrlMatchRegex(), cacheUrlHandler);
-        /** Handle GraphQL responses */
-        workbox.routing.registerRoute(new RegExp(/\/graphql/), staleWhileRevalidateHandler);
-        /* Handle static assets responses */
-        workbox.routing.registerRoute(new RegExp(/(\/assets|\.css|\.js)/), cacheFirstOneYear);
-    },
-    'SW/registerRoutes'
-);
+/** @namespace SW/registerRoutes */
+const registerRoutes = () => {
+    /** Handle URLs (not assets) */
+    workbox.routing.registerRoute(getCacheUrlMatchRegex(), cacheUrlHandler);
+    /** Handle GraphQL responses */
+    workbox.routing.registerRoute(new RegExp(/\/graphql/), staleWhileRevalidateHandler);
+    /* Handle static assets responses */
+    workbox.routing.registerRoute(new RegExp(/(\/assets|\.css|\.js)/), cacheFirstOneYear);
+};
 
 registerRoutes();

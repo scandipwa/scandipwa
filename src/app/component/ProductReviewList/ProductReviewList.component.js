@@ -17,6 +17,7 @@ import './ProductReviewList.style';
 
 /**
  * @class ProductReviewList
+ * @namespace Component/ProductReviewList/Component
  */
 export class ProductReviewList extends ExtensiblePureComponent {
     static propTypes = {
@@ -124,4 +125,4 @@ export class ProductReviewList extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductReviewList, 'Component/ProductReviewList/Component');
+export default ProductReviewList;

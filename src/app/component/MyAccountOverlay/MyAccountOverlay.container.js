@@ -33,6 +33,7 @@ import MyAccountOverlay, {
     STATE_CONFIRM_EMAIL
 } from './MyAccountOverlay.component';
 
+/** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
@@ -40,6 +41,7 @@ export const mapStateToProps = state => ({
     isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT
 });
 
+/** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
@@ -50,6 +52,7 @@ export const mapDispatchToProps = dispatch => ({
     setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
+/** @namespace Component/MyAccountOverlay/Container */
 export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         forgotPassword: PropTypes.func.isRequired,
@@ -262,6 +265,7 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         };
 
         createAccount(customerData).then(
+            /** @namespace Component/MyAccountOverlay/Container/createAccountThen */
             (code) => {
                 // if user needs confirmation
                 if (code === 2) {
@@ -279,10 +283,13 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
 
-        forgotPassword(fields).then(() => {
-            this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
-            this.stopLoading();
-        }, this.stopLoading);
+        forgotPassword(fields).then(
+            /** @namespace Component/MyAccountOverlay/Container/forgotPasswordThen */
+            () => {
+                this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
+                this.stopLoading();
+            }, this.stopLoading
+        );
     }
 
     onForgotPasswordAttempt() {
@@ -350,9 +357,4 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/MyAccountOverlay/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/MyAccountOverlay/Container/mapDispatchToProps')
-)(
-    middleware(MyAccountOverlayContainer, 'Component/MyAccountOverlay/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOverlayContainer);

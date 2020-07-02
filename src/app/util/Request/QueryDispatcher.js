@@ -20,6 +20,7 @@ export const ONE_MONTH_IN_SECONDS = 2592000;
  * Abstract request dispatcher.
  * IMPORTANT: it is required to implement `prepareRequest(options)` before using!
  * @class QueryDispatcher
+ * @namespace Util/Request/QueryDispatcher
  */
 export class QueryDispatcher extends ExtensibleClass {
     /**
@@ -60,18 +61,23 @@ export class QueryDispatcher extends ExtensibleClass {
             new Promise((resolve, reject) => {
                 executeGet(prepareQuery(queries), name, cacheTTL)
                     .then(
+                        /** @namespace Util/Request/executeGetThen */
                         data => resolve(data),
+                        /** @namespace Util/Request/executeGetThen */
                         error => reject(error)
                     );
             })
         );
 
         this.promise.promise.then(
+            /** @namespace Util/Request/then */
             data => this.onSuccess(data, dispatch, options),
+            /** @namespace Util/Request/then */
             error => this.onError(error, dispatch, options),
         );
 
         listenForBroadCast(name).then(
+            /** @namespace Util/Request/listenForBroadCastThen */
             data => this.onUpdate(data, dispatch, options),
         );
     }
@@ -118,4 +124,4 @@ export class QueryDispatcher extends ExtensibleClass {
     onError(error, dispatch) {}
 }
 
-export default middleware(QueryDispatcher, 'Util/Request/QueryDispatcher');
+export default QueryDispatcher;

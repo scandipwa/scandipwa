@@ -12,11 +12,13 @@
 export const UPDATE_URL_REWRITE = 'UPDATE_URL_REWRITE';
 export const CLEAR_URL_REWRITE = 'CLEAR_URL_REWRITE';
 
+/** @namespace Store/UrlRewrites/Action/updateUrlRewrite */
 export const updateUrlRewrite = urlRewrite => ({
     type: UPDATE_URL_REWRITE,
     urlRewrite
 });
 
+/** @namespace Store/UrlRewrites/Action/clearUrlRewrite */
 export const clearUrlRewrite = () => ({
     type: CLEAR_URL_REWRITE
 });

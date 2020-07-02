@@ -34,10 +34,12 @@ import MyAccount from './MyAccount.component';
 
 export const MY_ACCOUNT_URL = '/my-account';
 
+/** @namespace Route/MyAccount/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
+/** @namespace Route/MyAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
@@ -46,6 +48,7 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
+/** @namespace Route/MyAccount/Container */
 export class MyAccountContainer extends ExtensiblePureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired,
@@ -219,9 +222,4 @@ export class MyAccountContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Route/MyAccount/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/MyAccount/Container/mapDispatchToProps')
-)(
-    middleware(MyAccountContainer, 'Route/MyAccount/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer);

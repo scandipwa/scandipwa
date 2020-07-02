@@ -15,15 +15,18 @@ import { MyAccountDispatcher } from 'Store/MyAccount';
 import { customerType } from 'Type/Account';
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
+/** @namespace Component/CheckoutAddressBook/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
+/** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
 });
 
+/** @namespace Component/CheckoutAddressBook/Container */
 export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
     static propTypes = {
         isSignedIn: PropTypes.bool.isRequired,
@@ -171,9 +174,4 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CheckoutAddressBook/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CheckoutAddressBook/Container/mapDispatchToProps')
-)(
-    middleware(CheckoutAddressBookContainer, 'Component/CheckoutAddressBook/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressBookContainer);

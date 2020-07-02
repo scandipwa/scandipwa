@@ -27,6 +27,7 @@ export const RENDER_PAGE_FREQUENCY = 150; // (ms)
 /**
  * List of category products
  * @class CategoryProductList
+ * @namespace Component/ProductList/Component
  */
 export class ProductList extends ExtensiblePureComponent {
     static propTypes = {
@@ -299,6 +300,6 @@ export class ProductList extends ExtensiblePureComponent {
 }
 
 export default debounceRender(
-    middleware(ProductList, 'Component/ProductList/Component'),
+    ProductList,
     RENDER_PAGE_FREQUENCY, { leading: false }
 );

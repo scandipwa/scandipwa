@@ -21,6 +21,7 @@ import {
 export const TOP_NAVIGATION_TYPE = 'TOP_NAVIGATION_TYPE';
 export const BOTTOM_NAVIGATION_TYPE = 'BOTTOM_NAVIGATION_TYPE';
 
+/** @namespace Store/Navigation/Reducer/getInitialState */
 export const getInitialState = () => ({
     [TOP_NAVIGATION_TYPE]: {
         navigationState: DEFAULT_STATE,
@@ -32,8 +33,9 @@ export const getInitialState = () => ({
     }
 });
 
+/** @namespace Store/Navigation/Reducer */
 export const NavigationReducer = (
-    state = middleware(getInitialState, 'Store/Navigation/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const { navigationType, navigationState } = action;
@@ -85,4 +87,4 @@ export const NavigationReducer = (
     }
 };
 
-export default middleware(NavigationReducer, 'Store/Navigation/Reducer');
+export default NavigationReducer;

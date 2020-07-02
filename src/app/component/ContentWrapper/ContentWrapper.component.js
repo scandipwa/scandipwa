@@ -16,6 +16,7 @@ import './ContentWrapper.style';
 /**
  * Content Wrapper
  * @class ContentWrapper
+ * @namespace Component/ContentWrapper/Component
  */
 export class ContentWrapper extends ExtensiblePureComponent {
     static propTypes = {
@@ -49,4 +50,4 @@ export class ContentWrapper extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ContentWrapper, 'Component/ContentWrapper/Component');
+export default ContentWrapper;

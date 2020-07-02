@@ -17,6 +17,7 @@ export const UPSELL = 'upsell';
 export const RELATED = 'related';
 export const CROSS_SELL = 'crosssell';
 
+/** @namespace Store/LinkedProducts/Reducer/getInitialState */
 export const getInitialState = () => ({
     linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
         upsell: {},
@@ -25,8 +26,9 @@ export const getInitialState = () => ({
     }
 });
 
+/** @namespace Store/LinkedProducts/Reducer */
 export const LinkedProductsReducer = (
-    state = middleware(getInitialState, 'Store/LinkedProducts/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const { type } = action;
@@ -66,4 +68,4 @@ export const LinkedProductsReducer = (
     };
 };
 
-export default middleware(LinkedProductsReducer, 'Store/LinkedProducts/Reducer');
+export default LinkedProductsReducer;

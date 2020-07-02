@@ -26,12 +26,14 @@ import history from 'Util/History';
 
 import CartOverlay from './CartOverlay.component';
 
+/** @namespace Component/CartOverlay/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
     guest_checkout: state.ConfigReducer.guest_checkout,
     currencyCode: state.ConfigReducer.default_display_currency_code
 });
 
+/** @namespace Component/CartOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
@@ -40,6 +42,7 @@ export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
+/** @namespace Component/CartOverlay/Container */
 export class CartOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
@@ -119,9 +122,4 @@ export class CartOverlayContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CartOverlay/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CartOverlay/Container/mapDispatchToProps')
-)(
-    middleware(CartOverlayContainer, 'Component/CartOverlay/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CartOverlayContainer);

@@ -14,12 +14,14 @@ import {
     CLEAR_URL_REWRITE
 } from './UrlRewrites.action';
 
+/** @namespace Store/UrlRewrites/Reducer/getInitialState */
 export const getInitialState = () => ({
     urlRewrite: {}
 });
 
+/** @namespace Store/UrlRewrites/Reducer */
 export const UrlRewritesReducer = (
-    state = middleware(getInitialState, 'Store/UrlRewrites/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     switch (action.type) {
@@ -40,4 +42,4 @@ export const UrlRewritesReducer = (
     }
 };
 
-export default middleware(UrlRewritesReducer, 'Store/UrlRewrites/Reducer');
+export default UrlRewritesReducer;

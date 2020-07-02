@@ -17,6 +17,7 @@
  * @static
  * @param  {Promise} promise promise which has to be cancelable
  * @return {Promise} Cancelable promise
+ * @namespace Util/Promise/makeCancelable
  */
 export const makeCancelable = (promise) => {
     // eslint-disable-next-line fp/no-let
@@ -24,7 +25,9 @@ export const makeCancelable = (promise) => {
 
     const wrappedPromise = new Promise((resolve, reject) => {
         promise.then(
+            /** @namespace Util/Promise/then */
             val => (!hasCanceled_ && resolve(val)),
+            /** @namespace Util/Promise/then */
             error => (!hasCanceled_ && reject(error))
         );
     });

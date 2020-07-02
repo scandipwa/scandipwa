@@ -17,6 +17,7 @@ import './CategorySort.style';
 /**
  * Product Sort
  * @class ProductSort
+ * @namespace Component/CategorySort/Component
  */
 export class CategorySort extends ExtensiblePureComponent {
     static propTypes = {
@@ -95,4 +96,4 @@ export class CategorySort extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CategorySort, 'Component/CategorySort/Component');
+export default CategorySort;

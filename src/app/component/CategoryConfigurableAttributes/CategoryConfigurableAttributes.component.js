@@ -15,6 +15,7 @@ import CategoryPriceRange from 'Component/CategoryPriceRange';
 import CategorySubcategories from 'Component/CategorySubcategories';
 import ExpandableContent from 'Component/ExpandableContent';
 
+/** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     renderPriceRange() {
         return (
@@ -126,4 +127,4 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
     }
 }
 
-export default middleware(CategoryConfigurableAttributes, 'Component/CategoryConfigurableAttributes/Component');
+export default CategoryConfigurableAttributes;

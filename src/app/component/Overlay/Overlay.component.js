@@ -20,6 +20,7 @@ import { MixType, ChildrenType } from 'Type/Common';
 
 import './Overlay.style';
 
+/** @namespace Component/Overlay/Component */
 export class Overlay extends ExtensiblePureComponent {
     static propTypes = {
         mix: MixType,
@@ -128,4 +129,4 @@ export class Overlay extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Overlay, 'Component/Overlay/Component');
+export default Overlay;

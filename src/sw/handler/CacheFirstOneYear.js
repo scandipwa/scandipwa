@@ -15,27 +15,23 @@ const ONE_YEAR_IN_SECONDS = 2630000;
 /**
  * @param time
  * @returns {workbox.strategies.CacheFirst}
+ * @namespace SW/Handler/StaleWhileRevalidateHandler/cacheFirst
  */
-const cacheFirst = middleware(
-    time => new workbox.strategies.CacheFirst({
-        cacheName: CACHE_NAME,
-        plugins: [
-            new workbox.expiration.Plugin({
-                maxAgeSeconds: time
-            })
-        ]
-    }),
-    'SW/Handler/StaleWhileRevalidateHandler/cacheFirst'
-);
+const cacheFirst = time => new workbox.strategies.CacheFirst({
+    cacheName: CACHE_NAME,
+    plugins: [
+        new workbox.expiration.Plugin({
+            maxAgeSeconds: time
+        })
+    ]
+});
 
 /**
  * @param event
  * @returns {void|*}
+ * @namespace SW/Handler/StaleWhileRevalidateHandler/CacheFirstOneYear
  */
-const CacheFirstOneYear = middleware(
-    event => cacheFirst(ONE_YEAR_IN_SECONDS).handle(event),
-    'SW/Handler/StaleWhileRevalidateHandler/CacheFirstOneYear'
-);
+const CacheFirstOneYear = event => cacheFirst(ONE_YEAR_IN_SECONDS).handle(event);
 
 export default CacheFirstOneYear;
 export { cacheFirst };

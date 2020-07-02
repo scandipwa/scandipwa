@@ -20,6 +20,7 @@ import {
 
 /**
  * Checkout Order Summary component
+ * @namespace Component/CheckoutOrderSummary/Component
  */
 export class CheckoutOrderSummary extends ExtensiblePureComponent {
     static propTypes = {
@@ -157,4 +158,4 @@ export class CheckoutOrderSummary extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CheckoutOrderSummary, 'Component/CheckoutOrderSummary/Component');
+export default CheckoutOrderSummary;

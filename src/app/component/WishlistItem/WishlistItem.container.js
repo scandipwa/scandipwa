@@ -20,6 +20,7 @@ import WishlistItem from './WishlistItem.component';
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
+/** @namespace Component/WishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
@@ -27,6 +28,7 @@ export const mapDispatchToProps = dispatch => ({
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
 });
 
+/** @namespace Component/WishlistItem/Container */
 export class WishlistItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -120,11 +122,19 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
 
         return addProductToCart({ product, quantity })
             .then(
+                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
                 () => this.removeItem(id),
+                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
                 () => this.showNotification('error', __('Error Adding Product To Cart'))
             )
-            .then(() => showNotification('success', __('Product Added To Cart')))
-            .catch(() => this.showNotification('error', __('Error cleaning wishlist')));
+            .then(
+                /** @namespace Component/WishlistItem/Container/addProductToCartThenThen */
+                () => showNotification('success', __('Product Added To Cart'))
+            )
+            .catch(
+                /** @namespace Component/WishlistItem/Container/addProductToCartThenThenCatch */
+                () => this.showNotification('error', __('Error cleaning wishlist'))
+            );
     }
 
     showNotification(...args) {
@@ -150,12 +160,8 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @namespace Component/WishlistItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/WishlistItem/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/WishlistItem/Container/mapDispatchToProps')
-)(
-    middleware(WishlistItemContainer, 'Component/WishlistItem/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(WishlistItemContainer);

@@ -13,6 +13,7 @@ import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 import { isSignedIn } from 'Util/Auth';
 
+/** @namespace Query/Cart */
 export class CartQuery extends ExtensibleClass {
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
@@ -138,4 +139,4 @@ export class CartQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(CartQuery, 'Query/Cart'))();
+export default new (CartQuery)();

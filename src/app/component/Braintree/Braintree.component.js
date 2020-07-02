@@ -15,6 +15,7 @@ import './Braintree.style';
 
 export const BRAINTREE_CONTAINER_ID = 'BRAINTREE_CONTAINER_ID';
 
+/** @namespace Component/Braintree/Component */
 export class Braintree extends ExtensiblePureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired
@@ -27,7 +28,10 @@ export class Braintree extends ExtensiblePureComponent {
     componentDidMount() {
         const { init } = this.props;
 
-        init().then(() => this.setState({ isLoading: false }));
+        init().then(
+            /** @namespace Component/Braintree/Component/initThen */
+            () => this.setState({ isLoading: false })
+        );
     }
 
     render() {
@@ -46,4 +50,4 @@ export class Braintree extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Braintree, 'Component/Braintree/Component');
+export default Braintree;

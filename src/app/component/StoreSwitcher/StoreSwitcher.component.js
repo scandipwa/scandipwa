@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import './StoreSwitcher.style';
 
+/** @namespace Component/StoreSwitcher/Component */
 export class StoreSwitcher extends ExtensiblePureComponent {
     static propTypes = {
         storeList: PropTypes.arrayOf(
@@ -51,4 +52,4 @@ export class StoreSwitcher extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(StoreSwitcher, 'Component/StoreSwitcher/Component');
+export default StoreSwitcher;

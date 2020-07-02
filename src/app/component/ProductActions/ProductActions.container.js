@@ -14,12 +14,14 @@ import { ProductType } from 'Type/ProductList';
 import { connect } from 'react-redux';
 import ProductActions from './ProductActions.component';
 
+/** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
 
 export const DEFAULT_MAX_PRODUCTS = 99;
 
+/** @namespace Component/ProductActions/Container */
 export class ProductActionsContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -198,12 +200,8 @@ export class ProductActionsContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @namespace Component/ProductActions/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/ProductActions/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/ProductActions/Container/mapDispatchToProps')
-)(
-    middleware(ProductActionsContainer, 'Component/ProductActions/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductActionsContainer);

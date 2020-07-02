@@ -16,44 +16,40 @@ import generateCustomResponse from '../util/CustomResponse';
 /**
  * @param {Request} request
  * @returns {boolean}
+ * @namespace SW/Handler/StaleWhileRevalidateHandler/flushCache
  */
-const flushCache = middleware(
-    (request) => {
-        if (!request.headers.has('Cache-purge') || !request.headers.get('Cache-purge')) return false;
-        const resource = request.headers.get('Cache-purge');
-        if (resource[0] !== '/') {
-            caches.open(resource).then((cache) => {
-                cache.keys().then((elements) => {
-                    elements.forEach((element) => {
-                        cache.delete(element);
-                    });
+const flushCache = (request) => {
+    if (!request.headers.has('Cache-purge') || !request.headers.get('Cache-purge')) return false;
+    const resource = request.headers.get('Cache-purge');
+    if (resource[0] !== '/') {
+        caches.open(resource).then((cache) => {
+            cache.keys().then((elements) => {
+                elements.forEach((element) => {
+                    cache.delete(element);
                 });
             });
-        } else {
-            caches.open(CACHE_NAME).then((cache) => {
-                console.log(`Purging cache: ${resource}`);
-                cache.delete(resource);
-            });
-        }
+        });
+    } else {
+        caches.open(CACHE_NAME).then((cache) => {
+            console.log(`Purging cache: ${resource}`);
+            cache.delete(resource);
+        });
+    }
 
-        return true;
-    },
-    'SW/Handler/StaleWhileRevalidateHandler/flushCache'
-);
+    return true;
+};
 
 /**
  * @param event
  * @returns {Promise<Response>}
+ * @namespace SW/Handler/StaleWhileRevalidateHandler/flushCacheHandler
  */
-const flushCacheHandler = middleware(
-    (event) => {
-        console.log('flush cache handler', event);
-        if (flushCache(event.event.request)) return generateCustomResponse('ok');
-        const ERROR_CODE_502 = 502;
-        return generateCustomResponse('', ERROR_CODE_502, 'Cache flush request is missing or has wrong Cache-purge header');
-    },
-    'SW/Handler/StaleWhileRevalidateHandler/flushCacheHandler'
-);
+const flushCacheHandler = (event) => {
+    console.log('flush cache handler', event);
+    if (flushCache(event.event.request)) return generateCustomResponse('ok');
+    const ERROR_CODE_502 = 502;
+    return generateCustomResponse('', ERROR_CODE_502, 'Cache flush request is missing or has wrong Cache-purge header');
+};
 
 export default flushCacheHandler;
 export { flushCache };

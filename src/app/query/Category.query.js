@@ -14,6 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * Category Query
  * @class CategoryQuery
+ * @namespace Query/Category
  */
 export class CategoryQuery extends ExtensibleClass {
     constructor() {
@@ -95,4 +96,4 @@ export class CategoryQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(CategoryQuery, 'Query/Category'))();
+export default new (CategoryQuery)();

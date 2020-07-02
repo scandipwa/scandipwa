@@ -14,6 +14,7 @@
 /**
  * Set of helpers related to Browser Database
  * @class CSS
+ * @namespace Util/BrowserDatabase
  */
 export class BrowserDatabase extends ExtensibleClass {
     /**
@@ -65,4 +66,4 @@ export class BrowserDatabase extends ExtensibleClass {
     }
 }
 
-export default new (middleware(BrowserDatabase, 'Util/BrowserDatabase'))();
+export default new (BrowserDatabase)();

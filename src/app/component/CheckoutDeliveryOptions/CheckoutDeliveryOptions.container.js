@@ -16,6 +16,7 @@ import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 
+/** @namespace Component/CheckoutDeliveryOptions/Container */
 export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
     static propTypes = {
         onShippingMethodSelect: PropTypes.func.isRequired,
@@ -120,4 +121,4 @@ export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CheckoutDeliveryOptionsContainer, 'Component/CheckoutDeliveryOptions/Container');
+export default CheckoutDeliveryOptionsContainer;

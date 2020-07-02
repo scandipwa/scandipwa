@@ -16,6 +16,7 @@ import { GUEST_QUOTE_ID } from 'Store/Cart';
 /**
  * MyAccount Mutations
  * @class MyAccount
+ * @namespace Query/MyAccount
  */
 export class MyAccountQuery extends ExtensibleClass {
     /**
@@ -194,4 +195,4 @@ export class MyAccountQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(MyAccountQuery, 'Query/MyAccount'))();
+export default new (MyAccountQuery)();

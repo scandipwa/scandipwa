@@ -19,6 +19,7 @@ import { updateNoMatch } from 'Store/NoMatch';
  * Category Dispatcher
  * @class CategoryDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/Category/Dispatcher
  */
 export class CategoryDispatcher extends QueryDispatcher {
     constructor() {
@@ -47,4 +48,4 @@ export class CategoryDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(CategoryDispatcher, 'Store/Category/Dispatcher'))();
+export default new (CategoryDispatcher)();

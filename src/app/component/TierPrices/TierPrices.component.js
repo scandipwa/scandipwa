@@ -14,6 +14,7 @@ import { formatCurrency, roundPrice } from 'Util/Price';
 import { ProductType } from 'Type/ProductList';
 import './TierPrices.style';
 
+/** @namespace Component/TierPrices/Component */
 export class TierPrices extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -114,4 +115,4 @@ export class TierPrices extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(TierPrices, 'Component/TierPrices/Component');
+export default TierPrices;

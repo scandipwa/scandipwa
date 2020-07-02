@@ -18,6 +18,7 @@ import SearchOverlay from 'Component/SearchOverlay';
 
 import './SearchField.style';
 
+/** @namespace Component/SearchField/Component */
 export class SearchField extends ExtensiblePureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
@@ -159,4 +160,4 @@ export class SearchField extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(SearchField, 'Component/SearchField/Component');
+export default SearchField;

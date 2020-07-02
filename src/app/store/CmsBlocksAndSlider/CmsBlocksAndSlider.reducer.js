@@ -14,13 +14,15 @@ import {
     UPDATE_SLIDER
 } from './CmsBlocksAndSlider.action';
 
+/** @namespace Store/CmsBlocksAndSlider/Reducer/getInitialState */
 export const getInitialState = () => ({
     blocks: {},
     slider: {}
 });
 
+/** @namespace Store/CmsBlocksAndSlider/Reducer */
 export const CmsBlocksAndSliderReducer = (
-    state = middleware(getInitialState, 'Store/CmsBlocksAndSlider/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     switch (action.type) {
@@ -72,4 +74,4 @@ export const CmsBlocksAndSliderReducer = (
     }
 };
 
-export default middleware(CmsBlocksAndSliderReducer, 'Store/CmsBlocksAndSlider/Reducer');
+export default CmsBlocksAndSliderReducer;

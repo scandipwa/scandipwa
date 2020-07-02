@@ -17,6 +17,7 @@ import './RangeSelector.style';
 /**
  * Product Sort
  * @class ProductSort
+ * @namespace Component/RangeSelector/Component/rangeSelector
  */
 export class RangeSelector extends ExtensiblePureComponent {
     static propTypes = {
@@ -70,7 +71,8 @@ export class RangeSelector extends ExtensiblePureComponent {
      * Limit selected value to min and max bounds
      * @param {Object} value sliders mix and max values
      * @return {Number} value within bounds
-     */
+     * @namespace Component/RangeSelector/Component
+ */
     limitValueToBounds(value) {
         const { minValue, maxValue } = this.props;
         const newValue = { ...value };
@@ -104,4 +106,4 @@ export class RangeSelector extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(RangeSelector, 'Component/RangeSelector/Component');
+export default RangeSelector;

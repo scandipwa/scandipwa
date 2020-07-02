@@ -16,6 +16,7 @@ export const TOGGLE_BREADCRUMBS = 'TOGGLE_BREADCRUMBS';
  * Update current breadcrumbs with new breadcrumbs (rewrite if already exists).
  * @param  {Array<Object>} breadcrumbs List of breadcrumbs
  * @return {void}
+ * @namespace Store/Breadcrumbs/Action/updateBreadcrumbs
  */
 export const updateBreadcrumbs = breadcrumbs => ({
     type: UPDATE_BREADCRUMBS,
@@ -26,6 +27,7 @@ export const updateBreadcrumbs = breadcrumbs => ({
  * Toggle breadcrumbs display/hide
  * @param  {Boolean} areBreadcrumbsVisible
  * @return {void}
+ * @namespace Store/Breadcrumbs/Action/toggleBreadcrumbs
  */
 export const toggleBreadcrumbs = areBreadcrumbsVisible => ({
     type: TOGGLE_BREADCRUMBS,

@@ -19,6 +19,7 @@ import './ProductPrice.style';
 /**
  * Product price
  * @class ProductPrice
+ * @namespace Component/ProductPrice/Component
  */
 export class ProductPrice extends ExtensiblePureComponent {
     static propTypes = {
@@ -150,4 +151,4 @@ export class ProductPrice extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductPrice, 'Component/ProductPrice/Component');
+export default ProductPrice;

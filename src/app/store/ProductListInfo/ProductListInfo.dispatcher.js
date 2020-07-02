@@ -22,6 +22,7 @@ import { updateNoMatch } from 'Store/NoMatch';
  * Product List Info Dispatcher
  * @class ProductListInfoDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/ProductListInfo/Dispatcher
  */
 export class ProductListInfoDispatcher extends QueryDispatcher {
     constructor() {
@@ -46,4 +47,4 @@ export class ProductListInfoDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (middleware(ProductListInfoDispatcher, 'Store/ProductListInfo/Dispatcher'))();
+export default new (ProductListInfoDispatcher)();

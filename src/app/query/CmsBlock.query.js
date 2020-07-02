@@ -14,6 +14,7 @@ import { Field } from 'Util/Query';
 /**
  * CMS Blocks Query
  * @class CmsBlocksQuery
+ * @namespace Query/CmsBlock
  */
 export class CmsBlockQuery extends ExtensibleClass {
     /**
@@ -48,4 +49,4 @@ export class CmsBlockQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(CmsBlockQuery, 'Query/CmsBlock'))();
+export default new (CmsBlockQuery)();

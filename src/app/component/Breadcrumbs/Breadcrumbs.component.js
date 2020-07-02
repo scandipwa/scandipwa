@@ -21,6 +21,7 @@ import './Breadcrumbs.style';
 /**
  * Breadcrumbs
  * @class Breadcrumbs
+ * @namespace Component/Breadcrumbs/Component
  */
 export class Breadcrumbs extends ExtensiblePureComponent {
     static propTypes = {
@@ -91,4 +92,4 @@ export class Breadcrumbs extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Breadcrumbs, 'Component/Breadcrumbs/Component');
+export default Breadcrumbs;

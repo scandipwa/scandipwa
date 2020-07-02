@@ -39,6 +39,7 @@ export const a_KEY_CODE = 97;
 /**
  * Input fields component
  * @class Field
+ * @namespace Component/Field/Component
  */
 export class Field extends ExtensiblePureComponent {
     static propTypes = {
@@ -408,7 +409,8 @@ export class Field extends ExtensiblePureComponent {
     /**
      * Render Type Text, default value is passed from parent
      * handleToUpdate used to pass child data to parent
-     */
+     * @namespace Component/Field/Component
+ */
     renderTypeText() {
         const { value } = this.state;
 
@@ -666,4 +668,4 @@ export class Field extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Field, 'Component/Field/Component');
+export default Field;

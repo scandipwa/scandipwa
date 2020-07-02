@@ -20,6 +20,7 @@ import FormPortalCollector from 'Util/FormPortalCollector';
 import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
+/** @namespace Component/Form/Component */
 export class Form extends ExtensiblePureComponent {
     static propTypes = {
         onSubmitSuccess: PropTypes.func,
@@ -186,6 +187,7 @@ export class Form extends ExtensiblePureComponent {
         }, []));
 
         asyncData.then(
+            /** @namespace Component/Form/Component/then */
             (asyncDataList) => {
                 if (!invalidFields.length) {
                     onSubmitSuccess(inputValues, asyncDataList);
@@ -194,6 +196,7 @@ export class Form extends ExtensiblePureComponent {
 
                 onSubmitError(inputValues, invalidFields);
             },
+            /** @namespace Component/Form/Component/then */
             e => onSubmitError(inputValues, invalidFields, e)
         );
     };
@@ -266,4 +269,4 @@ export class Form extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(Form, 'Component/Form/Component');
+export default Form;

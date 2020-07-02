@@ -15,6 +15,7 @@ import { UPDATE_CONFIG } from './Config.action';
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
 
+/** @namespace Store/Config/Reducer/filterStoreConfig */
 export const filterStoreConfig = config => Object.entries(config).reduce(
     (acc, [key, value]) => (value !== null ? { ...acc, [key]: value } : acc),
     {}
@@ -26,6 +27,7 @@ export const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem
     storeConfig: {}
 };
 
+/** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
     ...filterStoreConfig(storeConfig),
     countries,
@@ -33,8 +35,9 @@ export const getInitialState = () => ({
     isLoading: true
 });
 
+/** @namespace Store/Config/Reducer */
 export const ConfigReducer = (
-    state = middleware(getInitialState, 'Store/Config/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const {
@@ -68,4 +71,4 @@ export const ConfigReducer = (
     }
 };
 
-export default middleware(ConfigReducer, 'Store/Config/Reducer');
+export default ConfigReducer;

@@ -12,14 +12,13 @@
 import { connect } from 'react-redux';
 import DemoNotice from './DemoNotice.component';
 
+/** @namespace Component/DemoNotice/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isDemoNoticeEnabled: state.ConfigReducer.demo_notice
 });
 
+/** @namespace Component/DemoNotice/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/DemoNotice/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/DemoNotice/Container/mapDispatchToProps')
-)(DemoNotice);
+export default connect(mapStateToProps, mapDispatchToProps)(DemoNotice);

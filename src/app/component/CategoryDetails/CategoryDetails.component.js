@@ -20,6 +20,7 @@ import './CategoryDetails.style';
 /**
  * Category details
  * @class CategoryDetails
+ * @namespace Component/CategoryDetails/Component
  */
 export class CategoryDetails extends ExtensiblePureComponent {
     static propTypes = {
@@ -107,4 +108,4 @@ export class CategoryDetails extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CategoryDetails, 'Component/CategoryDetails/Component');
+export default CategoryDetails;

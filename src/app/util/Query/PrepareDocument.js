@@ -20,6 +20,7 @@ export const QUERY_TYPE = 'query';
  * Prepare request body string from query list (all entries must be instances of Query).
  * @param  {Array<Field>} queries
  * @return {String} JSON String, format: `{"query":"{alias: queryName (attr:key) { field1, field2 }}"}`
+ * @namespace Util/Query/prepareDocument
  */
 export const prepareDocument = (queries) => {
     const args = [];
@@ -48,6 +49,7 @@ export const prepareDocument = (queries) => {
     };
 };
 
+/** @namespace Util/Query/prepareRequest */
 export const prepareRequest = (document, type) => {
     if (type !== MUTATION_TYPE && type !== QUERY_TYPE) {
         console.warn('Request can only prepared from Query or Mutation.');
@@ -72,6 +74,8 @@ export const prepareRequest = (document, type) => {
     };
 };
 
+/** @namespace Util/Query/prepareMutation */
 export const prepareMutation = mutations => prepareRequest(mutations, MUTATION_TYPE);
 
+/** @namespace Util/Query/prepareQuery */
 export const prepareQuery = queries => prepareRequest(queries, QUERY_TYPE);

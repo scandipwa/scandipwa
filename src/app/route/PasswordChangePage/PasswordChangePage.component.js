@@ -22,6 +22,7 @@ import './PasswordChangePage.style';
 export const STATUS_PASSOWORD_UPDATED = 'password_updated';
 export const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
+/** @namespace Route/PasswordChangePage/Component */
 export class PasswordChangePage extends ExtensiblePureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
@@ -146,4 +147,4 @@ export class PasswordChangePage extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(PasswordChangePage, 'Route/PasswordChangePage/Component');
+export default PasswordChangePage;

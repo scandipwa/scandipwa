@@ -14,11 +14,13 @@ import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
 import CartCoupon from './CartCoupon.component';
 
+/** @namespace Component/CartCoupon/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
     removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
 });
 
+/** @namespace Component/CartCoupon/Container */
 export class CartCouponContainer extends ExtensiblePureComponent {
     static propTypes = {
         couponCode: PropTypes.string,
@@ -43,6 +45,7 @@ export class CartCouponContainer extends ExtensiblePureComponent {
         this.setState({ isLoading: true });
 
         applyCouponToCart(couponCode).then(
+            /** @namespace Component/CartCoupon/Container/applyCouponToCartThen */
             () => this.setState({ isLoading: false })
         );
     }
@@ -53,6 +56,7 @@ export class CartCouponContainer extends ExtensiblePureComponent {
         this.setState({ isLoading: true });
 
         removeCouponFromCart().then(
+            /** @namespace Component/CartCoupon/Container/removeCouponFromCartThen */
             () => this.setState({ isLoading: false })
         );
     }
@@ -68,12 +72,8 @@ export class CartCouponContainer extends ExtensiblePureComponent {
     }
 }
 
+/** @namespace Component/CartCoupon/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/CartCoupon/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/CartCoupon/Container/mapDispatchToProps')
-)(
-    middleware(CartCouponContainer, 'Component/CartCoupon/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CartCouponContainer);

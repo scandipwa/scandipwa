@@ -12,6 +12,7 @@
 import { fetchMutation } from 'Util/Request';
 import { Field } from 'Util/Query';
 
+/** @namespace Util/Braintree */
 export class Braintree extends ExtensibleClass {
     isLoading = false;
 
@@ -33,10 +34,13 @@ export class Braintree extends ExtensibleClass {
 
     requestBraintreeClientToken() {
         const mutation = (new Field('createBraintreeClientToken')).setAlias('token');
-        return fetchMutation(mutation).then(({ token }) => token);
+        return fetchMutation(mutation).then(
+            /** @namespace Util/Braintree/fetchMutationThen */
+            ({ token }) => token
+        );
     }
 
     requestPaymentNonce = () => this.braintreeDropIn.requestPaymentMethod();
 }
 
-export default middleware(Braintree, 'Util/Braintree');
+export default Braintree;

@@ -11,12 +11,14 @@
 
 import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from './Notification.action';
 
+/** @namespace Store/Notification/Reducer/getInitialState */
 export const getInitialState = () => ({
     notifications: {}
 });
 
+/** @namespace Store/Notification/Reducer */
 export const NotificationReducer = (
-    state = middleware(getInitialState, 'Store/Notification/Reducer/getInitialState')(),
+    state = getInitialState(),
     action
 ) => {
     const notifications = { ...state.notifications };
@@ -44,4 +46,4 @@ export const NotificationReducer = (
     }
 };
 
-export default middleware(NotificationReducer, 'Store/Notification/Reducer');
+export default NotificationReducer;

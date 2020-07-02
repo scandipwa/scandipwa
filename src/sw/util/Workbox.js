@@ -10,22 +10,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-const importExternalScripts = middleware(
-    () => {
-        importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
-    },
-    'SW/Util/Workbox/importExternalScripts'
-);
+/** @namespace SW/Util/Workbox/importExternalScripts */
+const importExternalScripts = () => {
+    importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
+};
 
-const loadModules = middleware(
-    () => {
-        workbox.loadModule('workbox-core');
-        workbox.loadModule('workbox-routing');
-        workbox.loadModule('workbox-strategies');
-        workbox.loadModule('workbox-cache-expiration');
-    },
-    'SW/Util/Workbox/loadModules'
-);
+/** @namespace SW/Util/Workbox/loadModules */
+const loadModules = () => {
+    workbox.loadModule('workbox-core');
+    workbox.loadModule('workbox-routing');
+    workbox.loadModule('workbox-strategies');
+    workbox.loadModule('workbox-cache-expiration');
+};
 
 if (typeof workbox === 'undefined') {
     importExternalScripts();

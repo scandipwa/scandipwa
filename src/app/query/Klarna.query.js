@@ -11,6 +11,7 @@
 
 import { Field } from 'Util/Query';
 
+/** @namespace Query/Klarna */
 export class KlarnaQuery extends ExtensibleClass {
     getCreateKlarnaTokenMutation(input) {
         return new Field('createKlarnaToken')
@@ -19,4 +20,4 @@ export class KlarnaQuery extends ExtensibleClass {
     }
 }
 
-export default new (middleware(KlarnaQuery, 'Query/Klarna'))();
+export default new (KlarnaQuery)();

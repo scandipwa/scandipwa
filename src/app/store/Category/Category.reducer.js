@@ -11,14 +11,16 @@
 
 import { UPDATE_CURRENT_CATEGORY } from './Category.action';
 
+/** @namespace Store/Category/Reducer/getInitialState */
 export const getInitialState = () => ({
     category: {
         isLoading: true
     }
 });
 
+/** @namespace Store/Category/Reducer */
 export const CategoryReducer = (
-    state = middleware(getInitialState, 'Store/Category/Reducer/getInitialState')(),
+    state = getInitialState(),
     { type, category }
 ) => {
     switch (type) {
@@ -36,4 +38,4 @@ export const CategoryReducer = (
     }
 };
 
-export default middleware(CategoryReducer, 'Store/Category/Reducer');
+export default CategoryReducer;

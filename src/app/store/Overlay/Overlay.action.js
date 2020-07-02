@@ -12,11 +12,13 @@
 export const TOGGLE_OVERLAY = 'TOGGLE_OVERLAY';
 export const HIDE_ACTIVE_OVERLAY = 'HIDE_ACTIVE_OVERLAY';
 
+/** @namespace Store/Overlay/Action/toggleOverlayByKey */
 export const toggleOverlayByKey = overlayKey => ({
     type: TOGGLE_OVERLAY,
     overlayKey
 });
 
+/** @namespace Store/Overlay/Action/hideActiveOverlay */
 export const hideActiveOverlay = () => ({
     type: HIDE_ACTIVE_OVERLAY
 });

@@ -16,6 +16,7 @@ import { ReviewQuery } from 'Query';
 /**
  * Product Review Dispatcher
  * @class WishlistDispatcher
+ * @namespace Store/Review/Dispatcher
  */
 export class ReviewDispatcher extends ExtensibleClass {
     prepareRatingData(reviewItem) {
@@ -37,11 +38,13 @@ export class ReviewDispatcher extends ExtensibleClass {
         return fetchMutation(ReviewQuery.getAddProductReviewMutation(
             reviewItem
         )).then(
+            /** @namespace Store/Review/Dispatcher/fetchMutationThen */
             () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
+            /** @namespace Store/Review/Dispatcher/fetchMutationThen */
             // eslint-disable-next-line no-console
             error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
         );
     }
 }
 
-export default new (middleware(ReviewDispatcher, 'Store/Review/Dispatcher'))();
+export default new (ReviewDispatcher)();

@@ -21,6 +21,7 @@ import './CartItem.style';
 /**
  * Cart and CartOverlay item
  * @class CartItem
+ * @namespace Component/CartItem/Component
  */
 export class CartItem extends ExtensiblePureComponent {
     static propTypes = {
@@ -226,4 +227,4 @@ export class CartItem extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(CartItem, 'Component/CartItem/Component');
+export default CartItem;

@@ -20,6 +20,7 @@ import { DEFAULT_STATE_NAME } from './NavigationAbstract.component';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
+/** @namespace Component/NavigationAbstract/Container */
 export class NavigationAbstractContainer extends ExtensiblePureComponent {
     static propTypes = {
         setNavigationState: PropTypes.func.isRequired,
@@ -116,4 +117,4 @@ export class NavigationAbstractContainer extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(NavigationAbstractContainer, 'Component/NavigationAbstract/Container');
+export default NavigationAbstractContainer;

@@ -20,16 +20,19 @@ import { showNotification } from 'Store/Notification';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
 
+/* @namespace Component/AddToCart/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
+/* @namespace Component/AddToCart/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
+/* @namespace Component/AddToCart/Container */
 export class AddToCartContainer extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
@@ -130,20 +133,26 @@ export class AddToCartContainer extends ExtensiblePureComponent {
         if (type_id === 'grouped') {
             const { items } = product;
 
-            Promise.all(items.map((item) => {
-                const { product: groupedProductItem } = item;
+            Promise.all(items.map(
+                // @namespace Component/AddToCart/Container/buttonClick/itemsMap
+                (item) => {
+                    const { product: groupedProductItem } = item;
 
-                groupedProductItem.parent = product;
-                const quantity = groupedProductQuantity[groupedProductItem.id];
-                if (!quantity) {
-                    return Promise.resolve();
+                    groupedProductItem.parent = product;
+                    const quantity = groupedProductQuantity[groupedProductItem.id];
+                    if (!quantity) {
+                        return Promise.resolve();
+                    }
+
+                    return addProduct({
+                        product: groupedProductItem,
+                        quantity
+                    });
                 }
-
-                return addProduct({
-                    product: groupedProductItem,
-                    quantity
-                });
-            })).then(() => this._afterAdded());
+            )).then(
+                // @namespace Component/AddToCart/Container/buttonClick/allItemsMapThen
+                () => this._afterAdded()
+            );
 
             return;
         }
@@ -159,8 +168,10 @@ export class AddToCartContainer extends ExtensiblePureComponent {
             product: productToAdd,
             quantity
         }).then(
+            /** @namespace Component/AddToCart/Container/addProductThen */
             () => this._afterAdded()
         ).catch(
+            /** @namespace Component/AddToCart/Container/addProductThenCatch */
             () => this.resetLoading()
         );
     }
@@ -221,9 +232,4 @@ export class AddToCartContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Component/AddToCart/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/AddToCart/Container/mapDispatchToProps')
-)(
-    middleware(AddToCartContainer, 'Component/AddToCart/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(AddToCartContainer);

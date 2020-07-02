@@ -21,10 +21,12 @@ import { updateMeta } from 'Store/Meta';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 
+/** @namespace Route/ConfirmAccountPage/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
+/** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
@@ -35,6 +37,7 @@ export const mapDispatchToProps = dispatch => ({
     signIn: options => MyAccountDispatcher.signIn(options, dispatch)
 });
 
+/** @namespace Route/ConfirmAccountPage/Container */
 export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         location: LocationType.isRequired,
@@ -84,9 +87,18 @@ export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
         const { email } = options;
 
         confirmAccount({ ...options, password })
-            .then(() => signIn({ email, password }))
-            .then(() => this.setState({ redirect: true }))
-            .catch(() => this.setState({ isLoading: false }));
+            .then(
+                /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThen */
+                () => signIn({ email, password })
+            )
+            .then(
+                /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThenThen */
+                () => this.setState({ redirect: true })
+            )
+            .catch(
+                /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThenThenCatch */
+                () => this.setState({ isLoading: false })
+            );
     }
 
     onFormError() {
@@ -121,9 +133,4 @@ export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(
-    middleware(mapStateToProps, 'Route/ConfirmAccountPage/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Route/ConfirmAccountPage/Container/mapDispatchToProps')
-)(
-    middleware(ConfirmAccountPageContainer, 'Route/ConfirmAccountPage/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmAccountPageContainer);

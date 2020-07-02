@@ -18,10 +18,12 @@ import { SliderQuery } from 'Query';
 
 import SliderWidget from './SliderWidget.component';
 
+/** @namespace Component/SliderWidget/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
+/** @namespace Component/SliderWidget/Container */
 export class SliderWidgetContainer extends DataContainer {
     static propTypes = {
         sliderId: PropTypes.number.isRequired,
@@ -72,12 +74,8 @@ export class SliderWidgetContainer extends DataContainer {
     }
 }
 
+/** @namespace Component/SliderWidget/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 
-export default connect(
-    middleware(mapStateToProps, 'Component/SliderWidget/Container/mapStateToProps'),
-    middleware(mapDispatchToProps, 'Component/SliderWidget/Container/mapDispatchToProps')
-)(
-    middleware(SliderWidgetContainer, 'Component/SliderWidget/Container')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SliderWidgetContainer);

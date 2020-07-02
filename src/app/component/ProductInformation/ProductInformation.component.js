@@ -20,6 +20,7 @@ import ProductAttributeValue from 'Component/ProductAttributeValue';
 
 import './ProductInformation.style';
 
+/** @namespace Component/ProductInformation/Component */
 export class ProductInformation extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -106,4 +107,4 @@ export class ProductInformation extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductInformation, 'Component/ProductInformation/Component');
+export default ProductInformation;

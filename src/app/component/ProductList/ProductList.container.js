@@ -22,6 +22,7 @@ import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
+/** @namespace Component/ProductList/Container */
 export class ProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
@@ -195,5 +196,5 @@ export class ProductListContainer extends ExtensiblePureComponent {
 }
 
 export default withRouter(
-    middleware(ProductListContainer, 'Component/ProductList/Container')
+    ProductListContainer
 );
