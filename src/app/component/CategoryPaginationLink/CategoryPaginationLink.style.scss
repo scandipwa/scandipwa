@@ -23,8 +23,9 @@
 
     &:hover,
     &:focus {
-        text-decoration: none;
         --color-pagination-link-text: var(--color-pagination-link-active-text);
+
+        text-decoration: none;
     }
 
     &_isCurrent {
