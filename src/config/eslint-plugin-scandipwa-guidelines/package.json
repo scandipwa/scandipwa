@@ -13,6 +13,7 @@
     "test": "mocha tests --recursive"
   },
   "dependencies": {
+    "eslint-traverse": "^1.0.0",
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
