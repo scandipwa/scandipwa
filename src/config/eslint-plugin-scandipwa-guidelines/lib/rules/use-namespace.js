@@ -91,7 +91,7 @@ const generateNamespace = (node, context) => {
                     return acc;
                 }
 
-                return [capitalise(cur), acc].join('/');
+                return [capitalise(cur), acc].filter(Boolean).join('/');
             },
             ['JS', 'QUERY'].includes(postfix.toUpperCase()) ? '' : postfix
         );
@@ -139,7 +139,6 @@ module.exports = {
             category: 'Extensibility',
             recommended: true
         },
-        // Non-fixable.
         fixable: 'code'
     },
 
@@ -158,7 +157,37 @@ module.exports = {
                     message: `Provide namespace for ${types.detectType(node)} by using @namespace magic comment`,
                     fix: fixer => {
                         const afterCommentNode = getProperParentNode(node);
-                        return fixer.insertTextBefore(afterCommentNode, `/** @namespace ${newNamespace} */\n`);
+                        const { leadingComments = [] } = afterCommentNode;
+
+                        const blockComment = leadingComments.reverse().find(
+                             comment => comment.type === 'Block' && !['eslint-', '@license'].some(cond => comment.value.includes(cond))
+                        );
+                        const lineComment = leadingComments.reverse().find(
+                            ({ type }) => type === 'Line'
+                        );
+                        const eslintComment = leadingComments.find(
+                            comment => comment.value.includes('eslint-disable-next-line')
+                        );
+
+                        if (blockComment) {
+                            return fixer.replaceText(
+                                blockComment,
+                                '/*' + blockComment.value.concat(`* @namespace ${newNamespace}`) + '\n */'
+                            );
+                        }
+                        if (lineComment) {
+                            return fixer.insertTextBefore(lineComment, `/** @namespace ${newNamespace} */\n`);
+                        }
+                        if (eslintComment) {
+                            return fixer.insertTextBefore(eslintComment, `/** @namespace ${newNamespace} */\n`);
+                        }
+
+                        return fixer.insertTextBefore(
+                            afterCommentNode,
+                            `${
+                                context.getSourceCode().text[afterCommentNode.start - 1] === '(' ? '\n' : ''
+                            }/** @namespace ${newNamespace} */\n`
+                        );
                     }
                 });
             }
