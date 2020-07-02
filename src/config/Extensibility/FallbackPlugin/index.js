@@ -31,7 +31,7 @@ class FallbackPlugin {
             throw new Error('Fallback root or theme specifier is not provided!');
         }
 
-        return new RegExp(path.join('app/design/frontend', this.options.fallbackThemeSpecifier));
+        return new RegExp(path.join('design/frontend', this.options.fallbackThemeSpecifier));
     }
 
     buildParentThemeRegExp() {
@@ -40,7 +40,7 @@ class FallbackPlugin {
             return /(?=a)b/;
         }
 
-        return new RegExp(path.join('app/design/frontend', this.options.parentThemeSpecifier));
+        return new RegExp(path.join('design/frontend', this.options.parentThemeSpecifier));
     }
 
     // Default plugin entry-point function
