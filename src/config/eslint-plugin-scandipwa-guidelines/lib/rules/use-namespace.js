@@ -3,6 +3,8 @@
  * @author Jegors Batovs
  */
 
+const fixNamespaceLack = require('../util/fix-namespace-lack.js');
+
 const types = {
     ExportedClass: [
         'ExportNamedDeclaration',
@@ -149,45 +151,14 @@ module.exports = {
             types.ExportedArrowFunction
         ].join(',')](node) {
             const namespace = getNamespaceForNode(node);
-            if (!namespace) {
-                const newNamespace = generateNamespace(node, context);
 
+            if (!namespace) {
                 context.report({
                     node,
                     message: `Provide namespace for ${types.detectType(node)} by using @namespace magic comment`,
                     fix: fixer => {
-                        const afterCommentNode = getProperParentNode(node);
-                        const { leadingComments = [] } = afterCommentNode;
-
-                        const blockComment = leadingComments.reverse().find(
-                             comment => comment.type === 'Block' && !['eslint-', '@license'].some(cond => comment.value.includes(cond))
-                        );
-                        const lineComment = leadingComments.reverse().find(
-                            ({ type }) => type === 'Line'
-                        );
-                        const eslintComment = leadingComments.find(
-                            comment => comment.value.includes('eslint-disable-next-line')
-                        );
-
-                        if (blockComment) {
-                            return fixer.replaceText(
-                                blockComment,
-                                '/*' + blockComment.value.concat(`* @namespace ${newNamespace}`) + '\n */'
-                            );
-                        }
-                        if (lineComment) {
-                            return fixer.insertTextBefore(lineComment, `/** @namespace ${newNamespace} */\n`);
-                        }
-                        if (eslintComment) {
-                            return fixer.insertTextBefore(eslintComment, `/** @namespace ${newNamespace} */\n`);
-                        }
-
-                        return fixer.insertTextBefore(
-                            afterCommentNode,
-                            `${
-                                context.getSourceCode().text[afterCommentNode.start - 1] === '(' ? '\n' : ''
-                            }/** @namespace ${newNamespace} */\n`
-                        );
+                        const newNamespace = generateNamespace(node, context);
+                        return [fixNamespaceLack(fixer, getProperParentNode(node), context, newNamespace)].filter(value => value)
                     }
                 });
             }
