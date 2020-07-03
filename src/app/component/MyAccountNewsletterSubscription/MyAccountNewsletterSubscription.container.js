@@ -9,19 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import Loader from 'Component/Loader';
 import { MyAccountQuery } from 'Query';
-import { customerType } from 'Type/Account';
-import { fetchMutation } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
 import { updateCustomerDetails } from 'Store/MyAccount';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import { showNotification } from 'Store/Notification';
+import { customerType } from 'Type/Account';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
+import { fetchMutation } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
 
 export const mapStateToProps = state => ({

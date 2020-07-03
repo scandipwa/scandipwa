@@ -9,22 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { showPopup } from 'Store/Popup';
-import { showNotification } from 'Store/Notification';
-import { paymentMethodsType } from 'Type/Checkout';
-import { customerType, addressType } from 'Type/Account';
-import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
-import { TotalsType } from 'Type/MiniCart';
-import { BRAINTREE, STRIPE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { BRAINTREE, KLARNA, STRIPE } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
-} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component';
+} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
+import { showNotification } from 'Store/Notification';
+import { showPopup } from 'Store/Popup';
+import { addressType, customerType } from 'Type/Account';
+import { paymentMethodsType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
+
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,

@@ -11,45 +11,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import SearchField from 'Component/SearchField';
-import MyAccountOverlay from 'Component/MyAccountOverlay';
-import OfflineNotice from 'Component/OfflineNotice';
-import ClickOutside from 'Component/ClickOutside';
-import CartOverlay from 'Component/CartOverlay';
-import Menu from 'Component/Menu';
-import { LOGO_MEDIA } from 'Util/Media/Media';
-import StoreSwitcher from 'Component/StoreSwitcher';
-import CmsBlock from 'Component/CmsBlock';
-import { TotalsType } from 'Type/MiniCart';
-import { isSignedIn } from 'Util/Auth';
-import isMobile from 'Util/Mobile';
-import Link from 'Component/Link';
-import Logo from 'Component/Logo';
-import media from 'Util/Media';
-
 import './Header.style';
 
-export const PDP = 'pdp';
-export const POPUP = 'popup';
-export const CATEGORY = 'category';
-export const CUSTOMER_ACCOUNT = 'customer_account';
-export const CUSTOMER_SUB_ACCOUNT = 'customer_sub_account';
-export const CUSTOMER_ACCOUNT_PAGE = 'customer_account_page';
-export const HOME_PAGE = 'home';
-export const MENU = 'menu';
-export const MENU_SUBCATEGORY = 'menu_subcategory';
-export const SEARCH = 'search';
-export const FILTER = 'filter';
-export const CART = 'cart';
-export const CART_OVERLAY = 'cart_overlay';
-export const CART_EDITING = 'cart_editing';
-export const CHECKOUT = 'checkout';
-export const CMS_PAGE = 'cms-page';
-export const MY_ACCOUNT = 'my-account';
+import PropTypes from 'prop-types';
+import { lazy, Suspense } from 'react';
+
+import ClickOutside from 'Component/ClickOutside';
+import CmsBlock from 'Component/CmsBlock';
+import Link from 'Component/Link';
+import Logo from 'Component/Logo';
+// import CartOverlay from 'Component/CartOverlay';
+import Menu from 'Component/Menu';
+import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+// import MyAccountOverlay from 'Component/MyAccountOverlay';
+import OfflineNotice from 'Component/OfflineNotice';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
+import media from 'Util/Media';
+import { LOGO_MEDIA } from 'Util/Media/Media';
+import isMobile from 'Util/Mobile';
+
+import {
+    CART, CART_EDITING, CART_OVERLAY, CATEGORY, CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, FILTER, MENU, MENU_SUBCATEGORY, PDP, POPUP, SEARCH
+} from './Header.config';
+
+export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "cart" */ 'Component/CartOverlay'));
+export const SearchField = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "search" */ 'Component/SearchField'));
+export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
 
 export default class Header extends NavigationAbstract {
     static propTypes = {
@@ -228,17 +219,19 @@ export default class Header extends NavigationAbstract {
         }
 
         return (
-            <SearchField
-              key="search"
-              searchCriteria={ searchCriteria }
-              onSearchOutsideClick={ onSearchOutsideClick }
-              onSearchBarFocus={ onSearchBarFocus }
-              onSearchBarChange={ onSearchBarChange }
-              onClearSearchButtonClick={ onClearSearchButtonClick }
-              isVisible={ isSearchVisible }
-              isActive={ name === SEARCH }
-              hideActiveOverlay={ hideActiveOverlay }
-            />
+            <Suspense fallback={ this.renderOverlayFallback() }>
+                <SearchField
+                  key="search"
+                  searchCriteria={ searchCriteria }
+                  onSearchOutsideClick={ onSearchOutsideClick }
+                  onSearchBarFocus={ onSearchBarFocus }
+                  onSearchBarChange={ onSearchBarChange }
+                  onClearSearchButtonClick={ onClearSearchButtonClick }
+                  isVisible={ isSearchVisible }
+                  isActive={ name === SEARCH }
+                  hideActiveOverlay={ hideActiveOverlay }
+                />
+            </Suspense>
         );
     }
 
@@ -341,11 +334,13 @@ export default class Header extends NavigationAbstract {
                     </button>
 
                     { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
-                        <MyAccountOverlay
-                          onSignIn={ onSignIn }
-                          closeOverlay={ closeOverlay }
-                          isCheckout={ isCheckout }
-                        />
+                        <Suspense fallback={ this.renderOverlayFallback() }>
+                            <MyAccountOverlay
+                              onSignIn={ onSignIn }
+                              closeOverlay={ closeOverlay }
+                              isCheckout={ isCheckout }
+                            />
+                        </Suspense>
                     ) }
                 </div>
             </ClickOutside>
@@ -412,7 +407,9 @@ export default class Header extends NavigationAbstract {
                         />
                         { this.renderMinicartItemsQty() }
                     </button>
-                    <CartOverlay />
+                    <Suspense fallback={ this.renderOverlayFallback() }>
+                        <CartOverlay />
+                    </Suspense>
                 </div>
             </ClickOutside>
         );
@@ -529,6 +526,10 @@ export default class Header extends NavigationAbstract {
                 </div>
             </div>
         );
+    }
+
+    renderOverlayFallback() {
+        return <div />;
     }
 
     render() {

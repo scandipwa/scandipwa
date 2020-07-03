@@ -14,28 +14,26 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { history } from 'Route';
 import { PDP } from 'Component/Header';
-import { MetaDispatcher } from 'Store/Meta';
-import { getVariantIndex } from 'Util/Product';
-import { ProductType } from 'Type/ProductList';
-import { ProductDispatcher } from 'Store/Product';
-import { changeNavigationState } from 'Store/Navigation';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { history } from 'Route';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
+import { MetaDispatcher } from 'Store/Meta';
+import { changeNavigationState } from 'Store/Navigation';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline';
-import { LocationType, HistoryType, MatchType } from 'Type/Common';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { ProductDispatcher } from 'Store/Product';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { ProductType } from 'Type/ProductList';
+import { getVariantIndex } from 'Util/Product';
 import {
-    getUrlParam,
-    convertQueryStringToKeyValuePairs,
-    updateQueryParamWithoutHistory,
-    removeQueryParamWithoutHistory,
-    objectToUri
+    convertQueryStringToKeyValuePairs, getUrlParam,
+    objectToUri, removeQueryParamWithoutHistory, updateQueryParamWithoutHistory
 } from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
+
 
 export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline,

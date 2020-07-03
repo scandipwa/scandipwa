@@ -9,18 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import './CartOverlay.style';
 
-import Link from 'Component/Link';
-import Overlay from 'Component/Overlay';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import CartItem from 'Component/CartItem';
-import { TotalsType } from 'Type/MiniCart';
-import { formatCurrency } from 'Util/Price';
 import CmsBlock from 'Component/CmsBlock';
 import { CART_OVERLAY } from 'Component/Header';
-
-import './CartOverlay.style';
+import Link from 'Component/Link';
+import Overlay from 'Component/Overlay';
+import { TotalsType } from 'Type/MiniCart';
+import { formatCurrency } from 'Util/Price';
 
 export default class CartOverlay extends PureComponent {
     static propTypes = {

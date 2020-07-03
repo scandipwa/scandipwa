@@ -9,18 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { orderType } from 'Type/Account';
-import { OrderDispatcher } from 'Store/Order';
+import { OrderQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
+import { OrderDispatcher } from 'Store/Order';
+import { orderType } from 'Type/Account';
 import { getIndexedProducts } from 'Util/Product';
 import { fetchQuery } from 'Util/Request';
-import { OrderQuery } from 'Query';
 
-import MyAccountOrderPopup, { ORDER_POPUP_ID } from './MyAccountOrderPopup.component';
+import MyAccountOrderPopup from './MyAccountOrderPopup.component';
+import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
+
 
 export const mapStateToProps = state => ({
     order: state.OrderReducer.order,

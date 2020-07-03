@@ -9,8 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import PropTypes from 'prop-types';
-import DataContainer from 'Util/Request/DataContainer';
+
 import { CmsBlockQuery } from 'Query';
+import DataContainer from 'Util/Request/DataContainer';
 
 import CmsBlock from './CmsBlock.component';
 

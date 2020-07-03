@@ -10,7 +10,9 @@
  */
 
 import { connect } from 'react-redux';
+
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+
 import NoMatch from './NoMatch.component';
 
 export const mapDispatchToProps = dispatch => ({

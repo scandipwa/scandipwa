@@ -9,34 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { history } from 'Route';
-import { setQueryParams } from 'Util/Url';
-import { isSignedIn } from 'Util/Auth';
-import isMobile from 'Util/Mobile';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
-import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
-import Header, {
-    PDP,
-    CATEGORY,
-    CUSTOMER_ACCOUNT,
-    CUSTOMER_SUB_ACCOUNT,
-    MENU,
-    POPUP,
-    SEARCH,
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
+import { isSignedIn } from 'Util/Auth';
+import isMobile from 'Util/Mobile';
+import { setQueryParams } from 'Util/Url';
+
+import Header from './Header.component';
+import {
     CART,
-    CART_OVERLAY,
-    CMS_PAGE,
-    CUSTOMER_ACCOUNT_PAGE,
-    CHECKOUT
-} from './Header.component';
+    CART_OVERLAY, CATEGORY,
+    CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
+    MENU, PDP,
+    POPUP,
+    SEARCH
+} from './Header.config';
 
 export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,

@@ -10,7 +10,9 @@
  */
 
 import { connect } from 'react-redux';
+
 import { UrlRewritesDispatcher } from 'Store/UrlRewrites';
+
 import UrlRewrites from './UrlRewrites.component';
 
 export const mapStateToProps = state => ({

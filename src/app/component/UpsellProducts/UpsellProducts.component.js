@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import './UpsellProducts.style';
+
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
-import './UpsellProducts.style';
 
 export const NUMBER_OF_DISPLAYED_PRODUCTS = 4;
 

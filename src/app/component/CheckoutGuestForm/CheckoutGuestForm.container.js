@@ -9,14 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
+import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
+
 
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,

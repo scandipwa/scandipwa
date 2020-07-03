@@ -10,16 +10,17 @@
  */
 
 import PropTypes from 'prop-types';
-import { ProductType } from 'Type/ProductList';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { ProductType } from 'Type/ProductList';
+
 import ProductActions from './ProductActions.component';
+import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 
 export const mapStateToProps = state => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
-
-export const DEFAULT_MAX_PRODUCTS = 99;
 
 export class ProductActionsContainer extends PureComponent {
     static propTypes = {

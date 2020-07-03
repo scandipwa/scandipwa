@@ -9,17 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-
-import ProductList from 'Component/ProductList';
-import DataContainer from 'Util/Request/DataContainer';
-import { ProductListQuery } from 'Query';
-import { getIndexedProducts } from 'Util/Product';
-import { showNotification } from 'Store/Notification';
-import { updateNoMatch } from 'Store/NoMatch';
 
 import './ProductListWidget.style';
+
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import ProductList from 'Component/ProductList';
+import { ProductListQuery } from 'Query';
+import { updateNoMatch } from 'Store/NoMatch';
+import { showNotification } from 'Store/Notification';
+import { getIndexedProducts } from 'Util/Product';
+import DataContainer from 'Util/Request/DataContainer';
 
 export const mapDispatchToProps = {
     updateNoMatch,

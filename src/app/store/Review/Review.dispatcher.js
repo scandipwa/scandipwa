@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { ReviewQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { fetchMutation } from 'Util/Request';
-import { ReviewQuery } from 'Query';
 
 /**
  * Product Review Dispatcher

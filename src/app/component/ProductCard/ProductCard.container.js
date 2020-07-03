@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { ProductType, FilterType } from 'Type/ProductList';
-import { getVariantsIndexes } from 'Util/Product';
 import { CartDispatcher } from 'Store/Cart';
+import { FilterType, ProductType } from 'Type/ProductList';
+import { getVariantsIndexes } from 'Util/Product';
 import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';

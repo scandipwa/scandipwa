@@ -10,22 +10,23 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
+import { CART_EDITING, CART_OVERLAY } from 'Component/Header';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { history } from 'Route';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { CartDispatcher } from 'Store/Cart';
 import { changeNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CART_OVERLAY, CART_EDITING } from 'Component/Header';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { toggleOverlayByKey } from 'Store/Overlay';
 import { showNotification } from 'Store/Notification';
-import { CartDispatcher } from 'Store/Cart';
+import { toggleOverlayByKey } from 'Store/Overlay';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
-import { history } from 'Route';
 
 import CartOverlay from './CartOverlay.component';
+
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,

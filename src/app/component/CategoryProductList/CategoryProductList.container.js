@@ -8,14 +8,14 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import './CategoryProductList.style';
+
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import ProductList from 'Component/ProductList';
 import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
-
-import './CategoryProductList.style';
 
 export const mapStateToProps = state => ({
     pages: state.ProductListReducer.pages,

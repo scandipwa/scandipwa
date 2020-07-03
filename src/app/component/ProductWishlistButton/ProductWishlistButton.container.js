@@ -9,14 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { isSignedIn } from 'Util/Auth';
+
 import { showNotification } from 'Store/Notification';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
 import { getExtensionAttributes } from 'Util/Product';
+
 import ProductWishlistButton from './ProductWishlistButton.component';
 
 export const mapStateToProps = state => ({

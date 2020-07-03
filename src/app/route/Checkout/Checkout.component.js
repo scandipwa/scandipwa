@@ -9,30 +9,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
-import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
-import CheckoutSuccess from 'Component/CheckoutSuccess';
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
-import CheckoutShipping from 'Component/CheckoutShipping';
-import CheckoutBilling from 'Component/CheckoutBilling';
-import ContentWrapper from 'Component/ContentWrapper';
-import { CHECKOUT } from 'Component/Header';
-import { addressType } from 'Type/Account';
-import { TotalsType } from 'Type/MiniCart';
-import { HistoryType } from 'Type/Common';
-import CmsBlock from 'Component/CmsBlock';
-import Loader from 'Component/Loader';
-
 import './Checkout.style';
 
-export const SHIPPING_STEP = 'SHIPPING_STEP';
-export const BILLING_STEP = 'BILLING_STEP';
-export const DETAILS_STEP = 'DETAILS_STEP';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-export const CHECKOUT_URL = '/checkout';
+import CheckoutBilling from 'Component/CheckoutBilling';
+import CheckoutGuestForm from 'Component/CheckoutGuestForm';
+import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
+import CheckoutShipping from 'Component/CheckoutShipping';
+import CheckoutSuccess from 'Component/CheckoutSuccess';
+import CmsBlock from 'Component/CmsBlock';
+import ContentWrapper from 'Component/ContentWrapper';
+import { CHECKOUT } from 'Component/Header';
+import Loader from 'Component/Loader';
+import { addressType } from 'Type/Account';
+import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
+import { HistoryType } from 'Type/Common';
+import { TotalsType } from 'Type/MiniCart';
+
+import {
+    BILLING_STEP, CHECKOUT_URL, DETAILS_STEP, SHIPPING_STEP
+} from './Checkout.config';
+
 
 class Checkout extends PureComponent {
     static propTypes = {

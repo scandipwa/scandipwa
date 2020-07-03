@@ -10,9 +10,11 @@
  */
 
 import { PureComponent } from 'react';
-import { HistoryType, LocationType } from 'Type/Common';
 import { withRouter } from 'react-router-dom';
+
+import { HistoryType, LocationType } from 'Type/Common';
 import { setQueryParams } from 'Util/Url';
+
 import ResetButton from './ResetButton.component';
 
 export class ResetButtonContainer extends PureComponent {

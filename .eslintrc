@@ -18,6 +18,8 @@
     "importScripts": true
   },
   "plugins": [
+    "simple-import-sort",
+    "import",
     "react",
     "import",
     "jest",
@@ -25,6 +27,19 @@
     "fp"
   ],
   "rules": {
+    "simple-import-sort/sort": ["error", {
+        "groups": [
+            ["^\\u0000"], // side effect imports
+            ["^@?[a-z]"], // anything that starts with @ and lowercase
+            ["^[^.]"], // anything but a dot
+            ["^\\."] // starting with dot
+        ]
+    }],
+    "sort-imports": "off",
+    "import/order": "off",
+    "import/no-cycle": ["error", {
+        "maxDepth": 4
+    }],
     "fp/no-let": "error",
     "fp/no-arguments": "error",
     "fp/no-loops": "error",

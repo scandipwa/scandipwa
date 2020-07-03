@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { OrderQuery } from 'Query';
+import { showNotification } from 'Store/Notification';
 import { getOrderList } from 'Store/Order';
 import { fetchQuery } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
-import { OrderQuery } from 'Query';
 
 export class OrderDispatcher {
     requestOrders(dispatch) {

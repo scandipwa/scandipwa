@@ -10,9 +10,11 @@
  */
 
 import { connect } from 'react-redux';
+
 import { WishlistItemContainer } from 'Component/WishlistItem/WishlistItem.container';
 import { CartDispatcher } from 'Store/Cart';
 import { showNotification } from 'Store/Notification';
+
 import SharedWishlistItem from './SharedWishlistItem.component';
 
 export const mapDispatchToProps = dispatch => ({

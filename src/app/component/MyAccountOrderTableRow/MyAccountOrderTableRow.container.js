@@ -12,9 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
 import { showPopup } from 'Store/Popup';
-import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.component';
 import { orderType } from 'Type/Account';
+
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
 export const mapStateToProps = state => ({

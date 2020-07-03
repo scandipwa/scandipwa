@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { toggleBreadcrumbs, BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { changeNavigationState } from 'Store/Navigation';
-import DataContainer from 'Util/Request/DataContainer';
-import { LocationType, MatchType } from 'Type/Common';
-import { setBigOfflineNotice } from 'Store/Offline';
-import { CmsPageQuery } from 'Query';
 import { CMS_PAGE } from 'Component/Header';
-import { debounce } from 'Util/Request';
-import { updateMeta } from 'Store/Meta';
-import { getUrlParam } from 'Util/Url';
+import { CmsPageQuery } from 'Query';
 import { history } from 'Route';
+import { BreadcrumbsDispatcher, toggleBreadcrumbs } from 'Store/Breadcrumbs';
+import { updateMeta } from 'Store/Meta';
+import { changeNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { setBigOfflineNotice } from 'Store/Offline';
+import { LocationType, MatchType } from 'Type/Common';
+import { debounce } from 'Util/Request';
+import DataContainer from 'Util/Request/DataContainer';
+import { getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 

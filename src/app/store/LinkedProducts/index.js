@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import LinkedProductsReducer from './LinkedProducts.reducer';
-import LinkedProductsDispatcher, {
-    LinkedProductsDispatcher as LinkedProductsDispatcherClass
-} from './LinkedProducts.dispatcher';
-
 import {
     UPDATE_LINKED_PRODUCTS,
     updateLinkedProducts
 } from './LinkedProducts.action';
+import LinkedProductsDispatcher, {
+    LinkedProductsDispatcher as LinkedProductsDispatcherClass
+} from './LinkedProducts.dispatcher';
+import LinkedProductsReducer from './LinkedProducts.reducer';
+
 
 export {
     LinkedProductsReducer,

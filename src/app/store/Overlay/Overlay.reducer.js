@@ -12,8 +12,8 @@
 import { SHOW_POPUP } from 'Store/Popup';
 
 import {
-    TOGGLE_OVERLAY,
-    HIDE_ACTIVE_OVERLAY
+    HIDE_ACTIVE_OVERLAY,
+    TOGGLE_OVERLAY
 } from './Overlay.action';
 
 export const initialState = {

@@ -9,19 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import './CheckoutBilling.style';
 
-import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutPayments from 'Component/CheckoutPayments';
-import { paymentMethodsType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
-import { addressType } from 'Type/Account';
+import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
-import './CheckoutBilling.style';
+import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
+import { addressType } from 'Type/Account';
+import { paymentMethodsType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+
 
 class CheckoutBilling extends PureComponent {
     state = {

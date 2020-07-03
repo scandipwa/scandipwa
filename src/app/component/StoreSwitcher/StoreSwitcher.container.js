@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import DataContainer from 'Util/Request/DataContainer';
-import { showNotification } from 'Store/Notification';
 import ConfigQuery from 'Query/Config.query';
+import { showNotification } from 'Store/Notification';
+import DataContainer from 'Util/Request/DataContainer';
 
 import StoreSwitcher from './StoreSwitcher.component';
 

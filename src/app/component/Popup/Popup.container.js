@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { changeNavigationState } from 'Store/Navigation';
-import { hideActiveOverlay } from 'Store/Overlay';
 import { POPUP } from 'Component/Header';
+import { changeNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { hideActiveOverlay } from 'Store/Overlay';
 
 import Popup from './Popup.component';
 

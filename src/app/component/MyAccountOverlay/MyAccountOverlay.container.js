@@ -9,30 +9,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
-import { changeNavigationState } from 'Store/Navigation';
+import { history } from 'Route';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { MyAccountDispatcher } from 'Store/MyAccount';
+import { changeNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
 
-import MyAccountOverlay, {
-    STATE_SIGN_IN,
-    STATE_FORGOT_PASSWORD,
-    STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_CREATE_ACCOUNT,
-    STATE_LOGGED_IN,
+import MyAccountOverlay from './MyAccountOverlay.component';
+import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    STATE_CONFIRM_EMAIL
-} from './MyAccountOverlay.component';
+    STATE_CONFIRM_EMAIL, STATE_CREATE_ACCOUNT, STATE_FORGOT_PASSWORD,
+    STATE_FORGOT_PASSWORD_SUCCESS,
+    STATE_LOGGED_IN, STATE_SIGN_IN
+} from './MyAccountOverlay.config';
+
 
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,

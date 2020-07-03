@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
-import {
-    updateProductListInfo,
-    updateInfoLoadStatus
-} from 'Store/ProductListInfo';
-import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
+import { showNotification } from 'Store/Notification';
+import {
+    updateInfoLoadStatus,
+    updateProductListInfo
+} from 'Store/ProductListInfo';
+import { QueryDispatcher } from 'Util/Request';
 
 /**
  * Product List Info Dispatcher

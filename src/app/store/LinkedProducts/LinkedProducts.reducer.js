@@ -10,6 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+
 import { UPDATE_LINKED_PRODUCTS } from './LinkedProducts.action';
 import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
 

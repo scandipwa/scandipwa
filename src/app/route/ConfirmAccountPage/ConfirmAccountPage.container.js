@@ -9,15 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { convertQueryStringToKeyValuePairs } from 'Util/Url';
+
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { updateMeta } from 'Store/Meta';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { showNotification } from 'Store/Notification';
 import { LocationType } from 'Type/Router';
-import { updateMeta } from 'Store/Meta';
+import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 

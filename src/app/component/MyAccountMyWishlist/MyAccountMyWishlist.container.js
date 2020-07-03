@@ -9,14 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { WishlistDispatcher } from 'Store/Wishlist';
+
+import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { showNotification } from 'Store/Notification';
-import { ProductType } from 'Type/ProductList';
 import { showPopup } from 'Store/Popup';
-import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.component';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { ProductType } from 'Type/ProductList';
+
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
 export const mapStateToProps = state => ({

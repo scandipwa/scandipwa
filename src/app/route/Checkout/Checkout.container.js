@@ -9,33 +9,33 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { fetchMutation, fetchQuery } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
-import BrowserDatabase from 'Util/BrowserDatabase';
-import { changeNavigationState } from 'Store/Navigation';
-import { HistoryType } from 'Type/Common';
+import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
+import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
-import { TotalsType } from 'Type/MiniCart';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { updateMeta } from 'Store/Meta';
-import { isSignedIn } from 'Util/Auth';
+import { MyAccountDispatcher } from 'Store/MyAccount';
+import { changeNavigationState } from 'Store/Navigation';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification';
 import { customerType } from 'Type/Account';
+import { HistoryType } from 'Type/Common';
+import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { fetchMutation, fetchQuery } from 'Util/Request';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
-import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
-
-export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
-export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
+import Checkout from './Checkout.component';
+import {
+    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, STRIPE_AUTH_REQUIRED
+} from './Checkout.config';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,

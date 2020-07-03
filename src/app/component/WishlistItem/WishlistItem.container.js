@@ -9,14 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'Util/Request';
+
 import { CartDispatcher } from 'Store/Cart';
-import { ProductType } from 'Type/ProductList';
-import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { ProductType } from 'Type/ProductList';
+import { debounce } from 'Util/Request';
+
 import WishlistItem from './WishlistItem.component';
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)

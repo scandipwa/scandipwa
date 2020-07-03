@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
 import { CategoryQuery } from 'Query';
 import { updateCurrentCategory } from 'Store/Category';
-import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
+import { showNotification } from 'Store/Notification';
+import { QueryDispatcher } from 'Util/Request';
 
 /**
  * Category Dispatcher

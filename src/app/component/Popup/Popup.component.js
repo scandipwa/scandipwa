@@ -11,13 +11,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
-import Overlay from 'Component/Overlay/Overlay.component';
-import ClickOutside from 'Component/ClickOutside';
 import './Popup.style';
 
-export const ESCAPE_KEY = 27;
+import PropTypes from 'prop-types';
+import { createPortal } from 'react-dom';
+
+import ClickOutside from 'Component/ClickOutside';
+import Overlay from 'Component/Overlay/Overlay.component';
+
+import { ESCAPE_KEY } from './Popup.config';
 
 export default class Popup extends Overlay {
     static propTypes = {

@@ -9,24 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    updateCustomerSignInStatus,
-    updateCustomerDetails,
-    updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
-} from 'Store/MyAccount';
-import { fetchMutation, executePost } from 'Util/Request';
-import {
-    setAuthorizationToken,
-    deleteAuthorizationToken
-} from 'Util/Auth';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import { CartDispatcher } from 'Store/Cart';
 import { MyAccountQuery } from 'Query';
-import { prepareQuery } from 'Util/Query';
-import BrowserDatabase from 'Util/BrowserDatabase';
+import { CartDispatcher } from 'Store/Cart';
+import {
+    updateCustomerDetails,
+    updateCustomerPasswordForgotStatus,
+    updateCustomerPasswordResetStatus,
+    updateCustomerSignInStatus
+} from 'Store/MyAccount';
+import { showNotification } from 'Store/Notification';
 import { ORDERS } from 'Store/Order/Order.reducer';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import {
+    deleteAuthorizationToken,
+    setAuthorizationToken
+} from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { prepareQuery } from 'Util/Query';
+import { executePost, fetchMutation } from 'Util/Request';
 
 export const CUSTOMER = 'customer';
 

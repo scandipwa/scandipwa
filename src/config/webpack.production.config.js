@@ -112,6 +112,7 @@ const webpackConfig = ([lang, translation]) => ({
     },
 
     output: {
+        chunkFilename: `${lang}.[name].bundle.js`,
         filename: `${lang}.bundle.js`,
         path: path.resolve(projectRoot, 'Magento_Theme', 'web'),
         pathinfo: true,

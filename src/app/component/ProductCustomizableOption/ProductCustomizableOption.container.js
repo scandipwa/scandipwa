@@ -9,9 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import { formatCurrency } from 'Util/Price';
+
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
 class ProductCustomizableOptionContainer extends PureComponent {

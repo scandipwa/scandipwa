@@ -10,19 +10,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { KlarnaQuery } from 'Query';
-import Html from 'Component/Html';
-import { fetchMutation } from 'Util/Request';
-import Loader from 'Component/Loader';
-import { CartDispatcher } from 'Store/Cart';
-import { isSignedIn } from 'Util/Auth';
-
 import './Klarna.style';
 
-export const KLARNA_SCRIPT_ID = 'klarna_script';
-export const KLARNA_PAYMENTS_CONTAINER_ID = 'klarna-payments-container';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Html from 'Component/Html';
+import Loader from 'Component/Loader';
+import { KlarnaQuery } from 'Query';
+import { CartDispatcher } from 'Store/Cart';
+import { isSignedIn } from 'Util/Auth';
+import { fetchMutation } from 'Util/Request';
+
+import { KLARNA_PAYMENTS_CONTAINER_ID, KLARNA_SCRIPT_ID } from './Klarna.config';
+
 
 export default class KlarnaComponent extends PureComponent {
     static propTypes = {

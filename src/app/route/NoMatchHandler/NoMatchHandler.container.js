@@ -10,11 +10,13 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { updateMeta } from 'Store/Meta';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import { updateMeta } from 'Store/Meta';
 import { NoMatchDispatcher } from 'Store/NoMatch';
+
 import NoMatchHandler from './NoMatchHandler.component';
 
 export const mapStateToProps = state => ({

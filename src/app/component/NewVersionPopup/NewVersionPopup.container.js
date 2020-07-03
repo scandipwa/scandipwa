@@ -9,18 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { showPopup } from 'Store/Popup';
 
 import { goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showPopup } from 'Store/Popup';
 import isMobile from 'Util/Mobile';
 
-import NewVersionPopup, {
-    NEW_VERSION_POPUP_ID
-} from './NewVersionPopup.component';
+import NewVersionPopup from './NewVersionPopup.component';
+import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
+
 
 export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),

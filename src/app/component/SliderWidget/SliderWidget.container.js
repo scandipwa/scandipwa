@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import DataContainer from 'Util/Request/DataContainer';
-import { showNotification } from 'Store/Notification';
 import { SliderQuery } from 'Query';
+import { showNotification } from 'Store/Notification';
+import DataContainer from 'Util/Request/DataContainer';
 
 import SliderWidget from './SliderWidget.component';
 

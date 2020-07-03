@@ -10,37 +10,34 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { CATEGORY } from 'Component/Header';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { changeNavigationState } from 'Store/Navigation';
 import { CategoryDispatcher } from 'Store/Category';
+import { MetaDispatcher } from 'Store/Meta';
+import { changeNavigationState } from 'Store/Navigation';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NoMatchDispatcher } from 'Store/NoMatch';
 import { setBigOfflineNotice } from 'Store/Offline';
 import { toggleOverlayByKey } from 'Store/Overlay';
-import { NoMatchDispatcher } from 'Store/NoMatch';
-import { CategoryTreeType } from 'Type/Category';
-import { MetaDispatcher } from 'Store/Meta';
-import { CATEGORY } from 'Component/Header';
-import { debounce } from 'Util/Request';
-
 import {
     ProductListInfoDispatcher,
     updateInfoLoadStatus
 } from 'Store/ProductListInfo';
-
+import { CategoryTreeType } from 'Type/Category';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { debounce } from 'Util/Request';
 import {
-    getUrlParam,
-    getQueryParam,
-    setQueryParams,
     clearQueriesFromUrl,
-    convertQueryStringToKeyValuePairs
+    convertQueryStringToKeyValuePairs, getQueryParam, getUrlParam,
+    setQueryParams
 } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
+
 
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,

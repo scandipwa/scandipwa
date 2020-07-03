@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import CheckoutTermsAndConditionsPopup, {
-    TERMS_AND_CONDITIONS_POPUP_ID
-} from './CheckoutTermsAndConditionsPopup.component';
+import CheckoutTermsAndConditionsPopup from './CheckoutTermsAndConditionsPopup.component';
+import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
+
 
 export const mapStateToProps = state => ({
     payload: state.PopupReducer.popupPayload[TERMS_AND_CONDITIONS_POPUP_ID] || {}

@@ -11,8 +11,8 @@
 
 import {
     APPEND_PAGE,
-    UPDATE_PRODUCT_LIST_ITEMS,
-    UPDATE_LOAD_STATUS
+    UPDATE_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_ITEMS
 } from 'Store/ProductList';
 import { getIndexedProducts } from 'Util/Product';
 

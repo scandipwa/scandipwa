@@ -9,13 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import FormPortal from 'Component/FormPortal';
-import { debounce } from 'Util/Request';
-import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
 import './CheckoutAddressForm.style';
 
-export const UPDATE_STATE_FREQUENCY = 1000; // (ms)
+import PropTypes from 'prop-types';
+
+import FormPortal from 'Component/FormPortal';
+import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import { debounce } from 'Util/Request';
+
+import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
 
 class CheckoutAddressForm extends MyAccountAddressForm {
     static propTypes = {

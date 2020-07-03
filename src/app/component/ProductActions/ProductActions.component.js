@@ -13,25 +13,26 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import { PureComponent, createRef } from 'react';
-import PropTypes from 'prop-types';
-
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
-import ProductWishlistButton from 'Component/ProductWishlistButton';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import GroupedProductList from 'Component/GroupedProductsList';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
-import { ProductType } from 'Type/ProductList';
-import AddToCart from 'Component/AddToCart';
-import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import { GROUPED, CONFIGURABLE, SIMPLE } from 'Util/Product';
-import Field from 'Component/Field';
-import isMobile from 'Util/Mobile';
-import Html from 'Component/Html';
-import TierPrices from 'Component/TierPrices';
 
 import './ProductActions.style';
+
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
+import AddToCart from 'Component/AddToCart';
+import Field from 'Component/Field';
+import GroupedProductList from 'Component/GroupedProductsList';
+import Html from 'Component/Html';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import TierPrices from 'Component/TierPrices';
+import { ProductType } from 'Type/ProductList';
+import isMobile from 'Util/Mobile';
+import { CONFIGURABLE, GROUPED, SIMPLE } from 'Util/Product';
 
 /**
  * Product actions

@@ -11,18 +11,18 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { MatchType } from 'Type/Common';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import { executeGet } from 'Util/Request';
-import { prepareQuery } from 'Util/Query';
 import { WishlistQuery } from 'Query';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import { getIndexedProduct } from 'Util/Product';
 import { updateNoMatch } from 'Store/NoMatch';
+import { showNotification } from 'Store/Notification';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { MatchType } from 'Type/Common';
+import { getIndexedProduct } from 'Util/Product';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
 

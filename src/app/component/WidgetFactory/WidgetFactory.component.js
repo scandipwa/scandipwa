@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,15 +9,15 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import HomeSlider from 'Component/SliderWidget';
-import NewProducts from 'Component/NewProducts';
-import ProductListWidget from 'Component/ProductListWidget';
 
-export const SLIDER = 'Slider';
-export const NEW_PRODUCTS = 'NewProducts';
-export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
+import PropTypes from 'prop-types';
+import { lazy, PureComponent, Suspense } from 'react';
+
+import { CATALOG_PRODUCT_LIST, NEW_PRODUCTS, SLIDER } from './WidgetFactory.config';
+
+const ProductListWidget = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "category" */ 'Component/ProductListWidget'));
+const NewProducts = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "category" */ 'Component/NewProducts'));
+const HomeSlider = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "slider" */ 'Component/SliderWidget'));
 
 export default class WidgetFactory extends PureComponent {
     static propTypes = {
@@ -35,10 +36,26 @@ export default class WidgetFactory extends PureComponent {
         }
     };
 
-    render() {
+    renderContent() {
         const { type } = this.props;
         const { component: Widget } = this.renderMap[type] || {};
 
-        return Widget !== undefined ? <Widget { ...this.props } /> : null;
+        if (Widget !== undefined) {
+            return <Widget { ...this.props } />;
+        }
+
+        return null;
+    }
+
+    renderFallback() {
+        return <div />;
+    }
+
+    render() {
+        return (
+            <Suspense fallback={ this.renderFallback() }>
+                { this.renderContent() }
+            </Suspense>
+        );
     }
 }

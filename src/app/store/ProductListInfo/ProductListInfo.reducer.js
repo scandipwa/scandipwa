@@ -10,8 +10,8 @@
  */
 
 import {
-    UPDATE_PRODUCT_LIST_INFO,
-    UPDATE_INFO_LOAD_STATUS
+    UPDATE_INFO_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_INFO
 } from 'Store/ProductListInfo';
 
 const reduceFilters = filters => filters.reduce((co, item) => {

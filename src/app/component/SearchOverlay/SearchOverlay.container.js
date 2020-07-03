@@ -10,10 +10,12 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { SearchBarDispatcher } from 'Store/SearchBar';
+import { connect } from 'react-redux';
+
 import { hideActiveOverlay } from 'Store/Overlay';
+import { SearchBarDispatcher } from 'Store/SearchBar';
+
 import SearchOverlay from './SearchOverlay.component';
 
 export const mapStateToProps = state => ({

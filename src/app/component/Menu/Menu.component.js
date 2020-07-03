@@ -10,18 +10,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import Link from 'Component/Link';
-import isMobile from 'Util/Mobile';
-import { MenuType } from 'Type/Menu';
-import CmsBlock from 'Component/CmsBlock';
-import { getSortedItems } from 'Util/Menu';
-import StoreSwitcher from 'Component/StoreSwitcher';
-import MenuItem from 'Component/MenuItem';
-
 import './Menu.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CmsBlock from 'Component/CmsBlock';
+import Link from 'Component/Link';
+import MenuItem from 'Component/MenuItem';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import { MenuType } from 'Type/Menu';
+import { getSortedItems } from 'Util/Menu';
+import isMobile from 'Util/Mobile';
 
 export default class MenuOverlay extends PureComponent {
     static propTypes = {

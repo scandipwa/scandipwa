@@ -1,26 +1,27 @@
 import { connect } from 'react-redux';
-import { SEARCH } from 'Component/Header/Header.component';
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { changeNavigationState } from 'Store/Navigation';
-import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
-import { MetaDispatcher, updateMeta } from 'Store/Meta';
-import { setBigOfflineNotice } from 'Store/Offline';
-import { toggleOverlayByKey } from 'Store/Overlay';
-import { NoMatchDispatcher } from 'Store/NoMatch';
 
-import {
-    ProductListInfoDispatcher,
-    updateInfoLoadStatus
-} from 'Store/ProductListInfo';
+import { SEARCH } from 'Component/Header/Header.config';
 import {
     CategoryPageContainer,
     LOADING_TIME
 } from 'Route/CategoryPage/CategoryPage.container';
-import { getUrlParam } from 'Util/Url';
+import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
+import { MetaDispatcher, updateMeta } from 'Store/Meta';
+import { changeNavigationState } from 'Store/Navigation';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { NoMatchDispatcher } from 'Store/NoMatch';
+import { setBigOfflineNotice } from 'Store/Offline';
+import { toggleOverlayByKey } from 'Store/Overlay';
+import {
+    ProductListInfoDispatcher,
+    updateInfoLoadStatus
+} from 'Store/ProductListInfo';
 import { debounce } from 'Util/Request';
+import { getUrlParam } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
+
 
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,

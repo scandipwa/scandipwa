@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
+import { Field } from 'Util/Query';
 
 export class CheckoutQuery {
     getPaymentMethodsQuery(guestCartId) {

@@ -11,38 +11,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    PureComponent,
-    cloneElement,
-    lazy,
-    Suspense
-} from 'react';
-
-import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
-import { Router } from 'react-router';
-import { connect } from 'react-redux';
-import { updateMeta } from 'Store/Meta';
-
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
+import PropTypes from 'prop-types';
+import {
+    cloneElement,
+    lazy,
+    PureComponent,
+    Suspense
+} from 'react';
+import { connect } from 'react-redux';
+import { Router } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
-import Store from 'Store';
-import Meta from 'Component/Meta';
-import Loader from 'Component/Loader';
-import Footer from 'Component/Footer';
-import CookiePopup from 'Component/CookiePopup';
-import Header from 'Component/Header';
-import { CartDispatcher } from 'Store/Cart';
-import DemoNotice from 'Component/DemoNotice';
-import { ConfigDispatcher } from 'Store/Config';
 import Breadcrumbs from 'Component/Breadcrumbs';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import OfflineNotice from 'Component/OfflineNotice';
+import CookiePopup from 'Component/CookiePopup';
+import DemoNotice from 'Component/DemoNotice';
+import Footer from 'Component/Footer';
+import Header from 'Component/Header';
+import Loader from 'Component/Loader';
+import Meta from 'Component/Meta';
 import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
-import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
+import OfflineNotice from 'Component/OfflineNotice';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
+import UrlRewrites from 'Route/UrlRewrites';
+import Store from 'Store';
+import { CartDispatcher } from 'Store/Cart';
+import { ConfigDispatcher } from 'Store/Config';
+import { updateMeta } from 'Store/Meta';
+import { WishlistDispatcher } from 'Store/Wishlist';
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released
@@ -53,20 +52,19 @@ Route.propTypes.component = PropTypes.oneOfType([
 ]);
 /* eslint-enable react/forbid-foreign-prop-types */
 
-export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
-export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/Checkout'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CmsPage'));
-export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/HomePage'));
-export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MyAccount'));
-export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/NoMatchHandler'));
-export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
-export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
-export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
-export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
-export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
-export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
-export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/WishlistSharedPage'));
+export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "cart" */ 'Route/CartPage'));
+export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "category" */ 'Route/CategoryPage'));
+export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "checkout" */ 'Route/Checkout'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "home" */ 'Route/HomePage'));
+export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "account" */ 'Route/MyAccount'));
+export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "no-match" */ 'Route/NoMatchHandler'));
+export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
+export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "product" */ 'Route/ProductPage'));
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "category" */ 'Route/SearchPage'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "misc" */ 'Route/ConfirmAccountPage'));
+export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "menu" */ 'Route/MenuPage'));
+export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true, webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';

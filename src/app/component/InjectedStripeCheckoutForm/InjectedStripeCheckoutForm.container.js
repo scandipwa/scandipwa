@@ -11,7 +11,9 @@
 
 import { connect } from 'react-redux';
 import { injectStripe } from 'react-stripe-elements';
+
 import { showNotification } from 'Store/Notification';
+
 import InjectedStripeCheckoutForm from './InjectedStripeCheckoutForm.component';
 
 const mapDispatchToProps = dispatch => ({

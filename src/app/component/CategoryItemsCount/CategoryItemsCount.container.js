@@ -10,6 +10,7 @@
  */
 
 import { connect } from 'react-redux';
+
 import CategoryItemsCount from './CategoryItemsCount.component';
 
 export const mapStateToProps = state => ({

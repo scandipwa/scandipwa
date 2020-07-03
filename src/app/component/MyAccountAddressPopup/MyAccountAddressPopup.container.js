@@ -9,20 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { MyAccountQuery } from 'Query';
-import { hideActiveOverlay } from 'Store/Overlay';
-import { fetchMutation } from 'Util/Request';
-import { addressType } from 'Type/Account';
-import { showNotification } from 'Store/Notification';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification';
+import { hideActiveOverlay } from 'Store/Overlay';
+import { addressType } from 'Type/Account';
+import { fetchMutation } from 'Util/Request';
 
-import MyAccountAddressPopup, { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.component';
+import MyAccountAddressPopup from './MyAccountAddressPopup.component';
+import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';
+
 
 export const mapStateToProps = state => ({
     payload: state.PopupReducer.popupPayload[ADDRESS_POPUP_ID] || {}

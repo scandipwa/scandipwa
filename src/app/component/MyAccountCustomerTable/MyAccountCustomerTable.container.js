@@ -9,17 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { showPopup } from 'Store/Popup';
 import {
-    CUSTOMER_POPUP_ID, EDIT_CUSTOMER, CHANGE_PASSWORD
-} from 'Component/MyAccountCustomerPopup/MyAccountCustomerPopup.component';
+    CHANGE_PASSWORD,
+    CUSTOMER_POPUP_ID,
+    EDIT_CUSTOMER
+} from 'Component/MyAccountCustomerPopup/MyAccountCustomerPopup.config';
+import { showPopup } from 'Store/Popup';
 import { customerType } from 'Type/Account';
 
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
+
 
 export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(CUSTOMER_POPUP_ID, payload))

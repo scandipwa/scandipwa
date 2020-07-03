@@ -10,6 +10,7 @@
  */
 
 import { connect } from 'react-redux';
+
 import Field from './Field.component';
 
 export const mapStateToProps = state => ({

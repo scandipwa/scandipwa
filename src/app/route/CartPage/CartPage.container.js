@@ -10,26 +10,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
 import { CART, CART_EDITING } from 'Component/Header';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { history } from 'Route';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { updateMeta } from 'Store/Meta';
 import { changeNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification';
 import { toggleOverlayByKey } from 'Store/Overlay';
-import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
-import { updateMeta } from 'Store/Meta';
+import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
 
 import CartPage from './CartPage.component';
+
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,

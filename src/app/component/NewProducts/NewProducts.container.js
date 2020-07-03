@@ -9,14 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { prepareQuery } from 'Util/Query';
+
 import { ProductListQuery } from 'Query';
-import { executeGet } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+
 import NewProducts from './NewProducts.component';
 
 const mapStateToProps = state => ({

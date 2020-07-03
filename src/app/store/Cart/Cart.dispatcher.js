@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation, fetchQuery } from 'Util/Request';
-import { updateTotals } from 'Store/Cart';
-import { isSignedIn } from 'Util/Auth';
 import { CartQuery } from 'Query';
+import { updateTotals } from 'Store/Cart';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 import { showNotification } from 'Store/Notification';
+import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 

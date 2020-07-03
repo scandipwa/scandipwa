@@ -9,18 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation, fetchQuery } from 'Util/Request';
-import {
-    clearWishlist,
-    updateIsLoading,
-    updateItemOptions,
-    removeItemFromWishlist,
-    updateAllProductsInWishlist
-} from 'Store/Wishlist';
+import { WishlistQuery } from 'Query';
 import { CartDispatcher } from 'Store/Cart';
 import { showNotification } from 'Store/Notification';
+import {
+    clearWishlist,
+    removeItemFromWishlist,
+    updateAllProductsInWishlist,
+    updateIsLoading,
+    updateItemOptions
+} from 'Store/Wishlist';
 import { isSignedIn } from 'Util/Auth';
-import { WishlistQuery } from 'Query';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 
 /**
  * Product Wishlist Dispatcher

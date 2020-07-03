@@ -12,7 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
 import { updateMeta } from 'Store/Meta';
+
 import SomethingWentWrong from './SomethingWentWrong.component';
 
 export const mapDispatchToProps = dispatch => ({

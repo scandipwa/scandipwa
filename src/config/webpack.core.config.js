@@ -22,6 +22,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 const webmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
@@ -114,6 +117,7 @@ module.exports = {
     },
 
     output: {
+        chunkFilename: '[name].bundle.js',
         filename: '[name].js',
         publicPath: '/',
         pathinfo: true,
@@ -176,6 +180,13 @@ module.exports = {
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
         ]),
 
-        new MiniCssExtractPlugin()
+        new MiniCssExtractPlugin(),
+
+        new DashboardPlugin(),
+
+        new BundleAnalyzerPlugin({
+            analyzerPort: 1111,
+            openAnalyzer: false
+        })
     ]
 };

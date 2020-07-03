@@ -10,15 +10,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import './SearchField.style';
+
 import PropTypes from 'prop-types';
-import { history } from 'Route';
-import isMobile from 'Util/Mobile';
+import { createRef, PureComponent } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
-
-import './SearchField.style';
+import { history } from 'Route';
+import isMobile from 'Util/Mobile';
 
 class SearchField extends PureComponent {
     static propTypes = {

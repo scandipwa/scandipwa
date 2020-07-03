@@ -9,14 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { IMAGE_TYPE, VIDEO_TYPE, PLACEHOLDER_TYPE } from 'Component/ProductGallery/ProductGallery.component';
-import { THUMBNAIL_KEY } from 'Component/ProductGallery/ProductGallery.container';
-import media, { PRODUCT_MEDIA } from 'Util/Media';
-import Image from 'Component/Image';
-
 import './ProductGalleryThumbnailImage.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Image from 'Component/Image';
+import {
+    IMAGE_TYPE, PLACEHOLDER_TYPE, THUMBNAIL_KEY, VIDEO_TYPE
+} from 'Component/ProductGallery/ProductGallery.config';
+import media, { PRODUCT_MEDIA } from 'Util/Media';
+
 
 export default class ProductGalleryThumbnailImage extends PureComponent {
     static propTypes = {

@@ -10,29 +10,30 @@
  */
 
 import {
-    createStore, combineReducers
+    combineReducers,
+    createStore
 } from 'redux';
 
-import { CategoryReducer } from 'Store/Category';
-import { NotificationReducer } from 'Store/Notification';
 import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
+import { CartReducer } from 'Store/Cart';
+import { CategoryReducer } from 'Store/Category';
+import { ConfigReducer } from 'Store/Config';
+import { LinkedProductsReducer } from 'Store/LinkedProducts';
+import { MetaReducer } from 'Store/Meta';
+import { MyAccountReducer } from 'Store/MyAccount';
+import { NavigationReducer } from 'Store/Navigation';
+import { NoMatchReducer } from 'Store/NoMatch';
+import { NotificationReducer } from 'Store/Notification';
+import { OfflineReducer } from 'Store/Offline';
+import { OrderReducer } from 'Store/Order';
+import { OverlayReducer } from 'Store/Overlay';
+import { PopupReducer } from 'Store/Popup';
 import { ProductReducer } from 'Store/Product';
 import { ProductListReducer } from 'Store/ProductList';
 import { ProductListInfoReducer } from 'Store/ProductListInfo';
-import { CartReducer } from 'Store/Cart';
-import { OrderReducer } from 'Store/Order';
-import { WishlistReducer } from 'Store/Wishlist';
-import { NoMatchReducer } from 'Store/NoMatch';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
-import { MyAccountReducer } from 'Store/MyAccount';
-import { NavigationReducer } from 'Store/Navigation';
-import { OverlayReducer } from 'Store/Overlay';
-import { OfflineReducer } from 'Store/Offline';
-import { PopupReducer } from 'Store/Popup';
-import { ConfigReducer } from 'Store/Config';
-import { MetaReducer } from 'Store/Meta';
-import { LinkedProductsReducer } from 'Store/LinkedProducts';
+import { WishlistReducer } from 'Store/Wishlist';
 
 export const reducers = {
     CategoryReducer,

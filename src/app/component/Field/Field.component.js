@@ -15,26 +15,29 @@
 
 // todo fix text type
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { MixType } from 'Type/Common';
-import ClickOutside from 'Component/ClickOutside';
-import Input from 'Component/Input';
 import './Field.style';
 
-export const TEXT_TYPE = 'text';
-export const NUMBER_TYPE = 'number';
-export const RADIO_TYPE = 'radio';
-export const CHECKBOX_TYPE = 'checkbox';
-export const TEXTAREA_TYPE = 'textarea';
-export const PASSWORD_TYPE = 'password';
-export const SELECT_TYPE = 'select';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-const ENTER_KEY_CODE = 13;
-const A_KEY_CODE = 65;
-const z_KEY_CODE = 122;
-const Z_KEY_CODE = 90;
-const a_KEY_CODE = 97;
+import ClickOutside from 'Component/ClickOutside';
+import Input from 'Component/Input';
+import { MixType } from 'Type/Common';
+
+import {
+    A_KEY_CODE,
+    a_KEY_CODE,
+    CHECKBOX_TYPE,
+    ENTER_KEY_CODE,
+    NUMBER_TYPE,
+    PASSWORD_TYPE,
+    RADIO_TYPE,
+    SELECT_TYPE,
+    TEXT_TYPE,
+    TEXTAREA_TYPE,
+    Z_KEY_CODE,
+    z_KEY_CODE
+} from './Field.config';
 
 /**
  * Input fields component

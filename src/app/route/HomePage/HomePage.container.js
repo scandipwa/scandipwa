@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './HomePage.style';
+
 import { connect } from 'react-redux';
 
-import CmsPage from 'Route/CmsPage';
 import Footer from 'Component/Footer';
 import InstallPrompt from 'Component/InstallPrompt';
-
-import './HomePage.style';
+import CmsPage from 'Route/CmsPage';
 
 export const mapStateToProps = state => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page

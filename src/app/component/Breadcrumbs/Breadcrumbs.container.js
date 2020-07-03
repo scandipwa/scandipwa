@@ -10,6 +10,7 @@
  */
 
 import { connect } from 'react-redux';
+
 import Breadcrumbs from './Breadcrumbs.component';
 
 export const mapStateToProps = state => ({

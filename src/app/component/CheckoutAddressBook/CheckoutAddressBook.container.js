@@ -9,11 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { customerType } from 'Type/Account';
+
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
 export const mapStateToProps = state => ({

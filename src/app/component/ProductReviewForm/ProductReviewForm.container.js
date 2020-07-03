@@ -9,18 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { customerType } from 'Type/Account';
-import { RatingItemsType } from 'Type/Rating';
-import { ProductType } from 'Type/ProductList';
-import { ReviewDispatcher } from 'Store/Review';
-import { hideActiveOverlay } from 'Store/Overlay';
-import { showNotification } from 'Store/Notification';
 import { goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification';
+import { hideActiveOverlay } from 'Store/Overlay';
+import { ReviewDispatcher } from 'Store/Review';
+import { customerType } from 'Type/Account';
+import { ProductType } from 'Type/ProductList';
+import { RatingItemsType } from 'Type/Rating';
 
 import ProductReviewForm from './ProductReviewForm.component';
 

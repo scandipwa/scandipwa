@@ -10,12 +10,14 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { MyAccountDispatcher } from 'Store/MyAccount';
 import { updateMeta } from 'Store/Meta';
+import { MyAccountDispatcher } from 'Store/MyAccount';
 import { showNotification } from 'Store/Notification';
+
 import PasswordChangePage from './PasswordChangePage.component';
 
 export const mapStateToProps = state => ({

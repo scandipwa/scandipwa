@@ -9,26 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-
-import Form from 'Component/Form';
-import isMobile from 'Util/Mobile';
-import Field from 'Component/Field';
-import Loader from 'Component/Loader';
-import Overlay from 'Component/Overlay';
-
 import './MyAccountOverlay.style';
 
-export const STATE_SIGN_IN = 'signIn';
-export const STATE_FORGOT_PASSWORD = 'forgotPassword';
-export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
-export const STATE_CREATE_ACCOUNT = 'createAccount';
-export const STATE_LOGGED_IN = 'loggedIn';
-export const STATE_CONFIRM_EMAIL = 'confirmEmail';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 
-export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
+import Overlay from 'Component/Overlay';
+import isMobile from 'Util/Mobile';
+
+import {
+    CUSTOMER_ACCOUNT_OVERLAY_KEY,
+    STATE_CONFIRM_EMAIL,
+    STATE_CREATE_ACCOUNT,
+    STATE_FORGOT_PASSWORD,
+    STATE_FORGOT_PASSWORD_SUCCESS,
+    STATE_LOGGED_IN,
+    STATE_SIGN_IN
+} from './MyAccountOverlay.config';
+
 
 class MyAccountOverlay extends PureComponent {
     static propTypes = {
