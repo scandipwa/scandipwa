@@ -188,7 +188,7 @@ class SearchField extends PureComponent {
     renderDesktopContent() {
         const { showSearch } = this.state;
 
-        if (isMobile.any()) {
+        if (isMobile.any() || isMobile.tablet()) {
             return null;
         }
 
@@ -213,7 +213,7 @@ class SearchField extends PureComponent {
             isActive
         } = this.props;
 
-        if (!isMobile.any()) {
+        if (!isMobile.any() && !isMobile.tablet()) {
             return null;
         }
 

@@ -297,7 +297,8 @@ export default class Header extends NavigationAbstract {
             onSignIn
         } = this.props;
 
-        if (isMobile.any() && !isCheckout) {
+        // on mobile and tablet hide button if not in checkout
+        if ((isMobile.any() || isMobile.tablet()) && !isCheckout) {
             return null;
         }
 
@@ -373,7 +374,7 @@ export default class Header extends NavigationAbstract {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || isCheckout) {
+        if ((isMobile.any() || isMobile.tablet()) || isCheckout) {
             return null;
         }
 

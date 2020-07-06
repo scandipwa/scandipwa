@@ -239,7 +239,7 @@ export default class MenuOverlay extends PureComponent {
     };
 
     renderSubMenuDesktop(itemList) {
-        if (isMobile.any()) {
+        if (isMobile.any() || isMobile.tablet()) {
             return null;
         }
 
@@ -273,7 +273,7 @@ export default class MenuOverlay extends PureComponent {
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
 
-        if (childrenArray.length && isMobile.any()) {
+        if (childrenArray.length && (isMobile.any() || isMobile.tablet())) {
             return (
                 <div
                   onClick={ e => handleSubcategoryClick(e, item) }
@@ -346,7 +346,7 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderStoreSwitcher() {
-        if (!isMobile.any()) {
+        if (!isMobile.any() && !isMobile.tablet()) {
             return null;
         }
 

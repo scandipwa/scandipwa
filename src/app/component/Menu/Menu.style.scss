@@ -211,6 +211,7 @@
     &-Item {
         @include before-desktop {
             margin-top: .5rem;
+            padding-left: 0;
         }
 
         @include desktop {
@@ -236,6 +237,11 @@
         top: calc(var(--header-nav-height) + 3px);
         pointer-events: none;
         width: 100%;
+
+        @include tablet {
+            top: var(--header-nav-height);
+            left: 0;
+        }
 
         &::before {
             content: '';
@@ -325,9 +331,12 @@
     }
 
     &-SubItemWrapper {
-        margin-right: 4rem;
-        margin-bottom: 2rem;
         flex-basis: 200px;
+
+        @include desktop {
+            margin-right: 4rem;
+            margin-bottom: 2rem;
+        }
 
         &_isBanner {
             flex-grow: 1;
@@ -403,7 +412,7 @@
         white-space: nowrap;
         padding-left: 0;
 
-        @include mobile {
+        @include before-desktop {
             padding: 1rem 0;
         }
 
