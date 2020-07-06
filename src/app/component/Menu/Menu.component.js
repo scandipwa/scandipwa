@@ -173,7 +173,7 @@ export default class MenuOverlay extends PureComponent {
             <div block="Menu" elem="Promotion">
                 <h3 block="Menu" elem="PageLink">
                     <Link
-                      to="/page/about-us"
+                      to="/about-us"
                       onClick={ closeMenu }
                       block="Menu"
                       elem="Link"
@@ -183,7 +183,7 @@ export default class MenuOverlay extends PureComponent {
                 </h3>
                 <h3 block="Menu" elem="PageLink">
                     <Link
-                      to="/page/about-us"
+                      to="/about-us"
                       onClick={ closeMenu }
                       block="Menu"
                       elem="Link"

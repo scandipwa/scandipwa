@@ -171,7 +171,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const activeRoute = Object.keys(this.routeMap)
             .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
 
-        if (state.category || state.product) { // keep state if it category is in state
+        if (state.category || state.product || state.page) { // keep state if it category is in state
             return navigationState;
         }
 
