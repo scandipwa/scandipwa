@@ -27,7 +27,7 @@
     }
 
     &-ProductListWrapper {
-        @include mobile {
+        @include before-desktop {
             padding-top: 56px;
         }
     }
@@ -107,6 +107,10 @@
             z-index: 90;
             background: #fff;
             border-bottom: 1px solid var(--primary-divider-color);
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include tablet {
             grid-template-columns: repeat(2, 1fr);
         }
 

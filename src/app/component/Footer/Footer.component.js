@@ -63,11 +63,11 @@ export default class Footer extends PureComponent {
     render() {
         const { copyright, isVisibleOnMobile } = this.props;
 
-        if (!isVisibleOnMobile && isMobile.any()) {
+        if (!isVisibleOnMobile && (isMobile.any() || isMobile.tablet())) {
             return null;
         }
 
-        if (isVisibleOnMobile && !isMobile.any()) {
+        if (isVisibleOnMobile && (!isMobile.any() && !isMobile.tablet())) {
             return null;
         }
 

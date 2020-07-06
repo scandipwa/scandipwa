@@ -38,8 +38,8 @@ export default class MenuItem extends PureComponent {
         const { isBanner, isLogo, type } = itemMods;
 
         if (!icon
-            || (!isMobile.any() && !isBanner && !isLogo)
-            || (isMobile && type === 'subcategory')
+            || ((!isMobile.any() && !isMobile.tablet()) && !isBanner && !isLogo)
+            || (type === 'subcategory')
         ) {
             return null;
         }
