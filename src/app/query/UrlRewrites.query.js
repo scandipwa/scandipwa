@@ -24,9 +24,8 @@ export class UrlRewritesQuery {
     _getUrlResolverFields() {
         return [
             'id',
-            'type',
-            'canonical_url',
-            'url_key'
+            'sku',
+            'type'
         ];
     }
 }

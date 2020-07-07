@@ -16,7 +16,7 @@ Entry-point for service worker, includes helper methods and route definitions al
 
 ### Handlers
 
-Apart of `PostCacheHandler` there are all workbox cache strategies available withing `src/handlers.js` for
+Apart of `PostCacheHandler` there are all workbox cache strategies available within `src/handlers.js` for
 convenience. Remember to export anything you need/create and define route handler within main.js
 
 Out of the box there are few routes predefined:

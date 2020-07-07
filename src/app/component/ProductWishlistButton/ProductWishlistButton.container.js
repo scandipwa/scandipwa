@@ -85,7 +85,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const product = this._getProductVariant();
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
             onProductValidationError(type_id);
-            return showNotification('info', __('Please, select desireable option first!'));
+            return showNotification('info', __('Please, select desirable option first!'));
         }
 
         const { sku: variantSku, product_option } = product;

@@ -36,7 +36,6 @@ const z_KEY_CODE = 122;
 const Z_KEY_CODE = 90;
 const a_KEY_CODE = 97;
 
-
 /**
  * Input fields component
  * @class Field
@@ -56,7 +55,7 @@ export default class Field extends PureComponent {
             CHECKBOX_TYPE,
             SELECT_TYPE
         ]).isRequired,
-        label: PropTypes.string,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         message: PropTypes.string,
         placeholder: PropTypes.string,
         value: PropTypes.oneOfType([
@@ -80,7 +79,7 @@ export default class Field extends PureComponent {
                 PropTypes.number
             ]),
             disabled: PropTypes.bool,
-            label: PropTypes.string
+            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
         })),
         isDisabled: PropTypes.bool,
         onChange: PropTypes.func,
@@ -98,7 +97,8 @@ export default class Field extends PureComponent {
         autocomplete: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ])
+        ]),
+        maxLength: PropTypes.number
     };
 
     static defaultProps = {
@@ -122,7 +122,8 @@ export default class Field extends PureComponent {
         placeholder: '',
         autocomplete: 'off',
         validation: [],
-        skipValue: false
+        skipValue: false,
+        maxLength: null
     };
 
     onChange = this.onChange.bind(this);
@@ -386,7 +387,8 @@ export default class Field extends PureComponent {
             name,
             rows,
             formRef,
-            isDisabled
+            isDisabled,
+            maxLength
         } = this.props;
 
         const { value } = this.state;
@@ -402,6 +404,7 @@ export default class Field extends PureComponent {
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
+              maxLength={ maxLength }
             />
         );
     }
@@ -556,14 +559,14 @@ export default class Field extends PureComponent {
                         { selectOptions.map(({
                             id, value, disabled, label
                         }) => (
-                                <option
-                                  key={ id }
-                                  id={ id }
-                                  value={ value }
-                                  disabled={ disabled }
-                                >
-                                    { label }
-                                </option>
+                            <option
+                              key={ id }
+                              id={ id }
+                              value={ value }
+                              disabled={ disabled }
+                            >
+                                { label }
+                            </option>
                         )) }
                     </select>
                     <ul
@@ -651,7 +654,11 @@ export default class Field extends PureComponent {
     }
 
     render() {
-        const { mix, type, message } = this.props;
+        const {
+            mix,
+            type,
+            message
+        } = this.props;
 
         return (
             <div

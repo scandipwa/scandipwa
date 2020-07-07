@@ -37,7 +37,7 @@ export default class Footer extends PureComponent {
         const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
 
         if (footer_cms) {
-            return <CmsBlock identifiers={ [footer_cms] } />;
+            return <CmsBlock identifier={ footer_cms } />;
         }
 
         return (
@@ -45,14 +45,14 @@ export default class Footer extends PureComponent {
                 <Link
                   block="Footer"
                   elem="Link"
-                  to="/page/privacy-policy-cookie-restriction-mode"
+                  to="/privacy-policy-cookie-restriction-mode"
                 >
                     { __('Privacy policy') }
                 </Link>
                 <Link
                   block="Footer"
                   elem="Link"
-                  to="/page/terms-and-conditions"
+                  to="/terms-and-conditions"
                 >
                     { __('Shopping terms and conditions') }
                 </Link>
@@ -63,11 +63,11 @@ export default class Footer extends PureComponent {
     render() {
         const { copyright, isVisibleOnMobile } = this.props;
 
-        if (!isVisibleOnMobile && isMobile.any()) {
+        if (!isVisibleOnMobile && (isMobile.any() || isMobile.tablet())) {
             return null;
         }
 
-        if (isVisibleOnMobile && !isMobile.any()) {
+        if (isVisibleOnMobile && (!isMobile.any() && !isMobile.tablet())) {
             return null;
         }
 

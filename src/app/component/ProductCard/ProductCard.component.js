@@ -61,14 +61,15 @@ export default class ProductCard extends PureComponent {
     };
 
     renderProductPrice() {
-        const { productOrVariant: { price } } = this.props;
-        if (!price) {
+        const { productOrVariant: { price_range } } = this.props;
+
+        if (!price_range) {
             return <TextPlaceholder />;
         }
 
         return (
             <ProductPrice
-              price={ price }
+              price={ price_range }
               mix={ { block: 'ProductCard', elem: 'Price' } }
             />
         );
@@ -183,9 +184,9 @@ export default class ProductCard extends PureComponent {
     }
 
     renderCardWrapper(children) {
-        const { linkTo, product: { url_key } } = this.props;
+        const { linkTo, product: { url } } = this.props;
 
-        if (!url_key) {
+        if (!url) {
             return (<div>{ children }</div>);
         }
 

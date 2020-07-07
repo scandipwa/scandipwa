@@ -17,7 +17,7 @@
         }
 
         @include desktop {
-            grid-template-columns: minmax(200px, 300px) auto;
+            grid-template-columns: 280px auto;
             grid-column-gap: 4rem;
         }
 
@@ -27,7 +27,7 @@
     }
 
     &-ProductListWrapper {
-        @include mobile {
+        @include before-desktop {
             padding-top: 56px;
         }
     }
@@ -93,7 +93,7 @@
     &-Miscellaneous {
         z-index: 1;
         display: grid;
-        grid-template-columns: 50% 50%;
+        grid-template-columns: repeat(3, 1fr);
         align-items: center;
         min-height: 56px;
         transform: translateY(0);
@@ -107,6 +107,11 @@
             z-index: 90;
             background: #fff;
             border-bottom: 1px solid var(--primary-divider-color);
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include tablet {
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .hideOnScroll & {

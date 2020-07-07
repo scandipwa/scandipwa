@@ -57,15 +57,23 @@ export const MediaItemType = PropTypes.shape({
 export const MediaType = PropTypes.arrayOf(MediaItemType);
 
 export const PriceVariantType = PropTypes.shape({
-    amount: PropTypes.shape({
+    discount: PropTypes.shape({
+        amount_off: PropTypes.number,
+        percent_off: PropTypes.number
+    }),
+    final_price: PropTypes.shape({
+        currency: PropTypes.string,
+        value: PropTypes.number
+    }),
+    regular_price: PropTypes.shape({
         currency: PropTypes.string,
         value: PropTypes.number
     })
 });
 
 export const PriceType = PropTypes.shape({
-    minimalPrice: PriceVariantType,
-    regularPrice: PriceVariantType
+    minimum_price: PriceVariantType,
+    maximal_price: PriceVariantType
 });
 
 export const ProductLinksType = PropTypes.arrayOf(
@@ -98,6 +106,25 @@ export const ReviewsType = PropTypes.arrayOf(
     })
 );
 
+export const OptionValueType = PropTypes.shape({
+    option_type_id: PropTypes.number,
+    price: PropTypes.number,
+    price_type: PropTypes.string,
+    sku: PropTypes.string,
+    sort_order: PropTypes.number,
+    title: PropTypes.string
+});
+
+export const OptionsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        option_id: PropTypes.number,
+        required: PropTypes.bool,
+        sort_order: PropTypes.number,
+        title: PropTypes.string,
+        values: PropTypes.arrayOf(OptionValueType)
+    })
+);
+
 export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
@@ -110,7 +137,7 @@ export const ProductType = PropTypes.shape({
     meta_keyword: PropTypes.string,
     meta_title: PropTypes.string,
     name: PropTypes.string,
-    price: PriceType,
+    price_range: PriceType,
     product_links: ProductLinksType,
     short_description: PropTypes.shape({ html: PropTypes.string }),
     small_image: PropTypes.shape({ url: PropTypes.string }),
@@ -120,14 +147,15 @@ export const ProductType = PropTypes.shape({
     special_to_date: PropTypes.string,
     thumbnail: PropTypes.shape({ url: PropTypes.string }),
     thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
-    tier_prices: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.number,
-        quantity: PropTypes.number,
-        ratio: PropTypes.number
+    price_tiers: PropTypes.arrayOf(PropTypes.shape({
+        discount: PropTypes.shape({ amount_off: PropTypes.number, percent_off: PropTypes.number }),
+        final_price: PropTypes.shape({ currency: PropTypes.string, value: PropTypes.number }),
+        quantity: PropTypes.number
     })),
     url_key: PropTypes.string,
     quantity: PropTypes.number,
     review_summary: ReviewSummaryType,
+    options: OptionsType,
     reviews: ReviewsType
 });
 

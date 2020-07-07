@@ -43,8 +43,8 @@ export class CategorySubcategoriesContainer extends PureComponent {
         hideActiveOverlay();
 
         history.push({
-            pathname: `/category/${ value_string }`,
-            state: { isFromCategory: true },
+            pathname: value_string,
+            state: { isFromCategory: true, category: true },
             search: history.location.search
         });
     }

@@ -9,4 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MenuOverlay.container';
+.contacts-wrapper {
+    dt,
+    dd {
+        display: inline-block;
+        font-size: 1rem;
+    }
+
+    dt {
+        margin-right: 1rem;
+    }
+
+    dd {
+        margin-right: 2rem;
+    }
+}

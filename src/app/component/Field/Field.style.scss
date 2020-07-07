@@ -24,9 +24,12 @@ $select-arrow-width: 6px !default;
     margin-top: 1rem;
 
     label {
-        padding-bottom: .3rem;
-        font-weight: 700;
         font-size: 1.05rem;
+    }
+
+    &-Label {
+        font-weight: 700;
+        padding-bottom: .3rem;
     }
 
     &-Message {
@@ -308,6 +311,12 @@ $select-arrow-width: 6px !default;
             &::after {
                 --checkmark-color: #{$white};
             }
+        }
+    }
+
+    &-Labels {
+        span {
+            letter-spacing: 1.05px;
         }
     }
 }

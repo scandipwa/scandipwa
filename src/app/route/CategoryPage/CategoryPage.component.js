@@ -53,11 +53,13 @@ export default class CategoryPage extends PureComponent {
         filter: FilterInputType.isRequired,
         search: PropTypes.string.isRequired,
         isContentFiltered: PropTypes.bool,
+        isOnlyPlaceholder: PropTypes.bool,
         totalPages: PropTypes.number
     };
 
     static defaultProps = {
         isContentFiltered: true,
+        isOnlyPlaceholder: false,
         totalPages: 1
     };
 
@@ -131,6 +133,8 @@ export default class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
+        const { isOnlyPlaceholder } = this.props;
+
         if (isVisibleOnMobile && !isMobile.any()) {
             return null;
         }
@@ -139,7 +143,11 @@ export default class CategoryPage extends PureComponent {
             return null;
         }
 
-        return <CategoryItemsCount />;
+        return (
+            <CategoryItemsCount
+              isOnlyPlaceholder={ isOnlyPlaceholder }
+            />
+        );
     }
 
     renderCategoryProductList() {
@@ -148,7 +156,8 @@ export default class CategoryPage extends PureComponent {
             search,
             selectedSort,
             selectedFilters,
-            getIsNewCategory
+            getIsNewCategory,
+            isOnlyPlaceholder
         } = this.props;
 
         return (
@@ -160,6 +169,7 @@ export default class CategoryPage extends PureComponent {
                   sort={ selectedSort }
                   selectedFilters={ selectedFilters }
                   getIsNewCategory={ getIsNewCategory }
+                  isOnlyPlaceholder={ isOnlyPlaceholder }
                 />
             </div>
         );

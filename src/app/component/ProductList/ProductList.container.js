@@ -16,14 +16,20 @@ import PropTypes from 'prop-types';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
-import { debounce } from 'Util/Request';
 import { LocationType } from 'Type/Router';
+import isMobile from 'Util/Mobile';
 
 import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
 export class ProductListContainer extends PureComponent {
+    containerFunctions = {
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage.bind(this),
+        updatePage: this.updatePage.bind(this)
+    };
+
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
@@ -38,62 +44,26 @@ export class ProductListContainer extends PureComponent {
         isPaginationEnabled: PropTypes.bool,
         filter: FilterInputType,
         search: PropTypes.string,
-        sort: PropTypes.objectOf(PropTypes.string)
+        sort: PropTypes.objectOf(PropTypes.string),
+        noAttributes: PropTypes.bool,
+        noVariants: PropTypes.bool
     };
 
     static defaultProps = {
-        pageSize: 20,
+        pageSize: 24,
         filter: {},
         search: '',
         selectedFilters: {},
         sort: undefined,
         isPaginationEnabled: true,
-        isInfiniteLoaderEnabled: true
+        isInfiniteLoaderEnabled: true,
+        noAttributes: false,
+        noVariants: false
     };
 
-    state = { pagesCount: 1 };
-
-    containerFunctions = {
-        loadPrevPage: this.loadPage.bind(this, false),
-        loadPage: this.loadPage.bind(this),
-        updatePage: this.updatePage.bind(this)
+    state = {
+        pagesCount: 1
     };
-
-    requestPage = debounce((currentPage = 1, isNext = false) => {
-        const {
-            sort,
-            search,
-            filter,
-            pageSize,
-            requestProductList
-        } = this.props;
-
-        if (!isNext) {
-            window.scrollTo(0, 0);
-        }
-
-        const options = {
-            isNext,
-            args: {
-                sort,
-                filter,
-                search,
-                pageSize,
-                currentPage
-            }
-        };
-
-        requestProductList(options);
-    }, UPDATE_PAGE_FREQUENCY);
-
-    static getDerivedStateFromProps(props) {
-        const { isLoading } = props;
-        if (isLoading) {
-            return { pagesCount: 1 };
-        }
-
-        return null;
-    }
 
     componentDidMount() {
         const { pages, getIsNewCategory } = this.props;
@@ -114,6 +84,15 @@ export class ProductListContainer extends PureComponent {
         const { sort, search, filter } = this.props;
         const { sort: prevSort, search: prevSearch, filter: prevFilter } = prevProps;
 
+        const { pages } = this.props;
+        const { pagesCount } = this.state;
+        const pagesLength = Object.keys(pages).length;
+
+        if (pagesCount !== pagesLength) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ pagesCount: pagesLength });
+        }
+
         if (search !== prevSearch
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
@@ -122,12 +101,59 @@ export class ProductListContainer extends PureComponent {
         }
     }
 
+    requestPage = (currentPage = 1, isNext = false) => {
+        const {
+            sort,
+            search,
+            filter,
+            pageSize,
+            requestProductList,
+            noAttributes,
+            noVariants
+        } = this.props;
+
+        if (!isNext) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        const options = {
+            isNext,
+            noAttributes,
+            noVariants,
+            args: {
+                sort,
+                filter,
+                search,
+                pageSize,
+                currentPage
+            }
+        };
+
+        requestProductList(options);
+    };
+
     containerProps = () => ({
         currentPage: this._getPageFromUrl(),
         isShowLoading: this._isShowLoading(),
         isVisible: this._isVisible(),
-        requestPage: this.requestPage
+        requestPage: this.requestPage,
+        // disable this property to enable infinite scroll on desktop
+        isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()
     });
+
+    _getIsInfiniteLoaderEnabled() { // disable infinite scroll on mobile
+        const { isInfiniteLoaderEnabled } = this.props;
+
+        // allow scroll on tablet and mobile
+        if (isMobile.any() || isMobile.tablet()) {
+            return isInfiniteLoaderEnabled;
+        }
+
+        return false;
+    }
 
     _getPageFromUrl() {
         const { location } = this.props;

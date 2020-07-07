@@ -12,6 +12,7 @@
 :root {
     --header-background: #fff;
     --header-color: #000;
+    --header-contacts-color: #414141;
     --header-icon-stroke-width: 1px;
     --header-search-clear-background: #838383;
     --header-desktop-button-color: var(--primary-base-color);
@@ -22,9 +23,14 @@
     --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height));
 
     @include desktop {
-        --header-height: 60px;
+        --header-dots-color: #000;
+        --header-logo-height: calc(var(--header-nav-height) - 35px);
+    }
+
+    @include after-mobile {
         --header-nav-height: 60px;
-        --header-logo-height: calc(var(--header-height) - 35px);
+        --header-top-menu-height: 30px;
+        --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height));
     }
 }
 
@@ -58,6 +64,10 @@
     background-color: var(--header-background);
     padding-top: env(safe-area-inset-top, 0);
 
+    @include desktop {
+        border-bottom: 1px solid var(--primary-divider-color);
+    }
+
     @at-root .hiddenHeader {
         @include before-desktop {
             /* stylelint-disable-next-line length-zero-no-unit */
@@ -82,9 +92,16 @@
         }
 
         &_cart_overlay {
-            .Header-Button_type_minicart {
+            .Header-Button_type_minicart,
+            .Header-MinicartTitle {
                 @include after-mobile {
                     --header-color: var(--primary-base-color);
+                }
+            }
+
+            .Header-MinicartItemCount {
+                @include after-mobile {
+                    color: var(--primary-base-color);
                 }
             }
         }
@@ -108,7 +125,8 @@
 
         &_customer_account,
         &_customer_sub_account {
-            .Header-Button_type_account {
+            .Header-Button_type_account,
+            .Header-MyAccountTitle {
                 @include desktop {
                     --header-color: var(--header-desktop-button-color);
                 }
@@ -133,8 +151,6 @@
             }
 
             &-Nav {
-                padding-right: 47px;
-
                 @include desktop {
                     justify-content: flex-end;
                 }
@@ -173,17 +189,45 @@
         }
     }
 
+    &-TopMenu,
     &-Nav {
-        height: var(--header-nav-height);
         display: flex;
+        margin: auto;
+        max-width: var(--content-wrapper-width);
+    }
+
+    &-TopMenu {
+        height: var(--header-top-menu-height);
+        justify-content: space-between;
+        z-index: 21;
+        padding: {
+            left: 1rem;
+            right: 2rem;
+            top: 1rem;
+        };
+    }
+
+    &-Contacts {
+        font-size: 12px;
+        color: var(--header-contacts-color);
+
+        span:first-child {
+            margin-right: 20px;
+        }
+    }
+
+    &-Nav {
         align-items: center;
+        height: var(--header-nav-height);
         padding: 0 1rem;
         z-index: 20;
-        max-width: var(--content-wrapper-width);
-        margin: auto;
 
         @include before-desktop {
             border-bottom: 1px solid var(--primary-divider-color);
+        }
+
+        @include desktop {
+            justify-content: flex-end;
         }
     }
 
@@ -239,7 +283,16 @@
             }
 
             &_minicart {
-                @include minicart-button;
+                @include before-desktop {
+                    @include minicart-button;
+                }
+
+                @include desktop {
+                    cursor: default;
+                    height: auto;
+                    margin-right: 1.2rem;
+                    width: auto;
+                }
             }
 
             &_searchClear {
@@ -270,29 +323,70 @@
         }
     }
 
-    &-MinicartButton {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        top: 0;
+    &-MyAccount {
+        &Wrapper {
+            align-items: center;
+            display: flex;
+        }
+
+        &Title {
+            cursor: pointer;
+            padding-right: .4rem;
+            text-transform: uppercase;
+            color: var(--header-color);
+
+            @include mobile {
+                display: none;
+            }
+        }
     }
 
-    &-MinicartItemCount {
-        position: absolute;
-        color: var(--header-background);
-        background: var(--primary-base-color);
-        display: inline-block;
-        border-radius: 7px;
-        z-index: 2;
-        min-width: 14px;
-        line-height: 13px;
-        font-size: 12px;
-        top: 18px;
-        transform: translateX(3px);
-        padding: 0 4px 1px;
-        left: 50%;
+    &-Minicart {
+        &ButtonWrapper {
+            align-items: center;
+            border-right: 2px dotted var(--header-dots-color);
+            cursor: pointer;
+            display: flex;
+            height: 26px;
+            margin-left: 2rem;
+            padding-right: 1.8rem;
+        }
+
+        &Title {
+            color: var(--header-color);
+            margin-right: .7rem;
+            text-transform: uppercase;
+        }
+
+        &Icon {
+            @include minicart-button;
+
+            @include desktop {
+                height: 20px;
+                width: 20px;
+                top: 1px;
+            }
+        }
+
+        &ItemCount {
+            line-height: 13px;
+            min-width: 14px;
+            padding-left: 5px;
+
+            @include before-desktop {
+                background: var(--primary-base-color);
+                border-radius: 7px;
+                color: var(--header-background);
+                display: inline-block;
+                font-size: 12px;
+                left: 50%;
+                padding: 0 4px 1px;
+                position: absolute;
+                top: 18px;
+                transform: translateX(3px);
+                z-index: 2;
+            }
+        }
     }
 
     &-LogoWrapper {
@@ -354,6 +448,11 @@
                 max-width: calc(100% - 180px);
             }
         }
+
+        .TextPlaceholder {
+            opacity: 0;
+            animation: appear 150ms 100ms forwards;
+        }
     }
 
     a {
@@ -362,6 +461,12 @@
             @include before-desktop {
                 text-decoration: none;
             }
+        }
+    }
+
+    .Menu-MenuWrapper {
+        @include tablet {
+            display: none;
         }
     }
 }

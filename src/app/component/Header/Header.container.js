@@ -29,7 +29,6 @@ import Header, {
     CUSTOMER_ACCOUNT,
     CUSTOMER_SUB_ACCOUNT,
     MENU,
-    MENU_SUBCATEGORY,
     POPUP,
     SEARCH,
     CART,
@@ -58,7 +57,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export const DEFAULT_HEADER_STATE = {
     name: DEFAULT_STATE_NAME,
-    isHiddenOnMobile: true
+    isHiddenOnMobile: false
 };
 
 export class HeaderContainer extends NavigationAbstractContainer {
@@ -77,21 +76,20 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     routeMap = {
         '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push('/') },
-        '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick.bind(this) },
+        '/category': { name: CATEGORY },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/menu': { name: MENU },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
-        '/': this.default_state
+        '/': { name: DEFAULT_STATE_NAME, isHiddenOnMobile: true }
     };
 
     containerFunctions = {
         onBackButtonClick: this.onBackButtonClick.bind(this),
         onCloseButtonClick: this.onCloseButtonClick.bind(this),
         onSearchBarFocus: this.onSearchBarFocus.bind(this),
-        onMenuButtonClick: this.onMenuButtonClick.bind(this),
         onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
         onSearchBarChange: this.onSearchBarChange.bind(this),
@@ -101,7 +99,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onOkButtonClick: this.onOkButtonClick.bind(this),
         onCancelButtonClick: this.onCancelButtonClick.bind(this),
         onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
-        onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
         closeOverlay: this.closeOverlay.bind(this),
@@ -164,6 +161,23 @@ export class HeaderContainer extends NavigationAbstractContainer {
     componentDidUpdate(prevProps) {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
+    }
+
+    getNavigationState() {
+        const { navigationState } = this.props;
+
+        const { pathname } = location;
+        const { historyState } = window.history || {};
+        const { state = {} } = historyState || {};
+
+        const activeRoute = Object.keys(this.routeMap)
+            .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
+
+        if (state.category || state.product || state.page) { // keep state if it category is in state
+            return navigationState;
+        }
+
+        return this.routeMap[activeRoute] || this.default_state;
     }
 
     hideSearchOnStateChange(prevProps) {
@@ -289,44 +303,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     onClearSearchButtonClick() {
         this.setState({ searchCriteria: '' });
-    }
-
-    onMenuButtonClick() {
-        const {
-            showOverlay,
-            setNavigationState,
-            navigationState: { name }
-        } = this.props;
-
-        if (isMobile.any()) {
-            history.goBack();
-            return;
-        }
-
-        if (name !== MENU) {
-            showOverlay(MENU);
-            setNavigationState({ name: MENU });
-        }
-    }
-
-    onMenuOutsideClick() {
-        const {
-            goToPreviousNavigationState,
-            hideActiveOverlay,
-            navigationState: { name }
-        } = this.props;
-
-        if (isMobile.any()) {
-            return;
-        }
-
-        if (name === MENU || name === MENU_SUBCATEGORY) {
-            if (name === MENU_SUBCATEGORY) {
-                goToPreviousNavigationState();
-            }
-            goToPreviousNavigationState();
-            hideActiveOverlay();
-        }
     }
 
     onMyAccountButtonClick() {
@@ -485,4 +461,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));

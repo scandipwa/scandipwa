@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { updateMeta } from 'Store/Meta';
-import MenuOverlay from 'Component/MenuOverlay';
+import Menu from 'Component/Menu';
 import { HistoryType } from 'Type/Common';
 import { withRouter } from 'react-router';
 import isMobile from 'Util/Mobile';
@@ -38,7 +38,7 @@ export class MenuPageContainer extends PureComponent {
     redirectIfNotOnMobile() {
         const { history } = this.props;
 
-        if (!isMobile.any()) {
+        if (!isMobile.any() && !isMobile.tablet()) {
             history.push('/');
         }
     }
@@ -46,7 +46,7 @@ export class MenuPageContainer extends PureComponent {
     render() {
         return (
             <main block="MenuPage">
-                <MenuOverlay />
+                <Menu />
             </main>
         );
     }

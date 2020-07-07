@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from './CmsBlocksAndSlider.action';
-export { default as CmsBlocksAndSliderReducer } from './CmsBlocksAndSlider.reducer';
-export { default as CmsBlocksAndSliderDispatcher } from './CmsBlocksAndSlider.dispatcher';
+export { default } from './StoreItems.container';

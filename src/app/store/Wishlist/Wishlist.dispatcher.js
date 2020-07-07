@@ -70,8 +70,11 @@ export class WishlistDispatcher {
                     dispatch(updateIsLoading(false));
                 }
             },
-            // eslint-disable-next-line no-console
-            error => console.log(error)
+            (error) => {
+                // eslint-disable-next-line no-console
+                console.log(error);
+                dispatch(updateIsLoading(false));
+            }
         );
     }
 
@@ -101,8 +104,8 @@ export class WishlistDispatcher {
             .catch(() => dispatch(showNotification('error', __('Error clearing wish list!'))));
     }
 
-    moveWishlistToCart(dispatch) {
-        return fetchMutation(WishlistQuery.getMoveWishlistToCart())
+    moveWishlistToCart(dispatch, sharingCode) {
+        return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
             .then(() => {
                 dispatch(clearWishlist());
                 CartDispatcher._syncCartWithBE(dispatch);
