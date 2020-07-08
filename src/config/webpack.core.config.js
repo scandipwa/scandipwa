@@ -31,7 +31,7 @@ const FallbackPlugin = require('./FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
+// const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 module.exports = {
     resolve: {
@@ -42,9 +42,9 @@ module.exports = {
             '*'
         ],
         plugins: [
-            new FallbackPlugin({
-                fallbackRoot, projectRoot
-            })
+            // new FallbackPlugin({
+            //     fallbackRoot, projectRoot
+            // })
         ]
     },
 
