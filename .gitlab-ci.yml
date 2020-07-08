@@ -1,0 +1,15 @@
+image: node:10.15.3
+
+cache:
+  untracked: true
+  paths:
+    - node_modules/
+
+before_script:
+  - npm install
+
+build:
+  stage: test
+  script:
+    - npm run eslint
+    - npm run stylelint
