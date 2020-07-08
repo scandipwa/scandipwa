@@ -9,7 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { CategoryQuery } from 'Query';
+import CategoryQuery from 'Query/Category.query';
+
 import { updateCurrentCategory } from 'Store/Category';
 import { updateNoMatch } from 'Store/NoMatch';
 import { showNotification } from 'Store/Notification';

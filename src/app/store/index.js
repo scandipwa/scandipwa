@@ -35,7 +35,7 @@ import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { WishlistReducer } from 'Store/Wishlist';
 
-export const reducers = {
+export const staticReducers = {
     CategoryReducer,
     NotificationReducer,
     BreadcrumbsReducer,
@@ -59,7 +59,7 @@ export const reducers = {
 };
 
 const store = createStore(
-    combineReducers(reducers),
+    createReducer(),
     ( // enable Redux dev-tools only in development
         process.env.NODE_ENV === 'development'
         && window.__REDUX_DEVTOOLS_EXTENSION__
@@ -68,4 +68,29 @@ const store = createStore(
     })
 );
 
-export default store;
+export function createReducer(asyncReducers) {
+    return combineReducers({
+        ...staticReducers,
+        ...asyncReducers
+    })
+};
+
+// Configure the store
+export default function configureStore() {
+    // Add a dictionary to keep track of the registered async reducers
+    store.asyncReducers = {};
+
+    // Create an inject reducer function
+    // This function adds the async reducer, and creates a new combined reducer
+    store.injectReducer = (key, asyncReducer) => {
+        store.asyncReducers[key] = asyncReducer
+        store.replaceReducer(createReducer(store.asyncReducers))
+    };
+
+    // Return the modified store
+    return store;
+};
+
+export function getStore() {
+    return store;
+};

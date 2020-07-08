@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';

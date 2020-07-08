@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
 import { updateLinkedProducts } from 'Store/LinkedProducts';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';

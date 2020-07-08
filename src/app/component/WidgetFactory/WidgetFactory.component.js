@@ -10,6 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './WidgetFactory.style';
+
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
@@ -26,7 +28,8 @@ export default class WidgetFactory extends PureComponent {
 
     renderMap = {
         [SLIDER]: {
-            component: HomeSlider
+            component: HomeSlider,
+            fallback: this.renderSliderFallback
         },
         [NEW_PRODUCTS]: {
             component: NewProducts
@@ -35,6 +38,16 @@ export default class WidgetFactory extends PureComponent {
             component: ProductListWidget
         }
     };
+
+    renderSliderFallback() {
+        return (
+            <div block="WidgetFactory" elem="SliderPlaceholder" />
+        );
+    }
+
+    renderDefaultFallback() {
+        return <div />;
+    }
 
     renderContent() {
         const { type } = this.props;
@@ -48,7 +61,9 @@ export default class WidgetFactory extends PureComponent {
     }
 
     renderFallback() {
-        return <div />;
+        const { type } = this.props;
+        const { fallback = this.renderDefaultFallback } = this.renderMap[type] || {};
+        return fallback();
     }
 
     render() {

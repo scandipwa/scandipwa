@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { UrlRewritesQuery } from 'Query';
+import UrlRewritesQuery from 'Query/UrlRewrites.query';
 import { showNotification } from 'Store/Notification';
 import { clearUrlRewrite, setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites';
 import { QueryDispatcher } from 'Util/Request';

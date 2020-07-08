@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { OrderQuery } from 'Query';
+import OrderQuery from 'Query/Order.query';
+
 import { showNotification } from 'Store/Notification';
 import { OrderDispatcher } from 'Store/Order';
 import { orderType } from 'Type/Account';

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { VIDEO_POPUP_ID } from 'Component/VideoPopup';
+import { VIDEO_POPUP_ID } from 'Component/VideoPopup/VideoPopup.config';
 import { showPopup } from 'Store/Popup';
 import { MediaItemType } from 'Type/ProductList';
 

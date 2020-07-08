@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { SliderQuery } from 'Query';
+import SliderQuery from 'Query/Slider.query';
 import { showNotification } from 'Store/Notification';
 import DataContainer from 'Util/Request/DataContainer';
 

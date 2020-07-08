@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
 import { QueryDispatcher } from 'Util/Request';
 
 import { clearSearchResults, updateLoadStatus, updateSearchBar } from './SearchBar.action';

@@ -9,7 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { OrderQuery } from 'Query';
+import OrderQuery from 'Query/Order.query';
+
 import { showNotification } from 'Store/Notification';
 import { getOrderList } from 'Store/Order';
 import { fetchQuery } from 'Util/Request';

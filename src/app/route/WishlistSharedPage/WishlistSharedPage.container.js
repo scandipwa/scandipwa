@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
-import { WishlistQuery } from 'Query';
+import WishlistQuery from 'Query/Wishlist.query';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { updateNoMatch } from 'Store/NoMatch';
 import { showNotification } from 'Store/Notification';

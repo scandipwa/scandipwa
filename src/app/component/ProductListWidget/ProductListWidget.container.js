@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
 import { updateNoMatch } from 'Store/NoMatch';
 import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
 import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';

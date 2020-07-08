@@ -21,7 +21,7 @@ import { Provider as UnstatedProvider } from 'unstated';
 
 import SharedTransition from 'Component/SharedTransition';
 import AppRouter from 'Route';
-import store from 'Store';
+import configureStore from 'Store';
 
 // Disable react dev tools in production
 if (process.env.NODE_ENV === 'production'
@@ -46,7 +46,7 @@ document.querySelector('html').appendChild(comment);
 class App extends PureComponent {
     render() {
         return (
-            <Provider store={ store }>
+            <Provider store={ configureStore() }>
                 <UnstatedProvider>
                     <AppRouter />
                     <SharedTransition />

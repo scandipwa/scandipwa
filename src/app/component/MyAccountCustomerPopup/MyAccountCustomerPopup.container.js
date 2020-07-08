@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { MyAccountQuery } from 'Query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import { updateCustomerDetails } from 'Store/MyAccount';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { goToPreviousNavigationState } from 'Store/Navigation';

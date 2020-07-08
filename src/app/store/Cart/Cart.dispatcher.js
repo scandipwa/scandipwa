@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { CartQuery } from 'Query';
+import CartQuery from 'Query/Cart.query';
 import { updateTotals } from 'Store/Cart';
 import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 import { showNotification } from 'Store/Notification';
@@ -35,12 +35,12 @@ export class CartDispatcher {
             // This is guest
             this._syncCartWithBE(dispatch, guestQuoteId);
         } else {
-            // This is guest, cart is empty
-            // Need to create empty cart and save quote
-            this._createEmptyCart(dispatch).then((data) => {
-                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                this._updateCartData({}, dispatch);
-            });
+            // // This is guest, cart is empty
+            // // Need to create empty cart and save quote
+            // this._createEmptyCart(dispatch).then((data) => {
+            //     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+            //     this._updateCartData({}, dispatch);
+            // });
         }
     }
 

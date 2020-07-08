@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
 import Loader from 'Component/Loader';
-import { KlarnaQuery } from 'Query';
+import KlarnaQuery from 'Query/Klarna.query';
 import { CartDispatcher } from 'Store/Cart';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation } from 'Util/Request';

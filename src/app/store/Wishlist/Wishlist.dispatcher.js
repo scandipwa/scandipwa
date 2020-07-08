@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { WishlistQuery } from 'Query';
+import WishlistQuery from 'Query/Wishlist.query';
 import { CartDispatcher } from 'Store/Cart';
 import { showNotification } from 'Store/Notification';
 import {

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CATEGORY } from 'Component/Header';
+import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { CategoryDispatcher } from 'Store/Category';

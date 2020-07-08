@@ -14,7 +14,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { PAYPAL_EXPRESS } from 'Component/CheckoutPayments/CheckoutPayments.config';
-import { CheckoutQuery, PayPalQuery } from 'Query';
+import CheckoutQuery from 'Query/Checkout.query';
+import PayPalQuery from 'Query/PayPal.query';
 import { CartDispatcher } from 'Store/Cart';
 import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';

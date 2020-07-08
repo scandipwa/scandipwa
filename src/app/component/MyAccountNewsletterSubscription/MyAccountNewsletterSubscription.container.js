@@ -15,7 +15,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import Loader from 'Component/Loader';
-import { MyAccountQuery } from 'Query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import { updateCustomerDetails } from 'Store/MyAccount';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification';

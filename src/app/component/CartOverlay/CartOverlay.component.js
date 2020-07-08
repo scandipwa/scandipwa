@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 
 import CartItem from 'Component/CartItem';
 import CmsBlock from 'Component/CmsBlock';
-import { CART_OVERLAY } from 'Component/Header';
+import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
 import Overlay from 'Component/Overlay';
 import { TotalsType } from 'Type/MiniCart';

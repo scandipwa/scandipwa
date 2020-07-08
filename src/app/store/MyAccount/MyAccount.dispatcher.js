@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { MyAccountQuery } from 'Query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import { CartDispatcher } from 'Store/Cart';
 import {
     updateCustomerDetails,

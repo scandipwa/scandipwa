@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { CMS_PAGE } from 'Component/Header';
-import { CmsPageQuery } from 'Query';
+import { CMS_PAGE } from 'Component/Header/Header.config';
+import CmsPageQuery from 'Query/CmsPage.query';
 import { history } from 'Route';
 import { BreadcrumbsDispatcher, toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import { updateMeta } from 'Store/Meta';

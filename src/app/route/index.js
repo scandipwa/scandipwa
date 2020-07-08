@@ -37,7 +37,7 @@ import NotificationList from 'Component/NotificationList';
 import OfflineNotice from 'Component/OfflineNotice';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import UrlRewrites from 'Route/UrlRewrites';
-import Store from 'Store';
+import { getStore } from 'Store';
 import { CartDispatcher } from 'Store/Cart';
 import { ConfigDispatcher } from 'Store/Config';
 import { updateMeta } from 'Store/Meta';
@@ -273,9 +273,10 @@ export class AppRouter extends PureComponent {
     };
 
     dispatchActions() {
-        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
-        CartDispatcher.updateInitialCartData(Store.dispatch);
-        ConfigDispatcher.handleData(Store.dispatch);
+        const { dispatch } = getStore();
+        WishlistDispatcher.updateInitialWishlistData(dispatch);
+        CartDispatcher.updateInitialCartData(dispatch);
+        ConfigDispatcher.handleData(dispatch);
     }
 
     renderItemsOfType(type) {

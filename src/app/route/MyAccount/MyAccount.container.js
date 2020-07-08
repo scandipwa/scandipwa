@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE } from 'Component/Header';
+import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE } from 'Component/Header/Header.config';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { updateMeta } from 'Store/Meta';
 import { MyAccountDispatcher } from 'Store/MyAccount';

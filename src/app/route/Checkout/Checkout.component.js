@@ -21,7 +21,7 @@ import CheckoutShipping from 'Component/CheckoutShipping';
 import CheckoutSuccess from 'Component/CheckoutSuccess';
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
-import { CHECKOUT } from 'Component/Header';
+import { CHECKOUT } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
 import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';

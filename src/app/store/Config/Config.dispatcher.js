@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ConfigQuery, RegionQuery, ReviewQuery } from 'Query';
+import ConfigQuery from 'Query/Config.query';
+import RegionQuery from 'Query/Region.query';
+import ReviewQuery from 'Query/Review.query';
 import { updateConfig } from 'Store/Config';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
