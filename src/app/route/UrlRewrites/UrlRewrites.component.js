@@ -256,7 +256,7 @@ export class UrlRewrites extends PureComponent {
     render() {
         return (
             <Suspense fallback={ this.renderDefaultPage() }>
-                { this.renderContent }
+                { this.renderContent() }
             </Suspense>
         );
     }
