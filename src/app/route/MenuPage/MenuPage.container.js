@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import Menu from 'Component/Menu';
-import { updateMeta } from 'Store/Meta';
+import { updateMeta } from 'Store/Meta/Meta.action';
 import { HistoryType } from 'Type/Common';
 import isMobile from 'Util/Mobile';
 

@@ -17,11 +17,11 @@ import { CART_EDITING, CART_OVERLAY } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import { CartDispatcher } from 'Store/Cart';
-import { changeNavigationState } from 'Store/Navigation';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { showNotification } from 'Store/Notification';
-import { toggleOverlayByKey } from 'Store/Overlay';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 

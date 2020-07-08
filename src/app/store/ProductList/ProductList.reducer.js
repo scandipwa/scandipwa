@@ -13,7 +13,7 @@ import {
     APPEND_PAGE,
     UPDATE_LOAD_STATUS,
     UPDATE_PRODUCT_LIST_ITEMS
-} from 'Store/ProductList';
+} from 'Store/ProductList/ProductList.action';
 import { getIndexedProducts } from 'Util/Product';
 
 export const initialState = {

@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
-import { CartDispatcher } from 'Store/Cart';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';

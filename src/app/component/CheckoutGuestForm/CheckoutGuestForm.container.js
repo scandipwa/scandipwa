@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { showNotification } from 'Store/Notification';
+import { showNotification } from 'Store/Notification/Notification.action';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
 

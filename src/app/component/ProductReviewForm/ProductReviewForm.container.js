@@ -13,11 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { goToPreviousNavigationState } from 'Store/Navigation';
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { showNotification } from 'Store/Notification';
-import { hideActiveOverlay } from 'Store/Overlay';
-import { ReviewDispatcher } from 'Store/Review';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import ReviewDispatcher from 'Store/Review/Review.dispatcher';
 import { customerType } from 'Type/Account';
 import { ProductType } from 'Type/ProductList';
 import { RatingItemsType } from 'Type/Rating';

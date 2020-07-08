@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { showNotification } from 'Store/Notification';
-import { WishlistDispatcher } from 'Store/Wishlist';
+import { showNotification } from 'Store/Notification/Notification.action';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import { getExtensionAttributes } from 'Util/Product';

@@ -17,8 +17,8 @@ import { BRAINTREE, KLARNA, STRIPE } from 'Component/CheckoutPayments/CheckoutPa
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
-import { showNotification } from 'Store/Notification';
-import { showPopup } from 'Store/Popup';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';

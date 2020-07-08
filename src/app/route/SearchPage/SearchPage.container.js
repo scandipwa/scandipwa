@@ -5,18 +5,18 @@ import {
     CategoryPageContainer,
     LOADING_TIME
 } from 'Route/CategoryPage/CategoryPage.container';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
-import { MetaDispatcher, updateMeta } from 'Store/Meta';
-import { changeNavigationState } from 'Store/Navigation';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category/Category.action';
+import { MetaDispatcher, updateMeta } from 'Store/Meta/Meta.action';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { NoMatchDispatcher } from 'Store/NoMatch';
-import { setBigOfflineNotice } from 'Store/Offline';
-import { toggleOverlayByKey } from 'Store/Overlay';
+import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
+import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ProductListInfoDispatcher,
     updateInfoLoadStatus
-} from 'Store/ProductListInfo';
+} from 'Store/ProductListInfo/ProductListInfo.action';
 import { debounce } from 'Util/Request';
 import { getUrlParam } from 'Util/Url';
 

@@ -12,7 +12,7 @@
 import {
     UPDATE_INFO_LOAD_STATUS,
     UPDATE_PRODUCT_LIST_INFO
-} from 'Store/ProductListInfo';
+} from 'Store/ProductListInfo/ProductListInfo.action';
 
 const reduceFilters = filters => filters.reduce((co, item) => {
     const {

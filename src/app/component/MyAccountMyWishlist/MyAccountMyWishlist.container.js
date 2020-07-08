@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
-import { showNotification } from 'Store/Notification';
-import { showPopup } from 'Store/Popup';
-import { WishlistDispatcher } from 'Store/Wishlist';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ProductType } from 'Type/ProductList';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';

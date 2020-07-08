@@ -15,18 +15,18 @@ import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { CategoryDispatcher } from 'Store/Category';
-import { MetaDispatcher } from 'Store/Meta';
-import { changeNavigationState } from 'Store/Navigation';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import CategoryDispatcher from 'Store/Category/Category.dispatcher';
+import MetaDispatcher from 'Store/Meta/Meta.dispatcher';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { NoMatchDispatcher } from 'Store/NoMatch';
-import { setBigOfflineNotice } from 'Store/Offline';
-import { toggleOverlayByKey } from 'Store/Overlay';
+import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
+import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ProductListInfoDispatcher,
     updateInfoLoadStatus
-} from 'Store/ProductListInfo';
+} from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { debounce } from 'Util/Request';

@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import WishlistQuery from 'Query/Wishlist.query';
-import { showNotification } from 'Store/Notification';
-import { showPopup } from 'Store/Popup';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { fetchMutation } from 'Util/Request';
 
 import ShareWishlistPopup from './ShareWishlistPopup.component';

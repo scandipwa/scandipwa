@@ -10,16 +10,16 @@
  */
 
 import MyAccountQuery from 'Query/MyAccount.query';
-import { CartDispatcher } from 'Store/Cart';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
     updateCustomerPasswordResetStatus,
     updateCustomerSignInStatus
-} from 'Store/MyAccount';
-import { showNotification } from 'Store/Notification';
+} from 'Store/MyAccount/MyAccount.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
-import { WishlistDispatcher } from 'Store/Wishlist';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import {
     deleteAuthorizationToken,
     setAuthorizationToken

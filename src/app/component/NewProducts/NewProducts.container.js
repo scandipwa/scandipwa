@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import ProductListQuery from 'Query/ProductList.query';
-import { showNotification } from 'Store/Notification';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { getIndexedProducts } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
 import { executeGet } from 'Util/Request';

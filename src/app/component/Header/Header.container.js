@@ -18,9 +18,9 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import { setQueryParams } from 'Util/Url';

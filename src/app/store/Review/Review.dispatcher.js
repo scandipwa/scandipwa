@@ -10,7 +10,7 @@
  */
 
 import ReviewQuery from 'Query/Review.query';
-import { showNotification } from 'Store/Notification';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { fetchMutation } from 'Util/Request';
 
 /**

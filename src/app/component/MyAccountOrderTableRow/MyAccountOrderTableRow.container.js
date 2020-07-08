@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
-import { showPopup } from 'Store/Popup';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { orderType } from 'Type/Account';
 
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';

@@ -14,12 +14,12 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE } from 'Component/Header/Header.config';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { updateMeta } from 'Store/Meta';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { changeNavigationState } from 'Store/Navigation';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { toggleOverlayByKey } from 'Store/Overlay';
+import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
     DASHBOARD,

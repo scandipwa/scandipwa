@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.config';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { showNotification } from 'Store/Notification';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { paymentMethodsType } from 'Type/Checkout';
 import BraintreeDropIn from 'Util/Braintree';
 

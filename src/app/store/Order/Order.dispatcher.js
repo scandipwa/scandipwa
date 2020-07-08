@@ -11,8 +11,8 @@
 
 import OrderQuery from 'Query/Order.query';
 
-import { showNotification } from 'Store/Notification';
-import { getOrderList } from 'Store/Order';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { getOrderList } from 'Store/Order/Order.action';
 import { fetchQuery } from 'Util/Request';
 
 export class OrderDispatcher {

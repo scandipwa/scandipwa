@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { goToPreviousNavigationState } from 'Store/Navigation';
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { showPopup } from 'Store/Popup';
+import { showPopup } from 'Store/Popup/Popup.action';
 import isMobile from 'Util/Mobile';
 
 import NewVersionPopup from './NewVersionPopup.component';

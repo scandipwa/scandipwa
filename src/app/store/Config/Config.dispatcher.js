@@ -12,8 +12,8 @@
 import ConfigQuery from 'Query/Config.query';
 import RegionQuery from 'Query/Region.query';
 import ReviewQuery from 'Query/Review.query';
-import { updateConfig } from 'Store/Config';
-import { showNotification } from 'Store/Notification';
+import { updateConfig } from 'Store/Config/Config.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';

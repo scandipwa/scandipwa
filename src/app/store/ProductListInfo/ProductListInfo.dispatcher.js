@@ -10,12 +10,12 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
-import { updateNoMatch } from 'Store/NoMatch';
-import { showNotification } from 'Store/Notification';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import {
     updateInfoLoadStatus,
     updateProductListInfo
-} from 'Store/ProductListInfo';
+} from 'Store/ProductListInfo/ProductListInfo.action';
 import { QueryDispatcher } from 'Util/Request';
 
 /**

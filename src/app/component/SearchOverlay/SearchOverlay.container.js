@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { hideActiveOverlay } from 'Store/Overlay';
-import { SearchBarDispatcher } from 'Store/SearchBar';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import SearchBarDispatcher from 'Store/SearchBar/SearchBar.dispatcher';
 
 import SearchOverlay from './SearchOverlay.component';
 

@@ -10,9 +10,9 @@
  */
 
 import CartQuery from 'Query/Cart.query';
-import { updateTotals } from 'Store/Cart';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
-import { showNotification } from 'Store/Notification';
+import { updateTotals } from 'Store/Cart/Cart.action';
+import LinkedProductsDispatcher from 'Store/LinkedProducts/LinkedProducts.dispatcher';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';

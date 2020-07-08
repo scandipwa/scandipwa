@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CartDispatcher } from 'Store/Cart';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 
 import CartCoupon from './CartCoupon.component';
 

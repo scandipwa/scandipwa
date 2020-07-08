@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { OrderDispatcher } from 'Store/Order';
+import OrderDispatcher from 'Store/Order/Order.dispatcher';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 

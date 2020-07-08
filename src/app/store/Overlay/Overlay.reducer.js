@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { SHOW_POPUP } from 'Store/Popup';
+import { SHOW_POPUP } from 'Store/Popup/Popup.action';
 
 import {
     HIDE_ACTIVE_OVERLAY,

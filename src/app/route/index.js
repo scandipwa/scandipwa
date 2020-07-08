@@ -38,10 +38,10 @@ import OfflineNotice from 'Component/OfflineNotice';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import UrlRewrites from 'Route/UrlRewrites';
 import { getStore } from 'Store';
-import { CartDispatcher } from 'Store/Cart';
-import { ConfigDispatcher } from 'Store/Config';
-import { updateMeta } from 'Store/Meta';
-import { WishlistDispatcher } from 'Store/Wishlist';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
+import ConfigDispatcher from 'Store/Config/Config.dispatcher';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released

@@ -15,8 +15,8 @@ import { connect } from 'react-redux';
 
 import OrderQuery from 'Query/Order.query';
 
-import { showNotification } from 'Store/Notification';
-import { OrderDispatcher } from 'Store/Order';
+import { showNotification } from 'Store/Notification/Notification.action';
+import OrderDispatcher from 'Store/Order/Order.dispatcher';
 import { orderType } from 'Type/Account';
 import { getIndexedProducts } from 'Util/Product';
 import { fetchQuery } from 'Util/Request';

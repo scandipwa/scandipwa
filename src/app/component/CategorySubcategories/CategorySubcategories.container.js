@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { history } from 'Route';
-import { hideActiveOverlay } from 'Store/Overlay';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 
 import CategorySubcategories from './CategorySubcategories.component';
 

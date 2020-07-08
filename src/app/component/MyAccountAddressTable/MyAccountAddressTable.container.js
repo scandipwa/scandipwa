@@ -18,7 +18,7 @@ import {
     DELETE_ADDRESS,
     EDIT_ADDRESS
 } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
-import { showPopup } from 'Store/Popup';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
 

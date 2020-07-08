@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 import { MENU_SUBCATEGORY } from 'Component/Header/Header.config';
 import MenuQuery from 'Query/Menu.query';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import MenuHelper from 'Util/Menu';
 import isMobile from 'Util/Mobile';

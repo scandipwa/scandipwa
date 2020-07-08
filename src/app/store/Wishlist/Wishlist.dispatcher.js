@@ -10,15 +10,15 @@
  */
 
 import WishlistQuery from 'Query/Wishlist.query';
-import { CartDispatcher } from 'Store/Cart';
-import { showNotification } from 'Store/Notification';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
+import { showNotification } from 'Store/Notification/Notification.action';
 import {
     clearWishlist,
     removeItemFromWishlist,
     updateAllProductsInWishlist,
     updateIsLoading,
     updateItemOptions
-} from 'Store/Wishlist';
+} from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 

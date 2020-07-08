@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { CartDispatcher } from 'Store/Cart';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { FilterType, ProductType } from 'Type/ProductList';
 import { getVariantsIndexes } from 'Util/Product';
 import { objectToUri } from 'Util/Url';

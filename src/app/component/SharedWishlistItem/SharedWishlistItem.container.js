@@ -12,8 +12,8 @@
 import { connect } from 'react-redux';
 
 import { WishlistItemContainer } from 'Component/WishlistItem/WishlistItem.container';
-import { CartDispatcher } from 'Store/Cart';
-import { showNotification } from 'Store/Notification';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
+import { showNotification } from 'Store/Notification/Notification.action';
 
 import SharedWishlistItem from './SharedWishlistItem.component';
 

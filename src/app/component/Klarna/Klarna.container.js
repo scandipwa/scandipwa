@@ -13,7 +13,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { showNotification } from 'Store/Notification';
+import { showNotification } from 'Store/Notification/Notification.action';
 
 import KlarnaComponent from './Klarna.component';
 

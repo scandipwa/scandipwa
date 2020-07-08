@@ -12,7 +12,7 @@
 import { connect } from 'react-redux';
 import { injectStripe } from 'react-stripe-elements';
 
-import { showNotification } from 'Store/Notification';
+import { showNotification } from 'Store/Notification/Notification.action';
 
 import InjectedStripeCheckoutForm from './InjectedStripeCheckoutForm.component';
 

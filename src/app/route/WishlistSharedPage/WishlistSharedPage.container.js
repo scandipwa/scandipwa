@@ -14,10 +14,10 @@ import { connect } from 'react-redux';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
 import WishlistQuery from 'Query/Wishlist.query';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { updateNoMatch } from 'Store/NoMatch';
-import { showNotification } from 'Store/Notification';
-import { WishlistDispatcher } from 'Store/Wishlist';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
+import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { MatchType } from 'Type/Common';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';

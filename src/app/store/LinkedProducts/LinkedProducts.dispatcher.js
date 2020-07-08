@@ -10,8 +10,8 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
-import { updateLinkedProducts } from 'Store/LinkedProducts';
-import { showNotification } from 'Store/Notification';
+import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 import { QueryDispatcher } from 'Util/Request';

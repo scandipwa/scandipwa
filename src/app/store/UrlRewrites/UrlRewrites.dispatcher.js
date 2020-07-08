@@ -10,8 +10,8 @@
  */
 
 import UrlRewritesQuery from 'Query/UrlRewrites.query';
-import { showNotification } from 'Store/Notification';
-import { clearUrlRewrite, setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { clearUrlRewrite, setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
 import { QueryDispatcher } from 'Util/Request';
 
 /**

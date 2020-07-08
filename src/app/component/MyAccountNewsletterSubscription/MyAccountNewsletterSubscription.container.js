@@ -16,9 +16,9 @@ import { connect } from 'react-redux';
 
 import Loader from 'Component/Loader';
 import MyAccountQuery from 'Query/MyAccount.query';
-import { updateCustomerDetails } from 'Store/MyAccount';
+import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
-import { showNotification } from 'Store/Notification';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { customerType } from 'Type/Account';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import { fetchMutation } from 'Util/Request';

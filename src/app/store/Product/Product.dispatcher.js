@@ -10,9 +10,9 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
-import { updateNoMatch } from 'Store/NoMatch';
-import { updateProductDetails } from 'Store/Product';
+import LinkedProductsDispatcher from 'Store/LinkedProducts/LinkedProducts.dispatcher';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateProductDetails } from 'Store/Product/Product.action';
 import { QueryDispatcher } from 'Util/Request';
 
 /**

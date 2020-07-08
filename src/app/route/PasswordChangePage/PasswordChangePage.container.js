@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { updateMeta } from 'Store/Meta';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { showNotification } from 'Store/Notification';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
+import { showNotification } from 'Store/Notification/Notification.action';
 
 import PasswordChangePage from './PasswordChangePage.component';
 

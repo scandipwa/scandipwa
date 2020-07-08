@@ -17,8 +17,8 @@ import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
 import ProductListQuery from 'Query/ProductList.query';
-import { updateNoMatch } from 'Store/NoMatch';
-import { showNotification } from 'Store/Notification';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { getIndexedProducts } from 'Util/Product';
 import DataContainer from 'Util/Request/DataContainer';
 

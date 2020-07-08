@@ -11,7 +11,7 @@
 
 import { connect } from 'react-redux';
 
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 
 import NoMatch from './NoMatch.component';
 

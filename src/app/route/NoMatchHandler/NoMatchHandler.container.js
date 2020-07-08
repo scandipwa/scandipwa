@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { updateMeta } from 'Store/Meta';
-import { NoMatchDispatcher } from 'Store/NoMatch';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
 
 import NoMatchHandler from './NoMatchHandler.component';
 
