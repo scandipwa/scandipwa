@@ -15,7 +15,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
-import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList/ProductList.action';
+import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
+import ProductListDispatcher from 'Store/ProductList/ProductList.dispatcher';
 
 export const mapStateToProps = state => ({
     pages: state.ProductListReducer.pages,

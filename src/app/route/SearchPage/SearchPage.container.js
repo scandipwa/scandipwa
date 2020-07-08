@@ -6,8 +6,10 @@ import {
     LOADING_TIME
 } from 'Route/CategoryPage/CategoryPage.container';
 import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
-import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category/Category.action';
-import { MetaDispatcher, updateMeta } from 'Store/Meta/Meta.action';
+import { updateCurrentCategory } from 'Store/Category/Category.action';
+import CategoryDispatcher from 'Store/Category/Category.dispatcher';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import MetaDispatcher from 'Store/Meta/Meta.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
