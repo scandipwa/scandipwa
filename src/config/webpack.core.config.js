@@ -76,7 +76,7 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'css-hot-loader',
+                    // 'css-hot-loader',
                     MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
@@ -136,8 +136,9 @@ module.exports = {
         https: false,
         overlay: true,
         compress: true,
-        inline: true,
-        hot: true,
+        inline: false,
+        hot: false,
+        injectClient: false,
         host: '0.0.0.0',
         public: 'scandipwa.local',
         allowedHosts: [
@@ -151,7 +152,7 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
 
         new webpack.DefinePlugin({
             'process.env': {
