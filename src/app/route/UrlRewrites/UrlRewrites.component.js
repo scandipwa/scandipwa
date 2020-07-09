@@ -21,7 +21,7 @@ import {
 } from './UrlRewrites.config';
 
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "product" */ 'Route/ProductPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Route/CategoryPage'));
+export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */ 'Route/CategoryPage'));
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cms" */ 'Route/CmsPage'));
 
 /**

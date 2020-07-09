@@ -208,6 +208,10 @@ export default class MenuOverlay extends PureComponent {
         const { activeMenuItemsStack, closeMenu } = this.props;
         const isVisible = activeMenuItemsStack.includes(item_id);
 
+        if (!isVisible) {
+            return null;
+        }
+
         return (
             <div
               block="Menu"

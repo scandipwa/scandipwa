@@ -35,6 +35,7 @@ import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
 import NotificationList from 'Component/NotificationList';
 import OfflineNotice from 'Component/OfflineNotice';
+import NoMatchHandler from 'Route/NoMatchHandler';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import UrlRewrites from 'Route/UrlRewrites';
 import { getStore } from 'Store';
@@ -53,16 +54,15 @@ Route.propTypes.component = PropTypes.oneOfType([
 ]);
 /* eslint-enable react/forbid-foreign-prop-types */
 
-export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Route/CartPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Route/CategoryPage'));
+export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart" */ 'Route/CartPage'));
+export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */ 'Route/CategoryPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "checkout" */ 'Route/Checkout'));
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cms" */ 'Route/CmsPage'));
 export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cms" */ 'Route/HomePage'));
 export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "account" */ 'Route/MyAccount'));
-export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "misc" */ 'Route/NoMatchHandler'));
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "product" */ 'Route/ProductPage'));
-export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Route/SearchPage'));
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */ 'Route/SearchPage'));
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cms" */ 'Route/MenuPage'));
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));

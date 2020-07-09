@@ -39,8 +39,8 @@ import {
 } from './Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 
-export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Component/CartOverlay'));
-export const SearchField = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Component/SearchField'));
+export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart" */ 'Component/CartOverlay'));
+export const SearchField = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */ 'Component/SearchField'));
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
 
 export default class Header extends NavigationAbstract {
