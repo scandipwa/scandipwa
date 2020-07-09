@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import OrderDispatcher from 'Store/Order/Order.dispatcher';
-
 import MyAccountMyOrders from './MyAccountMyOrders.component';
+
+const OrderDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Order/Order.dispatcher');
 
 export const mapStateToProps = state => ({
     orderList: state.OrderReducer.orderList,
@@ -23,7 +23,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    getOrderList: () => OrderDispatcher.requestOrders(dispatch)
+    getOrderList: () => OrderDispatcher.then(({ default: dispatcher }) => dispatcher.requestOrders(dispatch))
 });
 
 class MyAccountMyOrdersContainer extends PureComponent {

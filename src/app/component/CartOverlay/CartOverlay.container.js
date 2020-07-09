@@ -17,7 +17,6 @@ import { CART_EDITING, CART_OVERLAY } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -26,6 +25,8 @@ import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 
 import CartOverlay from './CartOverlay.component';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 
 export const mapStateToProps = state => ({
@@ -37,7 +38,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateTotals: options => CartDispatcher.updateTotals(dispatch, options),
+    updateTotals: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)),
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });

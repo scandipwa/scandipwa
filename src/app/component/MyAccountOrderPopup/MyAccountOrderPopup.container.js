@@ -14,15 +14,15 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import OrderQuery from 'Query/Order.query';
-
 import { showNotification } from 'Store/Notification/Notification.action';
-import OrderDispatcher from 'Store/Order/Order.dispatcher';
 import { orderType } from 'Type/Account';
 import { getIndexedProducts } from 'Util/Product';
 import { fetchQuery } from 'Util/Request';
 
 import MyAccountOrderPopup from './MyAccountOrderPopup.component';
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
+
+const OrderDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Order/Order.dispatcher');
 
 
 export const mapStateToProps = state => ({
@@ -33,7 +33,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    getOrder: orderId => OrderDispatcher.getOrderById(dispatch, orderId)
+    getOrder: orderId => OrderDispatcher.then(({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId))
 });
 
 export class MyAccountOrderPopupContainer extends PureComponent {

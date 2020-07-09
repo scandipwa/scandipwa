@@ -5,14 +5,10 @@ import {
     CategoryPageContainer,
     LOADING_TIME
 } from 'Route/CategoryPage/CategoryPage.container';
-import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
-import CategoryDispatcher from 'Store/Category/Category.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import MetaDispatcher from 'Store/Meta/Meta.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
@@ -23,6 +19,11 @@ import { debounce } from 'Util/Request';
 import { getUrlParam } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
+
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const CategoryDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Category/Category.dispatcher');
+const MetaDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
+const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
 
 
 export const mapStateToProps = state => ({
@@ -40,13 +41,13 @@ export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    requestCategory: options => CategoryDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options)),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    updateNoMatch: options => NoMatchDispatcher.then(({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch),
+    updateMetaFromCategory: category => MetaDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)),
     updateCurrentCategory: category => dispatch(updateCurrentCategory(category)),
     updateMeta: meta => dispatch(updateMeta(meta))
 });

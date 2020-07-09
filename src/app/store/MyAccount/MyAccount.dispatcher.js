@@ -10,7 +10,6 @@
  */
 
 import MyAccountQuery from 'Query/MyAccount.query';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import {
     updateCustomerDetails,
     updateCustomerPasswordForgotStatus,
@@ -19,7 +18,6 @@ import {
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
-import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import {
     deleteAuthorizationToken,
     setAuthorizationToken
@@ -27,6 +25,9 @@ import {
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation } from 'Util/Request';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
 export const CUSTOMER = 'customer';
 
@@ -57,8 +58,8 @@ export class MyAccountDispatcher {
     logout(_, dispatch) {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
-        CartDispatcher.updateInitialCartData(dispatch);
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
+        CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
+        WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         dispatch(updateCustomerDetails({}));
@@ -150,8 +151,8 @@ export class MyAccountDispatcher {
 
             setAuthorizationToken(token);
             dispatch(updateCustomerSignInStatus(true));
-            CartDispatcher.updateInitialCartData(dispatch);
-            WishlistDispatcher.updateInitialWishlistData(dispatch);
+            CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
+            WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
 
             return true;
         } catch ([e]) {

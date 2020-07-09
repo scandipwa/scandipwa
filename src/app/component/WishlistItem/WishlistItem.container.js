@@ -13,21 +13,22 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
-import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ProductType } from 'Type/ProductList';
 import { debounce } from 'Util/Request';
 
 import WishlistItem from './WishlistItem.component';
 
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
-    updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
-    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
+    addProductToCart: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)),
+    updateWishlistItem: options => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)),
+    removeFromWishlist: options => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options))
 });
 
 export class WishlistItemContainer extends PureComponent {

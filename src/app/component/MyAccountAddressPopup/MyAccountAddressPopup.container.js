@@ -14,7 +14,6 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import MyAccountQuery from 'Query/MyAccount.query';
-import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -25,6 +24,8 @@ import { fetchMutation } from 'Util/Request';
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
 import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';
 
+const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+
 
 export const mapStateToProps = state => ({
     payload: state.PopupReducer.popupPayload[ADDRESS_POPUP_ID] || {}
@@ -34,7 +35,7 @@ export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
     showSuccessNotification: message => dispatch(showNotification('success', message)),
-    updateCustomerDetails: () => MyAccountDispatcher.requestCustomerData(dispatch),
+    updateCustomerDetails: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 

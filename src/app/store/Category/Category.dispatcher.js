@@ -10,7 +10,6 @@
  */
 
 import CategoryQuery from 'Query/Category.query';
-
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';

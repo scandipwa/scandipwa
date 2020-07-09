@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
-import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
 
 import NoMatchHandler from './NoMatchHandler.component';
+
+const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
 
 export const mapStateToProps = state => ({
     noMatch: state.NoMatchReducer.noMatch
@@ -26,7 +27,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
-        NoMatchDispatcher.updateNoMatch(dispatch, options);
+        NoMatchDispatcher.then(({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options));
     }
 });
 

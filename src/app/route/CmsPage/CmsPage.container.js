@@ -16,7 +16,6 @@ import { CMS_PAGE } from 'Component/Header/Header.config';
 import CmsPageQuery from 'Query/CmsPage.query';
 import { history } from 'Route';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
-import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -28,17 +27,19 @@ import { getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+
 export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline
 });
 
 export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateMeta: meta => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
-        BreadcrumbsDispatcher.update([], dispatch);
+        BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update([], dispatch));
         dispatch(toggleBreadcrumbs(isActive));
     }
 });

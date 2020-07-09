@@ -14,9 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE } from 'Component/Header/Header.config';
-import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
@@ -33,15 +31,18 @@ import isMobile from 'Util/Mobile';
 import MyAccount from './MyAccount.component';
 import { MY_ACCOUNT_URL } from './MyAccount.config';
 
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+
 
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
+    requestCustomerData: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)),
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     updateMeta: meta => dispatch(updateMeta(meta))
 });

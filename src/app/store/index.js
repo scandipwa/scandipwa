@@ -72,8 +72,8 @@ export function createReducer(asyncReducers) {
     return combineReducers({
         ...staticReducers,
         ...asyncReducers
-    })
-};
+    });
+}
 
 // Configure the store
 export default function configureStore() {
@@ -83,14 +83,14 @@ export default function configureStore() {
     // Create an inject reducer function
     // This function adds the async reducer, and creates a new combined reducer
     store.injectReducer = (key, asyncReducer) => {
-        store.asyncReducers[key] = asyncReducer
-        store.replaceReducer(createReducer(store.asyncReducers))
+        store.asyncReducers[key] = asyncReducer;
+        store.replaceReducer(createReducer(store.asyncReducers));
     };
 
     // Return the modified store
     return store;
-};
+}
 
 export function getStore() {
     return store;
-};
+}

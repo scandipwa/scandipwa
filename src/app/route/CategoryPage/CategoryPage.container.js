@@ -15,12 +15,8 @@ import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
-import CategoryDispatcher from 'Store/Category/Category.dispatcher';
-import MetaDispatcher from 'Store/Meta/Meta.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import NoMatchDispatcher from 'Store/NoMatch/NoMatch.dispatcher';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
@@ -38,6 +34,11 @@ import {
 
 import CategoryPage from './CategoryPage.component';
 
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const CategoryDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Category/Category.dispatcher');
+const MetaDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
+const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
+
 
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
@@ -52,15 +53,15 @@ export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
+    requestCategory: options => CategoryDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options)),
     updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
-        ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
-        : BreadcrumbsDispatcher.update([], dispatch)),
+        ? BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch))
+        : BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update([], dispatch))),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    updateNoMatch: options => NoMatchDispatcher.then(({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
+    updateMetaFromCategory: category => MetaDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch))
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;

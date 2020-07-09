@@ -11,12 +11,13 @@
 
 import CartQuery from 'Query/Cart.query';
 import { updateTotals } from 'Store/Cart/Cart.action';
-import LinkedProductsDispatcher from 'Store/LinkedProducts/LinkedProducts.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
 import { fetchMutation, fetchQuery } from 'Util/Request';
+
+const LinkedProductsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/LinkedProducts/LinkedProducts.dispatcher');
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -189,7 +190,7 @@ export class CartDispatcher {
             }, []);
 
             if (product_links.length !== 0) {
-                LinkedProductsDispatcher.handleData(dispatch, product_links);
+                LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links));
             }
         }
     }

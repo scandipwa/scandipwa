@@ -14,10 +14,8 @@ import { connect } from 'react-redux';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
 import WishlistQuery from 'Query/Wishlist.query';
-import BreadcrumbsDispatcher from 'Store/Breadcrumbs/Breadcrumbs.dispatcher';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { MatchType } from 'Type/Common';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
@@ -26,13 +24,16 @@ import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
 
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+
 export const mapDispatchToProps = dispatch => ({
-    clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
-    moveWishlistToCart: sharingCode => WishlistDispatcher.moveWishlistToCart(dispatch, sharingCode),
+    clearWishlist: () => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)),
+    moveWishlistToCart: sharingCode => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)),
     showNotification: message => dispatch(showNotification('success', message)),
     showError: message => dispatch(showNotification('error', message)),
     showNoMatch: () => dispatch(updateNoMatch(true)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch)
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch))
 });
 
 export class WishlistSharedContainer extends MyAccountMyWishlistContainer {

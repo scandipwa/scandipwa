@@ -38,10 +38,11 @@ import OfflineNotice from 'Component/OfflineNotice';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import UrlRewrites from 'Route/UrlRewrites';
 import { getStore } from 'Store';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
-import ConfigDispatcher from 'Store/Config/Config.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const ConfigDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Config/Config.dispatcher');
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released
@@ -274,9 +275,9 @@ export class AppRouter extends PureComponent {
 
     dispatchActions() {
         const { dispatch } = getStore();
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
-        CartDispatcher.updateInitialCartData(dispatch);
-        ConfigDispatcher.handleData(dispatch);
+        WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
+        CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
+        ConfigDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch));
     }
 
     renderItemsOfType(type) {

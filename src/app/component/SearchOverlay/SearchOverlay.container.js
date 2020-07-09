@@ -14,9 +14,10 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import SearchBarDispatcher from 'Store/SearchBar/SearchBar.dispatcher';
 
 import SearchOverlay from './SearchOverlay.component';
+
+const SearchBarDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/SearchBar/SearchBar.dispatcher');
 
 export const mapStateToProps = state => ({
     searchResults: state.SearchBarReducer.productsInSearch,
@@ -25,8 +26,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    makeSearchRequest: options => SearchBarDispatcher.handleData(dispatch, options),
-    clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch)
+    makeSearchRequest: options => SearchBarDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options)),
+    clearSearchResults: () => SearchBarDispatcher.then(({ default: dispatcher }) => dispatcher.clearSearchResults(dispatch))
 });
 
 export class SearchOverlayContainer extends PureComponent {

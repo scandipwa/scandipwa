@@ -16,10 +16,11 @@ import { connect } from 'react-redux';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ProductType } from 'Type/ProductList';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
+
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
 export const mapStateToProps = state => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
@@ -27,8 +28,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
-    moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
+    clearWishlist: () => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)),
+    moveWishlistToCart: () => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)),
     showPopup: payload => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     showNotification: message => dispatch(showNotification('success', message))
 });

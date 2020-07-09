@@ -16,13 +16,14 @@ import { connect } from 'react-redux';
 import { PAYPAL_EXPRESS } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import PayPalQuery from 'Query/PayPal.query';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation } from 'Util/Request';
 
 import PayPal from './PayPal.component';
 import { PAYPAL_SCRIPT } from './PayPal.config';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 export const mapStateToProps = state => ({
     cartTotals: state.CartReducer.cartTotals,
@@ -155,7 +156,7 @@ export class PayPalContainer extends PureComponent {
         return token;
     };
 
-    _getGuestQuoteId = () => (isSignedIn() ? '' : CartDispatcher._getGuestQuoteId());
+    _getGuestQuoteId = () => (isSignedIn() ? '' : CartDispatcher.then(({ default: dispatcher }) => dispatcher._getGuestQuoteId()));
 
     render() {
         return (

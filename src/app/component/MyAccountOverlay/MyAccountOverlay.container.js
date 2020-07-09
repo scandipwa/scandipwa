@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -32,6 +31,8 @@ import {
     STATE_LOGGED_IN, STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
+const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+
 
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
@@ -42,9 +43,9 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
-    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
-    signIn: options => MyAccountDispatcher.signIn(options, dispatch),
+    forgotPassword: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)),
+    createAccount: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)),
+    signIn: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.signIn(options, dispatch)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))

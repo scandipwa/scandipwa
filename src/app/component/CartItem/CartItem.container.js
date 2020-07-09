@@ -14,18 +14,19 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
 
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+
 
 export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-    changeItemQty: options => CartDispatcher.changeItemQty(dispatch, options),
-    removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
+    addProduct: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)),
+    changeItemQty: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)),
+    removeProduct: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options))
 });
 
 export class CartItemContainer extends PureComponent {

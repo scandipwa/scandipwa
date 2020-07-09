@@ -14,15 +14,16 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { FilterType, ProductType } from 'Type/ProductList';
 import { getVariantsIndexes } from 'Util/Product';
 import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+
 export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+    addProduct: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options))
 });
 
 export class ProductCardContainer extends PureComponent {

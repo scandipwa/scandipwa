@@ -12,14 +12,15 @@
 import { connect } from 'react-redux';
 
 import { WishlistItemContainer } from 'Component/WishlistItem/WishlistItem.container';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 
 import SharedWishlistItem from './SharedWishlistItem.component';
 
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options)
+    addProductToCart: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options))
 });
 
 export class SharedWishlistItemContainer extends WishlistItemContainer {

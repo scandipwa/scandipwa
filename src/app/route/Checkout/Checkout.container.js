@@ -18,9 +18,7 @@ import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.action';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import MyAccountDispatcher from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -37,6 +35,9 @@ import {
     BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, STRIPE_AUTH_REQUIRED
 } from './Checkout.config';
 
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
@@ -45,12 +46,12 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
-    resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
+    resetCart: () => CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
+    createAccount: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.createAccount(options, dispatch))
 });
 
 export class CheckoutContainer extends PureComponent {

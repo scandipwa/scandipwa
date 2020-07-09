@@ -18,11 +18,12 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import Loader from 'Component/Loader';
 import KlarnaQuery from 'Query/Klarna.query';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation } from 'Util/Request';
 
 import { KLARNA_PAYMENTS_CONTAINER_ID, KLARNA_SCRIPT_ID } from './Klarna.config';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 
 export default class KlarnaComponent extends PureComponent {
@@ -37,7 +38,7 @@ export default class KlarnaComponent extends PureComponent {
 
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
-        const guest_cart_id = CartDispatcher._getGuestQuoteId();
+        const guest_cart_id = CartDispatcher.then(({ default: dispatcher }) => dispatcher._getGuestQuoteId)();
 
         try {
             setOrderButtonEnableStatus(false);

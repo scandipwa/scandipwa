@@ -16,7 +16,8 @@ import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
-import ProductListDispatcher from 'Store/ProductList/ProductList.dispatcher';
+
+const ProductListDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/ProductList/ProductList.dispatcher');
 
 export const mapStateToProps = state => ({
     pages: state.ProductListReducer.pages,
@@ -27,7 +28,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    requestProductList: options => ProductListDispatcher.handleData(dispatch, options),
+    requestProductList: options => ProductListDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options)),
     updateLoadStatus: isLoading => dispatch(updateLoadStatus(isLoading))
 });
 

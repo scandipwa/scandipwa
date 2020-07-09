@@ -10,7 +10,6 @@
  */
 
 import WishlistQuery from 'Query/Wishlist.query';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import {
     clearWishlist,
@@ -21,6 +20,8 @@ import {
 } from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery } from 'Util/Request';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 /**
  * Product Wishlist Dispatcher
@@ -108,7 +109,7 @@ export class WishlistDispatcher {
         return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
             .then(() => {
                 dispatch(clearWishlist());
-                CartDispatcher._syncCartWithBE(dispatch);
+                CartDispatcher.then(({ default: dispatcher }) => dispatcher._syncCartWithBE(dispatch));
             });
     }
 

@@ -14,22 +14,23 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
-import WishlistDispatcher from 'Store/Wishlist/Wishlist.dispatcher';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import { CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import AddToCart from './AddToCart.component';
 
+const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+
 export const mapStateToProps = state => ({
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
 export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
+    addProduct: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)),
+    removeFromWishlist: options => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
