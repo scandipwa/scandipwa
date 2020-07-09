@@ -17,9 +17,9 @@ import { lazy, PureComponent, Suspense } from 'react';
 
 import { CATALOG_PRODUCT_LIST, NEW_PRODUCTS, SLIDER } from './WidgetFactory.config';
 
-const ProductListWidget = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */ 'Component/ProductListWidget'));
-const NewProducts = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */ 'Component/NewProducts'));
-const HomeSlider = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "slider" */ 'Component/SliderWidget'));
+const ProductListWidget = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Component/ProductListWidget'));
+const NewProducts = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Component/NewProducts'));
+const HomeSlider = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cms" */ 'Component/SliderWidget'));
 
 export default class WidgetFactory extends PureComponent {
     static propTypes = {
