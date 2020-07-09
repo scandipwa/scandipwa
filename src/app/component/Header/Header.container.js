@@ -106,6 +106,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     containerProps = () => {
         const {
+            activeOverlay,
             navigationState,
             cartTotals,
             header_logo_src,
@@ -128,6 +129,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const isCheckout = pathname.includes(CHECKOUT_URL);
 
         return {
+            activeOverlay,
             navigationState,
             cartTotals,
             header_logo_src,

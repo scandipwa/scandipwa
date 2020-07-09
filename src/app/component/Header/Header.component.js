@@ -37,9 +37,10 @@ import isMobile from 'Util/Mobile';
 import {
     CART, CART_EDITING, CART_OVERLAY, CATEGORY, CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, FILTER, MENU, MENU_SUBCATEGORY, PDP, POPUP, SEARCH
 } from './Header.config';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 
-export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart" */ 'Component/CartOverlay'));
-export const SearchField = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "search" */ 'Component/SearchField'));
+export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Component/CartOverlay'));
+export const SearchField = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart.category" */ 'Component/SearchField'));
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
 
 export default class Header extends NavigationAbstract {
@@ -202,7 +203,9 @@ export default class Header extends NavigationAbstract {
         return <Menu />;
     }
 
-    renderSearchField(isSearchVisible = false) {
+    searchOverlayWasVisible = false;
+
+    renderSearchField(isVisible = false) {
         const {
             searchCriteria,
             onSearchOutsideClick,
@@ -211,11 +214,20 @@ export default class Header extends NavigationAbstract {
             onClearSearchButtonClick,
             navigationState: { name },
             isCheckout,
-            hideActiveOverlay
+            hideActiveOverlay,
+            activeOverlay
         } = this.props;
 
         if (isCheckout) {
             return null;
+        }
+
+        if (activeOverlay === 'search') {
+            this.searchOverlayWasVisible = true;
+        }
+
+        if (!this.searchOverlayWasVisible) {
+            return this.renderOverlayFallback();
         }
 
         return (
@@ -227,7 +239,7 @@ export default class Header extends NavigationAbstract {
                   onSearchBarFocus={ onSearchBarFocus }
                   onSearchBarChange={ onSearchBarChange }
                   onClearSearchButtonClick={ onClearSearchButtonClick }
-                  isVisible={ isSearchVisible }
+                  isVisible={ isVisible }
                   isActive={ name === SEARCH }
                   hideActiveOverlay={ hideActiveOverlay }
                 />
@@ -287,14 +299,45 @@ export default class Header extends NavigationAbstract {
         );
     }
 
+    accountOverlayWasVisible = false;
+
+    renderAccountOverlay(isVisible = false) {
+        const {
+            isCheckout,
+            activeOverlay,
+            showMyAccountLogin,
+            closeOverlay,
+            onSignIn
+        } = this.props;
+
+        if (!(isMobile.any() && showMyAccountLogin) && isMobile.any()) {
+            return null;
+        }
+
+        if (activeOverlay === CUSTOMER_ACCOUNT_OVERLAY_KEY) {
+            this.accountOverlayWasVisible = true;
+        }
+
+        if (!this.accountOverlayWasVisible) {
+            return this.renderOverlayFallback();
+        }
+
+        return (
+            <Suspense fallback={ this.renderOverlayFallback() }>
+                <MyAccountOverlay
+                  onSignIn={ onSignIn }
+                  closeOverlay={ closeOverlay }
+                  isCheckout={ isCheckout }
+                />
+            </Suspense>
+        );
+    }
+
     renderAccountButton(isVisible = false) {
         const {
             onMyAccountOutsideClick,
             onMyAccountButtonClick,
-            isCheckout,
-            showMyAccountLogin,
-            closeOverlay,
-            onSignIn
+            isCheckout
         } = this.props;
 
         // on mobile and tablet hide button if not in checkout
@@ -333,16 +376,7 @@ export default class Header extends NavigationAbstract {
                           mods={ { isVisible, type: 'account' } }
                         />
                     </button>
-
-                    { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
-                        <Suspense fallback={ this.renderOverlayFallback() }>
-                            <MyAccountOverlay
-                              onSignIn={ onSignIn }
-                              closeOverlay={ closeOverlay }
-                              isCheckout={ isCheckout }
-                            />
-                        </Suspense>
-                    ) }
+                    { this.renderAccountOverlay() }
                 </div>
             </ClickOutside>
         );
@@ -363,6 +397,32 @@ export default class Header extends NavigationAbstract {
             >
                 { items_qty }
             </span>
+        );
+    }
+
+    minicartOverlayWasVisible = false;
+
+    renderMinicartOverlay(isVisible = false) {
+        const { activeOverlay } = this.props;
+
+        console.log(activeOverlay);
+
+        if (activeOverlay === CART_OVERLAY) {
+            this.minicartOverlayWasVisible = true;
+        }
+
+        console.log(this.minicartOverlayWasVisible);
+
+        if (!this.minicartOverlayWasVisible) {
+            return this.renderOverlayFallback();
+        }
+
+        console.log('render');
+
+        return (
+            <Suspense fallback={ this.renderOverlayFallback() }>
+                <CartOverlay />
+            </Suspense>
         );
     }
 
@@ -408,9 +468,7 @@ export default class Header extends NavigationAbstract {
                         />
                         { this.renderMinicartItemsQty() }
                     </button>
-                    <Suspense fallback={ this.renderOverlayFallback() }>
-                        <CartOverlay />
-                    </Suspense>
+                    { this.renderMinicartOverlay(isVisible) }
                 </div>
             </ClickOutside>
         );
