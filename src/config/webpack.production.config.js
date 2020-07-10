@@ -33,7 +33,7 @@ const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const publicRoot = path.resolve(magentoRoot, 'pub');
-const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
+const fallbackRoot = path.resolve(magentoRoot, 'fake_vendor', 'scandipwa', 'source');
 
 const staticVersion = Date.now();
 const publicPath = `/static/version${staticVersion}/frontend/Scandiweb/pwa/en_US/Magento_Theme/`;
@@ -54,6 +54,8 @@ const webpackConfig = ([lang, translation]) => ({
     },
 
     cache: false,
+
+    mode: 'production',
 
     stats: {
         warnings: false
@@ -83,12 +85,7 @@ const webpackConfig = ([lang, translation]) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: () => [
-                                autoprefixer,
-                                cssnano({
-                                    preset: ['default', { discardComments: { removeAll: true } }]
-                                })
-                            ]
+                            plugins: () => [autoprefixer]
                         }
                     },
                     'sass-loader',
@@ -120,11 +117,12 @@ const webpackConfig = ([lang, translation]) => ({
     },
 
     plugins: [
-        new InjectManifest({
-            swSrc: path.resolve(publicRoot, 'sw-compiled.js'),
-            swDest: path.resolve(publicRoot, 'sw.js'),
-            exclude: [/\.phtml/]
-        }),
+        // * IF REMOVED + 10 PTS
+        // new InjectManifest({
+        //     swSrc: path.resolve(publicRoot, 'sw-compiled.js'),
+        //     swDest: path.resolve(publicRoot, 'sw.js'),
+        //     exclude: [/\.phtml/]
+        // }),
 
         new HtmlWebpackPlugin({
             template: path.resolve(projectRoot, 'src', 'public', 'index.production.phtml'),
@@ -146,12 +144,11 @@ const webpackConfig = ([lang, translation]) => ({
         }),
 
         new webpack.ProvidePlugin({
+            __: path.resolve(path.join(__dirname, 'TranslationFunction')),
             React: 'react'
         }),
 
-        new I18nPlugin({
-            translation
-        }),
+        new I18nPlugin({ translation }),
 
         new CleanWebpackPlugin([
             path.resolve('Magento_Theme', 'templates'),
