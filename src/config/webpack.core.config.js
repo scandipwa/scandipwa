@@ -17,10 +17,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -72,9 +73,9 @@ module.exports = {
         }
     },
 
-    mode: 'development',
+    mode: 'production',
 
-    devtool: 'source-map',
+    // devtool: 'source-map',
 
     stats: {
         warnings: false
@@ -100,25 +101,26 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
+                    'style-loader',
                     // 'css-hot-loader',
-                    MiniCssExtractPlugin.loader,
+                    // MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
-                            sourceMap: true
+                            // sourceMap: true
                         }
                     },
                     {
                         loader: 'postcss-loader',
                         options: {
-                            sourceMap: true,
+                            // sourceMap: true,
                             plugins: () => [autoprefixer]
                         }
                     },
                     {
                         loader: 'sass-loader',
                         options: {
-                            sourceMap: true
+                            // sourceMap: true
                         }
                     },
                     {
@@ -205,13 +207,20 @@ module.exports = {
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
         ]),
 
-        new MiniCssExtractPlugin(),
+        // new MiniCssExtractPlugin(),
 
         new DashboardPlugin(),
 
         new BundleAnalyzerPlugin({
             analyzerPort: 1111,
             openAnalyzer: false
+        }),
+
+        new MinifyPlugin({
+            removeConsole: false,
+            removeDebugger: true
+        }, {
+            comments: false
         })
     ]
 };
