@@ -22,6 +22,11 @@
     flex-direction: column;
     margin-bottom: calc(var(--navigation-tabs-height) + 1rem);
 
+    &-Newsletter {
+        width: 500px;
+        margin-bottom: 30px;
+    }
+
     &-Link,
     &-Copyright {
         font-size: 11px;

@@ -64,6 +64,7 @@ export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webp
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
+export const ConfirmNewsletterPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmNewsletterPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/WishlistSharedPage'));
@@ -172,8 +173,12 @@ export class AppRouter extends PureComponent {
             position: 60
         },
         {
-            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            component: <Route path="/my-account/confirm" component={ ConfirmAccountPage } />,
             position: 65
+        },
+        {
+            component: <Route path="/newsletter/subscriber/confirm" component={ ConfirmNewsletterPage } />,
+            position: 66
         },
         {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,

@@ -12,6 +12,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import NewsletterSignup from 'Component/NewsletterSignup';
 import CmsBlock from 'Component/CmsBlock';
 import isMobile from 'Util/Mobile';
 import Link from 'Component/Link';
@@ -73,6 +74,9 @@ export default class Footer extends PureComponent {
 
         return (
             <footer block="Footer" aria-label="Footer">
+                <div block="Footer" elem="Newsletter">
+                    <NewsletterSignup />
+                </div>
                 { this.renderContent() }
                 <span block="Footer" elem="Copyright">
                     { copyright }

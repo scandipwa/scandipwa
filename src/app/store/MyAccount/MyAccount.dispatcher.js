@@ -137,6 +137,31 @@ export class MyAccountDispatcher {
     }
 
     /**
+     * Confirm newsletter
+     * @param {{ id: String, code: Int }} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    confirmNewsletter(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getConfirmNewsletterMutation(options);
+
+        return fetchMutation(mutation).then(
+            () => dispatch(showNotification('success', __('Your email is confirmed for our newsletter!'))),
+            error => dispatch(showNotification('error', error[0].message))
+        );
+    }
+
+    /**
+     * Signup for newsletter
+     * @param {{ email: String } [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    signupNewsletter(options = {}) {
+        const mutation = MyAccountQuery.getSignupNewsletterMutation(options);
+
+        return fetchMutation(mutation);
+    }
+
+    /**
      * Sign in action
      * @param {{email: String, password: String}} [options={}]
      * @memberof MyAccountDispatcher

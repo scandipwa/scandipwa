@@ -103,6 +103,23 @@ export class MyAccountQuery {
             .addFieldList(this._getConfirmAccountFields());
     }
 
+    getConfirmNewsletterMutation(options) {
+        const { id, code } = options;
+
+        return new Field('newsletterConfirm')
+            .addArgument('id', 'Int!', id)
+            .addArgument('code', 'String!', code)
+            .addField('status');
+    }
+
+    getSignupNewsletterMutation(options) {
+        const { newsletterEmail } = options;
+
+        return new Field('signupNewsletter')
+            .addArgument('email', 'String!', newsletterEmail)
+            .addField('status');
+    }
+
     getCustomerQuery() {
         return this._getCustomerField();
     }
