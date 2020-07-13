@@ -18,7 +18,8 @@ import Link from 'Component/Link';
 import isMobile from 'Util/Mobile';
 import Image from 'Component/Image';
 
-export default class MenuItem extends ExtensiblePureComponent {
+/** @namespace Component/MenuItem/Component */
+export class MenuItem extends ExtensiblePureComponent {
     static propTypes = {
         activeMenuItemsStack: PropTypes.array.isRequired,
         item: PropTypes.object.isRequired,
@@ -132,3 +133,5 @@ export default class MenuItem extends ExtensiblePureComponent {
         return this.renderItemContent(item, itemMods);
     }
 }
+
+export default MenuItem;

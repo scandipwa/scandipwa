@@ -23,7 +23,9 @@ import MenuItem from 'Component/MenuItem';
 
 import './Menu.style';
 
-export default class Menu extends ExtensiblePureComponent {
+
+/** @namespace Component/Menu/Component */
+export class Menu extends ExtensiblePureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         activeMenuItemsStack: PropTypes.array.isRequired,
@@ -369,3 +371,5 @@ export default class Menu extends ExtensiblePureComponent {
         );
     }
 }
+
+export default Menu;
