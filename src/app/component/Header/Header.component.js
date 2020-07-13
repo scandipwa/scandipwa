@@ -14,6 +14,7 @@
 import PropTypes from 'prop-types';
 
 import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import SearchField from 'Component/SearchField';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import OfflineNotice from 'Component/OfflineNotice';
@@ -251,7 +252,7 @@ export default class Header extends NavigationAbstract {
               elem="Title"
               mods={ { isVisible } }
             >
-                { title }
+                <TextPlaceholder content={ title } />
             </h2>
         );
     }
@@ -303,7 +304,8 @@ export default class Header extends NavigationAbstract {
             onSignIn
         } = this.props;
 
-        if (isMobile.any() && !isCheckout) {
+        // on mobile and tablet hide button if not in checkout
+        if ((isMobile.any() || isMobile.tablet()) && !isCheckout) {
             return null;
         }
 
@@ -377,7 +379,7 @@ export default class Header extends NavigationAbstract {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || isCheckout) {
+        if ((isMobile.any() || isMobile.tablet()) || isCheckout) {
             return null;
         }
 

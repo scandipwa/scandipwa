@@ -22,6 +22,7 @@ import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
 import { changeNavigationState } from 'Store/Navigation';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 import { setBigOfflineNotice } from 'Store/Offline';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
@@ -44,7 +45,10 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestProduct: options => ProductDispatcher.handleData(dispatch, options),
+    requestProduct: (options) => {
+        ProductDispatcher.handleData(dispatch, options);
+        LinkedProductsDispatcher.clearLinkedProducts(dispatch);
+    },
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
     updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
@@ -290,6 +294,7 @@ export class ProductPageContainer extends PureComponent {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
             this._updateNavigationState();
+
             if (isOffline) {
                 setBigOfflineNotice(false);
             }

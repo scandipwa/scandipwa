@@ -90,9 +90,11 @@ export default class MenuOverlay extends PureComponent {
 
         const {
             item_id,
-            children
+            children,
+            item_class
         } = item;
 
+        const isBanner = item_class === 'Menu-ItemFigure_type_banner';
         const childrenArray = Object.values(children);
         const subcategoryMods = { type: 'subcategory' };
 
@@ -121,6 +123,7 @@ export default class MenuOverlay extends PureComponent {
               block="Menu"
               elem="SubItemWrapper"
               key={ item_id }
+              mods={ { isBanner } }
             >
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
@@ -170,7 +173,7 @@ export default class MenuOverlay extends PureComponent {
             <div block="Menu" elem="Promotion">
                 <h3 block="Menu" elem="PageLink">
                     <Link
-                      to="/page/about-us"
+                      to="/about-us"
                       onClick={ closeMenu }
                       block="Menu"
                       elem="Link"
@@ -180,7 +183,7 @@ export default class MenuOverlay extends PureComponent {
                 </h3>
                 <h3 block="Menu" elem="PageLink">
                     <Link
-                      to="/page/about-us"
+                      to="/about-us"
                       onClick={ closeMenu }
                       block="Menu"
                       elem="Link"
@@ -236,7 +239,7 @@ export default class MenuOverlay extends PureComponent {
     };
 
     renderSubMenuDesktop(itemList) {
-        if (isMobile.any()) {
+        if (isMobile.any() || isMobile.tablet()) {
             return null;
         }
 
@@ -270,7 +273,7 @@ export default class MenuOverlay extends PureComponent {
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
 
-        if (childrenArray.length && isMobile.any()) {
+        if (childrenArray.length && (isMobile.any() || isMobile.tablet())) {
             return (
                 <div
                   onClick={ e => handleSubcategoryClick(e, item) }
@@ -343,7 +346,7 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderStoreSwitcher() {
-        if (!isMobile.any()) {
+        if (!isMobile.any() && !isMobile.tablet()) {
             return null;
         }
 

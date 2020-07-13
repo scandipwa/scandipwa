@@ -58,7 +58,7 @@ export class ProductListQuery {
 
                 return filters;
             },
-            productsSkuArray: sku => [`sku: { in: [${sku}] }`],
+            productsSkuArray: sku => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
             productUrlPath: url => [`url_key: { eq: ${url}}`],
             customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
@@ -222,7 +222,8 @@ export class ProductListQuery {
                 fields.push(
                     this._getCategoriesField(),
                     this._getReviewsField(),
-                    this._getVirtualProductFragment()
+                    this._getVirtualProductFragment(),
+                    this._getCustomizableProductFragment()
                 );
             }
         }

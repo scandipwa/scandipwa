@@ -24,10 +24,13 @@
 
     @include desktop {
         --header-dots-color: #000;
+        --header-logo-height: calc(var(--header-nav-height) - 35px);
+    }
+
+    @include after-mobile {
         --header-nav-height: 60px;
         --header-top-menu-height: 30px;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height));
-        --header-logo-height: calc(var(--header-nav-height) - 35px);
     }
 }
 
@@ -196,12 +199,12 @@
     &-TopMenu {
         height: var(--header-top-menu-height);
         justify-content: space-between;
+        z-index: 21;
         padding: {
             left: 1rem;
             right: 2rem;
             top: 1rem;
-        }
-        z-index: 21;
+        };
     }
 
     &-Contacts {
@@ -445,6 +448,11 @@
                 max-width: calc(100% - 180px);
             }
         }
+
+        .TextPlaceholder {
+            opacity: 0;
+            animation: appear 150ms 100ms forwards;
+        }
     }
 
     a {
@@ -453,6 +461,12 @@
             @include before-desktop {
                 text-decoration: none;
             }
+        }
+    }
+
+    .Menu-MenuWrapper {
+        @include tablet {
+            display: none;
         }
     }
 }
