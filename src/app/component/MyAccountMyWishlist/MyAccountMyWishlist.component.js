@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 
+import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
@@ -25,6 +26,7 @@ export class MyAccountMyWishlist extends ExtensiblePureComponent {
         isWishlistLoading: PropTypes.bool.isRequired,
         removeAll: PropTypes.func.isRequired,
         addAllToCart: PropTypes.func.isRequired,
+        shareWishlist: PropTypes.func.isRequired,
         isWishlistEmpty: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
@@ -35,17 +37,50 @@ export class MyAccountMyWishlist extends ExtensiblePureComponent {
         </div>
     );
 
-    renderProduct = ([id, product]) => <WishlistItem key={ id } product={ product } />;
+    renderProduct = ([id, product]) => (
+        <WishlistItem
+          key={ id }
+          product={ product }
+        />
+    );
 
     renderProducts() {
-        const { wishlistItems } = this.props;
+        const {
+            isWishlistLoading,
+            isWishlistEmpty,
+            wishlistItems
+        } = this.props;
+
+        if (isWishlistLoading && isWishlistEmpty) {
+            return this.renderPlaceholders();
+        }
+
         return Object.entries(wishlistItems).map(this.renderProduct);
     }
 
-    renderActionLine() {
+    renderClearWishlist() {
         const {
             isWishlistLoading,
             removeAll,
+            isWishlistEmpty
+        } = this.props;
+
+        const disabled = isWishlistLoading || isWishlistEmpty;
+
+        return (
+            <button
+              block="Button"
+              onClick={ removeAll }
+              disabled={ disabled }
+            >
+                { __('Clear Wishlist') }
+            </button>
+        );
+    }
+
+    renderAddAllToCart() {
+        const {
+            isWishlistLoading,
             addAllToCart,
             isWishlistEmpty
         } = this.props;
@@ -53,27 +88,53 @@ export class MyAccountMyWishlist extends ExtensiblePureComponent {
         const disabled = isWishlistLoading || isWishlistEmpty;
 
         return (
+            <button
+              block="Button"
+              mix={ { block: 'MyAccountMyWishlist', elem: 'Button' } }
+              onClick={ addAllToCart }
+              disabled={ disabled }
+            >
+              { __('Add All to Cart') }
+            </button>
+        );
+    }
+
+    renderShareWishlistButton() {
+        const {
+            isWishlistLoading,
+            shareWishlist,
+            isWishlistEmpty
+        } = this.props;
+
+        const disabled = isWishlistLoading || isWishlistEmpty;
+
+        return (
+            <button
+              block="Button"
+              onClick={ shareWishlist }
+              disabled={ disabled }
+            >
+                { __('Share Wishlist') }
+            </button>
+        );
+    }
+
+    renderActionLine() {
+        return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
-                <button
-                  block="Button"
-                  onClick={ removeAll }
-                  disabled={ disabled }
-                >
-                    { __('Clear Wishlist') }
-                </button>
-                <button
-                  block="Button"
-                  onClick={ addAllToCart }
-                  disabled={ disabled }
-                >
-                    { __('Add All to Cart') }
-                </button>
+                { this.renderShareWishlistButton() }
+                { this.renderClearWishlist() }
+                { this.renderAddAllToCart() }
             </div>
         );
     }
 
     renderPlaceholders() {
         return Array.from({ length: 2 }, (_, i) => <ProductCard key={ i } />);
+    }
+
+    renderShareWishlist() {
+        return <ShareWishlistPopup />;
     }
 
     renderContent() {
@@ -90,10 +151,7 @@ export class MyAccountMyWishlist extends ExtensiblePureComponent {
         return (
             <div block="MyAccountMyWishlist" elem="Products">
                 <Loader isLoading={ isLoading } />
-                { ((isWishlistLoading && isWishlistEmpty)
-                    ? this.renderPlaceholders()
-                    : this.renderProducts()
-                ) }
+                { this.renderProducts() }
             </div>
         );
     }
@@ -101,6 +159,7 @@ export class MyAccountMyWishlist extends ExtensiblePureComponent {
     render() {
         return (
             <div block="MyAccountMyWishlist">
+                { this.renderShareWishlist() }
                 { this.renderActionLine() }
                 { this.renderContent() }
             </div>

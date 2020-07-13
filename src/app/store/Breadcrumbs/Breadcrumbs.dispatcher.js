@@ -82,27 +82,27 @@ export class BreadcrumbsDispatcher extends ExtensibleClass {
      * @memberof BreadcrumbsDispatcher
      */
     _getCategoryBreadcrumbs(category) {
-        const { url_path, name, breadcrumbs } = category;
+        const { url, name, breadcrumbs } = category;
         const breadcrumbsList = [];
 
         if (breadcrumbs) {
             breadcrumbs
                 .sort((a, b) => a.category_level - b.category_level)
-                .reduce((prev, crumb) => {
-                    const { category_url_key, category_name } = crumb;
-                    const url = `${prev}/${category_url_key}`;
+                .forEach((crumb) => {
+                    const { category_url_path, category_name } = crumb;
 
                     breadcrumbsList.push({
                         name: category_name,
-                        url
+                        url: {
+                            pathname: `/${category_url_path}`,
+                            state: { category: true }
+                        }
                     });
-
-                    return url;
-                }, '/category');
+                });
         }
 
         return [
-            { url: `/category/${url_path}`, name },
+            { url, name },
             ...breadcrumbsList.reverse()
         ];
     }
@@ -114,7 +114,7 @@ export class BreadcrumbsDispatcher extends ExtensibleClass {
      * @memberof BreadcrumbsDispatcher
      */
     _getProductBreadcrumbs(product) {
-        const { categories, url_key, name } = product;
+        const { categories, url, name } = product;
 
         if (!categories || !categories.length) {
             return [];
@@ -141,10 +141,13 @@ export class BreadcrumbsDispatcher extends ExtensibleClass {
                 breadcrumbsCategory: category,
                 longestBreadcrumbsLength: breadcrumbsLength
             };
-        }, { breadcrumbsCategory: {}, longestBreadcrumbsLength: 0 });
+        }, {
+            breadcrumbsCategory: {},
+            longestBreadcrumbsLength: 0
+        });
 
         return [
-            { url: `/product/${url_key}`, name },
+            { url, name },
             ...this._getCategoryBreadcrumbs(breadcrumbsCategory)
         ];
     }

@@ -12,7 +12,7 @@
 import { QueryDispatcher } from 'Util/Request';
 import { UrlRewritesQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
+import { updateUrlRewrite, clearUrlRewrite, setIsUrlRewritesLoading } from 'Store/UrlRewrites';
 
 /**
  * Url Rewrite Dispathcer
@@ -30,7 +30,8 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching Menu!', error));
+        dispatch(setIsUrlRewritesLoading(false));
+        dispatch(showNotification('error', 'Error fetching URL-rewrites!', error));
     }
 
     /**
@@ -39,7 +40,8 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
      * @return {Query} UrlRewrite query
      * @memberof UrlRewritesDispatcher
      */
-    prepareRequest(options) {
+    prepareRequest(options, dispatch) {
+        dispatch(setIsUrlRewritesLoading(true));
         return [UrlRewritesQuery.getQuery(options)];
     }
 

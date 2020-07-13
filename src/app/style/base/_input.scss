@@ -13,13 +13,12 @@
     --input-border-color: #e0e0e0;
     --input-background-color: #fff;
     --input-padding: 13px 20px;
+    --input-color: var(--primary-base-color);
 }
 
 input,
 textarea,
 select {
-    --input-color: var(--primary-base-color);
-
     border: 1px solid var(--input-border-color);
     background-color: var(--input-background-color);
     padding: var(--input-padding);

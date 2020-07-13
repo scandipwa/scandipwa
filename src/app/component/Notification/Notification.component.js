@@ -77,9 +77,13 @@ export class Notification extends ExtensiblePureComponent {
         if (!msgDebug) {
             return null;
         }
+
         if (process.env.NODE_ENV === 'production') {
             return null;
         }
+
+        // eslint-disable-next-line no-console
+        console.warn(msgDebug); // so we know what was in notification
 
         return (
             <pre block="Notification" elem="Debug">

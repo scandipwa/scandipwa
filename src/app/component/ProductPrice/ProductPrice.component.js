@@ -127,13 +127,18 @@ export class ProductPrice extends ExtensiblePureComponent {
 
     render() {
         const {
-            price: { minimalPrice, regularPrice },
+            price: {
+                minimum_price: {
+                    final_price,
+                    regular_price
+                } = {}
+            } = {},
             formatedCurrency,
             currency,
             mix
         } = this.props;
 
-        if (!minimalPrice || !regularPrice) {
+        if (!final_price || !regular_price) {
             return this.renderPlaceholder();
         }
 

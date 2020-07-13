@@ -11,6 +11,10 @@
 
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
+import ClickOutside from 'Component/ClickOutside';
+import isMobile from 'Util/Mobile';
+import StoreItems from 'Component/StoreItems';
+
 import './StoreSwitcher.style';
 
 /** @namespace Component/StoreSwitcher/Component */
@@ -21,20 +25,37 @@ export class StoreSwitcher extends ExtensiblePureComponent {
                 PropTypes.string
             )
         ).isRequired,
+        isOpened: PropTypes.bool.isRequired,
         currentStoreCode: PropTypes.string.isRequired,
-        handleStoreSelect: PropTypes.func.isRequired
+        handleStoreSelect: PropTypes.func.isRequired,
+        onStoreSwitcherClick: PropTypes.func.isRequired,
+        onStoreSwitcherOutsideClick: PropTypes.func.isRequired,
+        storeLabel: PropTypes.string
     };
 
-    render() {
+    static defaultProps = {
+        storeLabel: ''
+    };
+
+    renderStoreList = (item) => {
+        const { handleStoreSelect } = this.props;
+        const { value } = item;
+
+        return (
+            <StoreItems
+              key={ value }
+              item={ item }
+              handleStoreSelect={ handleStoreSelect }
+            />
+        );
+    };
+
+    renderMobileStoreSwitcher() {
         const {
             storeList,
             handleStoreSelect,
             currentStoreCode
         } = this.props;
-
-        if (storeList.length <= 1) {
-            return null;
-        }
 
         return (
             <div block="StoreSwitcher">
@@ -49,6 +70,51 @@ export class StoreSwitcher extends ExtensiblePureComponent {
                 />
             </div>
         );
+    }
+
+    renderDesktopStoreSwitcher() {
+        const {
+            storeList,
+            onStoreSwitcherOutsideClick,
+            onStoreSwitcherClick,
+            isOpened,
+            storeLabel
+        } = this.props;
+
+        const mods = { isOpen: isOpened };
+
+        return (
+            <div block="StoreSwitcher">
+                <ClickOutside onClick={ onStoreSwitcherOutsideClick }>
+                    <button
+                      block="StoreSwitcher"
+                      elem="Title"
+                      mods={ mods }
+                      onClick={ onStoreSwitcherClick }
+                    >
+                        { storeLabel }
+                    </button>
+
+                    <div block="StoreSwitcher" elem="StoreList" mods={ mods }>
+                        { storeList.map(this.renderStoreList) }
+                    </div>
+                </ClickOutside>
+            </div>
+        );
+    }
+
+    render() {
+        const { storeList } = this.props;
+
+        if (storeList.length <= 1) {
+            return null;
+        }
+
+        if (isMobile.any()) {
+            return this.renderMobileStoreSwitcher();
+        }
+
+        return this.renderDesktopStoreSwitcher();
     }
 }
 

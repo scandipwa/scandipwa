@@ -109,6 +109,43 @@ export class CartItem extends ExtensiblePureComponent {
         );
     }
 
+    renderCustomizableOptions(customizableOptions) {
+        if (!customizableOptions.length) {
+            return null;
+        }
+
+        return (
+            <div block="CartItem" elem="CustomizableOptionsWrapper">
+                { customizableOptions.map(({ label, values, id }) => (
+                    <div
+                      block="CartItem"
+                      elem="CustomizableOption"
+                      key={ id }
+                    >
+                        <div
+                          block="CartItem"
+                          elem="CustomizableOptionLabel"
+                          key={ `label-${ id }` }
+                        >
+                            { `${ label }:` }
+                        </div>
+                        <div block="CartItem" elem="CustomizableOptionValues">
+                            { values.map(({ label, value }) => (
+                                <div
+                                  block="CartItem"
+                                  elem="CustomizableOptionValue"
+                                  key={ label }
+                                >
+                                    { label || value }
+                                </div>
+                            )) }
+                        </div>
+                    </div>
+                )) }
+            </div>
+        );
+    }
+
     renderProductDetails() {
         const {
             isLikeTable,
@@ -117,7 +154,8 @@ export class CartItem extends ExtensiblePureComponent {
                 row_total,
                 product: {
                     name
-                }
+                },
+                customizable_options
             }
         } = this.props;
 
@@ -130,6 +168,7 @@ export class CartItem extends ExtensiblePureComponent {
                 >
                     { name }
                 </p>
+                { this.renderCustomizableOptions(customizable_options) }
                 { this.renderConfiguration() }
                 <CartItemPrice
                   row_total={ row_total }

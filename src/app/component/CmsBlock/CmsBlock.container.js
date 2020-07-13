@@ -9,51 +9,52 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { BlockListType } from 'Type/CMS';
+import DataContainer from 'Util/Request/DataContainer';
+import { CmsBlockQuery } from 'Query';
+
 import CmsBlock from './CmsBlock.component';
 
-/** @namespace Component/CmsBlock/Container/mapStateToProps */
-export const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks
-});
-
 /** @namespace Component/CmsBlock/Container */
-export class CmsBlockContainer extends ExtensiblePureComponent {
-    constructor(props) {
-        super(props);
+export class CmsBlockContainer extends DataContainer {
+    static propTypes = {
+        identifier: PropTypes.string.isRequired
+    };
 
-        this.containerProps = () => ({
-            cmsBlocks: this._getBlocks()
-        });
+    state = {
+        cmsBlock: {}
+    };
+
+    containerProps = () => {
+        const { cmsBlock } = this.state;
+        return { cmsBlock };
+    };
+
+    componentDidMount() {
+        this._getCmsBlock();
     }
 
-    _getBlocks() {
-        const { identifiers, blocks: { items = {} } } = this.props;
-        return identifiers.reduce((acc, id) => (items[id]
-            ? [...acc, (
-                { id, content: items[id].content }
-            )]
-            : acc), []);
+    _getCmsBlock() {
+        const { identifier } = this.props;
+
+        this.fetchData(
+            [CmsBlockQuery.getQuery({ identifiers: [identifier] })],
+            ({ cmsBlocks: { items } }) => {
+                if (!items.length) {
+                    return;
+                }
+
+                this.setState({ cmsBlock: items[0] });
+            }
+        );
     }
 
     render() {
         return (
             <CmsBlock
               { ...this.containerProps() }
-              { ...this.props }
             />
         );
     }
 }
 
-CmsBlockContainer.propTypes = {
-    identifiers: PropTypes.arrayOf(PropTypes.string).isRequired,
-    blocks: BlockListType.isRequired
-};
-
-/** @namespace Component/CmsBlock/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CmsBlockContainer);
+export default CmsBlockContainer;

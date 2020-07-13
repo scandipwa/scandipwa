@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 
 import ProductList from 'Component/ProductList';
 import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
+import './CategoryProductList.style';
 
 /** @namespace Component/CategoryProductList/Container/mapStateToProps */
 export const mapStateToProps = state => ({
@@ -32,27 +33,55 @@ export const mapDispatchToProps = dispatch => ({
 /** @namespace Component/CategoryProductList/Container */
 export class CategoryProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        isOnlyPlaceholder: PropTypes.bool.isRequired,
+        requestProductList: PropTypes.func.isRequired
+    };
+
+    containerFunctions = {
+        requestProductList: this.requestProductList.bind(this)
     };
 
     getIsLoading() {
-        const { isLoading } = this.props;
+        const {
+            isLoading,
+            isOnlyPlaceholder
+        } = this.props;
 
         if (!navigator.onLine) {
             return false;
         }
 
+        if (isOnlyPlaceholder) {
+            return true;
+        }
+
         return isLoading;
     }
 
+    requestProductList(options) {
+        const {
+            isOnlyPlaceholder,
+            requestProductList
+        } = this.props;
+
+        if (isOnlyPlaceholder) {
+            return;
+        }
+
+        requestProductList(options);
+    }
+
     containerProps = () => ({
-        isLoading: this.getIsLoading()
+        isLoading: this.getIsLoading(),
+        mix: { block: 'CategoryProductList' }
     });
 
     render() {
         return (
             <ProductList
               { ...this.props }
+              { ...this.containerFunctions }
               { ...this.containerProps() }
             />
         );

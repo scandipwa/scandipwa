@@ -31,7 +31,13 @@ export class ResetButtonContainer extends ExtensiblePureComponent {
 
     resetFilters = () => {
         const { location, history } = this.props;
-        setQueryParams({ customFilters: '', priceMin: '', priceMax: '' }, location, history);
+
+        setQueryParams({
+            customFilters: '',
+            priceMin: '',
+            priceMax: '',
+            page: ''
+        }, location, history);
     };
 
     isContentFiltered() {

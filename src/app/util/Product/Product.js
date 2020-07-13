@@ -112,12 +112,56 @@ export const getVariantsIndexes = (variants, options) => Object.entries(variants
         return indexes;
     }, []);
 
-/** @namespace Util/Product/getIndexedProduct */
+/** @namespace Util/Product/getIndexedCustomOption */
+export const getIndexedCustomOption = (option) => {
+    const {
+        checkboxValues,
+        dropdownValues,
+        fieldValues,
+        areaValues,
+        ...otherFields
+    } = option;
+
+    if (checkboxValues) {
+        return { type: 'checkbox', data: checkboxValues, ...otherFields };
+    }
+
+    if (dropdownValues) {
+        return { type: 'dropdown', data: dropdownValues, ...otherFields };
+    }
+
+    if (fieldValues) {
+        return { type: 'field', data: fieldValues, ...otherFields };
+    }
+
+    if (areaValues) {
+        return { type: 'area', data: areaValues, ...otherFields };
+    }
+
+    // skip unsupported types
+    return null;
+};
+
+/** @namespace Util/Product/getIndexedCustomOptions */
+export const getIndexedCustomOptions = options => options.reduce(
+    (acc, option) => {
+        const indexedOption = getIndexedCustomOption(option);
+
+        if (indexedOption) {
+            acc.push(indexedOption);
+        }
+
+        return acc;
+    },
+    []
+);
+
 export const getIndexedProduct = (product) => {
     const {
         variants: initialVariants = [],
         configurable_options: initialConfigurableOptions = [],
-        attributes: initialAttributes = []
+        attributes: initialAttributes = [],
+        options: initialOptions = []
     } = product;
 
     const attributes = getIndexedAttributes(initialAttributes || []);
@@ -126,6 +170,7 @@ export const getIndexedProduct = (product) => {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
         variants: getIndexedVariants(initialVariants),
+        options: getIndexedCustomOptions(initialOptions || []),
         attributes
     };
 };
@@ -146,6 +191,8 @@ export const getExtensionAttributes = (product) => {
     const {
         configurable_options,
         configurableVariantIndex,
+        customizableOptions: customizable_options,
+        customizableOptionsMulti: customizable_options_multi,
         variants,
         type_id
     } = product;
@@ -155,13 +202,16 @@ export const getExtensionAttributes = (product) => {
 
         const configurable_item_options = Object.values(configurable_options)
             .reduce((prev, { attribute_id, attribute_code }) => {
-                const { attribute_value } = attributes[attribute_code] || {};
+                const {
+                    attribute_value,
+                    attribute_id: attrId
+                } = attributes[attribute_code] || {};
 
                 if (attribute_value) {
                     return [
                         ...prev,
                         {
-                            option_id: attribute_id,
+                            option_id: attribute_id || attrId,
                             option_value: attribute_value
                         }
                     ];
@@ -171,6 +221,12 @@ export const getExtensionAttributes = (product) => {
             }, []);
 
         return { configurable_item_options };
+    }
+
+    if (type_id === 'simple'
+        && (customizable_options || customizable_options_multi)
+    ) {
+        return { customizable_options, customizable_options_multi };
     }
 
     return {};

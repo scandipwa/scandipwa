@@ -91,7 +91,7 @@ export const convertQueryStringToKeyValuePairs = (queryString) => {
 
     params.forEach((param) => {
         const pair = param.split('=');
-        const [keyPair, valuePair] = pair;
+        const [keyPair, valuePair = []] = pair;
 
         if (keyPair.length > 0 && valuePair.length > 0) {
             keyValuePairs[keyPair] = decodeURIComponent(valuePair);
@@ -182,9 +182,10 @@ export const generateQuery = (keyValueObject, location, history) => {
  * @namespace Util/Url/setQueryParams
  */
 export const setQueryParams = (keyValueObject, location, history) => {
+    const { state } = location;
     const query = generateQuery(keyValueObject, location, history);
 
-    history.push({ search: query });
+    history.push({ search: query, state });
 };
 
 /**

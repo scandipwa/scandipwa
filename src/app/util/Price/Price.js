@@ -16,16 +16,6 @@ import currencyMap from './Price.config';
 export const formatCurrency = (currency = 'USD') => currencyMap[currency];
 
 /**
- * Calculate discount percentage
- * @param {Number} min minimum price
- * @param {Number} reg regular price
- * @return {Number} discount percentage
- * @namespace Util/Price/calculateDiscountPercentage
- */
-// eslint-disable-next-line no-magic-numbers
-export const calculateDiscountPercentage = (min, reg) => Math.floor(Math.round((1 - min / reg) * 100));
-
-/**
  * Calculate final price
  * @param {Number} discount discount percentage
  * @param {Number} min minimum price

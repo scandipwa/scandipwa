@@ -16,7 +16,7 @@ import { updateMeta } from 'Store/Meta';
 import { CartDispatcher } from 'Store/Cart';
 import { ConfigDispatcher } from 'Store/Config';
 import { WishlistDispatcher } from 'Store/Wishlist';
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import HeaderAndFooterDispatcher from 'Store/HeaderAndFooter/HeaderAndFooter.dispatcher';
 
 import Router from './Router.component';
 

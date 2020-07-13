@@ -21,6 +21,7 @@ import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
 import { changeNavigationState } from 'Store/Navigation';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 import { setBigOfflineNotice } from 'Store/Offline';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
@@ -45,7 +46,10 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestProduct: options => ProductDispatcher.handleData(dispatch, options),
+    requestProduct: (options) => {
+        ProductDispatcher.handleData(dispatch, options);
+        LinkedProductsDispatcher.clearLinkedProducts(dispatch);
+    },
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
     updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
@@ -55,12 +59,14 @@ export const mapDispatchToProps = dispatch => ({
 export class ProductPageContainer extends ExtensiblePureComponent {
     state = {
         configurableVariantIndex: -1,
-        parameters: {}
+        parameters: {},
+        customizableOptionsData: {}
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
-        getLink: this.getLink.bind(this)
+        getLink: this.getLink.bind(this),
+        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
     };
 
     static propTypes = {
@@ -73,7 +79,7 @@ export class ProductPageContainer extends ExtensiblePureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         isOffline: PropTypes.bool.isRequired,
-        productsIds: PropTypes.number,
+        productSKU: PropTypes.string,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired
@@ -82,7 +88,7 @@ export class ProductPageContainer extends ExtensiblePureComponent {
     static defaultProps = {
         location: { state: {} },
         isOnlyPlaceholder: false,
-        productsIds: -1
+        productSKU: ''
     };
 
     static getDerivedStateFromProps(props) {
@@ -118,7 +124,6 @@ export class ProductPageContainer extends ExtensiblePureComponent {
     componentDidMount() {
         const {
             location: { pathname },
-            isOnlyPlaceholder,
             history
         } = this.props;
 
@@ -127,28 +132,38 @@ export class ProductPageContainer extends ExtensiblePureComponent {
             return;
         }
 
-        if (!isOnlyPlaceholder) {
-            this._requestProduct();
-        }
-
+        this._requestProduct();
         this._onProductUpdate();
     }
 
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: { id },
+            product: { id, options },
+            productSKU,
             isOnlyPlaceholder
         } = this.props;
 
         const {
             location: { pathname: prevPathname },
-            product: { id: prevId },
+            product: {
+                id: prevId,
+                options: prevOptions
+            },
+            productSKU: prevProductSKU,
             isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
-        if (pathname !== prevPathname || isOnlyPlaceholder !== prevIsOnlyPlaceholder) {
+        if (
+            pathname !== prevPathname
+            || isOnlyPlaceholder !== prevIsOnlyPlaceholder
+            || productSKU !== prevProductSKU
+        ) {
             this._requestProduct();
+        }
+
+        if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
+            this.getRequiredCustomizableOptions(options);
         }
 
         if (id !== prevId) {
@@ -174,6 +189,43 @@ export class ProductPageContainer extends ExtensiblePureComponent {
         const query = objectToUri(obj);
 
         return `${pathname}${query}`;
+    }
+
+    getRequiredCustomizableOptions(options) {
+        const { customizableOptionsData } = this.state;
+
+        if (!options) {
+            return [];
+        }
+
+        const requiredCustomizableOptions = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        return this.setState({
+            customizableOptionsData:
+                { ...customizableOptionsData, requiredCustomizableOptions }
+        });
+    }
+
+    getSelectedCustomizableOptions(values, updateArray = false) {
+        const { customizableOptionsData } = this.state;
+
+        if (updateArray) {
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptionsMulti: values }
+            });
+        } else {
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptions: values }
+            });
+        }
     }
 
     getIsConfigurableParameterSelected(parameters, key, value) {
@@ -244,6 +296,7 @@ export class ProductPageContainer extends ExtensiblePureComponent {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
             this._updateNavigationState();
+
             if (isOffline) {
                 setBigOfflineNotice(false);
             }
@@ -254,7 +307,8 @@ export class ProductPageContainer extends ExtensiblePureComponent {
 
     _getAreDetailsLoaded() {
         const { product } = this.props;
-        return this._getDataSource() === product;
+        const dataSource = this._getDataSource();
+        return dataSource === product;
     }
 
     _getProductOrVariant() {
@@ -282,7 +336,7 @@ export class ProductPageContainer extends ExtensiblePureComponent {
     _getDataSource() {
         const { product, location: { state } } = this.props;
         const productIsLoaded = Object.keys(product).length > 0;
-        const locationStateExists = state && Object.keys(state.product).length > 0;
+        const locationStateExists = state && state.product && Object.keys(state.product).length > 0;
 
         // return nothing, if no product in url state and no loaded product
         if (!locationStateExists && !productIsLoaded) {
@@ -302,11 +356,13 @@ export class ProductPageContainer extends ExtensiblePureComponent {
         const {
             location,
             match,
-            productsIds
+            productSKU
         } = this.props;
 
-        if (productsIds !== -1) {
-            return { productsIds };
+        if (productSKU) {
+            return {
+                productsSkuArray: [productSKU]
+            };
         }
 
         return {
@@ -316,14 +372,18 @@ export class ProductPageContainer extends ExtensiblePureComponent {
 
     _requestProduct() {
         const {
-            requestProduct
+            requestProduct,
+            isOnlyPlaceholder
         } = this.props;
+
+        if (isOnlyPlaceholder) {
+            return; // ignore placeholder requests
+        }
 
         const options = {
             isSingleProduct: true,
             args: { filter: this._getProductRequestFilter() }
         };
-
 
         requestProduct(options);
     }

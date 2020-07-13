@@ -56,7 +56,7 @@ export class CategoryQuery extends ExtensibleClass {
         return [
             'category_name',
             'category_level',
-            'category_url_key'
+            'category_url_path'
         ];
     }
 
@@ -77,6 +77,7 @@ export class CategoryQuery extends ExtensibleClass {
     _getDefaultFields() {
         return [
             'id',
+            'url',
             'name',
             'image',
             'url_key',

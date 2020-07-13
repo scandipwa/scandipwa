@@ -19,6 +19,9 @@ import ProductActions from 'Component/ProductActions';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductReviews from 'Component/ProductReviews';
 import ProductInformation from 'Component/ProductInformation';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import isMobile from 'Util/Mobile';
+import { SIMPLE } from 'Util/Product';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style';
@@ -32,7 +35,9 @@ export class ProductPage extends ExtensiblePureComponent {
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        customizableOptionsData: PropTypes.object.isRequired
     };
 
     renderProductPageContent() {
@@ -43,7 +48,9 @@ export class ProductPage extends ExtensiblePureComponent {
             dataSource,
             updateConfigurableVariant,
             productOrVariant,
-            areDetailsLoaded
+            areDetailsLoaded,
+            getSelectedCustomizableOptions,
+            customizableOptionsData
         } = this.props;
 
         return (
@@ -60,16 +67,41 @@ export class ProductPage extends ExtensiblePureComponent {
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
+                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                  customizableOptionsData={ customizableOptionsData }
                 />
             </>
         );
     }
 
+    renderCustomizableOptions() {
+        const {
+            dataSource: { type_id, options },
+            getSelectedCustomizableOptions
+        } = this.props;
+
+        if (!isMobile.any() || type_id !== SIMPLE) {
+            return null;
+        }
+
+        return (
+            <ProductCustomizableOptions
+              options={ options || [] }
+              getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+            />
+        );
+    }
+
     renderAdditionalSections() {
-        const { dataSource, parameters, areDetailsLoaded } = this.props;
+        const {
+            dataSource,
+            parameters,
+            areDetailsLoaded
+        } = this.props;
 
         return (
             <>
+                { this.renderCustomizableOptions() }
                 <ProductInformation
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }

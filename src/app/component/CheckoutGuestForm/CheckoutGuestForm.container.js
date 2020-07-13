@@ -19,7 +19,8 @@ import CheckoutGuestForm from './CheckoutGuestForm.component';
 
 /** @namespace Component/CheckoutGuestForm/Container/mapStateToProps */
 export const mapStateToProps = state => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required
 });
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */

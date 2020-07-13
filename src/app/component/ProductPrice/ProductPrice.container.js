@@ -14,7 +14,6 @@ import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import {
     formatCurrency,
-    calculateDiscountPercentage,
     calculateFinalPrice,
     roundPrice
 } from 'Util/Price';
@@ -40,17 +39,28 @@ export class ProductPriceContainer extends ExtensiblePureComponent {
     };
 
     containerProps = () => {
-        const { price: { minimalPrice, regularPrice } } = this.props;
+        const {
+            price: {
+                minimum_price: {
+                    discount: {
+                        percent_off: discountPercentage
+                    } = {},
+                    final_price: {
+                        value: minimalPriceValue,
+                        currency: priceCurrency
+                    } = {},
+                    regular_price: {
+                        value: regularPriceValue
+                    } = {}
+                } = {}
+            } = {}
+        } = this.props;
 
-        if (!minimalPrice || !regularPrice) {
+        if (!minimalPriceValue || !regularPriceValue) {
             return {};
         }
 
-        const minimalPriceValue = minimalPrice.amount.value;
-        const regularPriceValue = regularPrice.amount.value;
         const roundedRegularPrice = roundPrice(regularPriceValue);
-        const priceCurrency = regularPrice.amount.currency;
-        const discountPercentage = calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
         const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
         const formatedCurrency = roundPrice(finalPrice);
         const currency = formatCurrency(priceCurrency);

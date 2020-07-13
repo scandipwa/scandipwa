@@ -18,7 +18,7 @@ import './ExpandableContent.style';
 export class ExpandableContent extends ExtensiblePureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
-        heading: PropTypes.string,
+        heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         subHeading: PropTypes.string,
         children: ChildrenType.isRequired,
         mix: MixType.isRequired,
@@ -75,7 +75,11 @@ export class ExpandableContent extends ExtensiblePureComponent {
 
     renderButton() {
         const { isContentExpanded } = this.state;
-        const { heading, subHeading, mix } = this.props;
+        const {
+            heading,
+            subHeading,
+            mix
+        } = this.props;
 
         return (
             <button
@@ -90,7 +94,11 @@ export class ExpandableContent extends ExtensiblePureComponent {
                   elem="Heading"
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
-                    <TextPlaceholder content={ heading } />
+                    { typeof heading === 'string' ? (
+                        <TextPlaceholder content={ heading } />
+                    ) : (
+                        heading
+                    ) }
                 </span>
                 <span
                   block="ExpandableContent"

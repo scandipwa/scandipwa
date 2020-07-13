@@ -72,9 +72,11 @@ export class WishlistDispatcher extends ExtensibleClass {
                     dispatch(updateIsLoading(false));
                 }
             },
-            /** @namespace Store/Wishlist/Dispatcher/fetchQueryThen */
-            // eslint-disable-next-line no-console
-            error => console.log(error)
+            (error) => {
+                // eslint-disable-next-line no-console
+                console.log(error);
+                dispatch(updateIsLoading(false));
+            }
         );
     }
 
@@ -113,15 +115,12 @@ export class WishlistDispatcher extends ExtensibleClass {
             );
     }
 
-    moveWishlistToCart(dispatch) {
-        return fetchMutation(WishlistQuery.getMoveWishlistToCart())
-            .then(
-                /** @namespace Store/Wishlist/Dispatcher/fetchMutationThen */
-                () => {
-                    dispatch(clearWishlist());
-                    CartDispatcher._syncCartWithBE(dispatch);
-                }
-            );
+    moveWishlistToCart(dispatch, sharingCode) {
+        return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
+            .then(() => {
+                dispatch(clearWishlist());
+                CartDispatcher._syncCartWithBE(dispatch);
+            });
     }
 
     removeItemFromWishlist(dispatch, { item_id, noMessages }) {

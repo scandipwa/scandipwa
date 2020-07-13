@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import Overlay from 'Component/Overlay';
 import ResetButton from 'Component/ResetButton';
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
+import Loader from 'Component/Loader';
+
 import './CategoryFilterOverlay.style';
 
 export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
@@ -23,6 +25,7 @@ export class CategoryFilterOverlay extends ExtensiblePureComponent {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
+        isInfoLoading: PropTypes.bool.isRequired,
         isProductsLoading: PropTypes.bool.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
@@ -103,68 +106,36 @@ export class CategoryFilterOverlay extends ExtensiblePureComponent {
     }
 
     renderEmptyFilters() {
-        const { onVisible } = this.props;
-
         return (
-            <Overlay
-              onVisible={ onVisible }
-              mix={ { block: 'CategoryFilterOverlay' } }
-              id={ CATEGORY_FILTER_OVERLAY_ID }
-              isRenderInPortal={ false }
-            >
+            <>
                 { this.renderNoResults() }
                 { this.renderResetButton() }
                 { this.renderSeeResults() }
-            </Overlay>
+            </>
         );
     }
 
     renderMinimalFilters() {
-        const { onVisible } = this.props;
-
-        return (
-            <Overlay
-              onVisible={ onVisible }
-              mix={ { block: 'CategoryFilterOverlay' } }
-              id={ CATEGORY_FILTER_OVERLAY_ID }
-              isRenderInPortal={ false }
-            >
-                { this.renderSeeResults() }
-            </Overlay>
-        );
+        return this.renderSeeResults();
     }
 
     renderDefaultFilters() {
-        const { onVisible } = this.props;
-
         return (
-            <Overlay
-              onVisible={ onVisible }
-              mix={ { block: 'CategoryFilterOverlay' } }
-              id={ CATEGORY_FILTER_OVERLAY_ID }
-              isRenderInPortal={ false }
-            >
+            <>
                 { this.renderHeading() }
                 { this.renderResetButton() }
                 { this.renderFilters() }
                 { this.renderSeeResults() }
-            </Overlay>
+            </>
         );
     }
 
-    render() {
+    renderContent() {
         const {
             totalPages,
             areFiltersEmpty,
-            isProductsLoading,
-            isContentFiltered
+            isProductsLoading
         } = this.props;
-
-        if (!isProductsLoading && totalPages === 0 && !isContentFiltered) {
-            return (
-                <div block="CategoryFilterOverlay" />
-            );
-        }
 
         if (!isProductsLoading && totalPages === 0) {
             return this.renderEmptyFilters();
@@ -175,6 +146,52 @@ export class CategoryFilterOverlay extends ExtensiblePureComponent {
         }
 
         return this.renderDefaultFilters();
+    }
+
+    renderLoader() {
+        const {
+            isInfoLoading,
+            availableFilters
+        } = this.props;
+
+        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
+
+        if (!isLoaded) { // hide loader if filters were not yet loaded (even once!)
+            return null;
+        }
+
+        return (
+            <Loader isLoading={ isInfoLoading } />
+        );
+    }
+
+    render() {
+        const {
+            onVisible,
+            totalPages,
+            isProductsLoading,
+            isContentFiltered
+        } = this.props;
+
+        if (!isProductsLoading && totalPages === 0 && !isContentFiltered) {
+            return (
+                <div block="CategoryFilterOverlay" />
+            );
+        }
+
+        return (
+            <Overlay
+              onVisible={ onVisible }
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+              isRenderInPortal={ false }
+            >
+                <div>
+                    { this.renderContent() }
+                    { this.renderLoader() }
+                </div>
+            </Overlay>
+        );
     }
 }
 

@@ -25,9 +25,8 @@ export class UrlRewritesQuery extends ExtensibleClass {
     _getUrlResolverFields() {
         return [
             'id',
-            'type',
-            'canonical_url',
-            'url_key'
+            'sku',
+            'type'
         ];
     }
 }

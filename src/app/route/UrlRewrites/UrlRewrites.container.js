@@ -15,13 +15,14 @@ import UrlRewrites from './UrlRewrites.component';
 
 /** @namespace Route/UrlRewrites/Container/mapStateToProps */
 export const mapStateToProps = state => ({
-    urlRewrite: state.UrlRewritesReducer.urlRewrite
+    urlRewrite: state.UrlRewritesReducer.urlRewrite,
+    isLoading: state.UrlRewritesReducer.isLoading
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
-    requestUrlRewrite: (options) => {
-        UrlRewritesDispatcher.handleData(dispatch, options);
+    requestUrlRewrite: (urlParam) => {
+        UrlRewritesDispatcher.handleData(dispatch, { urlParam });
     },
     clearUrlRewrites: () => {
         UrlRewritesDispatcher.clearUrlRewrites(dispatch);

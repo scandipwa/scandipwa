@@ -12,8 +12,8 @@
 import { QueryDispatcher } from 'Util/Request';
 import { MenuQuery, CmsBlockQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { updateMenu } from 'Store/HeaderAndFooter';
-import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
+import { updateMenu } from 'Store/HeaderAndFooter/HeaderAndFooter.action';
+import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider/CmsBlocksAndSlider.action';
 
 /** @namespace Store/HeaderAndFooter/Dispatcher */
 export class HeaderAndFooterDispatcher extends QueryDispatcher {

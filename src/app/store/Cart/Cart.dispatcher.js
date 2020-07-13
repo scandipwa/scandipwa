@@ -120,14 +120,23 @@ export class CartDispatcher extends ExtensibleClass {
     }
 
     addProductToCart(dispatch, options) {
-        const { product, quantity } = options;
+        const {
+            product,
+            quantity,
+            customizableOptionsData
+        } = options;
         const { sku, type_id: product_type } = product;
+        const { customizableOptions, customizableOptionsMulti } = customizableOptionsData;
 
         const productToAdd = {
             sku,
             product_type,
             quantity,
-            product_option: { extension_attributes: getExtensionAttributes(product) }
+            product_option: {
+                extension_attributes: getExtensionAttributes(
+                    { ...product, customizableOptions, customizableOptionsMulti }
+                )
+            }
         };
 
         if (this._canBeAdded(options)) {

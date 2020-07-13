@@ -18,11 +18,18 @@ import { RENDER_PAGE_FREQUENCY } from 'Component/ProductList/ProductList.compone
 export class CategoryItemsCount extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
+        isOnlyPlaceholder: PropTypes.bool.isRequired,
         totalItems: PropTypes.number.isRequired
     };
 
     render() {
-        const { isLoading, totalItems } = this.props;
+        const {
+            isLoading: isProductsLoading,
+            isOnlyPlaceholder,
+            totalItems
+        } = this.props;
+
+        const isLoading = isOnlyPlaceholder || isProductsLoading;
 
         return (
             <p block="CategoryPage" elem="ItemsCount">

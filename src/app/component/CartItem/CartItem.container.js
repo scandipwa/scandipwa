@@ -156,13 +156,15 @@ export class CartItemContainer extends ExtensiblePureComponent {
                     configurable_options,
                     parent,
                     variants = [],
-                    url_key
+                    url
                 }
             }
         } = this.props;
 
         if (type_id !== 'configurable') {
-            return { pathname: `/product/${ url_key }` };
+            return {
+                pathname: url
+            };
         }
 
         const variant = variants[this._getVariantIndex()];
@@ -179,7 +181,7 @@ export class CartItemContainer extends ExtensiblePureComponent {
         );
 
         return {
-            pathname: `/product/${ url_key }`,
+            pathname: url,
             state: { product: parent || product },
             search: objectToUri(parameters)
         };
