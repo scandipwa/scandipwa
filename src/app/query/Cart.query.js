@@ -107,6 +107,44 @@ export class CartQuery extends ExtensibleClass {
         ];
     }
 
+    _getCustomizableOptionPriceFields() {
+        return [
+            'value',
+            'units',
+            'type'
+        ];
+    }
+
+    _getCustomizableOptionPriceField() {
+        return new Field('price')
+            .addFieldList(this._getCustomizableOptionPriceFields());
+    }
+
+    _getCustomizableOptionValueFields() {
+        return [
+            'id',
+            'label',
+            'value',
+            this._getCustomizableOptionPriceField()
+        ];
+    }
+
+    _getCustomizableOptionValueField() {
+        return new Field('values')
+            .addFieldList(this._getCustomizableOptionValueFields());
+    }
+
+    _getCustomizableOptionsFields() {
+        return new Field('customizable_options')
+            .addFieldList([
+                'id',
+                'label',
+                'is_required',
+                this._getCustomizableOptionValueField(),
+                'sort_order'
+            ]);
+    }
+
     _getCartItemFields() {
         return [
             'qty',
@@ -118,6 +156,7 @@ export class CartQuery extends ExtensibleClass {
             'tax_percent',
             'discount_amount',
             'discount_percent',
+            this._getCustomizableOptionsFields(),
             this._getProductField()
         ];
     }

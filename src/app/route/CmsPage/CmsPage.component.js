@@ -44,13 +44,12 @@ export class CmsPage extends ExtensiblePureComponent {
     }
 
     renderContent() {
-        const { isLoading, page: { content } } = this.props;
+        const {
+            isLoading,
+            page: { content }
+        } = this.props;
 
-        if (!isLoading && !content) {
-            return null;
-        }
-
-        if (!content) {
+        if (isLoading) {
             return (
                 <>
                     <div block="CmsPage" elem="SectionPlaceholder" />
@@ -58,6 +57,10 @@ export class CmsPage extends ExtensiblePureComponent {
                     <div block="CmsPage" elem="SectionPlaceholder" />
                 </>
             );
+        }
+
+        if (!isLoading && !content) {
+            return null;
         }
 
         return <Html content={ content } />;

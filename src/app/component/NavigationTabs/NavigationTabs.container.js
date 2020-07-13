@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { DEFAULT_HEADER_STATE } from 'Component/Header/Header.container';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
 import browserHistory from 'Util/History';
 
@@ -41,7 +40,6 @@ export const mapDispatchToProps = dispatch => ({
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
 });
@@ -72,7 +70,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         this.handleNavVisibility();
 
         const SCROLL_DEBOUNCE_DELAY = 10;
-        const { name } = this.getNavigationState(location.pathname);
+        const { name } = this.getNavigationState();
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
         window.addEventListener('scroll', debounce(this.handleScroll, SCROLL_DEBOUNCE_DELAY));
 
@@ -201,7 +199,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { pathname } = history;
 
         // Find the new state name
-        const newNavigationState = this.getNavigationState(pathname);
+        const newNavigationState = this.getNavigationState();
         const { name: newName } = newNavigationState;
 
         // Update the state if new name is set
@@ -216,9 +214,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     onHomeButtonClick() {
         const {
-            hideActiveOverlay,
-            setHeaderState,
-            setNavigationState
+            hideActiveOverlay
         } = this.props;
 
         const { pathname } = location;
@@ -231,11 +227,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
                 top: 0,
                 behavior: 'smooth'
             });
-        }
-
-        if (name !== DEFAULT_HEADER_STATE) {
-            setHeaderState(DEFAULT_HEADER_STATE);
-            setNavigationState({ name: HOME_TAB });
         }
     }
 

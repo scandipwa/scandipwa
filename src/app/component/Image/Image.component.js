@@ -146,6 +146,7 @@ export class Image extends ExtensiblePureComponent {
                   style={ style }
                   onLoad={ this.onLoad }
                   onError={ this.onError }
+                  loading="lazy"
                 />
             );
         default:

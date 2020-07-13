@@ -67,7 +67,7 @@ export class SearchOverlayContainer extends ExtensiblePureComponent {
             makeSearchRequest({
                 args: {
                     search: searchCriteria,
-                    pageSize: 12,
+                    pageSize: 24,
                     currentPage: 1
                 }
             });

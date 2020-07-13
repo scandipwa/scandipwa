@@ -31,9 +31,11 @@ export class Loader extends ExtensiblePureComponent {
         }
 
         return (
-            <div block="Loader" elem="LoaderWrapper">
-                <div block="Loader" elem="Main">
-                    <span />
+            <div block="Loader">
+                <div block="Loader" elem="Scale">
+                    <div block="Loader" elem="Main">
+                        <span />
+                    </div>
                 </div>
             </div>
         );

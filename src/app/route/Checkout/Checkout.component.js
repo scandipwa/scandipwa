@@ -257,7 +257,7 @@ export class Checkout extends ExtensiblePureComponent {
             return null;
         }
 
-        return <CmsBlock identifiers={ [promo] } />;
+        return <CmsBlock identifier={ promo } />;
     }
 
     render() {

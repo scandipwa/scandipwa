@@ -188,7 +188,10 @@ const config = (env, argv) => {
         devServer: {
             watchContentBase: true,
             publicPath: '/',
-            historyApiFallback: true,
+            historyApiFallback: {
+                index: '/',
+                disableDotRule: true
+            },
             port: 3003,
             https: false,
             overlay: true,

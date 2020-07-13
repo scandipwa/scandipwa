@@ -35,7 +35,6 @@ export const z_KEY_CODE = 122;
 export const Z_KEY_CODE = 90;
 export const a_KEY_CODE = 97;
 
-
 /**
  * Input fields component
  * @class Field
@@ -56,7 +55,7 @@ export class Field extends ExtensiblePureComponent {
             CHECKBOX_TYPE,
             SELECT_TYPE
         ]).isRequired,
-        label: PropTypes.string,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         message: PropTypes.string,
         placeholder: PropTypes.string,
         value: PropTypes.oneOfType([
@@ -80,7 +79,7 @@ export class Field extends ExtensiblePureComponent {
                 PropTypes.number
             ]),
             disabled: PropTypes.bool,
-            label: PropTypes.string
+            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
         })),
         isDisabled: PropTypes.bool,
         onChange: PropTypes.func,
@@ -98,7 +97,8 @@ export class Field extends ExtensiblePureComponent {
         autocomplete: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ])
+        ]),
+        maxLength: PropTypes.number
     };
 
     static defaultProps = {
@@ -122,7 +122,8 @@ export class Field extends ExtensiblePureComponent {
         placeholder: '',
         autocomplete: 'off',
         validation: [],
-        skipValue: false
+        skipValue: false,
+        maxLength: null
     };
 
     onChange = this.onChange.bind(this);
@@ -386,7 +387,8 @@ export class Field extends ExtensiblePureComponent {
             name,
             rows,
             formRef,
-            isDisabled
+            isDisabled,
+            maxLength
         } = this.props;
 
         const { value } = this.state;
@@ -402,6 +404,7 @@ export class Field extends ExtensiblePureComponent {
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
+              maxLength={ maxLength }
             />
         );
     }
@@ -557,14 +560,14 @@ export class Field extends ExtensiblePureComponent {
                         { selectOptions.map(({
                             id, value, disabled, label
                         }) => (
-                                <option
-                                  key={ id }
-                                  id={ id }
-                                  value={ value }
-                                  disabled={ disabled }
-                                >
-                                    { label }
-                                </option>
+                            <option
+                              key={ id }
+                              id={ id }
+                              value={ value }
+                              disabled={ disabled }
+                            >
+                                { label }
+                            </option>
                         )) }
                     </select>
                     <ul
@@ -652,7 +655,11 @@ export class Field extends ExtensiblePureComponent {
     }
 
     render() {
-        const { mix, type, message } = this.props;
+        const {
+            mix,
+            type,
+            message
+        } = this.props;
 
         return (
             <div

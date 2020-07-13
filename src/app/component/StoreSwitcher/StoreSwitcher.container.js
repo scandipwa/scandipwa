@@ -40,21 +40,44 @@ export class StoreSwitcherContainer extends DataContainer {
     };
 
     state = {
-        storeList: []
+        storeList: [],
+        isOpened: false,
+        storeLabel: ''
     };
 
     containerFunctions = {
-        handleStoreSelect: this._handleStoreSelect.bind(this)
+        handleStoreSelect: this._handleStoreSelect.bind(this),
+        onStoreSwitcherClick: this.onStoreSwitcherClick.bind(this),
+        onStoreSwitcherOutsideClick: this.onStoreSwitcherOutsideClick.bind(this)
     };
 
     componentDidMount() {
         this._getStoreList();
     }
 
+    componentDidUpdate() {
+        const { currentStoreCode } = this.props;
+        const { storeLabel } = this.state;
+
+        if (currentStoreCode && !storeLabel) {
+            this.getCurrentLabel(currentStoreCode);
+        }
+    }
+
     containerProps = () => {
         const { currentStoreCode } = this.props;
         return { currentStoreCode };
     };
+
+    onStoreSwitcherClick() {
+        const { isOpened } = this.state;
+
+        this.setState({ isOpened: !isOpened });
+    }
+
+    onStoreSwitcherOutsideClick() {
+        this.setState({ isOpened: false });
+    }
 
     _getStoreList() {
         this.fetchData(
@@ -83,6 +106,17 @@ export class StoreSwitcherContainer extends DataContainer {
                 }
             ];
         }, []);
+    }
+
+    getCurrentLabel(storeCode) {
+        const { storeList } = this.state;
+
+        const store = storeList.find(
+            ({ value }) => value === storeCode
+        );
+        const { label } = store;
+
+        this.setState({ storeLabel: label });
     }
 
     _handleStoreSelect(storeCode) {

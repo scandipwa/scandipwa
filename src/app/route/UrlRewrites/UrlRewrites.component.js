@@ -14,7 +14,6 @@ import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
-import { getUrlParam } from 'Util/Url';
 import { LocationType, MatchType } from 'Type/Common';
 
 export const TYPE_PRODUCT = 'PRODUCT';
@@ -31,18 +30,51 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
 export class UrlRewrites extends ExtensiblePureComponent {
     static propTypes = {
         location: LocationType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
         clearUrlRewrites: PropTypes.func.isRequired,
         requestUrlRewrite: PropTypes.func.isRequired,
         urlRewrite: PropTypes.shape({
+            id: PropTypes.number,
+            type: PropTypes.string,
+            sku: PropTypes.string,
             notFound: PropTypes.bool
         }).isRequired
     };
 
-    state = {
-        isNotFound: false,
-        placeholderType: ''
+    static stateMapping = {
+        category: TYPE_CATEGORY,
+        product: TYPE_PRODUCT,
+        page: TYPE_CMS_PAGE
     };
+
+    static getType(props) {
+        const {
+            location: {
+                state = {}
+            },
+            urlRewrite: {
+                type
+            }
+        } = props;
+
+        const {
+            actionName: { type: initialType = '' } = {}
+        } = window;
+
+        const typeKey = Object.keys(state).find(key => UrlRewrites.stateMapping[key]);
+
+        if (typeKey) { // prefer state defined type
+            return UrlRewrites.stateMapping[typeKey];
+        }
+
+        if (type) { // fallback to url-rewrite defined type
+            return type;
+        }
+
+        // finally fallback to window property
+        return initialType;
+    }
 
     knownTypes = [
         TYPE_CATEGORY,
@@ -50,62 +82,141 @@ export class UrlRewrites extends ExtensiblePureComponent {
         TYPE_PRODUCT
     ];
 
-    componentWillMount() {
-        const { type } = window.actionName || '';
+    static getDerivedStateFromProps(props, state) {
+        const {
+            location: { pathname, state: historyState = {} },
+            urlRewrite: { id, type, notFound },
+            requestUrlRewrite
+        } = props;
 
-        // Type is not set
-        if (!type) {
-            this.requestRewrite();
-            return;
+        const {
+            prevPathname,
+            prevId
+        } = state;
+
+        const {
+            actionName: { type: initialType = '' } = {}
+        } = window;
+
+        if (pathname !== prevPathname) {
+            requestUrlRewrite(pathname);
+
+            // if URL is changed, we are interested in state type
+            const typeKey = Object.keys(historyState).find(key => UrlRewrites.stateMapping[key]);
+            const stateType = UrlRewrites.stateMapping[typeKey];
+
+            return {
+                type: stateType || initialType,
+                prevPathname: pathname,
+                isNotFound: false,
+                id: null // unset id
+            };
         }
 
-        // Known components
-        if (this.knownTypes.indexOf(type) >= 0) {
-            this.setState({ placeholderType: type });
-            this.requestRewrite();
-            return;
+        if (type === TYPE_NOTFOUND || notFound) {
+            return {
+                isNotFound: true
+            };
         }
 
-        // Not found
-        if (type === TYPE_NOTFOUND) {
-            this.setState({ isNotFound: true });
-            return;
+        if (id !== prevId) {
+            // if url-rewrite is updated, update id and type
+            return {
+                id,
+                type: type || initialType,
+                prevId: id
+            };
         }
 
-        // Try to resolve unknown rewrite
-        this.requestRewrite();
+        return null;
     }
 
-    componentWillUnmount() {
-        const { clearUrlRewrites } = this.props;
-        clearUrlRewrites();
+    constructor(props) {
+        super(props);
+
+        const {
+            location: {
+                pathname
+            },
+            requestUrlRewrite
+        } = props;
+
+        this.state = {
+            isNotFound: false,
+            type: UrlRewrites.getType(props),
+            id: null,
+            prevId: null,
+            prevPathname: pathname
+        };
+
+        requestUrlRewrite(pathname);
     }
 
-    requestRewrite() {
-        const { requestUrlRewrite, match, location } = this.props;
-        const urlParam = getUrlParam(match, location);
-        requestUrlRewrite({ urlParam });
+    renderDefaultPage() {
+        return (
+            <main />
+        );
     }
 
     renderEmptyPage() {
         const { isNotFound } = this.state;
-        const { urlRewrite: { notFound } } = this.props;
 
-        if (isNotFound || notFound) {
+        if (isNotFound) {
             return <NoMatch { ...this.props } />;
         }
 
-        return <main />;
+        // TODO: add some loader?
+        return this.renderDefaultPage();
     }
 
-    renderPage({ type, id }) {
+    getCategoryProps(id) {
+        const {
+            location: {
+                state: {
+                    category
+                } = {}
+            }
+        } = this.props;
+
+        const props = { ...this.props };
+
+        if (id) {
+            props.categoryIds = id;
+        } else {
+            props.isOnlyPlaceholder = true;
+        }
+
+        if (category && category !== true) {
+            props.categoryIds = category;
+            props.isNotRespectInfoLoading = true;
+            // unset is loading to improve performance
+            props.isOnlyPlaceholder = undefined;
+        }
+
+        return props;
+    }
+
+    getCurrentType() {
+        const { type } = this.state;
+
+        if (type) {
+            return type;
+        }
+
+        return UrlRewrites.getType(this.props);
+    }
+
+    renderPage() {
+        const type = this.getCurrentType();
+        const { urlRewrite: { id, sku } } = this.props;
+
         switch (type) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...this.props } productsIds={ id } />;
+            return <ProductPage { ...this.props } productSKU={ sku } />;
         case TYPE_CMS_PAGE:
             return <CmsPage { ...this.props } pageIds={ id } />;
         case TYPE_CATEGORY:
-            return <CategoryPage { ...this.props } categoryIds={ id } />;
+            return <CategoryPage { ...this.getCategoryProps(id) } />;
         case TYPE_NOTFOUND:
             return <NoMatch { ...this.props } />;
         default:
@@ -114,15 +225,15 @@ export class UrlRewrites extends ExtensiblePureComponent {
     }
 
     renderPlaceholders() {
-        const { placeholderType } = this.state;
+        const type = this.getCurrentType();
 
-        switch (placeholderType) {
+        switch (type) {
         case TYPE_PRODUCT:
             return <ProductPage { ...this.props } isOnlyPlaceholder />;
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...this.props } urlKey="" isOnlyPlaceholder />;
+            return <CmsPage { ...this.props } isOnlyPlaceholder />;
         case TYPE_CATEGORY:
-            return <CategoryPage { ...this.props } isOnlyPlaceholder />;
+            return <CategoryPage { ...this.getCategoryProps() } />;
         case TYPE_NOTFOUND:
             return <NoMatch { ...this.props } />;
         default:
@@ -131,11 +242,10 @@ export class UrlRewrites extends ExtensiblePureComponent {
     }
 
     render() {
-        const { urlRewrite } = this.props;
-        const { isNotFound } = this.state;
+        const { id, notFound } = this.state;
 
-        if ((urlRewrite && Object.entries(urlRewrite).length) || isNotFound) {
-            return this.renderPage(urlRewrite);
+        if (id || notFound) {
+            return this.renderPage();
         }
 
         return this.renderPlaceholders();

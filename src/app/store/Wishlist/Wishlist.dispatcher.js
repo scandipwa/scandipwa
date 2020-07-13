@@ -73,8 +73,11 @@ export class WishlistDispatcher extends ExtensibleClass {
                 }
             },
             /** @namespace Store/Wishlist/Dispatcher/fetchQueryThen */
-            // eslint-disable-next-line no-console
-            error => console.log(error)
+            (error) => {
+                // eslint-disable-next-line no-console
+                console.log(error);
+                dispatch(updateIsLoading(false));
+            }
         );
     }
 
@@ -113,8 +116,8 @@ export class WishlistDispatcher extends ExtensibleClass {
             );
     }
 
-    moveWishlistToCart(dispatch) {
-        return fetchMutation(WishlistQuery.getMoveWishlistToCart())
+    moveWishlistToCart(dispatch, sharingCode) {
+        return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
             .then(
                 /** @namespace Store/Wishlist/Dispatcher/fetchMutationThen */
                 () => {

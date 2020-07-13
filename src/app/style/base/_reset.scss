@@ -46,10 +46,15 @@ main {
     min-height: calc(100vh - var(--header-height) - var(--footer-height) - var(--breadcrumbs-height));
     max-width: 100vw;
 
-    @include before-desktop {
-        // min-height: calc(100vh - var(--header-height) - var(--navigation-tabs-height));
+    @include mobile {
         min-height: 0;
         margin-top: var(--header-total-height);
+        margin-bottom: var(--navigation-tabs-height);
+    }
+
+    @include tablet {
+        min-height: calc(100vh - var(--header-height) - var(--navigation-tabs-height) - var(--footer-height));
+        margin-top: var(--header-height);
         margin-bottom: var(--navigation-tabs-height);
     }
 }

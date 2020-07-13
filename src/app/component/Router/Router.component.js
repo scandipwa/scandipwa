@@ -22,6 +22,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Router as ReactRouter } from 'react-router';
 
 import Meta from 'Component/Meta';
+import Loader from 'Component/Loader';
 import Footer from 'Component/Footer';
 import CookiePopup from 'Component/CookiePopup';
 import Header from 'Component/Header';
@@ -31,6 +32,7 @@ import OfflineNotice from 'Component/OfflineNotice';
 import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
 import NotificationList from 'Component/NotificationList';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
 import history from 'Util/History';
 
 // suppress prop-types warning on Route component when using with React.lazy
@@ -55,6 +57,7 @@ export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefe
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
+export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/WishlistSharedPage'));
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -147,6 +150,10 @@ export class Router extends ExtensiblePureComponent {
             position: 80
         },
         {
+            component: <Route path="/wishlist/shared/:code" component={ WishlistShared } />,
+            position: 81
+        },
+        {
             component: <Route component={ UrlRewrites } />,
             position: 1000
         }
@@ -162,6 +169,18 @@ export class Router extends ExtensiblePureComponent {
             position: 20
         }
     ];
+
+    state = {
+        hasError: false,
+        errorDetails: {}
+    };
+
+    componentDidCatch(err, info) {
+        this.setState({
+            hasError: true,
+            errorDetails: { err, info }
+        });
+    }
 
     getSortedItems(type) {
         return this[type].reduce((acc, { component, position }) => {
@@ -181,15 +200,13 @@ export class Router extends ExtensiblePureComponent {
         }, {});
     }
 
+    handleErrorReset = () => {
+        this.setState({ hasError: false });
+    };
+
     renderItemsOfType(type) {
         return Object.entries(this.getSortedItems(type)).map(
             ([key, component]) => cloneElement(component, { key })
-        );
-    }
-
-    renderFallbackPage() {
-        return (
-            <main style={ { height: '100vh' } } />
         );
     }
 
@@ -211,7 +228,26 @@ export class Router extends ExtensiblePureComponent {
         );
     }
 
-    renderRouterContent() {
+    renderErrorRouterContent() {
+        const { errorDetails } = this.state;
+
+        return (
+            <SomethingWentWrong
+              onClick={ this.handleErrorReset }
+              errorDetails={ errorDetails }
+            />
+        );
+    }
+
+    renderFallbackPage() {
+        return (
+            <main style={ { height: '100vh' } }>
+                <Loader isLoading />
+            </main>
+        );
+    }
+
+    renderDefaultRouterContent() {
         return (
             <>
                 { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
@@ -219,6 +255,16 @@ export class Router extends ExtensiblePureComponent {
                 { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
             </>
         );
+    }
+
+    renderRouterContent() {
+        const { hasError } = this.state;
+
+        if (hasError) {
+            return this.renderErrorRouterContent();
+        }
+
+        return this.renderDefaultRouterContent();
     }
 
     render() {

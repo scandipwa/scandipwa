@@ -32,7 +32,7 @@ export class Html extends ExtensiblePureComponent {
         content: PropTypes.string.isRequired
     };
 
-    createdOutsideElements = [];
+    createdOutsideElements = {};
 
     rules = [
         {
@@ -105,25 +105,6 @@ export class Html extends ExtensiblePureComponent {
             }
         }
     };
-
-    componentWillUnmount() {
-        this.createdOutsideElements.forEach(elem => elem.remove());
-    }
-
-    getCachedHtml() {
-        const { content } = this.props;
-        const contentHash = hash(content);
-
-        if (!window.cachedHtml) {
-            window.cachedHtml = {};
-        }
-
-        if (!window.cachedHtml[contentHash]) {
-            window.cachedHtml[contentHash] = parser(content, this.parserOptions);
-        }
-
-        return window.cachedHtml[contentHash];
-    }
 
     attributesToProps(attribs) {
         const toCamelCase = string => string.replace(/_[a-z]/g, match => match.substr(1).toUpperCase());
@@ -220,19 +201,32 @@ export class Html extends ExtensiblePureComponent {
 
     replaceStyle(elem) {
         const { children } = elem;
+        const elemHash = hash(elem);
+
+        if (this.createdOutsideElements[elemHash]) {
+            return <></>;
+        }
+
         const style = document.createElement('style');
 
         if (children && children[0]) {
             style.appendChild(document.createTextNode(children[0].data));
         }
 
-        this.createdOutsideElements.push(style);
         document.head.appendChild(style);
+        this.createdOutsideElements[elemHash] = true;
+
         return <></>;
     }
 
     replaceScript(elem) {
         const { attribs, children } = elem;
+        const elemHash = hash(elem);
+
+        if (this.createdOutsideElements[elemHash]) {
+            return <></>;
+        }
+
         const script = document.createElement('script');
 
         Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
@@ -241,13 +235,15 @@ export class Html extends ExtensiblePureComponent {
             script.appendChild(document.createTextNode(children[0].data));
         }
 
-        this.createdOutsideElements.push(script);
         document.head.appendChild(script);
+        this.createdOutsideElements[elemHash] = true;
+
         return <></>;
     }
 
     render() {
-        return this.getCachedHtml();
+        const { content } = this.props;
+        return parser(content, this.parserOptions);
     }
 }
 

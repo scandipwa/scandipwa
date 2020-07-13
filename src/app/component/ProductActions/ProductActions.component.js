@@ -24,7 +24,8 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
-import { GROUPED, CONFIGURABLE } from 'Util/Product';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import { GROUPED, CONFIGURABLE, SIMPLE } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
@@ -54,7 +55,9 @@ export class ProductActions extends ExtensiblePureComponent {
         getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
-        setGroupedProductQuantity: PropTypes.func.isRequired
+        setGroupedProductQuantity: PropTypes.func.isRequired,
+        getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        customizableOptionsData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -195,12 +198,8 @@ export class ProductActions extends ExtensiblePureComponent {
     }
 
     renderShortDescriptionContent() {
-        const { product: { short_description, id } } = this.props;
+        const { product: { short_description } } = this.props;
         const { html } = short_description || {};
-
-        if (!html && id) {
-            return null;
-        }
 
         const htmlWithItemProp = `<div itemProp="description">${ html }</div>`;
 
@@ -215,7 +214,7 @@ export class ProductActions extends ExtensiblePureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id && isMobile.any()) {
+        if (!html && id) {
             return null;
         }
 
@@ -262,6 +261,30 @@ export class ProductActions extends ExtensiblePureComponent {
         );
     }
 
+    renderCustomizableOptions() {
+        const {
+            product: { type_id, options },
+            getSelectedCustomizableOptions
+        } = this.props;
+
+        if (type_id !== SIMPLE || isMobile.any()) {
+            return null;
+        }
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'customizable_options' } }
+            >
+                <ProductCustomizableOptions
+                  options={ options }
+                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                />
+            </section>
+        );
+    }
+
     renderQuantityInput() {
         const {
             quantity,
@@ -294,7 +317,8 @@ export class ProductActions extends ExtensiblePureComponent {
             configurableVariantIndex,
             product,
             quantity,
-            groupedProductQuantity
+            groupedProductQuantity,
+            customizableOptionsData
         } = this.props;
 
         return (
@@ -305,6 +329,7 @@ export class ProductActions extends ExtensiblePureComponent {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ this.onProductValidationError }
+              customizableOptionsData={ customizableOptionsData }
             />
         );
     }
@@ -343,17 +368,11 @@ export class ProductActions extends ExtensiblePureComponent {
     renderPriceWithSchema() {
         const {
             product,
-            product: { variants },
+            product: { variants = [] },
             configurableVariantIndex
         } = this.props;
 
-        // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
-        // As a result, we have new product, but old configurableVariantIndex, which may be out of range for variants
-        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
-            ? variants[configurableVariantIndex]
-            : product;
-
-        const { name, price, stock_status } = productOrVariant;
+        const { name, price_range, stock_status } = variants[configurableVariantIndex] || product;
 
         return (
             <div>
@@ -361,7 +380,7 @@ export class ProductActions extends ExtensiblePureComponent {
                 <ProductPrice
                   isSchemaRequired
                   variantsCount={ this.getOfferCount() }
-                  price={ price }
+                  price={ price_range }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
             </div>
@@ -402,7 +421,8 @@ export class ProductActions extends ExtensiblePureComponent {
         const {
             product,
             quantity,
-            configurableVariantIndex
+            configurableVariantIndex,
+            customizableOptionsData
         } = this.props;
 
         return (
@@ -411,6 +431,7 @@ export class ProductActions extends ExtensiblePureComponent {
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ this.onProductValidationError }
+              customizableOptionsData={ customizableOptionsData }
             />
         );
     }
@@ -483,6 +504,7 @@ export class ProductActions extends ExtensiblePureComponent {
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
+                { this.renderCustomizableOptions() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }

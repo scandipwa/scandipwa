@@ -70,15 +70,16 @@ export class ProductCardContainer extends ExtensiblePureComponent {
     });
 
     _getLinkTo() {
-        const { product: { url_key }, product } = this.props;
+        const { product: { url }, product } = this.props;
 
-        if (!url_key) {
+        if (!url) {
             return undefined;
         }
+
         const { parameters } = this._getConfigurableParameters();
 
         return {
-            pathname: `/product/${ url_key }`,
+            pathname: url,
             state: { product },
             search: objectToUri(parameters)
         };

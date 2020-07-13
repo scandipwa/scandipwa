@@ -14,13 +14,16 @@
 import PropTypes from 'prop-types';
 
 import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import SearchField from 'Component/SearchField';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import OfflineNotice from 'Component/OfflineNotice';
 import ClickOutside from 'Component/ClickOutside';
 import CartOverlay from 'Component/CartOverlay';
-import MenuOverlay from 'Component/MenuOverlay';
+import Menu from 'Component/Menu';
 import { LOGO_MEDIA } from 'Util/Media/Media';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import CmsBlock from 'Component/CmsBlock';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
@@ -56,7 +59,6 @@ export class Header extends NavigationAbstract {
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
         onSearchBarFocus: PropTypes.func.isRequired,
-        onMenuButtonClick: PropTypes.func.isRequired,
         onClearSearchButtonClick: PropTypes.func.isRequired,
         onMyAccountButtonClick: PropTypes.func.isRequired,
         onSearchBarChange: PropTypes.func.isRequired,
@@ -66,7 +68,6 @@ export class Header extends NavigationAbstract {
         onOkButtonClick: PropTypes.func.isRequired,
         onCancelButtonClick: PropTypes.func.isRequired,
         onSearchOutsideClick: PropTypes.func.isRequired,
-        onMenuOutsideClick: PropTypes.func.isRequired,
         onMyAccountOutsideClick: PropTypes.func.isRequired,
         onMinicartOutsideClick: PropTypes.func.isRequired,
         isClearEnabled: PropTypes.bool.isRequired,
@@ -126,8 +127,7 @@ export class Header extends NavigationAbstract {
             search: true
         },
         [CART]: {
-            title: true,
-            edit: true
+            title: true
         },
         [CART_OVERLAY]: {
             title: true,
@@ -158,12 +158,11 @@ export class Header extends NavigationAbstract {
         cancel: this.renderCancelButton.bind(this),
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
-        menu: this.renderMenuButton.bind(this),
-        search: this.renderSearchField.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         account: this.renderAccountButton.bind(this),
         minicart: this.renderMinicartButton.bind(this),
+        search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this)
@@ -203,29 +202,14 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMenuButton(isVisible = false) {
-        const { onMenuOutsideClick, onMenuButtonClick, isCheckout } = this.props;
+    renderMenu() {
+        const { isCheckout } = this.props;
 
         if (isMobile.any() || isCheckout) {
             return null;
         }
 
-        return (
-            <ClickOutside onClick={ onMenuOutsideClick } key="menu">
-                <div>
-                    <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'menu' } }
-                      aria-label="Go to menu and search"
-                      aria-hidden={ !isVisible }
-                      tabIndex={ isVisible ? 0 : -1 }
-                      onClick={ onMenuButtonClick }
-                    />
-                    <MenuOverlay />
-                </div>
-            </ClickOutside>
-        );
+        return <Menu />;
     }
 
     renderSearchField(isSearchVisible = false) {
@@ -269,7 +253,7 @@ export class Header extends NavigationAbstract {
               elem="Title"
               mods={ { isVisible } }
             >
-                { title }
+                <TextPlaceholder content={ title } />
             </h2>
         );
     }
@@ -321,7 +305,8 @@ export class Header extends NavigationAbstract {
             onSignIn
         } = this.props;
 
-        if (isMobile.any() && !isCheckout) {
+        // on mobile and tablet hide button if not in checkout
+        if ((isMobile.any() || isMobile.tablet()) && !isCheckout) {
             return null;
         }
 
@@ -338,11 +323,25 @@ export class Header extends NavigationAbstract {
                 >
                     <button
                       block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'account' } }
+                      elem="MyAccountWrapper"
+                      tabIndex="0"
                       onClick={ onMyAccountButtonClick }
                       aria-label="Open my account"
-                    />
+                      id="myAccount"
+                    >
+                        <div
+                          block="Header"
+                          elem="MyAccountTitle"
+                        >
+                            { __('Account') }
+                        </div>
+                        <div
+                          block="Header"
+                          elem="Button"
+                          mods={ { isVisible, type: 'account' } }
+                        />
+                    </button>
+
                     { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
                         <MyAccountOverlay
                           onSignIn={ onSignIn }
@@ -381,7 +380,7 @@ export class Header extends NavigationAbstract {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || isCheckout) {
+        if ((isMobile.any() || isMobile.tablet()) || isCheckout) {
             return null;
         }
 
@@ -393,15 +392,26 @@ export class Header extends NavigationAbstract {
                   mods={ { isVisible, type: 'minicart' } }
                 >
                     <button
+                      block="Header"
+                      elem="MinicartButtonWrapper"
+                      tabIndex="0"
                       onClick={ () => {
                           if (name !== CART_OVERLAY) {
                               onMinicartButtonClick();
                           }
                       } }
-                      aria-label="Minicart"
-                      block="Header"
-                      elem="MinicartButton"
                     >
+                        <span
+                          block="Header"
+                          elem="MinicartTitle"
+                        >
+                            { __('Cart') }
+                        </span>
+                        <span
+                          aria-label="Minicart"
+                          block="Header"
+                          elem="MinicartIcon"
+                        />
                         { this.renderMinicartItemsQty() }
                     </button>
                     <CartOverlay />
@@ -482,6 +492,47 @@ export class Header extends NavigationAbstract {
         );
     }
 
+    renderContacts() {
+        const { footer_content: { contacts_cms } = {} } = window.contentConfiguration;
+
+        if (contacts_cms) {
+            return (
+                <CmsBlock identifier={ contacts_cms } />
+            );
+        }
+
+        // following strings are not translated, use CMS blocks to do it
+        return (
+            <dl block="contacts-wrapper">
+                <dt>Telephone:</dt>
+                <dd>
+                    <a href="tel:983829842">+0 (983) 829842</a>
+                </dd>
+                <dt>Mail:</dt>
+                <dd>
+                    <a href="mailto:info@scandipwa.com">info@scandipwa.com</a>
+                </dd>
+            </dl>
+        );
+    }
+
+    renderTopMenu() {
+        if (isMobile.any()) {
+            return null;
+        }
+
+        return (
+            <div block="Header" elem="TopMenu">
+                <div block="Header" elem="Contacts">
+                    { this.renderContacts() }
+                </div>
+                <div block="Header" elem="Switcher">
+                    <StoreSwitcher />
+                </div>
+            </div>
+        );
+    }
+
     render() {
         const {
             navigationState: { name, isHiddenOnMobile = false },
@@ -491,9 +542,11 @@ export class Header extends NavigationAbstract {
         return (
             <>
                 <header block="Header" mods={ { name, isHiddenOnMobile, isCheckout } }>
+                    { this.renderTopMenu() }
                     <nav block="Header" elem="Nav">
                         { this.renderNavigationState() }
                     </nav>
+                    { this.renderMenu() }
                 </header>
                 <OfflineNotice />
             </>

@@ -37,7 +37,7 @@ export class GroupedProductsItem extends ExtensiblePureComponent {
             product: {
                 thumbnail: { path: thumb_url },
                 name,
-                price
+                price_range
             },
             changeCount,
             itemCount
@@ -52,7 +52,7 @@ export class GroupedProductsItem extends ExtensiblePureComponent {
                 />
                 <div block="GroupedProductsItem" elem="Title">
                     <p><TextPlaceholder content={ name } /></p>
-                    <ProductPrice price={ price } mods={ { type: 'regular' } } />
+                    <ProductPrice price={ price_range } mods={ { type: 'regular' } } />
                 </div>
                 <div block="GroupedProductsItem" elem="Quantity">
                     <Field
