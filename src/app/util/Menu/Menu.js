@@ -28,7 +28,8 @@ export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
 ) => (PID - prevPID) || (P - prevP));
 
 /** @namespace Util/Menu */
-export class MenuReducer {
+// eslint-disable-next-line @scandipwa/scandipwa-guidelines/derived-class-names
+export class MenuReducer extends ExtensibleClass {
     getMenuUrl({ url, url_type, category_id }) {
         switch (url_type) {
         case TYPE_CATEGORY:

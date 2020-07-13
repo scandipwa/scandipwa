@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
@@ -19,7 +19,7 @@ export const DROPDOWN = 'dropdown';
 export const TEXT_FIELD = 'field';
 export const AREA_FIELD = 'area';
 
-class ProductCustomizableOptions extends PureComponent {
+class ProductCustomizableOption extends ExtensiblePureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
         textValue: PropTypes.string.isRequired,
@@ -251,4 +251,4 @@ class ProductCustomizableOptions extends PureComponent {
     }
 }
 
-export default ProductCustomizableOptions;
+export default ProductCustomizableOption;

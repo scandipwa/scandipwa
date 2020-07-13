@@ -24,6 +24,7 @@ export const clearUrlRewrite = () => ({
     type: CLEAR_URL_REWRITE
 });
 
+/** @namespace Store/UrlRewrites/Action/setIsUrlRewritesLoading */
 export const setIsUrlRewritesLoading = isLoading => ({
     type: IS_LOADING_URL_REWRITE,
     isLoading

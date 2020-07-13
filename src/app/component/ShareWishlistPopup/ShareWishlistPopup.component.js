@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import Popup from 'Component/Popup';
 import ShareWishlistForm from 'Component/ShareWishlistForm';
@@ -18,7 +18,7 @@ import './ShareWishlistPopup.style';
 
 export const SHARE_WISHLIST_POPUP_ID = 'ShareWishlistPopup';
 
-export default class ShareWishlistPopup extends PureComponent {
+export default class ShareWishlistPopup extends ExtensiblePureComponent {
     state = {};
 
     static propTypes = {

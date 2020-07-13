@@ -156,6 +156,7 @@ export const getIndexedCustomOptions = options => options.reduce(
     []
 );
 
+/** @namespace Util/Product/getIndexedProduct */
 export const getIndexedProduct = (product) => {
     const {
         variants: initialVariants = [],

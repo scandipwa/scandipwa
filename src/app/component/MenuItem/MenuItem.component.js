@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 
 import media from 'Util/Media';
@@ -18,7 +18,7 @@ import Link from 'Component/Link';
 import isMobile from 'Util/Mobile';
 import Image from 'Component/Image';
 
-export default class MenuItem extends PureComponent {
+export default class MenuItem extends ExtensiblePureComponent {
     static propTypes = {
         activeMenuItemsStack: PropTypes.array.isRequired,
         item: PropTypes.object.isRequired,

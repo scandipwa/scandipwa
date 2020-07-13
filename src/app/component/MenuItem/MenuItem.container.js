@@ -9,13 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import MenuItem from './MenuItem.component';
 
-export class MenuItemContainer extends PureComponent {
+/** @namespace Component/MenuItem/Container/menuItemContainer */
+export class MenuItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         onCategoryHover: PropTypes.func,
         item: PropTypes.object.isRequired

@@ -22,11 +22,13 @@ import { MenuQuery } from 'Query';
 
 import Menu from './Menu.component';
 
+/** @namespace Component/Menu/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
+/** @namespace Component/Menu/Container/menuContainer */
 export class MenuContainer extends DataContainer {
     static propTypes = {
         goToPreviousHeaderState: PropTypes.func.isRequired,

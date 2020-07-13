@@ -15,11 +15,13 @@ import { CartDispatcher } from 'Store/Cart';
 import { showNotification } from 'Store/Notification';
 import SharedWishlistItem from './SharedWishlistItem.component';
 
+/** @namespace Component/SharedWishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options)
 });
 
+/** @namespace Component/SharedWishlistItem/Container/sharedWishlistItemContainer */
 export class SharedWishlistItemContainer extends WishlistItemContainer {
     state = {
         quantity: 1

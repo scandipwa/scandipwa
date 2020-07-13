@@ -9,13 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import StoreItems from './StoreItems.component';
 
-export class StoreItemsContainer extends PureComponent {
+/** @namespace Component/StoreItems/Container/storeItemsContainer */
+export class StoreItemsContainer extends ExtensiblePureComponent {
     static propTypes = {
         item: PropTypes.object.isRequired,
         handleStoreSelect: PropTypes.func.isRequired

@@ -26,6 +26,7 @@ import { updateNoMatch } from 'Store/NoMatch';
 
 import WishlistShared from './WishlistSharedPage.component';
 
+/** @namespace Route/WishlistSharedPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
     moveWishlistToCart: sharingCode => WishlistDispatcher.moveWishlistToCart(dispatch, sharingCode),
@@ -35,7 +36,8 @@ export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch)
 });
 
-export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
+/** @namespace Route/WishlistSharedPage/Container/wishlistSharedContainer */
+export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     static propTypes = {
         match: MatchType.isRequired,
         showError: PropTypes.func.isRequired,
@@ -73,7 +75,9 @@ export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
         this.setState({ isLoading: true });
 
         return moveWishlistToCart(sharingCode).then(
+            /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartThen */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
+            /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartThen */
             ([{ message }]) => showError(message)
         );
     };
@@ -88,6 +92,7 @@ export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
         this.setLoading();
 
         executeGet(query, 'SharedWishlist', FIVE_MINUTES_IN_SECONDS).then(
+            /** @namespace Route/WishlistSharedPage/Container/executeGetThen */
             ({ wishlist, wishlist: { items_count, creators_name: creatorsName } = {} }) => {
                 if (!items_count) {
                     this.setLoading(false);
@@ -133,6 +138,7 @@ export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
                     isWishlistLoading: false
                 });
             },
+            /** @namespace Route/WishlistSharedPage/Container/executeGetThen */
             ([{ message }]) => {
                 showError(message);
                 showNoMatch();
@@ -162,4 +168,4 @@ export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(WishlistSharedContainer);
+export default connect(null, mapDispatchToProps)(WishlistSharedPageContainer);

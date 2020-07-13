@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showPopup } from 'Store/Popup';
@@ -18,13 +18,15 @@ import { WishlistQuery } from 'Query';
 import { fetchMutation } from 'Util/Request';
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 
+/** @namespace Component/ShareWishlistPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     showNotification: message => dispatch(showNotification('success', __(message))),
     showError: message => dispatch(showNotification('error', __(message))),
     hidePopup: () => dispatch(showPopup('', {}))
 });
 
-export class ShareWishlistPopupContainer extends PureComponent {
+/** @namespace Component/ShareWishlistPopup/Container/shareWishlistPopupContainer */
+export class ShareWishlistPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         hidePopup: PropTypes.func.isRequired,
@@ -38,10 +40,12 @@ export class ShareWishlistPopupContainer extends PureComponent {
         const emails = initialEmails.split(',').map(email => email.trim());
 
         fetchMutation(WishlistQuery.getShareWishlistMutation({ message, emails })).then(
+            /** @namespace Component/ShareWishlistPopup/Container/fetchMutationThen */
             () => {
                 showNotification('Wishlist has been shared');
                 hidePopup();
             },
+            /** @namespace Component/ShareWishlistPopup/Container/fetchMutationThen */
             ([{ message }]) => showError(message)
         );
     };

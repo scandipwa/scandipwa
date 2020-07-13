@@ -202,7 +202,7 @@ export class Router extends ExtensiblePureComponent {
 
     handleErrorReset = () => {
         this.setState({ hasError: false });
-    }
+    };
 
     renderItemsOfType(type) {
         return Object.entries(this.getSortedItems(type)).map(
