@@ -20,9 +20,9 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
-    ProductListInfoDispatcher,
     updateInfoLoadStatus
 } from 'Store/ProductListInfo/ProductListInfo.action';
+import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { debounce } from 'Util/Request';
