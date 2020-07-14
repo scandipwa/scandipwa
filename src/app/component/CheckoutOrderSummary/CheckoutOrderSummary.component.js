@@ -22,17 +22,16 @@ import {
 /**
  * Checkout Order Summary component
  */
-export default class CheckoutOrderSummary extends PureComponent {
-    static propTypes = {
-        totals: TotalsType,
-        paymentTotals: TotalsType,
-        checkoutStep: PropTypes.string.isRequired
-    };
+class CheckoutOrderSummary extends Component {
+    getDataSource(item) {
+        const { configurableVariantIndex, variants } = item;
 
-    static defaultProps = {
-        totals: {},
-        paymentTotals: {}
-    };
+        if (typeof configurableVariantIndex === 'number' && variants) {
+            return variants[configurableVariantIndex] || {};
+        }
+
+        return item;
+    }
 
     renderPriceLine(price, name, mods) {
         if (!price) {
@@ -56,12 +55,13 @@ export default class CheckoutOrderSummary extends PureComponent {
 
     renderItem = (item) => {
         const {
-            totals: {
-                quote_currency_code
-            }
-        } = this.props;
-
-        const { item_id } = item;
+            thumbnail: { path } = {},
+            short_description: { html } = {},
+            manufacturer,
+            name,
+            quantity,
+            price
+        } = this.getDataSource(item);
 
         return (
             <CartItem
