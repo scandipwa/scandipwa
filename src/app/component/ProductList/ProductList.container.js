@@ -44,7 +44,8 @@ export class ProductListContainer extends PureComponent {
         search: PropTypes.string,
         sort: PropTypes.objectOf(PropTypes.string),
         noAttributes: PropTypes.bool,
-        noVariants: PropTypes.bool
+        noVariants: PropTypes.bool,
+        isWidget: PropTypes.bool
     };
 
     static defaultProps = {
@@ -56,7 +57,8 @@ export class ProductListContainer extends PureComponent {
         isPaginationEnabled: true,
         isInfiniteLoaderEnabled: true,
         noAttributes: false,
-        noVariants: false
+        noVariants: false,
+        isWidget: false
     };
 
     state = {
@@ -107,10 +109,11 @@ export class ProductListContainer extends PureComponent {
             pageSize,
             requestProductList,
             noAttributes,
-            noVariants
+            noVariants,
+            isWidget
         } = this.props;
 
-        if (!isNext) {
+        if (!isWidget && !isNext) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'

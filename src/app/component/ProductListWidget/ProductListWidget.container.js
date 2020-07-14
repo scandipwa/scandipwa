@@ -162,6 +162,7 @@ export class ProductListWidgetContainer extends DataContainer {
               isInfiniteLoaderEnabled={ false }
               numberOfPlaceholders={ 6 }
               mix={ { block: 'ProductListWidget' } }
+              isWidget
             />
         );
     }
