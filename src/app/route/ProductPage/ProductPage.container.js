@@ -22,6 +22,7 @@ import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
 import { changeNavigationState } from 'Store/Navigation';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 import { setBigOfflineNotice } from 'Store/Offline';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
@@ -44,7 +45,10 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestProduct: options => ProductDispatcher.handleData(dispatch, options),
+    requestProduct: (options) => {
+        ProductDispatcher.handleData(dispatch, options);
+        LinkedProductsDispatcher.clearLinkedProducts(dispatch);
+    },
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
     updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
@@ -75,7 +79,7 @@ export class ProductPageContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         isOffline: PropTypes.bool.isRequired,
-        productsIds: PropTypes.number,
+        productSKU: PropTypes.string,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired
@@ -84,7 +88,7 @@ export class ProductPageContainer extends PureComponent {
     static defaultProps = {
         location: { state: {} },
         isOnlyPlaceholder: false,
-        productsIds: -1
+        productSKU: ''
     };
 
     static getDerivedStateFromProps(props) {
@@ -136,7 +140,7 @@ export class ProductPageContainer extends PureComponent {
         const {
             location: { pathname },
             product: { id, options, items },
-            productsIds,
+            productSKU,
             isOnlyPlaceholder
         } = this.props;
 
@@ -147,14 +151,14 @@ export class ProductPageContainer extends PureComponent {
                 options: prevOptions,
                 items: prevItems
             },
-            productsIds: prevProductsIds,
+            productSKU: prevProductSKU,
             isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
         if (
             pathname !== prevPathname
             || isOnlyPlaceholder !== prevIsOnlyPlaceholder
-            || productsIds !== prevProductsIds
+            || productSKU !== prevProductSKU
         ) {
             this._requestProduct();
         }
@@ -301,6 +305,7 @@ export class ProductPageContainer extends PureComponent {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
             this._updateNavigationState();
+
             if (isOffline) {
                 setBigOfflineNotice(false);
             }
@@ -360,11 +365,13 @@ export class ProductPageContainer extends PureComponent {
         const {
             location,
             match,
-            productsIds
+            productSKU
         } = this.props;
 
-        if (productsIds !== -1) {
-            return { productsIds };
+        if (productSKU) {
+            return {
+                productsSkuArray: [productSKU]
+            };
         }
 
         return {

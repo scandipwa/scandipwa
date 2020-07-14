@@ -45,6 +45,8 @@
         background: white;
         color: black;
         padding: 5px;
+        max-height: 150px;
+        overflow: scroll;
     }
 
     &-Button {

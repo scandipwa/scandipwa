@@ -29,6 +29,7 @@ import { createBrowserHistory } from 'history';
 
 import Store from 'Store';
 import Meta from 'Component/Meta';
+import Loader from 'Component/Loader';
 import Footer from 'Component/Footer';
 import CookiePopup from 'Component/CookiePopup';
 import Header from 'Component/Header';
@@ -316,7 +317,9 @@ export class AppRouter extends PureComponent {
 
     renderFallbackPage() {
         return (
-            <main style={ { height: '100vh' } } />
+            <main style={ { height: '100vh' } }>
+                <Loader isLoading />
+            </main>
         );
     }
 

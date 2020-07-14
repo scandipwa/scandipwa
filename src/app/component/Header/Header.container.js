@@ -57,7 +57,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export const DEFAULT_HEADER_STATE = {
     name: DEFAULT_STATE_NAME,
-    isHiddenOnMobile: true
+    isHiddenOnMobile: false
 };
 
 export class HeaderContainer extends NavigationAbstractContainer {
@@ -83,7 +83,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         '/cart': { name: CART },
         '/menu': { name: MENU },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
-        '/': this.default_state
+        '/': { name: DEFAULT_STATE_NAME, isHiddenOnMobile: true }
     };
 
     containerFunctions = {
@@ -161,6 +161,23 @@ export class HeaderContainer extends NavigationAbstractContainer {
     componentDidUpdate(prevProps) {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
+    }
+
+    getNavigationState() {
+        const { navigationState } = this.props;
+
+        const { pathname } = location;
+        const { historyState } = window.history || {};
+        const { state = {} } = historyState || {};
+
+        const activeRoute = Object.keys(this.routeMap)
+            .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
+
+        if (state.category || state.product || state.page) { // keep state if it category is in state
+            return navigationState;
+        }
+
+        return this.routeMap[activeRoute] || this.default_state;
     }
 
     hideSearchOnStateChange(prevProps) {

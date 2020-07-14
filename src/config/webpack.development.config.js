@@ -14,6 +14,7 @@
 
 // TODO: merge Webpack config files
 
+const url = require('url');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -29,6 +30,10 @@ const FallbackPlugin = require('./FallbackPlugin');
 const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
+
+const baseUrl = process.env.MAGENTO_BASEURL
+    ? url.parse(process.env.MAGENTO_BASEURL).host
+    : 'scandipwa.local';
 
 module.exports = {
     resolve: {
@@ -124,7 +129,10 @@ module.exports = {
     devServer: {
         watchContentBase: true,
         publicPath: '/',
-        historyApiFallback: true,
+        historyApiFallback: {
+            index: '/',
+            disableDotRule: true
+        },
         port: 3003,
         https: false,
         overlay: true,
@@ -132,7 +140,7 @@ module.exports = {
         inline: true,
         hot: true,
         host: '0.0.0.0',
-        public: 'scandipwa.local',
+        public: baseUrl,
         allowedHosts: [
             '.local'
         ]

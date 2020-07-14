@@ -36,7 +36,6 @@ const z_KEY_CODE = 122;
 const Z_KEY_CODE = 90;
 const a_KEY_CODE = 97;
 
-
 /**
  * Input fields component
  * @class Field

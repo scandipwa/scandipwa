@@ -22,6 +22,10 @@
 
     &-Placeholder {
         text-align: right;
+
+        @include mobile {
+            text-align: left;
+        }
     }
 
     .Field {

@@ -19,7 +19,7 @@
     border-right: solid 5px var(--primary-base-color);
     box-sizing: border-box;
     animation: rotate 2s linear infinite;
-    transform-origin: 0 0;
+    transform-origin: 50% 50%;
 
     &::before,
     &::after {

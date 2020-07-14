@@ -15,12 +15,14 @@ import PropTypes from 'prop-types';
 
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
+import Loader from 'Component/Loader';
 
 import './ProductWishlistButton.style';
 
 export default class ProductWishlistButton extends PureComponent {
     static propTypes = {
         isReady: PropTypes.bool,
+        isLoading: PropTypes.bool,
         quantity: PropTypes.number,
         isDisabled: PropTypes.bool,
         isInWishlist: PropTypes.bool,
@@ -34,6 +36,7 @@ export default class ProductWishlistButton extends PureComponent {
         mix: {},
         quantity: 1,
         isReady: true,
+        isLoading: false,
         isDisabled: false,
         isInWishlist: false
     };
@@ -78,6 +81,7 @@ export default class ProductWishlistButton extends PureComponent {
         return (
             <button
               block="ProductWishlistButton"
+              elem="Button"
               mods={ { isInWishlist, isDisabled } }
               mix={ { block: 'Button', mods: { isHollow: !isInWishlist }, mix } }
               title={ this.getTitle() }
@@ -91,11 +95,28 @@ export default class ProductWishlistButton extends PureComponent {
         );
     }
 
+    renderLoader() {
+        const { isLoading } = this.props;
+
+        return (
+            <Loader isLoading={ isLoading } />
+        );
+    }
+
+    renderContent() {
+        return (
+            <div block="ProductWishlistButton">
+                { this.renderButton() }
+                { this.renderLoader() }
+            </div>
+        );
+    }
+
     render() {
         const { product: { id } = {} } = this.props;
 
         if (id !== -1) {
-            return this.renderButton();
+            return this.renderContent();
         }
 
         return null;
