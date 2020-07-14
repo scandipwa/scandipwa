@@ -74,7 +74,7 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-minify-webpack-plugin": "^0.3.1",
-    "babel-plugin-console-source": "^2.0.1",
+    "babel-plugin-console-source": "^2.0.5",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-rebem-jsx": "^0.3.3",
     "babel-plugin-transform-replace-object-assign": "^2.0.0",
