@@ -405,19 +405,13 @@ export default class Header extends NavigationAbstract {
     renderMinicartOverlay(isVisible = false) {
         const { activeOverlay } = this.props;
 
-        console.log(activeOverlay);
-
         if (activeOverlay === CART_OVERLAY) {
             this.minicartOverlayWasVisible = true;
         }
 
-        console.log(this.minicartOverlayWasVisible);
-
         if (!this.minicartOverlayWasVisible) {
             return this.renderOverlayFallback();
         }
-
-        console.log('render');
 
         return (
             <Suspense fallback={ this.renderOverlayFallback() }>
