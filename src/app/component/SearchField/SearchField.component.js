@@ -66,7 +66,7 @@ class SearchField extends PureComponent {
     onSearchEnterPress = (e) => {
         const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
         const search = searchCriteria.replace(/\s\s+/g, '%20');
-        const trimmedSearch = value.replace(/^\s+/g, '');
+        const trimmedSearch = searchCriteria.replace(/^\s+/g, '');
         if (e.key === 'Enter' && trimmedSearch !== '') {
             history.push(`/search/${ search }`);
             hideActiveOverlay();
