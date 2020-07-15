@@ -194,7 +194,10 @@ export class ProductListQuery {
 
             // if variants are not needed
             if (!noVariants) {
-                fields.push(this._getConfigurableProductFragment());
+                fields.push(
+                    this._getConfigurableProductFragment(),
+                    this._getBundleProductFragment()
+                );
             }
         }
 
@@ -214,7 +217,8 @@ export class ProductListQuery {
                 this._getDescriptionField(),
                 this._getMediaGalleryField(),
                 this._getSimpleProductFragment(),
-                this._getProductLinksField()
+                this._getProductLinksField(),
+                this._getCustomizableProductFragment()
             );
 
             // for variants of PDP requested product
@@ -530,6 +534,53 @@ export class ProductListQuery {
             .addFieldList(this._getReviewSummaryFields());
     }
 
+    _getBundleOptionsFields() {
+        return [
+            'id',
+            'label',
+            'quantity',
+            'position',
+            'is_default',
+            'price',
+            'price_type',
+            'can_change_quantity',
+            this._getProductField()
+        ];
+    }
+
+    _getBundleOptionsField() {
+        return new Field('options')
+            .addFieldList(this._getBundleOptionsFields());
+    }
+
+    _getBundleItemsFields() {
+        return [
+            'option_id',
+            'title',
+            'required',
+            'type',
+            'position',
+            'sku',
+            this._getBundleOptionsField()
+        ];
+    }
+
+    _getBundleItemsField() {
+        return new Field('items')
+            .addFieldList(this._getBundleItemsFields());
+    }
+
+    _getBundleProductFragmentFields() {
+        return [
+            'price_view',
+            'dynamic_price',
+            'dynamic_sku',
+            'ship_bundle_items',
+            'dynamic_weight',
+            this._getBundleItemsField()
+        ];
+    }
+
     _getValueFields() {
         return [
             'value_index'
@@ -694,6 +745,11 @@ export class ProductListQuery {
         return new Field('regular_price')
             .addField('currency')
             .addField('value');
+    }
+
+    _getBundleProductFragment() {
+        return new Fragment('BundleProduct')
+            .addFieldList(this._getBundleProductFragmentFields());
     }
 
     _getConfigurableProductFragment() {

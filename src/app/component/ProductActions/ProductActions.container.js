@@ -13,6 +13,11 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import {
+    GROUPED,
+    CONFIGURABLE,
+    BUNDLE
+} from 'Util/Product';
 import ProductActions from './ProductActions.component';
 
 export const mapStateToProps = state => ({
@@ -27,7 +32,9 @@ export class ProductActionsContainer extends PureComponent {
         productOrVariant: PropTypes.object.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        selectedBundlePrice: PropTypes.number.isRequired,
+        getLink: PropTypes.func.isRequired
     };
 
     static getMinQuantity(props) {
@@ -83,6 +90,7 @@ export class ProductActionsContainer extends PureComponent {
 
     containerFunctions = {
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
+        onProductValidationError: this.onProductValidationError.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
         setQuantity: this.setQuantity.bind(this),
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
@@ -103,6 +111,40 @@ export class ProductActionsContainer extends PureComponent {
         }
 
         return null;
+    }
+
+    onConfigurableProductError = this.onProductError.bind(this, this.configurableOptionsRef);
+
+    onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
+
+    onProductError(ref) {
+        if (!ref) {
+            return;
+        }
+        const { current } = ref;
+
+        current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+
+        current.classList.remove('animate');
+        // eslint-disable-next-line no-unused-expressions
+        current.offsetWidth; // trigger a DOM reflow
+        current.classList.add('animate');
+    }
+
+    onProductValidationError(type) {
+        switch (type) {
+        case CONFIGURABLE:
+            this.onConfigurableProductError();
+            break;
+        case GROUPED:
+            this.onGroupedProductError();
+            break;
+        default:
+            break;
+        }
     }
 
     setQuantity(value) {
@@ -153,8 +195,98 @@ export class ProductActionsContainer extends PureComponent {
     containerProps = () => ({
         minQuantity: ProductActionsContainer.getMinQuantity(this.props),
         maxQuantity: ProductActionsContainer.getMaxQuantity(this.props),
-        groupedProductQuantity: this._getGroupedProductQuantity()
+        groupedProductQuantity: this._getGroupedProductQuantity(),
+        productPrice: this.getProductPrice(),
+        productName: this.getProductName(),
+        offerCount: this.getOfferCount(),
+        offerType: this.getOfferType(),
+        stockMeta: this.getStockMeta(),
+        metaLink: this.getMetaLink()
     });
+
+    getProductName() {
+        const {
+            product,
+            product: { variants = [] },
+            configurableVariantIndex
+        } = this.props;
+
+        const {
+            name
+        } = variants[configurableVariantIndex] || product;
+
+        return name;
+    }
+
+    getMetaLink() {
+        const { getLink } = this.props;
+        return window.location.origin + getLink().replace(/\?.*/, '');
+    }
+
+    getStockMeta() {
+        const {
+            product,
+            product: { variants = [] },
+            configurableVariantIndex
+        } = this.props;
+
+        const {
+            stock_status
+        } = variants[configurableVariantIndex] || product;
+
+        if (stock_status === 'OUT_OF_STOCK') {
+            return 'https://schema.org/OutOfStock';
+        }
+
+        return 'https://schema.org/InStock';
+    }
+
+    getOfferType() {
+        const { product: { variants } } = this.props;
+
+        if (variants && variants.length >= 1) {
+            return 'https://schema.org/AggregateOffer';
+        }
+
+        return 'https://schema.org/Offer';
+    }
+
+    getOfferCount() {
+        const { product: { variants } } = this.props;
+
+        if (variants && variants.length) {
+            return variants.length;
+        }
+
+        return 0;
+    }
+
+    getProductPrice() {
+        const {
+            product,
+            product: { variants = [], type_id },
+            configurableVariantIndex,
+            selectedBundlePrice
+        } = this.props;
+
+        const {
+            price_range
+        } = variants[configurableVariantIndex] || product;
+
+        if (type_id === BUNDLE) {
+            const { price_range: { minimum_price: { regular_price: { currency } } } } = product;
+            const priceValue = { value: selectedBundlePrice, currency };
+
+            return {
+                minimum_price: {
+                    final_price: priceValue,
+                    regular_price: priceValue
+                }
+            };
+        }
+
+        return price_range;
+    }
 
     _getGroupedProductQuantity() {
         const { groupedProductQuantity } = this.state;

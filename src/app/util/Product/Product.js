@@ -10,6 +10,8 @@
  */
 
 
+import { BUNDLE, CONFIGURABLE, SIMPLE } from 'Util/Product';
+
 /**
  * Checks whether every option is in attributes
  * @param {Object} attributes
@@ -178,13 +180,13 @@ export const getExtensionAttributes = (product) => {
     const {
         configurable_options,
         configurableVariantIndex,
-        customizableOptions: customizable_options,
-        customizableOptionsMulti: customizable_options_multi,
+        productOptions,
+        productOptionsMulti,
         variants,
         type_id
     } = product;
 
-    if (type_id === 'configurable') {
+    if (type_id === CONFIGURABLE) {
         const { attributes = {} } = variants[configurableVariantIndex] || {};
 
         const configurable_item_options = Object.values(configurable_options)
@@ -210,10 +212,12 @@ export const getExtensionAttributes = (product) => {
         return { configurable_item_options };
     }
 
-    if (type_id === 'simple'
-        && (customizable_options || customizable_options_multi)
-    ) {
-        return { customizable_options, customizable_options_multi };
+    if (type_id === BUNDLE && (productOptions || productOptionsMulti)) {
+        return { bundle_options: Array.from(productOptions || []) };
+    }
+
+    if (type_id === SIMPLE && (productOptions || productOptionsMulti)) {
+        return { customizable_options: productOptions || [], customizable_options_multi: productOptionsMulti || [] };
     }
 
     return {};
