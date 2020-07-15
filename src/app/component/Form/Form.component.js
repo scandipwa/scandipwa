@@ -16,7 +16,7 @@ import {
     cloneElement
 } from 'react';
 import PropTypes from 'prop-types';
-import Field from 'Component/Field';
+import Field from 'Component/Field/Field.component';
 import FormPortalCollector from 'Util/FormPortalCollector';
 import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';

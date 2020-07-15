@@ -172,9 +172,14 @@ module.exports = {
 
         new WebpackPwaManifest(webmanifestConfig(projectRoot)),
 
-        new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(projectRoot, 'src', 'public', 'assets'),
+                    to: './assets'
+                }
+            ]
+        }),
 
         new MiniCssExtractPlugin()
     ]
