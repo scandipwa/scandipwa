@@ -60,6 +60,25 @@ export default class ProductCard extends PureComponent {
         registerSharedElement(this.imageRef);
     };
 
+    renderConfigurablePriceBadge() {
+        const { availableVisualOptions } = this.props;
+        if (!availableVisualOptions.length) {
+            return null;
+        }
+        return (
+                <p
+                    mix = {
+                            {
+                                block: 'ProductCard',
+                                    elem: 'PriceBadge'
+                            }
+                          }
+                >
+                    { __('As Low as') }
+                </p>
+            );
+    }
+
     renderProductPrice() {
         const { productOrVariant: { price_range } } = this.props;
 
@@ -68,10 +87,13 @@ export default class ProductCard extends PureComponent {
         }
 
         return (
-            <ProductPrice
-              price={ price_range }
-              mix={ { block: 'ProductCard', elem: 'Price' } }
-            />
+                <>
+                    { this.renderConfigurablePriceBadge() }
+                    <ProductPrice
+                    price={ price }
+                    mix={ { block: 'ProductCard', elem: 'Price' } }
+                    />
+                </>
         );
     }
 
