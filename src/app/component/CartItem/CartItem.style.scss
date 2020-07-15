@@ -103,14 +103,17 @@
         @include after-mobile {
             margin-top: 7px;
         }
+
+        &_isLikeTable {
+            @include desktop {
+                max-width: 45%;
+            }
+        }
     }
 
     &-ItemOption {
-        display: flex;
-
-        &:not(:first-child) {
-            margin-top: .5rem;
-        }
+        // display: flex;
+        margin-bottom: .5rem;
     }
 
     &-ItemOptionLabel {

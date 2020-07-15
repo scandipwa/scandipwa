@@ -110,12 +110,18 @@ export default class CartItem extends PureComponent {
     }
 
     renderItemOptions(itemOptions) {
+        const { isLikeTable } = this.props;
+        
         if (!itemOptions.length) {
             return null;
         }
 
         return (
-            <div block="CartItem" elem="ItemOptionsWrapper">
+            <div
+              block="CartItem"
+              elem="ItemOptionsWrapper"
+              mods={ { isLikeTable } }
+            >
                 { itemOptions.map(({ label, values, id }) => (
                     <div
                       block="CartItem"
