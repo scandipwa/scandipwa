@@ -11,18 +11,27 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TotalsType } from 'Type/MiniCart';
+// import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import './CheckoutOrderSummary.style';
 import {
     SHIPPING_STEP
 } from 'Route/Checkout/Checkout.component';
+import { CartItemType } from 'Type/MiniCart';
 
 /**
  * Checkout Order Summary component
  */
-class CheckoutOrderSummary extends Component {
+export default class CheckoutOrderSummary extends PureComponent {
+    static propTypes = {
+        totals: PropTypes.object({
+            items: PropTypes.arrayOf(CartItemType)
+        }).isRequired,
+        paymentTotals: PropTypes.object().isRequired,
+        checkoutStep: PropTypes.any.isRequired
+    };
+
     getDataSource(item) {
         const { configurableVariantIndex, variants } = item;
 
@@ -55,13 +64,11 @@ class CheckoutOrderSummary extends Component {
 
     renderItem = (item) => {
         const {
-            thumbnail: { path } = {},
-            short_description: { html } = {},
-            manufacturer,
-            name,
-            quantity,
-            price
+            // thumbnail: { path } = {},
+            // short_description: { html } = {},
+            item_id
         } = this.getDataSource(item);
+        const { totals: { quote_currency_code } } = this.props;
 
         return (
             <CartItem
@@ -127,7 +134,8 @@ class CheckoutOrderSummary extends Component {
             },
             paymentTotals: {
                 grand_total: payment_grand_total
-            }, checkoutStep
+            },
+            checkoutStep
         } = this.props;
 
         return (
