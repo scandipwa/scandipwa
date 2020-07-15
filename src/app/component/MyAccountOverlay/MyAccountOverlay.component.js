@@ -150,7 +150,7 @@ class MyAccountOverlay extends PureComponent {
                   onSubmitSuccess={ onForgotPasswordSuccess }
                   onSubmitError={ onFormError }
                 >
-                    <Field 
+                    <Field
                       type="text"
                       id="email"
                       name="email"
@@ -258,7 +258,7 @@ class MyAccountOverlay extends PureComponent {
                     </fieldset>
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>{ __('Sign-Up Information') }</legend>
-                        <Field 
+                        <Field
                           type="text"
                           label={ __('Email') }
                           id="email"
