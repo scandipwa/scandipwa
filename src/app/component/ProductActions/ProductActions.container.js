@@ -238,7 +238,7 @@ export class ProductActionsContainer extends PureComponent {
             return 'https://schema.org/OutOfStock';
         }
 
-        return 'https://schema.org/InStock'
+        return 'https://schema.org/InStock';
     }
 
     getOfferType() {
