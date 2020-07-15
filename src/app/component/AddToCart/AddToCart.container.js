@@ -1,4 +1,3 @@
-/* eslint-disable fp/no-let, fp/no-loops */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,7 +13,11 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isSignedIn } from 'Util/Auth';
-import { CONFIGURABLE, GROUPED, BUNDLE } from 'Util/Product';
+import {
+    CONFIGURABLE,
+    GROUPED,
+    BUNDLE
+} from 'Util/Product';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { showNotification } from 'Store/Notification';
@@ -62,85 +65,120 @@ export class AddToCartContainer extends PureComponent {
         buttonClick: this.buttonClick.bind(this)
     };
 
-    _validateAddToCart() {
+    validationMap = {
+        [CONFIGURABLE]: this.validateConfigurableProduct.bind(this),
+        [GROUPED]: this.validateGroupedProduct.bind(this),
+        [BUNDLE]: this.validateBundleProduct.bind(this)
+    };
+
+    addToCartHandlerMap = {
+        [CONFIGURABLE]: this.addConfigurableProductToCart.bind(this),
+        [GROUPED]: this.addGroupedProductToCart.bind(this)
+    };
+
+    validateConfigurableProduct() {
         const {
             configurableVariantIndex,
-            groupedProductQuantity,
-            productOptionsData,
             showNotification,
-            product,
             product: {
-                type_id,
-                variants = [],
-                items
+                variants = []
             }
         } = this.props;
 
-        switch (type_id) {
-        case CONFIGURABLE:
-            if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
-                showNotification('info', __('Please select product options!'));
-                return false;
-            }
+        if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
+            showNotification('info', __('Please select product options!'));
+            return false;
+        }
 
-            const { stock_status: configurableStock } = variants[configurableVariantIndex];
+        const { stock_status: configurableStock } = variants[configurableVariantIndex];
 
-            if (configurableStock !== 'IN_STOCK') {
-                showNotification('info', __('Sorry! The selected product option is out of stock!'));
-                return false;
-            }
-
-            break;
-        case GROUPED:
-            const isAllItemsAvailable = items.every(({ product: { id } }) => groupedProductQuantity[id]);
-
-            if (!isAllItemsAvailable) {
-                showNotification('info', __('Sorry! Child product quantities are invalid!'));
-                return false;
-            }
-
-            break;
-        case BUNDLE:
-            const [{ options }] = items;
-
-            options.reduce((acc, { product: { stock_status } }) => {
-                if (stock_status !== 'IN_STOCK') {
-                    showNotification('info', __('Sorry! The product is out of stock!'));
-                    return false;
-                }
-
-                return acc;
-            }, []);
-
-            const validateBundleOptions = this.checkProductOptionsValidation(productOptionsData, true);
-
-            if (!validateBundleOptions) {
-                showNotification('info', __('Please select required option!'));
-                return false;
-            }
-
-            break;
-        default:
-            const { stock_status } = product;
-
-            if (stock_status !== 'IN_STOCK') {
-                showNotification('info', __('Sorry! The product is out of stock!'));
-                return false;
-            }
-
-            const validateCustomizableOptions = this.checkProductOptionsValidation(productOptionsData);
-
-            if (!validateCustomizableOptions) {
-                showNotification('info', __('Please select required option!'));
-                return false;
-            }
+        if (configurableStock !== 'IN_STOCK') {
+            showNotification('info', __('Sorry! The selected product option is out of stock!'));
+            return false;
         }
 
         return true;
     }
 
-    checkProductOptionsValidation(productOptionsData, isBundle = false) {
-        if (productOptionsData && productOptionsData.requiredOptions.length) {
+    validateGroupedProduct() {
+        const {
+            groupedProductQuantity,
+            showNotification,
+            product: {
+                items
+            }
+        } = this.props;
+
+        const isAllItemsAvailable = items.every(({ product: { id } }) => groupedProductQuantity[id]);
+
+        if (!isAllItemsAvailable) {
+            showNotification('info', __('Sorry! Child product quantities are invalid!'));
+            return false;
+        }
+
+        return true;
+    }
+
+    validateBundleProduct() {
+        const {
+            productOptionsData,
+            showNotification,
+            product: {
+                items
+            }
+        } = this.props;
+
+        const [{ options }] = items;
+
+        options.reduce((acc, { product: { stock_status } }) => {
+            if (stock_status !== 'IN_STOCK') {
+                showNotification('info', __('Sorry! The product is out of stock!'));
+                return false;
+            }
+
+            return acc;
+        }, []);
+
+        const validateBundleOptions = this.validateCustomizableOptions(productOptionsData, true);
+
+        if (!validateBundleOptions) {
+            showNotification('info', __('Please select required option!'));
+            return false;
+        }
+
+        return true;
+    }
+
+    validateSimpleProduct() {
+        const {
+            productOptionsData,
+            showNotification,
+            product: {
+                stock_status
+            }
+        } = this.props;
+
+        if (stock_status !== 'IN_STOCK') {
+            showNotification('info', __('Sorry! The product is out of stock!'));
+            return false;
+        }
+
+        const validateCustomizableOptions = this.validateCustomizableOptions(productOptionsData);
+
+        if (!validateCustomizableOptions) {
+            showNotification('info', __('Please select required option!'));
+            return false;
+        }
+
+        return true;
+    }
+
+    validateCustomizableOptions(productOptionsData, isBundle = false) {
+        const {
+            requiredOptions = {}
+        } = productOptionsData || {};
+
+        if (requiredOptions.length) {
             const {
                 productOptions,
                 productOptionsMulti,
@@ -158,93 +196,129 @@ export class AddToCartContainer extends PureComponent {
     }
 
     validateProductOptions(items, requiredOptions, isBundle = false) {
-        let status = true;
-
-        for (let i = 0; i < requiredOptions.length; i++) {
-            let counter = 0;
-
-            for (let j = 0; j < items.length; j++) {
-                if (isBundle) {
-                    const { id } = items[j];
-
-                    if (requiredOptions[i] === id) {
-                        counter++;
-                    }
-                } else {
-                    const { option_id } = items[j];
-
-                    if (requiredOptions[i] === option_id) {
-                        counter++;
-                    }
-                }
-            }
-
-            if (counter === 0) {
-                status = false;
-                break;
-            }
-        }
-
-        return status;
+        // Make sure EVERY required option is FOUND in selected items
+        return requiredOptions.every(requiredOption => (
+            items.find((item) => {
+                const { id, option_id } = item;
+                const matchWith = isBundle ? id : option_id;
+                return requiredOption === matchWith;
+            })
+        ));
     }
 
-    buttonClick() {
+    validateAddToCart() {
+        const {
+            product: { type_id }
+        } = this.props;
+
+        const validationRule = this.validationMap[type_id];
+
+        if (validationRule) {
+            return validationRule();
+        }
+
+        return this.validateSimpleProduct();
+    }
+
+    addGroupedProductToCart() {
         const {
             product,
-            onProductValidationError,
-            configurableVariantIndex,
+            product: { items },
             groupedProductQuantity,
+            addProduct
+        } = this.props;
+
+        Promise.all(items.map((item) => {
+            const { product: groupedProductItem } = item;
+
+            const newProduct = {
+                ...groupedProductItem,
+                parent: product
+            };
+
+            const quantity = groupedProductQuantity[groupedProductItem.id];
+
+            if (!quantity) {
+                return Promise.resolve();
+            }
+
+            return addProduct({
+                product: newProduct,
+                quantity
+            });
+        })).then(
+            () => this.afterAddToCart(),
+            () => this.resetLoading()
+        );
+    }
+
+    addConfigurableProductToCart() {
+        const {
+            product,
+            quantity,
+            addProduct,
+            configurableVariantIndex,
+            productOptionsData
+        } = this.props;
+
+        addProduct({
+            product: {
+                ...product,
+                configurableVariantIndex
+            },
+            quantity,
+            productOptionsData
+        }).then(
+            () => this.afterAddToCart(),
+            () => this.resetLoading()
+        );
+    }
+
+    addSimpleProductToCart() {
+        const {
+            product,
             quantity,
             addProduct,
             productOptionsData
         } = this.props;
 
-        const { variants, type_id } = product;
+        addProduct({
+            product,
+            quantity,
+            productOptionsData
+        }).then(
+            () => this.afterAddToCart(),
+            () => this.resetLoading()
+        );
+    }
 
-        if (!this._validateAddToCart()) {
+    addProductToCart() {
+        const {
+            product: { type_id }
+        } = this.props;
+
+        const addToCartHandler = this.addToCartHandlerMap[type_id];
+
+        if (addToCartHandler) {
+            addToCartHandler();
+            return;
+        }
+
+        this.addSimpleProductToCart();
+    }
+
+    buttonClick() {
+        const {
+            product: { type_id },
+            onProductValidationError
+        } = this.props;
+
+        if (!this.validateAddToCart()) {
             onProductValidationError(type_id);
             return;
         }
 
-        this.setState({ isLoading: true });
-
-        if (type_id === 'grouped') {
-            const { items } = product;
-
-            Promise.all(items.map((item) => {
-                const { product: groupedProductItem } = item;
-
-                groupedProductItem.parent = product;
-                const quantity = groupedProductQuantity[groupedProductItem.id];
-                if (!quantity) {
-                    return Promise.resolve();
-                }
-
-                return addProduct({
-                    product: groupedProductItem,
-                    quantity
-                });
-            })).then(() => this._afterAdded());
-
-            return;
-        }
-
-        const productToAdd = variants
-            ? {
-                ...product,
-                configurableVariantIndex
-            }
-            : product;
-
-        addProduct({
-            product: productToAdd,
-            quantity,
-            productOptionsData
-        }).then(
-            () => this._afterAdded()
-        ).catch(
-            () => this.resetLoading()
-        );
+        this.setState({ isLoading: true }, () => this.addProductToCart());
     }
 
     resetLoading() {
@@ -279,7 +353,7 @@ export class AddToCartContainer extends PureComponent {
         removeFromWishlist({ item_id, sku, noMessage: true });
     }
 
-    _afterAdded() {
+    afterAddToCart() {
         const {
             showNotification,
             setQuantityToDefault

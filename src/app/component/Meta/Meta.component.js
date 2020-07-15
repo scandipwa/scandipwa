@@ -33,7 +33,11 @@ export default class Meta extends PureComponent {
         default_title: PropTypes.string.isRequired,
         title_prefix: PropTypes.string.isRequired,
         title_suffix: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired
+        title: PropTypes.string
+    };
+
+    static defaultProps = {
+        title: ''
     };
 
     renderTitle() {

@@ -50,7 +50,44 @@ export default class CartItem extends PureComponent {
         isLikeTable: false
     };
 
-    renderConfiguration() {
+    renderProductConfigurationOption = ([key, attribute]) => {
+        const {
+            item: {
+                product: {
+                    configurable_options
+                }
+            }
+        } = this.props;
+
+        const { attribute_code, attribute_value } = attribute;
+
+        if (!Object.keys(configurable_options).includes(key)) {
+            return null;
+        }
+
+        const {
+            [attribute_code]: { // configurable option attribute
+                attribute_options: {
+                    [attribute_value]: { // attribute option value label
+                        label
+                    }
+                }
+            }
+        } = configurable_options;
+
+        return (
+            <li
+              key={ attribute_code }
+              aria-label={ attribute_code }
+              block="CartItem"
+              elem="Option"
+            >
+                { label }
+            </li>
+        );
+    };
+
+    renderProductConfigurations() {
         const {
             item: {
                 product: {
@@ -66,8 +103,11 @@ export default class CartItem extends PureComponent {
             return null;
         }
 
-        const product = getCurrentProduct() || {};
-        const { attributes = [] } = product;
+        const { attributes = [] } = getCurrentProduct() || {};
+
+        if (!Object.entries(attributes).length) {
+            return null;
+        }
 
         return (
             <ul
@@ -75,43 +115,64 @@ export default class CartItem extends PureComponent {
               elem="Options"
               mods={ { isLikeTable } }
             >
-                { Object.entries(attributes).map(([key, { attribute_code, attribute_value }]) => (
-                    Object.keys(configurable_options).includes(key) && (
-                        <li
-                          key={ attribute_code }
-                          aria-label={ attribute_code }
-                          block="CartItem"
-                          elem="Option"
-                        >
-                            { configurable_options[attribute_code].attribute_options[attribute_value].label }
-                        </li>
-                    ))) }
+                { Object.entries(attributes).map(this.renderProductConfigurationOption) }
             </ul>
         );
     }
 
-    renderContent() {
-        const { isLikeTable, linkTo } = this.props;
+    renderWrapper() {
+        const { linkTo } = this.props;
 
         return (
             <Link to={ linkTo } block="CartItem" elem="Link">
                 <figure block="CartItem" elem="Wrapper">
                     { this.renderImage() }
-                    <figcaption
-                      block="CartItem"
-                      elem="Content"
-                      mods={ { isLikeTable } }
-                    >
-                        { this.renderProductDetails() }
-                    </figcaption>
+                    { this.renderContent() }
                 </figure>
             </Link>
         );
     }
 
-    renderItemOptions(itemOptions) {
+    renderProductOptionValue = (optionValue) => {
+        const { label, value } = optionValue;
+
+        return (
+            <div
+              block="CartItem"
+              elem="ItemOptionValue"
+              key={ label }
+            >
+                { label || value }
+            </div>
+        );
+    };
+
+    renderProductOption = (option) => {
+        const { label, values, id } = option;
+
+        return (
+            <div
+              block="CartItem"
+              elem="ItemOption"
+              key={ id }
+            >
+                <div
+                  block="CartItem"
+                  elem="ItemOptionLabel"
+                  key={ `label-${ id }` }
+                >
+                    { `${ label }:` }
+                </div>
+                <div block="CartItem" elem="ItemOptionValues">
+                    { values.map(this.renderProductOptionValue) }
+                </div>
+            </div>
+        );
+    };
+
+    renderProductOptions(itemOptions) {
         const { isLikeTable } = this.props;
-        
+
         if (!itemOptions.length) {
             return null;
         }
@@ -122,72 +183,73 @@ export default class CartItem extends PureComponent {
               elem="ItemOptionsWrapper"
               mods={ { isLikeTable } }
             >
-                { itemOptions.map(({ label, values, id }) => (
-                    <div
-                      block="CartItem"
-                      elem="ItemOption"
-                      key={ id }
-                    >
-                        <div
-                          block="CartItem"
-                          elem="ItemOptionLabel"
-                          key={ `label-${ id }` }
-                        >
-                            { `${ label }:` }
-                        </div>
-                        <div block="CartItem" elem="ItemOptionValues">
-                            { values.map(({ label, value }) => (
-                                <div
-                                  block="CartItem"
-                                  elem="ItemOptionValue"
-                                  key={ label }
-                                >
-                                    { label || value }
-                                </div>
-                            )) }
-                        </div>
-                    </div>
-                )) }
+                { itemOptions.map(this.renderProductOption) }
             </div>
         );
     }
 
-    renderProductDetails() {
+    renderProductName() {
+        const {
+            item: {
+                product: {
+                    name
+                }
+            }
+        } = this.props;
+
+        return (
+            <p
+              block="CartItem"
+              elem="Heading"
+            >
+                { name }
+            </p>
+        );
+    }
+
+    renderProductPrice() {
         const {
             isLikeTable,
             currency_code,
             item: {
-                row_total,
-                product: {
-                    name
-                },
+                row_total
+            }
+        } = this.props;
+
+        return (
+            <CartItemPrice
+              row_total={ row_total }
+              currency_code={ currency_code }
+              mix={ {
+                  block: 'CartItem',
+                  elem: 'Price',
+                  mods: { isLikeTable }
+              } }
+            />
+        );
+    }
+
+    renderContent() {
+        const {
+            isLikeTable,
+            item: {
                 customizable_options,
                 bundle_options
             }
         } = this.props;
 
         return (
-            <>
-                <p
-                  block="CartItem"
-                  elem="Heading"
-                  itemProp="name"
-                >
-                    { name }
-                </p>
-                { this.renderItemOptions(customizable_options) }
-                { this.renderItemOptions(bundle_options) }
-                { this.renderConfiguration() }
-                <CartItemPrice
-                  row_total={ row_total }
-                  currency_code={ currency_code }
-                  mix={ {
-                      block: 'CartItem',
-                      elem: 'Price',
-                      mods: { isLikeTable }
-                  } }
-                />
-            </>
+            <figcaption
+              block="CartItem"
+              elem="Content"
+              mods={ { isLikeTable } }
+            >
+                { this.renderProductName() }
+                { this.renderProductOptions(customizable_options) }
+                { this.renderProductOptions(bundle_options) }
+                { this.renderProductConfigurations() }
+                { this.renderProductPrice() }
+            </figcaption>
         );
     }
 
@@ -251,7 +313,6 @@ export default class CartItem extends PureComponent {
                   style={ { display: 'none' } }
                   alt={ name }
                   src={ thumbnail }
-                  itemProp="image"
                 />
             </>
         );
@@ -261,13 +322,9 @@ export default class CartItem extends PureComponent {
         const { isLoading } = this.props;
 
         return (
-            <li
-              block="CartItem"
-              itemScope
-              itemType="http://schema.org/Product"
-            >
+            <li block="CartItem">
                 <Loader isLoading={ isLoading } />
-                { this.renderContent() }
+                { this.renderWrapper() }
                 { this.renderActions() }
             </li>
         );

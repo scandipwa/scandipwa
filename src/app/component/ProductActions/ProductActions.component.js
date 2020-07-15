@@ -22,12 +22,12 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import GroupedProductList from 'Component/GroupedProductsList';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
-import { ProductType } from 'Type/ProductList';
+import { ProductType, PriceType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductBundleItems from 'Component/ProductBundleItems';
 import {
-    GROUPED, CONFIGURABLE, SIMPLE, BUNDLE
+    GROUPED, SIMPLE, BUNDLE
 } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
@@ -58,69 +58,33 @@ export default class ProductActions extends PureComponent {
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
+        onProductValidationError: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
-        selectedBundlePrice: PropTypes.number.isRequired,
-        setBundlePrice: PropTypes.func.isRequired
+        setBundlePrice: PropTypes.func.isRequired,
+        productPrice: PriceType.isRequired,
+        productName: PropTypes.string,
+        offerCount: PropTypes.number.isRequired,
+        offerType: PropTypes.string.isRequired,
+        stockMeta: PropTypes.string.isRequired,
+        metaLink: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        configurableVariantIndex: 0
+        configurableVariantIndex: 0,
+        productName: ''
     };
 
     configurableOptionsRef = createRef();
 
     groupedProductsRef = createRef();
 
-    onConfigurableProductError = this.onProductError.bind(this, this.configurableOptionsRef);
-
-    onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
-
-    onProductError(ref) {
-        if (!ref) {
-            return;
-        }
-        const { current } = ref;
-
-        current.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-
-        current.classList.remove('animate');
-        // eslint-disable-next-line no-unused-expressions
-        current.offsetWidth; // trigger a DOM reflow
-        current.classList.add('animate');
-    }
-
-    onProductValidationError = (type) => {
-        switch (type) {
-        case CONFIGURABLE:
-            this.onConfigurableProductError();
-            break;
-        case GROUPED:
-            this.onGroupedProductError();
-            break;
-        default:
-            break;
-        }
-    };
-
     renderStock(stockStatus) {
-        return (
-            (stockStatus === 'OUT_OF_STOCK') ? __('Out of stock') : __('In stock')
-        );
-    }
+        if (stockStatus === 'OUT_OF_STOCK') {
+            return __('Out of stock');
+        }
 
-    renderStockMeta(stockStatus) {
-        return (
-            (stockStatus === 'OUT_OF_STOCK') ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock'
-        );
-    }
-
-    getMetaLink() {
-        const { getLink } = this.props;
-        return window.location.origin + getLink().replace(/\?.*/, '');
+        return __('In stock');
     }
 
     renderSkuAndStock() {
@@ -354,6 +318,7 @@ export default class ProductActions extends PureComponent {
             product,
             quantity,
             groupedProductQuantity,
+            onProductValidationError,
             productOptionsData
         } = this.props;
 
@@ -364,38 +329,45 @@ export default class ProductActions extends PureComponent {
               mix={ { block: 'ProductActions', elem: 'AddToCart' } }
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
-              onProductValidationError={ this.onProductValidationError }
+              onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
             />
         );
     }
 
-    getOfferCount() {
-        const { product: { variants } } = this.props;
+    renderOfferCount() {
+        const { offerCount } = this.props;
 
-        if (variants) {
-            return (variants.length >= 1 ? variants.length : 0);
+        if (offerCount > 1) {
+            return (
+                <meta
+                  itemProp="offerCount"
+                  content={ offerCount }
+                />
+            );
         }
 
-        return 0;
+        return null;
     }
 
-    renderSchema(name, stockStatus) {
-        const offerCount = this.getOfferCount();
+    renderSchema() {
+        const {
+            productName,
+            stockMeta,
+            metaLink
+        } = this.props;
 
         return (
             <>
-            { offerCount > 1
-                ? <meta itemProp="offerCount" content={ offerCount } />
-                : null }
-                <meta itemProp="availability" content={ this.renderStockMeta(stockStatus) } />
+                { this.renderOfferCount() }
+                <meta itemProp="availability" content={ stockMeta } />
                 <a
                   block="ProductActions"
                   elem="Schema-Url"
                   itemProp="url"
-                  href={ this.getMetaLink() }
+                  href={ metaLink }
                 >
-                    { name }
+                    { productName }
                 </a>
             </>
         );
@@ -403,37 +375,16 @@ export default class ProductActions extends PureComponent {
 
     renderPriceWithSchema() {
         const {
-            product,
-            product: { variants = [], type_id },
-            configurableVariantIndex,
-            selectedBundlePrice
+            productPrice,
+            offerCount
         } = this.props;
-
-        const { name, price_range, stock_status } = variants[configurableVariantIndex] || product;
-
-        // eslint-disable-next-line fp/no-let
-        let productPrice;
-
-        if (type_id === BUNDLE) {
-            const { price_range: { minimum_price: { regular_price: { currency } } } } = product;
-            const priceValue = { value: selectedBundlePrice, currency };
-
-            productPrice = {
-                minimum_price: {
-                    final_price: priceValue,
-                    regular_price: priceValue
-                }
-            };
-        } else {
-            productPrice = price_range;
-        }
 
         return (
             <div>
-                { this.renderSchema(name, stock_status) }
+                { this.renderSchema() }
                 <ProductPrice
                   isSchemaRequired
-                  variantsCount={ this.getOfferCount() }
+                  variantsCount={ offerCount }
                   price={ productPrice }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
@@ -441,18 +392,13 @@ export default class ProductActions extends PureComponent {
         );
     }
 
-    getOfferType(variants) {
-        if (variants) {
-            return (variants.length >= 1 ? 'https://schema.org/AggregateOffer' : 'https://schema.org/Offer');
-        }
-
-        return 'https://schema.org/Offer';
-    }
-
     renderPriceWithGlobalSchema() {
-        const { product: { type_id, variants } } = this.props;
-
-        const offerType = this.getOfferType(variants);
+        const {
+            offerType,
+            product: {
+                type_id
+            }
+        } = this.props;
 
         if (type_id === GROUPED) {
             return null;
@@ -475,7 +421,8 @@ export default class ProductActions extends PureComponent {
         const {
             product,
             quantity,
-            configurableVariantIndex
+            configurableVariantIndex,
+            onProductValidationError
         } = this.props;
 
         return (
@@ -483,13 +430,20 @@ export default class ProductActions extends PureComponent {
               product={ product }
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
-              onProductValidationError={ this.onProductValidationError }
+              onProductValidationError={ onProductValidationError }
             />
         );
     }
 
     renderReviews() {
-        const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
+        const {
+            product: {
+                review_summary: {
+                    rating_summary,
+                    review_count
+                } = {}
+            }
+        } = this.props;
 
         if (!rating_summary) {
             return null;
@@ -515,7 +469,9 @@ export default class ProductActions extends PureComponent {
     renderGroupedItems() {
         const {
             product,
-            product: { type_id },
+            product: {
+                type_id
+            },
             groupedProductQuantity,
             setGroupedProductQuantity,
             clearGroupedProductQuantity
