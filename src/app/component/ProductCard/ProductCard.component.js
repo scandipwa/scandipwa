@@ -72,7 +72,7 @@ export default class ProductCard extends PureComponent {
                                 block: 'ProductCard',
                                     elem: 'PriceBadge'
                             }
-                          }
+                    }
                 >
                     { __('As Low as') }
                 </p>

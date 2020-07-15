@@ -31,6 +31,7 @@
         padding: 1rem;
         display: flex;
         flex-wrap: wrap;
+        padding-top: 23px;
     }
 
     &-Name,
@@ -119,6 +120,8 @@
         color: var(--cart-item-subheading-color);
         margin-right: 5px;
         font-size: smaller;
+        position: absolute;
+        top: 0;
     }
 
     &-Figure {

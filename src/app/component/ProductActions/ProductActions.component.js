@@ -364,6 +364,27 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderConfigurablePriceBadge() {
+        const { configurableVariantIndex, product:{ type_id} } = this.props;
+
+        if (type_id != CONFIGURABLE || configurableVariantIndex > -1) {
+            return null;
+        }
+        
+        return (
+            <p
+                mix = {
+                        {
+                            block: 'ProductActions',
+                            elem: 'ConfigurablePriceBadge'
+                        }
+                }
+            >
+                {__('As Low as')}
+            </p>
+        )
+    }
+
     renderPriceWithSchema() {
         const {
             product,
@@ -375,6 +396,7 @@ export default class ProductActions extends PureComponent {
 
         return (
             <div>
+                { this.renderConfigurablePriceBadge() }
                 { this.renderSchema(name, stock_status) }
                 <ProductPrice
                   isSchemaRequired
