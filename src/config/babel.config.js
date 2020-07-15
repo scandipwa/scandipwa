@@ -46,11 +46,11 @@ const plugins = [
             }
         }
     ],
-    [
-        'console-source', {
-            segments: 1
-        }
-    ]
+    // [
+    //     'console-source', {
+    //         segments: 1
+    //     }
+    // ]
 ];
 
 module.exports = {
