@@ -36,6 +36,7 @@
     }
 
     &_imageStatus_0,
+    &-Image_isLoading,
     &_isPlaceholder {
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);

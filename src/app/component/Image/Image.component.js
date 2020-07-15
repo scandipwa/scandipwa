@@ -142,6 +142,7 @@ export default class Image extends PureComponent {
                   elem="Image"
                   src={ src || '' }
                   alt={ alt }
+                  mods={ { isLoading: imageStatus === IMAGE_LOADING } }
                   style={ style }
                   onLoad={ this.onLoad }
                   onError={ this.onError }
