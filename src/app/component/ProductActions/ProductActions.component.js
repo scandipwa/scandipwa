@@ -374,9 +374,9 @@ export default class ProductActions extends PureComponent {
         return (
             <p
               mix={ {
-                    block: 'ProductActions',
-                    elem: 'ConfigurablePriceBadge'
-                } }
+                  block: 'ProductActions',
+                  elem: 'ConfigurablePriceBadge'
+              } }
             >
                 { __('As Low as') }
             </p>
