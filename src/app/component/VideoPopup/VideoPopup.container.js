@@ -12,7 +12,7 @@
 import { connect } from 'react-redux';
 import VideoPopup, { VIDEO_POPUP_ID } from './VideoPopup.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[VIDEO_POPUP_ID] || {}
 });
 

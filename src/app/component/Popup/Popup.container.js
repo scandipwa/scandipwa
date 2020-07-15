@@ -20,15 +20,15 @@ import { POPUP } from 'Component/Header';
 
 import Popup from './Popup.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     payload: state.PopupReducer.popupPayload
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 export class PopupContainer extends PureComponent {

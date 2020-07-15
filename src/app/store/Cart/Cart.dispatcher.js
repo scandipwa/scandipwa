@@ -47,7 +47,7 @@ export class CartDispatcher {
     _createEmptyCart(dispatch) {
         return fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
             ({ createEmptyCart }) => createEmptyCart,
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -149,7 +149,7 @@ export class CartDispatcher {
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -161,7 +161,7 @@ export class CartDispatcher {
                 this._updateCartData(cartData, dispatch);
                 dispatch(showNotification('success', __('Coupon was applied!')));
             },
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -173,7 +173,7 @@ export class CartDispatcher {
                 this._updateCartData(cartData, dispatch);
                 dispatch(showNotification('success', __('Coupon was removed!')));
             },
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -189,12 +189,12 @@ export class CartDispatcher {
 
                 if (childProductLinks) {
                     Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
-                        .map(item => links.push(item));
+                        .map((item) => links.push(item));
                 }
 
                 if (product_links) {
                     Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
-                        .map(item => links.push(item));
+                        .map((item) => links.push(item));
                 }
 
                 return links;

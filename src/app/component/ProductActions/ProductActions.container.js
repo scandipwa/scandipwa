@@ -20,7 +20,7 @@ import {
 } from 'Util/Product';
 import ProductActions from './ProductActions.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
 

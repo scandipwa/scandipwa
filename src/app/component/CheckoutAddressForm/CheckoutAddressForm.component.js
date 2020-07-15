@@ -112,12 +112,12 @@ class CheckoutAddressForm extends MyAccountAddressForm {
 
         fieldMap.city = {
             ...city,
-            onChange: value => this.onChange('city', value)
+            onChange: (value) => this.onChange('city', value)
         };
 
         fieldMap.postcode = {
             ...postcode,
-            onChange: value => this.onChange('postcode', value)
+            onChange: (value) => this.onChange('postcode', value)
         };
 
         return fieldMap;
@@ -128,7 +128,7 @@ class CheckoutAddressForm extends MyAccountAddressForm {
         const { region_string } = regionFieldData;
 
         if (region_string) {
-            regionFieldData.region_string.onChange = v => this.onChange('region', v);
+            regionFieldData.region_string.onChange = (v) => this.onChange('region', v);
         }
 
         return regionFieldData;

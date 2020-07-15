@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import { BUNDLE, CONFIGURABLE, SIMPLE } from 'Util/Product';
 
 /**
@@ -47,7 +46,7 @@ export const getIndexedAttributeOption = (option) => {
     };
 };
 
-export const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes, attribute) => {
+export const getIndexedAttributes = (attributes) => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
 
     return {
@@ -81,7 +80,7 @@ export const getIndexedConfigurableOptions = (configurableOptions, indexedAttrib
     }, {})
 );
 
-export const getIndexedVariants = variants => variants.map(({ product }) => {
+export const getIndexedVariants = (variants) => variants.map(({ product }) => {
     const { attributes } = product;
     return {
         ...product,
@@ -96,7 +95,7 @@ export const getIndexedVariants = variants => variants.map(({ product }) => {
  * @returns {number}
  */
 export const getVariantIndex = (variants, options) => variants
-    .findIndex(variant => checkEveryOption(variant.attributes, options));
+    .findIndex((variant) => checkEveryOption(variant.attributes, options));
 
 export const getVariantsIndexes = (variants, options) => Object.entries(variants)
     .reduce((indexes, [index, variant]) => {
@@ -136,7 +135,7 @@ export const getIndexedCustomOption = (option) => {
     return null;
 };
 
-export const getIndexedCustomOptions = options => options.reduce(
+export const getIndexedCustomOptions = (options) => options.reduce(
     (acc, option) => {
         const indexedOption = getIndexedCustomOption(option);
 
@@ -168,9 +167,9 @@ export const getIndexedProduct = (product) => {
     };
 };
 
-export const getIndexedProducts = products => products.map(getIndexedProduct);
+export const getIndexedProducts = (products) => products.map(getIndexedProduct);
 
-export const getIndexedParameteredProducts = products => Object.entries(products)
+export const getIndexedParameteredProducts = (products) => Object.entries(products)
     .reduce((products, [id, product]) => ({
         ...products,
         [id]: getIndexedProduct(product)

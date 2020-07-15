@@ -144,7 +144,7 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
         const { value, quantity, option_id } = option;
 
         if (!id) {
-            const filteredOptions = selectedDropdownOptions.filter(item => item.id !== option_id);
+            const filteredOptions = selectedDropdownOptions.filter((item) => item.id !== option_id);
             this.setState({ selectedDropdownOptions: filteredOptions });
 
             return;
@@ -153,7 +153,7 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
         const optionData = { id, quantity, value: [value] };
 
         if (selectedDropdownOptions.some(({ id: val }) => val === id)) {
-            const filteredItems = selectedDropdownOptions.filter(item => item.id !== id);
+            const filteredItems = selectedDropdownOptions.filter((item) => item.id !== id);
             this.setState({ selectedDropdownOptions: filteredItems.concat(optionData) });
 
             return;
@@ -171,7 +171,7 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
         const { selectedCheckboxValues } = this.state;
 
         this.setState({
-            selectedCheckboxValues: selectedCheckboxValues.map(el => (
+            selectedCheckboxValues: selectedCheckboxValues.map((el) => (
                 JSON.stringify(el.value) === JSON.stringify(value) ? { ...el, quantity } : el
             ))
         });
@@ -185,7 +185,7 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
         if (selectedCheckboxValues.some(({ value: val }) => JSON.stringify([value]) === JSON.stringify(val))) {
             this.setState({
                 selectedCheckboxValues: selectedCheckboxValues.filter(
-                    item => JSON.stringify(item.value) !== JSON.stringify([value])
+                    (item) => JSON.stringify(item.value) !== JSON.stringify([value])
                 ) || []
             });
 

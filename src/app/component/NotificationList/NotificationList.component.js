@@ -30,7 +30,7 @@ export default class NotificationList extends PureComponent {
 
         return (
             <div block="NotificationList">
-                { Object.keys(notifications).map(id => (
+                { Object.keys(notifications).map((id) => (
                     <Notification
                       key={ id }
                       notificationId={ id }

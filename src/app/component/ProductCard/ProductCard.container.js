@@ -21,8 +21,8 @@ import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.addProductToCart(dispatch, options)
 });
 
 export class ProductCardContainer extends PureComponent {
@@ -198,6 +198,5 @@ export class ProductCardContainer extends PureComponent {
         );
     }
 }
-
 
 export default connect(null, mapDispatchToProps)(ProductCardContainer);

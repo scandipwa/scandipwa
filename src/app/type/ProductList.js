@@ -125,6 +125,10 @@ export const OptionsType = PropTypes.arrayOf(
     })
 );
 
+export const ItemsType = PropTypes.arrayOf(PropTypes.shape({}));
+
+export const PagesType = PropTypes.objectOf(ItemsType);
+
 export const ItemOptionsType = PropTypes.arrayOf(
     PropTypes.shape({
         can_change_quantity: PropTypes.bool,
@@ -135,7 +139,7 @@ export const ItemOptionsType = PropTypes.arrayOf(
         price: PropTypes.number,
         price_type: PropTypes.string,
         // eslint-disable-next-line no-use-before-define
-        product: ItemsType,
+        product: PropTypes.shape({}),
         quantity: PropTypes.number
     })
 );
@@ -190,10 +194,6 @@ export const ProductType = PropTypes.shape({
 export const FilterType = PropTypes.objectOf(
     PropTypes.arrayOf(PropTypes.string)
 );
-
-export const ItemsType = PropTypes.arrayOf(ProductType);
-
-export const PagesType = PropTypes.objectOf(ItemsType);
 
 export const FilterInputType = PropTypes.shape({
     categoryIds: PropTypes.number,

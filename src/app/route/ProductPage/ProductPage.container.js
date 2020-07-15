@@ -37,21 +37,21 @@ import {
 
 import ProductPage from './ProductPage.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product
 });
 
-export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+export const mapDispatchToProps = (dispatch) => ({
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
         ProductDispatcher.handleData(dispatch, options);
         LinkedProductsDispatcher.clearLinkedProducts(dispatch);
     },
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
+    updateMetaFromProduct: (product) => MetaDispatcher.updateWithProduct(product, dispatch)
 });
 
 export class ProductPageContainer extends PureComponent {

@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 import CookiePopup from './CookiePopup.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     cookieText: state.ConfigReducer.cookie_text,
     cookieLink: state.ConfigReducer.cookie_link
 });

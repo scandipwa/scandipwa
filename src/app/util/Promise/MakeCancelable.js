@@ -24,8 +24,8 @@ const makeCancelable = (promise) => {
 
     const wrappedPromise = new Promise((resolve, reject) => {
         promise.then(
-            val => (!hasCanceled_ && resolve(val)),
-            error => (!hasCanceled_ && reject(error))
+            (val) => (!hasCanceled_ && resolve(val)),
+            (error) => (!hasCanceled_ && reject(error))
         );
     });
 

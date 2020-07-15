@@ -32,7 +32,6 @@ export const CategoryFragment = {
     url_path: PropTypes.string
 };
 
-
 export const CategoryTreeType = PropTypes.shape({
     ...CategoryFragment,
     children: PropTypes.arrayOf(PropTypes.shape(CategoryFragment))

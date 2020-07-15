@@ -35,7 +35,6 @@ class Field {
         this._component = 'query';
     }
 
-
     /**
      * @returns {String|string}
      */
@@ -85,7 +84,7 @@ class Field {
             throw new Error('Argument must be array');
         }
 
-        fieldList.forEach(field => this.addField(field));
+        fieldList.forEach((field) => this.addField(field));
         return this;
     }
 
@@ -272,7 +271,6 @@ class Field {
     _aliasToString() {
         return this._alias ? `${ this._alias }:` : this._alias;
     }
-
 
     /**
      * Formats query selection elements as a string

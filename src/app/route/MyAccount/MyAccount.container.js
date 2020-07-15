@@ -35,16 +35,16 @@ import MyAccount from './MyAccount.component';
 
 export const MY_ACCOUNT_URL = '/my-account';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    updateMeta: meta => dispatch(updateMeta(meta))
+    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class MyAccountContainer extends PureComponent {

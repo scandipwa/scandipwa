@@ -15,7 +15,7 @@ const AUTH_TOKEN = 'auth_token';
 
 const ONE_HOUR = 3600;
 
-const setAuthorizationToken = token => BrowserDatabase.setItem(token, AUTH_TOKEN, ONE_HOUR);
+const setAuthorizationToken = (token) => BrowserDatabase.setItem(token, AUTH_TOKEN, ONE_HOUR);
 
 const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);
 

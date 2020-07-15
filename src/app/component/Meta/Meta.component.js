@@ -76,7 +76,7 @@ export default class Meta extends PureComponent {
             <>
                 { this.renderTitle() }
                 { this.renderCanonical() }
-                { metadata.map(tag => <meta key={ tag.name || tag.property } { ...tag } />) }
+                { metadata.map((tag) => <meta key={ tag.name || tag.property } { ...tag } />) }
             </>
         );
     }
