@@ -139,7 +139,7 @@ export default class SearchOverlay extends PureComponent {
             <p
               block="SearchOverlay"
               elem="Criteria"
-              mods={ { isVisible: !!searchCriteria } }
+              mods={ { isVisible: !!searchCriteria.trim() } }
             >
                 { __('Results for:') }
                 <strong>{ searchCriteria }</strong>
