@@ -69,9 +69,9 @@ export default class ProductCard extends PureComponent {
         return (
                 <p
                   mix={ {
-                                block: 'ProductCard',
-                                elem: 'PriceBadge'
-                            } }
+                      block: 'ProductCard',
+                      elem: 'PriceBadge'
+                  } }
                 >
                     { __('As Low as') }
                 </p>
