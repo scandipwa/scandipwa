@@ -65,18 +65,17 @@ export default class ProductCard extends PureComponent {
         if (!availableVisualOptions.length) {
             return null;
         }
+
         return (
                 <p
-                    mix = {
-                            {
+                  mix={ {
                                 block: 'ProductCard',
-                                    elem: 'PriceBadge'
-                            }
-                    }
+                                elem: 'PriceBadge'
+                            } }
                 >
                     { __('As Low as') }
                 </p>
-            );
+        );
     }
 
     renderProductPrice() {
@@ -90,8 +89,8 @@ export default class ProductCard extends PureComponent {
                 <>
                     { this.renderConfigurablePriceBadge() }
                     <ProductPrice
-                    price={ price }
-                    mix={ { block: 'ProductCard', elem: 'Price' } }
+                      price={ price_range }
+                      mix={ { block: 'ProductCard', elem: 'Price' } }
                     />
                 </>
         );

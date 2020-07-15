@@ -365,24 +365,22 @@ export default class ProductActions extends PureComponent {
     }
 
     renderConfigurablePriceBadge() {
-        const { configurableVariantIndex, product:{ type_id} } = this.props;
+        const { configurableVariantIndex, product : { type_id} } = this.props;
 
-        if (type_id != CONFIGURABLE || configurableVariantIndex > -1) {
+        if (type_id !== CONFIGURABLE || configurableVariantIndex > -1) {
             return null;
         }
-        
+
         return (
             <p
-                mix = {
-                        {
+                mix = { {
                             block: 'ProductActions',
                             elem: 'ConfigurablePriceBadge'
-                        }
-                }
+                        } }
             >
-                {__('As Low as')}
+                { __('As Low as') }
             </p>
-        )
+        );
     }
 
     renderPriceWithSchema() {
