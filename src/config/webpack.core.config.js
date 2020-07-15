@@ -73,7 +73,7 @@ module.exports = {
         }
     },
 
-    mode: 'production',
+    // mode: 'production',
 
     // devtool: 'source-map',
 
@@ -214,13 +214,13 @@ module.exports = {
         new BundleAnalyzerPlugin({
             analyzerPort: 1111,
             openAnalyzer: false
-        }),
-
-        new MinifyPlugin({
-            removeConsole: false,
-            removeDebugger: true
-        }, {
-            comments: false
         })
+
+        // new MinifyPlugin({
+        //     removeConsole: false,
+        //     removeDebugger: true
+        // }, {
+        //     comments: false
+        // })
     ]
 };
