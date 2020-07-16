@@ -17,7 +17,7 @@ import {
     PureComponent
 } from 'react';
 
-import Field from 'Component/Field';
+import Field from 'Component/Field/Field.component';
 import { ChildrenType, MixType } from 'Type/Common';
 import FormPortalCollector from 'Util/FormPortalCollector';
 
