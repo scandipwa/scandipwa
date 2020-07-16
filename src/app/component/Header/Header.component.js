@@ -20,12 +20,12 @@ import ClickOutside from 'Component/ClickOutside';
 import CmsBlock from 'Component/CmsBlock';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
-// import CartOverlay from 'Component/CartOverlay';
 import Menu from 'Component/Menu';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
-// import MyAccountOverlay from 'Component/MyAccountOverlay';
 import OfflineNotice from 'Component/OfflineNotice';
+import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { TotalsType } from 'Type/MiniCart';
@@ -37,10 +37,8 @@ import isMobile from 'Util/Mobile';
 import {
     CART, CART_EDITING, CART_OVERLAY, CATEGORY, CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, FILTER, MENU, MENU_SUBCATEGORY, PDP, POPUP, SEARCH
 } from './Header.config';
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 
 export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart" */ 'Component/CartOverlay'));
-export const SearchField = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */ 'Component/SearchField'));
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
 
 export default class Header extends NavigationAbstract {
@@ -203,8 +201,6 @@ export default class Header extends NavigationAbstract {
         return <Menu />;
     }
 
-    searchOverlayWasVisible = false;
-
     renderSearchField(isVisible = false) {
         const {
             searchCriteria,
@@ -214,36 +210,25 @@ export default class Header extends NavigationAbstract {
             onClearSearchButtonClick,
             navigationState: { name },
             isCheckout,
-            hideActiveOverlay,
-            activeOverlay
+            hideActiveOverlay
         } = this.props;
 
         if (isCheckout) {
             return null;
         }
 
-        if (activeOverlay === 'search') {
-            this.searchOverlayWasVisible = true;
-        }
-
-        if (!this.searchOverlayWasVisible) {
-            return this.renderOverlayFallback();
-        }
-
         return (
-            <Suspense fallback={ this.renderOverlayFallback() }>
-                <SearchField
-                  key="search"
-                  searchCriteria={ searchCriteria }
-                  onSearchOutsideClick={ onSearchOutsideClick }
-                  onSearchBarFocus={ onSearchBarFocus }
-                  onSearchBarChange={ onSearchBarChange }
-                  onClearSearchButtonClick={ onClearSearchButtonClick }
-                  isVisible={ isVisible }
-                  isActive={ name === SEARCH }
-                  hideActiveOverlay={ hideActiveOverlay }
-                />
-            </Suspense>
+            <SearchField
+              key="search"
+              searchCriteria={ searchCriteria }
+              onSearchOutsideClick={ onSearchOutsideClick }
+              onSearchBarFocus={ onSearchBarFocus }
+              onSearchBarChange={ onSearchBarChange }
+              onClearSearchButtonClick={ onClearSearchButtonClick }
+              isVisible={ isVisible }
+              isActive={ name === SEARCH }
+              hideActiveOverlay={ hideActiveOverlay }
+            />
         );
     }
 
@@ -301,7 +286,11 @@ export default class Header extends NavigationAbstract {
 
     accountOverlayWasVisible = false;
 
-    renderAccountOverlay(isVisible = false) {
+    renderOverlayFallback() {
+        return <div />;
+    }
+
+    renderAccountOverlay() {
         const {
             isCheckout,
             activeOverlay,
@@ -579,10 +568,6 @@ export default class Header extends NavigationAbstract {
                 </div>
             </div>
         );
-    }
-
-    renderOverlayFallback() {
-        return <div />;
     }
 
     render() {
