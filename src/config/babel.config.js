@@ -45,12 +45,6 @@ const plugins = [
                 SourceType: '../../../../../vendor/scandipwa/source/src/app/type/'
             }
         }
-    ],
-    // [
-    //     'console-source', {
-    //         segments: 1
-    //     }
-    // ]
 ];
 
 module.exports = {

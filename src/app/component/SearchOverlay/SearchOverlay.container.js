@@ -16,14 +16,14 @@ import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
 import SearchOverlay from './SearchOverlay.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     searchResults: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    makeSearchRequest: options => SearchBarDispatcher.handleData(dispatch, options),
+    makeSearchRequest: (options) => SearchBarDispatcher.handleData(dispatch, options),
     clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch)
 });
 

@@ -11,7 +11,7 @@
 
 export const UPDATE_META = 'UPDATE_META';
 
-export const updateMeta = metadata => ({
+export const updateMeta = (metadata) => ({
     type: UPDATE_META,
     payload: metadata
 });

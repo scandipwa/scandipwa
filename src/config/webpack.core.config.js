@@ -174,7 +174,10 @@ module.exports = {
 
         new CopyWebpackPlugin({
             patterns: [
-                { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
+                {
+                    from: path.resolve(projectRoot, 'src', 'public', 'assets'),
+                    to: './assets'
+                }
             ]
         }),
 

@@ -82,7 +82,6 @@ class MyAccountTabList extends PureComponent {
             this.renderLogoutTab()
         ];
 
-
         return (
             <ExpandableContent
               heading={ name }

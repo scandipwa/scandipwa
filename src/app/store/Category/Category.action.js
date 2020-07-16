@@ -16,7 +16,7 @@ export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
  * @param {String} categoryUrlPath url path Main Category object
  * @return {void}
  */
-export const updateCurrentCategory = category => ({
+export const updateCurrentCategory = (category) => ({
     type: UPDATE_CURRENT_CATEGORY,
     category
 });

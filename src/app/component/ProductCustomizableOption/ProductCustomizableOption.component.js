@@ -29,7 +29,8 @@ class ProductCustomizableOptions extends PureComponent {
         setDropdownValue: PropTypes.func.isRequired,
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
-        getDropdownOptions: PropTypes.func.isRequired
+        getDropdownOptions: PropTypes.func.isRequired,
+        requiredSelected: PropTypes.bool.isRequired
     };
 
     renderMap = {
@@ -52,8 +53,10 @@ class ProductCustomizableOptions extends PureComponent {
     };
 
     renderRequired(isRequired) {
+        const { requiredSelected } = this.props;
+
         // skip undefined and false
-        if (isRequired !== true) {
+        if (isRequired !== true || requiredSelected) {
             return null;
         }
 

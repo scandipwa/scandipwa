@@ -17,8 +17,8 @@ import { MediaItemType } from 'Type/ProductList';
 import { connect } from 'react-redux';
 import VideoThumbnail from './VideoThumbnail.component';
 
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(VIDEO_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showPopup: (payload) => dispatch(showPopup(VIDEO_POPUP_ID, payload))
 });
 
 /**

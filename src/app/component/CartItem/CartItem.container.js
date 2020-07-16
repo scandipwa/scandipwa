@@ -21,10 +21,10 @@ import { makeCancelable } from 'Util/Promise';
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
 
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-    changeItemQty: options => CartDispatcher.changeItemQty(dispatch, options),
-    removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.addProductToCart(dispatch, options),
+    changeItemQty: (options) => CartDispatcher.changeItemQty(dispatch, options),
+    removeProduct: (options) => CartDispatcher.removeProductFromCart(dispatch, options)
 });
 
 export class CartItemContainer extends PureComponent {
@@ -49,7 +49,7 @@ export class CartItemContainer extends PureComponent {
 
     componentWillUnmount() {
         if (this.handlers.length) {
-            [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+            [].forEach.call(this.handlers, (cancelablePromise) => cancelablePromise.cancel());
         }
     }
 

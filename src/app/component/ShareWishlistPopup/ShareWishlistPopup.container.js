@@ -18,9 +18,9 @@ import { WishlistQuery } from 'Query';
 import { fetchMutation } from 'Util/Request';
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 
-export const mapDispatchToProps = dispatch => ({
-    showNotification: message => dispatch(showNotification('success', __(message))),
-    showError: message => dispatch(showNotification('error', __(message))),
+export const mapDispatchToProps = (dispatch) => ({
+    showNotification: (message) => dispatch(showNotification('success', __(message))),
+    showError: (message) => dispatch(showNotification('error', __(message))),
     hidePopup: () => dispatch(showPopup('', {}))
 });
 
@@ -35,7 +35,7 @@ export class ShareWishlistPopupContainer extends PureComponent {
         const { hidePopup, showError, showNotification } = this.props;
         const { message, emails: initialEmails } = fields;
 
-        const emails = initialEmails.split(',').map(email => email.trim());
+        const emails = initialEmails.split(',').map((email) => email.trim());
 
         fetchMutation(WishlistQuery.getShareWishlistMutation({ message, emails })).then(
             () => {

@@ -34,7 +34,6 @@ export class ConfigQuery {
         ];
     }
 
-
     _getStoreListFields() {
         return [
             'name',

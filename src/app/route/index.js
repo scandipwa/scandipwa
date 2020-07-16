@@ -74,7 +74,7 @@ export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
@@ -85,8 +85,8 @@ export const mapStateToProps = state => ({
     isBigOffline: state.OfflineReducer.isBig
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class AppRouter extends PureComponent {
