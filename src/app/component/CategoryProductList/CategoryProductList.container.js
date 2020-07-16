@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
 
-const ProductListDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/ProductList/ProductList.dispatcher');
+const ProductListDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/ProductList/ProductList.dispatcher');
 
 export const mapStateToProps = state => ({
     pages: state.ProductListReducer.pages,

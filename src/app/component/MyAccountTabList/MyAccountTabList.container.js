@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import MyAccountTabList from './MyAccountTabList.component';
 
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
 
 export const mapDispatchToProps = dispatch => ({
     logout: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.logout(null, dispatch))

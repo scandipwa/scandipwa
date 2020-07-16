@@ -20,7 +20,7 @@ import { getExtensionAttributes } from 'Util/Product';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
 
-const WishlistDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
 export const mapStateToProps = state => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,

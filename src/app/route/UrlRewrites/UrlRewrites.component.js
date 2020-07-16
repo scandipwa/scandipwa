@@ -20,9 +20,9 @@ import {
     TYPE_CATEGORY, TYPE_CMS_PAGE, TYPE_NOTFOUND, TYPE_PRODUCT
 } from './UrlRewrites.config';
 
-export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "product" */ 'Route/ProductPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */ 'Route/CategoryPage'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'));
+export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
 
 /**
  * Additional types possible:

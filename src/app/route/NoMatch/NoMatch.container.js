@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 import NoMatch from './NoMatch.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
 
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: (breadcrumbs) => {

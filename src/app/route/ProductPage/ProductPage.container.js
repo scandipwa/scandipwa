@@ -30,10 +30,10 @@ import {
 
 import ProductPage from './ProductPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const LinkedProductsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/LinkedProducts/LinkedProducts.dispatcher');
-const MetaDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
-const ProductDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Product/Product.dispatcher');
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const LinkedProductsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/LinkedProducts/LinkedProducts.dispatcher');
+const MetaDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
+const ProductDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Product/Product.dispatcher');
 
 
 export const mapStateToProps = state => ({

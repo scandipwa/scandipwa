@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import CartCoupon from './CartCoupon.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 export const mapDispatchToProps = dispatch => ({
     applyCouponToCart: couponCode => CartDispatcher.then(({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)),

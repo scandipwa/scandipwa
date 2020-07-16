@@ -31,7 +31,7 @@ import {
     STATE_LOGGED_IN, STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
 
 
 export const mapStateToProps = state => ({

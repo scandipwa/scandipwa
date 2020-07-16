@@ -34,10 +34,10 @@ import {
 
 import CategoryPage from './CategoryPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const CategoryDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Category/Category.dispatcher');
-const MetaDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
-const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const CategoryDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Category/Category.dispatcher');
+const MetaDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
+const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
 
 
 export const mapStateToProps = state => ({

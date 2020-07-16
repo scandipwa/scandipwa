@@ -27,7 +27,7 @@ import isMobile from 'Util/Mobile';
 
 export const SearchOverlay = lazy(
     () => import(
-        /* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "category" */
+        /* webpackMode: "lazy", webpackChunkName: "category" */
         'Component/SearchOverlay'
     )
 );

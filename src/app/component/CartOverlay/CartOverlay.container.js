@@ -26,7 +26,7 @@ import { isSignedIn } from 'Util/Auth';
 
 import CartOverlay from './CartOverlay.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 
 export const mapStateToProps = state => ({

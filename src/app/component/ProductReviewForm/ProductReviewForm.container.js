@@ -23,7 +23,7 @@ import { RatingItemsType } from 'Type/Rating';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
-const ReviewDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Review/Review.dispatcher');
+const ReviewDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Review/Review.dispatcher');
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,

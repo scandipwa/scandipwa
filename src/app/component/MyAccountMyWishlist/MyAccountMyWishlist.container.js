@@ -20,7 +20,7 @@ import { ProductType } from 'Type/ProductList';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
-const WishlistDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
 export const mapStateToProps = state => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,

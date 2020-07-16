@@ -17,11 +17,11 @@ import { getUrlParam } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const CategoryDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Category/Category.dispatcher');
-const MetaDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
-const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
-const ProductListInfoDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/ProductListInfo/ProductListInfo.dispatcher');
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const CategoryDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Category/Category.dispatcher');
+const MetaDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
+const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
+const ProductListInfoDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/ProductListInfo/ProductListInfo.dispatcher');
 
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,

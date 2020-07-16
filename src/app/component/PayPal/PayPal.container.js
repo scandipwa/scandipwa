@@ -23,7 +23,7 @@ import { fetchMutation } from 'Util/Request';
 import PayPal from './PayPal.component';
 import { PAYPAL_SCRIPT } from './PayPal.config';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 export const mapStateToProps = state => ({
     cartTotals: state.CartReducer.cartTotals,

@@ -27,7 +27,7 @@ import { getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
 
 export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline

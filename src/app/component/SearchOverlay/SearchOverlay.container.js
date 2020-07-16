@@ -18,7 +18,7 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import SearchOverlay from './SearchOverlay.component';
 
 export const SearchBarDispatcher = import(
-    /* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/SearchBar/SearchBar.dispatcher'
 );
 

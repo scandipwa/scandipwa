@@ -20,7 +20,7 @@ import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 
 export const mapDispatchToProps = dispatch => ({

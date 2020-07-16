@@ -24,7 +24,7 @@ import { fetchMutation } from 'Util/Request';
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
 import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';
 
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
 
 
 export const mapStateToProps = state => ({

@@ -17,7 +17,7 @@ import { customerType } from 'Type/Account';
 
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,

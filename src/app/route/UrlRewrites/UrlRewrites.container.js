@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 import UrlRewrites from './UrlRewrites.component';
 
-const UrlRewritesDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/UrlRewrites/UrlRewrites.dispatcher');
+const UrlRewritesDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/UrlRewrites/UrlRewrites.dispatcher');
 
 export const mapStateToProps = state => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,

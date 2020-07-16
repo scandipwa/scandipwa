@@ -17,7 +17,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
-const LinkedProductsDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/LinkedProducts/LinkedProducts.dispatcher');
+const LinkedProductsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/LinkedProducts/LinkedProducts.dispatcher');
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 

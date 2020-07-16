@@ -18,7 +18,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 
 import NoMatchHandler from './NoMatchHandler.component';
 
-const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
+const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
 
 export const mapStateToProps = state => ({
     noMatch: state.NoMatchReducer.noMatch

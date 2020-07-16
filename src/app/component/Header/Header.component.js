@@ -38,8 +38,8 @@ import {
     CART, CART_EDITING, CART_OVERLAY, CATEGORY, CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, FILTER, MENU, MENU_SUBCATEGORY, PDP, POPUP, SEARCH
 } from './Header.config';
 
-export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "cart" */ 'Component/CartOverlay'));
-export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: false, webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
+export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
+export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
 
 export default class Header extends NavigationAbstract {
     static propTypes = {
