@@ -88,12 +88,12 @@ export class BreadcrumbsDispatcher {
             breadcrumbs
                 .sort((a, b) => a.category_level - b.category_level)
                 .forEach((crumb) => {
-                    const { category_url_path, category_name } = crumb;
+                    const { category_url, category_name } = crumb;
 
                     breadcrumbsList.push({
                         name: category_name,
                         url: {
-                            pathname: `/${category_url_path}`,
+                            pathname: category_url,
                             state: { category: true }
                         }
                     });
