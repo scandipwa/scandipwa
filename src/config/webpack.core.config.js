@@ -136,6 +136,7 @@ module.exports = {
         hot: true,
         host: '0.0.0.0',
         public: 'scandipwa.local',
+        writeToDisk: true,
         allowedHosts: [
             '.local'
         ]
