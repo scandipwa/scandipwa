@@ -17,7 +17,7 @@ import CheckoutTermsAndConditionsPopup, {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from './CheckoutTermsAndConditionsPopup.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[TERMS_AND_CONDITIONS_POPUP_ID] || {}
 });
 

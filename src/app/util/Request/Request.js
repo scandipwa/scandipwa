@@ -99,7 +99,7 @@ export const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
  * @param  {Object} res Response from GraphQL endpoint
  * @return {Promise<Object>} Handled GraphqlQL results promise
  */
-export const checkForErrors = res => new Promise((resolve, reject) => {
+export const checkForErrors = (res) => new Promise((resolve, reject) => {
     const { errors, data } = res;
     return errors ? reject(errors) : resolve(data);
 });
@@ -109,20 +109,20 @@ export const checkForErrors = res => new Promise((resolve, reject) => {
  * @param  {any} err Error from fetch
  * @return {void} Simply console error
  */
-export const handleConnectionError = err => console.error(err); // TODO: Add to logs pool
+export const handleConnectionError = (err) => console.error(err); // TODO: Add to logs pool
 
 /**
  * Parse response and check wether it contains errors
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  */
-export const parseResponse = promise => new Promise((resolve, reject) => {
+export const parseResponse = (promise) => new Promise((resolve, reject) => {
     promise.then(
-        res => res.json().then(
-            res => resolve(checkForErrors(res)),
+        (res) => res.json().then(
+            (res) => resolve(checkForErrors(res)),
             () => handleConnectionError('Can not transform JSON!') && reject()
         ),
-        err => handleConnectionError('Can not establish connection!') && reject(err)
+        (err) => handleConnectionError('Can not establish connection!') && reject(err)
     );
 });
 
@@ -145,7 +145,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
             if (res.status === HTTP_410_GONE) {
                 putPersistedQuery(GRAPHQL_URI, query, cacheTTL).then((putResponse) => {
                     if (putResponse.status === HTTP_201_CREATED) {
-                        getFetch(uri, name).then(res => resolve(res));
+                        getFetch(uri, name).then((res) => resolve(res));
                     }
                 });
             } else {
@@ -170,7 +170,7 @@ export const executePost = (queryObject) => {
  * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
  * @return {Promise<any>} Broadcast message promise
  */
-export const listenForBroadCast = name => new Promise((resolve) => {
+export const listenForBroadCast = (name) => new Promise((resolve) => {
     const { BroadcastChannel } = window;
     if (BroadcastChannel) {
         const bc = new BroadcastChannel(name);

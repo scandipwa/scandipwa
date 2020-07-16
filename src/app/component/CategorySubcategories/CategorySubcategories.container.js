@@ -18,7 +18,7 @@ import { hideActiveOverlay } from 'Store/Overlay';
 
 import CategorySubcategories from './CategorySubcategories.component';
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 

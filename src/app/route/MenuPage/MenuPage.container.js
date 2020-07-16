@@ -19,8 +19,8 @@ import { withRouter } from 'react-router';
 import isMobile from 'Util/Mobile';
 import './MenuPage.style';
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class MenuPageContainer extends PureComponent {
@@ -38,7 +38,7 @@ export class MenuPageContainer extends PureComponent {
     redirectIfNotOnMobile() {
         const { history } = this.props;
 
-        if (!isMobile.any()) {
+        if (!isMobile.any() && !isMobile.tablet()) {
             history.push('/');
         }
     }

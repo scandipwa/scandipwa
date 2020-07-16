@@ -17,7 +17,7 @@ export const UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS';
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
  */
-export const updateProductDetails = product => ({
+export const updateProductDetails = (product) => ({
     type: UPDATE_PRODUCT_DETAILS,
     product
 });

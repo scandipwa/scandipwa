@@ -31,7 +31,7 @@ export const showNotification = (msgType, msgText, msgDebug) => ({
  * @param  {number} id
  * @return {void}
  */
-export const hideNotification = id => ({
+export const hideNotification = (id) => ({
     type: HIDE_NOTIFICATION,
     id
 });

@@ -26,6 +26,11 @@ const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 export default class PasswordChangePage extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        passwordResetStatus: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]).isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired
     };

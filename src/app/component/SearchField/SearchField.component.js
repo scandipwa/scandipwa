@@ -149,6 +149,7 @@ class SearchField extends PureComponent {
                   role="button"
                   tabIndex="0"
                   onClick={ () => this.searchBarRef.current.focus() }
+                  aria-label={ __('Search') }
                 />
                 <SearchOverlay
                   hideOverlay
@@ -170,6 +171,7 @@ class SearchField extends PureComponent {
                   role="button"
                   tabIndex="0"
                   onClick={ this.closeSearch }
+                  aria-label={ __('Close') }
                 />
             );
         }
@@ -181,6 +183,7 @@ class SearchField extends PureComponent {
               role="button"
               tabIndex="0"
               onClick={ this.openSearch }
+              aria-label={ __('Search') }
             />
         );
     }
@@ -188,7 +191,7 @@ class SearchField extends PureComponent {
     renderDesktopContent() {
         const { showSearch } = this.state;
 
-        if (isMobile.any()) {
+        if (isMobile.any() || isMobile.tablet()) {
             return null;
         }
 
@@ -213,7 +216,7 @@ class SearchField extends PureComponent {
             isActive
         } = this.props;
 
-        if (!isMobile.any()) {
+        if (!isMobile.any() && !isMobile.tablet()) {
             return null;
         }
 

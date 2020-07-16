@@ -110,16 +110,14 @@
                 padding: 0 1rem;
 
                 @include desktop {
-                    display: grid;
-                    grid-column-gap: 200px;
-                    grid-row-gap: 40px;
-                    grid-template-columns: repeat(3, 1fr);
+                    // display: grid;
+                    // grid-column-gap: 200px;
+                    // grid-row-gap: 40px;
+                    // grid-template-columns: minmax(200px, calc(100% - 40px) minmax(200px, calc(100% - 40px);
                     padding: 0;
                     width: 100%;
-                }
-
-                @media (min-width: 1024px) and (max-width: 1130px) {
-                    grid-template-columns: repeat(2, 1fr);
+                    display: flex;
+                    flex-wrap: wrap;
                 }
             }
         }
@@ -196,9 +194,8 @@
 
         &_isBanner {
             @include desktop {
-                height: 254px;
                 overflow: hidden;
-                width: 218px;
+                width: 200px;
             }
         }
 
@@ -214,6 +211,7 @@
     &-Item {
         @include before-desktop {
             margin-top: .5rem;
+            padding-left: 0;
         }
 
         @include desktop {
@@ -239,6 +237,11 @@
         top: calc(var(--header-nav-height) + 3px);
         pointer-events: none;
         width: 100%;
+
+        @include tablet {
+            top: var(--header-nav-height);
+            left: 0;
+        }
 
         &::before {
             content: '';
@@ -328,6 +331,18 @@
     }
 
     &-SubItemWrapper {
+        flex-basis: 200px;
+
+        @include desktop {
+            margin-right: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        &_isBanner {
+            flex-grow: 1;
+            flex-basis: 400px;
+        }
+
         > .Menu-Link {
             display: block;
 
@@ -348,11 +363,7 @@
                 &_isBanner {
                     display: grid;
                     grid-column-gap: 10px;
-                    grid-template-columns: repeat(2, 1fr);
-
-                    @media (min-width: 1370px) {
-                        grid-template-columns: repeat(3, 1fr);
-                    }
+                    grid-template-columns: repeat(auto-fit, 200px);
                 }
             }
 
@@ -365,7 +376,11 @@
     &-Image {
         &_isBanner {
             @include desktop {
-                padding-bottom: 118%;
+                padding-bottom: 100%;
+            }
+
+            img {
+                object-fit: cover;
             }
         }
 
@@ -397,7 +412,7 @@
         white-space: nowrap;
         padding-left: 0;
 
-        @include mobile {
+        @include before-desktop {
             padding: 1rem 0;
         }
 

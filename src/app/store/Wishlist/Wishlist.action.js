@@ -20,7 +20,7 @@ export const UPDATE_IS_LOADING_IN_WISHLIST = 'UPDATE_IS_LOADING_IN_WISHLIST';
  * @param  {Object} product Product which should be removed
  * @return {void}
  */
-export const removeItemFromWishlist = item_id => ({
+export const removeItemFromWishlist = (item_id) => ({
     type: REMOVE_ITEM_FROM_WISHLIST,
     item_id
 });
@@ -30,17 +30,17 @@ export const removeItemFromWishlist = item_id => ({
  * @param  {Array} products Products that should be updated in wishlist
  * @return {void}
  */
-export const updateAllProductsInWishlist = products => ({
+export const updateAllProductsInWishlist = (products) => ({
     type: UPDATE_ALL_PRODUCTS_IN_WISHLIST,
     products
 });
 
-export const updateIsLoading = isLoading => ({
+export const updateIsLoading = (isLoading) => ({
     type: UPDATE_IS_LOADING_IN_WISHLIST,
     isLoading
 });
 
-export const updateItemOptions = options => ({
+export const updateItemOptions = (options) => ({
     type: UPDATE_ITEM_OPTIONS,
     options
 });

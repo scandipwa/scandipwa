@@ -19,16 +19,16 @@ import { showPopup } from 'Store/Popup';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.component';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isWishlistLoading: state.WishlistReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
     moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
-    showPopup: payload => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
-    showNotification: message => dispatch(showNotification('success', message))
+    showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
+    showNotification: (message) => dispatch(showNotification('success', message))
 });
 
 export class MyAccountMyWishlistContainer extends PureComponent {
