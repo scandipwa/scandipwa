@@ -152,7 +152,13 @@ class MyAccountOverlay extends PureComponent {
                   onSubmitSuccess={ onForgotPasswordSuccess }
                   onSubmitError={ onFormError }
                 >
-                    <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
+                    <Field
+                      type="text"
+                      id="email"
+                      name="email"
+                      label={ __('Email') }
+                      validation={ ['notEmpty', 'email'] }
+                    />
                     <div block="MyAccountOverlay" elem="Buttons">
                         <button block="Button" type="submit">
                             { __('Send reset link') }
@@ -253,7 +259,13 @@ class MyAccountOverlay extends PureComponent {
                     </fieldset>
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>{ __('Sign-Up Information') }</legend>
-                        <Field type="text" label="Email" id="email" name="email" validation={ ['notEmpty', 'email'] } />
+                        <Field
+                          type="text"
+                          label={ __('Email') }
+                          id="email"
+                          name="email"
+                          validation={ ['notEmpty', 'email'] }
+                        />
                         <Field
                           type="password"
                           label={ __('Password') }
