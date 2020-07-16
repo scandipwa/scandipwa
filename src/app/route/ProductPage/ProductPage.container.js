@@ -30,40 +30,57 @@ import {
 
 import ProductPage from './ProductPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const LinkedProductsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/LinkedProducts/LinkedProducts.dispatcher');
-const MetaDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
-const ProductDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Product/Product.dispatcher');
-
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const LinkedProductsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/LinkedProducts/LinkedProducts.dispatcher'
+);
+const MetaDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Meta/Meta.dispatcher'
+);
+const ProductDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Product/Product.dispatcher'
+);
 
 export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product
 });
 
-export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+export const mapDispatchToProps = (dispatch) => ({
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
         ProductDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
         LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch));
     },
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)),
-    updateMetaFromProduct: product => MetaDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch))
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
+    ),
+    updateMetaFromProduct: product => MetaDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
+    )
 });
 
 export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
         parameters: {},
-        customizableOptionsData: {}
+        productOptionsData: {},
+        selectedBundlePrice: 0
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
         getLink: this.getLink.bind(this),
-        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
+        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
+        setBundlePrice: this.setBundlePrice.bind(this)
     };
 
     static propTypes = {
@@ -136,7 +153,7 @@ export class ProductPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: { id, options },
+            product: { id, options, items },
             productSKU,
             isOnlyPlaceholder
         } = this.props;
@@ -145,7 +162,8 @@ export class ProductPageContainer extends PureComponent {
             location: { pathname: prevPathname },
             product: {
                 id: prevId,
-                options: prevOptions
+                options: prevOptions,
+                items: prevItems
             },
             productSKU: prevProductSKU,
             isOnlyPlaceholder: prevIsOnlyPlaceholder
@@ -160,7 +178,11 @@ export class ProductPageContainer extends PureComponent {
         }
 
         if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
-            this.getRequiredCustomizableOptions(options);
+            this.getRequiredProductOptions(options);
+        }
+
+        if (JSON.stringify(items) !== JSON.stringify(prevItems)) {
+            this.getRequiredProductOptions(items);
         }
 
         if (id !== prevId) {
@@ -188,14 +210,14 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
-    getRequiredCustomizableOptions(options) {
-        const { customizableOptionsData } = this.state;
+    getRequiredProductOptions(options) {
+        const { productOptionsData } = this.state;
 
         if (!options) {
             return [];
         }
 
-        const requiredCustomizableOptions = options.reduce((acc, { option_id, required }) => {
+        const requiredOptions = options.reduce((acc, { option_id, required }) => {
             if (required) {
                 acc.push(option_id);
             }
@@ -204,23 +226,27 @@ export class ProductPageContainer extends PureComponent {
         }, []);
 
         return this.setState({
-            customizableOptionsData:
-                { ...customizableOptionsData, requiredCustomizableOptions }
+            productOptionsData:
+                { ...productOptionsData, requiredOptions }
         });
     }
 
+    setBundlePrice(price) {
+        this.setState({ selectedBundlePrice: price });
+    }
+
     getSelectedCustomizableOptions(values, updateArray = false) {
-        const { customizableOptionsData } = this.state;
+        const { productOptionsData } = this.state;
 
         if (updateArray) {
             this.setState({
-                customizableOptionsData:
-                    { ...customizableOptionsData, customizableOptionsMulti: values }
+                productOptionsData:
+                    { ...productOptionsData, productOptionsMulti: values }
             });
         } else {
             this.setState({
-                customizableOptionsData:
-                    { ...customizableOptionsData, customizableOptions: values }
+                productOptionsData:
+                    { ...productOptionsData, productOptions: values }
             });
         }
     }

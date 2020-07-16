@@ -34,7 +34,9 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)
+    ),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateMeta: meta => dispatch(updateMeta(meta)),

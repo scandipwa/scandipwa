@@ -38,7 +38,7 @@ import {
 const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout
@@ -261,7 +261,7 @@ export class CheckoutContainer extends PureComponent {
             handleAuthorization(
                 paymentInformation,
                 secret,
-                paymentInformation => this.savePaymentInformation(paymentInformation)
+                (paymentInformation) => this.savePaymentInformation(paymentInformation)
             );
         } else {
             this._handleError(error);

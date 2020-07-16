@@ -88,7 +88,6 @@ export class CheckoutQuery {
         ];
     }
 
-
     _getEstimatedShippingFields() {
         return [
             'amount',

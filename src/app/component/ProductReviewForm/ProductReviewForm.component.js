@@ -84,7 +84,7 @@ export default class ProductReviewForm extends PureComponent {
                     </legend>
                     { rating_options
                         .sort(({ value }, { value: nextValue }) => nextValue - value)
-                        .map(option => this.renderReviewStar(option, rating_id)) }
+                        .map((option) => this.renderReviewStar(option, rating_id)) }
                 </fieldset>
             );
         });

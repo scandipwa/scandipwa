@@ -22,7 +22,7 @@ export class OrderDispatcher {
             ({ getOrderList: orders }) => {
                 dispatch(getOrderList(orders, false));
             },
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 }

@@ -17,6 +17,7 @@ class InstallPromptAndroid extends PureComponent {
               block="InstallPromptAndroid"
               elem="Close"
               onClick={ handleBannerClose }
+              aria-label={ __('Close') }
             />
         );
     }

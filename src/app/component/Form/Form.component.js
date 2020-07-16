@@ -57,9 +57,9 @@ export default class Form extends PureComponent {
     }
 
     static cloneChildren(originChildren, fieldCallback) {
-        const executeClone = originChildren => Children.map(originChildren, (child) => {
+        const executeClone = (originChildren) => Children.map(originChildren, (child) => {
             if (child && typeof child === 'object' && child.type && child.props) {
-                const { type: { name }, props, props: { children } } = child;
+                const { type: { WrappedComponent: { name } = {} }, props, props: { children } } = child;
 
                 if (name === Field.prototype.constructor.name) {
                     return fieldCallback(child);
@@ -197,7 +197,7 @@ export default class Form extends PureComponent {
 
                 onSubmitError(inputValues, invalidFields);
             },
-            e => onSubmitError(inputValues, invalidFields, e)
+            (e) => onSubmitError(inputValues, invalidFields, e)
         );
     };
 

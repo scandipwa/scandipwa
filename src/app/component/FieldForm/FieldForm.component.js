@@ -47,7 +47,7 @@ class FieldForm extends PureComponent {
         };
     }
 
-    renderField = fieldEntry => (
+    renderField = (fieldEntry) => (
         <Field { ...this.getDefaultValues(fieldEntry) } />
     );
 

@@ -15,9 +15,7 @@ import { connect } from 'react-redux';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
-const OrderDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Order/Order.dispatcher');
-
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     orderList: state.OrderReducer.orderList,
     isLoading: state.OrderReducer.isLoading
 });

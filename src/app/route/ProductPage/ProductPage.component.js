@@ -37,7 +37,9 @@ export default class ProductPage extends PureComponent {
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        customizableOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.object.isRequired,
+        setBundlePrice: PropTypes.func.isRequired,
+        selectedBundlePrice: PropTypes.number.isRequired
     };
 
     renderProductPageContent() {
@@ -50,7 +52,9 @@ export default class ProductPage extends PureComponent {
             productOrVariant,
             areDetailsLoaded,
             getSelectedCustomizableOptions,
-            customizableOptionsData
+            productOptionsData,
+            setBundlePrice,
+            selectedBundlePrice
         } = this.props;
 
         return (
@@ -68,7 +72,9 @@ export default class ProductPage extends PureComponent {
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-                  customizableOptionsData={ customizableOptionsData }
+                  productOptionsData={ productOptionsData }
+                  setBundlePrice={ setBundlePrice }
+                  selectedBundlePrice={ selectedBundlePrice }
                 />
             </>
         );
@@ -77,7 +83,8 @@ export default class ProductPage extends PureComponent {
     renderCustomizableOptions() {
         const {
             dataSource: { type_id, options },
-            getSelectedCustomizableOptions
+            getSelectedCustomizableOptions,
+            productOptionsData
         } = this.props;
 
         if (!isMobile.any() || type_id !== SIMPLE) {
@@ -88,6 +95,7 @@ export default class ProductPage extends PureComponent {
             <ProductCustomizableOptions
               options={ options || [] }
               getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+              productOptionsData={ productOptionsData }
             />
         );
     }

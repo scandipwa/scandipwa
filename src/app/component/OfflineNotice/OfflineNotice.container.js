@@ -19,14 +19,14 @@ import { LocationType } from 'Type/Common';
 
 import OfflineNotice from './OfflineNotice.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     isBig: state.OfflineReducer.isBig
 });
 
-export const mapDispatchToProps = dispatch => ({
-    showOfflineNotice: isOffline => dispatch(showOfflineNotice(isOffline)),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig))
+export const mapDispatchToProps = (dispatch) => ({
+    showOfflineNotice: (isOffline) => dispatch(showOfflineNotice(isOffline)),
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig))
 });
 
 class OfflineNoticeContainer extends PureComponent {

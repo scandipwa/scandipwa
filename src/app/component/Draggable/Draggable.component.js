@@ -152,7 +152,7 @@ export default class Draggable extends PureComponent {
         if (onClick) {
             onClick(
                 this.state,
-                newState => this.setState({
+                (newState) => this.setState({
                     ...newState,
                     isDragging: false,
                     translateX: 0,
@@ -183,7 +183,7 @@ export default class Draggable extends PureComponent {
     _handleDragEnd() {
         const { onDragEnd } = this.props;
 
-        onDragEnd(this.state, newState => this.setState({
+        onDragEnd(this.state, (newState) => this.setState({
             ...newState,
             isDragging: false,
             translateX: 0,

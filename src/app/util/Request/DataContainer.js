@@ -50,7 +50,7 @@ export class DataContainer extends PureComponent {
                 window.dataCache[queryHash] = response;
                 onSucces(response);
             },
-            err => onError(err)
+            (err) => onError(err)
         );
     }
 }

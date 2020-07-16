@@ -19,6 +19,7 @@ class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         options: PropTypes.array,
+        productOptionsData: PropTypes.object.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired
@@ -31,6 +32,7 @@ class ProductCustomizableOptions extends PureComponent {
     renderContent() {
         const {
             options,
+            productOptionsData,
             setSelectedCheckboxValues,
             setCustomizableOptionTextFieldValue,
             setSelectedDropdownValue
@@ -44,6 +46,7 @@ class ProductCustomizableOptions extends PureComponent {
               setSelectedCheckboxValues={ setSelectedCheckboxValues }
               setCustomizableOptionTextFieldValue={ setCustomizableOptionTextFieldValue }
               setSelectedDropdownValue={ setSelectedDropdownValue }
+              productOptionsData={ productOptionsData }
             />
         ));
     }

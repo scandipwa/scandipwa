@@ -17,9 +17,12 @@ import { connect } from 'react-redux';
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
 
-const ProductListDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/ProductList/ProductList.dispatcher');
+export const ProductListDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/ProductList/ProductList.dispatcher'
+);
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     pages: state.ProductListReducer.pages,
     isOffline: state.OfflineReducer.isOffline,
     isLoading: state.ProductListReducer.isLoading,
@@ -27,9 +30,11 @@ export const mapStateToProps = state => ({
     totalPages: state.ProductListReducer.totalPages
 });
 
-export const mapDispatchToProps = dispatch => ({
-    requestProductList: options => ProductListDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options)),
-    updateLoadStatus: isLoading => dispatch(updateLoadStatus(isLoading))
+export const mapDispatchToProps = (dispatch) => ({
+    requestProductList: (options) => ProductListDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+    ),
+    updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading))
 });
 
 export class CategoryProductListContainer extends PureComponent {

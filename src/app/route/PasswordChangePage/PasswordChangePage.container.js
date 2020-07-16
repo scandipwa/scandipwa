@@ -18,15 +18,21 @@ import { showNotification } from 'Store/Notification/Notification.action';
 
 import PasswordChangePage from './PasswordChangePage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 export const mapStateToProps = state => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch));
     },

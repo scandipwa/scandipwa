@@ -14,7 +14,7 @@ import {
     UPDATE_PRODUCT_LIST_INFO
 } from 'Store/ProductListInfo/ProductListInfo.action';
 
-const reduceFilters = filters => filters.reduce((co, item) => {
+const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
         name: attribute_label,

@@ -41,10 +41,12 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+    ),
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    updateMeta: meta => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class CartPageContainer extends PureComponent {

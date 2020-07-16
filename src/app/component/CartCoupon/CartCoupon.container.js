@@ -17,8 +17,10 @@ import CartCoupon from './CartCoupon.component';
 
 const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
-export const mapDispatchToProps = dispatch => ({
-    applyCouponToCart: couponCode => CartDispatcher.then(({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)),
+export const mapDispatchToProps = (dispatch) => ({
+    applyCouponToCart: (couponCode) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)
+    ),
     removeCouponFromCart: () => CartDispatcher.then(({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch))
 });
 

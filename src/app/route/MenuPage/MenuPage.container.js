@@ -21,8 +21,8 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { HistoryType } from 'Type/Common';
 import isMobile from 'Util/Mobile';
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class MenuPageContainer extends PureComponent {

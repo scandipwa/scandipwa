@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 import DemoNotice from './DemoNotice.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isDemoNoticeEnabled: state.ConfigReducer.demo_notice
 });
 

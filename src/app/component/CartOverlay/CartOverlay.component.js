@@ -55,7 +55,7 @@ export default class CartOverlay extends PureComponent {
 
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
-                { items.map(item => (
+                { items.map((item) => (
                     <CartItem
                       key={ item.item_id }
                       item={ item }
@@ -129,7 +129,7 @@ export default class CartOverlay extends PureComponent {
 
         const options = !items || items.length < 1
             ? {
-                onClick: e => e.preventDefault(),
+                onClick: (e) => e.preventDefault(),
                 disabled: true
             }
             : {};

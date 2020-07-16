@@ -17,7 +17,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -36,7 +36,8 @@ const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'fake_vendor', 'scandipwa', 'source');
 
 const staticVersion = Date.now();
-const publicPath = `/static/version${staticVersion}/frontend/Scandiweb/pwa/en_US/Magento_Theme/`;
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
+const publicPath = `/static/version${staticVersion}/frontend/${fallbackThemeSpecifier}/en_US/Magento_Theme/`;
 
 const webpackConfig = ([lang, translation]) => ({
     resolve: {
@@ -155,9 +156,14 @@ const webpackConfig = ([lang, translation]) => ({
             path.resolve('Magento_Theme', 'web')
         ], { root: projectRoot }),
 
-        new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(projectRoot, 'src', 'public', 'assets'),
+                    to: './assets'
+                }
+            ]
+        }),
 
         new MinifyPlugin({
             removeConsole: false,

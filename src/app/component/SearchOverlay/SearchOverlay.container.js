@@ -27,7 +27,7 @@ export const mapStateToProps = state => ({
     isLoading: state.SearchBarReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     makeSearchRequest: options => SearchBarDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)

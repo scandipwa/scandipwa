@@ -64,7 +64,7 @@ export class UrlRewrites extends PureComponent {
             actionName: { type: initialType = '' } = {}
         } = window;
 
-        const typeKey = Object.keys(state).find(key => UrlRewrites.stateMapping[key]);
+        const typeKey = Object.keys(state).find((key) => UrlRewrites.stateMapping[key]);
 
         if (typeKey) { // prefer state defined type
             return UrlRewrites.stateMapping[typeKey];
@@ -104,7 +104,7 @@ export class UrlRewrites extends PureComponent {
             requestUrlRewrite(pathname);
 
             // if URL is changed, we are interested in state type
-            const typeKey = Object.keys(historyState).find(key => UrlRewrites.stateMapping[key]);
+            const typeKey = Object.keys(historyState).find((key) => UrlRewrites.stateMapping[key]);
             const stateType = UrlRewrites.stateMapping[typeKey];
 
             return {

@@ -53,15 +53,25 @@ export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options)),
+    requestCategory: options => CategoryDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+    ),
     updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
-        ? BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch))
-        : BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update([], dispatch))),
+        ? BreadcrumbsDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch)
+        )
+        : BreadcrumbsDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.update([], dispatch))
+        ),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.then(({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)),
+    updateNoMatch: options => NoMatchDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
+    ),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.then(({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch))
+    updateMetaFromCategory: category => MetaDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
+    )
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;

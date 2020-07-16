@@ -84,5 +84,4 @@ class ProductPriceContainer extends PureComponent {
     }
 }
 
-
 export default ProductPriceContainer;

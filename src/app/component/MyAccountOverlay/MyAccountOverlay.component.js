@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -110,6 +111,7 @@ class MyAccountOverlay extends PureComponent {
                       block="MyAccountOverlay"
                       elem="CloseButton"
                       onClick={ closeOverlay }
+                      aria-label={ __('Close') }
                     />
                 ) }
                 { render() }
@@ -206,8 +208,7 @@ class MyAccountOverlay extends PureComponent {
               mods={ { state } }
             >
                 <p id="forgot-password-success">
-                    { // eslint-disable-next-line max-len
-                    __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
+                    { __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
                 </p>
                 <button
                   block="Button"

@@ -14,17 +14,17 @@ export const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
 export const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
 export const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
 
-export const updateCustomerSignInStatus = status => ({
+export const updateCustomerSignInStatus = (status) => ({
     type: UPDATE_CUSTOMER_SIGN_IN_STATUS,
     status
 });
 
-export const updateCustomerDetails = customer => ({
+export const updateCustomerDetails = (customer) => ({
     type: UPDATE_CUSTOMER_DETAILS,
     customer
 });
 
-export const updateCustomerPasswordResetStatus = status => ({
+export const updateCustomerPasswordResetStatus = (status) => ({
     type: UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     status
 });

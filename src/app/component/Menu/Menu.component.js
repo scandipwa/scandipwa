@@ -74,7 +74,7 @@ export default class MenuOverlay extends PureComponent {
                   elem="ItemList"
                   mods={ { ...mods } }
                 >
-                    { childrenArray.map(item => this.renderDesktopSubLevelItems(item, mods)) }
+                    { childrenArray.map((item) => this.renderDesktopSubLevelItems(item, mods)) }
                 </div>
             </div>
         );
@@ -102,7 +102,7 @@ export default class MenuOverlay extends PureComponent {
             return (
                 <div
                   key={ item_id }
-                  onClick={ e => handleSubcategoryClick(e, item) }
+                  onClick={ (e) => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   role="button"
                 >
@@ -280,7 +280,7 @@ export default class MenuOverlay extends PureComponent {
         if (childrenArray.length && (isMobile.any() || isMobile.tablet())) {
             return (
                 <div
-                  onClick={ e => handleSubcategoryClick(e, item) }
+                  onClick={ (e) => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   block="Menu"
                   elem="SubCatLink"

@@ -17,7 +17,6 @@ class ProductConfigurableAttributeDropdownContainer extends PureComponent {
         onChange: this.onChange.bind(this)
     };
 
-
     onChange(value) {
         const {
             updateConfigurableVariant,

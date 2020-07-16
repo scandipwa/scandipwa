@@ -46,6 +46,9 @@
     "fp/no-delete": "error",
     "no-var": "error",
     "css-rcurlyexpected": 0,
+    "react/static-property-placement": ["error", "static public field"],
+    "react/jsx-props-no-spreading": "off",
+    "react/state-in-constructor": "off",
     "no-restricted-globals": ["error", "isFinite", "isNaN"],
     "max-len": [2, {
         "ignoreComments": true,

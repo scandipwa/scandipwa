@@ -21,14 +21,14 @@ import ProductReviews from './ProductReviews.component';
 import { REVIEW_POPUP_ID } from './ProductReviews.config';
 
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
     isGuestEnabled: state.ConfigReducer.reviews_allow_guest
 });
 
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
-    showInfoNotification: message => dispatch(showNotification('info', message))
+export const mapDispatchToProps = (dispatch) => ({
+    showPopup: (payload) => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
+    showInfoNotification: (message) => dispatch(showNotification('info', message))
 });
 
 export class ProductReviewsContainer extends PureComponent {

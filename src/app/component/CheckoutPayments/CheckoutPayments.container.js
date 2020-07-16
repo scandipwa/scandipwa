@@ -24,8 +24,8 @@ import CheckoutPayments from './CheckoutPayments.component';
 import { BRAINTREE, KLARNA, STRIPE } from './CheckoutPayments.config';
 
 
-export const mapDispatchToProps = dispatch => ({
-    showError: message => dispatch(showNotification('error', message))
+export const mapDispatchToProps = (dispatch) => ({
+    showError: (message) => dispatch(showNotification('error', message))
 });
 
 export class CheckoutPaymentsContainer extends PureComponent {

@@ -24,16 +24,26 @@ import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
 export const mapDispatchToProps = dispatch => ({
     clearWishlist: () => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)),
-    moveWishlistToCart: sharingCode => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)),
+    moveWishlistToCart: sharingCode => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)
+    ),
     showNotification: message => dispatch(showNotification('success', message)),
     showError: message => dispatch(showNotification('error', message)),
     showNoMatch: () => dispatch(updateNoMatch(true)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch))
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+    )
 });
 
 export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
@@ -120,7 +130,6 @@ export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
                         }
                     };
                 }, {});
-
 
                 updateBreadcrumbs([
                     { name: creatorsName, url: `/wishlist/shared/${code}` },

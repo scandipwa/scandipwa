@@ -26,17 +26,16 @@ import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
-
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements
 });
 
-export const mapDispatchToProps = dispatch => ({
-    showErrorNotification: message => dispatch(showNotification('error', message)),
-    showPopup: payload => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showErrorNotification: (message) => dispatch(showNotification('error', message)),
+    showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 
 export class CheckoutBillingContainer extends PureComponent {

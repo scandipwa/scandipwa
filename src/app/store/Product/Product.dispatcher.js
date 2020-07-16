@@ -33,9 +33,7 @@ export class ProductDispatcher extends QueryDispatcher {
             return dispatch(updateNoMatch(true));
         }
 
-        const [productItem] = items;
-        const product = productItem.type_id === 'grouped'
-            ? this._prepareGroupedProduct(productItem) : productItem;
+        const [product] = items;
 
         if (items.length > 0) {
             const product_links = items.reduce((links, product) => {
@@ -64,26 +62,6 @@ export class ProductDispatcher extends QueryDispatcher {
 
     prepareRequest(options) {
         return ProductListQuery.getQuery(options);
-    }
-
-    _prepareGroupedProduct(groupProduct) {
-        const { items } = groupProduct;
-        const newItems = items.map((item) => {
-            const { product, order, qty } = item;
-            return {
-                product: {
-                    ...product,
-                    url_key: groupProduct.url_key
-                },
-                order,
-                qty
-            };
-        }).sort(({ order }, { order: order2 }) => order - order2);
-
-        return {
-            ...groupProduct,
-            items: newItems
-        };
     }
 }
 

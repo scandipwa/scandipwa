@@ -43,7 +43,7 @@ export class NavigationAbstractContainer extends PureComponent {
     componentDidMount() {
         const { setNavigationState } = this.props;
         setNavigationState(this.getNavigationState());
-        history.listen(history => this.setState(this.onRouteChanged(history)));
+        history.listen((history) => this.setState(this.onRouteChanged(history)));
     }
 
     onRouteChanged(history) {
@@ -58,7 +58,7 @@ export class NavigationAbstractContainer extends PureComponent {
         const { pathname } = location;
 
         const activeRoute = Object.keys(this.routeMap)
-            .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
+            .find((route) => (route !== '/' || pathname === '/') && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;
     }

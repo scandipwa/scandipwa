@@ -23,7 +23,9 @@ import ProductCard from './ProductCard.component';
 const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options))
+    addProduct: options => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    )
 });
 
 export class ProductCardContainer extends PureComponent {
@@ -199,6 +201,5 @@ export class ProductCardContainer extends PureComponent {
         );
     }
 }
-
 
 export default connect(null, mapDispatchToProps)(ProductCardContainer);

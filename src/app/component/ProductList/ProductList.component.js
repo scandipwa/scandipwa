@@ -98,7 +98,7 @@ export class ProductList extends PureComponent {
                 const { currentPage } = this.props;
 
                 entries.forEach(({ target, isIntersecting }) => {
-                    const page = +Object.keys(this.nodes).find(node => this.nodes[node] === target);
+                    const page = +Object.keys(this.nodes).find((node) => this.nodes[node] === target);
                     const index = this.pagesIntersecting.indexOf(page);
 
                     if (isIntersecting && index === -1) {

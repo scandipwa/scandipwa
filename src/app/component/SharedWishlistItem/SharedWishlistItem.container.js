@@ -20,7 +20,9 @@ const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatc
 
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options))
+    addProductToCart: options => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    )
 });
 
 export class SharedWishlistItemContainer extends WishlistItemContainer {

@@ -5,9 +5,9 @@ import { Subscribe } from 'unstated';
 import SharedTransition from './SharedTransition.component';
 import SharedTransitionContainer from './SharedTransition.unstated';
 
-export default props => (
+export default (props) => (
     <Subscribe to={ [SharedTransitionContainer] }>
-        { sharedTransition => (
+        { (sharedTransition) => (
             <SharedTransition
               { ...props }
               { ...sharedTransition }

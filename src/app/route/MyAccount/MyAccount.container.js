@@ -31,18 +31,27 @@ import isMobile from 'Util/Mobile';
 import MyAccount from './MyAccount.component';
 import { MY_ACCOUNT_URL } from './MyAccount.config';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
-
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+    ),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    requestCustomerData: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)),
+    requestCustomerData: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+    ),
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     updateMeta: meta => dispatch(updateMeta(meta))
 });

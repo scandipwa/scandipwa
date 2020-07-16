@@ -34,21 +34,21 @@ import {
 const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
 
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
     isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     forgotPassword: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)),
     createAccount: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)),
     signIn: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.signIn(options, dispatch)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-    setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
+    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
 export class MyAccountOverlayContainer extends PureComponent {
@@ -56,6 +56,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         forgotPassword: PropTypes.func.isRequired,
         signIn: PropTypes.func.isRequired,
         isPasswordForgotSend: PropTypes.bool.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
         showNotification: PropTypes.func.isRequired,
         createAccount: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types

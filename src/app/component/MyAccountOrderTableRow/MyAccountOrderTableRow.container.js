@@ -19,12 +19,12 @@ import { orderType } from 'Type/Account';
 
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     currency_code: state.ConfigReducer.default_display_currency_code
 });
 
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showPopup: (payload) => dispatch(showPopup(ORDER_POPUP_ID, payload))
 });
 
 export class MyAccountOrderTableRowContainer extends PureComponent {

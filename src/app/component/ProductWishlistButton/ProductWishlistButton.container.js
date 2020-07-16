@@ -28,8 +28,12 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    addProductToWishlist: wishlistItem => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem)),
-    removeProductFromWishlist: options => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)),
+    addProductToWishlist: wishlistItem => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem)
+    ),
+    removeProductFromWishlist: options => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 

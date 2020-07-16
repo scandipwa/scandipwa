@@ -26,20 +26,24 @@ import { isSignedIn } from 'Util/Auth';
 
 import CartOverlay from './CartOverlay.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
-
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     guest_checkout: state.ConfigReducer.guest_checkout,
     currencyCode: state.ConfigReducer.default_display_currency_code
 });
 
-export const mapDispatchToProps = dispatch => ({
-    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateTotals: options => CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+export const mapDispatchToProps = (dispatch) => ({
+    setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateTotals: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)
+    ),
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
