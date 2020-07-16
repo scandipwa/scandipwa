@@ -170,7 +170,7 @@ export default class CartItem extends PureComponent {
         );
     };
 
-    renderProductOptions(itemOptions) {
+    renderProductOptions(itemOptions = []) {
         const { isLikeTable } = this.props;
 
         if (!itemOptions.length) {
