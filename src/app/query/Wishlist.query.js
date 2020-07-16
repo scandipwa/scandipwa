@@ -10,7 +10,7 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
-import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.action';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { Field } from 'Util/Query';

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.action';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { Field } from 'Util/Query';
 
