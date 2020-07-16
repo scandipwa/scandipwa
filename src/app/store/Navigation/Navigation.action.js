@@ -18,7 +18,7 @@ export const changeNavigationState = (navigationType, navigationState) => ({
     navigationState
 });
 
-export const goToPreviousNavigationState = navigationType => ({
+export const goToPreviousNavigationState = (navigationType) => ({
     type: GOTO_PREVIOUS_NAVIGATION_STATE,
     navigationType
 });

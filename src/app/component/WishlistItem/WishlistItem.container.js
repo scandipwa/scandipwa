@@ -21,11 +21,11 @@ import WishlistItem from './WishlistItem.component';
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
-    updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
-    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
+    addProductToCart: (options) => CartDispatcher.addProductToCart(dispatch, options),
+    updateWishlistItem: (options) => WishlistDispatcher.updateWishlistItem(dispatch, options),
+    removeFromWishlist: (options) => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
 });
 
 export class WishlistItemContainer extends PureComponent {
@@ -67,7 +67,7 @@ export class WishlistItemContainer extends PureComponent {
         };
     };
 
-    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
+    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
     _getParameters = () => {
         const { product } = this.props;

@@ -19,7 +19,7 @@ import { customerType } from 'Type/Account';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
@@ -87,7 +87,6 @@ export class CheckoutShippingContainer extends PureComponent {
 
         saveAddressInformation(data);
     }
-
 
     _getAddressById(addressId) {
         const { customer: { addresses } } = this.props;

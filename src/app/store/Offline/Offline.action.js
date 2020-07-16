@@ -17,7 +17,7 @@ export const SET_BIG_OFFLINE_NOTICE = 'SET_BIG_OFFLINE_NOTICE';
  * @param  {boolean} msgType
  * @return {void}
  */
-export const showOfflineNotice = isOffline => ({
+export const showOfflineNotice = (isOffline) => ({
     type: SHOW_OFFLINE_NOTICE,
     isOffline
 });
@@ -27,7 +27,7 @@ export const showOfflineNotice = isOffline => ({
  * @param  {boolean} isBig
  * @return {void}
  */
-export const setBigOfflineNotice = isBig => ({
+export const setBigOfflineNotice = (isBig) => ({
     type: SET_BIG_OFFLINE_NOTICE,
     isBig
 });

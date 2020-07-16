@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import UpsellProducts from './UpsellProducts.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 

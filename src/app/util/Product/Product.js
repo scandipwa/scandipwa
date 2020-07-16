@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { BUNDLE, CONFIGURABLE, SIMPLE } from 'Util/Product';
 
 /**
  * Checks whether every option is in attributes
@@ -45,7 +46,7 @@ export const getIndexedAttributeOption = (option) => {
     };
 };
 
-export const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes, attribute) => {
+export const getIndexedAttributes = (attributes) => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
 
     return {
@@ -79,7 +80,7 @@ export const getIndexedConfigurableOptions = (configurableOptions, indexedAttrib
     }, {})
 );
 
-export const getIndexedVariants = variants => variants.map(({ product }) => {
+export const getIndexedVariants = (variants) => variants.map(({ product }) => {
     const { attributes } = product;
     return {
         ...product,
@@ -94,7 +95,7 @@ export const getIndexedVariants = variants => variants.map(({ product }) => {
  * @returns {number}
  */
 export const getVariantIndex = (variants, options) => variants
-    .findIndex(variant => checkEveryOption(variant.attributes, options));
+    .findIndex((variant) => checkEveryOption(variant.attributes, options));
 
 export const getVariantsIndexes = (variants, options) => Object.entries(variants)
     .reduce((indexes, [index, variant]) => {
@@ -134,7 +135,7 @@ export const getIndexedCustomOption = (option) => {
     return null;
 };
 
-export const getIndexedCustomOptions = options => options.reduce(
+export const getIndexedCustomOptions = (options) => options.reduce(
     (acc, option) => {
         const indexedOption = getIndexedCustomOption(option);
 
@@ -166,9 +167,9 @@ export const getIndexedProduct = (product) => {
     };
 };
 
-export const getIndexedProducts = products => products.map(getIndexedProduct);
+export const getIndexedProducts = (products) => products.map(getIndexedProduct);
 
-export const getIndexedParameteredProducts = products => Object.entries(products)
+export const getIndexedParameteredProducts = (products) => Object.entries(products)
     .reduce((products, [id, product]) => ({
         ...products,
         [id]: getIndexedProduct(product)
@@ -178,13 +179,13 @@ export const getExtensionAttributes = (product) => {
     const {
         configurable_options,
         configurableVariantIndex,
-        customizableOptions: customizable_options,
-        customizableOptionsMulti: customizable_options_multi,
+        productOptions,
+        productOptionsMulti,
         variants,
         type_id
     } = product;
 
-    if (type_id === 'configurable') {
+    if (type_id === CONFIGURABLE) {
         const { attributes = {} } = variants[configurableVariantIndex] || {};
 
         const configurable_item_options = Object.values(configurable_options)
@@ -210,10 +211,12 @@ export const getExtensionAttributes = (product) => {
         return { configurable_item_options };
     }
 
-    if (type_id === 'simple'
-        && (customizable_options || customizable_options_multi)
-    ) {
-        return { customizable_options, customizable_options_multi };
+    if (type_id === BUNDLE && (productOptions || productOptionsMulti)) {
+        return { bundle_options: Array.from(productOptions || []) };
+    }
+
+    if (type_id === SIMPLE && (productOptions || productOptionsMulti)) {
+        return { customizable_options: productOptions || [], customizable_options_multi: productOptionsMulti || [] };
     }
 
     return {};

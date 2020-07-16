@@ -17,11 +17,11 @@ import InstallPrompt from 'Component/InstallPrompt';
 
 import './HomePage.style';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 
-export const HomePageContainer = props => (
+export const HomePageContainer = (props) => (
     <div block="HomePage">
         <InstallPrompt />
         <CmsPage { ...props } isBreadcrumbsActive={ false } />

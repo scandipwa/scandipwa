@@ -10,7 +10,7 @@ export const sharedTransitionInitialState = {
 export class SharedTransitionContainer extends Container {
     state = sharedTransitionInitialState;
 
-    _parseRectangle = val => JSON.parse(JSON.stringify(val));
+    _parseRectangle = (val) => JSON.parse(JSON.stringify(val));
 
     cleanUpTransition = () => {
         this.setState(sharedTransitionInitialState);

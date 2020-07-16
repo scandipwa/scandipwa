@@ -46,7 +46,7 @@ export const updateProductListItems = (items, currentPage, total_count, total_pa
  * @param {Boolean} status Loading indication boolean
  * @return {void}
  */
-export const updateLoadStatus = status => ({
+export const updateLoadStatus = (status) => ({
     type: UPDATE_LOAD_STATUS,
     isLoading: status
 });

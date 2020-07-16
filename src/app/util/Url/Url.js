@@ -140,7 +140,6 @@ const convertKeyValuesToQueryString = (keyValuePairs) => {
     return `${newSearchQuery.slice(0, -1)}`; // remove trailing '&'
 };
 
-
 const generateQuery = (keyValueObject, location, history) => {
     let query = history.location.search;
 

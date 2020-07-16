@@ -12,7 +12,7 @@
 import { connect } from 'react-redux';
 import CategoryItemsCount from './CategoryItemsCount.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isLoading: state.ProductListReducer.isLoading,
     totalItems: state.ProductListReducer.totalItems
 });

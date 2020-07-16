@@ -459,7 +459,7 @@ export default class Field extends PureComponent {
                   type="number"
                   readOnly
                   // eslint-disable-next-line react/jsx-no-bind
-                  onChange={ e => this.handleChange(e.target.value, false) }
+                  onChange={ (e) => this.handleChange(e.target.value, false) }
                   onKeyDown={ this.onKeyEnterDown }
                   value={ value }
                 />
