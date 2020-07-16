@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "braintree-web-drop-in": "^1.23.0",
-    "history": "^4.9.0",
+    "history": "^5.0.0",
     "html-react-parser": "^0.13.0",
     "prop-types": "^15.6.2",
     "react": "^16.13.1",
