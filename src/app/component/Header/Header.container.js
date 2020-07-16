@@ -70,6 +70,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
         header_logo_src: ''
     };
 
+    state = {
+        shouldRenderCartOverlay: false,
+        shouldRenderAccountOverlay: false
+    };
+
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
@@ -318,6 +323,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         }
 
         if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
+            this.setState({ shouldRenderAccountOverlay: true });
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
         }
@@ -332,10 +338,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any()
-            || [CART_OVERLAY, MENU, POPUP].includes(name)
-            || (!isMobile.any() && name === SEARCH)
-        ) {
+        if (isMobile.any() || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT].includes(name)) {
             return;
         }
 
@@ -392,15 +395,21 @@ export class HeaderContainer extends NavigationAbstractContainer {
         hideActiveOverlay();
     }
 
+    // *
+
     onMinicartButtonClick() {
         const { showOverlay } = this.props;
 
         if (!isMobile.any()) {
+            this.setState({ shouldRenderCartOverlay: true });
+
             return showOverlay(CART_OVERLAY);
         }
 
         return history.push(`/${ CART }`);
     }
+
+    // *
 
     onMinicartOutsideClick() {
         const {
@@ -454,6 +463,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     render() {
         return (
             <Header
+              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

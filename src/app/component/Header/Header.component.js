@@ -25,6 +25,7 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import OfflineNotice from 'Component/OfflineNotice';
+import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -284,35 +285,29 @@ export default class Header extends NavigationAbstract {
         );
     }
 
-    accountOverlayWasVisible = false;
-
-    renderOverlayFallback() {
-        return <div />;
+    renderAccountOverlayFallback() {
+        return (
+            <PopupSuspense
+              actualOverlayKey={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
+            />
+        );
     }
 
     renderAccountOverlay() {
         const {
             isCheckout,
-            activeOverlay,
             showMyAccountLogin,
             closeOverlay,
-            onSignIn
+            onSignIn,
+            shouldRenderAccountOverlay
         } = this.props;
 
-        if (!(isMobile.any() && showMyAccountLogin) && isMobile.any()) {
+        if ((!(isMobile.any() && showMyAccountLogin) && isMobile.any()) || !shouldRenderAccountOverlay) {
             return null;
         }
 
-        if (activeOverlay === CUSTOMER_ACCOUNT_OVERLAY_KEY) {
-            this.accountOverlayWasVisible = true;
-        }
-
-        if (!this.accountOverlayWasVisible) {
-            return this.renderOverlayFallback();
-        }
-
         return (
-            <Suspense fallback={ this.renderOverlayFallback() }>
+            <Suspense fallback={ this.renderAccountOverlayFallback() }>
                 <MyAccountOverlay
                   onSignIn={ onSignIn }
                   closeOverlay={ closeOverlay }
@@ -389,21 +384,23 @@ export default class Header extends NavigationAbstract {
         );
     }
 
-    minicartOverlayWasVisible = false;
+    renderMinicartOverlayFallback() {
+        return (
+            <PopupSuspense
+              actualOverlayKey={ CART_OVERLAY }
+            />
+        );
+    }
 
-    renderMinicartOverlay(isVisible = false) {
-        const { activeOverlay } = this.props;
+    renderMinicartOverlay() {
+        const { shouldRenderCartOverlay } = this.props;
 
-        if (activeOverlay === CART_OVERLAY) {
-            this.minicartOverlayWasVisible = true;
-        }
-
-        if (!this.minicartOverlayWasVisible) {
-            return this.renderOverlayFallback();
+        if (!shouldRenderCartOverlay) {
+            return null;
         }
 
         return (
-            <Suspense fallback={ this.renderOverlayFallback() }>
+            <Suspense fallback={ this.renderMinicartOverlayFallback() }>
                 <CartOverlay />
             </Suspense>
         );
@@ -451,7 +448,7 @@ export default class Header extends NavigationAbstract {
                         />
                         { this.renderMinicartItemsQty() }
                     </button>
-                    { this.renderMinicartOverlay(isVisible) }
+                    { this.renderMinicartOverlay() }
                 </div>
             </ClickOutside>
         );

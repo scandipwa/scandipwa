@@ -31,7 +31,6 @@ import {
     STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
-
 class MyAccountOverlay extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
@@ -57,7 +56,8 @@ class MyAccountOverlay extends PureComponent {
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
         closeOverlay: PropTypes.func,
-        isCheckout: PropTypes.bool
+        isCheckout: PropTypes.bool,
+        showOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -89,6 +89,14 @@ class MyAccountOverlay extends PureComponent {
             title: __('Confirm the email')
         }
     };
+
+    componentDidMount() {
+        const { showOverlay } = this.props;
+
+        if (!isMobile.any()) {
+            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+        }
+    }
 
     renderMyAccount() {
         const { state, closeOverlay, isCheckout } = this.props;

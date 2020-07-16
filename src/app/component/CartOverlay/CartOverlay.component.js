@@ -20,6 +20,7 @@ import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
 import Overlay from 'Component/Overlay';
 import { TotalsType } from 'Type/MiniCart';
+import isMobile from 'Util/Mobile';
 import { formatCurrency } from 'Util/Price';
 
 export default class CartOverlay extends PureComponent {
@@ -28,8 +29,17 @@ export default class CartOverlay extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         isEditing: PropTypes.bool.isRequired,
         handleCheckoutClick: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired
+        currencyCode: PropTypes.string.isRequired,
+        showOverlay: PropTypes.func.isRequired
     };
+
+    componentDidMount() {
+        const { showOverlay } = this.props;
+
+        if (!isMobile.any()) {
+            showOverlay(CART_OVERLAY);
+        }
+    }
 
     renderPriceLine(price) {
         const { currencyCode } = this.props;
