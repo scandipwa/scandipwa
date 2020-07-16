@@ -17,6 +17,7 @@
     "test": "jest --env=jsdom --watchAll",
     "eslint": "eslint ./src/app --ignore-pattern *.test.*",
     "eslint:fix": "npm run eslint -- --fix",
+    "eslint:cache": "eslint ./src/app --cache --ignore-pattern *.test.*",
     "dev-server": "forever ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./src/config/webpack.development.config.js  --progress",
     "dev-server-core": "forever ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./src/config/webpack.core.config.js  --progress",
     "watch-dev-server": "SHELL=/bin/bash chokidar --silent \"src/**/*.js\" \"src/**/*.scss\"  -c \"[ '{event}' = 'add' ] || [ '{event}' = 'unlink' ] && forever restartall \"",
