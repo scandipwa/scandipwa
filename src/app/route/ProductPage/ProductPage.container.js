@@ -47,7 +47,7 @@ const ProductDispatcher = import(
     'Store/Product/Product.dispatcher'
 );
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product
 });
@@ -59,11 +59,11 @@ export const mapDispatchToProps = (dispatch) => ({
         ProductDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
         LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch));
     },
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
     ),
-    updateMetaFromProduct: product => MetaDispatcher.then(
+    updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     )
 });

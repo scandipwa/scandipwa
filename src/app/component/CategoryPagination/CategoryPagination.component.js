@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import './CategoryPagination.style';
 
 import PropTypes from 'prop-types';

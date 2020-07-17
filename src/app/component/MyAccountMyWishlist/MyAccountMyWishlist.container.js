@@ -20,18 +20,23 @@ import { ProductType } from 'Type/ProductList';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
-const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isWishlistLoading: state.WishlistReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     clearWishlist: () => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)),
-    moveWishlistToCart: () => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)),
-    showPopup: payload => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
-    showNotification: message => dispatch(showNotification('success', message))
+    moveWishlistToCart: () => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)
+    ),
+    showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
+    showNotification: (message) => dispatch(showNotification('success', message))
 });
 
 export class MyAccountMyWishlistContainer extends PureComponent {

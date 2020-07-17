@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import './CategoryDetails.style';
 
 import { PureComponent } from 'react';

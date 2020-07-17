@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
-import Field from 'Component/Field';
-
 import './ProductBundleItem.style';
+
+import PropTypes from 'prop-types';
+
+import Field from 'Component/Field';
+import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
 
 export const CHECKBOX = 'checkbox';
 export const SELECT = 'select';

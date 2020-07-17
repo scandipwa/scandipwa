@@ -23,7 +23,7 @@ const NoMatchDispatcher = import(
     'Store/NoMatch/NoMatch.dispatcher'
 );
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     noMatch: state.NoMatchReducer.noMatch
 });
 

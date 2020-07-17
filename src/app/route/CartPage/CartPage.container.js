@@ -30,21 +30,23 @@ import isMobile from 'Util/Mobile';
 
 import CartPage from './CartPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
 
-
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout
 });
 
-export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });

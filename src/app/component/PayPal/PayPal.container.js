@@ -156,7 +156,11 @@ export class PayPalContainer extends PureComponent {
         return token;
     };
 
-    _getGuestQuoteId = () => (isSignedIn() ? '' : CartDispatcher.then(({ default: dispatcher }) => dispatcher._getGuestQuoteId()));
+    _getGuestQuoteId = () => (
+        isSignedIn()
+            ? ''
+            : CartDispatcher.then(({ default: dispatcher }) => dispatcher._getGuestQuoteId())
+    );
 
     render() {
         return (

@@ -34,13 +34,24 @@ import {
 
 import CategoryPage from './CategoryPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const CategoryDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Category/Category.dispatcher');
-const MetaDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Meta/Meta.dispatcher');
-const NoMatchDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/NoMatch/NoMatch.dispatcher');
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const CategoryDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Category/Category.dispatcher'
+);
+const MetaDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Meta/Meta.dispatcher'
+);
+const NoMatchDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/NoMatch/NoMatch.dispatcher'
+);
 
-
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
@@ -49,27 +60,28 @@ export const mapStateToProps = state => ({
     totalPages: state.ProductListReducer.totalPages
 });
 
-export const mapDispatchToProps = dispatch => ({
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    requestCategory: (options) => CategoryDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
-    updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
+    updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch)
         )
         : BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch))
-        ),
-    requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.update([], dispatch)
+        )
+    ),
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
+    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: (options) => NoMatchDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
     ),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.then(
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: (category) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
     )
 });

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import './ProductLinks.style';
 
 import PropTypes from 'prop-types';

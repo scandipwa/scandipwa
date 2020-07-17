@@ -32,7 +32,6 @@ import {
     CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
     MENU, PDP,
-    POPUP,
     SEARCH
 } from './Header.config';
 

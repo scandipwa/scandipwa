@@ -25,7 +25,6 @@ import { KLARNA_PAYMENTS_CONTAINER_ID, KLARNA_SCRIPT_ID } from './Klarna.config'
 
 const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
-
 export default class KlarnaComponent extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,

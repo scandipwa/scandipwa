@@ -17,7 +17,6 @@ import { shippingMethodsType } from 'Type/Checkout';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 
-
 export class CheckoutDeliveryOptionsContainer extends PureComponent {
     static propTypes = {
         onShippingMethodSelect: PropTypes.func.isRequired,

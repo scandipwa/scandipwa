@@ -27,7 +27,6 @@ import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import MyAccountCustomerPopup from './MyAccountCustomerPopup.component';
 import { CUSTOMER_POPUP_ID } from './MyAccountCustomerPopup.config';
 
-
 export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {}
 });

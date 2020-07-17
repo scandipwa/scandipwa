@@ -20,10 +20,16 @@ import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
@@ -31,12 +37,12 @@ export const mapDispatchToProps = (dispatch) => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch));
     },
-    updateMeta: meta => dispatch(updateMeta(meta)),
-    confirmAccount: options => MyAccountDispatcher.then(
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    confirmAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    signIn: options => MyAccountDispatcher.then(
+    signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     )
 });

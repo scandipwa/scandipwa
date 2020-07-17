@@ -14,6 +14,7 @@ import './WidgetFactory.style';
 
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
+
 import RenderWhenVisible from 'Component/RenderWhenVisible';
 
 import { CATALOG_PRODUCT_LIST, NEW_PRODUCTS, SLIDER } from './WidgetFactory.config';

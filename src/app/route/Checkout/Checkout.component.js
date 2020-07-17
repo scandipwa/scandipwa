@@ -32,7 +32,6 @@ import {
     BILLING_STEP, CHECKOUT_URL, DETAILS_STEP, SHIPPING_STEP
 } from './Checkout.config';
 
-
 class Checkout extends PureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,

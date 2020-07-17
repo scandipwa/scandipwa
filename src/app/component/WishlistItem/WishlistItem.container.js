@@ -19,20 +19,26 @@ import { debounce } from 'Util/Request';
 
 import WishlistItem from './WishlistItem.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
-const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.then(
+    addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
-    updateWishlistItem: options => WishlistDispatcher.then(
+    updateWishlistItem: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)
     ),
-    removeFromWishlist: options => WishlistDispatcher.then(
+    removeFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
     )
 });

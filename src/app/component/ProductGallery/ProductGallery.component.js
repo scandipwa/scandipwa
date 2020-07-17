@@ -29,7 +29,6 @@ import {
     GALLERY_LENGTH_BEFORE_COLLAPSE, IMAGE_TYPE, MAX_ZOOM_SCALE, PLACEHOLDER_TYPE, VIDEO_TYPE
 } from './ProductGallery.config';
 
-
 /**
  * Product gallery
  * @class ProductGallery

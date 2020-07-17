@@ -19,7 +19,6 @@ import isMobile from 'Util/Mobile';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
-
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
 export class NavigationAbstractContainer extends PureComponent {

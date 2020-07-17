@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import './CategoryPage.style';
 
 import PropTypes from 'prop-types';

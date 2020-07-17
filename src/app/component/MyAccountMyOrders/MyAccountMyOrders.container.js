@@ -15,13 +15,17 @@ import { connect } from 'react-redux';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
+const OrderDispatcher = import('Store/Order/Order.dispatcher');
+
 export const mapStateToProps = (state) => ({
     orderList: state.OrderReducer.orderList,
     isLoading: state.OrderReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
-    getOrderList: () => OrderDispatcher.then(({ default: dispatcher }) => dispatcher.requestOrders(dispatch))
+export const mapDispatchToProps = (dispatch) => ({
+    getOrderList: () => OrderDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
+    )
 });
 
 class MyAccountMyOrdersContainer extends PureComponent {

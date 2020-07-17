@@ -58,6 +58,13 @@ export const staticReducers = {
     LinkedProductsReducer
 };
 
+export function createReducer(asyncReducers) {
+    return combineReducers({
+        ...staticReducers,
+        ...asyncReducers
+    });
+}
+
 const store = createStore(
     createReducer(),
     ( // enable Redux dev-tools only in development
@@ -67,13 +74,6 @@ const store = createStore(
         trace: true
     })
 );
-
-export function createReducer(asyncReducers) {
-    return combineReducers({
-        ...staticReducers,
-        ...asyncReducers
-    });
-}
 
 // Configure the store
 export default function configureStore() {

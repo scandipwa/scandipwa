@@ -19,7 +19,6 @@ import {
     IMAGE_NOT_SPECIFIED
 } from 'Component/Image/Image.config';
 
-
 class Logo extends Image {
     renderPlaceholderLogo() {
         return (

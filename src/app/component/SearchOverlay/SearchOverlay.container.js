@@ -22,14 +22,14 @@ export const SearchBarDispatcher = import(
     'Store/SearchBar/SearchBar.dispatcher'
 );
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     searchResults: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading
 });
 
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    makeSearchRequest: options => SearchBarDispatcher.then(
+    makeSearchRequest: (options) => SearchBarDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     clearSearchResults: () => SearchBarDispatcher.then(

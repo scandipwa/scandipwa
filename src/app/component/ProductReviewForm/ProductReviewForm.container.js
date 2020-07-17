@@ -23,16 +23,21 @@ import { RatingItemsType } from 'Type/Rating';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
-const ReviewDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Review/Review.dispatcher');
+const ReviewDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Review/Review.dispatcher'
+);
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 
-export const mapDispatchToProps = dispatch => ({
-    addReview: options => ReviewDispatcher.then(({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options)),
+export const mapDispatchToProps = (dispatch) => ({
+    addReview: (options) => ReviewDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))

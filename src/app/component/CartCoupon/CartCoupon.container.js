@@ -21,7 +21,9 @@ export const mapDispatchToProps = (dispatch) => ({
     applyCouponToCart: (couponCode) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)
     ),
-    removeCouponFromCart: () => CartDispatcher.then(({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch))
+    removeCouponFromCart: () => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch)
+    )
 });
 
 export class CartCouponContainer extends PureComponent {

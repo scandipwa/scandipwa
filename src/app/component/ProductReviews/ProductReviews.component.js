@@ -24,7 +24,6 @@ import { ProductType } from 'Type/ProductList';
 
 import { REVIEW_POPUP_ID } from './ProductReviews.config';
 
-
 class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,

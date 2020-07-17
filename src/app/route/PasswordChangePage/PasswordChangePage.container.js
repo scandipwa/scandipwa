@@ -27,7 +27,7 @@ const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus
 });
 
@@ -40,7 +40,9 @@ export const mapDispatchToProps = (dispatch) => ({
         MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch));
     },
     updateCustomerPasswordResetStatus(options) {
-        MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.updateCustomerPasswordResetStatus(options, dispatch));
+        MyAccountDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateCustomerPasswordResetStatus(options, dispatch)
+        );
     },
     showNotification(type, message) {
         dispatch(showNotification(type, message));

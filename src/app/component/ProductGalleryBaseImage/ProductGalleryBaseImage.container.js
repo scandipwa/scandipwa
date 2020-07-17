@@ -19,7 +19,6 @@ import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 import ProductGallery from './ProductGalleryBaseImage.component';
 import { INITIAL_SCALE, TRANSFORMATION_DELAY, TRANSFORMATION_SPEED } from './ProductGalleryBaseImage.config';
 
-
 export class ProductGalleryBaseImageContainer extends Component {
     static propTypes = {
         disableZoom: PropTypes.func.isRequired,

@@ -24,8 +24,10 @@ import { fetchMutation } from 'Util/Request';
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
 import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';
 
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
-
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[ADDRESS_POPUP_ID] || {}
@@ -33,9 +35,11 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
-    showSuccessNotification: message => dispatch(showNotification('success', message)),
-    updateCustomerDetails: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)),
+    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    updateCustomerDetails: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+    ),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 

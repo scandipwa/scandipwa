@@ -20,7 +20,6 @@ import Loader from 'Component/Loader';
 
 import { PAYPAL_SCRIPT } from './PayPal.config';
 
-
 /**
  * *Note*
  * This component currently can be rendered only once

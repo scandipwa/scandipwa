@@ -28,7 +28,9 @@ export const mapStateToProps = (state) => ({
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-    requestCustomerData: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch))
+    requestCustomerData: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+    )
 });
 
 export class CheckoutAddressBookContainer extends PureComponent {

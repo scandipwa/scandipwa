@@ -23,7 +23,6 @@ import { formatCurrency } from 'Util/Price';
 
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
 
-
 class MyAccountOrderPopup extends PureComponent {
     static propTypes = {
         order: orderType.isRequired,

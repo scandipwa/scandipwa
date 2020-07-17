@@ -20,7 +20,6 @@ import { isSignedIn } from 'Util/Auth';
 import ProductReviews from './ProductReviews.component';
 import { REVIEW_POPUP_ID } from './ProductReviews.config';
 
-
 export const mapStateToProps = (state) => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
     isGuestEnabled: state.ConfigReducer.reviews_allow_guest

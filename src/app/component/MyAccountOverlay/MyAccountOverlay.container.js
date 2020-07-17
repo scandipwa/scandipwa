@@ -31,8 +31,10 @@ import {
     STATE_LOGGED_IN, STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
-const MyAccountDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/MyAccount/MyAccount.dispatcher');
-
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
@@ -43,9 +45,13 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    forgotPassword: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)),
-    createAccount: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)),
-    signIn: options => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.signIn(options, dispatch)),
+    forgotPassword: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
+    ),
+    createAccount: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
+    ),
+    signIn: (options) => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.signIn(options, dispatch)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))

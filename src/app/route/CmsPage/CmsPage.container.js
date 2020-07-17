@@ -27,19 +27,22 @@ import { getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 
-const BreadcrumbsDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Breadcrumbs/Breadcrumbs.dispatcher');
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)
     ),
-    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMeta: meta => dispatch(updateMeta(meta)),
+    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update([], dispatch));
         dispatch(toggleBreadcrumbs(isActive));

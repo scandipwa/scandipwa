@@ -35,7 +35,7 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    getOrder: orderId => OrderDispatcher.then(({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId))
+    getOrder: (orderId) => OrderDispatcher.then(({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId))
 });
 
 export class MyAccountOrderPopupContainer extends PureComponent {

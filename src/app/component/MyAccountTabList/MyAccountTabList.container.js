@@ -20,7 +20,7 @@ const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     logout: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.logout(null, dispatch))
 });
 
