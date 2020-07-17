@@ -17,12 +17,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
-
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -32,7 +30,7 @@ const FallbackPlugin = require('./FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-// const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
+const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 module.exports = {
     resolve: {
@@ -43,39 +41,15 @@ module.exports = {
             '*'
         ],
         plugins: [
-            // new FallbackPlugin({
-            //     fallbackRoot, projectRoot
-            // })
+            new FallbackPlugin({
+                fallbackRoot, projectRoot
+            })
         ]
     },
 
-    optimization: {
-        splitChunks: {
-        //   chunks: 'async',
-            minSize: 500000,
-        //   minRemainingSize: 0,
-        //   maxSize: 0,
-        //   minChunks: 1,
-        //   maxAsyncRequests: 6,
-        //   maxInitialRequests: 4,
-        //   automaticNameDelimiter: '~',
-        //   cacheGroups: {
-        //     defaultVendors: {
-        //       test: /[\\/]node_modules[\\/]/,
-        //       priority: -10
-        //     },
-        //     default: {
-        //       minChunks: 2,
-        //       priority: -20,
-        //       reuseExistingChunk: true
-        //     }
-        //   }
-        }
-    },
+    mode: 'development',
 
-    // mode: 'production',
-
-    // devtool: 'source-map',
+    devtool: 'source-map',
 
     stats: {
         warnings: false
@@ -101,26 +75,25 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'style-loader',
-                    // 'css-hot-loader',
-                    // MiniCssExtractPlugin.loader,
+                    'css-hot-loader',
+                    MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
-                            // sourceMap: true
+                            sourceMap: true
                         }
                     },
                     {
                         loader: 'postcss-loader',
                         options: {
-                            // sourceMap: true,
+                            sourceMap: true,
                             plugins: () => [autoprefixer]
                         }
                     },
                     {
                         loader: 'sass-loader',
                         options: {
-                            // sourceMap: true
+                            sourceMap: true
                         }
                     },
                     {
@@ -143,7 +116,6 @@ module.exports = {
     },
 
     output: {
-        chunkFilename: '[name].bundle.js',
         filename: '[name].js',
         publicPath: '/',
         pathinfo: true,
@@ -162,9 +134,8 @@ module.exports = {
         https: false,
         overlay: true,
         compress: true,
-        inline: false,
-        hot: false,
-        injectClient: false,
+        inline: true,
+        hot: true,
         host: '0.0.0.0',
         public: 'scandipwa.local',
         writeToDisk: true,
@@ -179,7 +150,7 @@ module.exports = {
     },
 
     plugins: [
-        // new webpack.HotModuleReplacementPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
 
         new webpack.DefinePlugin({
             'process.env': {
@@ -213,7 +184,7 @@ module.exports = {
             ]
         }),
 
-        // new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin(),
 
         new DashboardPlugin(),
 
@@ -221,12 +192,5 @@ module.exports = {
             analyzerPort: 1111,
             openAnalyzer: false
         })
-
-        // new MinifyPlugin({
-        //     removeConsole: false,
-        //     removeDebugger: true
-        // }, {
-        //     comments: false
-        // })
     ]
 };
