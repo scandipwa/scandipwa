@@ -22,7 +22,7 @@ export class ReviewDispatcher {
         const { rating_data } = reviewItem;
 
         return Object.keys(rating_data).map(
-            key => ({
+            (key) => ({
                 rating_id: +key,
                 option_id: rating_data[key]
             })
@@ -39,7 +39,7 @@ export class ReviewDispatcher {
         )).then(
             () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
             // eslint-disable-next-line no-console
-            error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
+            (error) => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
         );
     }
 }

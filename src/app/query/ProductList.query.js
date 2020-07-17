@@ -36,15 +36,15 @@ export class ProductListQuery {
         const products = new Field('products')
             .addFieldList(this._getProductFields());
 
-        this._getProductArguments().forEach(arg => products.addArgument(...arg));
+        this._getProductArguments().forEach((arg) => products.addArgument(...arg));
 
         return products;
     }
 
     _getFilterArgumentMap() {
         return {
-            categoryIds: id => [`category_id: { eq: ${id} }`],
-            categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
+            categoryIds: (id) => [`category_id: { eq: ${id} }`],
+            categoryUrlPath: (url) => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
 
@@ -58,14 +58,14 @@ export class ProductListQuery {
 
                 return filters;
             },
-            productsSkuArray: sku => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
-            productUrlPath: url => [`url_key: { eq: ${url}}`],
+            productsSkuArray: (sku) => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
+            productUrlPath: (url) => [`url_key: { eq: ${url}}`],
             customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
             ), []),
-            newToDate: date => [`news_to_date: { gteq: ${date} }`],
-            conditions: conditions => [`conditions: { eq: ${conditions} }`],
-            customerGroupId: id => [`customer_group_id: { eq: ${id} }`]
+            newToDate: (date) => [`news_to_date: { gteq: ${date} }`],
+            conditions: (conditions) => [`conditions: { eq: ${conditions} }`],
+            customerGroupId: (id) => [`customer_group_id: { eq: ${id} }`]
         };
     }
 
@@ -77,11 +77,11 @@ export class ProductListQuery {
             currentPage: { type: 'Int!' },
             pageSize: {
                 type: 'Int!',
-                handler: option => (requireInfo ? 1 : option)
+                handler: (option) => (requireInfo ? 1 : option)
             },
             search: {
                 type: 'String!',
-                handler: option => encodeURIComponent(option)
+                handler: (option) => encodeURIComponent(option)
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
@@ -124,7 +124,7 @@ export class ProductListQuery {
             if (!arg) {
                 return acc;
             }
-            const { type, handler = option => option } = argumentMap[key];
+            const { type, handler = (option) => option } = argumentMap[key];
             return [...acc, [key, type, handler(arg)]];
         }, []);
     }
@@ -194,7 +194,10 @@ export class ProductListQuery {
 
             // if variants are not needed
             if (!noVariants) {
-                fields.push(this._getConfigurableProductFragment());
+                fields.push(
+                    this._getConfigurableProductFragment(),
+                    this._getBundleProductFragment()
+                );
             }
         }
 
@@ -214,7 +217,8 @@ export class ProductListQuery {
                 this._getDescriptionField(),
                 this._getMediaGalleryField(),
                 this._getSimpleProductFragment(),
-                this._getProductLinksField()
+                this._getProductLinksField(),
+                this._getCustomizableProductFragment()
             );
 
             // for variants of PDP requested product
@@ -302,7 +306,9 @@ export class ProductListQuery {
     _getBreadcrumbFields() {
         return [
             'category_name',
-            'category_url_path'
+            'category_level',
+            'category_url',
+            'category_is_active'
         ];
     }
 
@@ -530,6 +536,53 @@ export class ProductListQuery {
             .addFieldList(this._getReviewSummaryFields());
     }
 
+    _getBundleOptionsFields() {
+        return [
+            'id',
+            'label',
+            'quantity',
+            'position',
+            'is_default',
+            'price',
+            'price_type',
+            'can_change_quantity',
+            this._getProductField()
+        ];
+    }
+
+    _getBundleOptionsField() {
+        return new Field('options')
+            .addFieldList(this._getBundleOptionsFields());
+    }
+
+    _getBundleItemsFields() {
+        return [
+            'option_id',
+            'title',
+            'required',
+            'type',
+            'position',
+            'sku',
+            this._getBundleOptionsField()
+        ];
+    }
+
+    _getBundleItemsField() {
+        return new Field('items')
+            .addFieldList(this._getBundleItemsFields());
+    }
+
+    _getBundleProductFragmentFields() {
+        return [
+            'price_view',
+            'dynamic_price',
+            'dynamic_sku',
+            'ship_bundle_items',
+            'dynamic_weight',
+            this._getBundleItemsField()
+        ];
+    }
+
     _getValueFields() {
         return [
             'value_index'
@@ -625,15 +678,27 @@ export class ProductListQuery {
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
     }
 
+    _getCustomizableMultiOption() {
+        return new Fragment('CustomizableMultipleOption')
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]); // same as checkbox
+    }
+
     _getCustomizableDropdownOption() {
         return new Fragment('CustomizableDropDownOption')
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
     }
 
+    _getCustomizableRadioOption() {
+        return new Fragment('CustomizableRadioOption')
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]); // same as dropdown
+    }
+
     _getCustomizableProductFragmentOptionsFields() {
         return [
             this._getCustomizableDropdownOption(),
+            this._getCustomizableRadioOption(),
             this._getCustomizableCheckboxOption(),
+            this._getCustomizableMultiOption(),
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
             'title',
@@ -694,6 +759,11 @@ export class ProductListQuery {
         return new Field('regular_price')
             .addField('currency')
             .addField('value');
+    }
+
+    _getBundleProductFragment() {
+        return new Fragment('BundleProduct')
+            .addFieldList(this._getBundleProductFragmentFields());
     }
 
     _getConfigurableProductFragment() {

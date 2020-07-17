@@ -37,20 +37,20 @@ import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
-    toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
-    showErrorNotification: message => dispatch(showNotification('error', message)),
-    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
+    toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
+    showErrorNotification: (message) => dispatch(showNotification('error', message)),
+    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+    createAccount: (options) => MyAccountDispatcher.createAccount(options, dispatch)
 });
 
 export class CheckoutContainer extends PureComponent {
@@ -260,7 +260,7 @@ export class CheckoutContainer extends PureComponent {
             handleAuthorization(
                 paymentInformation,
                 secret,
-                paymentInformation => this.savePaymentInformation(paymentInformation)
+                (paymentInformation) => this.savePaymentInformation(paymentInformation)
             );
         } else {
             this._handleError(error);

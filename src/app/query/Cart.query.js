@@ -106,6 +106,34 @@ export class CartQuery {
         ];
     }
 
+    _getBundleOptionValuesFields() {
+        return [
+            'id',
+            'label',
+            'quantity',
+            'price'
+        ];
+    }
+
+    _getBundleOptionValuesField() {
+        return new Field('values')
+            .addFieldList(this._getBundleOptionValuesFields());
+    }
+
+    _getBundleOptionsFields() {
+        return [
+            'id',
+            'label',
+            'type',
+            this._getBundleOptionValuesField()
+        ];
+    }
+
+    _getBundleOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundleOptionsFields());
+    }
+
     _getCustomizableOptionPriceFields() {
         return [
             'value',
@@ -156,6 +184,7 @@ export class CartQuery {
             'discount_amount',
             'discount_percent',
             this._getCustomizableOptionsFields(),
+            this._getBundleOptionsField(),
             this._getProductField()
         ];
     }

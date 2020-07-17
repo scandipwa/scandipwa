@@ -18,7 +18,7 @@ import { SliderQuery } from 'Query';
 
 import SliderWidget from './SliderWidget.component';
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
@@ -53,7 +53,7 @@ export class SliderWidgetContainer extends DataContainer {
         this.fetchData(
             [SliderQuery.getQuery({ sliderId })],
             ({ slider }) => this.setState({ slider }),
-            e => showNotification('error', 'Error fetching Slider!', e)
+            (e) => showNotification('error', 'Error fetching Slider!', e)
         );
     }
 

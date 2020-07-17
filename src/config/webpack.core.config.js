@@ -136,6 +136,7 @@ module.exports = {
         hot: true,
         host: '0.0.0.0',
         public: 'scandipwa.local',
+        writeToDisk: true,
         allowedHosts: [
             '.local'
         ]
@@ -172,9 +173,14 @@ module.exports = {
 
         new WebpackPwaManifest(webmanifestConfig(projectRoot)),
 
-        new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(projectRoot, 'src', 'public', 'assets'),
+                    to: './assets'
+                }
+            ]
+        }),
 
         new MiniCssExtractPlugin()
     ]

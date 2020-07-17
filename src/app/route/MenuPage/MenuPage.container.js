@@ -19,8 +19,8 @@ import { withRouter } from 'react-router';
 import isMobile from 'Util/Mobile';
 import './MenuPage.style';
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class MenuPageContainer extends PureComponent {

@@ -95,6 +95,7 @@ class ProductReviews extends PureComponent {
         const STARS_COUNT = 5;
         const PERCENT = 100;
 
+        // eslint-disable-next-line no-mixed-operators
         const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
 
         if (!review_count) {

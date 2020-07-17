@@ -43,7 +43,6 @@ export default class SliderWidget extends PureComponent {
 
     state = { activeImage: 0 };
 
-
     onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
     };

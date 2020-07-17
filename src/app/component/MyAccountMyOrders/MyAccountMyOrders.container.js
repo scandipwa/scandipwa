@@ -15,12 +15,12 @@ import { connect } from 'react-redux';
 import { OrderDispatcher } from 'Store/Order';
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     orderList: state.OrderReducer.orderList,
     isLoading: state.OrderReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     getOrderList: () => OrderDispatcher.requestOrders(dispatch)
 });
 
