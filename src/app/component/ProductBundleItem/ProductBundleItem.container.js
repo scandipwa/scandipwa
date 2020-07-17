@@ -40,9 +40,11 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
 
         switch (optionType) {
         case 'select':
+        case 'radio': // handle radio as select
             this.setDefaultDropdownValue();
             break;
         case 'checkbox':
+        case 'multi': // handle multi-select as checkbox
             this.setDefaultCheckboxValue();
             break;
         default:
