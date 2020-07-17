@@ -57,7 +57,7 @@ export class SearchOverlayContainer extends PureComponent {
         }
 
         return {
-            pathname: `/product${ url }`,
+            pathname: url,
             state: { product }
         };
     }

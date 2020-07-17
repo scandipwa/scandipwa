@@ -45,15 +45,6 @@ const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatc
 const ConfigDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Config/Config.dispatcher');
 const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
-// suppress prop-types warning on Route component when using with React.lazy
-// until react-router-dom@4.4.0 or higher version released
-/* eslint-disable react/forbid-foreign-prop-types */
-Route.propTypes.component = PropTypes.oneOfType([
-    Route.propTypes.component,
-    PropTypes.object
-]);
-/* eslint-enable react/forbid-foreign-prop-types */
-
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
 export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));

@@ -19,6 +19,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 const DashboardPlugin = require('webpack-dashboard/plugin');
@@ -184,13 +185,21 @@ module.exports = {
             ]
         }),
 
-        new MiniCssExtractPlugin(),
+        // * NASA mode
+        // new DashboardPlugin(),
 
-        new DashboardPlugin(),
+        // new BundleAnalyzerPlugin({
+        //     analyzerPort: 1111,
+        //     openAnalyzer: false
+        // }),
 
-        new BundleAnalyzerPlugin({
-            analyzerPort: 1111,
-            openAnalyzer: false
-        })
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [
+                path.join(projectRoot, 'Magento_Theme', 'templates'),
+                path.join(projectRoot, 'Magento_Theme', 'web')
+            ]
+        }),
+
+        new MiniCssExtractPlugin()
     ]
 };
