@@ -306,7 +306,9 @@ export class ProductListQuery {
     _getBreadcrumbFields() {
         return [
             'category_name',
-            'category_url'
+            'category_level',
+            'category_url',
+            'category_is_active'
         ];
     }
 

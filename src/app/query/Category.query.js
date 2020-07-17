@@ -54,7 +54,8 @@ export class CategoryQuery {
         return [
             'category_name',
             'category_level',
-            'category_url'
+            'category_url',
+            'category_is_active'
         ];
     }
 
