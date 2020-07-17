@@ -88,15 +88,23 @@ export class BreadcrumbsDispatcher {
             breadcrumbs
                 .sort((a, b) => a.category_level - b.category_level)
                 .forEach((crumb) => {
-                    const { category_url_path, category_name } = crumb;
+                    const { category_url, category_name, category_is_active } = crumb;
 
-                    breadcrumbsList.push({
-                        name: category_name,
-                        url: {
-                            pathname: `/${category_url_path}`,
-                            state: { category: true }
-                        }
-                    });
+                    // do not add link to inactive categories
+                    if (category_is_active) {
+                        breadcrumbsList.push({
+                            name: category_name,
+                            url: {
+                                pathname: category_url,
+                                state: { category: true }
+                            }
+                        });
+                    } else {
+                        breadcrumbsList.push({
+                            url: '',
+                            name: category_name
+                        });
+                    }
                 });
         }
 

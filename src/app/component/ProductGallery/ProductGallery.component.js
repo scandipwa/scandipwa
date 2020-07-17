@@ -67,6 +67,10 @@ export class ProductGallery extends PureComponent {
 
     sliderRef = createRef();
 
+    state = {
+        scrollEnabled: true
+    };
+
     constructor(props, context) {
         super(props, context);
         this.renderSlide = this.renderSlide.bind(this);
@@ -142,6 +146,29 @@ export class ProductGallery extends PureComponent {
         );
     }
 
+    stopScrolling() {
+        this.setState({ scrollEnabled: false });
+        this.timeout = setTimeout(() => {
+            this.setState({ scrollEnabled: true });
+            this.timeout = null;
+
+            // 20 ms is time give to scroll down, usually that is enough
+            // eslint-disable-next-line no-magic-numbers
+        }, 20);
+    }
+
+    onWheel = (zoomState) => {
+        const { scale } = zoomState;
+
+        if (this.timeout) {
+            return;
+        }
+
+        if (scale === 1 || scale === MAX_ZOOM_SCALE) {
+            this.stopScrolling();
+        }
+    };
+
     /**
      * Renders a product image to be displayed in the gallery
      * @param mediaData
@@ -151,11 +178,15 @@ export class ProductGallery extends PureComponent {
      */
     renderImage(mediaData, index) {
         const { isZoomEnabled, handleZoomChange, disableZoom } = this.props;
+        const { scrollEnabled } = this.state;
 
         return (
             <TransformWrapper
               key={ index }
               onZoomChange={ handleZoomChange }
+              onWheelStart={ this.onWheelStart }
+              onWheel={ this.onWheel }
+              wheel={ { limitsOnWheel: true, disabled: !scrollEnabled } }
             //   doubleClick={ { mode: 'reset' } }
               pan={ {
                   disabled: !isZoomEnabled,

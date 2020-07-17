@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 export const BreadcrumbsType = PropTypes.arrayOf(
     PropTypes.shape({
         category_name: PropTypes.string,
-        category_url_path: PropTypes.string,
+        category_url: PropTypes.string,
         category_level: PropTypes.number
     })
 );

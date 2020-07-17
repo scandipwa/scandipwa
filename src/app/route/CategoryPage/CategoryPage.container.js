@@ -75,7 +75,9 @@ export const mapDispatchToProps = (dispatch) => ({
             ({ default: dispatcher }) => dispatcher.update([], dispatch)
         )
     ),
-    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
+    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+    ),
     updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: (options) => NoMatchDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)

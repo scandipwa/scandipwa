@@ -102,11 +102,18 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @return {Query} ProductList query
      * @memberof LinkedProductsDispatcher
      */
-    clearLinkedProducts(dispatch) {
-        dispatch(updateLinkedProducts({
+    clearLinkedProducts(dispatch, updateCrosssel = false) {
+        const linkedProducts = {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
             crosssell: { total_count: 0, items: [] }
+        };
+
+        BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
+
+        dispatch(updateLinkedProducts({
+            ...linkedProducts,
+            updateCrosssel
         }));
     }
 }

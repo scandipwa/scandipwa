@@ -37,7 +37,8 @@ const LinkedProductsReducer = (state = initialState, action) => {
         linkedProducts: {
             [UPSELL]: upsell,
             [RELATED]: related,
-            [CROSS_SELL]: crosssell
+            [CROSS_SELL]: crosssell,
+            updateCrosssel = false
         }
     } = action;
 
@@ -46,6 +47,17 @@ const LinkedProductsReducer = (state = initialState, action) => {
             [CROSS_SELL]: prevCrossSell
         }
     } = state;
+
+    if (updateCrosssel) {
+        return {
+            ...state,
+            linkedProducts: {
+                [UPSELL]: upsell,
+                [RELATED]: related,
+                [CROSS_SELL]: crosssell
+            }
+        };
+    }
 
     return {
         ...state,

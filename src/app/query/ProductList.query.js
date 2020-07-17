@@ -306,7 +306,9 @@ export class ProductListQuery {
     _getBreadcrumbFields() {
         return [
             'category_name',
-            'category_url_path'
+            'category_level',
+            'category_url',
+            'category_is_active'
         ];
     }
 
@@ -676,15 +678,27 @@ export class ProductListQuery {
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
     }
 
+    _getCustomizableMultiOption() {
+        return new Fragment('CustomizableMultipleOption')
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]); // same as checkbox
+    }
+
     _getCustomizableDropdownOption() {
         return new Fragment('CustomizableDropDownOption')
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
     }
 
+    _getCustomizableRadioOption() {
+        return new Fragment('CustomizableRadioOption')
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]); // same as dropdown
+    }
+
     _getCustomizableProductFragmentOptionsFields() {
         return [
             this._getCustomizableDropdownOption(),
+            this._getCustomizableRadioOption(),
             this._getCustomizableCheckboxOption(),
+            this._getCustomizableMultiOption(),
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
             'title',
