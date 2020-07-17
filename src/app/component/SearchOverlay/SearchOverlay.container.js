@@ -50,14 +50,14 @@ export class SearchOverlayContainer extends PureComponent {
     };
 
     getProductLinkTo(product) {
-        const { url_key } = product;
+        const { url } = product;
 
-        if (!url_key) {
+        if (!url) {
             return {};
         }
 
         return {
-            pathname: `/product/${ url_key }`,
+            pathname: `/product${ url }`,
             state: { product }
         };
     }
