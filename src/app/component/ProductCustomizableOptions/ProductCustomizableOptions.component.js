@@ -14,6 +14,7 @@ import ProductCustomizableOption from 'Component/ProductCustomizableOption';
 
 import './ProductCustomizableOptions.style';
 
+/** @namespace Component/ProductCustomizableOptions/Component */
 class ProductCustomizableOptions extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,

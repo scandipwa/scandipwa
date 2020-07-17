@@ -19,6 +19,7 @@ export const DROPDOWN = 'dropdown';
 export const TEXT_FIELD = 'field';
 export const AREA_FIELD = 'area';
 
+/** @namespace Component/ProductCustomizableOption/Component */
 class ProductCustomizableOption extends ExtensiblePureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,

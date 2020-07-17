@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 
 import './StoreItems.style';
 
+/** @namespace Component/StoreItems/Component */
 class StoreItems extends ExtensiblePureComponent {
     static propTypes = {
         item: PropTypes.object.isRequired,
