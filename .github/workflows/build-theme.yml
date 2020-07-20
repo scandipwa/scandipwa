@@ -9,28 +9,30 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PROJECTROOT: app/design/frontend/Scandiweb/pwa
+      FALLBACKROOT: vendor/scandipwa/source
     steps:
-
+    
     - name: Get the updated repository
       uses: actions/checkout@v2
       with:
         path: vendor/scandipwa/source
-        
+
     - name: Setup Node.js
       uses: actions/setup-node@v2.1.0
       with:
         node-version: 10.19.0
-        
+
     - name: Bootstrap the theme
       run: |
-        export PROJECTROOT=app/design/frontend/Scandiweb/pwa 
-        export FALLBACKROOT=vendor/scandipwa/source
         cp -r $FALLBACKROOT/.github/bootstrapper/* .
         npm ci
         npm run bootstrap
-        
+
     - name: Build the theme
       run: |
+        export PROJECTROOT=app/design/frontend/Scandiweb/pwa 
         cd $PROJECTROOT
         npm ci
         npm run build
