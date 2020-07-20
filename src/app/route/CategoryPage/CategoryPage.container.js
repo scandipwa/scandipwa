@@ -22,7 +22,6 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     updateInfoLoadStatus
 } from 'Store/ProductListInfo/ProductListInfo.action';
-import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { debounce } from 'Util/Request';
@@ -33,6 +32,11 @@ import {
 } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
+
+const ProductListInfoDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/ProductListInfo/ProductListInfo.dispatcher'
+);
 
 const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
