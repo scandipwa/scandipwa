@@ -1,4 +1,4 @@
-name: Build the theme
+name: Build the theme (v2)
 
 on:
   push:
