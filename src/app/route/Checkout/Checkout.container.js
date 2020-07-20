@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
+import { history } from 'Route';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -182,7 +183,6 @@ export class CheckoutContainer extends PureComponent {
 
     goBack() {
         const { checkoutStep } = this.state;
-        const { history } = this.props;
 
         if (checkoutStep === BILLING_STEP) {
             this.setState({
@@ -191,9 +191,9 @@ export class CheckoutContainer extends PureComponent {
             });
 
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-        } else {
-            history.push('/cart');
         }
+
+        history.goBack();
     }
 
     setDetailsStep(orderID) {
