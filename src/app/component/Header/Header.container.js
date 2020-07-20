@@ -167,7 +167,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { navigationState } = this.props;
 
         const { pathname } = location;
-        const { historyState } = window.history || {};
+        const { state: historyState } = window.history || {};
         const { state = {} } = historyState || {};
 
         const activeRoute = Object.keys(this.routeMap)
