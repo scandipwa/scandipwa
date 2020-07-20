@@ -88,16 +88,12 @@ class Checkout extends PureComponent {
     };
 
     componentDidMount() {
-        const { checkoutStep, history, goBack } = this.props;
+        const { checkoutStep, history } = this.props;
         const { url } = this.stepMap[checkoutStep];
 
         this.updateHeader();
 
         history.replace(`${ CHECKOUT_URL }${ url }`);
-
-        window.onpopstate = () => {
-            goBack();
-        };
     }
 
     componentDidUpdate(prevProps) {
