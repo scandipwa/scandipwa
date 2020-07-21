@@ -27,16 +27,6 @@ const reduceFilters = (filters) => filters.reduce((co, item) => {
 
         attribute_values.push(value_string);
 
-        if (attribute_code === 'cat') {
-            return {
-                ...attribute,
-                attribute_options: {
-                    ...attribute_options,
-                    [i]: option
-                }
-            };
-        }
-
         return {
             ...attribute,
             attribute_options: {

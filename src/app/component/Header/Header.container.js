@@ -375,7 +375,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onClearButtonClick() {
-        const { hideActiveOverlay } = this.props;
+        const {
+            hideActiveOverlay,
+            goToPreviousNavigationState
+        } = this.props;
 
         setQueryParams(
             {
@@ -390,6 +393,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         this.setState({ isClearEnabled: false });
 
         hideActiveOverlay();
+        goToPreviousNavigationState();
     }
 
     onMinicartButtonClick() {
