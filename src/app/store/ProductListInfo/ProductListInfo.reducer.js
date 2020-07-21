@@ -14,6 +14,10 @@ import {
     UPDATE_INFO_LOAD_STATUS
 } from 'Store/ProductListInfo';
 
+import {
+    UPDATE_PRODUCT_LIST_ITEMS
+} from 'Store/ProductList';
+
 const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
@@ -83,6 +87,12 @@ const ProductListReducer = (state = initialState, action) => {
         return {
             ...state,
             isLoading
+        };
+
+    case UPDATE_PRODUCT_LIST_ITEMS:
+        return {
+            ...state,
+            isLoading: false
         };
 
     default:
