@@ -15,24 +15,34 @@ import { connect } from 'react-redux';
 import { updateMeta } from 'Store/Meta';
 import Menu from 'Component/Menu';
 import { HistoryType } from 'Type/Common';
+import { changeNavigationState } from 'Store/Navigation';
 import { withRouter } from 'react-router';
 import isMobile from 'Util/Mobile';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { MENU } from 'Component/Header';
 import './MenuPage.style';
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 export class MenuPageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        history: HistoryType.isRequired
+        history: HistoryType.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         const { updateMeta } = this.props;
         updateMeta({ title: __('Menu') });
         this.redirectIfNotOnMobile();
+        const { changeHeaderState } = this.props;
+        changeHeaderState({
+            name: MENU,
+            onBackClick: () => history.goBack()
+        });
     }
 
     redirectIfNotOnMobile() {

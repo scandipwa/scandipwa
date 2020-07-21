@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { changeNavigationState } from 'Store/Navigation';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { POPUP } from 'Component/Header';
 
@@ -28,7 +28,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 export class PopupContainer extends PureComponent {
@@ -39,6 +40,7 @@ export class PopupContainer extends PureComponent {
             })
         ).isRequired,
         activeOverlay: PropTypes.string.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         onVisible: PropTypes.func
     };

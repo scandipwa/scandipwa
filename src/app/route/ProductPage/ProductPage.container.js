@@ -20,7 +20,7 @@ import { MetaDispatcher } from 'Store/Meta';
 import { getVariantIndex } from 'Util/Product';
 import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
-import { changeNavigationState } from 'Store/Navigation';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 import { setBigOfflineNotice } from 'Store/Offline';
@@ -49,9 +49,10 @@ export const mapDispatchToProps = dispatch => ({
         ProductDispatcher.handleData(dispatch, options);
         LinkedProductsDispatcher.clearLinkedProducts(dispatch);
     },
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
+    updateMetaFromProduct: (product) => MetaDispatcher.updateWithProduct(product, dispatch),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -82,7 +83,8 @@ export class ProductPageContainer extends PureComponent {
         productSKU: PropTypes.string,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
-        match: MatchType.isRequired
+        match: MatchType.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -124,7 +126,8 @@ export class ProductPageContainer extends PureComponent {
     componentDidMount() {
         const {
             location: { pathname },
-            history
+            history,
+            product
         } = this.props;
 
         if (pathname === '/product' || pathname === '/product/') {
@@ -132,8 +135,10 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        this._requestProduct();
-        this._onProductUpdate();
+        // if (!product) {
+            this._requestProduct();
+            this._onProductUpdate();
+        // }
     }
 
     componentDidUpdate(prevProps) {
@@ -177,6 +182,13 @@ export class ProductPageContainer extends PureComponent {
 
             updateMetaFromProduct(dataSource);
         }
+
+        console.log('product update',id, prevId, this.props.product, prevProps.product)
+
+        // if (id === prevId) {
+        //     this._onProductUpdate(false);
+        //     return;
+        // }
 
         this._onProductUpdate();
     }
@@ -297,14 +309,16 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    _onProductUpdate() {
+    _onProductUpdate(updateHeader = true) {
         const { isOffline, setBigOfflineNotice } = this.props;
         const dataSource = this._getDataSource();
 
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
-            this._updateHeaderState(dataSource);
-            this._updateNavigationState();
+            // if (updateHeader) {
+                this._updateHeaderState(dataSource);
+                this._updateNavigationState();
+            // }
 
             if (isOffline) {
                 setBigOfflineNotice(false);
