@@ -119,14 +119,8 @@ export class CategoryPageContainer extends PureComponent {
         const {
             location: { pathname },
             updateBreadcrumbs,
-            isOnlyPlaceholder,
-            updateLoadStatus,
             history
         } = this.props;
-
-        if (isOnlyPlaceholder) {
-            updateLoadStatus(true);
-        }
 
         if (pathname === '/category' || pathname === '/category/') {
             history.push('/');
