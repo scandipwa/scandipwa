@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { OptionsType } from 'Type/ProductList';
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
+/** @namespace Component/ProductCustomizableOptions/Container */
 class ProductCustomizableOptionsContainer extends ExtensiblePureComponent {
     static propTypes = {
         options: OptionsType,

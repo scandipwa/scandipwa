@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { formatCurrency } from 'Util/Price';
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
+/** @namespace Component/ProductCustomizableOption/Container */
 class ProductCustomizableOptionContainer extends ExtensiblePureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
