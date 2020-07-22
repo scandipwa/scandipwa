@@ -27,16 +27,16 @@ import NavigationTabs, {
     CHECKOUT_TAB
 } from './NavigationTabs.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals
 });
 
-export const mapDispatchToProps = dispatch => ({
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+export const mapDispatchToProps = (dispatch) => ({
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+    setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
 });

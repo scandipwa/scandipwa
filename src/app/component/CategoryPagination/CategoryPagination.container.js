@@ -20,7 +20,7 @@ import { LocationType } from 'Type/Router';
 
 import CategoryPagination from './CategoryPagination.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     paginationFrame: state.ConfigReducer.pagination_frame,
     paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
     anchorTextPrevious: state.ConfigReducer.anchor_text_for_previous,

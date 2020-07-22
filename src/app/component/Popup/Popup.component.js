@@ -135,7 +135,7 @@ export default class Popup extends Overlay {
                         <button
                           block="Popup"
                           elem="CloseBtn"
-                          title="Close Popup"
+                          aria-label={ __('Close') }
                           onClick={ this.hidePopUp }
                         />
                     </header>

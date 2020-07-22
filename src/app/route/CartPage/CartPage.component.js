@@ -49,7 +49,7 @@ export default class CartPage extends PureComponent {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
-                    { items.map(item => (
+                    { items.map((item) => (
                         <CartItem
                           key={ item.item_id }
                           item={ item }
@@ -190,17 +190,6 @@ export default class CartPage extends PureComponent {
         );
     }
 
-    renderPaymentMethods() {
-        return (
-            <img
-              block="CartPage"
-              elem="PaymentMethods"
-              src={ media('etc/payment-methods.jpg', WYSIWYG_MEDIA) }
-              alt="Shipping car icon"
-            />
-        );
-    }
-
     renderPromoContent() {
         const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
 
@@ -209,23 +198,14 @@ export default class CartPage extends PureComponent {
         }
 
         return (
-            <>
-                <figure
-                  block="CartPage"
-                  elem="PromoBlock"
-                >
-                    <img
-                      block="CartPage"
-                      elem="PromoImage"
-                      src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
-                      alt="Shipping car icon"
-                    />
-                    <figcaption block="CartPage" elem="PromoText">
+            <figure
+              block="CartPage"
+              elem="PromoBlock"
+            >
+                <figcaption block="CartPage" elem="PromoText">
                     { __('Free shipping on order 49$ and more.') }
-                    </figcaption>
-                </figure>
-                { this.renderPaymentMethods() }
-            </>
+                </figcaption>
+            </figure>
         );
     }
 

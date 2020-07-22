@@ -21,18 +21,18 @@ import { updateMeta } from 'Store/Meta';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     },
-    updateMeta: meta => dispatch(updateMeta(meta)),
-    confirmAccount: options => MyAccountDispatcher.confirmAccount(options, dispatch),
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    confirmAccount: (options) => MyAccountDispatcher.confirmAccount(options, dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    signIn: options => MyAccountDispatcher.signIn(options, dispatch)
+    signIn: (options) => MyAccountDispatcher.signIn(options, dispatch)
 });
 
 export class ConfirmAccountPageContainer extends PureComponent {
@@ -108,7 +108,6 @@ export class ConfirmAccountPageContainer extends PureComponent {
 
         updateBreadcrumbs(breadcrumbs);
     }
-
 
     render() {
         return (

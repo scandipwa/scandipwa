@@ -22,7 +22,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 
 import './HomePage.style';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 

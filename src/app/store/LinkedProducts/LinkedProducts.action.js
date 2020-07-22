@@ -15,7 +15,7 @@ export const UPDATE_LINKED_PRODUCTS = 'UPDATE_LINKED_PRODUCTS';
  * @param  {Array<String>} upsell List of products returned from fetch
  * @return {void}
  */
-export const updateLinkedProducts = linkedProducts => ({
+export const updateLinkedProducts = (linkedProducts) => ({
     type: UPDATE_LINKED_PRODUCTS,
     linkedProducts
 });

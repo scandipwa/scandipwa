@@ -26,15 +26,15 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import MyAccountCustomerPopup, { CUSTOMER_POPUP_ID } from './MyAccountCustomerPopup.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {}
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
-    showSuccessNotification: message => dispatch(showNotification('success', message)),
+    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 

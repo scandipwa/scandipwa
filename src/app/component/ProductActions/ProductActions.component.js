@@ -62,7 +62,7 @@ export default class ProductActions extends PureComponent {
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
-        productPrice: PriceType.isRequired,
+        productPrice: PriceType,
         productName: PropTypes.string,
         offerCount: PropTypes.number.isRequired,
         offerType: PropTypes.string.isRequired,
@@ -72,6 +72,7 @@ export default class ProductActions extends PureComponent {
 
     static defaultProps = {
         configurableVariantIndex: 0,
+        productPrice: {},
         productName: ''
     };
 

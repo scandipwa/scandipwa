@@ -15,8 +15,8 @@ import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
 import CartCoupon from './CartCoupon.component';
 
-export const mapDispatchToProps = dispatch => ({
-    applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
+export const mapDispatchToProps = (dispatch) => ({
+    applyCouponToCart: (couponCode) => CartDispatcher.applyCouponToCart(dispatch, couponCode),
     removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
 });
 

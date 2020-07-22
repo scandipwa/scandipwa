@@ -15,8 +15,8 @@ import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification';
 import KlarnaComponent from './Klarna.component';
 
-export const mapDispatchToProps = dispatch => ({
-    showError: message => dispatch(showNotification('error', message))
+export const mapDispatchToProps = (dispatch) => ({
+    showError: (message) => dispatch(showNotification('error', message))
 });
 
 export class KlarnaContainer extends PureComponent {

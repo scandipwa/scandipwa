@@ -22,15 +22,15 @@ import { OrderQuery } from 'Query';
 
 import MyAccountOrderPopup, { ORDER_POPUP_ID } from './MyAccountOrderPopup.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     order: state.OrderReducer.order,
     payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
     currency_code: state.ConfigReducer.default_display_currency_code
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    getOrder: orderId => OrderDispatcher.getOrderById(dispatch, orderId)
+    getOrder: (orderId) => OrderDispatcher.getOrderById(dispatch, orderId)
 });
 
 export class MyAccountOrderPopupContainer extends PureComponent {

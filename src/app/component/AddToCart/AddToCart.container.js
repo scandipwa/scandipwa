@@ -25,13 +25,13 @@ import { showNotification } from 'Store/Notification';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.addProductToCart(dispatch, options),
+    removeFromWishlist: (options) => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
@@ -197,7 +197,7 @@ export class AddToCartContainer extends PureComponent {
 
     validateProductOptions(items, requiredOptions, isBundle = false) {
         // Make sure EVERY required option is FOUND in selected items
-        return requiredOptions.every(requiredOption => (
+        return requiredOptions.every((requiredOption) => (
             items.find((item) => {
                 const { id, option_id } = item;
                 const matchWith = isBundle ? id : option_id;

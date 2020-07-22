@@ -16,7 +16,7 @@ export const initialState = {
     formattedConfigurableOptions: {}
 };
 
-export const formatConfigurableOptions = configurable_options => configurable_options
+export const formatConfigurableOptions = (configurable_options) => configurable_options
     .reduce((prev, option) => {
         const {
             attribute_id,

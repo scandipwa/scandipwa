@@ -108,11 +108,11 @@ class InjectedStripeCheckoutForm extends PureComponent {
             if (['requires_action', 'requires_source_action'].includes(status)) {
                 if (confirmation_method === 'manual') {
                     handleCardAction(secret).then(
-                        response => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
+                        (response) => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
                     );
                 } else {
                     handleCardPayment(secret).then(
-                        response => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
+                        (response) => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
                     );
                 }
             }

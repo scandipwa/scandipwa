@@ -24,14 +24,14 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 
-export const mapDispatchToProps = dispatch => ({
-    addReview: options => ReviewDispatcher.submitProductReview(dispatch, options),
+export const mapDispatchToProps = (dispatch) => ({
+    addReview: (options) => ReviewDispatcher.submitProductReview(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))

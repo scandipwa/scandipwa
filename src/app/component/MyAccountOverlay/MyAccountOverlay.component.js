@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -100,6 +101,7 @@ class MyAccountOverlay extends PureComponent {
                       block="MyAccountOverlay"
                       elem="CloseButton"
                       onClick={ closeOverlay }
+                      aria-label={ __('Close') }
                     />
                 ) }
                 { render() }
@@ -150,7 +152,13 @@ class MyAccountOverlay extends PureComponent {
                   onSubmitSuccess={ onForgotPasswordSuccess }
                   onSubmitError={ onFormError }
                 >
-                    <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
+                    <Field
+                      type="text"
+                      id="email"
+                      name="email"
+                      label={ __('Email') }
+                      validation={ ['notEmpty', 'email'] }
+                    />
                     <div block="MyAccountOverlay" elem="Buttons">
                         <button block="Button" type="submit">
                             { __('Send reset link') }
@@ -196,8 +204,7 @@ class MyAccountOverlay extends PureComponent {
               mods={ { state } }
             >
                 <p id="forgot-password-success">
-                    { // eslint-disable-next-line max-len
-                    __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
+                    { __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
                 </p>
                 <button
                   block="Button"
@@ -252,7 +259,13 @@ class MyAccountOverlay extends PureComponent {
                     </fieldset>
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>{ __('Sign-Up Information') }</legend>
-                        <Field type="text" label="Email" id="email" name="email" validation={ ['notEmpty', 'email'] } />
+                        <Field
+                          type="text"
+                          label={ __('Email') }
+                          id="email"
+                          name="email"
+                          validation={ ['notEmpty', 'email'] }
+                        />
                         <Field
                           type="password"
                           label={ __('Password') }

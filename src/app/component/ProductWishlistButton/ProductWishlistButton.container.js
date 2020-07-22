@@ -19,14 +19,14 @@ import { ProductType } from 'Type/ProductList';
 import { getExtensionAttributes } from 'Util/Product';
 import ProductWishlistButton from './ProductWishlistButton.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
     isLoading: state.WishlistReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
-    addProductToWishlist: wishlistItem => WishlistDispatcher.addItemToWishlist(dispatch, wishlistItem),
-    removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
+export const mapDispatchToProps = (dispatch) => ({
+    addProductToWishlist: (wishlistItem) => WishlistDispatcher.addItemToWishlist(dispatch, wishlistItem),
+    removeProductFromWishlist: (options) => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
