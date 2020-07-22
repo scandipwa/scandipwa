@@ -45,7 +45,7 @@ export default class Popup extends Overlay {
         this.freezeScroll();
         this.overlayRef.current.focus();
 
-        window.addEventListener('popstate', this.handleWindowPopState);
+        window.addEventListener('popstate', this.hidePopUp);
 
         history.pushState(
             {
@@ -63,7 +63,7 @@ export default class Popup extends Overlay {
 
     onHide() {
         const { onHide } = this.props;
-        window.removeEventListener('popstate', this.handleWindowPopState);
+        window.removeEventListener('popstate', this.hidePopUp);
 
         this.unfreezeScroll();
 
@@ -79,23 +79,13 @@ export default class Popup extends Overlay {
         }
     };
 
-    handleWindowPopState = () => {
-        this.hidePopUp();
-    };
-
-    // Close button click don't return user to previous state
-    handleClickClose = () => {
-        this.hidePopUp();
-        history.back();
-    }
-
+    // Same with click outside
     handleClickOutside = () => {
         const { clickOutside } = this.props;
         if (!clickOutside) {
             return;
         }
         this.hidePopUp();
-        history.back();
     };
 
     handleKeyDown = (e) => {
@@ -138,7 +128,7 @@ export default class Popup extends Overlay {
                           block="Popup"
                           elem="CloseBtn"
                           aria-label={ __('Close') }
-                          onClick={ this.handleClickClose }
+                          onClick={ this.hidePopUp }
                         />
                     </header>
                     { children }

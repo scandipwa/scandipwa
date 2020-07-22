@@ -58,7 +58,10 @@ export class PopupContainer extends PureComponent {
 
         changeHeaderState({
             name: POPUP,
-            title: this._getPopupTitle()
+            title: this._getPopupTitle(),
+            onCloseClick: () => {
+                history.back();
+            }
         });
 
         onVisible();
