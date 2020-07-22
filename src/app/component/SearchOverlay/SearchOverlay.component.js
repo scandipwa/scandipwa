@@ -139,7 +139,7 @@ export default class SearchOverlay extends PureComponent {
             <p
               block="SearchOverlay"
               elem="Criteria"
-              mods={ { isVisible: !!searchCriteria } }
+              mods={ { isVisible: !!searchCriteria.trim() } }
             >
                 { __('Results for:') }
                 <strong>{ searchCriteria }</strong>
@@ -158,7 +158,7 @@ export default class SearchOverlay extends PureComponent {
     renderSearchResults() {
         const { searchCriteria, searchResults, isLoading } = this.props;
 
-        if (!searchCriteria) {
+        if (!searchCriteria.trim()) {
             return this.renderNoSearchCriteria();
         }
         if (!searchResults.length && !isLoading && !this.timeout) {
