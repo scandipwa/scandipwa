@@ -95,7 +95,7 @@ class SearchField extends PureComponent {
         const { onSearchBarChange } = this.props;
         const trimmedValue = value.trim();
 
-        onSearchBarChange({ target: { value: trimmedValue } });
+        onSearchBarChange(e);
 
         this.setState({ isPlaceholderVisible: trimmedValue === '' });
     };
