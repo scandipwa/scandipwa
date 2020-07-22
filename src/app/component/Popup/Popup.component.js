@@ -83,8 +83,10 @@ export default class Popup extends Overlay {
         this.hidePopUp();
     };
 
-    handleClickClose() {
+    // Close button click don't return user to previous state
+    handleClickClose = () => {
         this.hidePopUp();
+        history.back();
     }
 
     handleClickOutside = () => {
@@ -93,6 +95,7 @@ export default class Popup extends Overlay {
             return;
         }
         this.hidePopUp();
+        history.back();
     };
 
     handleKeyDown = (e) => {
