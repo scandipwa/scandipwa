@@ -18,7 +18,7 @@
 }
 
 .SearchOverlay {
-    --placeholder-animation: placeholderanimation 2s linear infinite;
+    --placeholder-animation: placeholderAnimation 2s linear infinite;
 
     @include desktop {
         transition-property: width, opacity, transform, border-color;
