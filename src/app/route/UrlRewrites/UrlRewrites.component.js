@@ -149,7 +149,7 @@ export class UrlRewrites extends PureComponent {
             prevPathname: pathname
         };
 
-        requestUrlRewrite(pathname);
+        requestUrlRewrite(pathname.replace(new RegExp(window.storeRegexText), ''));
     }
 
     renderDefaultPage() {

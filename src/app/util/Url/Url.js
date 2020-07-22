@@ -45,14 +45,14 @@ const removeQueryParamWithoutHistory = (name, history, location) => {
  * @param {Object} location location object from react-router
  */
 const getUrlParam = (match, location) => {
-    const baseUrl = match.path;
-    const currentUrl = location.pathname;
+    const baseUrl = match.path.replace(window.storeRegexText, '').replace('/', '');
+    const currentUrl = location.pathname.replace(new RegExp(window.storeRegexText), '');
 
     if (baseUrl === '/') {
         return currentUrl.replace(baseUrl, '');
     }
 
-    return currentUrl.replace(baseUrl, '').substring(1);
+    return currentUrl.replace(baseUrl, '').replace(/^\/*/, '');
 };
 
 /**

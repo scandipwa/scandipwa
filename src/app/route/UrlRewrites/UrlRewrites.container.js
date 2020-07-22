@@ -20,7 +20,9 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     requestUrlRewrite: (urlParam) => {
-        UrlRewritesDispatcher.handleData(dispatch, { urlParam });
+        UrlRewritesDispatcher.handleData(dispatch, {
+            urlParam: urlParam.replace(new RegExp(window.storeRegexText), '')
+        });
     },
     clearUrlRewrites: () => {
         UrlRewritesDispatcher.clearUrlRewrites(dispatch);

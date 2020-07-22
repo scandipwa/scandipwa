@@ -22,11 +22,13 @@ export default class Link extends PureComponent {
             PropTypes.object
         ]).isRequired,
         children: ChildrenType.isRequired,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        baseUrlPrefix: PropTypes.string
     };
 
     static defaultProps = {
-        onClick: () => {}
+        onClick: () => {},
+        baseUrlPrefix: ''
     };
 
     scrollToElement = (e) => {
@@ -48,12 +50,27 @@ export default class Link extends PureComponent {
         onClick(e);
     };
 
+    getTo() {
+        const {
+            baseUrlPrefix,
+            to: initialTo
+        } = this.props;
+
+        if (typeof initialTo === 'string') {
+            return baseUrlPrefix.concat(initialTo);
+        }
+
+        return initialTo;
+    }
+
     render() {
         const {
-            to,
             children,
+            baseUrlPrefix,
             ...props
         } = this.props;
+
+        const to = this.getTo();
 
         if (!to) {
             return (

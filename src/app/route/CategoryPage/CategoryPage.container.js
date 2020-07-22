@@ -358,6 +358,7 @@ export class CategoryPageContainer extends PureComponent {
     _getCategoryUrlPath() {
         const { location, match } = this.props;
         const path = getUrlParam(match, location);
+
         return path.indexOf('search') === 0 ? null : path;
     }
 

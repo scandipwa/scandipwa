@@ -20,6 +20,12 @@
         <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-SemiBold.ttf" as="font" type="font/ttf" crossorigin="">
         <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-Bold.ttf" as="font" type="font/ttf" crossorigin="">
 
+        <!-- When you add a store to the store list, remember to add it here (for pathname store switch support) -->
+        <script>
+            window.storeList = ['default'];
+            window.storeRegexText = `/(${window.storeList.join('|')})?`;
+        </script>
+
         <style>
             @font-face {
                 font-family: 'Muli';

@@ -23,6 +23,8 @@ export class ConfigDispatcher extends QueryDispatcher {
 
     onSuccess(data, dispatch) {
         if (data) {
+            console.log({ data });
+
             BrowserDatabase.setItem(data, 'config', ONE_MONTH_IN_SECONDS);
             dispatch(updateConfig(data));
         }

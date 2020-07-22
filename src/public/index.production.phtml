@@ -23,6 +23,11 @@
         </script>
         <script async src="<?= $this->getStaticFile("assets/pwacompat.min.js"); ?>"></script>
 
+        <script>
+            // TODO implement
+            // window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`);
+        </script>
+
         <!-- TODO: Find or implement helper to generate fonts related code -->
         <link rel="preload" href="<?= $this->getStaticFile("assets/font/Muli-Light.ttf"); ?>" as="font" type="font/ttf" crossorigin="">
         <link rel="preload" href="<?= $this->getStaticFile("assets/font/Muli-Regular.ttf"); ?>" as="font" type="font/ttf" crossorigin="">
