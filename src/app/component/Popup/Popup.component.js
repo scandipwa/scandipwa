@@ -62,31 +62,30 @@ export default class Popup extends Overlay {
     }
 
     onHide() {
-        const { onHide, goToPreviousNavigationState } = this.props;
+        const { onHide } = this.props;
         window.removeEventListener('popstate', this.handleWindowPopState);
-
-        goToPreviousNavigationState();
 
         this.unfreezeScroll();
 
         onHide();
     }
 
-    hidePopUp = (fromPopup = true) => {
-        const { hideActiveOverlay } = this.props;
+    hidePopUp = () => {
+        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
         const isVisible = this.getIsVisible();
         if (isVisible) {
             hideActiveOverlay();
-        }
-
-        if (!fromPopup) {
-            history.back();
+            goToPreviousNavigationState();
         }
     };
 
     handleWindowPopState = () => {
-        this.hidePopUp(false);
+        this.hidePopUp();
     };
+
+    handleClickClose() {
+        this.hidePopUp();
+    }
 
     handleClickOutside = () => {
         const { clickOutside } = this.props;
@@ -136,7 +135,7 @@ export default class Popup extends Overlay {
                           block="Popup"
                           elem="CloseBtn"
                           aria-label={ __('Close') }
-                          onClick={ this.hidePopUp }
+                          onClick={ this.handleClickClose }
                         />
                     </header>
                     { children }

@@ -39,7 +39,8 @@ import ProductPage from './ProductPage.component';
 
 export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
-    product: state.ProductReducer.product
+    product: state.ProductReducer.product,
+    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE]
 });
 
 export const mapDispatchToProps = (dispatch) => ({
@@ -84,7 +85,8 @@ export class ProductPageContainer extends PureComponent {
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired,
-        goToPreviousNavigationState: PropTypes.func.isRequired
+        goToPreviousNavigationState: PropTypes.func.isRequired,
+        navigation: PropTypes.shape(PropTypes.shape).isRequired
     };
 
     static defaultProps = {
@@ -136,17 +138,19 @@ export class ProductPageContainer extends PureComponent {
         }
 
         // if (!product) {
-            this._requestProduct();
-            this._onProductUpdate();
+        this._requestProduct();
+        this._onProductUpdate();
         // }
     }
 
     componentDidUpdate(prevProps) {
+        // console.log('product page update', this.props, prevProps)
         const {
             location: { pathname },
             product: { id, options, items },
             productSKU,
-            isOnlyPlaceholder
+            isOnlyPlaceholder,
+            navigation: { navigationState: { name: navName, title: navTitle } }
         } = this.props;
 
         const {
@@ -157,7 +161,8 @@ export class ProductPageContainer extends PureComponent {
                 items: prevItems
             },
             productSKU: prevProductSKU,
-            isOnlyPlaceholder: prevIsOnlyPlaceholder
+            isOnlyPlaceholder: prevIsOnlyPlaceholder,
+            navigation: { navigationState: { name: prevNavName, title: prevNavTitle } }
         } = prevProps;
 
         if (
@@ -183,14 +188,17 @@ export class ProductPageContainer extends PureComponent {
             updateMetaFromProduct(dataSource);
         }
 
-        console.log('product update',id, prevId, this.props.product, prevProps.product)
+        // console.log('product update',id, prevId, this.props.product, prevProps.product)
 
         // if (id === prevId) {
         //     this._onProductUpdate(false);
         //     return;
         // }
-
-        this._onProductUpdate();
+        // if () {
+            const updateHeader = navName === PDP && navTitle !== prevNavTitle
+            console.log(id, prevId, updateHeader, navName, prevNavName, navTitle, prevNavTitle)
+            this._onProductUpdate(updateHeader);
+        // }
     }
 
     getLink(key, value) {
@@ -310,15 +318,15 @@ export class ProductPageContainer extends PureComponent {
     }
 
     _onProductUpdate(updateHeader = true) {
+        console.log('product update')
         const { isOffline, setBigOfflineNotice } = this.props;
         const dataSource = this._getDataSource();
-
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
-            // if (updateHeader) {
+            if (updateHeader) {
                 this._updateHeaderState(dataSource);
-                this._updateNavigationState();
-            // }
+            }
+            this._updateNavigationState();
 
             if (isOffline) {
                 setBigOfflineNotice(false);
