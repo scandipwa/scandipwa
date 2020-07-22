@@ -16,7 +16,7 @@ import { withRouter } from 'react-router';
 
 import { history } from 'Route';
 import { PDP } from 'Component/Header';
-import { MetaDispatcher } from 'Store/Meta';
+import { MetaDispatcher, updateMeta } from 'Store/Meta';
 import { getVariantIndex } from 'Util/Product';
 import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
@@ -40,7 +40,8 @@ import ProductPage from './ProductPage.component';
 export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product,
-    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE]
+    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
+    metaTitle: state.MetaReducer.title
 });
 
 export const mapDispatchToProps = (dispatch) => ({
@@ -53,7 +54,8 @@ export const mapDispatchToProps = (dispatch) => ({
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
     updateMetaFromProduct: (product) => MetaDispatcher.updateWithProduct(product, dispatch),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -86,13 +88,16 @@ export class ProductPageContainer extends PureComponent {
         history: HistoryType.isRequired,
         match: MatchType.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
-        navigation: PropTypes.shape(PropTypes.shape).isRequired
+        navigation: PropTypes.shape(PropTypes.shape).isRequired,
+        updateMeta: PropTypes.func.isRequired,
+        metaTitle: PropTypes.string
     };
 
     static defaultProps = {
         location: { state: {} },
         isOnlyPlaceholder: false,
-        productSKU: ''
+        productSKU: '',
+        metaTitle: undefined
     };
 
     static getDerivedStateFromProps(props) {
@@ -128,8 +133,7 @@ export class ProductPageContainer extends PureComponent {
     componentDidMount() {
         const {
             location: { pathname },
-            history,
-            product
+            history
         } = this.props;
 
         if (pathname === '/product' || pathname === '/product/') {
@@ -137,20 +141,23 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        // if (!product) {
         this._requestProduct();
         this._onProductUpdate();
-        // }
     }
 
     componentDidUpdate(prevProps) {
-        // console.log('product page update', this.props, prevProps)
         const {
             location: { pathname },
-            product: { id, options, items },
+            product: {
+                id,
+                options,
+                items,
+                name: productName
+            },
             productSKU,
             isOnlyPlaceholder,
-            navigation: { navigationState: { name: navName, title: navTitle } }
+            navigation: { navigationState: { name: navName, title: navTitle } },
+            metaTitle
         } = this.props;
 
         const {
@@ -181,24 +188,15 @@ export class ProductPageContainer extends PureComponent {
             this.getRequiredProductOptions(items);
         }
 
-        if (id !== prevId) {
+        if (id !== prevId || (id === prevId && productName !== metaTitle)) {
             const dataSource = this._getDataSource();
             const { updateMetaFromProduct } = this.props;
 
             updateMetaFromProduct(dataSource);
         }
 
-        // console.log('product update',id, prevId, this.props.product, prevProps.product)
-
-        // if (id === prevId) {
-        //     this._onProductUpdate(false);
-        //     return;
-        // }
-        // if () {
-            const updateHeader = navName === PDP && navTitle !== prevNavTitle
-            console.log(id, prevId, updateHeader, navName, prevNavName, navTitle, prevNavTitle)
-            this._onProductUpdate(updateHeader);
-        // }
+        const updateHeader = navName === PDP && navTitle !== prevNavTitle;
+        this._onProductUpdate(updateHeader);
     }
 
     getLink(key, value) {
@@ -318,7 +316,6 @@ export class ProductPageContainer extends PureComponent {
     }
 
     _onProductUpdate(updateHeader = true) {
-        console.log('product update')
         const { isOffline, setBigOfflineNotice } = this.props;
         const dataSource = this._getDataSource();
         if (Object.keys(dataSource).length) {
