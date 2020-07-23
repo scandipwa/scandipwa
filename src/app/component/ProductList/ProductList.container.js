@@ -12,16 +12,24 @@
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
+import {
+    ProductListInfoDispatcher
+} from 'Store/ProductListInfo';
 import isMobile from 'Util/Mobile';
 
 import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
+
+export const mapDispatchToProps = (dispatch) => ({
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options)
+});
 
 export class ProductListContainer extends PureComponent {
     containerFunctions = {
@@ -39,6 +47,7 @@ export class ProductListContainer extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
+        requestProductListInfo: PropTypes.func.isRequired,
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
@@ -66,7 +75,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { pages, getIsNewCategory } = this.props;
+        const { pages, getIsNewCategory, filter } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -75,7 +84,7 @@ export class ProductListContainer extends PureComponent {
         }
 
         // Is true when category is changed. This check prevents making new requests when navigating back to PLP from PDP
-        if (getIsNewCategory()) {
+        if (getIsNewCategory() || (!getIsNewCategory() && Object.keys(filter).length > 0)) {
             this.requestPage(this._getPageFromUrl());
         }
     }
@@ -108,6 +117,7 @@ export class ProductListContainer extends PureComponent {
             filter,
             pageSize,
             requestProductList,
+            requestProductListInfo,
             noAttributes,
             noVariants
         } = this.props;
@@ -131,8 +141,16 @@ export class ProductListContainer extends PureComponent {
                 currentPage
             }
         };
+        const infoOptions = {
+            args: {
+                filter,
+                search,
+                sort
+            }
+        };
 
         requestProductList(options);
+        requestProductListInfo(infoOptions);
     };
 
     containerProps = () => ({
@@ -221,4 +239,4 @@ export class ProductListContainer extends PureComponent {
     }
 }
 
-export default withRouter(ProductListContainer);
+export default withRouter(connect(null, mapDispatchToProps)(ProductListContainer));
