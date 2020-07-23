@@ -22,43 +22,6 @@ class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
         );
     }
 
-    renderCategory(option) {
-        const {
-            isContentExpanded,
-            getSubHeading
-        } = this.props;
-
-        const {
-            attribute_label,
-            attribute_options
-        } = option;
-
-        return (
-            <ExpandableContent
-              key="cat"
-              heading={ attribute_label }
-              subHeading={ getSubHeading(option) }
-              mix={ {
-                  block: 'ProductConfigurableAttributes',
-                  elem: 'Expandable'
-              } }
-              isContentExpanded={ isContentExpanded }
-            >
-                <div
-                  block="ProductConfigurableAttributes"
-                  elem="DropDownList"
-                >
-                    { Object.entries(attribute_options).map(([key, option]) => (
-                        <CategorySubcategories
-                          key={ key }
-                          option={ option }
-                        />
-                    )) }
-                </div>
-            </ExpandableContent>
-        );
-    }
-
     renderDropdownOrSwatch(option) {
         const {
             isContentExpanded,
@@ -96,8 +59,6 @@ class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
         switch (attribute_code) {
         case 'price':
             return this.renderPriceRange(option);
-        case 'cat':
-            return this.renderCategory(option);
         default:
             return this.renderDropdownOrSwatch(option);
         }
@@ -118,7 +79,7 @@ class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
               block="ProductConfigurableAttributes"
               elem="DropDownList"
             >
-                { attribute_values.map(attribute_value => (
+                { attribute_values.map((attribute_value) => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })
                 )) }
             </div>

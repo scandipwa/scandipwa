@@ -8,6 +8,10 @@
         "stylelint-config-standard"
     ],
     "rules": {
+        "value-keyword-case": [
+            "lower",
+            ignoreProperties: [/\w*animation\w*/]
+        ],
         "at-rule-no-unknown": null,
         "at-rule-empty-line-before": null,
         "declaration-empty-line-before": null,

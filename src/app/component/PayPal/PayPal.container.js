@@ -25,13 +25,13 @@ import PayPal from './PayPal.component';
 
 export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     cartTotals: state.CartReducer.cartTotals,
     clientId: state.ConfigReducer.paypal_client_id,
     isSandboxEnabled: state.ConfigReducer.paypal_sandbox_flag
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message, e) => dispatch(showNotification(type, message, e))
 });
 

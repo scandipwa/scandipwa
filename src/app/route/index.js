@@ -44,15 +44,6 @@ import NewVersionPopup from 'Component/NewVersionPopup';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
 
-// suppress prop-types warning on Route component when using with React.lazy
-// until react-router-dom@4.4.0 or higher version released
-/* eslint-disable react/forbid-foreign-prop-types */
-Route.propTypes.component = PropTypes.oneOfType([
-    Route.propTypes.component,
-    PropTypes.object
-]);
-/* eslint-enable react/forbid-foreign-prop-types */
-
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
 export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/Checkout'));
@@ -75,7 +66,7 @@ export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
@@ -86,8 +77,8 @@ export const mapStateToProps = state => ({
     isBigOffline: state.OfflineReducer.isBig
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class AppRouter extends PureComponent {

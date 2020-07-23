@@ -42,7 +42,7 @@ import {
 
 import CategoryPage from './CategoryPage.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
@@ -51,19 +51,19 @@ export const mapStateToProps = state => ({
     totalPages: state.ProductListReducer.totalPages
 });
 
-export const mapDispatchToProps = dispatch => ({
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
-    updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
+export const mapDispatchToProps = (dispatch) => ({
+    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    requestCategory: (options) => CategoryDispatcher.handleData(dispatch, options),
+    updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
         : BreadcrumbsDispatcher.update([], dispatch)),
-    requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
+    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: (options) => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: (category) => MetaDispatcher.updateWithCategory(category, dispatch)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -119,14 +119,8 @@ export class CategoryPageContainer extends PureComponent {
         const {
             location: { pathname },
             updateBreadcrumbs,
-            isOnlyPlaceholder,
-            updateLoadStatus,
             history
         } = this.props;
-
-        if (isOnlyPlaceholder) {
-            updateLoadStatus(true);
-        }
 
         if (pathname === '/category' || pathname === '/category/') {
             history.push('/');
@@ -376,28 +370,24 @@ export class CategoryPageContainer extends PureComponent {
 
         const filters = {
             priceRange,
-            categoryIds,
             customFilters,
             categoryUrlPath
         };
 
+        if (!customFilters.category_id) {
+            filters.categoryIds = categoryIds;
+        }
+
         return filters;
     }
 
-    _getProductListOptions(currentPage) {
-        const { categoryIds } = this.props;
-        const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
-        const customFilters = this._getSelectedFiltersFromUrl();
-
+    _getProductListOptions() {
         const options = {
             args: {
-                filter: {
-                    categoryUrlPath,
-                    categoryIds,
-                    customFilters
-                }
-            },
-            currentPage
+                filter: this._getFilter(),
+                search: this._getSearchParam(),
+                sort: this._getSelectedSortFromUrl()
+            }
         };
 
         return options;
@@ -493,7 +483,7 @@ export class CategoryPageContainer extends PureComponent {
 
     _requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
-        requestProductListInfo(this._getProductListOptions(1));
+        requestProductListInfo(this._getProductListOptions());
     }
 
     _requestCategory() {

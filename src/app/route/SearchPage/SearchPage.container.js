@@ -22,7 +22,7 @@ import { debounce } from 'Util/Request';
 
 import SearchPage from './SearchPage.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
@@ -33,19 +33,19 @@ export const mapStateToProps = state => ({
     totalPages: state.ProductListReducer.totalPages
 });
 
-export const mapDispatchToProps = dispatch => ({
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch),
-    updateCurrentCategory: category => dispatch(updateCurrentCategory(category)),
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    requestCategory: (options) => CategoryDispatcher.handleData(dispatch, options),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
+    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: (options) => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: (category) => MetaDispatcher.updateWithCategory(category, dispatch),
+    updateCurrentCategory: (category) => dispatch(updateCurrentCategory(category)),
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class SearchPageContainer extends CategoryPageContainer {

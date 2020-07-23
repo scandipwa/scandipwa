@@ -1,0 +1,14 @@
+{
+  "name": "bootstrapper",
+  "version": "1.0.0",
+  "description": "Lightweight bootstrapper for ScandiPWA frontend",
+  "main": "bootstrapper.js",
+  "scripts": {
+    "bootstrap": "node bootstrapper.js"
+  },
+  "author": "Jegors Batovs <yegor@scandipwa.com>",
+  "license": "ISC",
+  "dependencies": {
+    "copy-dir": "^1.3.0"
+  }
+}

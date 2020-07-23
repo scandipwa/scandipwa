@@ -16,12 +16,12 @@ import { MyAccountDispatcher } from 'Store/MyAccount';
 import { customerType } from 'Type/Account';
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
 });
 

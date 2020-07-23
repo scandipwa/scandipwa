@@ -252,7 +252,7 @@
             --option-margin: 0 .5rem 1rem;
 
             // display: grid;
-            border-top: 1px solid var(--expandable-content-divider-color);
+            // border-top: 1px solid var(--expandable-content-divider-color);
             // grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
         }
 
@@ -292,7 +292,7 @@
                     border-top: 0;
                     padding-top: 0;
                     // padding-top: .5rem;
-                    bottom: -1px;
+                    bottom: 0;
                     border-bottom: 1px solid var(--expandable-content-divider-color);
                 }
 
@@ -329,7 +329,8 @@
                 }
             }
 
-            &_customizable_options {
+            &_customizable_options,
+            &_bundle_items {
                 display: block;
 
                 article {

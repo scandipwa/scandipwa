@@ -16,14 +16,14 @@ import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
 import SearchOverlay from './SearchOverlay.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     searchResults: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    makeSearchRequest: options => SearchBarDispatcher.handleData(dispatch, options),
+    makeSearchRequest: (options) => SearchBarDispatcher.handleData(dispatch, options),
     clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch)
 });
 
@@ -40,14 +40,14 @@ export class SearchOverlayContainer extends PureComponent {
     };
 
     getProductLinkTo(product) {
-        const { url_key } = product;
+        const { url } = product;
 
-        if (!url_key) {
+        if (!url) {
             return {};
         }
 
         return {
-            pathname: `/product/${ url_key }`,
+            pathname: url,
             state: { product }
         };
     }

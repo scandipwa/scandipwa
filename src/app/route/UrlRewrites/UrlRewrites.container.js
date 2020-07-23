@@ -13,12 +13,12 @@ import { connect } from 'react-redux';
 import { UrlRewritesDispatcher } from 'Store/UrlRewrites';
 import UrlRewrites from './UrlRewrites.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.handleData(dispatch, { urlParam });
     },

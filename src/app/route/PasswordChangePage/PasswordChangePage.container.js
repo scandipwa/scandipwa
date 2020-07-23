@@ -18,12 +18,12 @@ import { updateMeta } from 'Store/Meta';
 import { showNotification } from 'Store/Notification';
 import PasswordChangePage from './PasswordChangePage.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     },

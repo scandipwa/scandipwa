@@ -99,21 +99,24 @@
         margin-right: 5px;
     }
 
-    &-CustomizableOptionsWrapper {
+    &-ItemOptionsWrapper {
         @include after-mobile {
             margin-top: 7px;
         }
-    }
 
-    &-CustomizableOption {
-        display: flex;
-
-        &:not(:first-child) {
-            margin-top: .5rem;
+        &_isLikeTable {
+            @include desktop {
+                max-width: 45%;
+            }
         }
     }
 
-    &-CustomizableOptionLabel {
+    &-ItemOption {
+        // display: flex;
+        margin-bottom: .5rem;
+    }
+
+    &-ItemOptionLabel {
         align-self: center;
         font-weight: bold;
         margin-right: .5rem;

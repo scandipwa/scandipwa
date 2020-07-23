@@ -38,6 +38,7 @@
     &-Link {
         text-transform: capitalize;
         color: var(--breadcrumbs-color);
+        display: inline-block;
     }
 
     &-Crumb {

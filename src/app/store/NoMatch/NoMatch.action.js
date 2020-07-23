@@ -16,7 +16,7 @@ export const UPDATE_NOMATCH = 'UPDATE_NOMATCH';
  * @param  {Boolean} noMatch New noMatch value
  * @return {void}
  */
-export const updateNoMatch = noMatch => ({
+export const updateNoMatch = (noMatch) => ({
     type: UPDATE_NOMATCH,
     noMatch
 });

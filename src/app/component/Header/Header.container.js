@@ -38,7 +38,7 @@ import Header, {
     CHECKOUT
 } from './Header.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
@@ -48,10 +48,10 @@ export const mapStateToProps = state => ({
     activeOverlay: state.OverlayReducer.activeOverlay
 });
 
-export const mapDispatchToProps = dispatch => ({
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+export const mapDispatchToProps = (dispatch) => ({
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
@@ -167,13 +167,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { navigationState } = this.props;
 
         const { pathname } = location;
-        const { historyState = {} } = window.history;
+        const { state: historyState } = window.history || {};
         const { state = {} } = historyState || {};
 
         const activeRoute = Object.keys(this.routeMap)
-            .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
+            .find((route) => (route !== '/' || pathname === '/') && pathname.includes(route));
 
-        if (state.category || state.product) { // keep state if it category is in state
+        if (state.category || state.product || state.page) { // keep state if it category is in state
             return navigationState;
         }
 
@@ -375,7 +375,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onClearButtonClick() {
-        const { hideActiveOverlay } = this.props;
+        const {
+            hideActiveOverlay,
+            goToPreviousNavigationState
+        } = this.props;
 
         setQueryParams(
             {
@@ -390,6 +393,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         this.setState({ isClearEnabled: false });
 
         hideActiveOverlay();
+        goToPreviousNavigationState();
     }
 
     onMinicartButtonClick() {

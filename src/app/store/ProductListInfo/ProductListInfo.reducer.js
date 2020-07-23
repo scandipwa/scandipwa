@@ -14,7 +14,7 @@ import {
     UPDATE_INFO_LOAD_STATUS
 } from 'Store/ProductListInfo';
 
-const reduceFilters = filters => filters.reduce((co, item) => {
+const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
         name: attribute_label,
@@ -26,16 +26,6 @@ const reduceFilters = filters => filters.reduce((co, item) => {
         const { attribute_values, attribute_options } = attribute;
 
         attribute_values.push(value_string);
-
-        if (attribute_code === 'cat') {
-            return {
-                ...attribute,
-                attribute_options: {
-                    ...attribute_options,
-                    [i]: option
-                }
-            };
-        }
 
         return {
             ...attribute,

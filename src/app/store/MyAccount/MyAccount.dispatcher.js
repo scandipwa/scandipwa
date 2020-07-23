@@ -50,7 +50,7 @@ export class MyAccountDispatcher {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -74,7 +74,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
         return fetchMutation(mutation).then(
             () => dispatch(updateCustomerPasswordForgotStatus()),
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 

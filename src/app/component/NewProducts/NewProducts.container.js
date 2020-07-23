@@ -19,11 +19,11 @@ import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
 import NewProducts from './NewProducts.component';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     timezone: state.ConfigReducer.timezone
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
@@ -124,7 +124,7 @@ export class NewProductsContainer extends PureComponent {
         const query = [ProductListQuery.getQuery(options)];
         executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
             .then(({ products: { items } }) => this.setState({ products: getIndexedProducts(items) }))
-            .catch(e => showNotification('error', 'Error fetching NewProducts!', e));
+            .catch((e) => showNotification('error', 'Error fetching NewProducts!', e));
     }
 
     render = () => <NewProducts { ...this.props } { ...this.state } />;
