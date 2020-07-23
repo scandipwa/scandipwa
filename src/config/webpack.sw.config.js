@@ -15,7 +15,7 @@
 // TODO: merge Webpack config files
 
 const path = require('path');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
@@ -36,17 +36,6 @@ module.exports = (_, options) => {
         ? { devtool: 'source-map' }
         : {};
 
-    const additionalPlugins = isDevelopment
-        ? []
-        : [
-            new MinifyPlugin({
-                removeConsole: true,
-                removeDebugger: true
-            }, {
-                comments: false
-            })
-        ];
-
     return {
         ...additionalOptions,
 
@@ -58,6 +47,24 @@ module.exports = (_, options) => {
             plugins: [
                 new FallbackPlugin({
                     fallbackRoot, projectRoot
+                })
+            ]
+        },
+
+        optimization: {
+            splitChunks: {
+                minSize: 50000
+            },
+            minimize: true,
+            minimizer: [
+                new TerserPlugin({
+                    test: /\.js(\?.*)?$/i,
+                    terserOptions: {
+                        output: {
+                            comments: false
+                        }
+                    },
+                    extractComments: false
                 })
             ]
         },
@@ -92,10 +99,6 @@ module.exports = (_, options) => {
             publicPath: '/',
             pathinfo: true,
             path: publicRoot
-        },
-
-        plugins: [
-            ...additionalPlugins
-        ]
+        }
     };
 };

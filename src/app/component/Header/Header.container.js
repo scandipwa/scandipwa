@@ -167,7 +167,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { navigationState } = this.props;
 
         const { pathname } = location;
-        const { historyState } = window.history || {};
+        const { state: historyState } = window.history || {};
         const { state = {} } = historyState || {};
 
         const activeRoute = Object.keys(this.routeMap)
@@ -375,7 +375,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onClearButtonClick() {
-        const { hideActiveOverlay } = this.props;
+        const {
+            hideActiveOverlay,
+            goToPreviousNavigationState
+        } = this.props;
 
         setQueryParams(
             {
@@ -390,6 +393,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         this.setState({ isClearEnabled: false });
 
         hideActiveOverlay();
+        goToPreviousNavigationState();
     }
 
     onMinicartButtonClick() {

@@ -202,7 +202,11 @@ export class CartDispatcher {
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.handleData(dispatch, product_links);
+            } else {
+                LinkedProductsDispatcher.clearLinkedProducts(dispatch, true);
             }
+        } else {
+            LinkedProductsDispatcher.clearLinkedProducts(dispatch, true);
         }
     }
 

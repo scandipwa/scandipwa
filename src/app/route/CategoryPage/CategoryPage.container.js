@@ -119,14 +119,8 @@ export class CategoryPageContainer extends PureComponent {
         const {
             location: { pathname },
             updateBreadcrumbs,
-            isOnlyPlaceholder,
-            updateLoadStatus,
             history
         } = this.props;
-
-        if (isOnlyPlaceholder) {
-            updateLoadStatus(true);
-        }
 
         if (pathname === '/category' || pathname === '/category/') {
             history.push('/');
@@ -376,28 +370,24 @@ export class CategoryPageContainer extends PureComponent {
 
         const filters = {
             priceRange,
-            categoryIds,
             customFilters,
             categoryUrlPath
         };
 
+        if (!customFilters.category_id) {
+            filters.categoryIds = categoryIds;
+        }
+
         return filters;
     }
 
-    _getProductListOptions(currentPage) {
-        const { categoryIds } = this.props;
-        const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
-        const customFilters = this._getSelectedFiltersFromUrl();
-
+    _getProductListOptions() {
         const options = {
             args: {
-                filter: {
-                    categoryUrlPath,
-                    categoryIds,
-                    customFilters
-                }
-            },
-            currentPage
+                filter: this._getFilter(),
+                search: this._getSearchParam(),
+                sort: this._getSelectedSortFromUrl()
+            }
         };
 
         return options;
@@ -493,7 +483,7 @@ export class CategoryPageContainer extends PureComponent {
 
     _requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
-        requestProductListInfo(this._getProductListOptions(1));
+        requestProductListInfo(this._getProductListOptions());
     }
 
     _requestCategory() {

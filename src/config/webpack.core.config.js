@@ -19,6 +19,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
@@ -136,6 +137,7 @@ module.exports = {
         hot: true,
         host: '0.0.0.0',
         public: 'scandipwa.local',
+        writeToDisk: true,
         allowedHosts: [
             '.local'
         ]
@@ -178,6 +180,13 @@ module.exports = {
                     from: path.resolve(projectRoot, 'src', 'public', 'assets'),
                     to: './assets'
                 }
+            ]
+        }),
+
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [
+                path.join(projectRoot, 'Magento_Theme', 'templates'),
+                path.join(projectRoot, 'Magento_Theme', 'web')
             ]
         }),
 

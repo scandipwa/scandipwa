@@ -145,7 +145,7 @@ export class ProductListQuery {
                 'min_price',
                 'max_price',
                 this._getSortField(),
-                this._getFiltersField()
+                this._getAggregationsField()
             ];
         }
 
@@ -306,7 +306,9 @@ export class ProductListQuery {
     _getBreadcrumbFields() {
         return [
             'category_name',
-            'category_url_path'
+            'category_level',
+            'category_url',
+            'category_is_active'
         ];
     }
 
@@ -676,15 +678,27 @@ export class ProductListQuery {
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
     }
 
+    _getCustomizableMultiOption() {
+        return new Fragment('CustomizableMultipleOption')
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]); // same as checkbox
+    }
+
     _getCustomizableDropdownOption() {
         return new Fragment('CustomizableDropDownOption')
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
     }
 
+    _getCustomizableRadioOption() {
+        return new Fragment('CustomizableRadioOption')
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]); // same as dropdown
+    }
+
     _getCustomizableProductFragmentOptionsFields() {
         return [
             this._getCustomizableDropdownOption(),
+            this._getCustomizableRadioOption(),
             this._getCustomizableCheckboxOption(),
+            this._getCustomizableMultiOption(),
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
             'title',
@@ -802,42 +816,32 @@ export class ProductListQuery {
             .addFieldList(this._getSwatchDataFields());
     }
 
-    _getFilterItemSwatchFragmentFields() {
+    _getAggregationsField() {
+        return new Field('aggregations')
+            .setAlias('filters')
+            .addFieldList(this._getAggregationsFields());
+    }
+
+    _getAggregationsFields() {
+        return [
+            new Field('label').setAlias('name'),
+            new Field('attribute_code').setAlias('request_var'),
+            this._getAggregationsOptionsField()
+        ];
+    }
+
+    _getAggregationsOptionsField() {
+        return new Field('options')
+            .setAlias('filter_items')
+            .addFieldList(this._getAggregationsOptionsFields());
+    }
+
+    _getAggregationsOptionsFields() {
         return [
             'label',
+            new Field('value').setAlias('value_string'),
             this._getSwatchDataField()
         ];
-    }
-
-    _getFilterItemSwatchFragment() {
-        return new Fragment('SwatchLayerFilterItem')
-            .addFieldList(this._getFilterItemSwatchFragmentFields());
-    }
-
-    _getFilterItemFields() {
-        return [
-            'label',
-            'value_string',
-            this._getFilterItemSwatchFragment()
-        ];
-    }
-
-    _getFilterItemsField() {
-        return new Field('filter_items')
-            .addFieldList(this._getFilterItemFields());
-    }
-
-    _getFilterFields() {
-        return [
-            'name',
-            'request_var',
-            this._getFilterItemsField()
-        ];
-    }
-
-    _getFiltersField() {
-        return new Field('filters')
-            .addFieldList(this._getFilterFields());
     }
 
     _getPageInfoField() {
