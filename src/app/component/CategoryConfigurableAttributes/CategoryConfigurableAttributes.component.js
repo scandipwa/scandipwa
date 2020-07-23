@@ -12,7 +12,6 @@
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import CategoryPriceRange from 'Component/CategoryPriceRange';
-import CategorySubcategories from 'Component/CategorySubcategories';
 import ExpandableContent from 'Component/ExpandableContent';
 
 class CategoryConfigurableAttributes extends ProductConfigurableAttributes {

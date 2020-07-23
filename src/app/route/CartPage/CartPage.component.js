@@ -12,7 +12,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
 import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
