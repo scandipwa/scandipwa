@@ -1,6 +1,6 @@
-/* eslint-disable arrow-body-style */
-/* eslint-disable consistent-return */
+/* eslint-disable arrow-body-style, consistent-return */
 const proxyInstance = require('../ProxyInstance');
+const construct = require('../Construct');
 
 /**
  * This component allows ScandiPWA extension functionality.
@@ -9,6 +9,8 @@ const proxyInstance = require('../ProxyInstance');
  */
 module.exports = class ExtensibleClass {
     constructor() {
-        return proxyInstance(this);
+        return construct(proxyInstance(this));
     }
+
+    __construct() {}
 };
