@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import NoMatch from 'Route/NoMatch';
-import { LocationType } from 'Type/Router';
 import { ChildrenType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
 
 export default class NoMatchHandler extends PureComponent {
     static propTypes = {

@@ -9,8 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export {
-    VIDEO_POPUP_ID
-} from './VideoPopup.component';
-
 export { default } from './VideoPopup.container';

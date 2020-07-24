@@ -9,9 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { TransformComponent } from 'react-zoom-pan-pinch';
+
 import Image from 'Component/Image';
 
 class ProductGalleryBaseImage extends PureComponent {

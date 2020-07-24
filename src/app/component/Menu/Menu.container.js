@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { MENU_SUBCATEGORY } from 'Component/Header/Header.config';
+import MenuQuery from 'Query/Menu.query';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import DataContainer from 'Util/Request/DataContainer';
-import { MENU_SUBCATEGORY } from 'Component/Header';
-import isMobile from 'Util/Mobile';
 import MenuHelper from 'Util/Menu';
-import { MenuQuery } from 'Query';
+import isMobile from 'Util/Mobile';
+import DataContainer from 'Util/Request/DataContainer';
 
 import Menu from './Menu.component';
 
