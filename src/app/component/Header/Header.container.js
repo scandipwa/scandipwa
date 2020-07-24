@@ -9,34 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { history } from 'Route';
-import { setQueryParams } from 'Util/Url';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
-import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
-import Header, {
-    PDP,
-    CATEGORY,
-    CUSTOMER_ACCOUNT,
-    CUSTOMER_SUB_ACCOUNT,
-    MENU,
-    POPUP,
-    SEARCH,
+import { setQueryParams } from 'Util/Url';
+
+import Header from './Header.component';
+import {
     CART,
-    CART_OVERLAY,
-    CMS_PAGE,
-    CUSTOMER_ACCOUNT_PAGE,
-    CHECKOUT
-} from './Header.component';
+    CART_OVERLAY, CATEGORY,
+    CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
+    MENU, PDP,
+    SEARCH
+} from './Header.config';
 
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
@@ -70,6 +67,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     static defaultProps = {
         header_logo_src: ''
+    };
+
+    state = {
+        shouldRenderCartOverlay: false,
+        shouldRenderAccountOverlay: false
     };
 
     default_state = DEFAULT_HEADER_STATE;
@@ -108,6 +110,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     containerProps = () => {
         const {
+            activeOverlay,
             navigationState,
             cartTotals,
             header_logo_src,
@@ -130,6 +133,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const isCheckout = pathname.includes(CHECKOUT_URL);
 
         return {
+            activeOverlay,
             navigationState,
             cartTotals,
             header_logo_src,
@@ -318,6 +322,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         }
 
         if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
+            this.setState({ shouldRenderAccountOverlay: true });
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
         }
@@ -332,10 +337,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any()
-            || [CART_OVERLAY, MENU, POPUP].includes(name)
-            || (!isMobile.any() && name === SEARCH)
-        ) {
+        if (isMobile.any() || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT].includes(name)) {
             return;
         }
 
@@ -396,15 +398,21 @@ export class HeaderContainer extends NavigationAbstractContainer {
         goToPreviousNavigationState();
     }
 
+    // *
+
     onMinicartButtonClick() {
         const { showOverlay } = this.props;
 
         if (!isMobile.any()) {
+            this.setState({ shouldRenderCartOverlay: true });
+
             return showOverlay(CART_OVERLAY);
         }
 
         return history.push(`/${ CART }`);
     }
+
+    // *
 
     onMinicartOutsideClick() {
         const {
@@ -458,6 +466,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     render() {
         return (
             <Header
+              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

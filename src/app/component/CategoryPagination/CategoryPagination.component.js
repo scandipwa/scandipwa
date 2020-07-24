@@ -10,13 +10,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import './CategoryPagination.style';
+
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
-
-import './CategoryPagination.style';
 
 export default class CategoryPagination extends PureComponent {
     static propTypes = {

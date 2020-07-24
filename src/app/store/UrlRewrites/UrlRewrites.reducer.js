@@ -10,9 +10,9 @@
  */
 
 import {
-    UPDATE_URL_REWRITE,
     CLEAR_URL_REWRITE,
-    IS_LOADING_URL_REWRITE
+    IS_LOADING_URL_REWRITE,
+    UPDATE_URL_REWRITE
 } from './UrlRewrites.action';
 
 export const initialState = {

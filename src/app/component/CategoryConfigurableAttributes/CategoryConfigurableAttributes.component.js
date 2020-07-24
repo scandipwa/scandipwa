@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// eslint-disable-next-line max-len
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import CategoryPriceRange from 'Component/CategoryPriceRange';
 import CategorySubcategories from 'Component/CategorySubcategories';
 import ExpandableContent from 'Component/ExpandableContent';
+// eslint-disable-next-line max-len
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 
 class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     renderPriceRange() {

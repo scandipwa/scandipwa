@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, Fragment } from 'Util/Query';
-import BrowserDatabase from 'Util/BrowserDatabase';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { Field, Fragment } from 'Util/Query';
 
 /**
  * Product List Query

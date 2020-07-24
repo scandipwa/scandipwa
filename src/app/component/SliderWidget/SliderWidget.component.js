@@ -10,13 +10,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './SliderWidget.style';
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import Slider from 'Component/Slider';
-import Image from 'Component/Image';
+
 import Html from 'Component/Html';
+import Image from 'Component/Image';
+import Slider from 'Component/Slider';
 import isMobile from 'Util/Mobile';
-import './SliderWidget.style';
 
 /**
  * Homepage slider

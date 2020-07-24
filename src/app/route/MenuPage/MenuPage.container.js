@@ -9,15 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './MenuPage.style';
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { updateMeta } from 'Store/Meta';
-import Menu from 'Component/Menu';
-import { HistoryType } from 'Type/Common';
 import { withRouter } from 'react-router';
+
+import Menu from 'Component/Menu';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { HistoryType } from 'Type/Common';
 import isMobile from 'Util/Mobile';
-import './MenuPage.style';
 
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta))

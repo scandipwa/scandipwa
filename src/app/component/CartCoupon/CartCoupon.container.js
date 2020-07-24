@@ -9,15 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { CartDispatcher } from 'Store/Cart';
+
 import CartCoupon from './CartCoupon.component';
 
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+
 export const mapDispatchToProps = (dispatch) => ({
-    applyCouponToCart: (couponCode) => CartDispatcher.applyCouponToCart(dispatch, couponCode),
-    removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
+    applyCouponToCart: (couponCode) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)
+    ),
+    removeCouponFromCart: () => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch)
+    )
 });
 
 export class CartCouponContainer extends PureComponent {
