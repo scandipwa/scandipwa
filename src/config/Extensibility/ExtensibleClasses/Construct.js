@@ -3,8 +3,8 @@
  * Only if it is present in the object
  * @param {Object} instance
  */
-module.exports = (instance) => {
-    instance.__construct();
+module.exports = (instance, args) => {
+    instance.__construct(...args);
 
     return instance;
 };

@@ -8,8 +8,8 @@ const construct = require('../Construct');
  * its instance is being proxied at the moment of instantiation.
  */
 module.exports = class ExtensibleClass {
-    constructor() {
-        return construct(proxyInstance(this));
+    constructor(...args) {
+        return construct(proxyInstance(this), args);
     }
 
     __construct() {}
