@@ -83,16 +83,20 @@ export class CheckoutBillingContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { paymentMethods, totals: { is_virtual } } = props;
+        const { paymentMethods, customer } = props;
         const [method] = paymentMethods;
         const { code: paymentMethod } = method || {};
 
         this.state = {
-            isSameAsShipping: !is_virtual,
+            isSameAsShipping: this.isSameShippingAddress(customer),
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
             paymentMethod
         };
+    }
+
+    isSameShippingAddress({ default_billing, default_shipping }) {
+        return default_billing === default_shipping;
     }
 
     onAddressSelect(id) {
