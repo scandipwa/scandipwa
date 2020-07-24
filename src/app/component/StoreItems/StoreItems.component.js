@@ -14,7 +14,7 @@ import './StoreItems.style';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-class StoreSwitcher extends PureComponent {
+class StoreItems extends PureComponent {
     static propTypes = {
         item: PropTypes.object.isRequired,
         getStoreCode: PropTypes.func.isRequired
@@ -38,4 +38,4 @@ class StoreSwitcher extends PureComponent {
     }
 }
 
-export default StoreSwitcher;
+export default StoreItems;

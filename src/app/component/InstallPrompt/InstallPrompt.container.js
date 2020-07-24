@@ -16,7 +16,7 @@ import InstallPromptIOS from 'Component/InstallPromptIOS';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import isMobile from 'Util/Mobile';
 
-export class InstallPrompt extends PureComponent {
+export class InstallPromptContainer extends PureComponent {
     installPromptEvent = null;
 
     state = {
@@ -84,4 +84,4 @@ export class InstallPrompt extends PureComponent {
     }
 }
 
-export default InstallPrompt;
+export default InstallPromptContainer;

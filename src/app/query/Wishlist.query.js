@@ -15,7 +15,7 @@ import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { Field } from 'Util/Query';
 
-export class Wishlist {
+export class WishlistQuery {
     getWishlistQuery(sharingCode) {
         const field = new Field('wishlist')
             .addFieldList(this._getWishlistFields());
@@ -92,4 +92,4 @@ export class Wishlist {
     }
 }
 
-export default new Wishlist();
+export default new WishlistQuery();

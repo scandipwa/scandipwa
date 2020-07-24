@@ -46,7 +46,7 @@ export const mapDispatchToProps = (dispatch) => ({
     )
 });
 
-export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
+export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     static propTypes = {
         match: MatchType.isRequired,
         showError: PropTypes.func.isRequired,
@@ -172,4 +172,4 @@ export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(WishlistSharedContainer);
+export default connect(null, mapDispatchToProps)(WishlistSharedPageContainer);

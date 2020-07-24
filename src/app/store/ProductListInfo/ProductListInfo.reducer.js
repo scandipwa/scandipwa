@@ -21,7 +21,7 @@ const reduceFilters = (filters) => filters.reduce((co, item) => {
         filter_items
     } = item;
 
-    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option, i) => {
+    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option) => {
         const { value_string } = option;
         const { attribute_values, attribute_options } = attribute;
 

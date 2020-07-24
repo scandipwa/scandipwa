@@ -23,7 +23,7 @@ import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
 import isMobile from 'Util/Mobile';
 
-export default class MenuOverlay extends PureComponent {
+export default class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         activeMenuItemsStack: PropTypes.array.isRequired,

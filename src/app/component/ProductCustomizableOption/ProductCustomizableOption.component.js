@@ -17,9 +17,9 @@ import Field from 'Component/Field';
 
 import {
     AREA_FIELD, CHECKBOX, DROPDOWN, TEXT_FIELD
-} from './ProductCustomizableOptions.config';
+} from './ProductCustomizableOption.config';
 
-class ProductCustomizableOptions extends PureComponent {
+class ProductCustomizableOption extends PureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
         textValue: PropTypes.string.isRequired,
@@ -254,4 +254,4 @@ class ProductCustomizableOptions extends PureComponent {
     }
 }
 
-export default ProductCustomizableOptions;
+export default ProductCustomizableOption;

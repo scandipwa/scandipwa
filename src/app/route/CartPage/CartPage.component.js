@@ -23,7 +23,6 @@ import Link from 'Component/Link';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { TotalsType } from 'Type/MiniCart';
-import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import { formatCurrency, roundPrice } from 'Util/Price';
 
 export default class CartPage extends PureComponent {
