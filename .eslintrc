@@ -18,6 +18,7 @@
     "importScripts": true
   },
   "plugins": [
+    "@scandipwa/scandipwa-guidelines",
     "simple-import-sort",
     "import",
     "react",
@@ -26,7 +27,19 @@
     "babel",
     "fp"
   ],
+  "overrides": [
+      {
+          "files": ["*.config.js"],
+          "rules": {
+              "@scandipwa/scandipwa-guidelines/create-config-files": "off"
+          }
+      }
+  ],
   "rules": {
+    "@scandipwa/scandipwa-guidelines/file-structure": "error",
+    "@scandipwa/scandipwa-guidelines/only-one-class": "error",
+    "@scandipwa/scandipwa-guidelines/derived-class-names": "error",
+    // "@scandipwa/scandipwa-guidelines/create-config-files": "error",
     "simple-import-sort/sort": ["error", {
         "groups": [
             ["^\\u0000"], // side effect imports
