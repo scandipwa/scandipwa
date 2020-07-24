@@ -31,7 +31,7 @@ const reduceFilters = (filters) => filters.reduce((co, item) => {
             ...attribute,
             attribute_options: {
                 ...attribute_options,
-                [+value_string]: option
+                [value_string]: option
             }
         };
     }, { attribute_values: [], attribute_options: {} });
