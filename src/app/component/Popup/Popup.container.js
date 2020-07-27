@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { POPUP } from 'Component/Header/Header.config';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 
@@ -28,7 +28,8 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 export class PopupContainer extends PureComponent {
@@ -39,6 +40,7 @@ export class PopupContainer extends PureComponent {
             })
         ).isRequired,
         activeOverlay: PropTypes.string.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         onVisible: PropTypes.func
     };
@@ -56,7 +58,10 @@ export class PopupContainer extends PureComponent {
 
         changeHeaderState({
             name: POPUP,
-            title: this._getPopupTitle()
+            title: this._getPopupTitle(),
+            onCloseClick: () => {
+                history.back();
+            }
         });
 
         onVisible();

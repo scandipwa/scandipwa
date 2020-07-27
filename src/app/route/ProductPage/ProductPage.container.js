@@ -17,7 +17,8 @@ import { withRouter } from 'react-router';
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { history } from 'Route';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
@@ -49,7 +50,9 @@ const ProductDispatcher = import(
 
 export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
-    product: state.ProductReducer.product
+    product: state.ProductReducer.product,
+    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
+    metaTitle: state.MetaReducer.title
 });
 
 export const mapDispatchToProps = (dispatch) => ({
@@ -65,7 +68,9 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
-    )
+    ),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -96,13 +101,18 @@ export class ProductPageContainer extends PureComponent {
         productSKU: PropTypes.string,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
-        match: MatchType.isRequired
+        match: MatchType.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
+        navigation: PropTypes.shape(PropTypes.shape).isRequired,
+        updateMeta: PropTypes.func.isRequired,
+        metaTitle: PropTypes.string
     };
 
     static defaultProps = {
         location: { state: {} },
         isOnlyPlaceholder: false,
-        productSKU: ''
+        productSKU: '',
+        metaTitle: undefined
     };
 
     static getDerivedStateFromProps(props) {
@@ -153,9 +163,21 @@ export class ProductPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: { id, options, items },
+            product: {
+                id,
+                options,
+                items,
+                name: productName
+            },
             productSKU,
-            isOnlyPlaceholder
+            isOnlyPlaceholder,
+            navigation: {
+                navigationState: {
+                    name: navName,
+                    title: navTitle
+                }
+            },
+            metaTitle
         } = this.props;
 
         const {
@@ -166,7 +188,12 @@ export class ProductPageContainer extends PureComponent {
                 items: prevItems
             },
             productSKU: prevProductSKU,
-            isOnlyPlaceholder: prevIsOnlyPlaceholder
+            isOnlyPlaceholder: prevIsOnlyPlaceholder,
+            navigation: {
+                navigationState: {
+                    title: prevNavTitle
+                }
+            }
         } = prevProps;
 
         if (
@@ -185,14 +212,15 @@ export class ProductPageContainer extends PureComponent {
             this.getRequiredProductOptions(items);
         }
 
-        if (id !== prevId) {
+        if (id !== prevId || (id === prevId && productName !== metaTitle)) {
             const dataSource = this._getDataSource();
             const { updateMetaFromProduct } = this.props;
 
             updateMetaFromProduct(dataSource);
         }
 
-        this._onProductUpdate();
+        const updateHeader = navName === PDP && navTitle !== prevNavTitle;
+        this._onProductUpdate(updateHeader);
     }
 
     getLink(key, value) {
@@ -311,13 +339,16 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    _onProductUpdate() {
+    _onProductUpdate(updateHeader = true) {
         const { isOffline, setBigOfflineNotice } = this.props;
         const dataSource = this._getDataSource();
-
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
-            this._updateHeaderState(dataSource);
+
+            if (updateHeader) {
+                this._updateHeaderState(dataSource);
+            }
+
             this._updateNavigationState();
 
             if (isOffline) {

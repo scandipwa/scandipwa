@@ -29,7 +29,7 @@ export default class Popup extends Overlay {
     };
 
     static defaultProps = {
-        ...Popup.defaultProps,
+        ...Overlay.defaultProps,
         clickOutside: true,
         title: ''
     };
@@ -46,23 +46,39 @@ export default class Popup extends Overlay {
         const { onVisible } = this.props;
         this.freezeScroll();
         this.overlayRef.current.focus();
+
+        window.addEventListener('popstate', this.hidePopUp);
+
+        window.history.pushState(
+            {
+                popupOpen: true
+            },
+            '',
+            location.pathname
+        );
+
         onVisible();
     }
 
     onHide() {
         const { onHide } = this.props;
+        window.removeEventListener('popstate', this.hidePopUp);
+
         this.unfreezeScroll();
+
         onHide();
     }
 
     hidePopUp = () => {
-        const { hideActiveOverlay } = this.props;
+        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
         const isVisible = this.getIsVisible();
         if (isVisible) {
             hideActiveOverlay();
+            goToPreviousNavigationState();
         }
     };
 
+    // Same with click outside
     handleClickOutside = () => {
         const { clickOutside } = this.props;
         if (!clickOutside) {
