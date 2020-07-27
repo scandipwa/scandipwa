@@ -217,14 +217,14 @@ const config = (env, argv) => {
                 index: '/',
                 disableDotRule: true
             },
-            port: 3003,
+            port: env.PORT || 3003,
             https: false,
             overlay: true,
             compress: true,
             inline: true,
             hot: true,
             host: '0.0.0.0',
-            public: 'scandipwa.local',
+            public: env.HOST || 'scandipwa.local',
             allowedHosts: [
                 '.local'
             ],
