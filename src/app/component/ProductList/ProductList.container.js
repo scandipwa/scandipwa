@@ -9,19 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-import { getQueryParam, setQueryParams } from 'Util/Url';
-import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
+import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
 import isMobile from 'Util/Mobile';
+import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
-
-export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
 export class ProductListContainer extends PureComponent {
     containerFunctions = {
@@ -46,7 +44,8 @@ export class ProductListContainer extends PureComponent {
         search: PropTypes.string,
         sort: PropTypes.objectOf(PropTypes.string),
         noAttributes: PropTypes.bool,
-        noVariants: PropTypes.bool
+        noVariants: PropTypes.bool,
+        isWidget: PropTypes.bool
     };
 
     static defaultProps = {
@@ -58,7 +57,8 @@ export class ProductListContainer extends PureComponent {
         isPaginationEnabled: true,
         isInfiniteLoaderEnabled: true,
         noAttributes: false,
-        noVariants: false
+        noVariants: false,
+        isWidget: false
     };
 
     state = {
@@ -109,10 +109,11 @@ export class ProductListContainer extends PureComponent {
             pageSize,
             requestProductList,
             noAttributes,
-            noVariants
+            noVariants,
+            isWidget
         } = this.props;
 
-        if (!isNext) {
+        if (!isWidget && !isNext) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'

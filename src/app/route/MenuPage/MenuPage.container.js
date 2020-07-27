@@ -9,11 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './MenuPage.style';
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { updateMeta } from 'Store/Meta';
+import { withRouter } from 'react-router';
+
 import Menu from 'Component/Menu';
+import { updateMeta } from 'Store/Meta/Meta.action';
 import { HistoryType } from 'Type/Common';
 import { changeNavigationState } from 'Store/Navigation';
 import { withRouter } from 'react-router';

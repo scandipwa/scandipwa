@@ -11,9 +11,9 @@
 
 import {
     APPEND_PAGE,
-    UPDATE_PRODUCT_LIST_ITEMS,
-    UPDATE_LOAD_STATUS
-} from 'Store/ProductList';
+    UPDATE_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_ITEMS
+} from 'Store/ProductList/ProductList.action';
 import { getIndexedProducts } from 'Util/Product';
 
 export const initialState = {

@@ -13,11 +13,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
 
-import CmsPage from 'Route/CmsPage';
 import Footer from 'Component/Footer';
 import InstallPrompt from 'Component/InstallPrompt';
 import { changeNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+
+import CmsPage from 'Route/CmsPage';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 
 import './HomePage.style';

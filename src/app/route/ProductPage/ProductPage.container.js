@@ -14,8 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { PDP } from 'Component/Header/Header.config';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { history } from 'Route';
-import { PDP } from 'Component/Header';
 import { MetaDispatcher, updateMeta } from 'Store/Meta';
 import { getVariantIndex } from 'Util/Product';
 import { ProductType } from 'Type/ProductList';
@@ -26,16 +27,30 @@ import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 import { setBigOfflineNotice } from 'Store/Offline';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
-    getUrlParam,
-    convertQueryStringToKeyValuePairs,
-    updateQueryParamWithoutHistory,
-    removeQueryParamWithoutHistory,
-    objectToUri
+    convertQueryStringToKeyValuePairs, getUrlParam,
+    objectToUri, removeQueryParamWithoutHistory, updateQueryParamWithoutHistory
 } from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
+
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const LinkedProductsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/LinkedProducts/LinkedProducts.dispatcher'
+);
+const MetaDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Meta/Meta.dispatcher'
+);
+const ProductDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Product/Product.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
@@ -48,12 +63,16 @@ export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
-        ProductDispatcher.handleData(dispatch, options);
-        LinkedProductsDispatcher.clearLinkedProducts(dispatch);
+        ProductDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
+        LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch));
     },
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    updateMetaFromProduct: (product) => MetaDispatcher.updateWithProduct(product, dispatch),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
+    )),
+    updateMetaFromProduct: (product) => MetaDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
+    ),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });

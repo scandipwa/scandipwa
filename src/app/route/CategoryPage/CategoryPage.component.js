@@ -9,26 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './CategoryPage.style';
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import {
-    CATEGORY_FILTER_OVERLAY_ID
-} from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
-
-import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
-import CategoryProductList from 'Component/CategoryProductList';
-import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryDetails from 'Component/CategoryDetails';
-import ContentWrapper from 'Component/ContentWrapper';
+import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
+import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
+import CategoryItemsCount from 'Component/CategoryItemsCount';
+import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
+import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
-
 import { CategoryTreeType } from 'Type/Category';
-import { FilterType, FilterInputType } from 'Type/ProductList';
+import { FilterInputType, FilterType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
-
-import './CategoryPage.style';
 
 export default class CategoryPage extends PureComponent {
     static propTypes = {

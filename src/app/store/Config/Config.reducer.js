@@ -10,6 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+
 import { UPDATE_CONFIG } from './Config.action';
 
 export const MAX_WIDTH = 150;

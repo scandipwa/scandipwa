@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { goToPreviousNavigationState, changeNavigationState } from 'Store/Navigation';
-import { hideActiveOverlay } from 'Store/Overlay';
-import { FILTER } from 'Component/Header';
+import { FILTER } from 'Component/Header/Header.config';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { LocationType } from 'Type/Router';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
@@ -149,7 +149,12 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         const newFilterArray = customFiltersValues[filterKey] !== undefined
             ? Array.from(customFiltersValues[filterKey])
             : [];
+
         const filterValueIndex = newFilterArray.indexOf(value);
+
+        if (filterKey === 'price') { // for price filter, choose one
+            return [value];
+        }
 
         if (filterValueIndex === -1) {
             newFilterArray.push(value);

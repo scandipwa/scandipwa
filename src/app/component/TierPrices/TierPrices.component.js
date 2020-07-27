@@ -1,8 +1,10 @@
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { formatCurrency, roundPrice } from 'Util/Price';
-import { ProductType } from 'Type/ProductList';
 import './TierPrices.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { ProductType } from 'Type/ProductList';
+import { formatCurrency, roundPrice } from 'Util/Price';
 
 class TierPrices extends PureComponent {
     static propTypes = {
