@@ -17,9 +17,7 @@ import { connect } from 'react-redux';
 import { HistoryType } from 'Type/Common';
 import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
-import {
-    ProductListInfoDispatcher
-} from 'Store/ProductListInfo/ProductListInfo.dispatcher';
+import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import isMobile from 'Util/Mobile';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
