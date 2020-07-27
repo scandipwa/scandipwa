@@ -35,10 +35,9 @@ export class MenuPageContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { updateMeta } = this.props;
+        const { updateMeta, changeHeaderState } = this.props;
         updateMeta({ title: __('Menu') });
         this.redirectIfNotOnMobile();
-        const { changeHeaderState } = this.props;
         changeHeaderState({
             name: MENU,
             onBackClick: () => history.goBack()
