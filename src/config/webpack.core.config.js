@@ -19,8 +19,11 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const webmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
@@ -136,6 +139,7 @@ module.exports = {
         hot: true,
         host: '0.0.0.0',
         public: 'scandipwa.local',
+        writeToDisk: true,
         allowedHosts: [
             '.local'
         ]
@@ -178,6 +182,21 @@ module.exports = {
                     from: path.resolve(projectRoot, 'src', 'public', 'assets'),
                     to: './assets'
                 }
+            ]
+        }),
+
+        // * NASA mode
+        // new DashboardPlugin(),
+
+        // new BundleAnalyzerPlugin({
+        //     analyzerPort: 1111,
+        //     openAnalyzer: false
+        // }),
+
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [
+                path.join(projectRoot, 'Magento_Theme', 'templates'),
+                path.join(projectRoot, 'Magento_Theme', 'web')
             ]
         }),
 

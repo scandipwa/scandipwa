@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ContentWrapper from 'Component/ContentWrapper';
-import { BreadcrumbsType } from 'Type/Breadcrumbs';
-import Link from 'Component/Link';
-
 import './Breadcrumbs.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { BreadcrumbsType } from 'Type/Breadcrumbs';
 
 /**
  * Breadcrumbs

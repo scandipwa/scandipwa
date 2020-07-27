@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, Fragment } from 'Util/Query';
-import BrowserDatabase from 'Util/BrowserDatabase';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { Field, Fragment } from 'Util/Query';
 
 /**
  * Product List Query
@@ -41,6 +41,40 @@ export class ProductListQuery {
         return products;
     }
 
+    _getPriceFilter(key, value) {
+        const [from, to] = value[0].split('_');
+
+        if (from === '*') {
+            return `${key}: { to: ${to} } `;
+        }
+
+        if (to === '*') {
+            return `${key}: { from: ${from} } `;
+        }
+
+        return `${key}: { from: ${from}, to: ${to} } `;
+    }
+
+    _getCustomFilters = (filters = {}) => (
+        Object.entries(filters).reduce((acc, [key, attribute]) => {
+            if (!attribute.length) {
+                return acc;
+            }
+
+            if (key === 'price') {
+                return [
+                    ...acc,
+                    this._getPriceFilter(key, attribute)
+                ];
+            }
+
+            return [
+                ...acc,
+                `${key}: { in: [ ${attribute.join(',')} ] } `
+            ];
+        }, [])
+    );
+
     _getFilterArgumentMap() {
         return {
             categoryIds: (id) => [`category_id: { eq: ${id} }`],
@@ -60,9 +94,7 @@ export class ProductListQuery {
             },
             productsSkuArray: (sku) => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
             productUrlPath: (url) => [`url_key: { eq: ${url}}`],
-            customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
-                attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
-            ), []),
+            customFilters: this._getCustomFilters,
             newToDate: (date) => [`news_to_date: { gteq: ${date} }`],
             conditions: (conditions) => [`conditions: { eq: ${conditions} }`],
             customerGroupId: (id) => [`customer_group_id: { eq: ${id} }`]
@@ -142,10 +174,8 @@ export class ProductListQuery {
         // for filters only request
         if (requireInfo) {
             return [
-                'min_price',
-                'max_price',
                 this._getSortField(),
-                this._getFiltersField()
+                this._getAggregationsField()
             ];
         }
 
@@ -306,7 +336,9 @@ export class ProductListQuery {
     _getBreadcrumbFields() {
         return [
             'category_name',
-            'category_url_path'
+            'category_level',
+            'category_url',
+            'category_is_active'
         ];
     }
 
@@ -676,15 +708,27 @@ export class ProductListQuery {
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
     }
 
+    _getCustomizableMultiOption() {
+        return new Fragment('CustomizableMultipleOption')
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]); // same as checkbox
+    }
+
     _getCustomizableDropdownOption() {
         return new Fragment('CustomizableDropDownOption')
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
     }
 
+    _getCustomizableRadioOption() {
+        return new Fragment('CustomizableRadioOption')
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]); // same as dropdown
+    }
+
     _getCustomizableProductFragmentOptionsFields() {
         return [
             this._getCustomizableDropdownOption(),
+            this._getCustomizableRadioOption(),
             this._getCustomizableCheckboxOption(),
+            this._getCustomizableMultiOption(),
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
             'title',
@@ -802,42 +846,32 @@ export class ProductListQuery {
             .addFieldList(this._getSwatchDataFields());
     }
 
-    _getFilterItemSwatchFragmentFields() {
+    _getAggregationsField() {
+        return new Field('aggregations')
+            .setAlias('filters')
+            .addFieldList(this._getAggregationsFields());
+    }
+
+    _getAggregationsFields() {
+        return [
+            new Field('label').setAlias('name'),
+            new Field('attribute_code').setAlias('request_var'),
+            this._getAggregationsOptionsField()
+        ];
+    }
+
+    _getAggregationsOptionsField() {
+        return new Field('options')
+            .setAlias('filter_items')
+            .addFieldList(this._getAggregationsOptionsFields());
+    }
+
+    _getAggregationsOptionsFields() {
         return [
             'label',
+            new Field('value').setAlias('value_string'),
             this._getSwatchDataField()
         ];
-    }
-
-    _getFilterItemSwatchFragment() {
-        return new Fragment('SwatchLayerFilterItem')
-            .addFieldList(this._getFilterItemSwatchFragmentFields());
-    }
-
-    _getFilterItemFields() {
-        return [
-            'label',
-            'value_string',
-            this._getFilterItemSwatchFragment()
-        ];
-    }
-
-    _getFilterItemsField() {
-        return new Field('filter_items')
-            .addFieldList(this._getFilterItemFields());
-    }
-
-    _getFilterFields() {
-        return [
-            'name',
-            'request_var',
-            this._getFilterItemsField()
-        ];
-    }
-
-    _getFiltersField() {
-        return new Field('filters')
-            .addFieldList(this._getFilterFields());
     }
 
     _getPageInfoField() {

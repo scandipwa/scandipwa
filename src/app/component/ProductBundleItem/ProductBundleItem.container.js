@@ -10,8 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
+
 import ProductCustomizableOptionContainer
     from 'Component/ProductCustomizableOption/ProductCustomizableOption.container';
+
 import ProductBundleItem from './ProductBundleItem.component';
 
 class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
@@ -40,9 +42,11 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
 
         switch (optionType) {
         case 'select':
+        case 'radio': // handle radio as select
             this.setDefaultDropdownValue();
             break;
         case 'checkbox':
+        case 'multi': // handle multi-select as checkbox
             this.setDefaultCheckboxValue();
             break;
         default:

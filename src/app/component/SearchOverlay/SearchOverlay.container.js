@@ -10,11 +10,17 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { SearchBarDispatcher } from 'Store/SearchBar';
-import { hideActiveOverlay } from 'Store/Overlay';
+import { connect } from 'react-redux';
+
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+
 import SearchOverlay from './SearchOverlay.component';
+
+export const SearchBarDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/SearchBar/SearchBar.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     searchResults: state.SearchBarReducer.productsInSearch,
@@ -23,8 +29,12 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    makeSearchRequest: (options) => SearchBarDispatcher.handleData(dispatch, options),
-    clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch)
+    makeSearchRequest: (options) => SearchBarDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+    ),
+    clearSearchResults: () => SearchBarDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.clearSearchResults(dispatch)
+    )
 });
 
 export class SearchOverlayContainer extends PureComponent {
@@ -40,14 +50,14 @@ export class SearchOverlayContainer extends PureComponent {
     };
 
     getProductLinkTo(product) {
-        const { url_key } = product;
+        const { url } = product;
 
-        if (!url_key) {
+        if (!url) {
             return {};
         }
 
         return {
-            pathname: `/product/${ url_key }`,
+            pathname: url,
             state: { product }
         };
     }

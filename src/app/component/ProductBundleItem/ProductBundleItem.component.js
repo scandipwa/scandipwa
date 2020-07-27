@@ -9,14 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
-import Field from 'Component/Field';
-
 import './ProductBundleItem.style';
 
+import PropTypes from 'prop-types';
+
+import Field from 'Component/Field';
+import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
+
 export const CHECKBOX = 'checkbox';
+export const MULTI = 'multi';
 export const SELECT = 'select';
+export const RADIO = 'radio';
 
 class ProductBundleItem extends ProductCustomizableOption {
     static propTypes = {
@@ -27,6 +30,8 @@ class ProductBundleItem extends ProductCustomizableOption {
 
     renderMap = {
         [CHECKBOX]: this.renderCheckboxValues.bind(this),
+        [MULTI]: this.renderCheckboxValues.bind(this),
+        [RADIO]: this.renderDropdownValues.bind(this),
         [SELECT]: this.renderDropdownValues.bind(this)
     };
 

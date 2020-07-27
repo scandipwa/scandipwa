@@ -9,10 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import { formatCurrency, roundPrice } from 'Util/Price';
-import { MixType } from 'Type/Common';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { MixType } from 'Type/Common';
+import { formatCurrency, roundPrice } from 'Util/Price';
 
 class CartItemPrice extends PureComponent {
     static propTypes = {

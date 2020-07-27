@@ -12,6 +12,8 @@
 :root {
     --checkbox-label-color: #0a0a0a;
     --my-account-input-label-color: rgba(10, 10, 10, .59);
+    --my-account-overlay-width: 400px;
+    --my-account-overlay-border-width: 1px;
 }
 
 .MyAccountOverlay {
@@ -27,6 +29,7 @@
         top: calc(var(--header-nav-height) - 10px);
         right: -40px;
         padding: 0;
+        width: var(--my-account-overlay-width);
     }
 
     @include before-desktop {
@@ -38,7 +41,7 @@
 
     &_isVisible {
         @include desktop {
-            border: 1px solid var(--overlay-desktop-border-color);
+            border: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
         }
     }
 
@@ -53,8 +56,8 @@
             transform: rotate(45deg);
             background-color: var(--overlay-background);
             border: {
-                top: 1px solid var(--overlay-desktop-border-color);
-                left: 1px solid var(--overlay-desktop-border-color);
+                top: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
+                left: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
             }
         }
     }
@@ -199,7 +202,7 @@
         }
 
         @include desktop {
-            width: 400px;
+            width: calc(var(--my-account-overlay-width) - (var(--my-account-overlay-border-width) * 2));
             padding: 1rem 2rem 2rem;
         }
     }

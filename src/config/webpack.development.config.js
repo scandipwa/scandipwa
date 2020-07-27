@@ -119,6 +119,7 @@ module.exports = {
     },
 
     output: {
+        chunkFilename: '[name].bundle.js',
         filename: '[name].js',
         publicPath: '/',
         pathinfo: true,
@@ -141,6 +142,7 @@ module.exports = {
         hot: true,
         host: '0.0.0.0',
         public: baseUrl,
+        writeToDisk: true,
         allowedHosts: [
             '.local'
         ]

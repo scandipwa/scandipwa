@@ -10,15 +10,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import './SearchField.style';
+
 import PropTypes from 'prop-types';
+import {
+    createRef,
+    lazy,
+    PureComponent,
+    Suspense
+} from 'react';
+
+import ClickOutside from 'Component/ClickOutside';
+import Loader from 'Component/Loader';
 import { history } from 'Route';
 import isMobile from 'Util/Mobile';
 
-import ClickOutside from 'Component/ClickOutside';
-import SearchOverlay from 'Component/SearchOverlay';
-
-import './SearchField.style';
+export const SearchOverlay = lazy(
+    () => import(
+        /* webpackMode: "lazy", webpackChunkName: "category" */
+        'Component/SearchOverlay'
+    )
+);
 
 class SearchField extends PureComponent {
     static propTypes = {
@@ -121,12 +133,22 @@ class SearchField extends PureComponent {
         );
     }
 
+    renderOverlayFallback() {
+        return <Loader isLoading />;
+    }
+
     renderSearch() {
         const {
             searchCriteria,
             onSearchBarFocus,
             isActive
         } = this.props;
+
+        const { showSearch } = this.state;
+
+        if (!showSearch) {
+            return null;
+        }
 
         return (
             <div
@@ -153,11 +175,13 @@ class SearchField extends PureComponent {
                   onClick={ () => this.searchBarRef.current.focus() }
                   aria-label={ __('Search') }
                 />
-                <SearchOverlay
-                  hideOverlay
-                  clearSearch={ this.clearSearch }
-                  searchCriteria={ searchCriteria }
-                />
+                <Suspense fallback={ this.renderOverlayFallback() }>
+                    <SearchOverlay
+                      hideOverlay
+                      clearSearch={ this.clearSearch }
+                      searchCriteria={ searchCriteria }
+                    />
+                </Suspense>
             </div>
         );
     }
@@ -248,7 +272,9 @@ class SearchField extends PureComponent {
                 >
                     <span>{ __('Search') }</span>
                 </div>
-                <SearchOverlay clearSearch={ this.clearSearch } searchCriteria={ searchCriteria } />
+                <Suspense fallback={ this.renderOverlayFallback() }>
+                    <SearchOverlay clearSearch={ this.clearSearch } searchCriteria={ searchCriteria } />
+                </Suspense>
             </>
         );
     }

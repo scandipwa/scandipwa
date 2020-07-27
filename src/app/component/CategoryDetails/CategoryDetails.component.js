@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './CategoryDetails.style';
+
 import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
 import Image from 'Component/Image';
-import { CategoryTreeType } from 'Type/Category';
 import TextPlaceholder from 'Component/TextPlaceholder';
-
-import './CategoryDetails.style';
+import { CategoryTreeType } from 'Type/Category';
 
 /**
  * Category details
