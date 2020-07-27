@@ -1,5 +1,6 @@
 import './RenderWhenVisible.style';
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
@@ -7,7 +8,12 @@ import { ChildrenType } from 'Type/Common';
 
 class RenderWhenVisible extends PureComponent {
     static propTypes = {
-        children: ChildrenType.isRequired
+        children: ChildrenType.isRequired,
+        fallback: PropTypes.func
+    };
+
+    static defaultProps = {
+        fallback: () => {}
     };
 
     state = {
@@ -44,6 +50,19 @@ class RenderWhenVisible extends PureComponent {
         }
     };
 
+    renderFallback() {
+        const { fallback } = this.props;
+        const fallbackRender = fallback();
+
+        if (fallbackRender) {
+            return fallbackRender;
+        }
+
+        return (
+            <div block="RenderWhenVisible" elem="Detector" />
+        );
+    }
+
     renderVisibilitySensor() {
         return (
             <VisibilitySensor
@@ -52,7 +71,7 @@ class RenderWhenVisible extends PureComponent {
               minTopValue="1"
               onChange={ this.handleVisibilityToggle }
             >
-                <div block="RenderWhenVisible" elem="Detector" />
+                { this.renderFallback() }
             </VisibilitySensor>
         );
     }
