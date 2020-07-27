@@ -9,16 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import Overlay from 'Component/Overlay';
-import ResetButton from 'Component/ResetButton';
-import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
-import Loader from 'Component/Loader';
-
 import './CategoryFilterOverlay.style';
 
-export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
+import Loader from 'Component/Loader';
+import Overlay from 'Component/Overlay';
+import ResetButton from 'Component/ResetButton';
+
+import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 
 export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {

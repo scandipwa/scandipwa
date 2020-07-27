@@ -10,6 +10,7 @@
  */
 
 import { connect } from 'react-redux';
+
 import CheckoutAddressForm from './CheckoutAddressForm.component';
 
 export const mapStateToProps = (state) => ({

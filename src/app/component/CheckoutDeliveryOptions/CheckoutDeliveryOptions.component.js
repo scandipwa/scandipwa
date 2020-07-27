@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import { shippingMethodsType } from 'Type/Checkout';
-import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
-
 import './CheckoutDeliveryOptions.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
+import { shippingMethodsType } from 'Type/Checkout';
 
 class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
