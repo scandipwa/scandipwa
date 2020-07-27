@@ -468,12 +468,14 @@ export default class Field extends PureComponent {
                 />
                 <button
                   disabled={ +value === max }
+                  // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => this.handleChange(+value + 1) }
                 >
                     <span>+</span>
                 </button>
                 <button
                   disabled={ +value === min }
+                  // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => this.handleChange(+value - 1) }
                 >
                     <span>–</span>
@@ -525,8 +527,16 @@ export default class Field extends PureComponent {
 
     renderSelectWithOptions() {
         const {
-            name, id, selectOptions, formRef, placeholder, value, isDisabled
+            name,
+            id,
+            selectOptions,
+            formRef,
+            placeholder,
+            value,
+            isDisabled
         } = this.props;
+
+        // TODO: move into separate file
 
         const { isSelectExpanded: isExpanded } = this.state;
 
@@ -591,7 +601,9 @@ export default class Field extends PureComponent {
                                   // ids, that consist of numbers only
                                   id={ `o${id}` }
                                   role="menuitem"
+                                  // eslint-disable-next-line react/jsx-no-bind
                                   onClick={ () => this.handleSelectListOptionClick(options) }
+                                  // eslint-disable-next-line react/jsx-no-bind
                                   onKeyPress={ () => this.handleSelectListOptionClick(options) }
                                   tabIndex={ isExpanded ? '0' : '-1' }
                                 >

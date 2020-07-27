@@ -293,6 +293,7 @@ export default class Slider extends PureComponent {
               block="Slider"
               elem="Image"
               mods={ { type: 'single' } }
+              // eslint-disable-next-line react/jsx-no-bind
               onClick={ () => this.changeActiveImage(i) }
             >
                 <div

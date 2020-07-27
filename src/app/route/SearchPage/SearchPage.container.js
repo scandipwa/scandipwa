@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { SEARCH } from 'Component/Header/Header.config';
+import { CATEGORY, SEARCH } from 'Component/Header/Header.config';
 import {
     CategoryPageContainer,
     LOADING_TIME
@@ -96,21 +96,18 @@ export class SearchPageContainer extends CategoryPageContainer {
         // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {
             this._requestCategoryWithPageList();
-        } else {
-            this._onCategoryUpdate();
         }
 
-        this._updateBreadcrumbs();
+        this._onCategoryUpdate();
     }
 
     componentDidUpdate(prevProps) {
         const {
-            category: { id }, isOffline,
+            isOffline,
             match: { params: { query } }
         } = this.props;
 
         const {
-            category: { id: prevId },
             match: { params: { query: prevQuery } }
         } = prevProps;
 
@@ -118,15 +115,32 @@ export class SearchPageContainer extends CategoryPageContainer {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        if (id !== prevId) {
+        if (query !== prevQuery) {
+            this._updateBreadcrumbs();
             this._onCategoryUpdate();
         }
 
-        if (query !== prevQuery) {
-            this._updateBreadcrumbs();
-        }
-
         this._updateData(prevProps);
+    }
+
+    _updateHeaderState() {
+        const {
+            changeHeaderState,
+            match: { params: { query } },
+            history
+        } = this.props;
+
+        const { location: { state: { isFromCategory } = {} } } = history;
+
+        const onBackClick = isFromCategory
+            ? () => history.goBack()
+            : () => history.push('/menu');
+
+        changeHeaderState({
+            name: CATEGORY,
+            title: query,
+            onBackClick
+        });
     }
 
     _updateBreadcrumbs() {
@@ -144,6 +158,7 @@ export class SearchPageContainer extends CategoryPageContainer {
     _onCategoryUpdate() {
         this._updateHeaderState();
         this._updateNavigationState();
+        this._updateBreadcrumbs();
     }
 
     _requestCategory() {
