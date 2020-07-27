@@ -53,11 +53,14 @@ export default class WidgetFactory extends PureComponent {
 
     renderContent() {
         const { type } = this.props;
-        const { component: Widget } = this.renderMap[type] || {};
+        const {
+            component: Widget,
+            fallback
+        } = this.renderMap[type] || {};
 
         if (Widget !== undefined) {
             return (
-                <RenderWhenVisible>
+                <RenderWhenVisible fallback={ fallback }>
                     <Widget { ...this.props } />
                 </RenderWhenVisible>
             );

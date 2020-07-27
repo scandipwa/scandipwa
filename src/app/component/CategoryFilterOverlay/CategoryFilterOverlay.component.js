@@ -30,6 +30,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         isProductsLoading: PropTypes.bool.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
+        onHide: PropTypes.func.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
@@ -169,6 +170,7 @@ export default class CategoryFilterOverlay extends PureComponent {
     render() {
         const {
             onVisible,
+            onHide,
             totalPages,
             isProductsLoading,
             isContentFiltered
@@ -183,6 +185,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         return (
             <Overlay
               onVisible={ onVisible }
+              onHide={ onHide }
               mix={ { block: 'CategoryFilterOverlay' } }
               id={ CATEGORY_FILTER_OVERLAY_ID }
               isRenderInPortal={ false }
