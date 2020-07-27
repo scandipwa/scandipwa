@@ -10,9 +10,9 @@
  */
 
 import {
-    UPDATE_PRODUCT_LIST_INFO,
-    UPDATE_INFO_LOAD_STATUS
-} from 'Store/ProductListInfo';
+    UPDATE_INFO_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_INFO
+} from 'Store/ProductListInfo/ProductListInfo.action';
 
 const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
@@ -21,27 +21,17 @@ const reduceFilters = (filters) => filters.reduce((co, item) => {
         filter_items
     } = item;
 
-    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option, i) => {
+    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option) => {
         const { value_string } = option;
         const { attribute_values, attribute_options } = attribute;
 
         attribute_values.push(value_string);
 
-        if (attribute_code === 'cat') {
-            return {
-                ...attribute,
-                attribute_options: {
-                    ...attribute_options,
-                    [i]: option
-                }
-            };
-        }
-
         return {
             ...attribute,
             attribute_options: {
                 ...attribute_options,
-                [+value_string]: option
+                [value_string]: option
             }
         };
     }, { attribute_values: [], attribute_options: {} });

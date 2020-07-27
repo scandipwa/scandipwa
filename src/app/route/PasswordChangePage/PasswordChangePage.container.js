@@ -10,13 +10,22 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { updateMeta } from 'Store/Meta';
-import { showNotification } from 'Store/Notification';
+import { connect } from 'react-redux';
+
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { showNotification } from 'Store/Notification/Notification.action';
+
 import PasswordChangePage from './PasswordChangePage.component';
+
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus
@@ -25,13 +34,15 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+        BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch));
     },
     resetPassword(options) {
-        MyAccountDispatcher.resetPassword(options, dispatch);
+        MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch));
     },
     updateCustomerPasswordResetStatus(options) {
-        MyAccountDispatcher.updateCustomerPasswordResetStatus(options, dispatch);
+        MyAccountDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateCustomerPasswordResetStatus(options, dispatch)
+        );
     },
     showNotification(type, message) {
         dispatch(showNotification(type, message));

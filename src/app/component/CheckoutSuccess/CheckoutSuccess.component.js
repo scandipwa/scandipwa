@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import Link from 'Component/Link';
-
 import './CheckoutSuccess.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Link from 'Component/Link';
 
 export default class CheckoutSuccess extends PureComponent {
     static propTypes = {

@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createPortal } from 'react-dom';
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { createPortal } from 'react-dom';
 
 /**
  * Page Meta data
