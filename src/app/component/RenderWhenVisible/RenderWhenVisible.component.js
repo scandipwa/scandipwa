@@ -14,6 +14,26 @@ class RenderWhenVisible extends PureComponent {
         wasVisible: false
     };
 
+    constructor(props) {
+        super(props);
+
+        // a hack to determine if the element is on screen or not imidiatelly
+        setTimeout(this.checkIsVisible, 0);
+    }
+
+    checkIsVisible = () => {
+        if (!this.node) {
+            return;
+        }
+
+        const rect = this.node.getBoundingClientRect();
+        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+
+        if (!(rect.bottom < 0 || rect.top - viewHeight >= 0)) {
+            this.setState({ wasVisible: true });
+        }
+    };
+
     shouldRender(isVisible) {
         return isVisible || this.wasVisible;
     }
@@ -55,7 +75,12 @@ class RenderWhenVisible extends PureComponent {
 
     render() {
         return (
-            <div block="RenderWhenVisible">
+            <div
+              block="RenderWhenVisible"
+              ref={ (node) => {
+                  this.node = node;
+              } }
+            >
                 { this.renderContent() }
             </div>
         );

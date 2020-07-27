@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { SEARCH, CATEGORY } from 'Component/Header/Header.config';
+import { CATEGORY, SEARCH } from 'Component/Header/Header.config';
 import {
     CategoryPageContainer,
     LOADING_TIME
@@ -103,12 +103,11 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     componentDidUpdate(prevProps) {
         const {
-            category: { id }, isOffline,
+            isOffline,
             match: { params: { query } }
         } = this.props;
 
         const {
-            category: { id: prevId },
             match: { params: { query: prevQuery } }
         } = prevProps;
 

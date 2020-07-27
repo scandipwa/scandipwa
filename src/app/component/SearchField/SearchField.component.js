@@ -88,6 +88,10 @@ class SearchField extends PureComponent {
         }
     };
 
+    onIconClick = () => {
+        this.searchBarRef.current.focus();
+    };
+
     openSearch = () => {
         const { onSearchBarFocus } = this.props;
 
@@ -170,7 +174,7 @@ class SearchField extends PureComponent {
                   elem="SearchIcon"
                   role="button"
                   tabIndex="0"
-                  onClick={ () => this.searchBarRef.current.focus() }
+                  onClick={ this.onIconClick }
                   aria-label={ __('Search') }
                 />
                 <Suspense fallback={ this.renderOverlayFallback() }>

@@ -410,8 +410,7 @@ export default class Header extends NavigationAbstract {
         const {
             onMinicartOutsideClick,
             onMinicartButtonClick,
-            isCheckout,
-            navigationState: { name }
+            isCheckout
         } = this.props;
 
         if ((isMobile.any() || isMobile.tablet()) || isCheckout) {
@@ -429,11 +428,7 @@ export default class Header extends NavigationAbstract {
                       block="Header"
                       elem="MinicartButtonWrapper"
                       tabIndex="0"
-                      onClick={ () => {
-                          if (name !== CART_OVERLAY) {
-                              onMinicartButtonClick();
-                          }
-                      } }
+                      onClick={ onMinicartButtonClick }
                     >
                         <span
                           block="Header"

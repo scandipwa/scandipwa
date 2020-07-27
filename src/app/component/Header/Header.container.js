@@ -401,15 +401,23 @@ export class HeaderContainer extends NavigationAbstractContainer {
     // *
 
     onMinicartButtonClick() {
-        const { showOverlay } = this.props;
+        const {
+            showOverlay,
+            navigationState: { name }
+        } = this.props;
+
+        if (name !== CART_OVERLAY) {
+            return;
+        }
 
         if (!isMobile.any()) {
             this.setState({ shouldRenderCartOverlay: true });
 
-            return showOverlay(CART_OVERLAY);
+            showOverlay(CART_OVERLAY);
+            return;
         }
 
-        return history.push(`/${ CART }`);
+        history.push(`/${ CART }`);
     }
 
     // *
