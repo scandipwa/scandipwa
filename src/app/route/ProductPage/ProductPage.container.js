@@ -18,12 +18,12 @@ import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { history } from 'Route';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { getVariantIndex } from 'Util/Product';
-import { ProductType } from 'Type/ProductList';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { LocationType, HistoryType, MatchType } from 'Type/Common';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { ProductType } from 'Type/ProductList';
+import { getVariantIndex } from 'Util/Product';
 import {
     convertQueryStringToKeyValuePairs, getUrlParam,
     objectToUri, removeQueryParamWithoutHistory, updateQueryParamWithoutHistory

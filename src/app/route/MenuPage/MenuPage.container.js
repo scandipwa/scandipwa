@@ -16,13 +16,13 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { MENU } from 'Component/Header/Header.config';
 import Menu from 'Component/Menu';
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { HistoryType } from 'Type/Common';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import isMobile from 'Util/Mobile';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { MENU } from 'Component/Header/Header.config';
+import { HistoryType } from 'Type/Common';
+import isMobile from 'Util/Mobile';
 
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),

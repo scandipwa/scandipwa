@@ -9,19 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './HomePage.style';
+
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import Footer from 'Component/Footer';
 import InstallPrompt from 'Component/InstallPrompt';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
+import CmsPage from 'Route/CmsPage';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-
-import CmsPage from 'Route/CmsPage';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
-
-import './HomePage.style';
 
 export const mapStateToProps = (state) => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
