@@ -156,7 +156,12 @@ export class ProductPageContainer extends PureComponent {
             },
             productSKU,
             isOnlyPlaceholder,
-            navigation: { navigationState: { name: navName, title: navTitle } },
+            navigation: {
+                navigationState: {
+                    name: navName,
+                    title: navTitle
+                }
+            },
             metaTitle
         } = this.props;
 
@@ -169,7 +174,11 @@ export class ProductPageContainer extends PureComponent {
             },
             productSKU: prevProductSKU,
             isOnlyPlaceholder: prevIsOnlyPlaceholder,
-            navigation: { navigationState: { name: prevNavName, title: prevNavTitle } }
+            navigation: {
+                navigationState: {
+                    title: prevNavTitle
+                }
+            }
         } = prevProps;
 
         if (
@@ -320,9 +329,11 @@ export class ProductPageContainer extends PureComponent {
         const dataSource = this._getDataSource();
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
+
             if (updateHeader) {
                 this._updateHeaderState(dataSource);
             }
+
             this._updateNavigationState();
 
             if (isOffline) {
