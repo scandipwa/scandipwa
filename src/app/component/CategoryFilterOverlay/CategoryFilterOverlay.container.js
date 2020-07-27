@@ -55,7 +55,8 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         onSeeResultsClick: this.onSeeResultsClick.bind(this),
         toggleCustomFilter: this.toggleCustomFilter.bind(this),
         getFilterUrl: this.getFilterUrl.bind(this),
-        onVisible: this.onVisible.bind(this)
+        onVisible: this.onVisible.bind(this),
+        onHide: this.onHide.bind(this)
     };
 
     onSeeResultsClick() {
@@ -72,21 +73,54 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
     onVisible() {
         const {
+            hideActiveOverlay,
             changeHeaderState,
             changeNavigationState,
-            goToPreviousNavigationState
+            goToPreviousNavigationState,
+            location: { pathname, search }
         } = this.props;
 
         changeHeaderState({
             name: FILTER,
             title: __('Filters'),
-            onCloseClick: () => goToPreviousNavigationState()
+            onCloseClick: () => {
+                hideActiveOverlay();
+                goToPreviousNavigationState();
+            }
         });
 
         changeNavigationState({
             name: FILTER,
             isHidden: true
         });
+        window.addEventListener('popstate', this.historyBackHook);
+
+        history.pushState(
+            { overlayOpen: true },
+            '',
+            pathname + search
+        );
+    }
+
+    historyBackHook = () => {
+        const {
+            goToPreviousNavigationState,
+            customFiltersValues,
+            hideActiveOverlay,
+            goToPreviousHeaderState
+        } = this.props;
+
+        goToPreviousNavigationState();
+
+        // close filter only if no applied filters left
+        if (Object.keys(customFiltersValues).length === 0) {
+            hideActiveOverlay();
+            goToPreviousHeaderState();
+        }
+    };
+
+    onHide() {
+        window.removeEventListener('popstate', this.historyBackHook);
     }
 
     /**
