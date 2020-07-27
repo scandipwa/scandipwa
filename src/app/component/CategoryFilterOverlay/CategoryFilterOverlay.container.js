@@ -183,7 +183,12 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         const newFilterArray = customFiltersValues[filterKey] !== undefined
             ? Array.from(customFiltersValues[filterKey])
             : [];
+
         const filterValueIndex = newFilterArray.indexOf(value);
+
+        if (filterKey === 'price') { // for price filter, choose one
+            return [value];
+        }
 
         if (filterValueIndex === -1) {
             newFilterArray.push(value);
