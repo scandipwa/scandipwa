@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import Footer from 'Component/Footer';
 import InstallPrompt from 'Component/InstallPrompt';
-import { changeNavigationState } from 'Store/Navigation';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import CmsPage from 'Route/CmsPage';

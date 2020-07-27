@@ -14,11 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { POPUP } from 'Component/Header/Header.config';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { hideActiveOverlay } from 'Store/Overlay';
-import { POPUP } from 'Component/Header';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 
 import Popup from './Popup.component';
 

@@ -17,16 +17,12 @@ import { withRouter } from 'react-router';
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { history } from 'Route';
-import { MetaDispatcher, updateMeta } from 'Store/Meta';
+import { updateMeta } from 'Store/Meta/Meta.action';
 import { getVariantIndex } from 'Util/Product';
 import { ProductType } from 'Type/ProductList';
-import { ProductDispatcher } from 'Store/Product';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
-import { setBigOfflineNotice } from 'Store/Offline';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     convertQueryStringToKeyValuePairs, getUrlParam,
@@ -69,7 +65,7 @@ export const mapDispatchToProps = (dispatch) => ({
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
-    )),
+    ),
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
