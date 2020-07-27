@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useEffect } from 'react';
+import { PureComponent } from 'react';
 
 import CmsPage from 'Route/CmsPage';
 import Footer from 'Component/Footer';
@@ -30,26 +30,29 @@ export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-export const HomePageContainer = (props) => {
-    const { changeHeaderState } = props;
-    useEffect(() => {
+export class HomePageContainer extends PureComponent {
+    static propTypes = {
+        changeHeaderState: PropTypes.func.isRequired
+    };
+
+    componentDidMount() {
+        const { changeHeaderState } = this.props;
+
         changeHeaderState({
             name: DEFAULT_STATE_NAME,
             isHiddenOnMobile: true
         });
-    }, []);
+    }
 
-    return (
-        <div block="HomePage">
-            <InstallPrompt />
-            <CmsPage { ...props } isBreadcrumbsActive={ false } />
-            <Footer isVisibleOnMobile />
-        </div>
-    );
-};
-
-HomePageContainer.propTypes = {
-    changeHeaderState: PropTypes.func.isRequired
-};
+    render() {
+        return (
+            <div block="HomePage">
+                <InstallPrompt />
+                <CmsPage { ...this.props } isBreadcrumbsActive={ false } />
+                <Footer isVisibleOnMobile />
+            </div>
+        );
+    }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePageContainer);
