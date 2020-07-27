@@ -47,17 +47,14 @@ export default class Popup extends Overlay {
 
         window.addEventListener('popstate', this.hidePopUp);
 
-        history.pushState(
+        window.history.pushState(
             {
-                ...(history.state || {}),
-                state: {
-                    ...((history.state && history.state.state) || {}),
-                    popupOpen: true
-                }
+                popupOpen: true
             },
             '',
             location.pathname
         );
+
         onVisible();
     }
 
