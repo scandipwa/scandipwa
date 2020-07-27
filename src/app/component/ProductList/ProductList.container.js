@@ -20,7 +20,7 @@ import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
 import {
     ProductListInfoDispatcher
-} from 'Store/ProductListInfo';
+} from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import isMobile from 'Util/Mobile';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
