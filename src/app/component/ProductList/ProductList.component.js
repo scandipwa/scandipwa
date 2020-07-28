@@ -13,14 +13,13 @@ import './ProductList.style';
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import debounceRender from 'react-debounce-render';
 
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
 import { MixType } from 'Type/Common';
 import { FilterType, PagesType } from 'Type/ProductList';
 
-import { observerThreshold, RENDER_PAGE_FREQUENCY } from './ProductList.config';
+import { observerThreshold } from './ProductList.config';
 
 /**
  * List of category products
@@ -335,4 +334,4 @@ export class ProductList extends PureComponent {
     }
 }
 
-export default debounceRender(ProductList, RENDER_PAGE_FREQUENCY, { leading: false });
+export default ProductList;

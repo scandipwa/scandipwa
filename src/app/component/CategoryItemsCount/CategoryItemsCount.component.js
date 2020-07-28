@@ -11,9 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import debounceRender from 'react-debounce-render';
 
-import { RENDER_PAGE_FREQUENCY } from 'Component/ProductList/ProductList.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
 export class CategoryItemsCount extends PureComponent {
@@ -45,4 +43,4 @@ export class CategoryItemsCount extends PureComponent {
     }
 }
 
-export default debounceRender(CategoryItemsCount, RENDER_PAGE_FREQUENCY, { leading: false });
+export default CategoryItemsCount;
