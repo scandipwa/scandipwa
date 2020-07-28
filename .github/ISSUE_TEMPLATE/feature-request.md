@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Are you mssing a feature? LEt us know!
+about: Are you mssing a feature? Let us know!
 title: ''
 labels: feature
 assignees: alfredsgenkins
