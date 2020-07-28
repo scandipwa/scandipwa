@@ -2,7 +2,7 @@
 name: Feature request
 about: Are you mssing a feature? LEt us know!
 title: ''
-labels: bug
+labels: feature
 assignees: alfredsgenkins
 
 ---
