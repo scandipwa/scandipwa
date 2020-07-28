@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { goToPreviousNavigationState, changeNavigationState } from 'Store/Navigation';
-import { hideActiveOverlay } from 'Store/Overlay';
-import { FILTER } from 'Component/Header';
+import { FILTER } from 'Component/Header/Header.config';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { LocationType } from 'Type/Router';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
@@ -55,7 +55,8 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         onSeeResultsClick: this.onSeeResultsClick.bind(this),
         toggleCustomFilter: this.toggleCustomFilter.bind(this),
         getFilterUrl: this.getFilterUrl.bind(this),
-        onVisible: this.onVisible.bind(this)
+        onVisible: this.onVisible.bind(this),
+        onHide: this.onHide.bind(this)
     };
 
     onSeeResultsClick() {
@@ -72,21 +73,54 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
     onVisible() {
         const {
+            hideActiveOverlay,
             changeHeaderState,
             changeNavigationState,
-            goToPreviousNavigationState
+            goToPreviousNavigationState,
+            location: { pathname, search }
         } = this.props;
 
         changeHeaderState({
             name: FILTER,
             title: __('Filters'),
-            onCloseClick: () => goToPreviousNavigationState()
+            onCloseClick: () => {
+                hideActiveOverlay();
+                goToPreviousNavigationState();
+            }
         });
 
         changeNavigationState({
             name: FILTER,
             isHidden: true
         });
+        window.addEventListener('popstate', this.historyBackHook);
+
+        history.pushState(
+            { overlayOpen: true },
+            '',
+            pathname + search
+        );
+    }
+
+    historyBackHook = () => {
+        const {
+            goToPreviousNavigationState,
+            customFiltersValues,
+            hideActiveOverlay,
+            goToPreviousHeaderState
+        } = this.props;
+
+        goToPreviousNavigationState();
+
+        // close filter only if no applied filters left
+        if (Object.keys(customFiltersValues).length === 0) {
+            hideActiveOverlay();
+            goToPreviousHeaderState();
+        }
+    };
+
+    onHide() {
+        window.removeEventListener('popstate', this.historyBackHook);
     }
 
     /**
@@ -149,7 +183,12 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         const newFilterArray = customFiltersValues[filterKey] !== undefined
             ? Array.from(customFiltersValues[filterKey])
             : [];
+
         const filterValueIndex = newFilterArray.indexOf(value);
+
+        if (filterKey === 'price') { // for price filter, choose one
+            return [value];
+        }
 
         if (filterValueIndex === -1) {
             newFilterArray.push(value);

@@ -7,7 +7,7 @@ export const sharedTransitionInitialState = {
     startingPosition: {}
 };
 
-export class SharedTransitionContainer extends Container {
+export class SharedTransitionUnstated extends Container {
     state = sharedTransitionInitialState;
 
     _parseRectangle = (val) => JSON.parse(JSON.stringify(val));
@@ -45,4 +45,4 @@ export class SharedTransitionContainer extends Container {
     };
 }
 
-export default new SharedTransitionContainer();
+export default new SharedTransitionUnstated();

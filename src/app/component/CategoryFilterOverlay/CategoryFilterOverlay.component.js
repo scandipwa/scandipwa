@@ -9,16 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import Overlay from 'Component/Overlay';
-import ResetButton from 'Component/ResetButton';
-import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
-import Loader from 'Component/Loader';
-
 import './CategoryFilterOverlay.style';
 
-export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
+import Loader from 'Component/Loader';
+import Overlay from 'Component/Overlay';
+import ResetButton from 'Component/ResetButton';
+
+import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 
 export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
@@ -29,6 +30,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         isProductsLoading: PropTypes.bool.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
+        onHide: PropTypes.func.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
@@ -168,6 +170,7 @@ export default class CategoryFilterOverlay extends PureComponent {
     render() {
         const {
             onVisible,
+            onHide,
             totalPages,
             isProductsLoading,
             isContentFiltered
@@ -182,6 +185,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         return (
             <Overlay
               onVisible={ onVisible }
+              onHide={ onHide }
               mix={ { block: 'CategoryFilterOverlay' } }
               id={ CATEGORY_FILTER_OVERLAY_ID }
               isRenderInPortal={ false }

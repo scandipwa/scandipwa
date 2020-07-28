@@ -11,6 +11,7 @@
  */
 
 import { getAuthorizationToken } from 'Util/Auth';
+
 import { hash } from './Hash';
 
 export const GRAPHQL_URI = '/graphql';

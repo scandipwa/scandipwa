@@ -11,11 +11,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import Link from 'Component/Link';
-import ContentWrapper from 'Component/ContentWrapper';
 import './SomethingWentWrong.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
 
 class SomethingWentWrong extends PureComponent {
     static propTypes = {

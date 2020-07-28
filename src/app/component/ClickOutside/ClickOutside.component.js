@@ -9,13 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    PureComponent,
-    Children,
-    createRef,
-    cloneElement
-} from 'react';
 import PropTypes from 'prop-types';
+import {
+    Children,
+    cloneElement,
+    createRef,
+    PureComponent
+} from 'react';
+
 import { ChildrenType } from 'Type/Common';
 
 export default class ClickOutside extends PureComponent {

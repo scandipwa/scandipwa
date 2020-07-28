@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import debounceRender from 'react-debounce-render';
-import { PureComponent } from 'react';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import PropTypes from 'prop-types';
-import { RENDER_PAGE_FREQUENCY } from 'Component/ProductList/ProductList.component';
+import { PureComponent } from 'react';
+import debounceRender from 'react-debounce-render';
+
+import { RENDER_PAGE_FREQUENCY } from 'Component/ProductList/ProductList.config';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 export class CategoryItemsCount extends PureComponent {
     static propTypes = {

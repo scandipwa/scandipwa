@@ -9,5 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from './Header.component';
 export { default } from './Header.container';

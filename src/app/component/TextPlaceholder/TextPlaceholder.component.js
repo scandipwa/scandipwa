@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { MixType } from 'Type/Common';
 import './TextPlaceholder.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { MixType } from 'Type/Common';
 
 /**
  * Text placeholder

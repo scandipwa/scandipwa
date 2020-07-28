@@ -9,29 +9,38 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { showNotification } from 'Store/Notification/Notification.action';
+import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import {
+    BUNDLE,
     CONFIGURABLE,
-    GROUPED,
-    BUNDLE
+    GROUPED
 } from 'Util/Product';
-import { CartDispatcher } from 'Store/Cart';
-import { ProductType } from 'Type/ProductList';
-import { showNotification } from 'Store/Notification';
 
-import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-    addProduct: (options) => CartDispatcher.addProductToCart(dispatch, options),
-    removeFromWishlist: (options) => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
+    addProduct: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
+    removeFromWishlist: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 

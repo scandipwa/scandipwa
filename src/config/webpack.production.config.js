@@ -72,6 +72,8 @@ const webpackConfig = ([lang, translation]) => ({
 
     cache: false,
 
+    mode: 'production',
+
     stats: {
         warnings: false
     },
@@ -100,12 +102,7 @@ const webpackConfig = ([lang, translation]) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: () => [
-                                autoprefixer,
-                                cssnano({
-                                    preset: ['default', { discardComments: { removeAll: true } }]
-                                })
-                            ]
+                            plugins: () => [autoprefixer]
                         }
                     },
                     'sass-loader',
@@ -129,6 +126,7 @@ const webpackConfig = ([lang, translation]) => ({
     },
 
     output: {
+        chunkFilename: `${lang}.[name].bundle.js`,
         filename: `${lang}.bundle.js`,
         path: path.resolve(projectRoot, 'Magento_Theme', 'web'),
         pathinfo: true,
@@ -156,12 +154,11 @@ const webpackConfig = ([lang, translation]) => ({
         }),
 
         new webpack.ProvidePlugin({
+            __: path.resolve(path.join(__dirname, 'TranslationFunction')),
             React: 'react'
         }),
 
-        new I18nPlugin({
-            translation
-        }),
+        new I18nPlugin({ translation }),
 
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: [

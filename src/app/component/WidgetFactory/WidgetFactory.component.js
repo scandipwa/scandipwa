@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,15 +9,19 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import HomeSlider from 'Component/SliderWidget';
-import NewProducts from 'Component/NewProducts';
-import ProductListWidget from 'Component/ProductListWidget';
 
-export const SLIDER = 'Slider';
-export const NEW_PRODUCTS = 'NewProducts';
-export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
+import './WidgetFactory.style';
+
+import PropTypes from 'prop-types';
+import { lazy, PureComponent, Suspense } from 'react';
+
+import RenderWhenVisible from 'Component/RenderWhenVisible';
+
+import { CATALOG_PRODUCT_LIST, NEW_PRODUCTS, SLIDER } from './WidgetFactory.config';
+
+const ProductListWidget = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/ProductListWidget'));
+const NewProducts = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/NewProducts'));
+const HomeSlider = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/SliderWidget'));
 
 export default class WidgetFactory extends PureComponent {
     static propTypes = {
@@ -25,7 +30,8 @@ export default class WidgetFactory extends PureComponent {
 
     renderMap = {
         [SLIDER]: {
-            component: HomeSlider
+            component: HomeSlider,
+            fallback: this.renderSliderFallback
         },
         [NEW_PRODUCTS]: {
             component: NewProducts
@@ -35,10 +41,45 @@ export default class WidgetFactory extends PureComponent {
         }
     };
 
-    render() {
-        const { type } = this.props;
-        const { component: Widget } = this.renderMap[type] || {};
+    renderSliderFallback() {
+        return (
+            <div block="WidgetFactory" elem="SliderPlaceholder" />
+        );
+    }
 
-        return Widget !== undefined ? <Widget { ...this.props } /> : null;
+    renderDefaultFallback() {
+        return <div />;
+    }
+
+    renderContent() {
+        const { type } = this.props;
+        const {
+            component: Widget,
+            fallback
+        } = this.renderMap[type] || {};
+
+        if (Widget !== undefined) {
+            return (
+                <RenderWhenVisible fallback={ fallback }>
+                    <Widget { ...this.props } />
+                </RenderWhenVisible>
+            );
+        }
+
+        return null;
+    }
+
+    renderFallback() {
+        const { type } = this.props;
+        const { fallback = this.renderDefaultFallback } = this.renderMap[type] || {};
+        return fallback();
+    }
+
+    render() {
+        return (
+            <Suspense fallback={ this.renderFallback() }>
+                { this.renderContent() }
+            </Suspense>
+        );
     }
 }

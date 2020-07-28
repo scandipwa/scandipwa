@@ -1,0 +1,12 @@
+.WidgetFactory {
+    &-SliderPlaceholder {
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        padding-bottom: 40%;
+
+        @include mobile {
+            padding-bottom: 100%;
+        }
+    }
+}

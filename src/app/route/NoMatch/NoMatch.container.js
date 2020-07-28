@@ -10,12 +10,17 @@
  */
 
 import { connect } from 'react-redux';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+
 import NoMatch from './NoMatch.component';
+
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
 
 export const mapDispatchToProps = (dispatch) => ({
     updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+        BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch));
     }
 });
 
