@@ -161,9 +161,9 @@ export class ProductListPage extends PureComponent {
     }
 
     renderItems() {
-        const { items } = this.props;
+        const { items, isLoading } = this.props;
 
-        if (!items.length) {
+        if (!items.length || isLoading) {
             return this.renderPlaceholderItems();
         }
 

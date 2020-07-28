@@ -166,7 +166,8 @@ export class CategoryPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             category: {
-                id
+                id,
+                url
             },
             isOffline
         } = this.props;
@@ -182,7 +183,7 @@ export class CategoryPageContainer extends PureComponent {
         }
 
         // update breadcrumbs only if category has changed
-        if (id !== prevId) {
+        if (id !== prevId && url === location.pathname) {
             this._onCategoryUpdate();
         }
 
