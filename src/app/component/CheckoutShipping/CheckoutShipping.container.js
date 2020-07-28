@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
-import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
+import { customerType } from 'Type/Account';
 
 import CheckoutShipping from './CheckoutShipping.component';
 

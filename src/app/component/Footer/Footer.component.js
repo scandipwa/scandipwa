@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Footer.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 import CmsBlock from 'Component/CmsBlock';
-import Link from 'Component/Link';
 import isMobile from 'Util/Mobile';
+import Link from 'Component/Link';
+
+import './Footer.style';
 
 /**
  * Page footer

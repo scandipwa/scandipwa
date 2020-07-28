@@ -9,9 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import CategorySort from './CategorySort.component';
 
 export class CategorySortContainer extends PureComponent {

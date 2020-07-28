@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,18 +10,17 @@
  */
 
 import PropTypes from 'prop-types';
-import { lazy, PureComponent, Suspense } from 'react';
-
+import { PureComponent } from 'react';
+import CategoryPage from 'Route/CategoryPage';
+import ProductPage from 'Route/ProductPage';
+import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
 import { LocationType, MatchType } from 'Type/Common';
 
-import {
-    TYPE_CATEGORY, TYPE_CMS_PAGE, TYPE_NOTFOUND, TYPE_PRODUCT
-} from './UrlRewrites.config';
-
-export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const TYPE_PRODUCT = 'PRODUCT';
+export const TYPE_CMS_PAGE = 'CMS_PAGE';
+export const TYPE_CATEGORY = 'CATEGORY';
+export const TYPE_NOTFOUND = 'NOT_FOUND';
 
 /**
  * Additional types possible:
@@ -243,7 +241,7 @@ export class UrlRewrites extends PureComponent {
         }
     }
 
-    renderContent() {
+    render() {
         const { id, notFound } = this.state;
 
         if (id || notFound) {
@@ -251,14 +249,6 @@ export class UrlRewrites extends PureComponent {
         }
 
         return this.renderPlaceholders();
-    }
-
-    render() {
-        return (
-            <Suspense fallback={ this.renderDefaultPage() }>
-                { this.renderContent() }
-            </Suspense>
-        );
     }
 }
 

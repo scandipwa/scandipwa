@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { toggleBreadcrumbs, updateBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateBreadcrumbs, toggleBreadcrumbs } from 'Store/Breadcrumbs';
 
 /**
  * Breadcrumbs Dispatcher

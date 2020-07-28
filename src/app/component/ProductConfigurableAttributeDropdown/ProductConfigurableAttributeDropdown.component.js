@@ -1,9 +1,7 @@
-import './ProductConfigurableAttributeDropdown.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import Field from 'Component/Field';
+import './ProductConfigurableAttributeDropdown.style';
 
 class ProductConfigurableAttributeDropdown extends PureComponent {
     static propTypes = {

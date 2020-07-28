@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-
 import { ProductType } from './ProductList';
 
 export const PageType = PropTypes.shape({

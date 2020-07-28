@@ -9,13 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './NotificationList.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import Notification from 'Component/Notification';
 import { NotificationListType } from 'Type/NotificationList';
+import './NotificationList.style';
 
 /**
  * Notification List

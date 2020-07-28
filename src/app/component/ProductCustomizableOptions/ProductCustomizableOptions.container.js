@@ -9,11 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import { OptionsType } from 'Type/ProductList';
-
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
 class ProductCustomizableOptionsContainer extends PureComponent {

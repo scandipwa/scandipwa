@@ -10,13 +10,8 @@
  */
 
 import { connect } from 'react-redux';
-
+import { UrlRewritesDispatcher } from 'Store/UrlRewrites';
 import UrlRewrites from './UrlRewrites.component';
-
-const UrlRewritesDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/UrlRewrites/UrlRewrites.dispatcher'
-);
 
 export const mapStateToProps = (state) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
@@ -25,14 +20,12 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     requestUrlRewrite: (urlParam) => {
-        UrlRewritesDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, {
-                urlParam: urlParam.replace(new RegExp(window.storeRegexText), '')
-            })
-        );
+        UrlRewritesDispatcher.handleData(dispatch, {
+            urlParam: urlParam.replace(new RegExp(window.storeRegexText), '')
+        });
     },
     clearUrlRewrites: () => {
-        UrlRewritesDispatcher.then(({ default: dispatcher }) => dispatcher.clearUrlRewrites(dispatch));
+        UrlRewritesDispatcher.clearUrlRewrites(dispatch);
     }
 });
 

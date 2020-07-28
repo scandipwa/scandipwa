@@ -9,18 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './PasswordChangePage.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
-
+import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
+import Loader from 'Component/Loader';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
-import Loader from 'Component/Loader';
-import { LocationType } from 'Type/Common';
 import { getQueryParam } from 'Util/Url';
+import { LocationType } from 'Type/Common';
+import './PasswordChangePage.style';
 
 const STATUS_PASSOWORD_UPDATED = 'password_updated';
 const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';

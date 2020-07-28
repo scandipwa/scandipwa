@@ -9,20 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { BRAINTREE, KLARNA, STRIPE } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import { showPopup } from 'Store/Popup';
+import { showNotification } from 'Store/Notification';
+import { paymentMethodsType } from 'Type/Checkout';
+import { customerType, addressType } from 'Type/Account';
+import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
+import { TotalsType } from 'Type/MiniCart';
+import { BRAINTREE, STRIPE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
-} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { showPopup } from 'Store/Popup/Popup.action';
-import { addressType, customerType } from 'Type/Account';
-import { paymentMethodsType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
-import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
+} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -83,20 +83,16 @@ export class CheckoutBillingContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { paymentMethods, customer } = props;
+        const { paymentMethods, totals: { is_virtual } } = props;
         const [method] = paymentMethods;
         const { code: paymentMethod } = method || {};
 
         this.state = {
-            isSameAsShipping: this.isSameShippingAddress(customer),
+            isSameAsShipping: !is_virtual,
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
             paymentMethod
         };
-    }
-
-    isSameShippingAddress({ default_billing, default_shipping }) {
-        return default_billing === default_shipping;
     }
 
     onAddressSelect(id) {

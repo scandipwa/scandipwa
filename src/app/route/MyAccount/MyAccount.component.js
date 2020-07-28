@@ -9,28 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccount.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import ContentWrapper from 'Component/ContentWrapper';
-import MyAccountAddressBook from 'Component/MyAccountAddressBook';
-import MyAccountDashboard from 'Component/MyAccountDashboard';
-import MyAccountMyOrders from 'Component/MyAccountMyOrders';
-import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
 import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import MyAccountAddressBook from 'Component/MyAccountAddressBook';
+import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
+import MyAccountDashboard from 'Component/MyAccountDashboard';
+import MyAccountMyOrders from 'Component/MyAccountMyOrders';
 import MyAccountTabList from 'Component/MyAccountTabList';
+import ContentWrapper from 'Component/ContentWrapper';
 import {
     activeTabType,
-    ADDRESS_BOOK,
+    tabMapType,
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    NEWSLETTER_SUBSCRIPTION,
-    tabMapType
+    ADDRESS_BOOK,
+    NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
+
+import './MyAccount.style';
 
 class MyAccount extends PureComponent {
     static propTypes = {

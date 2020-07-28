@@ -9,19 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { showPopup } from 'Store/Popup';
 import {
-    ADDRESS_POPUP_ID,
-    DELETE_ADDRESS,
-    EDIT_ADDRESS
-} from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
-import { showPopup } from 'Store/Popup/Popup.action';
+    ADDRESS_POPUP_ID, EDIT_ADDRESS, DELETE_ADDRESS
+} from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.component';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-
 import MyAccountAddressTable from './MyAccountAddressTable.component';
 
 export const mapStateToProps = (state) => ({

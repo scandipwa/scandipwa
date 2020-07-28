@@ -9,23 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import OrderQuery from 'Query/Order.query';
-import { showNotification } from 'Store/Notification/Notification.action';
 import { orderType } from 'Type/Account';
+import { OrderDispatcher } from 'Store/Order';
+import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
 import { fetchQuery } from 'Util/Request';
+import { OrderQuery } from 'Query';
 
-import MyAccountOrderPopup from './MyAccountOrderPopup.component';
-import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
-
-const OrderDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Order/Order.dispatcher'
-);
+import MyAccountOrderPopup, { ORDER_POPUP_ID } from './MyAccountOrderPopup.component';
 
 export const mapStateToProps = (state) => ({
     order: state.OrderReducer.order,
@@ -35,7 +30,7 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    getOrder: (orderId) => OrderDispatcher.then(({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId))
+    getOrder: (orderId) => OrderDispatcher.getOrderById(dispatch, orderId)
 });
 
 export class MyAccountOrderPopupContainer extends PureComponent {

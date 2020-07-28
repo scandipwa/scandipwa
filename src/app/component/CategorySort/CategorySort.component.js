@@ -9,13 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CategorySort.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
-import Field from 'Component/Field';
+import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import Field from 'Component/Field';
+import './CategorySort.style';
 
 /**
  * Product Sort

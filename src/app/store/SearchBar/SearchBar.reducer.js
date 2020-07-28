@@ -10,11 +10,10 @@
  */
 
 import { getIndexedProducts } from 'Util/Product';
-
 import {
-    CLEAR_SEARCH_RESULTS,
     UPDATE_SEARCH_BAR,
-    UPDATE_SEARCH_LOAD_STATUS
+    UPDATE_SEARCH_LOAD_STATUS,
+    CLEAR_SEARCH_RESULTS
 } from './SearchBar.action';
 
 export const initialState = {

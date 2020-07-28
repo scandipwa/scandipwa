@@ -12,12 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
-
-import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { ProductType } from 'Type/ProductList';
+import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
-import ProductGallery from './ProductGallery.component';
-import { AMOUNT_OF_PLACEHOLDERS, IMAGE_TYPE, THUMBNAIL_KEY } from './ProductGallery.config';
+export const THUMBNAIL_KEY = 'small_image';
+export const AMOUNT_OF_PLACEHOLDERS = 0;
 
 export class ProductGalleryContainer extends PureComponent {
     static propTypes = {

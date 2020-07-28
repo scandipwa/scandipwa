@@ -1,11 +1,9 @@
-import './Stripe.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { Elements, StripeProvider } from 'react-stripe-elements';
-
+import PropTypes from 'prop-types';
+import { StripeProvider, Elements } from 'react-stripe-elements';
 import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 import Loader from 'Component/Loader';
+import './Stripe.style';
 
 class Stripe extends PureComponent {
     static propTypes = {

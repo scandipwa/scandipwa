@@ -15,7 +15,7 @@ import { Field } from 'Util/Query';
  * Slider Query
  * @class Slider
  */
-export class SliderQuery {
+export class Slider {
     getQuery(options) {
         const { sliderId } = options;
 
@@ -50,4 +50,4 @@ export class SliderQuery {
     }
 }
 
-export default new SliderQuery();
+export default new Slider();

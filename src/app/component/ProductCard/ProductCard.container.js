@@ -9,23 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { FilterType, ProductType } from 'Type/ProductList';
+import { ProductType, FilterType } from 'Type/ProductList';
 import { getVariantsIndexes } from 'Util/Product';
+import { CartDispatcher } from 'Store/Cart';
 import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
-
 export const mapDispatchToProps = (dispatch) => ({
-    addProduct: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
-    )
+    addProduct: (options) => CartDispatcher.addProductToCart(dispatch, options)
 });
 
 export class ProductCardContainer extends PureComponent {

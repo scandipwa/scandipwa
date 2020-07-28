@@ -9,16 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './PayPal.style';
-
-import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
-
+import PropTypes from 'prop-types';
 import Html from 'Component/Html';
+
+import './PayPal.style';
 import Loader from 'Component/Loader';
 
-import { PAYPAL_SCRIPT } from './PayPal.config';
+export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 
 /**
  * *Note*

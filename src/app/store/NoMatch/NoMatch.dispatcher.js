@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateNoMatch } from 'Store/NoMatch';
 /**
  * NoMatch Dispatcher
  * @class NoMatchDispatcher

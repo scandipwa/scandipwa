@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductListQuery from 'Query/ProductList.query';
-import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
+import { Field } from 'Util/Query';
+import { ProductListQuery } from 'Query';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { Field } from 'Util/Query';
+import { GUEST_QUOTE_ID } from 'Store/Cart';
 
-export class WishlistQuery {
+export class Wishlist {
     getWishlistQuery(sharingCode) {
         const field = new Field('wishlist')
             .addFieldList(this._getWishlistFields());
@@ -92,4 +92,4 @@ export class WishlistQuery {
     }
 }
 
-export default new WishlistQuery();
+export default new Wishlist();

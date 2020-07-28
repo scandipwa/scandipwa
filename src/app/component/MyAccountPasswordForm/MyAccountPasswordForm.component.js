@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-
 import FieldForm from 'Component/FieldForm';
 
 class MyAccountPasswordForm extends FieldForm {

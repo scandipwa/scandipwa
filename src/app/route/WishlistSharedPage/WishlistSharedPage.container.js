@@ -11,42 +11,31 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { MatchType } from 'Type/Common';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
-import WishlistQuery from 'Query/Wishlist.query';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { MatchType } from 'Type/Common';
-import { getIndexedProduct } from 'Util/Product';
-import { prepareQuery } from 'Util/Query';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { showNotification } from 'Store/Notification';
 import { executeGet } from 'Util/Request';
+import { prepareQuery } from 'Util/Query';
+import { WishlistQuery } from 'Query';
+import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { getIndexedProduct } from 'Util/Product';
+import { updateNoMatch } from 'Store/NoMatch';
 
 import WishlistShared from './WishlistSharedPage.component';
 
-const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-
 export const mapDispatchToProps = (dispatch) => ({
-    clearWishlist: () => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)),
-    moveWishlistToCart: (sharingCode) => WishlistDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)
-    ),
+    clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
+    moveWishlistToCart: (sharingCode) => WishlistDispatcher.moveWishlistToCart(dispatch, sharingCode),
     showNotification: (message) => dispatch(showNotification('success', message)),
     showError: (message) => dispatch(showNotification('error', message)),
     showNoMatch: () => dispatch(updateNoMatch(true)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
-    )
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch)
 });
 
-export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
+export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
     static propTypes = {
         match: MatchType.isRequired,
         showError: PropTypes.func.isRequired,
@@ -172,4 +161,4 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(WishlistSharedPageContainer);
+export default connect(null, mapDispatchToProps)(WishlistSharedContainer);

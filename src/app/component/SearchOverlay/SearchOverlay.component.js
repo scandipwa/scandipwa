@@ -9,17 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './SearchOverlay.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import Image from 'Component/Image';
-import Link from 'Component/Link';
-import Overlay from 'Component/Overlay';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import { ItemsType } from 'Type/ProductList';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
+import Link from 'Component/Link';
+import Image from 'Component/Image';
+import Overlay from 'Component/Overlay';
+import { ItemsType } from 'Type/ProductList';
+import TextPlaceholder from 'Component/TextPlaceholder';
+
+import './SearchOverlay.style';
 
 export const SEARCH_TIMEOUT = 500;
 export const AMOUNT_OF_PLACEHOLDERS = 5;
@@ -139,7 +139,7 @@ export default class SearchOverlay extends PureComponent {
             <p
               block="SearchOverlay"
               elem="Criteria"
-              mods={ { isVisible: !!searchCriteria.trim() } }
+              mods={ { isVisible: !!searchCriteria } }
             >
                 { __('Results for:') }
                 <strong>{ searchCriteria }</strong>
@@ -158,7 +158,7 @@ export default class SearchOverlay extends PureComponent {
     renderSearchResults() {
         const { searchCriteria, searchResults, isLoading } = this.props;
 
-        if (!searchCriteria.trim()) {
+        if (!searchCriteria) {
             return this.renderNoSearchCriteria();
         }
         if (!searchResults.length && !isLoading && !this.timeout) {

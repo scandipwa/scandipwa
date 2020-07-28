@@ -10,8 +10,8 @@
  */
 
 import {
-    SET_BIG_OFFLINE_NOTICE,
-    SHOW_OFFLINE_NOTICE
+    SHOW_OFFLINE_NOTICE,
+    SET_BIG_OFFLINE_NOTICE
 } from './Offline.action';
 
 export const initialState = {

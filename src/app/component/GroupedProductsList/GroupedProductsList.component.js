@@ -9,9 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import GroupedProductsItem from 'Component/GroupedProductsItem';
 import { ProductType } from 'Type/ProductList';
 
@@ -19,7 +18,7 @@ import { ProductType } from 'Type/ProductList';
  * Product description
  * @class GroupedProductList
  */
-export default class GroupedProductsList extends PureComponent {
+export default class GroupedProductList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,

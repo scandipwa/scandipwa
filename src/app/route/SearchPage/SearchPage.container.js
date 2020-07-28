@@ -1,42 +1,26 @@
 import { connect } from 'react-redux';
+import { SEARCH } from 'Component/Header/Header.component';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { changeNavigationState } from 'Store/Navigation';
+import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
+import { MetaDispatcher, updateMeta } from 'Store/Meta';
+import { setBigOfflineNotice } from 'Store/Offline';
+import { toggleOverlayByKey } from 'Store/Overlay';
+import { NoMatchDispatcher } from 'Store/NoMatch';
 
-import { CATEGORY, SEARCH } from 'Component/Header/Header.config';
+import {
+    ProductListInfoDispatcher,
+    updateInfoLoadStatus
+} from 'Store/ProductListInfo';
 import {
     CategoryPageContainer,
     LOADING_TIME
 } from 'Route/CategoryPage/CategoryPage.container';
-import { updateCurrentCategory } from 'Store/Category/Category.action';
-import { updateMeta } from 'Store/Meta/Meta.action';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
-import { debounce } from 'Util/Request';
 import { getUrlParam } from 'Util/Url';
+import { debounce } from 'Util/Request';
 
 import SearchPage from './SearchPage.component';
-
-const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-const CategoryDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Category/Category.dispatcher'
-);
-const MetaDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Meta/Meta.dispatcher'
-);
-const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
-const ProductListInfoDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductListInfo/ProductListInfo.dispatcher'
-);
 
 export const mapStateToProps = (state) => ({
     category: state.CategoryReducer.category,
@@ -53,23 +37,13 @@ export const mapDispatchToProps = (dispatch) => ({
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: (options) => CategoryDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
-    ),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
-    ),
-    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
-    ),
+    requestCategory: (options) => CategoryDispatcher.handleData(dispatch, options),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: (options) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
-    ),
+    updateNoMatch: (options) => NoMatchDispatcher.updateNoMatch(dispatch, options),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: (category) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
-    ),
+    updateMetaFromCategory: (category) => MetaDispatcher.updateWithCategory(category, dispatch),
     updateCurrentCategory: (category) => dispatch(updateCurrentCategory(category)),
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });
@@ -96,18 +70,21 @@ export class SearchPageContainer extends CategoryPageContainer {
         // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {
             this._requestCategoryWithPageList();
+        } else {
+            this._onCategoryUpdate();
         }
 
-        this._onCategoryUpdate();
+        this._updateBreadcrumbs();
     }
 
     componentDidUpdate(prevProps) {
         const {
-            isOffline,
+            category: { id }, isOffline,
             match: { params: { query } }
         } = this.props;
 
         const {
+            category: { id: prevId },
             match: { params: { query: prevQuery } }
         } = prevProps;
 
@@ -115,32 +92,15 @@ export class SearchPageContainer extends CategoryPageContainer {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        if (query !== prevQuery) {
-            this._updateBreadcrumbs();
+        if (id !== prevId) {
             this._onCategoryUpdate();
         }
 
+        if (query !== prevQuery) {
+            this._updateBreadcrumbs();
+        }
+
         this._updateData(prevProps);
-    }
-
-    _updateHeaderState() {
-        const {
-            changeHeaderState,
-            match: { params: { query } },
-            history
-        } = this.props;
-
-        const { location: { state: { isFromCategory } = {} } } = history;
-
-        const onBackClick = isFromCategory
-            ? () => history.goBack()
-            : () => history.push('/menu');
-
-        changeHeaderState({
-            name: CATEGORY,
-            title: query,
-            onBackClick
-        });
     }
 
     _updateBreadcrumbs() {
@@ -158,7 +118,6 @@ export class SearchPageContainer extends CategoryPageContainer {
     _onCategoryUpdate() {
         this._updateHeaderState();
         this._updateNavigationState();
-        this._updateBreadcrumbs();
     }
 
     _requestCategory() {

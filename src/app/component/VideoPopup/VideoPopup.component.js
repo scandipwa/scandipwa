@@ -11,14 +11,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './VideoPopup.style';
-
 import { PureComponent } from 'react';
-
+import './VideoPopup.style';
 import Popup from 'Component/Popup';
 import { MediaItemType } from 'Type/ProductList';
 
-import { VIDEO_POPUP_ID, VIMEO_FORMAT, YOUTUBE_FORMAT } from './VideoPopup.config';
+export const VIDEO_POPUP_ID = 'VIDEO_POPUP_ID';
+
+/**
+ * An expression that checks for vimeo URLs described in https://developer.vimeo.com/api/oembed/videos#table-1 and matches the video id
+ * @type {RegExp}
+ */
+const VIMEO_FORMAT = new RegExp('(?:https?//)?vimeo.com[\\w/]*/(\\d+)$');
+
+const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=(\\w+)');
 
 /**
  * A popup capable of displaying a video

@@ -9,25 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
+import { getQueryParam, setQueryParams } from 'Util/Url';
+import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
-import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
 import isMobile from 'Util/Mobile';
-import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
-
-export const mapDispatchToProps = (dispatch) => ({
-    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options)
-});
 
 export class ProductListContainer extends PureComponent {
     containerFunctions = {
@@ -45,7 +39,6 @@ export class ProductListContainer extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
-        requestProductListInfo: PropTypes.func.isRequired,
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
@@ -53,8 +46,7 @@ export class ProductListContainer extends PureComponent {
         search: PropTypes.string,
         sort: PropTypes.objectOf(PropTypes.string),
         noAttributes: PropTypes.bool,
-        noVariants: PropTypes.bool,
-        isWidget: PropTypes.bool
+        noVariants: PropTypes.bool
     };
 
     static defaultProps = {
@@ -66,8 +58,7 @@ export class ProductListContainer extends PureComponent {
         isPaginationEnabled: true,
         isInfiniteLoaderEnabled: true,
         noAttributes: false,
-        noVariants: false,
-        isWidget: false
+        noVariants: false
     };
 
     state = {
@@ -75,7 +66,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { pages, getIsNewCategory, filter } = this.props;
+        const { pages, getIsNewCategory } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -84,7 +75,7 @@ export class ProductListContainer extends PureComponent {
         }
 
         // Is true when category is changed. This check prevents making new requests when navigating back to PLP from PDP
-        if (getIsNewCategory() || (!getIsNewCategory() && Object.keys(filter).length > 0)) {
+        if (getIsNewCategory()) {
             this.requestPage(this._getPageFromUrl());
         }
     }
@@ -117,13 +108,11 @@ export class ProductListContainer extends PureComponent {
             filter,
             pageSize,
             requestProductList,
-            requestProductListInfo,
             noAttributes,
-            noVariants,
-            isWidget
+            noVariants
         } = this.props;
 
-        if (!isWidget && !isNext) {
+        if (!isNext) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -142,16 +131,8 @@ export class ProductListContainer extends PureComponent {
                 currentPage
             }
         };
-        const infoOptions = {
-            args: {
-                filter,
-                search,
-                sort
-            }
-        };
 
         requestProductList(options);
-        requestProductListInfo(infoOptions);
     };
 
     containerProps = () => ({
@@ -240,4 +221,4 @@ export class ProductListContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(ProductListContainer));
+export default withRouter(ProductListContainer);

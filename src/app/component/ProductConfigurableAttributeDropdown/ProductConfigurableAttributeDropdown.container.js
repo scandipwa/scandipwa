@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import { AttributeType } from 'Type/ProductList';
-
 import ProductConfigurableAttributeDropdown from './ProductConfigurableAttributeDropdown.component';
 
 class ProductConfigurableAttributeDropdownContainer extends PureComponent {

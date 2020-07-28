@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { history } from 'Route';
-import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import { hideActiveOverlay } from 'Store/Overlay';
 
 import CategorySubcategories from './CategorySubcategories.component';
 

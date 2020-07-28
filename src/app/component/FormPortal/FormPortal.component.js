@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-
 import Form from 'Component/Form/Form.component';
 
 class FormPortal extends Form {

@@ -11,7 +11,6 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
-
 import { UPDATE_TOTALS } from './Cart.action';
 
 export const CART_TOTALS = 'cart_totals';

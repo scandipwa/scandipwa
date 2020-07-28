@@ -22,8 +22,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
-const DashboardPlugin = require('webpack-dashboard/plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const webmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
@@ -184,14 +182,6 @@ module.exports = {
                 }
             ]
         }),
-
-        // * NASA mode
-        // new DashboardPlugin(),
-
-        // new BundleAnalyzerPlugin({
-        //     analyzerPort: 1111,
-        //     openAnalyzer: false
-        // }),
 
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: [

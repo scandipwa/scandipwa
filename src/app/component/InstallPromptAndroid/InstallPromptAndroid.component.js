@@ -1,7 +1,6 @@
-import './InstallPromptAndroid.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import './InstallPromptAndroid.style';
 
 class InstallPromptAndroid extends PureComponent {
     static propTypes = {

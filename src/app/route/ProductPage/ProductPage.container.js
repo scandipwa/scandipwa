@@ -14,63 +14,44 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { PDP } from 'Component/Header/Header.config';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { history } from 'Route';
-import { updateMeta } from 'Store/Meta/Meta.action';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { ProductType } from 'Type/ProductList';
+import { PDP } from 'Component/Header';
+import { MetaDispatcher } from 'Store/Meta';
 import { getVariantIndex } from 'Util/Product';
+import { ProductType } from 'Type/ProductList';
+import { ProductDispatcher } from 'Store/Product';
+import { changeNavigationState } from 'Store/Navigation';
+import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
+import { setBigOfflineNotice } from 'Store/Offline';
+import { LocationType, HistoryType, MatchType } from 'Type/Common';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
-    convertQueryStringToKeyValuePairs, getUrlParam,
-    objectToUri, removeQueryParamWithoutHistory, updateQueryParamWithoutHistory
+    getUrlParam,
+    convertQueryStringToKeyValuePairs,
+    updateQueryParamWithoutHistory,
+    removeQueryParamWithoutHistory,
+    objectToUri
 } from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
 
-const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-const LinkedProductsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/LinkedProducts/LinkedProducts.dispatcher'
-);
-const MetaDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Meta/Meta.dispatcher'
-);
-const ProductDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Product/Product.dispatcher'
-);
-
 export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
-    product: state.ProductReducer.product,
-    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
-    metaTitle: state.MetaReducer.title
+    product: state.ProductReducer.product
 });
 
 export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
-        ProductDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
-        LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch));
+        ProductDispatcher.handleData(dispatch, options);
+        LinkedProductsDispatcher.clearLinkedProducts(dispatch);
     },
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
-    ),
-    updateMetaFromProduct: (product) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
-    ),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
+    updateMetaFromProduct: (product) => MetaDispatcher.updateWithProduct(product, dispatch)
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -101,18 +82,13 @@ export class ProductPageContainer extends PureComponent {
         productSKU: PropTypes.string,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
-        match: MatchType.isRequired,
-        goToPreviousNavigationState: PropTypes.func.isRequired,
-        navigation: PropTypes.shape(PropTypes.shape).isRequired,
-        updateMeta: PropTypes.func.isRequired,
-        metaTitle: PropTypes.string
+        match: MatchType.isRequired
     };
 
     static defaultProps = {
         location: { state: {} },
         isOnlyPlaceholder: false,
-        productSKU: '',
-        metaTitle: undefined
+        productSKU: ''
     };
 
     static getDerivedStateFromProps(props) {
@@ -163,21 +139,9 @@ export class ProductPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: {
-                id,
-                options,
-                items,
-                name: productName
-            },
+            product: { id, options, items },
             productSKU,
-            isOnlyPlaceholder,
-            navigation: {
-                navigationState: {
-                    name: navName,
-                    title: navTitle
-                }
-            },
-            metaTitle
+            isOnlyPlaceholder
         } = this.props;
 
         const {
@@ -188,12 +152,7 @@ export class ProductPageContainer extends PureComponent {
                 items: prevItems
             },
             productSKU: prevProductSKU,
-            isOnlyPlaceholder: prevIsOnlyPlaceholder,
-            navigation: {
-                navigationState: {
-                    title: prevNavTitle
-                }
-            }
+            isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
         if (
@@ -212,15 +171,14 @@ export class ProductPageContainer extends PureComponent {
             this.getRequiredProductOptions(items);
         }
 
-        if (id !== prevId || (id === prevId && productName !== metaTitle)) {
+        if (id !== prevId) {
             const dataSource = this._getDataSource();
             const { updateMetaFromProduct } = this.props;
 
             updateMetaFromProduct(dataSource);
         }
 
-        const updateHeader = navName === PDP && navTitle !== prevNavTitle;
-        this._onProductUpdate(updateHeader);
+        this._onProductUpdate();
     }
 
     getLink(key, value) {
@@ -339,16 +297,13 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    _onProductUpdate(updateHeader = true) {
+    _onProductUpdate() {
         const { isOffline, setBigOfflineNotice } = this.props;
         const dataSource = this._getDataSource();
+
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
-
-            if (updateHeader) {
-                this._updateHeaderState(dataSource);
-            }
-
+            this._updateHeaderState(dataSource);
             this._updateNavigationState();
 
             if (isOffline) {

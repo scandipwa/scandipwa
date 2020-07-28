@@ -9,28 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import MyAccountQuery from 'Query/MyAccount.query';
 import {
+    updateCustomerSignInStatus,
     updateCustomerDetails,
-    updateCustomerPasswordForgotStatus,
     updateCustomerPasswordResetStatus,
-    updateCustomerSignInStatus
-} from 'Store/MyAccount/MyAccount.action';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { ORDERS } from 'Store/Order/Order.reducer';
+    updateCustomerPasswordForgotStatus
+} from 'Store/MyAccount';
+import { fetchMutation, executePost } from 'Util/Request';
 import {
-    deleteAuthorizationToken,
-    setAuthorizationToken
+    setAuthorizationToken,
+    deleteAuthorizationToken
 } from 'Util/Auth';
-import BrowserDatabase from 'Util/BrowserDatabase';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { showNotification } from 'Store/Notification';
+import { CartDispatcher } from 'Store/Cart';
+import { MyAccountQuery } from 'Query';
 import { prepareQuery } from 'Util/Query';
-import { executePost, fetchMutation } from 'Util/Request';
-
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
-const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { ORDERS } from 'Store/Order/Order.reducer';
 
 export const CUSTOMER = 'customer';
 
@@ -61,8 +57,8 @@ export class MyAccountDispatcher {
     logout(_, dispatch) {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
-        CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
-        WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
+        CartDispatcher.updateInitialCartData(dispatch);
+        WishlistDispatcher.updateInitialWishlistData(dispatch);
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         dispatch(updateCustomerDetails({}));
@@ -154,8 +150,8 @@ export class MyAccountDispatcher {
 
             setAuthorizationToken(token);
             dispatch(updateCustomerSignInStatus(true));
-            CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
-            WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
+            CartDispatcher.updateInitialCartData(dispatch);
+            WishlistDispatcher.updateInitialWishlistData(dispatch);
 
             return true;
         } catch ([e]) {

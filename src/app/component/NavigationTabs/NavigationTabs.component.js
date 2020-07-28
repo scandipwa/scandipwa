@@ -9,14 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './NavigationTabs.style';
-
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
+import './NavigationTabs.style';
 import isMobile from 'Util/Mobile';
 
-import {
-    ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
-} from './NavigationTabs.config';
+export const HOME_TAB = 'HOME_TAB';
+export const MENU_TAB = 'MENU_TAB';
+export const ACCOUNT_TAB = 'ACCOUNT_TAB';
+export const CART_TAB = 'CART_TAB';
+export const CHECKOUT_TAB = 'CHECKOUT_TAB';
 
 class NavigationTabs extends NavigationAbstract {
     defaultStateName = MENU_TAB;

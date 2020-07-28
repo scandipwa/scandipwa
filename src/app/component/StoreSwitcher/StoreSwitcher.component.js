@@ -9,15 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './StoreSwitcher.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
-import ClickOutside from 'Component/ClickOutside';
+import PropTypes from 'prop-types';
 import Field from 'Component/Field';
-import StoreItems from 'Component/StoreItems';
+import ClickOutside from 'Component/ClickOutside';
 import isMobile from 'Util/Mobile';
+import StoreItems from 'Component/StoreItems';
+
+import './StoreSwitcher.style';
 
 class StoreSwitcher extends PureComponent {
     static propTypes = {

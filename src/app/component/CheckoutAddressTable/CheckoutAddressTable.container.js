@@ -12,9 +12,9 @@
 import { connect } from 'react-redux';
 
 import {
+    MyAccountAddressTableContainer,
     mapDispatchToProps,
-    mapStateToProps,
-    MyAccountAddressTableContainer
+    mapStateToProps
 } from 'Component/MyAccountAddressTable/MyAccountAddressTable.container';
 
 import CheckoutAddressTable from './CheckoutAddressTable.component';

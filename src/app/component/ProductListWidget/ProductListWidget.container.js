@@ -9,17 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductListWidget.style';
-
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import ProductList from 'Component/ProductList';
-import ProductListQuery from 'Query/ProductList.query';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { getIndexedProducts } from 'Util/Product';
 import DataContainer from 'Util/Request/DataContainer';
+import { ProductListQuery } from 'Query';
+import { getIndexedProducts } from 'Util/Product';
+import { showNotification } from 'Store/Notification';
+import { updateNoMatch } from 'Store/NoMatch';
+
+import './ProductListWidget.style';
 
 export const mapDispatchToProps = {
     updateNoMatch,
@@ -161,7 +161,6 @@ export class ProductListWidgetContainer extends DataContainer {
               isInfiniteLoaderEnabled={ false }
               numberOfPlaceholders={ 6 }
               mix={ { block: 'ProductListWidget' } }
-              isWidget
             />
         );
     }

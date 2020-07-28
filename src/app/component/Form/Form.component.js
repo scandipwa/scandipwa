@@ -9,18 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import {
+    PureComponent,
     Children,
-    cloneElement,
     createRef,
-    PureComponent
+    cloneElement
 } from 'react';
-
+import PropTypes from 'prop-types';
 import Field from 'Component/Field/Field.component';
-import { ChildrenType, MixType } from 'Type/Common';
 import FormPortalCollector from 'Util/FormPortalCollector';
-
+import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
 export default class Form extends PureComponent {

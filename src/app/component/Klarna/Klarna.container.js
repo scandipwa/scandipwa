@@ -12,9 +12,7 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-
-import { showNotification } from 'Store/Notification/Notification.action';
-
+import { showNotification } from 'Store/Notification';
 import KlarnaComponent from './Klarna.component';
 
 export const mapDispatchToProps = (dispatch) => ({

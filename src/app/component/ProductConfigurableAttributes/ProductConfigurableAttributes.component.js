@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductConfigurableAttributes.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import ExpandableContent from 'Component/ExpandableContent';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
-import { MixType } from 'Type/Common';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ExpandableContent from 'Component/ExpandableContent';
 import { AttributeType } from 'Type/ProductList';
+import { MixType } from 'Type/Common';
+
+import './ProductConfigurableAttributes.style';
 
 export default class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {

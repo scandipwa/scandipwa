@@ -9,32 +9,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
-import { history } from 'Route';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
+import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
+import { changeNavigationState } from 'Store/Navigation';
+import { MyAccountDispatcher } from 'Store/MyAccount';
+import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
+import { history } from 'Route';
 
-import MyAccountOverlay from './MyAccountOverlay.component';
-import {
-    CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    STATE_CONFIRM_EMAIL, STATE_CREATE_ACCOUNT, STATE_FORGOT_PASSWORD,
+import MyAccountOverlay, {
+    STATE_SIGN_IN,
+    STATE_FORGOT_PASSWORD,
     STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_LOGGED_IN, STATE_SIGN_IN
-} from './MyAccountOverlay.config';
-
-const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
+    STATE_CREATE_ACCOUNT,
+    STATE_LOGGED_IN,
+    CUSTOMER_ACCOUNT_OVERLAY_KEY,
+    STATE_CONFIRM_EMAIL
+} from './MyAccountOverlay.component';
 
 export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
@@ -45,13 +43,9 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    forgotPassword: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
-    ),
-    createAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
-    ),
-    signIn: (options) => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.signIn(options, dispatch)),
+    forgotPassword: (options) => MyAccountDispatcher.forgotPassword(options, dispatch),
+    createAccount: (options) => MyAccountDispatcher.createAccount(options, dispatch),
+    signIn: (options) => MyAccountDispatcher.signIn(options, dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))

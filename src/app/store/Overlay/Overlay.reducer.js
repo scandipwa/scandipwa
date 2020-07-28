@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { SHOW_POPUP } from 'Store/Popup/Popup.action';
+import { SHOW_POPUP } from 'Store/Popup';
 
 import {
-    HIDE_ACTIVE_OVERLAY,
-    TOGGLE_OVERLAY
+    TOGGLE_OVERLAY,
+    HIDE_ACTIVE_OVERLAY
 } from './Overlay.action';
 
 export const initialState = {

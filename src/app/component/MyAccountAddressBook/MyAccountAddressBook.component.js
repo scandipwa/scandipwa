@@ -9,14 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountAddressBook.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
-import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
-import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import PropTypes from 'prop-types';
 import { customerType } from 'Type/Account';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
+import './MyAccountAddressBook.style';
 
 class MyAccountAddressBook extends PureComponent {
     static propTypes = {

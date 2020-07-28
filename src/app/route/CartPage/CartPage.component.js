@@ -9,21 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CartPage.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import CartCoupon from 'Component/CartCoupon';
-import CartItem from 'Component/CartItem';
-import CmsBlock from 'Component/CmsBlock';
-import ContentWrapper from 'Component/ContentWrapper';
-import ExpandableContent from 'Component/ExpandableContent';
+import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
-import ProductLinks from 'Component/ProductLinks';
-import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import CmsBlock from 'Component/CmsBlock';
+import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
+import CartCoupon from 'Component/CartCoupon';
+import ProductLinks from 'Component/ProductLinks';
+import ContentWrapper from 'Component/ContentWrapper';
 import { formatCurrency, roundPrice } from 'Util/Price';
+import ExpandableContent from 'Component/ExpandableContent';
+import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+
+import './CartPage.style';
 
 export default class CartPage extends PureComponent {
     static propTypes = {

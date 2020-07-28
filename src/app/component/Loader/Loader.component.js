@@ -9,10 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Loader.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import './Loader.style';
 
 /**
  * Loader component

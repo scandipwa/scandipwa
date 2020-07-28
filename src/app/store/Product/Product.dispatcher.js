@@ -9,15 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductListQuery from 'Query/ProductList.query';
-import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
-import { updateProductDetails } from 'Store/Product/Product.action';
 import { QueryDispatcher } from 'Util/Request';
-
-const LinkedProductsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/LinkedProducts/LinkedProducts.dispatcher'
-);
+import { ProductListQuery } from 'Query';
+import { updateProductDetails } from 'Store/Product';
+import { updateNoMatch } from 'Store/NoMatch';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 
 /**
  * Product List Dispatcher
@@ -52,9 +48,7 @@ export class ProductDispatcher extends QueryDispatcher {
             }, []);
 
             if (product_links.length !== 0) {
-                LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
-                );
+                LinkedProductsDispatcher.handleData(dispatch, product_links);
             }
         }
 

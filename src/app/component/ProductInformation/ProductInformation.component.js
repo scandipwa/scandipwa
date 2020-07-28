@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductInformation.style';
-
+import { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Fragment, PureComponent } from 'react';
 
+import Html from 'Component/Html';
+import { ProductType, AttributeType } from 'Type/ProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
-import Html from 'Component/Html';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
-import { AttributeType, ProductType } from 'Type/ProductList';
+
+import './ProductInformation.style';
 
 export default class ProductInformation extends PureComponent {
     static propTypes = {

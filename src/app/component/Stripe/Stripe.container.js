@@ -1,9 +1,7 @@
 import { PureComponent } from 'react';
-
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import { Field, prepareQuery } from 'Util/Query';
 import { executeGet } from 'Util/Request';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-
 import Stripe from './Stripe.component';
 
 export const STRIPE_MODE_TEST = 'test';

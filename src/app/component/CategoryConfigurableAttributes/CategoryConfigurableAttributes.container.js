@@ -9,16 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
-
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributesContainer from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
-
 import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.component';
-
-export const mapStateToProps = (state) => ({
-    currency_code: state.ConfigReducer.default_display_currency_code
-});
 
 class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
     render() {
@@ -31,4 +24,4 @@ class CategoryConfigurableAttributesContainer extends ProductConfigurableAttribu
     }
 }
 
-export default connect(mapStateToProps)(CategoryConfigurableAttributesContainer);
+export default CategoryConfigurableAttributesContainer;

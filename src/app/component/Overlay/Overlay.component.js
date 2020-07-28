@@ -11,14 +11,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Overlay.style';
-
-import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
 import { createPortal } from 'react-dom';
+import { createRef, PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import { ChildrenType, MixType } from 'Type/Common';
 import isMobile from 'Util/Mobile';
+import { MixType, ChildrenType } from 'Type/Common';
+
+import './Overlay.style';
 
 export default class Overlay extends PureComponent {
     static propTypes = {

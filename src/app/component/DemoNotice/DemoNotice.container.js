@@ -10,7 +10,6 @@
  */
 
 import { connect } from 'react-redux';
-
 import DemoNotice from './DemoNotice.component';
 
 export const mapStateToProps = (state) => ({

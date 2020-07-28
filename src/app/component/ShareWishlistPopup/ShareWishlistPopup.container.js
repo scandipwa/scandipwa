@@ -9,15 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import WishlistQuery from 'Query/Wishlist.query';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { showPopup } from 'Store/Popup/Popup.action';
+import { showPopup } from 'Store/Popup';
+import { showNotification } from 'Store/Notification';
+import { WishlistQuery } from 'Query';
 import { fetchMutation } from 'Util/Request';
-
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 
 export const mapDispatchToProps = (dispatch) => ({

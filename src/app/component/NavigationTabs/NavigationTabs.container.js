@@ -11,21 +11,21 @@
 
 import { connect } from 'react-redux';
 
-import { CART, MY_ACCOUNT } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { history as browserHistory } from 'Route';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
+import { history as browserHistory } from 'Route';
 import { debounce } from 'Util/Request';
+import { CART, MY_ACCOUNT } from 'Component/Header/Header.component';
 
-import NavigationTabs from './NavigationTabs.component';
-import {
+import NavigationTabs, {
     ACCOUNT_TAB,
     CART_TAB,
-    CHECKOUT_TAB, HOME_TAB,
-    MENU_TAB
-} from './NavigationTabs.config';
+    HOME_TAB,
+    MENU_TAB,
+    CHECKOUT_TAB
+} from './NavigationTabs.component';
 
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,

@@ -10,9 +10,7 @@
  */
 
 import { PureComponent } from 'react';
-
 import { ProductType } from 'Type/ProductList';
-
 import ProductInformation from './ProductInformation.component';
 
 export default class ProductInformationContainer extends PureComponent {

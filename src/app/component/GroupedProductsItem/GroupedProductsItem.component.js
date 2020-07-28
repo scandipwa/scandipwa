@@ -9,17 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './GroupedProductsItem.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Field from 'Component/Field';
 import Image from 'Component/Image';
+import { ProductType } from 'Type/ProductList';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { ProductType } from 'Type/ProductList';
-import media, { PRODUCT_MEDIA } from 'Util/Media';
+
+import './GroupedProductsItem.style';
 
 /**
  * Grouped Product Item

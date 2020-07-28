@@ -26,7 +26,7 @@ export const getSortedItems = (unsortedItems) => Array.from(unsortedItems).sort(
     { parent_id: prevPID, position: prevP }
 ) => (PID - prevPID) || (P - prevP));
 
-export class Menu {
+export class MenuReducer {
     getMenuUrl({ url, url_type, category_id }) {
         switch (url_type) {
         case TYPE_CATEGORY:
@@ -103,4 +103,4 @@ export class Menu {
     }
 }
 
-export default new Menu();
+export default new MenuReducer();

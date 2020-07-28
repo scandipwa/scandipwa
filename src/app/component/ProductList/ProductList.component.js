@@ -9,18 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductList.style';
-
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import debounceRender from 'react-debounce-render';
-
+import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { PagesType, FilterType } from 'Type/ProductList';
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
 import { MixType } from 'Type/Common';
-import { FilterType, PagesType } from 'Type/ProductList';
+import './ProductList.style';
 
-import { observerThreshold, RENDER_PAGE_FREQUENCY } from './ProductList.config';
+export const observerThreshold = 10;
+
+export const INTERSECTION_RATIO = 0.5;
+
+export const RENDER_PAGE_FREQUENCY = 150; // (ms)
 
 /**
  * List of category products

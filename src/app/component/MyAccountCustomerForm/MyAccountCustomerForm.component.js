@@ -11,8 +11,8 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from 'Component/FieldForm';
 import { customerType } from 'Type/Account';
+import FieldForm from 'Component/FieldForm';
 
 class MyAccountCustomerForm extends FieldForm {
     static propTypes = {

@@ -9,19 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.config';
-import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { paymentMethodsType } from 'Type/Checkout';
 import BraintreeDropIn from 'Util/Braintree';
-
-import CheckoutPayments from './CheckoutPayments.component';
-import { BRAINTREE, KLARNA, STRIPE } from './CheckoutPayments.config';
+import { paymentMethodsType } from 'Type/Checkout';
+import { showNotification } from 'Store/Notification';
+import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
+import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
+import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
+import CheckoutPayments, { BRAINTREE, STRIPE, KLARNA } from './CheckoutPayments.component';
 
 export const mapDispatchToProps = (dispatch) => ({
     showError: (message) => dispatch(showNotification('error', message))

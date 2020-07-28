@@ -1,7 +1,6 @@
-import './SharedTransition.style';
-
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import './SharedTransition.style';
 
 export const SHARED_ELEMENT_TRANSITION = 250;
 

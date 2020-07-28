@@ -9,25 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductGallery.style';
-
+import { PureComponent, createRef } from 'react';
+import CSS from 'Util/CSS';
 import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
-import { withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
-import Image from 'Component/Image';
-import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
-import Slider from 'Component/Slider';
-import VideoPopup from 'Component/VideoPopup';
+import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import VideoThumbnail from 'Component/VideoThumbnail';
+import VideoPopup from 'Component/VideoPopup';
 import { LocationType } from 'Type/Common';
-import CSS from 'Util/CSS';
+import { withRouter } from 'react-router';
+import Slider from 'Component/Slider';
+import Image from 'Component/Image';
 
-import {
-    GALLERY_LENGTH_BEFORE_COLLAPSE, IMAGE_TYPE, MAX_ZOOM_SCALE, PLACEHOLDER_TYPE, VIDEO_TYPE
-} from './ProductGallery.config';
+import './ProductGallery.style';
+
+export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
+export const MAX_ZOOM_SCALE = 8;
+
+export const IMAGE_TYPE = 'image';
+export const VIDEO_TYPE = 'external-video';
+export const PLACEHOLDER_TYPE = 'placeholder';
 
 /**
  * Product gallery

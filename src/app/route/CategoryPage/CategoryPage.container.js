@@ -10,50 +10,37 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { PureComponent } from 'react';
 
-import { CATEGORY } from 'Component/Header/Header.config';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
-import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import {
-    updateInfoLoadStatus
-} from 'Store/ProductListInfo/ProductListInfo.action';
-import { CategoryTreeType } from 'Type/Category';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { changeNavigationState } from 'Store/Navigation';
+import { CategoryDispatcher } from 'Store/Category';
+import { setBigOfflineNotice } from 'Store/Offline';
+import { toggleOverlayByKey } from 'Store/Overlay';
+import { NoMatchDispatcher } from 'Store/NoMatch';
+import { CategoryTreeType } from 'Type/Category';
+import { MetaDispatcher } from 'Store/Meta';
+import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
+
 import {
+    ProductListInfoDispatcher,
+    updateInfoLoadStatus
+} from 'Store/ProductListInfo';
+
+import {
+    getUrlParam,
+    getQueryParam,
+    setQueryParams,
     clearQueriesFromUrl,
-    convertQueryStringToKeyValuePairs, getQueryParam, getUrlParam,
-    setQueryParams
+    convertQueryStringToKeyValuePairs
 } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
-
-const ProductListInfoDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/ProductListInfo/ProductListInfo.dispatcher'
-);
-
-const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
-const CategoryDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Category/Category.dispatcher'
-);
-const MetaDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Meta/Meta.dispatcher'
-);
-const NoMatchDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/NoMatch/NoMatch.dispatcher'
-);
 
 export const mapStateToProps = (state) => ({
     category: state.CategoryReducer.category,
@@ -68,28 +55,15 @@ export const mapDispatchToProps = (dispatch) => ({
     toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: (options) => CategoryDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
-    ),
+    requestCategory: (options) => CategoryDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
-        ? BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch)
-        )
-        : BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update([], dispatch)
-        )
-    ),
-    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
-    ),
+        ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
+        : BreadcrumbsDispatcher.update([], dispatch)),
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: (options) => NoMatchDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
-    ),
+    updateNoMatch: (options) => NoMatchDispatcher.updateNoMatch(dispatch, options),
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: (category) => MetaDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
-    )
+    updateMetaFromCategory: (category) => MetaDispatcher.updateWithCategory(category, dispatch)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -145,8 +119,14 @@ export class CategoryPageContainer extends PureComponent {
         const {
             location: { pathname },
             updateBreadcrumbs,
+            isOnlyPlaceholder,
+            updateLoadStatus,
             history
         } = this.props;
+
+        if (isOnlyPlaceholder) {
+            updateLoadStatus(true);
+        }
 
         if (pathname === '/category' || pathname === '/category/') {
             history.push('/');
@@ -397,24 +377,28 @@ export class CategoryPageContainer extends PureComponent {
 
         const filters = {
             priceRange,
+            categoryIds,
             customFilters,
             categoryUrlPath
         };
 
-        if (!customFilters.category_id) {
-            filters.categoryIds = categoryIds;
-        }
-
         return filters;
     }
 
-    _getProductListOptions() {
+    _getProductListOptions(currentPage) {
+        const { categoryIds } = this.props;
+        const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
+        const customFilters = this._getSelectedFiltersFromUrl();
+
         const options = {
             args: {
-                filter: this._getFilter(),
-                search: this._getSearchParam(),
-                sort: this._getSelectedSortFromUrl()
-            }
+                filter: {
+                    categoryUrlPath,
+                    categoryIds,
+                    customFilters
+                }
+            },
+            currentPage
         };
 
         return options;
@@ -510,7 +494,7 @@ export class CategoryPageContainer extends PureComponent {
 
     _requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
-        requestProductListInfo(this._getProductListOptions());
+        requestProductListInfo(this._getProductListOptions(1));
     }
 
     _requestCategory() {

@@ -11,9 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
 import { ProductType } from 'Type/ProductList';
-
 import GroupedProductsItem from './GroupedProductsItem.component';
 
 export default class GroupedProductsItemContainer extends PureComponent {

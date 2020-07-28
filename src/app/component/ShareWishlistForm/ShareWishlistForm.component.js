@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import PropTypes from 'prop-types';
-
 import FieldForm from 'Component/FieldForm';
 
 export default class ShareWishlistForm extends FieldForm {

@@ -9,10 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ReviewStar.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import './ReviewStar.style';
 
 export default class ReviewStar extends PureComponent {
     static propTypes = {

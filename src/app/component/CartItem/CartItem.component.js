@@ -9,17 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CartItem.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
-import CartItemPrice from 'Component/CartItemPrice';
-import Field from 'Component/Field';
-import Image from 'Component/Image';
+import PropTypes from 'prop-types';
 import Link from 'Component/Link';
+import Image from 'Component/Image';
+import Field from 'Component/Field';
+import CartItemPrice from 'Component/CartItemPrice';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
+import './CartItem.style';
 
 /**
  * Cart and CartOverlay item

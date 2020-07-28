@@ -10,17 +10,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import 'Util/Polyfill';
-import 'Style/main';
-
 import { PureComponent } from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
+import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
 
 import SharedTransition from 'Component/SharedTransition';
 import AppRouter from 'Route';
-import configureStore from 'Store';
+import store from 'Store';
+
+import 'Util/Polyfill';
+import 'Style/main';
 
 // Disable react dev tools in production
 if (process.env.NODE_ENV === 'production'
@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production'
 }
 
 // Enable React hot reload in development
-if (process.env.NODE_ENV === 'development' && module.hot) {
+if (process.env.NODE_ENV === 'development') {
     module.hot.accept('./index.js', () => {
         // eslint-disable-next-line import/no-self-import, global-require
         const NextRootContainer = require('./index.js').default;
@@ -45,7 +45,7 @@ document.querySelector('html').appendChild(comment);
 class App extends PureComponent {
     render() {
         return (
-            <Provider store={ configureStore() }>
+            <Provider store={ store }>
                 <UnstatedProvider>
                     <AppRouter />
                     <SharedTransition />

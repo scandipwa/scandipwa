@@ -1,7 +1,6 @@
-import './InstallPromptIOS.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import './InstallPromptIOS.style';
 
 class InstallPromptIOS extends PureComponent {
     static propTypes = {

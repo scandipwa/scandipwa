@@ -9,13 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './NoMatch.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
-import ContentWrapper from 'Component/ContentWrapper';
 import Link from 'Component/Link';
+import PropTypes from 'prop-types';
+import ContentWrapper from 'Component/ContentWrapper';
+import './NoMatch.style';
 
 export default class NoMatch extends PureComponent {
     static propTypes = {

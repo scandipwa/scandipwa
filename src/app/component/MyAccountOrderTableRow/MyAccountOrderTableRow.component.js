@@ -9,13 +9,12 @@
  * @link https://gitdub.com/scandipwa/base-tdeme
  */
 
-import './MyAccountOrderTableRow.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { formatCurrency } from 'Util/Price';
+import './MyAccountOrderTableRow.style';
 
 import { baseOrderInfoType } from 'Type/Account';
-import { formatCurrency } from 'Util/Price';
 
 class MyAccountOrderTableRow extends PureComponent {
     static propTypes = {

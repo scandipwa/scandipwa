@@ -119,7 +119,6 @@ module.exports = {
     },
 
     output: {
-        chunkFilename: '[name].bundle.js',
         filename: '[name].js',
         publicPath: '/',
         pathinfo: true,

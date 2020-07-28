@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { HIDE_NOTIFICATION, SHOW_NOTIFICATION } from './Notification.action';
+import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from './Notification.action';
 
 export const initialState = {
     notifications: {}

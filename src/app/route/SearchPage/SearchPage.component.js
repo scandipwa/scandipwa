@@ -1,5 +1,5 @@
-import ContentWrapper from 'Component/ContentWrapper';
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
+import ContentWrapper from 'Component/ContentWrapper';
 
 export default class SearchPage extends CategoryPage {
     renderSearchDetails() {

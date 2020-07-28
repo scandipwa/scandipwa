@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, prepareQuery } from 'Util/Query';
+import { prepareQuery, Field } from 'Util/Query';
 import { executePost } from 'Util/Request/Request';
 
 const fetchQuery = (rawQueries) => {

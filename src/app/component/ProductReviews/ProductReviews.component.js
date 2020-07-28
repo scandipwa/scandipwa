@@ -9,20 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductReviews.style';
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import ContentWrapper from 'Component/ContentWrapper';
-import ExpandableContent from 'Component/ExpandableContent';
 import Popup from 'Component/Popup';
-import ProductReviewForm from 'Component/ProductReviewForm';
-import ProductReviewList from 'Component/ProductReviewList';
-import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
+import ProductReviewList from 'Component/ProductReviewList';
+import ProductReviewForm from 'Component/ProductReviewForm';
+import ExpandableContent from 'Component/ExpandableContent';
+import ProductReviewRating from 'Component/ProductReviewRating';
 
-import { REVIEW_POPUP_ID } from './ProductReviews.config';
+import './ProductReviews.style';
+import ContentWrapper from 'Component/ContentWrapper';
+
+export const REVIEW_POPUP_ID = 'REVIEW_POPUP_ID';
 
 class ProductReviews extends PureComponent {
     static propTypes = {

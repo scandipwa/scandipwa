@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import { connect } from 'react-redux';
-
 import Footer from './Footer.component';
 
 export const mapStateToProps = (state) => ({

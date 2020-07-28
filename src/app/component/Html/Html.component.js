@@ -12,14 +12,13 @@
 
 /* eslint-disable consistent-return */
 // Disabled due `domToReact` internal logic
-import parser from 'html-react-parser';
-import attributesToProps from 'html-react-parser/lib/attributes-to-props';
-import domToReact from 'html-react-parser/lib/dom-to-react';
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
-import Image from 'Component/Image';
+import parser from 'html-react-parser';
+import domToReact from 'html-react-parser/lib/dom-to-react';
+import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import Link from 'Component/Link';
+import PropTypes from 'prop-types';
+import Image from 'Component/Image';
 import WidgetFactory from 'Component/WidgetFactory';
 import { hash } from 'Util/Request/Hash';
 

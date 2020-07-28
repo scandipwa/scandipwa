@@ -10,12 +10,10 @@
  */
 
 import { PureComponent } from 'react';
-
-import { makeCancelable } from 'Util/Promise';
-import { prepareQuery } from 'Util/Query';
 import { executeGet } from 'Util/Request';
+import { prepareQuery } from 'Util/Query';
 import { hash } from 'Util/Request/Hash';
-
+import { makeCancelable } from 'Util/Promise';
 import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 export class DataContainer extends PureComponent {

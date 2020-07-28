@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountAddressTable.style';
-
 import PropTypes from 'prop-types';
 
-import KeyValueTable from 'Component/KeyValueTable';
-import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
+import Loader from 'Component/Loader';
+import KeyValueTable from 'Component/KeyValueTable';
 import { MixType } from 'Type/Common';
+
+import './MyAccountAddressTable.style';
 
 class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
