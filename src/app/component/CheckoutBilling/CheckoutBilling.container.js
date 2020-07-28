@@ -96,6 +96,12 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     isSameShippingAddress({ default_billing, default_shipping }) {
+        const { totals: { is_virtual } } = this.props;
+
+        if (is_virtual) {
+            return false;
+        }
+
         return default_billing === default_shipping;
     }
 

@@ -31,6 +31,7 @@ export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
+    checkoutAgreements: [],
     isLoading: true
 };
 
