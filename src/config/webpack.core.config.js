@@ -19,7 +19,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
@@ -183,12 +183,10 @@ module.exports = {
             ]
         }),
 
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: [
-                path.join(projectRoot, 'Magento_Theme', 'templates'),
-                path.join(projectRoot, 'Magento_Theme', 'web')
-            ]
-        }),
+        new CleanWebpackPlugin([
+            path.resolve('Magento_Theme', 'templates'),
+            path.resolve('Magento_Theme', 'web')
+        ], { root: projectRoot }),
 
         new MiniCssExtractPlugin()
     ]
