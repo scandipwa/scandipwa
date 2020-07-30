@@ -52,11 +52,16 @@ export class StoreSwitcherContainer extends DataContainer {
         this._getStoreList();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { currentStoreCode } = this.props;
-        const { storeLabel } = this.state;
+        const { prevStoreCode } = prevProps;
+        const { storeLabel, storeList } = this.state;
 
-        if (currentStoreCode && !storeLabel) {
+        if (!storeList.length) {
+            this._getStoreList();
+        }
+
+        if (currentStoreCode && (!storeLabel || (prevStoreCode !== currentStoreCode))) {
             this.getCurrentLabel(currentStoreCode);
         }
     }
@@ -109,6 +114,7 @@ export class StoreSwitcherContainer extends DataContainer {
     getCurrentLabel(storeCode) {
         const { storeList } = this.state;
 
+        console.log(`getCurrentLabel says ${storeCode}`);
         const store = storeList.find(
             ({ value }) => value === storeCode
         );
@@ -139,6 +145,8 @@ export class StoreSwitcherContainer extends DataContainer {
     }
 
     render() {
+        console.log(`render says ${this.props.currentStoreCode}`);
+
         return (
             <StoreSwitcher
               { ...this.containerFunctions }
