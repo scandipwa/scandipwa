@@ -8,10 +8,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
 import { ProductType } from 'Type/ProductList';
+
 import UpsellProducts from './UpsellProducts.component';
 
 export const mapStateToProps = (state) => ({

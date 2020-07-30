@@ -22,6 +22,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const webmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');

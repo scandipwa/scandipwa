@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import './CheckoutDeliveryOption.style';
+
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import { shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-
-import './CheckoutDeliveryOption.style';
 import { formatCurrency, roundPrice } from 'Util/Price';
 
 class CheckoutDeliveryOption extends PureComponent {

@@ -10,26 +10,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { CART, CART_EDITING } from 'Component/Header/Header.config';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { history } from 'Route';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
-import { CART, CART_EDITING } from 'Component/Header';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { changeNavigationState } from 'Store/Navigation';
-import { showNotification } from 'Store/Notification';
-import { toggleOverlayByKey } from 'Store/Overlay';
-import { TotalsType } from 'Type/MiniCart';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { HistoryType } from 'Type/Common';
-import { updateMeta } from 'Store/Meta';
+import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
 
 import CartPage from './CartPage.component';
+
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
@@ -39,7 +43,9 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+    ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta))

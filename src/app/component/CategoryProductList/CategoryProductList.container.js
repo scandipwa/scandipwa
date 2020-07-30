@@ -8,14 +8,19 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import './CategoryProductList.style';
+
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import ProductList from 'Component/ProductList';
-import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
+import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
 
-import './CategoryProductList.style';
+export const ProductListDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/ProductList/ProductList.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     pages: state.ProductListReducer.pages,
@@ -26,7 +31,9 @@ export const mapStateToProps = (state) => ({
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-    requestProductList: (options) => ProductListDispatcher.handleData(dispatch, options),
+    requestProductList: (options) => ProductListDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+    ),
     updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading))
 });
 

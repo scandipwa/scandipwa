@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
+import { PAYPAL_EXPRESS } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import CheckoutQuery from 'Query/Checkout.query';
+import PayPalQuery from 'Query/PayPal.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
-import { CartDispatcher } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
-import { CheckoutQuery, PayPalQuery } from 'Query';
-import { showNotification } from 'Store/Notification';
-
-import { PAYPAL_EXPRESS } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
 import PayPal from './PayPal.component';
+import { PAYPAL_SCRIPT } from './PayPal.config';
 
-export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 export const mapStateToProps = (state) => ({
     cartTotals: state.CartReducer.cartTotals,
@@ -156,7 +156,11 @@ export class PayPalContainer extends PureComponent {
         return token;
     };
 
-    _getGuestQuoteId = () => (isSignedIn() ? '' : CartDispatcher._getGuestQuoteId());
+    _getGuestQuoteId = () => (
+        isSignedIn()
+            ? ''
+            : CartDispatcher.then(({ default: dispatcher }) => dispatcher._getGuestQuoteId())
+    );
 
     render() {
         return (

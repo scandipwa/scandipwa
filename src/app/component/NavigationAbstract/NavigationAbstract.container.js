@@ -11,13 +11,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import isMobile from 'Util/Mobile';
 import { history } from 'Route';
+import isMobile from 'Util/Mobile';
 
-import { DEFAULT_STATE_NAME } from './NavigationAbstract.component';
+import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 

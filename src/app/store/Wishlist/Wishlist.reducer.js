@@ -11,12 +11,13 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedParameteredProducts } from 'Util/Product';
+
 import {
+    CLEAR_WISHLIST,
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
     UPDATE_IS_LOADING_IN_WISHLIST,
-    UPDATE_ITEM_OPTIONS,
-    CLEAR_WISHLIST
+    UPDATE_ITEM_OPTIONS
 } from './Wishlist.action';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';

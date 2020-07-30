@@ -14,7 +14,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 const { I18nPlugin } = require('./I18nPlugin');

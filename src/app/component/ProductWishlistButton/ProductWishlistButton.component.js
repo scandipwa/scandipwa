@@ -10,14 +10,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import './ProductWishlistButton.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
-import Loader from 'Component/Loader';
-
-import './ProductWishlistButton.style';
 
 export default class ProductWishlistButton extends PureComponent {
     static propTypes = {

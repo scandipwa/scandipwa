@@ -12,15 +12,12 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { withRouter } from 'react-router';
-import { LocationType } from 'Type/Common';
 
+import { LocationType } from 'Type/Common';
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';
-
-export const TRANSFORMATION_DELAY = 0;
-export const TRANSFORMATION_SPEED = 0;
-export const INITIAL_SCALE = 1;
+import { INITIAL_SCALE, TRANSFORMATION_DELAY, TRANSFORMATION_SPEED } from './ProductGalleryBaseImage.config';
 
 export class ProductGalleryBaseImageContainer extends Component {
     static propTypes = {
