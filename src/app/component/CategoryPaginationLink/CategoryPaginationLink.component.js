@@ -52,12 +52,14 @@ export default class CategoryPaginationLink extends PureComponent {
 
         const search = this.getSearchQueryForPage();
 
+        const { state = {} } = history.state || {};
+
         return (
             <Link
               to={ {
                   search,
                   pathname,
-                  state: history.state.state
+                  state
               } }
               aria-label={ label }
               block="CategoryPaginationLink"
