@@ -31,7 +31,8 @@ export const validatePasswordMatch = ({ value }, { password }) => {
     return value === passwordValue;
 };
 
-export default {
+/** @namespace Component/Form/Config */
+export const formConfig = () => ({
     email: {
         validate: validateEmail,
         message: __('Email is invalid.')
@@ -56,4 +57,6 @@ export default {
         validate: validatePasswordMatch,
         message: __('Password does not match.')
     }
-};
+});
+
+export default formConfig();
