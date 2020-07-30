@@ -39,6 +39,7 @@ export class ConfigQuery {
             'name',
             'is_active',
             'base_url',
+            'base_link_url',
             'code'
         ];
     }
