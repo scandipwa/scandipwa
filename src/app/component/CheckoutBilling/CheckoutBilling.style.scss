@@ -13,6 +13,10 @@
     &-Checkbox {
         display: inline-block;
         margin-bottom: 2rem;
+
+        + .CheckoutAddressBook {
+            margin-top: 0;
+        }
     }
 
     &-TermsAndConditions {

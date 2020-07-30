@@ -405,7 +405,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (name !== CART_OVERLAY) {
+        if (name === CART_OVERLAY) {
             return;
         }
 

@@ -131,22 +131,8 @@ export class AddToCartContainer extends PureComponent {
     validateBundleProduct() {
         const {
             productOptionsData,
-            showNotification,
-            product: {
-                items
-            }
+            showNotification
         } = this.props;
-
-        const [{ options }] = items;
-
-        options.reduce((acc, { product: { stock_status } }) => {
-            if (stock_status !== 'IN_STOCK') {
-                showNotification('info', __('Sorry! The product is out of stock!'));
-                return false;
-            }
-
-            return acc;
-        }, []);
 
         const validateBundleOptions = this.validateCustomizableOptions(productOptionsData, true);
 
@@ -161,16 +147,8 @@ export class AddToCartContainer extends PureComponent {
     validateSimpleProduct() {
         const {
             productOptionsData,
-            showNotification,
-            product: {
-                stock_status
-            }
+            showNotification
         } = this.props;
-
-        if (stock_status !== 'IN_STOCK') {
-            showNotification('info', __('Sorry! The product is out of stock!'));
-            return false;
-        }
 
         const validateCustomizableOptions = this.validateCustomizableOptions(productOptionsData);
 

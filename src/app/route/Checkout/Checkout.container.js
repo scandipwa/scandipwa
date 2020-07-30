@@ -56,6 +56,7 @@ export const mapDispatchToProps = (dispatch) => ({
     resetCart: () => CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
+    showInfoNotification: (message) => dispatch(showNotification('info', message)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
     createAccount: (options) => MyAccountDispatcher.then(
@@ -66,6 +67,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CheckoutContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
+        showInfoNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
         createAccount: PropTypes.func.isRequired,
@@ -94,18 +96,12 @@ export class CheckoutContainer extends PureComponent {
 
         const {
             toggleBreadcrumbs,
-            history,
             totals: {
-                items = [],
                 is_virtual
             }
         } = props;
 
         toggleBreadcrumbs(false);
-
-        if (!items.length) {
-            history.push('/cart');
-        }
 
         this.state = {
             isLoading: is_virtual,
@@ -128,7 +124,20 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { history, guest_checkout, updateMeta } = this.props;
+        const {
+            history,
+            showInfoNotification,
+            guest_checkout,
+            updateMeta,
+            totals: {
+                items = []
+            }
+        } = this.props;
+
+        if (!items.length) {
+            showInfoNotification(__('Please add at least one product to cart!'));
+            history.push('/cart');
+        }
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
@@ -407,7 +416,32 @@ export class CheckoutContainer extends PureComponent {
             }
         }
 
-        this.savePaymentMethodAndPlaceOrder(paymentInformation);
+        await this.saveBillingAddress(paymentInformation).then(
+            () => this.savePaymentMethodAndPlaceOrder(paymentInformation),
+            this._handleError
+        );
+    }
+
+    async saveBillingAddress(paymentInformation) {
+        const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
+        const {
+            billing_address: {
+                country_id,
+                region_code, // drop this
+                region_id, // drop this
+                ...restOfBillingAddress
+            }
+        } = paymentInformation;
+
+        await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
+            guest_cart_id,
+            billing_address: {
+                address: {
+                    ...restOfBillingAddress,
+                    country_code: country_id
+                }
+            }
+        }));
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
@@ -418,7 +452,8 @@ export class CheckoutContainer extends PureComponent {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
                 guest_cart_id,
                 payment_method: {
-                    code, [code]: additional_data
+                    code,
+                    [code]: additional_data
                 }
             }));
 
