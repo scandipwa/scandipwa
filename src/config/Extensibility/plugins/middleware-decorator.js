@@ -103,12 +103,12 @@ module.exports = ({ types, parse }) => ({
             if (!namespace) return;
 
             const { node: { name } } = path.get('id');
-            const newName = `__nonMiddlewared__${name}`;
-            path.get('id').node.name = newName;
+            const newName = path.scope.generateUidIdentifier(name);
+            path.get('id').node.name = newName.name;
 
             const wrappedInMiddeware = types.callExpression(
                 types.identifier('middleware'),
-                [types.identifier(newName), types.stringLiteral(namespace)]
+                [newName, types.stringLiteral(namespace.trim())]
             );
 
             const declarator = types.variableDeclarator(
@@ -118,7 +118,7 @@ module.exports = ({ types, parse }) => ({
 
             const newDeclaration = types.variableDeclaration('const', [declarator])
             const newExport = types.exportNamedDeclaration(newDeclaration, []);
-            const renaming = parse(`Object.defineProperty(${newName}, 'name', { value: '${name}' })`);
+            const renaming = parse(`Object.defineProperty(${newName.name}, 'name', { value: '${name}' })`);
 
             path.insertAfter(newExport);
             path.insertAfter(renaming);
