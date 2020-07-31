@@ -18,7 +18,7 @@ import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import { FilterType, ProductType } from 'Type/ProductList';
 
-export default class WishlistItem extends PureComponent {
+export class WishlistItem extends PureComponent {
     static propTypes = {
         addToCart: PropTypes.func,
         changeQuantity: PropTypes.func,
@@ -119,3 +119,5 @@ export default class WishlistItem extends PureComponent {
         );
     }
 }
+
+export default WishlistItem;

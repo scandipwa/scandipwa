@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import { ChildrenType } from 'Type/Common';
 
-export default class CategoryPaginationLink extends PureComponent {
+export class CategoryPaginationLink extends PureComponent {
     static propTypes = {
         children: ChildrenType,
         getPage: PropTypes.func.isRequired,
@@ -72,3 +72,5 @@ export default class CategoryPaginationLink extends PureComponent {
         );
     }
 }
+
+export default CategoryPaginationLink;

@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 
-export default class CheckoutSuccess extends PureComponent {
+export class CheckoutSuccess extends PureComponent {
     static propTypes = {
         orderID: PropTypes.string.isRequired
     };
@@ -47,3 +47,5 @@ export default class CheckoutSuccess extends PureComponent {
         );
     }
 }
+
+export default CheckoutSuccess;

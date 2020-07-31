@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 import { CATEGORY_SEARCH_TIMEOUT } from './CategorySearch.config';
 
 // TODO: add to template
-export default class CategorySearch extends PureComponent {
+export class CategorySearch extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
             PropTypes.string,
@@ -62,3 +62,5 @@ export default class CategorySearch extends PureComponent {
         );
     }
 }
+
+export default CategorySearch;

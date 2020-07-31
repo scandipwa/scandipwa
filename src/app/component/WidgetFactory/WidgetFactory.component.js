@@ -23,7 +23,7 @@ const ProductListWidget = lazy(() => import(/* webpackMode: "lazy", webpackChunk
 const NewProducts = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/NewProducts'));
 const HomeSlider = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/SliderWidget'));
 
-export default class WidgetFactory extends PureComponent {
+export class WidgetFactory extends PureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired
     };
@@ -83,3 +83,5 @@ export default class WidgetFactory extends PureComponent {
         );
     }
 }
+
+export default WidgetFactory;

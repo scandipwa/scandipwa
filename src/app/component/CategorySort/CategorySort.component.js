@@ -21,7 +21,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
  * Product Sort
  * @class ProductSort
  */
-export default class CategorySort extends PureComponent {
+export class CategorySort extends PureComponent {
     static propTypes = {
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,
@@ -97,3 +97,5 @@ export default class CategorySort extends PureComponent {
         );
     }
 }
+
+export default CategorySort;

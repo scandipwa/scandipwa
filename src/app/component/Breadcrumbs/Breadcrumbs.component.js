@@ -23,7 +23,7 @@ import { BreadcrumbsType } from 'Type/Breadcrumbs';
  * Breadcrumbs
  * @class Breadcrumbs
  */
-export default class Breadcrumbs extends PureComponent {
+export class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired
@@ -91,3 +91,5 @@ export default class Breadcrumbs extends PureComponent {
         );
     }
 }
+
+export default Breadcrumbs;
