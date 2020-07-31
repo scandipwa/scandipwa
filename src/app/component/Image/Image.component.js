@@ -27,7 +27,7 @@ import {
  * Images are loaded only when they appear in a viewport
  * @class Image
  */
-export default class Image extends PureComponent {
+export class Image extends PureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
         src: PropTypes.oneOfType([
@@ -187,3 +187,5 @@ export default class Image extends PureComponent {
         );
     }
 }
+
+export default Image;

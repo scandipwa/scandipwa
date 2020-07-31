@@ -43,7 +43,7 @@ import {
  * Input fields component
  * @class Field
  */
-export default class Field extends PureComponent {
+export class Field extends PureComponent {
     static propTypes = {
         skipValue: PropTypes.bool,
         isControlled: PropTypes.bool,
@@ -688,3 +688,5 @@ export default class Field extends PureComponent {
         );
     }
 }
+
+export default Field;

@@ -24,7 +24,7 @@ import { RatingItemsType } from 'Type/Rating';
  * ProductReviewForm
  * @class ProductReviewForm
  */
-export default class ProductReviewForm extends PureComponent {
+export class ProductReviewForm extends PureComponent {
     static propTypes = {
         reviewRatings: RatingItemsType.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -183,3 +183,5 @@ export default class ProductReviewForm extends PureComponent {
         );
     }
 }
+
+export default ProductReviewForm;

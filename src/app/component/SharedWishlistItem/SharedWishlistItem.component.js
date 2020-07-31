@@ -16,7 +16,7 @@ import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 
-export default class SharedWishlistItem extends SourceWishlistItem {
+export class SharedWishlistItem extends SourceWishlistItem {
     renderAddToCart() {
         const {
             product,
@@ -65,3 +65,5 @@ export default class SharedWishlistItem extends SourceWishlistItem {
         );
     }
 }
+
+export default SharedWishlistItem;

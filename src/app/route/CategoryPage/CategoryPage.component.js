@@ -26,7 +26,7 @@ import { CategoryTreeType } from 'Type/Category';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
 
-export default class CategoryPage extends PureComponent {
+export class CategoryPage extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
         getIsNewCategory: PropTypes.func.isRequired,
@@ -215,3 +215,5 @@ export default class CategoryPage extends PureComponent {
         );
     }
 }
+
+export default CategoryPage;

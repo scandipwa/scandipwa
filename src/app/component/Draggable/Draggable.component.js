@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 
 import { ChildrenType, MixType } from 'Type/Common';
 
-export default class Draggable extends PureComponent {
+export class Draggable extends PureComponent {
     static propTypes = {
         shiftX: PropTypes.number,
         shiftY: PropTypes.number,
@@ -232,3 +232,5 @@ export default class Draggable extends PureComponent {
         );
     }
 }
+
+export default Draggable;

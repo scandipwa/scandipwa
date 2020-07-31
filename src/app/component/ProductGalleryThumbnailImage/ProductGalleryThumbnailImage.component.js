@@ -20,7 +20,7 @@ import {
 } from 'Component/ProductGallery/ProductGallery.config';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
 
-export default class ProductGalleryThumbnailImage extends PureComponent {
+export class ProductGalleryThumbnailImage extends PureComponent {
     static propTypes = {
         media: PropTypes.shape({
             label: PropTypes.string,
@@ -123,3 +123,5 @@ export default class ProductGalleryThumbnailImage extends PureComponent {
         );
     }
 }
+
+export default ProductGalleryThumbnailImage;

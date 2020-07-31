@@ -25,7 +25,7 @@ import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency, roundPrice } from 'Util/Price';
 
-export default class CartPage extends PureComponent {
+export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired
@@ -242,3 +242,5 @@ export default class CartPage extends PureComponent {
         );
     }
 }
+
+export default CartPage;

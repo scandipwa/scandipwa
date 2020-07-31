@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import Link from 'Component/Link';
 
-export default class NoMatch extends PureComponent {
+export class NoMatch extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired
     };
@@ -77,3 +77,5 @@ export default class NoMatch extends PureComponent {
         );
     }
 }
+
+export default NoMatch;
