@@ -20,7 +20,7 @@ import Field from 'Component/Field/Field.component';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 
-export default class ProductAttributeValue extends PureComponent {
+export class ProductAttributeValue extends PureComponent {
     static propTypes = {
         getLink: PropTypes.func,
         onClick: PropTypes.func,
@@ -285,3 +285,5 @@ export default class ProductAttributeValue extends PureComponent {
         );
     }
 }
+
+export default ProductAttributeValue;

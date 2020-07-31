@@ -18,7 +18,7 @@ import { PureComponent } from 'react';
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
-export default class CategoryPagination extends PureComponent {
+export class CategoryPagination extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         pathname: PropTypes.string.isRequired,
@@ -210,3 +210,5 @@ export default class CategoryPagination extends PureComponent {
         );
     }
 }
+
+export default CategoryPagination;

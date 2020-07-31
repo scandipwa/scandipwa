@@ -23,7 +23,7 @@ import FormPortalCollector from 'Util/FormPortalCollector';
 
 import validationConfig from './Form.config';
 
-export default class Form extends PureComponent {
+export class Form extends PureComponent {
     static propTypes = {
         onSubmitSuccess: PropTypes.func,
         onSubmitError: PropTypes.func,
@@ -268,3 +268,5 @@ export default class Form extends PureComponent {
         );
     }
 }
+
+export default Form;

@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 
 import { MixType } from 'Type/Common';
 
-export default class ResetButton extends PureComponent {
+export class ResetButton extends PureComponent {
     static propTypes = {
         mix: MixType,
         resetFilters: PropTypes.func.isRequired,
@@ -62,3 +62,5 @@ export default class ResetButton extends PureComponent {
         );
     }
 }
+
+export default ResetButton;

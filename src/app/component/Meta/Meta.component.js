@@ -17,7 +17,7 @@ import { createPortal } from 'react-dom';
  * Page Meta data
  * @class Meta
  */
-export default class Meta extends PureComponent {
+export class Meta extends PureComponent {
     static propTypes = {
         metadata: PropTypes.arrayOf(
             PropTypes.shape({
@@ -88,3 +88,5 @@ export default class Meta extends PureComponent {
         );
     }
 }
+
+export default Meta;

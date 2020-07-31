@@ -25,7 +25,7 @@ import {
  * Notification block
  * @class Notification
  */
-export default class Notification extends PureComponent {
+export class Notification extends PureComponent {
     static propTypes = {
         notificationId: PropTypes.string.isRequired,
         notification: NotificationType.isRequired,
@@ -109,3 +109,5 @@ export default class Notification extends PureComponent {
         );
     }
 }
+
+export default Notification;

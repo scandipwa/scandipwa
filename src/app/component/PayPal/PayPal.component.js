@@ -25,7 +25,7 @@ import { PAYPAL_SCRIPT } from './PayPal.config';
  * This component currently can be rendered only once
  * Please try to have no more than 1 component per page and use isDisabled to hide it.
 */
-export default class PayPal extends PureComponent {
+export class PayPal extends PureComponent {
     static propTypes = {
         isDisabled: PropTypes.bool,
         paypal: PropTypes.any.isRequired,
@@ -106,3 +106,5 @@ export default class PayPal extends PureComponent {
         );
     }
 }
+
+export default PayPal;

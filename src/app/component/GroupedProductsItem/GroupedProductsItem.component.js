@@ -25,7 +25,7 @@ import media, { PRODUCT_MEDIA } from 'Util/Media';
  * Grouped Product Item
  * @class GroupedProduct
  */
-export default class GroupedProductsItem extends PureComponent {
+export class GroupedProductsItem extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         changeCount: PropTypes.func.isRequired,
@@ -68,3 +68,5 @@ export default class GroupedProductsItem extends PureComponent {
         );
     }
 }
+
+export default GroupedProductsItem;
