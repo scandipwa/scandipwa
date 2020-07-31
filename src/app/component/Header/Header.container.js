@@ -23,7 +23,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { setQueryParams } from 'Util/Url';
+import { appendWithStoreCode, setQueryParams } from 'Util/Url';
 
 import Header from './Header.component';
 import {
@@ -175,7 +175,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { state = {} } = historyState || {};
 
         const activeRoute = Object.keys(this.routeMap)
-            .find((route) => (route !== '/' || pathname === '/') && pathname.includes(route));
+            .find((route) => (route !== '/' || pathname === appendWithStoreCode('/')) && pathname.includes(route));
 
         if (state.category || state.product || state.page || state.popupOpen) { // keep state if it category is in state
             return navigationState;

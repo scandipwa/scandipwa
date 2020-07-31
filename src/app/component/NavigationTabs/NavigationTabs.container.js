@@ -18,6 +18,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { debounce } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
 
 import NavigationTabs from './NavigationTabs.component';
 import {
@@ -215,10 +216,10 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         const { pathname } = location;
 
-        browserHistory.push('/');
+        browserHistory.push(appendWithStoreCode('/'));
         hideActiveOverlay();
 
-        if (pathname === '/') {
+        if (pathname === appendWithStoreCode('/')) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'

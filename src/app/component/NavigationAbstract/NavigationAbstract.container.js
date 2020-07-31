@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 
 import { history } from 'Route';
 import isMobile from 'Util/Mobile';
+import { appendWithStoreCode } from 'Util/Url';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
@@ -55,9 +56,10 @@ export class NavigationAbstractContainer extends PureComponent {
 
     getNavigationState() {
         const { pathname } = location;
+        const rootPath = appendWithStoreCode('/');
 
         const activeRoute = Object.keys(this.routeMap)
-            .find((route) => (route !== '/' || pathname === '/') && pathname.includes(route));
+            .find((route) => (route !== '/' || pathname === rootPath) && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;
     }

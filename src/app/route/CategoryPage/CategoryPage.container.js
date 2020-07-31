@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
@@ -27,7 +28,9 @@ import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { debounce } from 'Util/Request';
 import {
     clearQueriesFromUrl,
-    convertQueryStringToKeyValuePairs, getQueryParam, getUrlParam,
+    convertQueryStringToKeyValuePairs,
+    getQueryParam,
+    getUrlParam,
     setQueryParams
 } from 'Util/Url';
 
@@ -89,7 +92,8 @@ export const mapDispatchToProps = (dispatch) => ({
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateMetaFromCategory: (category) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
-    )
+    ),
+    clearCategory: () => dispatch(updateCurrentCategory({}))
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -142,18 +146,8 @@ export class CategoryPageContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const {
-            location: { pathname },
-            updateBreadcrumbs,
-            history
-        } = this.props;
+        const { updateBreadcrumbs } = this.props;
 
-        if (pathname === '/category' || pathname === '/category/') {
-            history.push('/');
-            return;
-        }
-
-        // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {
             this._requestCategoryWithPageList();
             updateBreadcrumbs({});
@@ -182,8 +176,10 @@ export class CategoryPageContainer extends PureComponent {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        // update breadcrumbs only if category has changed
-        if (id !== prevId && url === location.pathname) {
+        if (
+            // update breadcrumbs only if category has changed
+            id !== prevId && url === location.pathname
+        ) {
             this._onCategoryUpdate();
         }
 

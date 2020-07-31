@@ -27,9 +27,13 @@ import { addressType } from 'Type/Account';
 import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
 import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
+import { appendWithStoreCode } from 'Util/Url';
 
 import {
-    BILLING_STEP, CHECKOUT_URL, DETAILS_STEP, SHIPPING_STEP
+    BILLING_STEP,
+    CHECKOUT_URL,
+    DETAILS_STEP,
+    SHIPPING_STEP
 } from './Checkout.config';
 
 class Checkout extends PureComponent {
@@ -93,7 +97,7 @@ class Checkout extends PureComponent {
 
         this.updateHeader();
 
-        history.replace(`${ CHECKOUT_URL }${ url }`);
+        history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
     }
 
     componentDidUpdate(prevProps) {

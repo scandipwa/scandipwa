@@ -23,7 +23,7 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType, MatchType } from 'Type/Common';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
-import { getUrlParam } from 'Util/Url';
+import { appendWithStoreCode, getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 
@@ -157,7 +157,7 @@ export class CmsPageContainer extends DataContainer {
         updateBreadcrumbs(page);
         updateMeta({ title: meta_title || title });
 
-        if (pathname !== '/') {
+        if (pathname !== appendWithStoreCode('/')) {
             setHeaderState({
                 name: CMS_PAGE,
                 title: content_heading,

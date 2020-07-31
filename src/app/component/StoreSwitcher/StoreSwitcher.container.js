@@ -114,7 +114,6 @@ export class StoreSwitcherContainer extends DataContainer {
     getCurrentLabel(storeCode) {
         const { storeList } = this.state;
 
-        console.log(`getCurrentLabel says ${storeCode}`);
         const store = storeList.find(
             ({ value }) => value === storeCode
         );
@@ -145,8 +144,6 @@ export class StoreSwitcherContainer extends DataContainer {
     }
 
     render() {
-        console.log(`render says ${this.props.currentStoreCode}`);
-
         return (
             <StoreSwitcher
               { ...this.containerFunctions }

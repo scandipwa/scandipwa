@@ -11,6 +11,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getStore } from 'Store';
+
 // TODO: rewrite using import { history } from 'Route';
 // TODO: fix no LET
 
@@ -53,6 +55,28 @@ const getUrlParam = (match, location) => {
     }
 
     return currentUrl.replace(baseUrl, '').replace(/^\/*/, '');
+};
+
+/**
+ * Append store code to URL
+ * @param {String} pathname the URL to append store code to
+ */
+const appendWithStoreCode = (pathname) => {
+    const { ConfigReducer: { base_link_url } } = getStore().getState();
+    const { pathname: storePrefix } = new URL(base_link_url);
+
+    // ignore empty URLs
+    if (!pathname) {
+        return pathname;
+    }
+
+    // match URLs which have the store code in pathname
+    if (pathname.match(`/(${window.storeList.join('|')})`)) {
+        return pathname;
+    }
+
+    // trim the last slash from URL, and append it to pathname
+    return storePrefix.slice(0, -1).concat(pathname);
 };
 
 /**
@@ -204,6 +228,7 @@ export {
     getQueryParam,
     generateQuery,
     setQueryParams,
+    appendWithStoreCode,
     clearQueriesFromUrl,
     updateQueryParamWithoutHistory,
     removeQueryParamWithoutHistory,
