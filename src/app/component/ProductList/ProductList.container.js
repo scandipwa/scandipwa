@@ -23,8 +23,6 @@ import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
 
-export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
-
 export const mapDispatchToProps = (dispatch) => ({
     requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options)
 });
@@ -39,7 +37,6 @@ export class ProductListContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
-        getIsNewCategory: PropTypes.func.isRequired,
         pages: PagesType.isRequired,
         pageSize: PropTypes.number,
         isLoading: PropTypes.bool.isRequired,
@@ -75,7 +72,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { pages, getIsNewCategory, filter } = this.props;
+        const { pages, filter } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -84,9 +81,7 @@ export class ProductListContainer extends PureComponent {
         }
 
         // Is true when category is changed. This check prevents making new requests when navigating back to PLP from PDP
-        if (getIsNewCategory() || (!getIsNewCategory() && Object.keys(filter).length > 0)) {
-            this.requestPage(this._getPageFromUrl());
-        }
+        this.requestPage(this._getPageFromUrl());
     }
 
     componentDidUpdate(prevProps) {
@@ -124,10 +119,10 @@ export class ProductListContainer extends PureComponent {
         } = this.props;
 
         if (!isWidget && !isNext) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            // window.scrollTo({
+            //     top: 0,
+            //     behavior: 'smooth'
+            // });
         }
 
         const options = {
@@ -142,13 +137,15 @@ export class ProductListContainer extends PureComponent {
                 currentPage
             }
         };
+
         const infoOptions = {
             args: {
                 filter,
-                search,
-                sort
+                search
             }
         };
+
+        // console.log(infoOptions, options);
 
         requestProductList(options);
         requestProductListInfo(infoOptions);

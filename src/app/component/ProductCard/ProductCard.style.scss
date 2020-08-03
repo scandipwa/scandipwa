@@ -134,9 +134,9 @@
         margin-bottom: 0;
     }
 
-    // .TextPlaceholder,
-    // .Image_isPlaceholder {
-    //     opacity: 0;
-    //     animation: appear 300ms forwards;
-    // }
+    .TextPlaceholder,
+    .Image_isPlaceholder {
+        opacity: 0;
+        animation: appear 100ms 300ms forwards;
+    }
 }

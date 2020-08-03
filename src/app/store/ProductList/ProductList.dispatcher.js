@@ -37,13 +37,33 @@ export class ProductListDispatcher extends QueryDispatcher {
                 page_info: { total_pages } = {}
             } = {}
         } = data;
-        const { args: { currentPage }, isNext } = options;
+
+        const {
+            args: {
+                currentPage,
+                filter: selectedFilter
+            },
+            isNext
+        } = options;
 
         if (isNext) {
-            return dispatch(appendPage(items, currentPage));
+            return dispatch(
+                appendPage(
+                    items,
+                    currentPage
+                )
+            );
         }
 
-        return dispatch(updateProductListItems(items, currentPage, total_count, total_pages));
+        return dispatch(
+            updateProductListItems(
+                items,
+                currentPage,
+                total_count,
+                total_pages,
+                selectedFilter
+            )
+        );
     }
 
     onError(error, dispatch) {

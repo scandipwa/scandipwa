@@ -16,24 +16,24 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 
 export class CategoryItemsCount extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        isOnlyPlaceholder: PropTypes.bool.isRequired,
-        totalItems: PropTypes.number.isRequired
+        totalItems: PropTypes.number.isRequired,
+        isMatchingListFilter: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isMatchingListFilter: false
     };
 
     render() {
         const {
-            isLoading: isProductsLoading,
-            isOnlyPlaceholder,
-            totalItems
+            totalItems,
+            isMatchingListFilter
         } = this.props;
-
-        const isLoading = isOnlyPlaceholder || isProductsLoading;
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
                 <TextPlaceholder
-                  content={ (isLoading
+                  content={ (!isMatchingListFilter
                       ? __('Products are loading...')
                       : __('%s items found', totalItems)
                   ) }

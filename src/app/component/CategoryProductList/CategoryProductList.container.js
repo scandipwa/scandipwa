@@ -40,8 +40,12 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CategoryProductListContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        isOnlyPlaceholder: PropTypes.bool.isRequired,
+        isMatchingListFilter: PropTypes.bool,
         requestProductList: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isMatchingListFilter: false
     };
 
     containerFunctions = {
@@ -51,29 +55,23 @@ export class CategoryProductListContainer extends PureComponent {
     getIsLoading() {
         const {
             isLoading,
-            isOnlyPlaceholder
+            isMatchingListFilter
         } = this.props;
 
         if (!navigator.onLine) {
             return false;
         }
 
-        if (isOnlyPlaceholder) {
-            return true;
+        // if the filter expected matches the last requested filter
+        if (isMatchingListFilter) {
+            return false;
         }
 
         return isLoading;
     }
 
     requestProductList(options) {
-        const {
-            isOnlyPlaceholder,
-            requestProductList
-        } = this.props;
-
-        if (isOnlyPlaceholder) {
-            return;
-        }
+        const { requestProductList } = this.props;
 
         requestProductList(options);
     }

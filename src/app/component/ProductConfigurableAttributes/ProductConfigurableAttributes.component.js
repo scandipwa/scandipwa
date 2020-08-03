@@ -169,7 +169,11 @@ export default class ProductConfigurableAttributes extends PureComponent {
         const { isReady, mix } = this.props;
 
         return (
-            <div block="ProductConfigurableAttributes" mix={ mix }>
+            <div
+              block="ProductConfigurableAttributes"
+              mods={ { isLoading: !isReady } }
+              mix={ mix }
+            >
                 { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholders() }
             </div>
         );

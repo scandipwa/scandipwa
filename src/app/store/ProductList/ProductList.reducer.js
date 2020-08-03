@@ -34,7 +34,8 @@ const ProductListReducer = (state = initialState, action) => {
         total_pages: totalPages,
         total_count: totalItems,
         currentPage,
-        isLoading
+        isLoading,
+        selectedFilter
     } = action;
 
     switch (type) {
@@ -50,6 +51,7 @@ const ProductListReducer = (state = initialState, action) => {
     case UPDATE_PRODUCT_LIST_ITEMS:
         return {
             ...state,
+            selectedFilter,
             isLoading: false,
             totalItems,
             totalPages,

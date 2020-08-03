@@ -38,17 +38,11 @@ export default class CategorySort extends PureComponent {
             disabled: PropTypes.bool,
             label: PropTypes.string
         })).isRequired,
-        sortFields: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.arrayOf(PropTypes.shape({
-                id: PropTypes.string,
-                label: PropTypes.string
-            }))
-        ])
+        isMatchingInfoFilter: PropTypes.bool
     };
 
     static defaultProps = {
-        sortFields: []
+        isMatchingInfoFilter: false
     };
 
     onChange = (value) => {
@@ -68,10 +62,13 @@ export default class CategorySort extends PureComponent {
 
     renderSortField() {
         const {
-            sortKey, sortDirection, sortFields, selectOptions
+            sortKey,
+            sortDirection,
+            selectOptions,
+            isMatchingInfoFilter
         } = this.props;
 
-        if (!sortFields.length) {
+        if (!isMatchingInfoFilter) {
             return this.renderPlaceholder();
         }
 

@@ -29,7 +29,6 @@ import isMobile from 'Util/Mobile';
 export default class CategoryPage extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
-        getIsNewCategory: PropTypes.func.isRequired,
         filters: PropTypes.objectOf(PropTypes.shape).isRequired,
         sortFields: PropTypes.shape({
             options: PropTypes.array
@@ -41,21 +40,21 @@ export default class CategoryPage extends PureComponent {
             ]),
             sortKey: PropTypes.string
         }).isRequired,
-        getFilterUrl: PropTypes.func.isRequired,
         onSortChange: PropTypes.func.isRequired,
-        updateFilter: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
         search: PropTypes.string.isRequired,
         isContentFiltered: PropTypes.bool,
-        isOnlyPlaceholder: PropTypes.bool,
+        isMatchingListFilter: PropTypes.bool,
+        isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number
     };
 
     static defaultProps = {
         isContentFiltered: true,
-        isOnlyPlaceholder: false,
+        isMatchingListFilter: false,
+        isMatchingInfoFilter: false,
         totalPages: 1
     };
 
@@ -98,28 +97,33 @@ export default class CategoryPage extends PureComponent {
         const {
             filters,
             selectedFilters,
-            updateFilter,
-            getFilterUrl
+            isMatchingInfoFilter
         } = this.props;
 
         return (
             <CategoryFilterOverlay
-              getFilterUrl={ getFilterUrl }
               availableFilters={ filters }
               customFiltersValues={ selectedFilters }
-              updateFilter={ updateFilter }
+              isMatchingInfoFilter={ isMatchingInfoFilter }
             />
         );
     }
 
     renderCategorySort() {
-        const { sortFields, selectedSort, onSortChange } = this.props;
+        const {
+            sortFields,
+            selectedSort,
+            onSortChange,
+            isMatchingInfoFilter
+        } = this.props;
+
         const { options = {} } = sortFields;
         const updatedSortFields = Object.values(options).map(({ value: id, label }) => ({ id, label }));
         const { sortDirection, sortKey } = selectedSort;
 
         return (
             <CategorySort
+              isMatchingInfoFilter={ isMatchingInfoFilter }
               onSortChange={ onSortChange }
               sortFields={ updatedSortFields }
               sortKey={ sortKey }
@@ -129,7 +133,7 @@ export default class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isOnlyPlaceholder } = this.props;
+        const { isMatchingListFilter } = this.props;
 
         if (isVisibleOnMobile && !isMobile.any()) {
             return null;
@@ -141,7 +145,7 @@ export default class CategoryPage extends PureComponent {
 
         return (
             <CategoryItemsCount
-              isOnlyPlaceholder={ isOnlyPlaceholder }
+              isMatchingListFilter={ isMatchingListFilter }
             />
         );
     }
@@ -152,8 +156,7 @@ export default class CategoryPage extends PureComponent {
             search,
             selectedSort,
             selectedFilters,
-            getIsNewCategory,
-            isOnlyPlaceholder
+            isMatchingListFilter
         } = this.props;
 
         return (
@@ -164,8 +167,7 @@ export default class CategoryPage extends PureComponent {
                   search={ search }
                   sort={ selectedSort }
                   selectedFilters={ selectedFilters }
-                  getIsNewCategory={ getIsNewCategory }
-                  isOnlyPlaceholder={ isOnlyPlaceholder }
+                  isMatchingListFilter={ isMatchingListFilter }
                 />
             </div>
         );

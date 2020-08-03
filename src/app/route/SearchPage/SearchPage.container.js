@@ -119,8 +119,6 @@ export class SearchPageContainer extends CategoryPageContainer {
             this._updateBreadcrumbs();
             this._onCategoryUpdate();
         }
-
-        this._updateData(prevProps);
     }
 
     _updateHeaderState() {
@@ -161,7 +159,7 @@ export class SearchPageContainer extends CategoryPageContainer {
         this._updateBreadcrumbs();
     }
 
-    _requestCategory() {
+    requestCategory() {
         const { updateCurrentCategory, match: { params: { query: url_path } } } = this.props;
 
         updateCurrentCategory({ url_path });
@@ -170,7 +168,7 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     _getProductListOptions(currentPage) {
         const { match: { params: { query } } } = this.props;
-        const customFilters = this._getSelectedFiltersFromUrl();
+        const customFilters = this.getSelectedFiltersFromUrl();
 
         return {
             args: {
@@ -183,10 +181,10 @@ export class SearchPageContainer extends CategoryPageContainer {
         };
     }
 
-    _getFilter() {
+    getFilter() {
         const { categoryIds } = this.props;
-        const customFilters = this._getSelectedFiltersFromUrl();
-        const priceRange = this._getSelectedPriceRangeFromUrl();
+        const customFilters = this.getSelectedFiltersFromUrl();
+        const priceRange = this.getSelectedPriceRangeFromUrl();
 
         return {
             priceRange,
@@ -195,7 +193,7 @@ export class SearchPageContainer extends CategoryPageContainer {
         };
     }
 
-    _getSearchParam() {
+    getSearchParam() {
         const { match: { params: { query } } } = this.props;
 
         return query;

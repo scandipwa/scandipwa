@@ -180,7 +180,7 @@ export class UrlRewrites extends PureComponent {
             }
         } = this.props;
 
-        const props = { ...this.props };
+        const props = this.getProps();
 
         if (id) {
             props.categoryIds = id;
@@ -195,6 +195,10 @@ export class UrlRewrites extends PureComponent {
             props.isOnlyPlaceholder = undefined;
         }
 
+        // if (id !== category) {
+        //     props.categoryIds = id;
+        // }
+
         return props;
     }
 
@@ -208,19 +212,31 @@ export class UrlRewrites extends PureComponent {
         return UrlRewrites.getType(this.props);
     }
 
+    getProps() {
+        const {
+            urlRewrite,
+            isLoading,
+            requestUrlRewrite,
+            clearUrlRewrites,
+            ...restOfProps
+        } = this.props;
+
+        return restOfProps;
+    }
+
     renderPage() {
         const type = this.getCurrentType();
         const { urlRewrite: { id, sku } } = this.props;
 
         switch (type) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...this.props } productSKU={ sku } />;
+            return <ProductPage { ...this.getProps() } productSKU={ sku } />;
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...this.props } pageIds={ id } />;
+            return <CmsPage { ...this.getProps() } pageIds={ id } />;
         case TYPE_CATEGORY:
             return <CategoryPage { ...this.getCategoryProps(id) } />;
         case TYPE_NOTFOUND:
-            return <NoMatch { ...this.props } />;
+            return <NoMatch { ...this.getProps() } />;
         default:
             return this.renderEmptyPage();
         }
@@ -231,13 +247,13 @@ export class UrlRewrites extends PureComponent {
 
         switch (type) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...this.props } isOnlyPlaceholder />;
+            return <ProductPage { ...this.getProps() } isOnlyPlaceholder />;
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...this.props } isOnlyPlaceholder />;
+            return <CmsPage { ...this.getProps() } isOnlyPlaceholder />;
         case TYPE_CATEGORY:
             return <CategoryPage { ...this.getCategoryProps() } />;
         case TYPE_NOTFOUND:
-            return <NoMatch { ...this.props } />;
+            return <NoMatch { ...this.getProps() } />;
         default:
             return this.renderEmptyPage();
         }
