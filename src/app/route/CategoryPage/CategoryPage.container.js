@@ -193,6 +193,8 @@ export class CategoryPageContainer extends PureComponent {
         //         this._updateBreadcrumbs();
         //     }
 
+        // TODO: pay attention to offline, meta, no-match
+
         const {
             categoryIds,
             category: {
