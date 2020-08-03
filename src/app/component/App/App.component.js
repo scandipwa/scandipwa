@@ -90,7 +90,6 @@ export class App extends ExtensiblePureComponent {
     }
 
     __construct(props) {
-        debugger;
         super.__construct(props);
 
         this.configureAppBasedOnEnvironment();
