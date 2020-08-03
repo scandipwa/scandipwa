@@ -109,8 +109,8 @@ export class MyAccountContainer extends ExtensiblePureComponent {
         onSignOut: this.onSignOut.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const {
             isSignedIn,

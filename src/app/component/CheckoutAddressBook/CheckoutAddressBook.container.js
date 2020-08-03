@@ -62,8 +62,8 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
         onAddressSelect: this.onAddressSelect.bind(this)
     });
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const {
             requestCustomerData,

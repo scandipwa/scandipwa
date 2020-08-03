@@ -29,8 +29,8 @@ export class MyAccountAddressForm extends FieldForm {
         onSave: () => {}
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const {
             countries,

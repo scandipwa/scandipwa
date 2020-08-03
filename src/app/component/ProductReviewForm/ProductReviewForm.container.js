@@ -60,8 +60,8 @@ export class ProductReviewFormContainer extends ExtensiblePureComponent {
         onReviewError: this._onReviewError.bind(this)
     });
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { customer: { firstname: nickname } } = this.props;
         const reviewData = { nickname };

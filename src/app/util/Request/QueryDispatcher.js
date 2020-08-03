@@ -30,8 +30,8 @@ export class QueryDispatcher extends ExtensibleClass {
      * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
      * @memberof QueryDispatcher
      */
-    constructor(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
-        super();
+    __construct(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
+        super.__construct();
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;

@@ -22,8 +22,8 @@ export class Field extends ExtensibleClass {
      * @param  {String} name Name of the query from Schema
      * @memberof Query
      */
-    constructor(name) {
-        super();
+    __construct(name) {
+        super.__construct();
         if (!name || typeof name !== 'string') {
             throw new Error('Field name must be non-empty string');
         }

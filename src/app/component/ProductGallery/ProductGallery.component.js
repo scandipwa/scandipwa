@@ -71,8 +71,8 @@ export class ProductGallery extends ExtensiblePureComponent {
 
     sliderRef = createRef();
 
-    constructor(props, context) {
-        super(props, context);
+    __construct(props, context) {
+        super.__construct(props, context);
         this.renderSlide = this.renderSlide.bind(this);
     }
 

@@ -30,8 +30,8 @@ export class RangeSelector extends ExtensiblePureComponent {
         onChangeComplete: PropTypes.func.isRequired
     };
 
-    constructor() {
-        super();
+    __construct() {
+        super.__construct();
 
         this.state = {
             value: false

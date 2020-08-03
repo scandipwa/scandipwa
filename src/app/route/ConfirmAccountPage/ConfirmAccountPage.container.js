@@ -54,8 +54,8 @@ export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
         onFormError: this.onFormError.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.state = {
             redirect: false,

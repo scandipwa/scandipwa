@@ -25,8 +25,8 @@ export class CategorySearch extends ExtensiblePureComponent {
         onChange: PropTypes.func.isRequired
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
         this.state = { value: decodeURIComponent(props.value) };
     }
 

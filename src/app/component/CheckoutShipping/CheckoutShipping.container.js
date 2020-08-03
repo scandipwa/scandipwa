@@ -38,8 +38,8 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
         onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { shippingMethods } = props;
         const [selectedShippingMethod] = shippingMethods;

@@ -17,8 +17,8 @@ import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider/CmsBlocksAndSlider.act
 
 /** @namespace Store/HeaderAndFooter/Dispatcher */
 export class HeaderAndFooterDispatcher extends QueryDispatcher {
-    constructor() {
-        super('HeaderAndFooter');
+    __construct() {
+        super.__construct('HeaderAndFooter');
     }
 
     onSuccess(options, dispatch) {

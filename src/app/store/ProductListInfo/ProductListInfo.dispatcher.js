@@ -25,8 +25,8 @@ import { updateNoMatch } from 'Store/NoMatch';
  * @namespace Store/ProductListInfo/Dispatcher
  */
 export class ProductListInfoDispatcher extends QueryDispatcher {
-    constructor() {
-        super('ProductListInfo');
+    __construct() {
+        super.__construct('ProductListInfo');
     }
 
     onSuccess({ products }, dispatch) {

@@ -35,8 +35,8 @@ export class ProductGalleryContainer extends ExtensiblePureComponent {
         disableZoom: this.disableZoom.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { product: { id } } = props;
 

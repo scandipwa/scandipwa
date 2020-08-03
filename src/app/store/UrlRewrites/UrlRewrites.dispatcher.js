@@ -21,8 +21,8 @@ import { updateUrlRewrite, clearUrlRewrite, setIsUrlRewritesLoading } from 'Stor
  * @namespace Store/UrlRewrites/Dispatcher
  */
 export class UrlRewritesDispatcher extends QueryDispatcher {
-    constructor() {
-        super('UrlRewrites');
+    __construct() {
+        super.__construct('UrlRewrites');
     }
 
     onSuccess({ urlResolver }, dispatch) {

@@ -86,11 +86,12 @@ export class App extends ExtensiblePureComponent {
             ? this.productionFunctions
             : this.developmentFunctions;
 
-        functionsToRun.forEach(func => func());
+        functionsToRun.forEach((func) => func());
     }
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        debugger;
+        super.__construct(props);
 
         this.configureAppBasedOnEnvironment();
     }

@@ -63,8 +63,8 @@ export class Slider extends ExtensiblePureComponent {
 
     renderCrumb = this.renderCrumb.bind(this);
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { activeImage } = this.props;
 

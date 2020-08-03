@@ -146,8 +146,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         };
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.state = {
             prevPathname: '',

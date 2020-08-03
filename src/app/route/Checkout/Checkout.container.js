@@ -80,8 +80,8 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         goBack: this.goBack.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const {
             toggleBreadcrumbs,

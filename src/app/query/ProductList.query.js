@@ -19,8 +19,8 @@ import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
  * @namespace Query/ProductList
  */
 export class ProductListQuery extends ExtensibleClass {
-    constructor() {
-        super();
+    __construct() {
+        super.__construct();
         this.options = {};
     }
 

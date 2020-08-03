@@ -22,8 +22,8 @@ import { updateNoMatch } from 'Store/NoMatch';
  * @namespace Store/Category/Dispatcher
  */
 export class CategoryDispatcher extends QueryDispatcher {
-    constructor() {
-        super('Category');
+    __construct() {
+        super.__construct('Category');
     }
 
     onSuccess(data, dispatch, { isSearchPage }) {
