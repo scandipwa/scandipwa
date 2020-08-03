@@ -195,6 +195,8 @@ export class CategoryPageContainer extends PureComponent {
 
         // TODO: pay attention to offline, meta, no-match
 
+        // TODO: add case for entering from cms block
+
         const {
             categoryIds,
             category: {
