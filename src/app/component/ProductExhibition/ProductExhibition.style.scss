@@ -30,6 +30,10 @@
         height: 100%;
     }
 
+    @include desktop {
+        margin-top: 80px;
+    }
+
     .Image {
         @include desktop {
             margin-bottom: -7px;

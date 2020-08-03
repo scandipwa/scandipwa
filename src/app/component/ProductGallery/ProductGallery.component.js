@@ -18,7 +18,6 @@ import { TransformWrapper } from 'react-zoom-pan-pinch';
 
 import Image from 'Component/Image';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
-import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
 import ProductExhibition from 'Component/ProductExhibition';
 import Slider from 'Component/Slider';
 import VideoPopup from 'Component/VideoPopup';
@@ -31,7 +30,7 @@ import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 import { getAssetUrl } from 'Util/Resources/Resource';
 
 import {
-    GALLERY_LENGTH_BEFORE_COLLAPSE, IMAGE_TYPE, MAX_ZOOM_SCALE, PLACEHOLDER_TYPE, VIDEO_TYPE
+    IMAGE_TYPE, MAX_ZOOM_SCALE, PLACEHOLDER_TYPE, VIDEO_TYPE
 } from './ProductGallery.config';
 
 const PRODUCT_GALLERY_POPUP_OVERLAY = 'productGalleryPopupOverlay';
@@ -84,10 +83,16 @@ export class ProductGallery extends PureComponent {
         this.renderSlide = this.renderSlide.bind(this);
         this.imageClick = this.imageClick.bind(this);
 
-        this.popupImageWrapper = React.createRef();
-        this.sliderRef = React.createRef();
-        this.state = { activeImage: 0, isPopupOpened: false, isUniqueKey: false, windowWidth: window.innerWidth, windowHeight: window.innerHeight };
-        this.thumbnailsSliderRef = React.createRef();
+        this.popupImageWrapper = createRef();
+        this.sliderRef = createRef();
+        this.state = {
+            activeImage: 0,
+            isPopupOpened: false,
+            isUniqueKey: false,
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerHeight
+        };
+        this.thumbnailsSliderRef = createRef();
         this.image = getAssetUrl("images/search.svg");
         this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
         this.onActiveImageChange = this.onActiveImageChange.bind(this);
