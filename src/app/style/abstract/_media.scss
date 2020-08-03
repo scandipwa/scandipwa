@@ -9,6 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+@mixin after-large-desktop {
+    @media (min-width: 1366px) {
+        @content;
+    }
+}
+
 @mixin desktop {
     @media (min-width: 1025px) {
         @content;

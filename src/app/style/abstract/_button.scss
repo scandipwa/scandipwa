@@ -82,3 +82,13 @@
         }
     }
 }
+
+@mixin button-pdp-image {
+    --button-padding: 0;
+    --button-background: transparent;
+    --button-border: transparent;
+    --button-color: #999;
+    --button-hover-background: transparent;
+    --button-hover-border: transparent;
+    --button-hover-color: #999;
+}

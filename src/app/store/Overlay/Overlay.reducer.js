@@ -13,6 +13,7 @@ import { SHOW_POPUP } from 'Store/Popup/Popup.action';
 
 import {
     HIDE_ACTIVE_OVERLAY,
+    HIDE_OVERLAY,
     TOGGLE_OVERLAY
 } from './Overlay.action';
 
@@ -46,8 +47,17 @@ export const OverlayReducer = (state = initialState, action) => {
             areOtherOverlaysOpen: false
         };
 
-    default:
-        return state;
+        case HIDE_OVERLAY:
+            const overlayActive = prevActiveOverlay === overlayKey ? '' : -1;
+            if(overlayActive === -1) {
+                return state;
+            }
+            return {
+                ...state,
+                activeOverlay: overlayActive
+            };
+        default:
+            return state;
     }
 };
 

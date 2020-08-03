@@ -11,13 +11,23 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
+import { hideActiveOverlayByKey, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { ProductType } from 'Type/ProductList';
 
 import ProductGallery from './ProductGallery.component';
 import { AMOUNT_OF_PLACEHOLDERS, IMAGE_TYPE, THUMBNAIL_KEY } from './ProductGallery.config';
+
+export const mapDispatchToProps = dispatch => ({
+    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
+    hideActiveOverlayByKey: key => dispatch(hideActiveOverlayByKey(key)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateTotals: options => CartDispatcher.updateTotals(dispatch, options)
+});
 
 export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
@@ -118,14 +128,18 @@ export class ProductGalleryContainer extends PureComponent {
 
     containerProps = () => {
         const { activeImage, isZoomEnabled } = this.state;
-        const { product: { id } } = this.props;
+        const { product: { id }, isPDPHeaderPresent, toggleOverlayByKey, areDetailsLoaded,hideActiveOverlayByKey } = this.props;
 
         return {
             gallery: this.getGalleryPictures(),
             productName: this._getProductName(),
             activeImage,
             isZoomEnabled,
-            productId: id
+            productId: id,
+            isPDPHeaderPresent,
+            toggleOverlayByKey,
+            hideActiveOverlayByKey,
+            areDetailsLoaded
         };
     };
 
@@ -160,9 +174,9 @@ export class ProductGalleryContainer extends PureComponent {
             <Subscribe to={ [SharedTransitionContainer] }>
                 { ({ registerSharedElementDestination }) => (
                     <ProductGallery
-                      registerSharedElementDestination={ registerSharedElementDestination }
-                      { ...this.containerProps() }
-                      { ...this.containerFunctions }
+                        registerSharedElementDestination={ registerSharedElementDestination }
+                        { ...this.containerProps() }
+                        { ...this.containerFunctions }
                     />
                 ) }
             </Subscribe>
@@ -170,4 +184,4 @@ export class ProductGalleryContainer extends PureComponent {
     }
 }
 
-export default ProductGalleryContainer;
+export default connect(null,mapDispatchToProps)(ProductGalleryContainer);

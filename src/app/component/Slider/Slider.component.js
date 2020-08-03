@@ -28,7 +28,7 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
  * Slider component
  * @class Slider
  */
-export default class Slider extends PureComponent {
+export class Slider extends PureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
         activeImage: PropTypes.number,
@@ -86,7 +86,10 @@ export default class Slider extends PureComponent {
     componentDidMount() {
         const sliderChildren = this.draggableRef.current.children;
         const sliderWidth = this.draggableRef.current.offsetWidth;
+        const { activeImage } = this.props;
         this.sliderWidth = sliderWidth;
+
+        const newTranslate = -activeImage * this.sliderWidth;
 
         if (!sliderChildren || !sliderChildren[0]) {
             return;
@@ -99,9 +102,16 @@ export default class Slider extends PureComponent {
         setTimeout(() => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
         }, ANIMATION_DURATION);
+
+        CSS.setVariable(
+            this.draggableRef,
+            'translateX',
+            `${newTranslate}px`
+        );
     }
 
     componentDidUpdate(prevProps) {
+        this.componentDidMount();
         const { activeImage: prevActiveImage } = prevProps;
         const { activeImage } = this.props;
 
@@ -276,8 +286,8 @@ export default class Slider extends PureComponent {
 
         return (
             <div
-              block="Slider"
-              elem="Crumbs"
+                block="Slider"
+                elem="Crumbs"
             >
                 { Children.map(children, this.renderCrumb) }
             </div>
@@ -290,16 +300,16 @@ export default class Slider extends PureComponent {
 
         return (
             <button
-              block="Slider"
-              elem="Image"
-              mods={ { type: 'single' } }
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => this.changeActiveImage(i) }
+                block="Slider"
+                elem="Image"
+                mods={ { type: 'single' } }
+                // eslint-disable-next-line react/jsx-no-bind
+                onClick={ () => this.changeActiveImage(i) }
             >
                 <div
-                  block="Slider"
-                  elem="Crumb"
-                  mods={ { isActive } }
+                    block="Slider"
+                    elem="Crumb"
+                    mods={ { isActive } }
                 />
             </button>
         );
@@ -315,18 +325,18 @@ export default class Slider extends PureComponent {
 
         return (
             <div
-              block="Slider"
-              mix={ mix }
-              ref={ this.sliderRef }
+                block="Slider"
+                mix={ mix }
+                ref={ this.sliderRef }
             >
                 <Draggable
-                  mix={ { block: 'Slider', elem: 'Wrapper' } }
-                  draggableRef={ this.draggableRef }
-                  onDragStart={ this.handleDragStart }
-                  onDragEnd={ this.handleDragEnd }
-                  onDrag={ this.handleDrag }
-                  onClick={ this.handleClick }
-                  shiftX={ -activeImage * this.sliderWidth }
+                    mix={ { block: 'Slider', elem: 'Wrapper' } }
+                    draggableRef={ this.draggableRef }
+                    onDragStart={ this.handleDragStart }
+                    onDragEnd={ this.handleDragEnd }
+                    onDrag={ this.handleDrag }
+                    onClick={ this.handleClick }
+                    shiftX={ -activeImage * this.sliderWidth }
                 >
                     { children }
                 </Draggable>
@@ -335,3 +345,5 @@ export default class Slider extends PureComponent {
         );
     }
 }
+
+export default Slider;
