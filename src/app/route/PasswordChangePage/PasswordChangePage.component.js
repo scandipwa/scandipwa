@@ -128,6 +128,7 @@ export class PasswordChangePage extends PureComponent {
                           label={ __('New password') }
                           id="passwordReset"
                           name="passwordReset"
+                          autocomplete="new-password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
@@ -135,6 +136,7 @@ export class PasswordChangePage extends PureComponent {
                           label={ __('Confirm password') }
                           id="passwordResetConfirm"
                           name="passwordResetConfirm"
+                          autocomplete="new-password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <div block="MyAccount" elem="Buttons">
