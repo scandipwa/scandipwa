@@ -1,7 +1,6 @@
 /* eslint-disable arrow-body-style, consistent-return */
 const { Component } = require('react');
 const proxyInstance = require('../ProxyInstance');
-const construct = require('../Construct');
 
 /**
  * This component allows ScandiPWA extension functionality.
@@ -11,7 +10,7 @@ const construct = require('../Construct');
 module.exports = class ExtensibleComponent extends Component {
     constructor(...args) {
         super(...args);
-        return construct(proxyInstance(this), args);
+        return proxyInstance(this);
     }
 
     __construct() {}

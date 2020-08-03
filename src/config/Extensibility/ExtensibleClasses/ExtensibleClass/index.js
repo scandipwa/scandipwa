@@ -1,6 +1,5 @@
 /* eslint-disable arrow-body-style, consistent-return */
 const proxyInstance = require('../ProxyInstance');
-const construct = require('../Construct');
 
 /**
  * This component allows ScandiPWA extension functionality.
@@ -8,8 +7,8 @@ const construct = require('../Construct');
  * its instance is being proxied at the moment of instantiation.
  */
 module.exports = class ExtensibleClass {
-    constructor(...args) {
-        return construct(proxyInstance(this), args);
+    constructor() {
+        return proxyInstance(this);
     }
 
     __construct() {}
