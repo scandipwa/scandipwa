@@ -10,6 +10,7 @@
   "globals": {
     "window": true,
     "document": true,
+    "globalThis": true,
     "sessionStorage": true,
     "localStorage": true,
     "jest": true,
