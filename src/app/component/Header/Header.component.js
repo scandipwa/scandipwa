@@ -522,7 +522,7 @@ export default class Header extends NavigationAbstract {
     }
 
     renderContacts() {
-        const { footer_content: { contacts_cms } = {} } = window.contentConfiguration;
+        const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
 
         if (contacts_cms) {
             return (

@@ -27,6 +27,7 @@ import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { debounce } from 'Util/Request';
 import {
+    appendWithStoreCode,
     // clearQueriesFromUrl,
     // convertQueryStringToKeyValuePairs,
     getQueryParam,
@@ -180,26 +181,8 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        // const { isOffline } = this.props;
-
-        // if (isOffline) {
-        //     debounce(this.setOfflineNoticeSize, LOADING_TIME)();
-        // }
-
-        //     const { is_active, isLoading } = category;
-
-        //     if (!isLoading && !is_active) {
-        //         updateNoMatch({ noMatch: true });
-        //     } else {
-        //         updateMetaFromCategory(category);
-        //         this._updateBreadcrumbs();
-        //     }
-
-        // TODO: pay attention to offline, meta, no-match
-
-        // TODO: add case for entering from cms block
-
         const {
+            isOffline,
             categoryIds,
             category: {
                 id
@@ -212,6 +195,10 @@ export class CategoryPageContainer extends PureComponent {
                 id: prevId
             }
         } = prevProps;
+
+        if (isOffline) {
+            debounce(this.setOfflineNoticeSize, LOADING_TIME)();
+        }
 
         /**
          * If the URL rewrite has been changed, make sure the category ID
@@ -234,6 +221,8 @@ export class CategoryPageContainer extends PureComponent {
          * update category specific information, i.e. breadcrumbs
          */
         if (id !== prevId) {
+            this.checkIsActive();
+            this.updateMeta();
             this.updateBreadcrumbs();
             this.updateHeaderState();
         }
@@ -246,16 +235,16 @@ export class CategoryPageContainer extends PureComponent {
         setQueryParams({ sortDirection }, location, history);
     }
 
-    // setOfflineNoticeSize = () => {
-    //     const { setBigOfflineNotice } = this.props;
-    //     const isInfoLoading = this.getIsInfoLoading();
+    setOfflineNoticeSize = () => {
+        const { setBigOfflineNotice } = this.props;
+        const isInfoLoading = this.getIsInfoLoading();
 
-    //     if (isInfoLoading) {
-    //         setBigOfflineNotice(true);
-    //     } else {
-    //         setBigOfflineNotice(false);
-    //     }
-    // };
+        if (isInfoLoading) {
+            setBigOfflineNotice(true);
+        } else {
+            setBigOfflineNotice(false);
+        }
+    };
 
     getIsMatchingListFilter() {
         const {
@@ -415,6 +404,22 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
+    checkIsActive() {
+        const {
+            category: { is_active },
+            updateNoMatch
+        } = this.props;
+
+        if (!is_active) {
+            updateNoMatch({ noMatch: true });
+        }
+    }
+
+    updateMeta() {
+        const { updateMetaFromCategory, category } = this.props;
+        updateMetaFromCategory(category);
+    }
+
     updateBreadcrumbs() {
         const { updateBreadcrumbs, category } = this.props;
         updateBreadcrumbs(category);
@@ -442,7 +447,7 @@ export class CategoryPageContainer extends PureComponent {
 
         const onBackClick = isFromCategory
             ? () => history.goBack()
-            : () => history.push('/menu');
+            : () => history.push(appendWithStoreCode('/menu'));
 
         /**
          * Ensure the name is not set if the category IDs do not

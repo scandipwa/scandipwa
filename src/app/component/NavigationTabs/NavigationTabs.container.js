@@ -147,13 +147,17 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     };
 
     onMenuButtonClick() {
-        if (this.lastSeenMenu <= 0) {
-            browserHistory.push('/menu');
-        } else {
+        const { navigationState: { name } } = this.props;
+
+        // TODO: resolve issue when coming from CMS page
+
+        if (name === MENU_TAB) { // if we already are in menu
+            browserHistory.push(appendWithStoreCode('/menu'));
+        } else if (this.lastSeenMenu <= 0) { // if we have not yet seen menu
+            browserHistory.push(appendWithStoreCode('/menu'));
+        } else { // otherwise go to last remembered category
             browserHistory.go(-this.lastSeenMenu);
         }
-
-        console.log(this.lastSeenMenu);
 
         this.lastSeenMenu = 0;
     }
@@ -161,16 +165,16 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     onMinicartButtonClick() {
         const { pathname } = location;
 
-        if (pathname !== `/${ CART }`) {
-            browserHistory.push(`/${ CART }`);
+        if (pathname !== appendWithStoreCode(`/${ CART }`)) {
+            browserHistory.push(appendWithStoreCode(`/${ CART }`));
         }
     }
 
     onMyAccountButtonClick() {
         const { pathname } = location;
 
-        if (pathname !== `/${ MY_ACCOUNT }`) {
-            browserHistory.push(`/${ MY_ACCOUNT }`);
+        if (pathname !== appendWithStoreCode(`/${ MY_ACCOUNT }`)) {
+            browserHistory.push(appendWithStoreCode(`/${ MY_ACCOUNT }`));
         }
     }
 

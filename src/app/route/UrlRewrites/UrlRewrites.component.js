@@ -198,7 +198,7 @@ export class UrlRewrites extends PureComponent {
         }
 
         // reset categoryIds, if the requested URL rewrite is unrelated to current page
-        if (location.pathname !== appendWithStoreCode(requestedUrl)) {
+        if (location.pathname !== appendWithStoreCode(requestedUrl) && !category) {
             props.categoryIds = undefined;
         }
 
@@ -206,7 +206,11 @@ export class UrlRewrites extends PureComponent {
     }
 
     getCurrentType() {
-        const { type } = this.state;
+        const { type, requestedUrl } = this.state;
+
+        if (location.pathname !== appendWithStoreCode(requestedUrl)) {
+            return UrlRewrites.getType(this.props);
+        }
 
         if (type) {
             return type;
@@ -264,6 +268,8 @@ export class UrlRewrites extends PureComponent {
 
     renderContent() {
         const { id, notFound } = this.state;
+
+        // TODO: resolve issue when coming from CMS to category, if previously product was opened
 
         if (id || notFound) {
             return this.renderPage();
