@@ -86,8 +86,8 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         onVisible: this.onVisible.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.state = this.redirectOrGetState(props);
     }

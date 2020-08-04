@@ -122,8 +122,8 @@ export class Form extends ExtensiblePureComponent {
         return {};
     }
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         if (!window.formPortalCollector) {
             window.formPortalCollector = new FormPortalCollector();

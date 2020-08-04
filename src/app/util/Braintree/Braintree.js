@@ -16,8 +16,8 @@ import { Field } from 'Util/Query';
 export class Braintree extends ExtensibleClass {
     isLoading = false;
 
-    constructor(containerId) {
-        super();
+    __construct(containerId) {
+        super.__construct();
         this.containerId = containerId;
     }
 

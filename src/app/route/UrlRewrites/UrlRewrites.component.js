@@ -131,8 +131,8 @@ export class UrlRewrites extends ExtensiblePureComponent {
         return null;
     }
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const {
             location: {

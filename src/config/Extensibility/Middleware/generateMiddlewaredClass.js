@@ -1,13 +1,20 @@
-/* eslint-disable */
-const getWrapperFromPlugin = require('./getWrapperFromPlugin');
+const getWrapperFromPlugin = require('./helpers/getWrapperFromPlugin');
+const sortPlugins = require('./helpers/sortPlugins');
 
 /**
- * Middlewaring given original member
+ * Provide an opportunity to wrap proxy with additional functions.
  * @param {Function} origMember
  * @param {Array} sortedPlugins
  * @param Context origContext
  */
-module.exports = (origClass, sortedPlugins) => sortedPlugins.reduce(
-    (acc, plugin) => getWrapperFromPlugin(plugin, origClass.name)(acc),
-    origClass
-);
+module.exports = (proxy) => {
+    const { __namespace__ } = Object.getPrototypeOf(proxy);
+    const namespacePluginsClass = globalThis.plugins?.[__namespace__]?.['class'] || [];
+
+    const wrappedClass = sortPlugins(namespacePluginsClass).reduce(
+        (acc, plugin) => getWrapperFromPlugin(plugin, proxy.name)(acc),
+        proxy
+    );
+
+    return wrappedClass;
+};

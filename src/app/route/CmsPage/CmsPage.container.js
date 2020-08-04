@@ -73,8 +73,8 @@ export class CmsPageContainer extends DataContainer {
         isLoading: true
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.updateBreadcrumbs();
     }

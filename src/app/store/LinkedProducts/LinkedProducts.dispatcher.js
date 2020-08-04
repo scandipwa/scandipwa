@@ -26,8 +26,8 @@ export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
  * @namespace Store/LinkedProducts/Dispatcher
  */
 export class LinkedProductsDispatcher extends QueryDispatcher {
-    constructor() {
-        super('LinkedProducts', ONE_MONTH_IN_SECONDS);
+    __construct() {
+        super.__construct('LinkedProducts', ONE_MONTH_IN_SECONDS);
     }
 
     currentProductLinks = [];

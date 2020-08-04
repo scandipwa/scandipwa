@@ -67,8 +67,8 @@ export class RouterContainer extends ExtensiblePureComponent {
         isBigOffline: false
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.initializeApplication();
     }

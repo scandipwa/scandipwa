@@ -41,8 +41,8 @@ export class ExpandableContent extends ExtensiblePureComponent {
         onClick: null
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { isContentExpanded } = this.props;
         this.state = {

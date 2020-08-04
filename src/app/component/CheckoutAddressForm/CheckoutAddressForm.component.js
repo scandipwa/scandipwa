@@ -34,8 +34,8 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         this.setState(() => ({ [key]: value }));
     }, UPDATE_STATE_FREQUENCY);
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const {
             address: { region: { region = '' } = {} }

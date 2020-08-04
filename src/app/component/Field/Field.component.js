@@ -146,8 +146,8 @@ export class Field extends ExtensiblePureComponent {
 
     handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { checked } = props;
         const value = this._getInitialPropsValue();

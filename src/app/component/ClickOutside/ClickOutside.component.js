@@ -29,8 +29,8 @@ export class ClickOutside extends ExtensiblePureComponent {
         children: []
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { children } = this.props;
 

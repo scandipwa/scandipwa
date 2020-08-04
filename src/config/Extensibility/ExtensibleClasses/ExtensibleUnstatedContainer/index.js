@@ -1,5 +1,4 @@
-/* eslint-disable arrow-body-style */
-/* eslint-disable consistent-return */
+/* eslint-disable arrow-body-style, consistent-return */
 const { Container } = require('unstated');
 const proxyInstance = require('../ProxyInstance');
 
@@ -9,8 +8,10 @@ const proxyInstance = require('../ProxyInstance');
  * its instance is being proxied at the moment of instantiation.
  */
 module.exports = class ExtensibleUnstatedContainer extends Container {
-    constructor(props) {
-        super(props);
+    constructor(...args) {
+        super(...args);
         return proxyInstance(this);
     }
+
+    __construct() {}
 };

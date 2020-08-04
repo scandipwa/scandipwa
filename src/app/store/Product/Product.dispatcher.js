@@ -22,8 +22,8 @@ import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
  * @namespace Store/Product/Dispatcher
  */
 export class ProductDispatcher extends QueryDispatcher {
-    constructor() {
-        super('Product');
+    __construct() {
+        super.__construct('Product');
     }
 
     onSuccess(data, dispatch) {

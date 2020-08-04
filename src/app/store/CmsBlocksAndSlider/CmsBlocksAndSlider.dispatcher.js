@@ -21,8 +21,8 @@ import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
  * @namespace Store/CmsBlocksAndSlider/Dispatcher
  */
 export class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
-    constructor() {
-        super('CmsBlocksAndSlider');
+    __construct() {
+        super.__construct('CmsBlocksAndSlider');
     }
 
     onSuccess(data, dispatch) {

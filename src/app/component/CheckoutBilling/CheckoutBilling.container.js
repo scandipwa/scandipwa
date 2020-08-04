@@ -82,8 +82,8 @@ export class CheckoutBillingContainer extends ExtensiblePureComponent {
         showPopup: this.showPopup.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { paymentMethods, totals: { is_virtual } } = props;
         const [method] = paymentMethods;

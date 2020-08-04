@@ -26,8 +26,8 @@ export class GroupedProductsItemContainer extends ExtensiblePureComponent {
         changeCount: this.changeCount.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { defaultQuantity } = this.props;
         this.changeCount(defaultQuantity);

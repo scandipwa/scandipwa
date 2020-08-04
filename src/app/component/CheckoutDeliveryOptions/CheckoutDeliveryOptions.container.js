@@ -35,8 +35,8 @@ export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
 
     dataMap = {};
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { shippingMethods } = props;
         this.state = { prevShippingMethods: shippingMethods };

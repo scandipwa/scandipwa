@@ -1,5 +1,4 @@
-/* eslint-disable arrow-body-style */
-/* eslint-disable consistent-return */
+/* eslint-disable arrow-body-style, consistent-return */
 const proxyInstance = require('../ProxyInstance');
 
 /**
@@ -11,4 +10,6 @@ module.exports = class ExtensibleClass {
     constructor() {
         return proxyInstance(this);
     }
+
+    __construct() {}
 };
