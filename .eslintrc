@@ -39,6 +39,7 @@
     "@scandipwa/scandipwa-guidelines/use-extensible-base": "error",
     "@scandipwa/scandipwa-guidelines/no-middleware": "error",
     "@scandipwa/scandipwa-guidelines/use-namespace": "error",
+    "@scandipwa/scandipwa-guidelines/use-magic-construct": "error",
     "fp/no-let": "error",
     "fp/no-arguments": "error",
     "fp/no-loops": "error",
