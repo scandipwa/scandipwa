@@ -9,6 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+ul,
+ol {
+
+    .CmsPage-Content & {
+        margin-top: 1rem;
+    }
+
+    ul,
+    ol {
+        counter-reset: list;
+    }
+}
+
 li {
     padding-left: 3.25rem;
 
@@ -16,11 +29,15 @@ li {
         position: absolute;
         left: 1em;
         top: .07em;
-        content: '\2022';
         padding-right: 1.1225em;
 
-        ol & {
+        ol > & {
             content: counter(list) '.';
+        }
+
+        &,
+        ul > & {
+            content: '\2022';
         }
     }
 }
