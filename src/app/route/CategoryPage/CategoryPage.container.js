@@ -175,8 +175,13 @@ export class CategoryPageContainer extends PureComponent {
         if (categoryIds === id) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
-        } else { // still update header, but ignore the category name
+        } else {
+            /**
+             * Still update header and breadcrumbs, but ignore
+             * the category data, as it is outdated
+             */
             this.updateHeaderState(true);
+            this.updateBreadcrumbs(true);
         }
     }
 
@@ -420,9 +425,10 @@ export class CategoryPageContainer extends PureComponent {
         updateMetaFromCategory(category);
     }
 
-    updateBreadcrumbs() {
+    updateBreadcrumbs(isUnmatchedCategory = false) {
         const { updateBreadcrumbs, category } = this.props;
-        updateBreadcrumbs(category);
+        const breadcrumbs = isUnmatchedCategory ? {} : category;
+        updateBreadcrumbs(breadcrumbs);
     }
 
     updateNavigationState() {
