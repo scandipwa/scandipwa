@@ -1,5 +1,5 @@
 /* eslint-disable */
-const generateGetHandler = require('../Middleware/generateGetHandler');
+const generateGetHandler = require('../Middleware/handlers/generateGetHandler');
 
 module.exports = function proxyInstance(context) {
     const { __namespace__ } = Object.getPrototypeOf(context);

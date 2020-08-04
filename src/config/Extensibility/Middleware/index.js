@@ -1,9 +1,8 @@
-/* eslint-disable */
-const generateGetHandler = require('./generateGetHandler');
-const generateApplyHandler = require('./generateApplyHandler');
-const generateConstructHandler = require('./generateConstructHandler');
-const generateMiddlewaredClass = require('./generateMiddlewaredClass');
-const sortPlugins = require('./sortPlugins');
+/* eslint-disable no-param-reassign */
+const generateGetHandler = require('./handlers/generateGetHandler');
+const generateApplyHandler = require('./handlers/generateApplyHandler');
+const generateConstructHandler = require('./handlers/generateConstructHandler');
+const applyClassWrappers = require('./generateMiddlewaredClass');
 
 /**
  * Middleware function is supposed to wrap source classes
@@ -16,9 +15,10 @@ function middleware(Class, namespace) {
     const handler = {};
 
     // All classes inherit from extensible classes
-    // ~ if `Class` inherits from class other than Object
-    // ~ if `Class` is class, not regular function
-    if (Class.prototype.__proto__.constructor.name === 'Object') {
+    // ~ if `Class` inherits from class other than `Object` then `Class` is class, not regular function
+    const isExtensibleClass = Object.getPrototypeOf(Object.getPrototypeOf(Class)).constructor.name !== 'Object';
+
+    if (!isExtensibleClass) {
         // Apply handler for functions - intercepts function calls
         Object.defineProperty(
             handler,
@@ -40,14 +40,13 @@ function middleware(Class, namespace) {
         );
     }
 
-    // Provide an opportunity to wrap proxy with additional functions.
-    const namespacePluginsClass = globalThis.plugins?.[namespace]?.['class'] || [];
-    const MiddlewaredClass = generateMiddlewaredClass(
-        new Proxy(Class, handler),
-        sortPlugins(namespacePluginsClass)
-    );
+    const proxy = new Proxy(Class, handler);
 
-    return MiddlewaredClass;
+    if (!isExtensibleClass) {
+        return proxy;
+    }
+
+    return applyClassWrappers(proxy);
 }
 
 module.exports = middleware;

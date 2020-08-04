@@ -1,6 +1,6 @@
 /* eslint-disable */
-const sortPlugins = require('./sortPlugins');
-const getWrapperFromPlugin = require('./getWrapperFromPlugin');
+const sortPlugins = require('../helpers/sortPlugins');
+const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
 
 module.exports = (namespace) => {
     return function (TargetClass, args) {
