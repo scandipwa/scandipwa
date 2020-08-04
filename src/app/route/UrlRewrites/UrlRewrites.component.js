@@ -15,6 +15,7 @@ import { lazy, PureComponent, Suspense } from 'react';
 
 import NoMatch from 'Route/NoMatch';
 import { LocationType, MatchType } from 'Type/Common';
+import { appendWithStoreCode } from 'Util/Url';
 
 import {
     TYPE_CATEGORY, TYPE_CMS_PAGE, TYPE_NOTFOUND, TYPE_PRODUCT
@@ -34,7 +35,7 @@ export class UrlRewrites extends PureComponent {
         location: LocationType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
-        clearUrlRewrites: PropTypes.func.isRequired,
+        requestedUrl: PropTypes.string,
         requestUrlRewrite: PropTypes.func.isRequired,
         urlRewrite: PropTypes.shape({
             id: PropTypes.number,
@@ -42,6 +43,10 @@ export class UrlRewrites extends PureComponent {
             sku: PropTypes.string,
             notFound: PropTypes.bool
         }).isRequired
+    };
+
+    static defaultProps = {
+        requestedUrl: ''
     };
 
     static stateMapping = {
@@ -173,6 +178,7 @@ export class UrlRewrites extends PureComponent {
 
     getCategoryProps(id) {
         const {
+            requestedUrl,
             location: {
                 state: {
                     category
@@ -184,20 +190,17 @@ export class UrlRewrites extends PureComponent {
 
         if (id) {
             props.categoryIds = id;
-        } else {
-            props.isOnlyPlaceholder = true;
         }
 
         if (category && category !== true) {
             props.categoryIds = category;
             props.isNotRespectInfoLoading = true;
-            // unset is loading to improve performance
-            props.isOnlyPlaceholder = undefined;
         }
 
-        // if (id !== category) {
-        //     props.categoryIds = id;
-        // }
+        // reset categoryIds, if the requested URL rewrite is unrelated to current page
+        if (location.pathname !== appendWithStoreCode(requestedUrl)) {
+            props.categoryIds = undefined;
+        }
 
         return props;
     }
@@ -217,7 +220,7 @@ export class UrlRewrites extends PureComponent {
             urlRewrite,
             isLoading,
             requestUrlRewrite,
-            clearUrlRewrites,
+            requestedUrl,
             ...restOfProps
         } = this.props;
 

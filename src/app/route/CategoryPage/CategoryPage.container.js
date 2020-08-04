@@ -174,6 +174,8 @@ export class CategoryPageContainer extends PureComponent {
         if (categoryIds === id) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
+        } else { // still update header, but ignore the category name
+            this.updateHeaderState(true);
         }
     }
 
@@ -427,7 +429,7 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    updateHeaderState() {
+    updateHeaderState(isUnmatchedCategory = false) {
         const {
             changeHeaderState,
             category: {
@@ -442,9 +444,15 @@ export class CategoryPageContainer extends PureComponent {
             ? () => history.goBack()
             : () => history.push('/menu');
 
+        /**
+         * Ensure the name is not set if the category IDs do not
+         * match. Otherwise, the previous value is displayed.
+         */
+        const title = isUnmatchedCategory ? undefined : name;
+
         changeHeaderState({
             name: CATEGORY,
-            title: name,
+            title,
             onBackClick
         });
     }

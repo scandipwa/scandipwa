@@ -16,11 +16,8 @@ import { Field } from 'Util/Query';
  */
 export class UrlRewritesQuery {
     getQuery({ urlParam }) {
-        // FAILSAFE: Trim index.php if someone forgot to set "Use Web Server Rewrites" to "Yes"
-        const trimmedParam = urlParam.replace('index.php/', '');
-
         return new Field('urlResolver')
-            .addArgument('url', 'String!', trimmedParam)
+            .addArgument('url', 'String!', urlParam)
             .addFieldList(this._getUrlResolverFields());
     }
 

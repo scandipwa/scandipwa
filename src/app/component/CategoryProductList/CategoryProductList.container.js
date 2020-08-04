@@ -26,6 +26,7 @@ export const mapStateToProps = (state) => ({
     pages: state.ProductListReducer.pages,
     isOffline: state.OfflineReducer.isOffline,
     isLoading: state.ProductListReducer.isLoading,
+    isPageLoading: state.ProductListReducer.isPageLoading,
     totalItems: state.ProductListReducer.totalItems,
     totalPages: state.ProductListReducer.totalPages
 });

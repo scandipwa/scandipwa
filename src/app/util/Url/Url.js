@@ -75,6 +75,11 @@ const appendWithStoreCode = (pathname) => {
         return pathname;
     }
 
+    if (!pathname.startsWith('/')) {
+        // eslint-disable-next-line no-param-reassign
+        pathname = `/${ pathname }`;
+    }
+
     // trim the last slash from URL, and append it to pathname
     return storePrefix.slice(0, -1).concat(pathname);
 };

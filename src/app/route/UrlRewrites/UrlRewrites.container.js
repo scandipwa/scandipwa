@@ -20,7 +20,8 @@ const UrlRewritesDispatcher = import(
 
 export const mapStateToProps = (state) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
-    isLoading: state.UrlRewritesReducer.isLoading
+    isLoading: state.UrlRewritesReducer.isLoading,
+    requestedUrl: state.UrlRewritesReducer.requestedUrl
 });
 
 export const mapDispatchToProps = (dispatch) => ({
@@ -30,9 +31,6 @@ export const mapDispatchToProps = (dispatch) => ({
                 urlParam: urlParam.replace(new RegExp(window.storeRegexText), '')
             })
         );
-    },
-    clearUrlRewrites: () => {
-        UrlRewritesDispatcher.then(({ default: dispatcher }) => dispatcher.clearUrlRewrites(dispatch));
     }
 });
 

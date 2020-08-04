@@ -15,6 +15,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import {
     appendPage,
     updateLoadStatus,
+    updatePageLoadingStatus,
     updateProductListItems
 } from 'Store/ProductList/ProductList.action';
 import { QueryDispatcher } from 'Util/Request';
@@ -73,8 +74,11 @@ export class ProductListDispatcher extends QueryDispatcher {
 
     prepareRequest(options, dispatch) {
         const { isNext } = options;
+
         if (!isNext) {
             dispatch(updateLoadStatus(true));
+        } else {
+            dispatch(updatePageLoadingStatus());
         }
 
         return ProductListQuery.getQuery(options);

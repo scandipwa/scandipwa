@@ -40,6 +40,7 @@ export class ProductListContainer extends PureComponent {
         pages: PagesType.isRequired,
         pageSize: PropTypes.number,
         isLoading: PropTypes.bool.isRequired,
+        isPageLoading: PropTypes.bool,
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
@@ -62,6 +63,7 @@ export class ProductListContainer extends PureComponent {
         sort: undefined,
         isPaginationEnabled: true,
         isInfiniteLoaderEnabled: true,
+        isPageLoading: false,
         noAttributes: false,
         noVariants: false,
         isWidget: false
@@ -72,7 +74,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { pages, filter } = this.props;
+        const { pages } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -201,7 +203,8 @@ export class ProductListContainer extends PureComponent {
 
     loadPage(next = true) {
         const { pagesCount } = this.state;
-        const { isLoading } = this.props;
+        const { isPageLoading } = this.props;
+
         const {
             minPage,
             maxPage,
@@ -212,7 +215,7 @@ export class ProductListContainer extends PureComponent {
         const isUpdatable = totalPages > 0 && pagesCount === loadedPagesCount;
         const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
 
-        if (isUpdatable && shouldUpdateList && !isLoading) {
+        if (isUpdatable && shouldUpdateList && !isPageLoading) {
             this.setState({ pagesCount: pagesCount + 1 });
             this.requestPage(next ? maxPage + 1 : minPage - 1, true);
         }

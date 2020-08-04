@@ -153,6 +153,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             browserHistory.go(-this.lastSeenMenu);
         }
 
+        console.log(this.lastSeenMenu);
+
         this.lastSeenMenu = 0;
     }
 
