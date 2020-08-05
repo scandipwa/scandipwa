@@ -25,7 +25,7 @@ import { CartItemType } from 'Type/MiniCart';
  * Cart and CartOverlay item
  * @class CartItem
  */
-export class CartItem extends PureComponent {
+export default class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         item: CartItemType.isRequired,
@@ -324,13 +324,11 @@ export class CartItem extends PureComponent {
         const { isLoading } = this.props;
 
         return (
-            <li block="CartItem">
+            <div block="CartItem">
                 <Loader isLoading={ isLoading } />
                 { this.renderWrapper() }
                 { this.renderActions() }
-            </li>
+            </div>
         );
     }
 }
-
-export default CartItem;

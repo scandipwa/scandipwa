@@ -15,17 +15,17 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CartCoupon from 'Component/CartCoupon';
-import CartItem from 'Component/CartItem';
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import Link from 'Component/Link';
 import ProductLinks from 'Component/ProductLinks';
+import SwipeableCartItem from 'Component/SwipeableCartItem';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency, roundPrice } from 'Util/Price';
 
-export class CartPage extends PureComponent {
+export default class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired
@@ -49,12 +49,10 @@ export class CartPage extends PureComponent {
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
                     { items.map((item) => (
-                        <CartItem
+                        <SwipeableCartItem
                           key={ item.item_id }
                           item={ item }
-                          currency_code={ quote_currency_code }
-                          isEditing
-                          isLikeTable
+                          quote_currency_code={ quote_currency_code }
                         />
                     )) }
                 </ul>
@@ -242,5 +240,3 @@ export class CartPage extends PureComponent {
         );
     }
 }
-
-export default CartPage;
