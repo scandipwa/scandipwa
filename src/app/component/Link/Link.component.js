@@ -15,7 +15,7 @@ import { stringify } from 'rebem-classname';
 import { ChildrenType } from 'Type/Common';
 
 /** @namespace Component/Link/Component */
-export class Link extends ExtensiblePureComponent {
+export class Link extends PureComponent {
     static propTypes = {
         to: PropTypes.oneOfType([
             PropTypes.string,

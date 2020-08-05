@@ -18,7 +18,7 @@ import './ShareWishlistPopup.style';
 
 export const SHARE_WISHLIST_POPUP_ID = 'ShareWishlistPopup';
 
-export default class ShareWishlistPopup extends ExtensiblePureComponent {
+export default class ShareWishlistPopup extends PureComponent {
     state = {};
 
     static propTypes = {

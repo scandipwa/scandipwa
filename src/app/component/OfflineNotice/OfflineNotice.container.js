@@ -30,7 +30,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/OfflineNotice/Container */
-export class OfflineNoticeContainer extends ExtensiblePureComponent {
+export class OfflineNoticeContainer extends PureComponent {
     static propTypes = {
         setBigOfflineNotice: PropTypes.func.isRequired,
         showOfflineNotice: PropTypes.func.isRequired,

@@ -17,7 +17,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import './SomethingWentWrong.style';
 
 /** @namespace Route/SomethingWentWrong/Component */
-export class SomethingWentWrong extends ExtensiblePureComponent {
+export class SomethingWentWrong extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         errorDetails: PropTypes.shape({

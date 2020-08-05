@@ -28,7 +28,7 @@ import isMobile from 'Util/Mobile';
 import './CategoryPage.style.scss';
 
 /** @namespace Route/CategoryPage/Component */
-export class CategoryPage extends ExtensiblePureComponent {
+export class CategoryPage extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
         getIsNewCategory: PropTypes.func.isRequired,

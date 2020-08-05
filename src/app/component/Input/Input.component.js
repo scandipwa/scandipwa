@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 /** @namespace Component/Input/Component */
-export class Input extends ExtensiblePureComponent {
+export class Input extends PureComponent {
     static propTypes = {
         formRef: PropTypes.oneOfType([
             PropTypes.func,

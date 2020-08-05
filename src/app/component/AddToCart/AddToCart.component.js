@@ -19,7 +19,7 @@ import './AddToCart.style';
  * @class AddToCart
  * @namespace Component/AddToCart/Component
  */
-export class AddToCart extends ExtensiblePureComponent {
+export class AddToCart extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         product: ProductType,

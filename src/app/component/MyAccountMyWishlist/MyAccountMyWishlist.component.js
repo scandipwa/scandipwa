@@ -20,7 +20,7 @@ import Loader from 'Component/Loader';
 import './MyAccountMyWishlist.style';
 
 /** @namespace Component/MyAccountMyWishlist/Component */
-export class MyAccountMyWishlist extends ExtensiblePureComponent {
+export class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,

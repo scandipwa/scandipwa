@@ -56,7 +56,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/ProductPage/Container */
-export class ProductPageContainer extends ExtensiblePureComponent {
+export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
         parameters: {},

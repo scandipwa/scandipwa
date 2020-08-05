@@ -26,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/MenuPage/Container */
-export class MenuPageContainer extends ExtensiblePureComponent {
+export class MenuPageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         history: HistoryType.isRequired

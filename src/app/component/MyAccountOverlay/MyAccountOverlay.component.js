@@ -30,7 +30,7 @@ export const STATE_CONFIRM_EMAIL = 'confirmEmail';
 export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';
 
 /** @namespace Component/MyAccountOverlay/Component */
-export class MyAccountOverlay extends ExtensiblePureComponent {
+export class MyAccountOverlay extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,

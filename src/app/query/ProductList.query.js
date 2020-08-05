@@ -18,7 +18,7 @@ import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
  * @class ProductListQuery
  * @namespace Query/ProductList
  */
-export class ProductListQuery extends ExtensibleClass {
+export class ProductListQuery {
     __construct() {
         super.__construct();
         this.options = {};
@@ -793,4 +793,4 @@ export class ProductListQuery extends ExtensibleClass {
     }
 }
 
-export default new (ProductListQuery)();
+export default new ProductListQuery();

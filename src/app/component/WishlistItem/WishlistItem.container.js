@@ -29,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/WishlistItem/Container */
-export class WishlistItemContainer extends ExtensiblePureComponent {
+export class WishlistItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,

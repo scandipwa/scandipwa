@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
 
 /** @namespace Component/ProductConfigurableAttributes/Container */
-export class ProductConfigurableAttributesContainer extends ExtensiblePureComponent {
+export class ProductConfigurableAttributesContainer extends PureComponent {
     static propTypes = {
         getLink: PropTypes.func.isRequired,
         parameters: PropTypes.shape({}).isRequired,

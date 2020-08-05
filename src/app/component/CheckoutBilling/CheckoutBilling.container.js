@@ -40,7 +40,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CheckoutBilling/Container */
-export class CheckoutBillingContainer extends ExtensiblePureComponent {
+export class CheckoutBillingContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,

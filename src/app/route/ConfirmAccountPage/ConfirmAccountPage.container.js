@@ -38,7 +38,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/ConfirmAccountPage/Container */
-export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
+export class ConfirmAccountPageContainer extends PureComponent {
     static propTypes = {
         location: LocationType.isRequired,
         signIn: PropTypes.func.isRequired,

@@ -26,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/ProductCard/Container */
-export class ProductCardContainer extends ExtensiblePureComponent {
+export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType

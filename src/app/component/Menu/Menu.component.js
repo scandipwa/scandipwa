@@ -25,7 +25,7 @@ import './Menu.style';
 
 
 /** @namespace Component/Menu/Component */
-export class Menu extends ExtensiblePureComponent {
+export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         activeMenuItemsStack: PropTypes.array.isRequired,

@@ -21,7 +21,7 @@ import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
 /** @namespace Component/Form/Component */
-export class Form extends ExtensiblePureComponent {
+export class Form extends PureComponent {
     static propTypes = {
         onSubmitSuccess: PropTypes.func,
         onSubmitError: PropTypes.func,

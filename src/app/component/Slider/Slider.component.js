@@ -29,7 +29,7 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
  * @class Slider
  * @namespace Component/Slider/Component
  */
-export class Slider extends ExtensiblePureComponent {
+export class Slider extends PureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
         activeImage: PropTypes.number,

@@ -38,7 +38,7 @@ import './ProductActions.style';
  * @class ProductActions
  * @namespace Component/ProductActions/Component
  */
-export class ProductActions extends ExtensiblePureComponent {
+export class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,

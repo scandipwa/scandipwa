@@ -43,7 +43,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CartOverlay/Container */
-export class CartOverlayContainer extends ExtensiblePureComponent {
+export class CartOverlayContainer extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         guest_checkout: PropTypes.bool,

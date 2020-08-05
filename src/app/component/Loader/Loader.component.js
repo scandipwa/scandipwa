@@ -18,7 +18,7 @@ import './Loader.style';
  * @class Loader
  * @namespace Component/Loader/Component
  */
-export class Loader extends ExtensiblePureComponent {
+export class Loader extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired
     };

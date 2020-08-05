@@ -24,7 +24,7 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/CheckoutShipping/Container */
-export class CheckoutShippingContainer extends ExtensiblePureComponent {
+export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,

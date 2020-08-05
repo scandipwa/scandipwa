@@ -54,7 +54,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/Checkout/Container */
-export class CheckoutContainer extends ExtensiblePureComponent {
+export class CheckoutContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,

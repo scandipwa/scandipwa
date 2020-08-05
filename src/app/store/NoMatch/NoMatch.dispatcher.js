@@ -15,11 +15,11 @@ import { updateNoMatch } from 'Store/NoMatch';
  * @class NoMatchDispatcher
  * @namespace Store/NoMatch/Dispatcher
  */
-export class NoMatchDispatcher extends ExtensibleClass {
+export class NoMatchDispatcher {
     updateNoMatch(dispatch, options) {
         const { noMatch } = options;
         dispatch(updateNoMatch(noMatch));
     }
 }
 
-export default new (NoMatchDispatcher)();
+export default new NoMatchDispatcher();

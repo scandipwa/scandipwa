@@ -24,7 +24,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CategorySubcategories/Container */
-export class CategorySubcategoriesContainer extends ExtensiblePureComponent {
+export class CategorySubcategoriesContainer extends PureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
         option: PropTypes.shape({

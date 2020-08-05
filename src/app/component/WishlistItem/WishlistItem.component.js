@@ -17,7 +17,7 @@ import { ProductType, FilterType } from 'Type/ProductList';
 import './WishlistItem.style';
 
 /** @namespace Component/WishlistItem/Component */
-export class WishlistItem extends ExtensiblePureComponent {
+export class WishlistItem extends PureComponent {
     static propTypes = {
         addToCart: PropTypes.func,
         changeQuantity: PropTypes.func,

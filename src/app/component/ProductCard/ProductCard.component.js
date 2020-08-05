@@ -29,7 +29,7 @@ import './ProductCard.style';
  * @class ProductCard
  * @namespace Component/ProductCard/Component
  */
-export class ProductCard extends ExtensiblePureComponent {
+export class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,

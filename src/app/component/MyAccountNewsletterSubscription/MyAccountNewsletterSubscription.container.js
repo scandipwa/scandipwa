@@ -36,7 +36,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container */
-export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComponent {
+export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         updateCustomer: PropTypes.func.isRequired,

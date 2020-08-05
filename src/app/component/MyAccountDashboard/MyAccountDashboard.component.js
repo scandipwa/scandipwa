@@ -22,7 +22,7 @@ import './MyAccountDashboard.style';
 import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 
 /** @namespace Component/MyAccountDashboard/Component */
-export class MyAccountDashboard extends ExtensiblePureComponent {
+export class MyAccountDashboard extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultAddress: PropTypes.func.isRequired

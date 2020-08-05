@@ -27,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container */
-export class MyAccountOrderTableRowContainer extends ExtensiblePureComponent {
+export class MyAccountOrderTableRowContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         currency_code: PropTypes.string,

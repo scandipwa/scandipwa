@@ -15,7 +15,7 @@
  * @extends Field
  * @namespace Util/Query/Field
  */
-export class Field extends ExtensibleClass {
+export class Field {
     /**
      * Class constructor
      *

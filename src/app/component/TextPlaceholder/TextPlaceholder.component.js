@@ -18,7 +18,7 @@ import './TextPlaceholder.style';
  * @class TextPlaceholder
  * @namespace Component/TextPlaceholder/Component
  */
-export class TextPlaceholder extends ExtensiblePureComponent {
+export class TextPlaceholder extends PureComponent {
     static propTypes = {
         content: PropTypes.oneOfType([
             PropTypes.string,

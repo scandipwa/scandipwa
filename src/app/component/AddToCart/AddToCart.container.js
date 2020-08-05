@@ -34,7 +34,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /* @namespace Component/AddToCart/Container */
-export class AddToCartContainer extends ExtensiblePureComponent {
+export class AddToCartContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         product: ProductType.isRequired,

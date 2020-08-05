@@ -18,7 +18,7 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/Meta/Container */
-export class MetaContainer extends ExtensiblePureComponent {
+export class MetaContainer extends PureComponent {
     static propTypes = {
         default_description: PropTypes.string,
         default_keywords: PropTypes.string,

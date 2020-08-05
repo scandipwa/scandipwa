@@ -43,4 +43,4 @@ export class ConfigDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (ConfigDispatcher)();
+export default new ConfigDispatcher();

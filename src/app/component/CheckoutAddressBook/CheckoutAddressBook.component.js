@@ -20,7 +20,7 @@ import './CheckoutAddressBook.style';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
 /** @namespace Component/CheckoutAddressBook/Component */
-export class CheckoutAddressBook extends ExtensiblePureComponent {
+export class CheckoutAddressBook extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,

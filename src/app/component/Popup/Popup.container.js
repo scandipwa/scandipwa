@@ -33,7 +33,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/Popup/Container */
-export class PopupContainer extends ExtensiblePureComponent {
+export class PopupContainer extends PureComponent {
     static propTypes = {
         payload: PropTypes.objectOf(
             PropTypes.shape({

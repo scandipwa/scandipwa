@@ -38,7 +38,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CategoryFilterOverlay/Container */
-export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
+export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
         location: LocationType.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,

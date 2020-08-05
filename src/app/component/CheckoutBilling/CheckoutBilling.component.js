@@ -23,7 +23,7 @@ import Form from 'Component/Form';
 import './CheckoutBilling.style';
 
 /** @namespace Component/CheckoutBilling/Component */
-export class CheckoutBilling extends ExtensiblePureComponent {
+export class CheckoutBilling extends PureComponent {
     state = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,

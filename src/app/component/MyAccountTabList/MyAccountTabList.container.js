@@ -20,7 +20,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/MyAccountTabList/Container */
-export class MyAccountTabListContainer extends ExtensiblePureComponent {
+export class MyAccountTabListContainer extends PureComponent {
     static propTypes = {
         onSignOut: PropTypes.func,
         logout: PropTypes.func.isRequired

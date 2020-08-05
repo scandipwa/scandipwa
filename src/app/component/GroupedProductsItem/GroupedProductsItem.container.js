@@ -14,7 +14,7 @@ import { ProductType } from 'Type/ProductList';
 import GroupedProductsItem from './GroupedProductsItem.component';
 
 /** @namespace Component/GroupedProductsItem/Container */
-export class GroupedProductsItemContainer extends ExtensiblePureComponent {
+export class GroupedProductsItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,

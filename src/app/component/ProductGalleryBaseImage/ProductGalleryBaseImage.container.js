@@ -10,6 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
+import { Component } from 'react';
 import { withRouter } from 'react-router';
 
 import { LocationType } from 'Type/Common';
@@ -22,7 +23,7 @@ export const TRANSFORMATION_SPEED = 0;
 export const INITIAL_SCALE = 1;
 
 /** @namespace Component/ProductGalleryBaseImage/Container */
-export class ProductGalleryBaseImageContainer extends ExtensibleComponent {
+export class ProductGalleryBaseImageContainer extends Component {
     static propTypes = {
         disableZoom: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,

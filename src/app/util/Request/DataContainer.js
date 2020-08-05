@@ -16,7 +16,7 @@ import { makeCancelable } from 'Util/Promise';
 import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 /** @namespace Util/Request/DataContainer */
-export class DataContainer extends ExtensiblePureComponent {
+export class DataContainer extends PureComponent {
     dataModelName = 'DataContainer';
 
     componentWillUnmount() {

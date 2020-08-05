@@ -41,7 +41,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/PasswordChangePage/Container */
-export class PasswordChangePageContainer extends ExtensiblePureComponent {
+export class PasswordChangePageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired
     };

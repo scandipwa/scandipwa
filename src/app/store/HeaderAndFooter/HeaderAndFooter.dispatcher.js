@@ -47,4 +47,4 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (HeaderAndFooterDispatcher)();
+export default new HeaderAndFooterDispatcher();

@@ -25,7 +25,7 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
  * @class CartDispatcher
  * @namespace Store/Cart/Dispatcher
  */
-export class CartDispatcher extends ExtensibleClass {
+export class CartDispatcher {
     updateInitialCartData(dispatch) {
         const guestQuoteId = this._getGuestQuoteId();
 
@@ -259,4 +259,4 @@ export class CartDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (CartDispatcher)();
+export default new CartDispatcher();

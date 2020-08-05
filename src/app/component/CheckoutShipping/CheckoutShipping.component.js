@@ -19,7 +19,7 @@ import Loader from 'Component/Loader';
 import Form from 'Component/Form';
 
 /** @namespace Component/CheckoutShipping/Component */
-export class CheckoutShipping extends ExtensiblePureComponent {
+export class CheckoutShipping extends PureComponent {
     static propTypes = {
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,

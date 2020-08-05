@@ -18,7 +18,7 @@ import SomethingWentWrong from 'Route/SomethingWentWrong';
 import SharedTransition from 'Component/SharedTransition';
 
 /** @namespace Component/App/Component */
-export class App extends ExtensiblePureComponent {
+export class App extends PureComponent {
     productionFunctions = [
         this.disableReactDevTools.bind(this),
         this.injectComment.bind(this)

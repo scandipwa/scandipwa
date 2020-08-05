@@ -47,7 +47,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/CartPage/Container */
-export class CartPageContainer extends ExtensiblePureComponent {
+export class CartPageContainer extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,

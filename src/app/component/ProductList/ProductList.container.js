@@ -23,7 +23,7 @@ import ProductList from './ProductList.component';
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
 /** @namespace Component/ProductList/Container */
-export class ProductListContainer extends ExtensiblePureComponent {
+export class ProductListContainer extends PureComponent {
     containerFunctions = {
         loadPrevPage: this.loadPage.bind(this, false),
         loadPage: this.loadPage.bind(this),

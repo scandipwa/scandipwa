@@ -21,7 +21,7 @@ import { MixType, ChildrenType } from 'Type/Common';
 import './Overlay.style';
 
 /** @namespace Component/Overlay/Component */
-export class Overlay extends ExtensiblePureComponent {
+export class Overlay extends PureComponent {
     static propTypes = {
         mix: MixType,
         id: PropTypes.string.isRequired,

@@ -55,4 +55,4 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (UrlRewritesDispatcher)();
+export default new UrlRewritesDispatcher();

@@ -31,7 +31,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CategoryProductList/Container */
-export class CategoryProductListContainer extends ExtensiblePureComponent {
+export class CategoryProductListContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isOnlyPlaceholder: PropTypes.bool.isRequired,

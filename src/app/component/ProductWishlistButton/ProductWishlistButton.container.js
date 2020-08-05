@@ -34,7 +34,7 @@ export const mapDispatchToProps = dispatch => ({
 export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED';
 
 /** @namespace Component/ProductWishlistButton/Container */
-export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
+export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
         quantity: PropTypes.number,
         product: ProductType.isRequired,

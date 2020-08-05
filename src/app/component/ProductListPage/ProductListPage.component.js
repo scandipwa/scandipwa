@@ -24,7 +24,7 @@ export const DEFAULT_PLACEHOLDER_COUNT = 8;
  * @namespace Component/ProductListPage/Component
  * @class ProductListPage
  */
-export class ProductListPage extends ExtensiblePureComponent {
+export class ProductListPage extends PureComponent {
     static propTypes = {
         isInfiniteLoaderEnabled: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,

@@ -23,7 +23,7 @@ import './Breadcrumbs.style';
  * @class Breadcrumbs
  * @namespace Component/Breadcrumbs/Component
  */
-export class Breadcrumbs extends ExtensiblePureComponent {
+export class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired

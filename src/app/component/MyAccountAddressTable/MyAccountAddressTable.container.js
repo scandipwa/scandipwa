@@ -30,7 +30,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/MyAccountAddressTable/Container */
-export class MyAccountAddressTableContainer extends ExtensiblePureComponent {
+export class MyAccountAddressTableContainer extends PureComponent {
     static propTypes = {
         address: addressType.isRequired,
         showEditPopup: PropTypes.func.isRequired,

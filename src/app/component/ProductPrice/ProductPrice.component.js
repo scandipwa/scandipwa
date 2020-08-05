@@ -21,7 +21,7 @@ import './ProductPrice.style';
  * @class ProductPrice
  * @namespace Component/ProductPrice/Component
  */
-export class ProductPrice extends ExtensiblePureComponent {
+export class ProductPrice extends PureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool,
         roundedRegularPrice: PropTypes.string,

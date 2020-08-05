@@ -15,7 +15,7 @@ import { setQueryParams } from 'Util/Url';
 import ResetButton from './ResetButton.component';
 
 /** @namespace Component/ResetButton/Container */
-export class ResetButtonContainer extends ExtensiblePureComponent {
+export class ResetButtonContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired

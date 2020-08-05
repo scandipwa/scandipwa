@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { RENDER_PAGE_FREQUENCY } from 'Component/ProductList/ProductList.component';
 
 /** @namespace Component/CategoryItemsCount/Component */
-export class CategoryItemsCount extends ExtensiblePureComponent {
+export class CategoryItemsCount extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isOnlyPlaceholder: PropTypes.bool.isRequired,

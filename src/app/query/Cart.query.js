@@ -14,7 +14,7 @@ import { ProductListQuery } from 'Query';
 import { isSignedIn } from 'Util/Auth';
 
 /** @namespace Query/Cart */
-export class CartQuery extends ExtensibleClass {
+export class CartQuery {
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
@@ -178,4 +178,4 @@ export class CartQuery extends ExtensibleClass {
     }
 }
 
-export default new (CartQuery)();
+export default new CartQuery();

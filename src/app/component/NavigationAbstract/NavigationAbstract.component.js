@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 export const DEFAULT_STATE_NAME = 'default';
 
 /** @namespace Component/NavigationAbstract/Component */
-export class NavigationAbstract extends ExtensiblePureComponent {
+export class NavigationAbstract extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         navigationState: PropTypes.object.isRequired

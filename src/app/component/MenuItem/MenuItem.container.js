@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import MenuItem from './MenuItem.component';
 
 /** @namespace Component/MenuItem/Container/menuItemContainer */
-export class MenuItemContainer extends ExtensiblePureComponent {
+export class MenuItemContainer extends PureComponent {
     static propTypes = {
         onCategoryHover: PropTypes.func,
         item: PropTypes.object.isRequired

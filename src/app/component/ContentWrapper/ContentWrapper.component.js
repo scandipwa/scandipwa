@@ -18,7 +18,7 @@ import './ContentWrapper.style';
  * @class ContentWrapper
  * @namespace Component/ContentWrapper/Component
  */
-export class ContentWrapper extends ExtensiblePureComponent {
+export class ContentWrapper extends PureComponent {
     static propTypes = {
         children: ChildrenType,
         mix: MixType,

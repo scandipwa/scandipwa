@@ -22,7 +22,7 @@ import { CART_OVERLAY } from 'Component/Header';
 import './CartOverlay.style';
 
 /** @namespace Component/CartOverlay/Component */
-export class CartOverlay extends ExtensiblePureComponent {
+export class CartOverlay extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,

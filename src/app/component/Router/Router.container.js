@@ -44,7 +44,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/Router/Container */
-export class RouterContainer extends ExtensiblePureComponent {
+export class RouterContainer extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,

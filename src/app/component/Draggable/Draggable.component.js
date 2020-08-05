@@ -15,7 +15,7 @@ import { MixType, ChildrenType } from 'Type/Common';
 import './Draggable.style';
 
 /** @namespace Component/Draggable/Component */
-export class Draggable extends ExtensiblePureComponent {
+export class Draggable extends PureComponent {
     static propTypes = {
         shiftX: PropTypes.number,
         shiftY: PropTypes.number,

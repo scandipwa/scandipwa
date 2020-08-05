@@ -23,7 +23,7 @@ export const FIVE_MINUTES_IN_SECONDS = 300;
  * @class QueryDispatcher
  * @namespace Util/Request/QueryDispatcher
  */
-export class QueryDispatcher extends ExtensibleClass {
+export class QueryDispatcher {
     /**
      * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to

@@ -40,7 +40,7 @@ export const a_KEY_CODE = 97;
  * @class Field
  * @namespace Component/Field/Component
  */
-export class Field extends ExtensiblePureComponent {
+export class Field extends PureComponent {
     static propTypes = {
         skipValue: PropTypes.bool,
         isControlled: PropTypes.bool,

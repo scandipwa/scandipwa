@@ -16,7 +16,7 @@ export const CATEGORY_SEARCH_TIMEOUT = 500;
 
 // TODO: add to template
 /** @namespace Component/CategorySearch/Component */
-export class CategorySearch extends ExtensiblePureComponent {
+export class CategorySearch extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
             PropTypes.string,

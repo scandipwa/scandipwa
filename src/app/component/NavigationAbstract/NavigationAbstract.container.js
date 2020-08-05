@@ -21,7 +21,7 @@ import { DEFAULT_STATE_NAME } from './NavigationAbstract.component';
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
 /** @namespace Component/NavigationAbstract/Container */
-export class NavigationAbstractContainer extends ExtensiblePureComponent {
+export class NavigationAbstractContainer extends PureComponent {
     static propTypes = {
         setNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,

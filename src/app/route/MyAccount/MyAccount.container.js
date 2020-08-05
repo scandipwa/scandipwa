@@ -49,7 +49,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/MyAccount/Container */
-export class MyAccountContainer extends ExtensiblePureComponent {
+export class MyAccountContainer extends PureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired,
         requestCustomerData: PropTypes.func.isRequired,

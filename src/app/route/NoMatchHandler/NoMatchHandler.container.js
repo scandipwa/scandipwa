@@ -31,7 +31,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/NoMatchHandler/Container */
-export class NoMatchHandlerContainer extends ExtensiblePureComponent {
+export class NoMatchHandlerContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         noMatch: PropTypes.bool.isRequired

@@ -33,7 +33,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container */
-export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
+export class MyAccountMyWishlistContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         clearWishlist: PropTypes.func.isRequired,

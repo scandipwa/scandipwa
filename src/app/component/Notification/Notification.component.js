@@ -26,7 +26,7 @@ export const ERROR_TYPE = 'error';
  * @class Notification
  * @namespace Component/Notification/Component
  */
-export class Notification extends ExtensiblePureComponent {
+export class Notification extends PureComponent {
     static propTypes = {
         notificationId: PropTypes.string.isRequired,
         notification: NotificationType.isRequired,

@@ -19,7 +19,7 @@ import './NotificationList.style';
  * @class NotificationList
  * @namespace Component/NotificationList/Component
  */
-export class NotificationList extends ExtensiblePureComponent {
+export class NotificationList extends PureComponent {
     static propTypes = {
         notifications: NotificationListType.isRequired,
         onHideNotification: PropTypes.func.isRequired

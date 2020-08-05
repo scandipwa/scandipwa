@@ -25,7 +25,7 @@ export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 
 /** @namespace Component/CheckoutPayments/Component */
-export class CheckoutPayments extends ExtensiblePureComponent {
+export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,

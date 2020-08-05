@@ -18,7 +18,7 @@ import { ReviewQuery } from 'Query';
  * @class WishlistDispatcher
  * @namespace Store/Review/Dispatcher
  */
-export class ReviewDispatcher extends ExtensibleClass {
+export class ReviewDispatcher {
     prepareRatingData(reviewItem) {
         const { rating_data } = reviewItem;
 
@@ -47,4 +47,4 @@ export class ReviewDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (ReviewDispatcher)();
+export default new ReviewDispatcher();

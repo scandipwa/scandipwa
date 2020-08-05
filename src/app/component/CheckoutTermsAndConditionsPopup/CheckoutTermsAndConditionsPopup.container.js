@@ -22,7 +22,7 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container */
-export class CheckoutTermsAndConditionsPopupContainer extends ExtensiblePureComponent {
+export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
     static propTypes = {
         payload: PropTypes.shape({
             text: PropTypes.string

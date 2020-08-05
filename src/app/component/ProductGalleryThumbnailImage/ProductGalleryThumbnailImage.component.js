@@ -18,7 +18,7 @@ import Image from 'Component/Image';
 import './ProductGalleryThumbnailImage.style';
 
 /** @namespace Component/ProductGalleryThumbnailImage/Component */
-export class ProductGalleryThumbnailImage extends ExtensiblePureComponent {
+export class ProductGalleryThumbnailImage extends PureComponent {
     static propTypes = {
         media: PropTypes.shape({
             label: PropTypes.string,

@@ -15,7 +15,7 @@ import { showNotification } from 'Store/Notification';
 import { OrderQuery } from 'Query';
 
 /** @namespace Store/Order/Dispatcher */
-export class OrderDispatcher extends ExtensibleClass {
+export class OrderDispatcher {
     requestOrders(dispatch) {
         const query = OrderQuery.getOrderListQuery();
 
@@ -30,4 +30,4 @@ export class OrderDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (OrderDispatcher)();
+export default new OrderDispatcher();

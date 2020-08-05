@@ -29,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/SearchOverlay/Container */
-export class SearchOverlayContainer extends ExtensiblePureComponent {
+export class SearchOverlayContainer extends PureComponent {
     static propTypes = {
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired,

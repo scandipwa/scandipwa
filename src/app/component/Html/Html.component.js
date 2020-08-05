@@ -27,7 +27,7 @@ import { hash } from 'Util/Request/Hash';
  * @class Html
  * @namespace Component/Html/Component
  */
-export class Html extends ExtensiblePureComponent {
+export class Html extends PureComponent {
     static propTypes = {
         content: PropTypes.string.isRequired
     };

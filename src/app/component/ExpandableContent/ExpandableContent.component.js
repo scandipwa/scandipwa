@@ -15,7 +15,7 @@ import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
 /** @namespace Component/ExpandableContent/Component */
-export class ExpandableContent extends ExtensiblePureComponent {
+export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),

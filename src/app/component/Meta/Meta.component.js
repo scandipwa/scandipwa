@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
  * @class Meta
  * @namespace Component/Meta/Component
  */
-export class Meta extends ExtensiblePureComponent {
+export class Meta extends PureComponent {
     static propTypes = {
         metadata: PropTypes.arrayOf(
             PropTypes.shape({

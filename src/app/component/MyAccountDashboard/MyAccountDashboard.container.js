@@ -21,7 +21,7 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/MyAccountDashboard/Container */
-export class MyAccountDashboardContainer extends ExtensiblePureComponent {
+export class MyAccountDashboardContainer extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired
     };

@@ -29,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/NewProducts/Container */
-export class NewProductsContainer extends ExtensiblePureComponent {
+export class NewProductsContainer extends PureComponent {
     static propTypes = {
         category: PropTypes.string,
         cacheLifetime: PropTypes.number,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './InstallPromptIOS.style';
 
 /** @namespace Component/InstallPromptIOS/Component */
-export class InstallPromptIOS extends ExtensiblePureComponent {
+export class InstallPromptIOS extends PureComponent {
     static propTypes = {
         handleBannerClose: PropTypes.func.isRequired
     };

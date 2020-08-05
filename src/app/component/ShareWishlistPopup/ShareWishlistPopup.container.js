@@ -26,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/ShareWishlistPopup/Container/shareWishlistPopupContainer */
-export class ShareWishlistPopupContainer extends ExtensiblePureComponent {
+export class ShareWishlistPopupContainer extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         hidePopup: PropTypes.func.isRequired,

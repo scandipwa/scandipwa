@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import CategorySort from './CategorySort.component';
 
 /** @namespace Component/CategorySort/Container */
-export class CategorySortContainer extends ExtensiblePureComponent {
+export class CategorySortContainer extends PureComponent {
     static propTypes = {
         sortFields: PropTypes.oneOfType([
             PropTypes.bool,

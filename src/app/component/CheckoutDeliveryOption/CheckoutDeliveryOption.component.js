@@ -18,7 +18,7 @@ import './CheckoutDeliveryOption.style';
 import { formatCurrency, roundPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutDeliveryOption/Component */
-export class CheckoutDeliveryOption extends ExtensiblePureComponent {
+export class CheckoutDeliveryOption extends PureComponent {
     static propTypes = {
         option: shippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,

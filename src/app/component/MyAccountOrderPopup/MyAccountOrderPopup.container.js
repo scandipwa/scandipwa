@@ -35,7 +35,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/MyAccountOrderPopup/Container */
-export class MyAccountOrderPopupContainer extends ExtensiblePureComponent {
+export class MyAccountOrderPopupContainer extends PureComponent {
     static propTypes = {
         payload: PropTypes.shape({
             order: orderType,

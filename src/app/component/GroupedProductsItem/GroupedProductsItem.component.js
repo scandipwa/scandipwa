@@ -25,7 +25,7 @@ import './GroupedProductsItem.style';
  * @class GroupedProduct
  * @namespace Component/GroupedProductsItem/Component
  */
-export class GroupedProductsItem extends ExtensiblePureComponent {
+export class GroupedProductsItem extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         changeCount: PropTypes.func.isRequired,

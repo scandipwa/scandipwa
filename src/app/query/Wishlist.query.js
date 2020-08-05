@@ -16,7 +16,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 
 /** @namespace Query/Wishlist */
-export class WishlistQuery extends ExtensibleClass {
+export class WishlistQuery {
     getWishlistQuery(sharingCode) {
         const field = new Field('wishlist')
             .addFieldList(this._getWishlistFields());
@@ -93,4 +93,4 @@ export class WishlistQuery extends ExtensibleClass {
     }
 }
 
-export default new (WishlistQuery)();
+export default new WishlistQuery();

@@ -16,7 +16,7 @@ import { Field } from 'Util/Query';
  * @class Slider
  * @namespace Query/Slider
  */
-export class SliderQuery extends ExtensibleClass {
+export class SliderQuery {
     getQuery(options) {
         const { sliderId } = options;
 
@@ -51,4 +51,4 @@ export class SliderQuery extends ExtensibleClass {
     }
 }
 
-export default new (SliderQuery)();
+export default new SliderQuery();

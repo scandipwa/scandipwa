@@ -18,7 +18,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import './ConfirmAccountPage.style';
 
 /** @namespace Route/ConfirmAccountPage/Component */
-export class ConfirmAccountPage extends ExtensiblePureComponent {
+export class ConfirmAccountPage extends PureComponent {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,

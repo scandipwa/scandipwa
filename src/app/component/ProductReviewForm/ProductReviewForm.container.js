@@ -39,7 +39,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/ProductReviewForm/Container */
-export class ProductReviewFormContainer extends ExtensiblePureComponent {
+export class ProductReviewFormContainer extends PureComponent {
     static propTypes = {
         showNotification: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,

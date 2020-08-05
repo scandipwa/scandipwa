@@ -48,4 +48,4 @@ export class CategoryDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (CategoryDispatcher)();
+export default new CategoryDispatcher();

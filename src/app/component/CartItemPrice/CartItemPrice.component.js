@@ -14,7 +14,7 @@ import { MixType } from 'Type/Common';
 import PropTypes from 'prop-types';
 
 /** @namespace Component/CartItemPrice/Component */
-export class CartItemPrice extends ExtensiblePureComponent {
+export class CartItemPrice extends PureComponent {
     static propTypes = {
         row_total: PropTypes.number.isRequired,
         currency_code: PropTypes.string.isRequired,

@@ -15,7 +15,7 @@ import isMobile from 'Util/Mobile';
 import './DemoNotice.style';
 
 /** @namespace Component/DemoNotice/Component */
-export class DemoNotice extends ExtensiblePureComponent {
+export class DemoNotice extends PureComponent {
     static propTypes = {
         isDemoNoticeEnabled: PropTypes.bool
     };

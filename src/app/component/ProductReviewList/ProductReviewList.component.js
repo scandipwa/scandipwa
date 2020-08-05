@@ -19,7 +19,7 @@ import './ProductReviewList.style';
  * @class ProductReviewList
  * @namespace Component/ProductReviewList/Component
  */
-export class ProductReviewList extends ExtensiblePureComponent {
+export class ProductReviewList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };

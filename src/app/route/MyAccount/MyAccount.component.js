@@ -32,7 +32,7 @@ import {
 import './MyAccount.style';
 
 /** @namespace Route/MyAccount/Component */
-export class MyAccount extends ExtensiblePureComponent {
+export class MyAccount extends PureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,

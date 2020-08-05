@@ -28,7 +28,7 @@ export const IMAGE_NOT_FOUND = 2;
 export const IMAGE_NOT_SPECIFIED = 3;
 
 /** @namespace Component/Image/Component */
-export class Image extends ExtensiblePureComponent {
+export class Image extends PureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
         src: PropTypes.oneOfType([

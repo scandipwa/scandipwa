@@ -15,7 +15,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import './NoMatch.style';
 
 /** @namespace Route/NoMatch/Component */
-export class NoMatch extends ExtensiblePureComponent {
+export class NoMatch extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired
     };

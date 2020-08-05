@@ -18,7 +18,7 @@ import Html from 'Component/Html';
 import './CmsPage.style';
 
 /** @namespace Route/CmsPage/Component */
-export class CmsPage extends ExtensiblePureComponent {
+export class CmsPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isBreadcrumbsActive: PropTypes.bool,

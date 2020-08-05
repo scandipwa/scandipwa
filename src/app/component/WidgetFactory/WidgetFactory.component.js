@@ -18,7 +18,7 @@ export const NEW_PRODUCTS = 'NewProducts';
 export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
 
 /** @namespace Component/WidgetFactory/Component */
-export class WidgetFactory extends ExtensiblePureComponent {
+export class WidgetFactory extends PureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired
     };

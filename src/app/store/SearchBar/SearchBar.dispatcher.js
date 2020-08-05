@@ -47,4 +47,4 @@ export class SearchBarDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (SearchBarDispatcher)();
+export default new SearchBarDispatcher();

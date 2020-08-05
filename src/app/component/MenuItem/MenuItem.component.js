@@ -19,7 +19,7 @@ import isMobile from 'Util/Mobile';
 import Image from 'Component/Image';
 
 /** @namespace Component/MenuItem/Component */
-export class MenuItem extends ExtensiblePureComponent {
+export class MenuItem extends PureComponent {
     static propTypes = {
         activeMenuItemsStack: PropTypes.array.isRequired,
         item: PropTypes.object.isRequired,

@@ -64,7 +64,7 @@ export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
 export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 /** @namespace Component/Router/Component */
-export class Router extends ExtensiblePureComponent {
+export class Router extends PureComponent {
     static propTypes = {
         isBigOffline: PropTypes.bool
     };

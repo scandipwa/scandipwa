@@ -22,7 +22,7 @@ import './CategoryDetails.style';
  * @class CategoryDetails
  * @namespace Component/CategoryDetails/Component
  */
-export class CategoryDetails extends ExtensiblePureComponent {
+export class CategoryDetails extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired
     };

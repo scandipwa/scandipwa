@@ -40,7 +40,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/MyAccountCustomerPopup/Container */
-export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
+export class MyAccountCustomerPopupContainer extends PureComponent {
     static propTypes = {
         updateCustomer: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,

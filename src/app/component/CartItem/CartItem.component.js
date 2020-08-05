@@ -23,7 +23,7 @@ import './CartItem.style';
  * @class CartItem
  * @namespace Component/CartItem/Component
  */
-export class CartItem extends ExtensiblePureComponent {
+export class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         item: CartItemType.isRequired,

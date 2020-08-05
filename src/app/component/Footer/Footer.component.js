@@ -22,7 +22,7 @@ import './Footer.style';
  * @class Footer
  * @namespace Component/Footer/Component
  */
-export class Footer extends ExtensiblePureComponent {
+export class Footer extends PureComponent {
     static propTypes = {
         copyright: PropTypes.string,
         isVisibleOnMobile: PropTypes.bool

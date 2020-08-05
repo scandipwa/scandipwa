@@ -28,7 +28,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CartItem/Container */
-export class CartItemContainer extends ExtensiblePureComponent {
+export class CartItemContainer extends PureComponent {
     static propTypes = {
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,

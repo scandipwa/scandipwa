@@ -27,7 +27,7 @@ import { WishlistQuery } from 'Query';
  * @class WishlistDispatcher
  * @namespace Store/Wishlist/Dispatcher
  */
-export class WishlistDispatcher extends ExtensibleClass {
+export class WishlistDispatcher {
     updateInitialWishlistData(dispatch) {
         if (isSignedIn()) {
             this._syncWishlistWithBE(dispatch);
@@ -155,4 +155,4 @@ export class WishlistDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (WishlistDispatcher)();
+export default new WishlistDispatcher();

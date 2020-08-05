@@ -15,7 +15,7 @@ import Link from 'Component/Link';
 import './CheckoutSuccess.style';
 
 /** @namespace Component/CheckoutSuccess/Component */
-export class CheckoutSuccess extends ExtensiblePureComponent {
+export class CheckoutSuccess extends PureComponent {
     static propTypes = {
         orderID: PropTypes.string.isRequired
     };

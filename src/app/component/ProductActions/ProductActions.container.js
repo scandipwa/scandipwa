@@ -22,7 +22,7 @@ export const mapStateToProps = state => ({
 export const DEFAULT_MAX_PRODUCTS = 99;
 
 /** @namespace Component/ProductActions/Container */
-export class ProductActionsContainer extends ExtensiblePureComponent {
+export class ProductActionsContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: PropTypes.object.isRequired,

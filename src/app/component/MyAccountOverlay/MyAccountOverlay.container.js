@@ -53,7 +53,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
-export class MyAccountOverlayContainer extends ExtensiblePureComponent {
+export class MyAccountOverlayContainer extends PureComponent {
     static propTypes = {
         forgotPassword: PropTypes.func.isRequired,
         signIn: PropTypes.func.isRequired,

@@ -21,7 +21,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CartCoupon/Container */
-export class CartCouponContainer extends ExtensiblePureComponent {
+export class CartCouponContainer extends PureComponent {
     static propTypes = {
         couponCode: PropTypes.string,
         applyCouponToCart: PropTypes.func.isRequired,

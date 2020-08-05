@@ -37,7 +37,7 @@ export const PLACEHOLDER_TYPE = 'placeholder';
  * @class ProductGallery
  * @namespace Component/ProductGallery/Component
  */
-export class ProductGallery extends ExtensiblePureComponent {
+export class ProductGallery extends PureComponent {
     static propTypes = {
         gallery: PropTypes.arrayOf(
             PropTypes.shape({

@@ -17,7 +17,7 @@ import { ChildrenType } from 'Type/Common';
 import './CategoryPaginationLink.style';
 
 /** @namespace Component/CategoryPaginationLink/Component */
-export class CategoryPaginationLink extends ExtensiblePureComponent {
+export class CategoryPaginationLink extends PureComponent {
     static propTypes = {
         children: ChildrenType,
         getPage: PropTypes.func.isRequired,

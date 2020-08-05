@@ -71,7 +71,7 @@ export const UPDATE_FILTERS_FREQUENCY = 0;
 export const LOADING_TIME = 500;
 
 /** @namespace Route/CategoryPage/Container */
-export class CategoryPageContainer extends ExtensiblePureComponent {
+export class CategoryPageContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         category: CategoryTreeType.isRequired,

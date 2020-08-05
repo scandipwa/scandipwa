@@ -27,7 +27,7 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
  * const TYPE_CUSTOM = 'CUSTOM';
  * @namespace Route/UrlRewrites/Component
  */
-export class UrlRewrites extends ExtensiblePureComponent {
+export class UrlRewrites extends PureComponent {
     static propTypes = {
         location: LocationType.isRequired,
         isLoading: PropTypes.bool.isRequired,

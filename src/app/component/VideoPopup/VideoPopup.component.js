@@ -30,7 +30,7 @@ export const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v
  * @class VideoPopup
  * @namespace Component/VideoPopup/Component
  */
-export class VideoPopup extends ExtensiblePureComponent {
+export class VideoPopup extends PureComponent {
     static propTypes = {
         payload: MediaItemType.isRequired
     };

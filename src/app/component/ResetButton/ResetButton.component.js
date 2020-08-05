@@ -14,7 +14,7 @@ import { MixType } from 'Type/Common';
 import './ResetButton.style';
 
 /** @namespace Component/ResetButton/Component */
-export class ResetButton extends ExtensiblePureComponent {
+export class ResetButton extends PureComponent {
     static propTypes = {
         mix: MixType,
         resetFilters: PropTypes.func.isRequired,

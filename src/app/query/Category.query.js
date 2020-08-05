@@ -16,7 +16,7 @@ import { Field } from 'Util/Query';
  * @class CategoryQuery
  * @namespace Query/Category
  */
-export class CategoryQuery extends ExtensibleClass {
+export class CategoryQuery {
     __construct() {
         super.__construct();
         this.options = {};
@@ -97,4 +97,4 @@ export class CategoryQuery extends ExtensibleClass {
     }
 }
 
-export default new (CategoryQuery)();
+export default new CategoryQuery();

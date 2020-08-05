@@ -21,7 +21,7 @@ import ProductAttributeValue from 'Component/ProductAttributeValue';
 import './ProductInformation.style';
 
 /** @namespace Component/ProductInformation/Component */
-export class ProductInformation extends ExtensiblePureComponent {
+export class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,

@@ -21,7 +21,7 @@ import './ProductReviewRating.style';
  * @class ProductReviewRating
  * @namespace Component/ProductReviewRating/Component
  */
-export class ProductReviewRating extends ExtensiblePureComponent {
+export class ProductReviewRating extends PureComponent {
     static propTypes = {
         summary: PropTypes.number,
         code: PropTypes.string,

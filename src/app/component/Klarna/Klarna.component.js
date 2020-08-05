@@ -24,7 +24,7 @@ export const KLARNA_SCRIPT_ID = 'klarna_script';
 export const KLARNA_PAYMENTS_CONTAINER_ID = 'klarna-payments-container';
 
 /** @namespace Component/Klarna/Component */
-export class Klarna extends ExtensiblePureComponent {
+export class Klarna extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired

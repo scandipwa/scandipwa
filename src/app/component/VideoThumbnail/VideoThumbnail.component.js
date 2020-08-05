@@ -21,7 +21,7 @@ import Image from 'Component/Image/Image.container';
  * @class VideoThumbnail
  * @namespace Component/VideoThumbnail/Component/videoThumbnail
  */
-export class VideoThumbnail extends ExtensiblePureComponent {
+export class VideoThumbnail extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
         onPlayClick: PropTypes.func.isRequired

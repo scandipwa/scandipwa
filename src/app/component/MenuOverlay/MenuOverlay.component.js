@@ -29,7 +29,7 @@ import './MenuOverlay.style';
 export const MENU_OVERLAY_KEY = 'menu';
 
 /** @namespace Component/MenuOverlay/Component */
-export class MenuOverlay extends ExtensiblePureComponent {
+export class MenuOverlay extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,

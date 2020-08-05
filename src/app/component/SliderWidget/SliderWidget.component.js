@@ -22,7 +22,7 @@ import './SliderWidget.style';
  * @class SliderWidget
  * @namespace Component/SliderWidget/Component
  */
-export class SliderWidget extends ExtensiblePureComponent {
+export class SliderWidget extends PureComponent {
     static propTypes = {
         slider: PropTypes.shape({
             title: PropTypes.string,

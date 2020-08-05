@@ -19,7 +19,7 @@ export const THUMBNAIL_KEY = 'small_image';
 export const AMOUNT_OF_PLACEHOLDERS = 0;
 
 /** @namespace Component/ProductGallery/Container */
-export class ProductGalleryContainer extends ExtensiblePureComponent {
+export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool

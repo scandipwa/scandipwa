@@ -27,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CheckoutAddressBook/Container */
-export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
+export class CheckoutAddressBookContainer extends PureComponent {
     static propTypes = {
         isSignedIn: PropTypes.bool.isRequired,
         requestCustomerData: PropTypes.func.isRequired,

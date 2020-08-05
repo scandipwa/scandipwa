@@ -15,7 +15,7 @@ import { MixType } from 'Type/Common';
 import Image from './Image.component';
 
 /** @namespace Component/Image/Container */
-export class ImageContainer extends ExtensiblePureComponent {
+export class ImageContainer extends PureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
         src: PropTypes.oneOfType([

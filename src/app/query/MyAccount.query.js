@@ -18,7 +18,7 @@ import { GUEST_QUOTE_ID } from 'Store/Cart';
  * @class MyAccount
  * @namespace Query/MyAccount
  */
-export class MyAccountQuery extends ExtensibleClass {
+export class MyAccountQuery {
     /**
      * Get ResetPassword mutation
      * @param {{token: String, password: String, password_confirmation: String}} options A object containing different aspects of query, each item can be omitted
@@ -195,4 +195,4 @@ export class MyAccountQuery extends ExtensibleClass {
     }
 }
 
-export default new (MyAccountQuery)();
+export default new MyAccountQuery();

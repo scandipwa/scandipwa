@@ -24,7 +24,7 @@ import './ProductReviewForm.style';
  * @class ProductReviewForm
  * @namespace Component/ProductReviewForm/Component
  */
-export class ProductReviewForm extends ExtensiblePureComponent {
+export class ProductReviewForm extends PureComponent {
     static propTypes = {
         reviewRatings: RatingItemsType.isRequired,
         isLoading: PropTypes.bool.isRequired,

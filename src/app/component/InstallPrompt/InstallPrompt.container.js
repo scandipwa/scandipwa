@@ -16,7 +16,7 @@ import InstallPromptIOS from 'Component/InstallPromptIOS';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 /** @namespace Component/InstallPrompt/Container */
-export class InstallPromptContainer extends ExtensiblePureComponent {
+export class InstallPromptContainer extends PureComponent {
     installPromptEvent = null;
 
     state = {

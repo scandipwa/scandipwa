@@ -15,7 +15,7 @@ import { LocationType } from 'Type/Router';
 import { ChildrenType } from 'Type/Common';
 
 /** @namespace Route/NoMatchHandler/Component */
-export class NoMatchHandler extends ExtensiblePureComponent {
+export class NoMatchHandler extends PureComponent {
     static propTypes = {
         children: ChildrenType.isRequired,
         noMatch: PropTypes.bool.isRequired,

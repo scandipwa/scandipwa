@@ -28,7 +28,7 @@ export const RENDER_PAGE_FREQUENCY = 150; // (ms)
  * @class ProductList
  * @namespace Component/ProductList/Component
  */
-export class ProductList extends ExtensiblePureComponent {
+export class ProductList extends PureComponent {
     static propTypes = {
         title: PropTypes.string,
         pages: PagesType.isRequired,

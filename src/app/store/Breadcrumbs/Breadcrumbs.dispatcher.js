@@ -16,7 +16,7 @@ import { updateBreadcrumbs, toggleBreadcrumbs } from 'Store/Breadcrumbs';
  * @class BreadcrumbsDispatcher
  * @namespace Store/Breadcrumbs/Dispatcher
  */
-export class BreadcrumbsDispatcher extends ExtensibleClass {
+export class BreadcrumbsDispatcher {
     /**
      * Set breadcrumbs
      * @param {Array<Object>} breadcrumbs Breadcrumbs array
@@ -153,4 +153,4 @@ export class BreadcrumbsDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (BreadcrumbsDispatcher)();
+export default new BreadcrumbsDispatcher();

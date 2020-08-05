@@ -22,7 +22,7 @@ import {
  * Checkout Order Summary component
  * @namespace Component/CheckoutOrderSummary/Component
  */
-export class CheckoutOrderSummary extends ExtensiblePureComponent {
+export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         paymentTotals: TotalsType,

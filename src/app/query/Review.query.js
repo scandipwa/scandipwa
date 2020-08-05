@@ -12,7 +12,7 @@
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Review */
-export class ReviewQuery extends ExtensibleClass {
+export class ReviewQuery {
     getAddProductReviewMutation(reviewItem) {
         return new Field('addProductReview')
             .addArgument('productReviewItem', 'ProductReviewInput!', reviewItem)
@@ -52,4 +52,4 @@ export class ReviewQuery extends ExtensibleClass {
     }
 }
 
-export default new (ReviewQuery)();
+export default new ReviewQuery();

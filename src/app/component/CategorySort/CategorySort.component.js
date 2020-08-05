@@ -19,7 +19,7 @@ import './CategorySort.style';
  * @class ProductSort
  * @namespace Component/CategorySort/Component
  */
-export class CategorySort extends ExtensiblePureComponent {
+export class CategorySort extends PureComponent {
     static propTypes = {
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,

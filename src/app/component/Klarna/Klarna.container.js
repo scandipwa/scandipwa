@@ -20,7 +20,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/Klarna/Container */
-export class KlarnaContainer extends ExtensiblePureComponent {
+export class KlarnaContainer extends PureComponent {
     static authorize() {
         return new Promise((resolve, reject) => {
             Klarna.Payments.authorize(

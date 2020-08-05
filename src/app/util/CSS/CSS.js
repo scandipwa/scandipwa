@@ -14,7 +14,7 @@
  * @class CSS
  * @namespace Util/CSS
  */
-export class CSS extends ExtensibleClass {
+export class CSS {
     /**
      * Change CSS custom property in referenced node scope
      * @static

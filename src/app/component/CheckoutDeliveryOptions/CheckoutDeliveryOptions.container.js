@@ -17,7 +17,7 @@ import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
-export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
+export class CheckoutDeliveryOptionsContainer extends PureComponent {
     static propTypes = {
         onShippingMethodSelect: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired

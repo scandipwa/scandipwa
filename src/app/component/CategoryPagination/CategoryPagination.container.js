@@ -28,7 +28,7 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/CategoryPagination/Container */
-export class CategoryPaginationContainer extends ExtensiblePureComponent {
+export class CategoryPaginationContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         onPageSelect: PropTypes.func,

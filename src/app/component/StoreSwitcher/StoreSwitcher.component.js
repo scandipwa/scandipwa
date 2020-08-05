@@ -18,7 +18,7 @@ import StoreItems from 'Component/StoreItems';
 import './StoreSwitcher.style';
 
 /** @namespace Component/StoreSwitcher/Component */
-export class StoreSwitcher extends ExtensiblePureComponent {
+export class StoreSwitcher extends PureComponent {
     static propTypes = {
         storeList: PropTypes.arrayOf(
             PropTypes.objectOf(

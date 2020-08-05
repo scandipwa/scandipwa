@@ -15,7 +15,7 @@ import { ProductType } from 'Type/ProductList';
 import './TierPrices.style';
 
 /** @namespace Component/TierPrices/Component */
-export class TierPrices extends ExtensiblePureComponent {
+export class TierPrices extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         isLowestPrice: PropTypes.bool

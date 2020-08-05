@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import StoreItems from './StoreItems.component';
 
 /** @namespace Component/StoreItems/Container/storeItemsContainer */
-export class StoreItemsContainer extends ExtensiblePureComponent {
+export class StoreItemsContainer extends PureComponent {
     static propTypes = {
         item: PropTypes.object.isRequired,
         handleStoreSelect: PropTypes.func.isRequired

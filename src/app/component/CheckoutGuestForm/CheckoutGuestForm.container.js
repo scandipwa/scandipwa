@@ -29,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
-export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
+export class CheckoutGuestFormContainer extends PureComponent {
     static propTypes = {
         isBilling: PropTypes.bool,
         isCreateUser: PropTypes.bool.isRequired,

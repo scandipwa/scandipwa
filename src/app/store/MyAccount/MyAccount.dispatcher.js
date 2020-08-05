@@ -37,7 +37,7 @@ export const ONE_MONTH_IN_SECONDS = 2628000;
  * @class MyAccount
  * @namespace Store/MyAccount/Dispatcher
  */
-export class MyAccountDispatcher extends ExtensibleClass {
+export class MyAccountDispatcher {
     requestCustomerData(dispatch) {
         const query = MyAccountQuery.getCustomerQuery();
 
@@ -171,4 +171,4 @@ export class MyAccountDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (MyAccountDispatcher)();
+export default new MyAccountDispatcher();

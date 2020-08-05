@@ -26,7 +26,7 @@ import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import './CartPage.style';
 
 /** @namespace Route/CartPage/Component */
-export class CartPage extends ExtensiblePureComponent {
+export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired

@@ -24,7 +24,7 @@ export const DELETE_ADDRESS = 'DELETE_ADDRESS';
 export const ADD_ADDRESS = 'ADD_ADDRESS';
 
 /** @namespace Component/MyAccountAddressPopup/Component */
-export class MyAccountAddressPopup extends ExtensiblePureComponent {
+export class MyAccountAddressPopup extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         handleAddress: PropTypes.func.isRequired,

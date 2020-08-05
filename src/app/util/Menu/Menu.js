@@ -29,7 +29,7 @@ export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
 
 /** @namespace Util/Menu */
 // eslint-disable-next-line @scandipwa/scandipwa-guidelines/derived-class-names
-export class MenuReducer extends ExtensibleClass {
+export class MenuReducer {
     getMenuUrl({ url, url_type, category_id }) {
         switch (url_type) {
         case TYPE_CATEGORY:
@@ -106,4 +106,4 @@ export class MenuReducer extends ExtensibleClass {
     }
 }
 
-export default new (MenuReducer)();
+export default new MenuReducer();

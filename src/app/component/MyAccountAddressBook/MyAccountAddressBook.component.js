@@ -16,7 +16,7 @@ import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import './MyAccountAddressBook.style';
 
 /** @namespace Component/MyAccountAddressBook/Component */
-export class MyAccountAddressBook extends ExtensiblePureComponent {
+export class MyAccountAddressBook extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultPostfix: PropTypes.func.isRequired,

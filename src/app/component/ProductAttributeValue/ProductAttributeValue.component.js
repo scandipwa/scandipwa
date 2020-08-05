@@ -18,7 +18,7 @@ import Field from 'Component/Field/Field.component';
 import './ProductAttributeValue.style';
 
 /** @namespace Component/ProductAttributeValue/Component */
-export class ProductAttributeValue extends ExtensiblePureComponent {
+export class ProductAttributeValue extends PureComponent {
     static propTypes = {
         getLink: PropTypes.func,
         onClick: PropTypes.func,

@@ -21,7 +21,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/SomethingWentWrong/Container */
-export class SomethingWentWrongContainer extends ExtensiblePureComponent {
+export class SomethingWentWrongContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired
     };

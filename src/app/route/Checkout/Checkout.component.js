@@ -33,7 +33,7 @@ export const DETAILS_STEP = 'DETAILS_STEP';
 export const CHECKOUT_URL = '/checkout';
 
 /** @namespace Route/Checkout/Component */
-export class Checkout extends ExtensiblePureComponent {
+export class Checkout extends PureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,

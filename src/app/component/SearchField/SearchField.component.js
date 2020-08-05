@@ -21,7 +21,7 @@ import SearchOverlay from 'Component/SearchOverlay';
 import './SearchField.style';
 
 /** @namespace Component/SearchField/Component */
-export class SearchField extends ExtensiblePureComponent {
+export class SearchField extends PureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
         onSearchBarFocus: PropTypes.func.isRequired,

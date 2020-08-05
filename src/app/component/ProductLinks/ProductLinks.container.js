@@ -12,7 +12,7 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/ProductLinks/Container */
-export class ProductLinksContainer extends ExtensiblePureComponent {
+export class ProductLinksContainer extends PureComponent {
     static propTypes = {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
         linkType: PropTypes.string.isRequired

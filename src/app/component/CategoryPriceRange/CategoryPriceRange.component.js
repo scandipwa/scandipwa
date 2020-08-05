@@ -16,7 +16,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import RangeSelector from 'Component/RangeSelector';
 
 /** @namespace Component/CategoryPriceRange/Component */
-export class CategoryPriceRange extends ExtensiblePureComponent {
+export class CategoryPriceRange extends PureComponent {
     static propTypes = {
         minPriceValue: PropTypes.number.isRequired,
         maxPriceValue: PropTypes.number.isRequired,

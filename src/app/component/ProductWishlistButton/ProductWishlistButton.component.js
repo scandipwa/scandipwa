@@ -19,7 +19,7 @@ import Loader from 'Component/Loader';
 import './ProductWishlistButton.style';
 
 /** @namespace Component/ProductWishlistButton/Component */
-export class ProductWishlistButton extends ExtensiblePureComponent {
+export class ProductWishlistButton extends PureComponent {
     static propTypes = {
         isReady: PropTypes.bool,
         isLoading: PropTypes.bool,

@@ -51,4 +51,4 @@ export class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (CmsBlocksAndSliderDispatcher)();
+export default new CmsBlocksAndSliderDispatcher();

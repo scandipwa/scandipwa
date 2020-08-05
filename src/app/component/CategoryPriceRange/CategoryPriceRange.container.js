@@ -27,7 +27,7 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/CategoryPriceRange/Container */
-export class CategoryPriceRangeContainer extends ExtensiblePureComponent {
+export class CategoryPriceRangeContainer extends PureComponent {
     static propTypes = {
         minPriceValue: PropTypes.number.isRequired,
         maxPriceValue: PropTypes.number.isRequired,

@@ -23,7 +23,7 @@ export const STATUS_PASSOWORD_UPDATED = 'password_updated';
 export const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
 /** @namespace Route/PasswordChangePage/Component */
-export class PasswordChangePage extends ExtensiblePureComponent {
+export class PasswordChangePage extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         resetPassword: PropTypes.func.isRequired,

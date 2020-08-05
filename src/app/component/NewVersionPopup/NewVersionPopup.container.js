@@ -29,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Component/NewVersionPopup/Container */
-export class NewVersionPopupContainer extends ExtensiblePureComponent {
+export class NewVersionPopupContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired

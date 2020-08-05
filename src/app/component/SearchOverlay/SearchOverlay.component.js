@@ -24,7 +24,7 @@ export const SEARCH_TIMEOUT = 500;
 export const AMOUNT_OF_PLACEHOLDERS = 5;
 
 /** @namespace Component/SearchOverlay/Component */
-export class SearchOverlay extends ExtensiblePureComponent {
+export class SearchOverlay extends PureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
         searchCriteria: PropTypes.string,

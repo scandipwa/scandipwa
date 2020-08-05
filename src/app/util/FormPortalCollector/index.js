@@ -10,7 +10,7 @@
  */
 
 /** @namespace Util/FormPortalCollector */
-export class FormPortalCollector extends ExtensibleClass {
+export class FormPortalCollector {
     portalsObservers = {};
 
     subscribe(id, f, name) {

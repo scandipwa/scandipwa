@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import './CartCoupon.style';
 
 /** @namespace Component/CartCoupon/Component */
-export class CartCoupon extends ExtensiblePureComponent {
+export class CartCoupon extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         couponCode: PropTypes.string,
