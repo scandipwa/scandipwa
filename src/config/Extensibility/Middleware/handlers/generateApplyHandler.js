@@ -1,6 +1,6 @@
 /* eslint-disable */
 const sortPlugins = require('../helpers/sortPlugins');
-const generateMiddlewaredFunction = require('../generateMiddlewaredFunction');
+const generateMiddlewaredFunction = require('../middlewarers/generateMiddlewaredFunction');
 
 module.exports = (namespace) => {
     return function (origFunction, thisArg, originalArgs) {

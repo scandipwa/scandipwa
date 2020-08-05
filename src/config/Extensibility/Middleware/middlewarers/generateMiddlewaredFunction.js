@@ -1,5 +1,5 @@
 /* eslint-disable func-names */
-const getWrapperFromPlugin = require('./helpers/getWrapperFromPlugin');
+const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
 /**
  * Middlewaring given original member
  * @param {Function} origMember

@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const sortPlugins = require('../helpers/sortPlugins');
-const generateMiddlewaredFunction = require('../generateMiddlewaredFunction');
+const generateMiddlewaredFunction = require('../middlewarers/generateMiddlewaredFunction');
 const getPluginsForMember = require('../helpers/getPluginsForMember');
 
 /**

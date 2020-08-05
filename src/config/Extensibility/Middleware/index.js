@@ -2,7 +2,7 @@
 const generateGetHandler = require('./handlers/generateGetHandler');
 const generateApplyHandler = require('./handlers/generateApplyHandler');
 const generateConstructHandler = require('./handlers/generateConstructHandler');
-const applyClassWrappers = require('./generateMiddlewaredClass');
+const applyClassWrappers = require('./middlewarers/generateMiddlewaredClass');
 
 /**
  * Middleware function is supposed to wrap source classes

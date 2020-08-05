@@ -1,5 +1,5 @@
-const getWrapperFromPlugin = require('./helpers/getWrapperFromPlugin');
-const sortPlugins = require('./helpers/sortPlugins');
+const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
+const sortPlugins = require('../helpers/sortPlugins');
 
 /**
  * Provide an opportunity to wrap proxy with additional functions.
