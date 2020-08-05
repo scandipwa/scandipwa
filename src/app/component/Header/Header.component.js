@@ -28,7 +28,6 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import media from 'Util/Media';

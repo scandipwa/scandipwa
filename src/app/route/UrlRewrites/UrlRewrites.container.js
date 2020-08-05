@@ -113,7 +113,7 @@ export class UrlRewritesContainer extends PureComponent {
         switch (this.getType()) {
         case TYPE_PRODUCT:
             if (isLoading) {
-                return { isOnlyPlaceholder: true };
+                return {};
             }
 
             return { productSKU: sku };

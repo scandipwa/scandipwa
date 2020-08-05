@@ -28,14 +28,12 @@ import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { debounce } from 'Util/Request';
 import {
     appendWithStoreCode,
-    // clearQueriesFromUrl,
-    // convertQueryStringToKeyValuePairs,
     getQueryParam,
-    // getUrlParam,
     setQueryParams
 } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
+import { LOADING_TIME } from './CategoryPage.config';
 
 const ProductListInfoDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -101,9 +99,6 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     clearCategory: () => dispatch(updateCurrentCategory({}))
 });
-
-export const UPDATE_FILTERS_FREQUENCY = 0;
-export const LOADING_TIME = 500;
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
@@ -213,7 +208,7 @@ export class CategoryPageContainer extends PureComponent {
 
         /**
          * If the currently loaded category ID does not match the ID of
-         * category ID from URL rewrite, request category.
+         * category from URL rewrite, request category.
          */
         if (categoryIds !== id) {
             this.requestCategory();
@@ -239,8 +234,7 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     setOfflineNoticeSize = () => {
-        const { setBigOfflineNotice } = this.props;
-        const isInfoLoading = this.getIsInfoLoading();
+        const { setBigOfflineNotice, isInfoLoading } = this.props;
 
         if (isInfoLoading) {
             setBigOfflineNotice(true);

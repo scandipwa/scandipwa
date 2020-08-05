@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
 
 import { CATEGORY, SEARCH } from 'Component/Header/Header.config';
-import {
-    CategoryPageContainer,
-    LOADING_TIME
-} from 'Route/CategoryPage/CategoryPage.container';
+import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
+import { CategoryPageContainer } from 'Route/CategoryPage/CategoryPage.container';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
