@@ -12,7 +12,7 @@
 import { QueryDispatcher } from 'Util/Request';
 import { CmsBlockQuery, SliderQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
+import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider/CmsBlocksAndSlider.action';
 
 /**
  * CMS Blocks And Slider Dispatcher
