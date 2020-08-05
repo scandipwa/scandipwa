@@ -94,7 +94,11 @@ module.exports = {
         }),
 
         new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'TranslationFunction'))
+            __: path.join(__dirname, 'TranslationFunction'),
+            middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
+            Extensible: path.join(__dirname, 'Extensibility', 'Middleware', 'Extensible'),
+            PureComponent: ['react', 'PureComponent'],
+            React: 'react'
         }),
 
         new CleanWebpackPlugin([], {

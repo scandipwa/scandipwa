@@ -225,10 +225,8 @@ const config = (env, argv) => {
             new webpack.ProvidePlugin({
                 __: path.join(__dirname, 'TranslationFunction'),
                 middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
-                ExtensiblePureComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensiblePureComponent'),
-                ExtensibleComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleComponent'),
-                ExtensibleClass: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleClass'),
-                ExtensibleUnstatedContainer: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
+                Extensible: path.join(__dirname, 'Extensibility', 'Middleware', 'Extensible'),
+                PureComponent: ['react', 'PureComponent'],
                 React: 'react'
             }),
 

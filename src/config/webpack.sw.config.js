@@ -125,8 +125,11 @@ module.exports = (_, options) => {
 
         plugins: [
             new webpack.ProvidePlugin({
+                __: path.join(__dirname, 'TranslationFunction'),
                 middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
-                ExtensibleClass: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleClass')
+                Extensible: path.join(__dirname, 'Extensibility', 'Middleware', 'Extensible'),
+                PureComponent: ['react', 'PureComponent'],
+                React: 'react'
             }),
 
             ...additionalPlugins
