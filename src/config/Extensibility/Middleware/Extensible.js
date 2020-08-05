@@ -16,7 +16,6 @@ module.exports = (BaseClass = class {}) => {
         [cacheIdentityKey]: cacheIdentity = Symbol(`CacheIdentity ${name}`)
     } = BaseClass;
 
-    // TODO implement Symbol-based approach
     if (!generated[cacheIdentity]) {
         const generatedClass = class X extends BaseClass {
             constructor(...args) {
