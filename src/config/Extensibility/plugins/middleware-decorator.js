@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable new-cap */
 const namespaceExtractor = /@namespace +(?<namespace>[^ ]+)/;
 
 const extractNamespaceFromComments = (comments = []) => comments.reduce(
@@ -19,12 +21,11 @@ const getLeadingComments = (path) => {
 
     if (
         path.parent.type === 'ExportNamedDeclaration'
-    && path.parent.leadingComments
+        && path.parent.leadingComments
     ) {
         return path.parent.leadingComments;
     }
 };
-
 
 const getNamespaceFromPath = (path) => {
     const leadingComments = getLeadingComments(path);
@@ -33,6 +34,23 @@ const getNamespaceFromPath = (path) => {
     }
 
     return extractNamespaceFromComments(leadingComments);
+};
+
+const addSuperToConstructor = (path, types) => {
+    const constructor = path
+        .get('body')
+        .get('body')
+        .find(member => member.get('key').node.name === 'constructor');
+
+    if (!constructor) {
+        return;
+    }
+
+    const superCall = types.expressionStatement(
+        types.callExpression(types.super(), [])
+    );
+
+    constructor.get('body').unshiftContainer('body', superCall);
 };
 
 module.exports = ({ types, parse }) => ({
@@ -100,7 +118,21 @@ module.exports = ({ types, parse }) => ({
 
         ClassDeclaration: (path) => {
             const namespace = getNamespaceFromPath(path);
-            if (!namespace) return;
+            if (!namespace) {
+                return;
+            }
+
+            const superClass = path.get('superClass');
+            const superExpression = types.callExpression(
+                types.Identifier('Extensible'),
+                [types.Identifier(superClass.node ? superClass.node.name : '')]
+            );
+
+            if (!superClass.node) {
+                addSuperToConstructor(path, types);
+            }
+
+            superClass.replaceWith(superExpression);
 
             const { node: { name } } = path.get('id');
             const newName = path.scope.generateUidIdentifier(name);
@@ -116,9 +148,11 @@ module.exports = ({ types, parse }) => ({
                 wrappedInMiddeware
             );
 
-            const newDeclaration = types.variableDeclaration('const', [declarator])
+            const newDeclaration = types.variableDeclaration('const', [declarator]);
             const newExport = types.exportNamedDeclaration(newDeclaration, []);
-            const renaming = parse(`Object.defineProperty(${newName.name}, 'name', { value: '${name}' })`);
+            const renaming = parse(
+                `Object.defineProperty(${newName.name}, 'name', { value: '${name}' })`
+            );
 
             path.insertAfter(newExport);
             path.insertAfter(renaming);
@@ -130,6 +164,6 @@ module.exports = ({ types, parse }) => ({
             //     path.parentPath.skip();
             //     path.parentPath.replaceWith(path);
             // }
-        }
-    }
+        },
+    },
 });
