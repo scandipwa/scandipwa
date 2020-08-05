@@ -68,7 +68,11 @@ export default class Breadcrumbs extends PureComponent {
     render() {
         const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible || location.pathname === appendWithStoreCode('/')) {
+        if (
+            !areBreadcrumbsVisible
+            || location.pathname === appendWithStoreCode('/')
+            || location.pathname === '/'
+        ) {
             return null;
         }
 

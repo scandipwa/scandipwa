@@ -89,6 +89,7 @@ class SharedTransition extends PureComponent {
             || !sharedElementDestination
             || !wrapper
         ) {
+            // this.cleanUpTransition();
             return;
         }
 

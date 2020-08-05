@@ -243,7 +243,7 @@ export default class Header extends NavigationAbstract {
               elem="Title"
               mods={ { isVisible } }
             >
-                <TextPlaceholder content={ title } />
+                { title }
             </h2>
         );
     }

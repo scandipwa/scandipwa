@@ -130,7 +130,6 @@ export class CategoryPageContainer extends PureComponent {
         selectedInfoFilter: PropTypes.shape({
             categoryIds: PropTypes.number
         }),
-        isNotRespectInfoLoading: PropTypes.bool,
         isInfoLoading: PropTypes.bool.isRequired,
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
@@ -139,7 +138,6 @@ export class CategoryPageContainer extends PureComponent {
 
     static defaultProps = {
         categoryIds: -1,
-        isNotRespectInfoLoading: false,
         isSearchPage: false,
         selectedListFilter: {},
         selectedInfoFilter: {}
@@ -371,13 +369,9 @@ export class CategoryPageContainer extends PureComponent {
 
         const filters = {
             priceRange,
-            customFilters
+            customFilters,
+            categoryIds
         };
-
-        // TODO: rework this, as it breaks update logic
-        if (!customFilters.category_id) {
-            filters.categoryIds = categoryIds;
-        }
 
         return filters;
     }
@@ -396,6 +390,13 @@ export class CategoryPageContainer extends PureComponent {
         } = location;
 
         const { category } = state;
+
+        /**
+         * Prevent pushing non-existent category into the state
+         */
+        if (categoryIds === -1) {
+            return;
+        }
 
         if (category !== categoryIds) {
             history.replace({
@@ -474,6 +475,13 @@ export class CategoryPageContainer extends PureComponent {
             isSearchPage,
             requestCategory
         } = this.props;
+
+        /**
+         * Prevent non-existent category from being requested
+         */
+        if (categoryIds === -1) {
+            return;
+        }
 
         requestCategory({
             isSearchPage,
