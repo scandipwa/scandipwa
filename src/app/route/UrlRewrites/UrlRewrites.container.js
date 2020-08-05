@@ -39,6 +39,7 @@ export const mapDispatchToProps = (dispatch) => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, {
+                // TODO: this seems to break when switched to disabled-url-stores
                 urlParam: urlParam.replace(new RegExp(window.storeRegexText), '')
             })
         );
@@ -131,7 +132,7 @@ export class UrlRewritesContainer extends PureComponent {
              * Initially the script bellow was responsible for
              * the category ID injection, to "improve loading"
              * however, it turns out, it does not really make things
-             * easier. So for now. We are ignoring it.
+             * easier. So for now, we are ignoring it.
              */
             // const category = history?.state?.state?.category;
             // if (category && category !== true) {

@@ -59,6 +59,7 @@ export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
+        // TODO: this seem to break linked products :'(
         ProductDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
         LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch));
     },
@@ -155,6 +156,8 @@ export class ProductPageContainer extends PureComponent {
             history.push('/');
             return;
         }
+
+        // TODO: when opening from cart this causes a blink of old product
 
         this._requestProduct();
         this._onProductUpdate();

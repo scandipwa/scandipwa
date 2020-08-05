@@ -174,6 +174,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { state: historyState } = window.history || {};
         const { state = {} } = historyState || {};
 
+        // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
+
         const activeRoute = Object.keys(this.routeMap)
             .find((route) => (route !== '/' || pathname === appendWithStoreCode('/')) && pathname.includes(route));
 

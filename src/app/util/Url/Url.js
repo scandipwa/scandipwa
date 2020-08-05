@@ -13,7 +13,6 @@
 
 import { getStore } from 'Store';
 
-// TODO: rewrite using import { history } from 'Route';
 // TODO: fix no LET
 
 /**
@@ -62,7 +61,7 @@ const getUrlParam = (match, location) => {
  * @param {String} pathname the URL to append store code to
  */
 const appendWithStoreCode = (pathname) => {
-    const { ConfigReducer: { base_link_url } } = getStore().getState();
+    const { ConfigReducer: { base_link_url = window.location.origin } = {} } = getStore().getState() || {};
     const { pathname: storePrefix } = new URL(base_link_url);
 
     // ignore empty URLs
