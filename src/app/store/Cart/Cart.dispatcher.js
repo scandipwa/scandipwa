@@ -209,14 +209,14 @@ export class CartDispatcher {
                     ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
                 );
             } else {
-                LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
-                );
+                // LinkedProductsDispatcher.then(
+                //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+                // );
             }
         } else {
-            LinkedProductsDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
-            );
+            // LinkedProductsDispatcher.then(
+            //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+            // );
         }
     }
 

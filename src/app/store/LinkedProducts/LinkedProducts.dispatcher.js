@@ -29,8 +29,6 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         super('LinkedProducts', ONE_MONTH_IN_SECONDS);
     }
 
-    currentProductLinks = [];
-
     onSuccess(data, dispatch, product_links) {
         const { products: { items } } = data;
 
@@ -73,12 +71,6 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @param product_links
      */
     prepareRequest(product_links) {
-        if (JSON.stringify(this.currentProductLinks) === JSON.stringify(product_links)) {
-            return null;
-        }
-
-        this.currentProductLinks = product_links;
-
         const relatedSKUs = product_links.reduce((links, link) => {
             const { linked_product_sku } = link;
             return [...links, `"${ linked_product_sku.replace(/ /g, '%20') }"`];
