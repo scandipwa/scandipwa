@@ -65,7 +65,7 @@ export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
     sortFields: state.ProductListInfoReducer.sortFields,
-    selectedListFilter: state.ProductListReducer.selectedFilter,
+    currentArgs: state.ProductListReducer.currentArgs,
     selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages
@@ -119,8 +119,10 @@ export class CategoryPageContainer extends PureComponent {
         sortFields: PropTypes.shape({
             options: PropTypes.array
         }).isRequired,
-        selectedListFilter: PropTypes.shape({
-            categoryIds: PropTypes.number
+        currentArgs: PropTypes.shape({
+            filter: PropTypes.shape({
+                categoryIds: PropTypes.number
+            })
         }),
         selectedInfoFilter: PropTypes.shape({
             categoryIds: PropTypes.number
@@ -134,7 +136,7 @@ export class CategoryPageContainer extends PureComponent {
     static defaultProps = {
         categoryIds: -1,
         isSearchPage: false,
-        selectedListFilter: {},
+        currentArgs: {},
         selectedInfoFilter: {}
     };
 
@@ -268,9 +270,11 @@ export class CategoryPageContainer extends PureComponent {
     getIsMatchingListFilter() {
         const {
             categoryIds,
-            selectedListFilter: {
-                categoryIds: selectedCategoryIds
-            }
+            currentArgs: {
+                filter: {
+                    categoryIds: selectedCategoryIds
+                } = {}
+            } = {}
         } = this.props;
 
         // Requested category is equal to current category
