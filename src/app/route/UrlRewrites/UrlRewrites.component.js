@@ -14,11 +14,12 @@ import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import NoMatch from 'Route/NoMatch';
-import { LocationType, MatchType } from 'Type/Common';
-import { appendWithStoreCode } from 'Util/Url';
 
 import {
-    TYPE_CATEGORY, TYPE_CMS_PAGE, TYPE_NOTFOUND, TYPE_PRODUCT
+    TYPE_CATEGORY,
+    TYPE_CMS_PAGE,
+    TYPE_NOTFOUND,
+    TYPE_PRODUCT
 } from './UrlRewrites.config';
 
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'));

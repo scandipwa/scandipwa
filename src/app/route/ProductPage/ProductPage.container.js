@@ -35,14 +35,12 @@ const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
-const LinkedProductsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/LinkedProducts/LinkedProducts.dispatcher'
-);
+
 const MetaDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Meta/Meta.dispatcher'
 );
+
 const ProductDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Product/Product.dispatcher'
@@ -59,9 +57,8 @@ export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
-        // TODO: this seem to break linked products :'(
+        // TODO: check linked products, there might be issues :'(
         ProductDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
-        // LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch));
     },
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
