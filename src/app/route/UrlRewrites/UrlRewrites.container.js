@@ -112,7 +112,19 @@ export class UrlRewritesContainer extends PureComponent {
 
         switch (this.getType()) {
         case TYPE_PRODUCT:
+            /**
+             * In case we are not yet sure what product ID it is:
+             * - check if there is a hint in browser history
+             * - fallback to none
+             */
             if (isLoading) {
+                const product = history?.state?.state?.product;
+
+                if (product) {
+                    const { sku: historySKU } = product;
+                    return { productSKU: historySKU };
+                }
+
                 return {};
             }
 
@@ -124,20 +136,20 @@ export class UrlRewritesContainer extends PureComponent {
 
             return { pageIds: id };
         case TYPE_CATEGORY:
+            /**
+             * In case we are not yet sure what category ID it is:
+             * - check if there is a hint in browser history
+             * - fallback to none
+             */
             if (isLoading) {
+                const category = history?.state?.state?.category;
+
+                if (category && category !== true) {
+                    return { categoryIds: category };
+                }
+
                 return {};
             }
-
-            /**
-             * Initially the script bellow was responsible for
-             * the category ID injection, to "improve loading"
-             * however, it turns out, it does not really make things
-             * easier. So for now, we are ignoring it.
-             */
-            // const category = history?.state?.state?.category;
-            // if (category && category !== true) {
-            //     return { categoryIds: category };
-            // }
 
             return { categoryIds: id };
         case TYPE_NOTFOUND:

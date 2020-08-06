@@ -61,7 +61,7 @@ export const mapDispatchToProps = (dispatch) => ({
     requestProduct: (options) => {
         // TODO: this seem to break linked products :'(
         ProductDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
-        LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch));
+        // LinkedProductsDispatcher.then(({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch));
     },
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
@@ -78,7 +78,8 @@ export class ProductPageContainer extends PureComponent {
         configurableVariantIndex: -1,
         parameters: {},
         productOptionsData: {},
-        selectedBundlePrice: 0
+        selectedBundlePrice: 0,
+        currentProductSKU: ''
     };
 
     containerFunctions = {
@@ -112,17 +113,28 @@ export class ProductPageContainer extends PureComponent {
         metaTitle: undefined
     };
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props, state) {
         const {
             product: {
+                sku,
                 variants,
                 configurable_options
             },
             location: { search }
         } = props;
 
+        const { currentProductSKU: prevSKU } = state;
+
+        const currentProductSKU = prevSKU === sku ? '' : prevSKU;
+
+        /**
+         * If the product we expect to load is loaded -
+         * reset expected SKU
+         */
         if (!configurable_options && !variants) {
-            return null;
+            return {
+                currentProductSKU
+            };
         }
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
@@ -135,11 +147,19 @@ export class ProductPageContainer extends PureComponent {
             }, {});
 
         if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
-            return { parameters };
+            return {
+                parameters,
+                currentProductSKU
+            };
         }
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
-        return { parameters, configurableVariantIndex };
+
+        return {
+            parameters,
+            currentProductSKU,
+            configurableVariantIndex
+        };
     }
 
     componentDidMount() {
@@ -445,6 +465,7 @@ export class ProductPageContainer extends PureComponent {
 
     requestProduct() {
         const { requestProduct, productSKU } = this.props;
+        const { currentProductSKU } = this.state;
 
         /**
          * If URL rewrite was not passed - do not request the product.
@@ -452,6 +473,15 @@ export class ProductPageContainer extends PureComponent {
         if (!productSKU) {
             return;
         }
+
+        /**
+         * Skip loading the same product SKU the second time
+         */
+        if (currentProductSKU === productSKU) {
+            return;
+        }
+
+        this.setState({ currentProductSKU: productSKU });
 
         const options = {
             isSingleProduct: true,

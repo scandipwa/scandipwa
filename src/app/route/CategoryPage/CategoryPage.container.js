@@ -151,6 +151,22 @@ export class CategoryPageContainer extends PureComponent {
         onSortChange: this.onSortChange.bind(this)
     };
 
+    static getDerivedStateFromProps(props, state) {
+        const { currentCategoryIds } = state;
+        const { category: { id } } = props;
+
+        /**
+         * If the category we expect to load is loaded - reset it
+         */
+        if (currentCategoryIds === id) {
+            return {
+                currentCategoryIds: -1
+            };
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         const {
             categoryIds,
@@ -197,6 +213,8 @@ export class CategoryPageContainer extends PureComponent {
                 id: prevId
             }
         } = prevProps;
+
+        // TODO: category scrolls up when coming from PDP
 
         if (isOffline) {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();

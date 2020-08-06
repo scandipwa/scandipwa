@@ -127,6 +127,9 @@ export class ProductListContainer extends PureComponent {
             return;
         }
 
+        // TODO: product list requests filters alongside the page
+        // TODO: sometimes product list is requested more then once
+
         const options = {
             isNext,
             noAttributes,
@@ -146,8 +149,6 @@ export class ProductListContainer extends PureComponent {
                 search
             }
         };
-
-        // console.log(infoOptions, options);
 
         requestProductList(options);
         requestProductListInfo(infoOptions);
