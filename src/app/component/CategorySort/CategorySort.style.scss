@@ -22,6 +22,8 @@
 
     &-Placeholder {
         text-align: right;
+        opacity: 0;
+        animation: appear 100ms 300ms forwards;
 
         @include mobile {
             text-align: left;

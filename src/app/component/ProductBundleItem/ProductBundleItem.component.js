@@ -16,10 +16,12 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
 
-export const CHECKBOX = 'checkbox';
-export const MULTI = 'multi';
-export const SELECT = 'select';
-export const RADIO = 'radio';
+import {
+    CHECKBOX,
+    MULTI,
+    RADIO,
+    SELECT
+} from './ProductBundleItem.config';
 
 class ProductBundleItem extends ProductCustomizableOption {
     static propTypes = {

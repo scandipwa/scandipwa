@@ -16,20 +16,36 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Link from 'Component/Link';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 
 export class NoMatch extends PureComponent {
     static propTypes = {
-        updateBreadcrumbs: PropTypes.func.isRequired
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        cleanUpTransition: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         this.updateBreadcrumbs();
+        this.updateHeaderState();
+        this.cleanUpTransition();
     }
 
-    /**
-     * Dispatch breadcrumbs update
-     * @return {void}
-     */
+    cleanUpTransition() {
+        const { cleanUpTransition } = this.props;
+
+        cleanUpTransition();
+    }
+
+    updateHeaderState() {
+        const { changeHeaderState } = this.props;
+
+        changeHeaderState({
+            name: DEFAULT_STATE_NAME,
+            isHiddenOnMobile: true
+        });
+    }
+
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [

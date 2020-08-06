@@ -97,7 +97,7 @@ export class ExpandableContent extends PureComponent {
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
                     { typeof heading === 'string' ? (
-                        <TextPlaceholder content={ heading } />
+                        <TextPlaceholder content={ heading } length="medium" />
                     ) : (
                         heading
                     ) }

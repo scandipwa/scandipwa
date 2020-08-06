@@ -168,9 +168,9 @@ class ProductReviews extends PureComponent {
             review_summary: { review_count } = {}
         } = product;
 
-        if (!areDetailsLoaded) {
-            return null;
-        }
+        const heading = areDetailsLoaded
+            ? __('Product reviews (%s)', review_count || '0')
+            : '';
 
         return (
             <ContentWrapper
@@ -179,8 +179,8 @@ class ProductReviews extends PureComponent {
               wrapperMix={ { block: 'ProductReviews', elem: 'Wrapper' } }
             >
                 <ExpandableContent
-                  mix={ { block: 'ProductReviews' } }
-                  heading={ __('Product reviews (%s)', review_count || '0') }
+                  mix={ { block: 'ProductReviews', elem: 'Content' } }
+                  heading={ heading }
                 >
                     { this.renderSummary() }
                     { this.renderList() }

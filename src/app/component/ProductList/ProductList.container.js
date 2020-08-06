@@ -23,8 +23,6 @@ import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
 
-export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
-
 export const mapDispatchToProps = (dispatch) => ({
     requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options)
 });
@@ -39,10 +37,10 @@ export class ProductListContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
-        getIsNewCategory: PropTypes.func.isRequired,
         pages: PagesType.isRequired,
         pageSize: PropTypes.number,
         isLoading: PropTypes.bool.isRequired,
+        isPageLoading: PropTypes.bool,
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
@@ -65,6 +63,7 @@ export class ProductListContainer extends PureComponent {
         sort: undefined,
         isPaginationEnabled: true,
         isInfiniteLoaderEnabled: true,
+        isPageLoading: false,
         noAttributes: false,
         noVariants: false,
         isWidget: false
@@ -75,7 +74,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { pages, getIsNewCategory, filter } = this.props;
+        const { pages } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -84,9 +83,7 @@ export class ProductListContainer extends PureComponent {
         }
 
         // Is true when category is changed. This check prevents making new requests when navigating back to PLP from PDP
-        if (getIsNewCategory() || (!getIsNewCategory() && Object.keys(filter).length > 0)) {
-            this.requestPage(this._getPageFromUrl());
-        }
+        this.requestPage(this._getPageFromUrl());
     }
 
     componentDidUpdate(prevProps) {
@@ -119,16 +116,19 @@ export class ProductListContainer extends PureComponent {
             requestProductList,
             requestProductListInfo,
             noAttributes,
-            noVariants,
-            isWidget
+            noVariants
         } = this.props;
 
-        if (!isWidget && !isNext) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        /**
+         * In case the wrong category was passed down to the product list,
+         * prevent it from being requested.
+         */
+        if (filter.categoryIds === -1) {
+            return;
         }
+
+        // TODO: product list requests filters alongside the page
+        // TODO: sometimes product list is requested more then once
 
         const options = {
             isNext,
@@ -142,11 +142,11 @@ export class ProductListContainer extends PureComponent {
                 currentPage
             }
         };
+
         const infoOptions = {
             args: {
                 filter,
-                search,
-                sort
+                search
             }
         };
 
@@ -204,7 +204,8 @@ export class ProductListContainer extends PureComponent {
 
     loadPage(next = true) {
         const { pagesCount } = this.state;
-        const { isLoading } = this.props;
+        const { isPageLoading } = this.props;
+
         const {
             minPage,
             maxPage,
@@ -215,7 +216,7 @@ export class ProductListContainer extends PureComponent {
         const isUpdatable = totalPages > 0 && pagesCount === loadedPagesCount;
         const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
 
-        if (isUpdatable && shouldUpdateList && !isLoading) {
+        if (isUpdatable && shouldUpdateList && !isPageLoading) {
             this.setState({ pagesCount: pagesCount + 1 });
             this.requestPage(next ? maxPage + 1 : minPage - 1, true);
         }

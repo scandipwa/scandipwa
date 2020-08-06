@@ -48,7 +48,7 @@ export class HomePageContainer extends PureComponent {
         return (
             <div block="HomePage">
                 <InstallPrompt />
-                <CmsPage { ...this.props } isBreadcrumbsActive={ false } />
+                <CmsPage { ...this.props } />
                 <Footer isVisibleOnMobile />
             </div>
         );

@@ -130,6 +130,19 @@ export class ProductListQuery {
                         customerGroupId: group_id || '0'
                     };
 
+                    const {
+                        customFilters: { category_id } = {}
+                    } = options;
+
+                    /**
+                     * Remove category ID from select, if there is a custom filter
+                     * of category already selected in filtering options.
+                     */
+                    if (category_id) {
+                        // eslint-disable-next-line fp/no-delete
+                        options.categoryIds = undefined;
+                    }
+
                     const parsedOptions = Object.entries(options).reduce(
                         (acc, [key, option]) => {
                             // if there is no value, or if the key is just not present in options object

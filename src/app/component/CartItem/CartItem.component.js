@@ -125,6 +125,8 @@ export class CartItem extends PureComponent {
     renderWrapper() {
         const { linkTo } = this.props;
 
+        // TODO: implement shared-transition here?
+
         return (
             <Link to={ linkTo } block="CartItem" elem="Link">
                 <figure block="CartItem" elem="Wrapper">

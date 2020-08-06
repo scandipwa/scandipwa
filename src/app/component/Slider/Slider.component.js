@@ -21,8 +21,10 @@ import { ChildrenType, MixType } from 'Type/Common';
 import CSS from 'Util/CSS';
 import isMobile from 'Util/Mobile';
 
-export const ANIMATION_DURATION = 300;
-export const ACTIVE_SLIDE_PERCENT = 0.1;
+import {
+    ACTIVE_SLIDE_PERCENT,
+    ANIMATION_DURATION
+} from './Slider.config';
 
 /**
  * Slider component

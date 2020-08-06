@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
+import { FilterInputType } from 'Type/ProductList';
 
 export const ProductListDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -26,6 +27,7 @@ export const mapStateToProps = (state) => ({
     pages: state.ProductListReducer.pages,
     isOffline: state.OfflineReducer.isOffline,
     isLoading: state.ProductListReducer.isLoading,
+    isPageLoading: state.ProductListReducer.isPageLoading,
     totalItems: state.ProductListReducer.totalItems,
     totalPages: state.ProductListReducer.totalPages
 });
@@ -40,8 +42,14 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CategoryProductListContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        isOnlyPlaceholder: PropTypes.bool.isRequired,
+        isMatchingListFilter: PropTypes.bool,
+        filter: FilterInputType,
         requestProductList: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isMatchingListFilter: false,
+        filter: {}
     };
 
     containerFunctions = {
@@ -50,30 +58,33 @@ export class CategoryProductListContainer extends PureComponent {
 
     getIsLoading() {
         const {
+            filter,
             isLoading,
-            isOnlyPlaceholder
+            isMatchingListFilter
         } = this.props;
+
+        /**
+         * In case the wrong category was passed down to the product list,
+         * show the loading animation, it will soon change to proper category.
+         */
+        if (filter.categoryIds === -1) {
+            return true;
+        }
 
         if (!navigator.onLine) {
             return false;
         }
 
-        if (isOnlyPlaceholder) {
-            return true;
+        // if the filter expected matches the last requested filter
+        if (isMatchingListFilter) {
+            return false;
         }
 
         return isLoading;
     }
 
     requestProductList(options) {
-        const {
-            isOnlyPlaceholder,
-            requestProductList
-        } = this.props;
-
-        if (isOnlyPlaceholder) {
-            return;
-        }
+        const { requestProductList } = this.props;
 
         requestProductList(options);
     }

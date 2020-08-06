@@ -9,7 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Subscribe } from 'unstated';
+
+import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import NoMatch from './NoMatch.component';
 
@@ -21,7 +27,22 @@ const BreadcrumbsDispatcher = import(
 export const mapDispatchToProps = (dispatch) => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch));
-    }
+    },
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-export default connect(null, mapDispatchToProps)(NoMatch);
+export class NoMatchContainer extends PureComponent {
+    render() {
+        return (
+            <Subscribe to={ [SharedTransitionContainer] }>
+                { ({ cleanUpTransition }) => (
+                    <NoMatch
+                      { ...{ ...this.props, cleanUpTransition } }
+                    />
+                ) }
+            </Subscribe>
+        );
+    }
+}
+
+export default connect(null, mapDispatchToProps)(NoMatchContainer);

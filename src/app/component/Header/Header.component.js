@@ -28,7 +28,6 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import media from 'Util/Media';
@@ -243,7 +242,7 @@ export class Header extends NavigationAbstract {
               elem="Title"
               mods={ { isVisible } }
             >
-                <TextPlaceholder content={ title } />
+                { title }
             </h2>
         );
     }
@@ -522,7 +521,7 @@ export class Header extends NavigationAbstract {
     }
 
     renderContacts() {
-        const { footer_content: { contacts_cms } = {} } = window.contentConfiguration;
+        const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
 
         if (contacts_cms) {
             return (

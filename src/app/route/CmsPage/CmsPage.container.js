@@ -23,9 +23,10 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType, MatchType } from 'Type/Common';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
-import { getUrlParam } from 'Util/Url';
+import { appendWithStoreCode, getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
+import { LOADING_TIME } from './CmsPage.config';
 
 const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -48,8 +49,6 @@ export const mapDispatchToProps = (dispatch) => ({
         dispatch(toggleBreadcrumbs(isActive));
     }
 });
-
-export const LOADING_TIME = 300;
 
 export class CmsPageContainer extends DataContainer {
     static propTypes = {
@@ -157,7 +156,10 @@ export class CmsPageContainer extends DataContainer {
         updateBreadcrumbs(page);
         updateMeta({ title: meta_title || title });
 
-        if (pathname !== '/') {
+        if (
+            pathname !== appendWithStoreCode('/')
+            && pathname !== '/'
+        ) {
             setHeaderState({
                 name: CMS_PAGE,
                 title: content_heading,

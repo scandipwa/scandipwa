@@ -169,7 +169,8 @@ export class CartItemContainer extends PureComponent {
 
         if (type_id !== 'configurable') {
             return {
-                pathname: url
+                pathname: url,
+                state: { product }
             };
         }
 

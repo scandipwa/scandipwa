@@ -9,6 +9,11 @@
         <meta charset="utf-8">
 
         <script>
+            window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`);
+            window.storeRegexText = `/(${window.storeList.join('|')})?`;
+        </script>
+
+        <script>
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
                     navigator.serviceWorker.register('/sw.js');

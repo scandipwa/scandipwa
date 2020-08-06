@@ -71,9 +71,13 @@ export class ProductInformation extends PureComponent {
     }
 
     renderContent() {
+        const { areDetailsLoaded } = this.props;
+        const heading = areDetailsLoaded ? __('Product information') : '';
+
         return (
             <ExpandableContent
-              heading={ __('Product information') }
+              // show placeholder if the details are not loaded
+              heading={ heading }
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
                 { this.renderDescription() }
@@ -90,7 +94,7 @@ export class ProductInformation extends PureComponent {
             }
         } = this.props;
 
-        if (!html && !areDetailsLoaded) {
+        if (!html && areDetailsLoaded) {
             return null;
         }
 

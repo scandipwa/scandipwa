@@ -46,13 +46,11 @@ const ConfigDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispa
 const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
 export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/HomePage'));
 export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/MyAccount'));
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
-export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/SearchPage'));
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
@@ -69,6 +67,7 @@ export const mapStateToProps = (state) => ({
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
     default_title: state.ConfigReducer.default_title,
+    base_link_url: state.ConfigReducer.base_link_url,
     title_prefix: state.ConfigReducer.title_prefix,
     title_suffix: state.ConfigReducer.title_suffix,
     isOffline: state.OfflineReducer.isOffline,
@@ -79,10 +78,13 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
+export const withStoreRegex = (path) => window.storeRegexText.concat(path);
+
 export class AppRouter extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         default_description: PropTypes.string,
+        base_link_url: PropTypes.string,
         default_keywords: PropTypes.string,
         default_title: PropTypes.string,
         title_prefix: PropTypes.string,
@@ -93,6 +95,7 @@ export class AppRouter extends PureComponent {
 
     static defaultProps = {
         default_description: '',
+        base_link_url: '',
         default_keywords: '',
         default_title: '',
         title_prefix: '',
@@ -130,55 +133,47 @@ export class AppRouter extends PureComponent {
 
     [SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path="/" exact component={ HomePage } />,
+            component: <Route path={ withStoreRegex('/') } exact component={ HomePage } />,
             position: 10
         },
         {
-            component: <Route path="/category" component={ CategoryPage } />,
-            position: 20
-        },
-        {
-            component: <Route path="/search/:query/" component={ SearchPage } />,
+            component: <Route path={ withStoreRegex('/search/:query/') } component={ SearchPage } />,
             position: 25
         },
         {
-            component: <Route path="/product" component={ ProductPage } />,
-            position: 30
-        },
-        {
-            component: <Route path="/page" component={ CmsPage } />,
+            component: <Route path={ withStoreRegex('/page') } component={ CmsPage } />,
             position: 40
         },
         {
-            component: <Route path="/cart" exact component={ CartPage } />,
+            component: <Route path={ withStoreRegex('/cart') } exact component={ CartPage } />,
             position: 50
         },
         {
-            component: <Route path="/checkout/:step?" component={ Checkout } />,
+            component: <Route path={ withStoreRegex('/checkout/:step?') } component={ Checkout } />,
             position: 55
         },
         {
-            component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+            component: <Route path={ withStoreRegex('/:account*/createPassword/') } component={ PasswordChangePage } />,
             position: 60
         },
         {
-            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            component: <Route path={ withStoreRegex('/:account*/confirm') } component={ ConfirmAccountPage } />,
             position: 65
         },
         {
-            component: <Route path="/my-account/:tab?" component={ MyAccount } />,
+            component: <Route path={ withStoreRegex('/my-account/:tab?') } component={ MyAccount } />,
             position: 70
         },
         {
-            component: <Route path="/forgot-password" component={ MyAccount } />,
+            component: <Route path={ withStoreRegex('/forgot-password') } component={ MyAccount } />,
             position: 71
         },
         {
-            component: <Route path="/menu" component={ MenuPage } />,
+            component: <Route path={ withStoreRegex('/menu') } component={ MenuPage } />,
             position: 80
         },
         {
-            component: <Route path="/wishlist/shared/:code" component={ WishlistShared } />,
+            component: <Route path={ withStoreRegex('/wishlist/shared/:code') } component={ WishlistShared } />,
             position: 81
         },
         {
@@ -207,6 +202,7 @@ export class AppRouter extends PureComponent {
         super(props);
 
         this.dispatchActions();
+        this.redirectFromPartialUrl();
     }
 
     componentDidUpdate(prevProps) {
@@ -222,6 +218,7 @@ export class AppRouter extends PureComponent {
                 title_suffix
             } = this.props;
 
+            // TODO: this breaks META always
             updateMeta({
                 default_title,
                 title: default_title,
@@ -240,6 +237,20 @@ export class AppRouter extends PureComponent {
             hasError: true,
             errorDetails: { err, info }
         });
+    }
+
+    redirectFromPartialUrl() {
+        const { base_link_url } = this.props;
+        const { pathname: storePrefix } = new URL(base_link_url);
+        const { pathname } = location;
+
+        if (storePrefix === '/') {
+            return;
+        }
+
+        if (storePrefix.slice(0, -1) === pathname) {
+            history.replace(storePrefix);
+        }
     }
 
     getSortedItems(type) {
