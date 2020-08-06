@@ -25,7 +25,7 @@ import { getQueryParam } from 'Util/Url';
 const STATUS_PASSOWORD_UPDATED = 'password_updated';
 const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
-export default class PasswordChangePage extends PureComponent {
+export class PasswordChangePage extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -128,6 +128,7 @@ export default class PasswordChangePage extends PureComponent {
                           label={ __('New password') }
                           id="passwordReset"
                           name="passwordReset"
+                          autocomplete="new-password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
@@ -135,6 +136,7 @@ export default class PasswordChangePage extends PureComponent {
                           label={ __('Confirm password') }
                           id="passwordResetConfirm"
                           name="passwordResetConfirm"
+                          autocomplete="new-password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <div block="MyAccount" elem="Buttons">
@@ -153,3 +155,5 @@ export default class PasswordChangePage extends PureComponent {
         );
     }
 }
+
+export default PasswordChangePage;

@@ -28,7 +28,7 @@ import { ProductType } from 'Type/ProductList';
  * Product card
  * @class ProductCard
  */
-export default class ProductCard extends PureComponent {
+export class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
@@ -237,3 +237,5 @@ export default class ProductCard extends PureComponent {
         );
     }
 }
+
+export default ProductCard;

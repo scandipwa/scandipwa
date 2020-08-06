@@ -19,7 +19,7 @@ import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 
-export default class ProductWishlistButton extends PureComponent {
+export class ProductWishlistButton extends PureComponent {
     static propTypes = {
         isReady: PropTypes.bool,
         isLoading: PropTypes.bool,
@@ -122,3 +122,5 @@ export default class ProductWishlistButton extends PureComponent {
         return null;
     }
 }
+
+export default ProductWishlistButton;

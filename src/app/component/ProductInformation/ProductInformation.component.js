@@ -20,7 +20,7 @@ import Html from 'Component/Html';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { AttributeType, ProductType } from 'Type/ProductList';
 
-export default class ProductInformation extends PureComponent {
+export class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
@@ -109,3 +109,5 @@ export default class ProductInformation extends PureComponent {
         );
     }
 }
+
+export default ProductInformation;

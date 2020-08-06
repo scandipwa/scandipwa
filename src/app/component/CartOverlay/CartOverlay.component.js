@@ -23,7 +23,7 @@ import { TotalsType } from 'Type/MiniCart';
 import isMobile from 'Util/Mobile';
 import { formatCurrency } from 'Util/Price';
 
-export default class CartOverlay extends PureComponent {
+export class CartOverlay extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
@@ -194,3 +194,5 @@ export default class CartOverlay extends PureComponent {
         );
     }
 }
+
+export default CartOverlay;

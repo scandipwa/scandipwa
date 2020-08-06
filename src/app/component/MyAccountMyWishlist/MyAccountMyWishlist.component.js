@@ -20,7 +20,7 @@ import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
 import { ProductType } from 'Type/ProductList';
 
-export default class MyAccountMyWishlist extends PureComponent {
+export class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
@@ -166,3 +166,5 @@ export default class MyAccountMyWishlist extends PureComponent {
         );
     }
 }
+
+export default MyAccountMyWishlist;

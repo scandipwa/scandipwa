@@ -17,7 +17,7 @@ import Loader from 'Component/Loader';
 import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
 import SharedWishlistItem from 'Component/SharedWishlistItem';
 
-export default class WishlistSharedPage extends SourceWishlist {
+export class WishlistSharedPage extends SourceWishlist {
     static propTypes = {
         creatorsName: PropTypes.string.isRequired
     };
@@ -79,3 +79,5 @@ export default class WishlistSharedPage extends SourceWishlist {
         );
     }
 }
+
+export default WishlistSharedPage;

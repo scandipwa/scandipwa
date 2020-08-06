@@ -16,7 +16,7 @@ import { stringify } from 'rebem-classname';
 
 import { ChildrenType } from 'Type/Common';
 
-export default class Link extends PureComponent {
+export class Link extends PureComponent {
     static propTypes = {
         to: PropTypes.oneOfType([
             PropTypes.string,
@@ -109,3 +109,5 @@ export default class Link extends PureComponent {
         );
     }
 }
+
+export default Link;

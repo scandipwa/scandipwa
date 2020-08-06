@@ -21,7 +21,7 @@ import ResetButton from 'Component/ResetButton';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 
-export default class CategoryFilterOverlay extends PureComponent {
+export class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
@@ -202,3 +202,5 @@ export default class CategoryFilterOverlay extends PureComponent {
         );
     }
 }
+
+export default CategoryFilterOverlay;

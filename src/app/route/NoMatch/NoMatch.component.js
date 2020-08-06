@@ -18,7 +18,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Link from 'Component/Link';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 
-export default class NoMatch extends PureComponent {
+export class NoMatch extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         cleanUpTransition: PropTypes.func.isRequired,
@@ -93,3 +93,5 @@ export default class NoMatch extends PureComponent {
         );
     }
 }
+
+export default NoMatch;

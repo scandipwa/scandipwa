@@ -23,7 +23,7 @@ import { MediaItemType } from 'Type/ProductList';
  * VideoThumbnail component
  * @class VideoThumbnail
  */
-export default class VideoThumbnail extends PureComponent {
+export class VideoThumbnail extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
         onPlayClick: PropTypes.func.isRequired
@@ -74,3 +74,5 @@ export default class VideoThumbnail extends PureComponent {
         );
     }
 }
+
+export default VideoThumbnail;

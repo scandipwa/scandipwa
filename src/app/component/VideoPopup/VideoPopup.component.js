@@ -25,7 +25,7 @@ import { VIDEO_POPUP_ID, VIMEO_FORMAT, YOUTUBE_FORMAT } from './VideoPopup.confi
  * A popup capable of displaying a video
  * @class VideoPopup
  */
-export default class VideoPopup extends PureComponent {
+export class VideoPopup extends PureComponent {
     static propTypes = {
         payload: MediaItemType.isRequired
     };
@@ -160,3 +160,5 @@ export default class VideoPopup extends PureComponent {
         );
     }
 }
+
+export default VideoPopup;

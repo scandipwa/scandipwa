@@ -20,7 +20,7 @@ import CSS from 'Util/CSS';
 /**
  * @class ProductReviewRating
  */
-export default class ProductReviewRating extends PureComponent {
+export class ProductReviewRating extends PureComponent {
     static propTypes = {
         summary: PropTypes.number,
         code: PropTypes.string,
@@ -98,3 +98,5 @@ export default class ProductReviewRating extends PureComponent {
         );
     }
 }
+
+export default ProductReviewRating;

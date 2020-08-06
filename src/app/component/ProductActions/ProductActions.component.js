@@ -42,7 +42,7 @@ import {
  * Product actions
  * @class ProductActions
  */
-export default class ProductActions extends PureComponent {
+export class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -532,3 +532,5 @@ export default class ProductActions extends PureComponent {
         );
     }
 }
+
+export default ProductActions;

@@ -27,7 +27,7 @@ import { ProductType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
 import { SIMPLE } from 'Util/Product';
 
-export default class ProductPage extends PureComponent {
+export class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -151,3 +151,5 @@ export default class ProductPage extends PureComponent {
         );
     }
 }
+
+export default ProductPage;

@@ -22,7 +22,7 @@ import { PriceType } from 'Type/ProductList';
  * Product price
  * @class ProductPrice
  */
-export default class ProductPrice extends PureComponent {
+export class ProductPrice extends PureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool,
         roundedRegularPrice: PropTypes.string,
@@ -156,3 +156,5 @@ export default class ProductPrice extends PureComponent {
         );
     }
 }
+
+export default ProductPrice;

@@ -41,7 +41,7 @@ import {
 export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
 
-export default class Header extends NavigationAbstract {
+export class Header extends NavigationAbstract {
     static propTypes = {
         navigationState: PropTypes.object.isRequired,
         cartTotals: TotalsType.isRequired,
@@ -581,3 +581,5 @@ export default class Header extends NavigationAbstract {
         );
     }
 }
+
+export default Header;

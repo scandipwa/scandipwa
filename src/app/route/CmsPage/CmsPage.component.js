@@ -18,7 +18,7 @@ import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { BlockListType } from 'Type/CMS';
 
-export default class CmsPage extends PureComponent {
+export class CmsPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isBreadcrumbsActive: PropTypes.bool,
@@ -85,3 +85,5 @@ export default class CmsPage extends PureComponent {
         );
     }
 }
+
+export default CmsPage;

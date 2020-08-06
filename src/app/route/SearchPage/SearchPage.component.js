@@ -13,7 +13,7 @@ import './SearchPage.style';
 
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
 
-export default class SearchPage extends CategoryPage {
+export class SearchPage extends CategoryPage {
     renderCategoryDetails() {
         const { search } = this.props;
 
@@ -40,3 +40,5 @@ export default class SearchPage extends CategoryPage {
         return null;
     }
 }
+
+export default SearchPage;
