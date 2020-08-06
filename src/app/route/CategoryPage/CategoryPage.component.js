@@ -44,7 +44,7 @@ export default class CategoryPage extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
-        search: PropTypes.string.isRequired,
+        search: PropTypes.string,
         isContentFiltered: PropTypes.bool,
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
@@ -55,7 +55,8 @@ export default class CategoryPage extends PureComponent {
         isContentFiltered: true,
         isMatchingListFilter: false,
         isMatchingInfoFilter: false,
-        totalPages: 1
+        totalPages: 1,
+        search: ''
     };
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
@@ -196,22 +197,33 @@ export default class CategoryPage extends PureComponent {
         );
     }
 
+    renderContent() {
+        return (
+            <>
+                { this.renderFilterOverlay() }
+                { this.renderCategoryDetails() }
+                <aside block="CategoryPage" elem="Miscellaneous">
+                    { this.renderItemsCount() }
+                    { this.renderCategorySort() }
+                    { this.renderFilterButton() }
+                </aside>
+                { this.renderCategoryProductList() }
+                { this.renderCmsBlock() }
+            </>
+        );
+    }
+
     render() {
         return (
             <main block="CategoryPage">
                 <ContentWrapper
-                  wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
+                  wrapperMix={ {
+                      block: 'CategoryPage',
+                      elem: 'Wrapper'
+                  } }
                   label="Category page"
                 >
-                    { this.renderFilterOverlay() }
-                    { this.renderCategoryDetails() }
-                    <aside block="CategoryPage" elem="Miscellaneous">
-                        { this.renderItemsCount() }
-                        { this.renderCategorySort() }
-                        { this.renderFilterButton() }
-                    </aside>
-                    { this.renderCategoryProductList() }
-                    { this.renderCmsBlock() }
+                    { this.renderContent() }
                 </ContentWrapper>
             </main>
         );

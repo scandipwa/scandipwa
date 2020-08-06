@@ -293,7 +293,6 @@ export class CategoryPageContainer extends PureComponent {
         filter: this.getFilter(),
         isMatchingListFilter: this.getIsMatchingListFilter(),
         isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
-        search: this.getSearchParam(),
         selectedSort: this.getSelectedSortFromUrl(),
         selectedFilters: this.getSelectedFiltersFromUrl(),
         isContentFiltered: this.isContentFiltered()
@@ -316,11 +315,6 @@ export class CategoryPageContainer extends PureComponent {
             const [key, value] = part.split('=');
             return { ...acc, [key]: value };
         }, {});
-    }
-
-    getSearchParam() {
-        const search = getQueryParam('search', location);
-        return search ? decodeURIComponent(search) : '';
     }
 
     getSelectedFiltersFromUrl() {
@@ -383,13 +377,18 @@ export class CategoryPageContainer extends PureComponent {
         const customFilters = this.getSelectedFiltersFromUrl();
         const priceRange = this.getSelectedPriceRangeFromUrl();
 
-        const filters = {
+        if (categoryIds === -1) {
+            return {
+                priceRange,
+                customFilters
+            };
+        }
+
+        return {
             priceRange,
             customFilters,
             categoryIds
         };
-
-        return filters;
     }
 
     updateHistory() {
@@ -466,7 +465,7 @@ export class CategoryPageContainer extends PureComponent {
             history
         } = this.props;
 
-        const isFromCategory = history?.location?.state;
+        const { isFromCategory } = history?.location?.state || {};
 
         const onBackClick = isFromCategory
             ? () => history.goBack()

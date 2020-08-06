@@ -21,7 +21,8 @@ export const initialState = {
     pages: {},
     totalItems: 0,
     totalPages: 0,
-    isLoading: true
+    isLoading: true,
+    currentArgs: {}
 };
 
 export const defaultConfig = {
@@ -36,7 +37,7 @@ const ProductListReducer = (state = initialState, action) => {
         total_count: totalItems,
         currentPage,
         isLoading,
-        selectedFilter
+        args: currentArgs
     } = action;
 
     switch (type) {
@@ -53,7 +54,7 @@ const ProductListReducer = (state = initialState, action) => {
     case UPDATE_PRODUCT_LIST_ITEMS:
         return {
             ...state,
-            selectedFilter,
+            currentArgs,
             isLoading: false,
             totalItems,
             totalPages,

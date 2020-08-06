@@ -39,13 +39,8 @@ export class ProductListDispatcher extends QueryDispatcher {
             } = {}
         } = data;
 
-        const {
-            args: {
-                currentPage,
-                filter: selectedFilter
-            },
-            isNext
-        } = options;
+        const { args, isNext } = options;
+        const { currentPage } = args;
 
         if (isNext) {
             return dispatch(
@@ -62,7 +57,7 @@ export class ProductListDispatcher extends QueryDispatcher {
                 currentPage,
                 total_count,
                 total_pages,
-                selectedFilter
+                args
             )
         );
     }

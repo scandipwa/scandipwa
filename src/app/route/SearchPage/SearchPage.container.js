@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
-import { CATEGORY, SEARCH } from 'Component/Header/Header.config';
+// TODO: try SEARCH type
+import { CATEGORY } from 'Component/Header/Header.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { CategoryPageContainer } from 'Route/CategoryPage/CategoryPage.container';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
@@ -11,7 +12,7 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
 import { debounce } from 'Util/Request';
-import { getUrlParam } from 'Util/Url';
+import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
 
@@ -40,6 +41,7 @@ export const mapStateToProps = (state) => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
+    currentArgs: state.ProductListReducer.currentArgs,
     sortFields: state.ProductListInfoReducer.sortFields,
     minPriceRange: state.ProductListInfoReducer.minPrice,
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
@@ -78,25 +80,65 @@ export class SearchPageContainer extends CategoryPageContainer {
         isSearchPage: true
     };
 
-    componentDidMount() {
+    updateMeta() {
+        const { updateMeta } = this.props;
+        updateMeta({ title: __('Search') });
+    }
+
+    updateBreadcrumbs() {
+        const { updateBreadcrumbs } = this.props;
+        const search = this.getSearchParam();
+
+        updateBreadcrumbs([{
+            url: '',
+            name: search.toUpperCase()
+        }, {
+            url: '/',
+            name: __('Home')
+        }]);
+    }
+
+    updateHeaderState() {
         const {
-            isOnlyPlaceholder,
-            updateLoadStatus,
-            updateMeta
+            changeHeaderState,
+            history
         } = this.props;
 
-        updateMeta({ title: __('Search') });
+        const { isFromCategory } = history?.location?.state || {};
+        const search = this.getSearchParam();
 
-        if (isOnlyPlaceholder) {
-            updateLoadStatus(true);
-        }
+        const onBackClick = isFromCategory
+            ? () => history.goBack()
+            : () => history.push(appendWithStoreCode('/menu'));
 
-        // request data only if URL does not match loaded category
-        if (this.getIsNewCategory()) {
-            this._requestCategoryWithPageList();
-        }
+        changeHeaderState({
+            name: CATEGORY,
+            title: search,
+            onBackClick
+        });
+    }
 
-        this._onCategoryUpdate();
+    getIsMatchingListFilter() {
+        const { currentArgs: { search: currentSearch } } = this.props;
+        const search = this.getSearchParam();
+
+        // if the search requested is equal to search from URL
+        return search === currentSearch;
+    }
+
+    getIsMatchingInfoFilter() {
+        const { currentArgs: { search: currentSearch } } = this.props;
+        const search = this.getSearchParam();
+
+        // if the search requested is equal to search from URL
+        return search === currentSearch;
+    }
+
+    componentDidMount() {
+        this.updateMeta();
+        this.updateBreadcrumbs();
+        this.updateHeaderState();
+        this.updateNavigationState();
     }
 
     componentDidUpdate(prevProps) {
@@ -113,97 +155,19 @@ export class SearchPageContainer extends CategoryPageContainer {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
+        /**
+         * If search query has changed - update related information
+         */
         if (query !== prevQuery) {
-            this._updateBreadcrumbs();
-            this._onCategoryUpdate();
+            this.updateMeta();
+            this.updateBreadcrumbs();
+            this.updateHeaderState();
         }
-    }
-
-    _updateHeaderState() {
-        const {
-            changeHeaderState,
-            match: { params: { query } },
-            history
-        } = this.props;
-
-        const { location: { state: { isFromCategory } = {} } } = history;
-
-        const onBackClick = isFromCategory
-            ? () => history.goBack()
-            : () => history.push('/menu');
-
-        changeHeaderState({
-            name: CATEGORY,
-            title: query,
-            onBackClick
-        });
-    }
-
-    _updateBreadcrumbs() {
-        const { updateBreadcrumbs, match: { params: { query } } } = this.props;
-
-        updateBreadcrumbs([{
-            url: '',
-            name: query
-        }, {
-            url: '/',
-            name: __('Home')
-        }]);
-    }
-
-    _onCategoryUpdate() {
-        this._updateHeaderState();
-        this._updateNavigationState();
-        this._updateBreadcrumbs();
-    }
-
-    requestCategory() {
-        const { updateCurrentCategory, match: { params: { query: url_path } } } = this.props;
-
-        updateCurrentCategory({ url_path });
-        this._updateHeaderState();
-    }
-
-    _getProductListOptions(currentPage) {
-        const { match: { params: { query } } } = this.props;
-        const customFilters = this.getSelectedFiltersFromUrl();
-
-        return {
-            args: {
-                filter: {
-                    customFilters
-                },
-                search: query
-            },
-            currentPage
-        };
-    }
-
-    getFilter() {
-        const { categoryIds } = this.props;
-        const customFilters = this.getSelectedFiltersFromUrl();
-        const priceRange = this.getSelectedPriceRangeFromUrl();
-
-        return {
-            priceRange,
-            categoryIds,
-            customFilters
-        };
     }
 
     getSearchParam() {
         const { match: { params: { query } } } = this.props;
-
         return query;
-    }
-
-    getIsNewCategory() {
-        const { category: { url_path } = {} } = this.props;
-
-        const { location, match } = this.props;
-        const path = getUrlParam(match, location);
-
-        return `${ SEARCH }/${ url_path }` !== path;
     }
 
     render() {
@@ -212,6 +176,8 @@ export class SearchPageContainer extends CategoryPageContainer {
               { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
+              // addded here to not override the container props
+              search={ this.getSearchParam() }
             />
         );
     }

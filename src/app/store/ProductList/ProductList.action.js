@@ -39,14 +39,14 @@ export const updateProductListItems = (
     currentPage,
     total_count,
     total_pages,
-    selectedFilter
+    args
 ) => ({
     type: UPDATE_PRODUCT_LIST_ITEMS,
     items,
     currentPage,
     total_pages,
     total_count,
-    selectedFilter
+    args
 });
 
 /**
