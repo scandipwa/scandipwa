@@ -9,4 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './SharedTransition.container';
+export const CHECKBOX = 'checkbox';
+export const MULTI = 'multi';
+export const SELECT = 'select';
+export const RADIO = 'radio';

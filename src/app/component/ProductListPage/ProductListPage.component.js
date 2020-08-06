@@ -19,7 +19,7 @@ import ProductCard from 'Component/ProductCard';
 import { MixType } from 'Type/Common';
 import { FilterType, ProductType } from 'Type/ProductList';
 
-export const DEFAULT_PLACEHOLDER_COUNT = 8;
+import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
 
 /**
  * Placeholder for List of category product

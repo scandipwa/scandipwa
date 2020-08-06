@@ -9,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './SharedTransition.container';
+export const SEARCH_TIMEOUT = 500;
+export const AMOUNT_OF_PLACEHOLDERS = 5;

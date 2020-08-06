@@ -9,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './SharedTransition.container';
+export const ANIMATION_DURATION = 300;
+export const ACTIVE_SLIDE_PERCENT = 0.1;
