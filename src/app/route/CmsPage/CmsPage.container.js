@@ -157,7 +157,10 @@ export class CmsPageContainer extends DataContainer {
         updateBreadcrumbs(page);
         updateMeta({ title: meta_title || title });
 
-        if (pathname !== appendWithStoreCode('/')) {
+        if (
+            pathname !== appendWithStoreCode('/')
+            && pathname !== '/'
+        ) {
             setHeaderState({
                 name: CMS_PAGE,
                 title: content_heading,

@@ -52,7 +52,6 @@ export class UrlRewrites extends PureComponent {
     renderContent() {
         const { props, type } = this.props;
 
-        // TODO: resolve issue when coming from CMS to category, if previously product was opened
         switch (type) {
         case TYPE_PRODUCT:
             return <ProductPage { ...props } />;

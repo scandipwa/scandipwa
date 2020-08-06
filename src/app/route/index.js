@@ -67,6 +67,7 @@ export const mapStateToProps = (state) => ({
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
     default_title: state.ConfigReducer.default_title,
+    base_link_url: state.ConfigReducer.base_link_url,
     title_prefix: state.ConfigReducer.title_prefix,
     title_suffix: state.ConfigReducer.title_suffix,
     isOffline: state.OfflineReducer.isOffline,
@@ -83,6 +84,7 @@ export class AppRouter extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         default_description: PropTypes.string,
+        base_link_url: PropTypes.string,
         default_keywords: PropTypes.string,
         default_title: PropTypes.string,
         title_prefix: PropTypes.string,
@@ -93,6 +95,7 @@ export class AppRouter extends PureComponent {
 
     static defaultProps = {
         default_description: '',
+        base_link_url: '',
         default_keywords: '',
         default_title: '',
         title_prefix: '',
@@ -199,6 +202,7 @@ export class AppRouter extends PureComponent {
         super(props);
 
         this.dispatchActions();
+        this.redirectFromPartialUrl();
     }
 
     componentDidUpdate(prevProps) {
@@ -214,6 +218,7 @@ export class AppRouter extends PureComponent {
                 title_suffix
             } = this.props;
 
+            // TODO: this breaks META always
             updateMeta({
                 default_title,
                 title: default_title,
@@ -232,6 +237,20 @@ export class AppRouter extends PureComponent {
             hasError: true,
             errorDetails: { err, info }
         });
+    }
+
+    redirectFromPartialUrl() {
+        const { base_link_url } = this.props;
+        const { pathname: storePrefix } = new URL(base_link_url);
+        const { pathname } = location;
+
+        if (storePrefix === '/') {
+            return;
+        }
+
+        if (storePrefix.slice(0, -1) === pathname) {
+            history.replace(storePrefix);
+        }
     }
 
     getSortedItems(type) {

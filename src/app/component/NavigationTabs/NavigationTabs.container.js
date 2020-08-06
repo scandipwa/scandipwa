@@ -225,7 +225,10 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         browserHistory.push(appendWithStoreCode('/'));
         hideActiveOverlay();
 
-        if (pathname === appendWithStoreCode('/')) {
+        if (
+            pathname === appendWithStoreCode('/')
+            || pathname === '/'
+        ) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'

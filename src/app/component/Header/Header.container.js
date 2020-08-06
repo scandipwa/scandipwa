@@ -177,7 +177,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
         // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
 
         const activeRoute = Object.keys(this.routeMap)
-            .find((route) => (route !== '/' || pathname === appendWithStoreCode('/')) && pathname.includes(route));
+            .find((route) => (
+                route !== '/'
+                || pathname === appendWithStoreCode('/')
+                || pathname === '/'
+            ) && pathname.includes(route));
 
         if (state.category || state.product || state.page || state.popupOpen) { // keep state if it category is in state
             return navigationState;
