@@ -26,6 +26,7 @@ import DataContainer from 'Util/Request/DataContainer';
 import { appendWithStoreCode, getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
+import { LOADING_TIME } from './CmsPage.config';
 
 const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -48,8 +49,6 @@ export const mapDispatchToProps = (dispatch) => ({
         dispatch(toggleBreadcrumbs(isActive));
     }
 });
-
-export const LOADING_TIME = 300;
 
 export class CmsPageContainer extends DataContainer {
     static propTypes = {

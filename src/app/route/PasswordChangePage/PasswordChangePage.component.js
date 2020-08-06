@@ -22,8 +22,10 @@ import Loader from 'Component/Loader';
 import { LocationType } from 'Type/Common';
 import { getQueryParam } from 'Util/Url';
 
-const STATUS_PASSOWORD_UPDATED = 'password_updated';
-const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
+import {
+    STATUS_PASSOWORD_MISSMATCH,
+    STATUS_PASSOWORD_UPDATED
+} from './PasswordChangePage.config';
 
 export class PasswordChangePage extends PureComponent {
     static propTypes = {

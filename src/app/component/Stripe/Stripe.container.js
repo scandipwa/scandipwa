@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 
 import { Field, prepareQuery } from 'Util/Query';
@@ -5,8 +16,7 @@ import { executeGet } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import Stripe from './Stripe.component';
-
-export const STRIPE_MODE_TEST = 'test';
+import { STRIPE_MODE_TEST } from './Stripe.config';
 
 export class StripeContainer extends PureComponent {
     state = {

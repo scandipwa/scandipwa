@@ -10,4 +10,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const SHARED_ELEMENT_TRANSITION = 250;
+export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)

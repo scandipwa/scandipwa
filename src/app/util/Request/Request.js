@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/create-config-files */
 /* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
