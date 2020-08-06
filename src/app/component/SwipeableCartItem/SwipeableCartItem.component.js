@@ -6,7 +6,7 @@ import Loader from 'Component/Loader';
 import Swipeable from 'Component/Swipeable';
 import { CartItemType } from 'Type/MiniCart';
 
-export default class SwipeableCartItem extends Component {
+export class SwipeableCartItem extends Component {
     static propTypes = {
         item: CartItemType.isRequired,
         quote_currency_code: PropTypes.string.isRequired,
@@ -40,3 +40,5 @@ export default class SwipeableCartItem extends Component {
         );
     }
 }
+
+export default SwipeableCartItem;

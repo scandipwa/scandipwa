@@ -7,7 +7,7 @@ const THRESHOLD_PERC = 50;
 const TRANSITION_CSS = 'transition: transform 0.15s linear;';
 const PERCENT = 100;
 
-export default class Swipeable extends React.Component {
+export class Swipeable extends React.Component {
     static propTypes = {
         children: PropTypes.node.isRequired,
         onRightSwipe: PropTypes.func.isRequired,
@@ -122,3 +122,5 @@ export default class Swipeable extends React.Component {
         );
     }
 }
+
+export default Swipeable;
