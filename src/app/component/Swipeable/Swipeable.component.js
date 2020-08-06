@@ -1,17 +1,33 @@
 import './Swipeable.style';
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-const THRESHOLD_PERC = 50;
-const TRANSITION_CSS = 'transition: transform 0.15s linear;';
-const PERCENT = 100;
+import CSS from 'Util/CSS';
 
-export class Swipeable extends React.Component {
+import {
+    AUTO_MOVE_THRESHOLD_PERC,
+    PERCENT,
+    PERCENT_OFFSET,
+    TRANSITION_CSS
+} from './Swipeable.config';
+
+export class Swipeable extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
-        onRightSwipe: PropTypes.func.isRequired,
-        rightSwipeText: PropTypes.string.isRequired
+
+        onRightSwipe: PropTypes.func,
+        rightSwipeText: PropTypes.string,
+
+        onLeftSwipe: PropTypes.func,
+        leftSwipeText: PropTypes.string
+    };
+
+    static defaultProps = {
+        onRightSwipe: null,
+        rightSwipeText: '',
+        onLeftSwipe: null,
+        leftSwipeText: ''
     };
 
     constructor(props) {
@@ -25,13 +41,14 @@ export class Swipeable extends React.Component {
         this.deltaX = null;
         this.storedOffset = 0;
         this.elemWidth = null;
-
-        this.onTouchStart = this.onTouchStart.bind(this);
-        this.onTouchMove = this.onTouchMove.bind(this);
-        this.onTouchEnd = this.onTouchEnd.bind(this);
     }
 
-    onTouchStart(e) {
+    componentDidMount() {
+        CSS.setVariable(this.swipeObjRef, 'transitionCss', 'none');
+        CSS.setVariable(this.swipeObjRef, 'translateX', '-100%');
+    }
+
+    onTouchStart = (e) => {
         this.startX = e.touches[0].pageX;
 
         if (this.storedOffset !== 0) {
@@ -41,31 +58,72 @@ export class Swipeable extends React.Component {
 
         this.elemWidth = this.swipeObjRef.current.getBoundingClientRect().width;
 
-        this.swipeObjRef.current.style = `transition: none 0; transform: ${this.swipeObjRef.current.style.transform}`;
-    }
+        CSS.setVariable(this.swipeObjRef, 'transitionCss', 'none');
+    };
 
     getDeltaXPercent() {
         return (this.deltaX / this.elemWidth) * PERCENT;
     }
 
-    onTouchMove(e) {
+    onTouchMove = (e) => {
+        const {
+            rightSwipeText,
+            leftSwipeText
+        } = this.props;
+
         this.deltaX = e.touches[0].pageX - this.startX;
-        if (this.deltaX > 0) {
+
+        if (!rightSwipeText && this.deltaX > 0) {
             this.deltaX = 0;
         }
 
-        this.swipeObjRef.current.style.transform = `translateX( ${ this.getDeltaXPercent() }% )`;
-    }
+        if (!leftSwipeText && this.deltaX < 0) {
+            this.deltaX = 0;
+        }
 
-    onTouchEnd() {
+        const realTranformPerc = PERCENT_OFFSET + this.getDeltaXPercent();
+
+        CSS.setVariable(this.swipeObjRef, 'translateX', `${ realTranformPerc }%`);
+    };
+
+    onTouchEnd = () => {
         const deltaXPerc = this.getDeltaXPercent();
+        CSS.setVariable(this.swipeObjRef, 'transitionCss', TRANSITION_CSS);
+
+        const {
+            onLeftSwipe,
+            onRightSwipe
+        } = this.props;
+
+        // left panel (swipe right)
+        if (deltaXPerc > AUTO_MOVE_THRESHOLD_PERC) {
+            CSS.setVariable(this.swipeObjRef, 'translateX', '0%');
+
+            if (onRightSwipe) {
+                onRightSwipe();
+            }
+
+            return;
+        }
+
+        const leftChildWidth = parseFloat(
+            window.getComputedStyle(this.leftChild.current).getPropertyValue('width').split('px')[0]
+        );
+
+        if (this.deltaX > leftChildWidth) {
+            this.storedOffset = leftChildWidth;
+            CSS.setVariable(this.swipeObjRef, 'translateX', `calc(-100% + ${leftChildWidth}px)`);
+            return;
+        }
 
         // right panel (swipe left)
-        if (deltaXPerc < -THRESHOLD_PERC) {
-            this.swipeObjRef.current.style = `${TRANSITION_CSS} transform: translateX(-100%);`;
+        if (deltaXPerc < -AUTO_MOVE_THRESHOLD_PERC) {
+            CSS.setVariable(this.swipeObjRef, 'translateX', '-200%');
 
-            const { onRightSwipe } = this.props;
-            onRightSwipe();
+            if (onLeftSwipe) {
+                onLeftSwipe();
+            }
+
             return;
         }
 
@@ -75,19 +133,49 @@ export class Swipeable extends React.Component {
 
         if (this.deltaX < -rightChildWidth) {
             this.storedOffset = -rightChildWidth;
-
-            this.swipeObjRef.current.style = `${TRANSITION_CSS} transform: translateX(-${rightChildWidth}px);`;
+            CSS.setVariable(this.swipeObjRef, 'translateX', `calc(-100% - ${rightChildWidth}px)`);
             return;
         }
 
-        this.swipeObjRef.current.style = `${TRANSITION_CSS} transform: translateX(0%);`;
-    }
+        CSS.setVariable(this.swipeObjRef, 'translateX', '-100%');
+    };
+
+    getMainPanel = () => {
+        const {
+            children
+        } = this.props;
+
+        return (
+            <div block="Swipeable" elem="Panel">
+                { children }
+            </div>
+        );
+    };
+
+    getSwipeActionPanel = (posText, refElem, swipeText, onSwipe) => (
+        <div
+          mix={ {
+              block: 'Swipeable',
+              elem: 'Panel',
+              mods: {
+                  pos: posText
+              }
+          } }
+        >
+            <div ref={ refElem } block="Swipeable" elem="ChildPanelContainer">
+                <button block="Swipeable" elem="SwipeActionButton" onClick={ onSwipe }>
+                    { swipeText }
+                </button>
+            </div>
+        </div>
+    );
 
     render() {
         const {
-            children,
             onRightSwipe,
-            rightSwipeText
+            rightSwipeText,
+            onLeftSwipe,
+            leftSwipeText
         } = this.props;
 
         return (
@@ -100,23 +188,11 @@ export class Swipeable extends React.Component {
                   onTouchMove={ this.onTouchMove }
                   onTouchEnd={ this.onTouchEnd }
                 >
-                    <div block="Swipeable" elem="Panel">
-                        { children }
-                    </div>
+                    { this.getSwipeActionPanel('left', this.leftChild, rightSwipeText, onRightSwipe) }
 
-                    <div
-                      mix={ {
-                          block: 'Swipeable',
-                          elem: 'Panel',
-                          mods: { pos: 'right' }
-                      } }
-                    >
-                        <div ref={ this.rightChild } block="Swipeable" elem="ChildPanelContainer">
-                            <button onClick={ onRightSwipe }>
-                                { rightSwipeText }
-                            </button>
-                        </div>
-                    </div>
+                    { this.getMainPanel() }
+
+                    { this.getSwipeActionPanel('right', this.rightChild, leftSwipeText, onLeftSwipe) }
                 </div>
             </div>
         );

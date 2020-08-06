@@ -17,27 +17,35 @@ export const mapDispatchToProps = (dispatch) => ({
 
 export class SwipeableCartItemContainer extends Component {
     static propTypes = {
+        item: CartItemType.isRequired,
         removeProduct: PropTypes.func.isRequired,
-        item: CartItemType.isRequired
+        quote_currency_code: PropTypes.string.isRequired
     };
 
-    constructor(props) {
-        super(props);
+    handlers = [];
 
-        this.handleRemoveCartItem = this.handleRemoveCartItem.bind(this);
-        this.setStateNotLoading = this.setStateNotLoading.bind(this);
+    state = {
+        isLoading: false
+    };
 
-        this.handlers = [];
+    containerProps = () => {
+        const {
+            item,
+            quote_currency_code
+        } = this.props;
 
-        this.state = { isLoading: false };
-    }
+        return {
+            item,
+            quote_currency_code
+        };
+    };
 
-    handleRemoveCartItem() {
+    handleRemoveCartItem = () => {
         this.setState({ isLoading: true }, () => {
             const { removeProduct, item: { item_id } } = this.props;
             this.hideLoaderAfterPromise(removeProduct(item_id));
         });
-    }
+    };
 
     hideLoaderAfterPromise(promise) {
         this.registerCancelablePromise(promise)
@@ -50,15 +58,19 @@ export class SwipeableCartItemContainer extends Component {
         return cancelablePromise;
     }
 
-    setStateNotLoading() {
+    setStateNotLoading = () => {
         this.setState({ isLoading: false });
-    }
+    };
 
     render() {
+        const {
+            isLoading
+        } = this.state;
+
         return (
             <SwipeableCartItem
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
+              isLoading={ isLoading }
               onRemoveItem={ this.handleRemoveCartItem }
             />
         );

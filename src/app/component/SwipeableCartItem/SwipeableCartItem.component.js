@@ -1,3 +1,5 @@
+import './SwipeableCartItem.style';
+
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
@@ -10,8 +12,12 @@ export class SwipeableCartItem extends Component {
     static propTypes = {
         item: CartItemType.isRequired,
         quote_currency_code: PropTypes.string.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool,
         onRemoveItem: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isLoading: false
     };
 
     render() {
@@ -23,11 +29,11 @@ export class SwipeableCartItem extends Component {
         } = this.props;
 
         return (
-            <div>
+            <li>
                 <Loader isLoading={ isLoading } />
                 <Swipeable
-                  rightSwipeText="Delete"
-                  onRightSwipe={ onRemoveItem }
+                  leftSwipeText="Delete"
+                  onLeftSwipe={ onRemoveItem }
                 >
                     <CartItem
                       item={ item }
@@ -36,7 +42,7 @@ export class SwipeableCartItem extends Component {
                       isLikeTable
                     />
                 </Swipeable>
-            </div>
+            </li>
         );
     }
 }

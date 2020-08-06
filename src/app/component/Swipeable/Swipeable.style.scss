@@ -1,23 +1,30 @@
+:root {
+    --swipeable-background-color: #eb4444;
+}
+
 .Swipeable {
     overflow: hidden;
 
     &-Container {
         display: flex;
+
+        transition: var(--transitionCss);
+        transform: translateX(var(--translateX));
     }
 
     &-Panel {
         min-height: 100%;
         min-width: 100%;
-        background-color: #eb4444;
+        background-color: var(--swipeable-background-color);
 
+        &_pos_left,
         &_pos_right {
             display: flex;
             align-items: center;
+        }
 
-            button {
-                font-size: 12px;
-                color: #fff;
-            }
+        &_pos_left {
+            flex-direction: row-reverse;
         }
     }
 
@@ -25,7 +32,11 @@
         display: inline-flex;
         align-items: center;
 
-        box-sizing: border-box;
-        padding: 13px;
+        padding: 1rem;
+    }
+
+    &-SwipeActionButton {
+        font-size: 12px;
+        color: $white;
     }
 }
