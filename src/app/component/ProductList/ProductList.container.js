@@ -116,15 +116,15 @@ export class ProductListContainer extends PureComponent {
             requestProductList,
             requestProductListInfo,
             noAttributes,
-            noVariants,
-            isWidget
+            noVariants
         } = this.props;
 
-        if (!isWidget && !isNext) {
-            // window.scrollTo({
-            //     top: 0,
-            //     behavior: 'smooth'
-            // });
+        /**
+         * In case the wrong category was passed down to the product list,
+         * prevent it from being requested.
+         */
+        if (filter.categoryIds === -1) {
+            return;
         }
 
         const options = {

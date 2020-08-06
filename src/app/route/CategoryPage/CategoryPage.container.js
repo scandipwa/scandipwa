@@ -138,6 +138,10 @@ export class CategoryPageContainer extends PureComponent {
         selectedInfoFilter: {}
     };
 
+    state = {
+        currentCategoryIds: -1
+    };
+
     config = {
         sortKey: 'name',
         sortDirection: 'ASC'
@@ -470,12 +474,30 @@ export class CategoryPageContainer extends PureComponent {
             requestCategory
         } = this.props;
 
+        const {
+            currentCategoryIds
+        } = this.state;
+
         /**
          * Prevent non-existent category from being requested
          */
         if (categoryIds === -1) {
             return;
         }
+
+        /**
+         * Do not request a category again! We are still waiting for
+         * a requested category to load!
+         */
+        if (categoryIds === currentCategoryIds) {
+            return;
+        }
+
+        /**
+         * Update current category to track if it is loaded or not - useful,
+         * to prevent category from requesting itself multiple times.
+         */
+        this.setState({ currentCategoryIds: categoryIds });
 
         requestCategory({
             isSearchPage,
