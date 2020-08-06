@@ -40,7 +40,7 @@
     "@scandipwa/scandipwa-guidelines/only-one-class": "error",
     "@scandipwa/scandipwa-guidelines/derived-class-names": "error",
     "@scandipwa/scandipwa-guidelines/use-named-export": "error",
-    // "@scandipwa/scandipwa-guidelines/create-config-files": "error",
+    "@scandipwa/scandipwa-guidelines/create-config-files": "error",
     "simple-import-sort/sort": ["error", {
         "groups": [
             ["^\\u0000"], // side effect imports
