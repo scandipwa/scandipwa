@@ -18,6 +18,7 @@ import CartCoupon from 'Component/CartCoupon';
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
+import HorizontalProductCard from 'Component/HorizontalProductCard';
 import Link from 'Component/Link';
 import ProductLinks from 'Component/ProductLinks';
 import SwipeableCartItem from 'Component/SwipeableCartItem';
@@ -47,13 +48,31 @@ export class CartPage extends PureComponent {
                     <span>{ __('qty') }</span>
                     <span>{ __('subtotal') }</span>
                 </p>
+                { /* <HorizontalProductCard
+                  name="Item Name"
+                /> */ }
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
                     { items.map((item) => (
-                        <SwipeableCartItem
-                          key={ item.item_id }
-                          item={ item }
-                          quote_currency_code={ quote_currency_code }
-                        />
+                        <>
+                            { /* <SwipeableCartItem
+                              key={ item.item_id }
+                              item={ item }
+                              quote_currency_code={ quote_currency_code }
+                            /> */ }
+                            <HorizontalProductCard
+                            //   isLoading
+                              name={ item.product.name }
+                              image={ item.product.small_image.url }
+                              attrs={ ['attr1', 'attr2'] }
+                              qty={ item.qty }
+                              onQtyChange={ null }
+                              qtySelectionVisible
+                              currency_code={ quote_currency_code }
+                              price={ item.row_total }
+                              footer={ <span>footer text</span> }
+                              actions={ <button>btn</button> }
+                            />
+                        </>
                     )) }
                 </ul>
             </>

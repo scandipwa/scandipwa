@@ -122,5 +122,6 @@
     "webpack-dashboard": "^3.2.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-pwa-manifest": "^4.2.0"
-  }
+  },
+  "proxy": "https://de-demo.scandipwa.com/"
 }

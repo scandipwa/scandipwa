@@ -1,0 +1,142 @@
+
+.HorizontalProductCard {
+    padding: 0 1rem;
+    background: var(--cart-item-background);
+    margin-bottom: 2rem;
+
+    display: grid;
+
+    grid-template-columns: minmax(min-content, max-content) auto auto;
+    grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content) auto minmax(min-content, max-content) minmax(min-content, max-content) ;
+    grid-template-areas:
+        'img name name'
+        'img attrs attrs'
+        'img qty qty'
+        'img price actions'
+        'footer footer footer';
+
+    &-Footer {
+        grid-area: footer;
+    }
+
+    &-ImageWrapper {
+        grid-area: img;
+
+        height: 127px;
+    }
+
+    &-NameWrapper {
+        grid-area: name;
+    }
+
+    &-AttributesWrapper {
+        grid-area: attrs;
+    }
+
+    &-QuantityWrapper {
+        grid-area: qty;
+    }
+
+    &-PriceWrapper {
+        grid-area: price;
+    }
+
+    &-ActionsWrapper {
+        grid-area: actions;
+
+        display: flex;
+        justify-content: right;
+        align-items: baseline;
+    }
+
+
+    &-AttributeItem {
+        display: inline-block;
+        font-size: 10px;
+        text-transform: uppercase;
+        border: 1px solid var(--cart-item-option-color);
+        color: var(--cart-item-option-color);
+        padding: 2px 4px;
+        margin-right: 5px;
+    }
+
+    &-Quantity:before {
+        content: ' ';
+    }
+
+    li:last-child {
+        margin-bottom: 0;
+    }
+
+    &-QuantityChangeButton {
+        width: 1.5rem;
+        height: 1.5rem;
+        border: solid 1px #000000;
+
+        margin: 0 0.5rem;
+    }
+
+    &-QuantityChangeButtonText {
+        top: -1px;
+    }
+
+    @include after-mobile {
+        $base: &;
+
+        &_expandMode_block {
+            display: inline-grid;
+
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content) minmax(min-content, max-content) minmax(min-content, max-content) minmax(min-content, max-content) minmax(min-content, max-content);
+            grid-template-areas:
+                'img img'
+                'name name'
+                'attrs attrs'
+                'qty price'
+                'footer footer'
+                'actions actions';
+            width: 250px;
+    
+            #{ $base }-ImageWrapper {
+                height: unset;
+            }
+
+            #{ $base }-PriceWrapper {
+                text-align: right;
+            }
+
+            #{ $base }-ActionsWrapper {
+                justify-content: left;
+            }
+        }
+
+        &_expandMode_line {
+            grid-template-columns: 3fr 1fr 1fr;
+            grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content);
+
+            grid-template-areas:
+                'info qtyAndActions price'
+                'footer footer footer';
+        }
+
+        #{ self }-ProductInfoWrapper {
+            grid-area: info;
+
+            display: grid;
+            grid-template-columns: minmax(min-content, max-content)  auto;
+            grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content);
+
+            grid-template-areas:
+                'img name'
+                'img attrs';
+        }
+
+        #{ self }-QuantityAndActionsWrapper {
+            grid-area: qtyAndActions;
+        }
+
+        #{ $base }-ImageWrapper {
+        }
+        
+    }
+}
