@@ -141,7 +141,8 @@ export class CategoryPageContainer extends PureComponent {
     };
 
     state = {
-        currentCategoryIds: -1
+        currentCategoryIds: -1,
+        breadcrumbsWereUpdated: false
     };
 
     config = {
@@ -210,6 +211,10 @@ export class CategoryPageContainer extends PureComponent {
         } = this.props;
 
         const {
+            breadcrumbsWereUpdated
+        } = this.state;
+
+        const {
             categoryIds: prevCategoryIds,
             category: {
                 id: prevId
@@ -240,9 +245,17 @@ export class CategoryPageContainer extends PureComponent {
 
         /**
          * If category ID was changed => it is loaded => we need to
-         * update category specific information, i.e. breadcrumbs
+         * update category specific information, i.e. breadcrumbs.
+         *
+         * Or if the breadcrumbs were not yet updated after category request,
+         * and the category ID expected to load was loaded, update data.
          */
-        if (id !== prevId) {
+        if (
+            id !== prevId
+            || (
+                !breadcrumbsWereUpdated && id === categoryIds
+            )
+        ) {
             this.checkIsActive();
             this.updateMeta();
             this.updateBreadcrumbs();
@@ -449,6 +462,8 @@ export class CategoryPageContainer extends PureComponent {
         const { updateBreadcrumbs, category } = this.props;
         const breadcrumbs = isUnmatchedCategory ? {} : category;
         updateBreadcrumbs(breadcrumbs);
+
+        this.setState({ breadcrumbsWereUpdated: true });
     }
 
     updateNavigationState() {
@@ -518,7 +533,10 @@ export class CategoryPageContainer extends PureComponent {
          * Update current category to track if it is loaded or not - useful,
          * to prevent category from requesting itself multiple times.
          */
-        this.setState({ currentCategoryIds: categoryIds });
+        this.setState({
+            currentCategoryIds: categoryIds,
+            breadcrumbsWereUpdated: false
+        });
 
         requestCategory({
             isSearchPage,

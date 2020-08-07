@@ -107,6 +107,27 @@ export class ProductListContainer extends PureComponent {
         }
     }
 
+    isEmptyFilter() {
+        const { filter } = this.props;
+
+        const validFilters = Object.entries(filter).filter(([key, value]) => {
+            switch (key) {
+            case 'priceRange':
+                return value.min > 0 || value.max > 0;
+            case 'customFilters':
+                return Object.keys(value).length > 0;
+            case 'categoryIds':
+            default:
+                return true;
+            }
+        });
+
+        /**
+         * If there is more then one valid filter, filters are not empty.
+         */
+        return validFilters.length > 0;
+    }
+
     requestPage = (currentPage = 1, isNext = false) => {
         const {
             sort,
@@ -127,8 +148,16 @@ export class ProductListContainer extends PureComponent {
             return;
         }
 
+        /**
+         * Do not request page if there are no filters
+         */
+        if (!search && !this.isEmptyFilter()) {
+            return;
+        }
+
         // TODO: product list requests filters alongside the page
         // TODO: sometimes product list is requested more then once
+        // TODO: the product list should not request itself, when coming from PDP
 
         const options = {
             isNext,
