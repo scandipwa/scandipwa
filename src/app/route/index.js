@@ -241,7 +241,7 @@ export class AppRouter extends PureComponent {
 
     redirectFromPartialUrl() {
         const { base_link_url } = this.props;
-        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin );
+        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
         const { pathname } = location;
 
         if (storePrefix === '/') {
