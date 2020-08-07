@@ -43,7 +43,7 @@ export const formConfig = () => ({
     },
     password: {
         validate: validatePassword,
-        message: __('Password should be at least 8 characters long')
+        message: __('Password should be at least 8 characters long, include at least on upper case letter, number and symbol!')
     },
     telephone: {
         validate: validateTelephone,
