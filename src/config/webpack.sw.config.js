@@ -105,10 +105,7 @@ module.exports = (_, options) => {
                         {
                             loader: 'extension-import-injector',
                             options: {
-                                magentoRoot,
-                                projectRoot,
-                                importAggregator: 'extensions',
-                                pathFilterCondition: path => !!path.match(/\/sw\/plugin\//)
+                                magentoRoot, projectRoot, importAggregator: 'extensions', context: 'sw'
                             }
                         }
                     ]

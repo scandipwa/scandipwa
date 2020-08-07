@@ -70,10 +70,18 @@ module.exports = {
                     {
                         loader: 'extension-import-injector',
                         options: {
-                            magentoRoot,
-                            projectRoot,
-                            importAggregator: 'extensions',
-                            pathFilterCondition: path => true
+                            magentoRoot, projectRoot, importAggregator: 'extensions', context: 'app'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /util\/Extensions\/index-sw\.js/,
+                use: [
+                    {
+                        loader: 'extension-import-injector',
+                        options: {
+                            magentoRoot, projectRoot, importAggregator: 'extensions', context: 'sw'
                         }
                     }
                 ]

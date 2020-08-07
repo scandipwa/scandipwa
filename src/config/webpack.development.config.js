@@ -108,12 +108,9 @@ const config = (env, argv) => {
                         {
                             loader: 'extension-import-injector',
                             options: {
-                                magentoRoot,
-                                projectRoot,
-                                importAggregator: 'extensions',
-                                pathFilterCondition: path => !!path.match(/\/app\/plugin\//)
+                                magentoRoot, projectRoot, importAggregator: 'extensions', context: 'app'
                             }
-                        }
+                        },
                     ]
                 },
                 {
@@ -122,12 +119,9 @@ const config = (env, argv) => {
                         {
                             loader: 'extension-import-injector',
                             options: {
-                                magentoRoot,
-                                projectRoot,
-                                importAggregator: 'extensions',
-                                pathFilterCondition: path => !!path.match(/\/sw\/plugin\//)
+                                magentoRoot, projectRoot, importAggregator: 'extensions', context: 'sw'
                             }
-                        }
+                        },
                     ]
                 },
                 {

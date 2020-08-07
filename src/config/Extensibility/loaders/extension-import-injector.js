@@ -1,28 +1,55 @@
 /* eslint-disable */
 const { getOptions } = require('loader-utils');
 const path = require('path');
+const fs = require('fs');
+
+const isPluginFile = (entry) => entry.match(/\.plugin\.js$/);
+const isDirectory = (entry) => {
+    if (!fs.lstatSync(entry).isDirectory()) {
+        return false;
+    }
+
+    return true;
+};
+
+const findPluginFiles = (dirPath) => {
+    const dirContents = fs.readdirSync(dirPath);
+    return dirContents
+        .filter(isPluginFile)
+        .map((fileName) => path.resolve(dirPath, fileName))
+        .concat(dirContents
+            .filter((entry) => isDirectory(path.resolve(dirPath, entry)))
+            .reduce(
+                (acc, subDir) => acc.concat(findPluginFiles(path.resolve(dirPath, subDir)))
+                , []
+            )
+        )
+}
 
 module.exports = function injectImports(source) {
-    const { magentoRoot, importAggregator, projectRoot, pathFilterCondition = () => 1 } = getOptions(this);
+    const {
+        context = '',
+        magentoRoot,
+        importAggregator,
+        projectRoot
+    } = getOptions(this);
     const { extensions } = require(path.resolve(projectRoot, 'scandipwa.json'));
 
     const extensionConfigImports = Object.entries(extensions).reduce(
         (importChain, extension) => {
             const [/* name */, repositoryRootPath] = extension;
-            const indexPath = path.resolve(magentoRoot, repositoryRootPath, 'src/scandipwa');
-            const singlePluginConfigPathList = require(indexPath);
+            const pluginDirectory = path.resolve(magentoRoot, repositoryRootPath, path.join('src/scandipwa', context, '/plugin'));
+            if (!fs.existsSync(pluginDirectory)) {
+                return importChain;
+            }
 
-            return importChain + singlePluginConfigPathList.filter(pathFilterCondition).reduce(
-                (singlePluginImportChain, pluginDefinitionPath) => {
-                    const pathToConfigFile = path.resolve(
-                        indexPath,
-                        pluginDefinitionPath
-                    );
-
-                    return singlePluginImportChain.concat(
-                        `${importAggregator}.push(require('${pathToConfigFile}').default);\n`
-                    );
-                }, ''
+            const singlePluginConfigPathList = findPluginFiles(pluginDirectory);
+            return importChain.concat(
+                singlePluginConfigPathList.reduce(
+                    (singlePluginImportChain, pluginFile) => singlePluginImportChain.concat(
+                        `${importAggregator}.push(require('${pluginFile}').default);\n`
+                    ) , ''
+                )
             );
         }, ''
     );

@@ -99,10 +99,7 @@ const webpackConfig = ([lang, translation]) => ({
                     {
                         loader: 'extension-import-injector',
                         options: {
-                            magentoRoot,
-                            projectRoot,
-                            importAggregator: 'extensions',
-                            pathFilterCondition: path => !!path.match(/\/app\/plugin\//)
+                            magentoRoot, projectRoot, importAggregator: 'extensions', context: 'app'
                         }
                     }
                 ]
