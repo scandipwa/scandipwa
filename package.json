@@ -67,7 +67,7 @@
     "@babel/plugin-transform-runtime": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
-    "@babel/runtime": "^7.10.5",
+    "@babel/runtime": "^7.11.2",
     "@scandipwa/eslint-plugin-scandipwa-guidelines": "^1.8.1",
     "autoprefixer": "^9.8.5",
     "babel-cli": "^6.26.0",
