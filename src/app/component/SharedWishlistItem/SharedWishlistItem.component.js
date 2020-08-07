@@ -16,6 +16,7 @@ import Field from 'Component/Field';
 
 import './SharedWishlistItem.style';
 
+/** @namespace Component/SharedWishlistItem/Component */
 export default class SharedWishlistItem extends SourceWishlistItem {
     renderAddToCart() {
         const {
