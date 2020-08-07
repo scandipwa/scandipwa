@@ -18,7 +18,8 @@ import { FILTER } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { LocationType } from 'Type/Router';
+import { HistoryType, LocationType } from 'Type/Common';
+import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
@@ -38,6 +39,7 @@ export const mapDispatchToProps = (dispatch) => ({
 
 export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
+        history: HistoryType.isRequired,
         location: LocationType.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -45,19 +47,92 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
-        updateFilter: PropTypes.func.isRequired,
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
-        isInfoLoading: PropTypes.bool.isRequired,
-        getFilterUrl: PropTypes.func.isRequired
+        isInfoLoading: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
         onSeeResultsClick: this.onSeeResultsClick.bind(this),
         toggleCustomFilter: this.toggleCustomFilter.bind(this),
-        getFilterUrl: this.getFilterUrl.bind(this),
+        getFilterUrl: this.getCustomFilterUrl.bind(this),
         onVisible: this.onVisible.bind(this),
         onHide: this.onHide.bind(this)
     };
+
+    updateFilter(filterName, filterArray) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            customFilters: this.getFilterUrl(filterName, filterArray, false),
+            page: ''
+        }, location, history);
+    }
+
+    toggleCustomFilter(requestVar, value) {
+        this.updateFilter(requestVar, this._getNewFilterArray(requestVar, value));
+    }
+
+    getFilterUrl(filterName, filterArray, isFull = true) {
+        const { location: { pathname } } = this.props;
+        const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
+        const customFilters = isFull ? `${pathname}?customFilters=` : '';
+        const formattedFilters = this._formatSelectedFiltersString(selectedFilters);
+
+        return `${ customFilters }${ formattedFilters }`;
+    }
+
+    getCustomFilterUrl(filterKey, value) {
+        return this.getFilterUrl(filterKey, this._getNewFilterArray(filterKey, value));
+    }
+
+    _getSelectedFiltersFromUrl() {
+        const { location } = this.props;
+        const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
+
+        return selectedFiltersString.reduce((acc, filter) => {
+            if (!filter) {
+                return acc;
+            }
+            const [key, value] = filter.split(':');
+            return { ...acc, [key]: value.split(',') };
+        }, {});
+    }
+
+    _getNewSelectedFiltersString(filterName, filterArray) {
+        const prevCustomFilters = this._getSelectedFiltersFromUrl();
+        const customFilers = {
+            ...prevCustomFilters,
+            [filterName]: filterArray
+        };
+
+        return Object.entries(customFilers)
+            .reduce((accumulator, [filterKey, filterValue]) => {
+                if (filterValue.length) {
+                    const filterValues = filterValue.sort().join(',');
+
+                    accumulator.push(`${filterKey}:${filterValues}`);
+                }
+
+                return accumulator;
+            }, [])
+            .sort()
+            .join(';');
+    }
+
+    _formatSelectedFiltersString(string) {
+        const hasTrailingSemicolon = string[string.length - 1] === ';';
+        const hasLeadingSemicolon = string[0] === ';';
+
+        if (hasLeadingSemicolon) {
+            return this._formatSelectedFiltersString(string.slice(0, -1));
+        }
+
+        if (hasTrailingSemicolon) {
+            return string.slice(1);
+        }
+
+        return string;
+    }
 
     onSeeResultsClick() {
         const {
@@ -93,6 +168,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             name: FILTER,
             isHidden: true
         });
+
         window.addEventListener('popstate', this.historyBackHook);
 
         history.pushState(
@@ -123,20 +199,6 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         window.removeEventListener('popstate', this.historyBackHook);
     }
 
-    /**
-     * Get URL for new filter value
-     *
-     * @param {*} filterKey
-     * @param {*} value
-     * @returns {String} new URL path
-     * @memberof CategoryShoppingOptions
-     */
-    getFilterUrl(filterKey, value) {
-        const { getFilterUrl } = this.props;
-
-        return getFilterUrl(filterKey, this._getNewFilterArray(filterKey, value));
-    }
-
     getAreFiltersEmpty() {
         const { isInfoLoading, availableFilters } = this.props;
 
@@ -162,12 +224,6 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             const [key, value] = part.split('=');
             return { ...acc, [key]: value };
         }, {});
-    }
-
-    toggleCustomFilter(requestVar, value) {
-        const { updateFilter } = this.props;
-
-        updateFilter(requestVar, this._getNewFilterArray(requestVar, value));
     }
 
     /**

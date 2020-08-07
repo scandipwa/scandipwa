@@ -27,6 +27,7 @@ import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
 
@@ -118,12 +119,18 @@ export class CartPageContainer extends PureComponent {
         e.nativeEvent.stopImmediatePropagation();
 
         if (guest_checkout) {
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({
+                pathname: appendWithStoreCode(CHECKOUT_URL)
+            });
+
             return;
         }
 
         if (isSignedIn()) {
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({
+                pathname: appendWithStoreCode(CHECKOUT_URL)
+            });
+
             return;
         }
 
@@ -131,7 +138,7 @@ export class CartPageContainer extends PureComponent {
         showNotification('info', __('Please sign-in to complete checkout!'));
 
         if (isMobile.any()) { // for all mobile devices, simply switch route
-            history.push({ pathname: '/my-account' });
+            history.push({ pathname: appendWithStoreCode('/my-account') });
             return;
         }
 

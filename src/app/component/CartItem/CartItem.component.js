@@ -25,7 +25,7 @@ import { CartItemType } from 'Type/MiniCart';
  * Cart and CartOverlay item
  * @class CartItem
  */
-export default class CartItem extends PureComponent {
+export class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         item: CartItemType.isRequired,
@@ -124,6 +124,8 @@ export default class CartItem extends PureComponent {
 
     renderWrapper() {
         const { linkTo } = this.props;
+
+        // TODO: implement shared-transition here?
 
         return (
             <Link to={ linkTo } block="CartItem" elem="Link">
@@ -332,3 +334,5 @@ export default class CartItem extends PureComponent {
         );
     }
 }
+
+export default CartItem;

@@ -21,7 +21,7 @@ import { NotificationListType } from 'Type/NotificationList';
  * Notification List
  * @class NotificationList
  */
-export default class NotificationList extends PureComponent {
+export class NotificationList extends PureComponent {
     static propTypes = {
         notifications: NotificationListType.isRequired,
         onHideNotification: PropTypes.func.isRequired
@@ -44,3 +44,5 @@ export default class NotificationList extends PureComponent {
         );
     }
 }
+
+export default NotificationList;

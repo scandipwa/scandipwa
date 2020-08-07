@@ -19,7 +19,7 @@ import { ChildrenType } from 'Type/Common';
  * Cms Block
  * @class CmsBlock
  */
-export default class CmsBlock extends PureComponent {
+export class CmsBlock extends PureComponent {
     static propTypes = {
         cmsBlock: PropTypes.shape({
             identifier: PropTypes.string,
@@ -73,3 +73,5 @@ export default class CmsBlock extends PureComponent {
         );
     }
 }
+
+export default CmsBlock;

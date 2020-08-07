@@ -28,8 +28,14 @@ export class ProductListInfoDispatcher extends QueryDispatcher {
         super('ProductListInfo');
     }
 
-    onSuccess({ products }, dispatch) {
-        dispatch(updateProductListInfo(products));
+    onSuccess({ products }, dispatch, options) {
+        const {
+            args: {
+                filter
+            }
+        } = options;
+
+        dispatch(updateProductListInfo(products, filter));
     }
 
     onError(error, dispatch) {
@@ -39,6 +45,7 @@ export class ProductListInfoDispatcher extends QueryDispatcher {
 
     prepareRequest(options, dispatch) {
         dispatch(updateInfoLoadStatus(true));
+
         return ProductListQuery.getQuery({
             ...options,
             requireInfo: true

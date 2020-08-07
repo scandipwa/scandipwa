@@ -21,7 +21,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
  * Product Sort
  * @class ProductSort
  */
-export default class CategorySort extends PureComponent {
+export class CategorySort extends PureComponent {
     static propTypes = {
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,
@@ -38,17 +38,11 @@ export default class CategorySort extends PureComponent {
             disabled: PropTypes.bool,
             label: PropTypes.string
         })).isRequired,
-        sortFields: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.arrayOf(PropTypes.shape({
-                id: PropTypes.string,
-                label: PropTypes.string
-            }))
-        ])
+        isMatchingInfoFilter: PropTypes.bool
     };
 
     static defaultProps = {
-        sortFields: []
+        isMatchingInfoFilter: false
     };
 
     onChange = (value) => {
@@ -68,10 +62,13 @@ export default class CategorySort extends PureComponent {
 
     renderSortField() {
         const {
-            sortKey, sortDirection, sortFields, selectOptions
+            sortKey,
+            sortDirection,
+            selectOptions,
+            isMatchingInfoFilter
         } = this.props;
 
-        if (!sortFields.length) {
+        if (!isMatchingInfoFilter) {
             return this.renderPlaceholder();
         }
 
@@ -97,3 +94,5 @@ export default class CategorySort extends PureComponent {
         );
     }
 }
+
+export default CategorySort;

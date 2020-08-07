@@ -22,7 +22,7 @@ import isMobile from 'Util/Mobile';
  * Page footer
  * @class Footer
  */
-export default class Footer extends PureComponent {
+export class Footer extends PureComponent {
     static propTypes = {
         copyright: PropTypes.string,
         isVisibleOnMobile: PropTypes.bool
@@ -85,3 +85,5 @@ export default class Footer extends PureComponent {
         );
     }
 }
+
+export default Footer;

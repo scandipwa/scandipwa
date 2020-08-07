@@ -24,7 +24,7 @@ import isMobile from 'Util/Mobile';
  * Homepage slider
  * @class SliderWidget
  */
-export default class SliderWidget extends PureComponent {
+export class SliderWidget extends PureComponent {
     static propTypes = {
         slider: PropTypes.shape({
             title: PropTypes.string,
@@ -112,3 +112,5 @@ export default class SliderWidget extends PureComponent {
         );
     }
 }
+
+export default SliderWidget;

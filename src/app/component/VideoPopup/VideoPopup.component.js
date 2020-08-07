@@ -17,6 +17,7 @@ import { PureComponent } from 'react';
 
 import Popup from 'Component/Popup';
 import { MediaItemType } from 'Type/ProductList';
+import { makeCancelable } from 'Util/Promise';
 
 import { VIDEO_POPUP_ID, VIMEO_FORMAT, YOUTUBE_FORMAT } from './VideoPopup.config';
 
@@ -24,17 +25,31 @@ import { VIDEO_POPUP_ID, VIMEO_FORMAT, YOUTUBE_FORMAT } from './VideoPopup.confi
  * A popup capable of displaying a video
  * @class VideoPopup
  */
-export default class VideoPopup extends PureComponent {
+export class VideoPopup extends PureComponent {
     static propTypes = {
         payload: MediaItemType.isRequired
     };
 
     componentDidMount() {
-        this.loadVimeoLibrary()
-            .then(() => this.forceUpdate());
+        this.loadVimeoLibrary();
+        this.loadYouTubeLibrary();
 
-        this.loadYoutubeLibrary()
-            .then(() => this.forceUpdate());
+        Promise.all([
+            this.vimeoPromise,
+            this.youTubePromise
+        ]).then(() => {
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount() {
+        if (this.youTubePromise) {
+            this.youTubePromise.cancel();
+        }
+
+        if (this.vimeoPromise) {
+            this.vimeoPromise.cancel();
+        }
     }
 
     /**
@@ -44,7 +59,7 @@ export default class VideoPopup extends PureComponent {
      * @private
      */
     _renderVimeoVideo(videoId) {
-        const { vimeoComponent: { default: Vimeo } = {} } = this;
+        const Vimeo = this.vimeoComponent;
 
         if (!Vimeo) {
             return null;
@@ -65,7 +80,7 @@ export default class VideoPopup extends PureComponent {
      * @private
      */
     _renderYoutubeVideo(videoId) {
-        const { youtubeComponent: { default: YouTube } = {} } = this;
+        const YouTube = this.youTubeComponent;
 
         if (!YouTube) {
             return null;
@@ -82,12 +97,24 @@ export default class VideoPopup extends PureComponent {
         );
     }
 
-    async loadVimeoLibrary() {
-        this.vimeoComponent = await import('react-vimeo');
+    loadVimeoLibrary() {
+        this.vimeoPromise = makeCancelable(import('react-vimeo'));
+
+        this.vimeoPromise.promise.then(
+            ({ default: vimeo }) => {
+                this.vimeoComponent = vimeo;
+            }
+        );
     }
 
-    async loadYoutubeLibrary() {
-        this.youtubeComponent = await import('react-youtube');
+    loadYouTubeLibrary() {
+        this.youTubePromise = makeCancelable(import('react-youtube'));
+
+        this.youTubePromise.promise.then(
+            ({ default: youTube }) => {
+                this.youTubeComponent = youTube;
+            }
+        );
     }
 
     /**
@@ -133,3 +160,5 @@ export default class VideoPopup extends PureComponent {
         );
     }
 }
+
+export default VideoPopup;

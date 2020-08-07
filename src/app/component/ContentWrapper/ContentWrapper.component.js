@@ -20,7 +20,7 @@ import { ChildrenType, MixType } from 'Type/Common';
  * Content Wrapper
  * @class ContentWrapper
  */
-export default class ContentWrapper extends PureComponent {
+export class ContentWrapper extends PureComponent {
     static propTypes = {
         children: ChildrenType,
         mix: MixType,
@@ -51,3 +51,5 @@ export default class ContentWrapper extends PureComponent {
         );
     }
 }
+
+export default ContentWrapper;

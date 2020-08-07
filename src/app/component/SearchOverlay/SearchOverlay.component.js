@@ -21,10 +21,12 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { ItemsType } from 'Type/ProductList';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
 
-export const SEARCH_TIMEOUT = 500;
-export const AMOUNT_OF_PLACEHOLDERS = 5;
+import {
+    AMOUNT_OF_PLACEHOLDERS,
+    SEARCH_TIMEOUT
+} from './SearchOverlay.config';
 
-export default class SearchOverlay extends PureComponent {
+export class SearchOverlay extends PureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
         searchCriteria: PropTypes.string,
@@ -205,3 +207,5 @@ export default class SearchOverlay extends PureComponent {
         );
     }
 }
+
+export default SearchOverlay;

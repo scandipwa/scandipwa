@@ -18,12 +18,13 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { BreadcrumbsType } from 'Type/Breadcrumbs';
+import { appendWithStoreCode } from 'Util/Url';
 
 /**
  * Breadcrumbs
  * @class Breadcrumbs
  */
-export default class Breadcrumbs extends PureComponent {
+export class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired
@@ -67,7 +68,11 @@ export default class Breadcrumbs extends PureComponent {
     render() {
         const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible || location.pathname === '/') {
+        if (
+            !areBreadcrumbsVisible
+            || location.pathname === appendWithStoreCode('/')
+            || location.pathname === '/'
+        ) {
             return null;
         }
 
@@ -91,3 +96,5 @@ export default class Breadcrumbs extends PureComponent {
         );
     }
 }
+
+export default Breadcrumbs;

@@ -12,9 +12,10 @@
 export const UPDATE_PRODUCT_LIST_INFO = 'UPDATE_PRODUCT_LIST_INFO';
 export const UPDATE_INFO_LOAD_STATUS = 'UPDATE_INFO_LOAD_STATUS';
 
-export const updateProductListInfo = (products) => ({
+export const updateProductListInfo = (products, filter) => ({
     type: UPDATE_PRODUCT_LIST_INFO,
-    products
+    products,
+    selectedFilter: filter
 });
 
 /**

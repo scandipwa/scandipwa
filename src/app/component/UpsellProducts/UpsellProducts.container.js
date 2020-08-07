@@ -15,12 +15,11 @@ import { connect } from 'react-redux';
 import { ProductType } from 'Type/ProductList';
 
 import UpsellProducts from './UpsellProducts.component';
+import { UPSELL } from './UpsellProducts.config';
 
 export const mapStateToProps = (state) => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
-
-export const UPSELL = 'upsell';
 
 export class UpsellProductsContainer extends PureComponent {
     static propTypes = {

@@ -43,7 +43,7 @@ import {
  * Input fields component
  * @class Field
  */
-export default class Field extends PureComponent {
+export class Field extends PureComponent {
     static propTypes = {
         skipValue: PropTypes.bool,
         isControlled: PropTypes.bool,
@@ -433,12 +433,14 @@ export default class Field extends PureComponent {
 
     renderTypePassword() {
         const { value } = this.state;
+        const { autocomplete } = this.props;
+        const passwordAutocomplete = autocomplete === 'off' ? 'current-password' : autocomplete;
 
         return (
             <Input
               { ...this.props }
               type="password"
-              autocomplete="current-password"
+              autocomplete={ passwordAutocomplete }
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
@@ -688,3 +690,5 @@ export default class Field extends PureComponent {
         );
     }
 }
+
+export default Field;

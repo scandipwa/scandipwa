@@ -51,6 +51,13 @@ export class CheckoutQuery {
         return mutation;
     }
 
+    getSetBillingAddressOnCart(input) {
+        return new Field('s_setBillingAddressOnCart')
+            .addArgument('input', 'S_SetBillingAddressOnCartInput!', input)
+            .addField(this._getCartField())
+            .setAlias('billingAddress');
+    }
+
     getSetPaymentMethodOnCartMutation(input) {
         return new Field('s_setPaymentMethodOnCart')
             .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
@@ -162,31 +169,31 @@ export class CheckoutQuery {
 
     _getCartFieldList() {
         return [
-            this._getSelectedPaymentMethodField()
+            'id'
         ];
     }
 
-    _getSelectedPaymentMethodField() {
-        return new Field('selected_payment_method')
-            .addFieldList([
-                'code',
-                'title',
-                'purchase_order_number'
-            ]);
-    }
+    // _getSelectedPaymentMethodField() {
+    //     return new Field('selected_payment_method')
+    //         .addFieldList([
+    //             'code',
+    //             'title',
+    //             'purchase_order_number'
+    //         ]);
+    // }
 
-    _getAvailablePaymentMethodsField() {
-        return new Field('available_payment_methods')
-            .addFieldList([
-                'code',
-                'title'
-            ]);
-    }
+    // _getAvailablePaymentMethodsField() {
+    //     return new Field('available_payment_methods')
+    //         .addFieldList([
+    //             'code',
+    //             'title'
+    //         ]);
+    // }
 
-    _getAppliedCouponField() {
-        return new Field('applied_coupon')
-            .addField('code');
-    }
+    // _getAppliedCouponField() {
+    //     return new Field('applied_coupon')
+    //         .addField('code');
+    // }
 }
 
 export default new CheckoutQuery();

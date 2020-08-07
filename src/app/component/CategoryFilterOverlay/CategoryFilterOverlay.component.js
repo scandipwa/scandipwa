@@ -21,11 +21,12 @@ import ResetButton from 'Component/ResetButton';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 
-export default class CategoryFilterOverlay extends PureComponent {
+export class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
+        isMatchingInfoFilter: PropTypes.bool,
         isInfoLoading: PropTypes.bool.isRequired,
         isProductsLoading: PropTypes.bool.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
@@ -37,20 +38,23 @@ export default class CategoryFilterOverlay extends PureComponent {
         totalPages: PropTypes.number.isRequired
     };
 
+    static defaultProps = {
+        isMatchingInfoFilter: false
+    };
+
     renderFilters() {
         const {
             availableFilters,
             customFiltersValues,
             toggleCustomFilter,
+            isMatchingInfoFilter,
             getFilterUrl
         } = this.props;
-
-        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
 
         return (
             <CategoryConfigurableAttributes
               mix={ { block: 'CategoryFilterOverlay', elem: 'Attributes' } }
-              isReady={ isLoaded }
+              isReady={ isMatchingInfoFilter }
               configurable_options={ availableFilters }
               getLink={ getFilterUrl }
               parameters={ customFiltersValues }
@@ -198,3 +202,5 @@ export default class CategoryFilterOverlay extends PureComponent {
         );
     }
 }
+
+export default CategoryFilterOverlay;
