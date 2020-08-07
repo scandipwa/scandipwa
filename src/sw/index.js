@@ -33,7 +33,7 @@ export const respondOffline = async (event) => {
     if (!responseFromCache) {
         const rootResponse = await fetch('/'); // respond from server
 
-        if (!rootResponse.status === RESPONSE_OK) { // cache only 200 responses
+        if (rootResponse.status === RESPONSE_OK) { // cache only 200 responses
             cache.put('/', rootResponse.clone());
         }
     }
