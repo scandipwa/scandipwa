@@ -60,4 +60,8 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SharedWishlistItemContainer);
+/** @namespace Component/SharedWishlistItem/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SharedWishlistItemContainer);

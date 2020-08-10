@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import MenuItem from './MenuItem.component';
@@ -46,4 +44,4 @@ export class MenuItemContainer extends PureComponent {
     }
 }
 
-export default connect(null)(MenuItemContainer);
+export default MenuItemContainer;

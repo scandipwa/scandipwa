@@ -15,7 +15,7 @@ import { formatCurrency } from 'Util/Price';
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
 /** @namespace Component/ProductCustomizableOption/Container */
-class ProductCustomizableOptionContainer extends PureComponent {
+export class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,

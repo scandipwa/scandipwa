@@ -64,4 +64,8 @@ export class ShareWishlistPopupContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ShareWishlistPopupContainer);
+/** @namespace Component/ShareWishlistPopup/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShareWishlistPopupContainer);

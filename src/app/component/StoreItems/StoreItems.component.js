@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import './StoreItems.style';
 
 /** @namespace Component/StoreItems/Component */
-class StoreItems extends PureComponent {
+export class StoreItems extends PureComponent {
     static propTypes = {
         item: PropTypes.object.isRequired,
         getStoreCode: PropTypes.func.isRequired

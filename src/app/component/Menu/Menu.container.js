@@ -123,4 +123,8 @@ export class MenuContainer extends DataContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(MenuContainer);
+/** @namespace Component/Menu/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);

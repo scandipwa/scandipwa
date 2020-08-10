@@ -11,7 +11,6 @@
 
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import StoreItems from './StoreItems.component';
 
@@ -47,4 +46,4 @@ export class StoreItemsContainer extends PureComponent {
     }
 }
 
-export default connect(null)(StoreItemsContainer);
+export default StoreItemsContainer;

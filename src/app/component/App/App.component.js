@@ -43,6 +43,20 @@ export class App extends PureComponent {
         errorDetails: {}
     };
 
+    __construct(props) {
+        super.__construct(props);
+
+        this.configureAppBasedOnEnvironment();
+    }
+
+    componentDidCatch(err, info) {
+        this.setState({
+            isSomethingWentWrong: true,
+            errorDetails: { err, info }
+        });
+    }
+
+
     renderRedux(children) {
         return (
             <Provider store={ store } key="redux">
@@ -86,25 +100,12 @@ export class App extends PureComponent {
             ? this.productionFunctions
             : this.developmentFunctions;
 
-        functionsToRun.forEach((func) => func());
-    }
-
-    __construct(props) {
-        super.__construct(props);
-
-        this.configureAppBasedOnEnvironment();
+        functionsToRun.forEach(func => func());
     }
 
     handleErrorReset = () => {
         this.setState({ isSomethingWentWrong: false });
     };
-
-    componentDidCatch(err, info) {
-        this.setState({
-            isSomethingWentWrong: true,
-            errorDetails: { err, info }
-        });
-    }
 
     renderSharedTransition() {
         return (

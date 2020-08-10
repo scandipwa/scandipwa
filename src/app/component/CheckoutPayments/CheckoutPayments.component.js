@@ -28,12 +28,9 @@ export const CHECK_MONEY = 'checkmo';
 export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
-        setLoading: PropTypes.func.isRequired,
-        setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
         initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
-        setOrderButtonVisibility: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.string.isRequired,
         billingAddress: PropTypes.shape({

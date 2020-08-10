@@ -73,17 +73,6 @@ export class RouterContainer extends PureComponent {
         this.initializeApplication();
     }
 
-    initializeApplication() {
-        const { init } = this.props;
-        init(this.getHeaderAndFooterOptions());
-    }
-
-    containerProps = () => {
-        const { isBigOffline } = this.props;
-
-        return { isBigOffline };
-    };
-
     componentDidUpdate(prevProps) {
         const { isLoading, updateMeta } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
@@ -108,6 +97,17 @@ export class RouterContainer extends PureComponent {
                 title_suffix
             });
         }
+    }
+
+    containerProps = () => {
+        const { isBigOffline } = this.props;
+
+        return { isBigOffline };
+    };
+
+    initializeApplication() {
+        const { init } = this.props;
+        init(this.getHeaderAndFooterOptions());
     }
 
     getCmsBlocksToRequest() {

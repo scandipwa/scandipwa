@@ -20,7 +20,7 @@ export const TEXT_FIELD = 'field';
 export const AREA_FIELD = 'area';
 
 /** @namespace Component/ProductCustomizableOption/Component */
-class ProductCustomizableOption extends PureComponent {
+export class ProductCustomizableOption extends PureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
         textValue: PropTypes.string.isRequired,
