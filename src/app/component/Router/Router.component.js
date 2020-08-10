@@ -183,21 +183,19 @@ export class Router extends PureComponent {
     }
 
     getSortedItems(type) {
-        return this[type].reduce((acc, { component, position }) => {
-            if (!component) {
-                // eslint-disable-next-line no-console
-                console.warn('There is an item without a component property declared in main router.');
-                return acc;
-            }
+        return this[type].sort(
+            (a, b) => a.position - b.position
+        ).filter(
+            (entry) => {
+                if (!entry.component) {
+                    // eslint-disable-next-line no-console
+                    console.warn('There is an item without a component property declared in main router.');
+                    return false;
+                }
 
-            if (acc[position]) {
-                // eslint-disable-next-line no-console
-                console.warn(`There is already an item with ${ position } declared in main router.`);
-                return acc;
+                return true;
             }
-
-            return { ...acc, [position]: component };
-        }, {});
+        );
     }
 
     handleErrorReset = () => {
@@ -205,9 +203,8 @@ export class Router extends PureComponent {
     };
 
     renderItemsOfType(type) {
-        return Object.entries(this.getSortedItems(type)).map(
-            ([key, component]) => cloneElement(component, { key })
-        );
+        return this.getSortedItems(type)
+            .map(({ position, component }) => cloneElement(component, { key: position }));
     }
 
     renderMainItems() {
