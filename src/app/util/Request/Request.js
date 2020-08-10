@@ -126,14 +126,14 @@ export const handleConnectionError = err => console.error(err); // TODO: Add to 
  */
 export const parseResponse = promise => new Promise((resolve, reject) => {
     promise.then(
-        /** @namespace Util/Request/then */
+        /** @namespace Util/Request/promiseThen */
         res => res.json().then(
-            /** @namespace Util/Request/jsonThen */
+            /** @namespace Util/Request/resJsonThen */
             res => resolve(checkForErrors(res)),
-            /** @namespace Util/Request/jsonThen */
+            /** @namespace Util/Request/resJsonError */
             () => handleConnectionError('Can not transform JSON!') && reject()
         ),
-        /** @namespace Util/Request/then */
+        /** @namespace Util/Request/promiseError */
         err => handleConnectionError('Can not establish connection!') && reject(err)
     );
 });
@@ -163,7 +163,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
                         (putResponse) => {
                             if (putResponse.status === HTTP_201_CREATED) {
                                 getFetch(uri, name).then(
-                                    /** @namespace Util/Request/getFetchThen */
+                                    /** @namespace Util/Request/putResponseGetFetchThen */
                                     res => resolve(res)
                                 );
                             }

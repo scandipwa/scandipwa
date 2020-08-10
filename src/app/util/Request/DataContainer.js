@@ -44,12 +44,12 @@ export class DataContainer extends PureComponent {
         );
 
         this.promise.promise.then(
-            /** @namespace Util/Request/then */
+            /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseThen */
             (response) => {
                 window.dataCache[queryHash] = response;
                 onSucces(response);
             },
-            /** @namespace Util/Request/then */
+            /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseCatch */
             err => onError(err)
         );
     }

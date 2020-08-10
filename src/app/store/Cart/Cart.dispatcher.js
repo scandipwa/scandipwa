@@ -79,7 +79,7 @@ export class CartDispatcher {
         )).then(
             /** @namespace Store/Cart/Dispatcher/fetchQueryThen */
             result => this.handle_syncCartWithBESuccess(dispatch, result),
-            /** @namespace Store/Cart/Dispatcher/fetchQueryThen */
+            /** @namespace Store/Cart/Dispatcher/fetchQueryError */
             error => this.handle_syncCartWithBEError(dispatch, error)
         );
     }
