@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one, func-names */
 const sortPlugins = require('../helpers/sortPlugins');
 const generateMiddlewaredFunction = require('../middlewarers/generateMiddlewaredFunction');
 const getPluginsForMember = require('../helpers/getPluginsForMember');
