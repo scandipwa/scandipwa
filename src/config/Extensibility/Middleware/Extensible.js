@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign, @scandipwa/scandipwa-guidelines/export-level-one */
 const generateGetHandler = require('./handlers/generateGetHandler');
 
 // Key for processable classes to determine whether they are already extensible

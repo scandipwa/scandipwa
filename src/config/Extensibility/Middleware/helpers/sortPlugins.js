@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 const DEFAULT_POSITION = 100;
 
 /**

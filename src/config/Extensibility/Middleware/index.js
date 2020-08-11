@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, @scandipwa/scandipwa-guidelines/export-level-one */
 const generateGetHandler = require('./handlers/generateGetHandler');
 const generateApplyHandler = require('./handlers/generateApplyHandler');
 const generateConstructHandler = require('./handlers/generateConstructHandler');

@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names, @scandipwa/scandipwa-guidelines/export-level-one */
 const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
 /**
  * Middlewaring given original member

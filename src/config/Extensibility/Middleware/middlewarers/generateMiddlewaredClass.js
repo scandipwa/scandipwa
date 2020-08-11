@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
 const sortPlugins = require('../helpers/sortPlugins');
 
