@@ -14,55 +14,28 @@
 // This is custom file, which simply exports babel presets and plugins.
 // This file is later used by Webpack `babel-loader` directly.
 // This is a workaround for a babel issue https://github.com/babel/babel/issues/8309.
+
 // It also has additional functionality in terms of generation additional aliases
 
 const path = require('path');
+const fs = require('fs');
 const { extensions } = require('../../scandipwa.json');
 
 const capitalize = value => value.charAt(0).toUpperCase() + value.slice(1);
 const pascalCase = word => capitalize(word.replace(/(-\w)/g, m => m[1].toUpperCase()));
+const ignoreSpecialChars = word => word.replace(/[^\w\s]/gi, '');
 
-/**
- * Generate aliases for extensions
- * @param {string} projectRoot
- * @param {string} magentoRoot
- */
-const getExtensionsAliases = (projectRoot, magentoRoot) => {
-    const extensionsMeta = Object.values(extensions).reduce(
-        (acc, relativeRoot) => {
-            const frontendRoot = path.join(relativeRoot, 'src/scandipwa');
-            const explodedRoot = relativeRoot.split('/');
-
-            const extensionMeta = {
-                frontendRoot: path.resolve(magentoRoot, frontendRoot),
-                extensionName: explodedRoot[explodedRoot.length - 1],
-                vendorName: explodedRoot[explodedRoot.length - 2],
-            };
-
-            acc.push(extensionMeta);
-
-            return acc;
-        }, []
-    );
-
-    return extensionsMeta.reduce(
-        (acc, { frontendRoot, vendorName, extensionName }) => {
-            acc[`${pascalCase(vendorName)}_${pascalCase(extensionName)}`] = path.relative(projectRoot, frontendRoot);
-
-            return acc;
-        }, {}
-    );
-}
+const PLUGIN_NAME_SEPARATOR = '.';
 
 /**
  * Generate aliases for corresponding directory
  * @param {string} prefix
- * @param {string|undefined} root
+ * @param {string|undefined} src
  * @param {string} projectRoot
  * @returns {object}
  */
-const getAliases = (prefix, root, projectRoot) => {
-    if (!root) {
+const getAliases = (prefix, src, projectRoot) => {
+    if (!src) {
         return {};
     }
 
@@ -70,20 +43,69 @@ const getAliases = (prefix, root, projectRoot) => {
         (acc, curr) => {
             acc[`${capitalize(prefix)}${capitalize(curr)}`] = './' + path.relative(
                 projectRoot,
-                path.resolve(root, `src/app/${curr}/`)
+                path.resolve(src, `app/${curr}/`)
             );
 
             return acc;
         }, {}
     );
 
-    aliases[`${capitalize(prefix)}Plugin`] = './' + path.relative(
-        projectRoot,
-        path.resolve(root, `src/plugin`)
-    );
+    // Only for themes, skip plugins
+    if (!prefix.endsWith(PLUGIN_NAME_SEPARATOR)) {
+        // Add src/plugin for plugins' overrides
+        aliases[`${capitalize(prefix)}Plugin`] = './' + path.relative(
+            projectRoot,
+            path.resolve(src, `plugin`)
+        );
+    // Only for plugins, skip themes
+    } else {
+        // Add src/app/plugin and src/sw/plugin for plugins
+        aliases[`${capitalize(prefix)}AppPlugin`] = './' + path.relative(
+            projectRoot,
+            path.resolve(src, `app/plugin`)
+        );
+
+        aliases[`${capitalize(prefix)}SwPlugin`] = './' + path.relative(
+            projectRoot,
+            path.resolve(src, `sw/plugin`)
+        );
+    }
 
     return aliases;
 }
+
+/**
+ * Generate aliases for extensions
+ * Get name from composer.json, ignoring the special characters
+ * @param {string} projectRoot
+ * @param {string} magentoRoot
+ */
+const getExtensionsAliases = (projectRoot, magentoRoot) => Object.values(extensions).reduce(
+    (acc, extensionRelative) => {
+        const extensionAbsolute = path.join(magentoRoot, extensionRelative);
+        const composerJsonPath = path.join(extensionAbsolute, 'composer.json');
+        if (!fs.existsSync(composerJsonPath)) {
+            throw new Error('Any extension should be a valid composer package, no composer.json found.');
+        }
+
+        const { name: nameField } = require(composerJsonPath);
+        const [vendorName, extensionName] = nameField.split('/');
+        const prefix = `${
+            ignoreSpecialChars(pascalCase(vendorName))
+        }_${
+            ignoreSpecialChars(pascalCase(extensionName))
+        }`.concat(PLUGIN_NAME_SEPARATOR);
+
+        acc = {
+            ...acc,
+            ...getAliases(prefix, path.join(extensionAbsolute, 'src', 'scandipwa'), projectRoot)
+        };
+
+        return acc;
+    }, {}
+);
+
+const traverseSrc = (root) => root ? path.join(root, 'src') : null;
 
 const getPresets = () => ([
     '@babel/preset-env',
@@ -102,9 +124,9 @@ const getPlugins = ({ projectRoot, magentoRoot, fallbackRoot, parentRoot }) => (
         'module-resolver', {
             root: './',
             alias: {
-                ...getAliases('', projectRoot, projectRoot),
-                ...getAliases('Source', fallbackRoot, projectRoot),
-                ...getAliases('Parent', parentRoot, projectRoot),
+                ...getAliases('', traverseSrc(projectRoot), projectRoot),
+                ...getAliases('Source', traverseSrc(fallbackRoot), projectRoot),
+                ...getAliases('Parent', traverseSrc(parentRoot), projectRoot),
                 ...getExtensionsAliases(projectRoot, magentoRoot)
             }
         }
