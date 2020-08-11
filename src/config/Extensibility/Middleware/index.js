@@ -4,6 +4,16 @@ const generateApplyHandler = require('./handlers/generateApplyHandler');
 const generateConstructHandler = require('./handlers/generateConstructHandler');
 const applyClassWrappers = require('./middlewarers/generateMiddlewaredClass');
 
+const addNamespaceToMiddlewarable = (Middlewarable, namespace) => {
+    if (!Middlewarable.prototype.__namespace__) {
+        Middlewarable.prototype.__namespace__ = [];
+    }
+
+    Middlewarable.prototype.__namespace__.push(namespace);
+};
+
+const getNamespacesFromMiddlewarable = Middlewarable => Middlewarable.prototype.__namespace__;
+
 /**
  * Middleware function is supposed to wrap source classes
  * in order to provide plugin functionality
@@ -11,17 +21,17 @@ const applyClassWrappers = require('./middlewarers/generateMiddlewaredClass');
  * @param {string} namespace
  */
 function middleware(Middlewarable, namespace) {
-    Middlewarable.prototype.__namespace__ = namespace;
+    addNamespaceToMiddlewarable(Middlewarable, namespace);
 
     const handler = {
         // Get handler for members - intercepts `get` calls, meant for class static members
-        get: generateGetHandler('class', namespace),
+        get: generateGetHandler('class', getNamespacesFromMiddlewarable(Middlewarable)),
 
         // Apply handler for functions - intercepts function calls
-        apply: generateApplyHandler(namespace),
+        apply: generateApplyHandler(getNamespacesFromMiddlewarable(Middlewarable)),
 
         // Construct handler for classes - intercepts `new` operator calls, changes properties
-        construct: generateConstructHandler(namespace)
+        construct: generateConstructHandler(getNamespacesFromMiddlewarable(Middlewarable))
     };
 
     const proxy = new Proxy(Middlewarable, handler);

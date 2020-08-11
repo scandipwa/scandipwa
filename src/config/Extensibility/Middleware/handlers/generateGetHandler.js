@@ -5,9 +5,9 @@ const getPluginsForMember = require('../helpers/getPluginsForMember');
 
 /**
  * @param {string} targetType class | instance
- * @param {string} namespace
+ * @param {string} namespaces
  */
-module.exports = (targetType, namespace) => function (target, memberName, rec) {
+module.exports = (targetType, namespaces) => function (target, memberName, rec) {
     if (memberName === 'Symbol.iterator') {
         return target[Symbol.iterator].bind(target);
     }
@@ -17,9 +17,9 @@ module.exports = (targetType, namespace) => function (target, memberName, rec) {
         ? 'static-member'
         : 'member-function';
 
-    const memberPluginsGet = getPluginsForMember(namespace, targetSpecifier, memberName);
+    const memberPluginsGet = getPluginsForMember(namespaces, targetSpecifier, memberName);
 
-    if (!memberPluginsGet) {
+    if (!memberPluginsGet.length) {
         return origMember;
     }
 
