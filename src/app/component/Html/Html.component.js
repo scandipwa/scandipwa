@@ -193,8 +193,7 @@ export class Html extends PureComponent {
      * @param {{ attribs: Object }} { attribs }
      * @returns {null|JSX} Return Widget
      * @memberof Html
-     * @namespace Component/Html/Component
- */
+     */
     replaceWidget({ attribs }) {
         return <WidgetFactory { ...this.attributesToProps(attribs) } />;
     }
