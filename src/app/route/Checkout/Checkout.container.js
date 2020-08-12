@@ -402,7 +402,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
                 guest_cart_id,
                 payment_method: {
-                    code, [code]: additional_data
+                    code, ['additional_data']: additional_data
                 }
             }));
 
