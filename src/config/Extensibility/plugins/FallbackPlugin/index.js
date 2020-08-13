@@ -305,7 +305,7 @@ class FallbackPlugin {
 
     // Function which checks for file
     fileExists(path) {
-        return (path.match(/\.scss/) && fs.existsSync(path))
+        return (path.match(/\.(scss|js|html|svg)/) && fs.existsSync(path))
             || fs.existsSync(`${path}/index.js`)
             || fs.existsSync(`${path}.js`)
             || fs.existsSync(`${path}.scss`);
