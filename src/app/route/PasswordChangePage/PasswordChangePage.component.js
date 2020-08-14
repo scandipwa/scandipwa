@@ -9,23 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Redirect } from 'react-router';
-import PropTypes from 'prop-types';
-import ContentWrapper from 'Component/ContentWrapper';
-import Loader from 'Component/Loader';
-import Field from 'Component/Field';
-import Form from 'Component/Form';
-import { getQueryParam } from 'Util/Url';
-import { LocationType } from 'Type/Common';
 import './PasswordChangePage.style';
 
-export const STATUS_PASSOWORD_UPDATED = 'password_updated';
-export const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { Redirect } from 'react-router';
 
-/** @namespace Route/PasswordChangePage/Component */
+import ContentWrapper from 'Component/ContentWrapper';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
+import { LocationType } from 'Type/Common';
+import { getQueryParam } from 'Util/Url';
+
+import {
+    STATUS_PASSOWORD_MISSMATCH,
+    STATUS_PASSOWORD_UPDATED
+} from './PasswordChangePage.config';
+
 export class PasswordChangePage extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        passwordResetStatus: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]).isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired
     };
@@ -121,6 +130,7 @@ export class PasswordChangePage extends PureComponent {
                           label={ __('New password') }
                           id="passwordReset"
                           name="passwordReset"
+                          autocomplete="new-password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
@@ -128,6 +138,7 @@ export class PasswordChangePage extends PureComponent {
                           label={ __('Confirm password') }
                           id="passwordResetConfirm"
                           name="passwordResetConfirm"
+                          autocomplete="new-password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <div block="MyAccount" elem="Buttons">

@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 
-import isMobile from 'Util/Mobile';
 import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import isMobile from 'Util/Mobile';
 
 /** @namespace Component/InstallPrompt/Container */
 export class InstallPromptContainer extends PureComponent {

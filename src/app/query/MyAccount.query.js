@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { GUEST_QUOTE_ID } from 'Store/Cart';
+import { Field } from 'Util/Query';
 
 /**
  * MyAccount Mutations

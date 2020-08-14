@@ -1,5 +1,7 @@
-import PropTypes from 'prop-types';
 import './NotSupportedPayment.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 /** @namespace Component/NotSupportedPayment/Component */
 export class NotSupportedPayment extends PureComponent {

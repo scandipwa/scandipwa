@@ -10,7 +10,9 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { TransformComponent } from 'react-zoom-pan-pinch';
+
 import Image from 'Component/Image';
 
 /** @namespace Component/ProductGalleryBaseImage/Component */

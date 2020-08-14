@@ -12,8 +12,9 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-export const DEFAULT_STATE_NAME = 'default';
+import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
 /** @namespace Component/NavigationAbstract/Component */
 export class NavigationAbstract extends PureComponent {

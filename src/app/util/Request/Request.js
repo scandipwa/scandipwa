@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/create-config-files */
 /* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -11,9 +12,24 @@
  */
 
 import { getAuthorizationToken } from 'Util/Auth';
+
 import { hash } from './Hash';
 
 export const GRAPHQL_URI = '/graphql';
+
+export const getStoreCodePath = () => {
+    const path = location.pathname;
+    // eslint-disable-next-line no-undef
+    const firstPathPart = path.split('/')[1];
+
+    if (window.storeList.includes(firstPathPart)) {
+        return `/${ firstPathPart }`;
+    }
+
+    return '';
+};
+
+export const getGraphqlEndpoint = () => getStoreCodePath().concat(GRAPHQL_URI);
 
 /**
  * Append authorization token to header object
@@ -105,7 +121,7 @@ export const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
  * @return {Promise<Object>} Handled GraphqlQL results promise
  * @namespace Util/Request/checkForErrors
  */
-export const checkForErrors = res => new Promise((resolve, reject) => {
+export const checkForErrors = (res) => new Promise((resolve, reject) => {
     const { errors, data } = res;
     return errors ? reject(errors) : resolve(data);
 });
@@ -116,7 +132,7 @@ export const checkForErrors = res => new Promise((resolve, reject) => {
  * @return {void} Simply console error
  * @namespace Util/Request/handleConnectionError
  */
-export const handleConnectionError = err => console.error(err); // TODO: Add to logs pool
+export const handleConnectionError = (err) => console.error(err); // TODO: Add to logs pool
 
 /**
  * Parse response and check wether it contains errors
@@ -124,17 +140,17 @@ export const handleConnectionError = err => console.error(err); // TODO: Add to 
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  * @namespace Util/Request/parseResponse
  */
-export const parseResponse = promise => new Promise((resolve, reject) => {
+export const parseResponse = (promise) => new Promise((resolve, reject) => {
     promise.then(
         /** @namespace Util/Request/promiseThen */
-        res => res.json().then(
+        (res) => res.json().then(
             /** @namespace Util/Request/resJsonThen */
-            res => resolve(checkForErrors(res)),
+            (res) => resolve(checkForErrors(res)),
             /** @namespace Util/Request/resJsonError */
             () => handleConnectionError('Can not transform JSON!') && reject()
         ),
         /** @namespace Util/Request/promiseError */
-        err => handleConnectionError('Can not establish connection!') && reject(err)
+        (err) => handleConnectionError('Can not establish connection!') && reject(err)
     );
 });
 
@@ -151,20 +167,20 @@ export const HTTP_201_CREATED = 201;
  */
 export const executeGet = (queryObject, name, cacheTTL) => {
     const { query, variables } = queryObject;
-    const uri = formatURI(query, variables, GRAPHQL_URI);
+    const uri = formatURI(query, variables, getGraphqlEndpoint());
 
     return parseResponse(new Promise((resolve) => {
         getFetch(uri, name).then(
             /** @namespace Util/Request/getFetchThen */
             (res) => {
                 if (res.status === HTTP_410_GONE) {
-                    putPersistedQuery(GRAPHQL_URI, query, cacheTTL).then(
+                    putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL).then(
                         /** @namespace Util/Request/putPersistedQueryThen */
                         (putResponse) => {
                             if (putResponse.status === HTTP_201_CREATED) {
                                 getFetch(uri, name).then(
                                     /** @namespace Util/Request/putResponseGetFetchThen */
-                                    res => resolve(res)
+                                    (res) => resolve(res)
                                 );
                             }
                         }
@@ -185,7 +201,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
  */
 export const executePost = (queryObject) => {
     const { query, variables } = queryObject;
-    return parseResponse(postFetch(GRAPHQL_URI, query, variables));
+    return parseResponse(postFetch(getGraphqlEndpoint(), query, variables));
 };
 
 /**
@@ -194,7 +210,7 @@ export const executePost = (queryObject) => {
  * @return {Promise<any>} Broadcast message promise
  * @namespace Util/Request/listenForBroadCast
  */
-export const listenForBroadCast = name => new Promise((resolve) => {
+export const listenForBroadCast = (name) => new Promise((resolve) => {
     const { BroadcastChannel } = window;
     if (BroadcastChannel) {
         const bc = new BroadcastChannel(name);

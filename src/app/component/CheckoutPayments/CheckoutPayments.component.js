@@ -10,19 +10,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import Klarna from 'Component/Klarna';
-import Braintree from 'Component/Braintree';
-import { paymentMethodsType } from 'Type/Checkout';
-import CheckoutPayment from 'Component/CheckoutPayment';
-import NotSupportedPayment from 'Component/NotSupportedPayment';
-
 import './CheckoutPayments.style';
 
-export const KLARNA = 'klarna_kp';
-export const BRAINTREE = 'braintree';
-export const CHECK_MONEY = 'checkmo';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Braintree from 'Component/Braintree';
+import CheckoutPayment from 'Component/CheckoutPayment';
+import Klarna from 'Component/Klarna';
+import NotSupportedPayment from 'Component/NotSupportedPayment';
+import { paymentMethodsType } from 'Type/Checkout';
+
+import {
+    BRAINTREE,
+    KLARNA,
+} from './CheckoutPayments.config';
 
 /** @namespace Component/CheckoutPayments/Component */
 export class CheckoutPayments extends PureComponent {

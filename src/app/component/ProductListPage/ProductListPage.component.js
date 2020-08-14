@@ -9,15 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import ProductCard from 'Component/ProductCard';
-import { ProductType, FilterType } from 'Type/ProductList';
-import { MixType } from 'Type/Common';
-
 import './ProductListPage.style';
 
-export const DEFAULT_PLACEHOLDER_COUNT = 8;
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
+
+import ProductCard from 'Component/ProductCard';
+import { MixType } from 'Type/Common';
+import { FilterType, ProductType } from 'Type/ProductList';
+
+import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
 
 /**
  * Placeholder for List of category product
@@ -160,9 +162,9 @@ export class ProductListPage extends PureComponent {
     }
 
     renderItems() {
-        const { items } = this.props;
+        const { items, isLoading } = this.props;
 
-        if (!items.length) {
+        if (!items.length || isLoading) {
             return this.renderPlaceholderItems();
         }
 

@@ -10,17 +10,17 @@
  */
 
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-import { generateQuery, getQueryParam } from 'Util/Url';
 import { HistoryType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
+import { generateQuery, getQueryParam } from 'Util/Url';
 
 import CategoryPagination from './CategoryPagination.component';
 
-/** @namespace Component/CategoryPagination/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     paginationFrame: state.ConfigReducer.pagination_frame,
     paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
     anchorTextPrevious: state.ConfigReducer.anchor_text_for_previous,

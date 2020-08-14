@@ -18,7 +18,7 @@ export const SET_BIG_OFFLINE_NOTICE = 'SET_BIG_OFFLINE_NOTICE';
  * @return {void}
  * @namespace Store/Offline/Action/showOfflineNotice
  */
-export const showOfflineNotice = isOffline => ({
+export const showOfflineNotice = (isOffline) => ({
     type: SHOW_OFFLINE_NOTICE,
     isOffline
 });
@@ -29,7 +29,7 @@ export const showOfflineNotice = isOffline => ({
  * @return {void}
  * @namespace Store/Offline/Action/setBigOfflineNotice
  */
-export const setBigOfflineNotice = isBig => ({
+export const setBigOfflineNotice = (isBig) => ({
     type: SET_BIG_OFFLINE_NOTICE,
     isBig
 });

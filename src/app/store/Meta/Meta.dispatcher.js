@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { updateMeta } from 'Store/Meta';
+import { updateMeta } from 'Store/Meta/Meta.action';
 
 /**
  * Meta Dispatcher

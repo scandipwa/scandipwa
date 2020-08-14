@@ -11,9 +11,9 @@
 
 import { connect } from 'react-redux';
 
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { hideActiveOverlay } from 'Store/Overlay';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 
 import MenuOverlay from './MenuOverlay.component';
 

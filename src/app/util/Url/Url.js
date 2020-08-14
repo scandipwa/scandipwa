@@ -11,7 +11,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// TODO: rewrite using import { history } from 'Route';
+import { getStore } from 'Store';
+
 // TODO: fix no LET
 
 /**
@@ -48,14 +49,41 @@ export const removeQueryParamWithoutHistory = (name, history, location) => {
  * @namespace Util/Url/getUrlParam
  */
 export const getUrlParam = (match, location) => {
-    const baseUrl = match.path;
-    const currentUrl = location.pathname;
+    const baseUrl = match.path.replace(window.storeRegexText, '').replace('/', '');
+    const currentUrl = location.pathname.replace(new RegExp(window.storeRegexText), '');
 
     if (baseUrl === '/') {
         return currentUrl.replace(baseUrl, '');
     }
 
-    return currentUrl.replace(baseUrl, '').substring(1);
+    return currentUrl.replace(baseUrl, '').replace(/^\/*/, '');
+};
+
+/**
+ * Append store code to URL
+ * @param {String} pathname the URL to append store code to
+ */
+export const appendWithStoreCode = (pathname) => {
+    const { ConfigReducer: { base_link_url = window.location.origin } = {} } = getStore().getState() || {};
+    const { pathname: storePrefix } = new URL(base_link_url);
+
+    // ignore empty URLs
+    if (!pathname) {
+        return pathname;
+    }
+
+    // match URLs which have the store code in pathname
+    if (pathname.match(`/(${window.storeList.join('|')})`)) {
+        return pathname;
+    }
+
+    if (!pathname.startsWith('/')) {
+        // eslint-disable-next-line no-param-reassign
+        pathname = `/${ pathname }`;
+    }
+
+    // trim the last slash from URL, and append it to pathname
+    return storePrefix.slice(0, -1).concat(pathname);
 };
 
 /**
@@ -146,7 +174,6 @@ export const convertKeyValuesToQueryString = (keyValuePairs) => {
 
     return `${newSearchQuery.slice(0, -1)}`; // remove trailing '&'
 };
-
 
 /** @namespace Util/Url/generateQuery */
 export const generateQuery = (keyValueObject, location, history) => {

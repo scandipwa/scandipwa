@@ -10,7 +10,8 @@
  */
 
 import { QueryDispatcher } from 'Util/Request';
-import { CmsBlockQuery, SliderQuery } from 'Query';
+import SliderQuery from 'Query/Slider.query';
+import CmsBlockQuery from 'Query/CmsBlock.query';
 import { showNotification } from 'Store/Notification';
 import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider/CmsBlocksAndSlider.action';
 

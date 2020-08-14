@@ -10,17 +10,15 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import Popup from 'Component/Popup';
-import { customerType } from 'Type/Account';
+import Loader from 'Component/Loader';
 import MyAccountCustomerForm from 'Component/MyAccountCustomerForm';
 import MyAccountPasswordForm from 'Component/MyAccountPasswordForm';
-import Loader from 'Component/Loader';
+import Popup from 'Component/Popup';
+import { customerType } from 'Type/Account';
 
-export const CUSTOMER_POPUP_ID = 'MyAccountCustomerPopup';
-
-export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
-export const EDIT_CUSTOMER = 'EDIT_CUSTOMER';
+import { CHANGE_PASSWORD, CUSTOMER_POPUP_ID, EDIT_CUSTOMER } from './MyAccountCustomerPopup.config';
 
 /** @namespace Component/MyAccountCustomerPopup/Component */
 export class MyAccountCustomerPopup extends PureComponent {

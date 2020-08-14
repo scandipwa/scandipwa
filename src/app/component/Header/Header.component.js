@@ -11,47 +11,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import SearchField from 'Component/SearchField';
-import MyAccountOverlay from 'Component/MyAccountOverlay';
-import OfflineNotice from 'Component/OfflineNotice';
-import ClickOutside from 'Component/ClickOutside';
-import CartOverlay from 'Component/CartOverlay';
-import Menu from 'Component/Menu';
-import { LOGO_MEDIA } from 'Util/Media/Media';
-import StoreSwitcher from 'Component/StoreSwitcher';
-import CmsBlock from 'Component/CmsBlock';
-import { TotalsType } from 'Type/MiniCart';
-import { isSignedIn } from 'Util/Auth';
-import isMobile from 'Util/Mobile';
-import Link from 'Component/Link';
-import Logo from 'Component/Logo';
-import media from 'Util/Media';
-
 import './Header.style';
 
-export const PDP = 'pdp';
-export const POPUP = 'popup';
-export const CATEGORY = 'category';
-export const CUSTOMER_ACCOUNT = 'customer_account';
-export const CUSTOMER_SUB_ACCOUNT = 'customer_sub_account';
-export const CUSTOMER_ACCOUNT_PAGE = 'customer_account_page';
-export const HOME_PAGE = 'home';
-export const MENU = 'menu';
-export const MENU_SUBCATEGORY = 'menu_subcategory';
-export const SEARCH = 'search';
-export const FILTER = 'filter';
-export const CART = 'cart';
-export const CART_OVERLAY = 'cart_overlay';
-export const CART_EDITING = 'cart_editing';
-export const CHECKOUT = 'checkout';
-export const CMS_PAGE = 'cms-page';
-export const MY_ACCOUNT = 'my-account';
+import PropTypes from 'prop-types';
+import { lazy, Suspense } from 'react';
 
-/** @namespace Component/Header/Component */
+import ClickOutside from 'Component/ClickOutside';
+import CmsBlock from 'Component/CmsBlock';
+import Link from 'Component/Link';
+import Logo from 'Component/Logo';
+import Menu from 'Component/Menu';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+import OfflineNotice from 'Component/OfflineNotice';
+import PopupSuspense from 'Component/PopupSuspense';
+import SearchField from 'Component/SearchField';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
+import media from 'Util/Media';
+import { LOGO_MEDIA } from 'Util/Media/Media';
+import isMobile from 'Util/Mobile';
+
+import {
+    CART, CART_EDITING, CART_OVERLAY, CATEGORY, CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, FILTER, MENU, MENU_SUBCATEGORY, PDP, POPUP, SEARCH
+} from './Header.config';
+
+export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
+export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
+
 export class Header extends NavigationAbstract {
     static propTypes = {
         navigationState: PropTypes.object.isRequired,
@@ -212,7 +201,7 @@ export class Header extends NavigationAbstract {
         return <Menu />;
     }
 
-    renderSearchField(isSearchVisible = false) {
+    renderSearchField(isVisible = false) {
         const {
             searchCriteria,
             onSearchOutsideClick,
@@ -236,7 +225,7 @@ export class Header extends NavigationAbstract {
               onSearchBarFocus={ onSearchBarFocus }
               onSearchBarChange={ onSearchBarChange }
               onClearSearchButtonClick={ onClearSearchButtonClick }
-              isVisible={ isSearchVisible }
+              isVisible={ isVisible }
               isActive={ name === SEARCH }
               hideActiveOverlay={ hideActiveOverlay }
             />
@@ -253,7 +242,7 @@ export class Header extends NavigationAbstract {
               elem="Title"
               mods={ { isVisible } }
             >
-                <TextPlaceholder content={ title } />
+                { title }
             </h2>
         );
     }
@@ -295,14 +284,43 @@ export class Header extends NavigationAbstract {
         );
     }
 
+    renderAccountOverlayFallback() {
+        return (
+            <PopupSuspense
+              actualOverlayKey={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
+            />
+        );
+    }
+
+    renderAccountOverlay() {
+        const {
+            isCheckout,
+            showMyAccountLogin,
+            closeOverlay,
+            onSignIn,
+            shouldRenderAccountOverlay
+        } = this.props;
+
+        if ((!(isMobile.any() && showMyAccountLogin) && isMobile.any()) || !shouldRenderAccountOverlay) {
+            return null;
+        }
+
+        return (
+            <Suspense fallback={ this.renderAccountOverlayFallback() }>
+                <MyAccountOverlay
+                  onSignIn={ onSignIn }
+                  closeOverlay={ closeOverlay }
+                  isCheckout={ isCheckout }
+                />
+            </Suspense>
+        );
+    }
+
     renderAccountButton(isVisible = false) {
         const {
             onMyAccountOutsideClick,
             onMyAccountButtonClick,
-            isCheckout,
-            showMyAccountLogin,
-            closeOverlay,
-            onSignIn
+            isCheckout
         } = this.props;
 
         // on mobile and tablet hide button if not in checkout
@@ -341,14 +359,7 @@ export class Header extends NavigationAbstract {
                           mods={ { isVisible, type: 'account' } }
                         />
                     </button>
-
-                    { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
-                        <MyAccountOverlay
-                          onSignIn={ onSignIn }
-                          closeOverlay={ closeOverlay }
-                          isCheckout={ isCheckout }
-                        />
-                    ) }
+                    { this.renderAccountOverlay() }
                 </div>
             </ClickOutside>
         );
@@ -372,12 +383,33 @@ export class Header extends NavigationAbstract {
         );
     }
 
+    renderMinicartOverlayFallback() {
+        return (
+            <PopupSuspense
+              actualOverlayKey={ CART_OVERLAY }
+            />
+        );
+    }
+
+    renderMinicartOverlay() {
+        const { shouldRenderCartOverlay } = this.props;
+
+        if (!shouldRenderCartOverlay) {
+            return null;
+        }
+
+        return (
+            <Suspense fallback={ this.renderMinicartOverlayFallback() }>
+                <CartOverlay />
+            </Suspense>
+        );
+    }
+
     renderMinicartButton(isVisible = false) {
         const {
             onMinicartOutsideClick,
             onMinicartButtonClick,
-            isCheckout,
-            navigationState: { name }
+            isCheckout
         } = this.props;
 
         if ((isMobile.any() || isMobile.tablet()) || isCheckout) {
@@ -395,11 +427,7 @@ export class Header extends NavigationAbstract {
                       block="Header"
                       elem="MinicartButtonWrapper"
                       tabIndex="0"
-                      onClick={ () => {
-                          if (name !== CART_OVERLAY) {
-                              onMinicartButtonClick();
-                          }
-                      } }
+                      onClick={ onMinicartButtonClick }
                     >
                         <span
                           block="Header"
@@ -414,7 +442,7 @@ export class Header extends NavigationAbstract {
                         />
                         { this.renderMinicartItemsQty() }
                     </button>
-                    <CartOverlay />
+                    { this.renderMinicartOverlay() }
                 </div>
             </ClickOutside>
         );
@@ -493,7 +521,7 @@ export class Header extends NavigationAbstract {
     }
 
     renderContacts() {
-        const { footer_content: { contacts_cms } = {} } = window.contentConfiguration;
+        const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
 
         if (contacts_cms) {
             return (

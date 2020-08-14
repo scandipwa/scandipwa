@@ -12,6 +12,7 @@
 export const APPEND_PAGE = 'APPEND_PAGE';
 export const UPDATE_PRODUCT_LIST_ITEMS = 'UPDATE_PRODUCT_LIST_ITEMS';
 export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
+export const UPDATE_PAGE_LOAD_STATUS = 'UPDATE_PAGE_LOAD_STATUS';
 
 /**
  * Append page to the list.
@@ -35,12 +36,19 @@ export const appendPage = (items, currentPage) => ({
  * @return {void}
  * @namespace Store/ProductList/Action/updateProductListItems
  */
-export const updateProductListItems = (items, currentPage, total_count, total_pages) => ({
+export const updateProductListItems = (
+    items,
+    currentPage,
+    total_count,
+    total_pages,
+    args
+) => ({
     type: UPDATE_PRODUCT_LIST_ITEMS,
     items,
     currentPage,
     total_pages,
-    total_count
+    total_count,
+    args
 });
 
 /**
@@ -49,7 +57,11 @@ export const updateProductListItems = (items, currentPage, total_count, total_pa
  * @return {void}
  * @namespace Store/ProductList/Action/updateLoadStatus
  */
-export const updateLoadStatus = status => ({
+export const updateLoadStatus = (status) => ({
     type: UPDATE_LOAD_STATUS,
     isLoading: status
+});
+
+export const updatePageLoadingStatus = () => ({
+    type: UPDATE_PAGE_LOAD_STATUS
 });

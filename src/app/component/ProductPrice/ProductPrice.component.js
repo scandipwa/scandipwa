@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import { PriceType } from 'Type/ProductList';
-import { MixType } from 'Type/Common';
-
 import './ProductPrice.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { MixType } from 'Type/Common';
+import { PriceType } from 'Type/ProductList';
 
 /**
  * Product price

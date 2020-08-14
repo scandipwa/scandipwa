@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './CartCoupon.style';
+
+import PropTypes from 'prop-types';
+
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
-import PropTypes from 'prop-types';
-import './CartCoupon.style';
 
 /** @namespace Component/CartCoupon/Component */
 export class CartCoupon extends PureComponent {

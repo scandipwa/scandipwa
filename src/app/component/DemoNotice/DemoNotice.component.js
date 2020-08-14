@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './DemoNotice.style';
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import isMobile from 'Util/Mobile';
-import './DemoNotice.style';
 
 /** @namespace Component/DemoNotice/Component */
 export class DemoNotice extends PureComponent {

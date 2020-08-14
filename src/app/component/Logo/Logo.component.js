@@ -11,12 +11,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Image, {
+import './Logo.style';
+
+import Image from 'Component/Image/Image.component';
+import {
     IMAGE_NOT_FOUND,
     IMAGE_NOT_SPECIFIED
-} from 'Component/Image/Image.component';
-
-import './Logo.style';
+} from 'Component/Image/Image.config';
 
 /** @namespace Component/Logo/Component */
 export class Logo extends Image {

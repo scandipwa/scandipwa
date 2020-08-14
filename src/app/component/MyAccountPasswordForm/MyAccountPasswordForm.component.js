@@ -10,6 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
+
 import FieldForm from 'Component/FieldForm';
 
 /** @namespace Component/MyAccountPasswordForm/Component */

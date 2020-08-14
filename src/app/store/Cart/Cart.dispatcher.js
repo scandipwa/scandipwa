@@ -9,14 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation, fetchQuery } from 'Util/Request';
-import { updateTotals } from 'Store/Cart';
+import CartQuery from 'Query/Cart.query';
+import { updateTotals } from 'Store/Cart/Cart.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
-import { CartQuery } from 'Query';
-import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
+import { fetchMutation, fetchQuery } from 'Util/Request';
+
+const LinkedProductsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/LinkedProducts/LinkedProducts.dispatcher'
+);
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -53,7 +57,7 @@ export class CartDispatcher {
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ createEmptyCart }) => createEmptyCart,
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -123,10 +127,18 @@ export class CartDispatcher {
         const {
             product,
             quantity,
-            customizableOptionsData
+            productOptionsData
         } = options;
-        const { sku, type_id: product_type } = product;
-        const { customizableOptions, customizableOptionsMulti } = customizableOptionsData;
+
+        const {
+            sku,
+            type_id: product_type
+        } = product;
+
+        const {
+            productOptions,
+            productOptionsMulti
+        } = productOptionsData || {};
 
         const productToAdd = {
             sku,
@@ -134,7 +146,11 @@ export class CartDispatcher {
             quantity,
             product_option: {
                 extension_attributes: getExtensionAttributes(
-                    { ...product, customizableOptions, customizableOptionsMulti }
+                    {
+                        ...product,
+                        productOptions,
+                        productOptionsMulti
+                    }
                 )
             }
         };
@@ -164,7 +180,7 @@ export class CartDispatcher {
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -178,7 +194,7 @@ export class CartDispatcher {
                 dispatch(showNotification('success', __('Coupon was applied!')));
             },
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -192,7 +208,7 @@ export class CartDispatcher {
                 dispatch(showNotification('success', __('Coupon was removed!')));
             },
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -208,20 +224,30 @@ export class CartDispatcher {
 
                 if (childProductLinks) {
                     Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
-                        .map(item => links.push(item));
+                        .map((item) => links.push(item));
                 }
 
                 if (product_links) {
                     Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
-                        .map(item => links.push(item));
+                        .map((item) => links.push(item));
                 }
 
                 return links;
             }, []);
 
             if (product_links.length !== 0) {
-                LinkedProductsDispatcher.handleData(dispatch, product_links);
+                LinkedProductsDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
+                );
+            } else {
+                // LinkedProductsDispatcher.then(
+                //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+                // );
             }
+        } else {
+            // LinkedProductsDispatcher.then(
+            //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+            // );
         }
     }
 

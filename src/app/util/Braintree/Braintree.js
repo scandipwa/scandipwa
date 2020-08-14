@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation } from 'Util/Request';
 import { Field } from 'Util/Query';
+import { fetchMutation } from 'Util/Request';
 
 /** @namespace Util/Braintree */
 export class Braintree {

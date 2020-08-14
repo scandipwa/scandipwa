@@ -10,8 +10,9 @@
  */
 
 import { QueryDispatcher } from 'Util/Request';
-import { MenuQuery, CmsBlockQuery } from 'Query';
-import { showNotification } from 'Store/Notification';
+import CmsBlockQuery from 'Query/CmsBlock.query';
+import MenuQuery from 'Query/Menu.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { updateMenu } from 'Store/HeaderAndFooter/HeaderAndFooter.action';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider/CmsBlocksAndSlider.action';
 

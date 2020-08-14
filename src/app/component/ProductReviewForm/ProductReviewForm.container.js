@@ -9,30 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { customerType } from 'Type/Account';
-import { RatingItemsType } from 'Type/Rating';
-import { ProductType } from 'Type/ProductList';
-import { ReviewDispatcher } from 'Store/Review';
-import { hideActiveOverlay } from 'Store/Overlay';
-import { showNotification } from 'Store/Notification';
-import { goToPreviousNavigationState } from 'Store/Navigation';
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import { customerType } from 'Type/Account';
+import { ProductType } from 'Type/ProductList';
+import { RatingItemsType } from 'Type/Rating';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
+const ReviewDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Review/Review.dispatcher'
+);
+
 /** @namespace Component/ProductReviewForm/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 
 /** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    addReview: options => ReviewDispatcher.submitProductReview(dispatch, options),
+export const mapDispatchToProps = (dispatch) => ({
+    addReview: (options) => ReviewDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))

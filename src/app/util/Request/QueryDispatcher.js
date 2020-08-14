@@ -10,9 +10,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { listenForBroadCast, executeGet } from 'Util/Request/Request';
-import { prepareQuery, Field } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
+import { Field, prepareQuery } from 'Util/Query';
+import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
 export const ONE_MONTH_IN_SECONDS = 2592000;
 export const FIVE_MINUTES_IN_SECONDS = 300;
@@ -63,23 +63,23 @@ export class QueryDispatcher {
                 executeGet(prepareQuery(queries), name, cacheTTL)
                     .then(
                         /** @namespace Util/Request/QueryDispatcher/handleData/executeGetThen */
-                        data => resolve(data),
+                        (data) => resolve(data),
                         /** @namespace Util/Request/QueryDispatcher/handleData/executeGetError */
-                        error => reject(error)
+                        (error) => reject(error)
                     );
             })
         );
 
         this.promise.promise.then(
             /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseThen */
-            data => this.onSuccess(data, dispatch, options),
+            (data) => this.onSuccess(data, dispatch, options),
             /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseError */
-            error => this.onError(error, dispatch, options),
+            (error) => this.onError(error, dispatch, options),
         );
 
         listenForBroadCast(name).then(
             /** @namespace Util/Request/QueryDispatcher/handleData/listenForBroadCastThen */
-            data => this.onUpdate(data, dispatch, options),
+            (data) => this.onUpdate(data, dispatch, options),
         );
     }
 

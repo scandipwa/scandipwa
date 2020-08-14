@@ -10,6 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import MenuItem from './MenuItem.component';
 

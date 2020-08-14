@@ -9,19 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { HistoryType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
-import { setQueryParams, getQueryParam } from 'Util/Url';
+import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryPriceRange from './CategoryPriceRange.component';
 
-/** @namespace Component/CategoryPriceRange/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     minPriceValue: state.ProductListInfoReducer.minPrice,
     maxPriceValue: state.ProductListInfoReducer.maxPrice
 });

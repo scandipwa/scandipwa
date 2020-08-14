@@ -14,13 +14,13 @@ export const UPDATE_SEARCH_LOAD_STATUS = 'UPDATE_SEARCH_LOAD_STATUS';
 export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
 
 /** @namespace Store/SearchBar/Action/updateSearchBar */
-export const updateSearchBar = result => ({
+export const updateSearchBar = (result) => ({
     type: UPDATE_SEARCH_BAR,
     result
 });
 
 /** @namespace Store/SearchBar/Action/updateLoadStatus */
-export const updateLoadStatus = status => ({
+export const updateLoadStatus = (status) => ({
     type: UPDATE_SEARCH_LOAD_STATUS,
     isLoading: status
 });

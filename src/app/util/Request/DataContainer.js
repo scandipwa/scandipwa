@@ -9,10 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { executeGet } from 'Util/Request';
-import { prepareQuery } from 'Util/Query';
-import { hash } from 'Util/Request/Hash';
+import { PureComponent } from 'react';
+
 import { makeCancelable } from 'Util/Promise';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+import { hash } from 'Util/Request/Hash';
+
 import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 /** @namespace Util/Request/DataContainer */
@@ -50,7 +53,7 @@ export class DataContainer extends PureComponent {
                 onSucces(response);
             },
             /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseCatch */
-            err => onError(err)
+            (err) => onError(err)
         );
     }
 }

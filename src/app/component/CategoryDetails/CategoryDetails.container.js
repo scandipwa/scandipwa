@@ -10,7 +10,7 @@
  */
 
 import { connect } from 'react-redux';
-import { CmsBlocksAndSliderDispatcher } from 'Store/CmsBlocksAndSlider';
+import { CmsBlocksAndSliderDispatcher } from 'Store/CmsBlocksAndSlider/CmsBlocksAndSlider.dispatcher';
 import CategoryDetails from './CategoryDetails.component';
 
 /** @namespace Component/CategoryDetails/Container/mapStateToProps */

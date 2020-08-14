@@ -10,15 +10,18 @@
  */
 
 import PropTypes from 'prop-types';
-import { showPopup } from 'Store/Popup';
-import { VIDEO_POPUP_ID } from 'Component/VideoPopup';
-import { MediaItemType } from 'Type/ProductList';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { VIDEO_POPUP_ID } from 'Component/VideoPopup/VideoPopup.config';
+import { showPopup } from 'Store/Popup/Popup.action';
+import { MediaItemType } from 'Type/ProductList';
+
 import VideoThumbnail from './VideoThumbnail.component';
 
 /** @namespace Component/VideoThumbnail/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(VIDEO_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showPopup: (payload) => dispatch(showPopup(VIDEO_POPUP_ID, payload))
 });
 
 /**

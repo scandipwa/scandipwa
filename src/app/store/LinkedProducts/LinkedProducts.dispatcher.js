@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import { updateLinkedProducts } from 'Store/LinkedProducts';
-import { showNotification } from 'Store/Notification';
+import ProductListQuery from 'Query/ProductList.query';
+import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
 
@@ -29,8 +29,6 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     __construct() {
         super.__construct('LinkedProducts', ONE_MONTH_IN_SECONDS);
     }
-
-    currentProductLinks = [];
 
     onSuccess(data, dispatch, product_links) {
         const { products: { items } } = data;
@@ -74,12 +72,6 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @param product_links
      */
     prepareRequest(product_links) {
-        if (JSON.stringify(this.currentProductLinks) === JSON.stringify(product_links)) {
-            return null;
-        }
-
-        this.currentProductLinks = product_links;
-
         const relatedSKUs = product_links.reduce((links, link) => {
             const { linked_product_sku } = link;
             return [...links, `"${ linked_product_sku.replace(/ /g, '%20') }"`];
@@ -103,11 +95,18 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @return {Query} ProductList query
      * @memberof LinkedProductsDispatcher
      */
-    clearLinkedProducts(dispatch) {
-        dispatch(updateLinkedProducts({
+    clearLinkedProducts(dispatch, updateCrosssel = false) {
+        const linkedProducts = {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
             crosssell: { total_count: 0, items: [] }
+        };
+
+        BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
+
+        dispatch(updateLinkedProducts({
+            ...linkedProducts,
+            updateCrosssel
         }));
     }
 }

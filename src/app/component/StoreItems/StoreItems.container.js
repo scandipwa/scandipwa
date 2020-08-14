@@ -9,8 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import StoreItems from './StoreItems.component';
 

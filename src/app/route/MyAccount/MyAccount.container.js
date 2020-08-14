@@ -12,16 +12,11 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE } from 'Component/Header/Header.config';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { CUSTOMER_ACCOUNT_PAGE, CUSTOMER_ACCOUNT } from 'Component/Header';
-import { HistoryType, MatchType, LocationType } from 'Type/Common';
-import { changeNavigationState } from 'Store/Navigation';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { toggleOverlayByKey } from 'Store/Overlay';
-import { updateMeta } from 'Store/Meta';
-import isMobile from 'Util/Mobile';
-
+import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
     DASHBOARD,
@@ -29,23 +24,37 @@ import {
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import isMobile from 'Util/Mobile';
 
 import MyAccount from './MyAccount.component';
+import { MY_ACCOUNT_URL } from './MyAccount.config';
 
-export const MY_ACCOUNT_URL = '/my-account';
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 /** @namespace Route/MyAccount/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+    ),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    requestCustomerData: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+    ),
+    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/MyAccount/Container */

@@ -9,11 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { activeTabType, tabMapType } from 'Type/Account';
-import MyAccountTabListItem from 'Component/MyAccountTabListItem';
 import './MyAccountTabList.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import ExpandableContent from 'Component/ExpandableContent';
+import MyAccountTabListItem from 'Component/MyAccountTabListItem';
+import { activeTabType, tabMapType } from 'Type/Account';
 
 /** @namespace Component/MyAccountTabList/Component */
 export class MyAccountTabList extends PureComponent {
@@ -81,7 +84,6 @@ export class MyAccountTabList extends PureComponent {
             ...Object.entries(tabMap).map(this.renderTabListItem),
             this.renderLogoutTab()
         ];
-
 
         return (
             <ExpandableContent

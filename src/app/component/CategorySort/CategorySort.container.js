@@ -10,6 +10,8 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import CategorySort from './CategorySort.component';
 
 /** @namespace Component/CategorySort/Container */

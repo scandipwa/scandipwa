@@ -10,13 +10,19 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { MyAccountDispatcher } from 'Store/MyAccount';
+
 import MyAccountTabList from './MyAccountTabList.component';
 
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    logout: () => MyAccountDispatcher.logout(null, dispatch)
+export const mapDispatchToProps = (dispatch) => ({
+    logout: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.logout(null, dispatch))
 });
 
 /** @namespace Component/MyAccountTabList/Container */

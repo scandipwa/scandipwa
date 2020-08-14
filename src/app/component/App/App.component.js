@@ -12,7 +12,7 @@
 import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
-import store from 'Store';
+import configureStore from 'Store';
 import Router from 'Component/Router';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import SharedTransition from 'Component/SharedTransition';
@@ -59,7 +59,7 @@ export class App extends PureComponent {
 
     renderRedux(children) {
         return (
-            <Provider store={ store } key="redux">
+            <Provider store={ configureStore() } key="redux">
                 { children }
             </Provider>
         );
@@ -74,7 +74,9 @@ export class App extends PureComponent {
     }
 
     enableHotReload() {
-        module.hot.accept();
+        if (module.hot) {
+            module.hot.accept();
+        }
     }
 
     injectComment() {

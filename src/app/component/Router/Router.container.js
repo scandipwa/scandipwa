@@ -12,13 +12,26 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { updateMeta } from 'Store/Meta';
-import { CartDispatcher } from 'Store/Cart';
-import { ConfigDispatcher } from 'Store/Config';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import HeaderAndFooterDispatcher from 'Store/HeaderAndFooter/HeaderAndFooter.dispatcher';
-
+import { updateMeta } from 'Store/Meta/Meta.action';
 import Router from './Router.component';
+
+const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+const ConfigDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Config/Config.dispatcher'
+);
+const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
+const HeaderAndFooterDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/HeaderAndFooter/HeaderAndFooter.dispatcher'
+);
+
 
 /** @namespace Component/Router/Container/mapStateToProps */
 export const mapStateToProps = state => ({
@@ -36,10 +49,10 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     init: (options) => {
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
-        CartDispatcher.updateInitialCartData(dispatch);
-        ConfigDispatcher.handleData(dispatch);
-        HeaderAndFooterDispatcher.handleData(dispatch, options);
+        WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
+        CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
+        ConfigDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch));
+        HeaderAndFooterDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
     }
 });
 

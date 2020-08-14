@@ -11,23 +11,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef } from 'react';
-import PropTypes from 'prop-types';
-import { MixType } from 'Type/Common';
 import './Image.style';
+
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
+import { MixType } from 'Type/Common';
+
+import {
+    IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
+} from './Image.config';
 
 /**
  * Image component
  * Images are loaded only when they appear in a viewport
  * @class Image
+ * @namespace Component/Image/Component
  */
-
-export const IMAGE_LOADING = 0;
-export const IMAGE_LOADED = 1;
-export const IMAGE_NOT_FOUND = 2;
-export const IMAGE_NOT_SPECIFIED = 3;
-
-/** @namespace Component/Image/Component */
 export class Image extends PureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
@@ -143,6 +143,7 @@ export class Image extends PureComponent {
                   elem="Image"
                   src={ src || '' }
                   alt={ alt }
+                  mods={ { isLoading: imageStatus === IMAGE_LOADING } }
                   style={ style }
                   onLoad={ this.onLoad }
                   onError={ this.onError }

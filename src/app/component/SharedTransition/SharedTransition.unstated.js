@@ -9,9 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable scandipwa-extensibility/file-structure */
-
-import { Container as UnstatedContainer } from 'unstated';
+import { Container } from 'unstated';
 
 export const sharedTransitionInitialState = {
     sharedElementDestination: null,
@@ -21,10 +19,10 @@ export const sharedTransitionInitialState = {
 };
 
 /** @namespace Component/SharedTransition/Unstated */
-export class SharedTransitionUnstated extends UnstatedContainer {
+export class SharedTransitionUnstated extends Container {
     state = sharedTransitionInitialState;
 
-    _parseRectangle = val => JSON.parse(JSON.stringify(val));
+    _parseRectangle = (val) => JSON.parse(JSON.stringify(val));
 
     cleanUpTransition = () => {
         this.setState(sharedTransitionInitialState);

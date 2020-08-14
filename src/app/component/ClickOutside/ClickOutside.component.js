@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import {
     Children,
+    cloneElement,
     createRef,
-    cloneElement
+    PureComponent
 } from 'react';
-import PropTypes from 'prop-types';
+
 import { ChildrenType } from 'Type/Common';
 
 /** @namespace Component/ClickOutside/Component */

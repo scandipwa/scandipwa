@@ -1,6 +1,7 @@
+import './InstallPromptIOS.style';
 
 import PropTypes from 'prop-types';
-import './InstallPromptIOS.style';
+import { PureComponent } from 'react';
 
 /** @namespace Component/InstallPromptIOS/Component */
 export class InstallPromptIOS extends PureComponent {

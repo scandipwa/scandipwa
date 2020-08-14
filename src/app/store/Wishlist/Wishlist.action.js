@@ -21,7 +21,7 @@ export const UPDATE_IS_LOADING_IN_WISHLIST = 'UPDATE_IS_LOADING_IN_WISHLIST';
  * @return {void}
  * @namespace Store/Wishlist/Action/removeItemFromWishlist
  */
-export const removeItemFromWishlist = item_id => ({
+export const removeItemFromWishlist = (item_id) => ({
     type: REMOVE_ITEM_FROM_WISHLIST,
     item_id
 });
@@ -32,19 +32,19 @@ export const removeItemFromWishlist = item_id => ({
  * @return {void}
  * @namespace Store/Wishlist/Action/updateAllProductsInWishlist
  */
-export const updateAllProductsInWishlist = products => ({
+export const updateAllProductsInWishlist = (products) => ({
     type: UPDATE_ALL_PRODUCTS_IN_WISHLIST,
     products
 });
 
 /** @namespace Store/Wishlist/Action/updateIsLoading */
-export const updateIsLoading = isLoading => ({
+export const updateIsLoading = (isLoading) => ({
     type: UPDATE_IS_LOADING_IN_WISHLIST,
     isLoading
 });
 
 /** @namespace Store/Wishlist/Action/updateItemOptions */
-export const updateItemOptions = options => ({
+export const updateItemOptions = (options) => ({
     type: UPDATE_ITEM_OPTIONS,
     options
 });

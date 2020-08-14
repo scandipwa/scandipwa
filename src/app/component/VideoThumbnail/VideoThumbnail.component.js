@@ -11,10 +11,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { MediaItemType } from 'Type/ProductList';
 import './VideoThumbnail.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import Image from 'Component/Image/Image.container';
+import { MediaItemType } from 'Type/ProductList';
 
 /**
  * VideoThumbnail component

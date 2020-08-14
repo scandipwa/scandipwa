@@ -9,18 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import Popup from 'Component/Popup';
-import { orderType } from 'Type/Account';
-import Loader from 'Component/Loader';
-import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import Image from 'Component/Image';
-import { formatCurrency } from 'Util/Price';
-
 import './MyAccountOrderPopup.style';
 
-export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Image from 'Component/Image';
+import Loader from 'Component/Loader';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import Popup from 'Component/Popup';
+import { orderType } from 'Type/Account';
+import { formatCurrency } from 'Util/Price';
+
+import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
 
 /** @namespace Component/MyAccountOrderPopup/Component */
 export class MyAccountOrderPopup extends PureComponent {

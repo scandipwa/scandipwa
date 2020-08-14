@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
-import { ProductType } from 'Type/ProductList';
-import ProductReviewRating from 'Component/ProductReviewRating';
-
 import './ProductReviewList.style';
+
+import { PureComponent } from 'react';
+
+import ProductReviewRating from 'Component/ProductReviewRating';
+import { ProductType } from 'Type/ProductList';
 
 /**
  * @class ProductReviewList

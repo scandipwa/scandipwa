@@ -22,12 +22,23 @@
     "React": true
   },
   "plugins": [
+    "@scandipwa/scandipwa-guidelines",
+    "simple-import-sort",
+    "import",
     "react",
     "import",
     "jest",
     "babel",
     "fp",
     "@scandipwa/scandipwa-guidelines"
+  ],
+  "overrides": [
+      {
+          "files": ["*.config.js"],
+          "rules": {
+              "@scandipwa/scandipwa-guidelines/create-config-files": "off"
+          }
+      }
   ],
   "rules": {
     "@scandipwa/scandipwa-guidelines/file-structure": "error",
@@ -39,12 +50,30 @@
     "@scandipwa/scandipwa-guidelines/export-level-one": "error",
     "@scandipwa/scandipwa-guidelines/no-extensible-base": "error",
     "@scandipwa/scandipwa-guidelines/always-both-mappings": "error",
+    "@scandipwa/scandipwa-guidelines/use-named-export": "error",
+    "@scandipwa/scandipwa-guidelines/create-config-files": "error",
+    "simple-import-sort/sort": ["error", {
+        "groups": [
+            ["^\\u0000"], // side effect imports
+            ["^@?[a-z]"], // anything that starts with @ and lowercase
+            ["^[^.]"], // anything but a dot
+            ["^\\."] // starting with dot
+        ]
+    }],
+    "sort-imports": "off",
+    "import/order": "off",
+    "import/no-cycle": ["error", {
+        "maxDepth": 4
+    }],
     "fp/no-let": "error",
     "fp/no-arguments": "error",
     "fp/no-loops": "error",
     "fp/no-delete": "error",
     "no-var": "error",
     "css-rcurlyexpected": 0,
+    "react/static-property-placement": ["error", "static public field"],
+    "react/jsx-props-no-spreading": "off",
+    "react/state-in-constructor": "off",
     "no-restricted-globals": ["error", "isFinite", "isNaN"],
     "max-len": [2, {
         "ignoreComments": true,
@@ -91,7 +120,7 @@
     "react/jsx-indent": 0,
     "react/jsx-indent-props": 2,
     "react/jsx-no-bind": [2, {
-        "ignoreDOMComponents": true,
+        "ignoreDOMComponents": false,
         "ignoreRefs": true,
         "allowArrowFunctions": false,
         "allowFunctions": false,

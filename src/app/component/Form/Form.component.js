@@ -9,15 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import {
     Children,
+    cloneElement,
     createRef,
-    cloneElement
+    PureComponent
 } from 'react';
-import PropTypes from 'prop-types';
-import Field from 'Component/Field';
+
+import Field from 'Component/Field/Field.component';
+import { ChildrenType, MixType } from 'Type/Common';
 import FormPortalCollector from 'Util/FormPortalCollector';
-import { MixType, ChildrenType } from 'Type/Common';
+
 import validationConfig from './Form.config';
 
 /** @namespace Component/Form/Component */
@@ -55,9 +58,9 @@ export class Form extends PureComponent {
     }
 
     static cloneChildren(originChildren, fieldCallback) {
-        const executeClone = originChildren => Children.map(originChildren, (child) => {
+        const executeClone = (originChildren) => Children.map(originChildren, (child) => {
             if (child && typeof child === 'object' && child.type && child.props) {
-                const { type: { name }, props, props: { children } } = child;
+                const { type: { WrappedComponent: { name } = {} }, props, props: { children } } = child;
 
                 if (name === Field.prototype.constructor.name) {
                     return fieldCallback(child);

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { prepareMutation, Field } from 'Util/Query';
+import { Field, prepareMutation } from 'Util/Query';
 import { executePost } from 'Util/Request/Request';
 
 /** @namespace Util/Request/fetchMutation */

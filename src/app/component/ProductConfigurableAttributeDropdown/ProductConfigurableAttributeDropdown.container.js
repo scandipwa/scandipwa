@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import { AttributeType } from 'Type/ProductList';
+
 import ProductConfigurableAttributeDropdown from './ProductConfigurableAttributeDropdown.component';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Container */
@@ -14,7 +17,6 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
     containerFunctions = {
         onChange: this.onChange.bind(this)
     };
-
 
     onChange(value) {
         const {

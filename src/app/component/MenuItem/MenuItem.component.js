@@ -10,13 +10,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import media from 'Util/Media';
-import Link from 'Component/Link';
-import isMobile from 'Util/Mobile';
 import Image from 'Component/Image';
+import Link from 'Component/Link';
+import media from 'Util/Media';
+import isMobile from 'Util/Mobile';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {

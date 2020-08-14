@@ -10,6 +10,8 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
 
 /** @namespace Component/ProductConfigurableAttributes/Container */

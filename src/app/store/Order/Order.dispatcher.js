@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getOrderList } from 'Store/Order';
+import OrderQuery from 'Query/Order.query';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { getOrderList } from 'Store/Order/Order.action';
 import { fetchQuery } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
-import { OrderQuery } from 'Query';
 
 /** @namespace Store/Order/Dispatcher */
 export class OrderDispatcher {
@@ -25,7 +25,7 @@ export class OrderDispatcher {
                 dispatch(getOrderList(orders, false));
             },
             /** @namespace Store/Order/Dispatcher/fetchQueryThen */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 }

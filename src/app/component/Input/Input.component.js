@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 /** @namespace Component/Input/Component */
 export class Input extends PureComponent {

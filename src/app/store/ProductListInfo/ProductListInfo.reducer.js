@@ -10,39 +10,29 @@
  */
 
 import {
-    UPDATE_PRODUCT_LIST_INFO,
-    UPDATE_INFO_LOAD_STATUS
-} from 'Store/ProductListInfo';
+    UPDATE_INFO_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_INFO
+} from 'Store/ProductListInfo/ProductListInfo.action';
 
 /** @namespace Store/ProductListInfo/Reducer/reduceFilters */
-export const reduceFilters = filters => filters.reduce((co, item) => {
+export const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
         name: attribute_label,
         filter_items
     } = item;
 
-    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option, i) => {
+    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option) => {
         const { value_string } = option;
         const { attribute_values, attribute_options } = attribute;
 
         attribute_values.push(value_string);
 
-        if (attribute_code === 'cat') {
-            return {
-                ...attribute,
-                attribute_options: {
-                    ...attribute_options,
-                    [i]: option
-                }
-            };
-        }
-
         return {
             ...attribute,
             attribute_options: {
                 ...attribute_options,
-                [+value_string]: option
+                [value_string]: option
             }
         };
     }, { attribute_values: [], attribute_options: {} });
@@ -76,6 +66,7 @@ export const ProductListReducer = (
     const {
         type,
         isLoading,
+        selectedFilter,
         products: {
             filters: availableFilters = [],
             min_price,
@@ -92,7 +83,8 @@ export const ProductListReducer = (
             sortFields,
             minPrice: Math.floor(min_price),
             maxPrice: Math.ceil(max_price),
-            isLoading: false
+            isLoading: false,
+            selectedFilter
         };
 
     case UPDATE_INFO_LOAD_STATUS:

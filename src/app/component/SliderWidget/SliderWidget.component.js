@@ -10,12 +10,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import Slider from 'Component/Slider';
-import Image from 'Component/Image';
-import Html from 'Component/Html';
-import isMobile from 'Util/Mobile';
 import './SliderWidget.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Html from 'Component/Html';
+import Image from 'Component/Image';
+import Slider from 'Component/Slider';
+import isMobile from 'Util/Mobile';
 
 /**
  * Homepage slider
@@ -42,7 +45,6 @@ export class SliderWidget extends PureComponent {
     };
 
     state = { activeImage: 0 };
-
 
     onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });

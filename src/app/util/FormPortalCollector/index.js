@@ -32,7 +32,7 @@ export class FormPortalCollector {
 
     collect(id) {
         const portals = this.portalsObservers[id] || {};
-        return Object.values(portals).map(portal => portal());
+        return Object.values(portals).map((portal) => portal());
     }
 }
 

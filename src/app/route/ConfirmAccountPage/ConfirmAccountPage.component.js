@@ -8,14 +8,16 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import './ConfirmAccountPage.style';
+
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 
-import Form from 'Component/Form';
-import Field from 'Component/Field';
-import Loader from 'Component/Loader';
 import ContentWrapper from 'Component/ContentWrapper';
-import './ConfirmAccountPage.style';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
 
 /** @namespace Route/ConfirmAccountPage/Component */
 export class ConfirmAccountPage extends PureComponent {

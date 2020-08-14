@@ -10,8 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import { MixType } from 'Type/Common';
+
 import Image from './Image.component';
 
 /** @namespace Component/Image/Container */

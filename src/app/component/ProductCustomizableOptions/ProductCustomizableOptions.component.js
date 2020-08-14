@@ -8,17 +8,19 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import './ProductCustomizableOptions.style';
 
 import PropTypes from 'prop-types';
-import ProductCustomizableOption from 'Component/ProductCustomizableOption';
+import { PureComponent } from 'react';
 
-import './ProductCustomizableOptions.style';
+import ProductCustomizableOption from 'Component/ProductCustomizableOption';
 
 /** @namespace Component/ProductCustomizableOptions/Component */
 export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         options: PropTypes.array,
+        productOptionsData: PropTypes.object.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired
@@ -31,6 +33,7 @@ export class ProductCustomizableOptions extends PureComponent {
     renderContent() {
         const {
             options,
+            productOptionsData,
             setSelectedCheckboxValues,
             setCustomizableOptionTextFieldValue,
             setSelectedDropdownValue
@@ -44,6 +47,7 @@ export class ProductCustomizableOptions extends PureComponent {
               setSelectedCheckboxValues={ setSelectedCheckboxValues }
               setCustomizableOptionTextFieldValue={ setCustomizableOptionTextFieldValue }
               setSelectedDropdownValue={ setSelectedDropdownValue }
+              productOptionsData={ productOptionsData }
             />
         ));
     }

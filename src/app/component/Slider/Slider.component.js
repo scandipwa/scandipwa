@@ -11,18 +11,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Children, createRef } from 'react';
-import PropTypes from 'prop-types';
-
-import { MixType, ChildrenType } from 'Type/Common';
-import Draggable from 'Component/Draggable';
-import isMobile from 'Util/Mobile';
-import CSS from 'Util/CSS';
-
 import './Slider.style';
 
-export const ANIMATION_DURATION = 300;
-export const ACTIVE_SLIDE_PERCENT = 0.1;
+import PropTypes from 'prop-types';
+import { Children, createRef, PureComponent } from 'react';
+
+import Draggable from 'Component/Draggable';
+import { ChildrenType, MixType } from 'Type/Common';
+import CSS from 'Util/CSS';
+import isMobile from 'Util/Mobile';
+
+import {
+    ACTIVE_SLIDE_PERCENT,
+    ANIMATION_DURATION
+} from './Slider.config';
 
 /**
  * Slider component
@@ -294,6 +296,7 @@ export class Slider extends PureComponent {
               block="Slider"
               elem="Image"
               mods={ { type: 'single' } }
+              // eslint-disable-next-line react/jsx-no-bind
               onClick={ () => this.changeActiveImage(i) }
             >
                 <div

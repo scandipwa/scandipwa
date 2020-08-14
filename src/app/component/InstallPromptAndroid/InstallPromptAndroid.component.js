@@ -1,6 +1,7 @@
+import './InstallPromptAndroid.style';
 
 import PropTypes from 'prop-types';
-import './InstallPromptAndroid.style';
+import { PureComponent } from 'react';
 
 /** @namespace Component/InstallPromptAndroid/Component */
 export class InstallPromptAndroid extends PureComponent {
@@ -17,6 +18,7 @@ export class InstallPromptAndroid extends PureComponent {
               block="InstallPromptAndroid"
               elem="Close"
               onClick={ handleBannerClose }
+              aria-label={ __('Close') }
             />
         );
     }

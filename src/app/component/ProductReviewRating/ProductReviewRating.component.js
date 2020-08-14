@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef } from 'react';
-import PropTypes from 'prop-types';
-
-import CSS from 'Util/CSS';
-import { MixType } from 'Type/Common';
-
 import './ProductReviewRating.style';
+
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
+import { MixType } from 'Type/Common';
+import CSS from 'Util/CSS';
 
 /**
  * @class ProductReviewRating

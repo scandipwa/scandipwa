@@ -10,11 +10,13 @@
  */
 
 import PropTypes from 'prop-types';
-import { PriceType } from 'Type/ProductList';
+import { PureComponent } from 'react';
+
 import { MixType } from 'Type/Common';
+import { PriceType } from 'Type/ProductList';
 import {
-    formatCurrency,
     calculateFinalPrice,
+    formatCurrency,
     roundPrice
 } from 'Util/Price';
 
@@ -83,6 +85,5 @@ export class ProductPriceContainer extends PureComponent {
         );
     }
 }
-
 
 export default ProductPriceContainer;

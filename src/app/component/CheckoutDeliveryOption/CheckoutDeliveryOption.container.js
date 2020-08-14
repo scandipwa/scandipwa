@@ -10,6 +10,7 @@
  */
 
 import { connect } from 'react-redux';
+
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapStateToProps */

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import { getIndexedProduct } from 'Util/Product';
+
 import { UPDATE_PRODUCT_DETAILS } from './Product.action';
 
 /** @namespace Store/Product/Reducer/getInitialState */
@@ -18,7 +19,7 @@ export const getInitialState = () => ({
 });
 
 /** @namespace Store/Product/Reducer/formatConfigurableOptions */
-export const formatConfigurableOptions = configurable_options => configurable_options
+export const formatConfigurableOptions = (configurable_options) => configurable_options
     .reduce((prev, option) => {
         const {
             attribute_id,

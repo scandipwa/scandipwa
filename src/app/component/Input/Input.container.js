@@ -1,4 +1,6 @@
 import { PropTypes } from 'prop-types';
+import { PureComponent } from 'react';
+
 import Input from './Input.component';
 
 /** @namespace Component/Input/Container */

@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { GUEST_QUOTE_ID } from 'Store/Cart';
+import { Field } from 'Util/Query';
 
 /** @namespace Query/Wishlist */
 export class WishlistQuery {
