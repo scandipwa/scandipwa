@@ -378,9 +378,15 @@ export class ProductActions extends PureComponent {
     }
 
     renderConfigurablePriceBadge() {
-        const { configurableVariantIndex, product: { type_id } } = this.props;
+        const {
+            configurableVariantIndex,
+            product: { type_id }
+        } = this.props;
 
-        if (type_id !== CONFIGURABLE || configurableVariantIndex > -1) {
+        if (
+            type_id !== CONFIGURABLE
+            || configurableVariantIndex > -1
+        ) {
             return null;
         }
 
@@ -403,7 +409,10 @@ export class ProductActions extends PureComponent {
         } = this.props;
 
         return (
-            <div>
+            <div
+              block="ProductActions"
+              elem="PriceWrapper"
+            >
                 { this.renderConfigurablePriceBadge() }
                 { this.renderSchema() }
                 <ProductPrice

@@ -23,6 +23,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { ProductType } from 'Type/ProductList';
+import { CONFIGURABLE } from 'Util/Product';
 
 /**
  * Product card
@@ -61,20 +62,23 @@ export class ProductCard extends PureComponent {
     };
 
     renderConfigurablePriceBadge() {
-        const { availableVisualOptions } = this.props;
-        if (!availableVisualOptions.length) {
+        const {
+            product: { type_id }
+        } = this.props;
+
+        if (type_id !== CONFIGURABLE) {
             return null;
         }
 
         return (
-                <p
-                  mix={ {
-                      block: 'ProductCard',
-                      elem: 'PriceBadge'
-                  } }
-                >
-                    { __('As Low as') }
-                </p>
+            <p
+              mix={ {
+                  block: 'ProductCard',
+                  elem: 'PriceBadge'
+              } }
+            >
+                { __('As Low as') }
+            </p>
         );
     }
 
@@ -152,7 +156,14 @@ export class ProductCard extends PureComponent {
     }
 
     renderReviews() {
-        const { product: { review_summary: { rating_summary } = {} } } = this.props;
+        const {
+            product: {
+                review_summary: {
+                    rating_summary
+                } = {}
+            }
+        } = this.props;
+
         if (!rating_summary) {
             return null;
         }
