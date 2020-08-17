@@ -18,13 +18,20 @@
     "test": "jest --env=jsdom --watchAll",
     "eslint": "eslint ./src/app --ignore-pattern *.test.*",
     "eslint:fix": "npm run eslint -- --fix",
+    "eslint:cache": "eslint ./src/app --cache --ignore-pattern *.test.*",
     "dev-server": "forever ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./src/config/webpack.development.config.js  --progress",
     "dev-server-core": "forever ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./src/config/webpack.core.config.js  --progress",
     "watch-dev-server": "SHELL=/bin/bash chokidar --silent \"src/**/*.js\" \"src/**/*.scss\"  -c \"[ '{event}' = 'add' ] || [ '{event}' = 'unlink' ] && forever restartall \"",
     "extract-translations": "webpack --config ./src/config/webpack.extract-translations.config.js --progress --hide-module",
     "pm2-watch": "./node_modules/.bin/pm2 start process.yml --no-daemon",
     "stylelint": "stylelint ./src/**/*.scss",
+    "stylelint:cache": "stylelint --cache ./src/**/*.scss",
     "stylelint:fix": "npm run stylelint -- --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint:cache && npm run stylelint:cache"
+    }
   },
   "browserslist": [
     ">0.2%",
@@ -99,6 +106,7 @@
     "eslint-plugin-simple-import-sort": "^5.0.3",
     "forever": "^3.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.2.5",
     "ignore-loader": "^0.1.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
