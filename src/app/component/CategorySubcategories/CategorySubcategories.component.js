@@ -40,7 +40,6 @@ class CategorySubcategories extends PureComponent {
               onClick={ handleCategoryClick }
             >
                 <span
-                  title="EU 36"
                   block="ProductAttributeValue"
                   elem="Text"
                   mix={ {
