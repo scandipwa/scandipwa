@@ -9,17 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import BrowserDatabase from 'Util/BrowserDatabase';
-import Link from 'Component/Link';
-
 import './CookiePopup.style';
-import ContentWrapper from 'Component/ContentWrapper';
 
-export const COOKIE_POPUP = 'cookie_popup';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+
+import { COOKIE_POPUP } from './CookiePopup.config';
 
 class CookiePopup extends PureComponent {
     static propTypes = {

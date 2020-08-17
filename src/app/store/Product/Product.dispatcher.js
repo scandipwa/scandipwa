@@ -9,11 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ProductListQuery from 'Query/ProductList.query';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateProductDetails } from 'Store/Product/Product.action';
 import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
-import { updateProductDetails } from 'Store/Product';
-import { updateNoMatch } from 'Store/NoMatch';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
+
+const LinkedProductsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/LinkedProducts/LinkedProducts.dispatcher'
+);
 
 /**
  * Product List Dispatcher
@@ -28,33 +32,40 @@ export class ProductDispatcher extends QueryDispatcher {
     onSuccess(data, dispatch) {
         const { products: { items } } = data;
 
-        if (!(items && items.length > 0)) {
-            return dispatch(updateNoMatch(true));
+        /**
+         * In case there are no items, or item count is
+         * smaller then 0 => the product was not found.
+         */
+        if (!items || items.length <= 0) {
+            dispatch(updateNoMatch(true));
+            return;
         }
 
-        const [productItem] = items;
-        const product = productItem.type_id === 'grouped'
-            ? this._prepareGroupedProduct(productItem) : productItem;
+        const [product] = items;
 
-        if (items.length > 0) {
-            const product_links = items.reduce((links, product) => {
-                const { product_links } = product;
+        const product_links = items.reduce((links, product) => {
+            const { product_links } = product;
 
-                if (product_links) {
-                    Object.values(product_links).forEach((item) => {
-                        links.push(item);
-                    });
-                }
-
-                return links;
-            }, []);
-
-            if (product_links.length !== 0) {
-                LinkedProductsDispatcher.handleData(dispatch, product_links);
+            if (product_links) {
+                Object.values(product_links).forEach((item) => {
+                    links.push(item);
+                });
             }
-        }
 
-        return dispatch(updateProductDetails(product));
+            return links;
+        }, []);
+
+        LinkedProductsDispatcher.then(
+            ({ default: dispatcher }) => {
+                if (product_links.length > 0) {
+                    dispatcher.handleData(dispatch, product_links);
+                } else {
+                    dispatcher.clearLinkedProducts(dispatch);
+                }
+            }
+        );
+
+        dispatch(updateProductDetails(product));
     }
 
     onError(_, dispatch) {
@@ -63,26 +74,6 @@ export class ProductDispatcher extends QueryDispatcher {
 
     prepareRequest(options) {
         return ProductListQuery.getQuery(options);
-    }
-
-    _prepareGroupedProduct(groupProduct) {
-        const { items } = groupProduct;
-        const newItems = items.map((item) => {
-            const { product, order, qty } = item;
-            return {
-                product: {
-                    ...product,
-                    url_key: groupProduct.url_key
-                },
-                order,
-                qty
-            };
-        }).sort(({ order }, { order: order2 }) => order - order2);
-
-        return {
-            ...groupProduct,
-            items: newItems
-        };
     }
 }
 

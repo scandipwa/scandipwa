@@ -9,54 +9,49 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ExpandableContent from 'Component/ExpandableContent';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
-import CategoryPriceRange from 'Component/CategoryPriceRange';
-import CategorySubcategories from 'Component/CategorySubcategories';
-import ExpandableContent from 'Component/ExpandableContent';
+import { formatCurrency } from 'Util/Price';
 
 class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
-    renderPriceRange() {
-        return (
-            <CategoryPriceRange key="price" />
-        );
+    getPriceLabel(option) {
+        const { currency_code } = this.props;
+        const { value_string } = option;
+        const [from, to] = value_string.split('_');
+        const currency = formatCurrency(currency_code);
+
+        if (from === '*') {
+            return __('Up to %s%s', to, currency);
+        }
+
+        if (to === '*') {
+            return __('From %s%s', from, currency);
+        }
+
+        return __('From %s%s, to %s%s', from, currency, to, currency);
     }
 
-    renderCategory(option) {
-        const {
-            isContentExpanded,
-            getSubHeading
-        } = this.props;
+    renderPriceSwatch(option) {
+        const { attribute_options, ...priceOption } = option;
 
-        const {
-            attribute_label,
-            attribute_options
-        } = option;
+        if (attribute_options) {
+            // do not render price filter if it includes "*_*" aggregation
+            if (attribute_options['*_*']) {
+                return null;
+            }
 
-        return (
-            <ExpandableContent
-              key="cat"
-              heading={ attribute_label }
-              subHeading={ getSubHeading(option) }
-              mix={ {
-                  block: 'ProductConfigurableAttributes',
-                  elem: 'Expandable'
-              } }
-              isContentExpanded={ isContentExpanded }
-            >
-                <div
-                  block="ProductConfigurableAttributes"
-                  elem="DropDownList"
-                >
-                    { Object.entries(attribute_options).map(([key, option]) => (
-                        <CategorySubcategories
-                          key={ key }
-                          option={ option }
-                        />
-                    )) }
-                </div>
-            </ExpandableContent>
-        );
+            priceOption.attribute_options = Object.entries(attribute_options).reduce((acc, [key, option]) => {
+                acc[key] = {
+                    ...option,
+                    label: this.getPriceLabel(option)
+                };
+
+                return acc;
+            }, {});
+        }
+
+        return this.renderDropdownOrSwatch(priceOption);
     }
 
     renderDropdownOrSwatch(option) {
@@ -95,9 +90,7 @@ class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
 
         switch (attribute_code) {
         case 'price':
-            return this.renderPriceRange(option);
-        case 'cat':
-            return this.renderCategory(option);
+            return this.renderPriceSwatch(option);
         default:
             return this.renderDropdownOrSwatch(option);
         }
@@ -118,7 +111,7 @@ class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
               block="ProductConfigurableAttributes"
               elem="DropDownList"
             >
-                { attribute_values.map(attribute_value => (
+                { attribute_values.map((attribute_value) => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })
                 )) }
             </div>

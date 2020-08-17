@@ -9,23 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
-import CSS from 'Util/CSS';
-import PropTypes from 'prop-types';
-import { NotificationType } from 'Type/NotificationList';
 import './Notification.style';
 
-// controls CSS animation speed
-export const ANIMATION_DURATION = 400;
-export const NOTIFICATION_LIFETIME = 1500;
-export const ERROR_NOTIFICATION_LIFETIME = 2500;
-export const ERROR_TYPE = 'error';
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
+import { NotificationType } from 'Type/NotificationList';
+import CSS from 'Util/CSS';
+
+import {
+    ANIMATION_DURATION, ERROR_NOTIFICATION_LIFETIME, ERROR_TYPE, NOTIFICATION_LIFETIME
+} from './Notification.config';
 
 /**
  * Notification block
  * @class Notification
  */
-export default class Notification extends PureComponent {
+export class Notification extends PureComponent {
     static propTypes = {
         notificationId: PropTypes.string.isRequired,
         notification: NotificationType.isRequired,
@@ -109,3 +109,5 @@ export default class Notification extends PureComponent {
         );
     }
 }
+
+export default Notification;

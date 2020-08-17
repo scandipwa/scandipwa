@@ -13,18 +13,20 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
+import { setBigOfflineNotice, showOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType } from 'Type/Common';
-import { showOfflineNotice, setBigOfflineNotice } from 'Store/Offline';
+
 import OfflineNotice from './OfflineNotice.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     isBig: state.OfflineReducer.isBig
 });
 
-export const mapDispatchToProps = dispatch => ({
-    showOfflineNotice: isOffline => dispatch(showOfflineNotice(isOffline)),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig))
+export const mapDispatchToProps = (dispatch) => ({
+    showOfflineNotice: (isOffline) => dispatch(showOfflineNotice(isOffline)),
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig))
 });
 
 class OfflineNoticeContainer extends PureComponent {

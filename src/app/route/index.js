@@ -11,62 +11,50 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    PureComponent,
-    cloneElement,
-    lazy,
-    Suspense
-} from 'react';
-
-import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
-import { Router } from 'react-router';
-import { connect } from 'react-redux';
-import { updateMeta } from 'Store/Meta';
-
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
+import PropTypes from 'prop-types';
+import {
+    cloneElement,
+    lazy,
+    PureComponent,
+    Suspense
+} from 'react';
+import { connect } from 'react-redux';
+import { Router } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
-import Store from 'Store';
-import Meta from 'Component/Meta';
-import Loader from 'Component/Loader';
-import Footer from 'Component/Footer';
-import CookiePopup from 'Component/CookiePopup';
-import Header from 'Component/Header';
-import { CartDispatcher } from 'Store/Cart';
-import DemoNotice from 'Component/DemoNotice';
-import { ConfigDispatcher } from 'Store/Config';
 import Breadcrumbs from 'Component/Breadcrumbs';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import OfflineNotice from 'Component/OfflineNotice';
+import CookiePopup from 'Component/CookiePopup';
+import DemoNotice from 'Component/DemoNotice';
+import Footer from 'Component/Footer';
+import Header from 'Component/Header';
+import Loader from 'Component/Loader';
+import Meta from 'Component/Meta';
 import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
-import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
+import OfflineNotice from 'Component/OfflineNotice';
+import NoMatchHandler from 'Route/NoMatchHandler';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
+import UrlRewrites from 'Route/UrlRewrites';
+import { getStore } from 'Store';
+import { updateMeta } from 'Store/Meta/Meta.action';
 
-// suppress prop-types warning on Route component when using with React.lazy
-// until react-router-dom@4.4.0 or higher version released
-/* eslint-disable react/forbid-foreign-prop-types */
-Route.propTypes.component = PropTypes.oneOfType([
-    Route.propTypes.component,
-    PropTypes.object
-]);
-/* eslint-enable react/forbid-foreign-prop-types */
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const ConfigDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Config/Config.dispatcher');
+const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
-export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
-export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/Checkout'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CmsPage'));
-export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/HomePage'));
-export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MyAccount'));
-export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/NoMatchHandler'));
-export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
-export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
-export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
-export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
-export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
-export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
-export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/WishlistSharedPage'));
+export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
+export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/HomePage'));
+export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/MyAccount'));
+export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/SearchPage'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
+export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
+export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -74,25 +62,29 @@ export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
     default_title: state.ConfigReducer.default_title,
+    base_link_url: state.ConfigReducer.base_link_url,
     title_prefix: state.ConfigReducer.title_prefix,
     title_suffix: state.ConfigReducer.title_suffix,
     isOffline: state.OfflineReducer.isOffline,
     isBigOffline: state.OfflineReducer.isBig
 });
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
+
+export const withStoreRegex = (path) => window.storeRegexText.concat(path);
 
 export class AppRouter extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         default_description: PropTypes.string,
+        base_link_url: PropTypes.string,
         default_keywords: PropTypes.string,
         default_title: PropTypes.string,
         title_prefix: PropTypes.string,
@@ -103,6 +95,7 @@ export class AppRouter extends PureComponent {
 
     static defaultProps = {
         default_description: '',
+        base_link_url: '',
         default_keywords: '',
         default_title: '',
         title_prefix: '',
@@ -140,55 +133,47 @@ export class AppRouter extends PureComponent {
 
     [SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path="/" exact component={ HomePage } />,
+            component: <Route path={ withStoreRegex('/') } exact component={ HomePage } />,
             position: 10
         },
         {
-            component: <Route path="/category" component={ CategoryPage } />,
-            position: 20
-        },
-        {
-            component: <Route path="/search/:query/" component={ SearchPage } />,
+            component: <Route path={ withStoreRegex('/search/:query/') } component={ SearchPage } />,
             position: 25
         },
         {
-            component: <Route path="/product" component={ ProductPage } />,
-            position: 30
-        },
-        {
-            component: <Route path="/page" component={ CmsPage } />,
+            component: <Route path={ withStoreRegex('/page') } component={ CmsPage } />,
             position: 40
         },
         {
-            component: <Route path="/cart" exact component={ CartPage } />,
+            component: <Route path={ withStoreRegex('/cart') } exact component={ CartPage } />,
             position: 50
         },
         {
-            component: <Route path="/checkout/:step?" component={ Checkout } />,
+            component: <Route path={ withStoreRegex('/checkout/:step?') } component={ Checkout } />,
             position: 55
         },
         {
-            component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+            component: <Route path={ withStoreRegex('/:account*/createPassword/') } component={ PasswordChangePage } />,
             position: 60
         },
         {
-            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            component: <Route path={ withStoreRegex('/:account*/confirm') } component={ ConfirmAccountPage } />,
             position: 65
         },
         {
-            component: <Route path="/my-account/:tab?" component={ MyAccount } />,
+            component: <Route path={ withStoreRegex('/my-account/:tab?') } component={ MyAccount } />,
             position: 70
         },
         {
-            component: <Route path="/forgot-password" component={ MyAccount } />,
+            component: <Route path={ withStoreRegex('/forgot-password') } component={ MyAccount } />,
             position: 71
         },
         {
-            component: <Route path="/menu" component={ MenuPage } />,
+            component: <Route path={ withStoreRegex('/menu') } component={ MenuPage } />,
             position: 80
         },
         {
-            component: <Route path="/wishlist/shared/:code" component={ WishlistShared } />,
+            component: <Route path={ withStoreRegex('/wishlist/shared/:code') } component={ WishlistShared } />,
             position: 81
         },
         {
@@ -217,6 +202,7 @@ export class AppRouter extends PureComponent {
         super(props);
 
         this.dispatchActions();
+        this.redirectFromPartialUrl();
     }
 
     componentDidUpdate(prevProps) {
@@ -232,6 +218,7 @@ export class AppRouter extends PureComponent {
                 title_suffix
             } = this.props;
 
+            // TODO: this breaks META always
             updateMeta({
                 default_title,
                 title: default_title,
@@ -250,6 +237,20 @@ export class AppRouter extends PureComponent {
             hasError: true,
             errorDetails: { err, info }
         });
+    }
+
+    redirectFromPartialUrl() {
+        const { base_link_url } = this.props;
+        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
+        const { pathname } = location;
+
+        if (storePrefix === '/') {
+            return;
+        }
+
+        if (storePrefix.slice(0, -1) === pathname) {
+            history.replace(storePrefix);
+        }
     }
 
     getSortedItems(type) {
@@ -275,9 +276,10 @@ export class AppRouter extends PureComponent {
     };
 
     dispatchActions() {
-        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
-        CartDispatcher.updateInitialCartData(Store.dispatch);
-        ConfigDispatcher.handleData(Store.dispatch);
+        const { dispatch } = getStore();
+        WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
+        CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
+        ConfigDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch));
     }
 
     renderItemsOfType(type) {

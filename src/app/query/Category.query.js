@@ -30,13 +30,12 @@ export class CategoryQuery {
     }
 
     _getConditionalArguments() {
-        const { categoryUrlPath, categoryIds } = this.options;
-        if (categoryUrlPath) {
-            return ['url_path', 'String!', categoryUrlPath];
-        }
+        const { categoryIds } = this.options;
+
         if (categoryIds) {
             return ['id', 'Int!', categoryIds];
         }
+
         throw new Error(__('There was an error requesting the category'));
     }
 
@@ -54,7 +53,8 @@ export class CategoryQuery {
         return [
             'category_name',
             'category_level',
-            'category_url_path'
+            'category_url',
+            'category_is_active'
         ];
     }
 

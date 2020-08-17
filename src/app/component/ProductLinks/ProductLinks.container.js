@@ -1,12 +1,12 @@
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ProductType } from 'Type/ProductList';
 
 import ProductLinks from './ProductLinks.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 

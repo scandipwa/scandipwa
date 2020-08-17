@@ -9,20 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { MyAccountDispatcher } from 'Store/MyAccount';
+
 import { customerType } from 'Type/Account';
+
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
-export const mapStateToProps = state => ({
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
-export const mapDispatchToProps = dispatch => ({
-    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
+export const mapDispatchToProps = (dispatch) => ({
+    requestCustomerData: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+    )
 });
 
 export class CheckoutAddressBookContainer extends PureComponent {

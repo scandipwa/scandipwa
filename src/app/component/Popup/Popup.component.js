@@ -11,15 +11,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
-import Overlay from 'Component/Overlay/Overlay.component';
-import ClickOutside from 'Component/ClickOutside';
 import './Popup.style';
 
-export const ESCAPE_KEY = 27;
+import PropTypes from 'prop-types';
+import { createPortal } from 'react-dom';
 
-export default class Popup extends Overlay {
+import ClickOutside from 'Component/ClickOutside';
+import Overlay from 'Component/Overlay/Overlay.component';
+
+import { ESCAPE_KEY } from './Popup.config';
+
+export class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
         clickOutside: PropTypes.bool,
@@ -27,7 +29,7 @@ export default class Popup extends Overlay {
     };
 
     static defaultProps = {
-        ...Popup.defaultProps,
+        ...Overlay.defaultProps,
         clickOutside: true,
         title: ''
     };
@@ -44,23 +46,39 @@ export default class Popup extends Overlay {
         const { onVisible } = this.props;
         this.freezeScroll();
         this.overlayRef.current.focus();
+
+        window.addEventListener('popstate', this.hidePopUp);
+
+        window.history.pushState(
+            {
+                popupOpen: true
+            },
+            '',
+            location.pathname
+        );
+
         onVisible();
     }
 
     onHide() {
         const { onHide } = this.props;
+        window.removeEventListener('popstate', this.hidePopUp);
+
         this.unfreezeScroll();
+
         onHide();
     }
 
     hidePopUp = () => {
-        const { hideActiveOverlay } = this.props;
+        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
         const isVisible = this.getIsVisible();
         if (isVisible) {
             hideActiveOverlay();
+            goToPreviousNavigationState();
         }
     };
 
+    // Same with click outside
     handleClickOutside = () => {
         const { clickOutside } = this.props;
         if (!clickOutside) {
@@ -108,7 +126,7 @@ export default class Popup extends Overlay {
                         <button
                           block="Popup"
                           elem="CloseBtn"
-                          title="Close Popup"
+                          aria-label={ __('Close') }
                           onClick={ this.hidePopUp }
                         />
                     </header>
@@ -135,3 +153,5 @@ export default class Popup extends Overlay {
         );
     }
 }
+
+export default Popup;

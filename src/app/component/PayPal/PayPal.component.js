@@ -9,22 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './PayPal.style';
+
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import Html from 'Component/Html';
 
-import './PayPal.style';
+import Html from 'Component/Html';
 import Loader from 'Component/Loader';
 
-export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
+import { PAYPAL_SCRIPT } from './PayPal.config';
 
 /**
  * *Note*
  * This component currently can be rendered only once
  * Please try to have no more than 1 component per page and use isDisabled to hide it.
 */
-export default class PayPal extends PureComponent {
+export class PayPal extends PureComponent {
     static propTypes = {
         isDisabled: PropTypes.bool,
         paypal: PropTypes.any.isRequired,
@@ -105,3 +106,5 @@ export default class PayPal extends PureComponent {
         );
     }
 }
+
+export default PayPal;

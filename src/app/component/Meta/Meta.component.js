@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createPortal } from 'react-dom';
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { createPortal } from 'react-dom';
 
 /**
  * Page Meta data
  * @class Meta
  */
-export default class Meta extends PureComponent {
+export class Meta extends PureComponent {
     static propTypes = {
         metadata: PropTypes.arrayOf(
             PropTypes.shape({
@@ -33,7 +33,11 @@ export default class Meta extends PureComponent {
         default_title: PropTypes.string.isRequired,
         title_prefix: PropTypes.string.isRequired,
         title_suffix: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired
+        title: PropTypes.string
+    };
+
+    static defaultProps = {
+        title: ''
     };
 
     renderTitle() {
@@ -72,7 +76,7 @@ export default class Meta extends PureComponent {
             <>
                 { this.renderTitle() }
                 { this.renderCanonical() }
-                { metadata.map(tag => <meta key={ tag.name || tag.property } { ...tag } />) }
+                { metadata.map((tag) => <meta key={ tag.name || tag.property } { ...tag } />) }
             </>
         );
     }
@@ -84,3 +88,5 @@ export default class Meta extends PureComponent {
         );
     }
 }
+
+export default Meta;

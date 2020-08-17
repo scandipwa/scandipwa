@@ -10,9 +10,11 @@
  */
 
 import { PureComponent } from 'react';
-import { HistoryType, LocationType } from 'Type/Common';
 import { withRouter } from 'react-router-dom';
+
+import { HistoryType, LocationType } from 'Type/Common';
 import { setQueryParams } from 'Util/Url';
+
 import ResetButton from './ResetButton.component';
 
 export class ResetButtonContainer extends PureComponent {
@@ -46,7 +48,7 @@ export class ResetButtonContainer extends PureComponent {
     }
 
     urlStringToObject() {
-        const { location: { search } } = this.props;
+        const { location: { search = '' } } = this.props;
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
             return { ...acc, [key]: value };

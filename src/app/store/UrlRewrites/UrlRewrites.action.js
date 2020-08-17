@@ -10,19 +10,15 @@
  */
 
 export const UPDATE_URL_REWRITE = 'UPDATE_URL_REWRITE';
-export const CLEAR_URL_REWRITE = 'CLEAR_URL_REWRITE';
 export const IS_LOADING_URL_REWRITE = 'IS_LOADING_URL_REWRITE';
 
-export const updateUrlRewrite = urlRewrite => ({
+export const updateUrlRewrite = (urlRewrite, requestedUrl) => ({
     type: UPDATE_URL_REWRITE,
-    urlRewrite
+    urlRewrite,
+    requestedUrl
 });
 
-export const clearUrlRewrite = () => ({
-    type: CLEAR_URL_REWRITE
-});
-
-export const setIsUrlRewritesLoading = isLoading => ({
+export const setIsUrlRewritesLoading = (isLoading) => ({
     type: IS_LOADING_URL_REWRITE,
     isLoading
 });

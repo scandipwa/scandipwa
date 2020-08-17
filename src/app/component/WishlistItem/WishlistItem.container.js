@@ -9,23 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'Util/Request';
-import { CartDispatcher } from 'Store/Cart';
+
+import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
+import { debounce } from 'Util/Request';
+
 import WishlistItem from './WishlistItem.component';
+import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
 
-export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
+const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
-    updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
-    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
+    addProductToCart: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
+    updateWishlistItem: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)
+    ),
+    removeFromWishlist: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+    )
 });
 
 export class WishlistItemContainer extends PureComponent {
@@ -67,7 +81,7 @@ export class WishlistItemContainer extends PureComponent {
         };
     };
 
-    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
+    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
     _getParameters = () => {
         const { product } = this.props;

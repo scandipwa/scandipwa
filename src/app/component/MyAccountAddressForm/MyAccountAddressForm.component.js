@@ -11,9 +11,9 @@
 
 import PropTypes from 'prop-types';
 
+import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import FieldForm from 'Component/FieldForm';
 
 class MyAccountAddressForm extends FieldForm {
     static propTypes = {
@@ -75,7 +75,7 @@ class MyAccountAddressForm extends FieldForm {
                 label: __('State/Province'),
                 type: 'select',
                 selectOptions: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
-                onChange: regionId => this.setState({ regionId }),
+                onChange: (regionId) => this.setState({ regionId }),
                 value: regionId
             }
         };

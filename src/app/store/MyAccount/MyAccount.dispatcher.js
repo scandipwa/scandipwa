@@ -9,24 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import MyAccountQuery from 'Query/MyAccount.query';
 import {
-    updateCustomerSignInStatus,
     updateCustomerDetails,
+    updateCustomerPasswordForgotStatus,
     updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
-} from 'Store/MyAccount';
-import { fetchMutation, executePost } from 'Util/Request';
-import {
-    setAuthorizationToken,
-    deleteAuthorizationToken
-} from 'Util/Auth';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import { CartDispatcher } from 'Store/Cart';
-import { MyAccountQuery } from 'Query';
-import { prepareQuery } from 'Util/Query';
-import BrowserDatabase from 'Util/BrowserDatabase';
+    updateCustomerSignInStatus
+} from 'Store/MyAccount/MyAccount.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
+import {
+    deleteAuthorizationToken,
+    setAuthorizationToken
+} from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { prepareQuery } from 'Util/Query';
+import { executePost, fetchMutation } from 'Util/Request';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
 export const CUSTOMER = 'customer';
 
@@ -50,15 +54,15 @@ export class MyAccountDispatcher {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
     logout(_, dispatch) {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
-        CartDispatcher.updateInitialCartData(dispatch);
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
+        CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
+        WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         dispatch(updateCustomerDetails({}));
@@ -74,7 +78,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
         return fetchMutation(mutation).then(
             () => dispatch(updateCustomerPasswordForgotStatus()),
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -150,8 +154,8 @@ export class MyAccountDispatcher {
 
             setAuthorizationToken(token);
             dispatch(updateCustomerSignInStatus(true));
-            CartDispatcher.updateInitialCartData(dispatch);
-            WishlistDispatcher.updateInitialWishlistData(dispatch);
+            CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
+            WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
 
             return true;
         } catch ([e]) {

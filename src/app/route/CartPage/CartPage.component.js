@@ -9,24 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import media, { WYSIWYG_MEDIA } from 'Util/Media';
-import Link from 'Component/Link';
-import CmsBlock from 'Component/CmsBlock';
-import CartItem from 'Component/CartItem';
-import { TotalsType } from 'Type/MiniCart';
-import CartCoupon from 'Component/CartCoupon';
-import ProductLinks from 'Component/ProductLinks';
-import ContentWrapper from 'Component/ContentWrapper';
-import { formatCurrency, roundPrice } from 'Util/Price';
-import ExpandableContent from 'Component/ExpandableContent';
-import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-
 import './CartPage.style';
 
-export default class CartPage extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CartCoupon from 'Component/CartCoupon';
+import CartItem from 'Component/CartItem';
+import CmsBlock from 'Component/CmsBlock';
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import Link from 'Component/Link';
+import ProductLinks from 'Component/ProductLinks';
+import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { TotalsType } from 'Type/MiniCart';
+import { formatCurrency, roundPrice } from 'Util/Price';
+
+export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired
@@ -49,7 +48,7 @@ export default class CartPage extends PureComponent {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
-                    { items.map(item => (
+                    { items.map((item) => (
                         <CartItem
                           key={ item.item_id }
                           item={ item }
@@ -190,17 +189,6 @@ export default class CartPage extends PureComponent {
         );
     }
 
-    renderPaymentMethods() {
-        return (
-            <img
-              block="CartPage"
-              elem="PaymentMethods"
-              src={ media('etc/payment-methods.jpg', WYSIWYG_MEDIA) }
-              alt="Shipping car icon"
-            />
-        );
-    }
-
     renderPromoContent() {
         const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
 
@@ -209,23 +197,14 @@ export default class CartPage extends PureComponent {
         }
 
         return (
-            <>
-                <figure
-                  block="CartPage"
-                  elem="PromoBlock"
-                >
-                    <img
-                      block="CartPage"
-                      elem="PromoImage"
-                      src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
-                      alt="Shipping car icon"
-                    />
-                    <figcaption block="CartPage" elem="PromoText">
+            <figure
+              block="CartPage"
+              elem="PromoBlock"
+            >
+                <figcaption block="CartPage" elem="PromoText">
                     { __('Free shipping on order 49$ and more.') }
-                    </figcaption>
-                </figure>
-                { this.renderPaymentMethods() }
-            </>
+                </figcaption>
+            </figure>
         );
     }
 
@@ -263,3 +242,5 @@ export default class CartPage extends PureComponent {
         );
     }
 }
+
+export default CartPage;

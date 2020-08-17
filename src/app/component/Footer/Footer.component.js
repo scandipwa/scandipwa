@@ -9,20 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import './Footer.style';
+
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import CmsBlock from 'Component/CmsBlock';
-import isMobile from 'Util/Mobile';
 import Link from 'Component/Link';
-
-import './Footer.style';
+import isMobile from 'Util/Mobile';
 
 /**
  * Page footer
  * @class Footer
  */
-export default class Footer extends PureComponent {
+export class Footer extends PureComponent {
     static propTypes = {
         copyright: PropTypes.string,
         isVisibleOnMobile: PropTypes.bool
@@ -85,3 +85,5 @@ export default class Footer extends PureComponent {
         );
     }
 }
+
+export default Footer;

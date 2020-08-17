@@ -15,32 +15,35 @@
 
 // todo fix text type
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { MixType } from 'Type/Common';
-import ClickOutside from 'Component/ClickOutside';
-import Input from 'Component/Input';
 import './Field.style';
 
-export const TEXT_TYPE = 'text';
-export const NUMBER_TYPE = 'number';
-export const RADIO_TYPE = 'radio';
-export const CHECKBOX_TYPE = 'checkbox';
-export const TEXTAREA_TYPE = 'textarea';
-export const PASSWORD_TYPE = 'password';
-export const SELECT_TYPE = 'select';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-const ENTER_KEY_CODE = 13;
-const A_KEY_CODE = 65;
-const z_KEY_CODE = 122;
-const Z_KEY_CODE = 90;
-const a_KEY_CODE = 97;
+import ClickOutside from 'Component/ClickOutside';
+import Input from 'Component/Input';
+import { MixType } from 'Type/Common';
+
+import {
+    A_KEY_CODE,
+    a_KEY_CODE,
+    CHECKBOX_TYPE,
+    ENTER_KEY_CODE,
+    NUMBER_TYPE,
+    PASSWORD_TYPE,
+    RADIO_TYPE,
+    SELECT_TYPE,
+    TEXT_TYPE,
+    TEXTAREA_TYPE,
+    Z_KEY_CODE,
+    z_KEY_CODE
+} from './Field.config';
 
 /**
  * Input fields component
  * @class Field
  */
-export default class Field extends PureComponent {
+export class Field extends PureComponent {
     static propTypes = {
         skipValue: PropTypes.bool,
         isControlled: PropTypes.bool,
@@ -430,12 +433,14 @@ export default class Field extends PureComponent {
 
     renderTypePassword() {
         const { value } = this.state;
+        const { autocomplete } = this.props;
+        const passwordAutocomplete = autocomplete === 'off' ? 'current-password' : autocomplete;
 
         return (
             <Input
               { ...this.props }
               type="password"
-              autocomplete="current-password"
+              autocomplete={ passwordAutocomplete }
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
@@ -459,18 +464,20 @@ export default class Field extends PureComponent {
                   type="number"
                   readOnly
                   // eslint-disable-next-line react/jsx-no-bind
-                  onChange={ e => this.handleChange(e.target.value, false) }
+                  onChange={ (e) => this.handleChange(e.target.value, false) }
                   onKeyDown={ this.onKeyEnterDown }
                   value={ value }
                 />
                 <button
                   disabled={ +value === max }
+                  // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => this.handleChange(+value + 1) }
                 >
                     <span>+</span>
                 </button>
                 <button
                   disabled={ +value === min }
+                  // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => this.handleChange(+value - 1) }
                 >
                     <span>–</span>
@@ -522,8 +529,16 @@ export default class Field extends PureComponent {
 
     renderSelectWithOptions() {
         const {
-            name, id, selectOptions, formRef, placeholder, value, isDisabled
+            name,
+            id,
+            selectOptions,
+            formRef,
+            placeholder,
+            value,
+            isDisabled
         } = this.props;
+
+        // TODO: move into separate file
 
         const { isSelectExpanded: isExpanded } = this.state;
 
@@ -588,7 +603,9 @@ export default class Field extends PureComponent {
                                   // ids, that consist of numbers only
                                   id={ `o${id}` }
                                   role="menuitem"
+                                  // eslint-disable-next-line react/jsx-no-bind
                                   onClick={ () => this.handleSelectListOptionClick(options) }
+                                  // eslint-disable-next-line react/jsx-no-bind
                                   onKeyPress={ () => this.handleSelectListOptionClick(options) }
                                   tabIndex={ isExpanded ? '0' : '-1' }
                                 >
@@ -673,3 +690,5 @@ export default class Field extends PureComponent {
         );
     }
 }
+
+export default Field;

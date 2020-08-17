@@ -9,13 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
-export default class ExpandableContent extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { ChildrenType, MixType } from 'Type/Common';
+
+export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -95,7 +97,7 @@ export default class ExpandableContent extends PureComponent {
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
                     { typeof heading === 'string' ? (
-                        <TextPlaceholder content={ heading } />
+                        <TextPlaceholder content={ heading } length="medium" />
                     ) : (
                         heading
                     ) }
@@ -143,3 +145,5 @@ export default class ExpandableContent extends PureComponent {
         );
     }
 }
+
+export default ExpandableContent;

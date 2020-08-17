@@ -10,9 +10,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { listenForBroadCast, executeGet } from 'Util/Request/Request';
-import { prepareQuery, Field } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
+import { Field, prepareQuery } from 'Util/Query';
+import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
 export const ONE_MONTH_IN_SECONDS = 2592000;
 export const FIVE_MINUTES_IN_SECONDS = 300;
@@ -60,19 +60,19 @@ class QueryDispatcher {
             new Promise((resolve, reject) => {
                 executeGet(prepareQuery(queries), name, cacheTTL)
                     .then(
-                        data => resolve(data),
-                        error => reject(error)
+                        (data) => resolve(data),
+                        (error) => reject(error)
                     );
             })
         );
 
         this.promise.promise.then(
-            data => this.onSuccess(data, dispatch, options),
-            error => this.onError(error, dispatch, options),
+            (data) => this.onSuccess(data, dispatch, options),
+            (error) => this.onError(error, dispatch, options),
         );
 
         listenForBroadCast(name).then(
-            data => this.onUpdate(data, dispatch, options),
+            (data) => this.onUpdate(data, dispatch, options),
         );
     }
 

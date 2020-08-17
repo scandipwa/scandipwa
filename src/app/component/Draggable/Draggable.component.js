@@ -10,12 +10,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { MixType, ChildrenType } from 'Type/Common';
 import './Draggable.style';
 
-export default class Draggable extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { ChildrenType, MixType } from 'Type/Common';
+
+export class Draggable extends PureComponent {
     static propTypes = {
         shiftX: PropTypes.number,
         shiftY: PropTypes.number,
@@ -150,7 +152,7 @@ export default class Draggable extends PureComponent {
         if (onClick) {
             onClick(
                 this.state,
-                newState => this.setState({
+                (newState) => this.setState({
                     ...newState,
                     isDragging: false,
                     translateX: 0,
@@ -181,7 +183,7 @@ export default class Draggable extends PureComponent {
     _handleDragEnd() {
         const { onDragEnd } = this.props;
 
-        onDragEnd(this.state, newState => this.setState({
+        onDragEnd(this.state, (newState) => this.setState({
             ...newState,
             isDragging: false,
             translateX: 0,
@@ -230,3 +232,5 @@ export default class Draggable extends PureComponent {
         );
     }
 }
+
+export default Draggable;

@@ -10,9 +10,10 @@
  */
 
 import { connect } from 'react-redux';
+
 import Field from './Field.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 

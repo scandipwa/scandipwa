@@ -10,64 +10,95 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { changeNavigationState } from 'Store/Navigation';
-import { CategoryDispatcher } from 'Store/Category';
-import { setBigOfflineNotice } from 'Store/Offline';
-import { toggleOverlayByKey } from 'Store/Overlay';
-import { NoMatchDispatcher } from 'Store/NoMatch';
-import { CategoryTreeType } from 'Type/Category';
-import { MetaDispatcher } from 'Store/Meta';
-import { CATEGORY } from 'Component/Header';
-import { debounce } from 'Util/Request';
-
+import { CATEGORY } from 'Component/Header/Header.config';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { updateCurrentCategory } from 'Store/Category/Category.action';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
-    ProductListInfoDispatcher,
     updateInfoLoadStatus
-} from 'Store/ProductListInfo';
-
+} from 'Store/ProductListInfo/ProductListInfo.action';
+import { CategoryTreeType } from 'Type/Category';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { debounce } from 'Util/Request';
 import {
-    getUrlParam,
+    appendWithStoreCode,
     getQueryParam,
-    setQueryParams,
-    clearQueriesFromUrl,
-    convertQueryStringToKeyValuePairs
+    setQueryParams
 } from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
+import { LOADING_TIME } from './CategoryPage.config';
 
-export const mapStateToProps = state => ({
+const ProductListInfoDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/ProductListInfo/ProductListInfo.dispatcher'
+);
+
+const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+
+const CategoryDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Category/Category.dispatcher'
+);
+
+const MetaDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Meta/Meta.dispatcher'
+);
+
+const NoMatchDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/NoMatch/NoMatch.dispatcher'
+);
+
+export const mapStateToProps = (state) => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
     sortFields: state.ProductListInfoReducer.sortFields,
+    currentArgs: state.ProductListReducer.currentArgs,
+    selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages
 });
 
-export const mapDispatchToProps = dispatch => ({
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
-    updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
-        ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
-        : BreadcrumbsDispatcher.update([], dispatch)),
-    requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
+export const mapDispatchToProps = (dispatch) => ({
+    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    requestCategory: (options) => CategoryDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+    ),
+    updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
+        ? BreadcrumbsDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch)
+        )
+        : BreadcrumbsDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.update([], dispatch)
+        )
+    ),
+    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+    ),
+    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: (options) => NoMatchDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
+    ),
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: (category) => MetaDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
+    ),
+    clearCategory: () => dispatch(updateCurrentCategory({}))
 });
-
-export const UPDATE_FILTERS_FREQUENCY = 0;
-export const LOADING_TIME = 500;
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
@@ -88,19 +119,30 @@ export class CategoryPageContainer extends PureComponent {
         sortFields: PropTypes.shape({
             options: PropTypes.array
         }).isRequired,
-        isNotRespectInfoLoading: PropTypes.bool,
+        currentArgs: PropTypes.shape({
+            filter: PropTypes.shape({
+                categoryIds: PropTypes.number
+            })
+        }),
+        selectedInfoFilter: PropTypes.shape({
+            categoryIds: PropTypes.number
+        }),
         isInfoLoading: PropTypes.bool.isRequired,
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
-        isOnlyPlaceholder: PropTypes.bool,
         isSearchPage: PropTypes.bool
     };
 
     static defaultProps = {
-        categoryIds: 0,
-        isOnlyPlaceholder: false,
-        isNotRespectInfoLoading: false,
-        isSearchPage: false
+        categoryIds: -1,
+        isSearchPage: false,
+        currentArgs: {},
+        selectedInfoFilter: {}
+    };
+
+    state = {
+        currentCategoryIds: -1,
+        breadcrumbsWereUpdated: false
     };
 
     config = {
@@ -109,64 +151,116 @@ export class CategoryPageContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onSortChange: this.onSortChange.bind(this),
-        getIsNewCategory: this.getIsNewCategory.bind(this),
-        updateFilter: this.updateFilter.bind(this),
-        getFilterUrl: this.getFilterUrl.bind(this)
+        onSortChange: this.onSortChange.bind(this)
     };
+
+    static getDerivedStateFromProps(props, state) {
+        const { currentCategoryIds } = state;
+        const { category: { id } } = props;
+
+        /**
+         * If the category we expect to load is loaded - reset it
+         */
+        if (currentCategoryIds === id) {
+            return {
+                currentCategoryIds: -1
+            };
+        }
+
+        return null;
+    }
 
     componentDidMount() {
         const {
-            location: { pathname },
-            updateBreadcrumbs,
-            isOnlyPlaceholder,
-            updateLoadStatus,
-            history
+            categoryIds,
+            category: {
+                id
+            }
         } = this.props;
 
-        if (isOnlyPlaceholder) {
-            updateLoadStatus(true);
-        }
+        /**
+         * Always make sure the navigation show / hide mode (on scroll)
+         * is activated when entering the category page
+         * */
+        this.updateNavigationState();
 
-        if (pathname === '/category' || pathname === '/category/') {
-            history.push('/');
-            return;
-        }
-
-        // request data only if URL does not match loaded category
-        if (this.getIsNewCategory()) {
-            this._requestCategoryWithPageList();
-            updateBreadcrumbs({});
-            debounce(this.setOfflineNoticeSize, LOADING_TIME)();
+        /**
+         * Make sure to update header state, if the category visited
+         * was already loaded.
+         */
+        if (categoryIds === id) {
+            this.updateBreadcrumbs();
+            this.updateHeaderState();
         } else {
-            this._onCategoryUpdate();
+            /**
+             * Still update header and breadcrumbs, but ignore
+             * the category data, as it is outdated
+             */
+            this.updateHeaderState(true);
+            this.updateBreadcrumbs(true);
         }
     }
 
     componentDidUpdate(prevProps) {
         const {
+            isOffline,
+            categoryIds,
             category: {
                 id
-            },
-            isOffline
+            }
         } = this.props;
 
         const {
+            breadcrumbsWereUpdated
+        } = this.state;
+
+        const {
+            categoryIds: prevCategoryIds,
             category: {
                 id: prevId
             }
         } = prevProps;
 
+        // TODO: category scrolls up when coming from PDP
+
         if (isOffline) {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        // update breadcrumbs only if category has changed
-        if (id !== prevId) {
-            this._onCategoryUpdate();
+        /**
+         * If the URL rewrite has been changed, make sure the category ID
+         * will persist in the history state.
+         */
+        if (categoryIds !== prevCategoryIds) {
+            this.updateHistory();
         }
 
-        this._updateData(prevProps);
+        /**
+         * If the currently loaded category ID does not match the ID of
+         * category from URL rewrite, request category.
+         */
+        if (categoryIds !== id) {
+            this.requestCategory();
+        }
+
+        /**
+         * If category ID was changed => it is loaded => we need to
+         * update category specific information, i.e. breadcrumbs.
+         *
+         * Or if the breadcrumbs were not yet updated after category request,
+         * and the category ID expected to load was loaded, update data.
+         */
+        if (
+            id !== prevId
+            || (
+                !breadcrumbsWereUpdated && id === categoryIds
+            )
+        ) {
+            this.checkIsActive();
+            this.updateMeta();
+            this.updateBreadcrumbs();
+            this.updateHeaderState();
+        }
     }
 
     onSortChange(sortDirection, sortKey) {
@@ -177,8 +271,7 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     setOfflineNoticeSize = () => {
-        const { setBigOfflineNotice } = this.props;
-        const isInfoLoading = this.getIsInfoLoading();
+        const { setBigOfflineNotice, isInfoLoading } = this.props;
 
         if (isInfoLoading) {
             setBigOfflineNotice(true);
@@ -187,153 +280,61 @@ export class CategoryPageContainer extends PureComponent {
         }
     };
 
-    getFilterUrl(filterName, filterArray, isFull = true) {
-        const { location: { pathname } } = this.props;
-        const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
-        const customFilters = isFull ? `${pathname}?customFilters=` : '';
-        const formattedFilters = this._formatSelectedFiltersString(selectedFilters);
-
-        return `${ customFilters }${ formattedFilters }`;
-    }
-
-    getIsNewCategory() {
-        const { category: { url } = {} } = this.props;
-        const currentUrl = `/${this._getCategoryUrlPath()}`;
-        return url !== currentUrl;
-    }
-
-    getIsInfoLoading() {
+    getIsMatchingListFilter() {
         const {
-            isNotRespectInfoLoading,
-            isInfoLoading
+            categoryIds,
+            currentArgs: {
+                filter: {
+                    categoryIds: selectedCategoryIds
+                } = {}
+            } = {}
         } = this.props;
 
-        if (isNotRespectInfoLoading) {
-            return false;
-        }
+        // Requested category is equal to current category
+        return categoryIds === selectedCategoryIds;
+    }
 
-        return isInfoLoading;
+    getIsMatchingInfoFilter() {
+        const {
+            categoryIds,
+            selectedInfoFilter: {
+                categoryIds: selectedCategoryIds
+            }
+        } = this.props;
+
+        // Requested category is equal to current category
+        return categoryIds === selectedCategoryIds;
     }
 
     containerProps = () => ({
-        filter: this._getFilter(),
-        search: this._getSearchParam(),
-        selectedSort: this._getSelectedSortFromUrl(),
-        selectedFilters: this._getSelectedFiltersFromUrl(),
-        isContentFiltered: this.isContentFiltered(),
-        isInfoLoading: this.getIsInfoLoading()
+        filter: this.getFilter(),
+        isMatchingListFilter: this.getIsMatchingListFilter(),
+        isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
+        selectedSort: this.getSelectedSortFromUrl(),
+        selectedFilters: this.getSelectedFiltersFromUrl(),
+        isContentFiltered: this.isContentFiltered()
     });
 
     isContentFiltered() {
-        const { customFilters, priceMin, priceMax } = this.urlStringToObject();
+        const {
+            customFilters,
+            priceMin,
+            priceMax
+        } = this.urlStringToObject();
+
         return !!(customFilters || priceMin || priceMax);
     }
 
     urlStringToObject() {
         const { location: { search } } = this.props;
+
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
             return { ...acc, [key]: value };
         }, {});
     }
 
-    updateSearch(value) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            search: value,
-            page: ''
-        }, location, history);
-    }
-
-    updateFilter(filterName, filterArray) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            customFilters: this.getFilterUrl(filterName, filterArray, false),
-            page: ''
-        }, location, history);
-    }
-
-    _updateData(prevProps) {
-        const {
-            categoryIds,
-            location: {
-                search,
-                pathname
-            }
-        } = this.props;
-
-        const {
-            categoryIds: prevCategoryIds,
-            location: {
-                search: prevSearch,
-                pathname: prevPathname
-            }
-        } = prevProps;
-
-        // ComponentDidUpdate fires multiple times, to prevent getting same data we check that url has changed
-        // getIsNewCategory prevents getting Category data, when sort or filter options have changed
-        if (!categoryIds && this._urlHasChanged(location, prevProps) && this.getIsNewCategory()) {
-            this._requestCategoryWithPageList();
-            return;
-        }
-
-        if (categoryIds !== prevCategoryIds && this.getIsNewCategory()) {
-            this._requestCategoryWithPageList();
-            return;
-        }
-
-        if (
-            pathname === prevPathname
-            && !this._compareQueriesByFilters(search, prevSearch)
-        ) {
-            this._requestCategoryProductsInfo();
-        }
-    }
-
-    _getNewSelectedFiltersString(filterName, filterArray) {
-        const prevCustomFilters = this._getSelectedFiltersFromUrl();
-        const customFilers = {
-            ...prevCustomFilters,
-            [filterName]: filterArray
-        };
-
-        return Object.entries(customFilers)
-            .reduce((accumulator, [filterKey, filterValue]) => {
-                if (filterValue.length) {
-                    const filterValues = filterValue.sort().join(',');
-
-                    accumulator.push(`${filterKey}:${filterValues}`);
-                }
-
-                return accumulator;
-            }, [])
-            .sort()
-            .join(';');
-    }
-
-    _formatSelectedFiltersString(string) {
-        const hasTrailingSemicolon = string[string.length - 1] === ';';
-        const hasLeadingSemicolon = string[0] === ';';
-
-        if (hasLeadingSemicolon) {
-            return this._formatSelectedFiltersString(string.slice(0, -1));
-        }
-
-        if (hasTrailingSemicolon) {
-            return string.slice(1);
-        }
-
-        return string;
-    }
-
-    _getSearchParam() {
-        const search = getQueryParam('search', location);
-        return search ? decodeURIComponent(search) : '';
-    }
-
-    _getSelectedFiltersFromUrl() {
+    getSelectedFiltersFromUrl() {
         const { location } = this.props;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
 
@@ -346,85 +347,68 @@ export class CategoryPageContainer extends PureComponent {
         }, {});
     }
 
-    _getSelectedSortFromUrl() {
-        const { location, category: { default_sort_by } } = this.props;
-        const { sortKey: globalDefaultSortKey, sortDirection: defaultSortDirection } = this.config;
+    getSelectedSortFromUrl() {
+        const {
+            location,
+            category: {
+                default_sort_by
+            }
+        } = this.props;
+
+        const {
+            sortKey: globalDefaultSortKey,
+            sortDirection: defaultSortDirection
+        } = this.config;
+
+        /**
+         * Default SORT DIRECTION is taken from (sequentially):
+         * - URL param "sortDirection"
+         * - CategoryPage class property "config"
+         * */
         const sortDirection = getQueryParam('sortDirection', location) || defaultSortDirection;
+
+        /**
+         * Default SORT KEY is taken from (sequentially):
+         * - URL param "sortKey"
+         * - Category default sort key (Magento 2 configuration)
+         * - CategoryPage class property "config"
+         * */
         const defaultSortKey = default_sort_by || globalDefaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || defaultSortKey;
-        return { sortDirection, sortKey };
+
+        return {
+            sortDirection,
+            sortKey
+        };
     }
 
-    _getCategoryUrlPath() {
-        const { location, match } = this.props;
-        const path = getUrlParam(match, location);
-        return path.indexOf('search') === 0 ? null : path;
-    }
-
-    _getSelectedPriceRangeFromUrl() {
+    getSelectedPriceRangeFromUrl() {
         const { location } = this.props;
         const min = +getQueryParam('priceMin', location);
         const max = +getQueryParam('priceMax', location);
         return { min, max };
     }
 
-    _getFilter() {
+    getFilter() {
         const { categoryIds } = this.props;
-        const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
-        const customFilters = this._getSelectedFiltersFromUrl();
-        const priceRange = this._getSelectedPriceRangeFromUrl();
+        const customFilters = this.getSelectedFiltersFromUrl();
+        const priceRange = this.getSelectedPriceRangeFromUrl();
 
-        const filters = {
-            priceRange,
-            categoryIds,
-            customFilters,
-            categoryUrlPath
-        };
-
-        return filters;
-    }
-
-    _getProductListOptions(currentPage) {
-        const { categoryIds } = this.props;
-        const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
-        const customFilters = this._getSelectedFiltersFromUrl();
-
-        const options = {
-            args: {
-                filter: {
-                    categoryUrlPath,
-                    categoryIds,
-                    customFilters
-                }
-            },
-            currentPage
-        };
-
-        return options;
-    }
-
-    _onCategoryUpdate() {
-        const {
-            category,
-            updateNoMatch,
-            updateMetaFromCategory
-        } = this.props;
-
-        const { is_active, isLoading } = category;
-
-        if (!isLoading && !is_active) {
-            updateNoMatch({ noMatch: true });
-        } else {
-            updateMetaFromCategory(category);
-            this._updateBreadcrumbs();
+        if (categoryIds === -1) {
+            return {
+                priceRange,
+                customFilters
+            };
         }
 
-        this._updateHeaderState();
-        this._updateNavigationState();
-        this._updateHistory();
+        return {
+            priceRange,
+            customFilters,
+            categoryIds
+        };
     }
 
-    _updateHistory() {
+    updateHistory() {
         const {
             history,
             location,
@@ -439,6 +423,13 @@ export class CategoryPageContainer extends PureComponent {
 
         const { category } = state;
 
+        /**
+         * Prevent pushing non-existent category into the state
+         */
+        if (categoryIds === -1) {
+            return;
+        }
+
         if (category !== categoryIds) {
             history.replace({
                 pathname,
@@ -451,16 +442,31 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    _updateBreadcrumbs() {
+    checkIsActive() {
         const {
-            category = {},
-            updateBreadcrumbs
+            category: { is_active },
+            updateNoMatch
         } = this.props;
 
-        updateBreadcrumbs(category);
+        if (!is_active) {
+            updateNoMatch({ noMatch: true });
+        }
     }
 
-    _updateNavigationState() {
+    updateMeta() {
+        const { updateMetaFromCategory, category } = this.props;
+        updateMetaFromCategory(category);
+    }
+
+    updateBreadcrumbs(isUnmatchedCategory = false) {
+        const { updateBreadcrumbs, category } = this.props;
+        const breadcrumbs = isUnmatchedCategory ? {} : category;
+        updateBreadcrumbs(breadcrumbs);
+
+        this.setState({ breadcrumbsWereUpdated: true });
+    }
+
+    updateNavigationState() {
         const { changeNavigationState } = this.props;
 
         changeNavigationState({
@@ -469,7 +475,7 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    _updateHeaderState() {
+    updateHeaderState(isUnmatchedCategory = false) {
         const {
             changeHeaderState,
             category: {
@@ -478,109 +484,64 @@ export class CategoryPageContainer extends PureComponent {
             history
         } = this.props;
 
-        const { location: { state: { isFromCategory } = {} } } = history;
+        const { isFromCategory } = history?.location?.state || {};
 
         const onBackClick = isFromCategory
             ? () => history.goBack()
-            : () => history.push('/menu');
+            : () => history.push(appendWithStoreCode('/menu'));
+
+        /**
+         * Ensure the name is not set if the category IDs do not
+         * match. Otherwise, the previous value is displayed.
+         */
+        const title = isUnmatchedCategory ? undefined : name;
 
         changeHeaderState({
             name: CATEGORY,
-            title: name,
+            title,
             onBackClick
         });
     }
 
-    _requestCategoryProductsInfo() {
-        const { requestProductListInfo } = this.props;
-        requestProductListInfo(this._getProductListOptions(1));
-    }
-
-    _requestCategory() {
+    requestCategory() {
         const {
             categoryIds,
             isSearchPage,
-            requestCategory,
-            isOnlyPlaceholder
+            requestCategory
         } = this.props;
 
-        // do not request category if this is a placeholder
-        if (isOnlyPlaceholder) {
+        const {
+            currentCategoryIds
+        } = this.state;
+
+        /**
+         * Prevent non-existent category from being requested
+         */
+        if (categoryIds === -1) {
             return;
         }
 
-        const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
+        /**
+         * Do not request a category again! We are still waiting for
+         * a requested category to load!
+         */
+        if (categoryIds === currentCategoryIds) {
+            return;
+        }
+
+        /**
+         * Update current category to track if it is loaded or not - useful,
+         * to prevent category from requesting itself multiple times.
+         */
+        this.setState({
+            currentCategoryIds: categoryIds,
+            breadcrumbsWereUpdated: false
+        });
 
         requestCategory({
-            categoryUrlPath,
             isSearchPage,
             categoryIds
         });
-    }
-
-    _requestCategoryWithPageList() {
-        this._requestCategory();
-        this._requestCategoryProductsInfo();
-    }
-
-    _compareQueriesWithFilter(search, prevSearch, filter) {
-        const currentParams = filter(convertQueryStringToKeyValuePairs(search));
-        const previousParams = filter(convertQueryStringToKeyValuePairs(prevSearch));
-        return JSON.stringify(currentParams) === JSON.stringify(previousParams);
-    }
-
-    _compareQueriesWithoutPage(search, prevSearch) {
-        return this._compareQueriesWithFilter(
-            search,
-            prevSearch,
-            ({ page, ...filteredParams }) => filteredParams
-        );
-    }
-
-    _compareQueriesByFilters(search, prevSearch) {
-        return this._compareQueriesWithFilter(
-            search,
-            prevSearch,
-            ({ customFilters }) => customFilters
-        );
-    }
-
-    _urlHasChanged(location, prevProps) {
-        const {
-            pathname,
-            search
-        } = location;
-
-        const {
-            location: {
-                pathname: prevPathname,
-                search: prevSearch
-            }
-        } = prevProps;
-
-        const pathnameHasChanged = pathname !== prevPathname;
-        const searchQueryHasChanged = !this._compareQueriesWithoutPage(search, prevSearch);
-
-        return pathnameHasChanged || searchQueryHasChanged;
-    }
-
-    _clearFilters() {
-        const {
-            location,
-            history
-        } = this.props;
-
-        const {
-            sortKey: defaultSortKey,
-            sortDirection: defaultSortDirection
-        } = this.config;
-
-        const sortDirection = getQueryParam('sortDirection', location) || defaultSortDirection;
-        const sortKey = getQueryParam('sortKey', location) || defaultSortKey;
-        const page = getQueryParam('page', location) || 1;
-
-        clearQueriesFromUrl(history);
-        setQueryParams({ sortKey, sortDirection, page }, location, history);
     }
 
     render() {

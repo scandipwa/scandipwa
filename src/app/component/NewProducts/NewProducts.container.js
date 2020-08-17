@@ -9,21 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { prepareQuery } from 'Util/Query';
-import { ProductListQuery } from 'Query';
-import { executeGet } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
+
+import ProductListQuery from 'Query/ProductList.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { getIndexedProducts } from 'Util/Product';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+
 import NewProducts from './NewProducts.component';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     timezone: state.ConfigReducer.timezone
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
@@ -124,7 +126,7 @@ export class NewProductsContainer extends PureComponent {
         const query = [ProductListQuery.getQuery(options)];
         executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
             .then(({ products: { items } }) => this.setState({ products: getIndexedProducts(items) }))
-            .catch(e => showNotification('error', 'Error fetching NewProducts!', e));
+            .catch((e) => showNotification('error', 'Error fetching NewProducts!', e));
     }
 
     render = () => <NewProducts { ...this.props } { ...this.state } />;

@@ -9,10 +9,11 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import './InjectedStripeCheckoutForm.style';
+
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
-import PropTypes from 'prop-types';
-import './InjectedStripeCheckoutForm.style';
 
 /**
  * @class InjectedStripeCheckoutForm
@@ -108,11 +109,11 @@ class InjectedStripeCheckoutForm extends PureComponent {
             if (['requires_action', 'requires_source_action'].includes(status)) {
                 if (confirmation_method === 'manual') {
                     handleCardAction(secret).then(
-                        response => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
+                        (response) => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
                     );
                 } else {
                     handleCardPayment(secret).then(
-                        response => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
+                        (response) => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
                     );
                 }
             }

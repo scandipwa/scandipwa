@@ -10,20 +10,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import Link from 'Component/Link';
-import isMobile from 'Util/Mobile';
-import { MenuType } from 'Type/Menu';
-import CmsBlock from 'Component/CmsBlock';
-import { getSortedItems } from 'Util/Menu';
-import StoreSwitcher from 'Component/StoreSwitcher';
-import MenuItem from 'Component/MenuItem';
-
 import './Menu.style';
 
-export default class MenuOverlay extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CmsBlock from 'Component/CmsBlock';
+import Link from 'Component/Link';
+import MenuItem from 'Component/MenuItem';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import { MenuType } from 'Type/Menu';
+import { getSortedItems } from 'Util/Menu';
+import isMobile from 'Util/Mobile';
+
+export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         activeMenuItemsStack: PropTypes.array.isRequired,
@@ -74,7 +74,7 @@ export default class MenuOverlay extends PureComponent {
                   elem="ItemList"
                   mods={ { ...mods } }
                 >
-                    { childrenArray.map(item => this.renderDesktopSubLevelItems(item, mods)) }
+                    { childrenArray.map((item) => this.renderDesktopSubLevelItems(item, mods)) }
                 </div>
             </div>
         );
@@ -102,7 +102,9 @@ export default class MenuOverlay extends PureComponent {
             return (
                 <div
                   key={ item_id }
-                  onClick={ e => handleSubcategoryClick(e, item) }
+                  // TODO: split into smaller components
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ (e) => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   role="button"
                 >
@@ -208,6 +210,10 @@ export default class MenuOverlay extends PureComponent {
         const { activeMenuItemsStack, closeMenu } = this.props;
         const isVisible = activeMenuItemsStack.includes(item_id);
 
+        if (!isVisible) {
+            return null;
+        }
+
         return (
             <div
               block="Menu"
@@ -276,7 +282,9 @@ export default class MenuOverlay extends PureComponent {
         if (childrenArray.length && (isMobile.any() || isMobile.tablet())) {
             return (
                 <div
-                  onClick={ e => handleSubcategoryClick(e, item) }
+                  // TODO: split into smaller components
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ (e) => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   block="Menu"
                   elem="SubCatLink"
@@ -369,3 +377,5 @@ export default class MenuOverlay extends PureComponent {
         );
     }
 }
+
+export default Menu;

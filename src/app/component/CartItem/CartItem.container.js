@@ -10,21 +10,28 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { objectToUri } from 'Util/Url';
-import { CartDispatcher } from 'Store/Cart';
+import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
+import { objectToUri } from 'Util/Url';
 
-import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
 
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-    changeItemQty: options => CartDispatcher.changeItemQty(dispatch, options),
-    removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
+    changeItemQty: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)
+    ),
+    removeProduct: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
+    )
 });
 
 export class CartItemContainer extends PureComponent {
@@ -49,7 +56,7 @@ export class CartItemContainer extends PureComponent {
 
     componentWillUnmount() {
         if (this.handlers.length) {
-            [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+            [].forEach.call(this.handlers, (cancelablePromise) => cancelablePromise.cancel());
         }
     }
 
@@ -162,7 +169,8 @@ export class CartItemContainer extends PureComponent {
 
         if (type_id !== 'configurable') {
             return {
-                pathname: url
+                pathname: url,
+                state: { product }
             };
         }
 

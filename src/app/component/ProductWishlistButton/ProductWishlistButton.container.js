@@ -9,28 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { isSignedIn } from 'Util/Auth';
-import { showNotification } from 'Store/Notification';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { ProductType } from 'Type/ProductList';
-import { getExtensionAttributes } from 'Util/Product';
-import ProductWishlistButton from './ProductWishlistButton.component';
 
-export const mapStateToProps = state => ({
+import { showNotification } from 'Store/Notification/Notification.action';
+import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
+import { getExtensionAttributes } from 'Util/Product';
+
+import ProductWishlistButton from './ProductWishlistButton.component';
+import { ERROR_CONFIGURABLE_NOT_PROVIDED } from './ProductWishlistButton.config';
+
+const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
+
+export const mapStateToProps = (state) => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
     isLoading: state.WishlistReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
-    addProductToWishlist: wishlistItem => WishlistDispatcher.addItemToWishlist(dispatch, wishlistItem),
-    removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
+export const mapDispatchToProps = (dispatch) => ({
+    addProductToWishlist: (wishlistItem) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem)
+    ),
+    removeProductFromWishlist: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
-
-export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED';
 
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {

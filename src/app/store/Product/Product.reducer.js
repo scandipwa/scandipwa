@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import { getIndexedProduct } from 'Util/Product';
+
 import { UPDATE_PRODUCT_DETAILS } from './Product.action';
 
 export const initialState = {
@@ -16,7 +17,7 @@ export const initialState = {
     formattedConfigurableOptions: {}
 };
 
-export const formatConfigurableOptions = configurable_options => configurable_options
+export const formatConfigurableOptions = (configurable_options) => configurable_options
     .reduce((prev, option) => {
         const {
             attribute_id,

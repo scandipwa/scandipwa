@@ -9,13 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import FormPortal from 'Component/FormPortal';
-import { debounce } from 'Util/Request';
-import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
 import './CheckoutAddressForm.style';
 
-export const UPDATE_STATE_FREQUENCY = 1000; // (ms)
+import PropTypes from 'prop-types';
+
+import FormPortal from 'Component/FormPortal';
+import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import { debounce } from 'Util/Request';
+
+import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
 
 class CheckoutAddressForm extends MyAccountAddressForm {
     static propTypes = {
@@ -112,12 +114,12 @@ class CheckoutAddressForm extends MyAccountAddressForm {
 
         fieldMap.city = {
             ...city,
-            onChange: value => this.onChange('city', value)
+            onChange: (value) => this.onChange('city', value)
         };
 
         fieldMap.postcode = {
             ...postcode,
-            onChange: value => this.onChange('postcode', value)
+            onChange: (value) => this.onChange('postcode', value)
         };
 
         return fieldMap;
@@ -128,7 +130,7 @@ class CheckoutAddressForm extends MyAccountAddressForm {
         const { region_string } = regionFieldData;
 
         if (region_string) {
-            regionFieldData.region_string.onChange = v => this.onChange('region', v);
+            regionFieldData.region_string.onChange = (v) => this.onChange('region', v);
         }
 
         return regionFieldData;

@@ -9,17 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import './NotificationList.style';
+
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import Notification from 'Component/Notification';
 import { NotificationListType } from 'Type/NotificationList';
-import './NotificationList.style';
 
 /**
  * Notification List
  * @class NotificationList
  */
-export default class NotificationList extends PureComponent {
+export class NotificationList extends PureComponent {
     static propTypes = {
         notifications: NotificationListType.isRequired,
         onHideNotification: PropTypes.func.isRequired
@@ -30,7 +32,7 @@ export default class NotificationList extends PureComponent {
 
         return (
             <div block="NotificationList">
-                { Object.keys(notifications).map(id => (
+                { Object.keys(notifications).map((id) => (
                     <Notification
                       key={ id }
                       notificationId={ id }
@@ -42,3 +44,5 @@ export default class NotificationList extends PureComponent {
         );
     }
 }
+
+export default NotificationList;

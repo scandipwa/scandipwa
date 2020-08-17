@@ -21,17 +21,17 @@ export const MixType = PropTypes.shape({
 });
 
 export const HistoryType = PropTypes.shape({
-    location: PropTypes.object.isRequired,
-    push: PropTypes.func.isRequired
+    location: PropTypes.object,
+    push: PropTypes.func
 });
 
 export const LocationType = PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
+    pathname: PropTypes.string,
     state: PropTypes.object
 });
 
 export const MatchType = PropTypes.shape({
-    path: PropTypes.string.isRequired
+    path: PropTypes.string
 });
 
 export const ChildrenType = PropTypes.oneOfType([

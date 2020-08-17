@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { Container } from 'unstated';
 
 export const sharedTransitionInitialState = {
@@ -7,10 +18,10 @@ export const sharedTransitionInitialState = {
     startingPosition: {}
 };
 
-export class SharedTransitionContainer extends Container {
+export class SharedTransitionUnstated extends Container {
     state = sharedTransitionInitialState;
 
-    _parseRectangle = val => JSON.parse(JSON.stringify(val));
+    _parseRectangle = (val) => JSON.parse(JSON.stringify(val));
 
     cleanUpTransition = () => {
         this.setState(sharedTransitionInitialState);
@@ -45,4 +56,4 @@ export class SharedTransitionContainer extends Container {
     };
 }
 
-export default new SharedTransitionContainer();
+export default new SharedTransitionUnstated();

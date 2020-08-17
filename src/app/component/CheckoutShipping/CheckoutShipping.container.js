@@ -9,17 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { shippingMethodsType } from 'Type/Checkout';
-import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { customerType } from 'Type/Account';
+import { shippingMethodsType } from 'Type/Checkout';
+import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
@@ -87,7 +87,6 @@ export class CheckoutShippingContainer extends PureComponent {
 
         saveAddressInformation(data);
     }
-
 
     _getAddressById(addressId) {
         const { customer: { addresses } } = this.props;

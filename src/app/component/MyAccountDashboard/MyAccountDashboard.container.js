@@ -16,7 +16,7 @@ import { customerType } from 'Type/Account';
 
 import MyAccountDashboard from './MyAccountDashboard.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 

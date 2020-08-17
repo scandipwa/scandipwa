@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -19,8 +20,11 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
+// const DashboardPlugin = require('webpack-dashboard/plugin');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const webmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
@@ -29,6 +33,37 @@ const FallbackPlugin = require('./FallbackPlugin');
 const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
+
+const prepareProxy = () => {
+    // eslint-disable-next-line global-require
+    const { proxy } = require('../../package.json');
+
+    if (!proxy) {
+        return undefined;
+    }
+
+    console.log('proxy is defined');
+
+    if (typeof proxy !== 'string') {
+        console.log('When specified, "proxy" in package.json must be a string.');
+        console.log(`Instead, the type of "proxy" was "${ typeof proxy }".`);
+        console.log('Either remove "proxy" from package.json, or make it a string.');
+        process.exit(1);
+    }
+
+    if (!/^http(s)?:\/\//.test(proxy)) {
+        console.log('When "proxy" is specified in package.json it must start with either http:// or https://');
+        process.exit(1);
+    }
+
+    return [{
+        context: ['/graphql', '/static', '/media', '/admin', '/pub'],
+        target: proxy,
+        ws: true,
+        changeOrigin: true,
+        logLevel: 'silent'
+    }];
+};
 
 module.exports = {
     resolve: {
@@ -138,7 +173,8 @@ module.exports = {
         public: 'scandipwa.local',
         allowedHosts: [
             '.local'
-        ]
+        ],
+        proxy: prepareProxy()
     },
 
     watchOptions: {
@@ -152,8 +188,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': {
                 REBEM_MOD_DELIM: JSON.stringify('_'),
-                REBEM_ELEM_DELIM: JSON.stringify('-'),
-                MAGENTO_VERSION: JSON.stringify('2.3.1')
+                REBEM_ELEM_DELIM: JSON.stringify('-')
             }
         }),
 
@@ -172,9 +207,19 @@ module.exports = {
 
         new WebpackPwaManifest(webmanifestConfig(projectRoot)),
 
-        new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(projectRoot, 'src', 'public', 'assets'),
+                    to: './assets'
+                }
+            ]
+        }),
+
+        new CleanWebpackPlugin([
+            path.resolve('Magento_Theme', 'templates'),
+            path.resolve('Magento_Theme', 'web')
+        ], { root: projectRoot }),
 
         new MiniCssExtractPlugin()
     ]

@@ -21,7 +21,7 @@ export const REMOVE_COUPON_FROM_CART = 'REMOVE_COUPON_FROM_CART';
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
  */
-export const addProductToCart = newProduct => ({
+export const addProductToCart = (newProduct) => ({
     type: ADD_PRODUCT_TO_CART,
     newProduct
 });
@@ -31,7 +31,7 @@ export const addProductToCart = newProduct => ({
  * @param  {Object} product Product which should be removed
  * @return {void}
  */
-export const removeProductFromCart = product => ({
+export const removeProductFromCart = (product) => ({
     type: REMOVE_PRODUCT_FROM_CART,
     product
 });
@@ -41,7 +41,7 @@ export const removeProductFromCart = product => ({
  * @param  {Object} totals Object of calculated totals
  * @return {void}
  */
-export const updateTotals = cartData => ({
+export const updateTotals = (cartData) => ({
     type: UPDATE_TOTALS,
     cartData
 });
@@ -51,7 +51,7 @@ export const updateTotals = cartData => ({
  * @param  {String} string Coupon code
  * @return {void}
  */
-export const applyCouponToCart = couponCode => ({
+export const applyCouponToCart = (couponCode) => ({
     type: APPLY_COUPON_TO_CART,
     couponCode
 });

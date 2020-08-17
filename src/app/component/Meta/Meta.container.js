@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import Meta from './Meta.component';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     default_description: state.MetaReducer.default_description,
     default_keywords: state.MetaReducer.default_keywords,
     default_title: state.MetaReducer.default_title,

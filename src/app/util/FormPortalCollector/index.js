@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export default class FormPortalCollector {
+export class FormPortalCollector {
     portalsObservers = {};
 
     subscribe(id, f, name) {
@@ -31,6 +31,8 @@ export default class FormPortalCollector {
 
     collect(id) {
         const portals = this.portalsObservers[id] || {};
-        return Object.values(portals).map(portal => portal());
+        return Object.values(portals).map((portal) => portal());
     }
 }
+
+export default FormPortalCollector;
