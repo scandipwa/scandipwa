@@ -25,7 +25,7 @@ const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json')
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const parentRoot = parentTheme
     ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
-    : undefined;
+    : null;
 const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
