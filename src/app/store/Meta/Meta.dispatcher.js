@@ -46,8 +46,11 @@ export class MetaDispatcher extends ExtensibleClass {
      */
     _getProductMeta(product) {
         const {
-            meta_title, name, meta_keyword,
-            meta_description, canonical_url
+            name,
+            meta_title,
+            meta_keyword,
+            canonical_url,
+            meta_description
         } = product;
 
         return {
