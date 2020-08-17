@@ -25,11 +25,12 @@
     "extract-translations": "webpack --config ./src/config/webpack.extract-translations.config.js --progress --hide-module",
     "pm2-watch": "./node_modules/.bin/pm2 start process.yml --no-daemon",
     "stylelint": "stylelint ./src/**/*.scss",
+    "stylelint:cache": "stylelint --cache ./src/**/*.scss",
     "stylelint:fix": "npm run stylelint -- --fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run eslint && npm run stylelint"
+      "pre-commit": "npm run eslint:cache && npm run stylelint:cache"
     }
   },
   "browserslist": [
