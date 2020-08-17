@@ -14,7 +14,8 @@ import ExpandableContent from 'Component/ExpandableContent';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import { formatCurrency } from 'Util/Price';
 
-class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
+/** @namespace Component/CategoryConfigurableAttributes/Component */
+export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     getPriceLabel(option) {
         const { currency_code } = this.props;
         const { value_string } = option;
@@ -111,7 +112,7 @@ class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
               block="ProductConfigurableAttributes"
               elem="DropDownList"
             >
-                { attribute_values.map((attribute_value) => (
+                { attribute_values.map(attribute_value => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })
                 )) }
             </div>

@@ -21,15 +21,15 @@ import ProductReviews from './ProductReviews.component';
 import { REVIEW_POPUP_ID } from './ProductReviews.config';
 
 /** @namespace Component/ProductReviews/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
     isGuestEnabled: state.ConfigReducer.reviews_allow_guest
 });
 
 /** @namespace Component/ProductReviews/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
-    showInfoNotification: (message) => dispatch(showNotification('info', message))
+export const mapDispatchToProps = dispatch => ({
+    showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
+    showInfoNotification: message => dispatch(showNotification('info', message))
 });
 
 /** @namespace Component/ProductReviews/Container */

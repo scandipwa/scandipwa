@@ -62,6 +62,7 @@ export const getUrlParam = (match, location) => {
 /**
  * Append store code to URL
  * @param {String} pathname the URL to append store code to
+ * @namespace Util/Url/appendWithStoreCode
  */
 export const appendWithStoreCode = (pathname) => {
     const { ConfigReducer: { base_link_url = window.location.origin } = {} } = getStore().getState() || {};

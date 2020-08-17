@@ -35,33 +35,33 @@ import {
 import CategoryPage from './CategoryPage.component';
 import { LOADING_TIME } from './CategoryPage.config';
 
-const ProductListInfoDispatcher = import(
+export const ProductListInfoDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductListInfo/ProductListInfo.dispatcher'
 );
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
 
-const CategoryDispatcher = import(
+export const CategoryDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Category/Category.dispatcher'
 );
 
-const MetaDispatcher = import(
+export const MetaDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Meta/Meta.dispatcher'
 );
 
-const NoMatchDispatcher = import(
+export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/NoMatch/NoMatch.dispatcher'
 );
 
 /** @namespace Route/CategoryPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
@@ -73,35 +73,42 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: (options) => CategoryDispatcher.then(
+export const mapDispatchToProps = dispatch => ({
+    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    requestCategory: options => CategoryDispatcher.then(
+        /** @namespace Route/CategoryPage/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
-    updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
+    updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.then(
+            /** @namespace Route/CategoryPage/Container/then */
             ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch)
         )
         : BreadcrumbsDispatcher.then(
+            /** @namespace Route/CategoryPage/Container/then */
             ({ default: dispatcher }) => dispatcher.update([], dispatch)
         )
     ),
-    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
+    requestProductListInfo: options => ProductListInfoDispatcher.then(
+        /** @namespace Route/CategoryPage/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
-    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: (options) => NoMatchDispatcher.then(
+    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: options => NoMatchDispatcher.then(
+        /** @namespace Route/CategoryPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
     ),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: (category) => MetaDispatcher.then(
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: category => MetaDispatcher.then(
+        /** @namespace Route/CategoryPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
     ),
     clearCategory: () => dispatch(updateCurrentCategory({}))
 });
 
+/** @namespace Route/CategoryPage/Container */
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,

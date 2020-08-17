@@ -18,31 +18,38 @@ import { showNotification } from 'Store/Notification/Notification.action';
 
 import PasswordChangePage from './PasswordChangePage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
-const MyAccountDispatcher = import(
+export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch));
+        BreadcrumbsDispatcher.then(
+            /** @namespace Route/PasswordChangePage/Container/then */
+            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+        );
     },
     resetPassword(options) {
-        MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch));
+        MyAccountDispatcher.then(
+            /** @namespace Route/PasswordChangePage/Container/then */
+            ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
+        );
     },
     updateCustomerPasswordResetStatus(options) {
         MyAccountDispatcher.then(
+            /** @namespace Route/PasswordChangePage/Container/then */
             ({ default: dispatcher }) => dispatcher.updateCustomerPasswordResetStatus(options, dispatch)
         );
     },

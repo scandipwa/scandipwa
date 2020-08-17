@@ -17,7 +17,7 @@ export const UPDATE_NOMATCH = 'UPDATE_NOMATCH';
  * @return {void}
  * @namespace Store/NoMatch/Action/updateNoMatch
  */
-export const updateNoMatch = (noMatch) => ({
+export const updateNoMatch = noMatch => ({
     type: UPDATE_NOMATCH,
     noMatch
 });

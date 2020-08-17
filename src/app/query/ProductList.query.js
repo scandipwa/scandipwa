@@ -38,7 +38,7 @@ export class ProductListQuery {
         const products = new Field('products')
             .addFieldList(this._getProductFields());
 
-        this._getProductArguments().forEach((arg) => products.addArgument(...arg));
+        this._getProductArguments().forEach(arg => products.addArgument(...arg));
 
         return products;
     }
@@ -79,8 +79,8 @@ export class ProductListQuery {
 
     _getFilterArgumentMap() {
         return {
-            categoryIds: (id) => [`category_id: { eq: ${id} }`],
-            categoryUrlPath: (url) => [`category_url_path: { eq: ${url} }`],
+            categoryIds: id => [`category_id: { eq: ${id} }`],
+            categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
 
@@ -94,12 +94,12 @@ export class ProductListQuery {
 
                 return filters;
             },
-            productsSkuArray: (sku) => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
-            productUrlPath: (url) => [`url_key: { eq: ${url}}`],
+            productsSkuArray: sku => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
+            productUrlPath: url => [`url_key: { eq: ${url}}`],
             customFilters: this._getCustomFilters,
-            newToDate: (date) => [`news_to_date: { gteq: ${date} }`],
-            conditions: (conditions) => [`conditions: { eq: ${conditions} }`],
-            customerGroupId: (id) => [`customer_group_id: { eq: ${id} }`]
+            newToDate: date => [`news_to_date: { gteq: ${date} }`],
+            conditions: conditions => [`conditions: { eq: ${conditions} }`],
+            customerGroupId: id => [`customer_group_id: { eq: ${id} }`]
         };
     }
 
@@ -111,11 +111,11 @@ export class ProductListQuery {
             currentPage: { type: 'Int!' },
             pageSize: {
                 type: 'Int!',
-                handler: (option) => (requireInfo ? 1 : option)
+                handler: option => (requireInfo ? 1 : option)
             },
             search: {
                 type: 'String!',
-                handler: (option) => encodeURIComponent(option)
+                handler: option => encodeURIComponent(option)
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
@@ -171,7 +171,7 @@ export class ProductListQuery {
             if (!arg) {
                 return acc;
             }
-            const { type, handler = (option) => option } = argumentMap[key];
+            const { type, handler = option => option } = argumentMap[key];
             return [...acc, [key, type, handler(arg)]];
         }, []);
     }

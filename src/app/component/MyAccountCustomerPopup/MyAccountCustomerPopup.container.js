@@ -28,16 +28,16 @@ import MyAccountCustomerPopup from './MyAccountCustomerPopup.component';
 import { CUSTOMER_POPUP_ID } from './MyAccountCustomerPopup.config';
 
 /** @namespace Component/MyAccountCustomerPopup/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {}
 });
 
 /** @namespace Component/MyAccountCustomerPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
+export const mapDispatchToProps = dispatch => ({
+    updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: message => dispatch(showNotification('success', message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 

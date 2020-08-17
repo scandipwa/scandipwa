@@ -19,13 +19,13 @@ import { orderType } from 'Type/Account';
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     currency_code: state.ConfigReducer.default_display_currency_code
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(ORDER_POPUP_ID, payload))
+export const mapDispatchToProps = dispatch => ({
+    showPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload))
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container */

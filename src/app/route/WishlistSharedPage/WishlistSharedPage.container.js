@@ -24,25 +24,30 @@ import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
-const WishlistDispatcher = import(
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );
 
 /** @namespace Route/WishlistSharedPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    clearWishlist: () => WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)),
-    moveWishlistToCart: (sharingCode) => WishlistDispatcher.then(
+export const mapDispatchToProps = dispatch => ({
+    clearWishlist: () => WishlistDispatcher.then(
+        /** @namespace Route/WishlistSharedPage/Container/then */
+        ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
+    ),
+    moveWishlistToCart: sharingCode => WishlistDispatcher.then(
+        /** @namespace Route/WishlistSharedPage/Container/then */
         ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)
     ),
-    showNotification: (message) => dispatch(showNotification('success', message)),
-    showError: (message) => dispatch(showNotification('error', message)),
+    showNotification: message => dispatch(showNotification('success', message)),
+    showError: message => dispatch(showNotification('error', message)),
     showNoMatch: () => dispatch(updateNoMatch(true)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        /** @namespace Route/WishlistSharedPage/Container/then */
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     )
 });

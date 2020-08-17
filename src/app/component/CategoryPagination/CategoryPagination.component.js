@@ -17,6 +17,8 @@ import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
+
+/** @namespace Component/CategoryPagination/Component */
 export class CategoryPagination extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,

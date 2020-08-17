@@ -27,14 +27,10 @@ import {
     STATUS_PASSOWORD_UPDATED
 } from './PasswordChangePage.config';
 
+/** @namespace Route/PasswordChangePage/Component */
 export class PasswordChangePage extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        passwordResetStatus: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]).isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired
     };

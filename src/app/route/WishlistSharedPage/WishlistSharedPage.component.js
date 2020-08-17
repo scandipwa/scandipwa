@@ -17,6 +17,7 @@ import Loader from 'Component/Loader';
 import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
 import SharedWishlistItem from 'Component/SharedWishlistItem';
 
+/** @namespace Route/WishlistSharedPage/Component */
 export class WishlistSharedPage extends SourceWishlist {
     static propTypes = {
         creatorsName: PropTypes.string.isRequired

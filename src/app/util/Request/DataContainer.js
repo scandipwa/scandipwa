@@ -53,7 +53,7 @@ export class DataContainer extends PureComponent {
                 onSucces(response);
             },
             /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseCatch */
-            (err) => onError(err)
+            err => onError(err)
         );
     }
 }

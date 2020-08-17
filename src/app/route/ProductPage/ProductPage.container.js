@@ -30,23 +30,23 @@ import {
 
 import ProductPage from './ProductPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
 
-const MetaDispatcher = import(
+export const MetaDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Meta/Meta.dispatcher'
 );
 
-const ProductDispatcher = import(
+export const ProductDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Product/Product.dispatcher'
 );
 
 /** @namespace Route/ProductPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product,
     navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
@@ -54,21 +54,26 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+export const mapDispatchToProps = dispatch => ({
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
         // TODO: check linked products, there might be issues :'(
-        ProductDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
+        ProductDispatcher.then(
+            /** @namespace Route/ProductPage/Container/then */
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+        );
     },
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        /** @namespace Route/ProductPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
     ),
-    updateMetaFromProduct: (product) => MetaDispatcher.then(
+    updateMetaFromProduct: product => MetaDispatcher.then(
+        /** @namespace Route/ProductPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
+    goToPreviousNavigationState: state => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Route/ProductPage/Container */

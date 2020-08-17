@@ -18,21 +18,24 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 
 import NoMatchHandler from './NoMatchHandler.component';
 
-const NoMatchDispatcher = import(
+export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/NoMatch/NoMatch.dispatcher'
 );
 
 /** @namespace Route/NoMatchHandler/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     noMatch: state.NoMatchReducer.noMatch
 });
 
 /** @namespace Route/NoMatchHandler/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
-        NoMatchDispatcher.then(({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options));
+        NoMatchDispatcher.then(
+            /** @namespace Route/NoMatchHandler/Container/then */
+            ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
+        );
     }
 });
 

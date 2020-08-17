@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 
 import { CART_EDITING, CART_OVERLAY } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import history from 'Util/History';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -23,6 +22,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 
 import CartOverlay from './CartOverlay.component';
 
@@ -31,19 +31,22 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/CartOverlay/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
     guest_checkout: state.ConfigReducer.guest_checkout,
     currencyCode: state.ConfigReducer.default_display_currency_code
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-    setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateTotals: (options) => CartDispatcher.then(
+/** @namespace Component/CartOverlay/Container/mapDispatchToProps */
+export const mapDispatchToProps = dispatch => ({
+    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateTotals: options => CartDispatcher.then(
+        /** @namespace Component/CartOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)
     ),
-    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 

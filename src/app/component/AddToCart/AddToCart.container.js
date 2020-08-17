@@ -24,21 +24,28 @@ import {
 
 import AddToCart from './AddToCart.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
-const WishlistDispatcher = import(
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/AddToCart/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-    addProduct: (options) => CartDispatcher.then(
+/** @namespace Component/AddToCart/Container/mapDispatchToProps */
+export const mapDispatchToProps = dispatch => ({
+    addProduct: options => CartDispatcher.then(
+        /** @namespace Component/AddToCart/Container/then */
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
-    removeFromWishlist: (options) => WishlistDispatcher.then(
+    removeFromWishlist: options => WishlistDispatcher.then(
+        /** @namespace Component/AddToCart/Container/then */
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message))
@@ -185,7 +192,7 @@ export class AddToCartContainer extends PureComponent {
 
     validateProductOptions(items, requiredOptions, isBundle = false) {
         // Make sure EVERY required option is FOUND in selected items
-        return requiredOptions.every((requiredOption) => (
+        return requiredOptions.every(requiredOption => (
             items.find((item) => {
                 const { id, option_id } = item;
                 const matchWith = isBundle ? id : option_id;
@@ -235,7 +242,9 @@ export class AddToCartContainer extends PureComponent {
                 quantity
             });
         })).then(
+            /** @namespace Component/AddToCart/Container/allThen */
             () => this.afterAddToCart(),
+            /** @namespace Component/AddToCart/Container/allThen */
             () => this.resetLoading()
         );
     }
@@ -257,7 +266,9 @@ export class AddToCartContainer extends PureComponent {
             quantity,
             productOptionsData
         }).then(
+            /** @namespace Component/AddToCart/Container/addProductThen */
             () => this.afterAddToCart(),
+            /** @namespace Component/AddToCart/Container/addProductThen */
             () => this.resetLoading()
         );
     }
@@ -275,7 +286,9 @@ export class AddToCartContainer extends PureComponent {
             quantity,
             productOptionsData
         }).then(
+            /** @namespace Component/AddToCart/Container/addProductThen */
             () => this.afterAddToCart(),
+            /** @namespace Component/AddToCart/Container/addProductThen */
             () => this.resetLoading()
         );
     }

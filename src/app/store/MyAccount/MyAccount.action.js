@@ -15,19 +15,19 @@ export const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_R
 export const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
 
 /** @namespace Store/MyAccount/Action/updateCustomerSignInStatus */
-export const updateCustomerSignInStatus = (status) => ({
+export const updateCustomerSignInStatus = status => ({
     type: UPDATE_CUSTOMER_SIGN_IN_STATUS,
     status
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerDetails */
-export const updateCustomerDetails = (customer) => ({
+export const updateCustomerDetails = customer => ({
     type: UPDATE_CUSTOMER_DETAILS,
     customer
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerPasswordResetStatus */
-export const updateCustomerPasswordResetStatus = (status) => ({
+export const updateCustomerPasswordResetStatus = status => ({
     type: UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     status
 });

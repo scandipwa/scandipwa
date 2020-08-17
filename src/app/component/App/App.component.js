@@ -12,10 +12,10 @@
 import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
-import configureStore from 'Store';
 import Router from 'Component/Router';
-import SomethingWentWrong from 'Route/SomethingWentWrong';
 import SharedTransition from 'Component/SharedTransition';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
+import configureStore from 'Store';
 
 /** @namespace Component/App/Component */
 export class App extends PureComponent {

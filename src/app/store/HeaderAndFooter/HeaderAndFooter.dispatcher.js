@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
 import CmsBlockQuery from 'Query/CmsBlock.query';
 import MenuQuery from 'Query/Menu.query';
-import { showNotification } from 'Store/Notification/Notification.action';
-import { updateMenu } from 'Store/HeaderAndFooter/HeaderAndFooter.action';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider/CmsBlocksAndSlider.action';
+import { updateMenu } from 'Store/HeaderAndFooter/HeaderAndFooter.action';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { QueryDispatcher } from 'Util/Request';
 
 /** @namespace Store/HeaderAndFooter/Dispatcher */
 export class HeaderAndFooterDispatcher extends QueryDispatcher {

@@ -16,12 +16,12 @@ import { withRouter } from 'react-router';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import history from 'Util/History';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 import { appendWithStoreCode, setQueryParams } from 'Util/Url';
 
@@ -35,7 +35,8 @@ import {
     SEARCH
 } from './Header.config';
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/Header/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
@@ -49,7 +50,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = dispatch => ({
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
@@ -179,7 +180,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
 
         const activeRoute = Object.keys(this.routeMap)
-            .find((route) => (
+            .find(route => (
                 route !== '/'
                 || pathname === appendWithStoreCode('/')
                 || pathname === '/'

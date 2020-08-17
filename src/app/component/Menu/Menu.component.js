@@ -75,7 +75,7 @@ export class Menu extends PureComponent {
                   elem="ItemList"
                   mods={ { ...mods } }
                 >
-                    { childrenArray.map((item) => this.renderDesktopSubLevelItems(item, mods)) }
+                    { childrenArray.map(item => this.renderDesktopSubLevelItems(item, mods)) }
                 </div>
             </div>
         );
@@ -105,7 +105,7 @@ export class Menu extends PureComponent {
                   key={ item_id }
                   // TODO: split into smaller components
                   // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ (e) => handleSubcategoryClick(e, item) }
+                  onClick={ e => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   role="button"
                 >
@@ -285,7 +285,7 @@ export class Menu extends PureComponent {
                 <div
                   // TODO: split into smaller components
                   // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ (e) => handleSubcategoryClick(e, item) }
+                  onClick={ e => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   block="Menu"
                   elem="SubCatLink"

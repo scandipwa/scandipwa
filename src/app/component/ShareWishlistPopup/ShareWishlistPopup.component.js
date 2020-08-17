@@ -19,6 +19,7 @@ import ShareWishlistForm from 'Component/ShareWishlistForm';
 
 import { SHARE_WISHLIST_POPUP_ID } from './ShareWishlistPopup.config';
 
+/** @namespace Component/ShareWishlistPopup/Component */
 export class ShareWishlistPopup extends PureComponent {
     state = {};
 

@@ -76,7 +76,7 @@ export class ProductConfigurableAttributes extends PureComponent {
               block="ProductConfigurableAttributes"
               elem="SwatchList"
             >
-                { attribute_values.map((attribute_value) => (
+                { attribute_values.map(attribute_value => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })
                 )) }
             </div>

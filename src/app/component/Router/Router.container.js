@@ -13,21 +13,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
+
 import Router from './Router.component';
 
-const CartDispatcher = import(
+export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
-const ConfigDispatcher = import(
+export const ConfigDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Config/Config.dispatcher'
 );
-const WishlistDispatcher = import(
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );
-const HeaderAndFooterDispatcher = import(
+export const HeaderAndFooterDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/HeaderAndFooter/HeaderAndFooter.dispatcher'
 );
@@ -49,10 +50,22 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     init: (options) => {
-        WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
-        CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
-        ConfigDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch));
-        HeaderAndFooterDispatcher.then(({ default: dispatcher }) => dispatcher.handleData(dispatch, options));
+        WishlistDispatcher.then(
+            /** @namespace Component/Router/Container/then */
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+        );
+        CartDispatcher.then(
+            /** @namespace Component/Router/Container/then */
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+        );
+        ConfigDispatcher.then(
+            /** @namespace Component/Router/Container/then */
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch)
+        );
+        HeaderAndFooterDispatcher.then(
+            /** @namespace Component/Router/Container/then */
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+        );
     }
 });
 

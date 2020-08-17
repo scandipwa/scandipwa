@@ -12,7 +12,6 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { createBrowserHistory } from 'history';
 import PropTypes from 'prop-types';
 import {
     cloneElement,
@@ -20,9 +19,9 @@ import {
     PureComponent,
     Suspense
 } from 'react';
+import { connect } from 'react-redux';
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import Breadcrumbs from 'Component/Breadcrumbs';
 import CookiePopup from 'Component/CookiePopup';
@@ -42,9 +41,11 @@ import { getStore } from 'Store';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import history from 'Util/History';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
-const ConfigDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Config/Config.dispatcher');
-const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+import { AFTER_ITEMS_TYPE, BEFORE_ITEMS_TYPE, SWITCH_ITEMS_TYPE } from './Router.config';
+
+export const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const ConfigDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Config/Config.dispatcher');
+export const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
@@ -57,11 +58,8 @@ export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webp
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
 
-export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
-export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
-export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
-
-export const mapStateToProps = (state) => ({
+/** @namespace Component/Router/Component/mapStateToProps */
+export const mapStateToProps = state => ({
     isLoading: state.ConfigReducer.isLoading,
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
@@ -73,13 +71,16 @@ export const mapStateToProps = (state) => ({
     isBigOffline: state.OfflineReducer.isBig
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+/** @namespace Component/Router/Component/mapDispatchToProps */
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
-export const withStoreRegex = (path) => window.storeRegexText.concat(path);
+/** @namespace Component/Router/Component/withStoreRegex */
+export const withStoreRegex = path => window.storeRegexText.concat(path);
 
-export class AppRouter extends PureComponent {
+/** @namespace Component/Router/Component */
+export class Router extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         default_description: PropTypes.string,
@@ -275,12 +276,15 @@ export class AppRouter extends PureComponent {
     dispatchActions() {
         const { dispatch } = getStore();
         WishlistDispatcher.then(
+            /** @namespace Component/Router/Component/then */
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
         CartDispatcher.then(
+            /** @namespace Component/Router/Component/then */
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
         ConfigDispatcher.then(
+            /** @namespace Component/Router/Component/then */
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
         );
     }
@@ -359,4 +363,4 @@ export class AppRouter extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
+export default connect(mapStateToProps, mapDispatchToProps)(Router);

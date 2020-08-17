@@ -14,7 +14,7 @@ import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { updateProductDetails } from 'Store/Product/Product.action';
 import { QueryDispatcher } from 'Util/Request';
 
-const LinkedProductsDispatcher = import(
+export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/LinkedProducts/LinkedProducts.dispatcher'
 );
@@ -57,6 +57,7 @@ export class ProductDispatcher extends QueryDispatcher {
         }, []);
 
         LinkedProductsDispatcher.then(
+            /** @namespace Store/Product/Dispatcher/then */
             ({ default: dispatcher }) => {
                 if (product_links.length > 0) {
                     dispatcher.handleData(dispatch, product_links);

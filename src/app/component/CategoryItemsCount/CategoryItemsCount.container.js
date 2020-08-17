@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 
 import CategoryItemsCount from './CategoryItemsCount.component';
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/CategoryItemsCount/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     totalItems: state.ProductListReducer.totalItems
 });
 

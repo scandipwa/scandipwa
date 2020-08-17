@@ -17,6 +17,7 @@ import { PureComponent } from 'react';
 
 import { ChildrenType, MixType } from 'Type/Common';
 
+/** @namespace Component/Draggable/Component */
 export class Draggable extends PureComponent {
     static propTypes = {
         shiftX: PropTypes.number,
@@ -152,7 +153,7 @@ export class Draggable extends PureComponent {
         if (onClick) {
             onClick(
                 this.state,
-                (newState) => this.setState({
+                newState => this.setState({
                     ...newState,
                     isDragging: false,
                     translateX: 0,
@@ -183,7 +184,7 @@ export class Draggable extends PureComponent {
     _handleDragEnd() {
         const { onDragEnd } = this.props;
 
-        onDragEnd(this.state, (newState) => this.setState({
+        onDragEnd(this.state, newState => this.setState({
             ...newState,
             isDragging: false,
             translateX: 0,

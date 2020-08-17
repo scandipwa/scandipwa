@@ -20,8 +20,8 @@ import { MediaItemType } from 'Type/ProductList';
 import VideoThumbnail from './VideoThumbnail.component';
 
 /** @namespace Component/VideoThumbnail/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(VIDEO_POPUP_ID, payload))
+export const mapDispatchToProps = dispatch => ({
+    showPopup: payload => dispatch(showPopup(VIDEO_POPUP_ID, payload))
 });
 
 /**

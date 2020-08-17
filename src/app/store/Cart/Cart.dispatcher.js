@@ -17,7 +17,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
-const LinkedProductsDispatcher = import(
+export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/LinkedProducts/LinkedProducts.dispatcher'
 );
@@ -57,7 +57,7 @@ export class CartDispatcher {
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ createEmptyCart }) => createEmptyCart,
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            (error) => dispatch(showNotification('error', error[0].message))
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -180,7 +180,7 @@ export class CartDispatcher {
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            (error) => dispatch(showNotification('error', error[0].message))
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -194,7 +194,7 @@ export class CartDispatcher {
                 dispatch(showNotification('success', __('Coupon was applied!')));
             },
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            (error) => dispatch(showNotification('error', error[0].message))
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -208,7 +208,7 @@ export class CartDispatcher {
                 dispatch(showNotification('success', __('Coupon was removed!')));
             },
             /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            (error) => dispatch(showNotification('error', error[0].message))
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -224,12 +224,12 @@ export class CartDispatcher {
 
                 if (childProductLinks) {
                     Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
-                        .map((item) => links.push(item));
+                        .map(item => links.push(item));
                 }
 
                 if (product_links) {
                     Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
-                        .map((item) => links.push(item));
+                        .map(item => links.push(item));
                 }
 
                 return links;
@@ -237,6 +237,7 @@ export class CartDispatcher {
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
+                    /** @namespace Store/Cart/Dispatcher/then */
                     ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
                 );
             } else {

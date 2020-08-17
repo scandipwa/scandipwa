@@ -19,10 +19,12 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
 
-const mapStateToProps = (state) => ({
+/** @namespace Component/Link/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     baseLinkUrl: state.ConfigReducer.base_link_url
 });
 
+/** @namespace Component/Link/Container */
 export class LinkContainer extends PureComponent {
     static propTypes = {
         baseLinkUrl: PropTypes.string.isRequired,
@@ -84,4 +86,8 @@ export class LinkContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(LinkContainer);
+/** @namespace Component/Link/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LinkContainer);

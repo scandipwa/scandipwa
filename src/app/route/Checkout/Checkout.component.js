@@ -96,8 +96,6 @@ export class Checkout extends PureComponent {
         const { checkoutStep, history } = this.props;
         const { url } = this.stepMap[checkoutStep];
 
-        console.log('Checkout component did mount!');
-
         this.updateHeader();
 
         history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));

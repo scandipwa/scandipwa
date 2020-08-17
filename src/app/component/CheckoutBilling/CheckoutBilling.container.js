@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { BRAINTREE, KLARNA, STRIPE } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
@@ -26,16 +26,18 @@ import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/CheckoutBilling/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-    showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
+/** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
+export const mapDispatchToProps = dispatch => ({
+    showErrorNotification: message => dispatch(showNotification('error', message)),
+    showPopup: payload => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 
 /** @namespace Component/CheckoutBilling/Container */

@@ -24,9 +24,9 @@ import { HistoryType } from 'Type/Common';
 import isMobile from 'Util/Mobile';
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Route/MenuPage/Container */

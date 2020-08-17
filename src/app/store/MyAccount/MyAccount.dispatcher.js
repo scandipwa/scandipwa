@@ -26,8 +26,11 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation } from 'Util/Request';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
-const WishlistDispatcher = import(
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );
@@ -57,15 +60,21 @@ export class MyAccountDispatcher {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
             /** @namespace Store/MyAccount/Dispatcher/executePostThen */
-            (error) => dispatch(showNotification('error', error[0].message))
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
     logout(_, dispatch) {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
-        CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
-        WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
+        CartDispatcher.then(
+            /** @namespace Store/MyAccount/Dispatcher/then */
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+        );
+        WishlistDispatcher.then(
+            /** @namespace Store/MyAccount/Dispatcher/then */
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+        );
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         dispatch(updateCustomerDetails({}));
@@ -83,7 +92,7 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
             () => dispatch(updateCustomerPasswordForgotStatus()),
             /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
-            (error) => dispatch(showNotification('error', error[0].message))
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -165,8 +174,14 @@ export class MyAccountDispatcher {
 
             setAuthorizationToken(token);
             dispatch(updateCustomerSignInStatus(true));
-            CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch));
-            WishlistDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch));
+            CartDispatcher.then(
+                /** @namespace Store/MyAccount/Dispatcher/then */
+                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+            );
+            WishlistDispatcher.then(
+                /** @namespace Store/MyAccount/Dispatcher/then */
+                ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+            );
 
             return true;
         } catch ([e]) {

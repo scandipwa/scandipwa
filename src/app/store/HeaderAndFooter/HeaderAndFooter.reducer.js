@@ -10,9 +10,10 @@
  */
 
 import MenuReducer from 'Util/Menu';
+
 import {
-    UPDATE_MENU,
-    TOGGLE_HEADER_AND_FOOTER
+    TOGGLE_HEADER_AND_FOOTER,
+    UPDATE_MENU
 } from './HeaderAndFooter.action';
 
 /** @namespace Store/HeaderAndFooter/Reducer/getInitialState */

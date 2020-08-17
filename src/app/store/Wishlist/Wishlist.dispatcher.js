@@ -21,7 +21,10 @@ import {
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /**
  * Product Wishlist Dispatcher
@@ -123,7 +126,10 @@ export class WishlistDispatcher {
                 /** @namespace Store/Wishlist/Dispatcher/fetchMutationThen */
                 () => {
                     dispatch(clearWishlist());
-                    CartDispatcher.then(({ default: dispatcher }) => dispatcher._syncCartWithBE(dispatch));
+                    CartDispatcher.then(
+                        /** @namespace Store/Wishlist/Dispatcher/then */
+                        ({ default: dispatcher }) => dispatcher._syncCartWithBE(dispatch)
+                    );
                 }
             );
     }

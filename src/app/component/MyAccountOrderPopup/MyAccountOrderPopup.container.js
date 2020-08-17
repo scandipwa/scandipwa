@@ -22,22 +22,25 @@ import { fetchQuery } from 'Util/Request';
 import MyAccountOrderPopup from './MyAccountOrderPopup.component';
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
 
-const OrderDispatcher = import(
+export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Order/Order.dispatcher'
 );
 
 /** @namespace Component/MyAccountOrderPopup/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     order: state.OrderReducer.order,
     payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
     currency_code: state.ConfigReducer.default_display_currency_code
 });
 
 /** @namespace Component/MyAccountOrderPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    getOrder: (orderId) => OrderDispatcher.then(({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId))
+    getOrder: orderId => OrderDispatcher.then(
+        /** @namespace Component/MyAccountOrderPopup/Container/then */
+        ({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId)
+    )
 });
 
 /** @namespace Component/MyAccountOrderPopup/Container */

@@ -15,7 +15,8 @@ import React from 'react';
 import ProductBundleItem from 'Component/ProductBundleItem';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.component';
 
-class ProductBundleItems extends ProductCustomizableOptions {
+/** @namespace Component/ProductBundleItems/Component */
+export class ProductBundleItems extends ProductCustomizableOptions {
     static propTypes = {
         ...ProductCustomizableOptions.propTypes,
         items: PropTypes.array,

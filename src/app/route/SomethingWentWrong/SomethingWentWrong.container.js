@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -18,8 +17,8 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import SomethingWentWrong from './SomethingWentWrong.component';
 
 /** @namespace Route/SomethingWentWrong/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/SomethingWentWrong/Container */

@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 
 import Breadcrumbs from './Breadcrumbs.component';
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/Breadcrumbs/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     breadcrumbs: state.BreadcrumbsReducer.breadcrumbs,
     areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible
 });

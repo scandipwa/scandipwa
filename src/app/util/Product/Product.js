@@ -49,7 +49,7 @@ export const getIndexedAttributeOption = (option) => {
 };
 
 /** @namespace Util/Product/getIndexedAttributes */
-export const getIndexedAttributes = (attributes) => attributes.reduce((indexedAttributes, attribute) => {
+export const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
 
     return {
@@ -85,7 +85,7 @@ export const getIndexedConfigurableOptions = (configurableOptions, indexedAttrib
 );
 
 /** @namespace Util/Product/getIndexedVariants */
-export const getIndexedVariants = (variants) => variants.map(({ product }) => {
+export const getIndexedVariants = variants => variants.map(({ product }) => {
     const { attributes } = product;
     return {
         ...product,
@@ -101,7 +101,7 @@ export const getIndexedVariants = (variants) => variants.map(({ product }) => {
  * @namespace Util/Product/getVariantIndex
  */
 export const getVariantIndex = (variants, options) => variants
-    .findIndex((variant) => checkEveryOption(variant.attributes, options));
+    .findIndex(variant => checkEveryOption(variant.attributes, options));
 
 /** @namespace Util/Product/getVariantsIndexes */
 export const getVariantsIndexes = (variants, options) => Object.entries(variants)
@@ -144,7 +144,7 @@ export const getIndexedCustomOption = (option) => {
 };
 
 /** @namespace Util/Product/getIndexedCustomOptions */
-export const getIndexedCustomOptions = (options) => options.reduce(
+export const getIndexedCustomOptions = options => options.reduce(
     (acc, option) => {
         const indexedOption = getIndexedCustomOption(option);
 
@@ -178,10 +178,10 @@ export const getIndexedProduct = (product) => {
 };
 
 /** @namespace Util/Product/getIndexedProducts */
-export const getIndexedProducts = (products) => products.map(getIndexedProduct);
+export const getIndexedProducts = products => products.map(getIndexedProduct);
 
 /** @namespace Util/Product/getIndexedParameteredProducts */
-export const getIndexedParameteredProducts = (products) => Object.entries(products)
+export const getIndexedParameteredProducts = products => Object.entries(products)
     .reduce((products, [id, product]) => ({
         ...products,
         [id]: getIndexedProduct(product)

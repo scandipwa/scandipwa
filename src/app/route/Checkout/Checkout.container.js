@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
-import history from 'Util/History';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -28,6 +27,7 @@ import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import history from 'Util/History';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
@@ -36,32 +36,36 @@ import {
     BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, STRIPE_AUTH_REQUIRED
 } from './Checkout.config';
 
-const CartDispatcher = import(
+export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
-const MyAccountDispatcher = import(
+export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
 /** @namespace Route/Checkout/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
-    resetCart: () => CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)),
-    toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
-    showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showInfoNotification: (message) => dispatch(showNotification('info', message)),
-    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    createAccount: (options) => MyAccountDispatcher.then(
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
+    resetCart: () => CartDispatcher.then(
+        /** @namespace Route/Checkout/Container/then */
+        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+    ),
+    toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
+    showErrorNotification: message => dispatch(showNotification('error', message)),
+    showInfoNotification: message => dispatch(showNotification('info', message)),
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+    createAccount: options => MyAccountDispatcher.then(
+        /** @namespace Route/Checkout/Container/then */
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     )
 });
@@ -283,7 +287,7 @@ export class CheckoutContainer extends PureComponent {
             handleAuthorization(
                 paymentInformation,
                 secret,
-                (paymentInformation) => this.savePaymentInformation(paymentInformation)
+                paymentInformation => this.savePaymentInformation(paymentInformation)
             );
         } else {
             this._handleError(error);
@@ -425,6 +429,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         await this.saveBillingAddress(paymentInformation).then(
+            /** @namespace Route/Checkout/Container/saveBillingAddressThen */
             () => this.savePaymentMethodAndPlaceOrder(paymentInformation),
             this._handleError
         );

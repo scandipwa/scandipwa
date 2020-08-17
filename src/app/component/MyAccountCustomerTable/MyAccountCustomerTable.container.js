@@ -24,8 +24,8 @@ import { customerType } from 'Type/Account';
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 
 /** @namespace Component/MyAccountCustomerTable/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(CUSTOMER_POPUP_ID, payload))
+export const mapDispatchToProps = dispatch => ({
+    showPopup: payload => dispatch(showPopup(CUSTOMER_POPUP_ID, payload))
 });
 
 /** @namespace Component/MyAccountCustomerTable/Container */

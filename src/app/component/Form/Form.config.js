@@ -18,7 +18,7 @@ export const MIN_PASSWORD_LENGTH = 8;
 export const validateEmail = ({ value }) => value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
 
 /** @namespace Component/Form/Config/validateEmails */
-export const validateEmails = ({ value }) => value.split(',').every((email) => validateEmail({ value: email.trim() }));
+export const validateEmails = ({ value }) => value.split(',').every(email => validateEmail({ value: email.trim() }));
 
 /** @namespace Component/Form/Config/validatePassword */
 export const validatePassword = ({ value }) => value.length >= MIN_PASSWORD_LENGTH;

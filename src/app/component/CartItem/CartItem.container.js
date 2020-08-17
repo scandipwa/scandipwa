@@ -20,16 +20,23 @@ import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
-export const mapDispatchToProps = (dispatch) => ({
-    addProduct: (options) => CartDispatcher.then(
+/** @namespace Component/CartItem/Container/mapDispatchToProps */
+export const mapDispatchToProps = dispatch => ({
+    addProduct: options => CartDispatcher.then(
+        /** @namespace Component/CartItem/Container/then */
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
-    changeItemQty: (options) => CartDispatcher.then(
+    changeItemQty: options => CartDispatcher.then(
+        /** @namespace Component/CartItem/Container/then */
         ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)
     ),
-    removeProduct: (options) => CartDispatcher.then(
+    removeProduct: options => CartDispatcher.then(
+        /** @namespace Component/CartItem/Container/then */
         ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
     )
 });
@@ -57,7 +64,7 @@ export class CartItemContainer extends PureComponent {
 
     componentWillUnmount() {
         if (this.handlers.length) {
-            [].forEach.call(this.handlers, (cancelablePromise) => cancelablePromise.cancel());
+            [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
         }
     }
 

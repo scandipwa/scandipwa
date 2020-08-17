@@ -23,21 +23,22 @@ import { RatingItemsType } from 'Type/Rating';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
-const ReviewDispatcher = import(
+export const ReviewDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Review/Review.dispatcher'
 );
 
 /** @namespace Component/ProductReviewForm/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 
 /** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    addReview: (options) => ReviewDispatcher.then(
+export const mapDispatchToProps = dispatch => ({
+    addReview: options => ReviewDispatcher.then(
+        /** @namespace Component/ProductReviewForm/Container/then */
         ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),

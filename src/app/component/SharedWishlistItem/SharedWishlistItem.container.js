@@ -16,12 +16,16 @@ import { showNotification } from 'Store/Notification/Notification.action';
 
 import SharedWishlistItem from './SharedWishlistItem.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /** @namespace Component/SharedWishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: (options) => CartDispatcher.then(
+    addProductToCart: options => CartDispatcher.then(
+        /** @namespace Component/SharedWishlistItem/Container/then */
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     )
 });

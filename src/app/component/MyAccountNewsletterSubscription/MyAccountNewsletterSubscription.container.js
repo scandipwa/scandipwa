@@ -26,15 +26,15 @@ import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
-    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message))
+export const mapDispatchToProps = dispatch => ({
+    updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
+    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: message => dispatch(showNotification('success', message))
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container */

@@ -20,7 +20,8 @@ import { generateQuery, getQueryParam } from 'Util/Url';
 
 import CategoryPagination from './CategoryPagination.component';
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/CategoryPagination/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     paginationFrame: state.ConfigReducer.pagination_frame,
     paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
     anchorTextPrevious: state.ConfigReducer.anchor_text_for_previous,

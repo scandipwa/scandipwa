@@ -49,7 +49,7 @@ export class CartPage extends PureComponent {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
-                    { items.map((item) => (
+                    { items.map(item => (
                         <CartItem
                           key={ item.item_id }
                           item={ item }

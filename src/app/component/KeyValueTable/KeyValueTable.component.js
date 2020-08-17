@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 /** @namespace Component/KeyValueTable/Component */
-class KeyValueTable extends PureComponent {
+export class KeyValueTable extends PureComponent {
     static propTypes = {
         title: PropTypes.string
     };

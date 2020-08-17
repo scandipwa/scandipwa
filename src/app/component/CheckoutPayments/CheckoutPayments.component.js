@@ -23,7 +23,7 @@ import { paymentMethodsType } from 'Type/Checkout';
 
 import {
     BRAINTREE,
-    KLARNA,
+    KLARNA
 } from './CheckoutPayments.config';
 
 /** @namespace Component/CheckoutPayments/Component */

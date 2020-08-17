@@ -16,7 +16,7 @@ export const UPDATE_LINKED_PRODUCTS = 'UPDATE_LINKED_PRODUCTS';
  * @return {void}
  * @namespace Store/LinkedProducts/Action/updateLinkedProducts
  */
-export const updateLinkedProducts = (linkedProducts) => ({
+export const updateLinkedProducts = linkedProducts => ({
     type: UPDATE_LINKED_PRODUCTS,
     linkedProducts
 });

@@ -14,13 +14,13 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
-import history from 'Util/History';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 
 import MyAccountOverlay from './MyAccountOverlay.component';
@@ -31,13 +31,13 @@ import {
     STATE_LOGGED_IN, STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
-const MyAccountDispatcher = import(
+export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
 /** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
@@ -45,18 +45,23 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    forgotPassword: (options) => MyAccountDispatcher.then(
+    forgotPassword: options => MyAccountDispatcher.then(
+        /** @namespace Component/MyAccountOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
     ),
-    createAccount: (options) => MyAccountDispatcher.then(
+    createAccount: options => MyAccountDispatcher.then(
+        /** @namespace Component/MyAccountOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     ),
-    signIn: (options) => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.signIn(options, dispatch)),
+    signIn: options => MyAccountDispatcher.then(
+        /** @namespace Component/MyAccountOverlay/Container/then */
+        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
 /** @namespace Component/MyAccountOverlay/Container */

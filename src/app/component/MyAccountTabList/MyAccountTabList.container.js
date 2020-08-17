@@ -15,14 +15,17 @@ import { connect } from 'react-redux';
 
 import MyAccountTabList from './MyAccountTabList.component';
 
-const MyAccountDispatcher = import(
+export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    logout: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.logout(null, dispatch))
+export const mapDispatchToProps = dispatch => ({
+    logout: () => MyAccountDispatcher.then(
+        /** @namespace Component/MyAccountTabList/Container/then */
+        ({ default: dispatcher }) => dispatcher.logout(null, dispatch)
+    )
 });
 
 /** @namespace Component/MyAccountTabList/Container */

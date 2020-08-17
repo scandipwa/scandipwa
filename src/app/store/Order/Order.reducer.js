@@ -21,7 +21,7 @@ export const getFormattedDate = (rawDate = '') => {
     const date = new Date(rawDate.replace(/\s/, 'T'));
     const RADIX = 10;
 
-    const addLeadingZero = (value) => (value < RADIX ? `0${value}` : value);
+    const addLeadingZero = value => (value < RADIX ? `0${value}` : value);
 
     const day = addLeadingZero(date.getDate());
     const month = addLeadingZero(date.getMonth() + 1);
@@ -30,7 +30,7 @@ export const getFormattedDate = (rawDate = '') => {
 };
 
 /** @namespace Store/Order/Reducer/formatOrders */
-export const formatOrders = (orders) => orders.reduce((acc, order) => {
+export const formatOrders = orders => orders.reduce((acc, order) => {
     const { base_order_info } = order;
     const { created_at } = base_order_info;
     const formattedDate = getFormattedDate(created_at);

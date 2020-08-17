@@ -16,7 +16,8 @@ import ProductCustomizableOptionContainer
 
 import ProductBundleItem from './ProductBundleItem.component';
 
-class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
+/** @namespace Component/ProductBundleItem/Container */
+export class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
     static propTypes = {
         ...ProductCustomizableOptionContainer.propTypes,
         setCustomizableOptionTextFieldValue: PropTypes.func,

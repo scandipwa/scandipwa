@@ -10,6 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
+
 import Html from 'Component/Html';
 import { ChildrenType } from 'Type/Common';
 

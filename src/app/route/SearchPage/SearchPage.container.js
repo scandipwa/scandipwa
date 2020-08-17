@@ -16,29 +16,29 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
-const CategoryDispatcher = import(
+export const CategoryDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Category/Category.dispatcher'
 );
-const MetaDispatcher = import(
+export const MetaDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Meta/Meta.dispatcher'
 );
-const NoMatchDispatcher = import(
+export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/NoMatch/NoMatch.dispatcher'
 );
-const ProductListInfoDispatcher = import(
+export const ProductListInfoDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductListInfo/ProductListInfo.dispatcher'
 );
 
 /** @namespace Route/SearchPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
@@ -51,29 +51,34 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: (options) => CategoryDispatcher.then(
+export const mapDispatchToProps = dispatch => ({
+    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    requestCategory: options => CategoryDispatcher.then(
+        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
-    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
+    requestProductListInfo: options => ProductListInfoDispatcher.then(
+        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
-    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: (options) => NoMatchDispatcher.then(
+    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: options => NoMatchDispatcher.then(
+        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
     ),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: (category) => MetaDispatcher.then(
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: category => MetaDispatcher.then(
+        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
     ),
-    updateCurrentCategory: (category) => dispatch(updateCurrentCategory(category)),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateCurrentCategory: category => dispatch(updateCurrentCategory(category)),
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/SearchPage/Container */

@@ -18,7 +18,7 @@ export const TOGGLE_BREADCRUMBS = 'TOGGLE_BREADCRUMBS';
  * @return {void}
  * @namespace Store/Breadcrumbs/Action/updateBreadcrumbs
  */
-export const updateBreadcrumbs = (breadcrumbs) => ({
+export const updateBreadcrumbs = breadcrumbs => ({
     type: UPDATE_BREADCRUMBS,
     breadcrumbs
 });
@@ -29,7 +29,7 @@ export const updateBreadcrumbs = (breadcrumbs) => ({
  * @return {void}
  * @namespace Store/Breadcrumbs/Action/toggleBreadcrumbs
  */
-export const toggleBreadcrumbs = (areBreadcrumbsVisible) => ({
+export const toggleBreadcrumbs = areBreadcrumbsVisible => ({
     type: TOGGLE_BREADCRUMBS,
     areBreadcrumbsVisible
 });

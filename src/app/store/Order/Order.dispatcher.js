@@ -25,7 +25,7 @@ export class OrderDispatcher {
                 dispatch(getOrderList(orders, false));
             },
             /** @namespace Store/Order/Dispatcher/fetchQueryThen */
-            (error) => dispatch(showNotification('error', error[0].message))
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 }

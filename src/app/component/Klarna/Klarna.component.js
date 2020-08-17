@@ -23,7 +23,10 @@ import { fetchMutation } from 'Util/Request';
 
 import { KLARNA_PAYMENTS_CONTAINER_ID, KLARNA_SCRIPT_ID } from './Klarna.config';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /** @namespace Component/Klarna/Component */
 export class Klarna extends PureComponent {
@@ -38,7 +41,10 @@ export class Klarna extends PureComponent {
 
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
-        const guest_cart_id = CartDispatcher.then(({ default: dispatcher }) => dispatcher._getGuestQuoteId)();
+        const guest_cart_id = CartDispatcher.then(
+            /** @namespace Component/Klarna/Component/then */
+            ({ default: dispatcher }) => dispatcher._getGuestQuoteId
+        )();
 
         try {
             setOrderButtonEnableStatus(false);

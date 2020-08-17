@@ -21,10 +21,11 @@ import { paymentMethodsType } from 'Type/Checkout';
 import BraintreeDropIn from 'Util/Braintree';
 
 import CheckoutPayments from './CheckoutPayments.component';
-import { BRAINTREE, KLARNA, STRIPE } from './CheckoutPayments.config';
+import { BRAINTREE, KLARNA } from './CheckoutPayments.config';
 
-export const mapDispatchToProps = (dispatch) => ({
-    showError: (message) => dispatch(showNotification('error', message))
+/** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
+export const mapDispatchToProps = dispatch => ({
+    showError: message => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/CheckoutPayments/Container */

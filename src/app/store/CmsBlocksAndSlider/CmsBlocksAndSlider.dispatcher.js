@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
-import SliderQuery from 'Query/Slider.query';
 import CmsBlockQuery from 'Query/CmsBlock.query';
-import { showNotification } from 'Store/Notification';
+import SliderQuery from 'Query/Slider.query';
 import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider/CmsBlocksAndSlider.action';
+import { showNotification } from 'Store/Notification';
+import { QueryDispatcher } from 'Util/Request';
 
 /**
  * CMS Blocks And Slider Dispatcher

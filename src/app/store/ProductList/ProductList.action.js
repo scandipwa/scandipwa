@@ -57,11 +57,12 @@ export const updateProductListItems = (
  * @return {void}
  * @namespace Store/ProductList/Action/updateLoadStatus
  */
-export const updateLoadStatus = (status) => ({
+export const updateLoadStatus = status => ({
     type: UPDATE_LOAD_STATUS,
     isLoading: status
 });
 
+/** @namespace Store/ProductList/Action/updatePageLoadingStatus */
 export const updatePageLoadingStatus = () => ({
     type: UPDATE_PAGE_LOAD_STATUS
 });

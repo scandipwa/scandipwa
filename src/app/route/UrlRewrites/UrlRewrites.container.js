@@ -24,22 +24,23 @@ import {
     TYPE_PRODUCT
 } from './UrlRewrites.config';
 
-const UrlRewritesDispatcher = import(
+export const UrlRewritesDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/UrlRewrites/UrlRewrites.dispatcher'
 );
 
 /** @namespace Route/UrlRewrites/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading,
     requestedUrl: state.UrlRewritesReducer.requestedUrl
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
+            /** @namespace Route/UrlRewrites/Container/then */
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, {
                 // TODO: this seems to break when switched to disabled-url-stores
                 urlParam: urlParam.replace(new RegExp(window.storeRegexText), '')
@@ -48,6 +49,7 @@ export const mapDispatchToProps = (dispatch) => ({
     }
 });
 
+/** @namespace Route/UrlRewrites/Container */
 export class UrlRewritesContainer extends PureComponent {
     static propTypes = {
         location: LocationType.isRequired,
@@ -202,7 +204,7 @@ export class UrlRewritesContainer extends PureComponent {
          */
         if (this.getIsLoading()) {
             const state = history?.state?.state || {};
-            const typeKey = Object.keys(state).find((key) => UrlRewritesContainer.stateMapping[key]);
+            const typeKey = Object.keys(state).find(key => UrlRewritesContainer.stateMapping[key]);
 
             if (typeKey) {
                 return UrlRewritesContainer.stateMapping[typeKey];

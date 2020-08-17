@@ -20,11 +20,15 @@ import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    addProduct: (options) => CartDispatcher.then(
+export const mapDispatchToProps = dispatch => ({
+    addProduct: options => CartDispatcher.then(
+        /** @namespace Component/ProductCard/Container/then */
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     )
 });

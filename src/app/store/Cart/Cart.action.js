@@ -22,7 +22,7 @@ export const REMOVE_COUPON_FROM_CART = 'REMOVE_COUPON_FROM_CART';
  * @return {void}
  * @namespace Store/Cart/Action/addProductToCart
  */
-export const addProductToCart = (newProduct) => ({
+export const addProductToCart = newProduct => ({
     type: ADD_PRODUCT_TO_CART,
     newProduct
 });
@@ -33,7 +33,7 @@ export const addProductToCart = (newProduct) => ({
  * @return {void}
  * @namespace Store/Cart/Action/removeProductFromCart
  */
-export const removeProductFromCart = (product) => ({
+export const removeProductFromCart = product => ({
     type: REMOVE_PRODUCT_FROM_CART,
     product
 });
@@ -44,7 +44,7 @@ export const removeProductFromCart = (product) => ({
  * @return {void}
  * @namespace Store/Cart/Action/updateTotals
  */
-export const updateTotals = (cartData) => ({
+export const updateTotals = cartData => ({
     type: UPDATE_TOTALS,
     cartData
 });
@@ -55,7 +55,7 @@ export const updateTotals = (cartData) => ({
  * @return {void}
  * @namespace Store/Cart/Action/applyCouponToCart
  */
-export const applyCouponToCart = (couponCode) => ({
+export const applyCouponToCart = couponCode => ({
     type: APPLY_COUPON_TO_CART,
     couponCode
 });

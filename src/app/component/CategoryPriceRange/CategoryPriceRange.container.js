@@ -20,7 +20,8 @@ import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryPriceRange from './CategoryPriceRange.component';
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/CategoryPriceRange/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     minPriceValue: state.ProductListInfoReducer.minPrice,
     maxPriceValue: state.ProductListInfoReducer.maxPrice
 });

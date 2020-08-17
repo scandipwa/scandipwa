@@ -19,13 +19,13 @@ import DataContainer from 'Util/Request/DataContainer';
 import StoreSwitcher from './StoreSwitcher.component';
 
 /** @namespace Component/StoreSwitcher/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     currentStoreCode: state.ConfigReducer.code
 });
 
 /** @namespace Component/StoreSwitcher/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showErrorNotification: (message) => dispatch(showNotification('error', message))
+export const mapDispatchToProps = dispatch => ({
+    showErrorNotification: message => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/StoreSwitcher/Container */

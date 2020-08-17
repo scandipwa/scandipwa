@@ -17,8 +17,8 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import KlarnaComponent from './Klarna.component';
 
 /** @namespace Component/Klarna/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    showError: (message) => dispatch(showNotification('error', message))
+export const mapDispatchToProps = dispatch => ({
+    showError: message => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/Klarna/Container */

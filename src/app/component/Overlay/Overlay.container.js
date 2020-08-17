@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import OverlayComponent from './Overlay.component';
 
 /** @namespace Component/Overlay/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen
 });

@@ -23,18 +23,20 @@ export const SearchBarDispatcher = import(
 );
 
 /** @namespace Component/SearchOverlay/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     searchResults: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading
 });
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    makeSearchRequest: (options) => SearchBarDispatcher.then(
+    makeSearchRequest: options => SearchBarDispatcher.then(
+        /** @namespace Component/SearchOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     clearSearchResults: () => SearchBarDispatcher.then(
+        /** @namespace Component/SearchOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.clearSearchResults(dispatch)
     )
 });

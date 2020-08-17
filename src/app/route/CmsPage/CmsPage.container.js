@@ -14,13 +14,13 @@ import { connect } from 'react-redux';
 
 import { CMS_PAGE } from 'Component/Header/Header.config';
 import CmsPageQuery from 'Query/CmsPage.query';
-import history from 'Util/History';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType, MatchType } from 'Type/Common';
+import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
 import { appendWithStoreCode, getUrlParam } from 'Util/Url';
@@ -28,26 +28,30 @@ import { appendWithStoreCode, getUrlParam } from 'Util/Url';
 import CmsPage from './CmsPage.component';
 import { LOADING_TIME } from './CmsPage.config';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
 
 /** @namespace Route/CmsPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline
 });
 
 /** @namespace Route/CmsPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+export const mapDispatchToProps = dispatch => ({
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+        /** @namespace Route/CmsPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)
     ),
-    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+    updateMeta: meta => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
-        BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update([], dispatch));
+        BreadcrumbsDispatcher.then(
+            /** @namespace Route/CmsPage/Container/then */
+            ({ default: dispatcher }) => dispatcher.update([], dispatch)
+        );
         dispatch(toggleBreadcrumbs(isActive));
     }
 });

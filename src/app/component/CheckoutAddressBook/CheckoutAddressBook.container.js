@@ -22,13 +22,16 @@ export const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
-export const mapStateToProps = (state) => ({
+/** @namespace Component/CheckoutAddressBook/Container/mapStateToProps */
+export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
-export const mapDispatchToProps = (dispatch) => ({
+/** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
+export const mapDispatchToProps = dispatch => ({
     requestCustomerData: () => MyAccountDispatcher.then(
+        /** @namespace Component/CheckoutAddressBook/Container/then */
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     )
 });

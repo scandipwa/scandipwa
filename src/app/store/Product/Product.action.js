@@ -18,7 +18,7 @@ export const UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS';
  * @return {void}
  * @namespace Store/Product/Action/updateProductDetails
  */
-export const updateProductDetails = (product) => ({
+export const updateProductDetails = product => ({
     type: UPDATE_PRODUCT_DETAILS,
     product
 });
