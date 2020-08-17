@@ -201,6 +201,7 @@ export class CheckoutBillingContainer extends PureComponent {
         if (isSameAsShipping) {
             return shippingAddress;
         }
+
         if (!selectedCustomerAddressId) {
             return trimAddressFields(fields);
         }

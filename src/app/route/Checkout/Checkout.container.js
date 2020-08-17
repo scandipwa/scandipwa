@@ -48,7 +48,8 @@ const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
-    guest_checkout: state.ConfigReducer.guest_checkout
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    countries: state.ConfigReducer.countries
 });
 
 export const mapDispatchToProps = (dispatch) => ({
@@ -76,7 +77,20 @@ export class CheckoutContainer extends PureComponent {
         guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
-        customer: customerType.isRequired
+        customer: customerType.isRequired,
+        countries: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                id: PropTypes.string,
+                available_regions: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        code: PropTypes.string,
+                        name: PropTypes.string,
+                        id: PropTypes.number
+                    })
+                )
+            })
+        ).isRequired
     };
 
     containerFunctions = {
@@ -422,24 +436,60 @@ export class CheckoutContainer extends PureComponent {
         );
     }
 
+    trimAddressMagentoStyle(address) {
+        const { countries } = this.props;
+
+        const {
+            country_id,
+            region_code, // drop this
+            region_id,
+            region,
+            ...restOfBillingAddress
+        } = address;
+
+        const newAddress = {
+            ...restOfBillingAddress,
+            country_code: country_id,
+            region
+        };
+
+        /**
+         * If there is no region specified, but there is region ID
+         * get the region code by the country ID
+         */
+        if (!region && region_id) {
+            // find a country by country ID
+            const { available_regions } = countries.find(
+                ({ id }) => id === country_id
+            ) || {};
+
+            if (!available_regions) {
+                return newAddress;
+            }
+
+            // find region by region ID
+            const { code } = available_regions.find(
+                ({ id }) => +id === +region_id
+            ) || {};
+
+            if (!code) {
+                return newAddress;
+            }
+
+            newAddress.region = code;
+        }
+
+        return newAddress;
+    }
+
     async saveBillingAddress(paymentInformation) {
         const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
-        const {
-            billing_address: {
-                country_id,
-                region_code, // drop this
-                region_id, // drop this
-                ...restOfBillingAddress
-            }
-        } = paymentInformation;
+        const { billing_address } = paymentInformation;
 
         await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
             guest_cart_id,
             billing_address: {
-                address: {
-                    ...restOfBillingAddress,
-                    country_code: country_id
-                }
+                address: this.trimAddressMagentoStyle(billing_address)
             }
         }));
     }
