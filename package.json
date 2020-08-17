@@ -113,7 +113,6 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "pm2": "^4.4.0",
     "postcss-loader": "^3.0.0",
-    "redux-devtools": "^3.6.0",
     "sass-loader": "^9.0.2",
     "sass-resources-loader": "^2.0.3",
     "style-loader": "^1.2.1",
