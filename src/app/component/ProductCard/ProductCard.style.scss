@@ -31,6 +31,7 @@
         padding: 1rem;
         display: flex;
         flex-wrap: wrap;
+        padding-top: 23px;
     }
 
     &-Name,
@@ -113,6 +114,14 @@
         @include after-mobile {
             font-size: 20px;
         }
+    }
+
+    &-PriceBadge {
+        color: var(--secondary-dark-color);
+        margin-right: 5px;
+        font-size: 10px;
+        position: absolute;
+        top: 7px;
     }
 
     &-Figure {
