@@ -10,9 +10,8 @@
  */
 
 import {
-    UPDATE_URL_REWRITE,
-    CLEAR_URL_REWRITE,
-    IS_LOADING_URL_REWRITE
+    IS_LOADING_URL_REWRITE,
+    UPDATE_URL_REWRITE
 } from './UrlRewrites.action';
 
 export const initialState = {
@@ -23,18 +22,18 @@ export const initialState = {
 const UrlRewritesReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_URL_REWRITE:
-        const { urlRewrite } = action;
+        const {
+            urlRewrite,
+            requestedUrl
+        } = action;
 
         return {
             ...state,
             isLoading: false,
-            urlRewrite
+            urlRewrite,
+            requestedUrl
         };
-    case CLEAR_URL_REWRITE:
-        return {
-            ...state,
-            urlRewrite: {}
-        };
+
     case IS_LOADING_URL_REWRITE:
         const { isLoading } = action;
 

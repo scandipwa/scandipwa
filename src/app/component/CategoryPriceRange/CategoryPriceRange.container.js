@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { HistoryType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
-import { setQueryParams, getQueryParam } from 'Util/Url';
+import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryPriceRange from './CategoryPriceRange.component';
 

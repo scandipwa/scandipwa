@@ -8,16 +8,18 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router';
-import { PureComponent } from 'react';
-import Form from 'Component/Form';
-import Field from 'Component/Field';
-import Loader from 'Component/Loader';
-import ContentWrapper from 'Component/ContentWrapper';
 import './ConfirmAccountPage.style';
 
-export default class ConfirmAccountPage extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { Redirect } from 'react-router';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
+
+export class ConfirmAccountPage extends PureComponent {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -89,3 +91,5 @@ export default class ConfirmAccountPage extends PureComponent {
         );
     }
 }
+
+export default ConfirmAccountPage;

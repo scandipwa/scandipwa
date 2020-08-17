@@ -13,8 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
+import { setBigOfflineNotice, showOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType } from 'Type/Common';
-import { showOfflineNotice, setBigOfflineNotice } from 'Store/Offline';
+
 import OfflineNotice from './OfflineNotice.component';
 
 export const mapStateToProps = (state) => ({

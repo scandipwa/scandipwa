@@ -11,16 +11,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createPortal } from 'react-dom';
-import { createRef, PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import isMobile from 'Util/Mobile';
-import { MixType, ChildrenType } from 'Type/Common';
-
 import './Overlay.style';
 
-export default class Overlay extends PureComponent {
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+import { createPortal } from 'react-dom';
+
+import { ChildrenType, MixType } from 'Type/Common';
+import isMobile from 'Util/Mobile';
+
+export class Overlay extends PureComponent {
     static propTypes = {
         mix: MixType,
         id: PropTypes.string.isRequired,
@@ -127,3 +127,5 @@ export default class Overlay extends PureComponent {
         );
     }
 }
+
+export default Overlay;

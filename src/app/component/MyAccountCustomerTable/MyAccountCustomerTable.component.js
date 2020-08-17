@@ -9,9 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { customerType } from 'Type/Account';
 import PropTypes from 'prop-types';
+
 import KeyValueTable from 'Component/KeyValueTable';
+import { customerType } from 'Type/Account';
 
 class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {

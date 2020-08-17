@@ -10,6 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+
 import { UPDATE_CONFIG } from './Config.action';
 
 export const MAX_WIDTH = 150;
@@ -30,6 +31,7 @@ export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
+    checkoutAgreements: [],
     isLoading: true
 };
 

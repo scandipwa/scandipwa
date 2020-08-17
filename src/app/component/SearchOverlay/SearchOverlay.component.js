@@ -9,22 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import media, { PRODUCT_MEDIA } from 'Util/Media';
-import Link from 'Component/Link';
-import Image from 'Component/Image';
-import Overlay from 'Component/Overlay';
-import { ItemsType } from 'Type/ProductList';
-import TextPlaceholder from 'Component/TextPlaceholder';
-
 import './SearchOverlay.style';
 
-export const SEARCH_TIMEOUT = 500;
-export const AMOUNT_OF_PLACEHOLDERS = 5;
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-export default class SearchOverlay extends PureComponent {
+import Image from 'Component/Image';
+import Link from 'Component/Link';
+import Overlay from 'Component/Overlay';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { ItemsType } from 'Type/ProductList';
+import media, { PRODUCT_MEDIA } from 'Util/Media';
+
+import {
+    AMOUNT_OF_PLACEHOLDERS,
+    SEARCH_TIMEOUT
+} from './SearchOverlay.config';
+
+export class SearchOverlay extends PureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
         searchCriteria: PropTypes.string,
@@ -139,7 +141,7 @@ export default class SearchOverlay extends PureComponent {
             <p
               block="SearchOverlay"
               elem="Criteria"
-              mods={ { isVisible: !!searchCriteria } }
+              mods={ { isVisible: !!searchCriteria.trim() } }
             >
                 { __('Results for:') }
                 <strong>{ searchCriteria }</strong>
@@ -158,7 +160,7 @@ export default class SearchOverlay extends PureComponent {
     renderSearchResults() {
         const { searchCriteria, searchResults, isLoading } = this.props;
 
-        if (!searchCriteria) {
+        if (!searchCriteria.trim()) {
             return this.renderNoSearchCriteria();
         }
         if (!searchResults.length && !isLoading && !this.timeout) {
@@ -205,3 +207,5 @@ export default class SearchOverlay extends PureComponent {
         );
     }
 }
+
+export default SearchOverlay;

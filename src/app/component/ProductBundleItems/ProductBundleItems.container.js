@@ -11,9 +11,11 @@
  */
 
 import PropTypes from 'prop-types';
+
 import ProductCustomizableOptionsContainer
     from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.container';
 import { ProductItemsType } from 'Type/ProductList';
+
 import ProductBundleItems from './ProductBundleItems.component';
 
 class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {

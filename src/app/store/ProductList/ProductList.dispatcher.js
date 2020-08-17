@@ -9,15 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import {
     appendPage,
-    updateProductListItems,
-    updateLoadStatus
-} from 'Store/ProductList';
-import { showNotification } from 'Store/Notification';
-import { updateNoMatch } from 'Store/NoMatch';
+    updateLoadStatus,
+    updatePageLoadingStatus,
+    updateProductListItems
+} from 'Store/ProductList/ProductList.action';
+import { QueryDispatcher } from 'Util/Request';
 
 /**
  * Product List Dispatcher
@@ -37,13 +38,28 @@ export class ProductListDispatcher extends QueryDispatcher {
                 page_info: { total_pages } = {}
             } = {}
         } = data;
-        const { args: { currentPage }, isNext } = options;
+
+        const { args, isNext } = options;
+        const { currentPage } = args;
 
         if (isNext) {
-            return dispatch(appendPage(items, currentPage));
+            return dispatch(
+                appendPage(
+                    items,
+                    currentPage
+                )
+            );
         }
 
-        return dispatch(updateProductListItems(items, currentPage, total_count, total_pages));
+        return dispatch(
+            updateProductListItems(
+                items,
+                currentPage,
+                total_count,
+                total_pages,
+                args
+            )
+        );
     }
 
     onError(error, dispatch) {
@@ -53,8 +69,11 @@ export class ProductListDispatcher extends QueryDispatcher {
 
     prepareRequest(options, dispatch) {
         const { isNext } = options;
+
         if (!isNext) {
             dispatch(updateLoadStatus(true));
+        } else {
+            dispatch(updatePageLoadingStatus());
         }
 
         return ProductListQuery.getQuery(options);

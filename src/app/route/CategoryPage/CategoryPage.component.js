@@ -9,31 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './CategoryPage.style';
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import {
-    CATEGORY_FILTER_OVERLAY_ID
-} from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
-
-import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
-import CategoryProductList from 'Component/CategoryProductList';
-import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryDetails from 'Component/CategoryDetails';
-import ContentWrapper from 'Component/ContentWrapper';
+import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
+import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
+import CategoryItemsCount from 'Component/CategoryItemsCount';
+import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
+import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
-
 import { CategoryTreeType } from 'Type/Category';
-import { FilterType, FilterInputType } from 'Type/ProductList';
+import { FilterInputType, FilterType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
 
-import './CategoryPage.style';
-
-export default class CategoryPage extends PureComponent {
+export class CategoryPage extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
-        getIsNewCategory: PropTypes.func.isRequired,
         filters: PropTypes.objectOf(PropTypes.shape).isRequired,
         sortFields: PropTypes.shape({
             options: PropTypes.array
@@ -45,22 +40,23 @@ export default class CategoryPage extends PureComponent {
             ]),
             sortKey: PropTypes.string
         }).isRequired,
-        getFilterUrl: PropTypes.func.isRequired,
         onSortChange: PropTypes.func.isRequired,
-        updateFilter: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
-        search: PropTypes.string.isRequired,
+        search: PropTypes.string,
         isContentFiltered: PropTypes.bool,
-        isOnlyPlaceholder: PropTypes.bool,
+        isMatchingListFilter: PropTypes.bool,
+        isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number
     };
 
     static defaultProps = {
         isContentFiltered: true,
-        isOnlyPlaceholder: false,
-        totalPages: 1
+        isMatchingListFilter: false,
+        isMatchingInfoFilter: false,
+        totalPages: 1,
+        search: ''
     };
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
@@ -102,28 +98,33 @@ export default class CategoryPage extends PureComponent {
         const {
             filters,
             selectedFilters,
-            updateFilter,
-            getFilterUrl
+            isMatchingInfoFilter
         } = this.props;
 
         return (
             <CategoryFilterOverlay
-              getFilterUrl={ getFilterUrl }
               availableFilters={ filters }
               customFiltersValues={ selectedFilters }
-              updateFilter={ updateFilter }
+              isMatchingInfoFilter={ isMatchingInfoFilter }
             />
         );
     }
 
     renderCategorySort() {
-        const { sortFields, selectedSort, onSortChange } = this.props;
+        const {
+            sortFields,
+            selectedSort,
+            onSortChange,
+            isMatchingInfoFilter
+        } = this.props;
+
         const { options = {} } = sortFields;
         const updatedSortFields = Object.values(options).map(({ value: id, label }) => ({ id, label }));
         const { sortDirection, sortKey } = selectedSort;
 
         return (
             <CategorySort
+              isMatchingInfoFilter={ isMatchingInfoFilter }
               onSortChange={ onSortChange }
               sortFields={ updatedSortFields }
               sortKey={ sortKey }
@@ -133,7 +134,7 @@ export default class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isOnlyPlaceholder } = this.props;
+        const { isMatchingListFilter } = this.props;
 
         if (isVisibleOnMobile && !isMobile.any()) {
             return null;
@@ -145,7 +146,7 @@ export default class CategoryPage extends PureComponent {
 
         return (
             <CategoryItemsCount
-              isOnlyPlaceholder={ isOnlyPlaceholder }
+              isMatchingListFilter={ isMatchingListFilter }
             />
         );
     }
@@ -156,8 +157,7 @@ export default class CategoryPage extends PureComponent {
             search,
             selectedSort,
             selectedFilters,
-            getIsNewCategory,
-            isOnlyPlaceholder
+            isMatchingListFilter
         } = this.props;
 
         return (
@@ -168,8 +168,7 @@ export default class CategoryPage extends PureComponent {
                   search={ search }
                   sort={ selectedSort }
                   selectedFilters={ selectedFilters }
-                  getIsNewCategory={ getIsNewCategory }
-                  isOnlyPlaceholder={ isOnlyPlaceholder }
+                  isMatchingListFilter={ isMatchingListFilter }
                 />
             </div>
         );
@@ -198,24 +197,37 @@ export default class CategoryPage extends PureComponent {
         );
     }
 
+    renderContent() {
+        return (
+            <>
+                { this.renderFilterOverlay() }
+                { this.renderCategoryDetails() }
+                <aside block="CategoryPage" elem="Miscellaneous">
+                    { this.renderItemsCount() }
+                    { this.renderCategorySort() }
+                    { this.renderFilterButton() }
+                </aside>
+                { this.renderCategoryProductList() }
+                { this.renderCmsBlock() }
+            </>
+        );
+    }
+
     render() {
         return (
             <main block="CategoryPage">
                 <ContentWrapper
-                  wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
+                  wrapperMix={ {
+                      block: 'CategoryPage',
+                      elem: 'Wrapper'
+                  } }
                   label="Category page"
                 >
-                    { this.renderFilterOverlay() }
-                    { this.renderCategoryDetails() }
-                    <aside block="CategoryPage" elem="Miscellaneous">
-                        { this.renderItemsCount() }
-                        { this.renderCategorySort() }
-                        { this.renderFilterButton() }
-                    </aside>
-                    { this.renderCategoryProductList() }
-                    { this.renderCmsBlock() }
+                    { this.renderContent() }
                 </ContentWrapper>
             </main>
         );
     }
 }
+
+export default CategoryPage;

@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import Meta from './Meta.component';
 

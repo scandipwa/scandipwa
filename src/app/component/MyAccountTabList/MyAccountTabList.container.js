@@ -9,14 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { MyAccountDispatcher } from 'Store/MyAccount';
+
 import MyAccountTabList from './MyAccountTabList.component';
 
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
 export const mapDispatchToProps = (dispatch) => ({
-    logout: () => MyAccountDispatcher.logout(null, dispatch)
+    logout: () => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.logout(null, dispatch))
 });
 
 export class MyAccountTabListContainer extends PureComponent {

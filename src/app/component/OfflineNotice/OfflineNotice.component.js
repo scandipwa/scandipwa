@@ -10,11 +10,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import './OfflineNotice.style';
 
-export default class OfflineNotice extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+export class OfflineNotice extends PureComponent {
     static propTypes = {
         isPage: PropTypes.bool.isRequired,
         isBig: PropTypes.bool.isRequired
@@ -69,3 +70,5 @@ export default class OfflineNotice extends PureComponent {
         );
     }
 }
+
+export default OfflineNotice;
