@@ -10,24 +10,24 @@
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import { ProductType } from 'Type/ProductList';
-import ProductLinks from 'Component/ProductLinks';
-import ProductGallery from 'Component/ProductGallery';
-import ProductActions from 'Component/ProductActions';
-import ContentWrapper from 'Component/ContentWrapper';
-import ProductReviews from 'Component/ProductReviews';
-import ProductInformation from 'Component/ProductInformation';
-import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import isMobile from 'Util/Mobile';
-import { SIMPLE } from 'Util/Product';
-import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-
 import './ProductPage.style';
 
-export default class ProductPage extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import ProductActions from 'Component/ProductActions';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import ProductGallery from 'Component/ProductGallery';
+import ProductInformation from 'Component/ProductInformation';
+import ProductLinks from 'Component/ProductLinks';
+import ProductReviews from 'Component/ProductReviews';
+import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { ProductType } from 'Type/ProductList';
+import isMobile from 'Util/Mobile';
+import { SIMPLE } from 'Util/Product';
+
+export class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -151,3 +151,5 @@ export default class ProductPage extends PureComponent {
         );
     }
 }
+
+export default ProductPage;

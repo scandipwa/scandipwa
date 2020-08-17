@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import { getIndexedProduct } from 'Util/Product';
+
 import { UPDATE_PRODUCT_DETAILS } from './Product.action';
 
 export const initialState = {

@@ -14,7 +14,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 const { I18nPlugin } = require('./I18nPlugin');
@@ -81,8 +81,8 @@ module.exports = {
             __: path.resolve(path.join(__dirname, 'TranslationFunction'))
         }),
 
-        new CleanWebpackPlugin([], {
-            cleanAfterEveryBuildPatterns: [path.join(projectRoot, 'Magento_Theme/web/translations-compiled*')]
-        })
+        new CleanWebpackPlugin([
+            path.join(projectRoot, 'Magento_Theme/web/translations-compiled*')
+        ], { root: projectRoot })
     ]
 };

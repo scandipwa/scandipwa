@@ -1,9 +1,22 @@
-import { PureComponent } from 'react';
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import './Stripe.style';
+
 import PropTypes from 'prop-types';
-import { StripeProvider, Elements } from 'react-stripe-elements';
+import { PureComponent } from 'react';
+import { Elements, StripeProvider } from 'react-stripe-elements';
+
 import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 import Loader from 'Component/Loader';
-import './Stripe.style';
 
 class Stripe extends PureComponent {
     static propTypes = {

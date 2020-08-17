@@ -10,9 +10,9 @@
  */
 
 import {
-    UPDATE_PRODUCT_LIST_INFO,
-    UPDATE_INFO_LOAD_STATUS
-} from 'Store/ProductListInfo';
+    UPDATE_INFO_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_INFO
+} from 'Store/ProductListInfo/ProductListInfo.action';
 
 const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
@@ -31,7 +31,7 @@ const reduceFilters = (filters) => filters.reduce((co, item) => {
             ...attribute,
             attribute_options: {
                 ...attribute_options,
-                [+value_string]: option
+                [value_string]: option
             }
         };
     }, { attribute_values: [], attribute_options: {} });
@@ -60,6 +60,7 @@ const ProductListReducer = (state = initialState, action) => {
     const {
         type,
         isLoading,
+        selectedFilter,
         products: {
             filters: availableFilters = [],
             min_price,
@@ -76,7 +77,8 @@ const ProductListReducer = (state = initialState, action) => {
             sortFields,
             minPrice: Math.floor(min_price),
             maxPrice: Math.ceil(max_price),
-            isLoading: false
+            isLoading: false,
+            selectedFilter
         };
 
     case UPDATE_INFO_LOAD_STATUS:

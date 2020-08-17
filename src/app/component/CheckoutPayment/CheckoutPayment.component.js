@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { paymentMethodType } from 'Type/Checkout';
 import './CheckoutPayment.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { paymentMethodType } from 'Type/Checkout';
 
 class CheckoutPayment extends PureComponent {
     static propTypes = {

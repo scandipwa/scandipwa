@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import Html from 'Component/Html';
 import { ChildrenType } from 'Type/Common';
 
@@ -18,7 +19,7 @@ import { ChildrenType } from 'Type/Common';
  * Cms Block
  * @class CmsBlock
  */
-export default class CmsBlock extends PureComponent {
+export class CmsBlock extends PureComponent {
     static propTypes = {
         cmsBlock: PropTypes.shape({
             identifier: PropTypes.string,
@@ -72,3 +73,5 @@ export default class CmsBlock extends PureComponent {
         );
     }
 }
+
+export default CmsBlock;

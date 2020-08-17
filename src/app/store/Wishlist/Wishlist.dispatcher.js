@@ -9,18 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation, fetchQuery } from 'Util/Request';
+import WishlistQuery from 'Query/Wishlist.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import {
     clearWishlist,
-    updateIsLoading,
-    updateItemOptions,
     removeItemFromWishlist,
-    updateAllProductsInWishlist
-} from 'Store/Wishlist';
-import { CartDispatcher } from 'Store/Cart';
-import { showNotification } from 'Store/Notification';
+    updateAllProductsInWishlist,
+    updateIsLoading,
+    updateItemOptions
+} from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
-import { WishlistQuery } from 'Query';
+import { fetchMutation, fetchQuery } from 'Util/Request';
+
+const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
 
 /**
  * Product Wishlist Dispatcher
@@ -108,7 +109,7 @@ export class WishlistDispatcher {
         return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
             .then(() => {
                 dispatch(clearWishlist());
-                CartDispatcher._syncCartWithBE(dispatch);
+                CartDispatcher.then(({ default: dispatcher }) => dispatcher._syncCartWithBE(dispatch));
             });
     }
 

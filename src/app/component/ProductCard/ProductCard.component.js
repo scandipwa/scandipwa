@@ -9,26 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
-import PropTypes from 'prop-types';
-
-import Link from 'Component/Link';
-import Image from 'Component/Image';
-import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
-import ProductPrice from 'Component/ProductPrice';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
-import TierPrices from 'Component/TierPrices';
-
 import './ProductCard.style';
+
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
+import Image from 'Component/Image';
+import Link from 'Component/Link';
+import Loader from 'Component/Loader';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import TierPrices from 'Component/TierPrices';
+import { ProductType } from 'Type/ProductList';
 
 /**
  * Product card
  * @class ProductCard
  */
-export default class ProductCard extends PureComponent {
+export class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
@@ -237,3 +237,5 @@ export default class ProductCard extends PureComponent {
         );
     }
 }
+
+export default ProductCard;

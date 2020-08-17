@@ -9,22 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import './ProductReviewForm.style';
 
-import Form from 'Component/Form';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import Field from 'Component/Field';
+import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import ReviewStar from 'Component/ReviewStar';
 import { RatingItemsType } from 'Type/Rating';
-
-import './ProductReviewForm.style';
 
 /**
  * ProductReviewForm
  * @class ProductReviewForm
  */
-export default class ProductReviewForm extends PureComponent {
+export class ProductReviewForm extends PureComponent {
     static propTypes = {
         reviewRatings: RatingItemsType.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -183,3 +183,5 @@ export default class ProductReviewForm extends PureComponent {
         );
     }
 }
+
+export default ProductReviewForm;

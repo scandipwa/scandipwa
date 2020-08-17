@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
 import './CategorySubcategories.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 class CategorySubcategories extends PureComponent {
     static propTypes = {

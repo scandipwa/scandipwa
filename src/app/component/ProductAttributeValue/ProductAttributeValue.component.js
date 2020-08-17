@@ -11,14 +11,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { AttributeType } from 'Type/ProductList';
-import { MixType } from 'Type/Common';
-import Field from 'Component/Field/Field.component';
 import './ProductAttributeValue.style';
 
-export default class ProductAttributeValue extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field/Field.component';
+import { MixType } from 'Type/Common';
+import { AttributeType } from 'Type/ProductList';
+
+export class ProductAttributeValue extends PureComponent {
     static propTypes = {
         getLink: PropTypes.func,
         onClick: PropTypes.func,
@@ -283,3 +285,5 @@ export default class ProductAttributeValue extends PureComponent {
         );
     }
 }
+
+export default ProductAttributeValue;

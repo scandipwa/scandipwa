@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
+import { Field } from 'Util/Query';
 
 export class CheckoutQuery {
     getPaymentMethodsQuery(guestCartId) {
@@ -49,6 +49,13 @@ export class CheckoutQuery {
         this._addGuestCartId(guestCartId, mutation);
 
         return mutation;
+    }
+
+    getSetBillingAddressOnCart(input) {
+        return new Field('s_setBillingAddressOnCart')
+            .addArgument('input', 'S_SetBillingAddressOnCartInput!', input)
+            .addField(this._getCartField())
+            .setAlias('billingAddress');
     }
 
     getSetPaymentMethodOnCartMutation(input) {
@@ -162,31 +169,31 @@ export class CheckoutQuery {
 
     _getCartFieldList() {
         return [
-            this._getSelectedPaymentMethodField()
+            'id'
         ];
     }
 
-    _getSelectedPaymentMethodField() {
-        return new Field('selected_payment_method')
-            .addFieldList([
-                'code',
-                'title',
-                'purchase_order_number'
-            ]);
-    }
+    // _getSelectedPaymentMethodField() {
+    //     return new Field('selected_payment_method')
+    //         .addFieldList([
+    //             'code',
+    //             'title',
+    //             'purchase_order_number'
+    //         ]);
+    // }
 
-    _getAvailablePaymentMethodsField() {
-        return new Field('available_payment_methods')
-            .addFieldList([
-                'code',
-                'title'
-            ]);
-    }
+    // _getAvailablePaymentMethodsField() {
+    //     return new Field('available_payment_methods')
+    //         .addFieldList([
+    //             'code',
+    //             'title'
+    //         ]);
+    // }
 
-    _getAppliedCouponField() {
-        return new Field('applied_coupon')
-            .addField('code');
-    }
+    // _getAppliedCouponField() {
+    //     return new Field('applied_coupon')
+    //         .addField('code');
+    // }
 }
 
 export default new CheckoutQuery();

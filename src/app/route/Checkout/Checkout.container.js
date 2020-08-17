@@ -9,33 +9,41 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import CartDispatcher from 'Store/Cart/Cart.dispatcher';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { fetchMutation, fetchQuery } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
-import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
-import BrowserDatabase from 'Util/BrowserDatabase';
-import { changeNavigationState } from 'Store/Navigation';
-import { HistoryType } from 'Type/Common';
+import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
-import { GUEST_QUOTE_ID } from 'Store/Cart';
-import { TotalsType } from 'Type/MiniCart';
-import { updateMeta } from 'Store/Meta';
-import { isSignedIn } from 'Util/Auth';
+import { history } from 'Route';
+import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { customerType } from 'Type/Account';
+import { HistoryType } from 'Type/Common';
+import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { fetchMutation, fetchQuery } from 'Util/Request';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
-import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
+import Checkout from './Checkout.component';
+import {
+    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, STRIPE_AUTH_REQUIRED
+} from './Checkout.config';
 
-export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
-export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
+const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
@@ -45,17 +53,21 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
+    resetCart: () => CartDispatcher.then(({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
+    showInfoNotification: (message) => dispatch(showNotification('info', message)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    createAccount: (options) => MyAccountDispatcher.createAccount(options, dispatch)
+    createAccount: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
+    )
 });
 
 export class CheckoutContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
+        showInfoNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
         createAccount: PropTypes.func.isRequired,
@@ -84,18 +96,12 @@ export class CheckoutContainer extends PureComponent {
 
         const {
             toggleBreadcrumbs,
-            history,
             totals: {
-                items = [],
                 is_virtual
             }
         } = props;
 
         toggleBreadcrumbs(false);
-
-        if (!items.length) {
-            history.push('/cart');
-        }
 
         this.state = {
             isLoading: is_virtual,
@@ -118,7 +124,20 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { history, guest_checkout, updateMeta } = this.props;
+        const {
+            history,
+            showInfoNotification,
+            guest_checkout,
+            updateMeta,
+            totals: {
+                items = []
+            }
+        } = this.props;
+
+        if (!items.length) {
+            showInfoNotification(__('Please add at least one product to cart!'));
+            history.push('/cart');
+        }
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
@@ -173,7 +192,6 @@ export class CheckoutContainer extends PureComponent {
 
     goBack() {
         const { checkoutStep } = this.state;
-        const { history } = this.props;
 
         if (checkoutStep === BILLING_STEP) {
             this.setState({
@@ -182,9 +200,9 @@ export class CheckoutContainer extends PureComponent {
             });
 
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-        } else {
-            history.push('/cart');
         }
+
+        history.goBack();
     }
 
     setDetailsStep(orderID) {
@@ -398,7 +416,32 @@ export class CheckoutContainer extends PureComponent {
             }
         }
 
-        this.savePaymentMethodAndPlaceOrder(paymentInformation);
+        await this.saveBillingAddress(paymentInformation).then(
+            () => this.savePaymentMethodAndPlaceOrder(paymentInformation),
+            this._handleError
+        );
+    }
+
+    async saveBillingAddress(paymentInformation) {
+        const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
+        const {
+            billing_address: {
+                country_id,
+                region_code, // drop this
+                region_id, // drop this
+                ...restOfBillingAddress
+            }
+        } = paymentInformation;
+
+        await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
+            guest_cart_id,
+            billing_address: {
+                address: {
+                    ...restOfBillingAddress,
+                    country_code: country_id
+                }
+            }
+        }));
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
@@ -409,7 +452,8 @@ export class CheckoutContainer extends PureComponent {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
                 guest_cart_id,
                 payment_method: {
-                    code, [code]: additional_data
+                    code,
+                    [code]: additional_data
                 }
             }));
 
