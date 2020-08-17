@@ -134,7 +134,7 @@ module.exports = {
                     {
                         loader: 'sass-resources-loader',
                         options: {
-                            resources: path.resolve(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
+                            resources: 'src/app/style/abstract/_abstract.scss'
                         }
                     }
                 ]
@@ -174,7 +174,6 @@ module.exports = {
         hot: true,
         host: '0.0.0.0',
         public: baseUrl,
-        writeToDisk: true,
         allowedHosts: [
             '.local'
         ],
@@ -192,8 +191,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': {
                 REBEM_MOD_DELIM: JSON.stringify('_'),
-                REBEM_ELEM_DELIM: JSON.stringify('-'),
-                MAGENTO_VERSION: JSON.stringify('2.3.1')
+                REBEM_ELEM_DELIM: JSON.stringify('-')
             }
         }),
 
