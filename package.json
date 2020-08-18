@@ -86,7 +86,7 @@
     "babel-plugin-transform-rebem-jsx": "^0.3.3",
     "babel-plugin-transform-replace-object-assign": "^2.0.0",
     "chokidar-cli": "^2.1.0",
-    "clean-webpack-plugin": "^1.0.1",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.3",
     "css-hot-loader": "^1.4.3",
     "css-loader": "^3.6.0",
