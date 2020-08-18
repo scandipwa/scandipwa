@@ -19,6 +19,9 @@ class FieldTextarea extends PureComponent {
         value: PropTypes.string.isRequired,
         isDisabled: PropTypes.bool,
         maxLength: PropTypes.number,
+        onChange: PropTypes.func,
+        onFocus: PropTypes.func,
+        onClick: PropTypes.func,
         formRef: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
@@ -30,7 +33,10 @@ class FieldTextarea extends PureComponent {
         formRef: () => {},
         isDisabled: false,
         rows: 4,
-        maxLength: null
+        maxLength: null,
+        onChange: () => {},
+        onFocus: () => {},
+        onClick: () => {}
     };
 
     render() {
@@ -41,7 +47,10 @@ class FieldTextarea extends PureComponent {
             rows,
             formRef,
             isDisabled,
-            maxLength
+            maxLength,
+            onChange,
+            onFocus,
+            onClick
         } = this.props;
 
         return (
@@ -52,9 +61,9 @@ class FieldTextarea extends PureComponent {
               rows={ rows }
               value={ value }
               disabled={ isDisabled }
-              onChange={ this.onChange }
-              onFocus={ this.onFocus }
-              onClick={ this.onClick }
+              onChange={ onChange }
+              onFocus={ onFocus }
+              onClick={ onClick }
               maxLength={ maxLength }
             />
         );
