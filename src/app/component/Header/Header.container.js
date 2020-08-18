@@ -29,7 +29,8 @@ import Header from './Header.component';
 import {
     CART,
     CART_OVERLAY, CATEGORY,
-    CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT,
+    CHECKOUT, CHECKOUT_ACCOUNT,
+    CMS_PAGE, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
     MENU, PDP,
     SEARCH
@@ -103,7 +104,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
-        closeOverlay: this.closeOverlay.bind(this),
         onSignIn: this.onSignIn.bind(this),
         hideActiveOverlay: this.props.hideActiveOverlay
     };
@@ -326,10 +326,19 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
-            this.setState({ shouldRenderAccountOverlay: true });
-            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-            setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+        if (name !== CHECKOUT_ACCOUNT) {
+            this.setState({ shouldRenderAccountOverlay: true }, () => {
+                if (!isMobile.any()) {
+                    return;
+                }
+
+                showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+                setNavigationState({
+                    name: CHECKOUT_ACCOUNT,
+                    title: 'Sign in',
+                    onCloseClick: this.closeOverlay
+                });
+            });
         }
 
         this.setState({ showMyAccountLogin: true });
@@ -354,24 +363,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
         hideActiveOverlay();
     }
 
-    closeOverlay() {
-        const {
-            navigationState: { name, title },
-            goToPreviousNavigationState,
-            setNavigationState
-        } = this.props;
+    closeOverlay = () => {
         const { location: { pathname } } = history;
 
         if (pathname.includes(CHECKOUT_URL)) {
-            if (name === CUSTOMER_SUB_ACCOUNT) {
-                goToPreviousNavigationState();
-            } else {
-                setNavigationState({ name: CHECKOUT, title });
-            }
-
             this.setState({ showMyAccountLogin: false });
         }
-    }
+    };
 
     onSignIn() {
         const { location: { pathname } } = history;
