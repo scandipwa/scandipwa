@@ -76,7 +76,9 @@ export class Field extends PureComponent {
 
     renderTextarea() {
         return (
-            <FieldTextarea />
+            <FieldTextarea
+              { ...this.props }
+            />
         );
     }
 
