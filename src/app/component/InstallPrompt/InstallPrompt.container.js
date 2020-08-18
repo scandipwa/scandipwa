@@ -19,7 +19,8 @@ export class InstallPrompt extends PureComponent {
     installPromptEvent = null;
 
     state = {
-        isBannerClosed: BrowserDatabase.getItem('postpone_installation')
+        isBannerClosed: BrowserDatabase.getItem('postpone_installation'),
+        canPromptUser: false,
     };
 
     containerFunctions = {
@@ -61,6 +62,9 @@ export class InstallPrompt extends PureComponent {
             event.preventDefault();
 
             this.installPromptEvent = event;
+            this.setState({
+                canPromptUser: true,
+            });
         });
     }
 
@@ -75,7 +79,7 @@ export class InstallPrompt extends PureComponent {
             return <InstallPromptIOS { ...this.containerFunctions } />;
         }
 
-        if (isMobile.android()) {
+        if (isMobile.android() && this.state.canPromptUser) {
             return <InstallPromptAndroid { ...this.containerFunctions } />;
         }
 
