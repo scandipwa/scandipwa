@@ -457,7 +457,7 @@ export class CheckoutContainer extends PureComponent {
          * If there is no region specified, but there is region ID
          * get the region code by the country ID
          */
-        if (!region && region_id) {
+        if (region_id) {
             // find a country by country ID
             const { available_regions } = countries.find(
                 ({ id }) => id === country_id
