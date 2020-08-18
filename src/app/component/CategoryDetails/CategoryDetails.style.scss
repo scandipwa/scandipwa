@@ -44,18 +44,5 @@
         font-size: 14px;
         font-weight: 300;
         padding: 2rem;
-        height: 9rem;
-    }
-
-    p {
-        max-width: 500px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        height: 2rem;
-
-        @include before-desktop {
-            max-width: 200px;
-        }
     }
 }

@@ -14,12 +14,9 @@ import './SearchOverlay.style';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Image from 'Component/Image';
-import Link from 'Component/Link';
 import Overlay from 'Component/Overlay';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import SearchItem from 'Component/SearchItem';
 import { ItemsType } from 'Type/ProductList';
-import media, { PRODUCT_MEDIA } from 'Util/Media';
 
 import {
     AMOUNT_OF_PLACEHOLDERS,
@@ -28,20 +25,17 @@ import {
 
 export class SearchOverlay extends PureComponent {
     static propTypes = {
-        hideActiveOverlay: PropTypes.func.isRequired,
         searchCriteria: PropTypes.string,
         searchResults: ItemsType.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        clearSearch: PropTypes.func.isRequired,
-        getProductLinkTo: PropTypes.func.isRequired,
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired,
-        hideOverlay: PropTypes.bool
+        isHideOverlay: PropTypes.bool
     };
 
     static defaultProps = {
         searchCriteria: '',
-        hideOverlay: false
+        isHideOverlay: false
     };
 
     componentDidUpdate(prevProps) {
@@ -60,77 +54,12 @@ export class SearchOverlay extends PureComponent {
         }
     }
 
-    handleItemClick = () => {
-        const { clearSearch, hideActiveOverlay } = this.props;
-
-        clearSearch();
-        hideActiveOverlay();
-    };
-
-    renderSearchItemAdditionalContent(brand) {
-        const { isLoading } = this.props;
-
-        if (!isLoading && !brand) {
-            return null;
-        }
-
-        return (
-            <p block="SearchOverlay" elem="Brand">
-                <TextPlaceholder content={ brand } />
-            </p>
-        );
-    }
-
-    renderSearchItemContent(name, brand) {
-        return (
-            <>
-                { this.renderSearchItemAdditionalContent(brand) }
-                <h4 block="SearchOverlay" elem="Title" mods={ { isLoaded: !!name } }>
-                    <TextPlaceholder content={ name } length="long" />
-                </h4>
-            </>
-        );
-    }
-
     renderSearchItem(product, i) {
-        const { getProductLinkTo } = this.props;
-        const {
-            name,
-            thumbnail: { path } = {},
-            attributes: { brand: { attribute_value: brand } = {} } = {}
-        } = product;
-
-        const imageSrc = path ? media(path, PRODUCT_MEDIA) : undefined;
-
         return (
-            <li
-              block="SearchOverlay"
-              elem="Item"
+            <SearchItem
+              product={ product }
               key={ i }
-            >
-                <Link
-                  block="SearchOverlay"
-                  elem="Link"
-                  to={ getProductLinkTo(product) }
-                  onClick={ this.handleItemClick }
-                >
-                    <figure
-                      block="SearchOverlay"
-                      elem="Wrapper"
-                    >
-                        <Image
-                          block="SearchOverlay"
-                          elem="Image"
-                          src={ imageSrc }
-                          alt={ __('Product %s thumbnail.', name) }
-                          isPlaceholder={ !imageSrc }
-                        />
-                        <figcaption block="SearchOverlay" elem="Content">
-                            { this.renderSearchItemContent(name, brand) }
-                        </figcaption>
-                    </figure>
-                </Link>
-            </li>
+            />
         );
     }
 
@@ -163,9 +92,11 @@ export class SearchOverlay extends PureComponent {
         if (!searchCriteria.trim()) {
             return this.renderNoSearchCriteria();
         }
+
         if (!searchResults.length && !isLoading && !this.timeout) {
             return this.renderNoResults();
         }
+
         const resultsToRender = (isLoading || this.timeout) ? Array(AMOUNT_OF_PLACEHOLDERS).fill({}) : searchResults;
 
         return (
@@ -176,9 +107,9 @@ export class SearchOverlay extends PureComponent {
     }
 
     render() {
-        const { hideOverlay } = this.props;
+        const { isHideOverlay } = this.props;
 
-        if (hideOverlay) {
+        if (isHideOverlay) {
             return (
                 <article
                   block="SearchOverlay"

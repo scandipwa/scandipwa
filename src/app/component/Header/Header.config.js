@@ -26,5 +26,6 @@ export const CART = 'cart';
 export const CART_OVERLAY = 'cart_overlay';
 export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
+export const CHECKOUT_ACCOUNT = 'checkout_account';
 export const CMS_PAGE = 'cms-page';
 export const MY_ACCOUNT = 'my-account';

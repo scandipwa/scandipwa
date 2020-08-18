@@ -17,7 +17,7 @@ import {
     PureComponent
 } from 'react';
 
-import Field from 'Component/Field/Field.component';
+import { FieldContainer } from 'Component/Field/Field.container';
 import { ChildrenType, MixType } from 'Type/Common';
 import FormPortalCollector from 'Util/FormPortalCollector';
 
@@ -61,7 +61,7 @@ export class Form extends PureComponent {
             if (child && typeof child === 'object' && child.type && child.props) {
                 const { type: { WrappedComponent: { name } = {} }, props, props: { children } } = child;
 
-                if (name === Field.prototype.constructor.name) {
+                if (name === FieldContainer.prototype.constructor.name) {
                     return fieldCallback(child);
                 }
 

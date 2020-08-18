@@ -16,7 +16,7 @@ import './ProductAttributeValue.style';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from 'Component/Field/Field.component';
+import Field from 'Component/Field';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 

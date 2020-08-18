@@ -172,28 +172,6 @@ export class CheckoutQuery {
             'id'
         ];
     }
-
-    // _getSelectedPaymentMethodField() {
-    //     return new Field('selected_payment_method')
-    //         .addFieldList([
-    //             'code',
-    //             'title',
-    //             'purchase_order_number'
-    //         ]);
-    // }
-
-    // _getAvailablePaymentMethodsField() {
-    //     return new Field('available_payment_methods')
-    //         .addFieldList([
-    //             'code',
-    //             'title'
-    //         ]);
-    // }
-
-    // _getAppliedCouponField() {
-    //     return new Field('applied_coupon')
-    //         .addField('code');
-    // }
 }
 
 export default new CheckoutQuery();
