@@ -57,14 +57,12 @@ export class MyAccountOverlay extends PureComponent {
         handleForgotPassword: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
-        closeOverlay: PropTypes.func,
         isCheckout: PropTypes.bool,
         showOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        isCheckout: false,
-        closeOverlay: () => {}
+        isCheckout: false
     };
 
     renderMap = {
@@ -101,20 +99,12 @@ export class MyAccountOverlay extends PureComponent {
     }
 
     renderMyAccount() {
-        const { state, closeOverlay, isCheckout } = this.props;
+        const { state } = this.props;
         const { render, title } = this.renderMap[state];
 
         return (
             <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
                 <p block="MyAccountOverlay" elem="Heading">{ title }</p>
-                { isCheckout && isMobile.any() && (
-                    <button
-                      block="MyAccountOverlay"
-                      elem="CloseButton"
-                      onClick={ closeOverlay }
-                      aria-label={ __('Close') }
-                    />
-                ) }
                 { render() }
             </div>
         );

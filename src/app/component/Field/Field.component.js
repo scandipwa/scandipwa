@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,30 +12,23 @@
 /* eslint jsx-a11y/label-has-associated-control: 0 */
 // Disabled due bug in `renderCheckboxInput` function
 
-// todo fix text type
-
 import './Field.style';
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ClickOutside from 'Component/ClickOutside';
-import Input from 'Component/Input';
+import FieldInput from 'Component/FieldInput';
+import FieldSelect from 'Component/FieldSelect';
+import FieldTextarea from 'Component/FieldTextarea';
 import { MixType } from 'Type/Common';
 
 import {
-    A_KEY_CODE,
-    a_KEY_CODE,
     CHECKBOX_TYPE,
-    ENTER_KEY_CODE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
     RADIO_TYPE,
     SELECT_TYPE,
-    TEXT_TYPE,
-    TEXTAREA_TYPE,
-    Z_KEY_CODE,
-    z_KEY_CODE
+    TEXTAREA_TYPE
 } from './Field.config';
 
 /**
@@ -46,369 +38,47 @@ import {
  */
 export class Field extends PureComponent {
     static propTypes = {
-        skipValue: PropTypes.bool,
-        isControlled: PropTypes.bool,
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.oneOf([
-            TEXT_TYPE,
-            NUMBER_TYPE,
-            TEXTAREA_TYPE,
-            PASSWORD_TYPE,
-            RADIO_TYPE,
-            CHECKBOX_TYPE,
-            SELECT_TYPE
-        ]).isRequired,
+        type: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired,
+        handleChange: PropTypes.func.isRequired,
+        onChangeCheckbox: PropTypes.func.isRequired,
+        onFocus: PropTypes.func.isRequired,
+        onKeyPress: PropTypes.func.isRequired,
+        onKeyEnterDown: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired,
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         message: PropTypes.string,
-        placeholder: PropTypes.string,
         value: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
             PropTypes.bool
         ]),
         validation: PropTypes.arrayOf(PropTypes.string),
-        rows: PropTypes.number,
         checked: PropTypes.oneOfType([
             PropTypes.bool,
             PropTypes.string
         ]),
-        selectOptions: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]),
-            disabled: PropTypes.bool,
-            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-        })),
-        isDisabled: PropTypes.bool,
-        onChange: PropTypes.func,
-        onFocus: PropTypes.func,
-        onBlur: PropTypes.func,
-        onClick: PropTypes.func,
-        onKeyPress: PropTypes.func,
-        min: PropTypes.number,
-        max: PropTypes.number,
         mix: MixType,
-        formRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]),
-        autocomplete: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]),
-        maxLength: PropTypes.number
+        min: PropTypes.number,
+        max: PropTypes.number
     };
 
     static defaultProps = {
-        rows: 4,
         min: 1,
         max: 99,
-        isDisabled: false,
         checked: false,
-        isControlled: false,
         mix: {},
-        selectOptions: [],
         label: '',
-        formRef: () => {},
-        onKeyPress: () => {},
-        onClick: () => {},
-        onFocus: () => {},
-        onChange: () => {},
-        onBlur: () => {},
         value: null,
         message: '',
-        placeholder: '',
-        autocomplete: 'off',
-        validation: [],
-        skipValue: false,
-        maxLength: null
+        validation: []
     };
 
-    onChange = this.onChange.bind(this);
-
-    onChangeCheckbox = this.onChangeCheckbox.bind(this);
-
-    onFocus = this.onFocus.bind(this);
-
-    onKeyPress = this.onKeyPress.bind(this);
-
-    onKeyEnterDown = this.onKeyEnterDown.bind(this);
-
-    onClick = this.onClick.bind(this);
-
-    handleSelectExpand = this.handleSelectExpand.bind(this);
-
-    handleSelectExpandedExpand = this.handleSelectExpandedExpand.bind(this);
-
-    handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
-
-    handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
-
-    __construct(props) {
-        super.__construct(props);
-
-        const { checked } = props;
-        const value = this._getInitialPropsValue();
-
-        this.state = {
-            value,
-            valueIndex: -1,
-            checked,
-            searchString: 'a',
-            isSelectExpanded: false
-        };
-    }
-
-    componentDidUpdate(prevProps) {
-        const { value: prevValue, checked: prevChecked } = prevProps;
-        const { value: currentValue, checked: currChecked, type } = this.props;
-
-        if (prevValue !== currentValue) {
-            this.setState({ value: currentValue });
-        }
-        if (type === CHECKBOX_TYPE && currChecked !== prevChecked) {
-            this.setState({ checked: currChecked });
-        }
-    }
-
-    onChange(event) {
-        if (typeof event === 'string' || typeof event === 'number') {
-            return this.handleChange(event);
-        }
-
-        return this.handleChange(event.target.value);
-    }
-
-    onChangeCheckbox(event) {
-        const { onChange } = this.props;
-        const { target: { checked, value } } = event;
-
-        if (onChange) {
-            onChange(value, checked);
-        }
-
-        return this.setState({ checked });
-    }
-
-    onFocus(event) {
-        const { onFocus } = this.props;
-
-        if (onFocus) {
-            onFocus(event);
-        }
-    }
-
-    onBlur(event) {
-        const { onBlur } = this.props;
-
-        if (onBlur) {
-            onBlur(event);
-        }
-    }
-
-    onKeyPress(event) {
-        const { onKeyPress } = this.props;
-
-        if (onKeyPress) {
-            onKeyPress(event);
-        }
-    }
-
-    onKeyEnterDown(event) {
-        if (event.keyCode === ENTER_KEY_CODE) {
-            const value = event.target.value || 1;
-            this.handleChange(value);
-        }
-    }
-
-    onClick(event, selectValue = false) {
-        const { onClick } = this.props;
-
-        if (selectValue) {
-            event.target.select();
-        }
-        if (onClick) {
-            onClick(event);
-        }
-    }
-
-    handleChange(value, shouldUpdate = true) {
-        const {
-            isControlled,
-            onChange,
-            type,
-            min,
-            max
-        } = this.props;
-
-        switch (type) {
-        case NUMBER_TYPE:
-            const isValueNaN = Number.isNaN(parseInt(value, 10));
-            if (min > value || value > max || isValueNaN) {
-                break;
-            }
-            if (onChange && shouldUpdate) {
-                onChange(value);
-            }
-            if (!isControlled) {
-                this.setState({ value });
-            }
-            break;
-        default:
-            if (onChange) {
-                onChange(value);
-            }
-            if (!isControlled) {
-                this.setState({ value });
-            }
-        }
-    }
-
-    handleSelectExpand() {
-        this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
-    }
-
-    handleSelectExpandedExpand() {
-        const { isSelectExpanded } = this.state;
-
-        if (isSelectExpanded) {
-            this.handleSelectExpand();
-        }
-    }
-
-    handleSelectListOptionClick({ value }) {
-        const { formRef, onChange } = this.props;
-
-        if (typeof formRef !== 'function') {
-            formRef.current.value = value;
-
-            // TODO: investigate why this is required
-            const event = new Event('change', { bubbles: true });
-            formRef.current.dispatchEvent(event);
-        } else {
-            onChange(value);
-        }
-    }
-
-    _getInitialPropsValue() {
-        const { type, value } = this.props;
-
-        if (value) {
-            return value;
-        }
-
-        switch (type) {
-        case NUMBER_TYPE:
-            return 0;
-        default:
-            return '';
-        }
-    }
-
-    _getSelectedValueIndex(keyCode) {
-        const { selectOptions } = this.props;
-        const {
-            searchString: prevSearchString,
-            valueIndex: prevValueIndex
-        } = this.state;
-
-        const pressedKeyValue = String.fromCharCode(keyCode).toLowerCase();
-
-        const searchString = (prevSearchString[prevSearchString.length - 1] !== pressedKeyValue)
-            ? `${prevSearchString}${pressedKeyValue}`
-            : pressedKeyValue;
-
-        const nextValueIndex = selectOptions.findIndex(({ label }, i) => (
-            label && label.toLowerCase().startsWith(searchString) && (
-                i > prevValueIndex || prevSearchString !== searchString
-            )
-        ));
-
-        if (nextValueIndex !== -1) {
-            return { searchString, valueIndex: nextValueIndex };
-        }
-
-        // if no items were found, take only the latest letter of the search string
-        const newSearchString = searchString[searchString.length - 1];
-
-        const newValueIndex = selectOptions.findIndex(({ label }) => (
-            label && label.toLowerCase().startsWith(newSearchString)
-        ));
-
-        if (newValueIndex !== -1) {
-            return { searchString: newSearchString, valueIndex: newValueIndex };
-        }
-
-        // if there are no items starting with this letter
-        return {};
-    }
-
-    handleSelectListKeyPress(event) {
-        const { isSelectExpanded } = this.state;
-        const { selectOptions, onChange, id: selectId } = this.props;
-        const keyCode = event.which || event.keycode;
-
-        // on Enter pressed
-        if (keyCode === ENTER_KEY_CODE) {
-            this.handleSelectExpand();
-            return;
-        }
-
-        if (!isSelectExpanded
-            || !keyCode
-            || keyCode < A_KEY_CODE
-            || keyCode > z_KEY_CODE
-            || (keyCode > Z_KEY_CODE && keyCode < a_KEY_CODE)
-        ) {
-            return;
-        }
-
-        const { searchString, valueIndex } = this._getSelectedValueIndex(keyCode);
-
-        // valueIndex can be 0, so !valueIndex === true
-        if (!searchString || valueIndex === null) {
-            return;
-        }
-
-        this.setState({ searchString, valueIndex }, () => {
-            const { id, value } = selectOptions[valueIndex];
-            // converting to string for avoiding the error with the first select option
-            onChange(value.toString());
-            const selectedElement = document.querySelector(`#${selectId} + ul #o${id}`);
-            selectedElement.focus();
-        });
-    }
-
     renderTextarea() {
-        const {
-            id,
-            name,
-            rows,
-            formRef,
-            isDisabled,
-            maxLength
-        } = this.props;
-
-        const { value } = this.state;
-
         return (
-            <textarea
-              ref={ formRef }
-              id={ id }
-              name={ name }
-              rows={ rows }
-              value={ value }
-              disabled={ isDisabled }
-              onChange={ this.onChange }
-              onFocus={ this.onFocus }
-              onClick={ this.onClick }
-              maxLength={ maxLength }
+            <FieldTextarea
+              { ...this.props }
             />
         );
     }
@@ -419,34 +89,19 @@ export class Field extends PureComponent {
      * @namespace Component/Field/Component
  */
     renderTypeText() {
-        const { value } = this.state;
-
         return (
-            <Input
+            <FieldInput
               { ...this.props }
               type="text"
-              onChange={ this.onChange }
-              onFocus={ this.onFocus }
-              onClick={ this.onClick }
-              value={ value }
             />
         );
     }
 
     renderTypePassword() {
-        const { value } = this.state;
-        const { autocomplete } = this.props;
-        const passwordAutocomplete = autocomplete === 'off' ? 'current-password' : autocomplete;
-
         return (
-            <Input
+            <FieldInput
               { ...this.props }
               type="password"
-              autocomplete={ passwordAutocomplete }
-              onChange={ this.onChange }
-              onFocus={ this.onFocus }
-              onClick={ this.onClick }
-              value={ value }
             />
         );
     }
@@ -454,33 +109,33 @@ export class Field extends PureComponent {
     renderTypeNumber() {
         const {
             min,
-            max
+            max,
+            value,
+            onKeyEnterDown,
+            handleChange
         } = this.props;
-
-        const { value } = this.state;
 
         return (
             <>
-                <Input
+                <FieldInput
                   { ...this.props }
                   type="number"
                   readOnly
                   // eslint-disable-next-line react/jsx-no-bind
-                  onChange={ e => this.handleChange(e.target.value, false) }
-                  onKeyDown={ this.onKeyEnterDown }
-                  value={ value }
+                  onChange={ (e) => handleChange(e.target.value, false) }
+                  onKeyDown={ onKeyEnterDown }
                 />
                 <button
                   disabled={ +value === max }
                   // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => this.handleChange(+value + 1) }
+                  onClick={ () => handleChange(+value + 1) }
                 >
                     <span>+</span>
                 </button>
                 <button
                   disabled={ +value === min }
                   // eslint-disable-next-line react/jsx-no-bind
-                  onClick={ () => this.handleChange(+value - 1) }
+                  onClick={ () => handleChange(+value - 1) }
                 >
                     <span>–</span>
                 </button>
@@ -490,17 +145,16 @@ export class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id
+            id,
+            onChangeCheckbox
         } = this.props;
-        const { checked } = this.state;
 
         return (
             <>
-                <Input
+                <FieldInput
                   { ...this.props }
                   type="checkbox"
-                  checked={ checked }
-                  onChange={ this.onChangeCheckbox }
+                  onChange={ onChangeCheckbox }
                 />
                 <label htmlFor={ id } />
             </>
@@ -511,17 +165,15 @@ export class Field extends PureComponent {
         const {
             id,
             label,
-            checked
+            onClick
         } = this.props;
 
         return (
             <label htmlFor={ id }>
-                <Input
+                <FieldInput
                   { ...this.props }
                   type="radio"
-                  checked={ checked }
-                  onChange={ this.onClick }
-                  onKeyPress={ this.onKeyPress }
+                  onChange={ onClick }
                 />
                 <label htmlFor={ id } />
                 { label }
@@ -530,94 +182,10 @@ export class Field extends PureComponent {
     }
 
     renderSelectWithOptions() {
-        const {
-            name,
-            id,
-            selectOptions,
-            formRef,
-            placeholder,
-            value,
-            isDisabled
-        } = this.props;
-
-        // TODO: move into separate file
-
-        const { isSelectExpanded: isExpanded } = this.state;
-
-        if (!selectOptions) {
-            throw new Error('Prop `selectOptions` is required for Field type `select`');
-        }
-
         return (
-            <ClickOutside onClick={ this.handleSelectExpandedExpand }>
-                <div
-                  block="Field"
-                  elem="SelectWrapper"
-                  onClick={ this.handleSelectExpand }
-                  onKeyPress={ this.handleSelectListKeyPress }
-                  role="button"
-                  tabIndex="0"
-                  aria-label="Select drop-down"
-                  aria-expanded={ isExpanded }
-                >
-                    <select
-                      block="Field"
-                      elem="Select"
-                      mods={ { isExpanded } }
-                      ref={ formRef }
-                      name={ name }
-                      id={ id }
-                      disabled={ isDisabled }
-                      tabIndex="0"
-                      value={ value || '' }
-                      onChange={ this.onChange }
-                    >
-                        { placeholder && <option value="" label={ placeholder } /> }
-                        { selectOptions.map(({
-                            id, value, disabled, label
-                        }) => (
-                            <option
-                              key={ id }
-                              id={ id }
-                              value={ value }
-                              disabled={ disabled }
-                            >
-                                { label }
-                            </option>
-                        )) }
-                    </select>
-                    <ul
-                      block="Field"
-                      elem="SelectOptions"
-                      role="menu"
-                      mods={ { isExpanded } }
-                    >
-                        { selectOptions.map((options) => {
-                            const { id, label } = options;
-
-                            return (
-                                <li
-                                  block="Field"
-                                  elem="SelectOption"
-                                  mods={ { isExpanded } }
-                                  key={ id }
-                                  // added 'o' as querySelector does not work with
-                                  // ids, that consist of numbers only
-                                  id={ `o${id}` }
-                                  role="menuitem"
-                                  // eslint-disable-next-line react/jsx-no-bind
-                                  onClick={ () => this.handleSelectListOptionClick(options) }
-                                  // eslint-disable-next-line react/jsx-no-bind
-                                  onKeyPress={ () => this.handleSelectListOptionClick(options) }
-                                  tabIndex={ isExpanded ? '0' : '-1' }
-                                >
-                                    { label }
-                                </li>
-                            );
-                        }) }
-                    </ul>
-                </div>
-            </ClickOutside>
+            <FieldSelect
+              { ...this.props }
+            />
         );
     }
 
@@ -643,6 +211,7 @@ export class Field extends PureComponent {
     renderLabel() {
         const { id, label, validation } = this.props;
         const isRequired = validation.includes('notEmpty');
+
         if (!label) {
             return null;
         }
@@ -661,6 +230,7 @@ export class Field extends PureComponent {
 
     renderMessage() {
         const { message } = this.props;
+
         if (!message) {
             return null;
         }

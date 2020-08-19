@@ -181,7 +181,7 @@ export class SearchField extends PureComponent {
                 />
                 <Suspense fallback={ this.renderOverlayFallback() }>
                     <SearchOverlay
-                      hideOverlay
+                      isHideOverlay
                       clearSearch={ this.clearSearch }
                       searchCriteria={ searchCriteria }
                     />

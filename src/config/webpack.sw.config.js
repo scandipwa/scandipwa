@@ -32,9 +32,7 @@ const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 module.exports = (_, options) => {
     const isDevelopment = options.mode === 'development';
 
-    const outputFilename = isDevelopment
-        ? 'sw.js'
-        : 'sw-compiled.js';
+    const outputFilename = 'sw.js';
 
     const additionalOptions = isDevelopment
         ? { devtool: 'source-map' }

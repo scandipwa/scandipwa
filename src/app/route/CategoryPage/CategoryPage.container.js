@@ -189,9 +189,14 @@ export class CategoryPageContainer extends PureComponent {
 
         /**
          * Always make sure the navigation show / hide mode (on scroll)
-         * is activated when entering the category page
+         * is activated when entering the category page.
          * */
         this.updateNavigationState();
+
+        /**
+         * Always update the history, ensure the history contains category
+         */
+        this.updateHistory();
 
         /**
          * Make sure to update header state, if the category visited
@@ -261,9 +266,7 @@ export class CategoryPageContainer extends PureComponent {
          */
         if (
             id !== prevId
-            || (
-                !breadcrumbsWereUpdated && id === categoryIds
-            )
+            || (!breadcrumbsWereUpdated && id === categoryIds)
         ) {
             this.checkIsActive();
             this.updateMeta();

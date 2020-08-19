@@ -35,7 +35,22 @@ import { LOGO_MEDIA } from 'Util/Media/Media';
 import isMobile from 'Util/Mobile';
 
 import {
-    CART, CART_EDITING, CART_OVERLAY, CATEGORY, CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, FILTER, MENU, MENU_SUBCATEGORY, PDP, POPUP, SEARCH
+    CART,
+    CART_EDITING,
+    CART_OVERLAY,
+    CATEGORY,
+    CHECKOUT,
+    CHECKOUT_ACCOUNT,
+    CMS_PAGE,
+    CUSTOMER_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_SUB_ACCOUNT,
+    FILTER,
+    MENU,
+    MENU_SUBCATEGORY,
+    PDP,
+    POPUP,
+    SEARCH
 } from './Header.config';
 
 export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
@@ -67,7 +82,6 @@ export class Header extends NavigationAbstract {
         isLoading: PropTypes.bool,
         isCheckout: PropTypes.bool.isRequired,
         showMyAccountLogin: PropTypes.bool.isRequired,
-        closeOverlay: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired
     };
@@ -137,6 +151,10 @@ export class Header extends NavigationAbstract {
             back: true,
             title: true,
             account: true
+        },
+        [CHECKOUT_ACCOUNT]: {
+            title: true,
+            close: true
         },
         [CMS_PAGE]: {
             back: true,
@@ -297,7 +315,6 @@ export class Header extends NavigationAbstract {
         const {
             isCheckout,
             showMyAccountLogin,
-            closeOverlay,
             onSignIn,
             shouldRenderAccountOverlay
         } = this.props;
@@ -310,7 +327,6 @@ export class Header extends NavigationAbstract {
             <Suspense fallback={ this.renderAccountOverlayFallback() }>
                 <MyAccountOverlay
                   onSignIn={ onSignIn }
-                  closeOverlay={ closeOverlay }
                   isCheckout={ isCheckout }
                 />
             </Suspense>

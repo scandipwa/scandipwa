@@ -30,17 +30,17 @@ export class MyAccountAddressBook extends PureComponent {
         return <MyAccountAddressPopup />;
     }
 
-    renderAddress = (address) => {
+    renderAddress = (address, index) => {
         const { getDefaultPostfix } = this.props;
-        const { id } = address;
+        const addressNumber = index + 1;
         const postfix = getDefaultPostfix(address);
 
         return (
             <MyAccountAddressTable
-              title={ __('Address #%s%s', id, postfix) }
+              title={ __('Address #%s%s', addressNumber, postfix) }
               showActions
               address={ address }
-              key={ id }
+              key={ addressNumber }
             />
         );
     };

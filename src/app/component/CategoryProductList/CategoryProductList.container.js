@@ -87,14 +87,19 @@ export class CategoryProductListContainer extends PureComponent {
         return isLoading;
     }
 
+    getIsPreventRequest() {
+        const { isMatchingListFilter } = this.props;
+        return isMatchingListFilter; // if filter match - prevent request
+    }
+
     requestProductList(options) {
         const { requestProductList } = this.props;
-
         requestProductList(options);
     }
 
     containerProps = () => ({
         isLoading: this.getIsLoading(),
+        isPreventRequest: this.getIsPreventRequest(),
         mix: { block: 'CategoryProductList' }
     });
 

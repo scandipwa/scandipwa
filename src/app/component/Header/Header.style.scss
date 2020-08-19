@@ -167,9 +167,9 @@
 
         .MyAccountOverlay {
             @include before-desktop {
-                height: 100vh;
-                position: absolute;
-                right: -10px;
+                top: var(--header-total-height);
+                height: calc(100vh - var(--header-total-height));
+                position: fixed;
                 width: 100vw;
             }
         }
