@@ -198,8 +198,8 @@ export class Router extends PureComponent {
         errorDetails: {}
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.dispatchActions();
         this.redirectFromPartialUrl();

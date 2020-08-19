@@ -27,11 +27,13 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    makeSearchRequest: (options) => SearchBarDispatcher.then(
+export const mapDispatchToProps = dispatch => ({
+    makeSearchRequest: options => SearchBarDispatcher.then(
+        /** @namespace Component/SearchOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     clearSearchResults: () => SearchBarDispatcher.then(
+        /** @namespace Component/SearchOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.clearSearchResults(dispatch)
     )
 });

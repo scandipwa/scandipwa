@@ -22,6 +22,7 @@ import {
     z_KEY_CODE
 } from './FieldSelect.config';
 
+/** @namespace Component/FieldSelect/Container */
 export class FieldSelectContainer extends PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,

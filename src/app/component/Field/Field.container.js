@@ -34,6 +34,7 @@ export const mapStateToProps = state => ({
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 
+/** @namespace Component/Field/Container */
 export class FieldContainer extends PureComponent {
     static propTypes = {
         isControlled: PropTypes.bool,
@@ -87,8 +88,8 @@ export class FieldContainer extends PureComponent {
         onClick: this.onClick.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { checked } = props;
         const value = this.getInitialPropsValue();

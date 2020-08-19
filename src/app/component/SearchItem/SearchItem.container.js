@@ -24,10 +24,16 @@ export const SearchBarDispatcher = import(
     'Store/SearchBar/SearchBar.dispatcher'
 );
 
-export const mapDispatchToProps = (dispatch) => ({
+/** @namespace Component/SearchItem/Container/mapDispatchToProps */
+export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
+/** @namespace Component/SearchItem/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+/** @namespace Component/SearchItem/Container */
 export class SearchItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -102,4 +108,4 @@ export class SearchItemContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SearchItemContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchItemContainer);

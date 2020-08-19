@@ -14,7 +14,8 @@ import { PureComponent } from 'react';
 
 import FieldInput from './FieldInput.component';
 
-class FieldInputContainer extends PureComponent {
+/** @namespace Component/FieldInput/Container */
+export class FieldInputContainer extends PureComponent {
     static propTypes = {
         isDisabled: PropTypes.bool,
         autocomplete: PropTypes.oneOfType([

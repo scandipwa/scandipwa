@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 
+/** @namespace Component/FieldSelect/Component */
 export class FieldSelect extends PureComponent {
     static propTypes = {
         handleSelectListOptionClick: PropTypes.func.isRequired,
