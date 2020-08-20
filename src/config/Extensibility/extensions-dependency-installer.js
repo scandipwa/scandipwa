@@ -52,7 +52,7 @@ const NO_PACKAGE_JSON = 254;
 
 const NO_PACKAGE_JSON_NOTIFICATION = 'proceeding: no package.json found';
 
-const logOutput = (target, message) => console.log(`\n${target} says:\n${message}\n`);
+const logOutput = (target, message) => console.log('\n%ssays:\n%s\n', target, message);
 
 // Add some colour with the first string!
 console.log('\x1b[36m%s\x1b[0m', 'Installing extensions\' dependencies');
@@ -78,7 +78,7 @@ uniqueRoots.forEach(
                 // Package.json exists, but no package-lock
                 execAsync('npm i', { cwd })
                     .then((stdout) => logOutput(cwd, stdout))
-                    .catch((error) => logOutput(cwd, error.message));
+                    .catch(({ message }) => logOutput(cwd, message));
             });
     }
 );
