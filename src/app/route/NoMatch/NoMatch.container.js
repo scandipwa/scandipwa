@@ -28,7 +28,6 @@ export const BreadcrumbsDispatcher = import(
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            /** @namespace Route/NoMatch/Container/then */
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
         );
     },

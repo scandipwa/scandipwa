@@ -86,8 +86,7 @@ export class Field extends PureComponent {
     /**
      * Render Type Text, default value is passed from parent
      * handleToUpdate used to pass child data to parent
-     * @namespace Component/Field/Component
- */
+     */
     renderTypeText() {
         return (
             <FieldInput

@@ -31,7 +31,6 @@ export const mapStateToProps = state => ({
 /** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     requestCustomerData: () => MyAccountDispatcher.then(
-        /** @namespace Component/CheckoutAddressBook/Container/then */
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     )
 });

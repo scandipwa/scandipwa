@@ -38,7 +38,6 @@ export const mapStateToProps = state => ({
 /** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     addReview: options => ReviewDispatcher.then(
-        /** @namespace Component/ProductReviewForm/Container/then */
         ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),

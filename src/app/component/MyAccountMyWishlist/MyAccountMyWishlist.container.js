@@ -34,11 +34,9 @@ export const mapStateToProps = state => ({
 /** @namespace Component/MyAccountMyWishlist/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     clearWishlist: () => WishlistDispatcher.then(
-        /** @namespace Component/MyAccountMyWishlist/Container/then */
         ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
     ),
     moveWishlistToCart: () => WishlistDispatcher.then(
-        /** @namespace Component/MyAccountMyWishlist/Container/then */
         ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)
     ),
     showPopup: payload => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),

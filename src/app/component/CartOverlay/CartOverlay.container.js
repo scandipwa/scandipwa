@@ -43,7 +43,6 @@ export const mapDispatchToProps = dispatch => ({
     setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     updateTotals: options => CartDispatcher.then(
-        /** @namespace Component/CartOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)
     ),
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),

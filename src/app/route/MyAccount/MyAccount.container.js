@@ -47,12 +47,10 @@ export const mapStateToProps = state => ({
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
-        /** @namespace Route/MyAccount/Container/then */
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     requestCustomerData: () => MyAccountDispatcher.then(
-        /** @namespace Route/MyAccount/Container/then */
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),

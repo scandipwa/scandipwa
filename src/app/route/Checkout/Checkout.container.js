@@ -57,7 +57,6 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.then(
-        /** @namespace Route/Checkout/Container/then */
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
     ),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
@@ -66,7 +65,6 @@ export const mapDispatchToProps = dispatch => ({
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
     createAccount: options => MyAccountDispatcher.then(
-        /** @namespace Route/Checkout/Container/then */
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     )
 });
@@ -198,7 +196,7 @@ export class CheckoutContainer extends PureComponent {
             address,
             this._getGuestCartId()
         )).then(
-            /** @namespace Route/Checkout/Container/fetchMutationThen */
+            /** @namespace Route/Checkout/Container/onShippingEstimationFieldsChangeFetchMutationThen */
             ({ estimateShippingCosts: shippingMethods }) => {
                 const { requestsSent } = this.state;
 
@@ -337,7 +335,7 @@ export class CheckoutContainer extends PureComponent {
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
         return fetchMutation(mutation).then(
-            /** @namespace Route/Checkout/Container/fetchMutationThen */
+            /** @namespace Route/Checkout/Container/saveGuestEmailFetchMutationThen */
             ({ setGuestEmailOnCart: data }) => {
                 if (data) {
                     this.setState({ isGuestEmailSaved: true });
@@ -410,7 +408,7 @@ export class CheckoutContainer extends PureComponent {
             addressInformation,
             this._getGuestCartId()
         )).then(
-            /** @namespace Route/Checkout/Container/fetchMutationThen */
+            /** @namespace Route/Checkout/Container/saveAddressInformationFetchMutationThen */
             ({ saveAddressInformation: data }) => {
                 const { payment_methods, totals } = data;
 

@@ -40,7 +40,6 @@ export const mapDispatchToProps = dispatch => ({
     showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
     showSuccessNotification: message => dispatch(showNotification('success', message)),
     updateCustomerDetails: () => MyAccountDispatcher.then(
-        /** @namespace Component/MyAccountAddressPopup/Container/then */
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))

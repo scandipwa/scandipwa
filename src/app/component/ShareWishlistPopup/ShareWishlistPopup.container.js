@@ -42,12 +42,12 @@ export class ShareWishlistPopupContainer extends PureComponent {
         const emails = initialEmails.split(',').map(email => email.trim());
 
         fetchMutation(WishlistQuery.getShareWishlistMutation({ message, emails })).then(
-            /** @namespace Component/ShareWishlistPopup/Container/fetchMutationThen */
+            /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationThen */
             () => {
                 showNotification('Wishlist has been shared');
                 hidePopup();
             },
-            /** @namespace Component/ShareWishlistPopup/Container/fetchMutationThen */
+            /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationCatch */
             ([{ message }]) => showError(message)
         );
     };

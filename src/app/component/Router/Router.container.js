@@ -51,19 +51,15 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     init: (options) => {
         WishlistDispatcher.then(
-            /** @namespace Component/Router/Container/then */
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
         CartDispatcher.then(
-            /** @namespace Component/Router/Container/then */
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
         ConfigDispatcher.then(
-            /** @namespace Component/Router/Container/then */
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
         );
         HeaderAndFooterDispatcher.then(
-            /** @namespace Component/Router/Container/then */
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
         );
     }

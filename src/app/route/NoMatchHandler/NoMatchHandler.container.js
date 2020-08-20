@@ -33,7 +33,6 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
         NoMatchDispatcher.then(
-            /** @namespace Route/NoMatchHandler/Container/then */
             ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
         );
     }

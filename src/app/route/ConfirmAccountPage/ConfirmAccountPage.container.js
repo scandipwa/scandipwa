@@ -38,18 +38,15 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            /** @namespace Route/ConfirmAccountPage/Container/then */
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
         );
     },
     updateMeta: meta => dispatch(updateMeta(meta)),
     confirmAccount: options => MyAccountDispatcher.then(
-        /** @namespace Route/ConfirmAccountPage/Container/then */
         ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     signIn: options => MyAccountDispatcher.then(
-        /** @namespace Route/ConfirmAccountPage/Container/then */
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     )
 });

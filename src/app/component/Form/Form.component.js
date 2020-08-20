@@ -190,7 +190,7 @@ export class Form extends PureComponent {
         }, []));
 
         asyncData.then(
-            /** @namespace Component/Form/Component/then */
+            /** @namespace Component/Form/Component/handleFormSubmitAsyncDataThen */
             (asyncDataList) => {
                 if (!invalidFields.length) {
                     onSubmitSuccess(inputValues, asyncDataList);
@@ -199,7 +199,7 @@ export class Form extends PureComponent {
 
                 onSubmitError(inputValues, invalidFields);
             },
-            /** @namespace Component/Form/Component/then */
+            /** @namespace Component/Form/Component/handleFormSubmitAsyncDataCatch */
             e => onSubmitError(inputValues, invalidFields, e)
         );
     };

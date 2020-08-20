@@ -28,7 +28,6 @@ export const CartDispatcher = import(
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.then(
-        /** @namespace Component/ProductCard/Container/then */
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     )
 });

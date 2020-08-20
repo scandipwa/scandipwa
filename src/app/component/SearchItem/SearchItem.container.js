@@ -29,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
-/** @namespace Component/SearchItem/Container/mapDispatchToProps */
+/** @namespace Component/SearchItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = state => ({});
 

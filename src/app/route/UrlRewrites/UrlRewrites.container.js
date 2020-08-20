@@ -40,7 +40,6 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
-            /** @namespace Route/UrlRewrites/Container/then */
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, {
                 // TODO: this seems to break when switched to disabled-url-stores
                 urlParam: urlParam.replace(new RegExp(window.storeRegexText), '')

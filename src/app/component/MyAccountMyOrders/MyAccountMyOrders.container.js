@@ -28,7 +28,6 @@ export const mapStateToProps = state => ({
 /** @namespace Component/MyAccountMyOrders/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     getOrderList: () => OrderDispatcher.then(
-        /** @namespace Component/MyAccountMyOrders/Container/then */
         ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
     )
 });

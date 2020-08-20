@@ -60,17 +60,14 @@ export const mapDispatchToProps = dispatch => ({
     requestProduct: (options) => {
         // TODO: check linked products, there might be issues :'(
         ProductDispatcher.then(
-            /** @namespace Route/ProductPage/Container/then */
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
         );
     },
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
-        /** @namespace Route/ProductPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
     ),
     updateMetaFromProduct: product => MetaDispatcher.then(
-        /** @namespace Route/ProductPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
     goToPreviousNavigationState: state => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))

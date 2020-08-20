@@ -41,7 +41,6 @@ export const mapStateToProps = state => ({
 /** @namespace Route/CmsPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
-        /** @namespace Route/CmsPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)
     ),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
@@ -49,7 +48,6 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.then(
-            /** @namespace Route/CmsPage/Container/then */
             ({ default: dispatcher }) => dispatcher.update([], dispatch)
         );
         dispatch(toggleBreadcrumbs(isActive));

@@ -43,7 +43,7 @@ export class CartDispatcher {
             // This is guest, cart is empty
             // Need to create empty cart and save quote
             this._createEmptyCart(dispatch).then(
-                /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
+                /** @namespace Store/Cart/Dispatcher/updateInitialCartData_createEmptyCartThen */
                 (data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                     this._updateCartData({}, dispatch);
@@ -54,9 +54,9 @@ export class CartDispatcher {
 
     _createEmptyCart(dispatch) {
         return fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationThen */
             ({ createEmptyCart }) => createEmptyCart,
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationCatch */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -68,7 +68,7 @@ export class CartDispatcher {
     handle_syncCartWithBEError(dispatch) {
         return this._createEmptyCart(dispatch)
             .then(
-                /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
+                /** @namespace Store/Cart/Dispatcher/handle_syncCartWithBEError_createEmptyCartThen */
                 (data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                     this._updateCartData({}, dispatch);
@@ -81,9 +81,9 @@ export class CartDispatcher {
         fetchQuery(CartQuery.getCartQuery(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchQueryThen */
+            /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryThen */
             result => this.handle_syncCartWithBESuccess(dispatch, result),
-            /** @namespace Store/Cart/Dispatcher/fetchQueryError */
+            /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryError */
             error => this.handle_syncCartWithBEError(dispatch, error)
         );
     }
@@ -100,15 +100,15 @@ export class CartDispatcher {
             { sku, item_id, quantity },
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationThen */
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch */
             (error) => {
                 const [{ debugMessage = '' }] = error || [{}];
 
                 if (debugMessage.match('No such entity with cartId ')) {
                     return this._createEmptyCart(dispatch).then(
-                        /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
+                        /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch_createEmptyCartThen */
                         (data) => {
                             BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                             this._updateCartData({}, dispatch);
@@ -159,9 +159,9 @@ export class CartDispatcher {
             return fetchMutation(CartQuery.getSaveCartItemMutation(
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
-                /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+                /** @namespace Store/Cart/Dispatcher/addProductToCartFetchMutationThen */
                 ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-                /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+                /** @namespace Store/Cart/Dispatcher/addProductToCartFetchMutationCatch */
                 ([{ message }]) => {
                     dispatch(showNotification('error', message));
                     return Promise.reject();
@@ -177,9 +177,9 @@ export class CartDispatcher {
             item_id,
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationThen */
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationError */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -188,12 +188,12 @@ export class CartDispatcher {
         return fetchMutation(CartQuery.getApplyCouponMutation(
             couponCode, !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/applyCouponToCartFetchMutationThen */
             ({ applyCoupon: { cartData } }) => {
                 this._updateCartData(cartData, dispatch);
                 dispatch(showNotification('success', __('Coupon was applied!')));
             },
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/applyCouponToCartFetchMutationError */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -202,12 +202,12 @@ export class CartDispatcher {
         return fetchMutation(CartQuery.getRemoveCouponMutation(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationThen */
             ({ removeCoupon: { cartData } }) => {
                 this._updateCartData(cartData, dispatch);
                 dispatch(showNotification('success', __('Coupon was removed!')));
             },
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationError */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -237,7 +237,6 @@ export class CartDispatcher {
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
-                    /** @namespace Store/Cart/Dispatcher/then */
                     ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
                 );
             } else {

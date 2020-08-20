@@ -25,7 +25,6 @@ export const CartDispatcher = import(
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.then(
-        /** @namespace Component/SharedWishlistItem/Container/then */
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     )
 });

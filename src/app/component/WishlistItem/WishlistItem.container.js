@@ -33,15 +33,12 @@ export const WishlistDispatcher = import(
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.then(
-        /** @namespace Component/WishlistItem/Container/then */
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
     updateWishlistItem: options => WishlistDispatcher.then(
-        /** @namespace Component/WishlistItem/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)
     ),
     removeFromWishlist: options => WishlistDispatcher.then(
-        /** @namespace Component/WishlistItem/Container/then */
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
     )
 });
@@ -140,17 +137,17 @@ export class WishlistItemContainer extends PureComponent {
 
         return addProductToCart({ product, quantity })
             .then(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => this.removeItem(id),
-                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartCatch */
                 () => this.showNotification('error', __('Error Adding Product To Cart'))
             )
             .then(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThenThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThen */
                 () => showNotification('success', __('Product Added To Cart'))
             )
             .catch(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThenThenCatch */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThenCatch */
                 () => this.showNotification('error', __('Error cleaning wishlist'))
             );
     }

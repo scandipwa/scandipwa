@@ -78,31 +78,25 @@ export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: options => CategoryDispatcher.then(
-        /** @namespace Route/CategoryPage/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.then(
-            /** @namespace Route/CategoryPage/Container/then */
             ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch)
         )
         : BreadcrumbsDispatcher.then(
-            /** @namespace Route/CategoryPage/Container/then */
             ({ default: dispatcher }) => dispatcher.update([], dispatch)
         )
     ),
     requestProductListInfo: options => ProductListInfoDispatcher.then(
-        /** @namespace Route/CategoryPage/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: options => NoMatchDispatcher.then(
-        /** @namespace Route/CategoryPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
     ),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateMetaFromCategory: category => MetaDispatcher.then(
-        /** @namespace Route/CategoryPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
     ),
     clearCategory: () => dispatch(updateCurrentCategory({}))

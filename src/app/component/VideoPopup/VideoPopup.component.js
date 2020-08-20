@@ -103,7 +103,7 @@ export class VideoPopup extends PureComponent {
         this.vimeoPromise = makeCancelable(import('react-vimeo'));
 
         this.vimeoPromise.promise.then(
-            /** @namespace Component/VideoPopup/Component/then */
+            /** @namespace Component/VideoPopup/Component/vimeoPromisePromiseThen */
             ({ default: vimeo }) => {
                 this.vimeoComponent = vimeo;
             }
@@ -114,7 +114,7 @@ export class VideoPopup extends PureComponent {
         this.youTubePromise = makeCancelable(import('react-youtube'));
 
         this.youTubePromise.promise.then(
-            /** @namespace Component/VideoPopup/Component/then */
+            /** @namespace Component/VideoPopup/Component/youTubePromisePromiseThen */
             ({ default: youTube }) => {
                 this.youTubeComponent = youTube;
             }
@@ -125,8 +125,7 @@ export class VideoPopup extends PureComponent {
      * Parses the video URL and renders the video accordingly
      * @returns {null|*}
      * @private
-     * @namespace Component/VideoPopup/Component
- */
+     */
     _renderVideoContent() {
         const {
             payload: {

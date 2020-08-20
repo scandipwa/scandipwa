@@ -54,12 +54,12 @@ export class MyAccountDispatcher {
         }
 
         return executePost(prepareQuery([query])).then(
-            /** @namespace Store/MyAccount/Dispatcher/executePostThen */
+            /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostThen */
             ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
-            /** @namespace Store/MyAccount/Dispatcher/executePostThen */
+            /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostError */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -68,11 +68,9 @@ export class MyAccountDispatcher {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
         CartDispatcher.then(
-            /** @namespace Store/MyAccount/Dispatcher/then */
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
         WishlistDispatcher.then(
-            /** @namespace Store/MyAccount/Dispatcher/then */
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
         BrowserDatabase.deleteItem(ORDERS);
@@ -89,9 +87,9 @@ export class MyAccountDispatcher {
     forgotPassword(options = {}, dispatch) {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationThen */
             () => dispatch(updateCustomerPasswordForgotStatus()),
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationError */
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -106,9 +104,9 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getResetPasswordMutation(options);
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationThen */
             ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
             () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
     }
@@ -123,7 +121,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationThen */
             (data) => {
                 const { createCustomer: { customer } } = data;
                 const { confirmation_required } = customer;
@@ -134,7 +132,7 @@ export class MyAccountDispatcher {
 
                 return this.signIn({ email, password }, dispatch);
             },
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationError */
             (error) => {
                 dispatch(showNotification('error', error[0].message));
                 Promise.reject();
@@ -153,9 +151,9 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getConfirmAccountMutation(options);
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationThen */
             () => dispatch(showNotification('success', __('Your account is confirmed!'))),
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationError */
             () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
         );
     }
@@ -175,11 +173,9 @@ export class MyAccountDispatcher {
             setAuthorizationToken(token);
             dispatch(updateCustomerSignInStatus(true));
             CartDispatcher.then(
-                /** @namespace Store/MyAccount/Dispatcher/then */
                 ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
             );
             WishlistDispatcher.then(
-                /** @namespace Store/MyAccount/Dispatcher/then */
                 ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
             );
 

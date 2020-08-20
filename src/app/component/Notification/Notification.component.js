@@ -58,9 +58,8 @@ export class Notification extends PureComponent {
 
     /**
      * Remove notification from screen
-     * @return {void}
-     * @namespace Component/Notification/Component
- */
+     * @return {void
+     */
     hideNotification = () => {
         const { onHideNotification, notificationId } = this.props;
         this.setState({ isNotificationVisible: false });

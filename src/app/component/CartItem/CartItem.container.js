@@ -28,15 +28,12 @@ export const CartDispatcher = import(
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.then(
-        /** @namespace Component/CartItem/Container/then */
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
     changeItemQty: options => CartDispatcher.then(
-        /** @namespace Component/CartItem/Container/then */
         ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)
     ),
     removeProduct: options => CartDispatcher.then(
-        /** @namespace Component/CartItem/Container/then */
         ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
     )
 });

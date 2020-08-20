@@ -37,19 +37,16 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
-            /** @namespace Route/PasswordChangePage/Container/then */
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
         );
     },
     resetPassword(options) {
         MyAccountDispatcher.then(
-            /** @namespace Route/PasswordChangePage/Container/then */
             ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
         );
     },
     updateCustomerPasswordResetStatus(options) {
         MyAccountDispatcher.then(
-            /** @namespace Route/PasswordChangePage/Container/then */
             ({ default: dispatcher }) => dispatcher.updateCustomerPasswordResetStatus(options, dispatch)
         );
     },

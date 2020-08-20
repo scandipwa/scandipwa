@@ -276,15 +276,12 @@ export class Router extends PureComponent {
     dispatchActions() {
         const { dispatch } = getStore();
         WishlistDispatcher.then(
-            /** @namespace Component/Router/Component/then */
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
         CartDispatcher.then(
-            /** @namespace Component/Router/Component/then */
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
         ConfigDispatcher.then(
-            /** @namespace Component/Router/Component/then */
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
         );
     }

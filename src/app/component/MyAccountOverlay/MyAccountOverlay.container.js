@@ -48,15 +48,12 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     forgotPassword: options => MyAccountDispatcher.then(
-        /** @namespace Component/MyAccountOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
     ),
     createAccount: options => MyAccountDispatcher.then(
-        /** @namespace Component/MyAccountOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     ),
     signIn: options => MyAccountDispatcher.then(
-        /** @namespace Component/MyAccountOverlay/Container/then */
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),

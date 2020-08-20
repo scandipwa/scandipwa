@@ -36,7 +36,6 @@ export const mapStateToProps = state => ({
 /** @namespace Component/CategoryProductList/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     requestProductList: options => ProductListDispatcher.then(
-        /** @namespace Component/CategoryProductList/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     updateLoadStatus: isLoading => dispatch(updateLoadStatus(isLoading))

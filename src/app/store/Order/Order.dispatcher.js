@@ -20,11 +20,11 @@ export class OrderDispatcher {
         const query = OrderQuery.getOrderListQuery();
 
         return fetchQuery(query).then(
-            /** @namespace Store/Order/Dispatcher/fetchQueryThen */
+            /** @namespace Store/Order/Dispatcher/requestOrdersFetchQueryThen */
             ({ getOrderList: orders }) => {
                 dispatch(getOrderList(orders, false));
             },
-            /** @namespace Store/Order/Dispatcher/fetchQueryThen */
+            /** @namespace Store/Order/Dispatcher/requestOrdersFetchQueryError */
             error => dispatch(showNotification('error', error[0].message))
         );
     }

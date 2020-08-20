@@ -57,7 +57,6 @@ export class ProductDispatcher extends QueryDispatcher {
         }, []);
 
         LinkedProductsDispatcher.then(
-            /** @namespace Store/Product/Dispatcher/then */
             ({ default: dispatcher }) => {
                 if (product_links.length > 0) {
                     dispatcher.handleData(dispatch, product_links);

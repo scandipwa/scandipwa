@@ -47,7 +47,6 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
-        /** @namespace Route/CartPage/Container/then */
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),

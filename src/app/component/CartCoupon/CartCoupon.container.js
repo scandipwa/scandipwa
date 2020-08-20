@@ -23,11 +23,9 @@ export const CartDispatcher = import(
 /** @namespace Component/CartCoupon/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     applyCouponToCart: couponCode => CartDispatcher.then(
-        /** @namespace Component/CartCoupon/Container/then */
         ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)
     ),
     removeCouponFromCart: () => CartDispatcher.then(
-        /** @namespace Component/CartCoupon/Container/then */
         ({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch)
     )
 });

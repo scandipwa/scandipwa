@@ -38,7 +38,6 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     getOrder: orderId => OrderDispatcher.then(
-        /** @namespace Component/MyAccountOrderPopup/Container/then */
         ({ default: dispatcher }) => dispatcher.getOrderById(dispatch, orderId)
     )
 });
@@ -99,14 +98,14 @@ export class MyAccountOrderPopupContainer extends PureComponent {
         const { payload: { order: { base_order_info: { id } } } } = this.props;
 
         fetchQuery(OrderQuery.getOrderByIdQuery(id)).then(
-            /** @namespace Component/MyAccountOrderPopup/Container/fetchQueryThen */
+            /** @namespace Component/MyAccountOrderPopup/Container/requestOrderDetailsFetchQueryThen */
             ({ getOrderById: rawOrder }) => {
                 const { order_products = [] } = rawOrder;
                 const indexedProducts = getIndexedProducts(order_products);
                 const order = { ...rawOrder, order_products: indexedProducts };
                 this.setState({ order, isLoading: false });
             },
-            /** @namespace Component/MyAccountOrderPopup/Container/fetchQueryThen */
+            /** @namespace Component/MyAccountOrderPopup/Container/requestOrderDetailsFetchQueryCatch */
             () => {
                 showNotification('error', __('Error getting Order by ID!'));
                 this.setState({ isLoading: false });

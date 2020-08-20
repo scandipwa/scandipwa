@@ -35,11 +35,9 @@ export const mapStateToProps = state => ({
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     addProductToWishlist: wishlistItem => WishlistDispatcher.then(
-        /** @namespace Component/ProductWishlistButton/Container/then */
         ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem)
     ),
     removeProductFromWishlist: options => WishlistDispatcher.then(
-        /** @namespace Component/ProductWishlistButton/Container/then */
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message))

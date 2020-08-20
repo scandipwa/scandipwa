@@ -56,25 +56,20 @@ export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: options => CategoryDispatcher.then(
-        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
-        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
     requestProductListInfo: options => ProductListInfoDispatcher.then(
-        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: options => NoMatchDispatcher.then(
-        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
     ),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateMetaFromCategory: category => MetaDispatcher.then(
-        /** @namespace Route/SearchPage/Container/then */
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
     ),
     updateCurrentCategory: category => dispatch(updateCurrentCategory(category)),

@@ -91,7 +91,7 @@ export class CategoryPriceRangeContainer extends PureComponent {
     }
 }
 
-/** @namespace Component/CategoryPriceRange/Container/mapStateToProps */
+/** @namespace Component/CategoryPriceRange/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = dispatch => ({});
 

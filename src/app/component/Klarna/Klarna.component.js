@@ -42,7 +42,6 @@ export class Klarna extends PureComponent {
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
         const guest_cart_id = CartDispatcher.then(
-            /** @namespace Component/Klarna/Component/then */
             ({ default: dispatcher }) => dispatcher._getGuestQuoteId
         )();
 

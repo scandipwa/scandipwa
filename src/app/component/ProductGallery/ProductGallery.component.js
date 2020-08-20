@@ -230,8 +230,7 @@ export class ProductGallery extends PureComponent {
      * @param media
      * @param index
      * @returns {null|*}
-     * @namespace Component/ProductGallery/Component
- */
+     */
     renderSlide(media, index) {
         const { media_type } = media;
 
