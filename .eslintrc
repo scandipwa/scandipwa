@@ -52,6 +52,7 @@
     "@scandipwa/scandipwa-guidelines/always-both-mappings": "error",
     "@scandipwa/scandipwa-guidelines/use-named-export": "error",
     "@scandipwa/scandipwa-guidelines/create-config-files": "error",
+    "@scandipwa/scandipwa-guidelines/no-duplicate-namespaces": "error",
     "simple-import-sort/sort": ["error", {
         "groups": [
             ["^\\u0000"], // side effect imports
