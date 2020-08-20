@@ -10,21 +10,22 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { shippingMethodsType } from 'Type/Checkout';
-import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { customerType } from 'Type/Account';
+import { shippingMethodsType } from 'Type/Checkout';
+import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/CheckoutShipping/Container */
-export class CheckoutShippingContainer extends ExtensiblePureComponent {
+export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
@@ -38,8 +39,8 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
         onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { shippingMethods } = props;
         const [selectedShippingMethod] = shippingMethods;
@@ -89,7 +90,6 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
         saveAddressInformation(data);
     }
 
-
     _getAddressById(addressId) {
         const { customer: { addresses } } = this.props;
         const address = addresses.find(({ id }) => id === addressId);
@@ -109,6 +109,6 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutShippingContainer);

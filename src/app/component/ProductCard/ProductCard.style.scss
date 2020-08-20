@@ -31,6 +31,7 @@
         padding: 1rem;
         display: flex;
         flex-wrap: wrap;
+        padding-top: 23px;
     }
 
     &-Name,
@@ -115,6 +116,14 @@
         }
     }
 
+    &-PriceBadge {
+        color: var(--secondary-dark-color);
+        margin-right: 5px;
+        font-size: 10px;
+        position: absolute;
+        top: 7px;
+    }
+
     &-Figure {
         flex-grow: 1;
     }
@@ -132,5 +141,11 @@
 
     p {
         margin-bottom: 0;
+    }
+
+    .TextPlaceholder,
+    .Image_isPlaceholder {
+        opacity: 0;
+        animation: appear 100ms 300ms forwards;
     }
 }

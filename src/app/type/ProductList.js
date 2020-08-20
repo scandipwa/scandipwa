@@ -125,6 +125,37 @@ export const OptionsType = PropTypes.arrayOf(
     })
 );
 
+export const ItemsType = PropTypes.arrayOf(PropTypes.shape({}));
+
+export const PagesType = PropTypes.objectOf(ItemsType);
+
+export const ItemOptionsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        can_change_quantity: PropTypes.bool,
+        id: PropTypes.number,
+        is_default: PropTypes.bool,
+        label: PropTypes.string,
+        position: PropTypes.number,
+        price: PropTypes.number,
+        price_type: PropTypes.string,
+        // eslint-disable-next-line no-use-before-define
+        product: PropTypes.shape({}),
+        quantity: PropTypes.number
+    })
+);
+
+export const ProductItemsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        option_id: PropTypes.number,
+        options: ItemOptionsType,
+        position: PropTypes.number,
+        required: PropTypes.bool,
+        sku: PropTypes.string,
+        title: PropTypes.string,
+        type: PropTypes.string
+    })
+);
+
 export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
@@ -156,16 +187,13 @@ export const ProductType = PropTypes.shape({
     quantity: PropTypes.number,
     review_summary: ReviewSummaryType,
     options: OptionsType,
+    items: ProductItemsType,
     reviews: ReviewsType
 });
 
 export const FilterType = PropTypes.objectOf(
     PropTypes.arrayOf(PropTypes.string)
 );
-
-export const ItemsType = PropTypes.arrayOf(ProductType);
-
-export const PagesType = PropTypes.objectOf(ItemsType);
 
 export const FilterInputType = PropTypes.shape({
     categoryIds: PropTypes.number,

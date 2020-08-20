@@ -10,26 +10,41 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'Util/Request';
-import { CartDispatcher } from 'Store/Cart';
-import { ProductType } from 'Type/ProductList';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import WishlistItem from './WishlistItem.component';
 
-export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
+import { showNotification } from 'Store/Notification/Notification.action';
+import { ProductType } from 'Type/ProductList';
+import { debounce } from 'Util/Request';
+
+import WishlistItem from './WishlistItem.component';
+import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+export const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
-    updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
-    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
+    addProductToCart: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
+    updateWishlistItem: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)
+    ),
+    removeFromWishlist: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+    )
 });
 
 /** @namespace Component/WishlistItem/Container */
-export class WishlistItemContainer extends ExtensiblePureComponent {
+export class WishlistItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,
@@ -68,7 +83,7 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
         };
     };
 
-    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
+    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
     _getParameters = () => {
         const { product } = this.props;
@@ -122,17 +137,17 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
 
         return addProductToCart({ product, quantity })
             .then(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => this.removeItem(id),
-                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartCatch */
                 () => this.showNotification('error', __('Error Adding Product To Cart'))
             )
             .then(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThenThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThen */
                 () => showNotification('success', __('Product Added To Cart'))
             )
             .catch(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThenThenCatch */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThenCatch */
                 () => this.showNotification('error', __('Error cleaning wishlist'))
             );
     }
@@ -162,6 +177,6 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistItemContainer);

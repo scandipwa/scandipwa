@@ -10,30 +10,41 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
+
+import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { ProductType } from 'Type/ProductList';
-import { showPopup } from 'Store/Popup';
-import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.component';
+
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
+export const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
+
 /** @namespace Component/MyAccountMyWishlist/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isWishlistLoading: state.WishlistReducer.isLoading
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
-    moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
-    showPopup: payload => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
-    showNotification: message => dispatch(showNotification('success', message))
+export const mapDispatchToProps = (dispatch) => ({
+    clearWishlist: () => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
+    ),
+    moveWishlistToCart: () => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)
+    ),
+    showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
+    showNotification: (message) => dispatch(showNotification('success', message))
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container */
-export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
+export class MyAccountMyWishlistContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         clearWishlist: PropTypes.func.isRequired,

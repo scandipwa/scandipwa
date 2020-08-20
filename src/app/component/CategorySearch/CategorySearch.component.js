@@ -9,14 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import './CategorySearch.style';
 
-export const CATEGORY_SEARCH_TIMEOUT = 500;
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { CATEGORY_SEARCH_TIMEOUT } from './CategorySearch.config';
 
 // TODO: add to template
 /** @namespace Component/CategorySearch/Component */
-export class CategorySearch extends ExtensiblePureComponent {
+export class CategorySearch extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
             PropTypes.string,
@@ -25,8 +27,8 @@ export class CategorySearch extends ExtensiblePureComponent {
         onChange: PropTypes.func.isRequired
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
         this.state = { value: decodeURIComponent(props.value) };
     }
 

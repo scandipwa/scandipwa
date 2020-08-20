@@ -9,27 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
+import { ADD_ADDRESS, ADDRESS_POPUP_ID } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { customerType } from 'Type/Account';
-import { ADDRESS_POPUP_ID, ADD_ADDRESS } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.component';
-import { showPopup } from 'Store/Popup';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 
 /** @namespace Component/MyAccountAddressBook/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/MyAccountAddressBook/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showPopup: (payload) => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
 });
 
 /** @namespace Component/MyAccountAddressBook/Container */
-export class MyAccountAddressBookContainer extends ExtensiblePureComponent {
+export class MyAccountAddressBookContainer extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         showPopup: PropTypes.func.isRequired

@@ -10,14 +10,15 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
+import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { shippingMethodsType } from 'Type/Checkout';
-import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
-export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
+export class CheckoutDeliveryOptionsContainer extends PureComponent {
     static propTypes = {
         onShippingMethodSelect: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired
@@ -35,8 +36,8 @@ export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
 
     dataMap = {};
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { shippingMethods } = props;
         this.state = { prevShippingMethods: shippingMethods };

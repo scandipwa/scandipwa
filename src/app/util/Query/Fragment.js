@@ -18,8 +18,8 @@ export class Fragment extends Field {
      * @param  {String} name Name of the Fragment
      * @memberof Fragment
      */
-    constructor(name) {
-        super(name);
+    __construct(name) {
+        super.__construct(name);
         this._name = name;
     }
 
@@ -43,7 +43,7 @@ export class Fragment extends Field {
         if (Object.keys(fieldList).length === 0) {
             return this.name;
         }
-        const output = Object.keys(fieldList).map(key => fieldList[key].toString());
+        const output = Object.keys(fieldList).map((key) => fieldList[key].toString());
         return `${ this._addFragmentSyntax() } { ${ output.join(', ') } }`;
     }
 }

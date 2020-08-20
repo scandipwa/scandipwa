@@ -9,42 +9,50 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { toggleBreadcrumbs, BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { CMS_PAGE } from 'Component/Header/Header.config';
+import CmsPageQuery from 'Query/CmsPage.query';
+import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { changeNavigationState } from 'Store/Navigation';
-import DataContainer from 'Util/Request/DataContainer';
+import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType, MatchType } from 'Type/Common';
-import { setBigOfflineNotice } from 'Store/Offline';
-import { CmsPageQuery } from 'Query';
-import { CMS_PAGE } from 'Component/Header';
-import { debounce } from 'Util/Request';
-import { updateMeta } from 'Store/Meta';
-import { getUrlParam } from 'Util/Url';
 import history from 'Util/History';
+import { debounce } from 'Util/Request';
+import DataContainer from 'Util/Request/DataContainer';
+import { appendWithStoreCode, getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
+import { LOADING_TIME } from './CmsPage.config';
+
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
 
 /** @namespace Route/CmsPage/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline
 });
 
 /** @namespace Route/CmsPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
-    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMeta: meta => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithCmsPage(breadcrumbs, dispatch)
+    ),
+    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
-        BreadcrumbsDispatcher.update([], dispatch);
+        BreadcrumbsDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.update([], dispatch)
+        );
         dispatch(toggleBreadcrumbs(isActive));
     }
 });
-
-export const LOADING_TIME = 300;
 
 /** @namespace Route/CmsPage/Container */
 export class CmsPageContainer extends DataContainer {
@@ -73,8 +81,8 @@ export class CmsPageContainer extends DataContainer {
         isLoading: true
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.updateBreadcrumbs();
     }
@@ -153,7 +161,10 @@ export class CmsPageContainer extends DataContainer {
         updateBreadcrumbs(page);
         updateMeta({ title: meta_title || title });
 
-        if (pathname !== '/') {
+        if (
+            pathname !== appendWithStoreCode('/')
+            && pathname !== '/'
+        ) {
             setHeaderState({
                 name: CMS_PAGE,
                 title: content_heading,

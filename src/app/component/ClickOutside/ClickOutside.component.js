@@ -9,16 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import {
     Children,
+    cloneElement,
     createRef,
-    cloneElement
+    PureComponent
 } from 'react';
-import PropTypes from 'prop-types';
+
 import { ChildrenType } from 'Type/Common';
 
 /** @namespace Component/ClickOutside/Component */
-export class ClickOutside extends ExtensiblePureComponent {
+export class ClickOutside extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func,
         children: ChildrenType
@@ -29,8 +31,8 @@ export class ClickOutside extends ExtensiblePureComponent {
         children: []
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { children } = this.props;
 

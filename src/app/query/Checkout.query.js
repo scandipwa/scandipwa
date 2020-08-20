@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
+import { Field } from 'Util/Query';
 
 /** @namespace Query/Checkout */
-export class CheckoutQuery extends ExtensibleClass {
+export class CheckoutQuery {
     getPaymentMethodsQuery(guestCartId) {
         const query = new Field('getPaymentMethods')
             .addFieldList(this._getPaymentMethodFields());
@@ -52,6 +52,13 @@ export class CheckoutQuery extends ExtensibleClass {
         return mutation;
     }
 
+    getSetBillingAddressOnCart(input) {
+        return new Field('s_setBillingAddressOnCart')
+            .addArgument('input', 'S_SetBillingAddressOnCartInput!', input)
+            .addField(this._getCartField())
+            .setAlias('billingAddress');
+    }
+
     getSetPaymentMethodOnCartMutation(input) {
         return new Field('s_setPaymentMethodOnCart')
             .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
@@ -88,7 +95,6 @@ export class CheckoutQuery extends ExtensibleClass {
             this._getTotalsField()
         ];
     }
-
 
     _getEstimatedShippingFields() {
         return [
@@ -164,31 +170,9 @@ export class CheckoutQuery extends ExtensibleClass {
 
     _getCartFieldList() {
         return [
-            this._getSelectedPaymentMethodField()
+            'id'
         ];
-    }
-
-    _getSelectedPaymentMethodField() {
-        return new Field('selected_payment_method')
-            .addFieldList([
-                'code',
-                'title',
-                'purchase_order_number'
-            ]);
-    }
-
-    _getAvailablePaymentMethodsField() {
-        return new Field('available_payment_methods')
-            .addFieldList([
-                'code',
-                'title'
-            ]);
-    }
-
-    _getAppliedCouponField() {
-        return new Field('applied_coupon')
-            .addField('code');
     }
 }
 
-export default new (CheckoutQuery)();
+export default new CheckoutQuery();

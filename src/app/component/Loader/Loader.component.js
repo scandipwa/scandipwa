@@ -9,8 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import './Loader.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 /**
  * Loader component
@@ -18,7 +20,7 @@ import './Loader.style';
  * @class Loader
  * @namespace Component/Loader/Component
  */
-export class Loader extends ExtensiblePureComponent {
+export class Loader extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired
     };

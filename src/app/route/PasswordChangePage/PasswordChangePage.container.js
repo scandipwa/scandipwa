@@ -10,30 +10,45 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { updateMeta } from 'Store/Meta';
-import { showNotification } from 'Store/Notification';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { showNotification } from 'Store/Notification/Notification.action';
+
 import PasswordChangePage from './PasswordChangePage.component';
 
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+        BreadcrumbsDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+        );
     },
     resetPassword(options) {
-        MyAccountDispatcher.resetPassword(options, dispatch);
+        MyAccountDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
+        );
     },
     updateCustomerPasswordResetStatus(options) {
-        MyAccountDispatcher.updateCustomerPasswordResetStatus(options, dispatch);
+        MyAccountDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateCustomerPasswordResetStatus(options, dispatch)
+        );
     },
     showNotification(type, message) {
         dispatch(showNotification(type, message));
@@ -41,7 +56,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 /** @namespace Route/PasswordChangePage/Container */
-export class PasswordChangePageContainer extends ExtensiblePureComponent {
+export class PasswordChangePageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired
     };

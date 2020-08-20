@@ -9,14 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import Loader from 'Component/Loader';
 import './Braintree.style';
 
-export const BRAINTREE_CONTAINER_ID = 'BRAINTREE_CONTAINER_ID';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Loader from 'Component/Loader';
+
+import { BRAINTREE_CONTAINER_ID } from './Braintree.config';
 
 /** @namespace Component/Braintree/Component */
-export class Braintree extends ExtensiblePureComponent {
+export class Braintree extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired
     };

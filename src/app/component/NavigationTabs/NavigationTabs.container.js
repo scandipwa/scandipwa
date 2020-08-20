@@ -11,35 +11,35 @@
 
 import { connect } from 'react-redux';
 
+import { CART, MY_ACCOUNT } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import browserHistory from 'Util/History';
-
 import { debounce } from 'Util/Request';
-import { CART, MY_ACCOUNT } from 'Component/Header/Header.component';
+import { appendWithStoreCode } from 'Util/Url';
 
-import NavigationTabs, {
+import NavigationTabs from './NavigationTabs.component';
+import {
     ACCOUNT_TAB,
     CART_TAB,
-    HOME_TAB,
-    MENU_TAB,
-    CHECKOUT_TAB
-} from './NavigationTabs.component';
+    CHECKOUT_TAB, HOME_TAB,
+    MENU_TAB
+} from './NavigationTabs.config';
 
 /** @namespace Component/NavigationTabs/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals
 });
 
 /** @namespace Component/NavigationTabs/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+export const mapDispatchToProps = (dispatch) => ({
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+    setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
 });
@@ -150,9 +150,15 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     };
 
     onMenuButtonClick() {
-        if (this.lastSeenMenu <= 0) {
-            browserHistory.push('/menu');
-        } else {
+        const { navigationState: { name } } = this.props;
+
+        // TODO: resolve issue when coming from CMS page
+
+        if (name === MENU_TAB) { // if we already are in menu
+            browserHistory.push(appendWithStoreCode('/menu'));
+        } else if (this.lastSeenMenu <= 0) { // if we have not yet seen menu
+            browserHistory.push(appendWithStoreCode('/menu'));
+        } else { // otherwise go to last remembered category
             browserHistory.go(-this.lastSeenMenu);
         }
 
@@ -162,16 +168,16 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     onMinicartButtonClick() {
         const { pathname } = location;
 
-        if (pathname !== `/${ CART }`) {
-            browserHistory.push(`/${ CART }`);
+        if (pathname !== appendWithStoreCode(`/${ CART }`)) {
+            browserHistory.push(appendWithStoreCode(`/${ CART }`));
         }
     }
 
     onMyAccountButtonClick() {
         const { pathname } = location;
 
-        if (pathname !== `/${ MY_ACCOUNT }`) {
-            browserHistory.push(`/${ MY_ACCOUNT }`);
+        if (pathname !== appendWithStoreCode(`/${ MY_ACCOUNT }`)) {
+            browserHistory.push(appendWithStoreCode(`/${ MY_ACCOUNT }`));
         }
     }
 
@@ -219,10 +225,13 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         const { pathname } = location;
 
-        browserHistory.push('/');
+        browserHistory.push(appendWithStoreCode('/'));
         hideActiveOverlay();
 
-        if (pathname === '/') {
+        if (
+            pathname === appendWithStoreCode('/')
+            || pathname === '/'
+        ) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'

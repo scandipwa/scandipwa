@@ -9,20 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { TotalsType } from 'Type/MiniCart';
-import CartItem from 'Component/CartItem';
-import { formatCurrency, roundPrice } from 'Util/Price';
 import './CheckoutOrderSummary.style';
-import {
-    SHIPPING_STEP
-} from 'Route/Checkout/Checkout.component';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CartItem from 'Component/CartItem';
+import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { TotalsType } from 'Type/MiniCart';
+import { formatCurrency, roundPrice } from 'Util/Price';
 
 /**
  * Checkout Order Summary component
  * @namespace Component/CheckoutOrderSummary/Component
  */
-export class CheckoutOrderSummary extends ExtensiblePureComponent {
+export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         paymentTotals: TotalsType,

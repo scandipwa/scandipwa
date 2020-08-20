@@ -9,27 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { showPopup } from 'Store/Popup';
 
-import { goToPreviousNavigationState } from 'Store/Navigation';
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showPopup } from 'Store/Popup/Popup.action';
 import isMobile from 'Util/Mobile';
 
-import NewVersionPopup, {
-    NEW_VERSION_POPUP_ID
-} from './NewVersionPopup.component';
+import NewVersionPopup from './NewVersionPopup.component';
+import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
 
 /** @namespace Component/NewVersionPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
+export const mapDispatchToProps = (dispatch) => ({
+    showPopup: (payload) => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 /** @namespace Component/NewVersionPopup/Container */
-export class NewVersionPopupContainer extends ExtensiblePureComponent {
+export class NewVersionPopupContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired
@@ -71,6 +70,6 @@ export class NewVersionPopupContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/NewVersionPopup/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewVersionPopupContainer);

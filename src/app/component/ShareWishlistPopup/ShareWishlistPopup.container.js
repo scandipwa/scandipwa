@@ -9,24 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { showPopup } from 'Store/Popup';
-import { showNotification } from 'Store/Notification';
-import { WishlistQuery } from 'Query';
+
+import WishlistQuery from 'Query/Wishlist.query';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { fetchMutation } from 'Util/Request';
+
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 
 /** @namespace Component/ShareWishlistPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showNotification: message => dispatch(showNotification('success', __(message))),
-    showError: message => dispatch(showNotification('error', __(message))),
+export const mapDispatchToProps = (dispatch) => ({
+    showNotification: (message) => dispatch(showNotification('success', __(message))),
+    showError: (message) => dispatch(showNotification('error', __(message))),
     hidePopup: () => dispatch(showPopup('', {}))
 });
 
 /** @namespace Component/ShareWishlistPopup/Container/shareWishlistPopupContainer */
-export class ShareWishlistPopupContainer extends ExtensiblePureComponent {
+export class ShareWishlistPopupContainer extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         hidePopup: PropTypes.func.isRequired,
@@ -37,15 +39,15 @@ export class ShareWishlistPopupContainer extends ExtensiblePureComponent {
         const { hidePopup, showError, showNotification } = this.props;
         const { message, emails: initialEmails } = fields;
 
-        const emails = initialEmails.split(',').map(email => email.trim());
+        const emails = initialEmails.split(',').map((email) => email.trim());
 
         fetchMutation(WishlistQuery.getShareWishlistMutation({ message, emails })).then(
-            /** @namespace Component/ShareWishlistPopup/Container/fetchMutationThen */
+            /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationThen */
             () => {
                 showNotification('Wishlist has been shared');
                 hidePopup();
             },
-            /** @namespace Component/ShareWishlistPopup/Container/fetchMutationThen */
+            /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationCatch */
             ([{ message }]) => showError(message)
         );
     };
@@ -64,4 +66,8 @@ export class ShareWishlistPopupContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ShareWishlistPopupContainer);
+/** @namespace Component/ShareWishlistPopup/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShareWishlistPopupContainer);

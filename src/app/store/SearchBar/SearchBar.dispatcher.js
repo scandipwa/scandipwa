@@ -9,9 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ProductListQuery from 'Query/ProductList.query';
 import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
-import { updateSearchBar, updateLoadStatus, clearSearchResults } from './SearchBar.action';
+
+import { clearSearchResults, updateLoadStatus, updateSearchBar } from './SearchBar.action';
 
 /**
  * Search Bar Dispatcher
@@ -20,8 +21,8 @@ import { updateSearchBar, updateLoadStatus, clearSearchResults } from './SearchB
  * @namespace Store/SearchBar/Dispatcher
  */
 export class SearchBarDispatcher extends QueryDispatcher {
-    constructor() {
-        super('SearchBar');
+    __construct() {
+        super.__construct('SearchBar');
     }
 
     onSuccess(data, dispatch) {
@@ -47,4 +48,4 @@ export class SearchBarDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (SearchBarDispatcher)();
+export default new SearchBarDispatcher();

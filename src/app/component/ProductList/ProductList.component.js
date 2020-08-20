@@ -9,26 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import debounceRender from 'react-debounce-render';
+import './ProductList.style';
+
 import PropTypes from 'prop-types';
-import { PagesType, FilterType } from 'Type/ProductList';
+import { PureComponent } from 'react';
+
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
 import { MixType } from 'Type/Common';
-import './ProductList.style';
+import { FilterType, PagesType } from 'Type/ProductList';
 
-export const observerThreshold = 10;
-
-export const INTERSECTION_RATIO = 0.5;
-
-export const RENDER_PAGE_FREQUENCY = 150; // (ms)
+import { observerThreshold } from './ProductList.config';
 
 /**
  * List of category products
  * @class ProductList
  * @namespace Component/ProductList/Component
  */
-export class ProductList extends ExtensiblePureComponent {
+export class ProductList extends PureComponent {
     static propTypes = {
         title: PropTypes.string,
         pages: PagesType.isRequired,
@@ -100,7 +98,7 @@ export class ProductList extends ExtensiblePureComponent {
                 const { currentPage } = this.props;
 
                 entries.forEach(({ target, isIntersecting }) => {
-                    const page = +Object.keys(this.nodes).find(node => this.nodes[node] === target);
+                    const page = +Object.keys(this.nodes).find((node) => this.nodes[node] === target);
                     const index = this.pagesIntersecting.indexOf(page);
 
                     if (isIntersecting && index === -1) {
@@ -337,7 +335,4 @@ export class ProductList extends ExtensiblePureComponent {
     }
 }
 
-export default debounceRender(
-    ProductList,
-    RENDER_PAGE_FREQUENCY, { leading: false }
-);
+export default ProductList;

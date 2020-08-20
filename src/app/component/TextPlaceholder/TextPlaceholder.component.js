@@ -9,16 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { MixType } from 'Type/Common';
 import './TextPlaceholder.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { MixType } from 'Type/Common';
 
 /**
  * Text placeholder
  * @class TextPlaceholder
  * @namespace Component/TextPlaceholder/Component
  */
-export class TextPlaceholder extends ExtensiblePureComponent {
+export class TextPlaceholder extends PureComponent {
     static propTypes = {
         content: PropTypes.oneOfType([
             PropTypes.string,

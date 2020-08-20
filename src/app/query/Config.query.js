@@ -12,7 +12,7 @@
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Config */
-export class ConfigQuery extends ExtensibleClass {
+export class ConfigQuery {
     getStoreListField() {
         return new Field('storeList')
             .addFieldList(this._getStoreListFields());
@@ -35,12 +35,12 @@ export class ConfigQuery extends ExtensibleClass {
         ];
     }
 
-
     _getStoreListFields() {
         return [
             'name',
             'is_active',
             'base_url',
+            'base_link_url',
             'code'
         ];
     }
@@ -82,9 +82,10 @@ export class ConfigQuery extends ExtensibleClass {
             'reviews_allow_guest',
             'demo_notice',
             'guest_checkout',
-            'is_email_confirmation_required'
+            'is_email_confirmation_required',
+            'base_link_url'
         ];
     }
 }
 
-export default new (ConfigQuery)();
+export default new ConfigQuery();

@@ -16,7 +16,7 @@
  * @class CSS
  * @namespace Util/BrowserDatabase
  */
-export class BrowserDatabase extends ExtensibleClass {
+export class BrowserDatabase {
     /**
      * Loads data from browser storage
      * @param {String} location Name of the local storage
@@ -66,4 +66,4 @@ export class BrowserDatabase extends ExtensibleClass {
     }
 }
 
-export default new (BrowserDatabase)();
+export default new BrowserDatabase();

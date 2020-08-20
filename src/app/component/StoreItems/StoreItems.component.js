@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
-import PropTypes from 'prop-types';
-
 import './StoreItems.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 /** @namespace Component/StoreItems/Component */
-class StoreItems extends ExtensiblePureComponent {
+export class StoreItems extends PureComponent {
     static propTypes = {
         item: PropTypes.object.isRequired,
         getStoreCode: PropTypes.func.isRequired

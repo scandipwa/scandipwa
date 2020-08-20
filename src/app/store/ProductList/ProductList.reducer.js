@@ -11,9 +11,10 @@
 
 import {
     APPEND_PAGE,
-    UPDATE_PRODUCT_LIST_ITEMS,
-    UPDATE_LOAD_STATUS
-} from 'Store/ProductList';
+    UPDATE_LOAD_STATUS,
+    UPDATE_PAGE_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_ITEMS
+} from 'Store/ProductList/ProductList.action';
 import { getIndexedProducts } from 'Util/Product';
 
 /** @namespace Store/ProductList/Reducer/getInitialState */
@@ -21,7 +22,8 @@ export const getInitialState = () => ({
     pages: {},
     totalItems: 0,
     totalPages: 0,
-    isLoading: true
+    isLoading: true,
+    currentArgs: {}
 });
 
 export const defaultConfig = {
@@ -39,13 +41,15 @@ export const ProductListReducer = (
         total_pages: totalPages,
         total_count: totalItems,
         currentPage,
-        isLoading
+        isLoading,
+        args: currentArgs
     } = action;
 
     switch (type) {
     case APPEND_PAGE:
         return {
             ...state,
+            isPageLoading: false,
             pages: {
                 ...state.pages,
                 [currentPage]: getIndexedProducts(initialItems)
@@ -55,10 +59,17 @@ export const ProductListReducer = (
     case UPDATE_PRODUCT_LIST_ITEMS:
         return {
             ...state,
+            currentArgs,
             isLoading: false,
             totalItems,
             totalPages,
             pages: { [currentPage]: getIndexedProducts(initialItems) }
+        };
+
+    case UPDATE_PAGE_LOAD_STATUS:
+        return {
+            ...state,
+            isPageLoading: true
         };
 
     case UPDATE_LOAD_STATUS:

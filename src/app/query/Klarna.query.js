@@ -12,7 +12,7 @@
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Klarna */
-export class KlarnaQuery extends ExtensibleClass {
+export class KlarnaQuery {
     getCreateKlarnaTokenMutation(input) {
         return new Field('createKlarnaToken')
             .addArgument('input', 'KlarnaTokenInput!', input)
@@ -20,4 +20,4 @@ export class KlarnaQuery extends ExtensibleClass {
     }
 }
 
-export default new (KlarnaQuery)();
+export default new KlarnaQuery();

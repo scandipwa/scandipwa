@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { showNotification } from 'Store/Notification';
+import ReviewQuery from 'Query/Review.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { fetchMutation } from 'Util/Request';
-import { ReviewQuery } from 'Query';
 
 /**
  * Product Review Dispatcher
  * @class WishlistDispatcher
  * @namespace Store/Review/Dispatcher
  */
-export class ReviewDispatcher extends ExtensibleClass {
+export class ReviewDispatcher {
     prepareRatingData(reviewItem) {
         const { rating_data } = reviewItem;
 
         return Object.keys(rating_data).map(
-            key => ({
+            (key) => ({
                 rating_id: +key,
                 option_id: rating_data[key]
             })
@@ -38,13 +38,13 @@ export class ReviewDispatcher extends ExtensibleClass {
         return fetchMutation(ReviewQuery.getAddProductReviewMutation(
             reviewItem
         )).then(
-            /** @namespace Store/Review/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Review/Dispatcher/submitProductReviewFetchMutationThen */
             () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
-            /** @namespace Store/Review/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Review/Dispatcher/submitProductReviewFetchMutationError */
             // eslint-disable-next-line no-console
-            error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
+            (error) => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
         );
     }
 }
 
-export default new (ReviewDispatcher)();
+export default new ReviewDispatcher();

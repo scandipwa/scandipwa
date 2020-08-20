@@ -10,24 +10,25 @@
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import PropTypes from 'prop-types';
-
-import { ProductType } from 'Type/ProductList';
-import ProductLinks from 'Component/ProductLinks';
-import ProductGallery from 'Component/ProductGallery';
-import ProductActions from 'Component/ProductActions';
-import ContentWrapper from 'Component/ContentWrapper';
-import ProductReviews from 'Component/ProductReviews';
-import ProductInformation from 'Component/ProductInformation';
-import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import isMobile from 'Util/Mobile';
-import { SIMPLE } from 'Util/Product';
-import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-
 import './ProductPage.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import ProductActions from 'Component/ProductActions';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import ProductGallery from 'Component/ProductGallery';
+import ProductInformation from 'Component/ProductInformation';
+import ProductLinks from 'Component/ProductLinks';
+import ProductReviews from 'Component/ProductReviews';
+import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { ProductType } from 'Type/ProductList';
+import isMobile from 'Util/Mobile';
+import { SIMPLE } from 'Util/Product';
+
 /** @namespace Route/ProductPage/Component */
-export class ProductPage extends ExtensiblePureComponent {
+export class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -37,7 +38,9 @@ export class ProductPage extends ExtensiblePureComponent {
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        customizableOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.object.isRequired,
+        setBundlePrice: PropTypes.func.isRequired,
+        selectedBundlePrice: PropTypes.number.isRequired
     };
 
     renderProductPageContent() {
@@ -50,7 +53,9 @@ export class ProductPage extends ExtensiblePureComponent {
             productOrVariant,
             areDetailsLoaded,
             getSelectedCustomizableOptions,
-            customizableOptionsData
+            productOptionsData,
+            setBundlePrice,
+            selectedBundlePrice
         } = this.props;
 
         return (
@@ -68,7 +73,9 @@ export class ProductPage extends ExtensiblePureComponent {
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-                  customizableOptionsData={ customizableOptionsData }
+                  productOptionsData={ productOptionsData }
+                  setBundlePrice={ setBundlePrice }
+                  selectedBundlePrice={ selectedBundlePrice }
                 />
             </>
         );
@@ -77,7 +84,8 @@ export class ProductPage extends ExtensiblePureComponent {
     renderCustomizableOptions() {
         const {
             dataSource: { type_id, options },
-            getSelectedCustomizableOptions
+            getSelectedCustomizableOptions,
+            productOptionsData
         } = this.props;
 
         if (!isMobile.any() || type_id !== SIMPLE) {
@@ -88,6 +96,7 @@ export class ProductPage extends ExtensiblePureComponent {
             <ProductCustomizableOptions
               options={ options || [] }
               getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+              productOptionsData={ productOptionsData }
             />
         );
     }

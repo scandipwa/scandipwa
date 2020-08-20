@@ -1,9 +1,10 @@
-
-import PropTypes from 'prop-types';
 import './InstallPromptAndroid.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 /** @namespace Component/InstallPromptAndroid/Component */
-export class InstallPromptAndroid extends ExtensiblePureComponent {
+export class InstallPromptAndroid extends PureComponent {
     static propTypes = {
         handleBannerClose: PropTypes.func.isRequired,
         handleAppInstall: PropTypes.func.isRequired
@@ -17,6 +18,7 @@ export class InstallPromptAndroid extends ExtensiblePureComponent {
               block="InstallPromptAndroid"
               elem="Close"
               onClick={ handleBannerClose }
+              aria-label={ __('Close') }
             />
         );
     }

@@ -9,22 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import Popup from 'Component/Popup';
-import { ProductType } from 'Type/ProductList';
-import ProductReviewList from 'Component/ProductReviewList';
-import ProductReviewForm from 'Component/ProductReviewForm';
-import ExpandableContent from 'Component/ExpandableContent';
-import ProductReviewRating from 'Component/ProductReviewRating';
-
 import './ProductReviews.style';
-import ContentWrapper from 'Component/ContentWrapper';
 
-export const REVIEW_POPUP_ID = 'REVIEW_POPUP_ID';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import Popup from 'Component/Popup';
+import ProductReviewForm from 'Component/ProductReviewForm';
+import ProductReviewList from 'Component/ProductReviewList';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import { ProductType } from 'Type/ProductList';
+
+import { REVIEW_POPUP_ID } from './ProductReviews.config';
 
 /** @namespace Component/ProductReviews/Component */
-export class ProductReviews extends ExtensiblePureComponent {
+export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         showPopup: PropTypes.func.isRequired,
@@ -95,6 +96,7 @@ export class ProductReviews extends ExtensiblePureComponent {
         const STARS_COUNT = 5;
         const PERCENT = 100;
 
+        // eslint-disable-next-line no-mixed-operators
         const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
 
         if (!review_count) {
@@ -167,9 +169,9 @@ export class ProductReviews extends ExtensiblePureComponent {
             review_summary: { review_count } = {}
         } = product;
 
-        if (!areDetailsLoaded) {
-            return null;
-        }
+        const heading = areDetailsLoaded
+            ? __('Product reviews (%s)', review_count || '0')
+            : '';
 
         return (
             <ContentWrapper
@@ -178,8 +180,8 @@ export class ProductReviews extends ExtensiblePureComponent {
               wrapperMix={ { block: 'ProductReviews', elem: 'Wrapper' } }
             >
                 <ExpandableContent
-                  mix={ { block: 'ProductReviews' } }
-                  heading={ __('Product reviews (%s)', review_count || '0') }
+                  mix={ { block: 'ProductReviews', elem: 'Content' } }
+                  heading={ heading }
                 >
                     { this.renderSummary() }
                     { this.renderList() }

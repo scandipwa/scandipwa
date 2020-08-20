@@ -9,32 +9,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
+import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
-import { changeNavigationState } from 'Store/Navigation';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { showNotification } from 'Store/Notification';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
-import isMobile from 'Util/Mobile';
 import history from 'Util/History';
+import isMobile from 'Util/Mobile';
 
-import MyAccountOverlay, {
-    STATE_SIGN_IN,
-    STATE_FORGOT_PASSWORD,
-    STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_CREATE_ACCOUNT,
-    STATE_LOGGED_IN,
+import MyAccountOverlay from './MyAccountOverlay.component';
+import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    STATE_CONFIRM_EMAIL
-} from './MyAccountOverlay.component';
+    STATE_CONFIRM_EMAIL, STATE_CREATE_ACCOUNT, STATE_FORGOT_PASSWORD,
+    STATE_FORGOT_PASSWORD_SUCCESS,
+    STATE_LOGGED_IN, STATE_SIGN_IN
+} from './MyAccountOverlay.config';
+
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 /** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
@@ -42,22 +45,29 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
-    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
-    signIn: options => MyAccountDispatcher.signIn(options, dispatch),
+    forgotPassword: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
+    ),
+    createAccount: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
+    ),
+    signIn: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-    setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
+    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
-export class MyAccountOverlayContainer extends ExtensiblePureComponent {
+export class MyAccountOverlayContainer extends PureComponent {
     static propTypes = {
         forgotPassword: PropTypes.func.isRequired,
         signIn: PropTypes.func.isRequired,
         isPasswordForgotSend: PropTypes.bool.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
         showNotification: PropTypes.func.isRequired,
         createAccount: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
@@ -86,8 +96,8 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         onVisible: this.onVisible.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.state = this.redirectOrGetState(props);
     }

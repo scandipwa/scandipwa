@@ -10,9 +10,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { listenForBroadCast, executeGet } from 'Util/Request/Request';
-import { prepareQuery, Field } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
+import { Field, prepareQuery } from 'Util/Query';
+import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
 export const ONE_MONTH_IN_SECONDS = 2592000;
 export const FIVE_MINUTES_IN_SECONDS = 300;
@@ -23,15 +23,15 @@ export const FIVE_MINUTES_IN_SECONDS = 300;
  * @class QueryDispatcher
  * @namespace Util/Request/QueryDispatcher
  */
-export class QueryDispatcher extends ExtensibleClass {
+export class QueryDispatcher {
     /**
      * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
      * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
      * @memberof QueryDispatcher
      */
-    constructor(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
-        super();
+    __construct(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
+        super.__construct();
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;
@@ -62,24 +62,24 @@ export class QueryDispatcher extends ExtensibleClass {
             new Promise((resolve, reject) => {
                 executeGet(prepareQuery(queries), name, cacheTTL)
                     .then(
-                        /** @namespace Util/Request/executeGetThen */
-                        data => resolve(data),
-                        /** @namespace Util/Request/executeGetThen */
-                        error => reject(error)
+                        /** @namespace Util/Request/QueryDispatcher/handleData/executeGetThen */
+                        (data) => resolve(data),
+                        /** @namespace Util/Request/QueryDispatcher/handleData/executeGetError */
+                        (error) => reject(error)
                     );
             })
         );
 
         this.promise.promise.then(
-            /** @namespace Util/Request/then */
-            data => this.onSuccess(data, dispatch, options),
-            /** @namespace Util/Request/then */
-            error => this.onError(error, dispatch, options),
+            /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseThen */
+            (data) => this.onSuccess(data, dispatch, options),
+            /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseError */
+            (error) => this.onError(error, dispatch, options),
         );
 
         listenForBroadCast(name).then(
-            /** @namespace Util/Request/listenForBroadCastThen */
-            data => this.onUpdate(data, dispatch, options),
+            /** @namespace Util/Request/QueryDispatcher/handleData/listenForBroadCastThen */
+            (data) => this.onUpdate(data, dispatch, options),
         );
     }
 

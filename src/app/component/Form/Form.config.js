@@ -16,22 +16,27 @@ export const MIN_PASSWORD_LENGTH = 8;
 
 /** @namespace Component/Form/Config/validateEmail */
 export const validateEmail = ({ value }) => value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+
 /** @namespace Component/Form/Config/validateEmails */
-export const validateEmails = ({ value }) => value.split(',').every(email => validateEmail({ value: email.trim() }));
+export const validateEmails = ({ value }) => value.split(',').every((email) => validateEmail({ value: email.trim() }));
+
 /** @namespace Component/Form/Config/validatePassword */
-// eslint-disable-next-line no-useless-escape
-export const validatePassword = ({ value }) => value.match(/^((?=.*[A-Z])(?=.*[a-z])(?=.*\d)|(?=.*[a-z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*[a-z])(?=.*[\$\%\&])).{8,16}$/);
+export const validatePassword = ({ value }) => value.length >= MIN_PASSWORD_LENGTH;
+
 /** @namespace Component/Form/Config/validateTelephone */
 export const validateTelephone = ({ value }) => value.length > 0 && value.match(/^\+(?:[0-9-] ?){6,14}[0-9]$/);
+
 /** @namespace Component/Form/Config/isNotEmpty */
-export const isNotEmpty = ({ value }) => value.length > 0;
+export const isNotEmpty = ({ value }) => value.trim().length > 0;
+
 /** @namespace Component/Form/Config/validatePasswordMatch */
 export const validatePasswordMatch = ({ value }, { password }) => {
     const { current: { value: passwordValue } } = password || { current: {} };
     return value === passwordValue;
 };
 
-export default {
+/** @namespace Component/Form/Config */
+export const formConfig = () => ({
     email: {
         validate: validateEmail,
         message: __('Email is invalid.')
@@ -56,4 +61,6 @@ export default {
         validate: validatePasswordMatch,
         message: __('Password does not match.')
     }
-};
+});
+
+export default formConfig();

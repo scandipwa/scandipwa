@@ -10,35 +10,43 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { MyAccountQuery } from 'Query';
-import { hideActiveOverlay } from 'Store/Overlay';
-import { fetchMutation } from 'Util/Request';
-import { addressType } from 'Type/Account';
-import { showNotification } from 'Store/Notification';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { goToPreviousNavigationState } from 'Store/Navigation';
+import MyAccountQuery from 'Query/MyAccount.query';
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import { addressType } from 'Type/Account';
+import { fetchMutation } from 'Util/Request';
 
-import MyAccountAddressPopup, { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.component';
+import MyAccountAddressPopup from './MyAccountAddressPopup.component';
+import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';
+
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[ADDRESS_POPUP_ID] || {}
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
-    showSuccessNotification: message => dispatch(showNotification('success', message)),
-    updateCustomerDetails: () => MyAccountDispatcher.requestCustomerData(dispatch),
+    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    updateCustomerDetails: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+    ),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container */
-export class MyAccountAddressPopupContainer extends ExtensiblePureComponent {
+export class MyAccountAddressPopupContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         updateCustomerDetails: PropTypes.func.isRequired,

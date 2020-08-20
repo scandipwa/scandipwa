@@ -15,15 +15,15 @@
  * @extends Field
  * @namespace Util/Query/Field
  */
-export class Field extends ExtensibleClass {
+export class Field {
     /**
      * Class constructor
      *
      * @param  {String} name Name of the query from Schema
      * @memberof Query
      */
-    constructor(name) {
-        super();
+    __construct(name) {
+        super.__construct();
         if (!name || typeof name !== 'string') {
             throw new Error('Field name must be non-empty string');
         }
@@ -36,7 +36,6 @@ export class Field extends ExtensibleClass {
         this._argumentDefinitions = [];
         this._component = 'query';
     }
-
 
     /**
      * @returns {String|string}
@@ -87,7 +86,7 @@ export class Field extends ExtensibleClass {
             throw new Error('Argument must be array');
         }
 
-        fieldList.forEach(field => this.addField(field));
+        fieldList.forEach((field) => this.addField(field));
         return this;
     }
 
@@ -274,7 +273,6 @@ export class Field extends ExtensibleClass {
     _aliasToString() {
         return this._alias ? `${ this._alias }:` : this._alias;
     }
-
 
     /**
      * Formats query selection elements as a string

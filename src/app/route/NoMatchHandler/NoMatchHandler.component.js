@@ -10,12 +10,14 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import NoMatch from 'Route/NoMatch';
-import { LocationType } from 'Type/Router';
 import { ChildrenType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
 
 /** @namespace Route/NoMatchHandler/Component */
-export class NoMatchHandler extends ExtensiblePureComponent {
+export class NoMatchHandler extends PureComponent {
     static propTypes = {
         children: ChildrenType.isRequired,
         noMatch: PropTypes.bool.isRequired,

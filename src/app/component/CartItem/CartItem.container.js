@@ -10,25 +10,36 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { objectToUri } from 'Util/Url';
-import { CartDispatcher } from 'Store/Cart';
+import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
+import { objectToUri } from 'Util/Url';
 
-import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
 
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-    changeItemQty: options => CartDispatcher.changeItemQty(dispatch, options),
-    removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
+    changeItemQty: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)
+    ),
+    removeProduct: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
+    )
 });
 
 /** @namespace Component/CartItem/Container */
-export class CartItemContainer extends ExtensiblePureComponent {
+export class CartItemContainer extends PureComponent {
     static propTypes = {
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,
@@ -50,7 +61,7 @@ export class CartItemContainer extends ExtensiblePureComponent {
 
     componentWillUnmount() {
         if (this.handlers.length) {
-            [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+            [].forEach.call(this.handlers, (cancelablePromise) => cancelablePromise.cancel());
         }
     }
 
@@ -163,7 +174,8 @@ export class CartItemContainer extends ExtensiblePureComponent {
 
         if (type_id !== 'configurable') {
             return {
-                pathname: url
+                pathname: url,
+                state: { product }
             };
         }
 
@@ -207,6 +219,6 @@ export class CartItemContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartItemContainer);

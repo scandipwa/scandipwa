@@ -9,30 +9,53 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
-
-import CmsPage from 'Route/CmsPage';
-import Footer from 'Component/Footer';
-import InstallPrompt from 'Component/InstallPrompt';
-
 import './HomePage.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+
+import Footer from 'Component/Footer';
+import InstallPrompt from 'Component/InstallPrompt';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+import CmsPage from 'Route/CmsPage';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+
 /** @namespace Route/HomePage/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 
 /** @namespace Route/HomePage/Container */
-export const HomePageContainer = props => (
-    <div block="HomePage">
-        <InstallPrompt />
-        <CmsPage { ...props } isBreadcrumbsActive={ false } />
-        <Footer isVisibleOnMobile />
-    </div>
-);
+export const mapDispatchToProps = (dispatch) => ({
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+});
 
 /** @namespace Route/HomePage/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export class HomePageContainer extends PureComponent {
+    static propTypes = {
+        changeHeaderState: PropTypes.func.isRequired
+    };
+
+    componentDidMount() {
+        const { changeHeaderState } = this.props;
+
+        changeHeaderState({
+            name: DEFAULT_STATE_NAME,
+            isHiddenOnMobile: true
+        });
+    }
+
+    render() {
+        return (
+            <div block="HomePage">
+                <InstallPrompt />
+                <CmsPage { ...this.props } />
+                <Footer isVisibleOnMobile />
+            </div>
+        );
+    }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePageContainer);

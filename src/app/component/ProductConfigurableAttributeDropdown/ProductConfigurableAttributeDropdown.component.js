@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types';
-import Field from 'Component/Field';
 import './ProductConfigurableAttributeDropdown.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field';
+
 /** @namespace Component/ProductConfigurableAttributeDropdown/Component */
-export class ProductConfigurableAttributeDropdown extends ExtensiblePureComponent {
+export class ProductConfigurableAttributeDropdown extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         selectOptions: PropTypes.arrayOf(PropTypes.shape({

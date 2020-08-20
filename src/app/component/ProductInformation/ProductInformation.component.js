@@ -9,19 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Fragment } from 'react';
-import PropTypes from 'prop-types';
-
-import Html from 'Component/Html';
-import { ProductType, AttributeType } from 'Type/ProductList';
-import ContentWrapper from 'Component/ContentWrapper';
-import ExpandableContent from 'Component/ExpandableContent';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
-
 import './ProductInformation.style';
 
+import PropTypes from 'prop-types';
+import { Fragment, PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import Html from 'Component/Html';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import { AttributeType, ProductType } from 'Type/ProductList';
+
 /** @namespace Component/ProductInformation/Component */
-export class ProductInformation extends ExtensiblePureComponent {
+export class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
@@ -72,9 +72,13 @@ export class ProductInformation extends ExtensiblePureComponent {
     }
 
     renderContent() {
+        const { areDetailsLoaded } = this.props;
+        const heading = areDetailsLoaded ? __('Product information') : '';
+
         return (
             <ExpandableContent
-              heading={ __('Product information') }
+              // show placeholder if the details are not loaded
+              heading={ heading }
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
                 { this.renderDescription() }
@@ -91,7 +95,7 @@ export class ProductInformation extends ExtensiblePureComponent {
             }
         } = this.props;
 
-        if (!html && !areDetailsLoaded) {
+        if (!html && areDetailsLoaded) {
             return null;
         }
 

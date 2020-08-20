@@ -8,14 +8,14 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { updateMeta } from 'Store/Meta';
+import { updateMeta } from 'Store/Meta/Meta.action';
 
 /**
  * Meta Dispatcher
  * @class MetaDispatcher
  * @namespace Util/Meta/Dispatcher
  */
-export class MetaDispatcher extends ExtensibleClass {
+export class MetaDispatcher {
     /**
      * Set meta for category
      * @param {Object} category
@@ -46,14 +46,17 @@ export class MetaDispatcher extends ExtensibleClass {
      */
     _getProductMeta(product) {
         const {
-            meta_title, meta_keyword, meta_description,
-            canonical_url
+            name,
+            meta_title,
+            meta_keyword,
+            canonical_url,
+            meta_description
         } = product;
 
         return {
             description: meta_description,
             keywords: meta_keyword,
-            title: meta_title,
+            title: meta_title || name,
             canonical_url
         };
     }
@@ -79,4 +82,4 @@ export class MetaDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (MetaDispatcher)();
+export default new MetaDispatcher();

@@ -9,14 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { customerType } from 'Type/Account';
-import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import './MyAccountAddressBook.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import { customerType } from 'Type/Account';
+
 /** @namespace Component/MyAccountAddressBook/Component */
-export class MyAccountAddressBook extends ExtensiblePureComponent {
+export class MyAccountAddressBook extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultPostfix: PropTypes.func.isRequired,
@@ -27,17 +30,17 @@ export class MyAccountAddressBook extends ExtensiblePureComponent {
         return <MyAccountAddressPopup />;
     }
 
-    renderAddress = (address) => {
+    renderAddress = (address, index) => {
         const { getDefaultPostfix } = this.props;
-        const { id } = address;
+        const addressNumber = index + 1;
         const postfix = getDefaultPostfix(address);
 
         return (
             <MyAccountAddressTable
-              title={ __('Address #%s%s', id, postfix) }
+              title={ __('Address #%s%s', addressNumber, postfix) }
               showActions
               address={ address }
-              key={ id }
+              key={ addressNumber }
             />
         );
     };

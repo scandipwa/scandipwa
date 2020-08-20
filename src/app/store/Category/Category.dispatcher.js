@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import CategoryQuery from 'Query/Category.query';
+import { updateCurrentCategory } from 'Store/Category/Category.action';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { QueryDispatcher } from 'Util/Request';
-import { CategoryQuery } from 'Query';
-import { updateCurrentCategory } from 'Store/Category';
-import { showNotification } from 'Store/Notification';
-import { updateNoMatch } from 'Store/NoMatch';
 
 /**
  * Category Dispatcher
@@ -22,15 +22,17 @@ import { updateNoMatch } from 'Store/NoMatch';
  * @namespace Store/Category/Dispatcher
  */
 export class CategoryDispatcher extends QueryDispatcher {
-    constructor() {
-        super('Category');
+    __construct() {
+        super.__construct('Category');
     }
 
     onSuccess(data, dispatch, { isSearchPage }) {
         const { category = {}, category: { id } } = data;
+
         if (!id && !isSearchPage) {
             dispatch(updateNoMatch(true));
         }
+
         dispatch(updateCurrentCategory(category));
     }
 
@@ -48,4 +50,4 @@ export class CategoryDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (CategoryDispatcher)();
+export default new CategoryDispatcher();

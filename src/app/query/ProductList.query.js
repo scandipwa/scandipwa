@@ -9,18 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, Fragment } from 'Util/Query';
-import BrowserDatabase from 'Util/BrowserDatabase';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { Field, Fragment } from 'Util/Query';
 
 /**
  * Product List Query
  * @class ProductListQuery
  * @namespace Query/ProductList
  */
-export class ProductListQuery extends ExtensibleClass {
-    constructor() {
-        super();
+export class ProductListQuery {
+    __construct() {
+        super.__construct();
         this.options = {};
     }
 
@@ -38,15 +38,49 @@ export class ProductListQuery extends ExtensibleClass {
         const products = new Field('products')
             .addFieldList(this._getProductFields());
 
-        this._getProductArguments().forEach(arg => products.addArgument(...arg));
+        this._getProductArguments().forEach((arg) => products.addArgument(...arg));
 
         return products;
     }
 
+    _getPriceFilter(key, value) {
+        const [from, to] = value[0].split('_');
+
+        if (from === '*') {
+            return `${key}: { to: ${to} } `;
+        }
+
+        if (to === '*') {
+            return `${key}: { from: ${from} } `;
+        }
+
+        return `${key}: { from: ${from}, to: ${to} } `;
+    }
+
+    _getCustomFilters = (filters = {}) => (
+        Object.entries(filters).reduce((acc, [key, attribute]) => {
+            if (!attribute.length) {
+                return acc;
+            }
+
+            if (key === 'price') {
+                return [
+                    ...acc,
+                    this._getPriceFilter(key, attribute)
+                ];
+            }
+
+            return [
+                ...acc,
+                `${key}: { in: [ ${attribute.join(',')} ] } `
+            ];
+        }, [])
+    );
+
     _getFilterArgumentMap() {
         return {
-            categoryIds: id => [`category_id: { eq: ${id} }`],
-            categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
+            categoryIds: (id) => [`category_id: { eq: ${id} }`],
+            categoryUrlPath: (url) => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
 
@@ -60,14 +94,12 @@ export class ProductListQuery extends ExtensibleClass {
 
                 return filters;
             },
-            productsSkuArray: sku => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
-            productUrlPath: url => [`url_key: { eq: ${url}}`],
-            customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
-                attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
-            ), []),
-            newToDate: date => [`news_to_date: { gteq: ${date} }`],
-            conditions: conditions => [`conditions: { eq: ${conditions} }`],
-            customerGroupId: id => [`customer_group_id: { eq: ${id} }`]
+            productsSkuArray: (sku) => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
+            productUrlPath: (url) => [`url_key: { eq: ${url}}`],
+            customFilters: this._getCustomFilters,
+            newToDate: (date) => [`news_to_date: { gteq: ${date} }`],
+            conditions: (conditions) => [`conditions: { eq: ${conditions} }`],
+            customerGroupId: (id) => [`customer_group_id: { eq: ${id} }`]
         };
     }
 
@@ -79,11 +111,11 @@ export class ProductListQuery extends ExtensibleClass {
             currentPage: { type: 'Int!' },
             pageSize: {
                 type: 'Int!',
-                handler: option => (requireInfo ? 1 : option)
+                handler: (option) => (requireInfo ? 1 : option)
             },
             search: {
                 type: 'String!',
-                handler: option => encodeURIComponent(option)
+                handler: (option) => encodeURIComponent(option)
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
@@ -99,6 +131,19 @@ export class ProductListQuery extends ExtensibleClass {
                         ...initialOptions,
                         customerGroupId: group_id || '0'
                     };
+
+                    const {
+                        customFilters: { category_id } = {}
+                    } = options;
+
+                    /**
+                     * Remove category ID from select, if there is a custom filter
+                     * of category already selected in filtering options.
+                     */
+                    if (category_id) {
+                        // eslint-disable-next-line fp/no-delete
+                        options.categoryIds = undefined;
+                    }
 
                     const parsedOptions = Object.entries(options).reduce(
                         (acc, [key, option]) => {
@@ -126,7 +171,7 @@ export class ProductListQuery extends ExtensibleClass {
             if (!arg) {
                 return acc;
             }
-            const { type, handler = option => option } = argumentMap[key];
+            const { type, handler = (option) => option } = argumentMap[key];
             return [...acc, [key, type, handler(arg)]];
         }, []);
     }
@@ -144,10 +189,8 @@ export class ProductListQuery extends ExtensibleClass {
         // for filters only request
         if (requireInfo) {
             return [
-                'min_price',
-                'max_price',
                 this._getSortField(),
-                this._getFiltersField()
+                this._getAggregationsField()
             ];
         }
 
@@ -196,7 +239,10 @@ export class ProductListQuery extends ExtensibleClass {
 
             // if variants are not needed
             if (!noVariants) {
-                fields.push(this._getConfigurableProductFragment());
+                fields.push(
+                    this._getConfigurableProductFragment(),
+                    this._getBundleProductFragment()
+                );
             }
         }
 
@@ -216,7 +262,8 @@ export class ProductListQuery extends ExtensibleClass {
                 this._getDescriptionField(),
                 this._getMediaGalleryField(),
                 this._getSimpleProductFragment(),
-                this._getProductLinksField()
+                this._getProductLinksField(),
+                this._getCustomizableProductFragment()
             );
 
             // for variants of PDP requested product
@@ -304,7 +351,9 @@ export class ProductListQuery extends ExtensibleClass {
     _getBreadcrumbFields() {
         return [
             'category_name',
-            'category_url_path'
+            'category_level',
+            'category_url',
+            'category_is_active'
         ];
     }
 
@@ -532,6 +581,53 @@ export class ProductListQuery extends ExtensibleClass {
             .addFieldList(this._getReviewSummaryFields());
     }
 
+    _getBundleOptionsFields() {
+        return [
+            'id',
+            'label',
+            'quantity',
+            'position',
+            'is_default',
+            'price',
+            'price_type',
+            'can_change_quantity',
+            this._getProductField()
+        ];
+    }
+
+    _getBundleOptionsField() {
+        return new Field('options')
+            .addFieldList(this._getBundleOptionsFields());
+    }
+
+    _getBundleItemsFields() {
+        return [
+            'option_id',
+            'title',
+            'required',
+            'type',
+            'position',
+            'sku',
+            this._getBundleOptionsField()
+        ];
+    }
+
+    _getBundleItemsField() {
+        return new Field('items')
+            .addFieldList(this._getBundleItemsFields());
+    }
+
+    _getBundleProductFragmentFields() {
+        return [
+            'price_view',
+            'dynamic_price',
+            'dynamic_sku',
+            'ship_bundle_items',
+            'dynamic_weight',
+            this._getBundleItemsField()
+        ];
+    }
+
     _getValueFields() {
         return [
             'value_index'
@@ -627,15 +723,27 @@ export class ProductListQuery extends ExtensibleClass {
             .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
     }
 
+    _getCustomizableMultiOption() {
+        return new Fragment('CustomizableMultipleOption')
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]); // same as checkbox
+    }
+
     _getCustomizableDropdownOption() {
         return new Fragment('CustomizableDropDownOption')
             .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
     }
 
+    _getCustomizableRadioOption() {
+        return new Fragment('CustomizableRadioOption')
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]); // same as dropdown
+    }
+
     _getCustomizableProductFragmentOptionsFields() {
         return [
             this._getCustomizableDropdownOption(),
+            this._getCustomizableRadioOption(),
             this._getCustomizableCheckboxOption(),
+            this._getCustomizableMultiOption(),
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
             'title',
@@ -698,6 +806,11 @@ export class ProductListQuery extends ExtensibleClass {
             .addField('value');
     }
 
+    _getBundleProductFragment() {
+        return new Fragment('BundleProduct')
+            .addFieldList(this._getBundleProductFragmentFields());
+    }
+
     _getConfigurableProductFragment() {
         return new Fragment('ConfigurableProduct')
             .addFieldList(this._getConfigurableProductFragmentFields());
@@ -748,42 +861,32 @@ export class ProductListQuery extends ExtensibleClass {
             .addFieldList(this._getSwatchDataFields());
     }
 
-    _getFilterItemSwatchFragmentFields() {
+    _getAggregationsField() {
+        return new Field('aggregations')
+            .setAlias('filters')
+            .addFieldList(this._getAggregationsFields());
+    }
+
+    _getAggregationsFields() {
+        return [
+            new Field('label').setAlias('name'),
+            new Field('attribute_code').setAlias('request_var'),
+            this._getAggregationsOptionsField()
+        ];
+    }
+
+    _getAggregationsOptionsField() {
+        return new Field('options')
+            .setAlias('filter_items')
+            .addFieldList(this._getAggregationsOptionsFields());
+    }
+
+    _getAggregationsOptionsFields() {
         return [
             'label',
+            new Field('value').setAlias('value_string'),
             this._getSwatchDataField()
         ];
-    }
-
-    _getFilterItemSwatchFragment() {
-        return new Fragment('SwatchLayerFilterItem')
-            .addFieldList(this._getFilterItemSwatchFragmentFields());
-    }
-
-    _getFilterItemFields() {
-        return [
-            'label',
-            'value_string',
-            this._getFilterItemSwatchFragment()
-        ];
-    }
-
-    _getFilterItemsField() {
-        return new Field('filter_items')
-            .addFieldList(this._getFilterItemFields());
-    }
-
-    _getFilterFields() {
-        return [
-            'name',
-            'request_var',
-            this._getFilterItemsField()
-        ];
-    }
-
-    _getFiltersField() {
-        return new Field('filters')
-            .addFieldList(this._getFilterFields());
     }
 
     _getPageInfoField() {
@@ -793,4 +896,4 @@ export class ProductListQuery extends ExtensibleClass {
     }
 }
 
-export default new (ProductListQuery)();
+export default new ProductListQuery();

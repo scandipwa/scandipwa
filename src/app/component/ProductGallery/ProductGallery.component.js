@@ -9,35 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef } from 'react';
-import PropTypes from 'prop-types';
-import { TransformWrapper } from 'react-zoom-pan-pinch';
-
-import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
-import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
-import VideoThumbnail from 'Component/VideoThumbnail';
-import VideoPopup from 'Component/VideoPopup';
-import { LocationType } from 'Type/Common';
-import { withRouter } from 'react-router';
-import Slider from 'Component/Slider';
-import Image from 'Component/Image';
-import CSS from 'Util/CSS';
-
 import './ProductGallery.style';
 
-export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
-export const MAX_ZOOM_SCALE = 8;
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+import { withRouter } from 'react-router';
+import { TransformWrapper } from 'react-zoom-pan-pinch';
 
-export const IMAGE_TYPE = 'image';
-export const VIDEO_TYPE = 'external-video';
-export const PLACEHOLDER_TYPE = 'placeholder';
+import Image from 'Component/Image';
+import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
+import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
+import Slider from 'Component/Slider';
+import VideoPopup from 'Component/VideoPopup';
+import VideoThumbnail from 'Component/VideoThumbnail';
+import { LocationType } from 'Type/Common';
+import CSS from 'Util/CSS';
+
+import {
+    GALLERY_LENGTH_BEFORE_COLLAPSE, IMAGE_TYPE, MAX_ZOOM_SCALE, PLACEHOLDER_TYPE, VIDEO_TYPE
+} from './ProductGallery.config';
 
 /**
  * Product gallery
  * @class ProductGallery
  * @namespace Component/ProductGallery/Component
  */
-export class ProductGallery extends ExtensiblePureComponent {
+export class ProductGallery extends PureComponent {
     static propTypes = {
         gallery: PropTypes.arrayOf(
             PropTypes.shape({
@@ -71,8 +68,12 @@ export class ProductGallery extends ExtensiblePureComponent {
 
     sliderRef = createRef();
 
-    constructor(props, context) {
-        super(props, context);
+    state = {
+        scrollEnabled: true
+    };
+
+    __construct(props, context) {
+        super.__construct(props, context);
         this.renderSlide = this.renderSlide.bind(this);
     }
 
@@ -146,6 +147,29 @@ export class ProductGallery extends ExtensiblePureComponent {
         );
     }
 
+    stopScrolling() {
+        this.setState({ scrollEnabled: false });
+        this.timeout = setTimeout(() => {
+            this.setState({ scrollEnabled: true });
+            this.timeout = null;
+
+            // 20 ms is time give to scroll down, usually that is enough
+            // eslint-disable-next-line no-magic-numbers
+        }, 20);
+    }
+
+    onWheel = (zoomState) => {
+        const { scale } = zoomState;
+
+        if (this.timeout) {
+            return;
+        }
+
+        if (scale === 1 || scale === MAX_ZOOM_SCALE) {
+            this.stopScrolling();
+        }
+    };
+
     /**
      * Renders a product image to be displayed in the gallery
      * @param mediaData
@@ -155,11 +179,15 @@ export class ProductGallery extends ExtensiblePureComponent {
      */
     renderImage(mediaData, index) {
         const { isZoomEnabled, handleZoomChange, disableZoom } = this.props;
+        const { scrollEnabled } = this.state;
 
         return (
             <TransformWrapper
               key={ index }
               onZoomChange={ handleZoomChange }
+              onWheelStart={ this.onWheelStart }
+              onWheel={ this.onWheel }
+              wheel={ { limitsOnWheel: true, disabled: !scrollEnabled } }
             //   doubleClick={ { mode: 'reset' } }
               pan={ {
                   disabled: !isZoomEnabled,
@@ -202,8 +230,7 @@ export class ProductGallery extends ExtensiblePureComponent {
      * @param media
      * @param index
      * @returns {null|*}
-     * @namespace Component/ProductGallery/Component
- */
+     */
     renderSlide(media, index) {
         const { media_type } = media;
 

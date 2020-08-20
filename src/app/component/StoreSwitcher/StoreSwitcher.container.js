@@ -12,20 +12,20 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import DataContainer from 'Util/Request/DataContainer';
-import { showNotification } from 'Store/Notification';
 import ConfigQuery from 'Query/Config.query';
+import { showNotification } from 'Store/Notification/Notification.action';
+import DataContainer from 'Util/Request/DataContainer';
 
 import StoreSwitcher from './StoreSwitcher.component';
 
 /** @namespace Component/StoreSwitcher/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     currentStoreCode: state.ConfigReducer.code
 });
 
 /** @namespace Component/StoreSwitcher/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showErrorNotification: message => dispatch(showNotification('error', message))
+export const mapDispatchToProps = (dispatch) => ({
+    showErrorNotification: (message) => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/StoreSwitcher/Container */
@@ -55,11 +55,16 @@ export class StoreSwitcherContainer extends DataContainer {
         this._getStoreList();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { currentStoreCode } = this.props;
-        const { storeLabel } = this.state;
+        const { prevStoreCode } = prevProps;
+        const { storeLabel, storeList } = this.state;
 
-        if (currentStoreCode && !storeLabel) {
+        if (!storeList.length) {
+            this._getStoreList();
+        }
+
+        if (currentStoreCode && (!storeLabel || (prevStoreCode !== currentStoreCode))) {
             this.getCurrentLabel(currentStoreCode);
         }
     }
@@ -90,7 +95,7 @@ export class StoreSwitcherContainer extends DataContainer {
 
     _formatStoreList(storeList) {
         return storeList.reduce((acc, {
-            name, code, is_active, base_url
+            name, code, is_active, base_url, base_link_url
         }) => {
             if (!is_active) {
                 return acc;
@@ -102,6 +107,7 @@ export class StoreSwitcherContainer extends DataContainer {
                     id: `store_${ code }`,
                     value: code,
                     storeUrl: base_url,
+                    storeLinkUrl: base_link_url,
                     label: name
                 }
             ];
@@ -114,6 +120,11 @@ export class StoreSwitcherContainer extends DataContainer {
         const store = storeList.find(
             ({ value }) => value === storeCode
         );
+
+        if (!store) {
+            return;
+        }
+
         const { label } = store;
 
         this.setState({ storeLabel: label });
@@ -132,7 +143,7 @@ export class StoreSwitcherContainer extends DataContainer {
             return;
         }
 
-        window.location = store.storeUrl;
+        window.location = store.storeLinkUrl;
     }
 
     render() {

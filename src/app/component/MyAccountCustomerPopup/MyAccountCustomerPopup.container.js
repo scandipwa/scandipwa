@@ -10,37 +10,39 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { MyAccountQuery } from 'Query';
-import { fetchMutation } from 'Util/Request';
-import { hideActiveOverlay } from 'Store/Overlay';
-import BrowserDatabase from 'Util/BrowserDatabase';
-import { showNotification } from 'Store/Notification';
-import { updateCustomerDetails } from 'Store/MyAccount';
-import { goToPreviousNavigationState } from 'Store/Navigation';
+import MyAccountQuery from 'Query/MyAccount.query';
+import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { fetchMutation } from 'Util/Request';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
-import MyAccountCustomerPopup, { CUSTOMER_POPUP_ID } from './MyAccountCustomerPopup.component';
+import MyAccountCustomerPopup from './MyAccountCustomerPopup.component';
+import { CUSTOMER_POPUP_ID } from './MyAccountCustomerPopup.config';
 
 /** @namespace Component/MyAccountCustomerPopup/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {}
 });
 
 /** @namespace Component/MyAccountCustomerPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
-    showSuccessNotification: message => dispatch(showNotification('success', message)),
+    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
 /** @namespace Component/MyAccountCustomerPopup/Container */
-export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
+export class MyAccountCustomerPopupContainer extends PureComponent {
     static propTypes = {
         updateCustomer: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
@@ -75,7 +77,7 @@ export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountCustomerPopup/Container/fetchMutationThen */
+            /** @namespace Component/MyAccountCustomerPopup/Container/onCustomerSaveFetchMutationThen */
             ({ updateCustomer: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
                 updateCustomer(customer);
@@ -99,7 +101,7 @@ export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
-            /** @namespace Component/MyAccountCustomerPopup/Container/fetchMutationThen */
+            /** @namespace Component/MyAccountCustomerPopup/Container/onPasswordChangeFetchMutationThen */
             () => {
                 showSuccessNotification(__('Your password was successfully updated!'));
                 this.setState({ isLoading: false }, () => {

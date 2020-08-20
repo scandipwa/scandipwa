@@ -11,15 +11,15 @@
 
 import PropTypes from 'prop-types';
 import { Subscribe } from 'unstated';
-import { ProductType } from 'Type/ProductList';
-import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
-export const THUMBNAIL_KEY = 'small_image';
-export const AMOUNT_OF_PLACEHOLDERS = 0;
+import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import { ProductType } from 'Type/ProductList';
+
+import ProductGallery from './ProductGallery.component';
+import { AMOUNT_OF_PLACEHOLDERS, IMAGE_TYPE, THUMBNAIL_KEY } from './ProductGallery.config';
 
 /** @namespace Component/ProductGallery/Container */
-export class ProductGalleryContainer extends ExtensiblePureComponent {
+export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool
@@ -35,8 +35,8 @@ export class ProductGalleryContainer extends ExtensiblePureComponent {
         disableZoom: this.disableZoom.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { product: { id } } = props;
 

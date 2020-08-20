@@ -9,25 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getOrderList } from 'Store/Order';
+import OrderQuery from 'Query/Order.query';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { getOrderList } from 'Store/Order/Order.action';
 import { fetchQuery } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
-import { OrderQuery } from 'Query';
 
 /** @namespace Store/Order/Dispatcher */
-export class OrderDispatcher extends ExtensibleClass {
+export class OrderDispatcher {
     requestOrders(dispatch) {
         const query = OrderQuery.getOrderListQuery();
 
         return fetchQuery(query).then(
-            /** @namespace Store/Order/Dispatcher/fetchQueryThen */
+            /** @namespace Store/Order/Dispatcher/requestOrdersFetchQueryThen */
             ({ getOrderList: orders }) => {
                 dispatch(getOrderList(orders, false));
             },
-            /** @namespace Store/Order/Dispatcher/fetchQueryThen */
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/Order/Dispatcher/requestOrdersFetchQueryError */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 }
 
-export default new (OrderDispatcher)();
+export default new OrderDispatcher();

@@ -13,17 +13,15 @@
 // TODO: merge Webpack config files
 const path = require('path');
 const projectRoot = path.resolve(__dirname, '..', '..');
-const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
-const { InjectManifest } = require('workbox-webpack-plugin');
 
 const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
@@ -31,7 +29,6 @@ const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const publicRoot = path.resolve(magentoRoot, 'pub');
 const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
 const parentRoot = parentTheme
     ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
@@ -39,6 +36,7 @@ const parentRoot = parentTheme
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 const staticVersion = Date.now();
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
 const publicPath = `/static/version${staticVersion}/frontend/${fallbackThemeSpecifier}/en_US/Magento_Theme/`;
 
 const webpackConfig = ([lang, translation]) => ({
@@ -64,6 +62,24 @@ const webpackConfig = ([lang, translation]) => ({
         ]
     },
 
+    optimization: {
+        splitChunks: {
+            minSize: 50000
+        },
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                test: /\.js(\?.*)?$/i,
+                terserOptions: {
+                    output: {
+                        comments: false
+                    }
+                },
+                extractComments: false
+            })
+        ]
+    },
+
     resolveLoader: {
         modules: [
             'node_modules',
@@ -72,6 +88,8 @@ const webpackConfig = ([lang, translation]) => ({
     },
 
     cache: false,
+
+    mode: 'production',
 
     stats: {
         warnings: false
@@ -99,10 +117,7 @@ const webpackConfig = ([lang, translation]) => ({
                     {
                         loader: 'extension-import-injector',
                         options: {
-                            magentoRoot,
-                            projectRoot,
-                            importAggregator: 'extensions',
-                            pathFilterCondition: path => !!path.match(/\/app\/plugin\//)
+                            magentoRoot, projectRoot, importAggregator: 'extensions', context: 'app'
                         }
                     }
                 ]
@@ -115,12 +130,7 @@ const webpackConfig = ([lang, translation]) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: () => [
-                                autoprefixer,
-                                cssnano({
-                                    preset: ['default', { discardComments: { removeAll: true } }]
-                                })
-                            ]
+                            plugins: () => [autoprefixer]
                         }
                     },
                     'sass-loader',
@@ -144,6 +154,7 @@ const webpackConfig = ([lang, translation]) => ({
     },
 
     output: {
+        chunkFilename: `${lang}.[name].bundle.js`,
         filename: `${lang}.bundle.js`,
         path: path.resolve(projectRoot, 'Magento_Theme', 'web'),
         pathinfo: true,
@@ -151,12 +162,6 @@ const webpackConfig = ([lang, translation]) => ({
     },
 
     plugins: [
-        new InjectManifest({
-            swSrc: path.resolve(publicRoot, 'sw-compiled.js'),
-            swDest: path.resolve(publicRoot, 'sw.js'),
-            exclude: [/\.phtml/]
-        }),
-
         new HtmlWebpackPlugin({
             template: path.resolve(projectRoot, 'src', 'public', 'index.production.phtml'),
             filename: '../templates/root.phtml',
@@ -179,16 +184,12 @@ const webpackConfig = ([lang, translation]) => ({
         new webpack.ProvidePlugin({
             __: path.join(__dirname, 'TranslationFunction'),
             middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
-            ExtensiblePureComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensiblePureComponent'),
-            ExtensibleComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleComponent'),
-            ExtensibleClass: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleClass'),
-            ExtensibleUnstatedContainer: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
+            Extensible: path.join(__dirname, 'Extensibility', 'Middleware', 'Extensible'),
+            PureComponent: ['react', 'PureComponent'],
             React: 'react'
         }),
 
-        new I18nPlugin({
-            translation
-        }),
+        new I18nPlugin({ translation }),
 
         new CleanWebpackPlugin([
             path.resolve('Magento_Theme', 'templates'),
@@ -197,14 +198,7 @@ const webpackConfig = ([lang, translation]) => ({
 
         new CopyWebpackPlugin([
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
-        ]),
-
-        new MinifyPlugin({
-            removeConsole: false,
-            removeDebugger: true
-        }, {
-            comments: false
-        })
+        ])
     ]
 });
 

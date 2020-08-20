@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import UrlRewritesQuery from 'Query/UrlRewrites.query';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
 import { QueryDispatcher } from 'Util/Request';
-import { UrlRewritesQuery } from 'Query';
-import { showNotification } from 'Store/Notification';
-import { updateUrlRewrite, clearUrlRewrite, setIsUrlRewritesLoading } from 'Store/UrlRewrites';
 
 /**
  * Url Rewrite Dispathcer
@@ -21,12 +21,13 @@ import { updateUrlRewrite, clearUrlRewrite, setIsUrlRewritesLoading } from 'Stor
  * @namespace Store/UrlRewrites/Dispatcher
  */
 export class UrlRewritesDispatcher extends QueryDispatcher {
-    constructor() {
-        super('UrlRewrites');
+    __construct() {
+        super.__construct('UrlRewrites');
     }
 
-    onSuccess({ urlResolver }, dispatch) {
-        dispatch(updateUrlRewrite(urlResolver || { notFound: true }));
+    onSuccess({ urlResolver }, dispatch, options) {
+        const { urlParam } = this.processUrlOptions(options);
+        dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
     }
 
     onError(error, dispatch) {
@@ -42,17 +43,23 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
      */
     prepareRequest(options, dispatch) {
         dispatch(setIsUrlRewritesLoading(true));
-        return [UrlRewritesQuery.getQuery(options)];
+
+        return [
+            UrlRewritesQuery.getQuery(this.processUrlOptions(options))
+        ];
     }
 
-    /**
-     * Clear url rewrites
-     * @param {Function} dispatch
-     * @memberof UrlRewritesDispatcher
-     */
-    clearUrlRewrites(dispatch) {
-        dispatch(clearUrlRewrite());
+    processUrlOptions(options) {
+        const { urlParam } = options;
+
+        // FAILSAFE: Trim index.php if someone forgot to set "Use Web Server Rewrites" to "Yes"
+        const trimmedParam = urlParam.replace('index.php/', '');
+
+        return {
+            ...options,
+            urlParam: trimmedParam
+        };
     }
 }
 
-export default new (UrlRewritesDispatcher)();
+export default new UrlRewritesDispatcher();

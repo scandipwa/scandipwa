@@ -1,3 +1,16 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/* eslint-disable no-param-reassign, new-cap */
+// TODO comment
+// TODO add examples of transformations
 const namespaceExtractor = /@namespace +(?<namespace>[^ ]+)/;
 
 const extractNamespaceFromComments = (comments = []) => comments.reduce(
@@ -12,19 +25,20 @@ const extractNamespaceFromComments = (comments = []) => comments.reduce(
 );
 
 const getLeadingComments = (path) => {
-    const { node } = path;
-    if (node.leadingComments) {
-        return node.leadingComments;
+    const { node: { leadingComments } } = path;
+    if (leadingComments) {
+        return leadingComments;
     }
 
     if (
         path.parent.type === 'ExportNamedDeclaration'
-    && path.parent.leadingComments
+        && path.parent.leadingComments
     ) {
         return path.parent.leadingComments;
     }
-};
 
+    return null;
+};
 
 const getNamespaceFromPath = (path) => {
     const leadingComments = getLeadingComments(path);
@@ -33,6 +47,23 @@ const getNamespaceFromPath = (path) => {
     }
 
     return extractNamespaceFromComments(leadingComments);
+};
+
+const addSuperToConstructor = (path, types) => {
+    const constructor = path
+        .get('body')
+        .get('body')
+        .find((member) => member.get('key').node.name === 'constructor');
+
+    if (!constructor) {
+        return;
+    }
+
+    const superCall = types.expressionStatement(
+        types.callExpression(types.super(), [])
+    );
+
+    constructor.get('body').unshiftContainer('body', superCall);
 };
 
 module.exports = ({ types, parse }) => ({
@@ -100,15 +131,29 @@ module.exports = ({ types, parse }) => ({
 
         ClassDeclaration: (path) => {
             const namespace = getNamespaceFromPath(path);
-            if (!namespace) return;
+            if (!namespace) {
+                return;
+            }
+
+            const superClass = path.get('superClass');
+            const superExpression = types.callExpression(
+                types.Identifier('Extensible'),
+                [types.Identifier(superClass.node ? superClass.node.name : '')]
+            );
+
+            if (!superClass.node) {
+                addSuperToConstructor(path, types);
+            }
+
+            superClass.replaceWith(superExpression);
 
             const { node: { name } } = path.get('id');
-            const newName = `__nonMiddlewared__${name}`;
-            path.get('id').node.name = newName;
+            const newName = path.scope.generateUidIdentifier(name);
+            path.get('id').node.name = newName.name;
 
             const wrappedInMiddeware = types.callExpression(
                 types.identifier('middleware'),
-                [types.identifier(newName), types.stringLiteral(namespace)]
+                [newName, types.stringLiteral(namespace.trim())]
             );
 
             const declarator = types.variableDeclarator(
@@ -116,9 +161,11 @@ module.exports = ({ types, parse }) => ({
                 wrappedInMiddeware
             );
 
-            const newDeclaration = types.variableDeclaration('const', [declarator])
+            const newDeclaration = types.variableDeclaration('const', [declarator]);
             const newExport = types.exportNamedDeclaration(newDeclaration, []);
-            const renaming = parse(`Object.defineProperty(${newName}, 'name', { value: '${name}' })`);
+            const renaming = parse(
+                `Object.defineProperty(${newName.name}, 'name', { value: '${name}' })`
+            );
 
             path.insertAfter(newExport);
             path.insertAfter(renaming);
@@ -130,6 +177,6 @@ module.exports = ({ types, parse }) => ({
             //     path.parentPath.skip();
             //     path.parentPath.replaceWith(path);
             // }
-        }
-    }
+        },
+    },
 });

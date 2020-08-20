@@ -31,4 +31,4 @@ export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg
  * @return {Number} price rounded to 2 digits
  * @namespace Util/Price/roundPrice
  */
-export const roundPrice = price => parseFloat(price).toFixed(2);
+export const roundPrice = (price) => parseFloat(price).toFixed(2);

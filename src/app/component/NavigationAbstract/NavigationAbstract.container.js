@@ -12,16 +12,18 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import isMobile from 'Util/Mobile';
 import history from 'Util/History';
+import isMobile from 'Util/Mobile';
+import { appendWithStoreCode } from 'Util/Url';
 
-import { DEFAULT_STATE_NAME } from './NavigationAbstract.component';
+import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
 /** @namespace Component/NavigationAbstract/Container */
-export class NavigationAbstractContainer extends ExtensiblePureComponent {
+export class NavigationAbstractContainer extends PureComponent {
     static propTypes = {
         setNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -42,7 +44,7 @@ export class NavigationAbstractContainer extends ExtensiblePureComponent {
     componentDidMount() {
         const { setNavigationState } = this.props;
         setNavigationState(this.getNavigationState());
-        history.listen(history => this.setState(this.onRouteChanged(history)));
+        history.listen((history) => this.setState(this.onRouteChanged(history)));
     }
 
     onRouteChanged(history) {
@@ -57,7 +59,11 @@ export class NavigationAbstractContainer extends ExtensiblePureComponent {
         const { pathname } = location;
 
         const activeRoute = Object.keys(this.routeMap)
-            .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
+            .find((route) => (
+                route !== '/'
+                || pathname === appendWithStoreCode('/')
+                || pathname === '/'
+            ) && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;
     }

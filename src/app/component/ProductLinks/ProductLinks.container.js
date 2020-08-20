@@ -1,5 +1,5 @@
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ProductType } from 'Type/ProductList';
@@ -7,12 +7,12 @@ import { ProductType } from 'Type/ProductList';
 import ProductLinks from './ProductLinks.component';
 
 /** @namespace Component/ProductLinks/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 
 /** @namespace Component/ProductLinks/Container */
-export class ProductLinksContainer extends ExtensiblePureComponent {
+export class ProductLinksContainer extends PureComponent {
     static propTypes = {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
         linkType: PropTypes.string.isRequired
@@ -42,6 +42,6 @@ export class ProductLinksContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/ProductLinks/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductLinksContainer);

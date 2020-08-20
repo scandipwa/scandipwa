@@ -9,19 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import {
     Children,
+    cloneElement,
     createRef,
-    cloneElement
+    PureComponent
 } from 'react';
-import PropTypes from 'prop-types';
-import Field from 'Component/Field';
+
+import { FieldContainer } from 'Component/Field/Field.container';
+import { ChildrenType, MixType } from 'Type/Common';
 import FormPortalCollector from 'Util/FormPortalCollector';
-import { MixType, ChildrenType } from 'Type/Common';
+
 import validationConfig from './Form.config';
 
 /** @namespace Component/Form/Component */
-export class Form extends ExtensiblePureComponent {
+export class Form extends PureComponent {
     static propTypes = {
         onSubmitSuccess: PropTypes.func,
         onSubmitError: PropTypes.func,
@@ -55,11 +58,11 @@ export class Form extends ExtensiblePureComponent {
     }
 
     static cloneChildren(originChildren, fieldCallback) {
-        const executeClone = originChildren => Children.map(originChildren, (child) => {
+        const executeClone = (originChildren) => Children.map(originChildren, (child) => {
             if (child && typeof child === 'object' && child.type && child.props) {
-                const { type: { name }, props, props: { children } } = child;
+                const { type: { WrappedComponent: { name } = {} }, props, props: { children } } = child;
 
-                if (name === Field.prototype.constructor.name) {
+                if (name === FieldContainer.prototype.constructor.name) {
                     return fieldCallback(child);
                 }
 
@@ -122,8 +125,8 @@ export class Form extends ExtensiblePureComponent {
         return {};
     }
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         if (!window.formPortalCollector) {
             window.formPortalCollector = new FormPortalCollector();
@@ -187,7 +190,7 @@ export class Form extends ExtensiblePureComponent {
         }, []));
 
         asyncData.then(
-            /** @namespace Component/Form/Component/then */
+            /** @namespace Component/Form/Component/handleFormSubmitAsyncDataThen */
             (asyncDataList) => {
                 if (!invalidFields.length) {
                     onSubmitSuccess(inputValues, asyncDataList);
@@ -196,8 +199,8 @@ export class Form extends ExtensiblePureComponent {
 
                 onSubmitError(inputValues, invalidFields);
             },
-            /** @namespace Component/Form/Component/then */
-            e => onSubmitError(inputValues, invalidFields, e)
+            /** @namespace Component/Form/Component/handleFormSubmitAsyncDataCatch */
+            (e) => onSubmitError(inputValues, invalidFields, e)
         );
     };
 

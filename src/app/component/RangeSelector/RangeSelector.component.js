@@ -9,17 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import InputRange from 'react-input-range';
-import PropTypes from 'prop-types';
 import 'react-input-range/lib/css/index.css';
 import './RangeSelector.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import InputRange from 'react-input-range';
 
 /**
  * Product Sort
  * @class ProductSort
  * @namespace Component/RangeSelector/Component/rangeSelector
  */
-export class RangeSelector extends ExtensiblePureComponent {
+export class RangeSelector extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
             PropTypes.object,
@@ -30,8 +32,8 @@ export class RangeSelector extends ExtensiblePureComponent {
         onChangeComplete: PropTypes.func.isRequired
     };
 
-    constructor() {
-        super();
+    __construct() {
+        super.__construct();
 
         this.state = {
             value: false

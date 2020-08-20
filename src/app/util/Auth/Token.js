@@ -16,7 +16,7 @@ export const AUTH_TOKEN = 'auth_token';
 export const ONE_HOUR = 3600;
 
 /** @namespace Util/Auth/setAuthorizationToken */
-export const setAuthorizationToken = token => BrowserDatabase.setItem(token, AUTH_TOKEN, ONE_HOUR);
+export const setAuthorizationToken = (token) => BrowserDatabase.setItem(token, AUTH_TOKEN, ONE_HOUR);
 
 /** @namespace Util/Auth/deleteAuthorizationToken */
 export const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);

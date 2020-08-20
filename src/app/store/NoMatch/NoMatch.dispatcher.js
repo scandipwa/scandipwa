@@ -9,17 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { updateNoMatch } from 'Store/NoMatch';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 /**
  * NoMatch Dispatcher
  * @class NoMatchDispatcher
  * @namespace Store/NoMatch/Dispatcher
  */
-export class NoMatchDispatcher extends ExtensibleClass {
+export class NoMatchDispatcher {
     updateNoMatch(dispatch, options) {
         const { noMatch } = options;
         dispatch(updateNoMatch(noMatch));
     }
 }
 
-export default new (NoMatchDispatcher)();
+export default new NoMatchDispatcher();

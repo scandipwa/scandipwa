@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import { AttributeType } from 'Type/ProductList';
+
 import ProductConfigurableAttributeDropdown from './ProductConfigurableAttributeDropdown.component';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Container */
-export class ProductConfigurableAttributeDropdownContainer extends ExtensiblePureComponent {
+export class ProductConfigurableAttributeDropdownContainer extends PureComponent {
     static propTypes = {
         option: AttributeType.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
@@ -14,7 +17,6 @@ export class ProductConfigurableAttributeDropdownContainer extends ExtensiblePur
     containerFunctions = {
         onChange: this.onChange.bind(this)
     };
-
 
     onChange(value) {
         const {

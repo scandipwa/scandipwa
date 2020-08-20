@@ -9,21 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
-import CheckoutAddressBook from 'Component/CheckoutAddressBook';
-import CheckoutPayments from 'Component/CheckoutPayments';
-import { paymentMethodsType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
-import { addressType } from 'Type/Account';
-import Field from 'Component/Field';
-import Form from 'Component/Form';
 import './CheckoutBilling.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CheckoutAddressBook from 'Component/CheckoutAddressBook';
+import CheckoutPayments from 'Component/CheckoutPayments';
+import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
+import { addressType } from 'Type/Account';
+import { paymentMethodsType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+
 /** @namespace Component/CheckoutBilling/Component */
-export class CheckoutBilling extends ExtensiblePureComponent {
+export class CheckoutBilling extends PureComponent {
     state = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,
@@ -161,7 +163,15 @@ export class CheckoutBilling extends ExtensiblePureComponent {
     }
 
     renderAddressBook() {
-        const { onAddressSelect } = this.props;
+        const {
+            onAddressSelect,
+            isSameAsShipping,
+            totals: { is_virtual }
+        } = this.props;
+
+        if (isSameAsShipping && !is_virtual) {
+            return null;
+        }
 
         return (
             <CheckoutAddressBook
@@ -171,28 +181,36 @@ export class CheckoutBilling extends ExtensiblePureComponent {
         );
     }
 
-    renderAddresses() {
+    renderSameAsShippingCheckbox() {
         const {
             isSameAsShipping,
             onSameAsShippingChange,
             totals: { is_virtual }
         } = this.props;
 
+        if (is_virtual) {
+            return null;
+        }
+
+        return (
+            <Field
+              id="sameAsShippingAddress"
+              name="sameAsShippingAddress"
+              type="checkbox"
+              label={ __('My billing and shipping are the same') }
+              value="sameAsShippingAddress"
+              mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
+              checked={ isSameAsShipping }
+              onChange={ onSameAsShippingChange }
+            />
+        );
+    }
+
+    renderAddresses() {
         return (
             <>
-                { !is_virtual && (
-                    <Field
-                      id="sameAsShippingAddress"
-                      name="sameAsShippingAddress"
-                      type="checkbox"
-                      label={ __('My billing and shipping are the same') }
-                      value="sameAsShippingAddress"
-                      mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
-                      checked={ isSameAsShipping }
-                      onChange={ onSameAsShippingChange }
-                    />
-                ) }
-                { !isSameAsShipping && this.renderAddressBook() }
+                { this.renderSameAsShippingCheckbox() }
+                { this.renderAddressBook() }
             </>
         );
     }

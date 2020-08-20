@@ -23,6 +23,7 @@ const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const parentRoot = parentTheme
     ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
     : undefined;
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot)
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 module.exports = {
@@ -35,8 +36,23 @@ module.exports = {
         ],
         plugins: [
             new FallbackPlugin({
-                fallbackRoot, projectRoot, parentRoot
+                projectRoot,
+                fallbackRoot,
+                fallbackThemeSpecifier,
+                parentRoot,
+                parentThemeSpecifier: parentTheme
             })
+        ],
+        modules: [
+            path.resolve(projectRoot, 'node_modules'),
+            'node_modules'
+        ]
+    },
+
+    resolveLoader: {
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'Extensibility', 'loaders')
         ]
     },
 
@@ -70,10 +86,18 @@ module.exports = {
                     {
                         loader: 'extension-import-injector',
                         options: {
-                            magentoRoot,
-                            projectRoot,
-                            importAggregator: 'extensions',
-                            pathFilterCondition: path => true
+                            magentoRoot, projectRoot, importAggregator: 'extensions', context: 'app'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /util\/Extensions\/index-sw\.js/,
+                use: [
+                    {
+                        loader: 'extension-import-injector',
+                        options: {
+                            magentoRoot, projectRoot, importAggregator: 'extensions', context: 'sw'
                         }
                     }
                 ]
@@ -94,7 +118,11 @@ module.exports = {
         }),
 
         new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'TranslationFunction'))
+            __: path.join(__dirname, 'TranslationFunction'),
+            middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
+            Extensible: path.join(__dirname, 'Extensibility', 'Middleware', 'Extensible'),
+            PureComponent: ['react', 'PureComponent'],
+            React: 'react'
         }),
 
         new CleanWebpackPlugin([], {

@@ -75,7 +75,7 @@ export const prepareRequest = (document, type) => {
 };
 
 /** @namespace Util/Query/prepareMutation */
-export const prepareMutation = mutations => prepareRequest(mutations, MUTATION_TYPE);
+export const prepareMutation = (mutations) => prepareRequest(mutations, MUTATION_TYPE);
 
 /** @namespace Util/Query/prepareQuery */
-export const prepareQuery = queries => prepareRequest(queries, QUERY_TYPE);
+export const prepareQuery = (queries) => prepareRequest(queries, QUERY_TYPE);

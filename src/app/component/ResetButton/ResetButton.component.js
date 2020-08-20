@@ -9,12 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { MixType } from 'Type/Common';
 import './ResetButton.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { MixType } from 'Type/Common';
+
 /** @namespace Component/ResetButton/Component */
-export class ResetButton extends ExtensiblePureComponent {
+export class ResetButton extends PureComponent {
     static propTypes = {
         mix: MixType,
         resetFilters: PropTypes.func.isRequired,

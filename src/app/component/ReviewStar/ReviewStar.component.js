@@ -9,11 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import './ReviewStar.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 /** @namespace Component/ReviewStar/Component */
-export class ReviewStar extends ExtensiblePureComponent {
+export class ReviewStar extends PureComponent {
     static propTypes = {
         value: PropTypes.number.isRequired,
         name: PropTypes.number.isRequired,

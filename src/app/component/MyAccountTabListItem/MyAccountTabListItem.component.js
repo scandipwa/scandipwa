@@ -9,12 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { tabType } from 'Type/Account';
 import './MyAccountTabListItem.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { tabType } from 'Type/Account';
+
 /** @namespace Component/MyAccountTabListItem/Component */
-export class MyAccountTabListItem extends ExtensiblePureComponent {
+export class MyAccountTabListItem extends PureComponent {
     static propTypes = {
         tabEntry: PropTypes.arrayOf(
             PropTypes.oneOfType([

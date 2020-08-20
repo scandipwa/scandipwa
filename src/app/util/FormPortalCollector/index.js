@@ -10,7 +10,7 @@
  */
 
 /** @namespace Util/FormPortalCollector */
-export class FormPortalCollector extends ExtensibleClass {
+export class FormPortalCollector {
     portalsObservers = {};
 
     subscribe(id, f, name) {
@@ -32,7 +32,7 @@ export class FormPortalCollector extends ExtensibleClass {
 
     collect(id) {
         const portals = this.portalsObservers[id] || {};
-        return Object.values(portals).map(portal => portal());
+        return Object.values(portals).map((portal) => portal());
     }
 }
 

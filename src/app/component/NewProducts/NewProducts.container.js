@@ -9,27 +9,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { prepareQuery } from 'Util/Query';
-import { ProductListQuery } from 'Query';
-import { executeGet } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+
+import ProductListQuery from 'Query/ProductList.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { getIndexedProducts } from 'Util/Product';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+
 import NewProducts from './NewProducts.component';
 
 /** @namespace Component/NewProducts/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     timezone: state.ConfigReducer.timezone
 });
 
 /** @namespace Component/NewProducts/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
 /** @namespace Component/NewProducts/Container */
-export class NewProductsContainer extends ExtensiblePureComponent {
+export class NewProductsContainer extends PureComponent {
     static propTypes = {
         category: PropTypes.string,
         cacheLifetime: PropTypes.number,
@@ -131,7 +134,7 @@ export class NewProductsContainer extends ExtensiblePureComponent {
             )
             .catch(
                 /** @namespace Component/NewProducts/Container/executeGetThenCatch */
-                e => showNotification('error', 'Error fetching NewProducts!', e)
+                (e) => showNotification('error', 'Error fetching NewProducts!', e)
             );
     }
 

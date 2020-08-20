@@ -9,21 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ContentWrapper from 'Component/ContentWrapper';
-import { BreadcrumbsType } from 'Type/Breadcrumbs';
-import Link from 'Component/Link';
-
 import './Breadcrumbs.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { BreadcrumbsType } from 'Type/Breadcrumbs';
+import { appendWithStoreCode } from 'Util/Url';
 
 /**
  * Breadcrumbs
  * @class Breadcrumbs
  * @namespace Component/Breadcrumbs/Component
  */
-export class Breadcrumbs extends ExtensiblePureComponent {
+export class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired
@@ -67,7 +69,11 @@ export class Breadcrumbs extends ExtensiblePureComponent {
     render() {
         const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible || location.pathname === '/') {
+        if (
+            !areBreadcrumbsVisible
+            || location.pathname === appendWithStoreCode('/')
+            || location.pathname === '/'
+        ) {
             return null;
         }
 

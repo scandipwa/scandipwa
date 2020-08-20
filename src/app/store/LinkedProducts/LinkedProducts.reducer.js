@@ -10,6 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+
 import { UPDATE_LINKED_PRODUCTS } from './LinkedProducts.action';
 import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
 
@@ -41,7 +42,8 @@ export const LinkedProductsReducer = (
         linkedProducts: {
             [UPSELL]: upsell,
             [RELATED]: related,
-            [CROSS_SELL]: crosssell
+            [CROSS_SELL]: crosssell,
+            updateCrosssel = false
         }
     } = action;
 
@@ -50,6 +52,17 @@ export const LinkedProductsReducer = (
             [CROSS_SELL]: prevCrossSell
         }
     } = state;
+
+    if (updateCrosssel) {
+        return {
+            ...state,
+            linkedProducts: {
+                [UPSELL]: upsell,
+                [RELATED]: related,
+                [CROSS_SELL]: crosssell
+            }
+        };
+    }
 
     return {
         ...state,

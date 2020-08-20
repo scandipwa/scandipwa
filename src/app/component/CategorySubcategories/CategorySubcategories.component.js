@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
-import PropTypes from 'prop-types';
-
 import './CategorySubcategories.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 /** @namespace Component/CategorySubcategories/Component */
-export class CategorySubcategories extends ExtensiblePureComponent {
+export class CategorySubcategories extends PureComponent {
     static propTypes = {
         handleCategoryClick: PropTypes.func.isRequired,
         option: PropTypes.shape({
@@ -41,7 +41,6 @@ export class CategorySubcategories extends ExtensiblePureComponent {
               onClick={ handleCategoryClick }
             >
                 <span
-                  title="EU 36"
                   block="ProductAttributeValue"
                   elem="Text"
                   mix={ {

@@ -9,23 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { MENU_SUBCATEGORY } from 'Component/Header/Header.config';
+import MenuQuery from 'Query/Menu.query';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import DataContainer from 'Util/Request/DataContainer';
-import { MENU_SUBCATEGORY } from 'Component/Header';
-import isMobile from 'Util/Mobile';
 import MenuHelper from 'Util/Menu';
-import { MenuQuery } from 'Query';
+import isMobile from 'Util/Mobile';
+import DataContainer from 'Util/Request/DataContainer';
 
 import Menu from './Menu.component';
 
 /** @namespace Component/Menu/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Component/Menu/Container/menuContainer */
@@ -123,4 +123,8 @@ export class MenuContainer extends DataContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(MenuContainer);
+/** @namespace Component/Menu/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);

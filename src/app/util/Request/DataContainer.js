@@ -9,14 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { executeGet } from 'Util/Request';
-import { prepareQuery } from 'Util/Query';
-import { hash } from 'Util/Request/Hash';
+import { PureComponent } from 'react';
+
 import { makeCancelable } from 'Util/Promise';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+import { hash } from 'Util/Request/Hash';
+
 import { ONE_MONTH_IN_SECONDS } from './QueryDispatcher';
 
 /** @namespace Util/Request/DataContainer */
-export class DataContainer extends ExtensiblePureComponent {
+export class DataContainer extends PureComponent {
     dataModelName = 'DataContainer';
 
     componentWillUnmount() {
@@ -44,13 +47,13 @@ export class DataContainer extends ExtensiblePureComponent {
         );
 
         this.promise.promise.then(
-            /** @namespace Util/Request/then */
+            /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseThen */
             (response) => {
                 window.dataCache[queryHash] = response;
                 onSucces(response);
             },
-            /** @namespace Util/Request/then */
-            err => onError(err)
+            /** @namespace Util/Request/DataContainer/fetchData/thisPromisePromiseCatch */
+            (err) => onError(err)
         );
     }
 }

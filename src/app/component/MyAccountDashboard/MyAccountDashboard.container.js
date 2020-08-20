@@ -16,12 +16,12 @@ import { customerType } from 'Type/Account';
 import MyAccountDashboard from './MyAccountDashboard.component';
 
 /** @namespace Component/MyAccountDashboard/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/MyAccountDashboard/Container */
-export class MyAccountDashboardContainer extends ExtensiblePureComponent {
+export class MyAccountDashboardContainer extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired
     };
@@ -48,6 +48,6 @@ export class MyAccountDashboardContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/MyAccountDashboard/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountDashboardContainer);

@@ -9,18 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
-import ExpandableContent from 'Component/ExpandableContent';
-import { AttributeType } from 'Type/ProductList';
-import { MixType } from 'Type/Common';
-
 import './ProductConfigurableAttributes.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ExpandableContent from 'Component/ExpandableContent';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
+import { MixType } from 'Type/Common';
+import { AttributeType } from 'Type/ProductList';
+
 /** @namespace Component/ProductConfigurableAttributes/Component */
-export class ProductConfigurableAttributes extends ExtensiblePureComponent {
+export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
@@ -75,7 +76,7 @@ export class ProductConfigurableAttributes extends ExtensiblePureComponent {
               block="ProductConfigurableAttributes"
               elem="SwatchList"
             >
-                { attribute_values.map(attribute_value => (
+                { attribute_values.map((attribute_value) => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })
                 )) }
             </div>
@@ -169,7 +170,11 @@ export class ProductConfigurableAttributes extends ExtensiblePureComponent {
         const { isReady, mix } = this.props;
 
         return (
-            <div block="ProductConfigurableAttributes" mix={ mix }>
+            <div
+              block="ProductConfigurableAttributes"
+              mods={ { isLoading: !isReady } }
+              mix={ mix }
+            >
                 { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholders() }
             </div>
         );

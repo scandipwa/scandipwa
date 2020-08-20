@@ -8,34 +8,51 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-
-import ProductList from 'Component/ProductList';
-import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
 import './CategoryProductList.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+
+import ProductList from 'Component/ProductList';
+import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
+import { FilterInputType } from 'Type/ProductList';
+
+export const ProductListDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/ProductList/ProductList.dispatcher'
+);
+
 /** @namespace Component/CategoryProductList/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     pages: state.ProductListReducer.pages,
     isOffline: state.OfflineReducer.isOffline,
     isLoading: state.ProductListReducer.isLoading,
+    isPageLoading: state.ProductListReducer.isPageLoading,
     totalItems: state.ProductListReducer.totalItems,
     totalPages: state.ProductListReducer.totalPages
 });
 
 /** @namespace Component/CategoryProductList/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    requestProductList: options => ProductListDispatcher.handleData(dispatch, options),
-    updateLoadStatus: isLoading => dispatch(updateLoadStatus(isLoading))
+export const mapDispatchToProps = (dispatch) => ({
+    requestProductList: (options) => ProductListDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+    ),
+    updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading))
 });
 
 /** @namespace Component/CategoryProductList/Container */
-export class CategoryProductListContainer extends ExtensiblePureComponent {
+export class CategoryProductListContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        isOnlyPlaceholder: PropTypes.bool.isRequired,
+        isMatchingListFilter: PropTypes.bool,
+        filter: FilterInputType,
         requestProductList: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isMatchingListFilter: false,
+        filter: {}
     };
 
     containerFunctions = {
@@ -44,36 +61,44 @@ export class CategoryProductListContainer extends ExtensiblePureComponent {
 
     getIsLoading() {
         const {
+            filter,
             isLoading,
-            isOnlyPlaceholder
+            isMatchingListFilter
         } = this.props;
+
+        /**
+         * In case the wrong category was passed down to the product list,
+         * show the loading animation, it will soon change to proper category.
+         */
+        if (filter.categoryIds === -1) {
+            return true;
+        }
 
         if (!navigator.onLine) {
             return false;
         }
 
-        if (isOnlyPlaceholder) {
-            return true;
+        // if the filter expected matches the last requested filter
+        if (isMatchingListFilter) {
+            return false;
         }
 
         return isLoading;
     }
 
+    getIsPreventRequest() {
+        const { isMatchingListFilter } = this.props;
+        return isMatchingListFilter; // if filter match - prevent request
+    }
+
     requestProductList(options) {
-        const {
-            isOnlyPlaceholder,
-            requestProductList
-        } = this.props;
-
-        if (isOnlyPlaceholder) {
-            return;
-        }
-
+        const { requestProductList } = this.props;
         requestProductList(options);
     }
 
     containerProps = () => ({
         isLoading: this.getIsLoading(),
+        isPreventRequest: this.getIsPreventRequest(),
         mix: { block: 'CategoryProductList' }
     });
 

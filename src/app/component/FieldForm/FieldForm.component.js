@@ -9,14 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
-import Form from 'Component/Form';
-import Field from 'Component/Field';
-
 import './FieldForm.style';
 
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+
 /** @namespace Component/FieldForm/Component */
-export class FieldForm extends ExtensiblePureComponent {
+export class FieldForm extends PureComponent {
     onFormSuccess() {
         // TODO: implement
     }
@@ -47,7 +48,7 @@ export class FieldForm extends ExtensiblePureComponent {
         };
     }
 
-    renderField = fieldEntry => (
+    renderField = (fieldEntry) => (
         <Field { ...this.getDefaultValues(fieldEntry) } />
     );
 

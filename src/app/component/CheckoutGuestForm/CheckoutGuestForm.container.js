@@ -9,27 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
-import { showNotification } from 'Store/Notification';
+import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { showNotification } from 'Store/Notification/Notification.action';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
 
 /** @namespace Component/CheckoutGuestForm/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required
 });
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showErrorNotification: error => dispatch(showNotification('error', error[0].message))
+export const mapDispatchToProps = (dispatch) => ({
+    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message))
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
-export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
+export class CheckoutGuestFormContainer extends PureComponent {
     static propTypes = {
         isBilling: PropTypes.bool,
         isCreateUser: PropTypes.bool.isRequired,

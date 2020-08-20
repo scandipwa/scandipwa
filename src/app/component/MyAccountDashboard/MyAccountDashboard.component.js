@@ -9,20 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import { customerType, ADDRESS_BOOK } from 'Type/Account';
-import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
-import Loader from 'Component/Loader';
-import Link from 'Component/Link';
-
-import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
 import './MyAccountDashboard.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Link from 'Component/Link';
+import Loader from 'Component/Loader';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
+import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
+import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { ADDRESS_BOOK, customerType } from 'Type/Account';
 
 /** @namespace Component/MyAccountDashboard/Component */
-export class MyAccountDashboard extends ExtensiblePureComponent {
+export class MyAccountDashboard extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultAddress: PropTypes.func.isRequired

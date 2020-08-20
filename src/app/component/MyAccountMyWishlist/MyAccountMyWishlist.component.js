@@ -9,18 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
-import ShareWishlistPopup from 'Component/ShareWishlistPopup';
-import WishlistItem from 'Component/WishlistItem';
-import ProductCard from 'Component/ProductCard';
-import { ProductType } from 'Type/ProductList';
-import Loader from 'Component/Loader';
-
 import './MyAccountMyWishlist.style';
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Loader from 'Component/Loader';
+import ProductCard from 'Component/ProductCard';
+import ShareWishlistPopup from 'Component/ShareWishlistPopup';
+import WishlistItem from 'Component/WishlistItem';
+import { ProductType } from 'Type/ProductList';
+
 /** @namespace Component/MyAccountMyWishlist/Component */
-export class MyAccountMyWishlist extends ExtensiblePureComponent {
+export class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,

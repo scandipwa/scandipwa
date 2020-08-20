@@ -12,16 +12,26 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { updateMeta } from 'Store/Meta';
-import { CartDispatcher } from 'Store/Cart';
-import { ConfigDispatcher } from 'Store/Config';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import HeaderAndFooterDispatcher from 'Store/HeaderAndFooter/HeaderAndFooter.dispatcher';
+import { updateMeta } from 'Store/Meta/Meta.action';
 
 import Router from './Router.component';
 
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+export const ConfigDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Config/Config.dispatcher'
+);
+export const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
+
+
 /** @namespace Component/Router/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
@@ -33,18 +43,23 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/Router/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
-    init: (options) => {
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
-        CartDispatcher.updateInitialCartData(dispatch);
-        ConfigDispatcher.handleData(dispatch);
-        HeaderAndFooterDispatcher.handleData(dispatch, options);
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    init: () => {
+        WishlistDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+        );
+        CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+        );
+        ConfigDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch)
+        );
     }
 });
 
 /** @namespace Component/Router/Container */
-export class RouterContainer extends ExtensiblePureComponent {
+export class RouterContainer extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
@@ -67,22 +82,11 @@ export class RouterContainer extends ExtensiblePureComponent {
         isBigOffline: false
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         this.initializeApplication();
     }
-
-    initializeApplication() {
-        const { init } = this.props;
-        init(this.getHeaderAndFooterOptions());
-    }
-
-    containerProps = () => {
-        const { isBigOffline } = this.props;
-
-        return { isBigOffline };
-    };
 
     componentDidUpdate(prevProps) {
         const { isLoading, updateMeta } = this.props;
@@ -110,35 +114,15 @@ export class RouterContainer extends ExtensiblePureComponent {
         }
     }
 
-    getCmsBlocksToRequest() {
-        // TODO: remove!
+    containerProps = () => {
+        const { isBigOffline } = this.props;
 
-        const blocks = Object.values(window.contentConfiguration).reduce(
-            (acc, config) => [
-                ...acc,
-                ...Object.entries(config).reduce(
-                    (acc, [key, identifier]) => ((key.indexOf('cms') === -1)
-                        ? acc
-                        : [...acc, identifier]
-                    ),
-                    []
-                )
-            ],
-            []
-        ).filter((value, index, self) => value && self.indexOf(value) === index);
+        return { isBigOffline };
+    };
 
-        return blocks.length ? blocks : ['social-links'];
-    }
-
-    getHeaderAndFooterOptions() {
-        // TODO: remove!
-
-        const { header_content: { header_menu } = {} } = window.contentConfiguration;
-
-        return {
-            menu: { identifier: [header_menu || 'new-main-menu'] },
-            footer: { identifiers: this.getCmsBlocksToRequest() }
-        };
+    initializeApplication() {
+        const { init } = this.props;
+        init();
     }
 
     render() {

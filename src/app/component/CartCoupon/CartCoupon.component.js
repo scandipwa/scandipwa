@@ -9,13 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Field from 'Component/Field';
-import Loader from 'Component/Loader';
-import PropTypes from 'prop-types';
 import './CartCoupon.style';
 
+import PropTypes from 'prop-types';
+
+import Field from 'Component/Field';
+import Loader from 'Component/Loader';
+
 /** @namespace Component/CartCoupon/Component */
-export class CartCoupon extends ExtensiblePureComponent {
+export class CartCoupon extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         couponCode: PropTypes.string,

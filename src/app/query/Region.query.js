@@ -16,7 +16,7 @@ import { Field } from 'Util/Query';
  * @class RegionQuery
  * @namespace Query/Region
  */
-export class RegionQuery extends ExtensibleClass {
+export class RegionQuery {
     getCountriesQuery() {
         return new Field('countries')
             .addFieldList(this._getCountryFields());
@@ -44,4 +44,4 @@ export class RegionQuery extends ExtensibleClass {
     }
 }
 
-export default new (RegionQuery)();
+export default new RegionQuery();

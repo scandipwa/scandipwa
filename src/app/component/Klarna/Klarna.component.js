@@ -10,21 +10,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { KlarnaQuery } from 'Query';
-import Html from 'Component/Html';
-import { fetchMutation } from 'Util/Request';
-import Loader from 'Component/Loader';
-import { CartDispatcher } from 'Store/Cart';
-import { isSignedIn } from 'Util/Auth';
-
 import './Klarna.style';
 
-export const KLARNA_SCRIPT_ID = 'klarna_script';
-export const KLARNA_PAYMENTS_CONTAINER_ID = 'klarna-payments-container';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Html from 'Component/Html';
+import Loader from 'Component/Loader';
+import KlarnaQuery from 'Query/Klarna.query';
+import { isSignedIn } from 'Util/Auth';
+import { fetchMutation } from 'Util/Request';
+
+import { KLARNA_PAYMENTS_CONTAINER_ID, KLARNA_SCRIPT_ID } from './Klarna.config';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /** @namespace Component/Klarna/Component */
-export class Klarna extends ExtensiblePureComponent {
+export class Klarna extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired
@@ -36,7 +41,9 @@ export class Klarna extends ExtensiblePureComponent {
 
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
-        const guest_cart_id = CartDispatcher._getGuestQuoteId();
+        const guest_cart_id = CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher._getGuestQuoteId
+        )();
 
         try {
             setOrderButtonEnableStatus(false);

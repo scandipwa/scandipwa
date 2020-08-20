@@ -10,11 +10,14 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import { ProductType } from 'Type/ProductList';
+
 import GroupedProductsItem from './GroupedProductsItem.component';
 
 /** @namespace Component/GroupedProductsItem/Container */
-export class GroupedProductsItemContainer extends ExtensiblePureComponent {
+export class GroupedProductsItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
@@ -26,8 +29,8 @@ export class GroupedProductsItemContainer extends ExtensiblePureComponent {
         changeCount: this.changeCount.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { defaultQuantity } = this.props;
         this.changeCount(defaultQuantity);

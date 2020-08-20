@@ -10,6 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
+
 import Html from 'Component/Html';
 import { ChildrenType } from 'Type/Common';
 
@@ -18,7 +19,7 @@ import { ChildrenType } from 'Type/Common';
  * @class CmsBlock
  * @namespace Component/CmsBlock/Component
  */
-export class CmsBlock extends ExtensiblePureComponent {
+export class CmsBlock extends PureComponent {
     static propTypes = {
         cmsBlock: PropTypes.shape({
             identifier: PropTypes.string,

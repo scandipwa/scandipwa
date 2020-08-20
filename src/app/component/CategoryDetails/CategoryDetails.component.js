@@ -9,20 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './CategoryDetails.style';
+
+import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
 import Image from 'Component/Image';
-import { CategoryTreeType } from 'Type/Category';
 import TextPlaceholder from 'Component/TextPlaceholder';
-
-import './CategoryDetails.style';
+import { CategoryTreeType } from 'Type/Category';
 
 /**
  * Category details
  * @class CategoryDetails
  * @namespace Component/CategoryDetails/Component
  */
-export class CategoryDetails extends ExtensiblePureComponent {
+export class CategoryDetails extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired
     };
