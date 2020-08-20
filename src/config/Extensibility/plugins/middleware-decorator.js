@@ -8,8 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-/* eslint-disable no-param-reassign */
-/* eslint-disable new-cap */
+/* eslint-disable no-param-reassign, new-cap */
+// TODO comment
+// TODO add examples of transformations
 const namespaceExtractor = /@namespace +(?<namespace>[^ ]+)/;
 
 const extractNamespaceFromComments = (comments = []) => comments.reduce(
@@ -24,9 +25,9 @@ const extractNamespaceFromComments = (comments = []) => comments.reduce(
 );
 
 const getLeadingComments = (path) => {
-    const { node } = path;
-    if (node.leadingComments) {
-        return node.leadingComments;
+    const { node: { leadingComments } } = path;
+    if (leadingComments) {
+        return leadingComments;
     }
 
     if (
@@ -35,6 +36,8 @@ const getLeadingComments = (path) => {
     ) {
         return path.parent.leadingComments;
     }
+
+    return null;
 };
 
 const getNamespaceFromPath = (path) => {
@@ -50,7 +53,7 @@ const addSuperToConstructor = (path, types) => {
     const constructor = path
         .get('body')
         .get('body')
-        .find(member => member.get('key').node.name === 'constructor');
+        .find((member) => member.get('key').node.name === 'constructor');
 
     if (!constructor) {
         return;
