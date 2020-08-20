@@ -21,7 +21,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     logout: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.logout(null, dispatch)
     )
@@ -61,6 +61,6 @@ export class MyAccountTabListContainer extends PureComponent {
 
 /** @namespace Component/MyAccountTabList/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountTabListContainer);

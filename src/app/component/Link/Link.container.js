@@ -20,7 +20,7 @@ import { appendWithStoreCode } from 'Util/Url';
 import Link from './Link.component';
 
 /** @namespace Component/Link/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     baseLinkUrl: state.ConfigReducer.base_link_url
 });
 
@@ -88,6 +88,6 @@ export class LinkContainer extends PureComponent {
 
 /** @namespace Component/Link/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LinkContainer);

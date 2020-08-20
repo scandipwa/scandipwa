@@ -60,7 +60,7 @@ export class MyAccountDispatcher {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
             /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostError */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -90,7 +90,7 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationThen */
             () => dispatch(updateCustomerPasswordForgotStatus()),
             /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationError */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 

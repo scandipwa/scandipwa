@@ -37,7 +37,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
@@ -45,20 +45,20 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    forgotPassword: options => MyAccountDispatcher.then(
+    forgotPassword: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
     ),
-    createAccount: options => MyAccountDispatcher.then(
+    createAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     ),
-    signIn: options => MyAccountDispatcher.then(
+    signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-    setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
+    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
 /** @namespace Component/MyAccountOverlay/Container */

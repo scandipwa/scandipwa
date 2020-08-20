@@ -22,12 +22,12 @@ import { executeGet } from 'Util/Request';
 import NewProducts from './NewProducts.component';
 
 /** @namespace Component/NewProducts/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     timezone: state.ConfigReducer.timezone
 });
 
 /** @namespace Component/NewProducts/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
@@ -134,7 +134,7 @@ export class NewProductsContainer extends PureComponent {
             )
             .catch(
                 /** @namespace Component/NewProducts/Container/executeGetThenCatch */
-                e => showNotification('error', 'Error fetching NewProducts!', e)
+                (e) => showNotification('error', 'Error fetching NewProducts!', e)
             );
     }
 

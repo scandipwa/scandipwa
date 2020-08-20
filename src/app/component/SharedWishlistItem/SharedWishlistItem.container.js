@@ -22,9 +22,9 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/SharedWishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.then(
+    addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     )
 });
@@ -70,6 +70,6 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
 
 /** @namespace Component/SharedWishlistItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SharedWishlistItemContainer);

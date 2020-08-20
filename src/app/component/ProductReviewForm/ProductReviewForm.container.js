@@ -29,15 +29,15 @@ export const ReviewDispatcher = import(
 );
 
 /** @namespace Component/ProductReviewForm/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 
 /** @namespace Component/ProductReviewForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    addReview: options => ReviewDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    addReview: (options) => ReviewDispatcher.then(
         ({ default: dispatcher }) => dispatcher.submitProductReview(dispatch, options)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),

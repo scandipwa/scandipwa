@@ -24,7 +24,7 @@ export const ProductListDispatcher = import(
 );
 
 /** @namespace Component/CategoryProductList/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     pages: state.ProductListReducer.pages,
     isOffline: state.OfflineReducer.isOffline,
     isLoading: state.ProductListReducer.isLoading,
@@ -34,11 +34,11 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/CategoryProductList/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    requestProductList: options => ProductListDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    requestProductList: (options) => ProductListDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
-    updateLoadStatus: isLoading => dispatch(updateLoadStatus(isLoading))
+    updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading))
 });
 
 /** @namespace Component/CategoryProductList/Container */

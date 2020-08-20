@@ -150,7 +150,7 @@ export class MenuOverlay extends PureComponent {
                             ? (
                                 <div
                                   key={ item_id }
-                                  onClick={ e => this.handleSubcategoryClick(e, item) }
+                                  onClick={ (e) => this.handleSubcategoryClick(e, item) }
                                   tabIndex="0"
                                   role="button"
                                 >
@@ -187,7 +187,7 @@ export class MenuOverlay extends PureComponent {
                     { childrenArray.length
                         ? (
                             <div
-                              onClick={ e => this.handleSubcategoryClick(e, item) }
+                              onClick={ (e) => this.handleSubcategoryClick(e, item) }
                               tabIndex="0"
                               role="button"
                             >

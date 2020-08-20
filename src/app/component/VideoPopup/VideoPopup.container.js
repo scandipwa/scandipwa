@@ -15,12 +15,12 @@ import VideoPopup from './VideoPopup.component';
 import { VIDEO_POPUP_ID } from './VideoPopup.config';
 
 /** @namespace Component/VideoPopup/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[VIDEO_POPUP_ID] || {}
 });
 
 /** @namespace Component/VideoPopup/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(VideoPopup);

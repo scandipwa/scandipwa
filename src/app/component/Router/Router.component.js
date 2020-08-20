@@ -59,7 +59,7 @@ export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkNa
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
 
 /** @namespace Component/Router/Component/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     default_description: state.ConfigReducer.default_description,
     default_keywords: state.ConfigReducer.default_keywords,
@@ -72,12 +72,12 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Component/Router/Component/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Component/Router/Component/withStoreRegex */
-export const withStoreRegex = path => window.storeRegexText.concat(path);
+export const withStoreRegex = (path) => window.storeRegexText.concat(path);
 
 /** @namespace Component/Router/Component */
 export class Router extends PureComponent {

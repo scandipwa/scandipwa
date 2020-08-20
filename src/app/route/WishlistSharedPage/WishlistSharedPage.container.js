@@ -34,17 +34,17 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Route/WishlistSharedPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     clearWishlist: () => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
     ),
-    moveWishlistToCart: sharingCode => WishlistDispatcher.then(
+    moveWishlistToCart: (sharingCode) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)
     ),
-    showNotification: message => dispatch(showNotification('success', message)),
-    showError: message => dispatch(showNotification('error', message)),
+    showNotification: (message) => dispatch(showNotification('success', message)),
+    showError: (message) => dispatch(showNotification('error', message)),
     showNoMatch: () => dispatch(updateNoMatch(true)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     )
 });
@@ -182,6 +182,6 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
 
 /** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistSharedPageContainer);

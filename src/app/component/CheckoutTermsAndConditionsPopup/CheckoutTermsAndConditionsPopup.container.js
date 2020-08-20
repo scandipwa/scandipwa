@@ -17,7 +17,7 @@ import CheckoutTermsAndConditionsPopup from './CheckoutTermsAndConditionsPopup.c
 import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[TERMS_AND_CONDITIONS_POPUP_ID] || {}
 });
 
@@ -47,6 +47,6 @@ export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutTermsAndConditionsPopupContainer);

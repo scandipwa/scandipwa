@@ -30,14 +30,14 @@ export const UrlRewritesDispatcher = import(
 );
 
 /** @namespace Route/UrlRewrites/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
     isLoading: state.UrlRewritesReducer.isLoading,
     requestedUrl: state.UrlRewritesReducer.requestedUrl
 });
 
 /** @namespace Route/UrlRewrites/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, {
@@ -203,7 +203,7 @@ export class UrlRewritesContainer extends PureComponent {
          */
         if (this.getIsLoading()) {
             const state = history?.state?.state || {};
-            const typeKey = Object.keys(state).find(key => UrlRewritesContainer.stateMapping[key]);
+            const typeKey = Object.keys(state).find((key) => UrlRewritesContainer.stateMapping[key]);
 
             if (typeKey) {
                 return UrlRewritesContainer.stateMapping[typeKey];

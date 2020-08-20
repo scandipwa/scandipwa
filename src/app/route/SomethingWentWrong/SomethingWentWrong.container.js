@@ -17,8 +17,8 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import SomethingWentWrong from './SomethingWentWrong.component';
 
 /** @namespace Route/SomethingWentWrong/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/SomethingWentWrong/Container */
@@ -44,6 +44,6 @@ export class SomethingWentWrongContainer extends PureComponent {
 
 /** @namespace Route/SomethingWentWrong/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SomethingWentWrongContainer);

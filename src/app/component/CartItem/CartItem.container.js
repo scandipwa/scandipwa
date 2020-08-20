@@ -26,14 +26,14 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
-    changeItemQty: options => CartDispatcher.then(
+    changeItemQty: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)
     ),
-    removeProduct: options => CartDispatcher.then(
+    removeProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
     )
 });
@@ -61,7 +61,7 @@ export class CartItemContainer extends PureComponent {
 
     componentWillUnmount() {
         if (this.handlers.length) {
-            [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+            [].forEach.call(this.handlers, (cancelablePromise) => cancelablePromise.cancel());
         }
     }
 
@@ -219,6 +219,6 @@ export class CartItemContainer extends PureComponent {
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartItemContainer);

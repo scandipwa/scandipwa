@@ -16,12 +16,12 @@ import { hideNotification } from 'Store/Notification/Notification.action';
 import NotificationList from './NotificationList.component';
 
 /** @namespace Component/NotificationList/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     notifications: state.NotificationReducer.notifications
 });
 
 /** @namespace Component/NotificationList/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     onHideNotification: (id) => {
         dispatch(hideNotification(id));
     }

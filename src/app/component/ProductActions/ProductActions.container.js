@@ -24,7 +24,7 @@ import ProductActions from './ProductActions.component';
 import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
 
@@ -336,6 +336,6 @@ export class ProductActionsContainer extends PureComponent {
 
 /** @namespace Component/ProductActions/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductActionsContainer);

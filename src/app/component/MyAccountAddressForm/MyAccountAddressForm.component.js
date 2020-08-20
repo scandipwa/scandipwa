@@ -76,7 +76,7 @@ export class MyAccountAddressForm extends FieldForm {
                 label: __('State/Province'),
                 type: 'select',
                 selectOptions: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
-                onChange: regionId => this.setState({ regionId }),
+                onChange: (regionId) => this.setState({ regionId }),
                 value: regionId
             }
         };

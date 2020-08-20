@@ -20,13 +20,13 @@ import { customerType } from 'Type/Account';
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 
 /** @namespace Component/MyAccountAddressBook/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/MyAccountAddressBook/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showPopup: (payload) => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
 });
 
 /** @namespace Component/MyAccountAddressBook/Container */

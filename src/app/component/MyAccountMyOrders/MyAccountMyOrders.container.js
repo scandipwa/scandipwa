@@ -20,13 +20,13 @@ export const OrderDispatcher = import(
 );
 
 /** @namespace Component/MyAccountMyOrders/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     orderList: state.OrderReducer.orderList,
     isLoading: state.OrderReducer.isLoading
 });
 
 /** @namespace Component/MyAccountMyOrders/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     getOrderList: () => OrderDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
     )

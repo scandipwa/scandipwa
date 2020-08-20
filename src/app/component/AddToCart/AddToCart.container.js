@@ -34,16 +34,16 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/AddToCart/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
 /** @namespace Component/AddToCart/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
-    removeFromWishlist: options => WishlistDispatcher.then(
+    removeFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message))
@@ -190,7 +190,7 @@ export class AddToCartContainer extends PureComponent {
 
     validateProductOptions(items, requiredOptions, isBundle = false) {
         // Make sure EVERY required option is FOUND in selected items
-        return requiredOptions.every(requiredOption => (
+        return requiredOptions.every((requiredOption) => (
             items.find((item) => {
                 const { id, option_id } = item;
                 const matchWith = isBundle ? id : option_id;

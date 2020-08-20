@@ -86,7 +86,7 @@ export class Field {
             throw new Error('Argument must be array');
         }
 
-        fieldList.forEach(field => this.addField(field));
+        fieldList.forEach((field) => this.addField(field));
         return this;
     }
 

@@ -24,8 +24,8 @@ import CheckoutPayments from './CheckoutPayments.component';
 import { BRAINTREE, KLARNA } from './CheckoutPayments.config';
 
 /** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showError: message => dispatch(showNotification('error', message))
+export const mapDispatchToProps = (dispatch) => ({
+    showError: (message) => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/CheckoutPayments/Container */
@@ -117,6 +117,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
 /** @namespace Component/CheckoutPayments/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPaymentsContainer);

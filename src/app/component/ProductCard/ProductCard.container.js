@@ -26,8 +26,8 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     )
 });
@@ -210,6 +210,6 @@ export class ProductCardContainer extends PureComponent {
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCardContainer);

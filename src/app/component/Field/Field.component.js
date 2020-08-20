@@ -121,7 +121,7 @@ export class Field extends PureComponent {
                   type="number"
                   readOnly
                   // eslint-disable-next-line react/jsx-no-bind
-                  onChange={ e => handleChange(e.target.value, false) }
+                  onChange={ (e) => handleChange(e.target.value, false) }
                   onKeyDown={ onKeyEnterDown }
                 />
                 <button

@@ -61,7 +61,7 @@ export const NoMatchDispatcher = import(
 );
 
 /** @namespace Route/CategoryPage/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     category: state.CategoryReducer.category,
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
@@ -73,14 +73,14 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    toggleOverlayByKey: (key) => dispatch(toggleOverlayByKey(key)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    requestCategory: (options) => CategoryDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
-    updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
+    updateBreadcrumbs: (breadcrumbs) => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateWithCategory(breadcrumbs, dispatch)
         )
@@ -88,15 +88,15 @@ export const mapDispatchToProps = dispatch => ({
             ({ default: dispatcher }) => dispatcher.update([], dispatch)
         )
     ),
-    requestProductListInfo: options => ProductListInfoDispatcher.then(
+    requestProductListInfo: (options) => ProductListInfoDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
-    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.then(
+    updateLoadStatus: (isLoading) => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: (options) => NoMatchDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
     ),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.then(
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: (category) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithCategory(category, dispatch)
     ),
     clearCategory: () => dispatch(updateCurrentCategory({}))

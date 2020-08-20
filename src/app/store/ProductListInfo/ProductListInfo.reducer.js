@@ -15,7 +15,7 @@ import {
 } from 'Store/ProductListInfo/ProductListInfo.action';
 
 /** @namespace Store/ProductListInfo/Reducer/reduceFilters */
-export const reduceFilters = filters => filters.reduce((co, item) => {
+export const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
         name: attribute_label,

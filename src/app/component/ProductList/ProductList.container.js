@@ -24,8 +24,8 @@ import { getQueryParam, setQueryParams } from 'Util/Url';
 import ProductList from './ProductList.component';
 
 /** @namespace Component/ProductList/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options)
+export const mapDispatchToProps = (dispatch) => ({
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options)
 });
 
 /** @namespace Component/ProductList/Container */

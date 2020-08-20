@@ -20,7 +20,7 @@ import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
 import CheckoutShipping from './CheckoutShipping.component';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
@@ -109,6 +109,6 @@ export class CheckoutShippingContainer extends PureComponent {
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutShippingContainer);

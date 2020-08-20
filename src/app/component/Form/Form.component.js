@@ -58,7 +58,7 @@ export class Form extends PureComponent {
     }
 
     static cloneChildren(originChildren, fieldCallback) {
-        const executeClone = originChildren => Children.map(originChildren, (child) => {
+        const executeClone = (originChildren) => Children.map(originChildren, (child) => {
             if (child && typeof child === 'object' && child.type && child.props) {
                 const { type: { WrappedComponent: { name } = {} }, props, props: { children } } = child;
 
@@ -200,7 +200,7 @@ export class Form extends PureComponent {
                 onSubmitError(inputValues, invalidFields);
             },
             /** @namespace Component/Form/Component/handleFormSubmitAsyncDataCatch */
-            e => onSubmitError(inputValues, invalidFields, e)
+            (e) => onSubmitError(inputValues, invalidFields, e)
         );
     };
 

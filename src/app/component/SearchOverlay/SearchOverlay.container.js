@@ -21,14 +21,14 @@ export const SearchBarDispatcher = import(
 );
 
 /** @namespace Component/SearchOverlay/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     searchResults: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading
 });
 
 /** @namespace Component/SearchOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    makeSearchRequest: options => SearchBarDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    makeSearchRequest: (options) => SearchBarDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
     ),
     clearSearchResults: () => SearchBarDispatcher.then(

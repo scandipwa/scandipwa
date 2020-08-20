@@ -27,17 +27,17 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/ProductWishlistButton/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
     isLoading: state.WishlistReducer.isLoading
 });
 
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    addProductToWishlist: wishlistItem => WishlistDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    addProductToWishlist: (wishlistItem) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addItemToWishlist(dispatch, wishlistItem)
     ),
-    removeProductFromWishlist: options => WishlistDispatcher.then(
+    removeProductFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message))

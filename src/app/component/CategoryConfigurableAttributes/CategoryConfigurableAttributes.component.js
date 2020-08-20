@@ -112,7 +112,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
               block="ProductConfigurableAttributes"
               elem="DropDownList"
             >
-                { attribute_values.map(attribute_value => (
+                { attribute_values.map((attribute_value) => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })
                 )) }
             </div>

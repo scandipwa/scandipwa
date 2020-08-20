@@ -26,9 +26,9 @@ export const makeCancelable = (promise) => {
     const wrappedPromise = new Promise((resolve, reject) => {
         promise.then(
             /** @namespace Util/Promise/MakeCancelable/promiseThen */
-            val => (!hasCanceled_ && resolve(val)),
+            (val) => (!hasCanceled_ && resolve(val)),
             /** @namespace Util/Promise/MakeCancelable/promiseError */
-            error => (!hasCanceled_ && reject(error))
+            (error) => (!hasCanceled_ && reject(error))
         );
     });
 

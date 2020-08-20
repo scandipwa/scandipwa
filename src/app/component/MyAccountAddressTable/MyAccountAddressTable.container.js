@@ -25,13 +25,13 @@ import { countriesType } from 'Type/Config';
 import MyAccountAddressTable from './MyAccountAddressTable.component';
 
 /** @namespace Component/MyAccountAddressTable/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     countries: state.ConfigReducer.countries
 });
 
 /** @namespace Component/MyAccountAddressTable/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showEditPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showEditPopup: (payload) => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
 });
 
 /** @namespace Component/MyAccountAddressTable/Container */

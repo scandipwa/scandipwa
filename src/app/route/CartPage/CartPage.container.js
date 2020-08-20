@@ -37,21 +37,21 @@ export const BreadcrumbsDispatcher = import(
 );
 
 /** @namespace Route/CartPage/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
         ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
     ),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    updateMeta: meta => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/CartPage/Container */

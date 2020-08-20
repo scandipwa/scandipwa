@@ -17,7 +17,7 @@ export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
 
 /** @namespace Store/Config/Reducer/filterStoreConfig */
-export const filterStoreConfig = config => Object.entries(config).reduce(
+export const filterStoreConfig = (config) => Object.entries(config).reduce(
     (acc, [key, value]) => (value !== null ? { ...acc, [key]: value } : acc),
     {}
 );

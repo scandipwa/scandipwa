@@ -109,9 +109,9 @@ export class Html extends PureComponent {
     };
 
     attributesToProps(attribs) {
-        const toCamelCase = string => string.replace(/_[a-z]/g, match => match.substr(1).toUpperCase());
+        const toCamelCase = (string) => string.replace(/_[a-z]/g, (match) => match.substr(1).toUpperCase());
 
-        const convertPropertiesToValidFormat = properties => Object.entries(properties)
+        const convertPropertiesToValidFormat = (properties) => Object.entries(properties)
             .reduce((validProps, [key, value]) => {
                 // eslint-disable-next-line no-restricted-globals
                 if (!isNaN(value)) {
@@ -135,8 +135,8 @@ export class Html extends PureComponent {
         const { href, ...attrs } = attribs;
 
         if (href) {
-            const isAbsoluteUrl = value => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
-            const isSpecialLink = value => new RegExp('^(sms|tel|mailto):', 'i').test(value);
+            const isAbsoluteUrl = (value) => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
+            const isSpecialLink = (value) => new RegExp('^(sms|tel|mailto):', 'i').test(value);
 
             if (!isAbsoluteUrl(href) && !isSpecialLink(href)) {
                 return (

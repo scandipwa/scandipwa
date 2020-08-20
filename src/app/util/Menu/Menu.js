@@ -22,7 +22,7 @@ export const TYPE_CATEGORY = 2;
  * @returns {array} the sorted array
  * @namespace Util/Menu/getSortedItems
  */
-export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
+export const getSortedItems = (unsortedItems) => Array.from(unsortedItems).sort((
     { parent_id: PID, position: P },
     { parent_id: prevPID, position: prevP }
 ) => (PID - prevPID) || (P - prevP));

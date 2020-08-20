@@ -30,23 +30,23 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/ConfirmAccountPage/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 /** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.then(
             ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
         );
     },
-    updateMeta: meta => dispatch(updateMeta(meta)),
-    confirmAccount: options => MyAccountDispatcher.then(
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    confirmAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    signIn: options => MyAccountDispatcher.then(
+    signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     )
 });

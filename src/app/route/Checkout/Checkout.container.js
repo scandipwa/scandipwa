@@ -46,7 +46,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/Checkout/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
@@ -54,17 +54,17 @@ export const mapStateToProps = state => ({
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
     ),
-    toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
-    showErrorNotification: message => dispatch(showNotification('error', message)),
-    showInfoNotification: message => dispatch(showNotification('info', message)),
-    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    createAccount: options => MyAccountDispatcher.then(
+    toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
+    showErrorNotification: (message) => dispatch(showNotification('error', message)),
+    showInfoNotification: (message) => dispatch(showNotification('info', message)),
+    setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+    createAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     )
 });
@@ -299,7 +299,7 @@ export class CheckoutContainer extends PureComponent {
             handleAuthorization(
                 paymentInformation,
                 secret,
-                paymentInformation => this.savePaymentInformation(paymentInformation)
+                (paymentInformation) => this.savePaymentInformation(paymentInformation)
             );
         } else {
             this._handleError(error);

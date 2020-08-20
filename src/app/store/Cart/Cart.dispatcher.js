@@ -57,7 +57,7 @@ export class CartDispatcher {
             /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationThen */
             ({ createEmptyCart }) => createEmptyCart,
             /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationCatch */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -82,9 +82,9 @@ export class CartDispatcher {
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryThen */
-            result => this.handle_syncCartWithBESuccess(dispatch, result),
+            (result) => this.handle_syncCartWithBESuccess(dispatch, result),
             /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryError */
-            error => this.handle_syncCartWithBEError(dispatch, error)
+            (error) => this.handle_syncCartWithBEError(dispatch, error)
         );
     }
 
@@ -180,7 +180,7 @@ export class CartDispatcher {
             /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationThen */
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
             /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationError */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -194,7 +194,7 @@ export class CartDispatcher {
                 dispatch(showNotification('success', __('Coupon was applied!')));
             },
             /** @namespace Store/Cart/Dispatcher/applyCouponToCartFetchMutationError */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -208,7 +208,7 @@ export class CartDispatcher {
                 dispatch(showNotification('success', __('Coupon was removed!')));
             },
             /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationError */
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -224,12 +224,12 @@ export class CartDispatcher {
 
                 if (childProductLinks) {
                     Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
-                        .map(item => links.push(item));
+                        .map((item) => links.push(item));
                 }
 
                 if (product_links) {
                     Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
-                        .map(item => links.push(item));
+                        .map((item) => links.push(item));
                 }
 
                 return links;

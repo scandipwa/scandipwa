@@ -21,7 +21,7 @@ import { generateQuery, getQueryParam } from 'Util/Url';
 import CategoryPagination from './CategoryPagination.component';
 
 /** @namespace Component/CategoryPagination/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     paginationFrame: state.ConfigReducer.pagination_frame,
     paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
     anchorTextPrevious: state.ConfigReducer.anchor_text_for_previous,
@@ -79,7 +79,7 @@ export class CategoryPaginationContainer extends PureComponent {
 
 /** @namespace Component/CategoryPagination/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default withRouter(
     connect(mapStateToProps, mapDispatchToProps)(CategoryPaginationContainer)

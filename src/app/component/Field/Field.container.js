@@ -26,13 +26,13 @@ import {
 } from './Field.config';
 
 /** @namespace Component/Field/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/Field/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 /** @namespace Component/Field/Container */
 export class FieldContainer extends PureComponent {

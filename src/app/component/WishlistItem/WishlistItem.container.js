@@ -30,15 +30,15 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.then(
+    addProductToCart: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
     ),
-    updateWishlistItem: options => WishlistDispatcher.then(
+    updateWishlistItem: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)
     ),
-    removeFromWishlist: options => WishlistDispatcher.then(
+    removeFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
     )
 });
@@ -83,7 +83,7 @@ export class WishlistItemContainer extends PureComponent {
         };
     };
 
-    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
+    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
     _getParameters = () => {
         const { product } = this.props;
@@ -177,6 +177,6 @@ export class WishlistItemContainer extends PureComponent {
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistItemContainer);

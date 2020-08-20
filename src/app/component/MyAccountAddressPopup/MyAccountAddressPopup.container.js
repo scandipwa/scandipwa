@@ -30,15 +30,15 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[ADDRESS_POPUP_ID] || {}
 });
 
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
-    showSuccessNotification: message => dispatch(showNotification('success', message)),
+    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     updateCustomerDetails: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
     ),

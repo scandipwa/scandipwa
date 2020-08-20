@@ -57,7 +57,7 @@ export const updateProductListItems = (
  * @return {void}
  * @namespace Store/ProductList/Action/updateLoadStatus
  */
-export const updateLoadStatus = status => ({
+export const updateLoadStatus = (status) => ({
     type: UPDATE_LOAD_STATUS,
     isLoading: status
 });

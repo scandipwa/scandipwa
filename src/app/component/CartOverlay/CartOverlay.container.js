@@ -32,20 +32,20 @@ export const CartDispatcher = import(
 );
 
 /** @namespace Component/CartOverlay/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     guest_checkout: state.ConfigReducer.guest_checkout,
     currencyCode: state.ConfigReducer.default_display_currency_code
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateTotals: options => CartDispatcher.then(
+export const mapDispatchToProps = (dispatch) => ({
+    setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateTotals: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)
     ),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 

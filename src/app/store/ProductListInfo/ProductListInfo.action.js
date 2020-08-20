@@ -25,7 +25,7 @@ export const updateProductListInfo = (products, filter) => ({
  * @return {void}
  * @namespace Store/ProductListInfo/Action/updateInfoLoadStatus
  */
-export const updateInfoLoadStatus = status => ({
+export const updateInfoLoadStatus = (status) => ({
     type: UPDATE_INFO_LOAD_STATUS,
     isLoading: status
 });

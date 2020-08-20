@@ -26,21 +26,21 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/MyAccountMyWishlist/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isWishlistLoading: state.WishlistReducer.isLoading
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     clearWishlist: () => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
     ),
     moveWishlistToCart: () => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)
     ),
-    showPopup: payload => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
-    showNotification: message => dispatch(showNotification('success', message))
+    showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
+    showNotification: (message) => dispatch(showNotification('success', message))
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container */

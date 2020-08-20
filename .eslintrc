@@ -61,6 +61,7 @@
             ["^\\."] // starting with dot
         ]
     }],
+    "arrow-parens": ["error", "always"],
     "sort-imports": "off",
     "import/order": "off",
     "import/no-cycle": ["error", {

@@ -24,13 +24,13 @@ export const NoMatchDispatcher = import(
 );
 
 /** @namespace Route/NoMatchHandler/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     noMatch: state.NoMatchReducer.noMatch
 });
 
 /** @namespace Route/NoMatchHandler/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
         NoMatchDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)

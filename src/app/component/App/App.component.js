@@ -102,7 +102,7 @@ export class App extends PureComponent {
             ? this.productionFunctions
             : this.developmentFunctions;
 
-        functionsToRun.forEach(func => func());
+        functionsToRun.forEach((func) => func());
     }
 
     handleErrorReset = () => {
@@ -121,7 +121,7 @@ export class App extends PureComponent {
         );
     }
 
-    renderRootComponents = () => this.rootComponents.map(render => render());
+    renderRootComponents = () => this.rootComponents.map((render) => render());
 
     renderContextProviders() {
         const { isSomethingWentWrong } = this.state;
