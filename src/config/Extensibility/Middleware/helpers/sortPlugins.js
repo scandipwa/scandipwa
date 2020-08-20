@@ -1,4 +1,3 @@
-/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 const DEFAULT_POSITION = 100;
 
 /**
@@ -6,11 +5,6 @@ const DEFAULT_POSITION = 100;
  * @param {Array} plugins
  * @param {string} errorText
  */
-module.exports = plugins => plugins.sort(
-    (a, b) => {
-        const { position: positionA = DEFAULT_POSITION } = a;
-        const { position: positionB = DEFAULT_POSITION } = b;
-
-        return positionA - positionB;
-    }
+module.exports = (plugins) => plugins.sort(
+    ({ position: a = DEFAULT_POSITION }, { position: b = DEFAULT_POSITION }) => a - b
 );

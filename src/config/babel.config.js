@@ -132,11 +132,6 @@ const getPlugins = ({ projectRoot, magentoRoot, fallbackRoot, parentRoot }) => (
             }
         }
     ],
-    [
-        'console-source', {
-            segments: 1
-        }
-    ],
     './src/config/Extensibility/plugins/middleware-decorator',
 ]);
 

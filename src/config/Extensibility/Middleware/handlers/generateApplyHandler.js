@@ -3,17 +3,16 @@ const sortPlugins = require('../helpers/sortPlugins');
 const generateMiddlewaredFunction = require('../middlewarers/generateMiddlewaredFunction');
 const getPluginsForMember = require('../helpers/getPluginsForMember');
 
-module.exports = namespace => function (origFunction, thisArg, originalArgs) {
+module.exports = (namespace) => function (origFunction, thisArg, originalArgs) {
+    // Get plugins for the function
     const memberPluginsApply = getPluginsForMember(namespace, 'function');
 
-    if (memberPluginsApply && !Array.isArray(memberPluginsApply)) {
-        throw new Error(`Expected an array in function config section for ${namespace}`);
-    }
-
+    // If no plugins => return the original function
     if (!memberPluginsApply.length) {
         return origFunction.apply(thisArg, originalArgs);
     }
 
+    // Return the result of a call of a generated function (=wrapped into plugins)
     return generateMiddlewaredFunction(
         origFunction,
         sortPlugins(memberPluginsApply),

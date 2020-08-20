@@ -125,26 +125,6 @@ export class RouterContainer extends PureComponent {
         init();
     }
 
-    getCmsBlocksToRequest() {
-        // TODO: remove!
-
-        const blocks = Object.values(window.contentConfiguration).reduce(
-            (acc, config) => [
-                ...acc,
-                ...Object.entries(config).reduce(
-                    (acc, [key, identifier]) => ((key.indexOf('cms') === -1)
-                        ? acc
-                        : [...acc, identifier]
-                    ),
-                    []
-                )
-            ],
-            []
-        ).filter((value, index, self) => value && self.indexOf(value) === index);
-
-        return blocks.length ? blocks : ['social-links'];
-    }
-
     render() {
         return (
             <Router
