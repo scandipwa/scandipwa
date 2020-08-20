@@ -1,6 +1,4 @@
-/* eslint-disable fp/no-loops */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-param-reassign, @scandipwa/scandipwa-guidelines/export-level-one */
+/* eslint-disable no-param-reassign, @scandipwa/scandipwa-guidelines/export-level-one, no-restricted-syntax, fp/no-loops */
 /**
  * Allowed handler types
  */
