@@ -10,7 +10,7 @@
   },
   "scripts": {
     "prepare": "node ./src/config/Extensibility/extensions-dependency-installer.js",
-    "watch-core": "webpack-dev-server --config ./src/config/webpack.core.config.js",
+    "watch-core": "webpack-dev-server --env.BUILD_MODE=core --config ./src/config/webpack.development.config.js",
     "watch": "webpack-dev-server --config ./src/config/webpack.development.config.js",
     "watch-sw": "webpack --config ./src/config/webpack.sw.config.js --mode=development --watch",
     "build": "npm run build-sw && webpack --config ./src/config/webpack.production.config.js",
