@@ -27,11 +27,7 @@ export const ConfigDispatcher = import(
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
-);
-export const HeaderAndFooterDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/HeaderAndFooter/HeaderAndFooter.dispatcher'
-);
+)
 
 
 /** @namespace Component/Router/Container/mapStateToProps */
@@ -49,7 +45,7 @@ export const mapStateToProps = state => ({
 /** @namespace Component/Router/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta)),
-    init: (options) => {
+    init: () => {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
@@ -58,9 +54,6 @@ export const mapDispatchToProps = dispatch => ({
         );
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
-        );
-        HeaderAndFooterDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
         );
     }
 });
@@ -129,7 +122,7 @@ export class RouterContainer extends PureComponent {
 
     initializeApplication() {
         const { init } = this.props;
-        init(this.getHeaderAndFooterOptions());
+        init();
     }
 
     getCmsBlocksToRequest() {
@@ -150,17 +143,6 @@ export class RouterContainer extends PureComponent {
         ).filter((value, index, self) => value && self.indexOf(value) === index);
 
         return blocks.length ? blocks : ['social-links'];
-    }
-
-    getHeaderAndFooterOptions() {
-        // TODO: remove!
-
-        const { header_content: { header_menu } = {} } = window.contentConfiguration;
-
-        return {
-            menu: { identifier: [header_menu || 'new-main-menu'] },
-            footer: { identifiers: this.getCmsBlocksToRequest() }
-        };
     }
 
     render() {

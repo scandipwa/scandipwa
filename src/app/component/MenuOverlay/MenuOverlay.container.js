@@ -18,10 +18,8 @@ import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import MenuOverlay from './MenuOverlay.component';
 
 /** @namespace Component/MenuOverlay/Container/mapStateToProps */
-export const mapStateToProps = state => ({
-    menu: state.HeaderAndFooterReducer.menu,
-    blocks: state.CmsBlocksAndSliderReducer.blocks
-});
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
 
 /** @namespace Component/MenuOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
