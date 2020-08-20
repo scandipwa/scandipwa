@@ -1,5 +1,6 @@
-/* eslint-disable */
-
+/* eslint-disable fp/no-loops */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-param-reassign, @scandipwa/scandipwa-guidelines/export-level-one */
 /**
  * Allowed handler types
  */
@@ -34,7 +35,7 @@ function validateHandlerType(handlerType, namespace) {
 /**
  * Wrap param in array if it is not array already
  */
-const arrayize = x => Array.isArray(x) ? x : [x];
+const arrayize = (x) => (Array.isArray(x) ? x : [x]);
 
 /**
  * Push at once to handler section, separation by member names not expected
@@ -50,8 +51,8 @@ const handleReducedSection = (overallConfig, namespace, handlerType, membersPlug
 
     arrayize(membersPlugins).forEach((memberPlugin) => {
         overallConfig[namespace][handlerType].push(memberPlugin);
-    })
-}
+    });
+};
 
 /**
  * Separate namespace plugins by member names
@@ -73,26 +74,70 @@ const handleRegularSection = (overallConfig, namespace, handlerType, membersPlug
             overallConfig[namespace][handlerType][memberName].push(memberPlugin);
         });
     });
-}
+};
+
+const DEFAULT_POSITION = 100;
+const sortPluginArray = (plugins) => plugins.sort(
+    ({ position: a = DEFAULT_POSITION }, { position: b = DEFAULT_POSITION }) => a - b
+);
+
+/**
+ * Sort the configuration so that plugins with higher priority (lower "posititon" value)
+ * Go before the ones with lower priority (higher "position" value).
+ * @param {Object} config
+ */
+const sortConfig = (config) => {
+    // Process each namespace
+    for (const namespace in config) {
+        if (Object.prototype.hasOwnProperty.call(config, namespace)) {
+            // Each handler type of a namespace
+            for (const handlerType in config[namespace]) {
+                if (Object.prototype.hasOwnProperty.call(config[namespace], handlerType)) {
+                    // Handle reduced sections
+                    if (handlersWithReducedSections.includes(handlerType)) {
+                        config[namespace][handlerType] = sortPluginArray(config[namespace][handlerType]);
+                        // eslint-disable-next-line no-continue
+                        continue;
+                    }
+
+                    // Handle regular sections
+                    for (const memberName in config[namespace][handlerType]) {
+                        if (Object.prototype.hasOwnProperty.call(config[namespace][handlerType], memberName)) {
+                            config[namespace][handlerType][memberName] = sortPluginArray(
+                                config[namespace][handlerType][memberName]
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
 
 /**
  * Entry point
  */
-export default extensions => extensions.reduce(
-    (overallConfig, extension) => {
-        Object.entries(extension).forEach(([namespace, plugins]) => {
-            if (!overallConfig[namespace]) {
-                overallConfig[namespace] = {};
-            }
-            Object.entries(plugins).forEach(([handlerType, membersPlugins]) => {
-                validateHandlerType(handlerType, namespace);
-                if (handlersWithReducedSections.includes(handlerType)) {
-                    handleReducedSection(overallConfig, namespace, handlerType, membersPlugins)
-                } else {
-                    handleRegularSection(overallConfig, namespace, handlerType, membersPlugins);
+export default (extensions) => {
+    const config = extensions.reduce(
+        (overallConfig, extension) => {
+            Object.entries(extension).forEach(([namespace, plugins]) => {
+                if (!overallConfig[namespace]) {
+                    overallConfig[namespace] = {};
                 }
+                Object.entries(plugins).forEach(([handlerType, membersPlugins]) => {
+                    validateHandlerType(handlerType, namespace);
+                    if (handlersWithReducedSections.includes(handlerType)) {
+                        handleReducedSection(overallConfig, namespace, handlerType, membersPlugins);
+                    } else {
+                        handleRegularSection(overallConfig, namespace, handlerType, membersPlugins);
+                    }
+                });
             });
-        });
-        return overallConfig;
-    }, {}
-);
+
+            return overallConfig;
+        }, {}
+    );
+
+    sortConfig(config);
+    return config;
+};

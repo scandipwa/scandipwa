@@ -1,5 +1,4 @@
 /* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one, func-names */
-const sortPlugins = require('../helpers/sortPlugins');
 const generateMiddlewaredFunction = require('../middlewarers/generateMiddlewaredFunction');
 const getPluginsForMember = require('../helpers/getPluginsForMember');
 
@@ -28,7 +27,7 @@ module.exports = (targetType, namespaces) => function (target, memberName, rec) 
     // Generate a function which is original member wrapped into the plugins
     const middlewaredFunction = generateMiddlewaredFunction(
         origMember,
-        sortPlugins(memberPluginsGet),
+        memberPluginsGet,
         rec
     );
 

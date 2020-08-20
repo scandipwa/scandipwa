@@ -1,5 +1,4 @@
 /* eslint-disable func-names, @scandipwa/scandipwa-guidelines/export-level-one */
-const sortPlugins = require('../helpers/sortPlugins');
 const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
 const getPluginsForMember = require('../helpers/getPluginsForMember');
 
@@ -17,7 +16,7 @@ module.exports = (namespace) => function (TargetClass, args) {
             ([memberName, memberPluginsConstruct]) => {
                 // Retrieve the original member
                 const origMember = instance[memberName] || (() => {});
-                const sortedPlugins = sortPlugins(memberPluginsConstruct);
+                const sortedPlugins = memberPluginsConstruct;
 
                 // Wrap it into the plugins
                 const newMember = sortedPlugins.reduce(
