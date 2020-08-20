@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-/* eslint-disable */
 const { getOptions } = require('loader-utils');
 const path = require('path');
 const fs = require('fs');
@@ -22,6 +21,8 @@ const isDirectory = (entry) => {
     return true;
 };
 
+// Retrieve a list of recursively located *.plugin.js files
+// Concat due to a flat structure
 const findPluginFiles = (dirPath) => {
     const dirContents = fs.readdirSync(dirPath);
     return dirContents
@@ -30,11 +31,10 @@ const findPluginFiles = (dirPath) => {
         .concat(dirContents
             .filter((entry) => isDirectory(path.resolve(dirPath, entry)))
             .reduce(
-                (acc, subDir) => acc.concat(findPluginFiles(path.resolve(dirPath, subDir)))
-                , []
-            )
-        )
-}
+                (acc, subDir) => acc.concat(findPluginFiles(path.resolve(dirPath, subDir))),
+                []
+            ));
+};
 
 module.exports = function injectImports(source) {
     const {
@@ -43,12 +43,16 @@ module.exports = function injectImports(source) {
         importAggregator,
         projectRoot
     } = getOptions(this);
+    // eslint-disable-next-line import/no-dynamic-require, global-require
     const { extensions } = require(path.resolve(projectRoot, 'scandipwa.json'));
 
     const extensionConfigImports = Object.entries(extensions).reduce(
         (importChain, extension) => {
             const [/* name */, repositoryRootPath] = extension;
-            const pluginDirectory = path.resolve(magentoRoot, repositoryRootPath, path.join('src/scandipwa', context, '/plugin'));
+            const pluginDirectory = path.resolve(
+                magentoRoot, repositoryRootPath, 'src', 'scandipwa', context, 'plugin'
+            );
+
             if (!fs.existsSync(pluginDirectory)) {
                 return importChain;
             }
@@ -58,7 +62,7 @@ module.exports = function injectImports(source) {
                 singlePluginConfigPathList.reduce(
                     (singlePluginImportChain, pluginFile) => singlePluginImportChain.concat(
                         `${importAggregator}.push(require('${pluginFile}').default);\n`
-                    ) , ''
+                    ), ''
                 )
             );
         }, ''

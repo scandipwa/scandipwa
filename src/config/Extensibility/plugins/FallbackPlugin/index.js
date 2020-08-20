@@ -84,6 +84,7 @@ class FallbackPlugin {
                     return pluginFrontendRoot;
                 }
 
+                // TODO comment
                 if (!pathIsParent) {
                     return (pathIsCore && !(requestIsCustom || requestIsParent))
                         ? this.options.fallbackRoot

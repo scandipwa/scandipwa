@@ -21,6 +21,8 @@ module.exports = (origMember = () => {}, sortedPlugins, origContext) => function
         (acc, plugin) => () => {
             const wrapper = getWrapperFromPlugin(plugin, origMember.name);
 
+            // Provide different arguments due to API difference
+            // Between property and function call interception
             return typeof origMember === 'object'
                 ? wrapper(acc, origContext)
                 : wrapper(

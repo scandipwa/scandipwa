@@ -18,9 +18,10 @@ const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
  * @param Context origContext
  */
 module.exports = (proxy) => {
-    const { __namespace__ } = Object.getPrototypeOf(proxy);
-    const namespacePluginsClass = globalThis.plugins?.[__namespace__]?.['class'] || [];
+    const { __namespace__: namespace } = Object.getPrototypeOf(proxy);
+    const namespacePluginsClass = globalThis.plugins?.[namespace]?.class || [];
 
+    // Wrap class in its `class` plugins to provide `class` API
     const wrappedClass = namespacePluginsClass.reduce(
         (acc, plugin) => getWrapperFromPlugin(plugin, proxy.name)(acc),
         proxy
