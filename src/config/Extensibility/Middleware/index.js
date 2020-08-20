@@ -1,3 +1,13 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
 /* eslint-disable no-param-reassign, @scandipwa/scandipwa-guidelines/export-level-one */
 const generateGetHandler = require('./handlers/generateGetHandler');
 const generateApplyHandler = require('./handlers/generateApplyHandler');
@@ -12,7 +22,7 @@ const addNamespaceToMiddlewarable = (Middlewarable, namespace) => {
     Middlewarable.prototype.__namespace__.push(namespace);
 };
 
-const getNamespacesFromMiddlewarable = Middlewarable => Middlewarable.prototype.__namespace__;
+const getNamespacesFromMiddlewarable = (Middlewarable) => Middlewarable.prototype.__namespace__;
 
 /**
  * Middleware function is supposed to wrap source classes
