@@ -23,6 +23,7 @@ const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const parentRoot = parentTheme
     ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
     : undefined;
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot)
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 module.exports = {
@@ -35,8 +36,23 @@ module.exports = {
         ],
         plugins: [
             new FallbackPlugin({
-                fallbackRoot, projectRoot, parentRoot
+                projectRoot,
+                fallbackRoot,
+                fallbackThemeSpecifier,
+                parentRoot,
+                parentThemeSpecifier: parentTheme
             })
+        ],
+        modules: [
+            path.resolve(projectRoot, 'node_modules'),
+            'node_modules'
+        ]
+    },
+
+    resolveLoader: {
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'Extensibility', 'loaders')
         ]
     },
 
