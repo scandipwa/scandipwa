@@ -16,6 +16,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const { getBabelConfig } = require('./babel.config');
+const TerserPlugin = require('terser-webpack-plugin');
 const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
