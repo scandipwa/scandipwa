@@ -85,7 +85,8 @@ const getExtensionsAliases = (projectRoot, magentoRoot) => Object.values(extensi
         const extensionAbsolute = path.join(magentoRoot, extensionRelative);
         const composerJsonPath = path.join(extensionAbsolute, 'composer.json');
         if (!fs.existsSync(composerJsonPath)) {
-            throw new Error('Any extension should be a valid composer package, no composer.json found.');
+            console.log(`No aliases will be available for the package at ${extensionAbsolute}, no composer.json found.`);
+            return acc;
         }
 
         const { name: nameField } = require(composerJsonPath);
