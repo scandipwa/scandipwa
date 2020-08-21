@@ -9,11 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import 'Util/Polyfill';
-import 'Style/main';
-
-import { render } from 'react-dom';
-
-import App from 'Component/App';
-
-render(<App />, document.getElementById('root'));
+export { default } from './App.component';

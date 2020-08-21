@@ -22,7 +22,7 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
-import { history } from 'Route';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 
 export const SearchOverlay = lazy(

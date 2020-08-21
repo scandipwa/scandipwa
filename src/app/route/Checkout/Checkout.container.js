@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
-import { history } from 'Route';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -28,6 +27,7 @@ import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import history from 'Util/History';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 

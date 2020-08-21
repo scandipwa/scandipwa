@@ -14,7 +14,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { history } from 'Route';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 import { appendWithStoreCode } from 'Util/Url';
 
