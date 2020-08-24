@@ -25,8 +25,10 @@ import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
-    convertQueryStringToKeyValuePairs, getUrlParam,
-    objectToUri, removeQueryParamWithoutHistory, updateQueryParamWithoutHistory
+    convertQueryStringToKeyValuePairs,
+    objectToUri,
+    removeQueryParamWithoutHistory,
+    updateQueryParamWithoutHistory
 } from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
@@ -443,21 +445,8 @@ export class ProductPageContainer extends PureComponent {
     }
 
     getProductRequestFilter() {
-        const {
-            location,
-            match,
-            productSKU
-        } = this.props;
-
-        if (productSKU) {
-            return {
-                productsSkuArray: [productSKU]
-            };
-        }
-
-        return {
-            productUrlPath: getUrlParam(match, location)
-        };
+        const { productSKU } = this.props;
+        return { productSKU };
     }
 
     requestProduct() {
