@@ -285,16 +285,18 @@ export class CategoryPageContainer extends PureComponent {
 
     getIsMatchingListFilter() {
         const {
-            categoryIds,
+            location,
             currentArgs: {
-                filter: {
-                    categoryIds: selectedCategoryIds
-                } = {}
+                currentPage,
+                sort,
+                filter
             } = {}
         } = this.props;
 
-        // Requested category is equal to current category
-        return categoryIds === selectedCategoryIds;
+        // Data used to request category matches current data
+        return JSON.stringify(filter) === JSON.stringify(this.getFilter())
+            && JSON.stringify(sort) === JSON.stringify(this.getSelectedSortFromUrl())
+            && currentPage === +(getQueryParam('page', location) || 1);
     }
 
     getIsMatchingInfoFilter() {
