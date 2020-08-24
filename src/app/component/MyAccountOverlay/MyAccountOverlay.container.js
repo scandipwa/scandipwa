@@ -242,7 +242,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { setHeaderState, isCheckout } = this.props;
 
         if (isMobile.any() && !isCheckout) {
-            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+            setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         }
     }
 
@@ -332,7 +332,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
-            title: 'Forgot password',
+            title: __('Forgot password'),
             onBackClick: () => this.handleSignIn(e)
         });
     }
@@ -345,7 +345,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         setHeaderState({
             name: CUSTOMER_ACCOUNT,
-            title: 'Sign in'
+            title: __('Sign in')
         });
     }
 
@@ -357,7 +357,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
-            title: 'Create account',
+            title: __('Create account'),
             onBackClick: () => this.handleSignIn(e)
         });
     }
