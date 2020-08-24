@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 
 import isMobile from 'Util/Mobile';
 
-class DemoNotice extends PureComponent {
+export class DemoNotice extends PureComponent {
     static propTypes = {
         isDemoNoticeEnabled: PropTypes.bool
     };

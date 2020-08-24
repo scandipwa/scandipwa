@@ -20,7 +20,7 @@ import ProductAttributeValue from 'Component/ProductAttributeValue';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { AttributeType, ProductType } from 'Type/ProductList';
 
-class SearchItem extends PureComponent {
+export class SearchItem extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.oneOfType([
             PropTypes.string,

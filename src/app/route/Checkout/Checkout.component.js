@@ -36,7 +36,7 @@ import {
     SHIPPING_STEP
 } from './Checkout.config';
 
-class Checkout extends PureComponent {
+export class Checkout extends PureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,

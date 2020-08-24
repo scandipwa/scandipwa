@@ -19,7 +19,7 @@ export const initialState = {
     isBig: false
 };
 
-const OfflineReducer = (state = initialState, action) => {
+export const OfflineReducer = (state = initialState, action) => {
     switch (action.type) {
     case SHOW_OFFLINE_NOTICE:
         const { isOffline } = action;

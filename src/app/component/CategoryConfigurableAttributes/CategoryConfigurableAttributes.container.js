@@ -20,7 +20,7 @@ export const mapStateToProps = (state) => ({
     currency_code: state.ConfigReducer.default_display_currency_code
 });
 
-class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
+export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
     render() {
         return (
             <CategoryConfigurableAttributes

@@ -3,7 +3,7 @@ import './NotSupportedPayment.style';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-class NotSupportedPayment extends PureComponent {
+export class NotSupportedPayment extends PureComponent {
     static propTypes = {
         disableButton: PropTypes.func.isRequired
     };

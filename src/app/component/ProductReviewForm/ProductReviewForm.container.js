@@ -23,7 +23,7 @@ import { RatingItemsType } from 'Type/Rating';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
-const ReviewDispatcher = import(
+export const ReviewDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Review/Review.dispatcher'
 );

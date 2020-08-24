@@ -5,7 +5,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 
-class ProductConfigurableAttributeDropdown extends PureComponent {
+export class ProductConfigurableAttributeDropdown extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         selectOptions: PropTypes.arrayOf(PropTypes.shape({

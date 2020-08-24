@@ -45,14 +45,14 @@ export const formatOrders = (orders) => orders.reduce((acc, order) => {
     ];
 }, []);
 
-const orderList = BrowserDatabase.getItem(ORDERS) || [];
+export const orderList = BrowserDatabase.getItem(ORDERS) || [];
 
 export const initialState = {
     orderList,
     isLoading: !orderList.length
 };
 
-const OrderReducer = (state = initialState, action) => {
+export const OrderReducer = (state = initialState, action) => {
     const {
         type,
         orderList,

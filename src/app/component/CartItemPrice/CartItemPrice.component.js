@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import { MixType } from 'Type/Common';
 import { formatCurrency, roundPrice } from 'Util/Price';
 
-class CartItemPrice extends PureComponent {
+export class CartItemPrice extends PureComponent {
     static propTypes = {
         row_total: PropTypes.number.isRequired,
         currency_code: PropTypes.string.isRequired,

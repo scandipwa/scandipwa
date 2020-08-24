@@ -18,7 +18,7 @@ import { Elements, StripeProvider } from 'react-stripe-elements';
 import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 import Loader from 'Component/Loader';
 
-class Stripe extends PureComponent {
+export class Stripe extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         stripeKey: PropTypes.string,

@@ -20,7 +20,7 @@ import { customerType } from 'Type/Account';
 
 import { CHANGE_PASSWORD, CUSTOMER_POPUP_ID, EDIT_CUSTOMER } from './MyAccountCustomerPopup.config';
 
-class MyAccountCustomerPopup extends PureComponent {
+export class MyAccountCustomerPopup extends PureComponent {
     static propTypes = {
         onCustomerSave: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,

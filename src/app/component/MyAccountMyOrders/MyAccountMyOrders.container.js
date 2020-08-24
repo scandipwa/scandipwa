@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
-const OrderDispatcher = import(
+export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Order/Order.dispatcher'
 );
@@ -31,7 +31,7 @@ export const mapDispatchToProps = (dispatch) => ({
     )
 });
 
-class MyAccountMyOrdersContainer extends PureComponent {
+export class MyAccountMyOrdersContainer extends PureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired
     };

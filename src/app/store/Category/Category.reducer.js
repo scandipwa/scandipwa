@@ -15,7 +15,7 @@ export const initialState = {
     category: {}
 };
 
-const CategoryReducer = (state = initialState, { type, category }) => {
+export const CategoryReducer = (state = initialState, { type, category }) => {
     switch (type) {
     case UPDATE_CURRENT_CATEGORY:
         return {

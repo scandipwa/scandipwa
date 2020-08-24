@@ -24,7 +24,7 @@ import {
     TYPE_PRODUCT
 } from './UrlRewrites.config';
 
-const UrlRewritesDispatcher = import(
+export const UrlRewritesDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/UrlRewrites/UrlRewrites.dispatcher'
 );

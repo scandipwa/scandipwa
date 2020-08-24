@@ -20,7 +20,7 @@ import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import { ordersType } from 'Type/Account';
 import isMobile from 'Util/Mobile';
 
-class MyAccountMyOrders extends PureComponent {
+export class MyAccountMyOrders extends PureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
         isLoading: PropTypes.bool.isRequired

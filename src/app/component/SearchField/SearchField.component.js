@@ -32,7 +32,7 @@ export const SearchOverlay = lazy(
     )
 );
 
-class SearchField extends PureComponent {
+export class SearchField extends PureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
         onSearchBarFocus: PropTypes.func.isRequired,

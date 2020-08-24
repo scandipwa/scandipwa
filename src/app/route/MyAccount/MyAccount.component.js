@@ -32,7 +32,7 @@ import {
     tabMapType
 } from 'Type/Account';
 
-class MyAccount extends PureComponent {
+export class MyAccount extends PureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,

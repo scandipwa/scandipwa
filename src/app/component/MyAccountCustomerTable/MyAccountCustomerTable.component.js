@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import KeyValueTable from 'Component/KeyValueTable';
 import { customerType } from 'Type/Account';
 
-class MyAccountCustomerTable extends KeyValueTable {
+export class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {
         customer: customerType.isRequired,
         showEditPopup: PropTypes.func.isRequired,

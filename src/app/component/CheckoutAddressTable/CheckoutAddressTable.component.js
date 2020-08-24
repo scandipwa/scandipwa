@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
 
-class CheckoutAddressTable extends MyAccountAddressTable {
+export class CheckoutAddressTable extends MyAccountAddressTable {
     static propTypes = {
         ...MyAccountAddressTable.propTypes,
         isSelected: PropTypes.bool,

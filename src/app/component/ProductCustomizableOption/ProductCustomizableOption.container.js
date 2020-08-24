@@ -16,7 +16,7 @@ import { formatCurrency } from 'Util/Price';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
-class ProductCustomizableOptionContainer extends PureComponent {
+export class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
         productOptionsData: PropTypes.object.isRequired,

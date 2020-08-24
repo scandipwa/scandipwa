@@ -32,7 +32,7 @@ import {
     STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
-class MyAccountOverlay extends PureComponent {
+export class MyAccountOverlay extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,

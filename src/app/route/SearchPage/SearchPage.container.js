@@ -16,23 +16,23 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
-const CategoryDispatcher = import(
+export const CategoryDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Category/Category.dispatcher'
 );
-const MetaDispatcher = import(
+export const MetaDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Meta/Meta.dispatcher'
 );
-const NoMatchDispatcher = import(
+export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/NoMatch/NoMatch.dispatcher'
 );
-const ProductListInfoDispatcher = import(
+export const ProductListInfoDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductListInfo/ProductListInfo.dispatcher'
 );

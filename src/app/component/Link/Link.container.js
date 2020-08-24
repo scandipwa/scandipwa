@@ -19,7 +19,7 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
 
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
     baseLinkUrl: state.ConfigReducer.base_link_url
 });
 

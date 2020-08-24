@@ -27,7 +27,7 @@ export const initialState = {
     customer: {}
 };
 
-const MyAccountReducer = (state = initialState, action) => {
+export const MyAccountReducer = (state = initialState, action) => {
     const { status, customer } = action;
 
     switch (action.type) {

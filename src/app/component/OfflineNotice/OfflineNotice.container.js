@@ -29,7 +29,7 @@ export const mapDispatchToProps = (dispatch) => ({
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig))
 });
 
-class OfflineNoticeContainer extends PureComponent {
+export class OfflineNoticeContainer extends PureComponent {
     static propTypes = {
         setBigOfflineNotice: PropTypes.func.isRequired,
         showOfflineNotice: PropTypes.func.isRequired,

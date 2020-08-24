@@ -21,7 +21,7 @@ import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import { COOKIE_POPUP } from './CookiePopup.config';
 
-class CookiePopup extends PureComponent {
+export class CookiePopup extends PureComponent {
     static propTypes = {
         cookieText: PropTypes.string,
         cookieLink: PropTypes.string

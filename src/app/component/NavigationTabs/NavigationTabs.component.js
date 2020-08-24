@@ -18,7 +18,7 @@ import {
     ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
 } from './NavigationTabs.config';
 
-class NavigationTabs extends NavigationAbstract {
+export class NavigationTabs extends NavigationAbstract {
     defaultStateName = MENU_TAB;
 
     stateMap = {

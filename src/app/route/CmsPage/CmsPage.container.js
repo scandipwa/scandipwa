@@ -28,7 +28,7 @@ import { appendWithStoreCode, getUrlParam } from 'Util/Url';
 import CmsPage from './CmsPage.component';
 import { LOADING_TIME } from './CmsPage.config';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );

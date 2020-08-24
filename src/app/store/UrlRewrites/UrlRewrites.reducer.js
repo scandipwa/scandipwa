@@ -19,7 +19,7 @@ export const initialState = {
     isLoading: false
 };
 
-const UrlRewritesReducer = (state = initialState, action) => {
+export const UrlRewritesReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_URL_REWRITE:
         const {

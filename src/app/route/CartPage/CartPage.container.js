@@ -31,7 +31,7 @@ import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );

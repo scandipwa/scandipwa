@@ -32,7 +32,7 @@ export const initialState = {
     }
 };
 
-const NavigationReducer = (state = initialState, action) => {
+export const NavigationReducer = (state = initialState, action) => {
     const { navigationType, navigationState } = action;
 
     const {

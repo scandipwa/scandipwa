@@ -18,7 +18,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import MyAccountTabListItem from 'Component/MyAccountTabListItem';
 import { activeTabType, tabMapType } from 'Type/Account';
 
-class MyAccountTabList extends PureComponent {
+export class MyAccountTabList extends PureComponent {
     static propTypes = {
         tabMap: tabMapType.isRequired,
         activeTab: activeTabType.isRequired,
