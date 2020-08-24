@@ -293,6 +293,11 @@ export class CategoryPageContainer extends PureComponent {
             } = {}
         } = this.props;
 
+        /**
+         * ? implementation bellow blinks, implementation with categoryIds check only does not show loading when selecting filters.
+         * TODO: resolve it to be a combination of these two behaviour
+         */
+
         // Data used to request category matches current data
         return JSON.stringify(filter) === JSON.stringify(this.getFilter())
             && JSON.stringify(sort) === JSON.stringify(this.getSelectedSortFromUrl())
