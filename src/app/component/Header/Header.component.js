@@ -549,11 +549,11 @@ export class Header extends NavigationAbstract {
         // following strings are not translated, use CMS blocks to do it
         return (
             <dl block="contacts-wrapper">
-                <dt>Telephone:</dt>
+                <dt>{ __('Telephone:') }</dt>
                 <dd>
                     <a href="tel:983829842">+0 (983) 829842</a>
                 </dd>
-                <dt>Mail:</dt>
+                <dt>{ __('Mail:') }</dt>
                 <dd>
                     <a href="mailto:info@scandipwa.com">info@scandipwa.com</a>
                 </dd>

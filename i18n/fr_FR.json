@@ -363,5 +363,9 @@
     "read more": "lire la suite",
     "save %s%": "économisez %s",
     "shipping": "Livraison",
-    "subtotal": "Sous-total"
+    "subtotal": "Sous-total",
+    "Telephone:": null,
+    "Mail:": null,
+    "Create account": null,
+    "Forgot password": null
 }
