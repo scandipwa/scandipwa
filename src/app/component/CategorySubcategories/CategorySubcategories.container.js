@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { history } from 'Route';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import history from 'Util/History';
 
 import CategorySubcategories from './CategorySubcategories.component';
 

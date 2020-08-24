@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 
 import { CART_EDITING, CART_OVERLAY } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -23,6 +22,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 
 import CartOverlay from './CartOverlay.component';
 
