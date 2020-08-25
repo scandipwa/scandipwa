@@ -21,7 +21,10 @@ export class Breadcrumb extends PureComponent {
     static propTypes = {
         index: PropTypes.number.isRequired,
         isDisabled: PropTypes.bool.isRequired,
-        url: PropTypes.string,
+        url: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.shape({})
+        ]),
         name: PropTypes.string
     };
 

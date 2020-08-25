@@ -168,7 +168,7 @@ export class Header extends NavigationAbstract {
         close: this.renderCloseButton.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
-        account: this.renderAccountButton.bind(this),
+        account: this.renderAccount.bind(this),
         minicart: this.renderMinicart.bind(this),
         search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
