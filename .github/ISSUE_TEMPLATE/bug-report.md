@@ -3,8 +3,6 @@ name: Bug report
 about: Found an issue with ScandiPWA?
 title: ''
 labels: bug
-assignees: alfredsgenkins
-
 ---
 
 **Description**:
