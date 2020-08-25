@@ -79,14 +79,15 @@ export class Header extends NavigationAbstract {
         header_logo_src: PropTypes.string,
         logo_alt: PropTypes.string,
         isLoading: PropTypes.bool,
+        showMyAccountLogin: PropTypes.bool,
         isCheckout: PropTypes.bool.isRequired,
-        showMyAccountLogin: PropTypes.bool.isRequired,
         onSignIn: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         logo_alt: 'ScandiPWA logo',
+        showMyAccountLogin: false,
         header_logo_src: '',
         isLoading: true
     };
@@ -314,11 +315,11 @@ export class Header extends NavigationAbstract {
         const {
             isCheckout,
             showMyAccountLogin,
-            onSignIn,
-            shouldRenderAccountOverlay
+            onSignIn
         } = this.props;
 
-        if ((!(isMobile.any() && showMyAccountLogin) && isMobile.any()) || !shouldRenderAccountOverlay) {
+        // This is here to prevent the popup-suspense from rendering
+        if (!showMyAccountLogin) {
             return null;
         }
 

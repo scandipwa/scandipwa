@@ -52,7 +52,12 @@ export class MyAccount extends PureComponent {
 
     renderLoginOverlay() {
         const { onSignIn } = this.props;
-        return <MyAccountOverlay onSignIn={ onSignIn } />;
+
+        return (
+            <MyAccountOverlay
+              onSignIn={ onSignIn }
+            />
+        );
     }
 
     renderContent() {
