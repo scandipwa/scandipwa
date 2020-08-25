@@ -324,7 +324,7 @@ export class MyAccountOverlay extends PureComponent {
                 >
                     <Field
                       type="text"
-                      label={ __('Login or Email') }
+                      label={ __('Email') }
                       id="email"
                       name="email"
                       autocomplete="email"
