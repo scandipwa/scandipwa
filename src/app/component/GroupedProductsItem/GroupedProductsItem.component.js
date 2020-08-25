@@ -32,38 +32,68 @@ export class GroupedProductsItem extends PureComponent {
         itemCount: PropTypes.number.isRequired
     };
 
-    render() {
+    renderTitle() {
         const {
             product: {
-                thumbnail: { path: thumb_url },
                 name,
                 price_range
-            },
+            }
+        } = this.props;
+
+        return (
+            <div block="GroupedProductsItem" elem="Title">
+                <p>
+                    <TextPlaceholder content={ name } />
+                </p>
+                <ProductPrice price={ price_range } mods={ { type: 'regular' } } />
+            </div>
+        );
+    }
+
+    renderQuantity() {
+        const {
             changeCount,
             itemCount
         } = this.props;
 
         return (
-            <li block="GroupedProductsItem" aria-label="Product Item">
-                <Image
-                  mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
-                  src={ thumb_url && media(thumb_url, PRODUCT_MEDIA) }
-                  alt="Product Thumbnail"
+            <div block="GroupedProductsItem" elem="Quantity">
+                <Field
+                  type="number"
+                  id="HeaderInput"
+                  name="HeaderInput"
+                  onChange={ changeCount }
+                  value={ itemCount }
+                  min={ 0 }
                 />
-                <div block="GroupedProductsItem" elem="Title">
-                    <p><TextPlaceholder content={ name } /></p>
-                    <ProductPrice price={ price_range } mods={ { type: 'regular' } } />
-                </div>
-                <div block="GroupedProductsItem" elem="Quantity">
-                    <Field
-                      type="number"
-                      id="HeaderInput"
-                      name="HeaderInput"
-                      onChange={ changeCount }
-                      value={ itemCount }
-                      min={ 0 }
-                    />
-                </div>
+            </div>
+        );
+    }
+
+    renderImage() {
+        const {
+            product: {
+                thumbnail: {
+                    path: thumb_url
+                }
+            }
+        } = this.props;
+
+        return (
+            <Image
+              mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
+              src={ thumb_url && media(thumb_url, PRODUCT_MEDIA) }
+              alt="Product Thumbnail"
+            />
+        );
+    }
+
+    render() {
+        return (
+            <li block="GroupedProductsItem" aria-label="Product Item">
+                { this.renderImage() }
+                { this.renderTitle() }
+                { this.renderQuantity }
             </li>
         );
     }

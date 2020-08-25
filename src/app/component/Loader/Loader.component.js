@@ -24,6 +24,14 @@ export class Loader extends PureComponent {
         isLoading: PropTypes.bool.isRequired
     };
 
+    renderMain() {
+        return (
+            <div block="Loader" elem="Main">
+                <span />
+            </div>
+        );
+    }
+
     render() {
         const { isLoading } = this.props;
 
@@ -34,9 +42,7 @@ export class Loader extends PureComponent {
         return (
             <div block="Loader">
                 <div block="Loader" elem="Scale">
-                    <div block="Loader" elem="Main">
-                        <span />
-                    </div>
+                    { this.renderMain() }
                 </div>
             </div>
         );

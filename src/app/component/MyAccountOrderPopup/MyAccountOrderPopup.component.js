@@ -146,6 +146,17 @@ export class MyAccountOrderPopup extends PureComponent {
         });
     }
 
+    renderItemsHeading() {
+        return (
+            <tr>
+                <th>{ __('Image') }</th>
+                <th>{ __('Name') }</th>
+                <th>{ __('Quantity') }</th>
+                <th>{ __('Total') }</th>
+            </tr>
+        );
+    }
+
     renderProducts() {
         return (
             <div block="MyAccountOrderPopup" elem="ProductsWrapper">
@@ -155,12 +166,7 @@ export class MyAccountOrderPopup extends PureComponent {
                   elem="Products"
                 >
                     <thead>
-                        <tr>
-                            <th>{ __('Image') }</th>
-                            <th>{ __('Name') }</th>
-                            <th>{ __('Quantity') }</th>
-                            <th>{ __('Total') }</th>
-                        </tr>
+                        { this.renderItemsHeading() }
                     </thead>
                     <tbody>
                         { this.renderItems() }

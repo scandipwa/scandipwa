@@ -9,5 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const STATUS_PASSWORD_UPDATED = 'password_updated';
-export const STATUS_PASSWORD_MISS_MATCH = 'passwords_miss_match';
+export { default } from './Breadcrumb.component';

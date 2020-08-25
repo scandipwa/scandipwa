@@ -110,6 +110,17 @@ export class Popup extends Overlay {
         );
     }
 
+    renderCloseButton() {
+        return (
+            <button
+              block="Popup"
+              elem="CloseBtn"
+              aria-label={ __('Close') }
+              onClick={ this.hidePopUp }
+            />
+        );
+    }
+
     renderContent() {
         const { children } = this.props;
         const isVisible = this.getIsVisible();
@@ -123,12 +134,7 @@ export class Popup extends Overlay {
                 <div block="Popup" elem="Content">
                     <header block="Popup" elem="Header">
                         { this.renderTitle() }
-                        <button
-                          block="Popup"
-                          elem="CloseBtn"
-                          aria-label={ __('Close') }
-                          onClick={ this.hidePopUp }
-                        />
+                        { this.renderCloseButton() }
                     </header>
                     { children }
                 </div>

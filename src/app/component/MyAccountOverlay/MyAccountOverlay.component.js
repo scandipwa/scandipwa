@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 /* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento

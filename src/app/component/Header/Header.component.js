@@ -169,7 +169,7 @@ export class Header extends NavigationAbstract {
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         account: this.renderAccountButton.bind(this),
-        minicart: this.renderMinicartButton.bind(this),
+        minicart: this.renderMinicart.bind(this),
         search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
@@ -333,10 +333,38 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccountButton(isVisible = false) {
+    renderAccountButton(isVisible) {
+        const {
+            onMyAccountButtonClick
+        } = this.props;
+
+        return (
+            <button
+              block="Header"
+              elem="MyAccountWrapper"
+              tabIndex="0"
+              onClick={ onMyAccountButtonClick }
+              aria-label="Open my account"
+              id="myAccount"
+            >
+                <div
+                  block="Header"
+                  elem="MyAccountTitle"
+                >
+                    { __('Account') }
+                </div>
+                <div
+                  block="Header"
+                  elem="Button"
+                  mods={ { isVisible, type: 'account' } }
+                />
+            </button>
+        );
+    }
+
+    renderAccount(isVisible = false) {
         const {
             onMyAccountOutsideClick,
-            onMyAccountButtonClick,
             isCheckout
         } = this.props;
 
@@ -350,32 +378,16 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
+            <ClickOutside
+              onClick={ onMyAccountOutsideClick }
+              key="account"
+            >
                 <div
                   aria-label="My account"
                   block="Header"
                   elem="MyAccount"
                 >
-                    <button
-                      block="Header"
-                      elem="MyAccountWrapper"
-                      tabIndex="0"
-                      onClick={ onMyAccountButtonClick }
-                      aria-label="Open my account"
-                      id="myAccount"
-                    >
-                        <div
-                          block="Header"
-                          elem="MyAccountTitle"
-                        >
-                            { __('Account') }
-                        </div>
-                        <div
-                          block="Header"
-                          elem="Button"
-                          mods={ { isVisible, type: 'account' } }
-                        />
-                    </button>
+                    { this.renderAccountButton(isVisible) }
                     { this.renderAccountOverlay() }
                 </div>
             </ClickOutside>
@@ -422,10 +434,37 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderMinicartButton(isVisible = false) {
+    renderMinicartButton() {
+        const {
+            onMinicartButtonClick
+        } = this.props;
+
+        return (
+            <button
+              block="Header"
+              elem="MinicartButtonWrapper"
+              tabIndex="0"
+              onClick={ onMinicartButtonClick }
+            >
+                <span
+                  block="Header"
+                  elem="MinicartTitle"
+                >
+                    { __('Cart') }
+                </span>
+                <span
+                  aria-label="Minicart"
+                  block="Header"
+                  elem="MinicartIcon"
+                />
+                { this.renderMinicartItemsQty() }
+            </button>
+        );
+    }
+
+    renderMinicart(isVisible = false) {
         const {
             onMinicartOutsideClick,
-            onMinicartButtonClick,
             isCheckout
         } = this.props;
 
@@ -434,31 +473,16 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
+            <ClickOutside
+              onClick={ onMinicartOutsideClick }
+              key="minicart"
+            >
                 <div
                   block="Header"
                   elem="Button"
                   mods={ { isVisible, type: 'minicart' } }
                 >
-                    <button
-                      block="Header"
-                      elem="MinicartButtonWrapper"
-                      tabIndex="0"
-                      onClick={ onMinicartButtonClick }
-                    >
-                        <span
-                          block="Header"
-                          elem="MinicartTitle"
-                        >
-                            { __('Cart') }
-                        </span>
-                        <span
-                          aria-label="Minicart"
-                          block="Header"
-                          elem="MinicartIcon"
-                        />
-                        { this.renderMinicartItemsQty() }
-                    </button>
+                    { this.renderMinicartButton() }
                     { this.renderMinicartOverlay() }
                 </div>
             </ClickOutside>

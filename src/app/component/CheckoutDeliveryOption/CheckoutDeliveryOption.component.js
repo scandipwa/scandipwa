@@ -54,10 +54,33 @@ export class CheckoutDeliveryOption extends PureComponent {
         );
     }
 
+    renderRow() {
+        const {
+            option: {
+                carrier_title,
+                method_title
+            }
+        } = this.props;
+
+        return (
+            <div block="CheckoutDeliveryOption" elem="Row">
+                <span>
+                    { __('Carrier method: ') }
+                    <strong>{ carrier_title }</strong>
+                </span>
+                <br />
+                <span>
+                    { __('Rate: ') }
+                    <strong>{ method_title }</strong>
+                </span>
+                { this.renderPrice() }
+            </div>
+        );
+    }
+
     render() {
         const {
-            isSelected,
-            option: { carrier_title, method_title }
+            isSelected
         } = this.props;
 
         return (
@@ -69,18 +92,7 @@ export class CheckoutDeliveryOption extends PureComponent {
                   onClick={ this.onClick }
                   type="button"
                 >
-                    <div block="CheckoutDeliveryOption" elem="Row">
-                        <span>
-                            { __('Carrier method: ') }
-                            <strong>{ carrier_title }</strong>
-                        </span>
-                        <br />
-                        <span>
-                            { __('Rate: ') }
-                            <strong>{ method_title }</strong>
-                        </span>
-                        { this.renderPrice() }
-                    </div>
+                    { this.renderRow() }
                 </button>
             </li>
         );
