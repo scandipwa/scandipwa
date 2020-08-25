@@ -60,6 +60,7 @@ export class RouterContainer extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
+        base_link_url: PropTypes.string,
         default_description: PropTypes.string,
         default_keywords: PropTypes.string,
         default_title: PropTypes.string,
@@ -70,6 +71,7 @@ export class RouterContainer extends PureComponent {
     };
 
     static defaultProps = {
+        base_link_url: '',
         default_description: '',
         default_keywords: '',
         default_title: '',
@@ -83,6 +85,7 @@ export class RouterContainer extends PureComponent {
         super(props);
 
         this.initializeApplication();
+        this.redirectFromPartialUrl();
     }
 
     componentDidUpdate(prevProps) {
@@ -120,6 +123,20 @@ export class RouterContainer extends PureComponent {
     initializeApplication() {
         const { init } = this.props;
         init();
+    }
+
+    redirectFromPartialUrl() {
+        const { base_link_url } = this.props;
+        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
+        const { pathname } = location;
+
+        if (storePrefix === '/') {
+            return;
+        }
+
+        if (storePrefix.slice(0, -1) === pathname) {
+            history.replace(storePrefix);
+        }
     }
 
     render() {
