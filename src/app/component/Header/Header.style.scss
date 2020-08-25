@@ -208,7 +208,7 @@
     }
 
     &-Contacts {
-        font-size: 12px;
+        font-size: 1.2rem;
         color: var(--header-contacts-color);
 
         span:first-child {
@@ -313,7 +313,7 @@
 
             &_ok,
             &_cancel {
-                font-size: 14px;
+                font-size: 1.4rem;
                 opacity: .5;
 
                 &.Header-Button_isVisible {
@@ -378,7 +378,7 @@
                 border-radius: 7px;
                 color: var(--header-background);
                 display: inline-block;
-                font-size: 12px;
+                font-size: 1.2rem;
                 left: 50%;
                 padding: 0 4px 1px;
                 position: absolute;

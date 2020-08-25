@@ -24,13 +24,13 @@
     --button-border-width: 0;
 
     h1 {
-        font-size: 62px;
+        font-size: 6.2rem;
         text-transform: uppercase;
         color: var(--homepage-slider-color);
         margin-bottom: 2.5rem;
 
         @include mobile {
-            font-size: 30px;
+            font-size: 3.0rem;
             margin-bottom: 1rem;
         }
     }
