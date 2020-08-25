@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import Field from './Field.component';
 import {
@@ -24,10 +23,6 @@ import {
     TEXT_TYPE,
     TEXTAREA_TYPE
 } from './Field.config';
-
-export const mapStateToProps = (state) => ({
-    customer: state.MyAccountReducer.customer
-});
 
 export class FieldContainer extends PureComponent {
     static propTypes = {
@@ -244,4 +239,4 @@ export class FieldContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(FieldContainer);
+export default FieldContainer;
