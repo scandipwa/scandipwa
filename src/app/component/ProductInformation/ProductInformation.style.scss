@@ -35,6 +35,10 @@
             font-size: 2.0rem;
             text-transform: uppercase;
         }
+
+        .TextPlaceholder::after {
+            content: 'aaaaaaaaaaaaaaaaaaa';
+        }
     }
 
     &-ExpandableContentContent {

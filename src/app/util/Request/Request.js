@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/create-config-files */
 /* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -15,6 +16,20 @@ import { getAuthorizationToken } from 'Util/Auth';
 import { hash } from './Hash';
 
 export const GRAPHQL_URI = '/graphql';
+
+export const getStoreCodePath = () => {
+    const path = location.pathname;
+    // eslint-disable-next-line no-undef
+    const firstPathPart = path.split('/')[1];
+
+    if (window.storeList.includes(firstPathPart)) {
+        return `/${ firstPathPart }`;
+    }
+
+    return '';
+};
+
+export const getGraphqlEndpoint = () => getStoreCodePath().concat(GRAPHQL_URI);
 
 /**
  * Append authorization token to header object
@@ -139,12 +154,12 @@ export const HTTP_201_CREATED = 201;
  */
 export const executeGet = (queryObject, name, cacheTTL) => {
     const { query, variables } = queryObject;
-    const uri = formatURI(query, variables, GRAPHQL_URI);
+    const uri = formatURI(query, variables, getGraphqlEndpoint());
 
     return parseResponse(new Promise((resolve) => {
         getFetch(uri, name).then((res) => {
             if (res.status === HTTP_410_GONE) {
-                putPersistedQuery(GRAPHQL_URI, query, cacheTTL).then((putResponse) => {
+                putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL).then((putResponse) => {
                     if (putResponse.status === HTTP_201_CREATED) {
                         getFetch(uri, name).then((res) => resolve(res));
                     }
@@ -163,7 +178,7 @@ export const executeGet = (queryObject, name, cacheTTL) => {
  */
 export const executePost = (queryObject) => {
     const { query, variables } = queryObject;
-    return parseResponse(postFetch(GRAPHQL_URI, query, variables));
+    return parseResponse(postFetch(getGraphqlEndpoint(), query, variables));
 };
 
 /**

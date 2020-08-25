@@ -18,11 +18,11 @@ import { showNotification } from 'Store/Notification/Notification.action';
 
 import PasswordChangePage from './PasswordChangePage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
-const MyAccountDispatcher = import(
+export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );

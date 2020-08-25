@@ -23,7 +23,7 @@ import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
 import isMobile from 'Util/Mobile';
 
-export default class Menu extends PureComponent {
+export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         activeMenuItemsStack: PropTypes.array.isRequired,
@@ -102,6 +102,8 @@ export default class Menu extends PureComponent {
             return (
                 <div
                   key={ item_id }
+                  // TODO: split into smaller components
+                  // eslint-disable-next-line react/jsx-no-bind
                   onClick={ (e) => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   role="button"
@@ -280,6 +282,8 @@ export default class Menu extends PureComponent {
         if (childrenArray.length && (isMobile.any() || isMobile.tablet())) {
             return (
                 <div
+                  // TODO: split into smaller components
+                  // eslint-disable-next-line react/jsx-no-bind
                   onClick={ (e) => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   block="Menu"
@@ -373,3 +377,5 @@ export default class Menu extends PureComponent {
         );
     }
 }
+
+export default Menu;

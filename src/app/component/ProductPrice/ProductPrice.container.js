@@ -25,7 +25,7 @@ import ProductPrice from './ProductPrice.component';
  * Product price
  * @class ProductPrice
  */
-class ProductPriceContainer extends PureComponent {
+export class ProductPriceContainer extends PureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool,
         price: PriceType,

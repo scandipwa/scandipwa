@@ -20,7 +20,7 @@ import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableA
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 
-export default class ProductConfigurableAttributes extends PureComponent {
+export class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
@@ -169,9 +169,15 @@ export default class ProductConfigurableAttributes extends PureComponent {
         const { isReady, mix } = this.props;
 
         return (
-            <div block="ProductConfigurableAttributes" mix={ mix }>
+            <div
+              block="ProductConfigurableAttributes"
+              mods={ { isLoading: !isReady } }
+              mix={ mix }
+            >
                 { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholders() }
             </div>
         );
     }
 }
+
+export default ProductConfigurableAttributes;

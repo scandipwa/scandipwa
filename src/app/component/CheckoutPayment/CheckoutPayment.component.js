@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 
 import { paymentMethodType } from 'Type/Checkout';
 
-class CheckoutPayment extends PureComponent {
+export class CheckoutPayment extends PureComponent {
     static propTypes = {
         method: paymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,

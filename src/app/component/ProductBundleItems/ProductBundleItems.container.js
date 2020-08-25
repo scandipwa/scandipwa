@@ -18,7 +18,7 @@ import { ProductItemsType } from 'Type/ProductList';
 
 import ProductBundleItems from './ProductBundleItems.component';
 
-class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
+export class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
     static propTypes = {
         ...ProductCustomizableOptionsContainer.propTypes,
         items: ProductItemsType,

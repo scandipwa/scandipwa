@@ -1,17 +1,43 @@
 import './RenderWhenVisible.style';
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import { ChildrenType } from 'Type/Common';
 
-class RenderWhenVisible extends PureComponent {
+export class RenderWhenVisible extends PureComponent {
     static propTypes = {
-        children: ChildrenType.isRequired
+        children: ChildrenType.isRequired,
+        fallback: PropTypes.func
+    };
+
+    static defaultProps = {
+        fallback: () => {}
     };
 
     state = {
         wasVisible: false
+    };
+
+    constructor(props) {
+        super(props);
+
+        // a hack to determine if the element is on screen or not imidiatelly
+        setTimeout(this.checkIsVisible, 0);
+    }
+
+    checkIsVisible = () => {
+        if (!this.node) {
+            return;
+        }
+
+        const rect = this.node.getBoundingClientRect();
+        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+
+        if (!(rect.bottom < 0 || rect.top - viewHeight >= 0)) {
+            this.setState({ wasVisible: true });
+        }
     };
 
     shouldRender(isVisible) {
@@ -24,6 +50,19 @@ class RenderWhenVisible extends PureComponent {
         }
     };
 
+    renderFallback() {
+        const { fallback } = this.props;
+        const fallbackRender = fallback();
+
+        if (fallbackRender) {
+            return fallbackRender;
+        }
+
+        return (
+            <div block="RenderWhenVisible" elem="Detector" />
+        );
+    }
+
     renderVisibilitySensor() {
         return (
             <VisibilitySensor
@@ -32,7 +71,7 @@ class RenderWhenVisible extends PureComponent {
               minTopValue="1"
               onChange={ this.handleVisibilityToggle }
             >
-                <div block="RenderWhenVisible" elem="Detector" />
+                { this.renderFallback() }
             </VisibilitySensor>
         );
     }
@@ -55,7 +94,12 @@ class RenderWhenVisible extends PureComponent {
 
     render() {
         return (
-            <div block="RenderWhenVisible">
+            <div
+              block="RenderWhenVisible"
+              ref={ (node) => {
+                  this.node = node;
+              } }
+            >
                 { this.renderContent() }
             </div>
         );

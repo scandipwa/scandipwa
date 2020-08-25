@@ -19,7 +19,7 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 
-export default class ConfirmAccountPage extends PureComponent {
+export class ConfirmAccountPage extends PureComponent {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -91,3 +91,5 @@ export default class ConfirmAccountPage extends PureComponent {
         );
     }
 }
+
+export default ConfirmAccountPage;

@@ -22,7 +22,7 @@ import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, customerType } from 'Type/Account';
 
-class MyAccountDashboard extends PureComponent {
+export class MyAccountDashboard extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultAddress: PropTypes.func.isRequired

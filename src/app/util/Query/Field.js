@@ -14,7 +14,7 @@
  * @class Query
  * @extends Field
  */
-class Field {
+export class Field {
     /**
      * Class constructor
      *

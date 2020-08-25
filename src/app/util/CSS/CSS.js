@@ -13,7 +13,7 @@
  * Set of helpers related to CSS
  * @class CSS
  */
-class CSS {
+export class CSS {
     /**
      * Change CSS custom property in referenced node scope
      * @static

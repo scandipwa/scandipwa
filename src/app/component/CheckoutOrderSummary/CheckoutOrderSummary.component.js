@@ -22,7 +22,7 @@ import { formatCurrency, roundPrice } from 'Util/Price';
 /**
  * Checkout Order Summary component
  */
-export default class CheckoutOrderSummary extends PureComponent {
+export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         paymentTotals: TotalsType,
@@ -157,3 +157,5 @@ export default class CheckoutOrderSummary extends PureComponent {
         );
     }
 }
+
+export default CheckoutOrderSummary;

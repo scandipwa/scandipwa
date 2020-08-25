@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,46 +12,8 @@
 import 'Util/Polyfill';
 import 'Style/main';
 
-import { PureComponent } from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Provider as UnstatedProvider } from 'unstated';
+import { render } from 'react-dom';
 
-import SharedTransition from 'Component/SharedTransition';
-import AppRouter from 'Route';
-import configureStore from 'Store';
+import App from 'Component/App';
 
-// Disable react dev tools in production
-if (process.env.NODE_ENV === 'production'
-    && window.__REACT_DEVTOOLS_GLOBAL_HOOK__
-) {
-    window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {};
-}
-
-// Enable React hot reload in development
-if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept('./index.js', () => {
-        // eslint-disable-next-line import/no-self-import, global-require
-        const NextRootContainer = require('./index.js').default;
-        ReactDOM.render(<NextRootContainer />, document.getElementById('root'));
-    });
-}
-
-// Inject ScandiPWA comment into code (do not remove!)
-const comment = document.createComment('Powered by ScandiPWA (scandipwa.com)');
-document.querySelector('html').appendChild(comment);
-
-class App extends PureComponent {
-    render() {
-        return (
-            <Provider store={ configureStore() }>
-                <UnstatedProvider>
-                    <AppRouter />
-                    <SharedTransition />
-                </UnstatedProvider>
-            </Provider>
-        );
-    }
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));

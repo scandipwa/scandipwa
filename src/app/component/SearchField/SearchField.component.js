@@ -22,7 +22,7 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
-import { history } from 'Route';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 
 export const SearchOverlay = lazy(
@@ -32,7 +32,7 @@ export const SearchOverlay = lazy(
     )
 );
 
-class SearchField extends PureComponent {
+export class SearchField extends PureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
         onSearchBarFocus: PropTypes.func.isRequired,
@@ -76,16 +76,21 @@ class SearchField extends PureComponent {
     }
 
     onSearchEnterPress = (e) => {
-        if (e.key === 'Enter') {
-            const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
-            const search = searchCriteria.replace(/\s\s+/g, '%20');
+        const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
+        const search = searchCriteria.trim().replace(/\s\s+/g, '%20');
+        const trimmedSearch = searchCriteria.trim();
 
+        if (e.key === 'Enter' && trimmedSearch !== '') {
             history.push(`/search/${ search }`);
             hideActiveOverlay();
             onSearchBarChange({ target: { value: '' } });
             this.searchBarRef.current.blur();
             this.closeSearch();
         }
+    };
+
+    onIconClick = () => {
+        this.searchBarRef.current.focus();
     };
 
     openSearch = () => {
@@ -170,12 +175,12 @@ class SearchField extends PureComponent {
                   elem="SearchIcon"
                   role="button"
                   tabIndex="0"
-                  onClick={ () => this.searchBarRef.current.focus() }
+                  onClick={ this.onIconClick }
                   aria-label={ __('Search') }
                 />
                 <Suspense fallback={ this.renderOverlayFallback() }>
                     <SearchOverlay
-                      hideOverlay
+                      isHideOverlay
                       clearSearch={ this.clearSearch }
                       searchCriteria={ searchCriteria }
                     />

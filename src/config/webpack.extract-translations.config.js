@@ -81,8 +81,8 @@ module.exports = {
             __: path.resolve(path.join(__dirname, 'TranslationFunction'))
         }),
 
-        new CleanWebpackPlugin({
-            cleanAfterEveryBuildPatterns: [path.join(projectRoot, 'Magento_Theme/web/translations-compiled*')]
-        })
+        new CleanWebpackPlugin([
+            path.join(projectRoot, 'Magento_Theme/web/translations-compiled*')
+        ], { root: projectRoot })
     ]
 };

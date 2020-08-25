@@ -24,11 +24,11 @@ import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
-const WishlistDispatcher = import(
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );

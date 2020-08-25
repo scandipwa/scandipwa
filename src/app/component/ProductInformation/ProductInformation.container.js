@@ -15,7 +15,7 @@ import { ProductType } from 'Type/ProductList';
 
 import ProductInformation from './ProductInformation.component';
 
-export default class ProductInformationContainer extends PureComponent {
+export class ProductInformationContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
@@ -53,3 +53,5 @@ export default class ProductInformationContainer extends PureComponent {
         );
     }
 }
+
+export default ProductInformationContainer;

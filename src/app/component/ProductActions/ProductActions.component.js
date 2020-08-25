@@ -34,6 +34,7 @@ import { PriceType, ProductType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
 import {
     BUNDLE,
+    CONFIGURABLE,
     GROUPED,
     SIMPLE
 } from 'Util/Product';
@@ -42,7 +43,7 @@ import {
  * Product actions
  * @class ProductActions
  */
-export default class ProductActions extends PureComponent {
+export class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -376,6 +377,31 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderConfigurablePriceBadge() {
+        const {
+            configurableVariantIndex,
+            product: { type_id }
+        } = this.props;
+
+        if (
+            type_id !== CONFIGURABLE
+            || configurableVariantIndex > -1
+        ) {
+            return null;
+        }
+
+        return (
+            <p
+              mix={ {
+                  block: 'ProductActions',
+                  elem: 'ConfigurablePriceBadge'
+              } }
+            >
+                { __('As Low as') }
+            </p>
+        );
+    }
+
     renderPriceWithSchema() {
         const {
             productPrice,
@@ -383,7 +409,11 @@ export default class ProductActions extends PureComponent {
         } = this.props;
 
         return (
-            <div>
+            <div
+              block="ProductActions"
+              elem="PriceWrapper"
+            >
+                { this.renderConfigurablePriceBadge() }
                 { this.renderSchema() }
                 <ProductPrice
                   isSchemaRequired
@@ -532,3 +562,5 @@ export default class ProductActions extends PureComponent {
         );
     }
 }
+
+export default ProductActions;

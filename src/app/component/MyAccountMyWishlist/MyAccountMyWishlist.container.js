@@ -20,7 +20,7 @@ import { ProductType } from 'Type/ProductList';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
-const WishlistDispatcher = import(
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );

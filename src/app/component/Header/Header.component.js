@@ -28,7 +28,6 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import media from 'Util/Media';
@@ -36,13 +35,28 @@ import { LOGO_MEDIA } from 'Util/Media/Media';
 import isMobile from 'Util/Mobile';
 
 import {
-    CART, CART_EDITING, CART_OVERLAY, CATEGORY, CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT, FILTER, MENU, MENU_SUBCATEGORY, PDP, POPUP, SEARCH
+    CART,
+    CART_EDITING,
+    CART_OVERLAY,
+    CATEGORY,
+    CHECKOUT,
+    CHECKOUT_ACCOUNT,
+    CMS_PAGE,
+    CUSTOMER_ACCOUNT,
+    CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_SUB_ACCOUNT,
+    FILTER,
+    MENU,
+    MENU_SUBCATEGORY,
+    PDP,
+    POPUP,
+    SEARCH
 } from './Header.config';
 
 export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
 
-export default class Header extends NavigationAbstract {
+export class Header extends NavigationAbstract {
     static propTypes = {
         navigationState: PropTypes.object.isRequired,
         cartTotals: TotalsType.isRequired,
@@ -67,7 +81,6 @@ export default class Header extends NavigationAbstract {
         isLoading: PropTypes.bool,
         isCheckout: PropTypes.bool.isRequired,
         showMyAccountLogin: PropTypes.bool.isRequired,
-        closeOverlay: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired
     };
@@ -137,6 +150,10 @@ export default class Header extends NavigationAbstract {
             back: true,
             title: true,
             account: true
+        },
+        [CHECKOUT_ACCOUNT]: {
+            title: true,
+            close: true
         },
         [CMS_PAGE]: {
             back: true,
@@ -243,7 +260,7 @@ export default class Header extends NavigationAbstract {
               elem="Title"
               mods={ { isVisible } }
             >
-                <TextPlaceholder content={ title } />
+                { title }
             </h2>
         );
     }
@@ -297,7 +314,6 @@ export default class Header extends NavigationAbstract {
         const {
             isCheckout,
             showMyAccountLogin,
-            closeOverlay,
             onSignIn,
             shouldRenderAccountOverlay
         } = this.props;
@@ -310,7 +326,6 @@ export default class Header extends NavigationAbstract {
             <Suspense fallback={ this.renderAccountOverlayFallback() }>
                 <MyAccountOverlay
                   onSignIn={ onSignIn }
-                  closeOverlay={ closeOverlay }
                   isCheckout={ isCheckout }
                 />
             </Suspense>
@@ -410,8 +425,7 @@ export default class Header extends NavigationAbstract {
         const {
             onMinicartOutsideClick,
             onMinicartButtonClick,
-            isCheckout,
-            navigationState: { name }
+            isCheckout
         } = this.props;
 
         if ((isMobile.any() || isMobile.tablet()) || isCheckout) {
@@ -429,11 +443,7 @@ export default class Header extends NavigationAbstract {
                       block="Header"
                       elem="MinicartButtonWrapper"
                       tabIndex="0"
-                      onClick={ () => {
-                          if (name !== CART_OVERLAY) {
-                              onMinicartButtonClick();
-                          }
-                      } }
+                      onClick={ onMinicartButtonClick }
                     >
                         <span
                           block="Header"
@@ -527,7 +537,7 @@ export default class Header extends NavigationAbstract {
     }
 
     renderContacts() {
-        const { footer_content: { contacts_cms } = {} } = window.contentConfiguration;
+        const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
 
         if (contacts_cms) {
             return (
@@ -587,3 +597,5 @@ export default class Header extends NavigationAbstract {
         );
     }
 }
+
+export default Header;

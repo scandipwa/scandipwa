@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 import { shippingMethodsType } from 'Type/Checkout';
 
-class CheckoutDeliveryOptions extends PureComponent {
+export class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,

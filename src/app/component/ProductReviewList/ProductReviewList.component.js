@@ -19,7 +19,7 @@ import { ProductType } from 'Type/ProductList';
 /**
  * @class ProductReviewList
  */
-export default class ProductReviewList extends PureComponent {
+export class ProductReviewList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
@@ -124,3 +124,5 @@ export default class ProductReviewList extends PureComponent {
         );
     }
 }
+
+export default ProductReviewList;

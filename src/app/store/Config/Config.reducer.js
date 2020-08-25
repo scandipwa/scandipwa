@@ -31,10 +31,11 @@ export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
+    checkoutAgreements: [],
     isLoading: true
 };
 
-const ConfigReducer = (state = initialState, action) => {
+export const ConfigReducer = (state = initialState, action) => {
     const {
         config: {
             countries,

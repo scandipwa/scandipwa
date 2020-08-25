@@ -24,7 +24,7 @@ import {
     ADD_ADDRESS, ADDRESS_POPUP_ID, DELETE_ADDRESS, EDIT_ADDRESS
 } from './MyAccountAddressPopup.config';
 
-class MyAccountAddressPopup extends PureComponent {
+export class MyAccountAddressPopup extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         handleAddress: PropTypes.func.isRequired,

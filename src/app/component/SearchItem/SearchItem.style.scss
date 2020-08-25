@@ -1,0 +1,86 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --search-item-divider-color: #eee;
+    --search-item-title-color: #000;
+}
+
+.SearchItem {
+    padding: .5rem 0;
+    margin-bottom: 0;
+
+    @include desktop {
+        overflow: hidden;
+    }
+
+    &::before {
+        content: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 1rem;
+        right: 1rem;
+        height: 1px;
+        background-color: var(--search-item-divider-color);
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+
+        &::after {
+            content: none;
+        }
+    }
+
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: 4rem calc(100% - 5rem);
+        grid-column-gap: 1rem;
+    }
+
+    &-Content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &-CustomAttribute {
+        text-transform: uppercase;
+        font-weight: 200;
+        font-size: .8rem;
+        line-height: 1.2rem;
+    }
+
+    &-Title {
+        color: var(--search-item-title-color);
+        font-size: 1.1rem;
+        font-weight: 600;
+        max-width: calc(100vw - 7rem);
+
+        &_isLoaded {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+
+    &-Link {
+        color: inherit;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

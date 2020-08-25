@@ -20,11 +20,11 @@ import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
-const MyAccountDispatcher = import(
+export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );

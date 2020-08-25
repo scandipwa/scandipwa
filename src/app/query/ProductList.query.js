@@ -93,6 +93,7 @@ export class ProductListQuery {
                 return filters;
             },
             productsSkuArray: (sku) => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
+            productSKU: (sku) => [`sku: { eq: ${ encodeURIComponent(sku) } }`],
             productUrlPath: (url) => [`url_key: { eq: ${url}}`],
             customFilters: this._getCustomFilters,
             newToDate: (date) => [`news_to_date: { gteq: ${date} }`],
@@ -129,6 +130,19 @@ export class ProductListQuery {
                         ...initialOptions,
                         customerGroupId: group_id || '0'
                     };
+
+                    const {
+                        customFilters: { category_id } = {}
+                    } = options;
+
+                    /**
+                     * Remove category ID from select, if there is a custom filter
+                     * of category already selected in filtering options.
+                     */
+                    if (category_id) {
+                        // eslint-disable-next-line fp/no-delete
+                        options.categoryIds = undefined;
+                    }
 
                     const parsedOptions = Object.entries(options).reduce(
                         (acc, [key, option]) => {

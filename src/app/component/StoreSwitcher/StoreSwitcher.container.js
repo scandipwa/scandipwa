@@ -52,11 +52,16 @@ export class StoreSwitcherContainer extends DataContainer {
         this._getStoreList();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { currentStoreCode } = this.props;
-        const { storeLabel } = this.state;
+        const { prevStoreCode } = prevProps;
+        const { storeLabel, storeList } = this.state;
 
-        if (currentStoreCode && !storeLabel) {
+        if (!storeList.length) {
+            this._getStoreList();
+        }
+
+        if (currentStoreCode && (!storeLabel || (prevStoreCode !== currentStoreCode))) {
             this.getCurrentLabel(currentStoreCode);
         }
     }
@@ -87,7 +92,7 @@ export class StoreSwitcherContainer extends DataContainer {
 
     _formatStoreList(storeList) {
         return storeList.reduce((acc, {
-            name, code, is_active, base_url
+            name, code, is_active, base_url, base_link_url
         }) => {
             if (!is_active) {
                 return acc;
@@ -99,6 +104,7 @@ export class StoreSwitcherContainer extends DataContainer {
                     id: `store_${ code }`,
                     value: code,
                     storeUrl: base_url,
+                    storeLinkUrl: base_link_url,
                     label: name
                 }
             ];
@@ -111,6 +117,11 @@ export class StoreSwitcherContainer extends DataContainer {
         const store = storeList.find(
             ({ value }) => value === storeCode
         );
+
+        if (!store) {
+            return;
+        }
+
         const { label } = store;
 
         this.setState({ storeLabel: label });
@@ -129,7 +140,7 @@ export class StoreSwitcherContainer extends DataContainer {
             return;
         }
 
-        window.location = store.storeUrl;
+        window.location = store.storeLinkUrl;
     }
 
     render() {

@@ -21,11 +21,11 @@ import { executeGet } from 'Util/Request';
 
 import NewProducts from './NewProducts.component';
 
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
     timezone: state.ConfigReducer.timezone
 });
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 

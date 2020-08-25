@@ -175,4 +175,10 @@
             margin: .5rem;
         }
     }
+
+    .TextPlaceholder,
+    .ProductConfigurableAttributes-Placeholder {
+        opacity: 0;
+        animation: appear 100ms 300ms forwards;
+    }
 }

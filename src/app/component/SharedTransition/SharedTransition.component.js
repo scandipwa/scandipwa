@@ -1,11 +1,22 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import './SharedTransition.style';
 
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-export const SHARED_ELEMENT_TRANSITION = 250;
+import { SHARED_ELEMENT_TRANSITION } from './SharedTransition.config';
 
-class SharedTransition extends PureComponent {
+export class SharedTransition extends PureComponent {
     static propTypes = {
         state: PropTypes.shape({
             startingPosition: PropTypes.shape({
@@ -89,6 +100,7 @@ class SharedTransition extends PureComponent {
             || !sharedElementDestination
             || !wrapper
         ) {
+            // this.cleanUpTransition();
             return;
         }
 

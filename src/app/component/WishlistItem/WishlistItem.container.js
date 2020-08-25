@@ -18,17 +18,16 @@ import { ProductType } from 'Type/ProductList';
 import { debounce } from 'Util/Request';
 
 import WishlistItem from './WishlistItem.component';
+import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
 
-const CartDispatcher = import(
+export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
-const WishlistDispatcher = import(
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );
-
-export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),

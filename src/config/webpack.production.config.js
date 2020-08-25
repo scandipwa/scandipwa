@@ -17,7 +17,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -160,12 +160,10 @@ const webpackConfig = ([lang, translation]) => ({
 
         new I18nPlugin({ translation }),
 
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: [
-                path.join(projectRoot, 'Magento_Theme', 'templates'),
-                path.join(projectRoot, 'Magento_Theme', 'web')
-            ]
-        }),
+        new CleanWebpackPlugin([
+            path.resolve('Magento_Theme', 'templates'),
+            path.resolve('Magento_Theme', 'web')
+        ], { root: projectRoot }),
 
         new CopyWebpackPlugin({
             patterns: [

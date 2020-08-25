@@ -18,7 +18,7 @@ export const UPSELL = 'upsell';
 export const RELATED = 'related';
 export const CROSS_SELL = 'crosssell';
 
-const initialState = {
+export const initialState = {
     linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
         upsell: {},
         related: {},
@@ -26,7 +26,7 @@ const initialState = {
     }
 };
 
-const LinkedProductsReducer = (state = initialState, action) => {
+export const LinkedProductsReducer = (state = initialState, action) => {
     const { type } = action;
 
     if (type !== UPDATE_LINKED_PRODUCTS) {

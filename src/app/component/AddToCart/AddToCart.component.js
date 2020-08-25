@@ -21,7 +21,7 @@ import { ProductType } from 'Type/ProductList';
  * Button for adding product to Cart
  * @class AddToCart
  */
-export default class AddToCart extends PureComponent {
+export class AddToCart extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         product: ProductType,
@@ -73,3 +73,5 @@ export default class AddToCart extends PureComponent {
         );
     }
 }
+
+export default AddToCart;

@@ -14,7 +14,7 @@ import './CategorySubcategories.style';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-class CategorySubcategories extends PureComponent {
+export class CategorySubcategories extends PureComponent {
     static propTypes = {
         handleCategoryClick: PropTypes.func.isRequired,
         option: PropTypes.shape({
@@ -40,7 +40,6 @@ class CategorySubcategories extends PureComponent {
               onClick={ handleCategoryClick }
             >
                 <span
-                  title="EU 36"
                   block="ProductAttributeValue"
                   elem="Text"
                   mix={ {

@@ -22,25 +22,27 @@
 
     &-Placeholder {
         text-align: right;
+        opacity: 0;
+        animation: appear 100ms 300ms forwards;
 
         @include mobile {
             text-align: left;
         }
     }
 
-    .Field {
+    .FieldSelect {
+        &::after {
+            @include before-desktop {
+                left: 55px;
+                bottom: 22px;
+            }
+        }
+
         &-Select {
             @include before-desktop {
                 position: absolute;
                 top: -35px;
                 opacity: 0;
-            }
-        }
-
-        &-SelectWrapper::after {
-            @include before-desktop {
-                left: 55px;
-                bottom: 22px;
             }
         }
 

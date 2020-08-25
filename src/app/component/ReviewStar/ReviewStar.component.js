@@ -14,7 +14,7 @@ import './ReviewStar.style';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-export default class ReviewStar extends PureComponent {
+export class ReviewStar extends PureComponent {
     static propTypes = {
         value: PropTypes.number.isRequired,
         name: PropTypes.number.isRequired,
@@ -59,3 +59,5 @@ export default class ReviewStar extends PureComponent {
         );
     }
 }
+
+export default ReviewStar;

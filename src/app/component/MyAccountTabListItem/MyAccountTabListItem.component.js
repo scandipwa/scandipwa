@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 
 import { tabType } from 'Type/Account';
 
-class MyAccountTabListItem extends PureComponent {
+export class MyAccountTabListItem extends PureComponent {
     static propTypes = {
         tabEntry: PropTypes.arrayOf(
             PropTypes.oneOfType([

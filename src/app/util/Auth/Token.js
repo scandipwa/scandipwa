@@ -11,21 +11,14 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-const AUTH_TOKEN = 'auth_token';
+export const AUTH_TOKEN = 'auth_token';
 
-const ONE_HOUR = 3600;
+export const ONE_HOUR = 3600;
 
-const setAuthorizationToken = (token) => BrowserDatabase.setItem(token, AUTH_TOKEN, ONE_HOUR);
+export const setAuthorizationToken = (token) => BrowserDatabase.setItem(token, AUTH_TOKEN, ONE_HOUR);
 
-const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);
+export const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);
 
-const getAuthorizationToken = () => BrowserDatabase.getItem(AUTH_TOKEN);
+export const getAuthorizationToken = () => BrowserDatabase.getItem(AUTH_TOKEN);
 
-const isSignedIn = () => !!getAuthorizationToken();
-
-export {
-    setAuthorizationToken,
-    getAuthorizationToken,
-    deleteAuthorizationToken,
-    isSignedIn
-};
+export const isSignedIn = () => !!getAuthorizationToken();

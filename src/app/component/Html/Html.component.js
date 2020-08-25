@@ -28,7 +28,7 @@ import { hash } from 'Util/Request/Hash';
  * Component converts HTML strings to React components
  * @class Html
  */
-export default class Html extends PureComponent {
+export class Html extends PureComponent {
     static propTypes = {
         content: PropTypes.string.isRequired
     };
@@ -246,3 +246,5 @@ export default class Html extends PureComponent {
         return parser(content, this.parserOptions);
     }
 }
+
+export default Html;

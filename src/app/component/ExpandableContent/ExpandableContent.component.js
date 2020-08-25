@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
 
-export default class ExpandableContent extends PureComponent {
+export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -97,7 +97,7 @@ export default class ExpandableContent extends PureComponent {
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
                     { typeof heading === 'string' ? (
-                        <TextPlaceholder content={ heading } />
+                        <TextPlaceholder content={ heading } length="medium" />
                     ) : (
                         heading
                     ) }
@@ -145,3 +145,5 @@ export default class ExpandableContent extends PureComponent {
         );
     }
 }
+
+export default ExpandableContent;

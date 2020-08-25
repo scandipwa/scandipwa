@@ -19,7 +19,7 @@ import { PureComponent } from 'react';
  * Loaders overlay to identify loading
  * @class Loader
  */
-export default class Loader extends PureComponent {
+export class Loader extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired
     };
@@ -42,3 +42,5 @@ export default class Loader extends PureComponent {
         );
     }
 }
+
+export default Loader;

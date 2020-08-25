@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import { ChildrenType } from 'Type/Common';
 
-export default class CategoryPaginationLink extends PureComponent {
+export class CategoryPaginationLink extends PureComponent {
     static propTypes = {
         children: ChildrenType,
         getPage: PropTypes.func.isRequired,
@@ -52,12 +52,14 @@ export default class CategoryPaginationLink extends PureComponent {
 
         const search = this.getSearchQueryForPage();
 
+        const { state = {} } = history.state || {};
+
         return (
             <Link
               to={ {
                   search,
                   pathname,
-                  state: history.state.state
+                  state
               } }
               aria-label={ label }
               block="CategoryPaginationLink"
@@ -70,3 +72,5 @@ export default class CategoryPaginationLink extends PureComponent {
         );
     }
 }
+
+export default CategoryPaginationLink;

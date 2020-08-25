@@ -17,7 +17,7 @@ import Field from 'Component/Field';
 import FieldForm from 'Component/FieldForm/FieldForm.component';
 import FormPortal from 'Component/FormPortal';
 
-class CheckoutGuestForm extends FieldForm {
+export class CheckoutGuestForm extends FieldForm {
     static propTypes = {
         formId: PropTypes.string.isRequired,
         handleEmailInput: PropTypes.func.isRequired,

@@ -12,12 +12,8 @@
 import { Field, prepareQuery } from 'Util/Query';
 import { executePost } from 'Util/Request/Request';
 
-const fetchQuery = (rawQueries) => {
+// eslint-disable-next-line import/prefer-default-export
+export const fetchQuery = (rawQueries) => {
     const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
     return executePost(prepareQuery(queries, true));
-};
-
-export {
-    // eslint-disable-next-line import/prefer-default-export
-    fetchQuery
 };

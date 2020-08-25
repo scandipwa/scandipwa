@@ -16,20 +16,21 @@ import { withRouter } from 'react-router';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
-import { setQueryParams } from 'Util/Url';
+import { appendWithStoreCode, setQueryParams } from 'Util/Url';
 
 import Header from './Header.component';
 import {
     CART,
     CART_OVERLAY, CATEGORY,
-    CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT,
+    CHECKOUT, CHECKOUT_ACCOUNT,
+    CMS_PAGE, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
     MENU, PDP,
     SEARCH
@@ -103,7 +104,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
-        closeOverlay: this.closeOverlay.bind(this),
         onSignIn: this.onSignIn.bind(this),
         hideActiveOverlay: this.props.hideActiveOverlay
     };
@@ -174,10 +174,16 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { state: historyState } = window.history || {};
         const { state = {} } = historyState || {};
 
-        const activeRoute = Object.keys(this.routeMap)
-            .find((route) => (route !== '/' || pathname === '/') && pathname.includes(route));
+        // TODO: something here breaks /<STORE CODE> from being opened, and / when, the url-based stores are enabled.
 
-        if (state.category || state.product || state.page) { // keep state if it category is in state
+        const activeRoute = Object.keys(this.routeMap)
+            .find((route) => (
+                route !== '/'
+                || pathname === appendWithStoreCode('/')
+                || pathname === '/'
+            ) && pathname.includes(route));
+
+        if (state.category || state.product || state.page || state.popupOpen) { // keep state if it category is in state
             return navigationState;
         }
 
@@ -227,8 +233,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         return {
             isClearEnabled,
-            showMyAccountLogin: false,
-            ...this.handleMobileRouteChange(history)
+            showMyAccountLogin: false
         };
     }
 
@@ -321,10 +326,19 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
-            this.setState({ shouldRenderAccountOverlay: true });
-            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-            setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+        if (name !== CHECKOUT_ACCOUNT) {
+            this.setState({ shouldRenderAccountOverlay: true }, () => {
+                if (!isMobile.any()) {
+                    return;
+                }
+
+                showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+                setNavigationState({
+                    name: CHECKOUT_ACCOUNT,
+                    title: 'Sign in',
+                    onCloseClick: this.closeOverlay
+                });
+            });
         }
 
         this.setState({ showMyAccountLogin: true });
@@ -349,24 +363,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
         hideActiveOverlay();
     }
 
-    closeOverlay() {
-        const {
-            navigationState: { name, title },
-            goToPreviousNavigationState,
-            setNavigationState
-        } = this.props;
+    closeOverlay = () => {
         const { location: { pathname } } = history;
 
         if (pathname.includes(CHECKOUT_URL)) {
-            if (name === CUSTOMER_SUB_ACCOUNT) {
-                goToPreviousNavigationState();
-            } else {
-                setNavigationState({ name: CHECKOUT, title });
-            }
-
             this.setState({ showMyAccountLogin: false });
         }
-    }
+    };
 
     onSignIn() {
         const { location: { pathname } } = history;
@@ -401,15 +404,23 @@ export class HeaderContainer extends NavigationAbstractContainer {
     // *
 
     onMinicartButtonClick() {
-        const { showOverlay } = this.props;
+        const {
+            showOverlay,
+            navigationState: { name }
+        } = this.props;
+
+        if (name === CART_OVERLAY) {
+            return;
+        }
 
         if (!isMobile.any()) {
             this.setState({ shouldRenderCartOverlay: true });
 
-            return showOverlay(CART_OVERLAY);
+            showOverlay(CART_OVERLAY);
+            return;
         }
 
-        return history.push(`/${ CART }`);
+        history.push(`/${ CART }`);
     }
 
     // *

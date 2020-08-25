@@ -18,7 +18,7 @@ import { CardElement, injectStripe } from 'react-stripe-elements';
 /**
  * @class InjectedStripeCheckoutForm
  */
-class InjectedStripeCheckoutForm extends PureComponent {
+export class InjectedStripeCheckoutForm extends PureComponent {
      static propTypes = {
          stripe: PropTypes.oneOfType([
              PropTypes.object,

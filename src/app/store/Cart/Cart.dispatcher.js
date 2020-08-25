@@ -17,7 +17,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
-const LinkedProductsDispatcher = import(
+export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/LinkedProducts/LinkedProducts.dispatcher'
 );
@@ -209,14 +209,14 @@ export class CartDispatcher {
                     ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
                 );
             } else {
-                LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
-                );
+                // LinkedProductsDispatcher.then(
+                //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+                // );
             }
         } else {
-            LinkedProductsDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
-            );
+            // LinkedProductsDispatcher.then(
+            //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+            // );
         }
     }
 

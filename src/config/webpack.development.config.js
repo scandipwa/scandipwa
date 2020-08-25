@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -34,6 +35,37 @@ const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 const baseUrl = process.env.MAGENTO_BASEURL
     ? url.parse(process.env.MAGENTO_BASEURL).host
     : 'scandipwa.local';
+
+const prepareProxy = () => {
+    // eslint-disable-next-line global-require
+    const { proxy } = require('../../package.json');
+
+    if (!proxy) {
+        return undefined;
+    }
+
+    console.log('proxy is defined');
+
+    if (typeof proxy !== 'string') {
+        console.log('When specified, "proxy" in package.json must be a string.');
+        console.log(`Instead, the type of "proxy" was "${ typeof proxy }".`);
+        console.log('Either remove "proxy" from package.json, or make it a string.');
+        process.exit(1);
+    }
+
+    if (!/^http(s)?:\/\//.test(proxy)) {
+        console.log('When "proxy" is specified in package.json it must start with either http:// or https://');
+        process.exit(1);
+    }
+
+    return [{
+        context: ['/graphql', '/static', '/media', '/admin', '/pub'],
+        target: proxy,
+        ws: true,
+        changeOrigin: true,
+        logLevel: 'silent'
+    }];
+};
 
 module.exports = {
     resolve: {
@@ -102,7 +134,7 @@ module.exports = {
                     {
                         loader: 'sass-resources-loader',
                         options: {
-                            resources: path.resolve(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
+                            resources: 'src/app/style/abstract/_abstract.scss'
                         }
                     }
                 ]
@@ -142,10 +174,10 @@ module.exports = {
         hot: true,
         host: '0.0.0.0',
         public: baseUrl,
-        writeToDisk: true,
         allowedHosts: [
             '.local'
-        ]
+        ],
+        proxy: prepareProxy()
     },
 
     watchOptions: {
@@ -159,8 +191,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': {
                 REBEM_MOD_DELIM: JSON.stringify('_'),
-                REBEM_ELEM_DELIM: JSON.stringify('-'),
-                MAGENTO_VERSION: JSON.stringify('2.3.1')
+                REBEM_ELEM_DELIM: JSON.stringify('-')
             }
         }),
 

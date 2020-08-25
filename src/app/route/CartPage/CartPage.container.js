@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 
 import { CART, CART_EDITING } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -26,11 +25,13 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
@@ -118,12 +119,18 @@ export class CartPageContainer extends PureComponent {
         e.nativeEvent.stopImmediatePropagation();
 
         if (guest_checkout) {
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({
+                pathname: appendWithStoreCode(CHECKOUT_URL)
+            });
+
             return;
         }
 
         if (isSignedIn()) {
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({
+                pathname: appendWithStoreCode(CHECKOUT_URL)
+            });
+
             return;
         }
 
@@ -131,7 +138,7 @@ export class CartPageContainer extends PureComponent {
         showNotification('info', __('Please sign-in to complete checkout!'));
 
         if (isMobile.any()) { // for all mobile devices, simply switch route
-            history.push({ pathname: '/my-account' });
+            history.push({ pathname: appendWithStoreCode('/my-account') });
             return;
         }
 
