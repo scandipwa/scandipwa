@@ -137,17 +137,18 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductOptionValue = (optionValue) => {
+    renderProductOptionValue = (optionValue, i, array) => {
         const { label, value } = optionValue;
 
         return (
-            <div
+            <span
               block="CartItem"
               elem="ItemOptionValue"
               key={ label }
             >
                 { label || value }
-            </div>
+{ array[i + 1] ? <>, </> : null }
+            </span>
         );
     };
 
