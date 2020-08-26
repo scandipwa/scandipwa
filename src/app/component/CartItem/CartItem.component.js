@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -139,6 +140,7 @@ export class CartItem extends PureComponent {
 
     renderProductOptionValue = (optionValue, i, array) => {
         const { label, value } = optionValue;
+        const isNextAvailable = Boolean(array[i + 1]);
 
         return (
             <span
@@ -146,8 +148,7 @@ export class CartItem extends PureComponent {
               elem="ItemOptionValue"
               key={ label }
             >
-                { label || value }
-{ array[i + 1] ? <>, </> : null }
+                { label || value } { isNextAvailable && ', ' }
             </span>
         );
     };
