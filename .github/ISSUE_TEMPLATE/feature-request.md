@@ -2,8 +2,7 @@
 name: Feature request
 about: Are you mssing a feature? Let us know!
 title: ''
-labels: feature
-
+labels: 'Type: feature' 
 ---
 
 **Description**:
