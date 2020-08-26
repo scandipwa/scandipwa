@@ -91,7 +91,7 @@
     }
 
     &-Option {
-        font-size: 10px;
+        font-size: 1rem;
         text-transform: uppercase;
         border: 1px solid var(--cart-item-option-color);
         color: var(--cart-item-option-color);
@@ -124,7 +124,7 @@
 
     &-Heading,
     &-SubHeading {
-        font-size: 14px;
+        font-size: 1.4rem;
         line-height: 1.2;
         flex-grow: 1;
         width: 100%;
@@ -150,7 +150,7 @@
         margin-bottom: 0;
 
         @include after-mobile {
-            font-size: 16px;
+            font-size: 1.6rem;
         }
 
         &_isLikeTable {
@@ -267,7 +267,7 @@
 
         height: 35px;
         padding-left: 35px;
-        font-size: 14px;
+        font-size: 1.4rem;
         color: var(--cart-item-actions-color);
     }
 
@@ -286,7 +286,7 @@
             order: 2;
             width: 44px;
             min-width: 44px;
-            font-size: 16px;
+            font-size: 1.6rem;
         }
 
         button {
