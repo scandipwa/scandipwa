@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 // TODO: try SEARCH type
 import { CATEGORY } from 'Component/Header/Header.config';
@@ -11,6 +12,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
+import { fadeInOut } from 'Util/FadeInOut';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -183,4 +185,7 @@ export class SearchPageContainer extends CategoryPageContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPageContainer);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    fadeInOut
+)(SearchPageContainer);

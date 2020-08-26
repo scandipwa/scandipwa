@@ -11,11 +11,13 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { fadeInOut } from 'Util/FadeInOut';
 
 import NoMatch from './NoMatch.component';
 
@@ -45,4 +47,7 @@ export class NoMatchContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(NoMatchContainer);
+export default compose(
+    connect(null, mapDispatchToProps),
+    fadeInOut
+)(NoMatchContainer);

@@ -13,10 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import { compose } from 'redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Common';
+import { fadeInOut } from 'Util/FadeInOut';
 import { getQueryParam } from 'Util/Url';
 
 import PasswordChangePage from './PasswordChangePage.component';
@@ -165,4 +167,7 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordChangePageContainer);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    fadeInOut
+)(PasswordChangePageContainer);
