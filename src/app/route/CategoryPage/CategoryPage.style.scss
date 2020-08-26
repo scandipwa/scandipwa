@@ -10,6 +10,16 @@
  */
 
 .CategoryPage {
+    &-FadeIn {
+        transition: opacity .8s ease;
+        opacity: 1;
+
+        &_contentIsHidden {
+            transition: none;
+            opacity: 0;
+        }
+    }
+
     &-Wrapper {
         @include after-mobile {
             display: grid;

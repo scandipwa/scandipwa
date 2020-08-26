@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { compose } from 'redux';
 
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
@@ -22,6 +23,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
+import { fadeInOut } from 'Util/FadeInOut';
 import { getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
@@ -515,5 +517,8 @@ export class ProductPageContainer extends PureComponent {
     }
 }
 
-export const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);
-export default withRouter(ProductPageContainerWrapper);
+export default compose(
+    withRouter,
+    fadeInOut,
+    connect(mapStateToProps, mapDispatchToProps)
+)(ProductPageContainer);

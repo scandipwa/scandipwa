@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE } from 'Component/Header/Header.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -26,6 +27,7 @@ import {
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { fadeInOut } from 'Util/FadeInOut';
 import isMobile from 'Util/Mobile';
 
 import MyAccount from './MyAccount.component';
@@ -229,4 +231,7 @@ export class MyAccountContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    fadeInOut
+)(MyAccountContainer);

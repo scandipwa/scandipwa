@@ -142,7 +142,10 @@ export class CategoryPageContainer extends PureComponent {
 
     state = {
         currentCategoryIds: -1,
-        breadcrumbsWereUpdated: false
+        breadcrumbsWereUpdated: false,
+        contentIsHidden: false,
+        prevLocation: '',
+        transition: 'opacity .8s ease'
     };
 
     config = {
@@ -216,7 +219,8 @@ export class CategoryPageContainer extends PureComponent {
         } = this.props;
 
         const {
-            breadcrumbsWereUpdated
+            breadcrumbsWereUpdated,
+            prevLocation
         } = this.state;
 
         const {
@@ -230,6 +234,13 @@ export class CategoryPageContainer extends PureComponent {
 
         if (isOffline) {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
+        }
+        /* eslint-disable */
+        if (prevLocation !== location.href) {
+            this.setState({ prevLocation: location.href, contentIsHidden: true, transition: 'none' });
+            setTimeout(() => {
+                this.setState({ contentIsHidden: false, transition: 'opacity .8s ease' })
+            })
         }
 
         /**
@@ -556,14 +567,21 @@ export class CategoryPageContainer extends PureComponent {
 
     render() {
         const { pageSize } = this.config;
+        const { contentIsHidden, transition } = this.state;
 
         return (
-            <CategoryPage
-              { ...this.props }
-              pageSize={ pageSize }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
-            />
+            <div
+                block="CategoryPage"
+                elem="FadeIn"
+                mods={ { contentIsHidden } }
+            >
+                <CategoryPage
+                  { ...this.props }
+                  pageSize={ pageSize }
+                  { ...this.containerFunctions }
+                  { ...this.containerProps() }
+                />
+            </div>
         );
     }
 }

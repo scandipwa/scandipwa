@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { compose } from 'redux';
 
 import { MENU } from 'Component/Header/Header.config';
 import Menu from 'Component/Menu';
@@ -22,6 +23,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { HistoryType } from 'Type/Common';
+import { fadeInOut } from 'Util/FadeInOut';
 import isMobile from 'Util/Mobile';
 
 export const mapDispatchToProps = (dispatch) => ({
@@ -63,4 +65,8 @@ export class MenuPageContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(MenuPageContainer));
+export default compose(
+    withRouter,
+    connect(null, mapDispatchToProps),
+    fadeInOut
+)(MenuPageContainer);
