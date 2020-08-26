@@ -148,7 +148,7 @@ export class CartItem extends PureComponent {
               elem="ItemOptionValue"
               key={ label }
             >
-                { label || value } { isNextAvailable && ', ' }
+                { label || value }{ isNextAvailable && ', ' }
             </span>
         );
     };
