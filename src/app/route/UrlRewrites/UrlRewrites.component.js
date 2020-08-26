@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import NoMatch from 'Route/NoMatch';
+import { fadeInOut } from 'Util/FadeInOut';
 
 import {
     TYPE_CATEGORY,
@@ -76,4 +77,4 @@ export class UrlRewrites extends PureComponent {
     }
 }
 
-export default UrlRewrites;
+export default fadeInOut(UrlRewrites);

@@ -12,6 +12,7 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 import {
     cloneElement,
@@ -297,9 +298,11 @@ export class Router extends PureComponent {
         return (
             <Suspense fallback={ this.renderFallbackPage() }>
                 <NoMatchHandler>
-                    <Switch>
-                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                    </Switch>
+                        <AnimatePresence>
+                            <Switch>
+                                { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                            </Switch>
+                        </AnimatePresence>
                 </NoMatchHandler>
             </Suspense>
         );

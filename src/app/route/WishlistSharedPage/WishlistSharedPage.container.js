@@ -11,12 +11,14 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
 import WishlistQuery from 'Query/Wishlist.query';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MatchType } from 'Type/Common';
+import { fadeInOut } from 'Util/FadeInOut';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
 import { executeGet } from 'Util/Request';
@@ -172,4 +174,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(WishlistSharedPageContainer);
+export default compose(
+    connect(null, mapDispatchToProps),
+    fadeInOut
+)(WishlistSharedPageContainer);

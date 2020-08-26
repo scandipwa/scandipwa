@@ -13,6 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { CART, CART_EDITING } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
@@ -25,6 +26,7 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { fadeInOut } from 'Util/FadeInOut';
 import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 import { appendWithStoreCode } from 'Util/Url';
@@ -190,4 +192,7 @@ export class CartPageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    fadeInOut
+)(CartPageContainer);

@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { CMS_PAGE } from 'Component/Header/Header.config';
 import CmsPageQuery from 'Query/CmsPage.query';
@@ -20,6 +21,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType, MatchType } from 'Type/Common';
+import { fadeInOut } from 'Util/FadeInOut';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
@@ -219,4 +221,7 @@ export class CmsPageContainer extends DataContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CmsPageContainer);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    fadeInOut
+)(CmsPageContainer);

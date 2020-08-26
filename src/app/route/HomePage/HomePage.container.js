@@ -14,6 +14,7 @@ import './HomePage.style';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import Footer from 'Component/Footer';
 import InstallPrompt from 'Component/InstallPrompt';
@@ -21,6 +22,7 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import CmsPage from 'Route/CmsPage';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { fadeInOut } from 'Util/FadeInOut';
 
 export const mapStateToProps = (state) => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
@@ -55,4 +57,7 @@ export class HomePageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePageContainer);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    fadeInOut
+)(HomePageContainer);

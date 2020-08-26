@@ -13,8 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { fadeInOut } from 'Util/FadeInOut';
 
 import NoMatchHandler from './NoMatchHandler.component';
 
@@ -58,4 +60,8 @@ export class NoMatchHandlerContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NoMatchHandlerContainer));
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps),
+    fadeInOut
+)(NoMatchHandlerContainer);
