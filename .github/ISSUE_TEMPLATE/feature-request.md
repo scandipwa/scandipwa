@@ -2,7 +2,7 @@
 name: Feature request
 about: Are you mssing a feature? Let us know!
 title: ''
-labels: 'Type: feature' 
+labels: 'Type: feature,Waiting Estimate' 
 ---
 
 **Description**:
