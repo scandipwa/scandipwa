@@ -11,6 +11,7 @@
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 
 const ConstDependency = require('webpack/lib/dependencies/ConstDependency');
 const NullFactory = require('webpack/lib/NullFactory');
