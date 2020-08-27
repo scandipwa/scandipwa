@@ -157,7 +157,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 ### Want to join the list?
 
-Here is how you can do it - [How to contribute]()
+Here is how you can do it - [How to contribute](https://docs.scandipwa.com/docs/contribute.html)
 
 ## License
 
