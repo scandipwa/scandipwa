@@ -9,7 +9,7 @@ export function fadeInOut(Component) {
                   initial={ { opacity: 0 } }
                   animate={ { opacity: 1 } }
                   exit={ { opacity: 0 } }
-                  transition={ { duration: 0.7 } }
+                  transition={ { duration: 0.15 } }
                 >
                     <Component { ...this.props } />
                 </motion.div>
