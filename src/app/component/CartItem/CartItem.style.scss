@@ -50,8 +50,7 @@
     &-Content {
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: center;
+        flex-direction: column;
 
         @include after-mobile {
             padding-bottom: 4rem;
@@ -100,10 +99,6 @@
     }
 
     &-ItemOptionsWrapper {
-        @include after-mobile {
-            margin-top: 7px;
-        }
-
         &_isLikeTable {
             @include desktop {
                 max-width: 45%;
@@ -112,8 +107,9 @@
     }
 
     &-ItemOption {
-        // display: flex;
+        display: flex;
         margin-bottom: .5rem;
+        margin-right: .5rem;
     }
 
     &-ItemOptionLabel {
@@ -128,7 +124,7 @@
         line-height: 1.2;
         flex-grow: 1;
         width: 100%;
-        margin-bottom: 0;
+        margin-bottom: .5rem;
     }
 
     &-Heading {
