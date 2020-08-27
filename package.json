@@ -112,7 +112,7 @@
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "pm2": "^3.5.1",
+    "pm2": "^4.4.1",
     "postcss-cli": "^6.1.0",
     "postcss-loader": "^3.0.0",
     "redux-devtools": "^3.4.2",
