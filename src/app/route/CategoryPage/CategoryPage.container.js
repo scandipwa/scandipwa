@@ -236,7 +236,7 @@ export class CategoryPageContainer extends PureComponent {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
         /* eslint-disable */
-        if (prevLocation !== location.href) {
+        if (prevLocation !== location.href && location.href.indexOf('?') == -1) {
             this.setState({ prevLocation: location.href, contentIsHidden: true, transition: 'none' });
             setTimeout(() => {
                 this.setState({ contentIsHidden: false, transition: 'opacity .8s ease' })
