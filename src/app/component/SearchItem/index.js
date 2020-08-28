@@ -1,4 +1,3 @@
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,4 +8,5 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 export { default } from './SearchItem.container';

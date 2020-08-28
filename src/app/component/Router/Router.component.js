@@ -11,7 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import {
     cloneElement,
@@ -19,7 +18,6 @@ import {
     PureComponent,
     Suspense
 } from 'react';
-import { connect } from 'react-redux';
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
@@ -37,15 +35,13 @@ import OfflineNotice from 'Component/OfflineNotice';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import UrlRewrites from 'Route/UrlRewrites';
-import { getStore } from 'Store';
-import { updateMeta } from 'Store/Meta/Meta.action';
 import history from 'Util/History';
 
-import { AFTER_ITEMS_TYPE, BEFORE_ITEMS_TYPE, SWITCH_ITEMS_TYPE } from './Router.config';
-
-export const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
-export const ConfigDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Config/Config.dispatcher');
-export const WishlistDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Wishlist/Wishlist.dispatcher');
+import {
+    AFTER_ITEMS_TYPE,
+    BEFORE_ITEMS_TYPE,
+    SWITCH_ITEMS_TYPE
+} from './Router.config';
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
 export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
@@ -58,49 +54,16 @@ export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webp
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
 
-/** @namespace Component/Router/Component/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    isLoading: state.ConfigReducer.isLoading,
-    default_description: state.ConfigReducer.default_description,
-    default_keywords: state.ConfigReducer.default_keywords,
-    default_title: state.ConfigReducer.default_title,
-    base_link_url: state.ConfigReducer.base_link_url,
-    title_prefix: state.ConfigReducer.title_prefix,
-    title_suffix: state.ConfigReducer.title_suffix,
-    isOffline: state.OfflineReducer.isOffline,
-    isBigOffline: state.OfflineReducer.isBig
-});
-
-/** @namespace Component/Router/Component/mapDispatchToProps */
-export const mapDispatchToProps = (dispatch) => ({
-    updateMeta: (meta) => dispatch(updateMeta(meta))
-});
-
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path) => window.storeRegexText.concat(path);
 
 /** @namespace Component/Router/Component */
 export class Router extends PureComponent {
     static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        default_description: PropTypes.string,
-        base_link_url: PropTypes.string,
-        default_keywords: PropTypes.string,
-        default_title: PropTypes.string,
-        title_prefix: PropTypes.string,
-        title_suffix: PropTypes.string,
-        isLoading: PropTypes.bool,
         isBigOffline: PropTypes.bool
     };
 
     static defaultProps = {
-        default_description: '',
-        base_link_url: '',
-        default_keywords: '',
-        default_title: '',
-        title_prefix: '',
-        title_suffix: '',
-        isLoading: true,
         isBigOffline: false
     };
 
@@ -198,59 +161,11 @@ export class Router extends PureComponent {
         errorDetails: {}
     };
 
-    __construct(props) {
-        super.__construct(props);
-
-        this.dispatchActions();
-        this.redirectFromPartialUrl();
-    }
-
-    componentDidUpdate(prevProps) {
-        const { isLoading, updateMeta } = this.props;
-        const { isLoading: prevIsLoading } = prevProps;
-
-        if (!isLoading && isLoading !== prevIsLoading) {
-            const {
-                default_description,
-                default_keywords,
-                default_title,
-                title_prefix,
-                title_suffix
-            } = this.props;
-
-            // TODO: this breaks META always
-            updateMeta({
-                default_title,
-                title: default_title,
-                default_description,
-                description: default_description,
-                default_keywords,
-                keywords: default_keywords,
-                title_prefix,
-                title_suffix
-            });
-        }
-    }
-
     componentDidCatch(err, info) {
         this.setState({
             hasError: true,
             errorDetails: { err, info }
         });
-    }
-
-    redirectFromPartialUrl() {
-        const { base_link_url } = this.props;
-        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
-        const { pathname } = location;
-
-        if (storePrefix === '/') {
-            return;
-        }
-
-        if (storePrefix.slice(0, -1) === pathname) {
-            history.replace(storePrefix);
-        }
     }
 
     getSortedItems(type) {
@@ -272,19 +187,6 @@ export class Router extends PureComponent {
     handleErrorReset = () => {
         this.setState({ hasError: false });
     };
-
-    dispatchActions() {
-        const { dispatch } = getStore();
-        WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
-        );
-        CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
-        );
-        ConfigDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch)
-        );
-    }
 
     renderItemsOfType(type) {
         return this.getSortedItems(type)
@@ -360,4 +262,4 @@ export class Router extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Router);
+export default Router;

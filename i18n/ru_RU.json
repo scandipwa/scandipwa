@@ -152,7 +152,6 @@
     "Last name": "Фамилия",
     "Linked products": null,
     "Load previous": "Загрузить предыдущее",
-    "Login or Email": "Имя пользователя или email",
     "Logout": "Выйти",
     "Main product details": "Основные сведения о продукте",
     "Maximum %s characters": null,
@@ -363,5 +362,9 @@
     "read more": null,
     "save %s%": null,
     "shipping": "Доставка",
-    "subtotal": "Промежуточный итог"
+    "subtotal": "Промежуточный итог",
+    "Telephone:": null,
+    "Mail:": null,
+    "Create account": null,
+    "Forgot password": null
 }

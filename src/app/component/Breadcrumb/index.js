@@ -8,4 +8,5 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-export { default } from './PopupSuspense.container';
+
+export { default } from './Breadcrumb.component';

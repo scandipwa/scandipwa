@@ -186,11 +186,7 @@ const config = (env, argv) => {
                         {
                             loader: 'sass-resources-loader',
                             options: {
-                                resources: path.resolve(
-                                    (env.BUILD_MODE === DEVELOPMENT
-                                        ? fallbackRoot
-                                        : projectRoot), 'src', 'app', 'style', 'abstract', '_abstract.scss'
-                                )
+                                resources: 'src/app/style/abstract/_abstract.scss'
                             }
                         }
                     ]

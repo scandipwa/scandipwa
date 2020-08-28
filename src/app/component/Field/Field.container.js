@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import Field from './Field.component';
 import {
@@ -24,15 +23,6 @@ import {
     TEXT_TYPE,
     TEXTAREA_TYPE
 } from './Field.config';
-
-/** @namespace Component/Field/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    customer: state.MyAccountReducer.customer
-});
-
-/** @namespace Component/Field/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 /** @namespace Component/Field/Container */
 export class FieldContainer extends PureComponent {
@@ -250,4 +240,4 @@ export class FieldContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldContainer);
+export default FieldContainer;
