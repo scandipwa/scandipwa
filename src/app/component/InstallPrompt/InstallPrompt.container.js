@@ -77,6 +77,10 @@ export class InstallPromptContainer extends PureComponent {
         }
 
         if (isMobile.android()) {
+            if (isMobile.firefox() || isMobile.vanillaOpera()) {
+                return null;
+            }
+
             return <InstallPromptAndroid { ...this.containerFunctions } />;
         }
 
