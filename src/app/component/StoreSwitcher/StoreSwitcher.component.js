@@ -19,7 +19,7 @@ import Field from 'Component/Field';
 import StoreItems from 'Component/StoreItems';
 import isMobile from 'Util/Mobile';
 
-class StoreSwitcher extends PureComponent {
+export class StoreSwitcher extends PureComponent {
     static propTypes = {
         storeList: PropTypes.arrayOf(
             PropTypes.objectOf(

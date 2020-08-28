@@ -22,7 +22,7 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
-import { history } from 'Route';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 
 export const SearchOverlay = lazy(
@@ -32,7 +32,7 @@ export const SearchOverlay = lazy(
     )
 );
 
-class SearchField extends PureComponent {
+export class SearchField extends PureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
         onSearchBarFocus: PropTypes.func.isRequired,

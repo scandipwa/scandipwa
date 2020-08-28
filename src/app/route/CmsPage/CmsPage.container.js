@@ -14,13 +14,13 @@ import { connect } from 'react-redux';
 
 import { CMS_PAGE } from 'Component/Header/Header.config';
 import CmsPageQuery from 'Query/CmsPage.query';
-import { history } from 'Route';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { LocationType, MatchType } from 'Type/Common';
+import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
 import { appendWithStoreCode, getUrlParam } from 'Util/Url';
@@ -28,7 +28,7 @@ import { appendWithStoreCode, getUrlParam } from 'Util/Url';
 import CmsPage from './CmsPage.component';
 import { LOADING_TIME } from './CmsPage.config';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );

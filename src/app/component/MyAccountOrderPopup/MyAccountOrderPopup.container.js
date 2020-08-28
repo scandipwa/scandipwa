@@ -22,7 +22,7 @@ import { fetchQuery } from 'Util/Request';
 import MyAccountOrderPopup from './MyAccountOrderPopup.component';
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
 
-const OrderDispatcher = import(
+export const OrderDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Order/Order.dispatcher'
 );

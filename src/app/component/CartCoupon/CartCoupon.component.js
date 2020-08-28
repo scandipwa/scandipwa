@@ -17,7 +17,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 
-class CartCoupon extends PureComponent {
+export class CartCoupon extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         couponCode: PropTypes.string,

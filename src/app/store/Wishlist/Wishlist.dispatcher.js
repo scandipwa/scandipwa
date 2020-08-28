@@ -21,7 +21,10 @@ import {
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /**
  * Product Wishlist Dispatcher

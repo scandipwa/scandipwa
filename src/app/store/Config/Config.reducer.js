@@ -35,7 +35,7 @@ export const initialState = {
     isLoading: true
 };
 
-const ConfigReducer = (state = initialState, action) => {
+export const ConfigReducer = (state = initialState, action) => {
     const {
         config: {
             countries,

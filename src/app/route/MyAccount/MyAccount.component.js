@@ -32,7 +32,7 @@ import {
     tabMapType
 } from 'Type/Account';
 
-class MyAccount extends PureComponent {
+export class MyAccount extends PureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
@@ -52,7 +52,12 @@ class MyAccount extends PureComponent {
 
     renderLoginOverlay() {
         const { onSignIn } = this.props;
-        return <MyAccountOverlay onSignIn={ onSignIn } />;
+
+        return (
+            <MyAccountOverlay
+              onSignIn={ onSignIn }
+            />
+        );
     }
 
     renderContent() {

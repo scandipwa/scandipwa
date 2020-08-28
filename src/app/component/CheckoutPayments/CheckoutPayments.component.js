@@ -32,7 +32,7 @@ import {
     STRIPE
 } from './CheckoutPayments.config';
 
-class CheckoutPayments extends PureComponent {
+export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,

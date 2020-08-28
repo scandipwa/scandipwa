@@ -16,12 +16,12 @@ import { withRouter } from 'react-router';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 import { appendWithStoreCode, setQueryParams } from 'Util/Url';
 
@@ -68,11 +68,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     static defaultProps = {
         header_logo_src: ''
-    };
-
-    state = {
-        shouldRenderCartOverlay: false,
-        shouldRenderAccountOverlay: false
     };
 
     default_state = DEFAULT_HEADER_STATE;
@@ -317,8 +312,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onMyAccountButtonClick() {
         const {
             showOverlay,
-            setNavigationState,
-            navigationState: { name }
+            setNavigationState
         } = this.props;
 
         if (isSignedIn()) {
@@ -326,22 +320,14 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (name !== CHECKOUT_ACCOUNT) {
-            this.setState({ shouldRenderAccountOverlay: true }, () => {
-                if (!isMobile.any()) {
-                    return;
-                }
-
-                showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-                setNavigationState({
-                    name: CHECKOUT_ACCOUNT,
-                    title: 'Sign in',
-                    onCloseClick: this.closeOverlay
-                });
+        this.setState({ showMyAccountLogin: true }, () => {
+            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+            setNavigationState({
+                name: CHECKOUT_ACCOUNT,
+                title: 'Sign in',
+                onCloseClick: this.closeOverlay
             });
-        }
-
-        this.setState({ showMyAccountLogin: true });
+        });
     }
 
     onMyAccountOutsideClick() {
@@ -351,7 +337,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT].includes(name)) {
+        if (isMobile.any() || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
             return;
         }
 
@@ -401,8 +387,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         goToPreviousNavigationState();
     }
 
-    // *
-
     onMinicartButtonClick() {
         const {
             showOverlay,
@@ -422,8 +406,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         history.push(`/${ CART }`);
     }
-
-    // *
 
     onMinicartOutsideClick() {
         const {

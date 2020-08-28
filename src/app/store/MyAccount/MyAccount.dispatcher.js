@@ -26,15 +26,19 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation } from 'Util/Request';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
-const WishlistDispatcher = import(
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );
 
 export const CUSTOMER = 'customer';
 
-const ONE_MONTH_IN_SECONDS = 2628000;
+export const ONE_MONTH_IN_SECONDS = 2628000;
 
 /**
  * My account actions

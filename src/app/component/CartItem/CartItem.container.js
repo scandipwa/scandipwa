@@ -15,12 +15,16 @@ import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import { CartItemType } from 'Type/MiniCart';
+import { CONFIGURABLE } from 'Util/Product';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
 
-const CartDispatcher = import(/* webpackMode: "lazy", webpackChunkName: "dispatchers" */'Store/Cart/Cart.dispatcher');
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 export const mapDispatchToProps = (dispatch) => ({
     addProduct: (options) => CartDispatcher.then(
@@ -145,13 +149,13 @@ export class CartItemContainer extends PureComponent {
             }
         } = this.props;
 
-        return variants.findIndex(({ sku }) => sku === itemSku);
+        return variants.findIndex(({ sku }) => sku === itemSku || itemSku.includes(sku));
     }
 
     /**
      * Get link to product page
      * @param url_key Url to product
-     * @return {{pathname: Srting, state Object}} Pathname and product state
+     * @return {{pathname: String, state Object}} Pathname and product state
      */
     _getProductLinkTo() {
         const {
@@ -167,7 +171,7 @@ export class CartItemContainer extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== 'configurable') {
+        if (type_id !== CONFIGURABLE) {
             return {
                 pathname: url,
                 state: { product }

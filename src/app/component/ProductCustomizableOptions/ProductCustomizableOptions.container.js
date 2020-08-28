@@ -16,7 +16,7 @@ import { OptionsType } from 'Type/ProductList';
 
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
-class ProductCustomizableOptionsContainer extends PureComponent {
+export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: OptionsType,
         getSelectedCustomizableOptions: PropTypes.func.isRequired

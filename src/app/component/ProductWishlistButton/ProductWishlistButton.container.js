@@ -21,7 +21,7 @@ import { getExtensionAttributes } from 'Util/Product';
 import ProductWishlistButton from './ProductWishlistButton.component';
 import { ERROR_CONFIGURABLE_NOT_PROVIDED } from './ProductWishlistButton.config';
 
-const WishlistDispatcher = import(
+export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );

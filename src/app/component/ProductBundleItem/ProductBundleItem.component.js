@@ -23,7 +23,7 @@ import {
     SELECT
 } from './ProductBundleItem.config';
 
-class ProductBundleItem extends ProductCustomizableOption {
+export class ProductBundleItem extends ProductCustomizableOption {
     static propTypes = {
         ...ProductCustomizableOption.propTypes,
         maxQuantity: PropTypes.number.isRequired,

@@ -14,7 +14,7 @@ import {
     UPDATE_PRODUCT_LIST_INFO
 } from 'Store/ProductListInfo/ProductListInfo.action';
 
-const reduceFilters = (filters) => filters.reduce((co, item) => {
+export const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
         name: attribute_label,
@@ -56,7 +56,7 @@ export const initialState = {
     isLoading: true
 };
 
-const ProductListReducer = (state = initialState, action) => {
+export const ProductListReducer = (state = initialState, action) => {
     const {
         type,
         isLoading,

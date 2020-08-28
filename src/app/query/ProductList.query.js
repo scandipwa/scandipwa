@@ -93,6 +93,7 @@ export class ProductListQuery {
                 return filters;
             },
             productsSkuArray: (sku) => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
+            productSKU: (sku) => [`sku: { eq: ${ encodeURIComponent(sku) } }`],
             productUrlPath: (url) => [`url_key: { eq: ${url}}`],
             customFilters: this._getCustomFilters,
             newToDate: (date) => [`news_to_date: { gteq: ${date} }`],

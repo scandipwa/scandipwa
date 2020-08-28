@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import ProductCustomizableOption from 'Component/ProductCustomizableOption';
 
-class ProductCustomizableOptions extends PureComponent {
+export class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         options: PropTypes.array,

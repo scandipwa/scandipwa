@@ -13,7 +13,7 @@ import Overlay from 'Component/Overlay';
 
 import { OVERLAY_PLACEHOLDER } from './PopupSuspense.config';
 
-class PopupSuspense extends PureComponent {
+export class PopupSuspense extends PureComponent {
     static propTypes = {
         /** Passed props */
         onVisible: PropTypes.func,

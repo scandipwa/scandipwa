@@ -152,7 +152,6 @@
     "Last name": "Cognome",
     "Linked products": "Prodotti collegati",
     "Load previous": "Carica precedente",
-    "Login or Email": "Accedi o e-mail",
     "Logout": "Disconnettersi",
     "Main product details": "Principali dettagli del prodotto",
     "Maximum %s characters": null,
@@ -363,5 +362,9 @@
     "read more": "leggi di più",
     "save %s%": "salva %s%",
     "shipping": "Spedizione",
-    "subtotal": "Subtotale"
+    "subtotal": "Subtotale",
+    "Telephone:": null,
+    "Mail:": null,
+    "Create account": null,
+    "Forgot password": null
 }

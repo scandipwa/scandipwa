@@ -65,7 +65,7 @@ export function createReducer(asyncReducers) {
     });
 }
 
-const store = createStore(
+export const store = createStore(
     createReducer(),
     ( // enable Redux dev-tools only in development
         process.env.NODE_ENV === 'development'

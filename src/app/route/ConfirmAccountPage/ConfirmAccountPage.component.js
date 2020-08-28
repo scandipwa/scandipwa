@@ -33,10 +33,57 @@ export class ConfirmAccountPage extends PureComponent {
         isSignedIn: false
     };
 
+    renderForm() {
+        const {
+            onConfirmAttempt,
+            onConfirmSuccess,
+            onFormError
+        } = this.props;
+
+        // TODO: use FieldForm instead!!!
+
+        return (
+            <Form
+              mix={ { block: 'ConfirmAccountPage', elem: 'Form' } }
+              key="confirm-account"
+              onSubmit={ onConfirmAttempt }
+              onSubmitSuccess={ onConfirmSuccess }
+              onSubmitError={ onFormError }
+            >
+                { /*
+                    Added email field with display:none to fix warning
+                    `Password forms should have (optionally hidden) username fields for accessibility`
+                */ }
+                <Field
+                  type="text"
+                  label={ __('Email') }
+                  id="confirm-email"
+                  name="email"
+                  mix={ { block: 'ConfirmAccountPage', elem: 'EmailInput' } }
+                />
+                <Field
+                  type="password"
+                  label={ __('Password') }
+                  id="confirm-password"
+                  name="password"
+                  validation={ ['notEmpty', 'password'] }
+                />
+                <button
+                  type="submit"
+                  block="Button"
+                  mix={ { block: 'ConfirmAccountPage', elem: 'Button' } }
+                >
+                    { __('Confirm your account') }
+                </button>
+            </Form>
+        );
+    }
+
     render() {
         const {
-            redirect, isLoading, isSignedIn,
-            onConfirmAttempt, onConfirmSuccess, onFormError
+            redirect,
+            isLoading,
+            isSignedIn
         } = this.props;
 
         if (redirect || isSignedIn) {
@@ -53,39 +100,7 @@ export class ConfirmAccountPage extends PureComponent {
                     <h1 block="ConfirmAccountPage" elem="Heading">
                         { __('Confirm your account') }
                     </h1>
-                    <Form
-                      mix={ { block: 'ConfirmAccountPage', elem: 'Form' } }
-                      key="confirm-account"
-                      onSubmit={ onConfirmAttempt }
-                      onSubmitSuccess={ onConfirmSuccess }
-                      onSubmitError={ onFormError }
-                    >
-                        { /*
-                            Added email field with display:none to fix warning
-                            `Password forms should have (optionally hidden) username fields for accessibility`
-                        */ }
-                        <Field
-                          type="text"
-                          label={ __('Email') }
-                          id="confirm-email"
-                          name="email"
-                          mix={ { block: 'ConfirmAccountPage', elem: 'EmailInput' } }
-                        />
-                        <Field
-                          type="password"
-                          label={ __('Password') }
-                          id="confirm-password"
-                          name="password"
-                          validation={ ['notEmpty', 'password'] }
-                        />
-                        <button
-                          type="submit"
-                          block="Button"
-                          mix={ { block: 'ConfirmAccountPage', elem: 'Button' } }
-                        >
-                            { __('Confirm your account') }
-                        </button>
-                    </Form>
+                    { this.renderForm() }
                 </ContentWrapper>
             </main>
         );

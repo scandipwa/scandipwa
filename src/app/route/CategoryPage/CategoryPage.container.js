@@ -35,27 +35,27 @@ import {
 import CategoryPage from './CategoryPage.component';
 import { LOADING_TIME } from './CategoryPage.config';
 
-const ProductListInfoDispatcher = import(
+export const ProductListInfoDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductListInfo/ProductListInfo.dispatcher'
 );
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
 
-const CategoryDispatcher = import(
+export const CategoryDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Category/Category.dispatcher'
 );
 
-const MetaDispatcher = import(
+export const MetaDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Meta/Meta.dispatcher'
 );
 
-const NoMatchDispatcher = import(
+export const NoMatchDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/NoMatch/NoMatch.dispatcher'
 );
@@ -285,16 +285,23 @@ export class CategoryPageContainer extends PureComponent {
 
     getIsMatchingListFilter() {
         const {
-            categoryIds,
+            location,
             currentArgs: {
-                filter: {
-                    categoryIds: selectedCategoryIds
-                } = {}
+                currentPage,
+                sort,
+                filter
             } = {}
         } = this.props;
 
-        // Requested category is equal to current category
-        return categoryIds === selectedCategoryIds;
+        /**
+         * ? implementation bellow blinks, implementation with categoryIds check only does not show loading when selecting filters.
+         * TODO: resolve it to be a combination of these two behaviour
+         */
+
+        // Data used to request category matches current data
+        return JSON.stringify(filter) === JSON.stringify(this.getFilter())
+            && JSON.stringify(sort) === JSON.stringify(this.getSelectedSortFromUrl())
+            && currentPage === +(getQueryParam('page', location) || 1);
     }
 
     getIsMatchingInfoFilter() {

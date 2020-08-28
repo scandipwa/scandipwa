@@ -20,7 +20,7 @@ import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import { ordersType } from 'Type/Account';
 import isMobile from 'Util/Mobile';
 
-class MyAccountMyOrders extends PureComponent {
+export class MyAccountMyOrders extends PureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
         isLoading: PropTypes.bool.isRequired
@@ -39,19 +39,25 @@ class MyAccountMyOrders extends PureComponent {
         );
     }
 
+    renderOrderHeadingRow() {
+        return (
+            <tr>
+                <th>{ __('Order') }</th>
+                <th>{ __('Date') }</th>
+                <th>{ __('Status') }</th>
+                <th block="hidden-mobile">{ __('Total') }</th>
+            </tr>
+        );
+    }
+
     renderTable() {
         return (
             <table block="MyAccountMyOrders" elem="Table">
                 <thead>
-                    <tr>
-                        <th>{ __('Order') }</th>
-                        <th>{ __('Date') }</th>
-                        <th>{ __('Status') }</th>
-                        <th block="hidden-mobile">{ __('Total') }</th>
-                    </tr>
+                    { this.renderOrderHeadingRow() }
                 </thead>
                 <tbody>
-                    { this.renderOrdersList() }
+                    { this.renderOrderRows() }
                 </tbody>
             </table>
         );
@@ -68,7 +74,7 @@ class MyAccountMyOrders extends PureComponent {
         );
     };
 
-    renderOrdersList() {
+    renderOrderRows() {
         const { orderList, isLoading } = this.props;
 
         if (!isLoading && !orderList.length) {

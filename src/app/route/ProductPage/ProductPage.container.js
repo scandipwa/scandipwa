@@ -25,23 +25,25 @@ import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
-    convertQueryStringToKeyValuePairs, getUrlParam,
-    objectToUri, removeQueryParamWithoutHistory, updateQueryParamWithoutHistory
+    convertQueryStringToKeyValuePairs,
+    objectToUri,
+    removeQueryParamWithoutHistory,
+    updateQueryParamWithoutHistory
 } from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
 
-const BreadcrumbsDispatcher = import(
+export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
 
-const MetaDispatcher = import(
+export const MetaDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Meta/Meta.dispatcher'
 );
 
-const ProductDispatcher = import(
+export const ProductDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Product/Product.dispatcher'
 );
@@ -443,21 +445,8 @@ export class ProductPageContainer extends PureComponent {
     }
 
     getProductRequestFilter() {
-        const {
-            location,
-            match,
-            productSKU
-        } = this.props;
-
-        if (productSKU) {
-            return {
-                productsSkuArray: [productSKU]
-            };
-        }
-
-        return {
-            productUrlPath: getUrlParam(match, location)
-        };
+        const { productSKU } = this.props;
+        return { productSKU };
     }
 
     requestProduct() {
@@ -526,5 +515,5 @@ export class ProductPageContainer extends PureComponent {
     }
 }
 
-const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);
+export const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);
 export default withRouter(ProductPageContainerWrapper);

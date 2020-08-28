@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 /* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -32,7 +33,7 @@ import {
     STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
-class MyAccountOverlay extends PureComponent {
+export class MyAccountOverlay extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
@@ -56,8 +57,7 @@ class MyAccountOverlay extends PureComponent {
         handleForgotPassword: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
-        isCheckout: PropTypes.bool,
-        showOverlay: PropTypes.func.isRequired
+        isCheckout: PropTypes.bool
     };
 
     static defaultProps = {
@@ -88,14 +88,6 @@ class MyAccountOverlay extends PureComponent {
             title: __('Confirm the email')
         }
     };
-
-    componentDidMount() {
-        const { showOverlay } = this.props;
-
-        if (!isMobile.any()) {
-            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-        }
-    }
 
     renderMyAccount() {
         const { state } = this.props;
@@ -333,7 +325,7 @@ class MyAccountOverlay extends PureComponent {
                 >
                     <Field
                       type="text"
-                      label={ __('Login or Email') }
+                      label={ __('Email') }
                       id="email"
                       name="email"
                       autocomplete="email"
@@ -377,14 +369,18 @@ class MyAccountOverlay extends PureComponent {
     }
 
     render() {
-        const { isLoading, onVisible } = this.props;
+        const {
+            isLoading,
+            onVisible,
+            isCheckout
+        } = this.props;
 
         return (
             <Overlay
               id={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
               mix={ { block: 'MyAccountOverlay' } }
               onVisible={ onVisible }
-              isStatic={ !!isMobile.any() }
+              isStatic={ !isCheckout && !!isMobile.any() }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }

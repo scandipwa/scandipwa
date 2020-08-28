@@ -6,7 +6,7 @@ import { PureComponent } from 'react';
 import { ProductType } from 'Type/ProductList';
 import { formatCurrency, roundPrice } from 'Util/Price';
 
-class TierPrices extends PureComponent {
+export class TierPrices extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         isLowestPrice: PropTypes.bool

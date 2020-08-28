@@ -19,7 +19,7 @@ import Loader from 'Component/Loader';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 
-class CheckoutShipping extends PureComponent {
+export class CheckoutShipping extends PureComponent {
     static propTypes = {
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,

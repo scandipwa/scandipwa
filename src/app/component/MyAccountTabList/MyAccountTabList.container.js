@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import MyAccountTabList from './MyAccountTabList.component';
 
-const MyAccountDispatcher = import(
+export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );

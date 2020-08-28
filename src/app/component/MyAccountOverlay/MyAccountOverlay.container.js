@@ -14,13 +14,13 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
-import { history } from 'Route';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
 
 import MyAccountOverlay from './MyAccountOverlay.component';
@@ -31,7 +31,7 @@ import {
     STATE_LOGGED_IN, STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
-const MyAccountDispatcher = import(
+export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );
@@ -54,7 +54,8 @@ export const mapDispatchToProps = (dispatch) => ({
     signIn: (options) => MyAccountDispatcher.then(({ default: dispatcher }) => dispatcher.signIn(options, dispatch)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
+    setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 export class MyAccountOverlayContainer extends PureComponent {
@@ -65,16 +66,19 @@ export class MyAccountOverlayContainer extends PureComponent {
         isSignedIn: PropTypes.bool.isRequired,
         showNotification: PropTypes.func.isRequired,
         createAccount: PropTypes.func.isRequired,
-        // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         showOverlay: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         onSignIn: PropTypes.func,
+        goToPreviousHeaderState: PropTypes.func,
+        isCheckout: PropTypes.bool,
         hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        onSignIn: () => {}
+        isCheckout: false,
+        onSignIn: () => {},
+        goToPreviousHeaderState: () => {}
     };
 
     containerFunctions = {
@@ -146,18 +150,29 @@ export class MyAccountOverlayContainer extends PureComponent {
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate(prevProps, prevState) {
+        const { isSignedIn: prevIsSignedIn } = prevProps;
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
-        const { hideActiveOverlay } = this.props;
         const { location: { pathname } } = history;
+
+        const {
+            isSignedIn,
+            hideActiveOverlay,
+            isCheckout,
+            goToPreviousHeaderState
+        } = this.props;
 
         if (oldMyAccountState === newMyAccountState) {
             return;
         }
 
-        if (isSignedIn()) {
+        if (isSignedIn !== prevIsSignedIn) {
             hideActiveOverlay();
+
+            if (isCheckout) {
+                goToPreviousHeaderState();
+            }
         }
 
         if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN) {
@@ -224,10 +239,10 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     onVisible() {
-        const { setHeaderState } = this.props;
+        const { setHeaderState, isCheckout } = this.props;
 
-        if (isMobile.any()) {
-            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+        if (isMobile.any() && !isCheckout) {
+            setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         }
     }
 
@@ -317,7 +332,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
-            title: 'Forgot password',
+            title: __('Forgot password'),
             onBackClick: () => this.handleSignIn(e)
         });
     }
@@ -330,7 +345,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         setHeaderState({
             name: CUSTOMER_ACCOUNT,
-            title: 'Sign in'
+            title: __('Sign in')
         });
     }
 
@@ -342,7 +357,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         setHeaderState({
             name: CUSTOMER_SUB_ACCOUNT,
-            title: 'Create account',
+            title: __('Create account'),
             onBackClick: () => this.handleSignIn(e)
         });
     }
