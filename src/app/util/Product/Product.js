@@ -187,28 +187,36 @@ export const getExtensionAttributes = (product) => {
 
     if (type_id === CONFIGURABLE) {
         const { attributes = {} } = variants[configurableVariantIndex] || {};
+        const properties = {
+            configurable_item_options: Object.values(configurable_options)
+                .reduce((prev, { attribute_id, attribute_code }) => {
+                    const {
+                        attribute_value,
+                        attribute_id: attrId
+                    } = attributes[attribute_code] || {};
 
-        const configurable_item_options = Object.values(configurable_options)
-            .reduce((prev, { attribute_id, attribute_code }) => {
-                const {
-                    attribute_value,
-                    attribute_id: attrId
-                } = attributes[attribute_code] || {};
+                    if (attribute_value) {
+                        return [
+                            ...prev,
+                            {
+                                option_id: attribute_id || attrId,
+                                option_value: attribute_value
+                            }
+                        ];
+                    }
 
-                if (attribute_value) {
-                    return [
-                        ...prev,
-                        {
-                            option_id: attribute_id || attrId,
-                            option_value: attribute_value
-                        }
-                    ];
-                }
+                    return prev;
+                }, [])
+        };
 
-                return prev;
-            }, []);
+        if (productOptions) {
+            properties.customizable_options = productOptions;
+        }
+        if (productOptionsMulti) {
+            properties.customizable_options_multi = productOptionsMulti;
+        }
 
-        return { configurable_item_options };
+        return properties;
     }
 
     if (type_id === BUNDLE && (productOptions || productOptionsMulti)) {
@@ -216,7 +224,10 @@ export const getExtensionAttributes = (product) => {
     }
 
     if (type_id === SIMPLE && (productOptions || productOptionsMulti)) {
-        return { customizable_options: productOptions || [], customizable_options_multi: productOptionsMulti || [] };
+        return {
+            customizable_options: productOptions || [],
+            customizable_options_multi: productOptionsMulti || []
+        };
     }
 
     return {};
