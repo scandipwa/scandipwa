@@ -57,7 +57,7 @@
     "react-youtube": "^7.9.0",
     "react-zoom-pan-pinch": "^1.5.5",
     "rebem-classname": "^0.4.0",
-    "redux": "^4.0.1",
+    "redux": "^4.0.5",
     "unstated": "^2.1.1"
   },
   "devDependencies": {
