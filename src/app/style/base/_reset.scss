@@ -141,7 +141,7 @@ p,
 li,
 dl,
 button {
-    font-size: 14px;
+    font-size: 1.2rem;
 }
 
 li {
@@ -174,7 +174,7 @@ select {
     font-size: 1.1rem;
 
     @include mobile {
-        font-size: 16px;
+        font-size: 1.3rem;
     }
 }
 
@@ -195,7 +195,7 @@ textarea {
     resize: none;
 
     @include mobile {
-        font-size: 16px;
+        font-size: 1.3rem;
     }
 }
 

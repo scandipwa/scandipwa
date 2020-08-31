@@ -68,14 +68,14 @@
     &-Heading {
         text-transform: none;
         font-weight: 400;
-        font-size: 20px;
+        font-size: 2rem;
         margin: 0 0 1rem;
     }
 
     &-Title {
         text-transform: capitalize;
         font-weight: 600;
-        font-size: 25px;
+        font-size: 2.5rem;
         margin: 2rem 0;
 
         @include mobile {
