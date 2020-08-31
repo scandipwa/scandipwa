@@ -33,6 +33,18 @@
           "rules": {
               "@scandipwa/scandipwa-guidelines/create-config-files": "off"
           }
+      },
+      {
+        "files": [
+          "webpack.*.config.js",
+          "babel.config.js",
+          "tests.config.js",
+          "meta.config.js",
+          "webmanifest.config.js"
+        ],
+        "rules": {
+          "@scandipwa/scandipwa-guidelines/export-level-one": "off"
+        }
       }
   ],
   "rules": {
