@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,21 +10,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import './CartItem.style';
+
 import PropTypes from 'prop-types';
-import Link from 'Component/Link';
-import Image from 'Component/Image';
-import Field from 'Component/Field';
+import { PureComponent } from 'react';
+
 import CartItemPrice from 'Component/CartItemPrice';
+import Field from 'Component/Field';
+import Image from 'Component/Image';
+import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
-import './CartItem.style';
 
 /**
  * Cart and CartOverlay item
  * @class CartItem
  */
-export default class CartItem extends PureComponent {
+export class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         item: CartItemType.isRequired,
@@ -123,6 +126,8 @@ export default class CartItem extends PureComponent {
     renderWrapper() {
         const { linkTo } = this.props;
 
+        // TODO: implement shared-transition here?
+
         return (
             <Link to={ linkTo } block="CartItem" elem="Link">
                 <figure block="CartItem" elem="Wrapper">
@@ -133,17 +138,18 @@ export default class CartItem extends PureComponent {
         );
     }
 
-    renderProductOptionValue = (optionValue) => {
+    renderProductOptionValue = (optionValue, i, array) => {
         const { label, value } = optionValue;
+        const isNextAvailable = Boolean(array[i + 1]);
 
         return (
-            <div
+            <span
               block="CartItem"
               elem="ItemOptionValue"
               key={ label }
             >
-                { label || value }
-            </div>
+                { label || value }{ isNextAvailable && ', ' }
+            </span>
         );
     };
 
@@ -330,3 +336,5 @@ export default class CartItem extends PureComponent {
         );
     }
 }
+
+export default CartItem;

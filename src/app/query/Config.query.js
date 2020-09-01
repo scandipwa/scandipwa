@@ -39,6 +39,7 @@ export class ConfigQuery {
             'name',
             'is_active',
             'base_url',
+            'base_link_url',
             'code'
         ];
     }
@@ -80,7 +81,8 @@ export class ConfigQuery {
             'reviews_allow_guest',
             'demo_notice',
             'guest_checkout',
-            'is_email_confirmation_required'
+            'is_email_confirmation_required',
+            'base_link_url'
         ];
     }
 }

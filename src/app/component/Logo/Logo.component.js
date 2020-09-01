@@ -11,14 +11,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Image, {
-    IMAGE_NOT_FOUND,
-    IMAGE_NOT_SPECIFIED
-} from 'Component/Image/Image.component';
-
 import './Logo.style';
 
-class Logo extends Image {
+import Image from 'Component/Image/Image.component';
+import {
+    IMAGE_NOT_FOUND,
+    IMAGE_NOT_SPECIFIED
+} from 'Component/Image/Image.config';
+
+export class Logo extends Image {
     renderPlaceholderLogo() {
         return (
             <svg

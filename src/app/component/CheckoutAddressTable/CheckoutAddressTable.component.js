@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
-import Loader from 'Component/Loader';
 import './CheckoutAddressTable.style';
 
-class CheckoutAddressTable extends MyAccountAddressTable {
+import PropTypes from 'prop-types';
+
+import Loader from 'Component/Loader';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
+
+export class CheckoutAddressTable extends MyAccountAddressTable {
     static propTypes = {
         ...MyAccountAddressTable.propTypes,
         isSelected: PropTypes.bool,

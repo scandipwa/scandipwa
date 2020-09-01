@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import ProductBundleItem from 'Component/ProductBundleItem';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.component';
 
-class ProductBundleItems extends ProductCustomizableOptions {
+export class ProductBundleItems extends ProductCustomizableOptions {
     static propTypes = {
         ...ProductCustomizableOptions.propTypes,
         items: PropTypes.array,

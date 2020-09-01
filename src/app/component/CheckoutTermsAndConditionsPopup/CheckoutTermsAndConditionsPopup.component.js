@@ -9,15 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import Popup from 'Component/Popup';
 import './CheckoutTermsAndConditionsPopup.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import Html from 'Component/Html';
+import Popup from 'Component/Popup';
 
-export const TERMS_AND_CONDITIONS_POPUP_ID = 'CheckoutTermsAndConditionsPopup';
+import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
 
-class CheckoutTermsAndConditionsPopup extends PureComponent {
+export class CheckoutTermsAndConditionsPopup extends PureComponent {
     static propTypes = {
         payload: PropTypes.shape({
             text: PropTypes.string

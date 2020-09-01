@@ -9,17 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { convertQueryStringToKeyValuePairs } from 'Util/Url';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { showNotification } from 'Store/Notification';
+
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router';
-import { updateMeta } from 'Store/Meta';
+import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
+
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
@@ -27,12 +35,16 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
     updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+        BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch));
     },
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    confirmAccount: (options) => MyAccountDispatcher.confirmAccount(options, dispatch),
+    confirmAccount: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.confirmAccount(options, dispatch)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    signIn: (options) => MyAccountDispatcher.signIn(options, dispatch)
+    signIn: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
+    )
 });
 
 export class ConfirmAccountPageContainer extends PureComponent {

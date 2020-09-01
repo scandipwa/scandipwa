@@ -10,12 +10,18 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { updateMeta } from 'Store/Meta';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { NoMatchDispatcher } from 'Store/NoMatch';
+
+import { updateMeta } from 'Store/Meta/Meta.action';
+
 import NoMatchHandler from './NoMatchHandler.component';
+
+export const NoMatchDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/NoMatch/NoMatch.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     noMatch: state.NoMatchReducer.noMatch
@@ -24,7 +30,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
-        NoMatchDispatcher.updateNoMatch(dispatch, options);
+        NoMatchDispatcher.then(({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options));
     }
 });
 

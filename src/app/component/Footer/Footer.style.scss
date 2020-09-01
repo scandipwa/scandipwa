@@ -20,7 +20,10 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-bottom: calc(var(--navigation-tabs-height) + 1rem);
+
+    @include mobile {
+        margin-bottom: calc(var(--navigation-tabs-height) + 1rem);
+    }
 
     &-Newsletter {
         width: 500px;

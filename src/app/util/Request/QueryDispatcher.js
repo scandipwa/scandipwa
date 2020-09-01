@@ -10,9 +10,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { listenForBroadCast, executeGet } from 'Util/Request/Request';
-import { prepareQuery, Field } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
+import { Field, prepareQuery } from 'Util/Query';
+import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
 export const ONE_MONTH_IN_SECONDS = 2592000;
 export const FIVE_MINUTES_IN_SECONDS = 300;
@@ -22,7 +22,7 @@ export const FIVE_MINUTES_IN_SECONDS = 300;
  * IMPORTANT: it is required to implement `prepareRequest(options)` before using!
  * @class QueryDispatcher
  */
-class QueryDispatcher {
+export class QueryDispatcher {
     /**
      * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to

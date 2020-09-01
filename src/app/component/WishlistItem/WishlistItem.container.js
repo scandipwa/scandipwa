@@ -9,23 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'Util/Request';
-import { CartDispatcher } from 'Store/Cart';
-import { ProductType } from 'Type/ProductList';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import WishlistItem from './WishlistItem.component';
 
-export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
+import { showNotification } from 'Store/Notification/Notification.action';
+import { ProductType } from 'Type/ProductList';
+import { debounce } from 'Util/Request';
+
+import WishlistItem from './WishlistItem.component';
+import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+export const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: (options) => CartDispatcher.addProductToCart(dispatch, options),
-    updateWishlistItem: (options) => WishlistDispatcher.updateWishlistItem(dispatch, options),
-    removeFromWishlist: (options) => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
+    addProductToCart: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
+    updateWishlistItem: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)
+    ),
+    removeFromWishlist: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+    )
 });
 
 export class WishlistItemContainer extends PureComponent {

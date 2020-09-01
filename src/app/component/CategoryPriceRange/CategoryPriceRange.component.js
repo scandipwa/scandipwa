@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import RangeSelector from 'Component/RangeSelector';
 
-class CategoryPriceRange extends PureComponent {
+export class CategoryPriceRange extends PureComponent {
     static propTypes = {
         minPriceValue: PropTypes.number.isRequired,
         maxPriceValue: PropTypes.number.isRequired,

@@ -14,10 +14,10 @@ import {
 } from 'Util/Auth';
 
 import {
-    UPDATE_CUSTOMER_SIGN_IN_STATUS,
     UPDATE_CUSTOMER_DETAILS,
+    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
+    UPDATE_CUSTOMER_SIGN_IN_STATUS
 } from './MyAccount.action';
 
 export const initialState = {
@@ -27,7 +27,7 @@ export const initialState = {
     customer: {}
 };
 
-const MyAccountReducer = (state = initialState, action) => {
+export const MyAccountReducer = (state = initialState, action) => {
     const { status, customer } = action;
 
     switch (action.type) {

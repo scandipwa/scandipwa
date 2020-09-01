@@ -1,43 +1,50 @@
-import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
-import ContentWrapper from 'Component/ContentWrapper';
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
 
-export default class SearchPage extends CategoryPage {
-    renderSearchDetails() {
+import './SearchPage.style';
+
+import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
+
+export class SearchPage extends CategoryPage {
+    renderSearchHeading() {
         const { search } = this.props;
 
         return (
+            <h1
+              block="CategoryDetails"
+              elem="Heading"
+              mix={ {
+                  block: 'SearchPage',
+                  elem: 'Heading'
+              } }
+            >
+                { __('Search results for: ') }
+                <span>{ search }</span>
+            </h1>
+        );
+    }
+
+    renderCategoryDetails() {
+        return (
             <article block="CategoryDetails">
                 <div block="CategoryDetails" elem="Description">
-                <h1 block="CategoryDetails" elem="Heading">
-                    { __('Search results for: ') }
-                    { search }
-                </h1>
+                    { this.renderSearchHeading() }
                 </div>
             </article>
         );
     }
 
-    render() {
-        return (
-            <main block="CategoryPage">
-                <ContentWrapper
-                  wrapperMix={ {
-                      block: 'CategoryPage',
-                      elem: 'Wrapper',
-                      mods: { isSearchPage: true }
-                  } }
-                  label="Category page"
-                >
-                    { this.renderFilterOverlay() }
-                    { this.renderSearchDetails() }
-                    <aside block="CategoryPage" elem="Miscellaneous">
-                        { this.renderItemsCount() }
-                        { this.renderCategorySort() }
-                        { this.renderFilterButton() }
-                    </aside>
-                    { this.renderCategoryProductList() }
-                </ContentWrapper>
-            </main>
-        );
+    renderCmsBlock() {
+        return null;
     }
 }
+
+export default SearchPage;

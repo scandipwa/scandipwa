@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field, Fragment } from 'Util/Query';
-import BrowserDatabase from 'Util/BrowserDatabase';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { Field, Fragment } from 'Util/Query';
 
 /**
  * Product List Query
@@ -41,6 +41,40 @@ export class ProductListQuery {
         return products;
     }
 
+    _getPriceFilter(key, value) {
+        const [from, to] = value[0].split('_');
+
+        if (from === '*') {
+            return `${key}: { to: ${to} } `;
+        }
+
+        if (to === '*') {
+            return `${key}: { from: ${from} } `;
+        }
+
+        return `${key}: { from: ${from}, to: ${to} } `;
+    }
+
+    _getCustomFilters = (filters = {}) => (
+        Object.entries(filters).reduce((acc, [key, attribute]) => {
+            if (!attribute.length) {
+                return acc;
+            }
+
+            if (key === 'price') {
+                return [
+                    ...acc,
+                    this._getPriceFilter(key, attribute)
+                ];
+            }
+
+            return [
+                ...acc,
+                `${key}: { in: [ ${attribute.join(',')} ] } `
+            ];
+        }, [])
+    );
+
     _getFilterArgumentMap() {
         return {
             categoryIds: (id) => [`category_id: { eq: ${id} }`],
@@ -59,10 +93,9 @@ export class ProductListQuery {
                 return filters;
             },
             productsSkuArray: (sku) => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
+            productSKU: (sku) => [`sku: { eq: ${ encodeURIComponent(sku) } }`],
             productUrlPath: (url) => [`url_key: { eq: ${url}}`],
-            customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
-                attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
-            ), []),
+            customFilters: this._getCustomFilters,
             newToDate: (date) => [`news_to_date: { gteq: ${date} }`],
             conditions: (conditions) => [`conditions: { eq: ${conditions} }`],
             customerGroupId: (id) => [`customer_group_id: { eq: ${id} }`]
@@ -97,6 +130,19 @@ export class ProductListQuery {
                         ...initialOptions,
                         customerGroupId: group_id || '0'
                     };
+
+                    const {
+                        customFilters: { category_id } = {}
+                    } = options;
+
+                    /**
+                     * Remove category ID from select, if there is a custom filter
+                     * of category already selected in filtering options.
+                     */
+                    if (category_id) {
+                        // eslint-disable-next-line fp/no-delete
+                        options.categoryIds = undefined;
+                    }
 
                     const parsedOptions = Object.entries(options).reduce(
                         (acc, [key, option]) => {
@@ -142,8 +188,6 @@ export class ProductListQuery {
         // for filters only request
         if (requireInfo) {
             return [
-                'min_price',
-                'max_price',
                 this._getSortField(),
                 this._getAggregationsField()
             ];

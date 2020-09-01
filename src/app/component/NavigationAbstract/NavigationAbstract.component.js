@@ -11,12 +11,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-export const DEFAULT_STATE_NAME = 'default';
+import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
-class NavigationAbstract extends PureComponent {
+export class NavigationAbstract extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         navigationState: PropTypes.object.isRequired

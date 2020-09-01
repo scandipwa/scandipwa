@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
+import { ADD_ADDRESS, ADDRESS_POPUP_ID } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { customerType } from 'Type/Account';
-import { ADDRESS_POPUP_ID, ADD_ADDRESS } from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.component';
-import { showPopup } from 'Store/Popup';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 

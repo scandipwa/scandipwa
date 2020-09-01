@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import './ProductLinks.style';
+
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
 
-import './ProductLinks.style';
-
-class ProductLinks extends PureComponent {
+export class ProductLinks extends PureComponent {
     static propTypes = {
         numberOfProductsToDisplay: PropTypes.number,
         areDetailsLoaded: PropTypes.bool,

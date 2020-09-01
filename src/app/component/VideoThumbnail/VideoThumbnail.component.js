@@ -11,17 +11,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { MediaItemType } from 'Type/ProductList';
 import './VideoThumbnail.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import Image from 'Component/Image/Image.container';
+import { MediaItemType } from 'Type/ProductList';
 
 /**
  * VideoThumbnail component
  * @class VideoThumbnail
  */
-export default class VideoThumbnail extends PureComponent {
+export class VideoThumbnail extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
         onPlayClick: PropTypes.func.isRequired
@@ -72,3 +74,5 @@ export default class VideoThumbnail extends PureComponent {
         );
     }
 }
+
+export default VideoThumbnail;

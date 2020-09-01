@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 /* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -10,28 +11,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-
-import Form from 'Component/Form';
-import isMobile from 'Util/Mobile';
-import Field from 'Component/Field';
-import Loader from 'Component/Loader';
-import Overlay from 'Component/Overlay';
-
 import './MyAccountOverlay.style';
 
-export const STATE_SIGN_IN = 'signIn';
-export const STATE_FORGOT_PASSWORD = 'forgotPassword';
-export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
-export const STATE_CREATE_ACCOUNT = 'createAccount';
-export const STATE_LOGGED_IN = 'loggedIn';
-export const STATE_CONFIRM_EMAIL = 'confirmEmail';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 
-export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
+import Overlay from 'Component/Overlay';
+import isMobile from 'Util/Mobile';
 
-class MyAccountOverlay extends PureComponent {
+import {
+    CUSTOMER_ACCOUNT_OVERLAY_KEY,
+    STATE_CONFIRM_EMAIL,
+    STATE_CREATE_ACCOUNT,
+    STATE_FORGOT_PASSWORD,
+    STATE_FORGOT_PASSWORD_SUCCESS,
+    STATE_LOGGED_IN,
+    STATE_SIGN_IN
+} from './MyAccountOverlay.config';
+
+export class MyAccountOverlay extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
@@ -55,13 +57,11 @@ class MyAccountOverlay extends PureComponent {
         handleForgotPassword: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
-        closeOverlay: PropTypes.func,
         isCheckout: PropTypes.bool
     };
 
     static defaultProps = {
-        isCheckout: false,
-        closeOverlay: () => {}
+        isCheckout: false
     };
 
     renderMap = {
@@ -90,20 +90,12 @@ class MyAccountOverlay extends PureComponent {
     };
 
     renderMyAccount() {
-        const { state, closeOverlay, isCheckout } = this.props;
+        const { state } = this.props;
         const { render, title } = this.renderMap[state];
 
         return (
             <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
                 <p block="MyAccountOverlay" elem="Heading">{ title }</p>
-                { isCheckout && isMobile.any() && (
-                    <button
-                      block="MyAccountOverlay"
-                      elem="CloseButton"
-                      onClick={ closeOverlay }
-                      aria-label={ __('Close') }
-                    />
-                ) }
                 { render() }
             </div>
         );
@@ -157,6 +149,7 @@ class MyAccountOverlay extends PureComponent {
                       id="email"
                       name="email"
                       label={ __('Email') }
+                      autocomplete="email"
                       validation={ ['notEmpty', 'email'] }
                     />
                     <div block="MyAccountOverlay" elem="Buttons">
@@ -239,6 +232,7 @@ class MyAccountOverlay extends PureComponent {
                           label={ __('First Name') }
                           id="firstname"
                           name="firstname"
+                          autocomplete="given-name"
                           validation={ ['notEmpty'] }
                         />
                         <Field
@@ -246,6 +240,7 @@ class MyAccountOverlay extends PureComponent {
                           label={ __('Last Name') }
                           id="lastname"
                           name="lastname"
+                          autocomplete="family-name"
                           validation={ ['notEmpty'] }
                         />
                         <Field
@@ -264,6 +259,7 @@ class MyAccountOverlay extends PureComponent {
                           label={ __('Email') }
                           id="email"
                           name="email"
+                          autocomplete="email"
                           validation={ ['notEmpty', 'email'] }
                         />
                         <Field
@@ -271,6 +267,7 @@ class MyAccountOverlay extends PureComponent {
                           label={ __('Password') }
                           id="password"
                           name="password"
+                          autocomplete="new-password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
@@ -278,6 +275,7 @@ class MyAccountOverlay extends PureComponent {
                           label={ __('Confirm password') }
                           id="confirm_password"
                           name="confirm_password"
+                          autocomplete="new-password"
                           validation={ ['notEmpty', 'password', 'password_match'] }
                         />
                     </fieldset>
@@ -327,9 +325,10 @@ class MyAccountOverlay extends PureComponent {
                 >
                     <Field
                       type="text"
-                      label={ __('Login or Email') }
+                      label={ __('Email') }
                       id="email"
                       name="email"
+                      autocomplete="email"
                       validation={ ['notEmpty', 'email'] }
                     />
                     <Field
@@ -337,6 +336,7 @@ class MyAccountOverlay extends PureComponent {
                       label={ __('Password') }
                       id="password"
                       name="password"
+                      autocomplete="current-password"
                       validation={ ['notEmpty', 'password'] }
                     />
                     <div block="MyAccountOverlay" elem="Buttons">
@@ -369,14 +369,18 @@ class MyAccountOverlay extends PureComponent {
     }
 
     render() {
-        const { isLoading, onVisible } = this.props;
+        const {
+            isLoading,
+            onVisible,
+            isCheckout
+        } = this.props;
 
         return (
             <Overlay
               id={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
               mix={ { block: 'MyAccountOverlay' } }
               onVisible={ onVisible }
-              isStatic={ !!isMobile.any() }
+              isStatic={ !isCheckout && !!isMobile.any() }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }

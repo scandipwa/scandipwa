@@ -10,12 +10,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { MixType, ChildrenType } from 'Type/Common';
 import './Draggable.style';
 
-export default class Draggable extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { ChildrenType, MixType } from 'Type/Common';
+
+export class Draggable extends PureComponent {
     static propTypes = {
         shiftX: PropTypes.number,
         shiftY: PropTypes.number,
@@ -230,3 +232,5 @@ export default class Draggable extends PureComponent {
         );
     }
 }
+
+export default Draggable;

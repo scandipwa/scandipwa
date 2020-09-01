@@ -1,8 +1,9 @@
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import './InstallPromptIOS.style';
 
-class InstallPromptIOS extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+export class InstallPromptIOS extends PureComponent {
     static propTypes = {
         handleBannerClose: PropTypes.func.isRequired
     };

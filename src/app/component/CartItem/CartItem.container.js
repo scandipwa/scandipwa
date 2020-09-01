@@ -10,21 +10,32 @@
  */
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { objectToUri } from 'Util/Url';
-import { CartDispatcher } from 'Store/Cart';
+import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import { CartItemType } from 'Type/MiniCart';
+import { CONFIGURABLE } from 'Util/Product';
 import { makeCancelable } from 'Util/Promise';
+import { objectToUri } from 'Util/Url';
 
-import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
 
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
 export const mapDispatchToProps = (dispatch) => ({
-    addProduct: (options) => CartDispatcher.addProductToCart(dispatch, options),
-    changeItemQty: (options) => CartDispatcher.changeItemQty(dispatch, options),
-    removeProduct: (options) => CartDispatcher.removeProductFromCart(dispatch, options)
+    addProduct: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
+    changeItemQty: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.changeItemQty(dispatch, options)
+    ),
+    removeProduct: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
+    )
 });
 
 export class CartItemContainer extends PureComponent {
@@ -138,13 +149,13 @@ export class CartItemContainer extends PureComponent {
             }
         } = this.props;
 
-        return variants.findIndex(({ sku }) => sku === itemSku);
+        return variants.findIndex(({ sku }) => sku === itemSku || itemSku.includes(sku));
     }
 
     /**
      * Get link to product page
      * @param url_key Url to product
-     * @return {{pathname: Srting, state Object}} Pathname and product state
+     * @return {{pathname: String, state Object}} Pathname and product state
      */
     _getProductLinkTo() {
         const {
@@ -160,9 +171,10 @@ export class CartItemContainer extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== 'configurable') {
+        if (type_id !== CONFIGURABLE) {
             return {
-                pathname: url
+                pathname: url,
+                state: { product }
             };
         }
 

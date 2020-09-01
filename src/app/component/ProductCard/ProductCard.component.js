@@ -9,26 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
-import PropTypes from 'prop-types';
-
-import Link from 'Component/Link';
-import Image from 'Component/Image';
-import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
-import ProductPrice from 'Component/ProductPrice';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
-import TierPrices from 'Component/TierPrices';
-
 import './ProductCard.style';
+
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
+import Image from 'Component/Image';
+import Link from 'Component/Link';
+import Loader from 'Component/Loader';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import TierPrices from 'Component/TierPrices';
+import { ProductType } from 'Type/ProductList';
+import { CONFIGURABLE } from 'Util/Product';
 
 /**
  * Product card
  * @class ProductCard
  */
-export default class ProductCard extends PureComponent {
+export class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
@@ -60,6 +61,27 @@ export default class ProductCard extends PureComponent {
         registerSharedElement(this.imageRef);
     };
 
+    renderConfigurablePriceBadge() {
+        const {
+            product: { type_id }
+        } = this.props;
+
+        if (type_id !== CONFIGURABLE) {
+            return null;
+        }
+
+        return (
+            <p
+              mix={ {
+                  block: 'ProductCard',
+                  elem: 'PriceBadge'
+              } }
+            >
+                { __('As Low as') }
+            </p>
+        );
+    }
+
     renderProductPrice() {
         const { productOrVariant: { price_range } } = this.props;
 
@@ -68,10 +90,13 @@ export default class ProductCard extends PureComponent {
         }
 
         return (
-            <ProductPrice
-              price={ price_range }
-              mix={ { block: 'ProductCard', elem: 'Price' } }
-            />
+            <>
+                { this.renderConfigurablePriceBadge() }
+                <ProductPrice
+                  price={ price_range }
+                  mix={ { block: 'ProductCard', elem: 'Price' } }
+                />
+            </>
         );
     }
 
@@ -131,7 +156,14 @@ export default class ProductCard extends PureComponent {
     }
 
     renderReviews() {
-        const { product: { review_summary: { rating_summary } = {} } } = this.props;
+        const {
+            product: {
+                review_summary: {
+                    rating_summary
+                } = {}
+            }
+        } = this.props;
+
         if (!rating_summary) {
             return null;
         }
@@ -237,3 +269,5 @@ export default class ProductCard extends PureComponent {
         );
     }
 }
+
+export default ProductCard;

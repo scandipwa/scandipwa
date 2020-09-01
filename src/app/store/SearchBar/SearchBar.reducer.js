@@ -10,10 +10,11 @@
  */
 
 import { getIndexedProducts } from 'Util/Product';
+
 import {
+    CLEAR_SEARCH_RESULTS,
     UPDATE_SEARCH_BAR,
-    UPDATE_SEARCH_LOAD_STATUS,
-    CLEAR_SEARCH_RESULTS
+    UPDATE_SEARCH_LOAD_STATUS
 } from './SearchBar.action';
 
 export const initialState = {
@@ -21,7 +22,7 @@ export const initialState = {
     isLoading: true
 };
 
-const SearchBarReducer = (state = initialState, action) => {
+export const SearchBarReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_SEARCH_BAR:
         const { result: { products: { items: initialItems } } } = action;

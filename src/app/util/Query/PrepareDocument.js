@@ -13,15 +13,15 @@
 
 import Field from 'Util/Query/Field';
 
-const MUTATION_TYPE = 'mutation';
-const QUERY_TYPE = 'query';
+export const MUTATION_TYPE = 'mutation';
+export const QUERY_TYPE = 'query';
 
 /**
  * Prepare request body string from query list (all entries must be instances of Query).
  * @param  {Array<Field>} queries
  * @return {String} JSON String, format: `{"query":"{alias: queryName (attr:key) { field1, field2 }}"}`
  */
-const prepareDocument = (queries) => {
+export const prepareDocument = (queries) => {
     const args = [];
     const querySelections = [];
     const variableDefinitions = [];
@@ -48,7 +48,7 @@ const prepareDocument = (queries) => {
     };
 };
 
-const prepareRequest = (document, type) => {
+export const prepareRequest = (document, type) => {
     if (type !== MUTATION_TYPE && type !== QUERY_TYPE) {
         console.warn('Request can only prepared from Query or Mutation.');
         return null;

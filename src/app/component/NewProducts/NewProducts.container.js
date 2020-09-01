@@ -9,21 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { prepareQuery } from 'Util/Query';
-import { ProductListQuery } from 'Query';
-import { executeGet } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
+
+import ProductListQuery from 'Query/ProductList.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { getIndexedProducts } from 'Util/Product';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+
 import NewProducts from './NewProducts.component';
 
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
     timezone: state.ConfigReducer.timezone
 });
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 

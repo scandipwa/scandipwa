@@ -9,102 +9,72 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import { Redirect } from 'react-router';
-import PropTypes from 'prop-types';
-import ContentWrapper from 'Component/ContentWrapper';
-import Loader from 'Component/Loader';
-import Field from 'Component/Field';
-import Form from 'Component/Form';
-import { getQueryParam } from 'Util/Url';
-import { LocationType } from 'Type/Common';
 import './PasswordChangePage.style';
 
-const STATUS_PASSOWORD_UPDATED = 'password_updated';
-const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-export default class PasswordChangePage extends PureComponent {
+import ContentWrapper from 'Component/ContentWrapper';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
+
+export class PasswordChangePage extends PureComponent {
     static propTypes = {
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        passwordResetStatus: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]).isRequired,
-        resetPassword: PropTypes.func.isRequired,
-        location: LocationType.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        onPasswordAttempt: PropTypes.func.isRequired,
+        onPasswordSuccess: PropTypes.func.isRequired,
+        onError: PropTypes.func.isRequired
     };
 
-    state = {
-        passwordResetStatus: '',
-        isLoading: false
-    };
+    renderForm() {
+        const {
+            onPasswordAttempt,
+            onPasswordSuccess,
+            onError
+        } = this.props;
 
-    static getDerivedStateFromProps(props) {
-        const { passwordResetStatus, showNotification } = props;
-        const stateToBeUpdated = {};
+        // TODO: use FieldForm instead!!!
 
-        if (passwordResetStatus) {
-            stateToBeUpdated.isLoading = false;
-            stateToBeUpdated.passwordResetStatus = passwordResetStatus;
-
-            switch (passwordResetStatus) {
-            case STATUS_PASSOWORD_UPDATED:
-                showNotification('success', __('Password has been successfully updated!'));
-                break;
-            case STATUS_PASSOWORD_MISSMATCH:
-                showNotification('info', __('Your password and confirmation password do not match.'));
-                break;
-            default:
-                showNotification('error', __('Error! Something went wrong'));
-            }
-        }
-
-        return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
-    }
-
-    componentDidMount() {
-        this.updateBreadcrumbs();
-    }
-
-    onPasswordSuccess = (fields) => {
-        const { resetPassword, location } = this.props;
-        const { passwordReset: password, passwordResetConfirm: password_confirmation } = fields;
-        const token = getQueryParam('token', location);
-
-        resetPassword({ token, password, password_confirmation });
-    };
-
-    onPasswordAttempt = () => {
-        this.setState({ isLoading: true });
-    };
-
-    onError = () => {
-        this.setState({ isLoading: false });
-    };
-
-    updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        const breadcrumbs = [
-            {
-                url: '/createPassword',
-                name: __('Change password')
-            },
-            {
-                url: '/',
-                name: __('Home')
-            }
-        ];
-
-        updateBreadcrumbs(breadcrumbs);
+        return (
+            <Form
+              key="reset-password"
+              onSubmit={ onPasswordAttempt }
+              onSubmitSuccess={ onPasswordSuccess }
+              onSubmitError={ onError }
+            >
+                <Field
+                  type="password"
+                  label={ __('New password') }
+                  id="passwordReset"
+                  name="passwordReset"
+                  autocomplete="new-password"
+                  validation={ ['notEmpty', 'password'] }
+                />
+                <Field
+                  type="password"
+                  label={ __('Confirm password') }
+                  id="passwordResetConfirm"
+                  name="passwordResetConfirm"
+                  autocomplete="new-password"
+                  validation={ ['notEmpty', 'password'] }
+                />
+                <div block="MyAccount" elem="Buttons">
+                    <button
+                      type="submit"
+                      block="PasswordChangePage"
+                      elem="Button"
+                      mix={ { block: 'Button' } }
+                    >
+                        { __('Update Password') }
+                    </button>
+                </div>
+            </Form>
+        );
     }
 
     render() {
-        const { passwordResetStatus, isLoading } = this.state;
-
-        if (passwordResetStatus === STATUS_PASSOWORD_UPDATED) {
-            return <Redirect to="/" />;
-        }
+        const { isLoading } = this.props;
 
         return (
             <main block="PasswordChangePage" aria-label={ __('Password Change Page') }>
@@ -115,39 +85,11 @@ export default class PasswordChangePage extends PureComponent {
                 >
                     <Loader isLoading={ isLoading } />
                     <h1>{ __('Change My Password') }</h1>
-                    <Form
-                      key="reset-password"
-                      onSubmit={ this.onPasswordAttempt }
-                      onSubmitSuccess={ this.onPasswordSuccess }
-                      onSubmitError={ this.onError }
-                    >
-                        <Field
-                          type="password"
-                          label={ __('New password') }
-                          id="passwordReset"
-                          name="passwordReset"
-                          validation={ ['notEmpty', 'password'] }
-                        />
-                        <Field
-                          type="password"
-                          label={ __('Confirm password') }
-                          id="passwordResetConfirm"
-                          name="passwordResetConfirm"
-                          validation={ ['notEmpty', 'password'] }
-                        />
-                        <div block="MyAccount" elem="Buttons">
-                            <button
-                              type="submit"
-                              block="PasswordChangePage"
-                              elem="Button"
-                              mix={ { block: 'Button' } }
-                            >
-                                { __('Update Password') }
-                            </button>
-                        </div>
-                    </Form>
+                    { this.renderForm() }
                 </ContentWrapper>
             </main>
         );
     }
 }
+
+export default PasswordChangePage;

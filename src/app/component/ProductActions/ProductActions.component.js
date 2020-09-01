@@ -13,34 +13,36 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import { PureComponent, createRef } from 'react';
-import PropTypes from 'prop-types';
-
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
-import ProductWishlistButton from 'Component/ProductWishlistButton';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import GroupedProductList from 'Component/GroupedProductsList';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
-import { ProductType, PriceType } from 'Type/ProductList';
-import AddToCart from 'Component/AddToCart';
-import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import ProductBundleItems from 'Component/ProductBundleItems';
-import {
-    GROUPED, SIMPLE, BUNDLE
-} from 'Util/Product';
-import Field from 'Component/Field';
-import isMobile from 'Util/Mobile';
-import Html from 'Component/Html';
-import TierPrices from 'Component/TierPrices';
-
 import './ProductActions.style';
+
+import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
+import AddToCart from 'Component/AddToCart';
+import Field from 'Component/Field';
+import GroupedProductList from 'Component/GroupedProductsList';
+import Html from 'Component/Html';
+import ProductBundleItems from 'Component/ProductBundleItems';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import TierPrices from 'Component/TierPrices';
+import { PriceType, ProductType } from 'Type/ProductList';
+import isMobile from 'Util/Mobile';
+import {
+    BUNDLE,
+    CONFIGURABLE,
+    GROUPED
+} from 'Util/Product';
 
 /**
  * Product actions
  * @class ProductActions
  */
-export default class ProductActions extends PureComponent {
+export class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -262,12 +264,12 @@ export default class ProductActions extends PureComponent {
 
     renderCustomizableOptions() {
         const {
-            product: { type_id, options },
+            product: { options },
             getSelectedCustomizableOptions,
             productOptionsData
         } = this.props;
 
-        if (type_id !== SIMPLE || isMobile.any()) {
+        if (isMobile.any()) {
             return null;
         }
 
@@ -374,6 +376,31 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderConfigurablePriceBadge() {
+        const {
+            configurableVariantIndex,
+            product: { type_id }
+        } = this.props;
+
+        if (
+            type_id !== CONFIGURABLE
+            || configurableVariantIndex > -1
+        ) {
+            return null;
+        }
+
+        return (
+            <p
+              mix={ {
+                  block: 'ProductActions',
+                  elem: 'ConfigurablePriceBadge'
+              } }
+            >
+                { __('As Low as') }
+            </p>
+        );
+    }
+
     renderPriceWithSchema() {
         const {
             productPrice,
@@ -381,7 +408,11 @@ export default class ProductActions extends PureComponent {
         } = this.props;
 
         return (
-            <div>
+            <div
+              block="ProductActions"
+              elem="PriceWrapper"
+            >
+                { this.renderConfigurablePriceBadge() }
                 { this.renderSchema() }
                 <ProductPrice
                   isSchemaRequired
@@ -513,7 +544,6 @@ export default class ProductActions extends PureComponent {
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
-                { this.renderCustomizableOptions() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
@@ -523,6 +553,7 @@ export default class ProductActions extends PureComponent {
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
+                { this.renderCustomizableOptions() }
                 { this.renderBundleItems() }
                 { this.renderGroupedItems() }
                 { this.renderTierPrices() }
@@ -530,3 +561,5 @@ export default class ProductActions extends PureComponent {
         );
     }
 }
+
+export default ProductActions;

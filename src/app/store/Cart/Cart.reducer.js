@@ -11,11 +11,12 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
+
 import { UPDATE_TOTALS } from './Cart.action';
 
 export const CART_TOTALS = 'cart_totals';
 
-const updateCartTotals = (action) => {
+export const updateCartTotals = (action) => {
     const { cartData: cartTotals } = action;
 
     if (Object.hasOwnProperty.call(cartTotals, 'items')) {
@@ -41,7 +42,7 @@ export const initialState = {
     cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
 };
 
-const CartReducer = (state = initialState, action) => {
+export const CartReducer = (state = initialState, action) => {
     const { type } = action;
 
     switch (type) {

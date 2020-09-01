@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import './KeyValueTable.style';
 
-class KeyValueTable extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+export class KeyValueTable extends PureComponent {
     static propTypes = {
         title: PropTypes.string
     };

@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { UPDATE_BREADCRUMBS, TOGGLE_BREADCRUMBS } from './Breadcrumbs.action';
+import { TOGGLE_BREADCRUMBS, UPDATE_BREADCRUMBS } from './Breadcrumbs.action';
 
 export const initialState = {
     breadcrumbs: [],
     areBreadcrumbsVisible: true
 };
 
-const BreadcrumbsReducer = (state = initialState, action) => {
+export const BreadcrumbsReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_BREADCRUMBS:
         const { breadcrumbs } = action;

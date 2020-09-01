@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { paymentMethodType } from 'Type/Checkout';
 import './CheckoutPayment.style';
 
-class CheckoutPayment extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { paymentMethodType } from 'Type/Checkout';
+
+export class CheckoutPayment extends PureComponent {
     static propTypes = {
         method: paymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,

@@ -12,13 +12,14 @@
 
 /* eslint-disable consistent-return */
 // Disabled due `domToReact` internal logic
-import { PureComponent } from 'react';
 import parser from 'html-react-parser';
-import domToReact from 'html-react-parser/lib/dom-to-react';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
-import Link from 'Component/Link';
+import domToReact from 'html-react-parser/lib/dom-to-react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import Image from 'Component/Image';
+import Link from 'Component/Link';
 import WidgetFactory from 'Component/WidgetFactory';
 import { hash } from 'Util/Request/Hash';
 
@@ -27,7 +28,7 @@ import { hash } from 'Util/Request/Hash';
  * Component converts HTML strings to React components
  * @class Html
  */
-export default class Html extends PureComponent {
+export class Html extends PureComponent {
     static propTypes = {
         content: PropTypes.string.isRequired
     };
@@ -245,3 +246,5 @@ export default class Html extends PureComponent {
         return parser(content, this.parserOptions);
     }
 }
+
+export default Html;

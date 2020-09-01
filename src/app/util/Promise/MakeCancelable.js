@@ -18,7 +18,7 @@
  * @param  {Promise} promise promise which has to be cancelable
  * @return {Promise} Cancelable promise
  */
-const makeCancelable = (promise) => {
+export const makeCancelable = (promise) => {
     // eslint-disable-next-line fp/no-let
     let hasCanceled_ = false;
 

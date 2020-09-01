@@ -12,8 +12,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { OrderDispatcher } from 'Store/Order';
+
 import MyAccountMyOrders from './MyAccountMyOrders.component';
+
+export const OrderDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Order/Order.dispatcher'
+);
 
 export const mapStateToProps = (state) => ({
     orderList: state.OrderReducer.orderList,
@@ -21,10 +26,12 @@ export const mapStateToProps = (state) => ({
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-    getOrderList: () => OrderDispatcher.requestOrders(dispatch)
+    getOrderList: () => OrderDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
+    )
 });
 
-class MyAccountMyOrdersContainer extends PureComponent {
+export class MyAccountMyOrdersContainer extends PureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired
     };

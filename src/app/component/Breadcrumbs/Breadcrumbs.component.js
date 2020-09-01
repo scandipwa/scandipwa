@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import './Breadcrumbs.style';
 
-import TextPlaceholder from 'Component/TextPlaceholder';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Breadcrumb from 'Component/Breadcrumb';
 import ContentWrapper from 'Component/ContentWrapper';
 import { BreadcrumbsType } from 'Type/Breadcrumbs';
-import Link from 'Component/Link';
-
-import './Breadcrumbs.style';
+import { appendWithStoreCode } from 'Util/Url';
 
 /**
  * Breadcrumbs
  * @class Breadcrumbs
  */
-export default class Breadcrumbs extends PureComponent {
+export class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired
@@ -34,27 +34,13 @@ export default class Breadcrumbs extends PureComponent {
         const isDisabled = !url || breadcrumbs.length - 1 === i;
 
         return (
-            <li
-              block="Breadcrumbs"
-              elem="Crumb"
+            <Breadcrumb
+              name={ name }
+              url={ url }
+              index={ i }
               key={ i }
-              itemProp="itemListElement"
-              itemScope
-              itemType="http://schema.org/ListItem"
-            >
-                <Link
-                  block="Breadcrumbs"
-                  elem="Link"
-                  to={ url || '' }
-                  tabIndex={ isDisabled ? '-1' : '0' }
-                >
-                    <meta itemProp="item" content={ window.location.origin + (url || '') } />
-                    <span itemProp="name">
-                        <TextPlaceholder content={ name } />
-                    </span>
-                    <meta itemProp="position" content={ i } />
-                </Link>
-            </li>
+              isDisabled={ isDisabled }
+            />
         );
     }
 
@@ -67,7 +53,11 @@ export default class Breadcrumbs extends PureComponent {
     render() {
         const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible || location.pathname === '/') {
+        if (
+            !areBreadcrumbsVisible
+            || location.pathname === appendWithStoreCode('/')
+            || location.pathname === '/'
+        ) {
             return null;
         }
 
@@ -91,3 +81,5 @@ export default class Breadcrumbs extends PureComponent {
         );
     }
 }
+
+export default Breadcrumbs;

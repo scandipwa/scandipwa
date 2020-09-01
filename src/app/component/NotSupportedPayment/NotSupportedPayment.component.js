@@ -1,8 +1,9 @@
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import './NotSupportedPayment.style';
 
-class NotSupportedPayment extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+export class NotSupportedPayment extends PureComponent {
     static propTypes = {
         disableButton: PropTypes.func.isRequired
     };

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import { getIndexedProduct } from 'Util/Product';
+
 import { UPDATE_PRODUCT_DETAILS } from './Product.action';
 
 export const initialState = {
@@ -33,7 +34,7 @@ export const formatConfigurableOptions = (configurable_options) => configurable_
         };
     }, {});
 
-const ProductReducer = (state = initialState, action) => {
+export const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
         const { product } = action;

@@ -10,6 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+
 import { UPDATE_CONFIG } from './Config.action';
 
 export const MAX_WIDTH = 150;
@@ -30,10 +31,11 @@ export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
+    checkoutAgreements: [],
     isLoading: true
 };
 
-const ConfigReducer = (state = initialState, action) => {
+export const ConfigReducer = (state = initialState, action) => {
     const {
         config: {
             countries,

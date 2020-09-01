@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-
-import Form from 'Component/Form';
-import Field from 'Component/Field';
-
 import './FieldForm.style';
 
-class FieldForm extends PureComponent {
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+
+export class FieldForm extends PureComponent {
     onFormSuccess() {
         // TODO: implement
     }

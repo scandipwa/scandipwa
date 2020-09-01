@@ -9,17 +9,49 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ExpandableContent from 'Component/ExpandableContent';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
-import CategoryPriceRange from 'Component/CategoryPriceRange';
-import CategorySubcategories from 'Component/CategorySubcategories';
-import ExpandableContent from 'Component/ExpandableContent';
+import { formatCurrency } from 'Util/Price';
 
-class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
-    renderPriceRange() {
-        return (
-            <CategoryPriceRange key="price" />
-        );
+export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
+    getPriceLabel(option) {
+        const { currency_code } = this.props;
+        const { value_string } = option;
+        const [from, to] = value_string.split('_');
+        const currency = formatCurrency(currency_code);
+
+        if (from === '*') {
+            return __('Up to %s%s', to, currency);
+        }
+
+        if (to === '*') {
+            return __('From %s%s', from, currency);
+        }
+
+        return __('From %s%s, to %s%s', from, currency, to, currency);
+    }
+
+    renderPriceSwatch(option) {
+        const { attribute_options, ...priceOption } = option;
+
+        if (attribute_options) {
+            // do not render price filter if it includes "*_*" aggregation
+            if (attribute_options['*_*']) {
+                return null;
+            }
+
+            priceOption.attribute_options = Object.entries(attribute_options).reduce((acc, [key, option]) => {
+                acc[key] = {
+                    ...option,
+                    label: this.getPriceLabel(option)
+                };
+
+                return acc;
+            }, {});
+        }
+
+        return this.renderDropdownOrSwatch(priceOption);
     }
 
     renderDropdownOrSwatch(option) {
@@ -58,7 +90,7 @@ class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
 
         switch (attribute_code) {
         case 'price':
-            return this.renderPriceRange(option);
+            return this.renderPriceSwatch(option);
         default:
             return this.renderDropdownOrSwatch(option);
         }

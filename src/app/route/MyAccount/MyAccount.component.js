@@ -9,30 +9,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import './MyAccount.style';
 
-import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
-import MyAccountOverlay from 'Component/MyAccountOverlay';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ContentWrapper from 'Component/ContentWrapper';
 import MyAccountAddressBook from 'Component/MyAccountAddressBook';
-import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
 import MyAccountDashboard from 'Component/MyAccountDashboard';
 import MyAccountMyOrders from 'Component/MyAccountMyOrders';
+import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
+import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
+import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
-import ContentWrapper from 'Component/ContentWrapper';
 import {
     activeTabType,
-    tabMapType,
+    ADDRESS_BOOK,
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    ADDRESS_BOOK,
-    NEWSLETTER_SUBSCRIPTION
+    NEWSLETTER_SUBSCRIPTION,
+    tabMapType
 } from 'Type/Account';
 
-import './MyAccount.style';
-
-class MyAccount extends PureComponent {
+export class MyAccount extends PureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
@@ -52,7 +52,12 @@ class MyAccount extends PureComponent {
 
     renderLoginOverlay() {
         const { onSignIn } = this.props;
-        return <MyAccountOverlay onSignIn={ onSignIn } />;
+
+        return (
+            <MyAccountOverlay
+              onSignIn={ onSignIn }
+            />
+        );
     }
 
     renderContent() {

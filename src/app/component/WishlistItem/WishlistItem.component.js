@@ -9,15 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import Field from 'Component/Field';
-import ProductCard from 'Component/ProductCard';
-import { ProductType, FilterType } from 'Type/ProductList';
-
 import './WishlistItem.style';
 
-export default class WishlistItem extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field';
+import ProductCard from 'Component/ProductCard';
+import { FilterType, ProductType } from 'Type/ProductList';
+
+export class WishlistItem extends PureComponent {
     static propTypes = {
         addToCart: PropTypes.func,
         changeQuantity: PropTypes.func,
@@ -118,3 +119,5 @@ export default class WishlistItem extends PureComponent {
         );
     }
 }
+
+export default WishlistItem;

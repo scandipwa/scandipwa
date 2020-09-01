@@ -167,9 +167,9 @@
 
         .MyAccountOverlay {
             @include before-desktop {
-                height: 100vh;
-                position: absolute;
-                right: -10px;
+                top: var(--header-total-height);
+                height: calc(100vh - var(--header-total-height));
+                position: fixed;
                 width: 100vw;
             }
         }
@@ -447,11 +447,6 @@
                 opacity: 1;
                 max-width: calc(100% - 180px);
             }
-        }
-
-        .TextPlaceholder {
-            opacity: 0;
-            animation: appear 150ms 100ms forwards;
         }
     }
 

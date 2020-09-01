@@ -12,20 +12,15 @@
 import { UPDATE_CURRENT_CATEGORY } from './Category.action';
 
 export const initialState = {
-    category: {
-        isLoading: true
-    }
+    category: {}
 };
 
-const CategoryReducer = (state = initialState, { type, category }) => {
+export const CategoryReducer = (state = initialState, { type, category }) => {
     switch (type) {
     case UPDATE_CURRENT_CATEGORY:
         return {
             ...state,
-            category: {
-                isLoading: false,
-                ...category
-            }
+            category: { ...category }
         };
 
     default:

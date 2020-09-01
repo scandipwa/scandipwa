@@ -9,27 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import Link from 'Component/Link';
-import Overlay from 'Component/Overlay';
-import CartItem from 'Component/CartItem';
-import { TotalsType } from 'Type/MiniCart';
-import { formatCurrency } from 'Util/Price';
-import CmsBlock from 'Component/CmsBlock';
-import { CART_OVERLAY } from 'Component/Header';
-
 import './CartOverlay.style';
 
-export default class CartOverlay extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CartItem from 'Component/CartItem';
+import CmsBlock from 'Component/CmsBlock';
+import { CART_OVERLAY } from 'Component/Header/Header.config';
+import Link from 'Component/Link';
+import Overlay from 'Component/Overlay';
+import { TotalsType } from 'Type/MiniCart';
+import isMobile from 'Util/Mobile';
+import { formatCurrency } from 'Util/Price';
+
+export class CartOverlay extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isEditing: PropTypes.bool.isRequired,
         handleCheckoutClick: PropTypes.func.isRequired,
-        currencyCode: PropTypes.string.isRequired
+        currencyCode: PropTypes.string.isRequired,
+        showOverlay: PropTypes.func.isRequired
     };
+
+    componentDidMount() {
+        const { showOverlay } = this.props;
+
+        if (!isMobile.any()) {
+            showOverlay(CART_OVERLAY);
+        }
+    }
 
     renderPriceLine(price) {
         const { currencyCode } = this.props;
@@ -184,3 +194,5 @@ export default class CartOverlay extends PureComponent {
         );
     }
 }
+
+export default CartOverlay;

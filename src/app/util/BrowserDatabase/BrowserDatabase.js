@@ -15,7 +15,7 @@
  * Set of helpers related to Browser Database
  * @class CSS
  */
-class BrowserDatabase {
+export class BrowserDatabase {
     /**
      * Loads data from browser storage
      * @param {String} location Name of the local storage

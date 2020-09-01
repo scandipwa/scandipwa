@@ -11,13 +11,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
+import history from 'Util/History';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
+import { appendWithStoreCode } from 'Util/Url';
 
-import { DEFAULT_STATE_NAME } from './NavigationAbstract.component';
+import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
@@ -57,7 +58,11 @@ export class NavigationAbstractContainer extends PureComponent {
         const { pathname } = location;
 
         const activeRoute = Object.keys(this.routeMap)
-            .find((route) => (route !== '/' || pathname === '/') && pathname.includes(route));
+            .find((route) => (
+                route !== '/'
+                || pathname === appendWithStoreCode('/')
+                || pathname === '/'
+            ) && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;
     }

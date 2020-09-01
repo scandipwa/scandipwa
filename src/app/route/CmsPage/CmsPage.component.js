@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import TextPlaceholder from 'Component/TextPlaceholder';
-import { BlockListType } from 'Type/CMS';
-import Html from 'Component/Html';
-
 import './CmsPage.style';
 
-export default class CmsPage extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Html from 'Component/Html';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { BlockListType } from 'Type/CMS';
+
+export class CmsPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isBreadcrumbsActive: PropTypes.bool,
@@ -85,3 +85,5 @@ export default class CmsPage extends PureComponent {
         );
     }
 }
+
+export default CmsPage;

@@ -10,8 +10,8 @@
  */
 
 import {
-    SHOW_OFFLINE_NOTICE,
-    SET_BIG_OFFLINE_NOTICE
+    SET_BIG_OFFLINE_NOTICE,
+    SHOW_OFFLINE_NOTICE
 } from './Offline.action';
 
 export const initialState = {
@@ -19,7 +19,7 @@ export const initialState = {
     isBig: false
 };
 
-const OfflineReducer = (state = initialState, action) => {
+export const OfflineReducer = (state = initialState, action) => {
     switch (action.type) {
     case SHOW_OFFLINE_NOTICE:
         const { isOffline } = action;

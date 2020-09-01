@@ -9,19 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import BrowserDatabase from 'Util/BrowserDatabase';
-import Link from 'Component/Link';
-
 import './CookiePopup.style';
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
-export const COOKIE_POPUP = 'cookie_popup';
+import { COOKIE_POPUP } from './CookiePopup.config';
 
-class CookiePopup extends PureComponent {
+export class CookiePopup extends PureComponent {
     static propTypes = {
         cookieText: PropTypes.string,
         cookieLink: PropTypes.string
@@ -68,6 +68,16 @@ class CookiePopup extends PureComponent {
         );
     }
 
+    renderCTA() {
+        return (
+            <div block="CookiePopup" elem="CTA">
+                <button block="Button" onClick={ this.acceptCookies }>
+                    { __('Accept') }
+                </button>
+            </div>
+        );
+    }
+
     render() {
         const { cookieText } = this.props;
         const { isAccepted } = this.state;
@@ -84,11 +94,7 @@ class CookiePopup extends PureComponent {
                   wrapperMix={ { block: 'CookiePopup', elem: 'ContentWrapper' } }
                 >
                     { this.renderCookieText() }
-                    <div block="CookiePopup" elem="CTA">
-                        <button block="Button" onClick={ this.acceptCookies }>
-                            { __('Accept') }
-                        </button>
-                    </div>
+                    { this.renderCTA() }
                 </ContentWrapper>
             </div>
         );

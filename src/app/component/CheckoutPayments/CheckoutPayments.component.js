@@ -10,27 +10,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import PayPal from 'Component/PayPal';
-import Klarna from 'Component/Klarna';
-import Stripe from 'Component/Stripe';
-import Braintree from 'Component/Braintree';
-import { paymentMethodsType } from 'Type/Checkout';
-import CheckoutPayment from 'Component/CheckoutPayment';
-import NotSupportedPayment from 'Component/NotSupportedPayment';
-
 import './CheckoutPayments.style';
 
-export const KLARNA = 'klarna_kp';
-export const BRAINTREE = 'braintree';
-export const CHECK_MONEY = 'checkmo';
-export const PAYPAL_EXPRESS = 'paypal_express';
-export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
-export const STRIPE = 'stripe_payments';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-class CheckoutPayments extends PureComponent {
+import Braintree from 'Component/Braintree';
+import CheckoutPayment from 'Component/CheckoutPayment';
+import Klarna from 'Component/Klarna';
+import NotSupportedPayment from 'Component/NotSupportedPayment';
+import PayPal from 'Component/PayPal';
+import Stripe from 'Component/Stripe';
+import { paymentMethodsType } from 'Type/Checkout';
+
+import {
+    BRAINTREE,
+    CHECK_MONEY,
+    KLARNA,
+    PAYPAL_EXPRESS,
+    PAYPAL_EXPRESS_CREDIT,
+    STRIPE
+} from './CheckoutPayments.config';
+
+export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,

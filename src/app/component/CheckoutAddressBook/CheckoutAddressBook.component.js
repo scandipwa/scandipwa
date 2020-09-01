@@ -9,18 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { customerType, ADDRESS_BOOK } from 'Type/Account';
-import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
-import Link from 'Component/Link';
-import CheckoutAddressTable from 'Component/CheckoutAddressTable';
-import Loader from 'Component/Loader';
-import CheckoutAddressForm from 'Component/CheckoutAddressForm';
 import './CheckoutAddressBook.style';
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
-class CheckoutAddressBook extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CheckoutAddressForm from 'Component/CheckoutAddressForm';
+import CheckoutAddressTable from 'Component/CheckoutAddressTable';
+import Link from 'Component/Link';
+import Loader from 'Component/Loader';
+import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
+import { ADDRESS_BOOK, customerType } from 'Type/Account';
+
+export class CheckoutAddressBook extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,

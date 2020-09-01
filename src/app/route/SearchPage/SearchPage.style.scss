@@ -11,7 +11,10 @@
 
 .SearchPage {
     &-Heading {
+        text-transform: none;
+
         span {
+            text-transform: uppercase;
             color: var(--primary-base-color);
         }
     }

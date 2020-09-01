@@ -1,8 +1,9 @@
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import './InstallPromptAndroid.style';
 
-class InstallPromptAndroid extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+export class InstallPromptAndroid extends PureComponent {
     static propTypes = {
         handleBannerClose: PropTypes.func.isRequired,
         handleAppInstall: PropTypes.func.isRequired
