@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import Form from 'Component/Form';
-import Field from 'Component/Field';
-import Loader from 'Component/Loader';
-
 import './NewsletterSignup.style';
 
-class NewsletterSignup extends PureComponent {
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
+
+export class NewsletterSignup extends PureComponent {
     static propTypes = {
         onSignupNewsletterAttempt: PropTypes.func.isRequired,
         onSignupNewsletterSuccess: PropTypes.func.isRequired,
@@ -37,7 +37,6 @@ class NewsletterSignup extends PureComponent {
         return (
             <Form
               key="newsletter-form"
-              id="newsletter-form"
               onSubmit={ onSignupNewsletterAttempt }
               onSubmitSuccess={ onSignupNewsletterSuccess }
               onSubmitError={ onFormError }

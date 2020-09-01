@@ -11,25 +11,34 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { showNotification } from 'Store/Notification';
-import { updateMeta } from 'Store/Meta';
-
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router';
 
 import ConfirmNewsletterPage from './ConfirmNewsletterPage.component';
 
-export const mapDispatchToProps = dispatch => ({
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
+export const mapDispatchToProps = (dispatch) => ({
     updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+        BreadcrumbsDispatcher.then(({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch));
     },
-    updateMeta: meta => dispatch(updateMeta(meta)),
-    confirmNewsletter: options => MyAccountDispatcher.confirmNewsletter(options, dispatch),
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    confirmNewsletter: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.confirmNewsletter(options, dispatch)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
@@ -88,7 +97,6 @@ export class ConfirmNewsletterPageContainer extends PureComponent {
 
         updateBreadcrumbs(breadcrumbs);
     }
-
 
     render() {
         return (

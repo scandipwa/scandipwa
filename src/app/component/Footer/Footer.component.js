@@ -14,9 +14,9 @@ import './Footer.style';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import NewsletterSignup from 'Component/NewsletterSignup';
 import CmsBlock from 'Component/CmsBlock';
 import Link from 'Component/Link';
+import NewsletterSignup from 'Component/NewsletterSignup';
 import isMobile from 'Util/Mobile';
 
 /**

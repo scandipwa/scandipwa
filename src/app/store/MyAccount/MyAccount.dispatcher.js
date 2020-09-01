@@ -154,7 +154,7 @@ export class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             () => dispatch(showNotification('success', __('Your email is confirmed for our newsletter!'))),
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 

@@ -11,17 +11,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { showNotification } from 'Store/Notification';
-import { MyAccountDispatcher } from 'Store/MyAccount';
+import { showNotification } from 'Store/Notification/Notification.action';
 
 import NewsletterSignup from './NewsletterSignup.component';
 
-export const mapDispatchToProps = dispatch => ({
-    signupNewsletter: options => MyAccountDispatcher.signupNewsletter(options, dispatch),
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
+export const mapDispatchToProps = (dispatch) => ({
+    signupNewsletter: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.signupNewsletter(options, dispatch)
+    ),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 

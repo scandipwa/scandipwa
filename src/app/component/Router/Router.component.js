@@ -119,7 +119,7 @@ export class Router extends PureComponent {
             position: 60
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/confirm') } component={ ConfirmAccountPage } />,
+            component: <Route path={ withStoreRegex('/my-account/confirm') } component={ ConfirmAccountPage } />,
             position: 65
         },
         {

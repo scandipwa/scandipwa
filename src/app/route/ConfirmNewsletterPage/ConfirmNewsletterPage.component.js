@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import './ConfirmNewsletterPage.style';
+
 import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
-import './ConfirmNewsletterPage.style';
 
-export default class ConfirmNewsletterPage extends PureComponent {
+export class ConfirmNewsletterPage extends PureComponent {
     render() {
         return (
             <main block="ConfirmNewsletterPage" aria-label={ __('Confirm Newsletter Page') }>
@@ -33,3 +34,5 @@ export default class ConfirmNewsletterPage extends PureComponent {
         );
     }
 }
+
+export default ConfirmNewsletterPage;
