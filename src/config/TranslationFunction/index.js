@@ -13,6 +13,7 @@
 
 const mockTranslations = (format, ...args) => {
     // eslint-disable-next-line fp/no-let
+    // test
     let i = 0;
     return format.replace(/%s/g, () => args[i++]);
 };
