@@ -11,6 +11,7 @@
 
 /* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 
+// test
 const mockTranslations = (format, ...args) => {
     // eslint-disable-next-line fp/no-let
     let i = 0;
