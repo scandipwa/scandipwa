@@ -1,9 +1,5 @@
 #Auto labeling for pull requests
 name: Add Labels
-
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the 3.x-dev branch
 on:
   pull_request:
     branches:
@@ -11,13 +7,10 @@ on:
     types:
       - opened
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   add-label:
     name: Add Label
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
       - uses: christianvuerings/add-labels@v1.1
