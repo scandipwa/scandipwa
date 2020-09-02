@@ -3,7 +3,7 @@
 name: Add Labels
 on:
   pull_request:
-    branches:
+    branches: |
       - 3.x-dev
       - 2.x-dev
     types:
