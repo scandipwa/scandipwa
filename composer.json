@@ -1,18 +1,12 @@
 {
     "name": "scandipwa/source",
-    "type": "magento2-theme",
     "description": "ScandiPWA",
-    "keywords": [
-        "magento2",
-        "source",
-        "scandipwa",
-        "pwa"
-    ],
+    "type": "magento2-theme",
     "license": [
         "OSL-3.0"
     ],
     "require": {
-        "magento/magento2-base": "^2.3.5",
+        "magento/framework": "*",
         "scandipwa/menu-organizer": "^2.0",
         "scandipwa/persisted-query": "^2.4",
         "scandipwa/slider-graphql": "^2.0",
@@ -25,39 +19,11 @@
         "scandipwa/wishlist-graphql": "^1.2",
         "scandipwa/urlrewrite-graphql": "^1.2.1",
         "scandipwa/reviews-graphql": "^1.0",
-        "scandipwa/paypal-graphql": "^1.0",
-        "scandipwa/klarna-graphql": "^1.1",
         "scandipwa/store-graphql": "^1.0.7",
         "scandipwa/customization": "^1.1",
         "scandipwa/cache": "^1.0",
         "scandipwa/locale": "^1.0"
     },
-    "support": {
-        "source": "https://bitbucket.org/scandiweb/scandipwa-base-theme",
-        "email": "info@scandiweb.com"
-    },
-    "authors": [
-        {
-            "name": "Ilja Lapkovskis",
-            "email": "ilja@scandiweb.com"
-        },
-        {
-            "name": "Alfreds Genkins",
-            "email": "alfreds@scandiweb.com"
-        },
-        {
-            "name": "Vyacheslav Hlutkov",
-            "email": "vjaceslavsh@scandiweb.com"
-        },
-        {
-            "name": "Eduards Mukans",
-            "email": "eduards@scandiweb.com"
-        },
-        {
-            "name": "Yefim Butrameev",
-            "email": "yefim.butrameev@scandiweb.com"
-        }
-    ],
     "autoload": {
         "files": [
             "registration.php"
