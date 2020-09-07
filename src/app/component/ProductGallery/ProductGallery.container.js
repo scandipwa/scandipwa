@@ -10,6 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
