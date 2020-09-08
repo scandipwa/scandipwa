@@ -152,7 +152,6 @@
     "Last name": "Soyadı",
     "Linked products": null,
     "Load previous": "Önceden yükle",
-    "Login or Email": "Giriş yap veya E-posta gönder",
     "Logout": "Çıkış",
     "Main product details": "Ana ürün detayları",
     "Maximum %s characters": null,
@@ -363,5 +362,9 @@
     "read more": null,
     "save %s%": null,
     "shipping": "Kargo",
-    "subtotal": "Ara Toplam"
+    "subtotal": "Ara Toplam",
+    "Telephone:": null,
+    "Mail:": null,
+    "Create account": null,
+    "Forgot password": null
 }

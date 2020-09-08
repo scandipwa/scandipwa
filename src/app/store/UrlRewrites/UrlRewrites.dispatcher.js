@@ -25,8 +25,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
         super.__construct('UrlRewrites');
     }
 
-    onSuccess({ urlResolver }, dispatch, options) {
-        const { urlParam } = this.processUrlOptions(options);
+    onSuccess({ urlResolver }, dispatch, { urlParam }) {
         dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
     }
 
@@ -57,7 +56,7 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
 
         return {
             ...options,
-            urlParam: trimmedParam
+            urlParam: trimmedParam.replace(new RegExp(window.storeRegexText), '')
         };
     }
 }

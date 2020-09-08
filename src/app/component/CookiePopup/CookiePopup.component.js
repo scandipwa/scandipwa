@@ -69,6 +69,16 @@ export class CookiePopup extends PureComponent {
         );
     }
 
+    renderCTA() {
+        return (
+            <div block="CookiePopup" elem="CTA">
+                <button block="Button" onClick={ this.acceptCookies }>
+                    { __('Accept') }
+                </button>
+            </div>
+        );
+    }
+
     render() {
         const { cookieText } = this.props;
         const { isAccepted } = this.state;
@@ -85,11 +95,7 @@ export class CookiePopup extends PureComponent {
                   wrapperMix={ { block: 'CookiePopup', elem: 'ContentWrapper' } }
                 >
                     { this.renderCookieText() }
-                    <div block="CookiePopup" elem="CTA">
-                        <button block="Button" onClick={ this.acceptCookies }>
-                            { __('Accept') }
-                        </button>
-                    </div>
+                    { this.renderCTA() }
                 </ContentWrapper>
             </div>
         );

@@ -152,7 +152,6 @@
     "Last name": "Efternavn",
     "Linked products": "Sammenkædet produkter",
     "Load previous": "Indlæs tidligere",
-    "Login or Email": "Logind eller E-mail",
     "Logout": "Log ud",
     "Main product details": "Produkt oplysninger",
     "Maximum %s characters": "Maksimum %s tegn",
@@ -363,5 +362,9 @@
     "read more": "læs mere",
     "save %s%": "gem %s%",
     "shipping": "levering",
-    "subtotal": "subtotal"
+    "subtotal": "subtotal",
+    "Telephone:": null,
+    "Mail:": null,
+    "Create account": null,
+    "Forgot password": null
 }

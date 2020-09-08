@@ -15,23 +15,29 @@ import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
 
 /** @namespace Route/SearchPage/Component */
 export class SearchPage extends CategoryPage {
-    renderCategoryDetails() {
+    renderSearchHeading() {
         const { search } = this.props;
 
         return (
+            <h1
+              block="CategoryDetails"
+              elem="Heading"
+              mix={ {
+                  block: 'SearchPage',
+                  elem: 'Heading'
+              } }
+            >
+                { __('Search results for: ') }
+                <span>{ search }</span>
+            </h1>
+        );
+    }
+
+    renderCategoryDetails() {
+        return (
             <article block="CategoryDetails">
                 <div block="CategoryDetails" elem="Description">
-                <h1
-                  block="CategoryDetails"
-                  elem="Heading"
-                  mix={ {
-                      block: 'SearchPage',
-                      elem: 'Heading'
-                  } }
-                >
-                    { __('Search results for: ') }
-                    <span>{ search }</span>
-                </h1>
+                    { this.renderSearchHeading() }
                 </div>
             </article>
         );

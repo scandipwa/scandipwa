@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
@@ -55,7 +56,6 @@ export class App extends PureComponent {
             errorDetails: { err, info }
         });
     }
-
 
     renderRedux(children) {
         return (

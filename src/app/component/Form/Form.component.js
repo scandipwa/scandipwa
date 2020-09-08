@@ -60,7 +60,7 @@ export class Form extends PureComponent {
     static cloneChildren(originChildren, fieldCallback) {
         const executeClone = (originChildren) => Children.map(originChildren, (child) => {
             if (child && typeof child === 'object' && child.type && child.props) {
-                const { type: { WrappedComponent: { name } = {} }, props, props: { children } } = child;
+                const { type: { name }, props, props: { children } } = child;
 
                 if (name === FieldContainer.prototype.constructor.name) {
                     return fieldCallback(child);

@@ -39,19 +39,25 @@ export class MyAccountMyOrders extends PureComponent {
         );
     }
 
+    renderOrderHeadingRow() {
+        return (
+            <tr>
+                <th>{ __('Order') }</th>
+                <th>{ __('Date') }</th>
+                <th>{ __('Status') }</th>
+                <th block="hidden-mobile">{ __('Total') }</th>
+            </tr>
+        );
+    }
+
     renderTable() {
         return (
             <table block="MyAccountMyOrders" elem="Table">
                 <thead>
-                    <tr>
-                        <th>{ __('Order') }</th>
-                        <th>{ __('Date') }</th>
-                        <th>{ __('Status') }</th>
-                        <th block="hidden-mobile">{ __('Total') }</th>
-                    </tr>
+                    { this.renderOrderHeadingRow() }
                 </thead>
                 <tbody>
-                    { this.renderOrdersList() }
+                    { this.renderOrderRows() }
                 </tbody>
             </table>
         );
@@ -68,7 +74,7 @@ export class MyAccountMyOrders extends PureComponent {
         );
     };
 
-    renderOrdersList() {
+    renderOrderRows() {
         const { orderList, isLoading } = this.props;
 
         if (!isLoading && !orderList.length) {

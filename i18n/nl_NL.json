@@ -152,7 +152,6 @@
     "Last name": "Achternaam",
     "Linked products": null,
     "Load previous": "Fout bij het bijwerken van de verlanglijst!",
-    "Login or Email": "Inloggen of e-mailen",
     "Logout": "Uitloggen",
     "Main product details": "Belangrijkste productdetails",
     "Maximum %s characters": null,
@@ -363,5 +362,9 @@
     "read more": null,
     "save %s%": null,
     "shipping": "Aflevering",
-    "subtotal": "Subtotaal"
+    "subtotal": "Subtotaal",
+    "Telephone:": null,
+    "Mail:": null,
+    "Create account": null,
+    "Forgot password": null
 }
