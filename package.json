@@ -74,7 +74,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-arrow-functions": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.11.0",
-    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime": "^7.11.2",
     "@scandipwa/eslint-plugin-scandipwa-guidelines": "^1.10.1",
