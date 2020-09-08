@@ -93,7 +93,7 @@ export class GroupedProductsItem extends PureComponent {
             <li block="GroupedProductsItem" aria-label="Product Item">
                 { this.renderImage() }
                 { this.renderTitle() }
-                { this.renderQuantity }
+                { this.renderQuantity() }
             </li>
         );
     }
