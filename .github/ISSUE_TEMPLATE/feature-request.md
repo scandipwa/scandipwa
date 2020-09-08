@@ -2,9 +2,7 @@
 name: Feature request
 about: Are you mssing a feature? Let us know!
 title: ''
-labels: feature
-assignees: alfredsgenkins
-
+labels: 'Type: feature,Waiting Estimate' 
 ---
 
 **Description**:

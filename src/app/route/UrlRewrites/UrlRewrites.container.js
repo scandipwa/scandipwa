@@ -14,7 +14,6 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { appendWithStoreCode } from 'Util/Url';
 
 import UrlRewrites from './UrlRewrites.component';
 import {
@@ -40,10 +39,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch, {
-                // TODO: this seems to break when switched to disabled-url-stores
-                urlParam: urlParam.replace(new RegExp(window.storeRegexText), '')
-            })
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam })
         );
     }
 });
@@ -163,7 +159,7 @@ export class UrlRewritesContainer extends PureComponent {
 
     getIsLoading() {
         const { requestedUrl } = this.props;
-        return location.pathname !== appendWithStoreCode(requestedUrl);
+        return location.pathname !== requestedUrl;
     }
 
     getProps() {

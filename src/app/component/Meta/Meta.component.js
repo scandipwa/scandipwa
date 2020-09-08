@@ -30,7 +30,7 @@ export class Meta extends PureComponent {
                 ])
             })
         ).isRequired,
-        canonical_url: PropTypes.string.isRequired,
+        canonical_url: PropTypes.string,
         default_title: PropTypes.string.isRequired,
         title_prefix: PropTypes.string.isRequired,
         title_suffix: PropTypes.string.isRequired,
@@ -38,7 +38,8 @@ export class Meta extends PureComponent {
     };
 
     static defaultProps = {
-        title: ''
+        title: '',
+        canonical_url: ''
     };
 
     renderTitle() {

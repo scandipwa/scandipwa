@@ -35,8 +35,7 @@ import isMobile from 'Util/Mobile';
 import {
     BUNDLE,
     CONFIGURABLE,
-    GROUPED,
-    SIMPLE
+    GROUPED
 } from 'Util/Product';
 
 /**
@@ -266,12 +265,12 @@ export class ProductActions extends PureComponent {
 
     renderCustomizableOptions() {
         const {
-            product: { type_id, options },
+            product: { options },
             getSelectedCustomizableOptions,
             productOptionsData
         } = this.props;
 
-        if (type_id !== SIMPLE || isMobile.any()) {
+        if (isMobile.any()) {
             return null;
         }
 
@@ -546,7 +545,6 @@ export class ProductActions extends PureComponent {
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
-                { this.renderCustomizableOptions() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
@@ -556,6 +554,7 @@ export class ProductActions extends PureComponent {
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
+                { this.renderCustomizableOptions() }
                 { this.renderBundleItems() }
                 { this.renderGroupedItems() }
                 { this.renderTierPrices() }

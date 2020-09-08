@@ -207,7 +207,6 @@ export class ProductCardContainer extends PureComponent {
     }
 }
 
-
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({});
