@@ -10,6 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';

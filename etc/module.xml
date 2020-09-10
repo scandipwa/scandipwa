@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -6,11 +7,9 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="ScandiPWA_Source" setup_version="0.0.1" >
-    </module>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+    <module name="ScandiPWA_Source" />
 </config>

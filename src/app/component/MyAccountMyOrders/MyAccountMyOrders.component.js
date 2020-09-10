@@ -12,6 +12,7 @@
 import './MyAccountMyOrders.style';
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';

@@ -12,6 +12,7 @@
 import './CartCoupon.style';
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
