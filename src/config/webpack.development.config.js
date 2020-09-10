@@ -186,7 +186,7 @@ const config = (env, argv) => {
                         {
                             loader: 'sass-resources-loader',
                             options: {
-                                resources: 'src/app/style/abstract/_abstract.scss'
+                                resources: path.join(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
                             }
                         }
                     ]
