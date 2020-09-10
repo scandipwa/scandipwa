@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
 
 /**
@@ -96,51 +97,51 @@ export class Router extends PureComponent {
 
     [SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path={ withStoreRegex('/') } exact component={ HomePage } />,
+            component: <Route path={ withStoreRegex('/') } exact render={ (props) => <HomePage { ...props } /> } />,
             position: 10
         },
         {
-            component: <Route path={ withStoreRegex('/search/:query/') } component={ SearchPage } />,
+            component: <Route path={ withStoreRegex('/search/:query/') } render={ (props) => <SearchPage { ...props } /> } />,
             position: 25
         },
         {
-            component: <Route path={ withStoreRegex('/page') } component={ CmsPage } />,
+            component: <Route path={ withStoreRegex('/page') } render={ (props) => <CmsPage { ...props } /> } />,
             position: 40
         },
         {
-            component: <Route path={ withStoreRegex('/cart') } exact component={ CartPage } />,
+            component: <Route path={ withStoreRegex('/cart') } exact render={ (props) => <CartPage { ...props } /> } />,
             position: 50
         },
         {
-            component: <Route path={ withStoreRegex('/checkout/:step?') } component={ Checkout } />,
+            component: <Route path={ withStoreRegex('/checkout/:step?') } render={ (props) => <Checkout { ...props } /> } />,
             position: 55
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/createPassword/') } component={ PasswordChangePage } />,
+            component: <Route path={ withStoreRegex('/:account*/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
             position: 60
         },
         {
-            component: <Route path={ withStoreRegex('/:account*/confirm') } component={ ConfirmAccountPage } />,
+            component: <Route path={ withStoreRegex('/:account*/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
             position: 65
         },
         {
-            component: <Route path={ withStoreRegex('/my-account/:tab?') } component={ MyAccount } />,
+            component: <Route path={ withStoreRegex('/my-account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
             position: 70
         },
         {
-            component: <Route path={ withStoreRegex('/forgot-password') } component={ MyAccount } />,
+            component: <Route path={ withStoreRegex('/forgot-password') } render={ (props) => <MyAccount { ...props } /> } />,
             position: 71
         },
         {
-            component: <Route path={ withStoreRegex('/menu') } component={ MenuPage } />,
+            component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,
             position: 80
         },
         {
-            component: <Route path={ withStoreRegex('/wishlist/shared/:code') } component={ WishlistShared } />,
+            component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ (props) => <WishlistShared { ...props } /> } />,
             position: 81
         },
         {
-            component: <Route component={ UrlRewrites } />,
+            component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
             position: 1000
         }
     ];
