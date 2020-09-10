@@ -90,7 +90,7 @@
     }
 
     &-Heading {
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: 600;
         line-height: 1.4;
         text-transform: uppercase;
@@ -98,7 +98,7 @@
 
         @include desktop {
             cursor: auto;
-            font-size: 14px;
+            font-size: 1.4rem;
             font-weight: bold;
             text-transform: none;
         }
@@ -106,7 +106,7 @@
 
     &-SubHeading {
         font-weight: 300;
-        font-size: .8rem;
+        font-size: .96rem;
         line-height: 1.1;
     }
 

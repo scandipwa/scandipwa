@@ -72,7 +72,7 @@
     }
 
     &-Heading {
-        font-size: 18px;
+        font-size: 1.8rem;
         font-weight: bold;
         padding: 0 1rem 1rem;
 
@@ -109,7 +109,7 @@
             width: 100%;
             text-align: left;
             padding: 1rem 2rem;
-            font-size: 1.2rem;
+            font-size: 1.44rem;
 
             &:hover {
                 background-color: var(--color-cart-light);
@@ -192,7 +192,7 @@
         }
 
         h4 {
-            font-size: 1.15rem;
+            font-size: 1.38rem;
             font-weight: bold;
             margin-bottom: .5rem;
         }
@@ -284,7 +284,7 @@
                 padding-top: 0;
 
                 h4 {
-                    font-size: 1rem;
+                    font-size: 1.2rem;
                     line-height: 1.5;
                     padding-bottom: 1.4rem;
                     font-weight: normal;
@@ -329,7 +329,7 @@
 
     &-Button {
         &_likeLink {
-            font-size: .95rem;
+            font-size: 1.14rem;
             margin-top: 1.2rem;
         }
     }
@@ -345,7 +345,7 @@
 
         > label:first-of-type {
             color: var(--checkbox-label-color);
-            font-size: .8rem;
+            font-size: .96rem;
             font-weight: 500;
             padding-bottom: 0;
             margin-left: .8rem;

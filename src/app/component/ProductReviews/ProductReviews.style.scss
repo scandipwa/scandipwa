@@ -21,7 +21,7 @@
 
     &-Title {
         margin: 0 0 .5rem;
-        font-size: 2rem;
+        font-size: 2.4rem;
 
         @include before-desktop {
             display: none;
@@ -37,7 +37,7 @@
     }
 
     &-SummaryRating {
-        font-size: 30px;
+        font-size: 3rem;
     }
 
     &-ExpandableContentHeading,
@@ -76,10 +76,10 @@
     &-SummaryDetails {
         display: inline-block;
         margin-left: 1rem;
-        font-size: 20px;
+        font-size: 2rem;
 
         span {
-            font-size: 16px;
+            font-size: 1.6rem;
             font-weight: normal;
 
             &::before {

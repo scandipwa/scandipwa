@@ -37,7 +37,7 @@
 
         @include before-desktop {
             order: 1;
-            font-size: .9rem;
+            font-size: 1.08rem;
             padding: .3rem 1rem 1rem 0;
             text-align: center;
             grid-column: span 2;
@@ -49,7 +49,7 @@
         text-align: right;
         grid-column: 2;
         font-weight: 600;
-        font-size: 16px;
+        font-size: 1.6rem;
         min-height: 50px;
 
         @include desktop {

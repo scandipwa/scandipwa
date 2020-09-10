@@ -13,7 +13,7 @@
     margin-top: 1rem;
 
     label {
-        font-size: 1.05rem;
+        font-size: 1.26rem;
     }
 
     &-Label {
@@ -23,14 +23,14 @@
 
     &-Message {
         margin-bottom: -.1em;
-        font-size: 1.05rem;
+        font-size: 1.26rem;
         font-weight: 600;
         color: var(--primary-error-color);
     }
 
     &-Note {
         margin-bottom: .2rem;
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: 600;
         color: var(--field-note);
         opacity: 0;
@@ -52,7 +52,7 @@
 
     &::placeholder {
         color: var(--field-note);
-        font-size: .9rem;
+        font-size: 1.08rem;
     }
 
     input:focus + .Field-Note {

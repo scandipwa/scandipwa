@@ -95,11 +95,11 @@ a {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
 
     @include mobile {
-        font-size: 2rem;
+        font-size: 2.4rem;
     }
 
     + h2,
@@ -112,7 +112,7 @@ h1 {
 h2 {
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 2.4rem;
     margin-bottom: 1.5rem;
     margin-top: 1.8rem;
 
@@ -125,7 +125,7 @@ h2 {
 }
 
 h3 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-top: 1.8rem;
     margin-bottom: 1.5rem;
 
@@ -141,7 +141,7 @@ p,
 li,
 dl,
 button {
-    font-size: 14px;
+    font-size: 1.4rem;
 }
 
 li {
@@ -171,10 +171,10 @@ input,
 select {
     min-height: 2rem;
     min-width: 4rem;
-    font-size: 1.1rem;
+    font-size: 1.32rem;
 
     @include mobile {
-        font-size: 16px;
+        font-size: 1.6rem;
     }
 }
 
@@ -195,7 +195,7 @@ textarea {
     resize: none;
 
     @include mobile {
-        font-size: 16px;
+        font-size: 1.6rem;
     }
 }
 

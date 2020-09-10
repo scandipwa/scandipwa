@@ -126,19 +126,19 @@
     &-ItemCaption {
         &_type {
             &_main {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
                 font-weight: bold;
                 line-height: 1.2;
                 text-align: left;
 
                 @include desktop {
-                    font-size: 14px;
+                    font-size: 1.4rem;
                     font-weight: normal;
                 }
             }
 
             &_subcategory {
-                font-size: 1rem;
+                font-size: 1.2rem;
                 font-weight: normal;
                 padding: 1rem 0;
 
@@ -149,7 +149,7 @@
         }
 
         &_isLogo {
-            font-size: 11px;
+            font-size: 1.1rem;
         }
 
         &_isBanner {
@@ -348,7 +348,7 @@
 
             @include desktop {
                 color: var(--menu-second-level-color);
-                font-size: 14px;
+                font-size: 1.4rem;
                 text-transform: uppercase;
             }
         }

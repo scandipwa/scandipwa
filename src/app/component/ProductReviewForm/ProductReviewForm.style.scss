@@ -20,10 +20,10 @@
 
     &-ProductName {
         font-weight: 700;
-        font-size: 2rem;
+        font-size: 2.4rem;
 
         @include mobile {
-            font-size: 1.8rem;
+            font-size: 2.16rem;
         }
     }
 
@@ -52,7 +52,7 @@
         border-bottom: 0;
         padding-bottom: .3rem;
         font-weight: 700;
-        font-size: 1.05rem;
+        font-size: 1.26rem;
     }
 
     & &-Button {

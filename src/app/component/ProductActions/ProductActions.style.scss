@@ -129,7 +129,7 @@
 
     &-ConfigurablePriceBadge {
         color: var(--secondary-dark-color);
-        font-size: 10px;
+        font-size: 1rem;
         margin-bottom: 0;
     }
 
@@ -149,7 +149,7 @@
     }
 
     &-Price {
-        font-size: 25px;
+        font-size: 2.5rem;
         align-items: center;
         justify-content: center;
         padding: 0;
@@ -161,13 +161,13 @@
     }
 
     &-Title {
-        font-size: 2rem;
+        font-size: 2.4rem;
         font-weight: bold;
         line-height: 3rem;
     }
 
     &-Brand {
-        font-size: 1.2rem;
+        font-size: 1.44rem;
         font-weight: bold;
         text-transform: uppercase;
         color: var(--product-actions-option-border-color);
@@ -315,7 +315,7 @@
             &_sku {
                 order: 2;
                 flex-basis: 100%;
-                font-size: 1rem;
+                font-size: 1.2rem;
                 font-weight: bold;
                 color: var(--product-actions-option-border-color);
                 padding-top: 0;
