@@ -78,7 +78,7 @@
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime": "^7.11.2",
-    "@scandipwa/eslint-plugin-scandipwa-guidelines": "^1.9.0",
+    "@scandipwa/eslint-plugin-scandipwa-guidelines": "^1.10.1",
     "autoprefixer": "^9.8.6",
     "babel-cli": "^6.26.0",
     "babel-core": "^7.0.0-bridge.0",

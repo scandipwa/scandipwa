@@ -8,8 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-/* eslint jsx-a11y/label-has-associated-control: 0 */
+/* eslint-disable jsx-a11y/control-has-associated-label, jsx-a11y/label-has-associated-control */
 // Disabled due bug in `renderCheckboxInput` function
 
 import './Field.style';

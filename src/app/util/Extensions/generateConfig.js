@@ -96,9 +96,11 @@ const sortPluginArray = (plugins) => plugins.sort(
  */
 const sortConfig = (config) => {
     // Process each namespace
+    // eslint-disable-next-line no-unused-vars
     for (const namespace in config) {
         if (Object.prototype.hasOwnProperty.call(config, namespace)) {
             // Each handler type of a namespace
+            // eslint-disable-next-line no-unused-vars
             for (const handlerType in config[namespace]) {
                 if (Object.prototype.hasOwnProperty.call(config[namespace], handlerType)) {
                     // Handle reduced sections
@@ -109,6 +111,7 @@ const sortConfig = (config) => {
                     }
 
                     // Handle regular sections
+                    // eslint-disable-next-line no-unused-vars
                     for (const memberName in config[namespace][handlerType]) {
                         if (Object.prototype.hasOwnProperty.call(config[namespace][handlerType], memberName)) {
                             config[namespace][handlerType][memberName] = sortPluginArray(

@@ -68,6 +68,7 @@ export class Meta extends PureComponent {
         }
 
         return (
+            // eslint-disable-next-line jsx-a11y/control-has-associated-label
             <link rel="canonical" href={ canonical_url } />
         );
     }
