@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import Infinite from '@maksimgritcenko/react-infinite';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -35,8 +36,10 @@ export class ProductListPage extends PureComponent {
         numberOfPlaceholders: PropTypes.number,
         selectedFilters: FilterType,
         wrapperRef: PropTypes.func,
-        pageNumber: PropTypes.number,
         items: PropTypes.arrayOf(ProductType),
+        pageNumber: PropTypes.number,
+        productItemHeight: PropTypes.number.isRequired,
+        itemsInRow: PropTypes.number.isRequired,
         mix: MixType
     };
 
@@ -135,17 +138,29 @@ export class ProductListPage extends PureComponent {
     renderPageItems() {
         const {
             items,
-            selectedFilters
+            selectedFilters,
+            productItemHeight,
+            itemsInRow
         } = this.props;
 
-        return items.map((product, i) => (
+        const itemsToRender = items.map((product) => (
             <ProductCard
               product={ product }
-              // eslint-disable-next-line react/no-array-index-key
-              key={ i }
+              key={ product.id }
               selectedFilters={ selectedFilters }
             />
         ));
+
+        return (
+            <Infinite
+              className="ProductListPage" // eslint-disable-line react/forbid-component-props
+              itemsInRow={ itemsInRow }
+              elementHeight={ productItemHeight }
+              useWindowAsScrollContainer
+            >
+                    { itemsToRender }
+            </Infinite>
+        );
     }
 
     renderPlaceholderItems() {
@@ -175,18 +190,20 @@ export class ProductListPage extends PureComponent {
         const {
             pageNumber,
             wrapperRef,
-            mix
+            items,
+            mix,
+            isLoading
         } = this.props;
 
         return (
-            <ul
-              block="ProductListPage"
-              mix={ { ...mix, elem: 'Page' } }
+            <div
+              block={ !items.length || isLoading ? 'ProductListPage' : '' }
+              mix={ (!items.length || isLoading) ? { ...mix, elem: 'Page' } : {} }
               key={ pageNumber }
               ref={ wrapperRef }
             >
                 { this.renderItems() }
-            </ul>
+            </div>
         );
     }
 }
