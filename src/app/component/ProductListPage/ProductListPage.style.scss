@@ -8,7 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-.ProductListPage {
+
+// Styles for react-infinite library, div is a parent element for rendered items (Product Cards)
+.ProductListPage > div {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: max-content;
@@ -44,4 +46,8 @@
             display: none;
         }
     }
+}
+
+.ProductListPage > div > div {
+    grid-column: 1 / -1;
 }

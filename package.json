@@ -47,6 +47,7 @@
     }
   },
   "dependencies": {
+    "@maksimgritcenko/react-infinite": "^0.13.13",
     "braintree-web-drop-in": "^1.23.0",
     "history": "^4.9.0",
     "html-react-parser": "^0.13.0",
