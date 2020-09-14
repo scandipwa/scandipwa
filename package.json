@@ -118,7 +118,7 @@
     "html-webpack-plugin": "^4.3.0",
     "husky": "^4.3.0",
     "jest": "^23.6.0",
-    "mini-css-extract-plugin": "^0.9.0",
+    "mini-css-extract-plugin": "^0.11.2",
     "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "pm2": "^3.5.1",
