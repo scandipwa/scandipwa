@@ -95,7 +95,7 @@ export const appendWithStoreCode = (pathname) => {
  * @namespace Util/Url/getQueryParam
  */
 export const getQueryParam = (variable, location) => {
-    const query = location.search.substring(1);
+    const query = decodeURIComponent(location.search.substring(1));
     const vars = query.split('&');
     // eslint-disable-next-line fp/no-loops
     for (let i = 0; i < vars.length; i++) {
