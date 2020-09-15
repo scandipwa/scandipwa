@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
