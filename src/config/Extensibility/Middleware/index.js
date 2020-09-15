@@ -19,7 +19,10 @@ const addNamespaceToMiddlewarable = (Middlewarable, namespace) => {
         Middlewarable.prototype.__namespace__ = [];
     }
 
-    Middlewarable.prototype.__namespace__.push(namespace);
+    // Prevent duplicate namespaces from overridden classes
+    if (!Middlewarable.prototype.__namespace__.includes(namespace)) {
+        Middlewarable.prototype.__namespace__.push(namespace);
+    }
 };
 
 const getNamespacesFromMiddlewarable = (Middlewarable) => Middlewarable.prototype.__namespace__;
