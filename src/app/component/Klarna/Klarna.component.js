@@ -41,9 +41,9 @@ export class Klarna extends PureComponent {
 
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
-        const guest_cart_id = CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher._getGuestQuoteId
-        )();
+        const guest_cart_id = await CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher._getGuestQuoteId()
+        );
 
         try {
             setOrderButtonEnableStatus(false);
@@ -54,8 +54,8 @@ export class Klarna extends PureComponent {
                 )
             );
 
-            Klarna.Payments.init({ client_token });
-            Klarna.Payments.load({
+            window.Klarna.Payments.init({ client_token });
+            window.Klarna.Payments.load({
                 container: `#${KLARNA_PAYMENTS_CONTAINER_ID}`,
                 payment_method_category: 'pay_later'
             });
