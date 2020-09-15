@@ -18,7 +18,7 @@ export const isMobile = {
     // eslint-disable-next-line max-len
     any: () => (isMobile.android() || isMobile.blackBerry() || isMobile.iOS() || isMobile.opera() || isMobile.windows()),
     // eslint-disable-next-line max-len
-    tablet: () => navigator.userAgent.match(/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/i),
+    tablet: () => navigator.userAgent.match(/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/i) || (width <= 1024 && width > 599),
     standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
 };
 
