@@ -8,9 +8,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-const width = window.innerWidth
+export const width = window.innerWidth
     || document.documentElement.clientWidth
     || document.body.clientWidth;
+
+export const TABLET_WIDTH = 1024;
+export const MOBILE_WIDTH = 599;
 
 export const isMobile = {
     android: () => navigator.userAgent.match(/Android/i),
@@ -21,7 +24,7 @@ export const isMobile = {
     // eslint-disable-next-line max-len
     any: () => (isMobile.android() || isMobile.blackBerry() || isMobile.iOS() || isMobile.opera() || isMobile.windows()),
     // eslint-disable-next-line max-len
-    tablet: () => navigator.userAgent.match(/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/i) || (width <= 1024 && width > 599),
+    tablet: () => navigator.userAgent.match(/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/i) || (width <= TABLET_WIDTH && width > MOBILE_WIDTH),
     standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
 };
 
