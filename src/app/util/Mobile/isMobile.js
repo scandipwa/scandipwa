@@ -8,6 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+const width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
 
 export const isMobile = {
     android: () => navigator.userAgent.match(/Android/i),
