@@ -15,3 +15,11 @@ export const updateConfig = (config) => ({
     type: UPDATE_CONFIG,
     config
 });
+
+export const UPDATE_DEVICE = 'UPDATE_DEVICE';
+
+/** @namespace Store/Config/Action/updateDeviceConfig */
+export const updateDevice = (device) => ({
+    type: UPDATE_DEVICE,
+    device
+});
