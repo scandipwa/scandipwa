@@ -101,12 +101,22 @@ export class WishlistItem extends PureComponent {
         );
     }
 
+    getWishlistProduct() {
+        const { product, product: { url } } = this.props;
+        const wishedVariant = product.variants.find(({ sku }) => sku === product.wishlist.sku);
+
+        return {
+            ...wishedVariant,
+            url
+        };
+    }
+
     render() {
-        const { product, parameters, isLoading } = this.props;
+        const { parameters, isLoading } = this.props;
 
         return (
             <ProductCard
-              product={ product }
+              product={ this.getWishlistProduct() }
               selectedFilters={ parameters }
               mix={ { block: 'WishlistItem' } }
               isLoading={ isLoading }

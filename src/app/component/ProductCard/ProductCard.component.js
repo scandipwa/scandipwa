@@ -84,7 +84,7 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductPrice() {
-        const { productOrVariant: { price_range } } = this.props;
+        const { product: { price_range } } = this.props;
 
         if (!price_range) {
             return <TextPlaceholder />;
