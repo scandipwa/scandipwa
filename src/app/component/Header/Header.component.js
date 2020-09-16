@@ -28,11 +28,11 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import { deviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
-import isMobile from 'Util/Mobile';
 
 import {
     CART,
@@ -83,7 +83,8 @@ export class Header extends NavigationAbstract {
         showMyAccountLogin: PropTypes.bool,
         isCheckout: PropTypes.bool.isRequired,
         onSignIn: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        device: deviceType.isRequired
     };
 
     static defaultProps = {
@@ -212,9 +213,9 @@ export class Header extends NavigationAbstract {
     }
 
     renderMenu() {
-        const { isCheckout } = this.props;
+        const { isCheckout, device } = this.props;
 
-        if (isMobile.any() || isCheckout) {
+        if (device.mobile || isCheckout) {
             return null;
         }
 
@@ -366,11 +367,12 @@ export class Header extends NavigationAbstract {
     renderAccount(isVisible = false) {
         const {
             onMyAccountOutsideClick,
-            isCheckout
+            isCheckout,
+            device
         } = this.props;
 
-        // on mobile and tablet hide button if not in checkout
-        if ((isMobile.any() || isMobile.tablet()) && !isCheckout) {
+        // on mobile hide button if not in checkout
+        if (device.mobile && !isCheckout) {
             return null;
         }
 
@@ -466,10 +468,11 @@ export class Header extends NavigationAbstract {
     renderMinicart(isVisible = false) {
         const {
             onMinicartOutsideClick,
-            isCheckout
+            isCheckout,
+            device
         } = this.props;
 
-        if ((isMobile.any() || isMobile.tablet()) || isCheckout) {
+        if (device.mobile || isCheckout) {
             return null;
         }
 
@@ -587,7 +590,8 @@ export class Header extends NavigationAbstract {
     }
 
     renderTopMenu() {
-        if (isMobile.any()) {
+        const { device } = this.props;
+        if (device.mobile) {
             return null;
         }
 

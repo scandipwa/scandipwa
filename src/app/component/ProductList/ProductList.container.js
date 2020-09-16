@@ -201,8 +201,8 @@ export class ProductListContainer extends PureComponent {
     _getIsInfiniteLoaderEnabled() { // disable infinite scroll on mobile
         const { isInfiniteLoaderEnabled } = this.props;
 
-        // allow scroll on tablet and mobile
-        if (isMobile.any() || isMobile.tablet()) {
+        // allow scroll and mobile
+        if (isMobile.any()) {
             return isInfiniteLoaderEnabled;
         }
 

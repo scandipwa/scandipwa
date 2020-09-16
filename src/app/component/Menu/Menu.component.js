@@ -246,7 +246,7 @@ export class Menu extends PureComponent {
     };
 
     renderSubMenuDesktop(itemList) {
-        if (isMobile.any() || isMobile.tablet()) {
+        if (isMobile.any()) {
             return null;
         }
 
@@ -280,7 +280,7 @@ export class Menu extends PureComponent {
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
 
-        if (childrenArray.length && (isMobile.any() || isMobile.tablet())) {
+        if (childrenArray.length && isMobile.any()) {
             return (
                 <div
                   // TODO: split into smaller components
@@ -355,7 +355,7 @@ export class Menu extends PureComponent {
     }
 
     renderStoreSwitcher() {
-        if (!isMobile.any() && !isMobile.tablet()) {
+        if (!isMobile.any()) {
             return null;
         }
 

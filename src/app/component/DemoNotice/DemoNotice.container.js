@@ -15,7 +15,8 @@ import DemoNotice from './DemoNotice.component';
 
 /** @namespace Component/DemoNotice/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isDemoNoticeEnabled: state.ConfigReducer.demo_notice
+    isDemoNoticeEnabled: state.ConfigReducer.demo_notice,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/DemoNotice/Container/mapDispatchToProps */

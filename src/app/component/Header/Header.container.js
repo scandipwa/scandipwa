@@ -20,9 +20,9 @@ import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { deviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
-import isMobile from 'Util/Mobile';
 import { appendWithStoreCode, setQueryParams } from 'Util/Url';
 
 import Header from './Header.component';
@@ -44,6 +44,7 @@ export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
     isLoading: state.ConfigReducer.isLoading,
+    device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay
 });
 
@@ -66,7 +67,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         showOverlay: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        header_logo_src: PropTypes.string
+        header_logo_src: PropTypes.string,
+        device: deviceType.isRequired
     };
 
     static defaultProps = {
@@ -113,7 +115,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             cartTotals,
             header_logo_src,
             logo_alt,
-            isLoading
+            isLoading,
+            device
         } = this.props;
 
         const {
@@ -140,7 +143,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             isClearEnabled,
             searchCriteria,
             isCheckout,
-            showMyAccountLogin
+            showMyAccountLogin,
+            device
         };
     };
 
@@ -270,9 +274,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onSearchOutsideClick() {
-        const { goToPreviousNavigationState, navigationState: { name } } = this.props;
+        const {
+            goToPreviousNavigationState,
+            navigationState: { name },
+            device
+        } = this.props;
 
-        if (!isMobile.any() && name === SEARCH) {
+        if (!device.mobile && name === SEARCH) {
             this.hideSearchOverlay();
             goToPreviousNavigationState();
         }
@@ -283,12 +291,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
             setNavigationState,
             goToPreviousNavigationState,
             showOverlay,
-            navigationState: { name }
+            navigationState: { name },
+            device
         } = this.props;
 
         if (
-            (!isMobile.any() && name === SEARCH)
-            || (isMobile.any() && name !== MENU)
+            (!device.mobile && name === SEARCH)
+            || (device.mobile && name !== MENU)
         ) {
             return;
         }
@@ -337,10 +346,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const {
             goToPreviousNavigationState,
             hideActiveOverlay,
-            navigationState: { name }
+            navigationState: { name },
+            device
         } = this.props;
 
-        if (isMobile.any() || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
+        if (device.mobile || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
             return;
         }
 
@@ -393,14 +403,15 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onMinicartButtonClick() {
         const {
             showOverlay,
-            navigationState: { name }
+            navigationState: { name },
+            device
         } = this.props;
 
         if (name === CART_OVERLAY) {
             return;
         }
 
-        if (!isMobile.any()) {
+        if (!device.mobile) {
             this.setState({ shouldRenderCartOverlay: true });
 
             showOverlay(CART_OVERLAY);
@@ -414,10 +425,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const {
             goToPreviousNavigationState,
             hideActiveOverlay,
-            navigationState: { name }
+            navigationState: { name },
+            device
         } = this.props;
 
-        if (isMobile.any() || name !== CART_OVERLAY) {
+        if (device.mobile || name !== CART_OVERLAY) {
             return;
         }
 

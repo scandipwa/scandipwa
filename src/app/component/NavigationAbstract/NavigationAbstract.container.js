@@ -48,7 +48,7 @@ export class NavigationAbstractContainer extends PureComponent {
     }
 
     onRouteChanged(history) {
-        if (!isMobile.any() && !isMobile.tablet()) {
+        if (!isMobile.any()) {
             return this.handleDesktopRouteChange(history);
         }
 
