@@ -16,7 +16,8 @@ import MyAccountAddressForm from './MyAccountAddressForm.component';
 /** @namespace Component/MyAccountAddressForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     countries: state.ConfigReducer.countries,
-    default_country: state.ConfigReducer.default_country
+    default_country: state.ConfigReducer.default_country,
+    addressLinesQty: state.ConfigReducer.address_lines_quantity
 });
 
 /** @namespace Component/MyAccountAddressForm/Container/mapDispatchToProps */

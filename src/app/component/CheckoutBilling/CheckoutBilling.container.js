@@ -22,7 +22,7 @@ import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { setMultipleAddresses, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -31,7 +31,8 @@ export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
-    termsAndConditions: state.ConfigReducer.checkoutAgreements
+    termsAndConditions: state.ConfigReducer.checkoutAgreements,
+    addressLinesQty: state.ConfigReducer.address_lines_quantity
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
@@ -50,6 +51,7 @@ export class CheckoutBillingContainer extends PureComponent {
         shippingAddress: addressType.isRequired,
         customer: customerType.isRequired,
         totals: TotalsType.isRequired,
+        addressLinesQty: PropTypes.number.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string,
             content: PropTypes.string,
@@ -121,8 +123,10 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     onBillingSuccess(fields, asyncData) {
-        const { savePaymentInformation } = this.props;
-        const address = this._getAddress(fields);
+        const { savePaymentInformation, addressLinesQty } = this.props;
+        const address = this._getAddress(addressLinesQty > 1
+            ? setMultipleAddresses(fields, addressLinesQty)
+            : fields);
         const paymentMethod = this._getPaymentData(asyncData);
 
         savePaymentInformation({

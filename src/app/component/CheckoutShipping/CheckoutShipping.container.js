@@ -15,13 +15,14 @@ import { connect } from 'react-redux';
 
 import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
-import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { setMultipleAddresses, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    addressLinesQty: state.ConfigReducer.address_lines_quantity
 });
 
 /** @namespace Component/CheckoutShipping/Container */
@@ -29,7 +30,8 @@ export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
-        customer: customerType.isRequired
+        customer: customerType.isRequired,
+        addressLinesQty: PropTypes.number.isRequired
     };
 
     containerFunctions = {
@@ -64,7 +66,7 @@ export class CheckoutShippingContainer extends PureComponent {
     }
 
     onShippingSuccess(fields) {
-        const { saveAddressInformation } = this.props;
+        const { saveAddressInformation, addressLinesQty } = this.props;
 
         const {
             selectedCustomerAddressId,
@@ -73,7 +75,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
-            : trimAddressFields(fields);
+            : trimAddressFields(addressLinesQty > 1 ? setMultipleAddresses(fields, addressLinesQty) : fields);
 
         const {
             carrier_code: shipping_carrier_code,
