@@ -173,6 +173,11 @@ export class ProductPageContainer extends PureComponent {
         this.updateNavigationState();
 
         /**
+         * Ensure transition PDP => homepage => PDP always having proper meta
+         */
+        this.updateMeta();
+
+        /**
          * Make sure to update header state, the data-source will
          * define the correct information to use for update
          * (it can be a product, history state product or an empty object).
