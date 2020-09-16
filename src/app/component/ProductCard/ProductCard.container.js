@@ -148,15 +148,15 @@ export class ProductCardContainer extends PureComponent {
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
 
-        return (
-            (
-                type_id === 'configurable'
-                && variants !== undefined
-                && variants.length
-            )
-                ? variants[this._getCurrentVariantIndex()]
-                : product
-        ) || {};
+        if (
+            type_id === 'configurable'
+            && variants !== undefined
+            && variants.length
+        ) {
+            return variants[this._getCurrentVariantIndex()] || {};
+        }
+
+        return product || {};
     }
 
     _getAvailableVisualOptions() {
