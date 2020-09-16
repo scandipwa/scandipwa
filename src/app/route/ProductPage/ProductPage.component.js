@@ -25,7 +25,6 @@ import ProductReviews from 'Component/ProductReviews';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { ProductType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
-import { SIMPLE } from 'Util/Product';
 
 export class ProductPage extends PureComponent {
     static propTypes = {
@@ -82,12 +81,12 @@ export class ProductPage extends PureComponent {
 
     renderCustomizableOptions() {
         const {
-            dataSource: { type_id, options },
+            dataSource: { options },
             getSelectedCustomizableOptions,
             productOptionsData
         } = this.props;
 
-        if (!isMobile.any() || type_id !== SIMPLE) {
+        if (!isMobile.any()) {
             return null;
         }
 

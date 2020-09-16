@@ -14,6 +14,8 @@
 // 2. The file is checked in vendor (later referenced as `core`) folder
 // 3. The file is checked in node_modules of app/design (later referenced as `node`) folder
 
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
+
 const path = require('path');
 const fs = require('fs');
 

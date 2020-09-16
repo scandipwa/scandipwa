@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
+
 const mockTranslations = (format, ...args) => {
     // eslint-disable-next-line fp/no-let
     let i = 0;

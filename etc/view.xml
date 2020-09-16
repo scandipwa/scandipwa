@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Scandiweb_CatalogGraphQl
+ * ScandiPWA - Progressive Web App for Magento
  *
- * @category    Scandiweb
- * @package     ScandiPWA_CatalogGraphQl
- * @author      Alfreds Genkins <info@scandiweb.com>
- * @copyright   Copyright (c) 2018 Scandiweb, Ltd (https://scandiweb.com)
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  */
 -->
 <view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/view.xsd">
