@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './StoreItems.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
+import './StoreItems.style';
 
 /** @namespace Component/StoreItems/Component */
 export class StoreItems extends PureComponent {

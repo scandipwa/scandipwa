@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Notification.style';
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
@@ -20,6 +18,8 @@ import CSS from 'Util/CSS';
 import {
     ANIMATION_DURATION, ERROR_NOTIFICATION_LIFETIME, ERROR_TYPE, NOTIFICATION_LIFETIME
 } from './Notification.config';
+
+import './Notification.style';
 
 /**
  * Notification block

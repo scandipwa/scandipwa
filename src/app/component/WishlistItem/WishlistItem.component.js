@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './WishlistItem.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import { FilterType, ProductType } from 'Type/ProductList';
+
+import './WishlistItem.style';
 
 /** @namespace Component/WishlistItem/Component */
 export class WishlistItem extends PureComponent {

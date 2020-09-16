@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CheckoutDeliveryOption.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency, roundPrice } from 'Util/Price';
+
+import './CheckoutDeliveryOption.style';
 
 /** @namespace Component/CheckoutDeliveryOption/Component */
 export class CheckoutDeliveryOption extends PureComponent {

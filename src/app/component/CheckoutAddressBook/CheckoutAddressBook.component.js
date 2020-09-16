@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CheckoutAddressBook.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -21,6 +19,8 @@ import Loader from 'Component/Loader';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, customerType } from 'Type/Account';
+
+import './CheckoutAddressBook.style';
 
 /** @namespace Component/CheckoutAddressBook/Component */
 export class CheckoutAddressBook extends PureComponent {

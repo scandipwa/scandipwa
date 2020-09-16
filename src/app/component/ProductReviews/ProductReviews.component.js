@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductReviews.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -23,6 +21,8 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
 
 import { REVIEW_POPUP_ID } from './ProductReviews.config';
+
+import './ProductReviews.style';
 
 /** @namespace Component/ProductReviews/Component */
 export class ProductReviews extends PureComponent {

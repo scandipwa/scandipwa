@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CheckoutOrderSummary.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -18,6 +16,8 @@ import CartItem from 'Component/CartItem';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency, roundPrice } from 'Util/Price';
+
+import './CheckoutOrderSummary.style';
 
 /**
  * Checkout Order Summary component

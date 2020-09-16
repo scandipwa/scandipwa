@@ -8,11 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './PopupSuspense.style';
-// Import styles from different bundles
-import 'Component/CartOverlay/CartOverlay.style';
-import 'Component/MyAccountOverlay/MyAccountOverlay.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -22,6 +17,11 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import Overlay from 'Component/Overlay';
 
 import { OVERLAY_PLACEHOLDER } from './PopupSuspense.config';
+
+import './PopupSuspense.style';
+// Import styles from different bundles
+import 'Component/CartOverlay/CartOverlay.style';
+import 'Component/MyAccountOverlay/MyAccountOverlay.style';
 
 /** @namespace Component/PopupSuspense/Component */
 export class PopupSuspense extends PureComponent {

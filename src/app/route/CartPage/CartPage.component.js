@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CartPage.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -24,6 +22,8 @@ import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency, roundPrice } from 'Util/Price';
+
+import './CartPage.style';
 
 /** @namespace Route/CartPage/Component */
 export class CartPage extends PureComponent {

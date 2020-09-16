@@ -8,8 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './CategoryProductList.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -17,6 +15,8 @@ import { connect } from 'react-redux';
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
 import { FilterInputType } from 'Type/ProductList';
+
+import './CategoryProductList.style';
 
 export const ProductListDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */

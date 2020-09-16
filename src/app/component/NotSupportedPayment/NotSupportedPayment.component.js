@@ -8,10 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './NotSupportedPayment.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
+import './NotSupportedPayment.style';
 
 /** @namespace Component/NotSupportedPayment/Component */
 export class NotSupportedPayment extends PureComponent {

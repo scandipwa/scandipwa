@@ -9,9 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CategoryPage.style';
-import './CategoryPage.style.scss';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -26,6 +23,9 @@ import Html from 'Component/Html';
 import { CategoryTreeType } from 'Type/Category';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
+
+import './CategoryPage.style';
+import './CategoryPage.style.scss';
 
 /** @namespace Route/CategoryPage/Component */
 export class CategoryPage extends PureComponent {

@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './SearchPage.style';
-
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
+
+import './SearchPage.style';
 
 /** @namespace Route/SearchPage/Component */
 export class SearchPage extends CategoryPage {

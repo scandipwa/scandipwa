@@ -8,10 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './InstallPromptIOS.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
+import './InstallPromptIOS.style';
 
 /** @namespace Component/InstallPromptIOS/Component */
 export class InstallPromptIOS extends PureComponent {

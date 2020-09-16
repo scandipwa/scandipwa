@@ -11,8 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Image.style';
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
@@ -21,6 +19,8 @@ import { MixType } from 'Type/Common';
 import {
     IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
 } from './Image.config';
+
+import './Image.style';
 
 /**
  * Image component

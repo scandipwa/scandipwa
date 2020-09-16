@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountMyOrders.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -19,6 +17,8 @@ import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import { ordersType } from 'Type/Account';
 import isMobile from 'Util/Mobile';
+
+import './MyAccountMyOrders.style';
 
 /** @namespace Component/MyAccountMyOrders/Component */
 export class MyAccountMyOrders extends PureComponent {
