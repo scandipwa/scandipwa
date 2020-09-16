@@ -10,8 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Klarna.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -22,6 +20,8 @@ import { isSignedIn } from 'Util/Auth';
 import { fetchMutation } from 'Util/Request';
 
 import { KLARNA_PAYMENTS_CONTAINER_ID, KLARNA_SCRIPT_ID } from './Klarna.config';
+
+import './Klarna.style';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */

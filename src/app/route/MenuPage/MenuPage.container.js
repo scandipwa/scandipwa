@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MenuPage.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -23,6 +21,8 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { HistoryType } from 'Type/Common';
 import isMobile from 'Util/Mobile';
+
+import './MenuPage.style';
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({

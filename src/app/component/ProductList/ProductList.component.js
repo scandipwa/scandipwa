@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductList.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -20,6 +18,8 @@ import { MixType } from 'Type/Common';
 import { FilterType, PagesType } from 'Type/ProductList';
 
 import { observerThreshold } from './ProductList.config';
+
+import './ProductList.style';
 
 /**
  * List of category products

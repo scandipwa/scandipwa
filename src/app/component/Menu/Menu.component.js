@@ -10,8 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Menu.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -22,6 +20,8 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
 import isMobile from 'Util/Mobile';
+
+import './Menu.style';
 
 /** @namespace Component/Menu/Component */
 export class Menu extends PureComponent {

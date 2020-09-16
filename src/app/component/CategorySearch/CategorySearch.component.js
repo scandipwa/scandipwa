@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CategorySearch.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { CATEGORY_SEARCH_TIMEOUT } from './CategorySearch.config';
+
+import './CategorySearch.style';
 
 // TODO: add to template
 /** @namespace Component/CategorySearch/Component */

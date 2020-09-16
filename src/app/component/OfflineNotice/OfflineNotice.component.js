@@ -10,10 +10,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './OfflineNotice.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
+import './OfflineNotice.style';
 
 /** @namespace Component/OfflineNotice/Component */
 export class OfflineNotice extends PureComponent {

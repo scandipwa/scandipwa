@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductListWidget.style';
-
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -20,6 +18,8 @@ import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getIndexedProducts } from 'Util/Product';
 import DataContainer from 'Util/Request/DataContainer';
+
+import './ProductListWidget.style';
 
 /** @namespace Component/ProductListWidget/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars

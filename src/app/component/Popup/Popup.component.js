@@ -11,8 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Popup.style';
-
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
@@ -20,6 +18,8 @@ import ClickOutside from 'Component/ClickOutside';
 import Overlay from 'Component/Overlay/Overlay.component';
 
 import { ESCAPE_KEY } from './Popup.config';
+
+import './Popup.style';
 
 /** @namespace Component/Popup/Component */
 export class Popup extends Overlay {

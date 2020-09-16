@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductCard.style';
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
@@ -24,6 +22,8 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { ProductType } from 'Type/ProductList';
 import { CONFIGURABLE } from 'Util/Product';
+
+import './ProductCard.style';
 
 /**
  * Product card

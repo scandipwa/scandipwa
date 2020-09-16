@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ContentWrapper.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ChildrenType, MixType } from 'Type/Common';
+
+import './ContentWrapper.style';
 
 /**
  * Content Wrapper
