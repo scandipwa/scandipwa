@@ -545,7 +545,12 @@ export class ProductActions extends PureComponent {
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
-                <div block="ProductActions" elem="AddToCartWrapper">
+                <div
+                  // Id is required for product page to measure element`s height
+                  id="product-actions-wrapper"
+                  block="ProductActions"
+                  elem="AddToCartWrapper"
+                >
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
                     { this.renderProductWishlistButton() }

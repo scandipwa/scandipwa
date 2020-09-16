@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -47,8 +47,11 @@ export class ProductReviewsContainer extends PureComponent {
     };
 
     containerFunctions = {
-        showPopup: this._showPopup.bind(this)
+        showPopup: this._showPopup.bind(this),
+        scrollToPosition: this.scrollToPosition.bind(this)
     };
+
+    productReviewsRef = createRef();
 
     _showPopup() {
         const {
@@ -67,6 +70,32 @@ export class ProductReviewsContainer extends PureComponent {
         showPopup({ title: __('Write a new review') });
     }
 
+    scrollToPosition(ref, isContentExpanded) {
+        const elem = ref && ref.current;
+
+        if (elem) {
+            setTimeout(() => {
+                if (!isContentExpanded) {
+                    const elemToWindowTopDist = elem.getBoundingClientRect().top;
+                    const windowToPageTopDist = document.body.getBoundingClientRect().top;
+                    const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
+
+                    const navigationHeight = document.getElementById('navigation-tabs').offsetHeight;
+                    const addToCartBarHeight = document.getElementById('product-actions-wrapper').offsetHeight;
+                    const coveringElementsHeight = navigationHeight + addToCartBarHeight;
+
+                    // Position to scroll to get the "write a new review" button in the bottom
+                    const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
+
+                    // checking if button is in a view-port
+                    if (-windowToPageTopDist < scrollTo) {
+                        window.scrollTo(0, scrollTo);
+                    }
+                }
+            });
+        }
+    }
+
     render() {
         const { isEnabled } = this.props;
 
@@ -78,6 +107,7 @@ export class ProductReviewsContainer extends PureComponent {
             <ProductReviews
               { ...this.props }
               { ...this.containerFunctions }
+              productReviewsRef={ this.productReviewsRef }
             />
         );
     }

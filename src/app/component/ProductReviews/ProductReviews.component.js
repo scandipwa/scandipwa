@@ -29,11 +29,18 @@ export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         showPopup: PropTypes.func.isRequired,
-        areDetailsLoaded: PropTypes.bool
+        areDetailsLoaded: PropTypes.bool,
+        scrollToPosition: PropTypes.func,
+        productReviewsRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ])
     };
 
     static defaultProps = {
-        areDetailsLoaded: false
+        areDetailsLoaded: false,
+        scrollToPosition: () => {},
+        productReviewsRef: null
     };
 
     renderPopup() {
@@ -162,7 +169,9 @@ export class ProductReviews extends PureComponent {
     render() {
         const {
             product,
-            areDetailsLoaded
+            areDetailsLoaded,
+            scrollToPosition,
+            productReviewsRef
         } = this.props;
 
         const {
@@ -182,6 +191,8 @@ export class ProductReviews extends PureComponent {
                 <ExpandableContent
                   mix={ { block: 'ProductReviews', elem: 'Content' } }
                   heading={ heading }
+                  productReviewsRef={ productReviewsRef }
+                  scrollToPosition={ scrollToPosition }
                 >
                     { this.renderSummary() }
                     { this.renderList() }
