@@ -72,6 +72,7 @@ export class ConfigQuery {
             'cookie_text',
             'cookie_link',
             'terms_are_enabled',
+            'address_lines_quantity',
             'base_url',
             'pagination_frame',
             'pagination_frame_skip',

@@ -47,3 +47,24 @@ export const trimAddressFields = (fields) => {
 
     return { ...fieldsData, region };
 };
+
+export const setMultipleAddresses = (fields, numberOfLines) => {
+    const addressKeys = new Array(numberOfLines)
+        .fill('')
+        .map((_, index) => `street${index}`);
+
+    const addressValues = addressKeys.map((key) => fields[key]);
+
+    const newFields = Object.keys(fields)
+        .filter((key) => !addressKeys.includes(key))
+        .reduce(
+            (acc, key) => {
+                acc[key] = fields[key];
+                return acc;
+            }, {}
+        );
+
+    newFields.street = Array.from(addressValues);
+
+    return newFields;
+};

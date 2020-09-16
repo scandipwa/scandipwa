@@ -14,13 +14,15 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
+import { setMultipleAddresses } from 'Util/Address';
 
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
         address: addressType.isRequired,
         countries: countriesType.isRequired,
         default_country: PropTypes.string,
-        onSave: PropTypes.func
+        onSave: PropTypes.func,
+        addressLinesQty: PropTypes.number.isRequired
     };
 
     static defaultProps = {
@@ -51,8 +53,11 @@ export class MyAccountAddressForm extends FieldForm {
     }
 
     onFormSuccess = (fields) => {
-        const { onSave } = this.props;
-        const { region_id, region_string: region, ...newAddress } = fields;
+        const { onSave, addressLinesQty } = this.props;
+        const { region_id, region_string: region, ...newAddress } = addressLinesQty > 1
+            ? setMultipleAddresses(fields, addressLinesQty)
+            : fields;
+
         newAddress.region = { region_id, region };
         onSave(newAddress);
     };
@@ -92,10 +97,39 @@ export class MyAccountAddressForm extends FieldForm {
         });
     };
 
+    getAddressFields() {
+        const { addressLinesQty, address } = this.props;
+        const { street = [] } = address;
+
+        const addressLinesEntities = new Array(addressLinesQty)
+            .fill(null)
+            .reduce(
+                (acc, _, index) => {
+                    if (addressLinesQty === 1) {
+                        acc.street = {
+                            label: __('Street address'),
+                            value: street[0],
+                            validation: ['notEmpty']
+                        };
+                    } else {
+                        acc[`street${index}`] = {
+                            label: __(`Street address line ${index + 1}`),
+                            value: street[0],
+                            validation: ['notEmpty']
+                        };
+                    }
+
+                    return acc;
+                }, {}
+            );
+
+        return addressLinesEntities;
+    }
+
     get fieldMap() {
         const { countryId } = this.state;
         const { countries, address } = this.props;
-        const { default_billing, default_shipping, street = [] } = address;
+        const { default_billing, default_shipping } = address;
 
         return {
             default_billing: {
@@ -139,11 +173,7 @@ export class MyAccountAddressForm extends FieldForm {
                 label: __('Zip/Postal code'),
                 validation: ['notEmpty']
             },
-            street: {
-                label: __('Street address'),
-                value: street[0],
-                validation: ['notEmpty']
-            }
+            ...this.getAddressFields()
             // Will be back with B2B update
             // company: {
             //     label: __('Company')
