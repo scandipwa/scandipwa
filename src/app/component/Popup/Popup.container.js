@@ -24,7 +24,8 @@ import Popup from './Popup.component';
 export const mapStateToProps = (state) => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
-    payload: state.PopupReducer.popupPayload
+    payload: state.PopupReducer.popupPayload,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/Popup/Container/mapDispatchToProps */

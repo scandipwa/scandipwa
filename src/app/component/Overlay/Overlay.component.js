@@ -18,7 +18,7 @@ import { createRef, PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ChildrenType, MixType } from 'Type/Common';
-import isMobile from 'Util/Mobile';
+import { deviceType } from 'Type/Device';
 
 /** @namespace Component/Overlay/Component */
 export class Overlay extends PureComponent {
@@ -31,7 +31,8 @@ export class Overlay extends PureComponent {
         areOtherOverlaysOpen: PropTypes.bool.isRequired,
         isStatic: PropTypes.bool,
         isRenderInPortal: PropTypes.bool,
-        children: ChildrenType
+        children: ChildrenType,
+        device: deviceType.isRequired
     };
 
     static defaultProps = {
@@ -57,11 +58,11 @@ export class Overlay extends PureComponent {
     }
 
     onVisible() {
-        const { onVisible, isStatic } = this.props;
+        const { onVisible, isStatic, device } = this.props;
         if (isStatic) {
             return;
         }
-        if (isMobile.any()) {
+        if (device.mobile) {
             this.freezeScroll();
         }
         this.overlayRef.current.focus();
@@ -69,11 +70,11 @@ export class Overlay extends PureComponent {
     }
 
     onHide() {
-        const { onHide, isStatic } = this.props;
+        const { onHide, isStatic, device } = this.props;
         if (isStatic) {
             return;
         }
-        if (isMobile.any()) {
+        if (device.mobile) {
             this.unfreezeScroll();
         }
         onHide();
@@ -97,9 +98,9 @@ export class Overlay extends PureComponent {
     }
 
     renderInMobilePortal(content) {
-        const { isStatic, isRenderInPortal } = this.props;
+        const { isStatic, isRenderInPortal, device } = this.props;
 
-        if (!isStatic && isMobile.any() && isRenderInPortal) {
+        if (!isStatic && device.mobile && isRenderInPortal) {
             return createPortal(content, document.body);
         }
 

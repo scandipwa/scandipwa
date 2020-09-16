@@ -12,7 +12,7 @@
 import './NavigationTabs.style';
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
-import isMobile from 'Util/Mobile';
+import { deviceType } from 'Type/Device';
 
 import {
     ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
@@ -20,6 +20,10 @@ import {
 
 /** @namespace Component/NavigationTabs/Component */
 export class NavigationTabs extends NavigationAbstract {
+    static propTypes = {
+        device: deviceType.isRequired
+    };
+
     defaultStateName = MENU_TAB;
 
     stateMap = {
@@ -149,9 +153,9 @@ export class NavigationTabs extends NavigationAbstract {
     }
 
     render() {
-        const { navigationState: { isHidden } } = this.props;
+        const { navigationState: { isHidden }, device } = this.props;
 
-        if (!isMobile.tablet() && !isMobile.any()) {
+        if (!device.mobile) {
             return null;
         }
 

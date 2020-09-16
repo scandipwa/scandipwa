@@ -20,6 +20,7 @@ import StoreSwitcher from './StoreSwitcher.component';
 
 /** @namespace Component/StoreSwitcher/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device,
     currentStoreCode: state.ConfigReducer.code
 });
 
@@ -70,8 +71,8 @@ export class StoreSwitcherContainer extends DataContainer {
     }
 
     containerProps = () => {
-        const { currentStoreCode } = this.props;
-        return { currentStoreCode };
+        const { currentStoreCode, device } = this.props;
+        return { currentStoreCode, device };
     };
 
     onStoreSwitcherClick() {

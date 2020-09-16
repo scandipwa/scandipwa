@@ -23,10 +23,10 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { HistoryType } from 'Type/Common';
+import { deviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
-import isMobile from 'Util/Mobile';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
@@ -40,7 +40,8 @@ export const BreadcrumbsDispatcher = import(
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-    guest_checkout: state.ConfigReducer.guest_checkout
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
@@ -64,7 +65,8 @@ export class CartPageContainer extends PureComponent {
         updateMeta: PropTypes.func.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
         history: HistoryType.isRequired,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        device: deviceType.isRequired
     };
 
     state = { isEditing: false };
@@ -115,7 +117,8 @@ export class CartPageContainer extends PureComponent {
             history,
             guest_checkout,
             showOverlay,
-            showNotification
+            showNotification,
+            device
         } = this.props;
 
         // to prevent outside-click handler trigger
@@ -140,7 +143,7 @@ export class CartPageContainer extends PureComponent {
         // fir notification whatever device that is
         showNotification('info', __('Please sign-in to complete checkout!'));
 
-        if (isMobile.any()) { // for all mobile devices, simply switch route
+        if (device.mobile) { // for all mobile devices, simply switch route
             history.push({ pathname: appendWithStoreCode('/my-account') });
             return;
         }

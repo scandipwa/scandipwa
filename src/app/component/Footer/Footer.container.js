@@ -14,7 +14,8 @@ import Footer from './Footer.component';
 
 /** @namespace Component/Footer/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    copyright: state.ConfigReducer.copyright
+    copyright: state.ConfigReducer.copyright,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/Footer/Container/mapDispatchToProps */

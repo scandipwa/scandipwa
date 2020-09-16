@@ -25,7 +25,8 @@ import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
+    groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/ProductActions/Container */

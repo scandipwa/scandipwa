@@ -22,8 +22,8 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
+import { deviceType } from 'Type/Device';
 import history from 'Util/History';
-import isMobile from 'Util/Mobile';
 
 export const SearchOverlay = lazy(
     () => import(
@@ -42,7 +42,8 @@ export class SearchField extends PureComponent {
         onClearSearchButtonClick: PropTypes.func.isRequired,
         isVisible: PropTypes.bool,
         isActive: PropTypes.bool,
-        hideActiveOverlay: PropTypes.func
+        hideActiveOverlay: PropTypes.func,
+        device: deviceType.isRequired
     };
 
     static defaultProps = {
@@ -219,9 +220,10 @@ export class SearchField extends PureComponent {
     }
 
     renderDesktopContent() {
+        const { device } = this.props;
         const { showSearch } = this.state;
 
-        if (isMobile.any() || isMobile.tablet()) {
+        if (device.mobile) {
             return null;
         }
 
@@ -243,10 +245,11 @@ export class SearchField extends PureComponent {
         const {
             searchCriteria,
             onSearchBarFocus,
-            isActive
+            isActive,
+            device
         } = this.props;
 
-        if (!isMobile.any() && !isMobile.tablet()) {
+        if (!device.mobile) {
             return null;
         }
 

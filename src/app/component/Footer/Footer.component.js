@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 
 import CmsBlock from 'Component/CmsBlock';
 import Link from 'Component/Link';
-import isMobile from 'Util/Mobile';
+import { deviceType } from 'Type/Device';
 
 /**
  * Page footer
@@ -26,7 +26,8 @@ import isMobile from 'Util/Mobile';
 export class Footer extends PureComponent {
     static propTypes = {
         copyright: PropTypes.string,
-        isVisibleOnMobile: PropTypes.bool
+        isVisibleOnMobile: PropTypes.bool,
+        device: deviceType.isRequired
     };
 
     static defaultProps = {
@@ -62,13 +63,13 @@ export class Footer extends PureComponent {
     }
 
     render() {
-        const { copyright, isVisibleOnMobile } = this.props;
+        const { copyright, isVisibleOnMobile, device } = this.props;
 
-        if (!isVisibleOnMobile && (isMobile.any() || isMobile.tablet())) {
+        if (!isVisibleOnMobile && device.mobile) {
             return null;
         }
 
-        if (isVisibleOnMobile && (!isMobile.any() && !isMobile.tablet())) {
+        if (isVisibleOnMobile && !device.mobile) {
             return null;
         }
 

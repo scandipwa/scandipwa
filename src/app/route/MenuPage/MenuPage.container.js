@@ -22,7 +22,12 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { HistoryType } from 'Type/Common';
-import isMobile from 'Util/Mobile';
+import { deviceType } from 'Type/Device';
+
+/** @namespace Route/MenuPage/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -35,7 +40,8 @@ export class MenuPageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         history: HistoryType.isRequired,
-        changeHeaderState: PropTypes.func.isRequired
+        changeHeaderState: PropTypes.func.isRequired,
+        device: deviceType.isRequired
     };
 
     componentDidMount() {
@@ -49,9 +55,9 @@ export class MenuPageContainer extends PureComponent {
     }
 
     redirectIfNotOnMobile() {
-        const { history } = this.props;
+        const { history, device } = this.props;
 
-        if (!isMobile.any() && !isMobile.tablet()) {
+        if (!device.mobile) {
             history.push('/');
         }
     }
@@ -64,10 +70,6 @@ export class MenuPageContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Route/MenuPage/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default withRouter(
     connect(mapStateToProps, mapDispatchToProps)(MenuPageContainer)

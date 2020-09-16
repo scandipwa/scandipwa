@@ -30,8 +30,8 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { deviceType } from 'Type/Device';
 import { PriceType, ProductType } from 'Type/ProductList';
-import isMobile from 'Util/Mobile';
 import {
     BUNDLE,
     CONFIGURABLE,
@@ -70,7 +70,8 @@ export class ProductActions extends PureComponent {
         offerCount: PropTypes.number.isRequired,
         offerType: PropTypes.string.isRequired,
         stockMeta: PropTypes.string.isRequired,
-        metaLink: PropTypes.string.isRequired
+        metaLink: PropTypes.string.isRequired,
+        device: deviceType.isRequired
     };
 
     static defaultProps = {
@@ -267,10 +268,11 @@ export class ProductActions extends PureComponent {
         const {
             product: { options },
             getSelectedCustomizableOptions,
-            productOptionsData
+            productOptionsData,
+            device
         } = this.props;
 
-        if (isMobile.any()) {
+        if (device.mobile) {
             return null;
         }
 
