@@ -156,7 +156,8 @@ export class NavigationTabs extends NavigationAbstract {
 
         return (
             <footer block="NavigationTabs" mods={ { isHidden } }>
-                <nav block="NavigationTabs" elem="Nav">
+                { /* Id is required for product page to measure element`s height */ }
+                <nav id="navigation-tabs" block="NavigationTabs" elem="Nav">
                     { this.renderNavigationState() }
                 </nav>
             </footer>

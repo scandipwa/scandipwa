@@ -24,6 +24,11 @@ export class ExpandableContent extends PureComponent {
         subHeading: PropTypes.string,
         children: ChildrenType.isRequired,
         mix: MixType.isRequired,
+        scrollToPosition: PropTypes.func,
+        productReviewsRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ]),
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
             if (propValue === null) {
@@ -40,7 +45,9 @@ export class ExpandableContent extends PureComponent {
         subHeading: '',
         heading: '',
         isContentExpanded: false,
-        onClick: null
+        onClick: null,
+        productReviewsRef: null,
+        scrollToPosition: () => {}
     };
 
     constructor(props) {
@@ -66,10 +73,14 @@ export class ExpandableContent extends PureComponent {
     }
 
     toggleExpand = () => {
-        const { onClick } = this.props;
+        const { onClick, productReviewsRef, scrollToPosition } = this.props;
+        const { isContentExpanded } = this.state;
         if (onClick) {
             onClick(); return;
         }
+
+        scrollToPosition(productReviewsRef, isContentExpanded);
+
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));
@@ -115,7 +126,7 @@ export class ExpandableContent extends PureComponent {
     }
 
     renderContent() {
-        const { children, mix } = this.props;
+        const { children, mix, productReviewsRef } = this.props;
         const { isContentExpanded } = this.state;
         const mods = { isContentExpanded };
 
@@ -124,6 +135,7 @@ export class ExpandableContent extends PureComponent {
               block="ExpandableContent"
               elem="Content"
               mods={ mods }
+              ref={ productReviewsRef }
               mix={ { ...mix, elem: 'ExpandableContentContent', mods } }
             >
                 { children }
