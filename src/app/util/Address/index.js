@@ -50,6 +50,7 @@ export const trimAddressFields = (fields) => {
     return { ...fieldsData, region };
 };
 
+/** @namespace Util/Address/setMultipleAddresses */
 export const setMultipleAddresses = (fields, numberOfLines) => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
