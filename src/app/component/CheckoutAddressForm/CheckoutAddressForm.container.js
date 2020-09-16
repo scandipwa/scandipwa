@@ -16,7 +16,8 @@ import CheckoutAddressForm from './CheckoutAddressForm.component';
 /** @namespace Component/CheckoutAddressForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     countries: state.ConfigReducer.countries,
-    default_country: state.ConfigReducer.default_country
+    default_country: state.ConfigReducer.default_country,
+    addressLinesQty: state.ConfigReducer.address_lines_quantity
 });
 
 /** @namespace Component/CheckoutAddressForm/Container/mapDispatchToProps */
