@@ -144,7 +144,6 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             <FormPortal
               id={ id }
               name="CheckoutAddressForm"
-              onSubmitSuccess={ this.onFormSuccess }
             >
                 <div
                   block="FieldForm"

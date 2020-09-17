@@ -50,8 +50,9 @@ export const trimAddressFields = (fields) => {
     return { ...fieldsData, region };
 };
 
-/** @namespace Util/Address/setMultipleAddresses */
-export const setMultipleAddresses = (fields, numberOfLines) => {
+/** resets street in checkout/billing/myAccoutAddress form fields object */
+/** @namespace Util/Address/setAddressesInFormObject */
+export const setAddressesInFormObject = (fields, numberOfLines) => {
     const addressKeys = new Array(numberOfLines)
         .fill('')
         .map((_, index) => `street${index}`);

@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import { setMultipleAddresses } from 'Util/Address';
+import { setAddressesInFormObject } from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
@@ -56,7 +56,7 @@ export class MyAccountAddressForm extends FieldForm {
     onFormSuccess = (fields) => {
         const { onSave, addressLinesQty } = this.props;
         const { region_id, region_string: region, ...newAddress } = addressLinesQty > 1
-            ? setMultipleAddresses(fields, addressLinesQty)
+            ? setAddressesInFormObject(fields, addressLinesQty)
             : fields;
 
         newAddress.region = { region_id, region };
@@ -98,33 +98,31 @@ export class MyAccountAddressForm extends FieldForm {
         });
     };
 
+    getStreetFields(label, value) {
+        return {
+            label: __(label),
+            value,
+            validation: ['notEmpty']
+        };
+    }
+
     getAddressFields() {
         const { addressLinesQty, address } = this.props;
         const { street = [] } = address;
 
-        const addressLinesEntities = new Array(addressLinesQty)
-            .fill(null)
-            .reduce(
-                (acc, _, index) => {
-                    if (addressLinesQty === 1) {
-                        acc.street = {
-                            label: __('Street address'),
-                            value: street[0],
-                            validation: ['notEmpty']
-                        };
-                    } else {
-                        acc[`street${index}`] = {
-                            label: __(`Street address line ${index + 1}`),
-                            value: street[0],
-                            validation: ['notEmpty']
-                        };
-                    }
+        if (addressLinesQty) {
+            return new Array(addressLinesQty)
+                .fill(null)
+                .reduce(
+                    (acc, _, index) => {
+                        acc[`street${index}`] = this.getStreetFields(`Street address line ${index + 1}`, street[0]);
 
-                    return acc;
-                }, {}
-            );
+                        return acc;
+                    }, {}
+                );
+        }
 
-        return addressLinesEntities;
+        return { street: this.getStreetFields('Street address', street[0]) };
     }
 
     get fieldMap() {

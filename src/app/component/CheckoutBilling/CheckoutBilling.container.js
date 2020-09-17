@@ -22,7 +22,7 @@ import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import { setMultipleAddresses, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { setAddressesInFormObject, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -125,7 +125,7 @@ export class CheckoutBillingContainer extends PureComponent {
     onBillingSuccess(fields, asyncData) {
         const { savePaymentInformation, addressLinesQty } = this.props;
         const address = this._getAddress(addressLinesQty > 1
-            ? setMultipleAddresses(fields, addressLinesQty)
+            ? setAddressesInFormObject(fields, addressLinesQty)
             : fields);
         const paymentMethod = this._getPaymentData(asyncData);
 

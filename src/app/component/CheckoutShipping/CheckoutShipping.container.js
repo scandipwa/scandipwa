@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
-import { setMultipleAddresses, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { setAddressesInFormObject, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
@@ -75,7 +75,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
-            : trimAddressFields(addressLinesQty > 1 ? setMultipleAddresses(fields, addressLinesQty) : fields);
+            : trimAddressFields(addressLinesQty > 1 ? setAddressesInFormObject(fields, addressLinesQty) : fields);
 
         const {
             carrier_code: shipping_carrier_code,
