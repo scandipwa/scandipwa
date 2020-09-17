@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 
 import Slider from './Slider.component';
 
-
 /** @namespace Component/Slider/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
@@ -23,5 +22,4 @@ export const mapStateToProps = (state) => ({
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({});
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Slider)
+export default connect(mapStateToProps, mapDispatchToProps)(Slider);

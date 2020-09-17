@@ -45,7 +45,7 @@ export class NewVersionPopupContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { showPopup, goToPreviousHeaderState, device} = this.props;
+        const { showPopup, goToPreviousHeaderState, device } = this.props;
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.addEventListener('controllerchange', () => {
