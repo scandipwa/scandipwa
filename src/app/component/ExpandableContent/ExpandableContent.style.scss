@@ -15,7 +15,7 @@
 }
 
 @mixin expanded-content {
-    padding: 1rem;
+    padding: 1.2rem;
     opacity: 1;
     max-height: 100%;
 }
@@ -45,7 +45,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            padding: .5rem 1rem;
+            padding: .6rem 1.2rem;
         }
 
         &::after,
@@ -58,7 +58,7 @@
             height: 7px;
             width: 1px;
             background-color: var(--expandable-content-color);
-            right: 1.5rem;
+            right: 1.8rem;
             top: 0;
             bottom: 0;
             margin: auto;
@@ -90,7 +90,7 @@
     }
 
     &-Heading {
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: 600;
         line-height: 1.4;
         text-transform: uppercase;
@@ -98,7 +98,7 @@
 
         @include desktop {
             cursor: auto;
-            font-size: 14px;
+            font-size: 1.4rem;
             font-weight: bold;
             text-transform: none;
         }
@@ -106,7 +106,7 @@
 
     &-SubHeading {
         font-weight: 300;
-        font-size: .8rem;
+        font-size: .96rem;
         line-height: 1.1;
     }
 
@@ -117,14 +117,14 @@
         transition-duration: 200ms;
 
         @include before-desktop {
-            padding: 0 1rem;
+            padding: 0 1.2rem;
             max-height: 0;
             overflow: hidden;
             opacity: 0;
         }
 
         @include desktop {
-            margin-top: 1rem;
+            margin-top: 1.2rem;
         }
 
         &_isContentExpanded {

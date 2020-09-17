@@ -70,7 +70,7 @@
 
         &_isVisible {
             opacity: 1;
-            padding: .7rem 1rem .5rem;
+            padding: .84rem 1.2rem .6rem;
             max-height: 100px;
         }
 
@@ -81,11 +81,11 @@
     }
 
     &-Results {
-        padding: 1rem;
+        padding: 1.2rem;
 
         @include desktop {
-            max-height: calc(100vh - var(--header-total-height) - 7rem);
-            padding: 1rem 3rem 2rem 3rem;
+            max-height: calc(100vh - var(--header-total-height) - 8.4rem);
+            padding: 1.2rem 3.6rem 2.4rem 3.6rem;
             overflow-y: auto;
         }
 

@@ -30,12 +30,12 @@ select {
     }
 
     &:not(:first-of-type) {
-        margin-top: 1rem;
+        margin-top: 1.2rem;
     }
 }
 
 textarea {
-    width: 25rem;
+    width: 30rem;
 }
 
 [type='number'] {
@@ -56,12 +56,12 @@ textarea {
 
     ~ button {
         position: absolute;
-        left: calc(var(--input-type-number-width) - 1.5rem);
+        left: calc(var(--input-type-number-width) - 1.8rem);
         padding: 0;
         margin: 0;
         height: 50%;
-        width: 1.5rem;
-        font-size: 1.5rem;
+        width: 1.8rem;
+        font-size: 1.8rem;
         line-height: 0;
 
         &:disabled {
