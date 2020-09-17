@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
@@ -44,6 +44,8 @@ export class ExpandableContent extends PureComponent {
         onClick: null
     };
 
+    expandableContentRef = createRef();
+
     __construct(props) {
         super.__construct(props);
 
@@ -66,11 +68,45 @@ export class ExpandableContent extends PureComponent {
         return null;
     }
 
+    scrollToExpandedContent(elementToScrollRef, isContentExpanded, coveringElementsIds) {
+        const elem = elementToScrollRef && elementToScrollRef.current;
+
+        requestAnimationFrame(() => {
+            if (!isContentExpanded && elem) {
+                const elemToWindowTopDist = elem.getBoundingClientRect().top;
+                const windowToPageTopDist = document.body.getBoundingClientRect().top;
+                const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
+
+                const coveringElementsHeight = coveringElementsIds.reduce((acc, elementId) => {
+                    // eslint-disable-next-line no-param-reassign
+                    acc += document.getElementById(elementId).offsetHeight;
+
+                    return acc;
+                }, 0);
+
+                const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
+
+                // checking if button is in a view-port
+                if (-windowToPageTopDist < scrollTo) {
+                    // window.scrollTo(0, scrollTo);
+                    window.scrollTo(0, scrollTo);
+                }
+            }
+        });
+    }
+
     toggleExpand = () => {
         const { onClick } = this.props;
+        const { isContentExpanded } = this.state;
+
         if (onClick) {
             onClick(); return;
         }
+
+        this.scrollToExpandedContent(
+            this.expandableContentRef, isContentExpanded, ['navigation-tabs', 'product-actions-wrapper']
+        );
+
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));
@@ -125,6 +161,7 @@ export class ExpandableContent extends PureComponent {
               block="ExpandableContent"
               elem="Content"
               mods={ mods }
+              ref={ this.expandableContentRef }
               mix={ { ...mix, elem: 'ExpandableContentContent', mods } }
             >
                 { children }
