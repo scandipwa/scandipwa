@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ResetButton.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { MixType } from 'Type/Common';
+
+import './ResetButton.style';
 
 /** @namespace Component/ResetButton/Component */
 export class ResetButton extends PureComponent {

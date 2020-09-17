@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CheckoutAddressForm.style';
-
 import PropTypes from 'prop-types';
 
 import FormPortal from 'Component/FormPortal';
@@ -18,6 +16,8 @@ import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddres
 import { debounce } from 'Util/Request';
 
 import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
+
+import './CheckoutAddressForm.style';
 
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm {

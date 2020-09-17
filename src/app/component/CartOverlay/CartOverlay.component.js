@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CartOverlay.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -22,6 +20,8 @@ import Overlay from 'Component/Overlay';
 import { deviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
+
+import './CartOverlay.style';
 
 /** @namespace Component/CartOverlay/Component */
 export class CartOverlay extends PureComponent {

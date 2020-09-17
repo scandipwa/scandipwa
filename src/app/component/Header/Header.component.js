@@ -11,8 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Header.style';
-
 import PropTypes from 'prop-types';
 import { lazy, Suspense } from 'react';
 
@@ -52,6 +50,8 @@ import {
     POPUP,
     SEARCH
 } from './Header.config';
+
+import './Header.style';
 
 export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));

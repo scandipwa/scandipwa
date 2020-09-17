@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './NavigationTabs.style';
-
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { deviceType } from 'Type/Device';
 
 import {
     ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
 } from './NavigationTabs.config';
+
+import './NavigationTabs.style';
 
 /** @namespace Component/NavigationTabs/Component */
 export class NavigationTabs extends NavigationAbstract {

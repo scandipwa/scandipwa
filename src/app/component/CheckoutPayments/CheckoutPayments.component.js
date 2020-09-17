@@ -10,8 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './CheckoutPayments.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -25,6 +23,8 @@ import {
     BRAINTREE,
     KLARNA
 } from './CheckoutPayments.config';
+
+import './CheckoutPayments.style';
 
 /** @namespace Component/CheckoutPayments/Component */
 export class CheckoutPayments extends PureComponent {

@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountOrderPopup.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -22,6 +20,8 @@ import { orderType } from 'Type/Account';
 import { formatCurrency } from 'Util/Price';
 
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
+
+import './MyAccountOrderPopup.style';
 
 /** @namespace Component/MyAccountOrderPopup/Component */
 export class MyAccountOrderPopup extends PureComponent {

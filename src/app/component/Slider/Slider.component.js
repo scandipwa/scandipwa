@@ -11,8 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Slider.style';
-
 import PropTypes from 'prop-types';
 import { Children, createRef, PureComponent } from 'react';
 
@@ -25,6 +23,8 @@ import {
     ACTIVE_SLIDE_PERCENT,
     ANIMATION_DURATION
 } from './Slider.config';
+
+import './Slider.style';
 
 /**
  * Slider component

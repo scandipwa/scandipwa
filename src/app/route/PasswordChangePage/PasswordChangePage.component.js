@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './PasswordChangePage.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -18,6 +16,8 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+
+import './PasswordChangePage.style';
 
 /** @namespace Route/PasswordChangePage/Component */
 export class PasswordChangePage extends PureComponent {

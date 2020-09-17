@@ -10,8 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './SearchField.style';
-
 import PropTypes from 'prop-types';
 import {
     createRef,
@@ -24,6 +22,8 @@ import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
 import { deviceType } from 'Type/Device';
 import history from 'Util/History';
+
+import './SearchField.style';
 
 export const SearchOverlay = lazy(
     () => import(

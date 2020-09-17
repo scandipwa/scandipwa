@@ -8,12 +8,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './ProductConfigurableAttributeDropdown.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+
+import './ProductConfigurableAttributeDropdown.style';
 
 /** @namespace Component/ProductConfigurableAttributeDropdown/Component */
 export class ProductConfigurableAttributeDropdown extends PureComponent {

@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ExpandableContent.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
+
+import './ExpandableContent.style';
 
 /** @namespace Component/ExpandableContent/Component */
 export class ExpandableContent extends PureComponent {

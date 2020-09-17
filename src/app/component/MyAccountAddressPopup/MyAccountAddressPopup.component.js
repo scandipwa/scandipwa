@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountAddressPopup.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -23,6 +21,8 @@ import { addressType } from 'Type/Account';
 import {
     ADD_ADDRESS, ADDRESS_POPUP_ID, DELETE_ADDRESS, EDIT_ADDRESS
 } from './MyAccountAddressPopup.config';
+
+import './MyAccountAddressPopup.style';
 
 /** @namespace Component/MyAccountAddressPopup/Component */
 export class MyAccountAddressPopup extends PureComponent {

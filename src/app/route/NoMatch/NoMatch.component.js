@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './NoMatch.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Link from 'Component/Link';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+
+import './NoMatch.style';
 
 /** @namespace Route/NoMatch/Component */
 export class NoMatch extends PureComponent {

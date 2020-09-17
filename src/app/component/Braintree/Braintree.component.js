@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Braintree.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 
 import { BRAINTREE_CONTAINER_ID } from './Braintree.config';
+
+import './Braintree.style';
 
 /** @namespace Component/Braintree/Component */
 export class Braintree extends PureComponent {

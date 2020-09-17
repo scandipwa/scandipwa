@@ -8,10 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './InstallPromptAndroid.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
+import './InstallPromptAndroid.style';
 
 /** @namespace Component/InstallPromptAndroid/Component */
 export class InstallPromptAndroid extends PureComponent {

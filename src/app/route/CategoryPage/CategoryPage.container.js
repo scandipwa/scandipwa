@@ -183,6 +183,11 @@ export class CategoryPageContainer extends PureComponent {
         } = this.props;
 
         /**
+         * Ensure transition PLP => homepage => PLP always having proper meta
+         */
+        this.updateMeta();
+
+        /**
          * Always make sure the navigation show / hide mode (on scroll)
          * is activated when entering the category page.
          * */

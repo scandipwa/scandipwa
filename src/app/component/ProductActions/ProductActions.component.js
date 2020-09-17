@@ -13,8 +13,6 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import './ProductActions.style';
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
@@ -37,6 +35,8 @@ import {
     CONFIGURABLE,
     GROUPED
 } from 'Util/Product';
+
+import './ProductActions.style';
 
 /**
  * Product actions

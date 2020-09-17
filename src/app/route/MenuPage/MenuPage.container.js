@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MenuPage.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -28,6 +26,8 @@ import { deviceType } from 'Type/Device';
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
 });
+
+import './MenuPage.style';
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({

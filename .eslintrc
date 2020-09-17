@@ -59,10 +59,25 @@
         "@scandipwa/scandipwa-guidelines/use-license": "error",
         "simple-import-sort/sort": ["error", {
             "groups": [
-                ["^\\u0000"], // side effect imports
-                ["^@?[a-z]"], // anything that starts with @ and lowercase
-                ["^[^.]"], // anything but a dot
-                ["^\\."] // starting with dot
+                // side effect imports (ignore styles)
+                // import 'Util/Polyfill'
+                ["(?!.*\\.style)^\\u0000"],
+
+                // anything that starts with @ and lowercase
+                // import PropTypes from 'prop-types';
+                ["^@?[a-z]"],
+
+                // anything but a dot
+                // import { isSignedIn } from 'Util/Auth';
+                ["^[^.]"],
+
+                // starting with dot (ignore styles)
+                // import AddToCart from './AddToCart.component';
+                ["^\\..+(?!\\.style)"],
+
+                // style imports
+                // import './AddToCart.style'
+                [".+\\.style"]
             ]
         }],
         "arrow-parens": ["error", "always"],

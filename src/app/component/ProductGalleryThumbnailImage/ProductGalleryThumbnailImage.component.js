@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductGalleryThumbnailImage.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -19,6 +17,8 @@ import {
     IMAGE_TYPE, PLACEHOLDER_TYPE, THUMBNAIL_KEY, VIDEO_TYPE
 } from 'Component/ProductGallery/ProductGallery.config';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
+
+import './ProductGalleryThumbnailImage.style';
 
 /** @namespace Component/ProductGalleryThumbnailImage/Component */
 export class ProductGalleryThumbnailImage extends PureComponent {

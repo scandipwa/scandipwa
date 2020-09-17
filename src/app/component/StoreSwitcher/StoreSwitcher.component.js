@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './StoreSwitcher.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -18,6 +16,8 @@ import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
 import StoreItems from 'Component/StoreItems';
 import { deviceType } from 'Type/Device';
+
+import './StoreSwitcher.style';
 
 /** @namespace Component/StoreSwitcher/Component */
 export class StoreSwitcher extends PureComponent {

@@ -11,8 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountOverlay.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -32,6 +30,8 @@ import {
     STATE_LOGGED_IN,
     STATE_SIGN_IN
 } from './MyAccountOverlay.config';
+
+import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
 export class MyAccountOverlay extends PureComponent {
