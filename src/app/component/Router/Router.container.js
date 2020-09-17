@@ -98,6 +98,7 @@ export class RouterContainer extends PureComponent {
 
         this.initializeApplication();
         this.redirectFromPartialUrl();
+        this.handleResize();
     }
 
     componentDidMount() {
