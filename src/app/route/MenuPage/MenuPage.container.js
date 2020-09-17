@@ -22,12 +22,12 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { HistoryType } from 'Type/Common';
 import { deviceType } from 'Type/Device';
 
+import './MenuPage.style';
+
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
 });
-
-import './MenuPage.style';
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
