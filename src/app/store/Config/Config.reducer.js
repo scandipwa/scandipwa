@@ -11,7 +11,7 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import { UPDATE_CONFIG, UPDATE_DEVICE } from './Config.action';
+import { UPDATE_CONFIG, UPDATE_CONFIG_DEVICE } from './Config.action';
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
@@ -80,7 +80,7 @@ export const ConfigReducer = (
             isLoading: false
         };
 
-    case UPDATE_DEVICE:
+    case UPDATE_CONFIG_DEVICE:
         return {
             ...state,
             device: {

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { updateDevice } from 'Store/Config/Config.action';
+import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import {
     isMobile,
@@ -52,7 +52,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/Router/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    updateDevice: (device) => dispatch(updateDevice(device)),
+    updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     init: () => {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
@@ -71,7 +71,7 @@ export class RouterContainer extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
-        updateDevice: PropTypes.func.isRequired,
+        updateConfigDevice: PropTypes.func.isRequired,
         base_link_url: PropTypes.string,
         default_description: PropTypes.string,
         default_keywords: PropTypes.string,
@@ -136,10 +136,10 @@ export class RouterContainer extends PureComponent {
     }
 
     handleResize = async () => {
-        const { updateDevice } = this.props;
+        const { updateConfigDevice } = this.props;
         if (isUsingClientHints) {
             const { platform, model } = await isMobileClientHints.getDeviceData();
-            updateDevice({
+            updateConfigDevice({
                 isMobile: navigator.userAgentData.mobile,
                 isTablet: isMobile.tablet(model),
                 android: isMobile.android(platform),
@@ -149,7 +149,7 @@ export class RouterContainer extends PureComponent {
                 windows: isMobile.windows(model)
             });
         } else {
-            updateDevice({
+            updateConfigDevice({
                 isMobile: isMobile.any(),
                 isTablet: isMobile.tablet(),
                 android: isMobile.android(),
