@@ -16,7 +16,7 @@ import { createRef, PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ChildrenType, MixType } from 'Type/Common';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import './Overlay.style';
 
@@ -32,7 +32,7 @@ export class Overlay extends PureComponent {
         isStatic: PropTypes.bool,
         isRenderInPortal: PropTypes.bool,
         children: ChildrenType,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

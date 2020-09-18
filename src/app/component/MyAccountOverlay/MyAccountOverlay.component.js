@@ -19,7 +19,7 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
@@ -59,7 +59,7 @@ export class MyAccountOverlay extends PureComponent {
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
         isCheckout: PropTypes.bool,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

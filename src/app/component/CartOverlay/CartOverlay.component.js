@@ -17,7 +17,7 @@ import CmsBlock from 'Component/CmsBlock';
 import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
 import Overlay from 'Component/Overlay';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
 
@@ -27,7 +27,7 @@ import './CartOverlay.style';
 export class CartOverlay extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        device: deviceType.isRequired,
+        device: DeviceType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isEditing: PropTypes.bool.isRequired,
         handleCheckoutClick: PropTypes.func.isRequired,

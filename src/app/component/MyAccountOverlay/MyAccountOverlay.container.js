@@ -19,7 +19,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 
@@ -79,7 +79,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         goToPreviousHeaderState: PropTypes.func,
         isCheckout: PropTypes.bool,
         hideActiveOverlay: PropTypes.func.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

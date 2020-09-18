@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
 import Slider from 'Component/Slider';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import './SliderWidget.style';
 
@@ -38,7 +38,7 @@ export class SliderWidget extends PureComponent {
                 })
             )
         }),
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

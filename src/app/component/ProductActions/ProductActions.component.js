@@ -28,7 +28,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { PriceType, ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -71,7 +71,7 @@ export class ProductActions extends PureComponent {
         offerType: PropTypes.string.isRequired,
         stockMeta: PropTypes.string.isRequired,
         metaLink: PropTypes.string.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

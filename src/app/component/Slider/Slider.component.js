@@ -16,7 +16,7 @@ import { Children, createRef, PureComponent } from 'react';
 
 import Draggable from 'Component/Draggable';
 import { ChildrenType, MixType } from 'Type/Common';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import CSS from 'Util/CSS';
 
 import {
@@ -39,7 +39,7 @@ export class Slider extends PureComponent {
         mix: MixType,
         children: ChildrenType.isRequired,
         isInteractionDisabled: PropTypes.bool,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

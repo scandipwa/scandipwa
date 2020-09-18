@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import { ordersType } from 'Type/Account';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import './MyAccountMyOrders.style';
 
@@ -25,7 +25,7 @@ export class MyAccountMyOrders extends PureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     renderPopup() {

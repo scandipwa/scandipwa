@@ -21,7 +21,7 @@ import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
 import { CategoryTreeType } from 'Type/Category';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 
 import './CategoryPage.style';
@@ -51,7 +51,7 @@ export class CategoryPage extends PureComponent {
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

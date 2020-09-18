@@ -17,7 +17,7 @@ import CmsBlock from 'Component/CmsBlock';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
 
@@ -31,7 +31,7 @@ export class Menu extends PureComponent {
         handleSubcategoryClick: PropTypes.func.isRequired,
         closeMenu: PropTypes.func.isRequired,
         onCategoryHover: PropTypes.func.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     renderDesktopSubLevelItems(item, mods) {

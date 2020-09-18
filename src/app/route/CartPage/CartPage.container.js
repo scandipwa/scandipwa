@@ -23,7 +23,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { HistoryType } from 'Type/Common';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
@@ -66,7 +66,7 @@ export class CartPageContainer extends PureComponent {
         guest_checkout: PropTypes.bool.isRequired,
         history: HistoryType.isRequired,
         totals: TotalsType.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     state = { isEditing: false };

@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import './DemoNotice.style';
 
@@ -20,7 +20,7 @@ import './DemoNotice.style';
 export class DemoNotice extends PureComponent {
     static propTypes = {
         isDemoNoticeEnabled: PropTypes.bool,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

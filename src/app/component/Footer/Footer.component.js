@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import CmsBlock from 'Component/CmsBlock';
 import Link from 'Component/Link';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import './Footer.style';
 
@@ -27,7 +27,7 @@ export class Footer extends PureComponent {
     static propTypes = {
         copyright: PropTypes.string,
         isVisibleOnMobile: PropTypes.bool,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

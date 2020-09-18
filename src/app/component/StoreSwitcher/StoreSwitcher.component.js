@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
 import StoreItems from 'Component/StoreItems';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import './StoreSwitcher.style';
 
@@ -33,7 +33,7 @@ export class StoreSwitcher extends PureComponent {
         onStoreSwitcherClick: PropTypes.func.isRequired,
         onStoreSwitcherOutsideClick: PropTypes.func.isRequired,
         storeLabel: PropTypes.string,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

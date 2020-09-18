@@ -26,7 +26,7 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import media from 'Util/Media';
@@ -84,7 +84,7 @@ export class Header extends NavigationAbstract {
         isCheckout: PropTypes.bool.isRequired,
         onSignIn: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

@@ -20,7 +20,7 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { HistoryType } from 'Type/Common';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import './MenuPage.style';
 
@@ -41,7 +41,7 @@ export class MenuPageContainer extends PureComponent {
         updateMeta: PropTypes.func.isRequired,
         history: HistoryType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     componentDidMount() {

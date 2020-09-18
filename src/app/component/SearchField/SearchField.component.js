@@ -20,7 +20,7 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
 
 import './SearchField.style';
@@ -43,7 +43,7 @@ export class SearchField extends PureComponent {
         isVisible: PropTypes.bool,
         isActive: PropTypes.bool,
         hideActiveOverlay: PropTypes.func,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import Image from 'Component/Image';
 import Link from 'Component/Link';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import media from 'Util/Media';
 
 /** @namespace Component/MenuItem/Component */
@@ -27,7 +27,7 @@ export class MenuItem extends PureComponent {
         handleCategoryHover: PropTypes.func.isRequired,
         isLink: PropTypes.bool,
         closeMenu: PropTypes.func,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

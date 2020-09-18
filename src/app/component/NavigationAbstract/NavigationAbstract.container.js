@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -39,7 +39,7 @@ export class NavigationAbstractContainer extends PureComponent {
         hideActiveOverlay: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         navigationState: PropTypes.object.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     default_state = DEFAULT_STATE;

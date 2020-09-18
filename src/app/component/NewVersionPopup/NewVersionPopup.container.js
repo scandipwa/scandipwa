@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import NewVersionPopup from './NewVersionPopup.component';
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
@@ -37,7 +37,7 @@ export class NewVersionPopupContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     containerFunctions = {

@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 /** @namespace Component/InstallPrompt/Container/mapStateToProps */
@@ -29,7 +29,7 @@ export const mapDispatchToProps = (dispatch) => ({});
 /** @namespace Component/InstallPrompt/Container */
 export class InstallPromptContainer extends PureComponent {
     static propTypes = {
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     installPromptEvent = null;

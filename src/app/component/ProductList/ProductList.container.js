@@ -16,7 +16,7 @@ import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import { HistoryType } from 'Type/Common';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
 import { getQueryParam, setQueryParams } from 'Util/Url';
@@ -61,7 +61,7 @@ export class ProductListContainer extends PureComponent {
         noAttributes: PropTypes.bool,
         noVariants: PropTypes.bool,
         isWidget: PropTypes.bool,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {

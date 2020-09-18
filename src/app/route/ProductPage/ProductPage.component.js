@@ -21,7 +21,7 @@ import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
@@ -40,7 +40,7 @@ export class ProductPage extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     renderProductPageContent() {

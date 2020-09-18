@@ -10,7 +10,7 @@
  */
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import {
     ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
@@ -21,7 +21,7 @@ import './NavigationTabs.style';
 /** @namespace Component/NavigationTabs/Component */
 export class NavigationTabs extends NavigationAbstract {
     static propTypes = {
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     defaultStateName = MENU_TAB;

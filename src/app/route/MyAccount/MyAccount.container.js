@@ -26,7 +26,7 @@ import {
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { deviceType } from 'Type/Device';
+import { DeviceType } from 'Type/Device';
 
 import MyAccount from './MyAccount.component';
 import { MY_ACCOUNT_URL } from './MyAccount.config';
@@ -71,7 +71,7 @@ export class MyAccountContainer extends PureComponent {
         match: MatchType.isRequired,
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
-        device: deviceType.isRequired
+        device: DeviceType.isRequired
     };
 
     static navigateToSelectedTab(props, state = {}) {
