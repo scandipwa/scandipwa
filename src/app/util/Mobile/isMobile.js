@@ -11,15 +11,15 @@
 export const isUsingClientHints = 'userAgentData' in navigator;
 
 export const isMobile = {
-    android: () => /android/i.test(navigator.userAgent),
-    blackBerry: () => /blackberry/i.test(navigator.userAgent),
-    iOS: () => /iphone|ipod/i.test(navigator.userAgent),
-    opera: () => /opera mini/i.test(navigator.userAgent),
-    windows: () => /iemobile/i.test(navigator.userAgent),
+    android: (agent = navigator.userAgent) => /android/i.test(agent),
+    blackBerry: (agent = navigator.userAgent) => /blackberry/i.test(agent),
+    iOS: (agent = navigator.userAgent) => /iphone|ipod/i.test(agent),
+    opera: (agent = navigator.userAgent) => /opera mini/i.test(agent),
+    windows: (agent = navigator.userAgent) => /iemobile/i.test(agent),
     // eslint-disable-next-line max-len
     any: () => (isMobile.android() || isMobile.blackBerry() || isMobile.iOS() || isMobile.opera() || isMobile.windows()),
     // eslint-disable-next-line max-len
-    tablet: () => /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/i.test(navigator.userAgent),
+    tablet: (agent = navigator.userAgent) => /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/i.test(agent),
     standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
 };
 
