@@ -547,7 +547,7 @@ export class ProductActions extends PureComponent {
                 { this.renderShortDescription() }
                 <div
                   // Id is required to measure the element`s height in Component/ExpandableContent.component.js
-                  id="product-actions-wrapper"
+                  id="ProductActionsWrapper"
                   block="ProductActions"
                   elem="AddToCartWrapper"
                 >

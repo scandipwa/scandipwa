@@ -68,29 +68,29 @@ export class ExpandableContent extends PureComponent {
         return null;
     }
 
-    scrollToExpandedContent(elementToScrollRef, isContentExpanded, coveringElementsIds) {
-        const elem = elementToScrollRef && elementToScrollRef.current;
+    scrollToExpandedContent(isContentExpanded, coveringElementsIds) {
+        const elem = this.expandableContentRef && this.expandableContentRef.current;
 
         requestAnimationFrame(() => {
-            if (!isContentExpanded && elem) {
-                const elemToWindowTopDist = elem.getBoundingClientRect().top;
-                const windowToPageTopDist = document.body.getBoundingClientRect().top;
-                const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
+            if (isContentExpanded && !elem) {
+                return;
+            }
+            const elemToWindowTopDist = elem.getBoundingClientRect().top;
+            const windowToPageTopDist = document.body.getBoundingClientRect().top;
+            const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
 
-                const coveringElementsHeight = coveringElementsIds.reduce((acc, elementId) => {
-                    // eslint-disable-next-line no-param-reassign
-                    acc += document.getElementById(elementId).offsetHeight;
+            const coveringElementsHeight = coveringElementsIds.reduce((acc, elementId) => {
+                // eslint-disable-next-line no-param-reassign
+                acc += document.getElementById(elementId).offsetHeight;
 
-                    return acc;
-                }, 0);
+                return acc;
+            }, 0);
 
-                const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
+            const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
 
-                // checking if button is in a view-port
-                if (-windowToPageTopDist < scrollTo) {
-                    // window.scrollTo(0, scrollTo);
-                    window.scrollTo(0, scrollTo);
-                }
+            // checking if button is in a view-port
+            if (-windowToPageTopDist < scrollTo) {
+                window.scrollTo(0, scrollTo);
             }
         });
     }
@@ -104,7 +104,7 @@ export class ExpandableContent extends PureComponent {
         }
 
         this.scrollToExpandedContent(
-            this.expandableContentRef, isContentExpanded, ['navigation-tabs', 'product-actions-wrapper']
+            isContentExpanded, ['NavigationTabs', 'ProductActionsWrapper']
         );
 
         this.setState(({ isContentExpanded }) => (
