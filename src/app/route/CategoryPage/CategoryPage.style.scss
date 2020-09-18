@@ -13,12 +13,12 @@
     &-Wrapper {
         @include after-mobile {
             display: grid;
-            padding-top: 2rem;
+            padding-top: 2.4rem;
         }
 
         @include desktop {
             grid-template-columns: 280px auto;
-            grid-column-gap: 4rem;
+            grid-column-gap: 4.8rem;
         }
 
         @include mobile {
@@ -37,8 +37,8 @@
 
         @include before-desktop {
             order: 1;
-            font-size: .9rem;
-            padding: .3rem 1rem 1rem 0;
+            font-size: .108rem;
+            padding: .36rem 1.2rem 1.2rem 0;
             text-align: center;
             grid-column: span 2;
         }
@@ -49,7 +49,7 @@
         text-align: right;
         grid-column: 2;
         font-weight: 600;
-        font-size: 16px;
+        font-size: 1.6rem;
         min-height: 50px;
 
         @include desktop {
@@ -122,8 +122,8 @@
 
         > * {
             @include mobile {
-                padding-left: 1rem;
-                padding-right: 1rem;
+                padding-left: 1.2rem;
+                padding-right: 1.2rem;
             }
         }
     }

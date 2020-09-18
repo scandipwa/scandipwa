@@ -49,17 +49,17 @@
     }
 
     &-Empty {
-        padding: 1rem;
+        padding: 1.2rem;
         border-bottom: 1px solid var(--expandable-content-color);
     }
 
     &-Actions {
         display: flex;
-        padding: 1rem;
+        padding: 1.2rem;
     }
 
     &-CheckoutButton {
-        margin-left: 1rem;
+        margin-left: 1.2rem;
 
         span {
             @include lock-button;
@@ -85,15 +85,15 @@
 
     &-Promo,
     &-Total {
-        min-height: 4rem;
+        min-height: 4.8rem;
 
         @include after-mobile {
-            min-height: 3rem;
+            min-height: 3.6rem;
         }
     }
 
     &-Promo {
-        padding: 1rem;
+        padding: 1.2rem;
         text-align: center;
         background: var(--cart-overlay-promo-background);
         margin-bottom: 0;
@@ -104,7 +104,7 @@
         }
 
         @include after-mobile {
-            padding: .7rem;
+            padding: .84rem;
             background: var(--primary-light-color);
         }
 
@@ -124,18 +124,18 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem 1rem .5rem;
-        font-size: 18px;
+        padding: 1.2rem 1.2rem .6rem;
+        font-size: 1.8rem;
         background: var(--cart-overlay-totals-background);
 
         @include after-mobile {
-            font-size: 16px;
+            font-size: 1.6rem;
         }
     }
 
     &-Total {
         font-weight: bold;
-        padding: .5rem 1rem 1rem;
+        padding: .6rem 1.2rem 1.2rem;
 
         @include after-mobile {
             border-bottom: 1px solid var(--cart-item-divider-color);

@@ -10,7 +10,7 @@
  */
 
 .CheckoutAddressBook {
-    margin: 2rem 0;
+    margin: 2.4rem 0;
     width: 100%;
 
     &-Wrapper {
@@ -19,10 +19,10 @@
     }
 
     &-CustomAddressWrapper {
-        margin: 2rem 0;
+        margin: 2.4rem 0;
 
         @include mobile {
-            margin: 1rem 0;
+            margin: 1.2rem 0;
         }
     }
 
