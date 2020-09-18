@@ -8,15 +8,13 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
 
 import './ExpandableContent.style';
-
 /** @namespace Component/ExpandableContent/Component */
 export class ExpandableContent extends PureComponent {
     static propTypes = {
@@ -44,9 +42,10 @@ export class ExpandableContent extends PureComponent {
         onClick: null
     };
 
+    expandableContentRef = createRef();
+
     __construct(props) {
         super.__construct(props);
-
         const { isContentExpanded } = this.props;
         this.state = {
             isContentExpanded,
@@ -66,14 +65,37 @@ export class ExpandableContent extends PureComponent {
         return null;
     }
 
+    scrollToExpandedContent(coveringElementsIds) {
+        const { isContentExpanded } = this.state;
+        const elem = this.expandableContentRef && this.expandableContentRef.current;
+        if (isContentExpanded && !elem) {
+            return;
+        }
+        const elemToWindowTopDist = elem.getBoundingClientRect().top;
+        const windowToPageTopDist = document.body.getBoundingClientRect().top;
+        const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
+        const coveringElementsHeight = coveringElementsIds.reduce(
+            (acc, elementId) => acc + document.getElementById(elementId).offsetHeight,
+            0
+        );
+        const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
+        // checking if button is in a view-port
+        if (-windowToPageTopDist >= scrollTo) {
+            return;
+        }
+        window.scrollTo(0, scrollTo);
+    }
+
     toggleExpand = () => {
         const { onClick } = this.props;
         if (onClick) {
-            onClick(); return;
+            onClick();
+            return;
         }
-        this.setState(({ isContentExpanded }) => (
-            { isContentExpanded: !isContentExpanded }
-        ));
+        this.setState(
+            ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
+            () => this.scrollToExpandedContent(['NavigationTabs', 'ProductActionsWrapper'])
+        );
     };
 
     renderButton() {
@@ -111,7 +133,6 @@ export class ExpandableContent extends PureComponent {
                     { subHeading }
                 </span>
             </button>
-
         );
     }
 
@@ -119,12 +140,12 @@ export class ExpandableContent extends PureComponent {
         const { children, mix } = this.props;
         const { isContentExpanded } = this.state;
         const mods = { isContentExpanded };
-
         return (
             <div
               block="ExpandableContent"
               elem="Content"
               mods={ mods }
+              ref={ this.expandableContentRef }
               mix={ { ...mix, elem: 'ExpandableContentContent', mods } }
             >
                 { children }
@@ -134,7 +155,6 @@ export class ExpandableContent extends PureComponent {
 
     render() {
         const { mix } = this.props;
-
         return (
             <article
               block="ExpandableContent"
@@ -146,5 +166,4 @@ export class ExpandableContent extends PureComponent {
         );
     }
 }
-
 export default ExpandableContent;
