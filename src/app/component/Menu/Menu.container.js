@@ -28,7 +28,7 @@ export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-/** @namespace Component/Menu/Container/menuContainer */
+/** @namespace Component/Menu/Container */
 export class MenuContainer extends DataContainer {
     static propTypes = {
         goToPreviousHeaderState: PropTypes.func.isRequired,

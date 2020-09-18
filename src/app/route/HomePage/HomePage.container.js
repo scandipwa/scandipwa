@@ -27,12 +27,12 @@ export const mapStateToProps = (state) => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 
-/** @namespace Route/HomePage/Container */
+/** @namespace Route/HomePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-/** @namespace Route/HomePage/Container/mapDispatchToProps */
+/** @namespace Route/HomePage/Container */
 export class HomePageContainer extends PureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired
