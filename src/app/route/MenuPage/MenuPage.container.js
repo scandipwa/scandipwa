@@ -57,7 +57,7 @@ export class MenuPageContainer extends PureComponent {
     redirectIfNotOnMobile() {
         const { history, device } = this.props;
 
-        if (!device.isMobile) {
+        if (!device.isMobile && !device.isTablet) {
             history.push('/');
         }
     }

@@ -155,7 +155,7 @@ export class NavigationTabs extends NavigationAbstract {
     render() {
         const { navigationState: { isHidden }, device } = this.props;
 
-        if (!device.isMobile) {
+        if (!device.isMobile && !device.isTablet) {
             return null;
         }
 

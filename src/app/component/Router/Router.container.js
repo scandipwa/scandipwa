@@ -141,15 +141,17 @@ export class RouterContainer extends PureComponent {
             const { platform, model } = await isMobileClientHints.getDeviceData();
             updateDevice({
                 isMobile: navigator.userAgentData.mobile,
-                android: /android/i.test(platform),
-                ios: /iphone|ipod/i.test(platform),
-                blackberry: /blackberry/i.test(model),
-                opera: /opera mini/i.test(model),
-                windows: /iemobile/i.test(model)
+                isTablet: isMobile.tablet(model),
+                android: isMobile.android(platform),
+                ios: isMobile.iOS(platform),
+                blackberry: isMobile.blackBerry(model),
+                opera: isMobile.opera(model),
+                windows: isMobile.windows(model)
             });
         } else {
             updateDevice({
                 isMobile: isMobile.any(),
+                isTablet: isMobile.tablet(),
                 android: isMobile.android(),
                 ios: isMobile.iOS(),
                 blackberry: isMobile.blackBerry(),

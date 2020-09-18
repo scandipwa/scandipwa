@@ -223,7 +223,7 @@ export class SearchField extends PureComponent {
         const { device } = this.props;
         const { showSearch } = this.state;
 
-        if (device.isMobile) {
+        if (device.isMobile || device.isTablet) {
             return null;
         }
 
@@ -249,7 +249,7 @@ export class SearchField extends PureComponent {
             device
         } = this.props;
 
-        if (!device.isMobile) {
+        if (!device.isMobile && !device.isTablet) {
             return null;
         }
 
