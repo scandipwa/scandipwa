@@ -14,12 +14,10 @@ import PropTypes from 'prop-types';
 // eslint-disable-next-line import/prefer-default-export
 export const deviceType = PropTypes.shape({
     isMobile: PropTypes.bool,
-    os: PropTypes.shape({
-        android: PropTypes.bool,
-        ios: PropTypes.bool,
-        blackberry: PropTypes.bool,
-        opera: PropTypes.bool,
-        windows: PropTypes.bool
-    }),
+    android: PropTypes.bool,
+    ios: PropTypes.bool,
+    blackberry: PropTypes.bool,
+    opera: PropTypes.bool,
+    windows: PropTypes.bool,
     standaloneMode: PropTypes.bool
 });

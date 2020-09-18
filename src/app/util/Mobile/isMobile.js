@@ -26,7 +26,7 @@ export const isMobile = {
 // https://medium.com/@galmeiri/get-ready-for-chrome-user-agent-string-phase-out-c6840da1c31e
 export const isMobileClientHints = {
     any: () => navigator.userAgentData.mobile,
-    getDeviceData: () => navigator.userAgentData.getHighEntropyValues(['platform'])
+    getDeviceData: () => navigator.userAgentData.getHighEntropyValues(['platform', 'model'])
 };
 
 export default isMobile;

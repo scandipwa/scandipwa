@@ -138,27 +138,23 @@ export class RouterContainer extends PureComponent {
     handleResize = async () => {
         const { updateDevice } = this.props;
         if (isUsingClientHints) {
-            const { platform } = await isMobileClientHints.getDeviceData();
+            const { platform, model } = await isMobileClientHints.getDeviceData();
             updateDevice({
                 isMobile: navigator.userAgentData.mobile,
-                os: {
-                    android: /android/i.test(platform),
-                    ios: /iphone|ipod/i.test(platform),
-                    blackberry: false,
-                    opera: false,
-                    windows: false
-                }
+                android: /android/i.test(platform),
+                ios: /iphone|ipod/i.test(platform),
+                blackberry: /blackberry/i.test(model),
+                opera: /opera mini/i.test(model),
+                windows: /iemobile/i.test(model)
             });
         } else {
             updateDevice({
                 isMobile: isMobile.any(),
-                os: {
-                    android: isMobile.android(),
-                    ios: isMobile.iOS(),
-                    blackberry: isMobile.blackBerry(),
-                    opera: isMobile.opera(),
-                    windows: isMobile.windows()
-                }
+                android: isMobile.android(),
+                ios: isMobile.iOS(),
+                blackberry: isMobile.blackBerry(),
+                opera: isMobile.opera(),
+                windows: isMobile.windows()
             });
         }
     };

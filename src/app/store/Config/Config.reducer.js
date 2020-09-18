@@ -37,13 +37,11 @@ export const getInitialState = () => ({
     isLoading: true,
     device: {
         isMobile: true,
-        os: {
-            android: true,
-            ios: false,
-            blackberry: false,
-            opera: false,
-            windows: false
-        },
+        android: true,
+        ios: false,
+        blackberry: false,
+        opera: false,
+        windows: false,
         standaloneMode: window.matchMedia('(display-mode: standalone)').matches
     }
 });
@@ -61,10 +59,7 @@ export const ConfigReducer = (
             checkoutAgreements,
             storeConfig = {}
         } = {},
-        device: {
-            isMobile,
-            os
-        } = {}
+        device
     } = action;
 
     switch (type) {
@@ -89,8 +84,7 @@ export const ConfigReducer = (
             ...state,
             device: {
                 ...state.device,
-                isMobile,
-                os
+                ...device
             }
         };
 

@@ -91,11 +91,11 @@ export class InstallPromptContainer extends PureComponent {
             return null;
         }
 
-        if (device.os.ios) {
+        if (device.ios) {
             return <InstallPromptIOS { ...this.containerFunctions } />;
         }
 
-        if (device.os.android) {
+        if (device.android) {
             return <InstallPromptAndroid { ...this.containerFunctions } />;
         }
 
