@@ -38,18 +38,23 @@ export class CartDispatcher {
             this._syncCartWithBE(dispatch);
         } else if (guestQuoteId) {
             // This is guest
+            this.createGuestEmptyCart(dispatch);
             this._syncCartWithBE(dispatch, guestQuoteId);
         } else {
             // This is guest, cart is empty
             // Need to create empty cart and save quote
-            this._createEmptyCart(dispatch).then(
-                /** @namespace Store/Cart/Dispatcher/updateInitialCartData_createEmptyCartThen */
-                (data) => {
-                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                    this._updateCartData({}, dispatch);
-                }
-            );
+            this.createGuestEmptyCart(dispatch);
         }
+    }
+
+    createGuestEmptyCart(dispatch) {
+        return this._createEmptyCart(dispatch).then(
+            /** @namespace Store/Cart/Dispatcher/updateInitialCartData_createEmptyCartThen */
+            (data) => {
+                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                this._updateCartData({}, dispatch);
+            }
+        );
     }
 
     _createEmptyCart(dispatch) {
