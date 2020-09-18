@@ -280,7 +280,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             device
         } = this.props;
 
-        if (!device.mobile && name === SEARCH) {
+        if (!device.isMobile && name === SEARCH) {
             this.hideSearchOverlay();
             goToPreviousNavigationState();
         }
@@ -296,8 +296,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         } = this.props;
 
         if (
-            (!device.mobile && name === SEARCH)
-            || (device.mobile && name !== MENU)
+            (!device.isMobile && name === SEARCH)
+            || (device.isMobile && name !== MENU)
         ) {
             return;
         }
@@ -350,7 +350,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             device
         } = this.props;
 
-        if (device.mobile || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
+        if (device.isMobile || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
             return;
         }
 
@@ -411,7 +411,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (!device.mobile) {
+        if (!device.isMobile) {
             this.setState({ shouldRenderCartOverlay: true });
 
             showOverlay(CART_OVERLAY);
@@ -429,7 +429,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             device
         } = this.props;
 
-        if (device.mobile || name !== CART_OVERLAY) {
+        if (device.isMobile || name !== CART_OVERLAY) {
             return;
         }
 

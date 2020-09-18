@@ -89,7 +89,7 @@ export class ProductPage extends PureComponent {
             device
         } = this.props;
 
-        if (!device.mobile) {
+        if (!device.isMobile) {
             return null;
         }
 

@@ -53,7 +53,7 @@ export class NewVersionPopupContainer extends PureComponent {
                     title: __('New version available!')
                 });
 
-                if (device.mobile) {
+                if (device.isMobile) {
                     goToPreviousHeaderState();
                 }
             });

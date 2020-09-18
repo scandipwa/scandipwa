@@ -100,7 +100,7 @@ export class MenuContainer extends DataContainer {
 
     onCategoryHover(activeSubcategory) {
         const { device } = this.props;
-        if (device.mobile) {
+        if (device.isMobile) {
             return;
         }
 
@@ -114,7 +114,7 @@ export class MenuContainer extends DataContainer {
 
     closeMenu() {
         const { device } = this.props;
-        if (device.mobile) {
+        if (device.isMobile) {
             return;
         }
 

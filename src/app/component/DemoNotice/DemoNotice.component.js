@@ -45,7 +45,7 @@ export class DemoNotice extends PureComponent {
 
     renderText() {
         const { device } = this.props;
-        if (device.mobile) {
+        if (device.isMobile) {
             return __('This is a demo store');
         }
 

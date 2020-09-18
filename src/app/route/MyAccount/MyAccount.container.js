@@ -211,7 +211,7 @@ export class MyAccountContainer extends PureComponent {
             return;
         }
 
-        if (device.mobile) { // do not redirect on mobile
+        if (device.isMobile) { // do not redirect on mobile
             return;
         }
 

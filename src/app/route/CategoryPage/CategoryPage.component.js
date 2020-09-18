@@ -139,11 +139,11 @@ export class CategoryPage extends PureComponent {
     renderItemsCount(isVisibleOnMobile = false) {
         const { isMatchingListFilter, device } = this.props;
 
-        if (isVisibleOnMobile && !device.mobile) {
+        if (isVisibleOnMobile && !device.isMobile) {
             return null;
         }
 
-        if (!isVisibleOnMobile && device.mobile) {
+        if (!isVisibleOnMobile && device.isMobile) {
             return null;
         }
 

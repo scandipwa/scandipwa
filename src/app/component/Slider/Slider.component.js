@@ -138,7 +138,7 @@ export class Slider extends PureComponent {
         const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
         const mousePossitionInElement = originalX - realElementPossitionInDOM;
 
-        if (device.mobile) {
+        if (device.isMobile) {
             return sliderPossition;
         }
 

@@ -272,7 +272,7 @@ export class ProductActions extends PureComponent {
             device
         } = this.props;
 
-        if (device.mobile) {
+        if (device.isMobile) {
             return null;
         }
 

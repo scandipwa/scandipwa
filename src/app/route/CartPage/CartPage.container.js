@@ -143,7 +143,7 @@ export class CartPageContainer extends PureComponent {
         // fir notification whatever device that is
         showNotification('info', __('Please sign-in to complete checkout!'));
 
-        if (device.mobile) { // for all mobile devices, simply switch route
+        if (device.isMobile) { // for all mobile devices, simply switch route
             history.push({ pathname: appendWithStoreCode('/my-account') });
             return;
         }

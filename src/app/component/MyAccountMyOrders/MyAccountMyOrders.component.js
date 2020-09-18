@@ -37,7 +37,7 @@ export class MyAccountMyOrders extends PureComponent {
         return (
             <tr block="MyAccountMyOrders" elem="NoOrders">
                 { /* eslint-disable-next-line no-magic-numbers */ }
-                <td colSpan={ device.mobile ? 3 : 4 }>{ __('You have no orders.') }</td>
+                <td colSpan={ device.isMobile ? 3 : 4 }>{ __('You have no orders.') }</td>
             </tr>
         );
     }

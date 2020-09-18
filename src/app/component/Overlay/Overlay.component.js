@@ -62,7 +62,7 @@ export class Overlay extends PureComponent {
         if (isStatic) {
             return;
         }
-        if (device.mobile) {
+        if (device.isMobile) {
             this.freezeScroll();
         }
         this.overlayRef.current.focus();
@@ -74,7 +74,7 @@ export class Overlay extends PureComponent {
         if (isStatic) {
             return;
         }
-        if (device.mobile) {
+        if (device.isMobile) {
             this.unfreezeScroll();
         }
         onHide();
@@ -100,7 +100,7 @@ export class Overlay extends PureComponent {
     renderInMobilePortal(content) {
         const { isStatic, isRenderInPortal, device } = this.props;
 
-        if (!isStatic && device.mobile && isRenderInPortal) {
+        if (!isStatic && device.isMobile && isRenderInPortal) {
             return createPortal(content, document.body);
         }
 

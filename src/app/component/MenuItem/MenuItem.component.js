@@ -41,7 +41,7 @@ export class MenuItem extends PureComponent {
         const { isBanner, isLogo, type } = itemMods;
 
         if (!icon
-            || (!device.mobile && !isBanner && !isLogo)
+            || (!device.isMobile && !isBanner && !isLogo)
             || (type === 'subcategory')
         ) {
             return null;

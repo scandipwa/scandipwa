@@ -58,7 +58,7 @@ export class SliderWidget extends PureComponent {
         } = slide;
         const { device } = this.props;
 
-        if (device.mobile && mobile_image) {
+        if (device.isMobile && mobile_image) {
             return `/${mobile_image}`;
         }
 

@@ -36,7 +36,7 @@ export const getInitialState = () => ({
     checkoutAgreements: [],
     isLoading: true,
     device: {
-        mobile: true,
+        isMobile: true,
         os: {
             android: true,
             ios: false,
@@ -62,7 +62,7 @@ export const ConfigReducer = (
             storeConfig = {}
         } = {},
         device: {
-            mobile,
+            isMobile,
             os
         } = {}
     } = action;
@@ -89,7 +89,7 @@ export const ConfigReducer = (
             ...state,
             device: {
                 ...state.device,
-                mobile,
+                isMobile,
                 os
             }
         };

@@ -38,7 +38,7 @@ export class CartOverlay extends PureComponent {
     componentDidMount() {
         const { showOverlay, device } = this.props;
 
-        if (!device.mobile) {
+        if (!device.isMobile) {
             showOverlay(CART_OVERLAY);
         }
     }

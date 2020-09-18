@@ -126,7 +126,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         const stateToBeUpdated = {};
 
-        if (!device.mobile) {
+        if (!device.isMobile) {
             if (!isOverlayVisible && !isSignedIn) {
                 if (pathname !== '/forgot-password' && !isForgotPassword) {
                     stateToBeUpdated.state = STATE_SIGN_IN;
@@ -221,7 +221,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             }
         });
 
-        if (device.mobile) {
+        if (device.isMobile) {
             history.push({ pathname: '/my-account', state: { isForgotPassword: true } });
             return state;
         }
@@ -250,7 +250,7 @@ export class MyAccountOverlayContainer extends PureComponent {
     onVisible() {
         const { setHeaderState, isCheckout, device } = this.props;
 
-        if (device.mobile && !isCheckout) {
+        if (device.isMobile && !isCheckout) {
             setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         }
     }

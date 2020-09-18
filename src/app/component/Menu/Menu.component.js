@@ -55,7 +55,7 @@ export class Menu extends PureComponent {
         const { children, item_class, item_id } = category;
         const childrenArray = getSortedItems(Object.values(children));
 
-        if (device.mobile || !childrenArray.length) {
+        if (device.isMobile || !childrenArray.length) {
             return null;
         }
 
@@ -102,7 +102,7 @@ export class Menu extends PureComponent {
         const childrenArray = Object.values(children);
         const subcategoryMods = { type: 'subcategory' };
 
-        if (childrenArray.length && device.mobile) {
+        if (childrenArray.length && device.isMobile) {
             return (
                 <div
                   key={ item_id }
@@ -250,7 +250,7 @@ export class Menu extends PureComponent {
 
     renderSubMenuDesktop(itemList) {
         const { device } = this.props;
-        if (device.mobile) {
+        if (device.isMobile) {
             return null;
         }
 
@@ -261,7 +261,7 @@ export class Menu extends PureComponent {
 
     renderAdditionalInformation(checkMobile = false) {
         const { device } = this.props;
-        if (checkMobile && !device.mobile) {
+        if (checkMobile && !device.isMobile) {
             return null;
         }
 
@@ -286,7 +286,7 @@ export class Menu extends PureComponent {
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
 
-        if (childrenArray.length && device.mobile) {
+        if (childrenArray.length && device.isMobile) {
             return (
                 <div
                   // TODO: split into smaller components
@@ -362,7 +362,7 @@ export class Menu extends PureComponent {
 
     renderStoreSwitcher() {
         const { device } = this.props;
-        if (!device.mobile) {
+        if (!device.isMobile) {
             return null;
         }
 

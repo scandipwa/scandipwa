@@ -383,7 +383,7 @@ export class MyAccountOverlay extends PureComponent {
               id={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
               mix={ { block: 'MyAccountOverlay' } }
               onVisible={ onVisible }
-              isStatic={ !isCheckout && device.mobile }
+              isStatic={ !isCheckout && device.isMobile }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }

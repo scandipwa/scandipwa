@@ -215,7 +215,7 @@ export class Header extends NavigationAbstract {
     renderMenu() {
         const { isCheckout, device } = this.props;
 
-        if (device.mobile || isCheckout) {
+        if (device.isMobile || isCheckout) {
             return null;
         }
 
@@ -372,7 +372,7 @@ export class Header extends NavigationAbstract {
         } = this.props;
 
         // on mobile hide button if not in checkout
-        if (device.mobile && !isCheckout) {
+        if (device.isMobile && !isCheckout) {
             return null;
         }
 
@@ -472,7 +472,7 @@ export class Header extends NavigationAbstract {
             device
         } = this.props;
 
-        if (device.mobile || isCheckout) {
+        if (device.isMobile || isCheckout) {
             return null;
         }
 
@@ -591,7 +591,7 @@ export class Header extends NavigationAbstract {
 
     renderTopMenu() {
         const { device } = this.props;
-        if (device.mobile) {
+        if (device.isMobile) {
             return null;
         }
 

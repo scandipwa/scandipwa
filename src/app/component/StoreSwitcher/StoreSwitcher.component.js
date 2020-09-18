@@ -113,7 +113,7 @@ export class StoreSwitcher extends PureComponent {
             return null;
         }
 
-        if (device.mobile) {
+        if (device.isMobile) {
             return this.renderMobileStoreSwitcher();
         }
 
