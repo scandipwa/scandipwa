@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
@@ -16,7 +15,6 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
 
 import './ExpandableContent.style';
-
 /** @namespace Component/ExpandableContent/Component */
 export class ExpandableContent extends PureComponent {
     static propTypes = {
@@ -48,7 +46,6 @@ export class ExpandableContent extends PureComponent {
 
     __construct(props) {
         super.__construct(props);
-
         const { isContentExpanded } = this.props;
         this.state = {
             isContentExpanded,
@@ -68,48 +65,37 @@ export class ExpandableContent extends PureComponent {
         return null;
     }
 
-    scrollToExpandedContent(isContentExpanded, coveringElementsIds) {
+    scrollToExpandedContent(coveringElementsIds) {
+        const { isContentExpanded } = this.state;
         const elem = this.expandableContentRef && this.expandableContentRef.current;
-
-        requestAnimationFrame(() => {
-            if (isContentExpanded && !elem) {
-                return;
-            }
-            const elemToWindowTopDist = elem.getBoundingClientRect().top;
-            const windowToPageTopDist = document.body.getBoundingClientRect().top;
-            const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
-
-            const coveringElementsHeight = coveringElementsIds.reduce((acc, elementId) => {
-                // eslint-disable-next-line no-param-reassign
-                acc += document.getElementById(elementId).offsetHeight;
-
-                return acc;
-            }, 0);
-
-            const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
-
-            // checking if button is in a view-port
-            if (-windowToPageTopDist < scrollTo) {
-                window.scrollTo(0, scrollTo);
-            }
-        });
+        if (isContentExpanded && !elem) {
+            return;
+        }
+        const elemToWindowTopDist = elem.getBoundingClientRect().top;
+        const windowToPageTopDist = document.body.getBoundingClientRect().top;
+        const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
+        const coveringElementsHeight = coveringElementsIds.reduce(
+            (acc, elementId) => acc + document.getElementById(elementId).offsetHeight,
+            0
+        );
+        const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
+        // checking if button is in a view-port
+        if (-windowToPageTopDist >= scrollTo) {
+            return;
+        }
+        window.scrollTo(0, scrollTo);
     }
 
     toggleExpand = () => {
         const { onClick } = this.props;
-        const { isContentExpanded } = this.state;
-
         if (onClick) {
-            onClick(); return;
+            onClick();
+            return;
         }
-
-        this.scrollToExpandedContent(
-            isContentExpanded, ['NavigationTabs', 'ProductActionsWrapper']
+        this.setState(
+            ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
+            () => this.scrollToExpandedContent(['NavigationTabs', 'ProductActionsWrapper'])
         );
-
-        this.setState(({ isContentExpanded }) => (
-            { isContentExpanded: !isContentExpanded }
-        ));
     };
 
     renderButton() {
@@ -147,7 +133,6 @@ export class ExpandableContent extends PureComponent {
                     { subHeading }
                 </span>
             </button>
-
         );
     }
 
@@ -155,7 +140,6 @@ export class ExpandableContent extends PureComponent {
         const { children, mix } = this.props;
         const { isContentExpanded } = this.state;
         const mods = { isContentExpanded };
-
         return (
             <div
               block="ExpandableContent"
@@ -171,7 +155,6 @@ export class ExpandableContent extends PureComponent {
 
     render() {
         const { mix } = this.props;
-
         return (
             <article
               block="ExpandableContent"
@@ -183,5 +166,4 @@ export class ExpandableContent extends PureComponent {
         );
     }
 }
-
 export default ExpandableContent;
