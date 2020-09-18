@@ -15,17 +15,18 @@ const generateConstructHandler = require('./handlers/generateConstructHandler');
 const applyClassWrappers = require('./middlewarers/generateMiddlewaredClass');
 
 const addNamespaceToMiddlewarable = (Middlewarable, namespace) => {
-    if (!Middlewarable.prototype.__namespace__) {
-        Middlewarable.prototype.__namespace__ = [];
+    // TODO class namespaces set on wrong classes
+    if (!Middlewarable.prototype.__namespaces__) {
+        Middlewarable.prototype.__namespaces__ = [];
     }
 
     // Prevent duplicate namespaces from overridden classes
-    if (!Middlewarable.prototype.__namespace__.includes(namespace)) {
-        Middlewarable.prototype.__namespace__.push(namespace);
+    if (!Middlewarable.prototype.__namespaces__.includes(namespace)) {
+        Middlewarable.prototype.__namespaces__.push(namespace);
     }
 };
 
-const getNamespacesFromMiddlewarable = (Middlewarable) => Middlewarable.prototype.__namespace__;
+const getNamespacesFromMiddlewarable = (Middlewarable) => Middlewarable.prototype.__namespaces__;
 
 /**
  * Middleware function is supposed to wrap source classes
@@ -50,7 +51,7 @@ function middleware(Middlewarable, namespace) {
     const proxy = new Proxy(Middlewarable, handler);
 
     // TODO check if class
-    return applyClassWrappers(proxy);
+    return proxy; applyClassWrappers(proxy);
 }
 
 module.exports = middleware;
