@@ -38,7 +38,6 @@ export class CartDispatcher {
             this._syncCartWithBE(dispatch);
         } else if (guestQuoteId) {
             // This is guest
-            this.createGuestEmptyCart(dispatch);
             this._syncCartWithBE(dispatch, guestQuoteId);
         } else {
             // This is guest, cart is empty
