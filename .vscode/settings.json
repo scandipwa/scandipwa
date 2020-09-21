@@ -5,5 +5,7 @@
     ],
     "search.exclude": {
         "**/Magento_Theme": true
-    }
+    },
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.formatOnSave": true
 }
