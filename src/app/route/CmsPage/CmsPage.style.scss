@@ -11,7 +11,7 @@
 
 .CmsPage {
     &_isBreadcrumbsHidden {
-        margin-top: calc(var(--header-total-height) + 1.2rem);
+        margin-top: calc(var(--header-total-height) + 1rem);
     }
 
     &-Wrapper {
@@ -19,19 +19,19 @@
         max-width: var(--content-wrapper-width);
 
         padding: {
-            left: 1.2rem;
-            right: 1.2rem;
+            left: 1rem;
+            right: 1rem;
         };
 
         margin: {
-            top: calc(var(--header-total-height) + 1.2rem);
+            top: calc(var(--header-total-height) + 1rem);
             bottom: var(--header-nav-height);
             left: auto;
             right: auto;
         };
 
         @include after-mobile {
-            margin-top: 2.4rem;
+            margin-top: 2rem;
         }
 
         &_page_width {
@@ -46,7 +46,7 @@
     }
 
     &-Heading {
-        margin-bottom: 1.8rem;
+        margin-bottom: 1.5rem;
 
         @include mobile {
             display: none;
@@ -74,14 +74,14 @@
     }
 
     .TextPlaceholder {
-        margin-bottom: 2.16rem;
+        margin-bottom: 1.8rem;
         display: block;
     }
 
     h2,
     h3 {
         @include mobile {
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
     }
 }

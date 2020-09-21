@@ -10,7 +10,7 @@
  */
 
 .AddToCart {
-    min-width: 14.4rem;
+    min-width: 12rem;
     vertical-align: middle;
 
     span {
@@ -32,7 +32,7 @@
     }
 
     &_isPlaceholder {
-        height: 4.8rem;
+        height: 4rem;
         display: inline-block;
         padding: var(--button-padding);
         background-image: var(--placeholder-image);

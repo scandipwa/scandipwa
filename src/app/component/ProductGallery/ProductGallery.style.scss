@@ -13,13 +13,13 @@
     @include desktop {
         display: grid;
         grid-template-columns: 150px 1fr;
-        grid-gap: 1.8rem;
-        max-height: 48rem;
+        grid-gap: 1.5rem;
+        max-height: 40rem;
     }
 
     &-Additional {
         display: grid;
-        grid-gap: 1.8rem;
+        grid-gap: 1.5rem;
 
         @include before-desktop {
             display: none;
@@ -27,11 +27,11 @@
     }
 
     &-Slider {
-        min-height: 48rem;
+        min-height: 40rem;
         height: var(--slider-height);
 
         @include mobile {
-            min-height: 36rem;
+            min-height: 30rem;
         }
 
         &::after {
@@ -57,7 +57,7 @@
 
     &-Notice {
         color: var(--secondary-dark-color);
-        font-size: .108rem;
+        font-size: .9rem;
         text-align: center;
 
         @include mobile {

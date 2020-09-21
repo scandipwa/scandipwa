@@ -26,13 +26,13 @@
         padding: 0;
 
         @include desktop {
-            padding: 3.6rem 1.2rem;
+            padding: 3rem 1rem;
         }
     }
 
     &-ExpandableContentHeading {
         @include desktop {
-            font-size: 2rem;
+            font-size: 20px;
             text-transform: uppercase;
         }
 
@@ -44,25 +44,25 @@
     &-ExpandableContentContent {
         &_isContentExpanded {
             @include mobile {
-                padding: 0 1.2rem;
+                padding: 0 1rem;
             }
         }
 
         @include after-mobile {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-gap: 4.8rem;
+            grid-gap: 4rem;
             justify-content: center;
             align-items: flex-start;
         }
     }
 
     &-Placeholder {
-        margin-top: 2.4rem;
+        margin-top: 2rem;
 
         span {
             display: block;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
     }
 
@@ -76,7 +76,7 @@
         flex-wrap: wrap;
 
         @include mobile {
-            margin-top: 2.4rem;
+            margin-top: 2rem;
         }
     }
 
@@ -88,8 +88,8 @@
     }
 
     &-ValueLabel {
-        padding-left: .6rem;
-        margin-bottom: 1.2rem;
+        padding-left: .5rem;
+        margin-bottom: 1rem;
     }
 
     &-AttributeLabel {
@@ -103,8 +103,8 @@
     &-Image {
         padding-bottom: 40%;
         mix-blend-mode: multiply;
-        margin-right: 12rem;
-        min-width: 36rem;
+        margin-right: 10rem;
+        min-width: 30rem;
         background: none;
 
         @include mobile {

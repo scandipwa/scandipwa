@@ -63,7 +63,7 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     table-layout: fixed;
-    margin-bottom: 1.44rem;
+    margin-bottom: 1.2rem;
 }
 
 img {
@@ -95,44 +95,44 @@ a {
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: bold;
 
     @include mobile {
-        font-size: 2.4rem;
+        font-size: 2rem;
     }
 
     + h2,
     + h3,
     + h4 {
-        margin-top: .72rem;
+        margin-top: .6rem;
     }
 }
 
 h2 {
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 2.4rem;
-    margin-bottom: 1.8rem;
-    margin-top: 2.16rem;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1.8rem;
 
     + h3,
     + h4 {
-        top: -.108rem;
-        margin-top: .72rem;
-        margin-bottom: .72rem;
+        top: -.9rem;
+        margin-top: .6rem;
+        margin-bottom: .6rem;
     }
 }
 
 h3 {
-    font-size: 1.8rem;
-    margin-top: 2.16rem;
-    margin-bottom: 1.8rem;
+    font-size: 1.5rem;
+    margin-top: 1.8rem;
+    margin-bottom: 1.5rem;
 
     + h4 {
-        top: -.108rem;
-        margin-top: .72rem;
-        margin-bottom: .72rem;
+        top: -.9rem;
+        margin-top: .6rem;
+        margin-bottom: .6rem;
     }
 }
 
@@ -141,7 +141,7 @@ p,
 li,
 dl,
 button {
-    font-size: 1.4rem;
+    font-size: 14px;
 }
 
 li {
@@ -159,7 +159,7 @@ li {
 }
 
 p {
-    margin-bottom: 1.44rem;
+    margin-bottom: 1.2rem;
     line-height: 1.8;
 
     &:last-of-type {
@@ -169,12 +169,12 @@ p {
 
 input,
 select {
-    min-height: 2.4rem;
-    min-width: 4.8rem;
-    font-size: 1.32rem;
+    min-height: 2rem;
+    min-width: 4rem;
+    font-size: 1.1rem;
 
     @include mobile {
-        font-size: 1.6rem;
+        font-size: 16px;
     }
 }
 
@@ -195,7 +195,7 @@ textarea {
     resize: none;
 
     @include mobile {
-        font-size: 1.6rem;
+        font-size: 16px;
     }
 }
 

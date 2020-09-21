@@ -53,13 +53,13 @@
         flex-direction: column;
 
         @include after-mobile {
-            padding-bottom: 4.8rem;
+            padding-bottom: 4rem;
         }
 
         &_isLikeTable {
             @include after-mobile {
                 padding-bottom: 0;
-                min-height: 6rem;
+                min-height: 5rem;
                 align-self: center;
             }
         }
@@ -67,13 +67,13 @@
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 7.2rem auto;
-        grid-gap: 1.2rem;
-        padding: 1.2rem;
+        grid-template-columns: 6rem auto;
+        grid-gap: 1rem;
+        padding: 1rem;
         background: var(--cart-item-background);
 
         @include after-mobile {
-            grid-template-columns: 8.4rem auto;
+            grid-template-columns: 7rem auto;
         }
     }
 
@@ -90,7 +90,7 @@
     }
 
     &-Option {
-        font-size: 1rem;
+        font-size: 10px;
         text-transform: uppercase;
         border: 1px solid var(--cart-item-option-color);
         color: var(--cart-item-option-color);
@@ -108,23 +108,23 @@
 
     &-ItemOption {
         display: flex;
-        margin-bottom: .6rem;
-        margin-right: .6rem;
+        margin-bottom: .5rem;
+        margin-right: .5rem;
     }
 
     &-ItemOptionLabel {
         align-self: center;
         font-weight: bold;
-        margin-right: .6rem;
+        margin-right: .5rem;
     }
 
     &-Heading,
     &-SubHeading {
-        font-size: 1.4rem;
+        font-size: 14px;
         line-height: 1.2;
         flex-grow: 1;
         width: 100%;
-        margin-bottom: .6rem;
+        margin-bottom: .5rem;
     }
 
     &-Heading {
@@ -146,14 +146,14 @@
         margin-bottom: 0;
 
         @include after-mobile {
-            font-size: 1.6rem;
+            font-size: 16px;
         }
 
         &_isLikeTable {
             top: 0;
 
             @include after-mobile {
-                width: 24rem;
+                width: 20rem;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -172,7 +172,7 @@
 
     &-Actions {
         opacity: 0;
-        padding: 0 1.2rem;
+        padding: 0 1rem;
         max-height: 0;
         pointer-events: none;
 
@@ -192,10 +192,10 @@
 
         @include after-mobile {
             position: absolute;
-            bottom: 1.2rem;
+            bottom: 1rem;
             right: 0;
-            width: calc(100% - 9.6rem);
-            height: 3.6rem;
+            width: calc(100% - 8rem);
+            height: 3rem;
         }
 
         &_isLikeTable {
@@ -215,9 +215,9 @@
 
         &_isEditing {
             transition-property: padding, max-height, opacity;
-            padding: .6rem 1.2rem;
+            padding: .5rem 1rem;
             opacity: 1;
-            max-height: 6rem;
+            max-height: 5rem;
             pointer-events: all;
         }
 
@@ -263,7 +263,7 @@
 
         height: 35px;
         padding-left: 35px;
-        font-size: 1.4rem;
+        font-size: 14px;
         color: var(--cart-item-actions-color);
     }
 
@@ -282,7 +282,7 @@
             order: 2;
             width: 44px;
             min-width: 44px;
-            font-size: 1.6rem;
+            font-size: 16px;
         }
 
         button {

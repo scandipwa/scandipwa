@@ -15,7 +15,7 @@
 }
 
 .SearchItem {
-    padding: .6rem 0;
+    padding: .5rem 0;
     margin-bottom: 0;
 
     @include desktop {
@@ -30,8 +30,8 @@
         content: '';
         position: absolute;
         bottom: -1px;
-        left: 1.2rem;
-        right: 1.2rem;
+        left: 1rem;
+        right: 1rem;
         height: 1px;
         background-color: var(--search-item-divider-color);
     }
@@ -46,8 +46,8 @@
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 4.8rem calc(100% - 6rem);
-        grid-column-gap: 1.2rem;
+        grid-template-columns: 4rem calc(100% - 5rem);
+        grid-column-gap: 1rem;
     }
 
     &-Content {
@@ -59,15 +59,15 @@
     &-CustomAttribute {
         text-transform: uppercase;
         font-weight: 200;
-        font-size: .96rem;
-        line-height: 1.44rem;
+        font-size: .8rem;
+        line-height: 1.2rem;
     }
 
     &-Title {
         color: var(--search-item-title-color);
-        font-size: 1.32rem;
+        font-size: 1.1rem;
         font-weight: 600;
-        max-width: calc(100vw - 8.4rem);
+        max-width: calc(100vw - 7rem);
 
         &_isLoaded {
             text-overflow: ellipsis;

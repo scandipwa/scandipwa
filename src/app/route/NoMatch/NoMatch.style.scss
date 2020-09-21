@@ -24,18 +24,18 @@
     }
 
     h1 {
-        font-size: 14.4rem;
+        font-size: 12rem;
         font-weight: 400;
         color: var(--primary-base-color);
         line-height: 1;
     }
 
     &-Button {
-        margin-top: 2.4rem;
+        margin-top: 2rem;
     }
 
     &-Subtitle {
-        font-size: 3.6rem;
+        font-size: 3rem;
         font-weight: 700;
         margin: 0;
     }
@@ -44,7 +44,7 @@
         text-align: center;
 
         @include after-mobile {
-            margin-bottom: 12rem;
+            margin-bottom: 10rem;
         }
     }
 }

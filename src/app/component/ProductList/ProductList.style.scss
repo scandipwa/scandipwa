@@ -16,24 +16,24 @@
 .ProductList {
     @include after-mobile {
         grid-column: 2;
-        padding-bottom: 2.4rem;
+        padding-bottom: 2rem;
         min-height: 100vh;
     }
 
     &-ProductsMissing {
-        padding: 1.2rem;
+        padding: 1rem;
         text-align: center;
     }
 
     &-More {
-        min-height: 3.6rem;
+        min-height: 3rem;
     }
 
     &-LoadButton {
         background-color: var(--category-product-list-load-button-background);
         cursor: pointer;
         font-size: 13pt;
-        margin-bottom: 1.2rem;
+        margin-bottom: 1rem;
         padding: 1em 0;
         text-align: center;
     }

@@ -2,7 +2,7 @@
     width: 100%;
 
     &-Item {
-        font-size: 1.5rem;
+        font-size: 15px;
         padding-left: 0;
 
         @include after-mobile {
@@ -10,7 +10,7 @@
         }
 
         &:last-child {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         &::before {
@@ -18,7 +18,7 @@
         }
 
         &_isLowest {
-            font-size: 1.2rem;
+            font-size: 12px;
             margin-top: 2px;
             padding: 0;
 

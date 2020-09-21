@@ -14,27 +14,27 @@
         @include after-mobile {
             display: grid;
             grid-template-columns: 1fr 2fr;
-            grid-gap: 2.4rem;
+            grid-gap: 2rem;
         }
     }
 
     &-ProductName {
         font-weight: 700;
-        font-size: 2.4rem;
+        font-size: 2rem;
 
         @include mobile {
-            font-size: 2.16rem;
+            font-size: 1.8rem;
         }
     }
 
     &-Content {
         @include mobile {
-            margin-top: 2.4rem;
+            margin-top: 2rem;
         }
     }
 
     &-Rating {
-        margin: 1.2rem 0 1.56rem;
+        margin: 1rem 0 1.3rem;
         text-align: left;
         direction: rtl;
         border: 0;
@@ -50,16 +50,16 @@
 
     &-Legend {
         border-bottom: 0;
-        padding-bottom: .36rem;
+        padding-bottom: .3rem;
         font-weight: 700;
-        font-size: 1.26rem;
+        font-size: 1.05rem;
     }
 
     & &-Button {
-        margin-top: 1.2rem;
+        margin-top: 1rem;
 
         @include mobile {
-            margin-top: 2.4rem;
+            margin-top: 2rem;
             width: 100%;
         }
     }

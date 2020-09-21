@@ -22,7 +22,7 @@
     justify-self: flex-end;
     grid-column: 3;
     right: 0;
-    padding-top: 1.2rem;
+    padding-top: 1rem;
 
     @include desktop {
         position: absolute;
@@ -64,7 +64,7 @@
 
     button {
         width: 100%;
-        margin-top: .6rem;
+        margin-top: .5rem;
     }
 
     input {
@@ -72,9 +72,9 @@
     }
 
     &-Heading {
-        font-size: 1.8rem;
+        font-size: 18px;
         font-weight: bold;
-        padding: 0 1.2rem 1.2rem;
+        padding: 0 1rem 1rem;
 
         @include before-desktop {
             display: none;
@@ -83,7 +83,7 @@
 
     &-Notification {
         background-color: var(--primary-dark-color);
-        padding: 2.4rem;
+        padding: 2rem;
     }
 
     &-Navigation {
@@ -108,8 +108,8 @@
         button {
             width: 100%;
             text-align: left;
-            padding: 1.2rem 2.4rem;
-            font-size: 1.44rem;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
 
             &:hover {
                 background-color: var(--color-cart-light);
@@ -121,11 +121,11 @@
             }
 
             @include desktop {
-                padding: .6rem;
+                padding: .5rem;
             }
         }
         @include desktop {
-            padding: .6rem;
+            padding: .5rem;
         }
     }
 
@@ -133,9 +133,9 @@
     &-Additional {
         padding: {
             top: 0;
-            left: 1.2rem;
-            right: 1.2rem;
-            bottom: 1.2rem;
+            left: 1rem;
+            right: 1rem;
+            bottom: 1rem;
         };
     }
 
@@ -146,19 +146,19 @@
         &_state {
             &_createAccount {
                 h4 {
-                    padding-right: 1.2rem;
+                    padding-right: 1rem;
                     display: inline;
                 }
 
                 h3 {
-                    margin-bottom: 1.2rem;
+                    margin-bottom: 1rem;
                 }
 
                 .Field {
-                    margin-top: .84rem;
+                    margin-top: .7rem;
                 }
                 @include before-desktop {
-                    padding-top: 1.2rem;
+                    padding-top: 1rem;
                 }
             }
 
@@ -192,9 +192,9 @@
         }
 
         h4 {
-            font-size: 1.38rem;
+            font-size: 1.15rem;
             font-weight: bold;
-            margin-bottom: .6rem;
+            margin-bottom: .5rem;
         }
 
         h3 {
@@ -203,12 +203,12 @@
 
         @include desktop {
             width: calc(var(--my-account-overlay-width) - (var(--my-account-overlay-border-width) * 2));
-            padding: 1.2rem 2.4rem 2.4rem;
+            padding: 1rem 2rem 2rem;
         }
     }
 
     &-Additional {
-        padding-top: 6.6rem;
+        padding-top: 5.5rem;
 
         section {
             display: flex;
@@ -222,7 +222,7 @@
 
         &_state {
             &_createAccount {
-                padding-top: 2.4rem;
+                padding-top: 2rem;
 
                 @include before-desktop {
                     display: none;
@@ -237,7 +237,7 @@
                     width: initial;
                     height: initial;
                     margin: 0;
-                    padding-left: .48rem;
+                    padding-left: .4rem;
                 }
             }
 
@@ -252,8 +252,8 @@
             }
 
             &_forgotPassword {
-                padding-top: 3.36rem;
-                padding-left: 2.52rem;
+                padding-top: 2.8rem;
+                padding-left: 2.1rem;
 
                 @include before-desktop {
                     display: none;
@@ -275,7 +275,7 @@
                     }
 
                     &:last-of-type {
-                        padding-top: .12rem;
+                        padding-top: .1rem;
                     }
                 }
             }
@@ -284,9 +284,9 @@
                 padding-top: 0;
 
                 h4 {
-                    font-size: 1.2rem;
+                    font-size: 1rem;
                     line-height: 1.5;
-                    padding-bottom: 1.68rem;
+                    padding-bottom: 1.4rem;
                     font-weight: normal;
                     letter-spacing: normal;
                 }
@@ -324,13 +324,13 @@
     }
 
     &-Buttons {
-        margin-top: .6rem;
+        margin-top: .5rem;
     }
 
     &-Button {
         &_likeLink {
-            font-size: .114rem;
-            margin-top: 1.44rem;
+            font-size: .95rem;
+            margin-top: 1.2rem;
         }
     }
 
@@ -340,26 +340,26 @@
         right: 14px;
         justify-content: flex-end;
         align-items: center;
-        margin-bottom: 2.4rem;
-        margin-top: .108rem;
+        margin-bottom: 2rem;
+        margin-top: .9rem;
 
         > label:first-of-type {
             color: var(--checkbox-label-color);
-            font-size: .96rem;
+            font-size: .8rem;
             font-weight: 500;
             padding-bottom: 0;
-            margin-left: .96rem;
+            margin-left: .8rem;
         }
 
         > label:last-of-type {
-            width: 1.32rem;
-            height: 1.32rem;
+            width: 1.1rem;
+            height: 1.1rem;
 
             &::after {
-                left: .12rem;
-                top: .48rem;
-                width: .18rem;
-                height: .18rem;
+                left: .1rem;
+                top: .4rem;
+                width: .15rem;
+                height: .15rem;
             }
         }
 

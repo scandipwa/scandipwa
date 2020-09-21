@@ -16,14 +16,14 @@
 
 .HomepageCategories {
     @include desktop {
-        grid-gap: 1.2rem;
+        grid-gap: 1rem;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         margin-top: 3px;
     }
 
     &-Figure {
-        margin-top: 1.2rem;
+        margin-top: 1rem;
 
         @include after-mobile {
             margin-top: 5px;
