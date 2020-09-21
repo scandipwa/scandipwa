@@ -22,26 +22,26 @@
     flex-direction: column;
 
     @include mobile {
-        margin-bottom: calc(var(--navigation-tabs-height) + 1.2rem);
+        margin-bottom: calc(var(--navigation-tabs-height) + 1rem);
     }
 
     &-Link,
     &-Copyright {
-        font-size: 1.1rem;
+        font-size: 11px;
         font-weight: 300;
         color: inherit;
 
         &:not(:last-of-type) {
             &::after {
                 content: '|';
-                margin-left: 1.2rem;
+                margin-left: 1rem;
             }
         }
     }
 
     &-Copyright {
         display: block;
-        margin-top: 1.2rem;
+        margin-top: 1rem;
 
         a {
             color: inherit;

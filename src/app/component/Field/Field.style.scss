@@ -10,27 +10,27 @@
  */
 
 .Field {
-    margin-top: 1.2rem;
+    margin-top: 1rem;
 
     label {
-        font-size: 1.26rem;
+        font-size: 1.05rem;
     }
 
     &-Label {
         font-weight: 700;
-        padding-bottom: .36rem;
+        padding-bottom: .3rem;
     }
 
     &-Message {
         margin-bottom: -.1em;
-        font-size: 1.26rem;
+        font-size: 1.05rem;
         font-weight: 600;
         color: var(--primary-error-color);
     }
 
     &-Note {
-        margin-bottom: .24rem;
-        font-size: 1.2rem;
+        margin-bottom: .2rem;
+        font-size: 1rem;
         font-weight: 600;
         color: var(--field-note);
         opacity: 0;
@@ -52,7 +52,7 @@
 
     &::placeholder {
         color: var(--field-note);
-        font-size: .108rem;
+        font-size: .9rem;
     }
 
     input:focus + .Field-Note {
@@ -66,11 +66,11 @@
             label {
                 &:first-of-type {
                     display: inline-block;
-                    max-width: calc(100vw - 2.4rem - 45px);
+                    max-width: calc(100vw - 2rem - 45px);
                     vertical-align: middle;
 
                     ~ label {
-                        margin-left: 1.2rem;
+                        margin-left: 1rem;
                     }
                 }
 
@@ -97,8 +97,8 @@
             position: relative;
             cursor: pointer;
             padding: 0;
-            width: 1.8rem;
-            height: 1.8rem;
+            width: 1.5rem;
+            height: 1.5rem;
             background-color: var(--box-color);
             border: 1px solid var(--input-border-color);
             transition-property: background-color, border-color;
@@ -151,10 +151,10 @@
     [type='checkbox'] {
         + label {
             &::after {
-                left: .3rem;
-                top: .72rem;
-                width: .24rem;
-                height: .24rem;
+                left: .25rem;
+                top: .6rem;
+                width: .2rem;
+                height: .2rem;
                 box-shadow:
                     2px 0 0 var(--checkmark-color),
                     4px 0 0 var(--checkmark-color),
@@ -189,8 +189,8 @@
                 top: 0;
                 bottom: 0;
                 margin: auto;
-                width: .6rem;
-                height: .6rem;
+                width: .5rem;
+                height: .5rem;
                 border-radius: 50%;
                 transition-property: background-color, box-shadow;
                 will-change: background-color, box-shadow;

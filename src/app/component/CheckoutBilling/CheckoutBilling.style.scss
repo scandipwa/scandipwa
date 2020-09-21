@@ -12,7 +12,7 @@
 .CheckoutBilling {
     &-Checkbox {
         display: inline-block;
-        margin-bottom: 2.4rem;
+        margin-bottom: 2rem;
 
         + .CheckoutAddressBook {
             margin-top: 0;
@@ -21,15 +21,15 @@
 
     &-TermsAndConditions {
         font-weight: 700;
-        font-size: 1.26rem;
+        font-size: 1.05rem;
         margin: 0;
-        margin-bottom: 2.4rem;
+        margin-bottom: 2rem;
         display: flex;
         align-items: center;
 
         &-Checkbox {
             margin: 0;
-            margin-left: 1.2rem;
+            margin-left: 1rem;
         }
     }
 

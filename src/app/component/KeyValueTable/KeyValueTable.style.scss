@@ -10,11 +10,11 @@
  */
 
 .KeyValueTable {
-    margin: 0 0 1.2rem 0;
+    margin: 0 0 1rem 0;
     min-width: 100%;
 
     &-Heading {
-        font-size: 1.4rem;
+        font-size: 14px;
     }
 
     &-Item {
@@ -32,7 +32,7 @@
     &-Wrapper {
         @include mobile {
             overflow-x: scroll;
-            max-width: calc(100vw - 2.4rem);
+            max-width: calc(100vw - 2rem);
         }
     }
 }

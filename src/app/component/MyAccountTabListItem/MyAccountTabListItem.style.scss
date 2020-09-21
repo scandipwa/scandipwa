@@ -51,10 +51,10 @@
         text-align: left;
         text-shadow: var(--text-shadow);
         letter-spacing: .03ex;
-        font-size: 1.4rem;
+        font-size: 14px;
 
         @include after-mobile {
-            padding: 10px 2.4rem;
+            padding: 10px 2rem;
             min-width: 250px;
         }
 
@@ -62,7 +62,7 @@
             content: '';
             position: absolute;
             top: 0;
-            right: 1.2rem;
+            right: 1rem;
             bottom: 0;
             width: 6px;
             height: 6px;
@@ -74,7 +74,7 @@
             }
 
             @include after-mobile {
-                right: 2.4rem;
+                right: 2rem;
             }
         }
     }

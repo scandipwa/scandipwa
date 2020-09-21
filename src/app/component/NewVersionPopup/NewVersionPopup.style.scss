@@ -16,11 +16,11 @@
     }
 
     &-Heading {
-        font-size: 2rem;
+        font-size: 20px;
         text-decoration: none;
         font-weight: 400;
         margin-top: 0;
-        margin-bottom: 1.2rem;
+        margin-bottom: 1rem;
 
         @include after-mobile {
             display: none;
@@ -28,7 +28,7 @@
     }
 
     &-Button {
-        margin-top: 1.2rem;
+        margin-top: 1rem;
 
         @include mobile {
             width: 100%;
@@ -45,7 +45,7 @@
         }
 
         &-Heading {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
     }
 }

@@ -36,12 +36,12 @@
     }
 
     &-Button {
-        margin-left: 2.4rem;
+        margin-left: 2rem;
 
         @include before-desktop {
             width: 100%;
             margin-left: 0;
-            margin-top: 1.2rem;
+            margin-top: 1rem;
         }
     }
 }

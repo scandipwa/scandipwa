@@ -18,7 +18,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: max-content;
-        grid-column-gap: 2.4rem;
+        grid-column-gap: 2rem;
 
         @media (min-width: 1370px) {
             grid-template-columns: repeat(4, 1fr);
@@ -40,7 +40,7 @@
 
     &-ActionBar {
         display: flex;
-        padding: 0 0 1.2rem;
+        padding: 0 0 1rem;
         justify-content: flex-end;
 
         @include after-mobile {
@@ -54,17 +54,17 @@
         }
 
         button + button {
-            margin-left: 1.2rem;
+            margin-left: 1rem;
 
             @include mobile {
-                margin-top: 1.2rem;
+                margin-top: 1rem;
                 margin-left: 0;
             }
         }
     }
 
     &-NoProductsButton {
-        margin-top: 1.2rem;
+        margin-top: 1rem;
     }
 
     &-Button {
@@ -82,7 +82,7 @@
     }
 
     .ProductCard {
-        padding: 1.2rem 0;
+        padding: 1rem 0;
 
         @include mobile {
             border-top: 1px solid var(--wishlist-item-border-color);

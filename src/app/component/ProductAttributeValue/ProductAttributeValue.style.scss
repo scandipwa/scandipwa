@@ -59,7 +59,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        margin-left: .6rem;
+        margin-left: .5rem;
 
         @include after-mobile {
             margin: 0;
@@ -159,7 +159,7 @@
             }
 
             &:first-of-type {
-                padding-left: 1.2rem;
+                padding-left: 1rem;
                 padding-bottom: 0;
                 order: 1;
                 text-align: left;
@@ -173,8 +173,8 @@
 
                 ~ label {
                     margin: 0;
-                    min-width: 1.8rem;
-                    top: .36rem;
+                    min-width: 1.5rem;
+                    top: .3rem;
                 }
             }
         }
@@ -195,7 +195,7 @@
         }
 
         @include after-mobile {
-            padding: .6rem 0;
+            padding: .5rem 0;
         }
     }
 
