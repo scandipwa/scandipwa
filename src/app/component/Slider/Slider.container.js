@@ -11,17 +11,16 @@
 
 import { connect } from 'react-redux';
 
-import OverlayComponent from './Overlay.component';
+import Slider from './Slider.component';
 
-/** @namespace Component/Overlay/Container/mapStateToProps */
+/** @namespace Component/Slider/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    activeOverlay: state.OverlayReducer.activeOverlay,
-    areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     device: state.ConfigReducer.device
 });
 
-/** @namespace Component/Overlay/Container/mapDispatchToProps */
+/** @namespace Component/Slider/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverlayComponent);
+// eslint-disable-next-line @scandipwa/scandipwa-guidelines/always-both-mappings
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(Slider);

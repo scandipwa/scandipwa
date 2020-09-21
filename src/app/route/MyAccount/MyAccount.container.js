@@ -26,7 +26,7 @@ import {
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
 
 import MyAccount from './MyAccount.component';
 import { MY_ACCOUNT_URL } from './MyAccount.config';
@@ -42,7 +42,8 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Route/MyAccount/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -69,7 +70,8 @@ export class MyAccountContainer extends PureComponent {
         isSignedIn: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
         location: LocationType.isRequired,
-        history: HistoryType.isRequired
+        history: HistoryType.isRequired,
+        device: DeviceType.isRequired
     };
 
     static navigateToSelectedTab(props, state = {}) {
@@ -201,14 +203,15 @@ export class MyAccountContainer extends PureComponent {
         const {
             isSignedIn,
             history,
-            location: { pathname }
+            location: { pathname },
+            device
         } = this.props;
 
         if (isSignedIn) { // do nothing for signed-in users
             return;
         }
 
-        if (isMobile.any()) { // do not redirect on mobile
+        if (device.isMobile) { // do not redirect on mobile
             return;
         }
 

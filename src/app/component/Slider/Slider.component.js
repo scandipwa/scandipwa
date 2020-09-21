@@ -16,8 +16,8 @@ import { Children, createRef, PureComponent } from 'react';
 
 import Draggable from 'Component/Draggable';
 import { ChildrenType, MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
 import CSS from 'Util/CSS';
-import isMobile from 'Util/Mobile';
 
 import {
     ACTIVE_SLIDE_PERCENT,
@@ -38,7 +38,8 @@ export class Slider extends PureComponent {
         onActiveImageChange: PropTypes.func,
         mix: MixType,
         children: ChildrenType.isRequired,
-        isInteractionDisabled: PropTypes.bool
+        isInteractionDisabled: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -128,7 +129,7 @@ export class Slider extends PureComponent {
     onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
         const { originalX } = state;
         const { prevActiveImage: prevActiveSlider } = this.state;
-        const { onActiveImageChange } = this.props;
+        const { onActiveImageChange, device } = this.props;
 
         const fullSliderPoss = Math.round(fullSliderSize / slideSize);
         const elementPossitionInDOM = this.draggableRef.current.getBoundingClientRect().x;
@@ -137,7 +138,7 @@ export class Slider extends PureComponent {
         const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
         const mousePossitionInElement = originalX - realElementPossitionInDOM;
 
-        if (isMobile.any()) {
+        if (device.isMobile) {
             return sliderPossition;
         }
 

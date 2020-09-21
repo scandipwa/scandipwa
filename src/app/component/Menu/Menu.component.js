@@ -17,9 +17,9 @@ import CmsBlock from 'Component/CmsBlock';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import { DeviceType } from 'Type/Device';
 import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
-import isMobile from 'Util/Mobile';
 
 import './Menu.style';
 
@@ -30,7 +30,8 @@ export class Menu extends PureComponent {
         activeMenuItemsStack: PropTypes.array.isRequired,
         handleSubcategoryClick: PropTypes.func.isRequired,
         closeMenu: PropTypes.func.isRequired,
-        onCategoryHover: PropTypes.func.isRequired
+        onCategoryHover: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     renderDesktopSubLevelItems(item, mods) {
@@ -50,10 +51,11 @@ export class Menu extends PureComponent {
     }
 
     renderDesktopSubLevel(category) {
+        const { device } = this.props;
         const { children, item_class, item_id } = category;
         const childrenArray = getSortedItems(Object.values(children));
 
-        if (isMobile.any() || !childrenArray.length) {
+        if (device.isMobile || !childrenArray.length) {
             return null;
         }
 
@@ -86,7 +88,8 @@ export class Menu extends PureComponent {
             handleSubcategoryClick,
             activeMenuItemsStack,
             onCategoryHover,
-            closeMenu
+            closeMenu,
+            device
         } = this.props;
 
         const {
@@ -99,7 +102,7 @@ export class Menu extends PureComponent {
         const childrenArray = Object.values(children);
         const subcategoryMods = { type: 'subcategory' };
 
-        if (childrenArray.length && isMobile.any()) {
+        if (childrenArray.length && device.isMobile) {
             return (
                 <div
                   key={ item_id }
@@ -246,7 +249,8 @@ export class Menu extends PureComponent {
     };
 
     renderSubMenuDesktop(itemList) {
-        if (isMobile.any() || isMobile.tablet()) {
+        const { device } = this.props;
+        if (device.isMobile || device.isTablet) {
             return null;
         }
 
@@ -256,7 +260,8 @@ export class Menu extends PureComponent {
     }
 
     renderAdditionalInformation(checkMobile = false) {
-        if (checkMobile && !isMobile.any()) {
+        const { device } = this.props;
+        if (checkMobile && !device.isMobile) {
             return null;
         }
 
@@ -273,14 +278,15 @@ export class Menu extends PureComponent {
             activeMenuItemsStack,
             handleSubcategoryClick,
             onCategoryHover,
-            closeMenu
+            closeMenu,
+            device
         } = this.props;
 
         const { children } = item;
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
 
-        if (childrenArray.length && (isMobile.any() || isMobile.tablet())) {
+        if (childrenArray.length && (device.isMobile || device.isTablet)) {
             return (
                 <div
                   // TODO: split into smaller components
@@ -355,7 +361,8 @@ export class Menu extends PureComponent {
     }
 
     renderStoreSwitcher() {
-        if (!isMobile.any() && !isMobile.tablet()) {
+        const { device } = this.props;
+        if (!device.isMobile && !device.isTablet) {
             return null;
         }
 

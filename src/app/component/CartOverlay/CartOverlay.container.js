@@ -34,6 +34,7 @@ export const CartDispatcher = import(
 /** @namespace Component/CartOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
+    device: state.ConfigReducer.device,
     guest_checkout: state.ConfigReducer.guest_checkout,
     currencyCode: state.ConfigReducer.default_display_currency_code
 });
