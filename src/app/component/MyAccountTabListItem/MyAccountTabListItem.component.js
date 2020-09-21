@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountTabListItem.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { tabType } from 'Type/Account';
+
+import './MyAccountTabListItem.style';
 
 /** @namespace Component/MyAccountTabListItem/Component */
 export class MyAccountTabListItem extends PureComponent {

@@ -9,17 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './DemoNotice.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
+
+import './DemoNotice.style';
 
 /** @namespace Component/DemoNotice/Component */
 export class DemoNotice extends PureComponent {
     static propTypes = {
-        isDemoNoticeEnabled: PropTypes.bool
+        isDemoNoticeEnabled: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -43,7 +44,8 @@ export class DemoNotice extends PureComponent {
     }
 
     renderText() {
-        if (isMobile.any()) {
+        const { device } = this.props;
+        if (device.isMobile) {
             return __('This is a demo store');
         }
 

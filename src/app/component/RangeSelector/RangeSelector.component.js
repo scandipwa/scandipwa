@@ -10,11 +10,12 @@
  */
 
 import 'react-input-range/lib/css/index.css';
-import './RangeSelector.style';
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import InputRange from 'react-input-range';
+
+import './RangeSelector.style';
 
 /**
  * Product Sort

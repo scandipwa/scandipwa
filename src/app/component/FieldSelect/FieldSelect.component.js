@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './FieldSelect.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
+
+import './FieldSelect.style';
 
 /** @namespace Component/FieldSelect/Component */
 export class FieldSelect extends PureComponent {

@@ -18,6 +18,11 @@ import DataContainer from 'Util/Request/DataContainer';
 
 import SliderWidget from './SliderWidget.component';
 
+/** @namespace Component/SliderWidget/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
+
 /** @namespace Component/SliderWidget/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
@@ -73,9 +78,5 @@ export class SliderWidgetContainer extends DataContainer {
         );
     }
 }
-
-/** @namespace Component/SliderWidget/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SliderWidgetContainer);

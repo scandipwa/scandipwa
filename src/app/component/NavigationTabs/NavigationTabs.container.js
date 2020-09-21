@@ -32,6 +32,7 @@ import {
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    device: state.ConfigReducer.device,
     cartTotals: state.CartReducer.cartTotals
 });
 

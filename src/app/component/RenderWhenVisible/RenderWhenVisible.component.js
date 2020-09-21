@@ -8,13 +8,13 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './RenderWhenVisible.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import { ChildrenType } from 'Type/Common';
+
+import './RenderWhenVisible.style';
 
 /** @namespace Component/RenderWhenVisible/Component */
 export class RenderWhenVisible extends PureComponent {

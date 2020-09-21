@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './HomePage.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -22,17 +20,19 @@ import CmsPage from 'Route/CmsPage';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
+import './HomePage.style';
+
 /** @namespace Route/HomePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 
-/** @namespace Route/HomePage/Container */
+/** @namespace Route/HomePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-/** @namespace Route/HomePage/Container/mapDispatchToProps */
+/** @namespace Route/HomePage/Container */
 export class HomePageContainer extends PureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired

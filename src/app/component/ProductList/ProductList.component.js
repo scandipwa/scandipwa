@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './ProductList.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -20,6 +18,8 @@ import { MixType } from 'Type/Common';
 import { FilterType, PagesType } from 'Type/ProductList';
 
 import { observerThreshold } from './ProductList.config';
+
+import './ProductList.style';
 
 /**
  * List of category products
@@ -42,6 +42,7 @@ export class ProductList extends PureComponent {
         isVisible: PropTypes.bool,
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
+        isWidget: PropTypes.bool,
         mix: MixType
     };
 
@@ -59,7 +60,8 @@ export class ProductList extends PureComponent {
         loadPrevPage: () => {},
         currentPage: 1,
         isShowLoading: false,
-        isVisible: true
+        isVisible: true,
+        isWidget: false
     };
 
     nodes = {};
@@ -68,7 +70,15 @@ export class ProductList extends PureComponent {
 
     pagesIntersecting = [];
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        const { isWidget, currentPage } = this.props;
+        const { currentPage: prevCurrentPage } = prevProps;
+
+        // Scroll up on page change, ignore widgets
+        if (prevCurrentPage !== currentPage && !isWidget) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         const { isInfiniteLoaderEnabled } = this.props;
 
         if (isInfiniteLoaderEnabled) {

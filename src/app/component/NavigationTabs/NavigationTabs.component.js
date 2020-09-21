@@ -9,17 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './NavigationTabs.style';
-
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
 
 import {
     ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
 } from './NavigationTabs.config';
 
+import './NavigationTabs.style';
+
 /** @namespace Component/NavigationTabs/Component */
 export class NavigationTabs extends NavigationAbstract {
+    static propTypes = {
+        device: DeviceType.isRequired
+    };
+
     defaultStateName = MENU_TAB;
 
     stateMap = {
@@ -149,15 +153,16 @@ export class NavigationTabs extends NavigationAbstract {
     }
 
     render() {
-        const { navigationState: { isHidden } } = this.props;
+        const { navigationState: { isHidden }, device } = this.props;
 
-        if (!isMobile.tablet() && !isMobile.any()) {
+        if (!device.isMobile && !device.isTablet) {
             return null;
         }
 
         return (
             <footer block="NavigationTabs" mods={ { isHidden } }>
-                <nav block="NavigationTabs" elem="Nav">
+                { /** Id is required to measure the element`s height in ExpandableContent.component.js */ }
+                <nav id="NavigationTabs" block="NavigationTabs" elem="Nav">
                     { this.renderNavigationState() }
                 </nav>
             </footer>

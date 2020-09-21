@@ -8,13 +8,13 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import './TierPrices.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ProductType } from 'Type/ProductList';
 import { formatCurrency, roundPrice } from 'Util/Price';
+
+import './TierPrices.style';
 
 /** @namespace Component/TierPrices/Component */
 export class TierPrices extends PureComponent {
@@ -54,13 +54,16 @@ export class TierPrices extends PureComponent {
             return null;
         }
 
+        const formattedCurrency = formatCurrency(currency);
+        const roundedPrice = roundPrice(value);
+
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
                 { __(
                     'Buy %s for %s%s each and ',
                     quantity,
-                    formatCurrency(currency),
-                    roundPrice(value)
+                    formattedCurrency,
+                    roundedPrice
                 ) }
                 <strong>
                     { __(

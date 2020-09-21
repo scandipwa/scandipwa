@@ -14,19 +14,19 @@
 
     &-Wrapper {
         @include before-desktop {
-            padding-top: .5rem;
+            padding-top: .6rem;
         }
     }
 
     &-Button {
-        margin-top: 1rem;
+        margin-top: 1.2rem;
 
         @include mobile {
             width: 100%;
         }
 
         @include after-mobile {
-            margin-left: 1rem;
+            margin-left: 1.2rem;
         }
     }
 
@@ -35,9 +35,9 @@
     }
 
     &-Heading {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        font-size: 2.4rem;
+        margin-bottom: 1.2rem;
+        margin-top: 2.4rem;
         text-align: center;
 
         @include mobile {

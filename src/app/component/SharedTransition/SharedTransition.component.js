@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './SharedTransition.style';
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import { SHARED_ELEMENT_TRANSITION } from './SharedTransition.config';
+
+import './SharedTransition.style';
 
 /** @namespace Component/SharedTransition/Component */
 export class SharedTransition extends PureComponent {

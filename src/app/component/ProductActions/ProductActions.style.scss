@@ -59,10 +59,10 @@
     }
 
     &-Colors {
-        grid-column-gap: 1.5rem;
+        grid-column-gap: 1.8rem;
         grid-template-columns: repeat(auto-fit, minmax(min-content, 0));
         flex-basis: 100%;
-        margin-bottom: 2rem;
+        margin-bottom: 2.4rem;
 
         @include after-mobile {
             display: flex;
@@ -70,13 +70,13 @@
             order: 11;
             justify-content: flex-start;
             align-items: flex-start;
-            padding: .5rem calc(1rem - 5px);
+            padding: .6rem calc(1.2rem - 5px);
         }
     }
 
     &-Reviews {
         order: 2;
-        margin-bottom: .5rem;
+        margin-bottom: .6rem;
 
         @include mobile {
             display: none;
@@ -86,7 +86,7 @@
     &-ReviewLabel {
         display: inline-block;
         font-weight: 600;
-        margin-left: .5rem;
+        margin-left: .6rem;
 
         span {
             font-weight: normal;
@@ -122,25 +122,25 @@
 
         + .ProductActions-Section_type_short {
             @include mobile {
-                margin-top: -.5rem;
+                margin-top: -.6rem;
             }
         }
     }
 
     &-ConfigurablePriceBadge {
         color: var(--secondary-dark-color);
-        font-size: 10px;
+        font-size: 1rem;
         margin-bottom: 0;
     }
 
     &-PriceWrapper {
         @include mobile {
-            padding: 1.5rem 0 1.5rem 1rem;
+            padding: 1.8rem 0 1.8rem 1.2rem;
         }
 
         @include after-mobile {
-            min-height: 4rem;
-            padding-right: 1rem;
+            min-height: 4.8rem;
+            padding-right: 1.2rem;
 
             display: flex;
             flex-direction: column;
@@ -149,7 +149,7 @@
     }
 
     &-Price {
-        font-size: 25px;
+        font-size: 2.5rem;
         align-items: center;
         justify-content: center;
         padding: 0;
@@ -161,13 +161,13 @@
     }
 
     &-Title {
-        font-size: 2rem;
+        font-size: 2.4rem;
         font-weight: bold;
-        line-height: 3rem;
+        line-height: 3.6rem;
     }
 
     &-Brand {
-        font-size: 1.2rem;
+        font-size: 1.44rem;
         font-weight: bold;
         text-transform: uppercase;
         color: var(--product-actions-option-border-color);
@@ -177,11 +177,11 @@
         order: 3;
 
         @include before-desktop {
-            padding: 1rem;
+            padding: 1.2rem;
         }
 
         @include desktop {
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
     }
 
@@ -193,7 +193,7 @@
 
     &-AddToCartWrapper {
         order: -2;
-        margin-top: .5rem;
+        margin-top: .6rem;
 
         @include before-desktop {
             display: flex;
@@ -206,23 +206,23 @@
             width: 100%;
             background: var(--header-background);
             border-top: 1px solid var(--primary-divider-color);
-            padding: 1rem;
+            padding: 1.2rem;
         }
 
         @include desktop {
             order: 22;
-            margin-right: 1rem;
+            margin-right: 1.2rem;
         }
     }
 
     &-AdditionalButtons {
         order: 25;
-        margin: 2rem 0 1rem;
+        margin: 2.4rem 0 1.2rem;
         flex-basis: 100%;
 
         @include mobile {
             border-top: 1px solid var(--expandable-content-divider-color);
-            margin: 0 0 1rem;
+            margin: 0 0 1.2rem;
         }
 
         &:first-child {
@@ -230,12 +230,12 @@
         }
 
         > * {
-            margin-right: 1rem;
-            margin-top: 1rem;
+            margin-right: 1.2rem;
+            margin-top: 1.2rem;
 
             @include mobile {
-                margin: 1rem 1rem 0;
-                width: calc(100% - 2rem);
+                margin: 1.2rem 1.2rem 0;
+                width: calc(100% - 2.4rem);
                 text-align: center;
             }
         }
@@ -258,9 +258,9 @@
 
     &-Attributes {
         @include mobile {
-            --product-configurable-attributes-content-padding: .5rem;
+            --product-configurable-attributes-content-padding: .6rem;
             // --product-configurable-attributes-direction: center;
-            --option-margin: 0 .5rem 1rem;
+            --option-margin: 0 .6rem 1.2rem;
 
             // display: grid;
             // border-top: 1px solid var(--expandable-content-divider-color);
@@ -268,18 +268,18 @@
         }
 
         @include after-mobile {
-            --product-configurable-attributes-margin: 1rem 2rem 0 0;
-            --option-margin: 0 1rem 1rem 0;
+            --product-configurable-attributes-margin: 1.2rem 2.4rem 0 0;
+            --option-margin: 0 1.2rem 1.2rem 0;
 
             display: flex;
             flex-wrap: wrap;
             flex-basis: 100%;
-            padding: 1.5rem calc(1rem - 5px);
+            padding: 1.8rem calc(1.2rem - 5px);
         }
     }
 
     &-Section {
-        padding: 1.5rem calc(1rem - 5px);
+        padding: 1.8rem calc(1.2rem - 5px);
         display: flex;
         flex-wrap: wrap;
         flex-basis: 100%;
@@ -295,14 +295,14 @@
         &_type {
             &_related {
                 border-top: 0;
-                padding: 1.5rem 0;
+                padding: 1.8rem 0;
             }
 
             &_short {
                 @include mobile {
                     border-top: 0;
                     padding-top: 0;
-                    // padding-top: .5rem;
+                    // padding-top: .6rem;
                     bottom: 0;
                     border-bottom: 1px solid var(--expandable-content-divider-color);
                 }
@@ -316,7 +316,7 @@
             &_sku {
                 order: 2;
                 flex-basis: 100%;
-                font-size: 1rem;
+                font-size: 1.2rem;
                 font-weight: bold;
                 color: var(--product-actions-option-border-color);
                 padding-top: 0;
@@ -356,13 +356,13 @@
     &-SectionHeading {
         width: 100%;
         text-transform: uppercase;
-        margin: 0 5px 1rem;
+        margin: 0 5px 1.2rem;
         font-weight: 600;
         line-height: 1;
 
         &_type {
             &_related {
-                margin-left: 1rem;
+                margin-left: 1.2rem;
             }
 
             &_brand {
@@ -389,7 +389,7 @@
 
     &-PlaceholderOption {
         margin: 5px;
-        padding: 0 1rem;
+        padding: 0 1.2rem;
     }
 
     &-TextOption {
@@ -425,8 +425,8 @@
 
         @include mobile {
             order: -1;
-            padding: 0 1rem;
-            top: -1rem;
+            padding: 0 1.2rem;
+            top: -1.2rem;
         }
     }
 }

@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountNewsletterSubscription.style.scss';
-
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
 import { customerType } from 'Type/Account';
+
+import './MyAccountNewsletterSubscription.style.scss';
 
 /** @namespace Component/MyAccountNewsletterSubscription/Component */
 export class MyAccountNewsletterSubscription extends FieldForm {

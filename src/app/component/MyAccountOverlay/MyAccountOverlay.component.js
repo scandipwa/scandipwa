@@ -11,8 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountOverlay.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -21,7 +19,7 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
 
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
@@ -32,6 +30,8 @@ import {
     STATE_LOGGED_IN,
     STATE_SIGN_IN
 } from './MyAccountOverlay.config';
+
+import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
 export class MyAccountOverlay extends PureComponent {
@@ -58,7 +58,8 @@ export class MyAccountOverlay extends PureComponent {
         handleForgotPassword: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
-        isCheckout: PropTypes.bool
+        isCheckout: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -373,7 +374,8 @@ export class MyAccountOverlay extends PureComponent {
         const {
             isLoading,
             onVisible,
-            isCheckout
+            isCheckout,
+            device
         } = this.props;
 
         return (
@@ -381,7 +383,7 @@ export class MyAccountOverlay extends PureComponent {
               id={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
               mix={ { block: 'MyAccountOverlay' } }
               onVisible={ onVisible }
-              isStatic={ !isCheckout && !!isMobile.any() }
+              isStatic={ !isCheckout && device.isMobile }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }

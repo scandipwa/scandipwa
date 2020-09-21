@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Breadcrumb.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
+
+import './Breadcrumb.style';
 
 /** @namespace Component/Breadcrumb/Component */
 export class Breadcrumb extends PureComponent {

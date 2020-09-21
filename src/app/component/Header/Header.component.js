@@ -11,8 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './Header.style';
-
 import PropTypes from 'prop-types';
 import { lazy, Suspense } from 'react';
 
@@ -28,11 +26,11 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
-import isMobile from 'Util/Mobile';
 
 import {
     CART,
@@ -52,6 +50,8 @@ import {
     POPUP,
     SEARCH
 } from './Header.config';
+
+import './Header.style';
 
 export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
 export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
@@ -83,7 +83,8 @@ export class Header extends NavigationAbstract {
         showMyAccountLogin: PropTypes.bool,
         isCheckout: PropTypes.bool.isRequired,
         onSignIn: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -212,9 +213,9 @@ export class Header extends NavigationAbstract {
     }
 
     renderMenu() {
-        const { isCheckout } = this.props;
+        const { isCheckout, device } = this.props;
 
-        if (isMobile.any() || isCheckout) {
+        if (device.isMobile || isCheckout) {
             return null;
         }
 
@@ -366,11 +367,12 @@ export class Header extends NavigationAbstract {
     renderAccount(isVisible = false) {
         const {
             onMyAccountOutsideClick,
-            isCheckout
+            isCheckout,
+            device
         } = this.props;
 
-        // on mobile and tablet hide button if not in checkout
-        if ((isMobile.any() || isMobile.tablet()) && !isCheckout) {
+        // on mobile hide button if not in checkout
+        if ((device.isMobile || device.isTablet) && !isCheckout) {
             return null;
         }
 
@@ -466,10 +468,11 @@ export class Header extends NavigationAbstract {
     renderMinicart(isVisible = false) {
         const {
             onMinicartOutsideClick,
-            isCheckout
+            isCheckout,
+            device
         } = this.props;
 
-        if ((isMobile.any() || isMobile.tablet()) || isCheckout) {
+        if ((device.isMobile || device.isTablet) || isCheckout) {
             return null;
         }
 
@@ -587,7 +590,8 @@ export class Header extends NavigationAbstract {
     }
 
     renderTopMenu() {
-        if (isMobile.any()) {
+        const { device } = this.props;
+        if (device.isMobile) {
             return null;
         }
 

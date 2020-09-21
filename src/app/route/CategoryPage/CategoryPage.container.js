@@ -69,7 +69,8 @@ export const mapStateToProps = (state) => ({
     currentArgs: state.ProductListReducer.currentArgs,
     selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
-    totalPages: state.ProductListReducer.totalPages
+    totalPages: state.ProductListReducer.totalPages,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -180,6 +181,11 @@ export class CategoryPageContainer extends PureComponent {
                 id
             }
         } = this.props;
+
+        /**
+         * Ensure transition PLP => homepage => PLP always having proper meta
+         */
+        this.updateMeta();
 
         /**
          * Always make sure the navigation show / hide mode (on scroll)

@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import './MyAccountDashboard.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -21,6 +19,8 @@ import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, customerType } from 'Type/Account';
+
+import './MyAccountDashboard.style';
 
 /** @namespace Component/MyAccountDashboard/Component */
 export class MyAccountDashboard extends PureComponent {

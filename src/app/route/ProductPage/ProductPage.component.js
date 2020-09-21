@@ -10,8 +10,6 @@
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import './ProductPage.style';
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -23,8 +21,10 @@ import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import isMobile from 'Util/Mobile';
+
+import './ProductPage.style';
 
 /** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
@@ -39,7 +39,8 @@ export class ProductPage extends PureComponent {
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
-        selectedBundlePrice: PropTypes.number.isRequired
+        selectedBundlePrice: PropTypes.number.isRequired,
+        device: DeviceType.isRequired
     };
 
     renderProductPageContent() {
@@ -84,10 +85,11 @@ export class ProductPage extends PureComponent {
         const {
             dataSource: { options },
             getSelectedCustomizableOptions,
-            productOptionsData
+            productOptionsData,
+            device
         } = this.props;
 
-        if (!isMobile.any()) {
+        if (!device.isMobile) {
             return null;
         }
 

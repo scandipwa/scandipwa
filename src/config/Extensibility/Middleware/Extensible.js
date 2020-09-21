@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -38,10 +39,10 @@ module.exports = (BaseClass = EmptyBase) => {
         const GeneratedClass = class Extensible extends BaseClass {
             constructor(...args) {
                 super(...args);
-                const { __namespace__ } = Object.getPrototypeOf(this);
+                const { __namespaces__ } = Object.getPrototypeOf(this);
 
                 return new Proxy(this, {
-                    get: generateGetHandler('instance', __namespace__)
+                    get: generateGetHandler('instance', __namespaces__)
                 });
             }
 
