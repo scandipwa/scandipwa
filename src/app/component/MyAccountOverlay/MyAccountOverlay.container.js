@@ -26,9 +26,12 @@ import history from 'Util/History';
 import MyAccountOverlay from './MyAccountOverlay.component';
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    STATE_CONFIRM_EMAIL, STATE_CREATE_ACCOUNT, STATE_FORGOT_PASSWORD,
+    STATE_CONFIRM_EMAIL,
+    STATE_CREATE_ACCOUNT,
+    STATE_FORGOT_PASSWORD,
     STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_LOGGED_IN, STATE_SIGN_IN
+    STATE_LOGGED_IN,
+    STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
 export const MyAccountDispatcher = import(
@@ -138,13 +141,11 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
             stateToBeUpdated.isLoading = false;
-            showNotification('success', __('You are successfully logged in!'));
             stateToBeUpdated.state = STATE_LOGGED_IN;
         }
 
         if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
             stateToBeUpdated.state = STATE_SIGN_IN;
-            showNotification('success', __('You are successfully logged out!'));
         }
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
@@ -168,7 +169,8 @@ export class MyAccountOverlayContainer extends PureComponent {
             isSignedIn,
             hideActiveOverlay,
             isCheckout,
-            goToPreviousHeaderState
+            goToPreviousHeaderState,
+            showNotification
         } = this.props;
 
         if (oldMyAccountState === newMyAccountState) {
@@ -176,6 +178,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (isSignedIn !== prevIsSignedIn) {
+            if (isSignedIn) {
+                showNotification('success', __('You are successfully logged in!'));
+            } else {
+                showNotification('success', __('You are successfully logged out!'));
+            }
+
             hideActiveOverlay();
 
             if (isCheckout) {
