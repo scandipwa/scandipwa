@@ -27,6 +27,7 @@ import {
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
 import { MY_ACCOUNT_URL } from './MyAccount.config';
@@ -178,14 +179,14 @@ export class MyAccountContainer extends PureComponent {
         changeHeaderState({
             title: 'My account',
             name: CUSTOMER_ACCOUNT_PAGE,
-            onBackClick: () => history.push('/')
+            onBackClick: () => history.push(appendWithStoreCode('/'))
         });
     }
 
     changeActiveTab(activeTab) {
         const { history } = this.props;
         const { [activeTab]: { url } } = this.tabMap;
-        history.push(`${ MY_ACCOUNT_URL }${ url }`);
+        history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }${ url }`));
     }
 
     updateBreadcrumbs() {
@@ -216,11 +217,11 @@ export class MyAccountContainer extends PureComponent {
         }
 
         if (pathname === '/forgot-password') { // forward the forgot password state
-            history.push({ pathname: '/', state: { isForgotPassword: true } });
+            history.push({ pathname: appendWithStoreCode('/'), state: { isForgotPassword: true } });
             return;
         }
 
-        history.push({ pathname: '/' });
+        history.push({ pathname: appendWithStoreCode('/') });
     }
 
     render() {

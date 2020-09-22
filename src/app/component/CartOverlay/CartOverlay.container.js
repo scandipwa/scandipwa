@@ -23,6 +23,7 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CartOverlay from './CartOverlay.component';
 
@@ -84,12 +85,12 @@ export class CartOverlayContainer extends PureComponent {
         e.nativeEvent.stopImmediatePropagation();
 
         if (guest_checkout) {
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
             return;
         }
 
         if (isSignedIn()) {
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
             return;
         }
 

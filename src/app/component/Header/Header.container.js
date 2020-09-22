@@ -78,10 +78,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
-        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push('/') },
+        // eslint-disable-next-line max-len
+        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/category': { name: CATEGORY },
-        '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
-        '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
+        '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode('/cart')) },
+        '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/menu': { name: MENU },
@@ -328,7 +329,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         } = this.props;
 
         if (isSignedIn()) {
-            history.push({ pathname: '/my-account/dashboard' });
+            history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
             return;
         }
 
@@ -418,7 +419,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        history.push(`/${ CART }`);
+        history.push(appendWithStoreCode(`/${ CART }`));
     }
 
     onMinicartOutsideClick() {
