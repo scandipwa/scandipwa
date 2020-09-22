@@ -75,7 +75,15 @@ export class ExpandableContent extends PureComponent {
         const windowToPageTopDist = document.body.getBoundingClientRect().top;
         const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
         const coveringElementsHeight = coveringElementsIds.reduce(
-            (acc, elementId) => acc + document.getElementById(elementId).offsetHeight,
+            (acc, elementId) => {
+                const coveringElement = document.getElementById(elementId);
+
+                if (!coveringElement) {
+                    return acc;
+                }
+
+                return acc + coveringElement.offsetHeight;
+            },
             0
         );
         const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
@@ -94,7 +102,7 @@ export class ExpandableContent extends PureComponent {
         }
         this.setState(
             ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
-            () => this.scrollToExpandedContent(['NavigationTabs', 'ProductActionsWrapper'])
+            () => this.scrollToExpandedContent(['NavigationTabs', 'ProductActionsWrapper', 'CartPageSummary'])
         );
     };
 
