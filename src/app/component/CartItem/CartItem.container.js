@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart';
 import { CONFIGURABLE } from 'Util/Product';
 import { makeCancelable } from 'Util/Promise';
@@ -26,6 +27,10 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
+/** @namespace Component/CartItem/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = (state) => ({});
+
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     addProduct: (options) => CartDispatcher.then(
@@ -36,7 +41,8 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     removeProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
-    )
+    ),
+    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
 /** @namespace Component/CartItem/Container */
@@ -57,7 +63,8 @@ export class CartItemContainer extends PureComponent {
     containerFunctions = {
         handleChangeQuantity: this.handleChangeQuantity.bind(this),
         handleRemoveItem: this.handleRemoveItem.bind(this),
-        getCurrentProduct: this.getCurrentProduct.bind(this)
+        getCurrentProduct: this.getCurrentProduct.bind(this),
+        getProductVariant: this.getProductVariant.bind(this)
     };
 
     componentWillUnmount() {
@@ -140,6 +147,18 @@ export class CartItemContainer extends PureComponent {
             .promise.then(this.setStateNotLoading, this.setStateNotLoading);
     }
 
+    getProductVariant() {
+        const {
+            item: {
+                product: {
+                    variants = []
+                }
+            }
+        } = this.props;
+
+        return variants[this._getVariantIndex()];
+    }
+
     /**
      * @returns {Int}
      */
@@ -167,10 +186,9 @@ export class CartItemContainer extends PureComponent {
                     type_id,
                     configurable_options,
                     parent,
-                    variants = [],
                     url
-                }
-            }
+                } = {}
+            } = {}
         } = this.props;
 
         if (type_id !== CONFIGURABLE) {
@@ -180,7 +198,10 @@ export class CartItemContainer extends PureComponent {
             };
         }
 
-        const variant = variants[this._getVariantIndex()];
+        const variant = this.getProductVariant();
+        if (!variant) {
+            return {};
+        }
         const { attributes } = variant;
 
         const parameters = Object.entries(attributes).reduce(
@@ -217,9 +238,5 @@ export class CartItemContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/CartItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartItemContainer);

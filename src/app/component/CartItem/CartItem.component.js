@@ -19,6 +19,7 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
+import { CONFIGURABLE } from 'Util/Product';
 
 import './CartItem.style';
 
@@ -46,13 +47,51 @@ export class CartItem extends PureComponent {
             }),
             PropTypes.string
         ]).isRequired,
-        thumbnail: PropTypes.string.isRequired
+        thumbnail: PropTypes.string.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        getProductVariant: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         isEditing: false,
         isLikeTable: false
     };
+
+    productExists() {
+        const {
+            item: {
+                product: {
+                    type_id
+                }
+            },
+            // item,
+            // isLikeTable,
+            // showNotification,
+            // isLoading,
+            getProductVariant
+            // handleRemoveItem
+        } = this.props;
+
+        if (type_id !== CONFIGURABLE) {
+            return true;
+        }
+        const variant = getProductVariant();
+
+        if (!variant) {
+            // if (!isLikeTable && !isLoading) {
+            //     console.log(item);
+            //     return
+            //     handleRemoveItem();
+            //     showNotification('error', __(
+            //         'Product has been purchased'
+            //     ));
+            // }
+
+            return false;
+        }
+
+        return true;
+    }
 
     renderProductConfigurationOption = ([key, attribute]) => {
         const {
@@ -242,8 +281,8 @@ export class CartItem extends PureComponent {
             item: {
                 customizable_options,
                 bundle_options
-            }
-        } = this.props;
+            } = {}
+        } = this;
 
         return (
             <figcaption
@@ -252,10 +291,15 @@ export class CartItem extends PureComponent {
               mods={ { isLikeTable } }
             >
                 { this.renderProductName() }
-                { this.renderProductOptions(customizable_options) }
-                { this.renderProductOptions(bundle_options) }
-                { this.renderProductConfigurations() }
-                { this.renderProductPrice() }
+                { !this.productExists() ? 'Product is not is not available' : null }
+                { this.productExists() ? (
+                    <>
+                        { this.renderProductOptions(customizable_options) }
+                        { this.renderProductOptions(bundle_options) }
+                        { this.renderProductConfigurations() }
+                        { this.renderProductPrice() }
+                    </>
+                ) : null }
             </figcaption>
         );
     }
