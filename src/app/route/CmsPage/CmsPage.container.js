@@ -159,7 +159,10 @@ export class CmsPageContainer extends DataContainer {
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
 
         updateBreadcrumbs(page);
-        updateMeta({ title: meta_title || title });
+        updateMeta({
+            title: meta_title || title,
+            canonical_url: window.location.href
+        });
 
         if (
             pathname !== appendWithStoreCode('/')
