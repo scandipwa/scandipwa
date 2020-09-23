@@ -57,7 +57,8 @@ export const mapStateToProps = (state) => ({
     minPriceRange: state.ProductListInfoReducer.minPrice,
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
-    totalPages: state.ProductListReducer.totalPages
+    totalPages: state.ProductListReducer.totalPages,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */
