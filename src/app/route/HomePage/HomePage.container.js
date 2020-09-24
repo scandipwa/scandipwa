@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import Footer from 'Component/Footer';
 import InstallPrompt from 'Component/InstallPrompt';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import CmsPage from 'Route/CmsPage';
@@ -52,7 +51,6 @@ export class HomePageContainer extends PureComponent {
             <div block="HomePage">
                 <InstallPrompt />
                 <CmsPage { ...this.props } />
-                <Footer isVisibleOnMobile />
             </div>
         );
     }
