@@ -15,6 +15,8 @@
     }
 }
 
+// should be removed in future releases
+// kept as legacy support
 @mixin before-desktop {
     @include mobile {
         @content;
@@ -36,6 +38,16 @@
     }
 }
 
+@mixin tablet-landscape {
+    @media (min-width: 768px)
+        and (max-width: 1024px)
+        and (orientation: landscape) {
+        @content;
+    }
+}
+
+// should be removed in future releases
+// kept as legacy support
 @mixin after-mobile {
     @include desktop {
         @content;
@@ -43,8 +55,7 @@
 }
 
 @mixin mobile {
-    @media only screen
-        and (max-width: 767px) {
+    @media (max-width: 767px) {
         @content;
     }
 }
