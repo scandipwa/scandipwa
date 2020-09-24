@@ -33,7 +33,7 @@ import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import Checkout from './Checkout.component';
 import {
-    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, STRIPE_AUTH_REQUIRED
+    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP
 } from './Checkout.config';
 
 export const CartDispatcher = import(
@@ -286,24 +286,6 @@ export class CheckoutContainer extends PureComponent {
         });
 
         return false;
-    };
-
-    // eslint-disable-next-line no-unused-vars
-    _handlePaymentError = (error, paymentInformation) => {
-        const [{ debugMessage: message = '' }] = error;
-        const { paymentMethod: { handleAuthorization } } = paymentInformation;
-
-        if (handleAuthorization && message.startsWith(STRIPE_AUTH_REQUIRED)) {
-            const secret = message.substring(STRIPE_AUTH_REQUIRED.length);
-
-            handleAuthorization(
-                paymentInformation,
-                secret,
-                (paymentInformation) => this.savePaymentInformation(paymentInformation)
-            );
-        } else {
-            this._handleError(error);
-        }
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
