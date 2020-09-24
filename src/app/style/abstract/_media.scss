@@ -25,14 +25,14 @@
 
 @mixin tablet {
     @media (min-width: 768px)
-        and (max-width: 1024px) {
+        and (max-width: 1023px) {
         @content;
     }
 }
 
 @mixin tablet-portrait {
     @media (min-width: 768px)
-        and (max-width: 1024px)
+        and (max-width: 1023px)
         and (orientation: portrait) {
         @content;
     }
@@ -40,7 +40,7 @@
 
 @mixin tablet-landscape {
     @media (min-width: 768px)
-        and (max-width: 1024px)
+        and (max-width: 1023px)
         and (orientation: landscape) {
         @content;
     }
