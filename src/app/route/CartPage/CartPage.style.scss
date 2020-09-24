@@ -29,10 +29,6 @@
             grid-column-gap: 4rem;
         }
 
-        @include tablet {
-            grid-template-columns: 1fr;
-        }
-
         @include before-desktop {
             padding: 0;
         }

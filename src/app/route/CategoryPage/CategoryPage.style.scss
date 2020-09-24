@@ -114,6 +114,10 @@
             grid-template-columns: repeat(2, 1fr);
         }
 
+        @include tablet-portrait {
+            grid-template-rows: 1fr 1fr;
+        }
+
         .hideOnScroll & {
             @include mobile {
                 transform: translateY(-100%);
