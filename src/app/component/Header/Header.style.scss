@@ -75,6 +75,12 @@
         }
     }
 
+    &-Wrapper {
+        @include desktop {
+            margin-bottom: var(--header-total-height);
+        }
+    }
+
     &_isHiddenOnMobile {
         @include before-desktop {
             pointer-events: none;
