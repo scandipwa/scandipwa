@@ -75,6 +75,10 @@
         }
     }
 
+    @at-root .hideOnScroll & {
+        transform: translateY(-100%);
+    }
+
     &_isHiddenOnMobile {
         @include before-desktop {
             pointer-events: none;
