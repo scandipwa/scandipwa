@@ -350,6 +350,10 @@
             height: 26px;
             margin-left: 2rem;
             padding-right: 1.8rem;
+
+            @include tablet-portrait {
+                margin-left: 0;
+            }
         }
 
         &Title {
