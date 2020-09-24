@@ -458,10 +458,4 @@
             }
         }
     }
-
-    .Menu-MenuWrapper {
-        @include tablet {
-            display: none;
-        }
-    }
 }

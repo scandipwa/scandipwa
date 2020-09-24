@@ -51,12 +51,6 @@ main {
         margin-top: var(--header-total-height);
         margin-bottom: var(--navigation-tabs-height);
     }
-
-    @include tablet {
-        min-height: calc(100vh - var(--header-height) - var(--navigation-tabs-height) - var(--footer-height));
-        margin-top: var(--header-height);
-        margin-bottom: var(--navigation-tabs-height);
-    }
 }
 
 table {
