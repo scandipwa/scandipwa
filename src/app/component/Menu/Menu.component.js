@@ -250,7 +250,7 @@ export class Menu extends PureComponent {
 
     renderSubMenuDesktop(itemList) {
         const { device } = this.props;
-        if (device.isMobile || device.isTablet) {
+        if (device.isMobile) {
             return null;
         }
 
@@ -286,7 +286,7 @@ export class Menu extends PureComponent {
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
 
-        if (childrenArray.length && (device.isMobile || device.isTablet)) {
+        if (childrenArray.length && device.isMobile) {
             return (
                 <div
                   // TODO: split into smaller components
@@ -362,7 +362,7 @@ export class Menu extends PureComponent {
 
     renderStoreSwitcher() {
         const { device } = this.props;
-        if (!device.isMobile && !device.isTablet) {
+        if (!device.isMobile) {
             return null;
         }
 
