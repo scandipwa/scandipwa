@@ -21,7 +21,7 @@ import Link from 'Component/Link';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { TotalsType } from 'Type/MiniCart';
-import { formatCurrency, roundPrice } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import './CartPage.style';
 
@@ -80,7 +80,7 @@ export class CartPage extends PureComponent {
 
     renderPriceLine(price) {
         const { totals: { quote_currency_code } } = this.props;
-        return `${formatCurrency(quote_currency_code)}${roundPrice(price)}`;
+        return formatPrice(price, quote_currency_code);
     }
 
     renderTotalDetails(isMobile = false) {

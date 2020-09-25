@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import CartItem from 'Component/CartItem';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
-import { formatCurrency, roundPrice } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import './CheckoutOrderSummary.style';
 
@@ -41,7 +41,7 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         const { totals: { quote_currency_code } } = this.props;
-        const priceString = formatCurrency(quote_currency_code);
+        const priceString = formatPrice(price, quote_currency_code);
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
@@ -49,7 +49,7 @@ export class CheckoutOrderSummary extends PureComponent {
                     { name }
                 </strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
-                    { `${priceString}${roundPrice(price)}` }
+                    { `${priceString}` }
                 </strong>
             </li>
         );

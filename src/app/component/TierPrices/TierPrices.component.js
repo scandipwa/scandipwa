@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { ProductType } from 'Type/ProductList';
-import { formatCurrency, roundPrice } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import './TierPrices.style';
 
@@ -54,16 +54,14 @@ export class TierPrices extends PureComponent {
             return null;
         }
 
-        const formattedCurrency = formatCurrency(currency);
-        const roundedPrice = roundPrice(value);
+        const formattedPrice = formatPrice(value, currency);
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
                 { __(
-                    'Buy %s for %s%s each and ',
+                    'Buy %s for %s each and ',
                     quantity,
-                    formattedCurrency,
-                    roundedPrice
+                    formattedPrice
                 ) }
                 <strong>
                     { __(
@@ -92,11 +90,12 @@ export class TierPrices extends PureComponent {
         const lowestValue = price_tiers
             .reduce((acc, { final_price: { value } }) => (acc < value ? acc : value), price_tiers[0].final_price.value);
 
+        const formattedPrice = formatPrice(lowestValue, currency);
         return (
             <span block="TierPrices" elem="Item" mods={ { isLowest: true } }>
                 { __('As low as ') }
                 <span block="TierPrices" elem="ItemPrice">
-                    { `${ formatCurrency(currency) }${ roundPrice(lowestValue) }` }
+                    { `${ formattedPrice }` }
                 </span>
             </span>
         );
