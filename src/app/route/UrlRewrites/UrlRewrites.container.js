@@ -28,6 +28,11 @@ export const UrlRewritesDispatcher = import(
     'Store/UrlRewrites/UrlRewrites.dispatcher'
 );
 
+export const NoMatchDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/NoMatch/NoMatch.dispatcher'
+);
+
 /** @namespace Route/UrlRewrites/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite,
@@ -40,6 +45,11 @@ export const mapDispatchToProps = (dispatch) => ({
     requestUrlRewrite: (urlParam) => {
         UrlRewritesDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam })
+        );
+    },
+    updateNoMatch: (options) => {
+        NoMatchDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
         );
     }
 });
@@ -58,7 +68,8 @@ export class UrlRewritesContainer extends PureComponent {
             type: PropTypes.string,
             sku: PropTypes.string,
             notFound: PropTypes.bool
-        }).isRequired
+        }).isRequired,
+        updateNoMatch: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -113,10 +124,15 @@ export class UrlRewritesContainer extends PureComponent {
         }
     }
 
-    containerProps = () => ({
-        type: this.getType(),
-        props: this.getProps()
-    });
+    containerProps = () => {
+        const { updateNoMatch } = this.props;
+
+        return {
+            type: this.getType(),
+            props: this.getProps(),
+            updateNoMatch
+        };
+    };
 
     getTypeSpecificProps() {
         const {
