@@ -73,9 +73,13 @@ export class CheckoutShippingContainer extends PureComponent {
             selectedShippingMethod
         } = this.state;
 
+        const formFields = addressLinesQty > 1
+            ? setAddressesInFormObject(fields, addressLinesQty)
+            : fields;
+
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
-            : trimAddressFields(addressLinesQty > 1 ? setAddressesInFormObject(fields, addressLinesQty) : fields);
+            : trimAddressFields(formFields);
 
         const {
             carrier_code: shipping_carrier_code,

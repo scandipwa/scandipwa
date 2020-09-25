@@ -123,10 +123,9 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     onBillingSuccess(fields, asyncData) {
-        const { savePaymentInformation, addressLinesQty } = this.props;
-        const address = this._getAddress(addressLinesQty > 1
-            ? setAddressesInFormObject(fields, addressLinesQty)
-            : fields);
+        const { savePaymentInformation } = this.props;
+
+        const address = this._getAddress(fields);
         const paymentMethod = this._getPaymentData(asyncData);
 
         savePaymentInformation({
@@ -187,19 +186,23 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     _getAddress(fields) {
-        const { shippingAddress } = this.props;
+        const { addressLinesQty, shippingAddress } = this.props;
 
         const {
             isSameAsShipping,
             selectedCustomerAddressId
         } = this.state;
 
+        const formFields = addressLinesQty > 1
+            ? setAddressesInFormObject(fields, addressLinesQty)
+            : fields;
+
         if (isSameAsShipping) {
             return shippingAddress;
         }
 
         if (!selectedCustomerAddressId) {
-            return trimAddressFields(fields);
+            return trimAddressFields(formFields);
         }
 
         const { customer: { addresses } } = this.props;

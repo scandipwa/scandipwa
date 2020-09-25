@@ -59,6 +59,8 @@ export const setAddressesInFormObject = (fields, numberOfLines) => {
 
     const addressValues = addressKeys.map((key) => fields[key]);
 
+    // reseting multiple form object street entries into
+    // one entry "street", equal to array of field values
     const newFields = Object.keys(fields)
         .filter((key) => !addressKeys.includes(key))
         .reduce(

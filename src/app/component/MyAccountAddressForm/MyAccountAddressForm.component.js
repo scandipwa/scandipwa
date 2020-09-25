@@ -106,6 +106,7 @@ export class MyAccountAddressForm extends FieldForm {
         };
     }
 
+    // returns the address fields in quantity equal to BE
     getAddressFields() {
         const { addressLinesQty, address } = this.props;
         const { street = [] } = address;
