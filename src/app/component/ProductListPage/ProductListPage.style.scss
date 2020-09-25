@@ -21,6 +21,10 @@
     @include mobile {
         grid-template-columns: 1fr 1fr;
         border: 0;
+        padding: {
+            left: 15px;
+            right: 15px;
+        }
     }
 
     @include after-mobile {
