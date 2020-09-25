@@ -92,6 +92,25 @@ export class UrlRewritesContainer extends PureComponent {
         if (this.getIsLoading() && !isLoading) {
             this.requestUrlRewrite();
         }
+
+        /**
+         * Make sure that PDP & PLP url don't have "/" in the end
+         */
+        this.redirectToCorrectUrl();
+    }
+
+    redirectToCorrectUrl() {
+        const { location, history } = this.props;
+
+        const type = this.getType();
+        if ([TYPE_CATEGORY, TYPE_PRODUCT].includes(type)) {
+            if (location.pathname.endsWith('/')) {
+                history.replace(
+                    location.pathname.slice(0, -1),
+                    history.state
+                );
+            }
+        }
     }
 
     containerProps = () => ({
