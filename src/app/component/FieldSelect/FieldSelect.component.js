@@ -129,9 +129,7 @@ export class FieldSelect extends PureComponent {
         }
 
         return (
-            <option value="" disabled hidden>
-                { placeholder }
-            </option>
+            <option value="" label={ placeholder } />
         );
     }
 
