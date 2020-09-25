@@ -92,6 +92,10 @@ export class CartItem extends PureComponent {
             }
         } = this.props;
 
+        if (!this.productIsInStock()) {
+            return null;
+        }
+
         const { attribute_code, attribute_value } = attribute;
 
         if (!Object.keys(configurable_options).includes(key)) {
@@ -252,6 +256,10 @@ export class CartItem extends PureComponent {
             }
         } = this.props;
 
+        if (!this.productIsInStock()) {
+            return null;
+        }
+
         return (
             <CartItemPrice
               row_total={ row_total }
@@ -282,14 +290,10 @@ export class CartItem extends PureComponent {
             >
                 { this.renderProductName() }
                 { !this.productIsInStock() ? 'Product is out of stock' : null }
-                { this.productIsInStock() ? (
-                    <>
-                        { this.renderProductOptions(customizable_options) }
-                        { this.renderProductOptions(bundle_options) }
-                        { this.renderProductConfigurations() }
-                        { this.renderProductPrice() }
-                    </>
-                ) : null }
+                { this.renderProductOptions(customizable_options) }
+                { this.renderProductOptions(bundle_options) }
+                { this.renderProductConfigurations() }
+                { this.renderProductPrice() }
             </figcaption>
         );
     }
