@@ -1,9 +1,10 @@
 {
-    "cSpell.words": [
-        "Stateful",
-        "Unmount"
-    ],
+    "cSpell.words": ["Stateful", "Unmount"],
     "search.exclude": {
         "**/Magento_Theme": true
+    },
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
     }
 }
