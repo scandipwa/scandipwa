@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CartItem from 'Component/CartItem';
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import CmsBlock from 'Component/CmsBlock';
 import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
@@ -78,7 +79,14 @@ export class CartOverlay extends PureComponent {
     }
 
     renderTotals() {
-        const { totals: { subtotal_incl_tax = 0 } } = this.props;
+        const { totals: { subtotal_incl_tax = 0, items } } = this.props;
+
+        const outOfStockProductsTotalPrice = items
+            .filter((item) => item.product.stock_status === PRODUCT_OUT_OF_STOCK)
+            .reduce((acc, item) => acc + item.row_total, 0);
+
+        const finalPrice = subtotal_incl_tax > 0
+            ? subtotal_incl_tax - outOfStockProductsTotalPrice : subtotal_incl_tax;
 
         return (
             <dl
@@ -86,7 +94,7 @@ export class CartOverlay extends PureComponent {
               elem="Total"
             >
                 <dt>{ __('Order total:') }</dt>
-                <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
+                <dd>{ this.renderPriceLine(finalPrice) }</dd>
             </dl>
         );
     }
