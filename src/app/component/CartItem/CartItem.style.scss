@@ -138,6 +138,10 @@
     &-Picture {
         align-self: center;
         padding-bottom: 120%;
+
+        &_isNotAvailable {
+            filter: grayscale(1);
+        }
     }
 
     &-Price {
