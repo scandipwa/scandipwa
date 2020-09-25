@@ -19,7 +19,7 @@ import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
@@ -36,7 +36,8 @@ export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     device: state.ConfigReducer.device,
     guest_checkout: state.ConfigReducer.guest_checkout,
-    currencyCode: state.ConfigReducer.default_display_currency_code
+    currencyCode: state.ConfigReducer.default_display_currency_code,
+    activeOverlay: state.OverlayReducer.activeOverlay
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
@@ -47,7 +48,8 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)
     ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
 /** @namespace Component/CartOverlay/Container */
@@ -58,7 +60,8 @@ export class CartOverlayContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        setNavigationState: PropTypes.func.isRequired
+        setNavigationState: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -77,18 +80,16 @@ export class CartOverlayContainer extends PureComponent {
             guest_checkout,
             showOverlay,
             showNotification,
-            setNavigationState
+            setNavigationState,
+            hideActiveOverlay
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (guest_checkout) {
-            history.push({ pathname: CHECKOUT_URL });
-            return;
-        }
-
-        if (isSignedIn()) {
+        // Guest checkout enabled or user is signed in => proceed to the checkout
+        if (guest_checkout || isSignedIn()) {
+            hideActiveOverlay();
             history.push({ pathname: CHECKOUT_URL });
             return;
         }
