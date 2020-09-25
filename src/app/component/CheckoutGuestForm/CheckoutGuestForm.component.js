@@ -30,7 +30,8 @@ export class CheckoutGuestForm extends FieldForm {
             handleEmailInput,
             handlePasswordInput,
             formId,
-            isCreateUser
+            isCreateUser,
+            emailValue
         } = this.props;
 
         const fields = {
@@ -39,7 +40,8 @@ export class CheckoutGuestForm extends FieldForm {
                 label: __('Email'),
                 validation: ['notEmpty', 'email'],
                 onChange: handleEmailInput,
-                skipValue: true
+                skipValue: true,
+                value: emailValue
             }
         };
 

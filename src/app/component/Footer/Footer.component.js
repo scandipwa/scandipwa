@@ -69,7 +69,7 @@ export class Footer extends PureComponent {
             return null;
         }
 
-        if (isVisibleOnMobile && (!device.isMobile && device.isTablet)) {
+        if (isVisibleOnMobile && (!device.isMobile && !device.isTablet)) {
             return null;
         }
 

@@ -23,6 +23,7 @@ import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.act
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CartOverlay from './CartOverlay.component';
 
@@ -77,11 +78,7 @@ export class CartOverlayContainer extends PureComponent {
 
     handleCheckoutClick(e) {
         const {
-            guest_checkout,
-            showOverlay,
-            showNotification,
-            setNavigationState,
-            hideActiveOverlay
+            guest_checkout, showOverlay, showNotification, setNavigationState, hideActiveOverlay
         } = this.props;
 
         // to prevent outside-click handler trigger
@@ -90,7 +87,7 @@ export class CartOverlayContainer extends PureComponent {
         // Guest checkout enabled or user is signed in => proceed to the checkout
         if (guest_checkout || isSignedIn()) {
             hideActiveOverlay();
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
             return;
         }
 
@@ -101,7 +98,10 @@ export class CartOverlayContainer extends PureComponent {
     }
 
     changeHeaderState() {
-        const { changeHeaderState, totals: { count = 0 } } = this.props;
+        const {
+            changeHeaderState,
+            totals: { count = 0 }
+        } = this.props;
         const title = __('%s Items', count || 0);
 
         changeHeaderState({
