@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
 import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
@@ -24,12 +25,18 @@ export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
+/** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    updateShippingFields: (fields) => dispatch(updateShippingFields(fields))
+});
+
 /** @namespace Component/CheckoutShipping/Container */
 export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
-        customer: customerType.isRequired
+        customer: customerType.isRequired,
+        updateShippingFields: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -64,7 +71,7 @@ export class CheckoutShippingContainer extends PureComponent {
     }
 
     onShippingSuccess(fields) {
-        const { saveAddressInformation } = this.props;
+        const { saveAddressInformation, updateShippingFields } = this.props;
 
         const {
             selectedCustomerAddressId,
@@ -88,6 +95,7 @@ export class CheckoutShippingContainer extends PureComponent {
         };
 
         saveAddressInformation(data);
+        updateShippingFields(fields);
     }
 
     _getAddressById(addressId) {
@@ -106,9 +114,5 @@ export class CheckoutShippingContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutShippingContainer);
