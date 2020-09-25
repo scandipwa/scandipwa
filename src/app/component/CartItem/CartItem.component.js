@@ -19,7 +19,8 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
-import { CONFIGURABLE } from 'Util/Product';
+
+import { PRODUCT_IN_STOCK } from './CartItem.config';
 
 import './CartItem.style';
 
@@ -57,36 +58,25 @@ export class CartItem extends PureComponent {
         isLikeTable: false
     };
 
-    productExists() {
+    productIsInStock() {
         const {
             item: {
                 product: {
-                    type_id
+                    stock_status
                 }
             },
-            // item,
-            // isLikeTable,
-            // showNotification,
-            // isLoading,
             getProductVariant
-            // handleRemoveItem
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
-            return true;
+        const isInStock = stock_status === PRODUCT_IN_STOCK;
+
+        if (!isInStock) {
+            return false;
         }
+
         const variant = getProductVariant();
 
         if (!variant) {
-            // if (!isLikeTable && !isLoading) {
-            //     console.log(item);
-            //     return
-            //     handleRemoveItem();
-            //     showNotification('error', __(
-            //         'Product has been purchased'
-            //     ));
-            // }
-
             return false;
         }
 
@@ -291,8 +281,8 @@ export class CartItem extends PureComponent {
               mods={ { isLikeTable } }
             >
                 { this.renderProductName() }
-                { !this.productExists() ? 'Product is not is not available' : null }
-                { this.productExists() ? (
+                { !this.productIsInStock() ? 'Product is out of stock' : null }
+                { this.productIsInStock() ? (
                     <>
                         { this.renderProductOptions(customizable_options) }
                         { this.renderProductOptions(bundle_options) }
@@ -331,6 +321,7 @@ export class CartItem extends PureComponent {
                 >
                     <span>{ __('Delete') }</span>
                 </button>
+                { this.productIsInStock() ? (
                 <Field
                   id="item_qty"
                   name="item_qty"
@@ -342,6 +333,7 @@ export class CartItem extends PureComponent {
                   value={ qty }
                   onChange={ handleChangeQuantity }
                 />
+                ) : null }
             </div>
         );
     }
@@ -349,13 +341,18 @@ export class CartItem extends PureComponent {
     renderImage() {
         const { item: { product: { name } }, thumbnail } = this.props;
 
+        const isNotAvailable = !this.productIsInStock();
+
         return (
             <>
                 <Image
                   src={ thumbnail }
                   mix={ {
                       block: 'CartItem',
-                      elem: 'Picture'
+                      elem: 'Picture',
+                      mods: {
+                          isNotAvailable
+                      }
                   } }
                   ratio="custom"
                   alt={ `Product ${name} thumbnail.` }
