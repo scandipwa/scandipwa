@@ -22,6 +22,7 @@ import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.act
 import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOverlay from './MyAccountOverlay.component';
 import {
@@ -192,7 +193,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN) {
-            history.push({ pathname: '/my-account/dashboard' });
+            history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
         }
     }
 
@@ -224,13 +225,13 @@ export class MyAccountOverlayContainer extends PureComponent {
             name: CUSTOMER_SUB_ACCOUNT,
             title: 'Forgot password',
             onBackClick: (e) => {
-                history.push({ pathname: '/my-account' });
+                history.push({ pathname: appendWithStoreCode('/my-account') });
                 this.handleSignIn(e);
             }
         });
 
         if (device.isMobile) {
-            history.push({ pathname: '/my-account', state: { isForgotPassword: true } });
+            history.push({ pathname: appendWithStoreCode('/my-account'), state: { isForgotPassword: true } });
             return state;
         }
 

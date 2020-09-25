@@ -30,6 +30,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { appendWithStoreCode } from 'Util/Url';
 
 import Checkout from './Checkout.component';
 import {
@@ -155,12 +156,12 @@ export class CheckoutContainer extends PureComponent {
 
         if (!items.length) {
             showInfoNotification(__('Please add at least one product to cart!'));
-            history.push('/cart');
+            history.push(appendWithStoreCode('/cart'));
         }
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
-            history.push('/');
+            history.push(appendWithStoreCode('/'));
         }
 
         updateMeta({ title: __('Checkout') });
