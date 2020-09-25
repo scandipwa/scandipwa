@@ -22,6 +22,7 @@ import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
 import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './SearchField.style';
 
@@ -83,7 +84,7 @@ export class SearchField extends PureComponent {
         const trimmedSearch = searchCriteria.trim();
 
         if (e.key === 'Enter' && trimmedSearch !== '') {
-            history.push(`/search/${ search }`);
+            history.push(appendWithStoreCode(`/search/${ search }`));
             hideActiveOverlay();
             onSearchBarChange({ target: { value: '' } });
             this.searchBarRef.current.blur();

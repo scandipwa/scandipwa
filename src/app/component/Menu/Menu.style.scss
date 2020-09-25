@@ -318,6 +318,10 @@
 
         &_isVisible {
             @include subcategory-visible;
+            @include mobile {
+                height: 100%;
+                overflow-y: scroll;
+            }
 
             .Menu-Link {
                 @include desktop {

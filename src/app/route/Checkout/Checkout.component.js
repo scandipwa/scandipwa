@@ -126,7 +126,7 @@ export class Checkout extends PureComponent {
         const { checkoutStep, history } = this.props;
         const { url } = this.stepMap[checkoutStep];
 
-        history.push(`${ CHECKOUT_URL }${ url }`);
+        history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
     }
 
     renderTitle() {
