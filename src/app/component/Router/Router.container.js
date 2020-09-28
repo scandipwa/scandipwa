@@ -81,7 +81,7 @@ export class RouterContainer extends PureComponent {
         title_suffix: PropTypes.string,
         isLoading: PropTypes.bool,
         isBigOffline: PropTypes.bool,
-        meta_title: PropTypes.string.isRequired
+        meta_title: PropTypes.string
     };
 
     static defaultProps = {
@@ -92,7 +92,8 @@ export class RouterContainer extends PureComponent {
         title_prefix: '',
         title_suffix: '',
         isLoading: true,
-        isBigOffline: false
+        isBigOffline: false,
+        meta_title: ''
     };
 
     __construct(props) {
