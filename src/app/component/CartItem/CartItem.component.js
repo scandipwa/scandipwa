@@ -265,16 +265,39 @@ export class CartItem extends PureComponent {
         );
     }
 
+    renderQuantityChangeField() {
+        const {
+            item: { qty },
+            minSaleQuantity,
+            maxSaleQuantity,
+            handleChangeQuantity,
+            isProductInStock
+        } = this.props;
+
+        if (!isProductInStock) {
+            return null;
+        }
+
+        return (
+            <Field
+              id="item_qty"
+              name="item_qty"
+              type="number"
+              isControlled
+              min={ minSaleQuantity }
+              max={ maxSaleQuantity }
+              mix={ { block: 'CartItem', elem: 'Qty' } }
+              value={ qty }
+              onChange={ handleChangeQuantity }
+            />
+        );
+    }
+
     renderActions() {
         const {
             isEditing,
             isLikeTable,
-            item: { qty },
-            minSaleQuantity,
-            maxSaleQuantity,
-            handleRemoveItem,
-            handleChangeQuantity,
-            isProductInStock
+            handleRemoveItem
         } = this.props;
 
         return (
@@ -293,19 +316,7 @@ export class CartItem extends PureComponent {
                 >
                     <span>{ __('Delete') }</span>
                 </button>
-                { isProductInStock ? (
-                <Field
-                  id="item_qty"
-                  name="item_qty"
-                  type="number"
-                  isControlled
-                  min={ minSaleQuantity }
-                  max={ maxSaleQuantity }
-                  mix={ { block: 'CartItem', elem: 'Qty' } }
-                  value={ qty }
-                  onChange={ handleChangeQuantity }
-                />
-                ) : null }
+                { this.renderQuantityChangeField() }
             </div>
         );
     }
