@@ -271,7 +271,9 @@ const config = (env, argv) => {
                 { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
             ]),
 
-            new MiniCssExtractPlugin()
+            new MiniCssExtractPlugin({
+                ignoreOrder: true
+            })
         ]
     };
 };

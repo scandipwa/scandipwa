@@ -17,6 +17,7 @@ import CmsBlock from 'Component/CmsBlock';
 import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
 import Overlay from 'Component/Overlay';
+import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
@@ -32,13 +33,14 @@ export class CartOverlay extends PureComponent {
         isEditing: PropTypes.bool.isRequired,
         handleCheckoutClick: PropTypes.func.isRequired,
         currencyCode: PropTypes.string.isRequired,
-        showOverlay: PropTypes.func.isRequired
+        showOverlay: PropTypes.func.isRequired,
+        activeOverlay: PropTypes.string.isRequired
     };
 
     componentDidMount() {
-        const { showOverlay, device } = this.props;
+        const { showOverlay, device, activeOverlay } = this.props;
 
-        if (!device.isMobile) {
+        if (!device.isMobile && activeOverlay === OVERLAY_PLACEHOLDER) {
             showOverlay(CART_OVERLAY);
         }
     }

@@ -33,7 +33,6 @@ import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
 import NotificationList from 'Component/NotificationList';
 import OfflineNotice from 'Component/OfflineNotice';
-import NoMatchHandler from 'Route/NoMatchHandler';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import UrlRewrites from 'Route/UrlRewrites';
 import history from 'Util/History';
@@ -203,11 +202,9 @@ export class Router extends PureComponent {
 
         return (
             <Suspense fallback={ this.renderFallbackPage() }>
-                <NoMatchHandler>
-                    <Switch>
-                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                    </Switch>
-                </NoMatchHandler>
+                <Switch>
+                    { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                </Switch>
             </Suspense>
         );
     }

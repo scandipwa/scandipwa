@@ -104,6 +104,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     get fieldMap() {
         // country_id, region, region_id, city - are used for shipping estimation
+        const { shippingFields } = this.props;
 
         const {
             default_billing,
@@ -123,7 +124,28 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             onChange: (value) => this.onChange('postcode', value)
         };
 
+        // Preserve values from global state
+        Object.entries(fieldMap).forEach(([key]) => {
+            if (Object.hasOwnProperty.call(shippingFields, key)) {
+                fieldMap[key].value = shippingFields[key];
+
+                // Handle setting dropdown/input depending on regions existance
+                if (key === 'country_id') {
+                    this.handleInitialCountryValue(shippingFields[key]);
+                }
+            }
+        });
+
         return fieldMap;
+    }
+
+    handleInitialCountryValue(initialValue) {
+        if (this.handledInitialCountry) {
+            return;
+        }
+
+        this.onCountryChange(initialValue);
+        this.handledInitialCountry = true;
     }
 
     getRegionFields() {

@@ -21,6 +21,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { HistoryType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './MenuPage.style';
 
@@ -58,7 +59,7 @@ export class MenuPageContainer extends PureComponent {
         const { history, device } = this.props;
 
         if (!device.isMobile && !device.isTablet) {
-            history.push('/');
+            history.push(appendWithStoreCode('/'));
         }
     }
 
