@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { CART, CART_EDITING } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
@@ -27,6 +26,7 @@ import { HistoryType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { hasOutOfStockProductsInCartItems } from 'Util/Cart';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -126,21 +126,7 @@ export class CartPageContainer extends PureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        const hasOutOfStockProductsInCart = totals.items.some((item) => {
-            const hasOutOfStock = item.product.stock_status === PRODUCT_OUT_OF_STOCK;
-
-            if (hasOutOfStock) {
-                return true;
-            }
-
-            const hasVariants = item.product.variants && item.product.variants.length > 0;
-
-            if (!hasVariants || !item.product.variants.some((variant) => variant.sku === item.sku)) {
-                return true;
-            }
-
-            return false;
-        });
+        const hasOutOfStockProductsInCart = hasOutOfStockProductsInCartItems(totals.items);
 
         if (hasOutOfStockProductsInCart) {
             showNotification('error', 'Cannot proceed to checkout. Remove out of stock products first.');
