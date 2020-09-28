@@ -228,13 +228,8 @@ export class CartItem extends PureComponent {
             currency_code,
             item: {
                 row_total
-            },
-            isProductInStock
+            }
         } = this.props;
-
-        if (!isProductInStock) {
-            return null;
-        }
 
         return (
             <CartItemPrice
