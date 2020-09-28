@@ -21,6 +21,7 @@ import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
+import { PRODUCT_IN_STOCK } from './CartItem.config';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -73,6 +74,30 @@ export class CartItemContainer extends PureComponent {
         }
     }
 
+    productIsInStock() {
+        const {
+            item: {
+                product: {
+                    stock_status
+                }
+            }
+        } = this.props;
+
+        const isInStock = stock_status === PRODUCT_IN_STOCK;
+
+        if (!isInStock) {
+            return false;
+        }
+
+        const variant = this.getProductVariant();
+
+        if (!variant) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * @returns {Product}
      */
@@ -103,7 +128,8 @@ export class CartItemContainer extends PureComponent {
         linkTo: this._getProductLinkTo(),
         thumbnail: this._getProductThumbnail(),
         minSaleQuantity: this.getMinQuantity(),
-        maxSaleQuantity: this.getMaxQuantity()
+        maxSaleQuantity: this.getMaxQuantity(),
+        isProductInStock: this.productIsInStock()
     });
 
     /**

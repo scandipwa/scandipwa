@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { CART_EDITING, CART_OVERLAY } from 'Component/Header/Header.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
@@ -77,11 +78,21 @@ export class CartOverlayContainer extends PureComponent {
             guest_checkout,
             showOverlay,
             showNotification,
-            setNavigationState
+            setNavigationState,
+            totals
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
+
+        const hasOutOfStockProductsInCart = totals.items.some(
+            (item) => item.product.stock_status === PRODUCT_OUT_OF_STOCK
+        );
+
+        if (hasOutOfStockProductsInCart) {
+            showNotification('error', 'Cannot proceed to checkout. Remove out of stock products first.');
+            return;
+        }
 
         if (guest_checkout) {
             history.push({ pathname: CHECKOUT_URL });

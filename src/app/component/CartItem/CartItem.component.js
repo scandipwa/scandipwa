@@ -20,8 +20,6 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
 
-import { PRODUCT_IN_STOCK } from './CartItem.config';
-
 import './CartItem.style';
 
 /**
@@ -50,7 +48,8 @@ export class CartItem extends PureComponent {
         ]).isRequired,
         thumbnail: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
-        getProductVariant: PropTypes.func.isRequired
+        getProductVariant: PropTypes.func.isRequired,
+        isProductInStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -58,41 +57,17 @@ export class CartItem extends PureComponent {
         isLikeTable: false
     };
 
-    productIsInStock() {
-        const {
-            item: {
-                product: {
-                    stock_status
-                }
-            },
-            getProductVariant
-        } = this.props;
-
-        const isInStock = stock_status === PRODUCT_IN_STOCK;
-
-        if (!isInStock) {
-            return false;
-        }
-
-        const variant = getProductVariant();
-
-        if (!variant) {
-            return false;
-        }
-
-        return true;
-    }
-
     renderProductConfigurationOption = ([key, attribute]) => {
         const {
             item: {
                 product: {
                     configurable_options
                 }
-            }
+            },
+            isProductInStock
         } = this.props;
 
-        if (!this.productIsInStock()) {
+        if (!isProductInStock) {
             return null;
         }
 
@@ -253,10 +228,11 @@ export class CartItem extends PureComponent {
             currency_code,
             item: {
                 row_total
-            }
+            },
+            isProductInStock
         } = this.props;
 
-        if (!this.productIsInStock()) {
+        if (!isProductInStock) {
             return null;
         }
 
@@ -279,7 +255,8 @@ export class CartItem extends PureComponent {
             item: {
                 customizable_options,
                 bundle_options
-            } = {}
+            } = {},
+            isProductInStock
         } = this;
 
         return (
@@ -289,7 +266,7 @@ export class CartItem extends PureComponent {
               mods={ { isLikeTable } }
             >
                 { this.renderProductName() }
-                { !this.productIsInStock() ? 'Product is out of stock' : null }
+                { !isProductInStock ? 'Product is out of stock' : null }
                 { this.renderProductOptions(customizable_options) }
                 { this.renderProductOptions(bundle_options) }
                 { this.renderProductConfigurations() }
@@ -306,7 +283,8 @@ export class CartItem extends PureComponent {
             minSaleQuantity,
             maxSaleQuantity,
             handleRemoveItem,
-            handleChangeQuantity
+            handleChangeQuantity,
+            isProductInStock
         } = this.props;
 
         return (
@@ -325,7 +303,7 @@ export class CartItem extends PureComponent {
                 >
                     <span>{ __('Delete') }</span>
                 </button>
-                { this.productIsInStock() ? (
+                { isProductInStock ? (
                 <Field
                   id="item_qty"
                   name="item_qty"
@@ -343,9 +321,9 @@ export class CartItem extends PureComponent {
     }
 
     renderImage() {
-        const { item: { product: { name } }, thumbnail } = this.props;
+        const { item: { product: { name } }, thumbnail, isProductInStock } = this.props;
 
-        const isNotAvailable = !this.productIsInStock();
+        const isNotAvailable = !isProductInStock;
 
         return (
             <>
