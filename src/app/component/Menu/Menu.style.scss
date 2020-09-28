@@ -219,6 +219,10 @@
             padding: 0 2rem;
         }
 
+        @include tablet-portrait {
+            padding: 0 .5rem;
+        }
+
         &:first-child {
             margin-top: 0;
 
