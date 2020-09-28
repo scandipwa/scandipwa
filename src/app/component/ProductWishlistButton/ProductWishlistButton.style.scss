@@ -10,6 +10,10 @@
     vertical-align: middle;
     display: inline-block;
 
+    @include tablet-portrait {
+        margin-top: 1rem;
+    }
+
     &-Button {
         --button-padding: 0;
         --button-hover-background: transparent;
