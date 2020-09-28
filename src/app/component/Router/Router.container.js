@@ -44,6 +44,7 @@ export const mapStateToProps = (state) => ({
     default_title: state.ConfigReducer.default_title,
     title_prefix: state.ConfigReducer.title_prefix,
     title_suffix: state.ConfigReducer.title_suffix,
+    meta_title: state.MetaReducer.title,
     device: state.ConfigReducer.device,
     isOffline: state.OfflineReducer.isOffline,
     isBigOffline: state.OfflineReducer.isBig
@@ -79,7 +80,8 @@ export class RouterContainer extends PureComponent {
         title_prefix: PropTypes.string,
         title_suffix: PropTypes.string,
         isLoading: PropTypes.bool,
-        isBigOffline: PropTypes.bool
+        isBigOffline: PropTypes.bool,
+        meta_title: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -115,12 +117,13 @@ export class RouterContainer extends PureComponent {
                 default_keywords,
                 default_title,
                 title_prefix,
-                title_suffix
+                title_suffix,
+                meta_title
             } = this.props;
 
             updateMeta({
                 default_title,
-                title: default_title,
+                title: meta_title || default_title,
                 default_description,
                 description: default_description,
                 default_keywords,
