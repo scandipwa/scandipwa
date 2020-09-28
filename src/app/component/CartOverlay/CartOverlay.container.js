@@ -90,9 +90,21 @@ export class CartOverlayContainer extends PureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        const hasOutOfStockProductsInCart = totals.items.some(
-            (item) => item.product.stock_status === PRODUCT_OUT_OF_STOCK
-        );
+        const hasOutOfStockProductsInCart = totals.items.some((item) => {
+            const hasOutOfStock = item.product.stock_status === PRODUCT_OUT_OF_STOCK;
+
+            if (hasOutOfStock) {
+                return true;
+            }
+
+            const hasVariants = item.product.variants && item.product.variants.length > 0;
+
+            if (!hasVariants || !item.product.variants.some((variant) => variant.sku === item.sku)) {
+                return true;
+            }
+
+            return false;
+        });
 
         if (hasOutOfStockProductsInCart) {
             showNotification('error', 'Cannot proceed to checkout. Remove out of stock products first.');
