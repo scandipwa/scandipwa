@@ -83,19 +83,7 @@ export class CartItemContainer extends PureComponent {
             }
         } = this.props;
 
-        const isInStock = stock_status === PRODUCT_IN_STOCK;
-
-        if (!isInStock) {
-            return false;
-        }
-
-        const variant = this.getProductVariant();
-
-        if (!variant) {
-            return false;
-        }
-
-        return true;
+        return stock_status === PRODUCT_IN_STOCK;
     }
 
     /**
