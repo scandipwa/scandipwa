@@ -125,7 +125,7 @@
     "postcss-cli": "^6.1.0",
     "postcss-loader": "^3.0.0",
     "redux-devtools": "^3.4.2",
-    "sass-loader": "^9.0.3",
+    "sass-loader": "^10.0.2",
     "sass-resources-loader": "^2.1.0",
     "style-loader": "^1.2.1",
     "stylelint": "^13.7.0",
