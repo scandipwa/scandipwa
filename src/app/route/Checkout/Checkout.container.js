@@ -18,6 +18,7 @@ import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
+import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -30,10 +31,11 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { appendWithStoreCode } from 'Util/Url';
 
 import Checkout from './Checkout.component';
 import {
-    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, STRIPE_AUTH_REQUIRED
+    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP
 } from './Checkout.config';
 
 export const CartDispatcher = import(
@@ -62,11 +64,14 @@ export const mapDispatchToProps = (dispatch) => ({
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
     showInfoNotification: (message) => dispatch(showNotification('info', message)),
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     setHeaderState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setNavigationState: (stateName) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
     createAccount: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
-    )
+    ),
+    updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
+    updateEmail: (email) => dispatch(updateEmail(email))
 });
 
 /** @namespace Route/Checkout/Container */
@@ -74,6 +79,7 @@ export class CheckoutContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         showInfoNotification: PropTypes.func.isRequired,
+        showSuccessNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
         createAccount: PropTypes.func.isRequired,
@@ -95,7 +101,14 @@ export class CheckoutContainer extends PureComponent {
                     })
                 )
             })
-        ).isRequired
+        ).isRequired,
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                step: PropTypes.string
+            })
+        }).isRequired,
+        updateShippingFields: PropTypes.func.isRequired,
+        updateEmail: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -133,8 +146,7 @@ export class CheckoutContainer extends PureComponent {
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
             email: '',
-            isCreateUser: false,
-            isGuestEmailSaved: false
+            isCreateUser: false
         };
 
         if (is_virtual) {
@@ -155,15 +167,28 @@ export class CheckoutContainer extends PureComponent {
 
         if (!items.length) {
             showInfoNotification(__('Please add at least one product to cart!'));
-            history.push('/cart');
+            history.push(appendWithStoreCode('/cart'));
         }
 
         // if guest checkout is disabled and user is not logged in => throw him to homepage
         if (!guest_checkout && !isSignedIn()) {
-            history.push('/');
+            history.push(appendWithStoreCode('/'));
         }
 
         updateMeta({ title: __('Checkout') });
+    }
+
+    componentDidUpdate(prevProps) {
+        const { match: { params: { step: urlStep } } } = this.props;
+        const { match: { params: { step: prevUrlStep } } } = prevProps;
+
+        // Handle going back from billing to shipping
+        if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ checkoutStep: SHIPPING_STEP });
+        }
+
+        return null;
     }
 
     componentWillUnmount() {
@@ -288,24 +313,6 @@ export class CheckoutContainer extends PureComponent {
         return false;
     };
 
-    // eslint-disable-next-line no-unused-vars
-    _handlePaymentError = (error, paymentInformation) => {
-        const [{ debugMessage: message = '' }] = error;
-        const { paymentMethod: { handleAuthorization } } = paymentInformation;
-
-        if (handleAuthorization && message.startsWith(STRIPE_AUTH_REQUIRED)) {
-            const secret = message.substring(STRIPE_AUTH_REQUIRED.length);
-
-            handleAuthorization(
-                paymentInformation,
-                secret,
-                (paymentInformation) => this.savePaymentInformation(paymentInformation)
-            );
-        } else {
-            this._handleError(error);
-        }
-    };
-
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
 
     _getPaymentMethods() {
@@ -331,18 +338,14 @@ export class CheckoutContainer extends PureComponent {
 
     saveGuestEmail() {
         const { email } = this.state;
+        const { updateEmail } = this.props;
         const guestCartId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
+        updateEmail(email);
         return fetchMutation(mutation).then(
             /** @namespace Route/Checkout/Container/saveGuestEmailFetchMutationThen */
-            ({ setGuestEmailOnCart: data }) => {
-                if (data) {
-                    this.setState({ isGuestEmailSaved: true });
-                }
-
-                return true;
-            },
+            ({ setGuestEmailOnCart: data }) => data,
             this._handleError
         );
     }
@@ -350,7 +353,8 @@ export class CheckoutContainer extends PureComponent {
     async createUserOrSaveGuest() {
         const {
             createAccount,
-            totals: { is_virtual }
+            totals: { is_virtual },
+            showSuccessNotification
         } = this.props;
 
         const {
@@ -381,6 +385,8 @@ export class CheckoutContainer extends PureComponent {
         if (!creation) {
             return creation;
         }
+
+        showSuccessNotification(__('Your account has been created successfully!'));
 
         if (!is_virtual) {
             return this.setShippingAddress();
@@ -430,10 +436,9 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async savePaymentInformation(paymentInformation) {
-        const { isGuestEmailSaved } = this.state;
         this.setState({ isLoading: true });
 
-        if (!isSignedIn() && !isGuestEmailSaved) {
+        if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
                 this.setState({ isLoading: false });
                 return;

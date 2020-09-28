@@ -18,8 +18,6 @@ export const isMobile = {
     windows: (agent = navigator.userAgent) => /iemobile/i.test(agent),
     // eslint-disable-next-line max-len
     any: () => (isMobile.android() || isMobile.blackBerry() || isMobile.iOS() || isMobile.opera() || isMobile.windows()),
-    // eslint-disable-next-line max-len
-    tablet: (agent = navigator.userAgent) => /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/i.test(agent),
     standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
 };
 

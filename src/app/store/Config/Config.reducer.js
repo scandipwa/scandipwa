@@ -38,7 +38,6 @@ export const getInitialState = () => ({
     device: {
         isMobile: true,
         android: true,
-        isTablet: false,
         ios: false,
         blackberry: false,
         opera: false,
