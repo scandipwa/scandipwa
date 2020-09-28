@@ -66,7 +66,6 @@ export class StoreSwitcher extends PureComponent {
                   id="StoreSwitcher"
                   name="StoreSwitcher"
                   type="select"
-                  placeholder={ __('Select store') }
                   selectOptions={ storeList }
                   value={ currentStoreCode }
                   onChange={ handleStoreSelect }
