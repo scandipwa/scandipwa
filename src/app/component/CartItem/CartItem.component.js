@@ -63,13 +63,8 @@ export class CartItem extends PureComponent {
                 product: {
                     configurable_options
                 }
-            },
-            isProductInStock
+            }
         } = this.props;
-
-        if (!isProductInStock) {
-            return null;
-        }
 
         const { attribute_code, attribute_value } = attribute;
 
@@ -252,7 +247,7 @@ export class CartItem extends PureComponent {
                 bundle_options
             } = {},
             isProductInStock
-        } = this;
+        } = this.props;
 
         return (
             <figcaption
