@@ -68,7 +68,7 @@ export class CartItem extends PureComponent {
 
         const { attribute_code, attribute_value } = attribute;
 
-        if (!Object.keys(configurable_options).includes(key)) {
+        if (!Object.keys(configurable_options).includes(key) || attribute_value === null) {
             return null;
         }
 
