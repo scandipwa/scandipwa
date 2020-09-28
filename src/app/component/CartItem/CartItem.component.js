@@ -127,17 +127,31 @@ export class CartItem extends PureComponent {
         );
     }
 
+    renderWrapperContent() {
+        return (
+            <figure block="CartItem" elem="Wrapper">
+                { this.renderImage() }
+                { this.renderContent() }
+            </figure>
+        );
+    }
+
     renderWrapper() {
         const { linkTo } = this.props;
 
         // TODO: implement shared-transition here?
 
+        if (Object.keys(linkTo).length === 0) {
+            return (
+                <span block="CartItem" elem="Link">
+                    { this.renderWrapperContent() }
+                </span>
+            );
+        }
+
         return (
             <Link to={ linkTo } block="CartItem" elem="Link">
-                <figure block="CartItem" elem="Wrapper">
-                    { this.renderImage() }
-                    { this.renderContent() }
-                </figure>
+                { this.renderWrapperContent() }
             </Link>
         );
     }
