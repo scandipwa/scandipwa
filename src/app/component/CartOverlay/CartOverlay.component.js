@@ -199,7 +199,7 @@ export class CartOverlay extends PureComponent {
 
         return (
             <div block="CartOverlay" elem="OutOfStockProductsWarning">
-                Remove out of stock products from cart.
+                { __('Remove out of stock products from cart') }
             </div>
         );
     }
