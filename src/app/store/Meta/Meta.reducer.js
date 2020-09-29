@@ -15,7 +15,8 @@ export const updateEveryTime = [
     'title',
     'description',
     'keywords',
-    'canonical_url'
+    'canonical_url',
+    'robots'
 ];
 
 /** @namespace Store/Meta/Reducer/filterData */
@@ -35,7 +36,8 @@ export const getInitialState = () => ({
     title_suffix: '',
     description: '',
     keywords: '',
-    canonical_url: ''
+    canonical_url: '',
+    robots: ''
 });
 
 /** @namespace Store/Meta/Reducer */

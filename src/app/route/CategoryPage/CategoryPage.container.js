@@ -280,6 +280,7 @@ export class CategoryPageContainer extends PureComponent {
 
         setQueryParams({ sortKey }, location, history);
         setQueryParams({ sortDirection }, location, history);
+        this.updateMeta();
     }
 
     setOfflineNoticeSize = () => {
@@ -473,8 +474,15 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     updateMeta() {
-        const { updateMetaFromCategory, category } = this.props;
-        updateMetaFromCategory(category);
+        const { updateMetaFromCategory, category, history } = this.props;
+        const meta_robots = history.location.search
+            ? 'nofollow, noindex'
+            : 'follow, index';
+
+        updateMetaFromCategory({
+            ...category,
+            meta_robots
+        });
     }
 
     updateBreadcrumbs(isUnmatchedCategory = false) {
