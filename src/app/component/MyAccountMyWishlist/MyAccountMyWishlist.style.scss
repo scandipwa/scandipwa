@@ -18,7 +18,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: max-content;
-        grid-column-gap: 2rem;
+        grid-column-gap: 2.4rem;
 
         @media (min-width: 1370px) {
             grid-template-columns: repeat(4, 1fr);
@@ -29,6 +29,7 @@
         }
 
         @include mobile {
+            grid-column-gap: 2.8rem;
             grid-template-columns: 1fr;
             border: 0;
         }
@@ -40,7 +41,7 @@
 
     &-ActionBar {
         display: flex;
-        padding: 0 0 1rem;
+        padding: 0 0 1.2rem;
         justify-content: flex-end;
 
         @include after-mobile {
@@ -50,21 +51,26 @@
         }
 
         @include mobile {
+            padding: 0 0 1.4rem;
             display: block;
         }
 
         button + button {
-            margin-left: 1rem;
+            margin-left: 1.2rem;
 
             @include mobile {
-                margin-top: 1rem;
+                margin-top: 1.4rem;
                 margin-left: 0;
             }
         }
     }
 
     &-NoProductsButton {
-        margin-top: 1rem;
+        margin-top: 1.2rem;
+
+        @include mobile {
+            margin-top: 1.4rem;
+        }
     }
 
     &-Button {
@@ -82,9 +88,10 @@
     }
 
     .ProductCard {
-        padding: 1rem 0;
+        padding: 1.2rem 0;
 
         @include mobile {
+            padding: 1.4rem 0;
             border-top: 1px solid var(--wishlist-item-border-color);
         }
     }

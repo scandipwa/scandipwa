@@ -15,12 +15,15 @@
 
 .CategoryDetails {
     display: grid;
-    grid-template-columns: auto minmax(100px, 15rem);
-    grid-gap: 1rem;
+    grid-template-columns: auto minmax(100px, 18rem);
+    grid-gap: 1.2rem;
     background-color: var(--category-details-background);
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
 
     @include mobile {
+        grid-template-columns: auto minmax(100px, 21rem);
+        grid-gap: 1.4rem;
+        margin-bottom: 1.4rem;
         display: none;
     }
 
@@ -31,18 +34,26 @@
     }
 
     &-Heading {
-        font-size: 20px;
+        font-size: 2rem;
         font-weight: bold;
         text-transform: uppercase;
-        margin-bottom: .5rem;
+        margin-bottom: .6rem;
+
+        @include mobile {
+            margin-bottom: .7rem;
+        }
     }
 
     &-Description {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        font-size: 14px;
+        font-size: 1.4rem;
         font-weight: 300;
-        padding: 2rem;
+        padding: 2.4rem;
+
+        @include mobile {
+            padding: 2.8rem;
+        }
     }
 }

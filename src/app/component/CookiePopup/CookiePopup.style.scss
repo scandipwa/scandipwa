@@ -22,10 +22,14 @@
     bottom: 0;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 0 calc(env(safe-area-inset-bottom) + 1rem);
+    padding: 1.2rem 0 calc(env(safe-area-inset-bottom) + 1.2rem);
     background-color: var(--cookiepopup-bg);
     border-top: 1px solid var(--cookiepopup-border);
     z-index: 300;
+
+    @include mobile {
+        padding: 1.4rem 0 calc(env(safe-area-inset-bottom) + 1.4rem);
+    }
 
     &-ContentWrapper {
         @include after-mobile {
@@ -40,11 +44,11 @@
     }
 
     &-Content {
-        font-size: 15px;
+        font-size: 1.5rem;
         max-width: 500px;
 
         @include mobile {
-            padding-bottom: 1rem;
+            padding-bottom: 1.4rem;
         }
     }
 
@@ -61,7 +65,7 @@
         }
 
         @include after-mobile {
-            margin-left: 2rem;
+            margin-left: 2.4rem;
         }
     }
 }

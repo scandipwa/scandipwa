@@ -28,11 +28,15 @@
         --check-mark-opacity: 0;
 
         border: 2px solid var(--checkout-address-table-border);
-        margin: 1rem 1rem 0 0;
+        margin: 1.2rem 1.2rem 0 0;
         transition-property: border-color, background, border-color;
         transition-duration: 150ms;
         transition-timing-function: ease-in;
         width: 100%;
+
+        @include mobile {
+            margin: 1.4rem 1.4rem 0 0;
+        }
 
         &::before,
         &::after {

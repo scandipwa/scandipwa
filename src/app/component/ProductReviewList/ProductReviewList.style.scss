@@ -16,23 +16,28 @@
 .ProductReviewList {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 2rem;
-    margin-top: 2rem;
+    grid-gap: 2.4rem;
+    margin-top: 2.4rem;
 
     @include mobile {
+        margin-top: 2.8rem;
         grid-template-columns: 1fr;
-        grid-gap: 1rem;
+        grid-gap: 1.4rem;
     }
 
     &-Item {
         display: flex;
         flex-wrap: wrap;
         margin: 0;
-        padding: 0 0 1rem;
+        padding: 0 0 1.2rem;
         border-bottom: 1px solid var(--product-review-list-border);
 
+        @include mobile {
+            padding: 0 0 1.4rem;
+        }
+
         @include after-mobile {
-            padding: 1.5rem 2rem;
+            padding: 1.8rem 2.4rem;
             border: 1px solid var(--product-review-list-border);
         }
 
@@ -53,13 +58,22 @@
     &-Title {
         text-align: center;
         font-weight: 700;
-        font-size: 2rem;
-        margin-top: 3rem;
+        font-size: 2.4rem;
+        margin-top: 3.6rem;
+
+        @include mobile {
+            font-size: 2.8rem;
+            margin-top: 4.2rem;
+        }
     }
 
     &-ReviewTitle {
         width: 100%;
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
+
+        @include mobile {
+            margin-bottom: 1.4rem;
+        }
     }
 
     &-RatingSummary {
@@ -70,7 +84,7 @@
         }
 
         @include mobile {
-            margin-bottom: 1rem;
+            margin-bottom: 1.4rem;
             width: 100%;
         }
     }
@@ -79,20 +93,28 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-        margin-bottom: .5rem;
+        margin-bottom: .6rem;
+
+        @include mobile {
+            margin-bottom: .7rem;
+        }
 
         &:last-of-type {
             margin-bottom: 0;
         }
 
         .ProductReviewRating {
-            margin: 0 0 .2rem 1rem;
+            margin: 0 0 .24rem 1.2rem;
+
+            @include mobile {
+                margin: 0 0 .28rem 1.4rem;
+            }
         }
     }
 
     &-ReviewContent {
         flex: 1 0 0;
-        margin-left: 4rem;
+        margin-left: 4.8rem;
 
         @include mobile {
             flex: 0 0 auto;
@@ -106,20 +128,29 @@
     }
 
     &-ReviewAuthor {
-        margin-top: .5rem;
-        font-size: .8rem;
+        margin-top: .6rem;
+        font-size: .96rem;
+
+        @include mobile {
+            margin-top: .7rem;
+            font-size: 1.12rem;
+        }
     }
 
     &-ReviewDetails {
         margin-bottom: 0;
 
         @include mobile {
-            margin-bottom: 1rem;
+            margin-bottom: 1.4rem;
         }
 
         .TextPlaceholder {
-            margin-top: .5rem;
+            margin-top: .6rem;
             line-height: 1.1;
+
+            @include mobile {
+                margin-top: .7rem;
+            }
 
             &::after {
                 display: block;

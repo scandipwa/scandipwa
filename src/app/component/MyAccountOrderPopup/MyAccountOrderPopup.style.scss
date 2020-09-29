@@ -12,21 +12,25 @@
 .MyAccountOrderPopup {
     &-Address,
     &-Products {
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
 
         @include after-mobile {
-            margin-top: 2rem;
+            margin-top: 2.4rem;
         }
 
         @include mobile {
-            margin-bottom: 2rem;
+            margin-bottom: 2.8rem;
         }
     }
 
     &-Products {
         width: 100%;
-        margin-top: 1rem;
+        margin-top: 1.2rem;
         table-layout: initial;
+
+        @include mobile {
+            margin-top: 1.4rem;
+        }
 
         td,
         th {
@@ -56,12 +60,16 @@
 
         @include after-mobile {
             display: grid;
-            grid-gap: 2rem;
+            grid-gap: 2.4rem;
         }
     }
 
     h4 {
-        font-size: 1.2rem;
+        font-size: 1.44rem;
+
+        @include mobile {
+            font-size: 1.68rem;
+        }
     }
 
     dt {
@@ -70,12 +78,14 @@
 
     dl {
         display: grid;
-        margin-top: 1rem;
+        margin-top: 1.2rem;
         grid-template-columns: 1fr 1fr;
-        grid-gap: .5rem;
+        grid-gap: .6rem;
 
         @include mobile {
-            margin-bottom: 2rem;
+            margin-top: 1.4rem;
+            grid-gap: .7rem;
+            margin-bottom: 2.8rem;
         }
     }
 

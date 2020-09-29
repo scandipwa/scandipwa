@@ -17,7 +17,7 @@
 
 .MyAccountTabList {
     @include after-mobile {
-        padding: 1rem 0;
+        padding: 1.2rem 0;
         background-color: var(--my-account-tab-list-background);
     }
 
@@ -28,7 +28,7 @@
 
         &_isContentExpanded {
             @include mobile {
-                padding: 0 1rem 1rem;
+                padding: 0 1.4rem 1.4rem;
             }
         }
     }
@@ -40,7 +40,11 @@
 
         &::before,
         &::after {
-            right: 2rem;
+            right: 2.4rem;
+
+            @include mobile {
+                right: 2.8rem;
+            }
         }
     }
 }

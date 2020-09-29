@@ -12,7 +12,11 @@
 :root {
     --product-rating-background: #979797;
     --product-rating-filled-background: var(--primary-base-color);
-    --product-rating-size: 1.5rem;
+    --product-rating-size: 1.8rem;
+
+    @include mobile {
+        --product-rating-size: 2.1rem;
+    }
 }
 
 .ProductReviewRating {

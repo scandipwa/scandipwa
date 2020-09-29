@@ -19,7 +19,7 @@
     display: inline-block;
     border-radius: 0;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.32rem;
     line-height: normal;
     text-transform: uppercase;
     padding: var(--button-padding);
@@ -30,6 +30,10 @@
     transition-timing-function: ease-out;
     transition-duration: .25s;
     cursor: pointer;
+    @include mobile {
+        font-size: 1.54rem;
+    }
+
     border: {
         width: var(--button-border-width);
         style: solid;

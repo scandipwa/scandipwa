@@ -15,7 +15,7 @@
     --product-configurable-attributes-content-padding: 0;
 
     @include mobile {
-        --product-configurable-attributes-content-padding: .5rem .5rem 1.5rem;
+        --product-configurable-attributes-content-padding: .7rem .7rem 2.1rem;
     }
 }
 
@@ -57,7 +57,7 @@
 
         &Content {
             @include after-mobile {
-                margin-bottom: 1rem;
+                margin-bottom: 1.2rem;
             }
 
             &_isContentExpanded {
@@ -72,9 +72,10 @@
         font-size: 1.2em;
         font-weight: 700;
         line-height: 1;
-        margin: 0 0 1rem;
+        margin: 0 0 1.2rem;
 
         @include mobile {
+            margin: 0 0 1.4rem;
             display: none;
         }
     }
