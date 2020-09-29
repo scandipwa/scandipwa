@@ -113,25 +113,25 @@ export class CartPageContainer extends PureComponent {
         }
     }
 
+    containerProps = () => {
+        const { totals } = this.props;
+
+        return {
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+        };
+    };
+
     onCheckoutButtonClick(e) {
         const {
             history,
             guest_checkout,
             showOverlay,
             showNotification,
-            device,
-            totals
+            device
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
-
-        const hasOutOfStockProductsInCart = hasOutOfStockProductsInCartItems(totals.items);
-
-        if (hasOutOfStockProductsInCart) {
-            showNotification('error', 'Cannot proceed to checkout. Remove out of stock products first.');
-            return;
-        }
 
         if (guest_checkout) {
             history.push({
@@ -200,6 +200,7 @@ export class CartPageContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

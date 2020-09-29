@@ -29,7 +29,12 @@ import './CartPage.style';
 export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        onCheckoutButtonClick: PropTypes.func.isRequired
+        onCheckoutButtonClick: PropTypes.func.isRequired,
+        hasOutOfStockProductsInCart: PropTypes.bool
+    };
+
+    static defaultProps = {
+        hasOutOfStockProductsInCart: false
     };
 
     renderCartItems() {
@@ -123,7 +128,7 @@ export class CartPage extends PureComponent {
     }
 
     renderButtons() {
-        const { onCheckoutButtonClick } = this.props;
+        const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
 
         return (
             <div block="CartPage" elem="CheckoutButtons">
@@ -132,6 +137,7 @@ export class CartPage extends PureComponent {
                   elem="CheckoutButton"
                   mix={ { block: 'Button' } }
                   onClick={ onCheckoutButtonClick }
+                  disabled={ hasOutOfStockProductsInCart }
                 >
                     <span />
                     { __('Secure checkout') }
@@ -147,6 +153,20 @@ export class CartPage extends PureComponent {
         );
     }
 
+    renderOutOfStockProductsWarning() {
+        const { hasOutOfStockProductsInCart } = this.props;
+
+        if (!hasOutOfStockProductsInCart) {
+            return null;
+        }
+
+        return (
+            <div block="CartPage" elem="OutOfStockProductsWarning">
+                Remove out of stock products from cart.
+            </div>
+        );
+    }
+
     renderTotals() {
         return (
             /** Id is required to measure the element`s height in ExpandableContent.component.js */
@@ -154,6 +174,7 @@ export class CartPage extends PureComponent {
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
                 { this.renderTotalDetails() }
                 { this.renderTotal() }
+                { this.renderOutOfStockProductsWarning() }
                 { this.renderButtons() }
             </article>
         );
