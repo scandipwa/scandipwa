@@ -127,21 +127,33 @@ export class CartPage extends PureComponent {
         );
     }
 
-    renderButtons() {
+    renderSecureCheckoutButton() {
         const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
 
         return (
+            <button
+              block="CartPage"
+              elem="CheckoutButton"
+              mix={ { block: 'Button' } }
+              mods={ { isError: hasOutOfStockProductsInCart } }
+              onClick={ onCheckoutButtonClick }
+            >
+                { hasOutOfStockProductsInCart
+                    ? __('Remove out of stock products from cart')
+                    : (
+                        <>
+                        <span />
+                        { __('Secure checkout') }
+                        </>
+                    ) }
+            </button>
+        );
+    }
+
+    renderButtons() {
+        return (
             <div block="CartPage" elem="CheckoutButtons">
-                <button
-                  block="CartPage"
-                  elem="CheckoutButton"
-                  mix={ { block: 'Button' } }
-                  onClick={ onCheckoutButtonClick }
-                  disabled={ hasOutOfStockProductsInCart }
-                >
-                    <span />
-                    { __('Secure checkout') }
-                </button>
+                { this.renderSecureCheckoutButton() }
                 <Link
                   block="CartPage"
                   elem="ContinueShopping"
@@ -153,20 +165,6 @@ export class CartPage extends PureComponent {
         );
     }
 
-    renderOutOfStockProductsWarning() {
-        const { hasOutOfStockProductsInCart } = this.props;
-
-        if (!hasOutOfStockProductsInCart) {
-            return null;
-        }
-
-        return (
-            <div block="CartPage" elem="OutOfStockProductsWarning">
-                Remove out of stock products from cart.
-            </div>
-        );
-    }
-
     renderTotals() {
         return (
             /** Id is required to measure the element`s height in ExpandableContent.component.js */
@@ -174,7 +172,6 @@ export class CartPage extends PureComponent {
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
                 { this.renderTotalDetails() }
                 { this.renderTotal() }
-                { this.renderOutOfStockProductsWarning() }
                 { this.renderButtons() }
             </article>
         );
