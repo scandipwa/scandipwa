@@ -10,6 +10,9 @@
  */
 
 .ProductPage {
+    + footer {
+        padding-bottom: 6rem;
+    }
     @include after-mobile {
         padding-top: 1rem;
     }
