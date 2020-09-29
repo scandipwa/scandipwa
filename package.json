@@ -63,7 +63,7 @@
     "react-vimeo": "^2.0.0",
     "react-visibility-sensor": "^5.1.1",
     "react-youtube": "^7.9.0",
-    "react-zoom-pan-pinch": "^1.5.5",
+    "react-zoom-pan-pinch": "^1.6.1",
     "rebem-classname": "^0.4.0",
     "redux": "^4.0.1",
     "unstated": "^2.1.1"
