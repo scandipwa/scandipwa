@@ -111,19 +111,22 @@ export class MyAccountAddressForm extends FieldForm {
         const { addressLinesQty, address } = this.props;
         const { street = [] } = address;
 
-        if (addressLinesQty) {
-            return new Array(addressLinesQty)
-                .fill(null)
-                .reduce(
-                    (acc, _, index) => {
-                        acc[`street${index}`] = this.getStreetFields(`Street address line ${index + 1}`, street[0]);
-
-                        return acc;
-                    }, {}
-                );
+        if (addressLinesQty === 1) {
+            return {
+                street: this.getStreetFields('Street address', street[0])
+            };
         }
 
-        return { street: this.getStreetFields('Street address', street[0]) };
+        // array of nulls gets changed into object, containing street objects, each of which represents a single street field
+        return new Array(addressLinesQty)
+            .fill(null)
+            .reduce(
+                (acc, _, index) => {
+                    acc[`street${index}`] = this.getStreetFields(`Street address line ${index + 1}`, street[0]);
+
+                    return acc;
+                }, {}
+            );
     }
 
     get fieldMap() {

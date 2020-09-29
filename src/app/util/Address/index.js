@@ -50,7 +50,8 @@ export const trimAddressFields = (fields) => {
     return { ...fieldsData, region };
 };
 
-/** resets street in checkout/billing/myAccoutAddress form fields object */
+/** transforming "street[index]" entries into a single "street" object
+    for checkout/billing/myAccoutAddress form fields object */
 /** @namespace Util/Address/setAddressesInFormObject */
 export const setAddressesInFormObject = (fields, numberOfLines) => {
     const addressKeys = new Array(numberOfLines)
@@ -59,8 +60,7 @@ export const setAddressesInFormObject = (fields, numberOfLines) => {
 
     const addressValues = addressKeys.map((key) => fields[key]);
 
-    // reseting multiple form object street entries into
-    // one entry "street", equal to array of field values
+    // removing street related fields from the form object
     const newFields = Object.keys(fields)
         .filter((key) => !addressKeys.includes(key))
         .reduce(
@@ -70,7 +70,18 @@ export const setAddressesInFormObject = (fields, numberOfLines) => {
             }, {}
         );
 
-    newFields.street = Array.from(addressValues);
+    // setting single street entry to the form object
+    newFields.street = addressValues;
 
     return newFields;
+};
+
+// get Form Fields object depending on addressLinesQty
+/** @namespace Util/Address/getFormFields */
+export const getFormFields = (fields, addressLinesQty) => {
+    if (addressLinesQty === 1) {
+        return fields;
+    }
+
+    return setAddressesInFormObject(fields, addressLinesQty);
 };

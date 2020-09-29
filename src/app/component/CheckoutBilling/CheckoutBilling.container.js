@@ -22,7 +22,7 @@ import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import { setAddressesInFormObject, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -193,9 +193,7 @@ export class CheckoutBillingContainer extends PureComponent {
             selectedCustomerAddressId
         } = this.state;
 
-        const formFields = addressLinesQty > 1
-            ? setAddressesInFormObject(fields, addressLinesQty)
-            : fields;
+        const formFields = getFormFields(fields, addressLinesQty);
 
         if (isSameAsShipping) {
             return shippingAddress;

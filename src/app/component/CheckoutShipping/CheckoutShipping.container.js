@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
-import { setAddressesInFormObject, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
@@ -73,9 +73,7 @@ export class CheckoutShippingContainer extends PureComponent {
             selectedShippingMethod
         } = this.state;
 
-        const formFields = addressLinesQty > 1
-            ? setAddressesInFormObject(fields, addressLinesQty)
-            : fields;
+        const formFields = getFormFields(fields, addressLinesQty);
 
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
