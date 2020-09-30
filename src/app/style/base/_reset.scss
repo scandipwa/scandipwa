@@ -43,7 +43,8 @@ summary {
 }
 
 header,
-footer {
+footer,
+main {
     font-size: 1.2rem;
 
     @include mobile {
@@ -54,13 +55,11 @@ footer {
 main {
     min-height: calc(100vh - var(--header-height) - var(--footer-height) - var(--breadcrumbs-height));
     max-width: 100vw;
-    font-size: 1.2rem;
 
     @include mobile {
         min-height: 0;
         margin-top: var(--header-total-height);
         margin-bottom: var(--navigation-tabs-height);
-        font-size: 1.4rem;
     }
 
     @include tablet {
@@ -87,10 +86,6 @@ img {
 
 html {
     font-size: $font-standard-size;
-
-    @include mobile {
-        font-size: $font-mobile-size;
-    }
 }
 
 body {
