@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-max-depth */
-/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -15,10 +13,14 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import Field from 'Component/Field';
-import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
+import MyAccountCreateAccount from 'Component/MyAccountCreateAccount';
+import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
+import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
+import MyAccountSignIn from 'Component/MyAccountSignIn';
 import Overlay from 'Component/Overlay';
+import { signInStateType } from 'Type/Account';
 import { DeviceType } from 'Type/Device';
 
 import {
@@ -39,14 +41,7 @@ export class MyAccountOverlay extends PureComponent {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        state: PropTypes.oneOf([
-            STATE_SIGN_IN,
-            STATE_FORGOT_PASSWORD,
-            STATE_FORGOT_PASSWORD_SUCCESS,
-            STATE_CREATE_ACCOUNT,
-            STATE_LOGGED_IN,
-            STATE_CONFIRM_EMAIL
-        ]).isRequired,
+        state: signInStateType.isRequired,
         onVisible: PropTypes.func.isRequired,
         onSignInSuccess: PropTypes.func.isRequired,
         onSignInAttempt: PropTypes.func.isRequired,
@@ -107,23 +102,10 @@ export class MyAccountOverlay extends PureComponent {
         const { state, handleSignIn } = this.props;
 
         return (
-            <article
-              aria-labelledby="confirm-email-notice"
-              block="MyAccountOverlay"
-              elem="Additional"
-              mods={ { state } }
-            >
-                <p id="confirm-email-notice">
-                    { /* eslint-disable-next-line max-len */ }
-                    { __('The email confirmation link has been sent to your email. Please confirm your account to proceed.') }
-                </p>
-                <button
-                  block="Button"
-                  onClick={ handleSignIn }
-                >
-                    { __('Got it') }
-                </button>
-            </article>
+            <MyAccountConfirmEmail
+              state={ state }
+              handleSignIn={ handleSignIn }
+            />
         );
     }
 
@@ -139,52 +121,15 @@ export class MyAccountOverlay extends PureComponent {
         } = this.props;
 
         return (
-            <>
-                <Form
-                  key="forgot-password"
-                  onSubmit={ onForgotPasswordAttempt }
-                  onSubmitSuccess={ onForgotPasswordSuccess }
-                  onSubmitError={ onFormError }
-                >
-                    <Field
-                      type="text"
-                      id="email"
-                      name="email"
-                      label={ __('Email') }
-                      autocomplete="email"
-                      validation={ ['notEmpty', 'email'] }
-                    />
-                    <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button" type="submit">
-                            { __('Send reset link') }
-                        </button>
-                    </div>
-                </Form>
-                <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
-                    <section aria-labelledby="forgot-password-labe">
-                        <h4 id="forgot-password-label">{ __('Already have an account?') }</h4>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ handleSignIn }
-                        >
-                            { __('Sign in here') }
-                        </button>
-                    </section>
-                    { !isCheckout && (
-                        <section aria-labelledby="create-account-label">
-                            <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
-                            <button
-                              block="Button"
-                              mods={ { likeLink: true } }
-                              onClick={ handleCreateAccount }
-                            >
-                                { __('Create an account') }
-                            </button>
-                        </section>
-                    ) }
-                </article>
-            </>
+            <MyAccountForgotPassword
+              state={ state }
+              onForgotPasswordAttempt={ onForgotPasswordAttempt }
+              onForgotPasswordSuccess={ onForgotPasswordSuccess }
+              onFormError={ onFormError }
+              handleSignIn={ handleSignIn }
+              handleCreateAccount={ handleCreateAccount }
+              isCheckout={ isCheckout }
+            />
         );
     }
 
@@ -192,22 +137,10 @@ export class MyAccountOverlay extends PureComponent {
         const { state, handleSignIn } = this.props;
 
         return (
-            <article
-              aria-labelledby="forgot-password-success"
-              block="MyAccountOverlay"
-              elem="Additional"
-              mods={ { state } }
-            >
-                <p id="forgot-password-success">
-                    { __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
-                </p>
-                <button
-                  block="Button"
-                  onClick={ handleSignIn }
-                >
-                    { __('Got it') }
-                </button>
-            </article>
+            <MyAccountForgotPasswordSuccess
+              state={ state }
+              handleSignIn={ handleSignIn }
+            />
         );
     }
 
@@ -220,89 +153,12 @@ export class MyAccountOverlay extends PureComponent {
         } = this.props;
 
         return (
-            <>
-                <Form
-                  key="create-account"
-                  onSubmit={ onCreateAccountAttempt }
-                  onSubmitSuccess={ onCreateAccountSuccess }
-                  onSubmitError={ onCreateAccountAttempt }
-                >
-                    <fieldset block="MyAccountOverlay" elem="Legend">
-                        <legend>{ __('Personal Information') }</legend>
-                        <Field
-                          type="text"
-                          label={ __('First Name') }
-                          id="firstname"
-                          name="firstname"
-                          autocomplete="given-name"
-                          validation={ ['notEmpty'] }
-                        />
-                        <Field
-                          type="text"
-                          label={ __('Last Name') }
-                          id="lastname"
-                          name="lastname"
-                          autocomplete="family-name"
-                          validation={ ['notEmpty'] }
-                        />
-                        <Field
-                          type="checkbox"
-                          value="is_subscribed"
-                          label={ __('Subscribe to newsletter') }
-                          id="is_subscribed"
-                          mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
-                          name="is_subscribed"
-                        />
-                    </fieldset>
-                    <fieldset block="MyAccountOverlay" elem="Legend">
-                        <legend>{ __('Sign-Up Information') }</legend>
-                        <Field
-                          type="text"
-                          label={ __('Email') }
-                          id="email"
-                          name="email"
-                          autocomplete="email"
-                          validation={ ['notEmpty', 'email'] }
-                        />
-                        <Field
-                          type="password"
-                          label={ __('Password') }
-                          id="password"
-                          name="password"
-                          autocomplete="new-password"
-                          validation={ ['notEmpty', 'password'] }
-                        />
-                        <Field
-                          type="password"
-                          label={ __('Confirm password') }
-                          id="confirm_password"
-                          name="confirm_password"
-                          autocomplete="new-password"
-                          validation={ ['notEmpty', 'password', 'password_match'] }
-                        />
-                    </fieldset>
-                    <div block="MyAccountOverlay" elem="Buttons">
-                        <button
-                          block="Button"
-                          type="submit"
-                        >
-                            { __('Sign up') }
-                        </button>
-                    </div>
-                </Form>
-                <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
-                    <section>
-                        <h4>{ __('Already have an account?') }</h4>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ handleSignIn }
-                        >
-                            { __('Sign in here') }
-                        </button>
-                    </section>
-                </article>
-            </>
+            <MyAccountCreateAccount
+              state={ state }
+              onCreateAccountAttempt={ onCreateAccountAttempt }
+              onCreateAccountSuccess={ onCreateAccountSuccess }
+              handleSignIn={ handleSignIn }
+            />
         );
     }
 
@@ -318,55 +174,15 @@ export class MyAccountOverlay extends PureComponent {
         } = this.props;
 
         return (
-            <>
-                <Form
-                  key="sign-in"
-                  onSubmit={ onSignInAttempt }
-                  onSubmitSuccess={ onSignInSuccess }
-                  onSubmitError={ onFormError }
-                >
-                    <Field
-                      type="text"
-                      label={ __('Email') }
-                      id="email"
-                      name="email"
-                      autocomplete="email"
-                      validation={ ['notEmpty', 'email'] }
-                    />
-                    <Field
-                      type="password"
-                      label={ __('Password') }
-                      id="password"
-                      name="password"
-                      autocomplete="current-password"
-                      validation={ ['notEmpty', 'password'] }
-                    />
-                    <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button">{ __('Sign in') }</button>
-                    </div>
-                    <button
-                      block="Button"
-                      mods={ { likeLink: true } }
-                      onClick={ handleForgotPassword }
-                    >
-                        { __('Forgot password?') }
-                    </button>
-                </Form>
-                { !isCheckout && (
-                    <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
-                        <section>
-                            <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
-                            <button
-                              block="Button"
-                              mods={ { isHollow: true } }
-                              onClick={ handleCreateAccount }
-                            >
-                                { __('Create an account') }
-                            </button>
-                        </section>
-                    </article>
-                ) }
-            </>
+            <MyAccountSignIn
+              state={ state }
+              onSignInAttempt={ onSignInAttempt }
+              onSignInSuccess={ onSignInSuccess }
+              onFormError={ onFormError }
+              handleForgotPassword={ handleForgotPassword }
+              handleCreateAccount={ handleCreateAccount }
+              isCheckout={ isCheckout }
+            />
         );
     }
 
