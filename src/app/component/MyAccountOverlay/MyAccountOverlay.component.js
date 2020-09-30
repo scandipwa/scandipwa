@@ -42,19 +42,16 @@ export class MyAccountOverlay extends PureComponent {
         isOverlayVisible: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
         state: signInStateType.isRequired,
+        setSignInState: PropTypes.func.isRequired,
+        setLoadingState: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
-        onSignInSuccess: PropTypes.func.isRequired,
-        onSignInAttempt: PropTypes.func.isRequired,
-        onCreateAccountAttempt: PropTypes.func.isRequired,
-        onCreateAccountSuccess: PropTypes.func.isRequired,
-        onForgotPasswordSuccess: PropTypes.func.isRequired,
-        onForgotPasswordAttempt: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleForgotPassword: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
         isCheckout: PropTypes.bool,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        onSignIn: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -112,22 +109,22 @@ export class MyAccountOverlay extends PureComponent {
     renderForgotPassword() {
         const {
             state,
-            onForgotPasswordAttempt,
-            onForgotPasswordSuccess,
             onFormError,
             handleSignIn,
             handleCreateAccount,
+            setSignInState,
+            setLoadingState,
             isCheckout
         } = this.props;
 
         return (
             <MyAccountForgotPassword
               state={ state }
-              onForgotPasswordAttempt={ onForgotPasswordAttempt }
-              onForgotPasswordSuccess={ onForgotPasswordSuccess }
               onFormError={ onFormError }
               handleSignIn={ handleSignIn }
               handleCreateAccount={ handleCreateAccount }
+              setLoadingState={ setLoadingState }
+              setSignInState={ setSignInState }
               isCheckout={ isCheckout }
             />
         );
@@ -147,17 +144,19 @@ export class MyAccountOverlay extends PureComponent {
     renderCreateAccount() {
         const {
             state,
-            onCreateAccountAttempt,
-            onCreateAccountSuccess,
-            handleSignIn
+            handleSignIn,
+            setSignInState,
+            setLoadingState,
+            onSignIn
         } = this.props;
 
         return (
             <MyAccountCreateAccount
               state={ state }
-              onCreateAccountAttempt={ onCreateAccountAttempt }
-              onCreateAccountSuccess={ onCreateAccountSuccess }
               handleSignIn={ handleSignIn }
+              setLoadingState={ setLoadingState }
+              setSignInState={ setSignInState }
+              onSignIn={ onSignIn }
             />
         );
     }
@@ -165,23 +164,23 @@ export class MyAccountOverlay extends PureComponent {
     renderSignIn() {
         const {
             state,
-            onSignInAttempt,
-            onSignInSuccess,
             onFormError,
             handleForgotPassword,
             handleCreateAccount,
-            isCheckout
+            isCheckout,
+            setLoadingState,
+            onSignIn
         } = this.props;
 
         return (
             <MyAccountSignIn
               state={ state }
-              onSignInAttempt={ onSignInAttempt }
-              onSignInSuccess={ onSignInSuccess }
               onFormError={ onFormError }
               handleForgotPassword={ handleForgotPassword }
               handleCreateAccount={ handleCreateAccount }
               isCheckout={ isCheckout }
+              setLoadingState={ setLoadingState }
+              onSignIn={ onSignIn }
             />
         );
     }

@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountForgotPassword.component';
+export { default } from './MyAccountForgotPassword.container';
