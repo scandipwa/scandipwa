@@ -10,3 +10,4 @@
  */
 
 export { default } from './isMobile';
+export * from './isMobile';

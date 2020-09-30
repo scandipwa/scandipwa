@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CategorySubcategories from './CategorySubcategories.component';
 
@@ -45,7 +46,7 @@ export class CategorySubcategoriesContainer extends PureComponent {
         hideActiveOverlay();
 
         history.push({
-            pathname: value_string,
+            pathname: appendWithStoreCode(value_string),
             state: { isFromCategory: true, category: true },
             search: history.location.search
         });

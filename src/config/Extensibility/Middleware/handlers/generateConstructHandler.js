@@ -12,12 +12,12 @@
 const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
 const getPluginsForMember = require('../helpers/getPluginsForMember');
 
-module.exports = (namespace) => function (TargetClass, args) {
+module.exports = (namespaces) => function (TargetClass, args) {
     // Get an instance
     const instance = new TargetClass(...args);
 
     // Get all member-property plugins
-    const namespacesPluginsConstruct = getPluginsForMember(namespace, 'member-property');
+    const namespacesPluginsConstruct = getPluginsForMember(namespaces, 'member-property');
 
     // Handle plugin -> property interactions
     namespacesPluginsConstruct.forEach(

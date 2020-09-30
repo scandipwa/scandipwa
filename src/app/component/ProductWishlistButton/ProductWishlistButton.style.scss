@@ -14,8 +14,8 @@
         margin-left: 1.26rem;
     }
 
-    @include tablet {
-        margin-top: 1rem;
+    @include tablet-portrait {
+        margin-top: 1.2rem;
     }
 
     &-Button {

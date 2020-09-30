@@ -11,17 +11,15 @@
 
 import { connect } from 'react-redux';
 
-import OverlayComponent from './Overlay.component';
+import SearchField from './SearchField.component';
 
-/** @namespace Component/Overlay/Container/mapStateToProps */
+/** @namespace Component/SearchField/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    activeOverlay: state.OverlayReducer.activeOverlay,
-    areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     device: state.ConfigReducer.device
 });
 
-/** @namespace Component/Overlay/Container/mapDispatchToProps */
+/** @namespace Component/SearchField/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverlayComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchField);

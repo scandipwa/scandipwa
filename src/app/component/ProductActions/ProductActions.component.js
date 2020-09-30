@@ -28,8 +28,8 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { DeviceType } from 'Type/Device';
 import { PriceType, ProductType } from 'Type/ProductList';
-import isMobile from 'Util/Mobile';
 import {
     BUNDLE,
     CONFIGURABLE,
@@ -70,7 +70,8 @@ export class ProductActions extends PureComponent {
         offerCount: PropTypes.number.isRequired,
         offerType: PropTypes.string.isRequired,
         stockMeta: PropTypes.string.isRequired,
-        metaLink: PropTypes.string.isRequired
+        metaLink: PropTypes.string.isRequired,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -267,10 +268,11 @@ export class ProductActions extends PureComponent {
         const {
             product: { options },
             getSelectedCustomizableOptions,
-            productOptionsData
+            productOptionsData,
+            device
         } = this.props;
 
-        if (isMobile.any()) {
+        if (device.isMobile) {
             return null;
         }
 
@@ -545,7 +547,12 @@ export class ProductActions extends PureComponent {
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
-                <div block="ProductActions" elem="AddToCartWrapper">
+                <div
+                  // Id is required to measure the element`s height in Component/ExpandableContent.component.js
+                  id="ProductActionsWrapper"
+                  block="ProductActions"
+                  elem="AddToCartWrapper"
+                >
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
                     { this.renderProductWishlistButton() }

@@ -69,7 +69,10 @@ export class MyAccountDispatcher {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
         CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+            ({ default: dispatcher }) => {
+                dispatcher.createGuestEmptyCart(dispatch);
+                dispatcher.updateInitialCartData(dispatch);
+            }
         );
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)

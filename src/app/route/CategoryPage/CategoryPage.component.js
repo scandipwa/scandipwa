@@ -21,8 +21,8 @@ import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
 import { CategoryTreeType } from 'Type/Category';
+import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
-import isMobile from 'Util/Mobile';
 
 import './CategoryPage.style';
 import './CategoryPage.style.scss';
@@ -50,7 +50,8 @@ export class CategoryPage extends PureComponent {
         isContentFiltered: PropTypes.bool,
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
-        totalPages: PropTypes.number
+        totalPages: PropTypes.number,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -136,13 +137,13 @@ export class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isMatchingListFilter } = this.props;
+        const { isMatchingListFilter, device } = this.props;
 
-        if (isVisibleOnMobile && !isMobile.any()) {
+        if (isVisibleOnMobile && !device.isMobile) {
             return null;
         }
 
-        if (!isVisibleOnMobile && isMobile.any()) {
+        if (!isVisibleOnMobile && device.isMobile) {
             return null;
         }
 

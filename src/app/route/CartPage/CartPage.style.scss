@@ -29,10 +29,6 @@
             grid-column-gap: 4.8rem;
         }
 
-        @include tablet {
-            grid-template-columns: 1fr;
-        }
-
         @include before-desktop {
             padding: 0;
         }
@@ -277,12 +273,21 @@
         @include before-desktop {
             display: none;
         }
+        @include tablet-portrait {
+            grid-template-columns: 4fr 1fr;
+        }
 
         span {
             text-align: center;
 
             &:last-of-type {
                 text-align: right;
+            }
+
+            &:nth-child(2) {
+                @include tablet-portrait {
+                    display: none;
+                }
             }
 
             &:first-of-type {
@@ -338,10 +343,33 @@
         }
     }
 
+    .CartItem-Heading {
+        @include tablet-portrait {
+            margin-top: -1.5rem;
+        }
+    }
+
     .CartItem-Actions {
-        @include tablet {
-            flex-direction: column-reverse;
-            justify-content: center;
+        @include tablet-portrait {
+            width: 100%;
+            right: 0;
+            margin: initial;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin-top: -2rem;
+        }
+
+        .CartItem-Delete {
+            @include tablet-portrait {
+                margin-top: -7px;
+            }
+        }
+
+        > .CartItem-Qty {
+            @include tablet-portrait {
+                margin-left: 8rem;
+            }
         }
     }
 

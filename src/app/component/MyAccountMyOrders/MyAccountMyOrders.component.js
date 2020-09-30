@@ -16,7 +16,7 @@ import Loader from 'Component/Loader';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import { ordersType } from 'Type/Account';
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
 
 import './MyAccountMyOrders.style';
 
@@ -24,7 +24,8 @@ import './MyAccountMyOrders.style';
 export class MyAccountMyOrders extends PureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        device: DeviceType.isRequired
     };
 
     renderPopup() {
@@ -32,10 +33,11 @@ export class MyAccountMyOrders extends PureComponent {
     }
 
     renderNoOrders() {
+        const { device } = this.props;
         return (
             <tr block="MyAccountMyOrders" elem="NoOrders">
                 { /* eslint-disable-next-line no-magic-numbers */ }
-                <td colSpan={ isMobile.any() ? 3 : 4 }>{ __('You have no orders.') }</td>
+                <td colSpan={ device.isMobile ? 3 : 4 }>{ __('You have no orders.') }</td>
             </tr>
         );
     }

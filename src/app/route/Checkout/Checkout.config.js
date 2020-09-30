@@ -18,4 +18,3 @@ export const DETAILS_STEP = 'DETAILS_STEP';
 export const CHECKOUT_URL = '/checkout';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
-export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';

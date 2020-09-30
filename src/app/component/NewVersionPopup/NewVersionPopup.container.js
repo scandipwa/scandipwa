@@ -16,10 +16,15 @@ import { connect } from 'react-redux';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showPopup } from 'Store/Popup/Popup.action';
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
 
 import NewVersionPopup from './NewVersionPopup.component';
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
+
+/** @namespace Component/NewVersionPopup/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Component/NewVersionPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -31,7 +36,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export class NewVersionPopupContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        goToPreviousHeaderState: PropTypes.func.isRequired
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     containerFunctions = {
@@ -39,7 +45,7 @@ export class NewVersionPopupContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { showPopup, goToPreviousHeaderState } = this.props;
+        const { showPopup, goToPreviousHeaderState, device } = this.props;
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.addEventListener('controllerchange', () => {
@@ -47,7 +53,7 @@ export class NewVersionPopupContainer extends PureComponent {
                     title: __('New version available!')
                 });
 
-                if (isMobile.any()) {
+                if (device.isMobile) {
                     goToPreviousHeaderState();
                 }
             });
@@ -67,9 +73,5 @@ export class NewVersionPopupContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/NewVersionPopup/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewVersionPopupContainer);

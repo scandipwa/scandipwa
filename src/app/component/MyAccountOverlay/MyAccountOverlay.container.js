@@ -19,16 +19,20 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
-import isMobile from 'Util/Mobile';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOverlay from './MyAccountOverlay.component';
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    STATE_CONFIRM_EMAIL, STATE_CREATE_ACCOUNT, STATE_FORGOT_PASSWORD,
+    STATE_CONFIRM_EMAIL,
+    STATE_CREATE_ACCOUNT,
+    STATE_FORGOT_PASSWORD,
     STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_LOGGED_IN, STATE_SIGN_IN
+    STATE_LOGGED_IN,
+    STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
 export const MyAccountDispatcher = import(
@@ -40,6 +44,7 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
+    device: state.ConfigReducer.device,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
     isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT
 });
@@ -77,7 +82,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         onSignIn: PropTypes.func,
         goToPreviousHeaderState: PropTypes.func,
         isCheckout: PropTypes.bool,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -111,7 +117,8 @@ export class MyAccountOverlayContainer extends PureComponent {
             isSignedIn,
             isPasswordForgotSend,
             showNotification,
-            isOverlayVisible
+            isOverlayVisible,
+            device
         } = props;
 
         const {
@@ -123,7 +130,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         const stateToBeUpdated = {};
 
-        if (!isMobile.any()) {
+        if (!device.isMobile) {
             if (!isOverlayVisible && !isSignedIn) {
                 if (pathname !== '/forgot-password' && !isForgotPassword) {
                     stateToBeUpdated.state = STATE_SIGN_IN;
@@ -135,13 +142,11 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
             stateToBeUpdated.isLoading = false;
-            showNotification('success', __('You are successfully logged in!'));
             stateToBeUpdated.state = STATE_LOGGED_IN;
         }
 
         if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
             stateToBeUpdated.state = STATE_SIGN_IN;
-            showNotification('success', __('You are successfully logged out!'));
         }
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
@@ -165,7 +170,8 @@ export class MyAccountOverlayContainer extends PureComponent {
             isSignedIn,
             hideActiveOverlay,
             isCheckout,
-            goToPreviousHeaderState
+            goToPreviousHeaderState,
+            showNotification
         } = this.props;
 
         if (oldMyAccountState === newMyAccountState) {
@@ -173,6 +179,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (isSignedIn !== prevIsSignedIn) {
+            if (isSignedIn) {
+                showNotification('success', __('You are successfully logged in!'));
+            } else {
+                showNotification('success', __('You are successfully logged out!'));
+            }
+
             hideActiveOverlay();
 
             if (isCheckout) {
@@ -181,7 +193,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN) {
-            history.push({ pathname: '/my-account/dashboard' });
+            history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
         }
     }
 
@@ -189,7 +201,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         const {
             showOverlay,
             setHeaderState,
-            isPasswordForgotSend
+            isPasswordForgotSend,
+            device
         } = props;
 
         const { location: { pathname, state: { isForgotPassword } = {} } } = history;
@@ -212,13 +225,13 @@ export class MyAccountOverlayContainer extends PureComponent {
             name: CUSTOMER_SUB_ACCOUNT,
             title: 'Forgot password',
             onBackClick: (e) => {
-                history.push({ pathname: '/my-account' });
+                history.push({ pathname: appendWithStoreCode('/my-account') });
                 this.handleSignIn(e);
             }
         });
 
-        if (isMobile.any()) {
-            history.push({ pathname: '/my-account', state: { isForgotPassword: true } });
+        if (device.isMobile) {
+            history.push({ pathname: appendWithStoreCode('/my-account'), state: { isForgotPassword: true } });
             return state;
         }
 
@@ -244,9 +257,9 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     onVisible() {
-        const { setHeaderState, isCheckout } = this.props;
+        const { setHeaderState, isCheckout, device } = this.props;
 
-        if (isMobile.any() && !isCheckout) {
+        if (device.isMobile && !isCheckout) {
             setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         }
     }

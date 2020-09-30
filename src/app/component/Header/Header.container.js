@@ -20,9 +20,9 @@ import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
-import isMobile from 'Util/Mobile';
 import { appendWithStoreCode, setQueryParams } from 'Util/Url';
 
 import Header from './Header.component';
@@ -44,6 +44,7 @@ export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
     isLoading: state.ConfigReducer.isLoading,
+    device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay
 });
 
@@ -66,7 +67,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         showOverlay: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        header_logo_src: PropTypes.string
+        header_logo_src: PropTypes.string,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -76,10 +78,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
-        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push('/') },
+        // eslint-disable-next-line max-len
+        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/category': { name: CATEGORY },
-        '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
-        '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
+        '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode('/cart')) },
+        '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/menu': { name: MENU },
@@ -113,7 +116,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             cartTotals,
             header_logo_src,
             logo_alt,
-            isLoading
+            isLoading,
+            device
         } = this.props;
 
         const {
@@ -140,7 +144,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             isClearEnabled,
             searchCriteria,
             isCheckout,
-            showMyAccountLogin
+            showMyAccountLogin,
+            device
         };
     };
 
@@ -270,9 +275,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onSearchOutsideClick() {
-        const { goToPreviousNavigationState, navigationState: { name } } = this.props;
+        const {
+            goToPreviousNavigationState,
+            navigationState: { name },
+            device
+        } = this.props;
 
-        if (!isMobile.any() && name === SEARCH) {
+        if (!device.isMobile && name === SEARCH) {
             this.hideSearchOverlay();
             goToPreviousNavigationState();
         }
@@ -283,12 +292,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
             setNavigationState,
             goToPreviousNavigationState,
             showOverlay,
-            navigationState: { name }
+            navigationState: { name },
+            device
         } = this.props;
 
         if (
-            (!isMobile.any() && name === SEARCH)
-            || (isMobile.any() && name !== MENU)
+            (!device.isMobile && name === SEARCH)
+            || (device.isMobile && name !== MENU)
         ) {
             return;
         }
@@ -319,7 +329,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         } = this.props;
 
         if (isSignedIn()) {
-            history.push({ pathname: '/my-account/dashboard' });
+            history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
             return;
         }
 
@@ -337,10 +347,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const {
             goToPreviousNavigationState,
             hideActiveOverlay,
-            navigationState: { name }
+            navigationState: { name },
+            device
         } = this.props;
 
-        if (isMobile.any() || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
+        if (device.isMobile || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
             return;
         }
 
@@ -393,31 +404,33 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onMinicartButtonClick() {
         const {
             showOverlay,
-            navigationState: { name }
+            navigationState: { name },
+            device
         } = this.props;
 
         if (name === CART_OVERLAY) {
             return;
         }
 
-        if (!isMobile.any()) {
+        if (!device.isMobile) {
             this.setState({ shouldRenderCartOverlay: true });
 
             showOverlay(CART_OVERLAY);
             return;
         }
 
-        history.push(`/${ CART }`);
+        history.push(appendWithStoreCode(`/${ CART }`));
     }
 
     onMinicartOutsideClick() {
         const {
             goToPreviousNavigationState,
             hideActiveOverlay,
-            navigationState: { name }
+            navigationState: { name },
+            device
         } = this.props;
 
-        if (isMobile.any() || name !== CART_OVERLAY) {
+        if (device.isMobile || name !== CART_OVERLAY) {
             return;
         }
 

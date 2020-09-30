@@ -17,6 +17,7 @@ import {
 import BreadcrumbsReducer from 'Store/Breadcrumbs/Breadcrumbs.reducer';
 import CartReducer from 'Store/Cart/Cart.reducer';
 import CategoryReducer from 'Store/Category/Category.reducer';
+import CheckoutReducer from 'Store/Checkout/Checkout.reducer';
 import ConfigReducer from 'Store/Config/Config.reducer';
 import LinkedProductsReducer from 'Store/LinkedProducts/LinkedProducts.reducer';
 import MetaReducer from 'Store/Meta/Meta.reducer';
@@ -56,7 +57,8 @@ export const getStaticReducers = () => ({
     UrlRewritesReducer,
     ConfigReducer,
     MetaReducer,
-    LinkedProductsReducer
+    LinkedProductsReducer,
+    CheckoutReducer
 });
 
 export function createReducer(asyncReducers) {
