@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
 import { MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
 import { FilterType, PagesType } from 'Type/ProductList';
 
 import { observerThreshold } from './ProductList.config';
@@ -28,6 +29,7 @@ import './ProductList.style';
  */
 export class ProductList extends PureComponent {
     static propTypes = {
+        device: DeviceType.isRequired,
         title: PropTypes.string,
         pages: PagesType.isRequired,
         selectedFilters: FilterType,
@@ -71,11 +73,11 @@ export class ProductList extends PureComponent {
     pagesIntersecting = [];
 
     componentDidUpdate(prevProps) {
-        const { isWidget, currentPage } = this.props;
+        const { isWidget, currentPage, device } = this.props;
         const { currentPage: prevCurrentPage } = prevProps;
 
         // Scroll up on page change, ignore widgets
-        if (prevCurrentPage !== currentPage && !isWidget) {
+        if (prevCurrentPage !== currentPage && !isWidget && !device.isMobile) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
