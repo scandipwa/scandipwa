@@ -157,7 +157,7 @@ export class CartDispatcher {
         };
 
         if (!guestQuoteId) {
-            await this.createGuestEmptyCart();
+            await this.createGuestEmptyCart(dispatch);
         }
 
         if (this._canBeAdded(options)) {
@@ -192,7 +192,7 @@ export class CartDispatcher {
         const guestQuoteId = this._getGuestQuoteId();
 
         if (!guestQuoteId) {
-            await this.createGuestEmptyCart();
+            await this.createGuestEmptyCart(dispatch);
         }
 
         try {
