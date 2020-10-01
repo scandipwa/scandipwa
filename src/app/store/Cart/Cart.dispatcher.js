@@ -188,18 +188,23 @@ export class CartDispatcher {
         );
     }
 
-    applyCouponToCart(dispatch, couponCode) {
-        return fetchMutation(CartQuery.getApplyCouponMutation(
-            couponCode, !isSignedIn() && this._getGuestQuoteId()
-        )).then(
-            /** @namespace Store/Cart/Dispatcher/applyCouponToCartFetchMutationThen */
-            ({ applyCoupon: { cartData } }) => {
-                this._updateCartData(cartData, dispatch);
-                dispatch(showNotification('success', __('Coupon was applied!')));
-            },
-            /** @namespace Store/Cart/Dispatcher/applyCouponToCartFetchMutationError */
-            (error) => dispatch(showNotification('error', error[0].message))
-        );
+    async applyCouponToCart(dispatch, couponCode) {
+        const guestQuoteId = this._getGuestQuoteId();
+
+        if (!guestQuoteId) {
+            await this.createGuestEmptyCart();
+        }
+
+        try {
+            const { applyCoupon: { cartData } } = await fetchMutation(CartQuery.getApplyCouponMutation(
+                couponCode, !isSignedIn() && this._getGuestQuoteId()
+            ));
+
+            this._updateCartData(cartData, dispatch);
+            dispatch(showNotification('success', __('Coupon was applied!')));
+        } catch (error) {
+            dispatch(showNotification('error', error[0].message));
+        }
     }
 
     removeCouponFromCart(dispatch) {
