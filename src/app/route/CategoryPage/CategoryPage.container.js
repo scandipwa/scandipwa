@@ -278,8 +278,7 @@ export class CategoryPageContainer extends PureComponent {
     onSortChange(sortDirection, sortKey) {
         const { location, history } = this.props;
 
-        setQueryParams({ sortKey }, location, history);
-        setQueryParams({ sortDirection }, location, history);
+        setQueryParams({ sortKey, sortDirection, page: '' }, location, history);
     }
 
     setOfflineNoticeSize = () => {
