@@ -39,10 +39,6 @@ export class CartDispatcher {
         } else if (guestQuoteId) {
             // This is guest
             this._syncCartWithBE(dispatch, guestQuoteId);
-        } else {
-            // This is guest, cart is empty
-            // Need to create empty cart and save quote
-            this.createGuestEmptyCart(dispatch);
         }
     }
 
@@ -127,7 +123,8 @@ export class CartDispatcher {
         );
     }
 
-    addProductToCart(dispatch, options) {
+    async addProductToCart(dispatch, options) {
+        const guestQuoteId = this._getGuestQuoteId();
         const {
             product,
             quantity,
@@ -159,18 +156,21 @@ export class CartDispatcher {
             }
         };
 
+        if (!guestQuoteId) {
+            await this.createGuestEmptyCart();
+        }
+
         if (this._canBeAdded(options)) {
-            return fetchMutation(CartQuery.getSaveCartItemMutation(
-                productToAdd, !isSignedIn() && this._getGuestQuoteId()
-            )).then(
-                /** @namespace Store/Cart/Dispatcher/addProductToCartFetchMutationThen */
-                ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-                /** @namespace Store/Cart/Dispatcher/addProductToCartFetchMutationCatch */
-                ([{ message }]) => {
-                    dispatch(showNotification('error', message));
-                    return Promise.reject();
-                }
-            );
+            try {
+                const { saveCartItem: { cartData } } = await fetchMutation(CartQuery.getSaveCartItemMutation(
+                    productToAdd, !isSignedIn() && this._getGuestQuoteId()
+                ));
+
+                return this._updateCartData(cartData, dispatch);
+            } catch (e) {
+                dispatch(showNotification('error', e.message));
+                return Promise.reject();
+            }
         }
 
         return Promise.reject();
