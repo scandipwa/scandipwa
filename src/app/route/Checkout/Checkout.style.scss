@@ -82,4 +82,14 @@
             display: none;
         }
     }
+
+    .Checkout-Discount {
+        @include desktop {
+            margin-top: 30px;
+        }
+    }
+
+    .Checkout-ExpandableContentContent {
+        margin-top: 0;
+    }
 }
