@@ -168,7 +168,10 @@ const webpackConfig = ([lang, translation]) => ({
             inject: false,
             hash: true,
             publicPath,
-            chunksSortMode: 'none'
+            chunksSortMode: 'none',
+            templateParameters: {
+                lang: lang.split('_').shift()
+            }
         }),
 
         new WebpackPwaManifest(webmanifestConfig(projectRoot)),

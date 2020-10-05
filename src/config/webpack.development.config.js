@@ -22,6 +22,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
 const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
+const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
 const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
@@ -68,7 +69,7 @@ const prepareProxy = () => {
     }];
 };
 
-const config = (env, argv) => {
+const config = callback => (env, argv) => {
     const magentoRoot = env.BUILD_MODE === DEVELOPMENT
         ? path.resolve(projectRoot, '..', '..', '..', '..', '..')
         : path.resolve(projectRoot, '..', '..');
@@ -79,7 +80,7 @@ const config = (env, argv) => {
 
     const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
-    return {
+    return callback(([lang, translation]) => ({
         resolve: {
             extensions: [
                 '.js',
@@ -206,7 +207,7 @@ const config = (env, argv) => {
         },
 
         output: {
-            filename: '[name].js',
+            filename: `${lang}.[name].js`,
             publicPath: '/',
             pathinfo: true,
             globalObject: 'this', // fix for https://github.com/webpack/webpack/issues/6642
@@ -265,10 +266,15 @@ const config = (env, argv) => {
                 filename: 'index.html',
                 inject: false,
                 publicPath: '/',
-                chunksSortMode: 'none'
+                chunksSortMode: 'none',
+                templateParameters: {
+                    lang: lang.split('_').shift()
+                }
             }),
 
             new WebpackPwaManifest(webmanifestConfig(projectRoot)),
+
+            new I18nPlugin({ translation }),
 
             new CopyWebpackPlugin([
                 { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
@@ -278,7 +284,7 @@ const config = (env, argv) => {
                 ignoreOrder: true
             })
         ]
-    };
-};
+    }))
+}
 
-module.exports = config;
+module.exports = config(webpackConfig => mapTranslationsToConfig(['de_DE'], webpackConfig));
