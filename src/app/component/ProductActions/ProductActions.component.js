@@ -388,6 +388,7 @@ export class ProductActions extends PureComponent {
         if (
             type_id !== CONFIGURABLE
             || configurableVariantIndex > -1
+            || this.allPricesAreSame()
         ) {
             return null;
         }
@@ -402,6 +403,19 @@ export class ProductActions extends PureComponent {
                 { __('As Low as') }
             </p>
         );
+    }
+
+    allPricesAreSame() {
+        const {
+            product: { variants }
+        } = this.props;
+
+        if (variants && variants.length > 0) {
+            return !variants.some((variant) => JSON.stringify(variant.price_range.minimum_price.final_price)
+                !== JSON.stringify(variants[0].price_range.minimum_price.final_price));
+        }
+
+        return true;
     }
 
     renderPriceWithSchema() {
