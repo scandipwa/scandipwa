@@ -18,7 +18,7 @@
 
 .CartPage {
     @include before-desktop {
-        padding-bottom: calc(var(--navigation-tabs-height) + 120px);
+        padding-bottom: calc(var(--navigation-tabs-height) + 130px);
         margin-bottom: 0;
     }
 
@@ -87,6 +87,15 @@
         @include mobile {
             padding: 1.4rem;
         }
+    }
+
+    &-OutOfStockProductsWarning {
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        background-color: var(--primary-error-color, red);
+        font-size: 14px;
+        font-weight: bold;
     }
 
     &-CheckoutButton {

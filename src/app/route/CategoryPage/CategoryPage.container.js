@@ -221,7 +221,10 @@ export class CategoryPageContainer extends PureComponent {
             categoryIds,
             category: {
                 id
-            }
+            },
+            currentArgs: {
+                filter
+            } = {}
         } = this.props;
 
         const {
@@ -232,7 +235,10 @@ export class CategoryPageContainer extends PureComponent {
             categoryIds: prevCategoryIds,
             category: {
                 id: prevId
-            }
+            },
+            currentArgs: {
+                filter: prevFilter
+            } = {}
         } = prevProps;
 
         // TODO: category scrolls up when coming from PDP
@@ -264,22 +270,32 @@ export class CategoryPageContainer extends PureComponent {
          * Or if the breadcrumbs were not yet updated after category request,
          * and the category ID expected to load was loaded, update data.
          */
-        if (
-            id !== prevId
-            || (!breadcrumbsWereUpdated && id === categoryIds)
-        ) {
+        const categoryChange = id !== prevId || (!breadcrumbsWereUpdated && id === categoryIds);
+
+        if (categoryChange) {
             this.checkIsActive();
             this.updateMeta();
             this.updateBreadcrumbs();
             this.updateHeaderState();
+        }
+
+        /*
+        ** if category wasn't changed we still need to update meta for correct robots meta tag [#928](https://github.com/scandipwa/base-theme/issues/928)
+        */
+        if (!categoryChange
+            && filter
+            && prevFilter
+            && Object.keys(filter.customFilters).length !== Object.keys(prevFilter.customFilters).length
+        ) {
+            this.updateMeta();
         }
     }
 
     onSortChange(sortDirection, sortKey) {
         const { location, history } = this.props;
 
-        setQueryParams({ sortKey }, location, history);
-        setQueryParams({ sortDirection }, location, history);
+        setQueryParams({ sortKey, sortDirection, page: '' }, location, history);
+        this.updateMeta();
     }
 
     setOfflineNoticeSize = () => {
@@ -473,8 +489,15 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     updateMeta() {
-        const { updateMetaFromCategory, category } = this.props;
-        updateMetaFromCategory(category);
+        const { updateMetaFromCategory, category, history } = this.props;
+        const meta_robots = history.location.search
+            ? 'nofollow, noindex'
+            : 'follow, index';
+
+        updateMetaFromCategory({
+            ...category,
+            meta_robots
+        });
     }
 
     updateBreadcrumbs(isUnmatchedCategory = false) {

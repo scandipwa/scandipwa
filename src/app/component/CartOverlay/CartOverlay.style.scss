@@ -66,6 +66,15 @@
         }
     }
 
+    &-OutOfStockProductsWarning {
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        background-color: var(--primary-error-color, red);
+        font-size: 14px;
+        font-weight: bold;
+    }
+
     &-CheckoutButton {
         margin-left: 1.2rem;
 
