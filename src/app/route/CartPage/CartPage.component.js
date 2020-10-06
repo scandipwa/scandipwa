@@ -130,22 +130,23 @@ export class CartPage extends PureComponent {
     renderSecureCheckoutButton() {
         const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
 
+        if (hasOutOfStockProductsInCart) {
+            return (
+                <div block="CartPage" elem="OutOfStockProductsWarning">
+                    { __('Remove out of stock products from cart') }
+                </div>
+            );
+        }
+
         return (
             <button
               block="CartPage"
               elem="CheckoutButton"
               mix={ { block: 'Button' } }
-              mods={ { isError: hasOutOfStockProductsInCart } }
               onClick={ onCheckoutButtonClick }
             >
-                { hasOutOfStockProductsInCart
-                    ? __('Remove out of stock products from cart')
-                    : (
-                        <>
-                        <span />
-                        { __('Secure checkout') }
-                        </>
-                    ) }
+                <span />
+                { __('Secure checkout') }
             </button>
         );
     }

@@ -137,11 +137,12 @@ export class CartItem extends PureComponent {
     }
 
     renderWrapper() {
-        const { linkTo } = this.props;
+        const { linkTo, isProductInStock } = this.props;
 
         // TODO: implement shared-transition here?
 
-        if (Object.keys(linkTo).length === 0) {
+        if (!isProductInStock || Object.keys(linkTo).length === 0) {
+            // If product is out of stock, or link is not set
             return (
                 <span block="CartItem" elem="Link">
                     { this.renderWrapperContent() }
@@ -253,14 +254,27 @@ export class CartItem extends PureComponent {
         );
     }
 
+    renderOutOfStockMessage() {
+        const { isProductInStock } = this.props;
+
+        if (isProductInStock) {
+            return null;
+        }
+
+        return (
+            <p block="CartItem" elem="OutOfStock">
+                { __('Product is out of stock') }
+            </p>
+        );
+    }
+
     renderContent() {
         const {
             isLikeTable,
             item: {
                 customizable_options,
                 bundle_options
-            } = {},
-            isProductInStock
+            } = {}
         } = this.props;
 
         return (
@@ -270,7 +284,7 @@ export class CartItem extends PureComponent {
               mods={ { isLikeTable } }
             >
                 { this.renderProductName() }
-                { !isProductInStock ? 'Product is out of stock' : null }
+                { this.renderOutOfStockMessage() }
                 { this.renderProductOptions(customizable_options) }
                 { this.renderProductOptions(bundle_options) }
                 { this.renderProductConfigurations() }

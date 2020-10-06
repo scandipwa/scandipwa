@@ -25,6 +25,11 @@
 
     border-bottom: 1px solid var(--cart-item-divider-color);
 
+    &-OutOfStock {
+        font-weight: bold;
+        margin-bottom: .5rem;
+    }
+
     &-Link {
         color: inherit;
 
