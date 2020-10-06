@@ -13,21 +13,39 @@
 import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 
 /**
+ * Checks whether item in cart are out of stock
+ * @namespace Util/Cart/itemIsOutOfStock
+ * */
+export const itemIsOutOfStock = (item) => {
+    const {
+        product: {
+            stock_status,
+            variants,
+            type_id
+        },
+        sku: itemSku
+    } = item;
+
+    if (stock_status === PRODUCT_OUT_OF_STOCK) {
+        // item is out of stock
+        return true;
+    }
+
+    if (type_id !== 'configurable') {
+        // item is not configurable => previous check is sufficient
+        return false;
+    }
+
+    if (variants.some(({ sku }) => sku === itemSku)) {
+        // item added to cart is present in variants
+        return false;
+    }
+
+    return true;
+};
+
+/**
  * Checks whether some items in cart are out of stock
  * @param {Array} items cartTotals items
  * @namespace Util/Cart/hasOutOfStockProductsInCartItems */
-export const hasOutOfStockProductsInCartItems = (items) => items.some((item) => {
-    const hasOutOfStock = item.product.stock_status === PRODUCT_OUT_OF_STOCK;
-
-    if (hasOutOfStock) {
-        return true;
-    }
-
-    const hasVariants = item.product.variants && item.product.variants.length > 0;
-
-    if (!hasVariants || !item.product.variants.some((variant) => variant.sku === item.sku)) {
-        return true;
-    }
-
-    return false;
-});
+export const hasOutOfStockProductsInCartItems = (items = []) => items.some(itemIsOutOfStock);

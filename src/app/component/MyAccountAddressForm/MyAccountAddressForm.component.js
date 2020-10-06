@@ -98,35 +98,40 @@ export class MyAccountAddressForm extends FieldForm {
         });
     };
 
-    getStreetFields(label, value) {
+    getStreetFields(label, index) {
+        const { address: { street = [] } } = this.props;
+
         return {
-            label: __(label),
-            value,
-            validation: ['notEmpty']
+            label,
+            value: street[index],
+            validation: index === 0 ? ['notEmpty'] : []
         };
     }
 
     // returns the address fields in quantity equal to BE
     getAddressFields() {
-        const { addressLinesQty, address } = this.props;
-        const { street = [] } = address;
+        const { addressLinesQty } = this.props;
 
         if (addressLinesQty === 1) {
             return {
-                street: this.getStreetFields('Street address', street[0])
+                street: this.getStreetFields(
+                    __('Street address'),
+                    0
+                )
             };
         }
 
-        // array of nulls gets changed into object, containing street objects, each of which represents a single street field
-        return new Array(addressLinesQty)
-            .fill(null)
-            .reduce(
-                (acc, _, index) => {
-                    acc[`street${index}`] = this.getStreetFields(`Street address line ${index + 1}`, street[0]);
+        const streets = {};
 
-                    return acc;
-                }, {}
+        // eslint-disable-next-line fp/no-loops, fp/no-let
+        for (let i = 0; i < addressLinesQty; i++) {
+            streets[`street${i}`] = this.getStreetFields(
+                __('Street address line %s', i + 1),
+                i
             );
+        }
+
+        return streets;
     }
 
     get fieldMap() {
