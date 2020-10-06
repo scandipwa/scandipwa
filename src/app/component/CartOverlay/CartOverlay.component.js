@@ -34,7 +34,12 @@ export class CartOverlay extends PureComponent {
         handleCheckoutClick: PropTypes.func.isRequired,
         currencyCode: PropTypes.string.isRequired,
         showOverlay: PropTypes.func.isRequired,
-        activeOverlay: PropTypes.string.isRequired
+        activeOverlay: PropTypes.string.isRequired,
+        hasOutOfStockProductsInCart: PropTypes.bool
+    };
+
+    static defaultProps = {
+        hasOutOfStockProductsInCart: false
     };
 
     componentDidMount() {
@@ -128,16 +133,31 @@ export class CartOverlay extends PureComponent {
         );
     }
 
-    renderActions() {
-        const { totals: { items }, handleCheckoutClick } = this.props;
+    renderSecureCheckoutButton() {
+        const { totals: { items }, handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
 
-        const options = !items || items.length < 1
+        const options = !items || items.length < 1 || hasOutOfStockProductsInCart
             ? {
                 onClick: (e) => e.preventDefault(),
                 disabled: true
             }
             : {};
 
+        return (
+            <button
+              block="CartOverlay"
+              elem="CheckoutButton"
+              mix={ { block: 'Button' } }
+              onClick={ handleCheckoutClick }
+              { ...options }
+            >
+                <span />
+                { __('Secure checkout') }
+            </button>
+        );
+    }
+
+    renderActions() {
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link
@@ -148,16 +168,7 @@ export class CartOverlay extends PureComponent {
                 >
                     { __('View cart') }
                 </Link>
-                <button
-                  block="CartOverlay"
-                  elem="CheckoutButton"
-                  mix={ { block: 'Button' } }
-                  onClick={ handleCheckoutClick }
-                  { ...options }
-                >
-                    <span />
-                    { __('Secure checkout') }
-                </button>
+                { this.renderSecureCheckoutButton() }
             </div>
         );
     }
@@ -179,6 +190,20 @@ export class CartOverlay extends PureComponent {
         );
     }
 
+    renderOutOfStockProductsWarning() {
+        const { hasOutOfStockProductsInCart } = this.props;
+
+        if (!hasOutOfStockProductsInCart) {
+            return null;
+        }
+
+        return (
+            <div block="CartOverlay" elem="OutOfStockProductsWarning">
+                { __('Remove out of stock products from cart') }
+            </div>
+        );
+    }
+
     render() {
         const { changeHeaderState } = this.props;
 
@@ -193,6 +218,7 @@ export class CartOverlay extends PureComponent {
                 { this.renderDiscount() }
                 { this.renderTax() }
                 { this.renderTotals() }
+                { this.renderOutOfStockProductsWarning() }
                 { this.renderActions() }
             </Overlay>
         );
