@@ -1,6 +1,6 @@
 .CheckoutSuccess {
     @include mobile {
-        margin-top: 2rem;
+        margin-top: 2.8rem;
         text-align: center;
     }
 
@@ -10,13 +10,13 @@
         }
 
         @include after-mobile {
-            margin-top: 2rem;
+            margin-top: 2.4rem;
         }
     }
 
     &-ButtonWrapper {
         @include mobile {
-            padding: 1rem;
+            padding: 1.4rem;
             position: fixed;
             left: 0;
             width: 100%;

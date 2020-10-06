@@ -10,7 +10,11 @@
  */
 
 li {
-    padding-left: 3.25rem;
+    padding-left: 3.9rem;
+
+    @include mobile {
+        padding-left: 4.55rem;
+    }
 
     &::before {
         position: absolute;

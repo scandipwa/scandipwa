@@ -36,8 +36,12 @@
                 }
 
                 .Field-Label {
-                    margin-left: 1rem;
+                    margin-left: 1.2rem;
                     order: 2;
+
+                    @include mobile {
+                        margin-left: 1.4rem;
+                    }
                 }
             }
         }
@@ -45,19 +49,31 @@
 
     &-Required {
         color: var(--customizable-options-required-text-color);
-        margin-top: .5rem;
+        margin-top: .6rem;
+
+        @include mobile {
+            margin-top: .7rem;
+        }
     }
 
     &-Information {
         color: var(--customizable-options-additional-information-color);
-        font-size: 11px;
-        margin-top: .5rem;
+        font-size: 1.1rem;
+        margin-top: .6rem;
+
+        @include mobile {
+            margin-top: .7rem;
+        }
     }
 
     &-ExpandableContentContent {
         &_isContentExpanded {
             @include before-desktop {
-                padding: 0 1rem 1rem;
+                padding: 0 1.2rem 1.2rem;
+            }
+
+            @include mobile {
+                padding: 0 1.4rem 1.4rem;
             }
 
             .Field {

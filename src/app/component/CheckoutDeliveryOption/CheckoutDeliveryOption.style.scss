@@ -35,8 +35,12 @@
         --check-mark-opacity: 0;
 
         width: 100%;
-        padding: 1rem 3rem 1rem;
+        padding: 1.2rem 3.6rem 1.2rem;
         text-align: left;
+
+        @include mobile {
+            padding: 1.4rem 4.2rem 1.4rem;
+        }
 
         &::after {
             content: '';

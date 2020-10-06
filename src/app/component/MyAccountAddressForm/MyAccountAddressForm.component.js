@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
+import { setAddressesInFormObject } from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
@@ -21,7 +22,8 @@ export class MyAccountAddressForm extends FieldForm {
         address: addressType.isRequired,
         countries: countriesType.isRequired,
         default_country: PropTypes.string,
-        onSave: PropTypes.func
+        onSave: PropTypes.func,
+        addressLinesQty: PropTypes.number.isRequired
     };
 
     static defaultProps = {
@@ -52,8 +54,11 @@ export class MyAccountAddressForm extends FieldForm {
     }
 
     onFormSuccess = (fields) => {
-        const { onSave } = this.props;
-        const { region_id, region_string: region, ...newAddress } = fields;
+        const { onSave, addressLinesQty } = this.props;
+        const { region_id, region_string: region, ...newAddress } = addressLinesQty > 1
+            ? setAddressesInFormObject(fields, addressLinesQty)
+            : fields;
+
         newAddress.region = { region_id, region };
         onSave(newAddress);
     };
@@ -93,10 +98,46 @@ export class MyAccountAddressForm extends FieldForm {
         });
     };
 
+    getStreetFields(label, index) {
+        const { address: { street = [] } } = this.props;
+
+        return {
+            label,
+            value: street[index],
+            validation: index === 0 ? ['notEmpty'] : []
+        };
+    }
+
+    // returns the address fields in quantity equal to BE
+    getAddressFields() {
+        const { addressLinesQty } = this.props;
+
+        if (addressLinesQty === 1) {
+            return {
+                street: this.getStreetFields(
+                    __('Street address'),
+                    0
+                )
+            };
+        }
+
+        const streets = {};
+
+        // eslint-disable-next-line fp/no-loops, fp/no-let
+        for (let i = 0; i < addressLinesQty; i++) {
+            streets[`street${i}`] = this.getStreetFields(
+                __('Street address line %s', i + 1),
+                i
+            );
+        }
+
+        return streets;
+    }
+
     get fieldMap() {
         const { countryId } = this.state;
         const { countries, address } = this.props;
-        const { default_billing, default_shipping, street = [] } = address;
+        const { default_billing, default_shipping } = address;
 
         return {
             default_billing: {
@@ -140,11 +181,7 @@ export class MyAccountAddressForm extends FieldForm {
                 label: __('Zip/Postal code'),
                 validation: ['notEmpty']
             },
-            street: {
-                label: __('Street address'),
-                value: street[0],
-                validation: ['notEmpty']
-            }
+            ...this.getAddressFields()
             // Will be back with B2B update
             // company: {
             //     label: __('Company')

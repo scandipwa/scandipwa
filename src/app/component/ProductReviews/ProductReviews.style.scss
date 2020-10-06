@@ -20,8 +20,13 @@
     }
 
     &-Title {
-        margin: 0 0 .5rem;
-        font-size: 2rem;
+        margin: 0 0 .6rem;
+        font-size: 2.4rem;
+
+        @include mobile {
+            margin: 0 0 .7rem;
+            font-size: 2.8rem;
+        }
 
         @include before-desktop {
             display: none;
@@ -32,12 +37,12 @@
         padding: 0;
 
         @include desktop {
-            padding: 3rem 1rem;
+            padding: 3.6rem 1.2rem;
         }
     }
 
     &-SummaryRating {
-        font-size: 30px;
+        font-size: 3rem;
     }
 
     &-ExpandableContentHeading,
@@ -69,17 +74,25 @@
             position: relative;
             height: auto;
             width: 100%;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
+        }
+
+        @include mobile {
+            margin-top: 1.4rem;
         }
     }
 
     &-SummaryDetails {
         display: inline-block;
-        margin-left: 1rem;
-        font-size: 20px;
+        margin-left: 1.2rem;
+        font-size: 2rem;
+
+        @include mobile {
+            margin-left: 1.4rem;
+        }
 
         span {
-            font-size: 16px;
+            font-size: 1.6rem;
             font-weight: normal;
 
             &::before {

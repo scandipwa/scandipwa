@@ -27,18 +27,11 @@ import { appendWithStoreCode } from 'Util/Url';
 import MyAccountOverlay from './MyAccountOverlay.component';
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
-    STATE_CONFIRM_EMAIL,
     STATE_CREATE_ACCOUNT,
     STATE_FORGOT_PASSWORD,
-    STATE_FORGOT_PASSWORD_SUCCESS,
     STATE_LOGGED_IN,
     STATE_SIGN_IN
 } from './MyAccountOverlay.config';
-
-export const MyAccountDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/MyAccount/MyAccount.dispatcher'
-);
 
 /** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -52,15 +45,6 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    forgotPassword: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
-    ),
-    createAccount: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
-    ),
-    signIn: (options) => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
-    ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
@@ -70,12 +54,9 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/MyAccountOverlay/Container */
 export class MyAccountOverlayContainer extends PureComponent {
     static propTypes = {
-        forgotPassword: PropTypes.func.isRequired,
-        signIn: PropTypes.func.isRequired,
         isPasswordForgotSend: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         showNotification: PropTypes.func.isRequired,
-        createAccount: PropTypes.func.isRequired,
         isOverlayVisible: PropTypes.bool.isRequired,
         showOverlay: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
@@ -93,17 +74,13 @@ export class MyAccountOverlayContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onSignInSuccess: this.onSignInSuccess.bind(this),
-        onSignInAttempt: this.onSignInAttempt.bind(this),
-        onCreateAccountAttempt: this.onCreateAccountAttempt.bind(this),
-        onCreateAccountSuccess: this.onCreateAccountSuccess.bind(this),
-        onForgotPasswordSuccess: this.onForgotPasswordSuccess.bind(this),
-        onForgotPasswordAttempt: this.onForgotPasswordAttempt.bind(this),
         onFormError: this.onFormError.bind(this),
         handleForgotPassword: this.handleForgotPassword.bind(this),
         handleSignIn: this.handleSignIn.bind(this),
         handleCreateAccount: this.handleCreateAccount.bind(this),
-        onVisible: this.onVisible.bind(this)
+        onVisible: this.onVisible.bind(this),
+        setSignInState: this.setSignInState.bind(this),
+        setLoadingState: this.setLoadingState.bind(this)
     };
 
     __construct(props) {
@@ -197,6 +174,14 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
     }
 
+    setSignInState(state) {
+        this.setState({ state });
+    }
+
+    setLoadingState(loading) {
+        this.setState({ loading });
+    }
+
     redirectOrGetState = (props) => {
         const {
             showOverlay,
@@ -240,98 +225,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         return state;
     };
 
-    async onSignInSuccess(fields) {
-        const {
-            signIn,
-            showNotification,
-            onSignIn
-        } = this.props;
-
-        try {
-            await signIn(fields);
-            onSignIn();
-        } catch (e) {
-            this.setState({ isLoading: false });
-            showNotification('error', e.message);
-        }
-    }
-
     onVisible() {
         const { setHeaderState, isCheckout, device } = this.props;
 
         if (device.isMobile && !isCheckout) {
             setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
         }
-    }
-
-    onSignInAttempt() {
-        this.setState({ isLoading: true });
-    }
-
-    onCreateAccountAttempt(_, invalidFields) {
-        const { showNotification } = this.props;
-
-        if (invalidFields) {
-            showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
-        }
-
-        this.setState({ isLoading: !invalidFields });
-    }
-
-    onCreateAccountSuccess(fields) {
-        const {
-            createAccount,
-            onSignIn
-        } = this.props;
-
-        const {
-            password,
-            email,
-            firstname,
-            lastname,
-            is_subscribed
-        } = fields;
-
-        const customerData = {
-            customer: {
-                firstname,
-                lastname,
-                email,
-                is_subscribed
-            },
-            password
-        };
-
-        createAccount(customerData).then(
-            /** @namespace Component/MyAccountOverlay/Container/createAccountThen */
-            (code) => {
-                // if user needs confirmation
-                if (code === 2) {
-                    this.setState({ state: STATE_CONFIRM_EMAIL });
-                } else {
-                    onSignIn();
-                }
-
-                this.stopLoading();
-            },
-            this.stopLoading
-        );
-    }
-
-    onForgotPasswordSuccess(fields) {
-        const { forgotPassword } = this.props;
-
-        forgotPassword(fields).then(
-            /** @namespace Component/MyAccountOverlay/Container/forgotPasswordThen */
-            () => {
-                this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
-                this.stopLoading();
-            }, this.stopLoading
-        );
-    }
-
-    onForgotPasswordAttempt() {
-        this.setState({ isLoading: true });
     }
 
     onFormError() {

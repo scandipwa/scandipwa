@@ -22,7 +22,7 @@
     }
 
     &-ItemsInCart {
-        font-size: 12px;
+        font-size: 1.2rem;
         opacity: .5;
         text-transform: none;
         top: 2px;
@@ -32,8 +32,12 @@
     &-SummaryItem {
         justify-content: space-between;
         display: flex;
-        padding: 1rem 0;
+        padding: 1.2rem 0;
         margin-bottom: 0;
+
+        @include mobile {
+            padding: 1.4rem 0;
+        }
 
         &:last-child {
             margin-bottom: 0;
@@ -60,17 +64,27 @@
         margin-top: 5px;
 
         p {
-            font-size: 1.1rem;
+            font-size: 1.32rem;
             line-height: 1.5;
+
+            @include mobile {
+                font-size: 1.54rem;
+            }
         }
     }
 
     &-CartItem {
         display: grid;
-        grid-template-columns: 8rem auto auto;
-        grid-column-gap: .5rem;
-        margin: 0 0 .5rem;
+        grid-template-columns: 9.6rem auto auto;
+        grid-column-gap: .6rem;
+        margin: 0 0 .6rem;
         padding: 0;
+
+        @include mobile {
+            grid-template-columns: 11.2rem auto auto;
+            grid-column-gap: .7rem;
+            margin: 0 0 .7rem;
+        }
 
         &::before {
             content: none;
@@ -84,8 +98,13 @@
     }
 
     &-Thumbnail {
-        width: 8rem;
-        height: 8rem;
+        width: 9.6rem;
+        height: 9.6rem;
+
+        @include mobile {
+            width: 11.2rem;
+            height: 11.2rem;
+        }
     }
 
     &-Title {
@@ -105,6 +124,10 @@
     }
 
     .CartItem-Wrapper {
-        padding: 1rem 0;
+        padding: 1.2rem 0;
+
+        @include mobile {
+            padding: 1.4rem 0;
+        }
     }
 }

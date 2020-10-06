@@ -25,10 +25,15 @@ table {
 
     td,
     th {
-        font-size: 1rem;
+        font-size: 1.2rem;
         padding: 10px;
         text-align: left;
-        min-width: 10rem;
+        min-width: 12rem;
+
+        @include mobile {
+            font-size: 1.4rem;
+            min-width: 14rem;
+        }
     }
 }
 

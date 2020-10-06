@@ -42,6 +42,16 @@ summary {
     display: block;
 }
 
+header,
+footer,
+main {
+    font-size: 1.2rem;
+
+    @include mobile {
+        font-size: 1.4rem;
+    }
+}
+
 main {
     min-height: calc(100vh - var(--header-height) - var(--footer-height) - var(--breadcrumbs-height));
     max-width: 100vw;
@@ -57,7 +67,11 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     table-layout: fixed;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.44rem;
+
+    @include mobile {
+        margin-bottom: 1.68rem;
+    }
 }
 
 img {
@@ -66,10 +80,6 @@ img {
 
 html {
     font-size: $font-standard-size;
-
-    @include mobile {
-        font-size: $font-mobile-size;
-    }
 }
 
 body {
@@ -89,44 +99,73 @@ a {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
 
     @include mobile {
-        font-size: 2rem;
+
+        font-size: 2.8rem;
     }
 
     + h2,
     + h3,
     + h4 {
-        margin-top: .6rem;
+        margin-top: .72rem;
+
+        @include mobile {
+            margin-top: .84rem;
+        }
     }
 }
 
 h2 {
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    margin-top: 1.8rem;
+    font-size: 2.4rem;
+    margin-bottom: 1.8rem;
+    margin-top: 2.16rem;
+
+    @include mobile {
+        font-size: 2.8rem;
+        margin-bottom: 2.1rem;
+        margin-top: 2.52rem;
+    }
 
     + h3,
     + h4 {
         top: -.9rem;
-        margin-top: .6rem;
-        margin-bottom: .6rem;
+        margin-top: .72rem;
+        margin-bottom: .72rem;
+
+        @include mobile {
+            top: -.9rem;
+            margin-top: .84rem;
+            margin-bottom: .84rem;
+        }
     }
 }
 
 h3 {
-    font-size: 1.5rem;
-    margin-top: 1.8rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    margin-top: 2.16rem;
+    margin-bottom: 1.8rem;
+
+    @include mobile {
+        font-size: 2.1rem;
+        margin-top: 2.52rem;
+        margin-bottom: 2.1rem;
+    }
 
     + h4 {
         top: -.9rem;
-        margin-top: .6rem;
-        margin-bottom: .6rem;
+        margin-top: .72rem;
+        margin-bottom: .72rem;
+
+        @include mobile {
+            top: -.9rem;
+            margin-top: .84rem;
+            margin-bottom: .84rem;
+        }
     }
 }
 
@@ -135,7 +174,7 @@ p,
 li,
 dl,
 button {
-    font-size: 14px;
+    font-size: 1.4rem;
 }
 
 li {
@@ -145,6 +184,10 @@ li {
 
     ol & {
         counter-increment: list;
+
+        @include mobile {
+            counter-increment: list;
+        }
     }
 
     &:last-child {
@@ -153,8 +196,12 @@ li {
 }
 
 p {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.44rem;
     line-height: 1.8;
+
+    @include mobile {
+        margin-bottom: 1.68rem;
+    }
 
     &:last-of-type {
         margin-bottom: 0;
@@ -163,12 +210,15 @@ p {
 
 input,
 select {
-    min-height: 2rem;
-    min-width: 4rem;
-    font-size: 1.1rem;
+    min-height: 2.4rem;
+    min-width: 4.8rem;
+    font-size: 1.32rem;
 
     @include mobile {
-        font-size: 16px;
+        min-height: 2.8rem;
+        min-width: 5.6rem;
+        font-size: 1.54rem;
+        font-size: 1.6rem;
     }
 }
 
@@ -189,7 +239,7 @@ textarea {
     resize: none;
 
     @include mobile {
-        font-size: 16px;
+        font-size: 1.6rem;
     }
 }
 
