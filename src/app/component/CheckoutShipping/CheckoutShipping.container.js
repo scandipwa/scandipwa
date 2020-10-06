@@ -16,13 +16,14 @@ import { connect } from 'react-redux';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
-import { trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    addressLinesQty: state.ConfigReducer.address_lines_quantity
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
@@ -36,6 +37,7 @@ export class CheckoutShippingContainer extends PureComponent {
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         customer: customerType.isRequired,
+        addressLinesQty: PropTypes.number.isRequired,
         updateShippingFields: PropTypes.func.isRequired
     };
 
@@ -71,16 +73,22 @@ export class CheckoutShippingContainer extends PureComponent {
     }
 
     onShippingSuccess(fields) {
-        const { saveAddressInformation, updateShippingFields } = this.props;
+        const {
+            saveAddressInformation,
+            updateShippingFields,
+            addressLinesQty
+        } = this.props;
 
         const {
             selectedCustomerAddressId,
             selectedShippingMethod
         } = this.state;
 
+        const formFields = getFormFields(fields, addressLinesQty);
+
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
-            : trimAddressFields(fields);
+            : trimAddressFields(formFields);
 
         const {
             carrier_code: shipping_carrier_code,

@@ -16,12 +16,12 @@ import { connect } from 'react-redux';
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart';
+import { itemIsOutOfStock } from 'Util/Cart';
 import { CONFIGURABLE } from 'Util/Product';
 import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
-import { PRODUCT_IN_STOCK } from './CartItem.config';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -75,27 +75,8 @@ export class CartItemContainer extends PureComponent {
     }
 
     productIsInStock() {
-        const {
-            item: {
-                product: {
-                    stock_status
-                }
-            }
-        } = this.props;
-
-        const isInStock = stock_status === PRODUCT_IN_STOCK;
-
-        if (!isInStock) {
-            return false;
-        }
-
-        const variant = this.getProductVariant();
-
-        if (!variant) {
-            return false;
-        }
-
-        return true;
+        const { item } = this.props;
+        return !itemIsOutOfStock(item);
     }
 
     /**

@@ -83,7 +83,7 @@ export class CartOverlayContainer extends PureComponent {
         return {
             hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
-    }
+    };
 
     handleCheckoutClick(e) {
         const {

@@ -19,7 +19,7 @@
         "scandipwa/wishlist-graphql": "^1.2",
         "scandipwa/urlrewrite-graphql": "^1.2.1",
         "scandipwa/reviews-graphql": "^1.6",
-        "scandipwa/store-graphql": "^1.0.7",
+        "scandipwa/store-graphql": "^1.1.1",
         "scandipwa/customization": "^1.1",
         "scandipwa/cache": "^1.0",
         "scandipwa/locale": "^1.0"
