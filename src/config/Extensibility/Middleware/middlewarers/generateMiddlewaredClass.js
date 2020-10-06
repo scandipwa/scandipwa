@@ -10,6 +10,7 @@
  */
 /* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
+const getPluginsForClass = require('../helpers/getPluginsForClass');
 
 /**
  * Provide an opportunity to wrap proxy with additional functions.
@@ -18,8 +19,8 @@ const getWrapperFromPlugin = require('../helpers/getWrapperFromPlugin');
  * @param Context origContext
  */
 module.exports = (proxy) => {
-    const { __namespace__: namespace } = Object.getPrototypeOf(proxy);
-    const namespacePluginsClass = globalThis.plugins?.[namespace]?.class || [];
+    const { __namespaces__ } = proxy.prototype;
+    const namespacePluginsClass = getPluginsForClass(__namespaces__);
 
     // Wrap class in its `class` plugins to provide `class` API
     const wrappedClass = namespacePluginsClass.reduce(

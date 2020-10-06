@@ -43,7 +43,7 @@
     "Billing step": "Abrechnung",
     "Breadcrumbs (current location)...": "Breadcrumbs (aktueller Standort)...",
     "Browse website in full-screen:": "Website im Vollbildmodus durchsuchen:",
-    "Buy %s for %s%s each and ": "Kaufen Sie %s für jeweils %s%s und",
+    "Buy %s for %s%s each and ": "Kaufen Sie %s für jeweils %s%s und ",
     "CONTACTS": "Impressum",
     "Can not delete - address is set as default.": "Kann nicht gelöscht werden - Adresse ist voreingestellt.",
     "Cancel": "Abbrechen",
@@ -360,5 +360,6 @@
     "Telephone:": null,
     "Mail:": null,
     "Create account": null,
-    "Forgot password": null
+    "Forgot password": null,
+    "Remove out of stock products from cart": null
 }

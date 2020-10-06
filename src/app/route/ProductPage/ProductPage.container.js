@@ -53,7 +53,8 @@ export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product,
     navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
-    metaTitle: state.MetaReducer.title
+    metaTitle: state.MetaReducer.title,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */

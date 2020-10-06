@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CheckoutBilling from 'Component/CheckoutBilling';
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShipping from 'Component/CheckoutShipping';
 import CheckoutSuccess from 'Component/CheckoutSuccess';
@@ -54,7 +53,6 @@ export class Checkout extends PureComponent {
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
         paymentTotals: TotalsType,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
@@ -126,7 +124,7 @@ export class Checkout extends PureComponent {
         const { checkoutStep, history } = this.props;
         const { url } = this.stepMap[checkoutStep];
 
-        history.push(`${ CHECKOUT_URL }${ url }`);
+        history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
     }
 
     renderTitle() {
@@ -140,35 +138,16 @@ export class Checkout extends PureComponent {
         );
     }
 
-    renderGuestForm() {
-        const {
-            checkoutStep,
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange,
-            isGuestEmailSaved
-        } = this.props;
-        const isBilling = checkoutStep === BILLING_STEP;
-
-        return (
-            <CheckoutGuestForm
-              isBilling={ isBilling }
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
-              isGuestEmailSaved={ isGuestEmailSaved }
-            />
-        );
-    }
-
     renderShippingStep() {
         const {
             shippingMethods,
             onShippingEstimationFieldsChange,
             saveAddressInformation,
-            isDeliveryOptionsLoading
+            isDeliveryOptionsLoading,
+            onPasswordChange,
+            onCreateUserChange,
+            onEmailChange,
+            isCreateUser
         } = this.props;
 
         return (
@@ -177,6 +156,10 @@ export class Checkout extends PureComponent {
               shippingMethods={ shippingMethods }
               saveAddressInformation={ saveAddressInformation }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
+              onPasswordChange={ onPasswordChange }
+              onCreateUserChange={ onCreateUserChange }
+              onEmailChange={ onEmailChange }
+              isCreateUser={ isCreateUser }
             />
         );
     }
@@ -269,7 +252,6 @@ export class Checkout extends PureComponent {
                 >
                     <div block="Checkout" elem="Step">
                         { this.renderTitle() }
-                        { this.renderGuestForm() }
                         { this.renderStep() }
                         { this.renderLoader() }
                     </div>

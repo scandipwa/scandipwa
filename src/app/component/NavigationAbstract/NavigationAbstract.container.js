@@ -13,14 +13,24 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
+import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
-import isMobile from 'Util/Mobile';
 import { appendWithStoreCode } from 'Util/Url';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
+
+/** @namespace Component/NavigationAbstract/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
+
+/** @namespace Component/NavigationAbstract/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
 
 /** @namespace Component/NavigationAbstract/Container */
 export class NavigationAbstractContainer extends PureComponent {
@@ -28,7 +38,8 @@ export class NavigationAbstractContainer extends PureComponent {
         setNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
-        navigationState: PropTypes.object.isRequired
+        navigationState: PropTypes.object.isRequired,
+        device: DeviceType.isRequired
     };
 
     default_state = DEFAULT_STATE;
@@ -48,7 +59,8 @@ export class NavigationAbstractContainer extends PureComponent {
     }
 
     onRouteChanged(history) {
-        if (!isMobile.any() && !isMobile.tablet()) {
+        const { device } = this.props;
+        if (!device.isMobile) {
             return this.handleDesktopRouteChange(history);
         }
 
@@ -125,4 +137,4 @@ export class NavigationAbstractContainer extends PureComponent {
     }
 }
 
-export default NavigationAbstractContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationAbstractContainer);

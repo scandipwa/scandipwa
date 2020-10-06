@@ -16,9 +16,9 @@ const getPluginsForMember = require('../helpers/getPluginsForMember');
  * @param {string} targetType class | instance
  * @param {string} namespaces
  */
-module.exports = (targetType, namespaces) => function (target, memberName, rec) {
+module.exports = (targetType, namespaces) => function (target, memberName, proxy) {
     // Get the original member
-    const origMember = Reflect.get(target, memberName, rec);
+    const origMember = Reflect.get(target, memberName, proxy);
 
     // GET handler intercepts static members on classes
     // And instance members (member-functions) on instances
@@ -38,7 +38,7 @@ module.exports = (targetType, namespaces) => function (target, memberName, rec) 
     const middlewaredFunction = generateMiddlewaredFunction(
         origMember,
         memberPluginsGet,
-        rec
+        proxy
     );
 
     // If original member was an object - return the value from the function call

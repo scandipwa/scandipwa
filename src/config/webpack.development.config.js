@@ -186,7 +186,10 @@ const config = (env, argv) => {
                         {
                             loader: 'sass-resources-loader',
                             options: {
-                                resources: path.join(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
+                                resources: path.join(
+                                    env.BUILD_MODE === DEVELOPMENT ? fallbackRoot : projectRoot,
+                                    'src', 'app', 'style', 'abstract', '_abstract.scss'
+                                )
                             }
                         }
                     ]
@@ -271,7 +274,9 @@ const config = (env, argv) => {
                 { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
             ]),
 
-            new MiniCssExtractPlugin()
+            new MiniCssExtractPlugin({
+                ignoreOrder: true
+            })
         ]
     };
 };

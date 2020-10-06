@@ -16,7 +16,8 @@ import OverlayComponent from './Overlay.component';
 /** @namespace Component/Overlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
-    areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen
+    areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/Overlay/Container/mapDispatchToProps */

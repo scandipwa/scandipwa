@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { appendWithStoreCode } from 'Util/Url';
 
 /**
  * Meta Dispatcher
@@ -57,7 +58,7 @@ export class MetaDispatcher {
             description: meta_description,
             keywords: meta_keyword,
             title: meta_title || name,
-            canonical_url
+            canonical_url: `${window.location.origin}${appendWithStoreCode(canonical_url)}`
         };
     }
 
@@ -70,14 +71,16 @@ export class MetaDispatcher {
     _getCategoryMeta(category) {
         const {
             description, name, canonical_url,
-            meta_title, meta_keyword, meta_description
+            meta_title, meta_keyword, meta_description,
+            meta_robots = 'follow, index'
         } = category;
 
         return {
             description: meta_description || description,
             title: meta_title || name,
             keywords: meta_keyword,
-            canonical_url
+            canonical_url: `${window.location.origin}${appendWithStoreCode(canonical_url)}`,
+            robots: meta_robots
         };
     }
 }

@@ -29,7 +29,12 @@ import './CartPage.style';
 export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        onCheckoutButtonClick: PropTypes.func.isRequired
+        onCheckoutButtonClick: PropTypes.func.isRequired,
+        hasOutOfStockProductsInCart: PropTypes.bool
+    };
+
+    static defaultProps = {
+        hasOutOfStockProductsInCart: false
     };
 
     renderCartItems() {
@@ -122,20 +127,34 @@ export class CartPage extends PureComponent {
         );
     }
 
-    renderButtons() {
-        const { onCheckoutButtonClick } = this.props;
+    renderSecureCheckoutButton() {
+        const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
+
+        if (hasOutOfStockProductsInCart) {
+            return (
+                <div block="CartPage" elem="OutOfStockProductsWarning">
+                    { __('Remove out of stock products from cart') }
+                </div>
+            );
+        }
 
         return (
+            <button
+              block="CartPage"
+              elem="CheckoutButton"
+              mix={ { block: 'Button' } }
+              onClick={ onCheckoutButtonClick }
+            >
+                <span />
+                { __('Secure checkout') }
+            </button>
+        );
+    }
+
+    renderButtons() {
+        return (
             <div block="CartPage" elem="CheckoutButtons">
-                <button
-                  block="CartPage"
-                  elem="CheckoutButton"
-                  mix={ { block: 'Button' } }
-                  onClick={ onCheckoutButtonClick }
-                >
-                    <span />
-                    { __('Secure checkout') }
-                </button>
+                { this.renderSecureCheckoutButton() }
                 <Link
                   block="CartPage"
                   elem="ContinueShopping"
@@ -149,7 +168,8 @@ export class CartPage extends PureComponent {
 
     renderTotals() {
         return (
-            <article block="CartPage" elem="Summary">
+            /** Id is required to measure the element`s height in ExpandableContent.component.js */
+            <article id="CartPageSummary" block="CartPage" elem="Summary">
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
                 { this.renderTotalDetails() }
                 { this.renderTotal() }

@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './SearchField.component';
+export { default } from './SearchField.container';

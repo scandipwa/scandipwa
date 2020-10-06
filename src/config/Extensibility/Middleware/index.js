@@ -15,17 +15,23 @@ const generateConstructHandler = require('./handlers/generateConstructHandler');
 const applyClassWrappers = require('./middlewarers/generateMiddlewaredClass');
 
 const addNamespaceToMiddlewarable = (Middlewarable, namespace) => {
-    if (!Middlewarable.prototype.__namespace__) {
-        Middlewarable.prototype.__namespace__ = [];
+    // Retrieve already existing namespaces
+    // Prevent mutating the namespaces of parent object
+    const namespaces = Object.assign(
+        [],
+        Reflect.get(Middlewarable.prototype, '__namespaces__')
+    );
+
+    // Prevent duplicate namespaces for overridden classes
+    if (!namespaces.includes(namespace)) {
+        namespaces.push(namespace);
     }
 
-    // Prevent duplicate namespaces from overridden classes
-    if (!Middlewarable.prototype.__namespace__.includes(namespace)) {
-        Middlewarable.prototype.__namespace__.push(namespace);
-    }
+    // Set the namespaces for class
+    Middlewarable.prototype.__namespaces__ = namespaces;
 };
 
-const getNamespacesFromMiddlewarable = (Middlewarable) => Middlewarable.prototype.__namespace__;
+const getNamespacesFromMiddlewarable = (Middlewarable) => Middlewarable.prototype.__namespaces__;
 
 /**
  * Middleware function is supposed to wrap source classes

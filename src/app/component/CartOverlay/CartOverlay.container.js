@@ -19,10 +19,12 @@ import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { hasOutOfStockProductsInCartItems } from 'Util/Cart';
 import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CartOverlay from './CartOverlay.component';
 
@@ -34,8 +36,10 @@ export const CartDispatcher = import(
 /** @namespace Component/CartOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
+    device: state.ConfigReducer.device,
     guest_checkout: state.ConfigReducer.guest_checkout,
-    currencyCode: state.ConfigReducer.default_display_currency_code
+    currencyCode: state.ConfigReducer.default_display_currency_code,
+    activeOverlay: state.OverlayReducer.activeOverlay
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */
@@ -46,7 +50,8 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateTotals(dispatch, options)
     ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
 /** @namespace Component/CartOverlay/Container */
@@ -57,7 +62,8 @@ export class CartOverlayContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        setNavigationState: PropTypes.func.isRequired
+        setNavigationState: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -71,24 +77,38 @@ export class CartOverlayContainer extends PureComponent {
         handleCheckoutClick: this.handleCheckoutClick.bind(this)
     };
 
+    containerProps = () => {
+        const { totals } = this.props;
+
+        return {
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+        };
+    }
+
     handleCheckoutClick(e) {
         const {
             guest_checkout,
             showOverlay,
             showNotification,
-            setNavigationState
+            setNavigationState,
+            hideActiveOverlay,
+            totals
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (guest_checkout) {
-            history.push({ pathname: CHECKOUT_URL });
+        const hasOutOfStockProductsInCart = hasOutOfStockProductsInCartItems(totals.items);
+
+        if (hasOutOfStockProductsInCart) {
+            showNotification('error', 'Cannot proceed to checkout. Remove out of stock products first.');
             return;
         }
 
-        if (isSignedIn()) {
-            history.push({ pathname: CHECKOUT_URL });
+        // Guest checkout enabled or user is signed in => proceed to the checkout
+        if (guest_checkout || isSignedIn()) {
+            hideActiveOverlay();
+            history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
             return;
         }
 
@@ -99,7 +119,10 @@ export class CartOverlayContainer extends PureComponent {
     }
 
     changeHeaderState() {
-        const { changeHeaderState, totals: { count = 0 } } = this.props;
+        const {
+            changeHeaderState,
+            totals: { count = 0 }
+        } = this.props;
         const title = __('%s Items', count || 0);
 
         changeHeaderState({
@@ -124,6 +147,7 @@ export class CartOverlayContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

@@ -32,7 +32,9 @@ import {
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-    cartTotals: state.CartReducer.cartTotals
+    device: state.ConfigReducer.device,
+    cartTotals: state.CartReducer.cartTotals,
+    noMatch: state.NoMatchReducer.noMatch
 });
 
 /** @namespace Component/NavigationTabs/Container/mapDispatchToProps */
@@ -182,6 +184,13 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     }
 
     preserveState(name, newName) {
+        const { noMatch } = this.props;
+
+        if (noMatch) {
+            this.lastSeenMenu = -1;
+            return;
+        }
+
         if (this.lastSeenMenu === -1) {
             return;
         }

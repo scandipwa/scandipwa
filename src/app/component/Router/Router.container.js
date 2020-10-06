@@ -13,7 +13,13 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import {
+    isMobile,
+    isMobileClientHints,
+    isUsingClientHints
+} from 'Util/Mobile';
 
 import Router from './Router.component';
 
@@ -38,6 +44,8 @@ export const mapStateToProps = (state) => ({
     default_title: state.ConfigReducer.default_title,
     title_prefix: state.ConfigReducer.title_prefix,
     title_suffix: state.ConfigReducer.title_suffix,
+    meta_title: state.MetaReducer.title,
+    device: state.ConfigReducer.device,
     isOffline: state.OfflineReducer.isOffline,
     isBigOffline: state.OfflineReducer.isBig
 });
@@ -45,6 +53,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/Router/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     init: () => {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
@@ -63,6 +72,7 @@ export class RouterContainer extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
+        updateConfigDevice: PropTypes.func.isRequired,
         base_link_url: PropTypes.string,
         default_description: PropTypes.string,
         default_keywords: PropTypes.string,
@@ -70,7 +80,8 @@ export class RouterContainer extends PureComponent {
         title_prefix: PropTypes.string,
         title_suffix: PropTypes.string,
         isLoading: PropTypes.bool,
-        isBigOffline: PropTypes.bool
+        isBigOffline: PropTypes.bool,
+        meta_title: PropTypes.string
     };
 
     static defaultProps = {
@@ -81,7 +92,8 @@ export class RouterContainer extends PureComponent {
         title_prefix: '',
         title_suffix: '',
         isLoading: true,
-        isBigOffline: false
+        isBigOffline: false,
+        meta_title: ''
     };
 
     __construct(props) {
@@ -89,6 +101,11 @@ export class RouterContainer extends PureComponent {
 
         this.initializeApplication();
         this.redirectFromPartialUrl();
+        this.handleResize();
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentDidUpdate(prevProps) {
@@ -101,12 +118,13 @@ export class RouterContainer extends PureComponent {
                 default_keywords,
                 default_title,
                 title_prefix,
-                title_suffix
+                title_suffix,
+                meta_title
             } = this.props;
 
             updateMeta({
                 default_title,
-                title: default_title,
+                title: meta_title || default_title,
                 default_description,
                 description: default_description,
                 default_keywords,
@@ -116,6 +134,34 @@ export class RouterContainer extends PureComponent {
             });
         }
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+    }
+
+    handleResize = async () => {
+        const { updateConfigDevice } = this.props;
+        if (isUsingClientHints) {
+            const { platform, model } = await isMobileClientHints.getDeviceData();
+            updateConfigDevice({
+                isMobile: navigator.userAgentData.mobile,
+                android: isMobile.android(platform),
+                ios: isMobile.iOS(platform),
+                blackberry: isMobile.blackBerry(model),
+                opera: isMobile.opera(model),
+                windows: isMobile.windows(model)
+            });
+        } else {
+            updateConfigDevice({
+                isMobile: isMobile.any(),
+                android: isMobile.android(),
+                ios: isMobile.iOS(),
+                blackberry: isMobile.blackBerry(),
+                opera: isMobile.opera(),
+                windows: isMobile.windows()
+            });
+        }
+    };
 
     containerProps = () => {
         const { isBigOffline } = this.props;

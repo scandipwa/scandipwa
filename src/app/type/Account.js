@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import PropTypes from 'prop-types';
 
 export const regionType = PropTypes.oneOfType([
@@ -85,13 +84,7 @@ export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address-book';
 export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
 
-export const activeTabType = PropTypes.oneOf([
-    DASHBOARD,
-    MY_ORDERS,
-    MY_WISHLIST,
-    ADDRESS_BOOK,
-    NEWSLETTER_SUBSCRIPTION
-]);
+export const activeTabType = PropTypes.string;
 
 export const tabType = PropTypes.shape({
     url: PropTypes.string,
@@ -99,3 +92,5 @@ export const tabType = PropTypes.shape({
 });
 
 export const tabMapType = PropTypes.objectOf(tabType);
+
+export const signInStateType = PropTypes.string;

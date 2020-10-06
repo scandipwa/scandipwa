@@ -83,8 +83,9 @@
     }
 
     &-Reviews {
-        // --product-rating-size: 12px;
-        display: none;
+        --product-rating-size: 1.2rem;
+
+        width: 100%;
     }
 
     &-ConfigurableOptions {

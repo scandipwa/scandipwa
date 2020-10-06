@@ -26,7 +26,8 @@ import {
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
 import { MY_ACCOUNT_URL } from './MyAccount.config';
@@ -42,7 +43,8 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Route/MyAccount/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -69,7 +71,8 @@ export class MyAccountContainer extends PureComponent {
         isSignedIn: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
         location: LocationType.isRequired,
-        history: HistoryType.isRequired
+        history: HistoryType.isRequired,
+        device: DeviceType.isRequired
     };
 
     static navigateToSelectedTab(props, state = {}) {
@@ -176,14 +179,14 @@ export class MyAccountContainer extends PureComponent {
         changeHeaderState({
             title: 'My account',
             name: CUSTOMER_ACCOUNT_PAGE,
-            onBackClick: () => history.push('/')
+            onBackClick: () => history.push(appendWithStoreCode('/'))
         });
     }
 
     changeActiveTab(activeTab) {
         const { history } = this.props;
         const { [activeTab]: { url } } = this.tabMap;
-        history.push(`${ MY_ACCOUNT_URL }${ url }`);
+        history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }${ url }`));
     }
 
     updateBreadcrumbs() {
@@ -201,23 +204,24 @@ export class MyAccountContainer extends PureComponent {
         const {
             isSignedIn,
             history,
-            location: { pathname }
+            location: { pathname },
+            device
         } = this.props;
 
         if (isSignedIn) { // do nothing for signed-in users
             return;
         }
 
-        if (isMobile.any()) { // do not redirect on mobile
+        if (device.isMobile) { // do not redirect on mobile
             return;
         }
 
         if (pathname === '/forgot-password') { // forward the forgot password state
-            history.push({ pathname: '/', state: { isForgotPassword: true } });
+            history.push({ pathname: appendWithStoreCode('/'), state: { isForgotPassword: true } });
             return;
         }
 
-        history.push({ pathname: '/' });
+        history.push({ pathname: appendWithStoreCode('/') });
     }
 
     render() {

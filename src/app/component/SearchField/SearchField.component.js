@@ -20,8 +20,9 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
+import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
-import isMobile from 'Util/Mobile';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './SearchField.style';
 
@@ -42,7 +43,8 @@ export class SearchField extends PureComponent {
         onClearSearchButtonClick: PropTypes.func.isRequired,
         isVisible: PropTypes.bool,
         isActive: PropTypes.bool,
-        hideActiveOverlay: PropTypes.func
+        hideActiveOverlay: PropTypes.func,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -82,7 +84,7 @@ export class SearchField extends PureComponent {
         const trimmedSearch = searchCriteria.trim();
 
         if (e.key === 'Enter' && trimmedSearch !== '') {
-            history.push(`/search/${ search }`);
+            history.push(appendWithStoreCode(`/search/${ search }`));
             hideActiveOverlay();
             onSearchBarChange({ target: { value: '' } });
             this.searchBarRef.current.blur();
@@ -219,9 +221,10 @@ export class SearchField extends PureComponent {
     }
 
     renderDesktopContent() {
+        const { device } = this.props;
         const { showSearch } = this.state;
 
-        if (isMobile.any() || isMobile.tablet()) {
+        if (device.isMobile) {
             return null;
         }
 
@@ -243,10 +246,11 @@ export class SearchField extends PureComponent {
         const {
             searchCriteria,
             onSearchBarFocus,
-            isActive
+            isActive,
+            device
         } = this.props;
 
-        if (!isMobile.any() && !isMobile.tablet()) {
+        if (!device.isMobile) {
             return null;
         }
 
