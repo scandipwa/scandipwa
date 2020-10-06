@@ -13,13 +13,22 @@
     --button-border-width: 0;
 
     background: var(--install-prompt-android-background);
-    padding: 1rem;
-    margin: 1rem;
+    padding: 1.2rem;
+    margin: 1.2rem;
+
+    @include mobile {
+        padding: 1.4rem;
+        margin: 1.4rem;
+    }
 
     &-Content {
-        font-size: 15px;
+        font-size: 1.5rem;
         text-align: center;
-        padding: 2rem 0 1rem;
+        padding: 2.4rem 0 1.2rem;
+
+        @include mobile {
+            padding: 2.8rem 0 1.4rem;
+        }
     }
 
     &-Close {
@@ -29,12 +38,12 @@
         z-index: 10;
         top: 0;
         right: 0;
-        width: 3.3rem;
-        height: 3.3rem;
+        width: 3.96rem;
+        height: 3.96rem;
 
         &::before,
         &::after {
-            top: 1rem;
+            top: 1.2rem;
         }
     }
 

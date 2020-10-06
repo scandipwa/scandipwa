@@ -40,15 +40,19 @@
 
     &-NoResults {
         margin: 0;
-        padding: 1rem 1rem 0;
+        padding: 1.2rem 1.2rem 0;
+
+        @include mobile {
+            padding: 1.4rem 1.4rem 0;
+        }
 
         @include desktop {
-            padding: 0 0 1rem 0;
+            padding: 0 0 1.2rem 0;
         }
     }
 
     &-Heading {
-        font-size: 18px;
+        font-size: 1.8rem;
         font-weight: bold;
         text-transform: none;
         margin-top: 0;
@@ -60,7 +64,7 @@
 
     &-Item {
         @include desktop {
-            margin-right: 1rem;
+            margin-right: 1.2rem;
         }
 
         &_isSelected {
@@ -89,7 +93,7 @@
                 @include desktop {
                     content: '\2022';
 
-                    margin-right: 1rem;
+                    margin-right: 1.2rem;
                     margin-left: 2px;
                 }
             }
@@ -97,11 +101,19 @@
     }
 
     &-Placeholder {
-        padding: 1rem;
+        padding: 1.2rem;
+
+        @include mobile {
+            padding: 1.4rem;
+        }
     }
 
     &-Attributes {
-        --option-margin: .5rem;
+        --option-margin: .6rem;
+
+        @include mobile {
+            --option-margin: .7rem;
+        }
 
         @include desktop {
             --option-margin: 0 12px 12px 0;
@@ -112,7 +124,7 @@
         order: 50;
 
         @include desktop {
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
         }
     }
 
@@ -120,9 +132,13 @@
     &-ResetButton {
         @include before-desktop {
             position: sticky;
-            padding: 1rem;
+            padding: 1.2rem;
             width: 100%;
             left: 0;
+        }
+
+        @include mobile {
+            padding: 1.4rem;
         }
     }
 
@@ -143,7 +159,11 @@
     }
 
     &-ResetButton {
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
+
+        @include mobile {
+            margin-bottom: 1.4rem;
+        }
 
         @include before-desktop {
             display: none;
@@ -165,14 +185,22 @@
 
         &:last-child {
             @include before-desktop {
-                margin-bottom: .6rem;
+                margin-bottom: .72rem;
+            }
+
+            @include mobile {
+                margin-bottom: .84rem;
             }
         }
     }
 
     .ProductAttributeValue-Image-Overlay {
         @include before-desktop {
-            margin: .5rem;
+            margin: .6rem;
+        }
+
+        @include mobile {
+            margin: .7rem;
         }
     }
 

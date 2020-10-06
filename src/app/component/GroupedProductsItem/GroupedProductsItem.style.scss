@@ -12,9 +12,15 @@
 .GroupedProductsItem {
     display: grid;
     padding: 0;
-    margin-bottom: 1rem;
-    grid-template-columns: 6rem 3fr 1fr;
-    grid-gap: 1rem;
+    margin-bottom: 1.2rem;
+    grid-template-columns: 7.2rem 3fr 1fr;
+    grid-gap: 1.2rem;
+
+    @include mobile {
+        margin-bottom: 1.4rem;
+        grid-template-columns: 8.4rem 3fr 1fr;
+        grid-gap: 1.4rem;
+    }
 
     &::before {
         content: none;
@@ -43,17 +49,26 @@
         flex-direction: column;
         justify-content: space-between;
         flex-wrap: wrap;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
         overflow: hidden;
 
+        @include mobile {
+            padding-top: 1.4rem;
+            padding-bottom: 1.4rem;
+        }
+
         p {
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             margin-top: 0;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
             max-width: 90%;
+
+            @include mobile {
+                margin-bottom: 1.4rem;
+            }
         }
     }
 }

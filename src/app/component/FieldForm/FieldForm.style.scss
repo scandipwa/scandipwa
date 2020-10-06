@@ -30,6 +30,10 @@
     }
 
     &-Fields {
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
+
+        @include mobile {
+            margin-bottom: 1.4rem;
+        }
     }
 }

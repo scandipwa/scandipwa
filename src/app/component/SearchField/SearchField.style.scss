@@ -43,7 +43,7 @@
 
     &-Wrapper {
         @include desktop {
-            margin-right: 1rem;
+            margin-right: 1.2rem;
         }
     }
 
@@ -54,7 +54,7 @@
         border-color: transparent;
         border-radius: 15px;
         border-width: 1px;
-        font-size: 16px;
+        font-size: 1.6rem;
         max-width: 0;
         min-width: 0;
         opacity: 1;
@@ -74,11 +74,11 @@
             border: 0;
             border-bottom: 1px solid var(--search-input-desktop-border-color);
             border-radius: 0;
-            font-size: 14px;
-            margin: 4rem 3rem 0 0;
+            font-size: 1.4rem;
+            margin: 4.8rem 3.6rem 0 0;
             max-width: 100%;
-            padding-left: 3rem;
-            width: calc(100% - 6rem);
+            padding-left: 3.6rem;
+            width: calc(100% - 7.2rem);
             padding-bottom: 7px;
         }
 
@@ -94,7 +94,7 @@
     }
 
     &-Placeholder {
-        font-size: 16px;
+        font-size: 1.6rem;
         height: min-content;
         left: calc(50% - 5px);
         padding-left: 20px;
@@ -191,9 +191,14 @@
 
     &-SearchInnerWrapper {
         .SearchField-SearchIcon {
-            left: 3.5rem;
+            left: 4.2rem;
             position: absolute;
-            top: 4rem;
+            top: 4.8rem;
+
+            @include mobile {
+                left: 4.9rem;
+                top: 5.6rem;
+            }
         }
     }
 }

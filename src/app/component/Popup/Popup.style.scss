@@ -11,13 +11,17 @@
 
 :root {
     --popup-background: #0003;
+    @include mobile {
+        --popup-content-padding: 1.4rem;
+    }
+
     --popup-content-background: #{$white};
     --popup-min-width: 100%;
-    --popup-content-padding: 1rem;
+    --popup-content-padding: 1.2rem;
 
     @include after-mobile {
         --popup-min-width: 490px;
-        --popup-content-padding: 2rem;
+        --popup-content-padding: 2.4rem;
     }
 }
 
@@ -50,7 +54,7 @@
     }
 
     &-Heading {
-        font-size: 20px;
+        font-size: 2rem;
         text-decoration: none;
         font-weight: 400;
         margin-top: 0;

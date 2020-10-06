@@ -59,7 +59,11 @@
         position: absolute;
         top: 0;
         left: 0;
-        margin-left: .5rem;
+        margin-left: .6rem;
+
+        @include mobile {
+            margin-left: .7rem;
+        }
 
         @include after-mobile {
             margin: 0;
@@ -159,7 +163,7 @@
             }
 
             &:first-of-type {
-                padding-left: 1rem;
+                padding-left: 1.2rem;
                 padding-bottom: 0;
                 order: 1;
                 text-align: left;
@@ -171,10 +175,19 @@
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 3;
 
+                @include mobile {
+                    padding-left: 1.4rem;
+                }
+
                 ~ label {
                     margin: 0;
-                    min-width: 1.5rem;
-                    top: .3rem;
+                    min-width: 1.8rem;
+                    top: .36rem;
+
+                    @include mobile {
+                        min-width: 2.1rem;
+                        top: .42rem;
+                    }
                 }
             }
         }
@@ -195,7 +208,7 @@
         }
 
         @include after-mobile {
-            padding: .5rem 0;
+            padding: .6rem 0;
         }
     }
 

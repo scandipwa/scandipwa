@@ -18,13 +18,15 @@
         --gaps-count: calc(var(--new-products-per-page-count) - 1);
 
         display: grid;
-        grid-column-gap: 1rem;
+        grid-column-gap: 1.2rem;
         grid-auto-flow: column dense;
-        grid-auto-columns: calc((100% - var(--gaps-count) * 1rem) / var(--new-products-per-page-count));
+        grid-auto-columns: calc((100% - var(--gaps-count) * 1.2rem) / var(--new-products-per-page-count));
         overflow: auto;
 
         @include mobile {
             --new-products-per-page-count: 2;
+            grid-column-gap: 1.4rem;
+            grid-auto-columns: calc((100% - var(--gaps-count) * 1.4rem) / var(--new-products-per-page-count));
         }
 
         @include tablet {
