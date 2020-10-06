@@ -17,7 +17,7 @@ export const isMobile = {
     opera: (agent = navigator.userAgent) => /opera mini/i.test(agent),
     windows: (agent = navigator.userAgent) => /iemobile/i.test(agent),
     // eslint-disable-next-line max-len
-    any: () => (isMobile.android() || isMobile.blackBerry() || isMobile.iOS() || isMobile.opera() || isMobile.windows()),
+    any: () => window.matchMedia('(max-width: 768px)').matches,
     standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
 };
 
