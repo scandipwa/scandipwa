@@ -22,6 +22,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { hasOutOfStockProductsInCartItems } from 'Util/Cart';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -76,13 +77,33 @@ export class CartOverlayContainer extends PureComponent {
         handleCheckoutClick: this.handleCheckoutClick.bind(this)
     };
 
+    containerProps = () => {
+        const { totals } = this.props;
+
+        return {
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+        };
+    }
+
     handleCheckoutClick(e) {
         const {
-            guest_checkout, showOverlay, showNotification, setNavigationState, hideActiveOverlay
+            guest_checkout,
+            showOverlay,
+            showNotification,
+            setNavigationState,
+            hideActiveOverlay,
+            totals
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
+
+        const hasOutOfStockProductsInCart = hasOutOfStockProductsInCartItems(totals.items);
+
+        if (hasOutOfStockProductsInCart) {
+            showNotification('error', 'Cannot proceed to checkout. Remove out of stock products first.');
+            return;
+        }
 
         // Guest checkout enabled or user is signed in => proceed to the checkout
         if (guest_checkout || isSignedIn()) {
@@ -126,6 +147,7 @@ export class CartOverlayContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
