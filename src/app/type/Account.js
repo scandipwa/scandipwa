@@ -10,15 +10,6 @@
  */
 import PropTypes from 'prop-types';
 
-import {
-    STATE_CONFIRM_EMAIL,
-    STATE_CREATE_ACCOUNT,
-    STATE_FORGOT_PASSWORD,
-    STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_LOGGED_IN,
-    STATE_SIGN_IN
-} from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-
 export const regionType = PropTypes.oneOfType([
     PropTypes.shape({
         region_code: PropTypes.string,
@@ -93,13 +84,7 @@ export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address-book';
 export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
 
-export const activeTabType = PropTypes.oneOf([
-    DASHBOARD,
-    MY_ORDERS,
-    MY_WISHLIST,
-    ADDRESS_BOOK,
-    NEWSLETTER_SUBSCRIPTION
-]);
+export const activeTabType = PropTypes.string;
 
 export const tabType = PropTypes.shape({
     url: PropTypes.string,
@@ -108,11 +93,4 @@ export const tabType = PropTypes.shape({
 
 export const tabMapType = PropTypes.objectOf(tabType);
 
-export const signInStateType = PropTypes.oneOf([
-    STATE_SIGN_IN,
-    STATE_FORGOT_PASSWORD,
-    STATE_FORGOT_PASSWORD_SUCCESS,
-    STATE_CREATE_ACCOUNT,
-    STATE_LOGGED_IN,
-    STATE_CONFIRM_EMAIL
-]);
+export const signInStateType = PropTypes.string;
