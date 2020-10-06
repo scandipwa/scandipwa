@@ -18,6 +18,18 @@
 
     &-Select {
         margin-top: 0;
+
+        label:first-of-type {
+            @include before-desktop {
+                font-weight: 600;
+                font-size: 1.6rem;
+                padding-bottom: 3px;
+            }
+
+            @include desktop {
+                display: none;
+            }
+        }
     }
 
     &-Placeholder {
@@ -43,18 +55,6 @@
                 position: absolute;
                 top: -35px;
                 opacity: 0;
-            }
-        }
-
-        label:first-of-type {
-            @include before-desktop {
-                font-weight: 600;
-                font-size: 16px;
-                padding-bottom: 3px;
-            }
-
-            @include desktop {
-                display: none;
             }
         }
     }
