@@ -35,8 +35,7 @@
         height: var(--slider-height);
 
         @include mobile {
-
-            min-height: 42rem;
+            min-height: 420px;
         }
 
         &::after {
