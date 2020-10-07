@@ -110,14 +110,15 @@ export class CartPage extends PureComponent {
     renderTotal() {
         const {
             totals: {
-                subtotal_incl_tax = 0
+                subtotal_with_discount,
+                tax_amount
             }
         } = this.props;
 
         return (
             <dl block="CartPage" elem="Total" aria-label="Complete order total">
                 <dt>{ __('Order total:') }</dt>
-                <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
+                <dd>{ this.renderPriceLine(subtotal_with_discount + tax_amount) }</dd>
             </dl>
         );
     }
