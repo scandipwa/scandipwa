@@ -87,8 +87,9 @@ export class CategoryProductListContainer extends PureComponent {
     }
 
     getIsPreventRequest() {
-        const { isMatchingListFilter } = this.props;
-        return isMatchingListFilter; // if filter match - prevent request
+        const { isMatchingListFilter, isMatchingInfoFilter } = this.props;
+
+        return isMatchingListFilter && isMatchingInfoFilter; // if filter match - prevent request
     }
 
     requestProductList(options) {
