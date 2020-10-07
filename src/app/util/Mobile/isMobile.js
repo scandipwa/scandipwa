@@ -16,14 +16,13 @@ export const isMobile = {
     iOS: (agent = navigator.userAgent) => /iphone|ipod/i.test(agent),
     opera: (agent = navigator.userAgent) => /opera mini/i.test(agent),
     windows: (agent = navigator.userAgent) => /iemobile/i.test(agent),
-    // eslint-disable-next-line max-len
-    any: () => window.matchMedia('(max-width: 768px)').matches,
+    // 768 is base but iPad uses 810 so we need to handle that too.
+    any: () => window.matchMedia('(max-width: 810px)').matches,
     standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
 };
 
 // https://medium.com/@galmeiri/get-ready-for-chrome-user-agent-string-phase-out-c6840da1c31e
 export const isMobileClientHints = {
-    any: () => navigator.userAgentData.mobile,
     getDeviceData: () => navigator.userAgentData.getHighEntropyValues(['platform', 'model'])
 };
 

@@ -10,7 +10,7 @@
  */
 
 @mixin desktop {
-    @media (min-width: 769px) {
+    @media (min-width: 811px) {
         @content;
     }
 }
@@ -24,23 +24,26 @@
 }
 
 @mixin tablet {
-    @media (min-width: 769px)
-        and (max-width: 1023px) {
+    @media (min-width: 811px)
+        and (max-width: 1024px)
+        and (-webkit-min-device-pixel-ratio: 1) {
         @content;
     }
 }
 
 @mixin tablet-portrait {
-    @media (min-width: 769px)
+    @media (min-width: 811px)
         and (max-width: 1023px)
+        and (-webkit-min-device-pixel-ratio: 1)
         and (orientation: portrait) {
         @content;
     }
 }
 
 @mixin tablet-landscape {
-    @media (min-width: 769px)
+    @media(min-width: 811px)
         and (max-width: 1023px)
+        and (-webkit-min-device-pixel-ratio: 1)
         and (orientation: landscape) {
         @content;
     }
@@ -55,7 +58,7 @@
 }
 
 @mixin mobile {
-    @media (max-width: 768px) {
+    @media (max-width: 810px) {
         @content;
     }
 }
