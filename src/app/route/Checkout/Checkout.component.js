@@ -77,13 +77,15 @@ export class Checkout extends PureComponent {
             title: __('Shipping step'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
-            areTotalsVisible: true
+            areTotalsVisible: true,
+            renderCartCoupon: this.renderCartCoupon.bind(this)
         },
         [BILLING_STEP]: {
             title: __('Billing step'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
-            areTotalsVisible: true
+            areTotalsVisible: true,
+            renderCartCoupon: this.renderCartCoupon.bind(this)
         },
         [DETAILS_STEP]: {
             title: __('Thank you for your purchase!'),
@@ -229,6 +231,17 @@ export class Checkout extends PureComponent {
         );
     }
 
+    renderCoupon() {
+        const { checkoutStep } = this.props;
+        const { renderCartCoupon } = this.stepMap[checkoutStep];
+
+        if (renderCartCoupon) {
+            return renderCartCoupon();
+        }
+
+        return null;
+    }
+
     renderCartCoupon() {
         const {
             totals: { coupon_code }
@@ -276,7 +289,7 @@ export class Checkout extends PureComponent {
                     <div>
                         { this.renderSummary() }
                         { this.renderPromo() }
-                        { this.renderCartCoupon() }
+                        { this.renderCoupon() }
                     </div>
                 </ContentWrapper>
             </main>
