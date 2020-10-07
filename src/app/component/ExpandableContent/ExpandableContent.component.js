@@ -65,32 +65,45 @@ export class ExpandableContent extends PureComponent {
         return null;
     }
 
-    scrollToExpandedContent(coveringElementsIds) {
-        const { isContentExpanded } = this.state;
-        const elem = this.expandableContentRef && this.expandableContentRef.current;
-        if (isContentExpanded && !elem) {
-            return;
-        }
-        const elemToWindowTopDist = elem.getBoundingClientRect().top;
-        const windowToPageTopDist = document.body.getBoundingClientRect().top;
-        const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
-        const coveringElementsHeight = coveringElementsIds.reduce(
+    getCoveringElementHeight(ids) {
+        return ids.reduce(
             (acc, elementId) => {
-                const coveringElement = document.getElementById(elementId);
+                const { offsetHeight } = document.getElementById(elementId) || {};
 
-                if (!coveringElement) {
+                if (!offsetHeight) {
                     return acc;
                 }
 
-                return acc + coveringElement.offsetHeight;
+                return acc + offsetHeight;
             },
             0
         );
-        const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
+    }
+
+    scrollToExpandedContent(coveringBottomElementsIds, coveringTopElementsIds) {
+        const { isContentExpanded } = this.state;
+        const elem = this.expandableContentRef && this.expandableContentRef.current;
+
+        if (isContentExpanded && !elem) {
+            return;
+        }
+
+        const elemToWindowTopDist = elem.getBoundingClientRect().top;
+        const windowToPageTopDist = document.body.getBoundingClientRect().top;
+        const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
+        const coveringElementsHeight = this.getCoveringElementHeight(coveringBottomElementsIds);
+        const coveringElementsHeightSecond = this.getCoveringElementHeight(coveringTopElementsIds);
+
+        const elemMaxOffsetHeight = screen.height > elem.offsetHeight
+            ? elem.offsetHeight
+            : screen.height - coveringElementsHeight - coveringElementsHeightSecond;
+        const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elemMaxOffsetHeight);
+
         // checking if button is in a view-port
         if (-windowToPageTopDist >= scrollTo) {
             return;
         }
+
         window.scrollTo(0, scrollTo);
     }
 
@@ -102,7 +115,10 @@ export class ExpandableContent extends PureComponent {
         }
         this.setState(
             ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
-            () => this.scrollToExpandedContent(['NavigationTabs', 'ProductActionsWrapper', 'CartPageSummary'])
+            () => this.scrollToExpandedContent(
+                ['NavigationTabs', 'ProductActionsWrapper', 'CartPageSummary'],
+                ['Header']
+            )
         );
     };
 
@@ -153,7 +169,6 @@ export class ExpandableContent extends PureComponent {
               block="ExpandableContent"
               elem="Content"
               mods={ mods }
-              ref={ this.expandableContentRef }
               mix={ { ...mix, elem: 'ExpandableContentContent', mods } }
             >
                 { children }
@@ -167,6 +182,7 @@ export class ExpandableContent extends PureComponent {
             <article
               block="ExpandableContent"
               mix={ mix }
+              ref={ this.expandableContentRef }
             >
                 { this.renderButton() }
                 { this.renderContent() }
