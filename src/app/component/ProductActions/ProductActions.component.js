@@ -411,8 +411,17 @@ export class ProductActions extends PureComponent {
         } = this.props;
 
         if (variants && variants.length > 0) {
-            return !variants.some((variant) => JSON.stringify(variant.price_range.minimum_price.final_price)
-                !== JSON.stringify(variants[0].price_range.minimum_price.final_price));
+            const { price_range: { minimum_price: { final_price: firstPrice } } } = variants[0];
+            const firstPriceString = JSON.stringify(firstPrice);
+            return !variants.some(({
+                variant: {
+                    price_range: {
+                        minimum_price: {
+                            final_price: currentPrice
+                        }
+                    }
+                }
+            }) => JSON.stringify(currentPrice) !== firstPriceString);
         }
 
         return true;
