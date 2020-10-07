@@ -16,7 +16,7 @@ export const isMobile = {
     iOS: (agent = navigator.userAgent) => /iphone|ipod/i.test(agent),
     opera: (agent = navigator.userAgent) => /opera mini/i.test(agent),
     windows: (agent = navigator.userAgent) => /iemobile/i.test(agent),
-    // 768 is base but iPad uses 810 so we need to handle that too.
+    // iPad uses 810 so we need to handle that.
     any: () => window.matchMedia('(max-width: 810px)').matches,
     standaloneMode: () => window.matchMedia('(display-mode: standalone)').matches
 };
