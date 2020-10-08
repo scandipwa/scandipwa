@@ -88,12 +88,10 @@ export class Slider extends PureComponent {
     }
 
     componentDidMount() {
-        const { children } = this.props;
-
         this.addWindowResizeWatcher();
 
         if (!this.getIsSlider()) {
-            return null;
+            return;
         }
 
         const sliderChildren = this.draggableRef.current.children;
@@ -126,7 +124,7 @@ export class Slider extends PureComponent {
     }
 
     addWindowResizeWatcher() {
-        window.addEventListener('resize', (e) => {
+        window.addEventListener('resize', () => {
             const { activeImage } = this.props;
             const newTranslate = -activeImage * this.getSlideWidth();
 
@@ -135,9 +133,10 @@ export class Slider extends PureComponent {
             // Removed animation to avoid image movement while changing window width.
             this.setAnimationSpeedStyle(0);
 
+            const delay = 500;
             setTimeout(() => {
                 this.setAnimationSpeedStyle();
-            }, 500)
+            }, delay);
         });
     }
 
@@ -352,7 +351,7 @@ export class Slider extends PureComponent {
             >
                 { children }
             </Draggable>
-        )
+        );
     }
 
     render() {
