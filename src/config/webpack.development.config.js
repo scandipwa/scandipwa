@@ -279,6 +279,6 @@ const config = (env, argv) => {
             })
         ]
     };
-}
+};
 
-module.exports = config
+module.exports = config;
