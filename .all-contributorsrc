@@ -539,6 +539,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "santosh-gaggle",
+      "name": "santosh-gaggle",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/56184739?v=4",
+      "profile": "https://gagglethread.com",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
