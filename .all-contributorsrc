@@ -529,6 +529,16 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "drc0",
+      "name": "Davide",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5507633?v=4",
+      "profile": "https://github.com/drc0",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
