@@ -32,14 +32,16 @@ export class ExpandableContent extends PureComponent {
                 return;
             }
             throw new Error(`${componentName} only accepts null or string`);
-        }
+        },
+        isContentExpandableOnDesktop: PropTypes.bool
     };
 
     static defaultProps = {
         subHeading: '',
         heading: '',
         isContentExpanded: false,
-        onClick: null
+        onClick: null,
+        isContentExpandableOnDesktop: false
     };
 
     expandableContentRef = createRef();
@@ -107,6 +109,7 @@ export class ExpandableContent extends PureComponent {
     };
 
     renderButton() {
+        const { isContentExpandableOnDesktop } = this.props;
         const { isContentExpanded } = this.state;
         const {
             heading,
@@ -114,17 +117,21 @@ export class ExpandableContent extends PureComponent {
             mix
         } = this.props;
 
+        const modsButton = { isContentExpanded, isContentExpandableOnDesktop };
+        const modsHeading = { isContentExpandableOnDesktop };
+
         return (
             <button
               block="ExpandableContent"
               elem="Button"
-              mods={ { isContentExpanded } }
+              mods={ modsButton }
               mix={ { ...mix, elem: 'ExpandableContentButton' } }
               onClick={ this.toggleExpand }
             >
                 <span
                   block="ExpandableContent"
                   elem="Heading"
+                  mods={ modsHeading }
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
                     { typeof heading === 'string' ? (
@@ -145,9 +152,11 @@ export class ExpandableContent extends PureComponent {
     }
 
     renderContent() {
-        const { children, mix } = this.props;
+        const { children, mix, isContentExpandableOnDesktop } = this.props;
         const { isContentExpanded } = this.state;
-        const mods = { isContentExpanded };
+
+        const mods = { isContentExpanded, isContentExpandableOnDesktop };
+
         return (
             <div
               block="ExpandableContent"

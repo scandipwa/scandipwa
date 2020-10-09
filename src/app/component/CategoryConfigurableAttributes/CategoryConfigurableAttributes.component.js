@@ -80,6 +80,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
                   elem: 'Expandable'
               } }
               isContentExpanded={ isContentExpanded }
+              isContentExpandableOnDesktop
             >
                 { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
             </ExpandableContent>
