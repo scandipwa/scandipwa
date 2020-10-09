@@ -157,23 +157,40 @@ export const getIndexedCustomOptions = (options) => options.reduce(
     []
 );
 
+/** @namespace Util/Product/getIndexedProductReviewSummary */
+export const getIndexedProductReviewSummary = (review_summary) => {
+    if (!review_summary) {
+        return {
+            rating_summary: null,
+            review_count: null
+        };
+    }
+
+    return {
+        ...review_summary
+    };
+};
+
 /** @namespace Util/Product/getIndexedProduct */
 export const getIndexedProduct = (product) => {
     const {
         variants: initialVariants = [],
         configurable_options: initialConfigurableOptions = [],
         attributes: initialAttributes = [],
-        options: initialOptions = []
+        options: initialOptions = [],
+        review_summary: initialReviewSummary
     } = product;
 
     const attributes = getIndexedAttributes(initialAttributes || []);
+    const review_summary = getIndexedProductReviewSummary(initialReviewSummary);
 
     return {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
         variants: getIndexedVariants(initialVariants),
         options: getIndexedCustomOptions(initialOptions || []),
-        attributes
+        attributes,
+        review_summary
     };
 };
 
