@@ -31,17 +31,38 @@
         }
     }
 
-    &-Button {
+    &-Buttons {
         margin-top: 1.2rem;
 
         @include mobile {
             margin-top: 1.4rem;
+        }
+
+        @include desktop {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    &-ReloadButton {
+        @include mobile {
             width: 100%;
         }
     }
 
+    &-DismissButton {
+        padding: var(--button-padding);
+
+        @include mobile {
+            width: 100%;
+            margin-top: 5px;
+        }
+    }
+
     &-Content {
-        max-width: 500px;
+        @include desktop {
+            max-width: 500px;
+        }
     }
 
     .Popup {
