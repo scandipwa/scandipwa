@@ -79,8 +79,6 @@ const config = (env, argv) => {
 
     const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
-    const lang = 'en_US'
-
     return {
         resolve: {
             extensions: [
@@ -267,10 +265,7 @@ const config = (env, argv) => {
                 filename: 'index.html',
                 inject: false,
                 publicPath: '/',
-                chunksSortMode: 'none',
-                templateParameters: {
-                    lang: lang.split('_').shift()
-                }
+                chunksSortMode: 'none'
             }),
 
             new WebpackPwaManifest(webmanifestConfig(projectRoot)),
