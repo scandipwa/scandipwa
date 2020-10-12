@@ -160,7 +160,8 @@ export class CategoryPage extends PureComponent {
             search,
             selectedSort,
             selectedFilters,
-            isMatchingListFilter
+            isMatchingListFilter,
+            isMatchingInfoFilter
         } = this.props;
 
         return (
@@ -172,6 +173,7 @@ export class CategoryPage extends PureComponent {
                   sort={ selectedSort }
                   selectedFilters={ selectedFilters }
                   isMatchingListFilter={ isMatchingListFilter }
+                  isMatchingInfoFilter={ isMatchingInfoFilter }
                 />
             </div>
         );

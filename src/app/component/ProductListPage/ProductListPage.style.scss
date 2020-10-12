@@ -22,6 +22,10 @@
         grid-column-gap: 1.4rem;
         grid-template-columns: 1fr 1fr;
         border: 0;
+        padding: {
+            left: 1rem;
+            right: 1rem;
+        }
     }
 
     @include after-mobile {

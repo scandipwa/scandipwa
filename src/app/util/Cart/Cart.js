@@ -36,8 +36,11 @@ export const itemIsOutOfStock = (item) => {
         return false;
     }
 
-    if (variants.some(({ sku }) => sku === itemSku)) {
-        // item added to cart is present in variants
+    if (
+        variants.some(({ sku }) => sku === itemSku)
+        && variants.find(({ sku }) => sku === itemSku).stock_status !== PRODUCT_OUT_OF_STOCK
+    ) {
+        // item added to cart is present in variants and it stock status is IN_STOCK
         return false;
     }
 

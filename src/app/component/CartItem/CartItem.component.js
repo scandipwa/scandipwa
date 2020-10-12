@@ -283,8 +283,8 @@ export class CartItem extends PureComponent {
               elem="Content"
               mods={ { isLikeTable } }
             >
-                { this.renderProductName() }
                 { this.renderOutOfStockMessage() }
+                { this.renderProductName() }
                 { this.renderProductOptions(customizable_options) }
                 { this.renderProductOptions(bundle_options) }
                 { this.renderProductConfigurations() }
