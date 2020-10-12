@@ -26,11 +26,12 @@ export class CheckoutDispatcher extends QueryDispatcher {
     }
 
     onSuccess(data, dispatch) {
-        dispatch(updateEmailAvailable(data));
+        const { isEmailAvailable: { is_email_available } } = data;
+        dispatch(updateEmailAvailable(is_email_available));
     }
 
-    prepareRequest(options) {
-        return CheckEmailQuery.getIsEmailAvailableQuery(options);
+    prepareRequest(email) {
+        return CheckEmailQuery.getIsEmailAvailableQuery(email);
     }
 }
 

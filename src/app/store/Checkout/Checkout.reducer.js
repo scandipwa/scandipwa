@@ -18,7 +18,7 @@ import {
 export const getInitialState = () => ({
     shippingFields: {},
     email: '',
-    isEmailAvailable: false
+    isEmailAvailable: true
 });
 
 /** @namespace Store/Checkout/Reducer/checkoutReducer */
