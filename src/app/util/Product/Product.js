@@ -245,3 +245,34 @@ export const getExtensionAttributes = (product) => {
 
     return {};
 };
+
+/** @namespace Util/Product/allPricesAreSame */
+export const allPricesAreSame = (productVariants) => {
+    if (!productVariants || productVariants.length === 0) {
+        return true;
+    }
+
+    const {
+        price_range: {
+            minimum_price: {
+                final_price: {
+                    value: firstPriceValue
+                }
+            }
+        }
+    } = productVariants[0];
+
+    return !productVariants.some((variant) => {
+        const {
+            price_range: {
+                minimum_price: {
+                    final_price: {
+                        value: priceValue
+                    }
+                }
+            }
+        } = variant;
+
+        return priceValue !== firstPriceValue;
+    });
+};

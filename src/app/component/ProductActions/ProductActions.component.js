@@ -31,6 +31,7 @@ import TierPrices from 'Component/TierPrices';
 import { DeviceType } from 'Type/Device';
 import { PriceType, ProductType } from 'Type/ProductList';
 import {
+    allPricesAreSame,
     BUNDLE,
     CONFIGURABLE,
     GROUPED
@@ -382,13 +383,13 @@ export class ProductActions extends PureComponent {
     renderConfigurablePriceBadge() {
         const {
             configurableVariantIndex,
-            product: { type_id }
+            product: { type_id, variants }
         } = this.props;
 
         if (
             type_id !== CONFIGURABLE
             || configurableVariantIndex > -1
-            || this.allPricesAreSame()
+            || allPricesAreSame(variants)
         ) {
             return null;
         }
@@ -403,40 +404,6 @@ export class ProductActions extends PureComponent {
                 { __('As Low as') }
             </p>
         );
-    }
-
-    allPricesAreSame() {
-        const {
-            product: { variants }
-        } = this.props;
-
-        if (variants && variants.length > 0) {
-            const {
-                price_range: {
-                    minimum_price: {
-                        final_price: {
-                            value: firstPriceValue
-                        }
-                    }
-                }
-            } = variants[0];
-
-            return !variants.some((variant) => {
-                const {
-                    price_range: {
-                        minimum_price: {
-                            final_price: {
-                                value: priceValue
-                            }
-                        }
-                    }
-                } = variant;
-
-                return priceValue !== firstPriceValue;
-            });
-        }
-
-        return true;
     }
 
     renderPriceWithSchema() {

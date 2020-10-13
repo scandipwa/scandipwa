@@ -21,7 +21,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { ProductType } from 'Type/ProductList';
-import { CONFIGURABLE } from 'Util/Product';
+import { allPricesAreSame, CONFIGURABLE } from 'Util/Product';
 
 import './ProductCard.style';
 
@@ -64,10 +64,10 @@ export class ProductCard extends PureComponent {
 
     renderConfigurablePriceBadge() {
         const {
-            product: { type_id }
+            product: { type_id, variants }
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        if (type_id !== CONFIGURABLE || allPricesAreSame(variants)) {
             return null;
         }
 
