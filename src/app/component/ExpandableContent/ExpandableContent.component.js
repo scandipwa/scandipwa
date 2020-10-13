@@ -13,6 +13,7 @@ import { createRef, PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
+import { getFixedElementHeight } from 'Util/CSS';
 
 import './ExpandableContent.style';
 /** @namespace Component/ExpandableContent/Component */
@@ -65,22 +66,7 @@ export class ExpandableContent extends PureComponent {
         return null;
     }
 
-    getCoveringElementHeight(ids) {
-        return ids.reduce(
-            (acc, elementId) => {
-                const { offsetHeight } = document.getElementById(elementId) || {};
-
-                if (!offsetHeight) {
-                    return acc;
-                }
-
-                return acc + offsetHeight;
-            },
-            0
-        );
-    }
-
-    scrollToExpandedContent(coveringBottomElementsIds, coveringTopElementsIds) {
+    scrollToExpandedContent() {
         const { isContentExpanded } = this.state;
         const elem = this.expandableContentRef && this.expandableContentRef.current;
 
@@ -91,20 +77,22 @@ export class ExpandableContent extends PureComponent {
         const elemToWindowTopDist = elem.getBoundingClientRect().top;
         const windowToPageTopDist = document.body.getBoundingClientRect().top;
         const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
-        const coveringElementsHeight = this.getCoveringElementHeight(coveringBottomElementsIds);
-        const coveringElementsHeightSecond = this.getCoveringElementHeight(coveringTopElementsIds);
+        const {
+            total: totalFixedElementHeight,
+            bottom: bottomFixedElementHeight
+        } = getFixedElementHeight();
 
-        const elemMaxOffsetHeight = screen.height > elem.offsetHeight
+        const elemMaxOffsetHeight = screen.height > elem.offsetHeight + bottomFixedElementHeight
             ? elem.offsetHeight
-            : screen.height - coveringElementsHeight - coveringElementsHeightSecond;
-        const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elemMaxOffsetHeight);
+            : screen.height - totalFixedElementHeight;
+        const scrollTo = topToElemDistance - (screen.height - bottomFixedElementHeight - elemMaxOffsetHeight);
 
         // checking if button is in a view-port
         if (-windowToPageTopDist >= scrollTo) {
             return;
         }
 
-        window.scrollTo(0, scrollTo);
+        window.scrollTo({ behavior: 'smooth', top: scrollTo });
     }
 
     toggleExpand = () => {
@@ -115,10 +103,7 @@ export class ExpandableContent extends PureComponent {
         }
         this.setState(
             ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
-            () => this.scrollToExpandedContent(
-                ['NavigationTabs', 'ProductActionsWrapper', 'CartPageSummary'],
-                ['Header']
-            )
+            () => this.scrollToExpandedContent()
         );
     };
 

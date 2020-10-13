@@ -160,9 +160,12 @@ export class NavigationTabs extends NavigationAbstract {
         }
 
         return (
-            <footer block="NavigationTabs" mods={ { isHidden } }>
-                { /** Id is required to measure the element`s height in ExpandableContent.component.js */ }
-                <nav id="NavigationTabs" block="NavigationTabs" elem="Nav">
+            <footer
+              block="NavigationTabs"
+              mods={ { isHidden } }
+              mix={ { block: 'FixedElement', elem: 'Bottom' } }
+            >
+                <nav block="NavigationTabs" elem="Nav">
                     { this.renderNavigationState() }
                 </nav>
             </footer>
