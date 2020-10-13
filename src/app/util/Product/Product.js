@@ -248,7 +248,7 @@ export const getExtensionAttributes = (product) => {
 
 /** @namespace Util/Product/allPricesAreSame */
 export const allPricesAreSame = (productVariants) => {
-    if (!productVariants || productVariants.length === 0) {
+    if (!productVariants || productVariants.length <= 1) {
         return true;
     }
 
