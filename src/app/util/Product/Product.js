@@ -246,7 +246,12 @@ export const getExtensionAttributes = (product) => {
     return {};
 };
 
-/** @namespace Util/Product/allPricesAreSame */
+/**
+ * Check if all product variants have the same price
+ * @param {Object[]} productVariants
+ * @returns {boolean}
+ * @namespace Util/Product/allPricesAreSame
+ */
 export const allPricesAreSame = (productVariants) => {
     if (!productVariants || productVariants.length <= 1) {
         return true;
