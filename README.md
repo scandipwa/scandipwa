@@ -57,7 +57,7 @@ ScandiPWA core team is here to make your life easier and the coding process more
 
 - [Video Tutorials](https://www.youtube.com/playlist?list=PLy0PoJ53Gjy3iHQmsZCD1WAazhyS03l-y)
 - [Weekly webinars](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww/videos)
-- [ScandiPWA User Guide](https://scandiweb.atlassian.net/wiki/spaces/SUG/overview)
+- [ScandiPWA User Guide](https://manual.scandipwa.com/)
 - [ScandiPWA Documentation](https://docs.scandipwa.com/)
 
 **Still feeling lost?**
