@@ -10,6 +10,7 @@
  */
 
 import ExpandableContent from 'Component/ExpandableContent';
+import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import { formatCurrency } from 'Util/Price';
@@ -112,9 +113,11 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
               block="ProductConfigurableAttributes"
               elem="DropDownList"
             >
-                { attribute_values.map((attribute_value) => (
-                    this.renderConfigurableAttributeValue({ ...option, attribute_value })
-                )) }
+                <ExpandableContentShowMore>
+                    { attribute_values.map((attribute_value) => (
+                        this.renderConfigurableAttributeValue({ ...option, attribute_value })
+                    )) }
+                </ExpandableContentShowMore>
             </div>
         );
     }
