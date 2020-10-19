@@ -182,19 +182,31 @@ export class CartPage extends PureComponent {
     renderDiscount() {
         const {
             totals: {
+                applied_rule_ids,
                 coupon_code,
                 discount_amount = 0
             }
         } = this.props;
 
-        if (!coupon_code) {
+        if (!applied_rule_ids) {
             return null;
+        }
+
+        if (!coupon_code) {
+            return (
+                <>
+                    <dt>
+                        { __('Discount: ') }
+                    </dt>
+                    <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+                </>
+            );
         }
 
         return (
             <>
                 <dt>
-                    { __('Coupon ') }
+                    { __('Discount/Coupon ') }
                     <strong block="CartPage" elem="DiscountCoupon">{ coupon_code.toUpperCase() }</strong>
                 </dt>
                 <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>

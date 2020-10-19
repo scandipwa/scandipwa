@@ -71,21 +71,29 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     };
 
-    renderCouponCode() {
+    renderDiscount() {
         const {
             totals: {
+                applied_rule_ids,
                 discount_amount,
                 coupon_code
             }
         } = this.props;
 
-        if (!coupon_code) {
+        if (!applied_rule_ids) {
             return null;
+        }
+
+        if (!coupon_code) {
+            return this.renderPriceLine(
+                -Math.abs(discount_amount),
+                __('Discount %s:', '')
+            );
         }
 
         return this.renderPriceLine(
             -Math.abs(discount_amount),
-            __('Coupon %s:', coupon_code.toUpperCase())
+            __('Discount/Coupon %s:', coupon_code.toUpperCase())
         );
     }
 
@@ -135,7 +143,7 @@ export class CheckoutOrderSummary extends PureComponent {
                     { checkoutStep !== SHIPPING_STEP
                         ? this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true })
                         : null }
-                    { this.renderCouponCode() }
+                    { this.renderDiscount() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
                     { checkoutStep !== SHIPPING_STEP
                         ? this.renderPriceLine(grand_total, __('Order total'))
