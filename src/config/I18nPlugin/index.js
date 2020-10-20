@@ -239,13 +239,27 @@ const mergeWithPluginsTranslations = (translation, lang, magentoRoot) => {
     );
 };
 
+const getTranslationObject = (jsonPath) => {
+    if (!fs.existsSync(jsonPath)) {
+        return {};
+    }
+
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+    return require(jsonPath);
+};
+
 const mapTranslationsToConfig = (langs, config, options) => {
     const { magentoRoot } = options;
 
     const translations = langs.reduce((acc, lang) => {
-        // eslint-disable-next-line import/no-dynamic-require, global-require
-        const translation = require(path.join(__dirname, `../../../i18n/${lang}.json`));
-        acc[lang] = mergeWithPluginsTranslations(translation, lang, magentoRoot);
+        const translation = getTranslationObject(path.join(__dirname, `../../../i18n/${lang}.json`));
+
+        acc[lang] = mergeWithPluginsTranslations(
+            translation,
+            lang,
+            magentoRoot
+        );
+
         return acc;
     }, {});
 
