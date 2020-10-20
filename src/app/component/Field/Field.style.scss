@@ -10,33 +10,54 @@
  */
 
 .Field {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
+
+    @include mobile {
+        margin-top: 1.4rem;
+    }
 
     label {
-        font-size: 1.05rem;
+        font-size: 1.26rem;
+
+        @include mobile {
+            font-size: 1.47rem;
+        }
     }
 
     &-Label {
         font-weight: 700;
-        padding-bottom: .3rem;
+        padding-bottom: .36rem;
+
+        @include mobile {
+            padding-bottom: .42rem;
+        }
     }
 
     &-Message {
         margin-bottom: -.1em;
-        font-size: 1.05rem;
+        font-size: 1.26rem;
         font-weight: 600;
         color: var(--primary-error-color);
+
+        @include mobile {
+            font-size: 1.47rem;
+        }
     }
 
     &-Note {
-        margin-bottom: .2rem;
-        font-size: 1rem;
+        margin-bottom: .24rem;
+        font-size: 1.2rem;
         font-weight: 600;
         color: var(--field-note);
         opacity: 0;
         height: 0;
         transition: height .1s ease-in, opacity .1s linear;
         will-change: height, opacity;
+
+        @include mobile {
+            margin-bottom: .28rem;
+            font-size: 1.4rem;
+        }
 
         &::before {
             content: '* ';
@@ -52,7 +73,11 @@
 
     &::placeholder {
         color: var(--field-note);
-        font-size: .9rem;
+        font-size: 1.08rem;
+
+        @include mobile {
+            font-size: 1.26rem;
+        }
     }
 
     input:focus + .Field-Note {
@@ -66,11 +91,19 @@
             label {
                 &:first-of-type {
                     display: inline-block;
-                    max-width: calc(100vw - 2rem - 45px);
+                    max-width: calc(100vw - 2.4rem - 45px);
                     vertical-align: middle;
 
+                    @include mobile {
+                        max-width: calc(100vw - 2.8rem - 45px);
+                    }
+
                     ~ label {
-                        margin-left: 1rem;
+                        margin-left: 1.2rem;
+
+                        @include mobile {
+                            margin-left: 1.4rem;
+                        }
                     }
                 }
 
@@ -91,14 +124,19 @@
         min-height: 0;
 
         + label {
+            @include mobile {
+                width: 2.1rem;
+                height: 2.1rem;
+            }
+
             --box-color: #{white};
 
             display: inline-block;
             position: relative;
             cursor: pointer;
             padding: 0;
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.8rem;
+            height: 1.8rem;
             background-color: var(--box-color);
             border: 1px solid var(--input-border-color);
             transition-property: background-color, border-color;
@@ -151,10 +189,10 @@
     [type='checkbox'] {
         + label {
             &::after {
-                left: .25rem;
-                top: .6rem;
-                width: .2rem;
-                height: .2rem;
+                left: .3rem;
+                top: .72rem;
+                width: .24rem;
+                height: .24rem;
                 box-shadow:
                     2px 0 0 var(--checkmark-color),
                     4px 0 0 var(--checkmark-color),
@@ -165,6 +203,13 @@
                 transform: rotate(45deg);
                 transition-property: background-color, box-shadow;
                 will-change: background-color, box-shadow;
+
+                @include mobile {
+                    left: .35rem;
+                    top: .84rem;
+                    width: .28rem;
+                    height: .28rem;
+                }
             }
         }
 
@@ -189,11 +234,16 @@
                 top: 0;
                 bottom: 0;
                 margin: auto;
-                width: .5rem;
-                height: .5rem;
+                width: .6rem;
+                height: .6rem;
                 border-radius: 50%;
                 transition-property: background-color, box-shadow;
                 will-change: background-color, box-shadow;
+
+                @include mobile {
+                    width: .7rem;
+                    height: .7rem;
+                }
             }
         }
 

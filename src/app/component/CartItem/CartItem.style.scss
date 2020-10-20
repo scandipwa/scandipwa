@@ -25,6 +25,11 @@
 
     border-bottom: 1px solid var(--cart-item-divider-color);
 
+    &-OutOfStock {
+        font-weight: bold;
+        margin-bottom: .5rem;
+    }
+
     &-Link {
         color: inherit;
 
@@ -53,13 +58,13 @@
         flex-direction: column;
 
         @include after-mobile {
-            padding-bottom: 4rem;
+            padding-bottom: 4.8rem;
         }
 
         &_isLikeTable {
             @include after-mobile {
                 padding-bottom: 0;
-                min-height: 5rem;
+                min-height: 6rem;
                 align-self: center;
             }
         }
@@ -67,13 +72,19 @@
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 6rem auto;
-        grid-gap: 1rem;
-        padding: 1rem;
+        grid-template-columns: 7.2rem auto;
+        grid-gap: 1.2rem;
+        padding: 1.2rem;
         background: var(--cart-item-background);
 
+        @include mobile {
+            grid-template-columns: 8.4rem auto;
+            grid-gap: 1.4rem;
+            padding: 1.4rem;
+        }
+
         @include after-mobile {
-            grid-template-columns: 7rem auto;
+            grid-template-columns: 8.4rem auto;
         }
     }
 
@@ -90,7 +101,7 @@
     }
 
     &-Option {
-        font-size: 10px;
+        font-size: 1rem;
         text-transform: uppercase;
         border: 1px solid var(--cart-item-option-color);
         color: var(--cart-item-option-color);
@@ -108,23 +119,36 @@
 
     &-ItemOption {
         display: flex;
-        margin-bottom: .5rem;
-        margin-right: .5rem;
+        margin-bottom: .6rem;
+        margin-right: .6rem;
+
+        @include mobile {
+            margin-bottom: .7rem;
+            margin-right: .7rem;
+        }
     }
 
     &-ItemOptionLabel {
         align-self: center;
         font-weight: bold;
-        margin-right: .5rem;
+        margin-right: .6rem;
+
+        @include mobile {
+            margin-right: .7rem;
+        }
     }
 
     &-Heading,
     &-SubHeading {
-        font-size: 14px;
+        font-size: 1.4rem;
         line-height: 1.2;
         flex-grow: 1;
         width: 100%;
-        margin-bottom: .5rem;
+        margin-bottom: .6rem;
+
+        @include mobile {
+            margin-bottom: .7rem;
+        }
     }
 
     &-Heading {
@@ -146,14 +170,14 @@
         margin-bottom: 0;
 
         @include after-mobile {
-            font-size: 16px;
+            font-size: 1.6rem;
         }
 
         &_isLikeTable {
             top: 0;
 
             @include after-mobile {
-                width: 20rem;
+                width: 24rem;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -172,7 +196,7 @@
 
     &-Actions {
         opacity: 0;
-        padding: 0 1rem;
+        padding: 0 1.2rem;
         max-height: 0;
         pointer-events: none;
 
@@ -186,16 +210,17 @@
         transition-duration: 200ms;
 
         @include mobile {
+            padding: 0 1.4rem;
             background-color: var(--cart-item-actions-background);
             border-top: 1px solid var(--cart-item-action-border);
         }
 
         @include after-mobile {
             position: absolute;
-            bottom: 1rem;
+            bottom: 1.2rem;
             right: 0;
-            width: calc(100% - 8rem);
-            height: 3rem;
+            width: calc(100% - 9.6rem);
+            height: 3.6rem;
         }
 
         &_isLikeTable {
@@ -215,10 +240,15 @@
 
         &_isEditing {
             transition-property: padding, max-height, opacity;
-            padding: .5rem 1rem;
+            padding: .6rem 1.2rem;
             opacity: 1;
-            max-height: 5rem;
+            max-height: 6rem;
             pointer-events: all;
+
+            @include mobile {
+                padding: .7rem 1.4rem;
+                max-height: 7rem;
+            }
         }
 
         &::after,
@@ -263,7 +293,7 @@
 
         height: 35px;
         padding-left: 35px;
-        font-size: 14px;
+        font-size: 1.4rem;
         color: var(--cart-item-actions-color);
     }
 
@@ -282,7 +312,7 @@
             order: 2;
             width: 44px;
             min-width: 44px;
-            font-size: 16px;
+            font-size: 1.6rem;
         }
 
         button {

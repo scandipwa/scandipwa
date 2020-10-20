@@ -614,7 +614,7 @@ export class Header extends NavigationAbstract {
         } = this.props;
 
         return (
-            <>
+            <section block="Header" elem="Wrapper">
                 <header
                   block="Header"
                   mods={ { name, isHiddenOnMobile, isCheckout } }
@@ -627,7 +627,7 @@ export class Header extends NavigationAbstract {
                     { this.renderMenu() }
                 </header>
                 <OfflineNotice />
-            </>
+            </section>
         );
     }
 }

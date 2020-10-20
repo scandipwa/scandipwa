@@ -29,7 +29,12 @@ import './CartPage.style';
 export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        onCheckoutButtonClick: PropTypes.func.isRequired
+        onCheckoutButtonClick: PropTypes.func.isRequired,
+        hasOutOfStockProductsInCart: PropTypes.bool
+    };
+
+    static defaultProps = {
+        hasOutOfStockProductsInCart: false
     };
 
     renderCartItems() {
@@ -110,32 +115,47 @@ export class CartPage extends PureComponent {
     renderTotal() {
         const {
             totals: {
-                subtotal_incl_tax = 0
+                subtotal_with_discount,
+                tax_amount
             }
         } = this.props;
 
         return (
             <dl block="CartPage" elem="Total" aria-label="Complete order total">
                 <dt>{ __('Order total:') }</dt>
-                <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
+                <dd>{ this.renderPriceLine(subtotal_with_discount + tax_amount) }</dd>
             </dl>
         );
     }
 
-    renderButtons() {
-        const { onCheckoutButtonClick } = this.props;
+    renderSecureCheckoutButton() {
+        const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
+
+        if (hasOutOfStockProductsInCart) {
+            return (
+                <div block="CartPage" elem="OutOfStockProductsWarning">
+                    { __('Remove out of stock products from cart') }
+                </div>
+            );
+        }
 
         return (
+            <button
+              block="CartPage"
+              elem="CheckoutButton"
+              mix={ { block: 'Button' } }
+              onClick={ onCheckoutButtonClick }
+            >
+                <span />
+                { __('Secure checkout') }
+            </button>
+        );
+    }
+
+    renderButtons() {
+        return (
             <div block="CartPage" elem="CheckoutButtons">
-                <button
-                  block="CartPage"
-                  elem="CheckoutButton"
-                  mix={ { block: 'Button' } }
-                  onClick={ onCheckoutButtonClick }
-                >
-                    <span />
-                    { __('Secure checkout') }
-                </button>
+                { this.renderSecureCheckoutButton() }
                 <Link
                   block="CartPage"
                   elem="ContinueShopping"

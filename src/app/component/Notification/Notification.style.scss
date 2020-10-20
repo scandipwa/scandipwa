@@ -22,11 +22,15 @@
     overflow: hidden;
     max-width: 100vw;
     position: relative;
-    padding: 12px 1rem;
+    padding: 12px 1.2rem;
     margin-bottom: 5px;
     top: 0;
     color: var(--notification-color);
     background: var(--notification-background);
+
+    @include mobile {
+        padding: 12px 1.4rem;
+    }
 
     @include after-mobile {
         display: inline-block;
@@ -65,7 +69,7 @@
         @include mobile {
             margin: auto;
             bottom: 0;
-            right: 1rem;
+            right: 1.4rem;
         }
 
         &:focus {

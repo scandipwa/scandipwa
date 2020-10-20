@@ -25,6 +25,10 @@ a {
     }
 
     + a {
-        margin-left: 1rem;
+        margin-left: 1.2rem;
+
+        @include mobile {
+            margin-left: 1.4rem;
+        }
     }
 }

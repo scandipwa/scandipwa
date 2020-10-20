@@ -24,26 +24,31 @@
     --button-border-width: 0;
 
     h1 {
-        font-size: 62px;
+        font-size: 6.2rem;
         text-transform: uppercase;
         color: var(--homepage-slider-color);
-        margin-bottom: 2.5rem;
+        margin-bottom: 3rem;
 
         @include mobile {
-            font-size: 30px;
-            margin-bottom: 1rem;
+
+            font-size: 3rem;
+            margin-bottom: 1.4rem;
         }
     }
 
     .Slider-Crumbs {
-        bottom: 2rem;
+        bottom: 2.4rem;
+
+        @include mobile {
+            bottom: 2.8rem;
+        }
     }
 
     .SliderWidget-Figcaption {
         text-align: center;
 
         @include desktop {
-            padding-top: 5rem;
+            padding-top: 6rem;
         }
     }
 }

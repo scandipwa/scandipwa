@@ -75,6 +75,12 @@
         }
     }
 
+    &-Wrapper {
+        @include desktop {
+            margin-bottom: var(--header-total-height);
+        }
+    }
+
     &_isHiddenOnMobile {
         @include before-desktop {
             pointer-events: none;
@@ -201,14 +207,22 @@
         justify-content: space-between;
         z-index: 21;
         padding: {
-            left: 1rem;
-            right: 2rem;
-            top: 1rem;
+            left: 1.2rem;
+            right: 2.4rem;
+            top: 1.2rem;
         };
+
+        @include mobile {
+            padding: {
+                left: 1.4rem;
+                right: 2.8rem;
+                top: 1.4rem;
+            }
+        }
     }
 
     &-Contacts {
-        font-size: 12px;
+        font-size: 1.2rem;
         color: var(--header-contacts-color);
 
         span:first-child {
@@ -219,8 +233,12 @@
     &-Nav {
         align-items: center;
         height: var(--header-nav-height);
-        padding: 0 1rem;
+        padding: 0 1.2rem;
         z-index: 20;
+
+        @include mobile {
+            padding: 0 1.4rem;
+        }
 
         @include before-desktop {
             border-bottom: 1px solid var(--primary-divider-color);
@@ -290,7 +308,7 @@
                 @include desktop {
                     cursor: default;
                     height: auto;
-                    margin-right: 1.2rem;
+                    margin-right: 1.44rem;
                     width: auto;
                 }
             }
@@ -313,7 +331,7 @@
 
             &_ok,
             &_cancel {
-                font-size: 14px;
+                font-size: 1.4rem;
                 opacity: .5;
 
                 &.Header-Button_isVisible {
@@ -331,11 +349,12 @@
 
         &Title {
             cursor: pointer;
-            padding-right: .4rem;
+            padding-right: .48rem;
             text-transform: uppercase;
             color: var(--header-color);
 
             @include mobile {
+                padding-right: .56rem;
                 display: none;
             }
         }
@@ -348,8 +367,13 @@
             cursor: pointer;
             display: flex;
             height: 26px;
-            margin-left: 2rem;
-            padding-right: 1.8rem;
+            margin-left: 2.4rem;
+            padding-right: 2.16rem;
+
+            @include mobile {
+                margin-left: 2.8rem;
+                padding-right: 2.52rem;
+            }
 
             @include tablet-portrait {
                 margin-left: 0;
@@ -358,8 +382,12 @@
 
         &Title {
             color: var(--header-color);
-            margin-right: .7rem;
+            margin-right: .84rem;
             text-transform: uppercase;
+
+            @include mobile {
+                margin-right: .98rem;
+            }
         }
 
         &Icon {
@@ -382,7 +410,7 @@
                 border-radius: 7px;
                 color: var(--header-background);
                 display: inline-block;
-                font-size: 12px;
+                font-size: 1.2rem;
                 left: 50%;
                 padding: 0 4px 1px;
                 position: absolute;
@@ -427,7 +455,7 @@
         transition-duration: 200ms;
 
         text-align: center;
-        font-size: 1.3rem;
+        font-size: 1.56rem;
         color: var(--header-color);
 
         overflow: hidden;
@@ -439,12 +467,18 @@
         position: absolute;
         margin: auto;
         width: 100%;
-        height: 1.5rem;
-        line-height: 1.5rem;
+        height: 1.8rem;
+        line-height: 1.8rem;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
+
+        @include mobile {
+            font-size: 1.82rem;
+            height: 2.1rem;
+            line-height: 2.1rem;
+        }
 
         &_isVisible {
             @include before-desktop {

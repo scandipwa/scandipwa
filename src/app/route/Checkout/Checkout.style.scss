@@ -36,11 +36,15 @@
             border-top: 1px solid var(--primary-divider-color);
             background-color: #fff;
             position: fixed;
-            padding: 1rem 1rem calc(env(safe-area-inset-bottom) + 1rem);
+            padding: 1.2rem 1.2rem calc(env(safe-area-inset-bottom) + 1.2rem);
             bottom: 0;
             left: 0;
             width: 100%;
             z-index: 85;
+        }
+
+        @include mobile {
+            padding: 1.4rem 1.4rem calc(env(safe-area-inset-bottom) + 1.4rem);
         }
 
         .Button {
@@ -60,26 +64,41 @@
 
         @include after-mobile {
             display: grid;
-            grid-template-columns: repeat(2, minmax(calc(50% - 1rem), 470px));
-            grid-gap: 2rem;
+            grid-template-columns: repeat(2, minmax(calc(50% - 1.2rem), 470px));
+            grid-gap: 2.4rem;
         }
     }
 
     &-Heading {
         text-transform: none;
         font-weight: 400;
-        font-size: 20px;
-        margin: 0 0 1rem;
+        font-size: 2rem;
+        margin: 0 0 1.2rem;
+
+        @include mobile {
+            margin: 0 0 1.4rem;
+        }
     }
 
     &-Title {
         text-transform: capitalize;
         font-weight: 600;
-        font-size: 25px;
-        margin: 2rem 0;
+        font-size: 2.5rem;
+        margin: 2.4rem 0;
 
         @include mobile {
+            margin: 2.8rem 0;
             display: none;
         }
+    }
+
+    .Checkout-Discount {
+        @include desktop {
+            margin-top: 30px;
+        }
+    }
+
+    .Checkout-ExpandableContentContent {
+        margin-top: 0;
     }
 }

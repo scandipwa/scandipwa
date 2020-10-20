@@ -13,7 +13,7 @@
     @include after-mobile {
         top: -56px;
         grid-column: 2;
-        padding-bottom: 2rem;
+        padding-bottom: 2.4rem;
         min-height: 100vh;
     }
 
@@ -21,20 +21,22 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-auto-rows: max-content;
-        grid-column-gap: 1rem;
+        grid-column-gap: 1.2rem;
 
         @include tablet {
             grid-template-columns: repeat(3, 1fr);
         }
 
         @include mobile {
+            grid-column-gap: 1.4rem;
+            // remove margin from top to other pages
             grid-template-columns: 1fr 1fr;
             border: 0;
         }
 
         @include after-mobile {
             grid-column: 2;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
         }
 
         // remove margin from top to other pages
@@ -46,20 +48,32 @@
     }
 
     &-ProductsMissing {
-        padding: 1rem;
+        padding: 1.2rem;
         text-align: center;
+
+        @include mobile {
+            padding: 1.4rem;
+        }
     }
 
     &-More {
-        min-height: 3rem;
+        min-height: 3.6rem;
+
+        @include mobile {
+            min-height: 4.2rem;
+        }
     }
 
     &-LoadButton {
         background-color: var(--category-product-list-load-button-background);
         cursor: pointer;
         font-size: 13pt;
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
         padding: 1em 0;
         text-align: center;
+
+        @include mobile {
+            margin-bottom: 1.4rem;
+        }
     }
 }

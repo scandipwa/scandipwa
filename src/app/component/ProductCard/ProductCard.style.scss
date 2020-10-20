@@ -24,37 +24,49 @@
     }
 
     &:last-child {
-        margin-bottom: .6rem;
+        margin-bottom: .72rem;
+
+        @include mobile {
+            margin-bottom: .84rem;
+        }
     }
 
     &-Content {
-        padding: 1rem;
+        padding: 1.2rem;
         display: flex;
         flex-wrap: wrap;
         padding-top: 23px;
+
+        @include mobile {
+            padding: 23px 1.4rem 1.4rem;
+        }
     }
 
     &-Name,
     &-Brand {
         width: 100%;
-        font-size: .9rem;
+        font-size: 1.08rem;
         max-width: 100%;
         overflow: hidden;
         white-space: nowrap;
+
+        @include mobile {
+            font-size: 1.26rem;
+        }
 
         &_isLoaded {
             text-overflow: ellipsis;
         }
 
         @include after-mobile {
-            font-size: 14px;
+            font-size: 1.4rem;
             line-height: 1.3;
         }
     }
 
     &-Name {
         @include after-mobile {
-            margin-top: .5rem;
+            margin-top: .6rem;
         }
     }
 
@@ -64,7 +76,7 @@
 
         @include mobile {
             line-height: 1;
-            font-size: 12px;
+            font-size: 1.2rem;
         }
     }
 
@@ -83,8 +95,9 @@
     }
 
     &-Reviews {
-        // --product-rating-size: 12px;
-        display: none;
+        --product-rating-size: 1.2rem;
+
+        width: 100%;
     }
 
     &-ConfigurableOptions {
@@ -112,14 +125,14 @@
 
     &-Price {
         @include after-mobile {
-            font-size: 20px;
+            font-size: 2rem;
         }
     }
 
     &-PriceBadge {
         color: var(--secondary-dark-color);
         margin-right: 5px;
-        font-size: 10px;
+        font-size: 1rem;
         position: absolute;
         top: 7px;
     }

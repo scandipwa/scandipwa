@@ -11,11 +11,15 @@
 
 .ProductBundleItem {
     &-Wrapper {
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
+
+        @include mobile {
+            margin-bottom: 1.4rem;
+        }
     }
 
     &-Title {
-        font-size: 14px;
+        font-size: 1.4rem;
         font-weight: bold;
     }
 
@@ -31,7 +35,11 @@
         display: flex;
 
         .Field_type_number {
-            margin-left: 1.2rem;
+            margin-left: 1.44rem;
+
+            @include mobile {
+                margin-left: 1.68rem;
+            }
         }
     }
 

@@ -46,12 +46,14 @@ export class CategoryProductListContainer extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isMatchingListFilter: PropTypes.bool,
+        isMatchingInfoFilter: PropTypes.bool,
         filter: FilterInputType,
         requestProductList: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         isMatchingListFilter: false,
+        isMatchingInfoFilter: false,
         filter: {}
     };
 
@@ -87,8 +89,9 @@ export class CategoryProductListContainer extends PureComponent {
     }
 
     getIsPreventRequest() {
-        const { isMatchingListFilter } = this.props;
-        return isMatchingListFilter; // if filter match - prevent request
+        const { isMatchingListFilter, isMatchingInfoFilter } = this.props;
+
+        return isMatchingListFilter && isMatchingInfoFilter; // if filter match - prevent request
     }
 
     requestProductList(options) {

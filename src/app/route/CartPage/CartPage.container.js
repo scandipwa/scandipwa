@@ -26,6 +26,7 @@ import { HistoryType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { hasOutOfStockProductsInCartItems } from 'Util/Cart';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -112,17 +113,30 @@ export class CartPageContainer extends PureComponent {
         }
     }
 
+    containerProps = () => {
+        const { totals } = this.props;
+
+        return {
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+        };
+    };
+
     onCheckoutButtonClick(e) {
         const {
             history,
             guest_checkout,
             showOverlay,
             showNotification,
-            device
+            device,
+            totals
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
+
+        if (hasOutOfStockProductsInCartItems(totals.items)) {
+            return;
+        }
 
         if (guest_checkout) {
             history.push({
@@ -191,6 +205,7 @@ export class CartPageContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
