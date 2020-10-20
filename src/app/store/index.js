@@ -78,7 +78,10 @@ export const store = createStore(
     })
 );
 
-// Configure the store
+/**
+ * Configure the store
+ * @namespace Store/Index/configureStore
+ * */
 export default function configureStore() {
     // Add a dictionary to keep track of the registered async reducers
     store.asyncReducers = {};

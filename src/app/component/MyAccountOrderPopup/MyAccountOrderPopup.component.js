@@ -17,7 +17,7 @@ import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
 import { orderType } from 'Type/Account';
-import { formatCurrency } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
 
@@ -98,8 +98,7 @@ export class MyAccountOrderPopup extends PureComponent {
                     </dd>
                     <dt>{ __('Price: ') }</dt>
                     <dd>
-                        { formatCurrency(currency_code) }
-                        { shipping_amount }
+                        { formatPrice(shipping_amount, currency_code) }
                     </dd>
                 </dl>
                 { this.renderShippingAddressTable() }
@@ -139,8 +138,7 @@ export class MyAccountOrderPopup extends PureComponent {
                     <td>{ name }</td>
                     <td>{ qty }</td>
                     <td>
-                        { formatCurrency(currency_code) }
-                        { row_total }
+                        { formatPrice(row_total, currency_code) }
                     </td>
                 </tr>
             );
@@ -187,13 +185,11 @@ export class MyAccountOrderPopup extends PureComponent {
                 <dl>
                     <dt>{ __('Subtotal: ') }</dt>
                     <dd>
-                        { formatCurrency(currency_code) }
-                        { sub_total }
+                        { formatPrice(sub_total, currency_code) }
                     </dd>
                     <dt>{ __('Grand total: ') }</dt>
                     <dd>
-                        { formatCurrency(currency_code) }
-                        { grand_total }
+                        { formatPrice(grand_total, currency_code) }
                     </dd>
                 </dl>
             </div>

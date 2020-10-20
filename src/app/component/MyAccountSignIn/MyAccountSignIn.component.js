@@ -24,7 +24,8 @@ export class MyAccountSignIn extends PureComponent {
         handleForgotPassword: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
         isCheckout: PropTypes.bool.isRequired,
-        state: signInStateType.isRequired
+        state: signInStateType.isRequired,
+        emailValue: PropTypes.string.isRequired
     };
 
     renderSignInForm() {
@@ -32,7 +33,8 @@ export class MyAccountSignIn extends PureComponent {
             onSignInAttempt,
             onSignInSuccess,
             onFormError,
-            handleForgotPassword
+            handleForgotPassword,
+            emailValue
         } = this.props;
 
         return (
@@ -47,6 +49,7 @@ export class MyAccountSignIn extends PureComponent {
                   label={ __('Email') }
                   id="email"
                   name="email"
+                  value={ emailValue }
                   autocomplete="email"
                   validation={ ['notEmpty', 'email'] }
                 />

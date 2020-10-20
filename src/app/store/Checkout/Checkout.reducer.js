@@ -10,13 +10,15 @@
  */
 import {
     UPDATE_EMAIL,
+    UPDATE_EMAIL_AVAILABLE,
     UPDATE_SHIPPING_FIELDS
 } from './Checkout.action';
 
 /** @namespace Store/Checkout/Reducer/getInitialState */
 export const getInitialState = () => ({
     shippingFields: {},
-    email: ''
+    email: '',
+    isEmailAvailable: true
 });
 
 /** @namespace Store/Checkout/Reducer/checkoutReducer */
@@ -35,6 +37,13 @@ export const CheckoutReducer = (state = getInitialState(), action) => {
         return {
             ...state,
             email
+        };
+
+    case UPDATE_EMAIL_AVAILABLE:
+        const { isEmailAvailable } = action;
+        return {
+            ...state,
+            isEmailAvailable
         };
 
     default:

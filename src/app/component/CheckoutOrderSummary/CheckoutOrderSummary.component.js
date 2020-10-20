@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import CartItem from 'Component/CartItem';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
-import { formatCurrency, roundPrice } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import './CheckoutOrderSummary.style';
 
@@ -26,13 +26,11 @@ import './CheckoutOrderSummary.style';
 export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
-        paymentTotals: TotalsType,
         checkoutStep: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        totals: {},
-        paymentTotals: {}
+        totals: {}
     };
 
     renderPriceLine(price, name, mods) {
@@ -41,7 +39,7 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         const { totals: { quote_currency_code } } = this.props;
-        const priceString = formatCurrency(quote_currency_code);
+        const priceString = formatPrice(price, quote_currency_code);
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
@@ -49,7 +47,7 @@ export class CheckoutOrderSummary extends PureComponent {
                     { name }
                 </strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
-                    { `${priceString}${roundPrice(price)}` }
+                    { `${priceString}` }
                 </strong>
             </li>
         );
@@ -73,21 +71,29 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     };
 
-    renderCouponCode() {
+    renderDiscount() {
         const {
             totals: {
+                applied_rule_ids,
                 discount_amount,
                 coupon_code
             }
         } = this.props;
 
-        if (!coupon_code) {
+        if (!applied_rule_ids) {
             return null;
+        }
+
+        if (!coupon_code) {
+            return this.renderPriceLine(
+                -Math.abs(discount_amount),
+                __('Discount %s:', '')
+            );
         }
 
         return this.renderPriceLine(
             -Math.abs(discount_amount),
-            __('Coupon %s:', coupon_code.toUpperCase())
+            __('Discount/Coupon %s:', coupon_code.toUpperCase())
         );
     }
 
@@ -122,13 +128,12 @@ export class CheckoutOrderSummary extends PureComponent {
         const {
             totals: {
                 subtotal,
+                subtotal_with_discount,
                 tax_amount,
                 grand_total,
                 shipping_amount
             },
-            paymentTotals: {
-                grand_total: payment_grand_total
-            }, checkoutStep
+            checkoutStep
         } = this.props;
 
         return (
@@ -138,11 +143,12 @@ export class CheckoutOrderSummary extends PureComponent {
                     { checkoutStep !== SHIPPING_STEP
                         ? this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true })
                         : null }
-                    { this.renderCouponCode() }
+                    { this.renderDiscount() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
                     { checkoutStep !== SHIPPING_STEP
-                        ? this.renderPriceLine(payment_grand_total || grand_total, __('Order total'))
-                        : this.renderPriceLine(subtotal + tax_amount, __('Order total')) }
+                        ? this.renderPriceLine(grand_total, __('Order total'))
+                        : this.renderPriceLine(subtotal_with_discount + tax_amount, __('Order total')) }
+
                 </ul>
             </div>
         );

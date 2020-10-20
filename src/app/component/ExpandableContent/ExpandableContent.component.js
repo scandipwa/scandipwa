@@ -13,6 +13,7 @@ import { createRef, PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
+import { getFixedElementHeight } from 'Util/CSS';
 
 import './ExpandableContent.style';
 /** @namespace Component/ExpandableContent/Component */
@@ -65,33 +66,33 @@ export class ExpandableContent extends PureComponent {
         return null;
     }
 
-    scrollToExpandedContent(coveringElementsIds) {
+    scrollToExpandedContent() {
         const { isContentExpanded } = this.state;
         const elem = this.expandableContentRef && this.expandableContentRef.current;
+
         if (isContentExpanded && !elem) {
             return;
         }
+
         const elemToWindowTopDist = elem.getBoundingClientRect().top;
         const windowToPageTopDist = document.body.getBoundingClientRect().top;
         const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
-        const coveringElementsHeight = coveringElementsIds.reduce(
-            (acc, elementId) => {
-                const coveringElement = document.getElementById(elementId);
+        const {
+            total: totalFixedElementHeight,
+            bottom: bottomFixedElementHeight
+        } = getFixedElementHeight();
 
-                if (!coveringElement) {
-                    return acc;
-                }
+        const elemMaxOffsetHeight = screen.height > elem.offsetHeight + bottomFixedElementHeight
+            ? elem.offsetHeight
+            : screen.height - totalFixedElementHeight;
+        const scrollTo = topToElemDistance - (screen.height - bottomFixedElementHeight - elemMaxOffsetHeight);
 
-                return acc + coveringElement.offsetHeight;
-            },
-            0
-        );
-        const scrollTo = topToElemDistance - (screen.height - coveringElementsHeight - elem.offsetHeight);
         // checking if button is in a view-port
         if (-windowToPageTopDist >= scrollTo) {
             return;
         }
-        window.scrollTo(0, scrollTo);
+
+        window.scrollTo({ behavior: 'smooth', top: scrollTo });
     }
 
     toggleExpand = () => {
@@ -102,7 +103,7 @@ export class ExpandableContent extends PureComponent {
         }
         this.setState(
             ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
-            () => this.scrollToExpandedContent(['NavigationTabs', 'ProductActionsWrapper', 'CartPageSummary'])
+            () => this.scrollToExpandedContent()
         );
     };
 
@@ -153,7 +154,6 @@ export class ExpandableContent extends PureComponent {
               block="ExpandableContent"
               elem="Content"
               mods={ mods }
-              ref={ this.expandableContentRef }
               mix={ { ...mix, elem: 'ExpandableContentContent', mods } }
             >
                 { children }
@@ -167,6 +167,7 @@ export class ExpandableContent extends PureComponent {
             <article
               block="ExpandableContent"
               mix={ mix }
+              ref={ this.expandableContentRef }
             >
                 { this.renderButton() }
                 { this.renderContent() }

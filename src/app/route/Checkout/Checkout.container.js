@@ -29,13 +29,13 @@ import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
-import { fetchMutation, fetchQuery } from 'Util/Request';
+import { debounce, fetchMutation, fetchQuery } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import { appendWithStoreCode } from 'Util/Url';
 
 import Checkout from './Checkout.component';
 import {
-    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP
+    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP, UPDATE_EMAIL_CHECK_FREQUENCY
 } from './Checkout.config';
 
 export const CartDispatcher = import(
@@ -46,13 +46,18 @@ export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
 );
+export const CheckoutDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Checkout/Checkout.dispatcher'
+);
 
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
-    countries: state.ConfigReducer.countries
+    countries: state.ConfigReducer.countries,
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -71,7 +76,10 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.createAccount(options, dispatch)
     ),
     updateShippingFields: (fields) => dispatch(updateShippingFields(fields)),
-    updateEmail: (email) => dispatch(updateEmail(email))
+    updateEmail: (email) => dispatch(updateEmail(email)),
+    checkEmailAvailability: (email) => CheckoutDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.handleData(dispatch, email)
+    )
 });
 
 /** @namespace Route/Checkout/Container */
@@ -108,7 +116,9 @@ export class CheckoutContainer extends PureComponent {
             })
         }).isRequired,
         updateShippingFields: PropTypes.func.isRequired,
-        updateEmail: PropTypes.func.isRequired
+        updateEmail: PropTypes.func.isRequired,
+        checkEmailAvailability: PropTypes.func.isRequired,
+        isEmailAvailable: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -122,6 +132,11 @@ export class CheckoutContainer extends PureComponent {
         onPasswordChange: this.onPasswordChange.bind(this),
         goBack: this.goBack.bind(this)
     };
+
+    checkEmailAvailability = debounce((email) => {
+        const { checkEmailAvailability } = this.props;
+        checkEmailAvailability(email);
+    }, UPDATE_EMAIL_CHECK_FREQUENCY);
 
     __construct(props) {
         super.__construct(props);
@@ -178,14 +193,26 @@ export class CheckoutContainer extends PureComponent {
         updateMeta({ title: __('Checkout') });
     }
 
-    componentDidUpdate(prevProps) {
-        const { match: { params: { step: urlStep } } } = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        const { match: { params: { step: urlStep } }, isEmailAvailable, updateEmail } = this.props;
         const { match: { params: { step: prevUrlStep } } } = prevProps;
+        const { email } = this.state;
+        const { email: prevEmail } = prevState;
 
         // Handle going back from billing to shipping
         if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ checkoutStep: SHIPPING_STEP });
+        }
+
+        if (email !== prevEmail && isEmailAvailable) {
+            this.checkEmailAvailability(email);
+        }
+
+        // console.log(isEmailAvailable, email)
+
+        if (!isEmailAvailable) {
+            updateEmail(email);
         }
 
         return null;

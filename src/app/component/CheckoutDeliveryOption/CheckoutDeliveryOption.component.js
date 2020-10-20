@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import { shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import { formatCurrency, roundPrice } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import './CheckoutDeliveryOption.style';
 
@@ -46,11 +46,10 @@ export class CheckoutDeliveryOption extends PureComponent {
             totals: { quote_currency_code }
         } = this.props;
 
-        const roundedUpPrice = roundPrice(price_incl_tax);
-
+        const formattedPrice = formatPrice(price_incl_tax, quote_currency_code);
         return (
             <strong>
-                { ` - ${roundedUpPrice}${formatCurrency(quote_currency_code)}` }
+                { ` - ${formattedPrice}` }
             </strong>
         );
     }

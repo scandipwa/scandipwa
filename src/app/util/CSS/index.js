@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CSS';
+export { default, getFixedElementHeight, getElementHeight } from './CSS';
