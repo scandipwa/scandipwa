@@ -615,7 +615,11 @@ export class Header extends NavigationAbstract {
 
         return (
             <section block="Header" elem="Wrapper">
-                <header block="Header" mods={ { name, isHiddenOnMobile, isCheckout } }>
+                <header
+                  block="Header"
+                  mods={ { name, isHiddenOnMobile, isCheckout } }
+                  mix={ { block: 'FixedElement', elem: 'Top' } }
+                >
                     { this.renderTopMenu() }
                     <nav block="Header" elem="Nav">
                         { this.renderNavigationState() }

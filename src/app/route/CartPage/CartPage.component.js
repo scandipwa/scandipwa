@@ -169,8 +169,11 @@ export class CartPage extends PureComponent {
 
     renderTotals() {
         return (
-            /** Id is required to measure the element`s height in ExpandableContent.component.js */
-            <article id="CartPageSummary" block="CartPage" elem="Summary">
+            <article
+              block="CartPage"
+              elem="Summary"
+              mix={ { block: 'FixedElement', elem: 'Bottom' } }
+            >
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
                 { this.renderTotalDetails() }
                 { this.renderTotal() }

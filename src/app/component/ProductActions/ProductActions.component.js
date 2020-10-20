@@ -548,10 +548,9 @@ export class ProductActions extends PureComponent {
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
                 <div
-                  // Id is required to measure the element`s height in Component/ExpandableContent.component.js
-                  id="ProductActionsWrapper"
                   block="ProductActions"
                   elem="AddToCartWrapper"
+                  mix={ { block: 'FixedElement', elem: 'Bottom' } }
                 >
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
