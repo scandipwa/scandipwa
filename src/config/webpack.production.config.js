@@ -202,4 +202,4 @@ const webpackConfig = ([lang, translation]) => ({
     ]
 });
 
-module.exports = mapTranslationsToConfig(['en_US'], webpackConfig);
+module.exports = mapTranslationsToConfig(['en_US'], webpackConfig, { magentoRoot });

@@ -17,8 +17,9 @@ const ConstDependency = require('webpack/lib/dependencies/ConstDependency');
 const NullFactory = require('webpack/lib/NullFactory');
 const path = require('path');
 const fs = require('fs');
+const { extensions } = require('../../../scandipwa.json');
 
-const sortObject = obj => Object.keys(obj).sort()
+const sortObject = (obj) => Object.keys(obj).sort()
     .reduce((result, key) => {
         // eslint-disable-next-line no-param-reassign
         result[key] = obj[key];
@@ -46,7 +47,7 @@ const appendTranslationsToFiles = (outputMap) => {
         }
 
         // eslint-disable-next-line no-param-reassign
-        filenames = filenames.filter(name => /\.json$/.test(name));
+        filenames = filenames.filter((name) => /\.json$/.test(name));
 
         if (filenames.length === 0) {
             filenames.push('en_US.json');
@@ -194,10 +195,57 @@ class I18nPlugin {
     }
 }
 
-const mapTranslationsToConfig = (langs, config) => {
+const getTranslationPath = (extensionAbsolute, lang) => {
+    const withSrc = path.join(extensionAbsolute, 'src', 'scandipwa', 'src', 'i18n', `${lang}.json`);
+    if (fs.existsSync(withSrc)) {
+        return withSrc;
+    }
+
+    const withoutSrc = path.join(extensionAbsolute, 'src', 'scandipwa', 'i18n', `${lang}.json`);
+    if (fs.existsSync(withoutSrc)) {
+        return withoutSrc;
+    }
+
+    return false;
+};
+
+const mergeWithPluginsTranslations = (translation, lang, magentoRoot) => {
+    if (!extensions) {
+        return translation;
+    }
+
+    return Object.values(extensions).reduce(
+        (translationObject, extensionRelative) => {
+            const extensionAbsolute = path.join(magentoRoot, extensionRelative);
+            const translationAbsolute = getTranslationPath(extensionAbsolute, lang);
+
+            // If no translation in this extension - return the original translation
+            if (!translationAbsolute) {
+                return translationObject;
+            }
+
+            // Else import the translation
+            // eslint-disable-next-line import/no-dynamic-require, global-require
+            const extensionTranslation = require(translationAbsolute);
+
+            // And merge it with the original translation
+            // Original translations are not overridable
+            return {
+                ...extensionTranslation,
+                ...translationObject
+            };
+        },
+        translation
+    );
+};
+
+const mapTranslationsToConfig = (langs, config, options) => {
+    const { magentoRoot } = options;
+
     const translations = langs.reduce((acc, lang) => {
         // eslint-disable-next-line import/no-dynamic-require, global-require
-        acc[lang] = require(path.join(__dirname, `../../../i18n/${lang}.json`));
+        const translation = require(path.join(__dirname, `../../../i18n/${lang}.json`));
+        acc[lang] = mergeWithPluginsTranslations(translation, lang, magentoRoot);
         return acc;
     }, {});
 
