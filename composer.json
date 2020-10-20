@@ -15,7 +15,7 @@
         "scandipwa/route717": "^1.7",
         "scandipwa/performance": "^1.1",
         "scandipwa/customer-graph-ql": "^2.2.3",
-        "scandipwa/quote-graphql": "^2.14.1",
+        "scandipwa/quote-graphql": "^2.15.1",
         "scandipwa/wishlist-graphql": "^1.2",
         "scandipwa/urlrewrite-graphql": "^1.2.1",
         "scandipwa/reviews-graphql": "^1.6",
