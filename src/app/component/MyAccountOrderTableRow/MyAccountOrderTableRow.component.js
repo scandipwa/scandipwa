@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { baseOrderInfoType } from 'Type/Account';
-import { formatCurrency } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import './MyAccountOrderTableRow.style';
 
@@ -43,8 +43,7 @@ export class MyAccountOrderTableRow extends PureComponent {
                 <td>{ created_at }</td>
                 <td>{ status_label }</td>
                 <td block="hidden-mobile">
-                    { /* TODO: get currency symbol */ }
-                    { grand_total ? `${formatCurrency(currency_code)}${grand_total}` : '' }
+                    { grand_total ? formatPrice(grand_total, currency_code) : '' }
                 </td>
             </tr>
         );

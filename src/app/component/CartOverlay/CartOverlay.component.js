@@ -20,7 +20,7 @@ import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
-import { formatCurrency } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import './CartOverlay.style';
 
@@ -52,7 +52,7 @@ export class CartOverlay extends PureComponent {
 
     renderPriceLine(price) {
         const { currencyCode } = this.props;
-        return `${parseFloat(price).toFixed(2)}${formatCurrency(currencyCode)}`;
+        return formatPrice(price, currencyCode);
     }
 
     renderCartItems() {

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { MixType } from 'Type/Common';
-import { formatCurrency, roundPrice } from 'Util/Price';
+import { formatPrice, roundPrice } from 'Util/Price';
 
 /** @namespace Component/CartItemPrice/Component */
 export class CartItemPrice extends PureComponent {
@@ -30,7 +30,7 @@ export class CartItemPrice extends PureComponent {
         return (
             <p block="ProductPrice" aria-label={ __('Product Price') } mix={ mix }>
                 <span aria-label={ __('Current product price') }>
-                    <data value={ price }>{ `${formatCurrency(currency_code)}${price}` }</data>
+                    <data value={ price }>{ `${formatPrice(row_total, currency_code)}` }</data>
                 </span>
             </p>
         );

@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { formatCurrency } from 'Util/Price';
+import { formatPrice } from 'Util/Price';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
@@ -97,7 +97,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         case 'PERCENT':
             return `${ price }%`;
         default:
-            return `${ formatCurrency() }${ price }`;
+            /* TODO: get currency code */
+            return formatPrice(price);
         }
     }
 

@@ -29,9 +29,8 @@ export class ProductPrice extends PureComponent {
         roundedRegularPrice: PropTypes.string,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
-        formatedCurrency: PropTypes.string,
+        formattedFinalPrice: PropTypes.string,
         variantsCount: PropTypes.number,
-        currency: PropTypes.string,
         price: PriceType,
         mix: MixType
     };
@@ -41,9 +40,8 @@ export class ProductPrice extends PureComponent {
         roundedRegularPrice: '0',
         priceCurrency: 'USD',
         discountPercentage: 0,
-        formatedCurrency: '0',
+        formattedFinalPrice: '0',
         variantsCount: 0,
-        currency: '$',
         mix: {},
         price: {}
     };
@@ -58,36 +56,37 @@ export class ProductPrice extends PureComponent {
         );
     }
 
+    getCurrencySchema() {
+        const { isSchemaRequired, priceCurrency } = this.props;
+        return isSchemaRequired ? { itemProp: 'priceCurrency', content: priceCurrency } : {};
+    }
+
     getCurrentPriceSchema() {
-        const { isSchemaRequired, variantsCount } = this.props;
+        const { isSchemaRequired, variantsCount, price } = this.props;
+        const content_price = price.minimum_price.final_price
+            ? price.minimum_price.final_price.value : price.minimum_price.regular_price.value;
 
         if (variantsCount > 1) {
-            return isSchemaRequired ? { itemProp: 'lowPrice' } : {};
+            return isSchemaRequired ? { itemProp: 'lowPrice', content: content_price } : {};
         }
 
-        return isSchemaRequired ? { itemProp: 'price' } : {};
+        return isSchemaRequired ? { itemProp: 'price', content: content_price } : {};
     }
 
     renderCurrentPrice() {
         const {
             discountPercentage,
-            formatedCurrency,
-            currency
+            formattedFinalPrice
         } = this.props;
 
-        const schema = this.getCurrentPriceSchema();
+        const priceSchema = this.getCurrentPriceSchema();
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
         return (
             <PriceSemanticElementName>
-                <data
-                  value={ formatedCurrency }
-                >
-                    <span>{ currency }</span>
-                    <span { ...schema }>{ formatedCurrency }</span>
-                </data>
+                <span { ...priceSchema }>{ formattedFinalPrice }</span>
             </PriceSemanticElementName>
         );
     }
@@ -116,11 +115,12 @@ export class ProductPrice extends PureComponent {
     }
 
     renderSchema() {
-        const { isSchemaRequired, priceCurrency } = this.props;
+        const { isSchemaRequired } = this.props;
 
         if (isSchemaRequired) {
+            const currencySchema = this.getCurrencySchema();
             return (
-                <meta itemProp="priceCurrency" content={ priceCurrency } />
+                <meta { ...currencySchema } />
             );
         }
 
@@ -135,8 +135,7 @@ export class ProductPrice extends PureComponent {
                     regular_price
                 } = {}
             } = {},
-            formatedCurrency,
-            currency,
+            formattedFinalPrice,
             mix
         } = this.props;
 
@@ -148,7 +147,7 @@ export class ProductPrice extends PureComponent {
             <p
               block="ProductPrice"
               mix={ mix }
-              aria-label={ `Product price: ${ formatedCurrency }${ currency }` }
+              aria-label={ `Product price: ${formattedFinalPrice}` }
             >
                 { this.renderCurrentPrice() }
                 { this.renderOldPrice() }
