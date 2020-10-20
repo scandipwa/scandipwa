@@ -196,12 +196,12 @@ class I18nPlugin {
 }
 
 const getTranslationPath = (extensionAbsolute, lang) => {
-    const withSrc = path.join(extensionAbsolute, 'src', 'scandipwa', 'src', 'i18n', `${lang}.json`);
+    const withSrc = path.join(extensionAbsolute, 'src', 'scandipwa', 'i18n', `${lang}.json`);
     if (fs.existsSync(withSrc)) {
         return withSrc;
     }
 
-    const withoutSrc = path.join(extensionAbsolute, 'src', 'scandipwa', 'i18n', `${lang}.json`);
+    const withoutSrc = path.join(extensionAbsolute, 'scandipwa', 'i18n', `${lang}.json`);
     if (fs.existsSync(withoutSrc)) {
         return withoutSrc;
     }
