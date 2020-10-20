@@ -167,6 +167,7 @@ export class PasswordChangePageContainer extends PureComponent {
         return (
             <PasswordChangePage
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }
