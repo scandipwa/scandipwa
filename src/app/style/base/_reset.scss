@@ -57,7 +57,7 @@ main {
     max-width: 100vw;
 
     @include mobile {
-        min-height: 0;
+        min-height: calc(100vh - var(--header-total-height) - var(--navigation-tabs-height));
         margin-top: var(--header-total-height);
         margin-bottom: var(--navigation-tabs-height);
     }

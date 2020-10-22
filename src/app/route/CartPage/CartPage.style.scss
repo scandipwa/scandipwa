@@ -18,8 +18,8 @@
 
 .CartPage {
     @include before-desktop {
-        padding-bottom: calc(var(--navigation-tabs-height) + 130px);
-        margin-bottom: 0;
+        padding-bottom: 113px;
+        margin-bottom: var(--navigation-tabs-height);
     }
 
     &-Wrapper {
