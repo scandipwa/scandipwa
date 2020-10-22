@@ -99,38 +99,6 @@
         margin-right: 10px;
     }
 
-    &-QuantityInput {
-        // margin: 0;
-
-        // @include after-mobile {
-        //     display: inline-flex;
-        // }
-
-        // &.Field {
-        //     @include mobile {
-        //         height: var(--whislist-qty-button-size);
-        //         width: var(--whislist-qty-button-size);
-        //     }
-        // }
-
-        // button {
-        //     width: 28px;
-
-        //     @include mobile {
-        //         height: var(--whislist-qty-button-size);
-        //         width: var(--whislist-qty-button-size);
-        //     }
-        // }
-
-        // input {
-        //     @include mobile {
-        //         font-size: 1.4rem;
-        //         min-height: var(--whislist-qty-button-size);
-        //         height: var(--whislist-qty-button-size);
-        //     }
-        // }
-    }
-
     &-Price {
         display: inline-block;
 
@@ -221,24 +189,6 @@
         white-space: inherit;
     }
 }
-
-// .MyAccount {
-//     .WishlistItem-QuantityInput {
-//         button {
-//             width: 28px;
-
-//             @include mobile {
-//                 height: var(--whislist-qty-button-size);
-//                 width: var(--whislist-qty-button-size);
-//             }
-//         }
-
-//         input {
-//             font-size: 1.4rem;
-//             min-height: var(--whislist-qty-button-size);
-//         }
-//     }
-// }
 
 .ProductAttribute {
     font-size: 1rem;
