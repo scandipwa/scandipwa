@@ -150,7 +150,7 @@ export class MyAccountMyWishlist extends PureComponent {
             isMobile
         } = this.props;
 
-        const isDisabled = !isMobile && (isActionsDisabled || isEditingActive);
+        const isDisabled = (isMobile && isEditingActive) || isActionsDisabled;
 
         return (
             <button
@@ -185,25 +185,28 @@ export class MyAccountMyWishlist extends PureComponent {
     }
 
     renderRemoveItemsButton() {
-        const { isActionsDisabled } = this.props;
+        const { isActionsDisabled, isMobile } = this.props;
+        const { selectedIdMap } = this.state;
+
+        const isDisabled = isActionsDisabled || (isMobile && !selectedIdMap.length);
 
         return (
             <button
               block="Button"
               mods={ { likeLink: true } }
-            //   mix={ { block: 'MyAccountMyWishlist', elem: 'ClearWishlistButton' } }
-              // eslint-disable-next-line react/jsx-no-bind
+              mix={ { block: 'MyAccountMyWishlist', elem: 'ClearRemoveItemsButton' } }
               onClick={ this.handleRemoveButtonClick }
-              disabled={ isActionsDisabled }
+              disabled={ isDisabled }
             >
-                { __('Remove items') }
+                { selectedIdMap.length === 1
+                    ? __('Remove item (%s)', 1)
+                    : __('Remove items (%s)', selectedIdMap.length) }
             </button>
         );
     }
 
     renderActionLineMobile() {
         const { isEditingActive } = this.props;
-        const { selectedIdMap } = this.state;
 
         return (
             <div
@@ -212,16 +215,10 @@ export class MyAccountMyWishlist extends PureComponent {
               elem="ActionBar"
             >
                 { isEditingActive && (
-                    <>
-                        <div>
-                            <span>ID: </span>
-                            { selectedIdMap.map((id) => <span>{ id }</span>) }
-                        </div>
-                        <div block="MyAccountMyWishlist" elem="ActionBarContentWrapper">
-                            { this.renderRemoveItemsButton() }
-                            { this.renderClearWishlist() }
-                        </div>
-                    </>
+                    <div block="MyAccountMyWishlist" elem="ActionBarContentWrapper">
+                        { this.renderRemoveItemsButton() }
+                        { this.renderClearWishlist() }
+                    </div>
                 ) }
                 { this.renderAddAllToCart() }
             </div>

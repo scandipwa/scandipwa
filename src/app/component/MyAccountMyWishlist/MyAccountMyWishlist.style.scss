@@ -60,15 +60,6 @@
             position: fixed;
             width: 100%;
         }
-
-        button + button {
-            margin-left: 1.2rem;
-
-            @include mobile {
-                margin-top: 1.4rem;
-                margin-left: 0;
-            }
-        }
     }
 
     &-ActionBarContentWrapper {
@@ -91,17 +82,31 @@
         }
     }
 
+    &-ClearRemoveItemsButton {
+        text-transform: uppercase;
+        color: initial;
+
+        &.Button {
+            width: auto;
+        }
+    }
+
     &-ClearWishlistButton {
         $color: #ed3f3f;
+
+        text-transform: uppercase;
+        font-weight: bold;
 
         @include after-mobile {
             order: 1;
             margin-left: 15px;
         }
 
-        text-transform: uppercase;
-        color: $color;
-        font-weight: bold;
+        &,
+        &:not([disabled]):focus,
+        &:not([disabled]):hover {
+            color: $color;
+        }
 
         &.Button {
             width: auto;
