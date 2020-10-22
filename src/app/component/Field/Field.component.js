@@ -127,16 +127,12 @@ export class Field extends PureComponent {
                   disabled={ +value === max }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value + 1) }
-                >
-                    <span>+</span>
-                </button>
+                />
                 <button
                   disabled={ +value === min }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value - 1) }
-                >
-                    <span>–</span>
-                </button>
+                />
             </>
         );
     }

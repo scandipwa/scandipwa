@@ -373,7 +373,6 @@ export class Menu extends PureComponent {
         const { closeMenu } = this.props;
 
         return (
-
             <div
               block="Menu"
               elem="MenuWrapper"

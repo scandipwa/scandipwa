@@ -11,6 +11,7 @@
 
 :root {
     --my-account-content-background: #{$white};
+    --my-account-wrapper-padding-mobile: 1.4rem;
 
     @include after-mobile {
         --my-account-background: var(--secondary-base-color);
@@ -41,7 +42,7 @@
         padding: 1.2rem;
 
         @include mobile {
-            padding: 1.4rem;
+            padding: var(--my-account-wrapper-padding-mobile);
         }
 
         @include after-mobile {

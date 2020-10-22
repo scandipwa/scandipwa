@@ -17,6 +17,7 @@ export const CATEGORY = 'category';
 export const CUSTOMER_ACCOUNT = 'customer_account';
 export const CUSTOMER_SUB_ACCOUNT = 'customer_sub_account';
 export const CUSTOMER_ACCOUNT_PAGE = 'customer_account_page';
+export const CUSTOMER_WISHLIST = 'wishlist';
 export const HOME_PAGE = 'home';
 export const MENU = 'menu';
 export const MENU_SUBCATEGORY = 'menu_subcategory';
