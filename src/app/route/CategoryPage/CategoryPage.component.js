@@ -207,13 +207,13 @@ export class CategoryPage extends PureComponent {
             <>
                 { this.renderFilterOverlay() }
                 { this.renderCategoryDetails() }
+                { this.renderCmsBlock() }
                 <aside block="CategoryPage" elem="Miscellaneous">
                     { this.renderItemsCount() }
                     { this.renderCategorySort() }
                     { this.renderFilterButton() }
                 </aside>
                 { this.renderCategoryProductList() }
-                { this.renderCmsBlock() }
             </>
         );
     }

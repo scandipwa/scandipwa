@@ -8,6 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+:root {
+    --category-page-miscellaneous-min-height: 56px;
+}
 
 .CategoryPage {
     &-Wrapper {
@@ -100,7 +103,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         align-items: center;
-        min-height: 56px;
+        min-height: var(--category-page-miscellaneous-min-height);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
@@ -134,6 +137,18 @@
                 padding-left: 1.4rem;
                 padding-right: 1.4rem;
             }
+        }
+    }
+
+    &-CMS {
+        @include mobile {
+            margin-top: calc(var(--header-total-height) + var(--category-page-miscellaneous-min-height));
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        @include after-mobile {
+            margin-bottom: 10px;
         }
     }
 }
