@@ -29,6 +29,7 @@ export class SliderQuery {
     _getSliderFields() {
         return [
             this._getSlidesField(),
+            this._getSlideSpeed(),
             'slider_id',
             'title'
         ];
@@ -48,6 +49,10 @@ export class SliderQuery {
     _getSlidesField() {
         return new Field('slides')
             .addFieldList(this._getSlideFields());
+    }
+
+    _getSlideSpeed() {
+        return new Field('slide_speed').setAlias('slideSpeed');
     }
 }
 

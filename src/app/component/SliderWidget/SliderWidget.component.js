@@ -29,6 +29,7 @@ export class SliderWidget extends PureComponent {
     static propTypes = {
         slider: PropTypes.shape({
             title: PropTypes.string,
+            slideSpeed: PropTypes.number,
             slides: PropTypes.arrayOf(
                 PropTypes.shape({
                     desktop_image: PropTypes.string,
@@ -45,10 +46,45 @@ export class SliderWidget extends PureComponent {
         slider: [{}]
     };
 
-    state = { activeImage: 0 };
+    state = {
+        activeImage: 0,
+        carouselDirection: 'right'
+    };
+
+    componentDidMount() {
+        const { slider: { slideSpeed } } = this.props;
+
+        if (slideSpeed > 0) {
+            this.startCarousel(slideSpeed);
+        }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.carouselInterval);
+    }
 
     onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
+    };
+
+    startCarousel = (interval) => {
+        this.carouselInterval = setInterval(() => {
+            const { activeImage, carouselDirection } = this.state;
+            const { slider: { slides } } = this.props;
+
+            if (activeImage === 0) {
+                this.setState({ carouselDirection: 'right' });
+                const image = slides.length - 1 !== 0 ? activeImage + 1 : activeImage;
+                this.onActiveImageChange(image);
+            } else if (activeImage === slides.length - 1) {
+                const image = activeImage - 1;
+                this.onActiveImageChange(image);
+                this.setState({ carouselDirection: 'left' });
+            } else {
+                const image = carouselDirection === 'right' ? activeImage + 1 : activeImage - 1;
+                this.onActiveImageChange(image);
+            }
+        }, interval);
     };
 
     getSlideImage(slide) {

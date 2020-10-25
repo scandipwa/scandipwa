@@ -37,6 +37,7 @@ export class SliderWidgetContainer extends DataContainer {
 
     state = {
         slider: {
+            slideSpeed: null,
             slides: [{ image: '', slide_text: '', isPlaceholder: true }]
         }
     };
@@ -70,6 +71,12 @@ export class SliderWidgetContainer extends DataContainer {
     }
 
     render() {
+        const { slider: { slideSpeed } } = this.state;
+
+        if (slideSpeed === null) {
+            return null;
+        }
+
         return (
             <SliderWidget
               { ...this.props }
