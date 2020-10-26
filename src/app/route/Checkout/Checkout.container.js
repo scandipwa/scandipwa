@@ -280,6 +280,7 @@ export class CheckoutContainer extends PureComponent {
 
     setDetailsStep(orderID) {
         const { resetCart, setNavigationState } = this.props;
+
         // For some reason not logged in user cart preserves qty in it
         if (!isSignedIn()) {
             BrowserDatabase.deleteItem(GUEST_QUOTE_ID);

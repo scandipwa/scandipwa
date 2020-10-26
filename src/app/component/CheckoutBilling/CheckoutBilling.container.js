@@ -56,8 +56,7 @@ export class CheckoutBillingContainer extends PureComponent {
             checkbox_text: PropTypes.string,
             content: PropTypes.string,
             name: PropTypes.string
-        })).isRequired,
-        updateShippingFields: PropTypes.func.isRequired
+        })).isRequired
     };
 
     static getDerivedStateFromProps(props, state) {
