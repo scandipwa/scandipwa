@@ -169,13 +169,15 @@ export class WishlistDispatcher {
         return itemIdMap.map((id) => (
             fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(id)).then(
                 /** @namespace Store/Wishlist/Dispatcher/removeItemsFromWishlistNoMessagesFetchMutationThen */
-                () => dispatch(removeItemFromWishlist(id))
-                    && dispatch(showNotification('info', __('Product has been removed from your Wish List!'))),
+                () => {
+                    dispatch(removeItemFromWishlist(id));
+                    dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
+                },
                 /** @namespace Store/Wishlist/Dispatcher/removeItemsFromWishlistFetchMutationError */
                 (error) => {
-                    const { 0: { message } } = error;
+                    const [message] = error;
 
-                    dispatch(showNotification('error', message || __('Error updating wish list!')));
+                    dispatch(showNotification('error', message || __('Error updating wishlist!')));
                     // eslint-disable-next-line no-console
                     console.log(error);
                 }

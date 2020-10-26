@@ -60,7 +60,8 @@ export class WishlistItemContainer extends PureComponent {
         addProductToCart: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         updateWishlistItem: PropTypes.func.isRequired,
-        removeFromWishlist: PropTypes.func.isRequired
+        removeFromWishlist: PropTypes.func.isRequired,
+        handleSelectIdChange: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -162,8 +163,11 @@ export class WishlistItemContainer extends PureComponent {
     }
 
     removeItem(noMessages = true) {
-        const { product: { wishlist: { id: item_id } }, removeFromWishlist } = this.props;
+        const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
         this.setState({ isLoading: true });
+
+        handleSelectIdChange(item_id);
+
         return removeFromWishlist({ item_id, noMessages });
     }
 

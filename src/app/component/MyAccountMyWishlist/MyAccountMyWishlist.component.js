@@ -38,7 +38,7 @@ export class MyAccountMyWishlist extends PureComponent {
 
     state = {
         selectedIdMap: [],
-        actionLineHeigt: 0
+        actionLineHeight: 0
     };
 
     actionLineMobileRef = createRef();
@@ -50,10 +50,10 @@ export class MyAccountMyWishlist extends PureComponent {
     componentDidUpdate(prevProps) {
         const { isEditingActive: prevIsEditingActive } = prevProps;
         const { isEditingActive } = this.props;
-        const { actionLineHeigt: prevActionLineHeigt } = this.state;
-        const { actionLineHeigt } = this.state;
+        const { actionLineHeight: prevActionLineHeight } = this.state;
+        const { actionLineHeight } = this.state;
 
-        if (prevIsEditingActive !== isEditingActive && prevActionLineHeigt === actionLineHeigt) {
+        if (prevIsEditingActive !== isEditingActive && prevActionLineHeight === actionLineHeight) {
             this.setActionLineHeight();
         }
     }
@@ -65,7 +65,7 @@ export class MyAccountMyWishlist extends PureComponent {
             return;
         }
 
-        this.setState({ actionLineHeigt: current.clientHeight });
+        this.setState({ actionLineHeight: current.clientHeight });
     }
 
     handleSelectIdChange = (id) => {
@@ -87,6 +87,8 @@ export class MyAccountMyWishlist extends PureComponent {
         const { selectedIdMap } = this.state;
 
         removeSelectedFromWishlist(selectedIdMap);
+
+        // Clear selected item map
         this.setState({ selectedIdMap: [] });
     };
 
@@ -205,31 +207,39 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    renderActionLineMobile() {
+    renderActionBarAction() {
         const { isEditingActive } = this.props;
 
+        if (!isEditingActive) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountMyWishlist" elem="ActionBarActionWrapper">
+                { this.renderRemoveItemsButton() }
+                { this.renderClearWishlist() }
+            </div>
+        );
+    }
+
+    renderActionBarMobile() {
         return (
             <div
               ref={ this.actionLineMobileRef }
               block="MyAccountMyWishlist"
               elem="ActionBar"
             >
-                { isEditingActive && (
-                    <div block="MyAccountMyWishlist" elem="ActionBarContentWrapper">
-                        { this.renderRemoveItemsButton() }
-                        { this.renderClearWishlist() }
-                    </div>
-                ) }
+                { this.renderActionBarAction() }
                 { this.renderAddAllToCart() }
             </div>
         );
     }
 
-    renderActionLine() {
+    renderActionBar() {
         const { isMobile } = this.props;
 
         if (isMobile) {
-            return this.renderActionLineMobile();
+            return this.renderActionBarMobile();
         }
 
         return (
@@ -255,13 +265,13 @@ export class MyAccountMyWishlist extends PureComponent {
             isLoading,
             isMobile
         } = this.props;
-        const { actionLineHeigt } = this.state;
+        const { actionLineHeight } = this.state;
 
         if (isWishlistEmpty && !isWishlistLoading) {
             return this.renderNoProductsFound();
         }
 
-        const blockStyles = isMobile ? { marginBottom: actionLineHeigt } : {};
+        const blockStyles = isMobile ? { marginBottom: actionLineHeight } : {};
 
         return (
             <div block="MyAccountMyWishlist" elem="Products" style={ blockStyles }>
@@ -276,7 +286,7 @@ export class MyAccountMyWishlist extends PureComponent {
             <div block="MyAccountMyWishlist">
                 { this.renderShareWishlist() }
                 { this.renderContent() }
-                { this.renderActionLine() }
+                { this.renderActionBar() }
             </div>
         );
     }
