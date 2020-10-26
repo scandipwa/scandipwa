@@ -113,22 +113,19 @@ export class CheckoutShipping extends PureComponent {
         } = this.props;
 
         return (
-            <>
-                { this.renderGuestForm() }
-                <Form
-                  id={ SHIPPING_STEP }
-                  mix={ { block: 'CheckoutShipping' } }
-                  onSubmitError={ onShippingError }
-                  onSubmitSuccess={ onShippingSuccess }
-                >
-                    { this.renderAddressBook() }
-                    <div>
-                        <Loader isLoading={ isLoading } />
-                        { this.renderDelivery() }
-                        { this.renderActions() }
-                    </div>
-                </Form>
-            </>
+            <Form
+              id={ SHIPPING_STEP }
+              mix={ { block: 'CheckoutShipping' } }
+              onSubmitError={ onShippingError }
+              onSubmitSuccess={ onShippingSuccess }
+            >
+                { this.renderAddressBook() }
+                <div>
+                    <Loader isLoading={ isLoading } />
+                    { this.renderDelivery() }
+                    { this.renderActions() }
+                </div>
+            </Form>
         );
     }
 }

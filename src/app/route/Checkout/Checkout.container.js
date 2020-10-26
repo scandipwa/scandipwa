@@ -161,6 +161,7 @@ export class CheckoutContainer extends PureComponent {
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
             email: '',
+            isGuestEmailSaved: false,
             isCreateUser: false
         };
 
@@ -279,7 +280,6 @@ export class CheckoutContainer extends PureComponent {
 
     setDetailsStep(orderID) {
         const { resetCart, setNavigationState } = this.props;
-
         // For some reason not logged in user cart preserves qty in it
         if (!isSignedIn()) {
             BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
@@ -372,7 +372,13 @@ export class CheckoutContainer extends PureComponent {
         updateEmail(email);
         return fetchMutation(mutation).then(
             /** @namespace Route/Checkout/Container/saveGuestEmailFetchMutationThen */
-            ({ setGuestEmailOnCart: data }) => data,
+            ({ setGuestEmailOnCart: data }) => {
+                if (data) {
+                    this.setState({ isGuestEmailSaved: true });
+                }
+
+                return true;
+            },
             this._handleError
         );
     }
