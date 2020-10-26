@@ -48,7 +48,7 @@ export class MyAccountQuery {
         return new Field('generateCustomerToken')
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
-            .addArgument('guest_quote_id', 'String!', guestQuoteId)
+            .addArgument('guest_quote_id', 'String', guestQuoteId)
             .addField('token');
     }
 
