@@ -48,15 +48,19 @@ export class SliderWidget extends PureComponent {
 
     state = {
         activeImage: 0,
-        carouselDirection: 'right'
+        carouselDirection: 'right',
+        ImageToShow: 0
     };
 
-    componentDidMount() {
+    componentDidUpdate(prevProps) {
         const { slider: { slideSpeed } } = this.props;
+        const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
-        if (slideSpeed > 0) {
+        if (slideSpeed !== prevSlideSpeed) {
             this.startCarousel(slideSpeed);
         }
+
+        this.getImageToShow();
     }
 
     componentWillUnmount() {
@@ -69,23 +73,26 @@ export class SliderWidget extends PureComponent {
 
     startCarousel = (interval) => {
         this.carouselInterval = setInterval(() => {
-            const { activeImage, carouselDirection } = this.state;
-            const { slider: { slides } } = this.props;
+            const { ImageToShow } = this.state;
 
-            if (activeImage === 0) {
-                this.setState({ carouselDirection: 'right' });
-                const image = slides.length - 1 !== 0 ? activeImage + 1 : activeImage;
-                this.onActiveImageChange(image);
-            } else if (activeImage === slides.length - 1) {
-                const image = activeImage - 1;
-                this.onActiveImageChange(image);
-                this.setState({ carouselDirection: 'left' });
-            } else {
-                const image = carouselDirection === 'right' ? activeImage + 1 : activeImage - 1;
-                this.onActiveImageChange(image);
-            }
+            this.onActiveImageChange(ImageToShow);
         }, interval);
     };
+
+    getImageToShow() {
+        const { activeImage, carouselDirection } = this.state;
+        const { slider: { slides } } = this.props;
+
+        if (activeImage === 0) {
+            this.setState({ carouselDirection: 'right' });
+            this.setState({ ImageToShow: slides.length - 1 !== 0 ? activeImage + 1 : activeImage });
+        } else if (activeImage === slides.length - 1) {
+            this.setState({ carouselDirection: 'left' });
+            this.setState({ ImageToShow: activeImage - 1 });
+        } else {
+            this.setState({ ImageToShow: carouselDirection === 'right' ? activeImage + 1 : activeImage - 1 });
+        }
+    }
 
     getSlideImage(slide) {
         const {
