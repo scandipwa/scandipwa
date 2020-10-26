@@ -90,18 +90,20 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             password
         };
 
-        if (!isLoading) {
-            try {
-                const code = createAccount(customerData);
-                // if user needs confirmation
-                if (code === 2) {
-                    setSignInState(STATE_CONFIRM_EMAIL);
-                } else {
-                    onSignIn();
-                }
-            } finally {
-                setLoadingState(false);
+        if (isLoading) {
+            return;
+        }
+
+        try {
+            const code = createAccount(customerData);
+            // if user needs confirmation
+            if (code === 2) {
+                setSignInState(STATE_CONFIRM_EMAIL);
+            } else {
+                onSignIn();
             }
+        } finally {
+            setLoadingState(false);
         }
     }
 
