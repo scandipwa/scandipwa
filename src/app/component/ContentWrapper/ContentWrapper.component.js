@@ -40,7 +40,7 @@ export class ContentWrapper extends PureComponent {
         isNotSection: false
     };
 
-    rednerContentWrapper() {
+    renderContentWrapper() {
         const {
             children, wrapperMix
         } = this.props;
@@ -58,12 +58,12 @@ export class ContentWrapper extends PureComponent {
         } = this.props;
 
         if (isNotSection) {
-            return this.rednerContentWrapper();
+            return this.renderContentWrapper();
         }
 
         return (
             <section mix={ mix } aria-label={ label }>
-                { this.rednerContentWrapper() }
+                { this.renderContentWrapper() }
             </section>
         );
     }
