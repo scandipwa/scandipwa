@@ -103,6 +103,7 @@ export class CartQuery {
             'coupon_code',
             'shipping_amount',
             'is_virtual',
+            'applied_rule_ids',
             this._getCartItemsField()
         ];
     }

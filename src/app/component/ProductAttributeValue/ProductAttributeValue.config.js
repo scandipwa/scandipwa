@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,15 +11,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.CheckoutGuestForm {
-    margin: 2.4rem 0;
-
-    @include mobile {
-        margin: 2.8rem 0;
-    }
-
-    .Button {
-        width: 100%;
-        margin-top: 2rem;
-    }
-}
+export const STRING_ONLY_ATTRIBUTE_CODES = ['category_id'];

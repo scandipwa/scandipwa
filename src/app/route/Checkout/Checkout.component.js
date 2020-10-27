@@ -12,12 +12,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CartCoupon from 'Component/CartCoupon';
 import CheckoutBilling from 'Component/CheckoutBilling';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShipping from 'Component/CheckoutShipping';
 import CheckoutSuccess from 'Component/CheckoutSuccess';
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
 import { CHECKOUT } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
@@ -62,7 +64,8 @@ export class Checkout extends PureComponent {
         isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
-        goBack: PropTypes.func.isRequired
+        goBack: PropTypes.func.isRequired,
+        totals: TotalsType.isRequired
     };
 
     static defaultProps = {
@@ -74,13 +77,15 @@ export class Checkout extends PureComponent {
             title: __('Shipping step'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
-            areTotalsVisible: true
+            areTotalsVisible: true,
+            renderCartCoupon: this.renderCartCoupon.bind(this)
         },
         [BILLING_STEP]: {
             title: __('Billing step'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
-            areTotalsVisible: true
+            areTotalsVisible: true,
+            renderCartCoupon: this.renderCartCoupon.bind(this)
         },
         [DETAILS_STEP]: {
             title: __('Thank you for your purchase!'),
@@ -226,6 +231,32 @@ export class Checkout extends PureComponent {
         );
     }
 
+    renderCoupon() {
+        const { checkoutStep } = this.props;
+        const { renderCartCoupon } = this.stepMap[checkoutStep];
+
+        if (renderCartCoupon) {
+            return renderCartCoupon();
+        }
+
+        return null;
+    }
+
+    renderCartCoupon() {
+        const {
+            totals: { coupon_code }
+        } = this.props;
+
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'Checkout', elem: 'Discount' } }
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
+        );
+    }
+
     renderPromo() {
         const { checkoutStep } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
@@ -258,6 +289,7 @@ export class Checkout extends PureComponent {
                     <div>
                         { this.renderSummary() }
                         { this.renderPromo() }
+                        { this.renderCoupon() }
                     </div>
                 </ContentWrapper>
             </main>

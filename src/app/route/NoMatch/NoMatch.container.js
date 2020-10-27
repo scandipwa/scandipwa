@@ -69,7 +69,7 @@ export class NoMatchContainer extends PureComponent {
     updateMeta() {
         const { updateMeta } = this.props;
 
-        updateMeta({ title: __('Page not found') });
+        updateMeta({ title: __('Page not found'), status_code: '404' });
     }
 
     render() {

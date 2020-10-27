@@ -16,7 +16,7 @@ import { MixType } from 'Type/Common';
 import { PriceType } from 'Type/ProductList';
 import {
     calculateFinalPrice,
-    formatCurrency,
+    formatPrice,
     roundPrice
 } from 'Util/Price';
 
@@ -64,15 +64,13 @@ export class ProductPriceContainer extends PureComponent {
 
         const roundedRegularPrice = roundPrice(regularPriceValue);
         const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-        const formatedCurrency = roundPrice(finalPrice);
-        const currency = formatCurrency(priceCurrency);
+        const formattedFinalPrice = formatPrice(finalPrice, priceCurrency);
 
         return {
             roundedRegularPrice,
             priceCurrency,
             discountPercentage,
-            formatedCurrency,
-            currency
+            formattedFinalPrice
         };
     };
 

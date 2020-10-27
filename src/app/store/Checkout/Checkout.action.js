@@ -9,6 +9,7 @@
  */
 export const UPDATE_SHIPPING_FIELDS = 'UPDATE_SHIPPING_FIELDS';
 export const UPDATE_EMAIL = 'UPDATE_EMAIL';
+export const UPDATE_EMAIL_AVAILABLE = 'UPDATE_EMAIL_AVAILABLE';
 
 /** @namespace Store/Checkout/Action/updateShippingFields */
 export const updateShippingFields = (shippingFields) => ({
@@ -20,4 +21,10 @@ export const updateShippingFields = (shippingFields) => ({
 export const updateEmail = (email) => ({
     type: UPDATE_EMAIL,
     email
+});
+
+/** @namespace Store/Checkout/Action/updateEmailAvailable */
+export const updateEmailAvailable = (isEmailAvailable) => ({
+    type: UPDATE_EMAIL_AVAILABLE,
+    isEmailAvailable
 });
