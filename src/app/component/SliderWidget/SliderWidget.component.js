@@ -56,11 +56,11 @@ export class SliderWidget extends PureComponent {
         const { slider: { slideSpeed } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
+        this.getImageToShow();
+
         if (slideSpeed !== prevSlideSpeed) {
             this.startCarousel(slideSpeed);
         }
-
-        this.getImageToShow();
     }
 
     componentWillUnmount() {
