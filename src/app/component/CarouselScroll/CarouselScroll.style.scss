@@ -27,7 +27,7 @@
         transition: border-color var(--animation-speed);
 
         &_isActive {
-            border-color: darkgrey;
+            border-color: var(--option-border-color);
         }
     }
 
