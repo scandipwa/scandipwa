@@ -92,7 +92,7 @@ export class MyAccountSignInContainer extends PureComponent {
         try {
             await signIn(fields);
             onSignIn();
-        } catch ({ 0: { message } }) {
+        } catch ([message]) {
             setLoadingState(false);
             showNotification('error', message);
         }
