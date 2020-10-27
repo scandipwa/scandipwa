@@ -14,7 +14,6 @@ import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
@@ -30,11 +29,7 @@ export class CheckoutShipping extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         selectedShippingMethod: shippingMethodType,
         onAddressSelect: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        isCreateUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -82,25 +77,6 @@ export class CheckoutShipping extends PureComponent {
             <CheckoutAddressBook
               onAddressSelect={ onAddressSelect }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-            />
-        );
-    }
-
-    renderGuestForm() {
-        const {
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange
-        } = this.props;
-
-        return (
-            <CheckoutGuestForm
-              isBilling={ false }
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
             />
         );
     }

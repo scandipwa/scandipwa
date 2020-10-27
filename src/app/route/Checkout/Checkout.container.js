@@ -204,6 +204,8 @@ export class CheckoutContainer extends PureComponent {
         if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ checkoutStep: SHIPPING_STEP });
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ isGuestEmailSaved: false });
         }
 
         if (email !== prevEmail && isEmailAvailable) {
@@ -378,7 +380,7 @@ export class CheckoutContainer extends PureComponent {
                     this.setState({ isGuestEmailSaved: true });
                 }
 
-                return true;
+                return data;
             },
             this._handleError
         );
@@ -470,6 +472,27 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async savePaymentInformation(paymentInformation) {
+        const { totals: { is_virtual } } = this.props;
+        const {
+            billing_address: {
+                firstname: billingFirstName,
+                lastname: billingLastName
+            }
+        } = paymentInformation;
+
+        /**
+         * If cart contains only virtual products then set firstname & lastname
+         * from billing step into shippingAddress for user creating.
+         */
+        if (is_virtual) {
+            this.setState({
+                shippingAddress: {
+                    firstname: billingFirstName,
+                    lastname: billingLastName
+                }
+            });
+        }
+
         this.setState({ isLoading: true });
 
         if (!isSignedIn()) {
