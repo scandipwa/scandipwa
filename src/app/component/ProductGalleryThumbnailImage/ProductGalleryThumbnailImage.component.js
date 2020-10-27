@@ -34,14 +34,7 @@ export class ProductGalleryThumbnailImage extends PureComponent {
             thumbnail: PropTypes.shape({
                 url: PropTypes.string
             })
-        }).isRequired,
-        index: PropTypes.number.isRequired,
-        onActiveImageChange: PropTypes.func.isRequired
-    };
-
-    onActiveImageChange = () => {
-        const { index, onActiveImageChange } = this.props;
-        onActiveImageChange(index);
+        }).isRequired
     };
 
     renderMedia() {
@@ -115,12 +108,11 @@ export class ProductGalleryThumbnailImage extends PureComponent {
 
     render() {
         return (
-            <button
+            <div
               block="ProductGalleryThumbnailImage"
-              onClick={ this.onActiveImageChange }
             >
                 { this.renderMedia() }
-            </button>
+            </div>
         );
     }
 }

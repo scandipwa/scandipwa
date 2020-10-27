@@ -16,14 +16,18 @@
 
 .Slider {
     --translateX: 0;
+    --translateY: 0;
     --animation-speed: 0;
     --slider-height: 0;
+    --slide-height: 0;
+    --slide-width: 0;
+    --height-transition-speed: 0;
 
     max-width: 100%;
     overflow: hidden;
     touch-action: pan-y;
 
-    transition: height 300ms;
+    transition: height var(--height-transition-speed);
 
     &-Wrapper {
         display: flex;
@@ -32,13 +36,17 @@
 
         will-change: transform;
         transition: transform var(--animation-speed);
-        transform: translate3d(var(--translateX), 0, 0);
+        transform: translate3d(var(--translateX), var(--translateY), 0);
 
         > * {
             flex-grow: 1;
             flex-shrink: 0;
             width: 100%;
             height: 100%;
+        }
+
+        &_isVertical {
+            flex-direction: column;
         }
     }
 

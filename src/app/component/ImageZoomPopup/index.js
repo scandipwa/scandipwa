@@ -9,15 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ProductGalleryThumbnailImage {
-    @include after-mobile {
-        display: block;
-        height: 100%;
-        width: 100%;
-        padding: 5px 0;
-    }
-
-    img {
-        background-color: $white;
-    }
-}
+export { default } from './ImageZoomPopup.container';
