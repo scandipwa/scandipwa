@@ -9,10 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
-    --product-review-list-border: var(--secondary-dark-color);
-}
-
 .ProductReviewList {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -25,36 +21,6 @@
         grid-gap: 1.4rem;
     }
 
-    &-Item {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0;
-        padding: 0 0 1.2rem;
-        border-bottom: 1px solid var(--product-review-list-border);
-
-        @include mobile {
-            padding: 0 0 1.4rem;
-        }
-
-        @include after-mobile {
-            padding: 1.8rem 2.4rem;
-            border: 1px solid var(--product-review-list-border);
-        }
-
-        &:last-child {
-            margin-bottom: 0;
-
-            @include mobile {
-                padding-bottom: 0;
-                border-bottom: 0;
-            }
-        }
-
-        &::before {
-            content: none;
-        }
-    }
-
     &-Title {
         text-align: center;
         font-weight: 700;
@@ -64,97 +30,6 @@
         @include mobile {
             font-size: 2.8rem;
             margin-top: 4.2rem;
-        }
-    }
-
-    &-ReviewTitle {
-        width: 100%;
-        margin-bottom: 1.2rem;
-
-        @include mobile {
-            margin-bottom: 1.4rem;
-        }
-    }
-
-    &-RatingSummary {
-        line-height: 1;
-
-        @include desktop {
-            min-width: 180px;
-        }
-
-        @include mobile {
-            margin-bottom: 1.4rem;
-            width: 100%;
-        }
-    }
-
-    &-RatingSummaryItem {
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: .6rem;
-
-        @include mobile {
-            margin-bottom: .7rem;
-        }
-
-        &:last-of-type {
-            margin-bottom: 0;
-        }
-
-        .ProductReviewRating {
-            margin: 0 0 .24rem 1.2rem;
-
-            @include mobile {
-                margin: 0 0 .28rem 1.4rem;
-            }
-        }
-    }
-
-    &-ReviewContent {
-        flex: 1 0 0;
-        margin-left: 4.8rem;
-
-        @include mobile {
-            flex: 0 0 auto;
-            margin-left: 0;
-            width: 100%;
-        }
-
-        .TextPlaceholder {
-            display: block;
-        }
-    }
-
-    &-ReviewAuthor {
-        margin-top: .6rem;
-        font-size: .96rem;
-
-        @include mobile {
-            margin-top: .7rem;
-            font-size: 1.12rem;
-        }
-    }
-
-    &-ReviewDetails {
-        margin-bottom: 0;
-
-        @include mobile {
-            margin-bottom: 1.4rem;
-        }
-
-        .TextPlaceholder {
-            margin-top: .6rem;
-            line-height: 1.1;
-
-            @include mobile {
-                margin-top: .7rem;
-            }
-
-            &::after {
-                display: block;
-            }
         }
     }
 }
