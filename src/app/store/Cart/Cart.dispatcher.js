@@ -167,8 +167,8 @@ export class CartDispatcher {
                 ));
 
                 return this._updateCartData(cartData, dispatch);
-            } catch (e) {
-                dispatch(showNotification('error', e.message));
+            } catch ([message]) {
+                dispatch(showNotification('error', message));
                 return Promise.reject();
             }
         }
