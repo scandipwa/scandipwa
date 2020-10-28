@@ -21,16 +21,18 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         const { currency_code } = this.props;
         const { value_string } = option;
         const [from, to] = value_string.split('_');
+        const priceFrom = formatPrice(from, currency_code);
+        const priceTo = formatPrice(to, currency_code);
 
         if (from === '*') {
-            return __('Up to %s', formatPrice(to, currency_code));
+            return __('Up to %s', priceTo);
         }
 
         if (to === '*') {
-            return __('From %s', formatPrice(from, currency_code));
+            return __('From %s', priceFrom);
         }
 
-        return __('From %s, to %s', formatPrice(from, currency_code), formatPrice(to, currency_code));
+        return __('From %s, to %s', priceFrom, priceTo);
     }
 
     renderPriceSwatch(option) {
