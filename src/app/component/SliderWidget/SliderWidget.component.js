@@ -56,8 +56,6 @@ export class SliderWidget extends PureComponent {
         const { slider: { slideSpeed, slides } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
-        this.getImageToShow();
-
         if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
             this.startCarousel(slideSpeed);
         }
@@ -73,6 +71,8 @@ export class SliderWidget extends PureComponent {
 
     startCarousel = (interval) => {
         this.carouselInterval = setInterval(() => {
+            this.getImageToShow();
+
             const { imageToShow } = this.state;
 
             this.onActiveImageChange(imageToShow);
@@ -82,10 +82,6 @@ export class SliderWidget extends PureComponent {
     getImageToShow() {
         const { activeImage, carouselDirection } = this.state;
         const { slider: { slides } } = this.props;
-
-        if (slides.length === 1) {
-            return;
-        }
 
         if (activeImage === 0) {
             this.setState({
