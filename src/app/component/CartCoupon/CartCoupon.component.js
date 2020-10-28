@@ -23,11 +23,15 @@ export class CartCoupon extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         couponCode: PropTypes.string,
         handleApplyCouponToCart: PropTypes.func.isRequired,
-        handleRemoveCouponFromCart: PropTypes.func.isRequired
+        handleRemoveCouponFromCart: PropTypes.func.isRequired,
+        mix: PropTypes.object,
+        title: PropTypes.string
     };
 
     static defaultProps = {
-        couponCode: ''
+        couponCode: '',
+        mix: {},
+        title: ''
     };
 
     state = {
@@ -121,12 +125,27 @@ export class CartCoupon extends PureComponent {
         );
     }
 
-    render() {
-        const { isLoading, couponCode } = this.props;
+    renderTitle() {
+        const { title } = this.props;
+
+        if (!title) {
+            return null;
+        }
 
         return (
-            <form block="CartCoupon" onSubmit={ this.handleFormSubmit }>
+            <h3 block="CartCoupon" elem="Title">
+                { title }
+            </h3>
+        );
+    }
+
+    render() {
+        const { isLoading, couponCode, mix } = this.props;
+
+        return (
+            <form block="CartCoupon" onSubmit={ this.handleFormSubmit } mix={ mix }>
                 <Loader isLoading={ isLoading } />
+                { this.renderTitle() }
                 { (couponCode
                     ? this.renderRemoveCoupon()
                     : this.renderApplyCoupon()

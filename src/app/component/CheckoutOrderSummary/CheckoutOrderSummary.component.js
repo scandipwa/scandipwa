@@ -12,7 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
+import ExpandableContent from 'Component/ExpandableContent';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
@@ -26,11 +28,17 @@ import './CheckoutOrderSummary.style';
 export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
-        checkoutStep: PropTypes.string.isRequired
+        checkoutStep: PropTypes.string.isRequired,
+        couponCode: PropTypes.string,
+        renderCmsBlock: PropTypes.func,
+        isExpandable: PropTypes.bool
     };
 
     static defaultProps = {
-        totals: {}
+        totals: {},
+        couponCode: '',
+        renderCmsBlock: () => {},
+        isExpandable: false
     };
 
     renderPriceLine(price, name, mods) {
@@ -154,12 +162,65 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    render() {
+    renderCoupon() {
+        const { couponCode } = this.props;
+
         return (
-            <article block="CheckoutOrderSummary" aria-label="Order Summary">
+            <CartCoupon
+              couponCode={ couponCode }
+              mix={ { block: 'CheckoutOrderSummary', elem: 'Coupon' } }
+              title={ __('Have a discount code?') }
+            />
+        );
+    }
+
+    renderCmsBlock() {
+        const { renderCmsBlock } = this.props;
+
+        return (
+            <div
+              block="CheckoutOrderSummary"
+              elem="CmsBlock"
+            >
+                { renderCmsBlock() }
+            </div>
+        );
+    }
+
+    renderExpandableContent() {
+        return (
+            <ExpandableContent
+              heading={ __('Order summary') }
+              mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContent' } }
+            >
+                { this.renderItems() }
+                { this.renderCmsBlock() }
+                { this.renderCoupon() }
+                { this.renderTotals() }
+            </ExpandableContent>
+        );
+    }
+
+    renderContent() {
+        const { isExpandable } = this.props;
+
+        if (isExpandable) {
+            return this.renderExpandableContent();
+        }
+
+        return (
+            <>
                 { this.renderHeading() }
                 { this.renderItems() }
                 { this.renderTotals() }
+            </>
+        );
+    }
+
+    render() {
+        return (
+            <article block="CheckoutOrderSummary" aria-label="Order Summary">
+                { this.renderContent() }
             </article>
         );
     }
