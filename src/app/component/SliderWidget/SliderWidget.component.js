@@ -53,12 +53,12 @@ export class SliderWidget extends PureComponent {
     };
 
     componentDidUpdate(prevProps) {
-        const { slider: { slideSpeed } } = this.props;
+        const { slider: { slideSpeed, slides } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
         this.getImageToShow();
 
-        if (slideSpeed !== prevSlideSpeed) {
+        if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
             this.startCarousel(slideSpeed);
         }
     }
@@ -83,12 +83,20 @@ export class SliderWidget extends PureComponent {
         const { activeImage, carouselDirection } = this.state;
         const { slider: { slides } } = this.props;
 
+        if (slides.length === 1) {
+            return;
+        }
+
         if (activeImage === 0) {
-            this.setState({ carouselDirection: 'right' });
-            this.setState({ imageToShow: slides.length - 1 !== 0 ? activeImage + 1 : activeImage });
+            this.setState({
+                carouselDirection: 'right',
+                imageToShow: activeImage + 1
+            });
         } else if (activeImage === slides.length - 1) {
-            this.setState({ carouselDirection: 'left' });
-            this.setState({ imageToShow: activeImage - 1 });
+            this.setState({
+                carouselDirection: 'left',
+                imageToShow: activeImage - 1
+            });
         } else {
             this.setState({ imageToShow: carouselDirection === 'right' ? activeImage + 1 : activeImage - 1 });
         }
