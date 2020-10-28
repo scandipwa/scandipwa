@@ -34,10 +34,13 @@ export class NavigationAbstract extends PureComponent {
     renderNavigationState() {
         const { navigationState: { name, hiddenElements = [] } } = this.props;
 
+        // Get current page/state render methods
         const source = this.stateMap[name]
             ? this.stateMap[name]
             : this.stateMap[this.defaultStateName];
 
+        // Return defined render methods for current page/state
+        // * Dont render methods which id's are passed inside hiddenElements
         return Object.entries(this.renderMap).map(
             ([key, renderFunction]) => renderFunction(source[key] && !hiddenElements.includes(key), key)
         );

@@ -211,7 +211,7 @@ export class MyAccountContainer extends PureComponent {
         const { changeHeaderState } = this.props;
         const { [MY_WISHLIST]: { headerTitle } } = this.tabMap;
 
-        const action = (isEdit = false) => {
+        const handleClick = (isEdit = false) => {
             this.setState({ isEditingActive: isEdit });
 
             const hiddenElements = [isEdit ? 'edit' : 'ok'];
@@ -222,8 +222,8 @@ export class MyAccountContainer extends PureComponent {
         changeHeaderState({
             title: headerTitle(),
             name: CUSTOMER_WISHLIST,
-            onEditClick: () => action(true),
-            onOkClick: () => action(),
+            onEditClick: () => handleClick(true),
+            onOkClick: () => handleClick(),
             hiddenElements,
             shouldNotGoToPrevState: true
         });

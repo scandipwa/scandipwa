@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+// Width of opeded right side
 export const DRAG_RIGHT_OPEN_TRESHHOLD = 80;
+// Threshhold after we open right side
 export const DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD = DRAG_RIGHT_OPEN_TRESHHOLD / 2;
 
 export const ANIMATION_DURATION = 300;

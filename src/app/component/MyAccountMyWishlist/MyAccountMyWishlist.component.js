@@ -17,6 +17,7 @@ import ProductCard from 'Component/ProductCard';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
 import { ProductType } from 'Type/ProductList';
+import CSS from 'Util/CSS';
 
 import './MyAccountMyWishlist.style';
 
@@ -37,35 +38,43 @@ export class MyAccountMyWishlist extends PureComponent {
     };
 
     state = {
-        selectedIdMap: [],
-        actionLineHeight: 0
+        selectedIdMap: []
     };
 
     actionLineMobileRef = createRef();
+
+    productsRef = createRef();
 
     componentDidMount() {
         this.setActionLineHeight();
     }
 
     componentDidUpdate(prevProps) {
-        const { isEditingActive: prevIsEditingActive } = prevProps;
-        const { isEditingActive } = this.props;
+        const { isEditingActive: prevIsEditingActive, isMobile: prevIsMobile } = prevProps;
+        const { isEditingActive, isMobile } = this.props;
         const { actionLineHeight: prevActionLineHeight } = this.state;
         const { actionLineHeight } = this.state;
 
-        if (prevIsEditingActive !== isEditingActive && prevActionLineHeight === actionLineHeight) {
+        if ((prevIsEditingActive !== isEditingActive && prevActionLineHeight === actionLineHeight)
+            || isMobile !== prevIsMobile
+        ) {
             this.setActionLineHeight();
         }
     }
 
     setActionLineHeight() {
+        const { isMobile } = this.props;
         const { current } = this.actionLineMobileRef;
 
         if (!current) {
             return;
         }
 
-        this.setState({ actionLineHeight: current.clientHeight });
+        CSS.setVariable(
+            this.productsRef,
+            'myaccount-wihslist-products-margin-bottom',
+            isMobile ? `${ current.clientHeight }px` : 0
+        );
     }
 
     handleSelectIdChange = (id) => {
@@ -83,12 +92,13 @@ export class MyAccountMyWishlist extends PureComponent {
     };
 
     handleRemoveButtonClick = () => {
+        // Removes selected items from wishlist
+
         const { removeSelectedFromWishlist } = this.props;
         const { selectedIdMap } = this.state;
 
         removeSelectedFromWishlist(selectedIdMap);
 
-        // Clear selected item map
         this.setState({ selectedIdMap: [] });
     };
 
@@ -262,19 +272,15 @@ export class MyAccountMyWishlist extends PureComponent {
         const {
             isWishlistLoading,
             isWishlistEmpty,
-            isLoading,
-            isMobile
+            isLoading
         } = this.props;
-        const { actionLineHeight } = this.state;
 
         if (isWishlistEmpty && !isWishlistLoading) {
             return this.renderNoProductsFound();
         }
 
-        const blockStyles = isMobile ? { marginBottom: actionLineHeight } : {};
-
         return (
-            <div block="MyAccountMyWishlist" elem="Products" style={ blockStyles }>
+            <div block="MyAccountMyWishlist" elem="Products" ref={ this.productsRef }>
                 <Loader isLoading={ isLoading } />
                 { this.renderProducts() }
             </div>

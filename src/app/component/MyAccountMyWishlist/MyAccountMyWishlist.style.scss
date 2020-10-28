@@ -14,6 +14,8 @@
 }
 
 .MyAccountMyWishlist {
+    --myaccount-wihslist-products-margin-bottom: 0;
+
     &-Products {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -37,6 +39,10 @@
 
         @include after-mobile {
             grid-column: 2;
+        }
+
+        @include before-desktop {
+            margin-bottom: var(--myaccount-wihslist-products-margin-bottom);
         }
     }
 

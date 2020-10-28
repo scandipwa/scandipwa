@@ -37,7 +37,9 @@ export class SwipeToDelete extends PureComponent {
     };
 
     static defaultProps = {
+        // Threshhold after we open right side
         dragRightOpenTriggerThreshold: DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD,
+        // Width of opeded right side
         dragRightOpenThreshold: DRAG_RIGHT_OPEN_TRESHHOLD,
         animationDuration: ANIMATION_DURATION,
         renderRightSideContent: () => {},
@@ -52,7 +54,14 @@ export class SwipeToDelete extends PureComponent {
     draggableRef = createRef();
 
     componentDidMount() {
+        // Sets default style
         this.setTranlateXStyle(0);
+        this.setRightSideContentWidth();
+    }
+
+    setRightSideContentWidth() {
+        const { dragRightOpenThreshold } = this.props;
+        CSS.setVariable(this.draggableRef, 'right-side-content-width', `${ dragRightOpenThreshold }px`);
     }
 
     setTranlateXStyle(translate) {
@@ -70,38 +79,45 @@ export class SwipeToDelete extends PureComponent {
     }
 
     handleDragStart = () => {
+        // Remove animation when drag starts
         this.setAnimationSpeedStyle(0);
     };
 
-    handleDrag = (s) => {
+    handleDrag = ({ translateX }) => {
         const { dragRightOpenThreshold } = this.props;
         const { isRightSideOpen } = this.state;
-        const { translateX } = s;
 
-        // When draging to left from starting point
+        // When draging to left from current start point, going negative translateX
         if (translateX <= 0) {
-            this.setTranlateXStyle(isRightSideOpen ? translateX - dragRightOpenThreshold : translateX);
+            const translate = isRightSideOpen
+                // Add (remove to have minus value) opened content width, to have full -translateX value
+                ? translateX - dragRightOpenThreshold
+                : translateX;
+
+            this.setTranlateXStyle(translate);
 
             return;
         }
 
-        // When draging to right from starting point
+        // When draging to right from current start point, going positive translateX
         if (translateX > 0) {
+            // When translate goes out of screen
             if (!isRightSideOpen || (isRightSideOpen && translateX - dragRightOpenThreshold > 0)) {
                 this.setTranlateXStyle(0);
 
                 return;
             }
 
+            // When content is openeded and draging to right side
             if (translateX - dragRightOpenThreshold < 0 && isRightSideOpen) {
+                // Add (remove to have minus value) opened content width, to have full -translateX value
                 this.setTranlateXStyle(translateX - dragRightOpenThreshold);
             }
         }
     };
 
-    handleDragEnd = (s) => {
+    handleDragEnd = ({ translateX }) => {
         const { dragRightOpenThreshold, dragRightOpenTriggerThreshold } = this.props;
-        const { translateX } = s;
 
         this.setAnimationSpeedStyle();
         const shouldOpen = translateX > -dragRightOpenTriggerThreshold;
@@ -117,8 +133,7 @@ export class SwipeToDelete extends PureComponent {
     };
 
     renderRightSideContent() {
-        const { dragRightOpenThreshold, renderRightSideContent, rightSideMix } = this.props;
-        const style = { width: dragRightOpenThreshold };
+        const { renderRightSideContent, rightSideMix } = this.props;
 
         return (
             <div
@@ -128,7 +143,6 @@ export class SwipeToDelete extends PureComponent {
                 <div
                   block="SwipeToDelete"
                   elem="RightSideContent"
-                  style={ style }
                   mix={ rightSideMix }
                 >
                     { renderRightSideContent() }

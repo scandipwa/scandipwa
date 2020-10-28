@@ -14,6 +14,8 @@
 }
 
 .SwipeToDelete {
+    --right-side-content-width: 0;
+
     transform: translateX(var(--translateX));
     transition: transform var(--animation-speed) ease-out;
 
@@ -34,5 +36,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        width: var(--right-side-content-width);
     }
 }
