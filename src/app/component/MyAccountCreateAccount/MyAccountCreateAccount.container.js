@@ -25,7 +25,9 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = (state) => ({
+    isLoading: state.MyAccountReducer.isLoading
+});
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -42,7 +44,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         onSignIn: PropTypes.func.isRequired,
         setSignInState: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -65,7 +68,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             createAccount,
             onSignIn,
             setSignInState,
-            setLoadingState
+            setLoadingState,
+            isLoading
         } = this.props;
 
         const {
@@ -85,6 +89,10 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             },
             password
         };
+
+        if (isLoading) {
+            return;
+        }
 
         try {
             const code = createAccount(customerData);

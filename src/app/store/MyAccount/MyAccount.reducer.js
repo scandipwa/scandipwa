@@ -15,6 +15,7 @@ import {
 
 import {
     UPDATE_CUSTOMER_DETAILS,
+    UPDATE_CUSTOMER_IS_LOADING,
     UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     UPDATE_CUSTOMER_SIGN_IN_STATUS
@@ -25,6 +26,7 @@ export const getInitialState = () => ({
     isSignedIn: isInitiallySignedIn(),
     passwordResetStatus: false,
     isPasswordForgotSend: false,
+    isLoading: false,
     customer: {}
 });
 
@@ -58,6 +60,13 @@ export const MyAccountReducer = (
         return {
             ...state,
             customer
+        };
+    case UPDATE_CUSTOMER_IS_LOADING:
+        const { isLoading } = action;
+
+        return {
+            ...state,
+            isLoading
         };
 
     default:
