@@ -203,9 +203,10 @@ export class CheckoutContainer extends PureComponent {
         // Handle going back from billing to shipping
         if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
             // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ checkoutStep: SHIPPING_STEP });
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ isGuestEmailSaved: false });
+            this.setState({
+                checkoutStep: SHIPPING_STEP,
+                isGuestEmailSaved: false
+            });
         }
 
         if (email !== prevEmail && isEmailAvailable) {
