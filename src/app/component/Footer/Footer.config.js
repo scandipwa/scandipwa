@@ -17,9 +17,6 @@ export const COLUMN_MAP = [
             {
                 href: '/about-us',
                 title: 'About Us'
-            },
-            {
-                title: 'Contact Us'
             }
         ]
     },
@@ -27,15 +24,15 @@ export const COLUMN_MAP = [
         title: 'Additional info',
         items: [
             {
-                href: '/',
+                href: '/privacy-policy-cookie-restriction-mode',
                 title: 'Privacy Policy'
             },
             {
-                href: '/',
+                href: '/terms-and-conditions',
                 title: 'Terms of use'
             },
             {
-                href: '/',
+                href: '/privacy-policy-cookie-restriction-mode',
                 title: 'Use of Cookies'
             }
         ]
@@ -44,30 +41,33 @@ export const COLUMN_MAP = [
         title: 'Popular categories',
         items: [
             {
-                href: '/',
+                href: '/women',
                 title: 'Women'
             },
             {
-                href: '/',
+                href: '/men',
                 title: 'Men'
             },
             {
-                href: '/',
+                href: '/accessories',
                 title: 'Accessories'
             }
         ]
     },
     {
-        title: 'Follow long',
+        title: 'Follow',
         isItemsHorizontal: true,
         items: [
             {
+                href: 'https://www.linkedin.com/company/scandipwa',
                 src: 'assets/images/linkedin.png'
             },
             {
+                href: 'https://www.facebook.com/ScandiPWA/',
                 src: 'assets/images/facebook.png'
             },
             {
+                href: 'https://twitter.com/scandipwa',
                 src: 'assets/images/twitter.png'
             }
         ]
