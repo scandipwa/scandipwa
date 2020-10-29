@@ -24,8 +24,7 @@
         width: 100%;
         scroll-snap-align: start;
         border: solid 1px transparent;
-        transition: border-color var(--animation-speed);
-        transition: filter var(--animation-speed);
+        transition: border-color var(--animation-speed), filter var(--animation-speed);
         filter: opacity(.5);
 
         &_isActive {
