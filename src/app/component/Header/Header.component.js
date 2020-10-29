@@ -99,7 +99,7 @@ export class Header extends NavigationAbstract {
         isLoading: true
     };
 
-    logRef = createRef();
+    logoRef = createRef();
 
     stateMap = {
         [DEFAULT_STATE_NAME]: {
@@ -283,8 +283,8 @@ export class Header extends NavigationAbstract {
             logo_height
         } = this.props;
 
-        CSS.setVariable(this.logRef, 'header-logo-height', `${logo_height}px`);
-        CSS.setVariable(this.logRef, 'header-logo-width', `${logo_width}px`);
+        CSS.setVariable(this.logoRef, 'header-logo-height', `${logo_height}px`);
+        CSS.setVariable(this.logoRef, 'header-logo-width', `${logo_width}px`);
 
         return (
             <Logo
@@ -632,7 +632,7 @@ export class Header extends NavigationAbstract {
                   block="Header"
                   mods={ { name, isHiddenOnMobile, isCheckout } }
                   mix={ { block: 'FixedElement', elem: 'Top' } }
-                  ref={ this.logRef }
+                  ref={ this.logoRef }
                 >
                     { this.renderTopMenu() }
                     <nav block="Header" elem="Nav">
