@@ -56,6 +56,9 @@
 }
 
 .Header {
+    --header-logo-width: 200px;
+    --header-logo-height: calc(var(--header-height) - 30px);
+
     position: fixed;
     top: var(--demo-notice-height);
     left: 0;
@@ -445,6 +448,10 @@
             @include desktop {
                 @include logo-visible;
             }
+        }
+
+        .Image-Image {
+            object-fit: fill;
         }
     }
 

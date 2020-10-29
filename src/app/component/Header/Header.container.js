@@ -43,6 +43,8 @@ export const mapStateToProps = (state) => ({
     header_logo_src: state.ConfigReducer.header_logo_src,
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
+    logo_width: state.ConfigReducer.logo_width,
+    logo_height: state.ConfigReducer.logo_height,
     isLoading: state.ConfigReducer.isLoading,
     device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay
@@ -116,6 +118,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             cartTotals,
             header_logo_src,
             logo_alt,
+            logo_width,
+            logo_height,
             isLoading,
             device
         } = this.props;
@@ -140,6 +144,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             cartTotals,
             header_logo_src,
             logo_alt,
+            logo_width,
+            logo_height,
             isLoading,
             isClearEnabled,
             searchCriteria,
