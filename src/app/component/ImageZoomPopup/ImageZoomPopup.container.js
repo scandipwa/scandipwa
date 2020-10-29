@@ -58,20 +58,14 @@ export class ImageZoomPopupContainer extends PureComponent {
         }
     }
 
-    handleClose = () => {
-        const { onClose, hideActiveOverlay } = this.props;
-
-        onClose();
-        hideActiveOverlay();
-    };
-
     render() {
         const {
             isActive,
             children,
             mix,
             popupId,
-            isMobile
+            isMobile,
+            onClose
         } = this.props;
 
         if (!isActive || isMobile) {
@@ -84,7 +78,7 @@ export class ImageZoomPopupContainer extends PureComponent {
               clickOutside={ false }
               mix={ { block: 'ImageZoomPopup', mix } }
               contentMix={ { block: 'ImageZoomPopup', elem: 'PopupContent' } }
-              onClose={ this.handleClose }
+              onClose={ onClose }
             >
                 <ImageZoomPopup
                   { ...this.props }
