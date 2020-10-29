@@ -92,8 +92,8 @@ export class Header extends NavigationAbstract {
 
     static defaultProps = {
         logo_alt: 'ScandiPWA logo',
-        logo_width: 200,
         logo_height: 25,
+        logo_width: 200,
         showMyAccountLogin: false,
         header_logo_src: '',
         isLoading: true
@@ -279,8 +279,8 @@ export class Header extends NavigationAbstract {
         const {
             header_logo_src,
             logo_alt,
-            logo_width,
-            logo_height
+            logo_height,
+            logo_width
         } = this.props;
 
         CSS.setVariable(this.logoRef, 'header-logo-height', `${logo_height}px`);
