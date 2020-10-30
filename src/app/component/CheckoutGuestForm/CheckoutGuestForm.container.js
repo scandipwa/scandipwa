@@ -49,6 +49,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CheckoutGuestFormContainer extends PureComponent {
     static propTypes = {
         isCreateUser: PropTypes.bool.isRequired,
+        isGuestEmailSaved: PropTypes.bool,
         isSignedIn: PropTypes.bool.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
         onEmailChange: PropTypes.func.isRequired,
@@ -63,6 +64,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
     static defaultProps = {
         emailValue: '',
+        isGuestEmailSaved: false,
         onSignIn: () => {}
     };
 
@@ -137,8 +139,8 @@ export class CheckoutGuestFormContainer extends PureComponent {
     }
 
     render() {
-        const { isSignedIn } = this.props;
-        if (isSignedIn) {
+        const { isSignedIn, isGuestEmailSaved } = this.props;
+        if (isSignedIn || isGuestEmailSaved) {
             return null;
         }
 
