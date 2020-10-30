@@ -57,7 +57,8 @@ export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
     countries: state.ConfigReducer.countries,
-    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */

@@ -19,7 +19,7 @@
     }
 
     @include before-desktop {
-        padding-bottom: calc(var(--navigation-tabs-height) + 100px);
+        padding-bottom: calc(var(--navigation-tabs-height) + 113px);
     }
 
     &::before {
@@ -44,6 +44,7 @@
         }
 
         @include mobile {
+            background-color: var(--secondary-base-color);
             padding: 1.4rem 1.4rem calc(env(safe-area-inset-bottom) + 1.4rem);
         }
 
@@ -54,12 +55,7 @@
         }
     }
 
-    &-Step {
-        max-width: 470px;
-    }
-
     &-Wrapper {
-        padding-top: 1px;
         max-width: var(--checkout-max-width);
 
         @include after-mobile {
@@ -92,9 +88,22 @@
         }
     }
 
-    .Checkout-Discount {
+    &-Coupon {
         @include desktop {
             margin-top: 30px;
+        }
+    }
+
+    &-OrderTotal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        padding-bottom: 1.4rem;
+
+        @include after-mobile {
+            display: none;
         }
     }
 

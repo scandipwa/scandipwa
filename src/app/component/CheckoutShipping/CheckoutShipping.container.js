@@ -23,7 +23,8 @@ import CheckoutShipping from './CheckoutShipping.component';
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
-    addressLinesQty: state.ConfigReducer.address_lines_quantity
+    addressLinesQty: state.ConfigReducer.address_lines_quantity,
+    totals: state.CartReducer.cartTotals
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
