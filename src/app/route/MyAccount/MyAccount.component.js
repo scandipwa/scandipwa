@@ -40,7 +40,8 @@ export class MyAccount extends PureComponent {
         changeActiveTab: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         onSignOut: PropTypes.func.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        isEditingActive: PropTypes.bool.isRequired
     };
 
     renderMap = {
@@ -67,7 +68,8 @@ export class MyAccount extends PureComponent {
             tabMap,
             changeActiveTab,
             isSignedIn,
-            onSignOut
+            onSignOut,
+            isEditingActive
         } = this.props;
 
         if (!isSignedIn) {
@@ -90,7 +92,7 @@ export class MyAccount extends PureComponent {
                 />
                 <div block="MyAccount" elem="TabContent">
                     <h1 block="MyAccount" elem="Heading">{ name }</h1>
-                    <TabContent />
+                    <TabContent isEditingActive={ isEditingActive } />
                 </div>
             </ContentWrapper>
         );

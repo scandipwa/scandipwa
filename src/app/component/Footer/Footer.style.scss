@@ -10,49 +10,127 @@
  */
 
 :root {
-    --footer-height: 70px;
+    --footer-height: calc(var(--footer-content-height) + var(--footer-copyright-height));
+    --footer-content-height: 320px;
+    --footer-copyright-height: 50px;
 }
 
 .Footer {
-    min-height: var(--footer-height);
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    $column-count: 4;
 
     @include mobile {
-        margin-bottom: calc(var(--navigation-tabs-height) + 1.4rem);
+        margin-bottom: var(--navigation-tabs-height);
     }
 
-    &-Link,
+    &-CopyrightContentWrapper {
+        background-color: var(--secondary-dark-color);
+    }
+
+    &-CopyrightContent {
+        padding: 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: var(--footer-copyright-height);
+
+        @include after-mobile {
+            padding: 15px 0;
+        }
+    }
+
     &-Copyright {
-        font-size: 1.1rem;
-        font-weight: 300;
-        color: inherit;
+        font-size: 1.5rem;
+        text-align: center;
 
+        a {
+            color: inherit;
+        }
+    }
+
+    &-Content {
+        min-height: var(--footer-content-height);
+        background-color: var(--secondary-base-color);
+    }
+
+    &-Columns {
+        display: flex;
+        height: 100%;
+        padding: 25px 40px;
+        justify-content: space-between;
+
+        @include mobile {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        @include after-mobile {
+            padding: 60px 70px;
+        }
+
+        @include tablet {
+            padding: {
+                left: 30px;
+                right: 30px;
+            };
+        }
+    }
+
+    &-Column {
         &:not(:last-of-type) {
-            &::after {
-                content: '|';
-                margin-left: 1.2rem;
+            @include mobile {
+                margin-bottom: 30px;
+            }
 
-                @include mobile {
-                    margin-left: 1.4rem;
-                }
+            @include after-mobile {
+                padding-right: 20px;
+                max-width: calc(100% / #{ $column-count - 1 });
             }
         }
     }
 
-    &-Copyright {
-        display: block;
-        margin-top: 1.2rem;
+    &-ColumnTitle {
+        text-transform: uppercase;
+        margin: 0 0 15px;
+        font-size: 2rem;
 
-        @include mobile {
-            margin-top: 1.4rem;
+        @include after-mobile {
+            margin: 0 0 20px;
+        }
+    }
+
+    &-ColumnContent {
+        display: flex;
+        flex-direction: column;
+
+        &_direction_horizontal {
+            flex-direction: row;
+
+            @include mobile {
+                justify-content: center;
+            }
         }
 
-        a {
-            color: inherit;
+        a + a {
+            margin-left: 0;
+        }
+    }
+
+    &-ColumnItem {
+        color: inherit;
+        margin-bottom: 12px;
+        font-size: 1.6rem;
+
+        &:last-of-type {
+            margin: 0;
+        }
+
+        &_type_image {
+            width: 25px;
+
+            &:not(:last-of-type) {
+                margin-right: 20px;
+            }
         }
     }
 }

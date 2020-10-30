@@ -64,27 +64,35 @@ textarea {
 
     ~ button {
         position: absolute;
-        left: calc(var(--input-type-number-width) - 1.8rem);
+        right: 0;
         padding: 0;
         margin: 0;
-        height: 50%;
         width: 1.8rem;
         font-size: 1.8rem;
         line-height: 0;
 
         @include mobile {
-            left: calc(var(--input-type-number-width) - 2.1rem);
             width: 2.1rem;
             font-size: 2.1rem;
+        }
+
+        &:first-of-type {
+            @include plus-icon;
+        }
+
+        &:last-of-type {
+            @include minus-icon;
+            bottom: 0;
+        }
+
+        &:first-of-type,
+        &:last-of-type {
+            height: 50%;
         }
 
         &:disabled {
             opacity: .2;
             cursor: not-allowed;
-        }
-
-        &:last-child {
-            bottom: 0;
         }
     }
 }

@@ -85,6 +85,62 @@
         height: 100%;
     }
 
+    &_style {
+        &_inline {
+            $size-mobile: 20px;
+            $size: 28px;
+            $border-color: #000;
+            $input-width-mobile: 35px;
+            $input-width: 35px;
+
+            &.Field {
+                display: flex;
+                margin: 0;
+
+                button {
+                    position: relative;
+                    width: $size-mobile;
+                    height: $size-mobile;
+                    border: solid 1px $border-color;
+
+                    @include after-mobile {
+                        width: $size;
+                        height: $size;
+                    }
+
+                    &:last-of-type {
+                        order: -1;
+                    }
+                }
+            }
+
+            input {
+                height: $size-mobile;
+                min-height: $size-mobile;
+                width: $input-width-mobile;
+                min-width: $input-width-mobile;
+                border: none;
+                padding: 0;
+                text-align: center;
+
+                @include mobile {
+                    font-size: 1.4rem;
+                }
+
+                @include after-mobile {
+                    height: $size;
+                    min-height: $size;
+                    width: $input-width;
+                    min-width: $input-width;
+                }
+
+                &:focus {
+                    border: none;
+                }
+            }
+        }
+    }
+
     &_type {
         &_checkbox,
         &_radio {

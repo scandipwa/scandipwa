@@ -448,7 +448,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     onOkButtonClick(e) {
         const {
-            navigationState: { onOkClick },
+            navigationState: { onOkClick, shouldNotGoToPrevState = false },
             goToPreviousNavigationState
         } = this.props;
 
@@ -456,7 +456,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             onOkClick(e);
         }
 
-        goToPreviousNavigationState();
+        if (!shouldNotGoToPrevState) {
+            goToPreviousNavigationState();
+        }
     }
 
     onCancelButtonClick() {

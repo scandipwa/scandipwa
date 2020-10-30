@@ -28,7 +28,8 @@ export const WishlistDispatcher = import(
 /** @namespace Component/MyAccountMyWishlist/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
-    isWishlistLoading: state.WishlistReducer.isLoading
+    isWishlistLoading: state.WishlistReducer.isLoading,
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container/mapDispatchToProps */
@@ -40,7 +41,10 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch)
     ),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
-    showNotification: (message) => dispatch(showNotification('success', message))
+    showNotification: (message) => dispatch(showNotification('success', message)),
+    removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options)
+    )
 });
 
 /** @namespace Component/MyAccountMyWishlist/Container */
@@ -50,7 +54,9 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         clearWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         moveWishlistToCart: PropTypes.func.isRequired,
-        wishlistItems: PropTypes.objectOf(ProductType).isRequired
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        isWishlistLoading: PropTypes.bool.isRequired,
+        removeSelectedFromWishlist: PropTypes.func.isRequired
     };
 
     state = {
@@ -59,17 +65,22 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     containerProps = () => {
         const { isLoading } = this.state;
+        const { isWishlistLoading } = this.props;
+
+        const isWishlistEmpty = this._getIsWishlistEmpty();
 
         return {
-            isWishlistEmpty: this._getIsWishlistEmpty(),
-            isLoading
+            isWishlistEmpty,
+            isLoading,
+            isActionsDisabled: isWishlistLoading || isWishlistEmpty
         };
     };
 
     containerFunctions = () => ({
         removeAll: this.removeAll,
         addAllToCart: this.addAllToCart,
-        shareWishlist: this.shareWishlist
+        shareWishlist: this.shareWishlist,
+        removeSelectedFromWishlist: this.removeSelectedFromWishlist
     });
 
     addAllToCart = () => {
@@ -92,6 +103,12 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             /** @namespace Component/MyAccountMyWishlist/Container/clearWishlistThen */
             () => this.showNotificationAndRemoveLoading('Wishlist cleared')
         );
+    };
+
+    removeSelectedFromWishlist = (selectedIdMap) => {
+        const { removeSelectedFromWishlist } = this.props;
+
+        return removeSelectedFromWishlist(selectedIdMap);
     };
 
     shareWishlist = () => {

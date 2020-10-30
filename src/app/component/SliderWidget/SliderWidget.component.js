@@ -29,6 +29,7 @@ export class SliderWidget extends PureComponent {
     static propTypes = {
         slider: PropTypes.shape({
             title: PropTypes.string,
+            slideSpeed: PropTypes.number,
             slides: PropTypes.arrayOf(
                 PropTypes.shape({
                     desktop_image: PropTypes.string,
@@ -45,11 +46,57 @@ export class SliderWidget extends PureComponent {
         slider: [{}]
     };
 
-    state = { activeImage: 0 };
+    state = {
+        activeImage: 0,
+        carouselDirection: 'right',
+        imageToShow: 0
+    };
+
+    componentDidUpdate(prevProps) {
+        const { slider: { slideSpeed, slides } } = this.props;
+        const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
+
+        if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
+            this.startCarousel(slideSpeed);
+        }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.carouselInterval);
+    }
 
     onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
     };
+
+    startCarousel = (interval) => {
+        this.carouselInterval = setInterval(() => {
+            this.getImageToShow();
+
+            const { imageToShow } = this.state;
+
+            this.onActiveImageChange(imageToShow);
+        }, interval);
+    };
+
+    getImageToShow() {
+        const { activeImage, carouselDirection } = this.state;
+        const { slider: { slides } } = this.props;
+
+        if (activeImage === 0) {
+            this.setState({
+                carouselDirection: 'right',
+                imageToShow: activeImage + 1
+            });
+        } else if (activeImage === slides.length - 1) {
+            this.setState({
+                carouselDirection: 'left',
+                imageToShow: activeImage - 1
+            });
+        } else {
+            this.setState({ imageToShow: carouselDirection === 'right' ? activeImage + 1 : activeImage - 1 });
+        }
+    }
 
     getSlideImage(slide) {
         const {

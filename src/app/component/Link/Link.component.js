@@ -87,11 +87,15 @@ export class Link extends PureComponent {
             );
         }
 
+        const classNameConverted = `${ className } ${ stringify(bemProps)}`;
+
         if (/^https?:\/\//.test(to)) {
             return (
                 <a
                   { ...props }
                   href={ to }
+                  // eslint-disable-next-line react/forbid-dom-props
+                  className={ classNameConverted }
                 >
                     { children }
                 </a>
@@ -103,7 +107,7 @@ export class Link extends PureComponent {
               { ...props }
               to={ to }
               // eslint-disable-next-line react/forbid-component-props
-              className={ `${className } ${ stringify(bemProps)}` }
+              className={ classNameConverted }
             >
                 { children }
             </RouterLink>
