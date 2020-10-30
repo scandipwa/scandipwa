@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import CartCoupon from 'Component/CartCoupon';
 import CheckoutBilling from 'Component/CheckoutBilling';
+import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShipping from 'Component/CheckoutShipping';
 import CheckoutSuccess from 'Component/CheckoutSuccess';
@@ -64,6 +65,7 @@ export class Checkout extends PureComponent {
         isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
+        isGuestEmailSaved: PropTypes.bool.isRequired,
         goBack: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         isMobile: PropTypes.bool.isRequired
@@ -141,6 +143,29 @@ export class Checkout extends PureComponent {
             <h1 block="Checkout" elem="Title">
                 { title }
             </h1>
+        );
+    }
+
+    renderGuestForm() {
+        const {
+            checkoutStep,
+            isCreateUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved
+        } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
+
+        return (
+            <CheckoutGuestForm
+              isBilling={ isBilling }
+              isCreateUser={ isCreateUser }
+              onEmailChange={ onEmailChange }
+              onCreateUserChange={ onCreateUserChange }
+              onPasswordChange={ onPasswordChange }
+              isGuestEmailSaved={ isGuestEmailSaved }
+            />
         );
     }
 
@@ -304,6 +329,7 @@ export class Checkout extends PureComponent {
                     { this.renderSummary(true) }
                     <div block="Checkout" elem="Step">
                         { this.renderTitle() }
+                        { this.renderGuestForm() }
                         { this.renderStep() }
                         { this.renderLoader() }
                     </div>

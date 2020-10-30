@@ -18,13 +18,16 @@
     --header-desktop-button-color: var(--primary-base-color);
     --header-height: 50px;
     --header-nav-height: 50px;
-    --header-logo-width: 200px;
-    --header-logo-height: calc(var(--header-height) - 30px);
-    --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height));
+    --header-total-height:
+        calc(
+            var(--header-height)
+            + var(--offline-notice-height)
+            + var(--demo-notice-height)
+            + env(safe-area-inset-top)
+        );
 
     @include desktop {
         --header-dots-color: #000;
-        --header-logo-height: calc(var(--header-nav-height) - 35px);
     }
 
     @include after-mobile {
@@ -56,6 +59,9 @@
 }
 
 .Header {
+    --header-logo-width: 0;
+    --header-logo-height: 0;
+
     position: fixed;
     top: var(--demo-notice-height);
     left: 0;
@@ -445,6 +451,10 @@
             @include desktop {
                 @include logo-visible;
             }
+        }
+
+        .Image-Image {
+            object-fit: fill;
         }
     }
 
