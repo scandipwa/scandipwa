@@ -152,6 +152,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://gagglethread.com"><img src="https://avatars2.githubusercontent.com/u/56184739?v=4" width="100px;" alt=""/><br /><sub><b>santosh-gaggle</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=santosh-gaggle" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Asantosh-gaggle" title="Bug reports">🐛</a> <a href="#translation-santosh-gaggle" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/AleksandrsKondratjevs"><img src="https://avatars3.githubusercontent.com/u/68007919?v=4" width="100px;" alt=""/><br /><sub><b>AleksandrsKondratjevs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=AleksandrsKondratjevs" title="Code">💻</a></td>
   </tr>
 </table>
 
