@@ -2,7 +2,7 @@
 name: Bug report
 about: Found an issue with ScandiPWA?
 title: ''
-labels: 'Core, Type: bug, Waiting Estimate'
+labels: 'Core, Type: bug, Status: Waiting Estimate'
 ---
 
 **Description**:

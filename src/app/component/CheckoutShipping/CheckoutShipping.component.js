@@ -14,7 +14,6 @@ import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
@@ -30,11 +29,7 @@ export class CheckoutShipping extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         selectedShippingMethod: shippingMethodType,
         onAddressSelect: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        isCreateUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
-        onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -86,25 +81,6 @@ export class CheckoutShipping extends PureComponent {
         );
     }
 
-    renderGuestForm() {
-        const {
-            isCreateUser,
-            onEmailChange,
-            onCreateUserChange,
-            onPasswordChange
-        } = this.props;
-
-        return (
-            <CheckoutGuestForm
-              isBilling={ false }
-              isCreateUser={ isCreateUser }
-              onEmailChange={ onEmailChange }
-              onCreateUserChange={ onCreateUserChange }
-              onPasswordChange={ onPasswordChange }
-            />
-        );
-    }
-
     render() {
         const {
             onShippingSuccess,
@@ -113,22 +89,19 @@ export class CheckoutShipping extends PureComponent {
         } = this.props;
 
         return (
-            <>
-                { this.renderGuestForm() }
-                <Form
-                  id={ SHIPPING_STEP }
-                  mix={ { block: 'CheckoutShipping' } }
-                  onSubmitError={ onShippingError }
-                  onSubmitSuccess={ onShippingSuccess }
-                >
-                    { this.renderAddressBook() }
-                    <div>
-                        <Loader isLoading={ isLoading } />
-                        { this.renderDelivery() }
-                        { this.renderActions() }
-                    </div>
-                </Form>
-            </>
+            <Form
+              id={ SHIPPING_STEP }
+              mix={ { block: 'CheckoutShipping' } }
+              onSubmitError={ onShippingError }
+              onSubmitSuccess={ onShippingSuccess }
+            >
+                { this.renderAddressBook() }
+                <div>
+                    <Loader isLoading={ isLoading } />
+                    { this.renderDelivery() }
+                    { this.renderActions() }
+                </div>
+            </Form>
         );
     }
 }

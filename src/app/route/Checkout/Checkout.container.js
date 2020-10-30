@@ -161,6 +161,7 @@ export class CheckoutContainer extends PureComponent {
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
             email: '',
+            isGuestEmailSaved: false,
             isCreateUser: false
         };
 
@@ -202,7 +203,10 @@ export class CheckoutContainer extends PureComponent {
         // Handle going back from billing to shipping
         if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
             // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ checkoutStep: SHIPPING_STEP });
+            this.setState({
+                checkoutStep: SHIPPING_STEP,
+                isGuestEmailSaved: false
+            });
         }
 
         if (email !== prevEmail && isEmailAvailable) {
@@ -372,7 +376,13 @@ export class CheckoutContainer extends PureComponent {
         updateEmail(email);
         return fetchMutation(mutation).then(
             /** @namespace Route/Checkout/Container/saveGuestEmailFetchMutationThen */
-            ({ setGuestEmailOnCart: data }) => data,
+            ({ setGuestEmailOnCart: data }) => {
+                if (data) {
+                    this.setState({ isGuestEmailSaved: true });
+                }
+
+                return data;
+            },
             this._handleError
         );
     }
@@ -463,6 +473,27 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async savePaymentInformation(paymentInformation) {
+        const { totals: { is_virtual } } = this.props;
+        const {
+            billing_address: {
+                firstname: billingFirstName,
+                lastname: billingLastName
+            }
+        } = paymentInformation;
+
+        /**
+         * If cart contains only virtual products then set firstname & lastname
+         * from billing step into shippingAddress for user creating.
+         */
+        if (is_virtual) {
+            this.setState({
+                shippingAddress: {
+                    firstname: billingFirstName,
+                    lastname: billingLastName
+                }
+            });
+        }
+
         this.setState({ isLoading: true });
 
         if (!isSignedIn()) {

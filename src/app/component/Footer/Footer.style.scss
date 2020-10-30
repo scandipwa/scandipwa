@@ -22,7 +22,7 @@
     flex-direction: column;
 
     @include mobile {
-        margin-bottom: calc(var(--navigation-tabs-height) + 1.4rem);
+        margin-bottom: calc(var(--navigation-tabs-height));
     }
 
     &-Link,
