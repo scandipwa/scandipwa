@@ -14,6 +14,8 @@
 }
 
 .MyAccountMyWishlist {
+    --myaccount-wihslist-products-margin-bottom: 0;
+
     &-Products {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -32,10 +34,15 @@
             grid-column-gap: 2.8rem;
             grid-template-columns: 1fr;
             border: 0;
+            margin: 0 calc(-1 * var(--my-account-wrapper-padding-mobile));
         }
 
         @include after-mobile {
             grid-column: 2;
+        }
+
+        @include before-desktop {
+            margin-bottom: var(--myaccount-wihslist-products-margin-bottom);
         }
     }
 
@@ -51,18 +58,20 @@
         }
 
         @include mobile {
-            padding: 0 0 1.4rem;
+            background-color: var(--my-account-content-background);
+            bottom: var(--navigation-tabs-height);
             display: block;
+            left: 0;
+            padding: 1.4rem 1.4rem;
+            position: fixed;
+            width: 100%;
         }
+    }
 
-        button + button {
-            margin-left: 1.2rem;
-
-            @include mobile {
-                margin-top: 1.4rem;
-                margin-left: 0;
-            }
-        }
+    &-ActionBarActionWrapper {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
     }
 
     &-NoProductsButton {
@@ -79,20 +88,34 @@
         }
     }
 
-    &-Description {
-        margin-top: 0;
+    &-ClearRemoveItemsButton {
+        text-transform: uppercase;
+        color: initial;
 
-        input {
-            width: 100%;
+        &.Button {
+            width: auto;
         }
     }
 
-    .ProductCard {
-        padding: 1.2rem 0;
+    &-ClearWishlistButton {
+        $color: #ed3f3f;
 
-        @include mobile {
-            padding: 1.4rem 0;
-            border-top: 1px solid var(--wishlist-item-border-color);
+        text-transform: uppercase;
+        font-weight: bold;
+
+        @include after-mobile {
+            order: 1;
+            margin-left: 15px;
+        }
+
+        &,
+        &:not([disabled]):focus,
+        &:not([disabled]):hover {
+            color: $color;
+        }
+
+        &.Button {
+            width: auto;
         }
     }
 }

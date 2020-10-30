@@ -13,6 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import SwipeToDelete from 'Component/SwipeToDelete';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { debounce } from 'Util/Request';
@@ -29,6 +32,12 @@ export const WishlistDispatcher = import(
     'Store/Wishlist/Wishlist.dispatcher'
 );
 
+/** @namespace Component/WishlistItem/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = (state) => ({
+    isMobile: state.ConfigReducer.device.isMobile
+});
+
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
@@ -40,7 +49,8 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     removeFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
-    )
+    ),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Component/WishlistItem/Container */
@@ -50,7 +60,8 @@ export class WishlistItemContainer extends PureComponent {
         addProductToCart: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         updateWishlistItem: PropTypes.func.isRequired,
-        removeFromWishlist: PropTypes.func.isRequired
+        removeFromWishlist: PropTypes.func.isRequired,
+        handleSelectIdChange: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -78,43 +89,36 @@ export class WishlistItemContainer extends PureComponent {
         return {
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
-            parameters: this._getParameters(),
+            attributes: this.getAttributes(),
             isLoading
         };
     };
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
-    _getParameters = () => {
-        const { product } = this.props;
+    getAttributes = () => {
+        const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
 
-        const {
-            type_id,
-            wishlist: { sku },
-            variants,
-            configurable_options
-        } = product;
+        const { attributes } = variants.find(({ sku }) => sku === wishlistSku) || {};
 
-        if (type_id !== 'configurable') {
-            return {};
-        }
+        return Object.values(attributes).reduce((acc, { attribute_code, attribute_value }) => {
+            const {
+                attribute_options: {
+                    [attribute_value]: {
+                        value,
+                        label
+                    } = {}
+                } = {}
+            } = configurable_options[attribute_code] || {};
 
-        const options = Object.keys(configurable_options) || [];
-        const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
+            if (value === attribute_value) {
+                acc.push(label);
 
-        const { attributes = {} } = variants[configurableVariantIndex];
-        const parameters = Object.entries(attributes).reduce((acc, [code, { attribute_value }]) => {
-            if (!options.includes(code)) {
                 return acc;
             }
 
-            return {
-                ...acc,
-                [code]: [attribute_value]
-            };
-        }, {});
-
-        return parameters;
+            return acc;
+        }, []);
     };
 
     addItemToCart() {
@@ -159,24 +163,43 @@ export class WishlistItemContainer extends PureComponent {
     }
 
     removeItem(noMessages = true) {
-        const { product: { wishlist: { id: item_id } }, removeFromWishlist } = this.props;
+        const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
         this.setState({ isLoading: true });
+
+        handleSelectIdChange(item_id);
+
         return removeFromWishlist({ item_id, noMessages });
     }
 
+    renderRightSideContent = () => {
+        const { removeItem } = this.containerFunctions;
+
+        return (
+            <button
+              block="WishlistItem"
+              elem="SwipeToDeleteRightSide"
+              onClick={ removeItem }
+              aria-label={ __('Remove') }
+            >
+                { __('Delete') }
+            </button>
+        );
+    };
+
     render() {
         return (
-            <WishlistItem
-              { ...this.props }
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
-            />
+            <SwipeToDelete
+              renderRightSideContent={ this.renderRightSideContent }
+              topElemMix={ { block: 'WishlistItem' } }
+            >
+                <WishlistItem
+                  { ...this.props }
+                  { ...this.containerProps() }
+                  { ...this.containerFunctions }
+                />
+            </SwipeToDelete>
         );
     }
 }
-
-/** @namespace Component/WishlistItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistItemContainer);

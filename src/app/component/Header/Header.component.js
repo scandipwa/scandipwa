@@ -43,6 +43,7 @@ import {
     CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
     CUSTOMER_SUB_ACCOUNT,
+    CUSTOMER_WISHLIST,
     FILTER,
     MENU,
     MENU_SUBCATEGORY,
@@ -120,6 +121,11 @@ export class Header extends NavigationAbstract {
         },
         [CUSTOMER_ACCOUNT_PAGE]: {
             title: true
+        },
+        [CUSTOMER_WISHLIST]: {
+            title: true,
+            edit: true,
+            ok: true
         },
         [MENU]: {
             search: true
@@ -523,7 +529,9 @@ export class Header extends NavigationAbstract {
               aria-label="Clear"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
-            />
+            >
+                { __('Edit') }
+            </button>
         );
     }
 
