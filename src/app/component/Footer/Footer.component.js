@@ -13,8 +13,13 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CmsBlock from 'Component/CmsBlock';
+import ContentWrapper from 'Component/ContentWrapper';
+import Image from 'Component/Image';
 import Link from 'Component/Link';
 import { DeviceType } from 'Type/Device';
+import media from 'Util/Media';
+
+import { COLUMN_MAP } from './Footer.config';
 
 import './Footer.style';
 
@@ -35,6 +40,64 @@ export class Footer extends PureComponent {
         isVisibleOnMobile: false
     };
 
+    renderColumnItemContent(src, title) {
+        if (!src) {
+            return title;
+        }
+
+        return (
+            <Image
+              mix={ { block: 'Footer', elem: 'ColumnItemImage' } }
+              src={ media(src, '', false) }
+            />
+        );
+    }
+
+    renderColumnItem = ({ href = '/', title, src }) => {
+        const mods = src ? { type: 'image' } : {};
+
+        return (
+            <Link
+              block="Footer"
+              elem="ColumnItem"
+              to={ href }
+              mods={ mods }
+            >
+                { this.renderColumnItemContent(src, title) }
+            </Link>
+        );
+    };
+
+    renderColumn = ({ title, items, isItemsHorizontal }) => {
+        const contentMods = isItemsHorizontal ? { direction: 'horizontal' } : {};
+
+        return (
+            <div block="Footer" elem="Column">
+                <h3 block="Footer" elem="ColumnTitle">
+                    { title }
+                </h3>
+                <div
+                  block="Footer"
+                  elem="ColumnContent"
+                  mods={ contentMods }
+                >
+                    { items.map(this.renderColumnItem) }
+                </div>
+            </div>
+        );
+    };
+
+    renderColumns() {
+        return (
+            <ContentWrapper
+              isNotSection
+              wrapperMix={ { block: 'Footer', elem: 'Columns' } }
+            >
+                { COLUMN_MAP.map(this.renderColumn) }
+            </ContentWrapper>
+        );
+    }
+
     renderContent() {
         const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
 
@@ -43,27 +106,33 @@ export class Footer extends PureComponent {
         }
 
         return (
-            <div>
-                <Link
-                  block="Footer"
-                  elem="Link"
-                  to="/privacy-policy-cookie-restriction-mode"
-                >
-                    { __('Privacy policy') }
-                </Link>
-                <Link
-                  block="Footer"
-                  elem="Link"
-                  to="/terms-and-conditions"
-                >
-                    { __('Shopping terms and conditions') }
-                </Link>
+            <div block="Footer" elem="Content">
+                { this.renderColumns() }
             </div>
         );
     }
 
+    renderCopyrightContent() {
+        const { copyright } = this.props;
+
+        return (
+            <ContentWrapper
+              mix={ { block: 'Footer', elem: 'CopyrightContentWrapper' } }
+              wrapperMix={ { block: 'Footer', elem: 'CopyrightContent' } }
+            >
+                <span block="Footer" elem="Copyright">
+                    { copyright }
+                    { ' Powered by ' }
+                    <a href="https://scandipwa.com">
+                        ScandiPWA
+                    </a>
+                </span>
+            </ContentWrapper>
+        );
+    }
+
     render() {
-        const { copyright, isVisibleOnMobile, device } = this.props;
+        const { isVisibleOnMobile, device } = this.props;
 
         if (!isVisibleOnMobile && device.isMobile) {
             return null;
@@ -76,13 +145,7 @@ export class Footer extends PureComponent {
         return (
             <footer block="Footer" aria-label="Footer">
                 { this.renderContent() }
-                <span block="Footer" elem="Copyright">
-                    { copyright }
-                    { ' Powered by ' }
-                    <a href="https://scandipwa.com">
-                        ScandiPWA
-                    </a>
-                </span>
+                { this.renderCopyrightContent() }
             </footer>
         );
     }
