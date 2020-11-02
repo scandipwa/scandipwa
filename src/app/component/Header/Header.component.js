@@ -16,9 +16,11 @@ import { lazy, Suspense } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CmsBlock from 'Component/CmsBlock';
+import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
 import Menu from 'Component/Menu';
+import { SHARE_WISHLIST_ICON } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
@@ -69,6 +71,7 @@ export class Header extends NavigationAbstract {
         onMyAccountButtonClick: PropTypes.func.isRequired,
         onSearchBarChange: PropTypes.func.isRequired,
         onClearButtonClick: PropTypes.func.isRequired,
+        isWishlistLoading: PropTypes.bool.isRequired,
         onEditButtonClick: PropTypes.func.isRequired,
         onMinicartButtonClick: PropTypes.func.isRequired,
         onOkButtonClick: PropTypes.func.isRequired,
@@ -78,6 +81,7 @@ export class Header extends NavigationAbstract {
         onMinicartOutsideClick: PropTypes.func.isRequired,
         isClearEnabled: PropTypes.bool.isRequired,
         searchCriteria: PropTypes.string.isRequired,
+        shareWishlist: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string,
         logo_alt: PropTypes.string,
         isLoading: PropTypes.bool,
@@ -123,6 +127,7 @@ export class Header extends NavigationAbstract {
             title: true
         },
         [CUSTOMER_WISHLIST]: {
+            share: true,
             title: true,
             edit: true,
             ok: true
@@ -142,8 +147,7 @@ export class Header extends NavigationAbstract {
             title: true
         },
         [CART_OVERLAY]: {
-            title: true,
-            edit: true
+            title: true
         },
         [CART_EDITING]: {
             ok: true,
@@ -181,7 +185,8 @@ export class Header extends NavigationAbstract {
         search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
-        ok: this.renderOkButton.bind(this)
+        ok: this.renderOkButton.bind(this),
+        share: this.renderShareWishListButton.bind(this)
     };
 
     renderBackButton(isVisible = false) {
@@ -256,6 +261,28 @@ export class Header extends NavigationAbstract {
               isActive={ name === SEARCH }
               hideActiveOverlay={ hideActiveOverlay }
             />
+        );
+    }
+
+    renderShareWishListButton(isVisible = false) {
+        const {
+            isWishlistLoading,
+            shareWishlist
+        } = this.props;
+
+        return (
+            <button
+              key="share"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'share', isVisible } }
+              onClick={ shareWishlist }
+              disabled={ isWishlistLoading }
+            >
+                <Image
+                  src={ media(SHARE_WISHLIST_ICON, '', false) }
+                />
+            </button>
         );
     }
 

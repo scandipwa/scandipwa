@@ -101,7 +101,7 @@
         $color: #ed3f3f;
 
         text-transform: uppercase;
-        font-weight: bold;
+        font-weight: bold   ;
 
         @include after-mobile {
             order: 1;
@@ -116,6 +116,18 @@
 
         &.Button {
             width: auto;
+        }
+    }
+
+    &-ShareWishlistButton {
+        @include after-mobile {
+            margin-right: 15px;
+        }
+
+        .Image {
+            height: 30px;
+            margin: auto;
+            width: 30px;
         }
     }
 }

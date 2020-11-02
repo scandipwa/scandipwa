@@ -322,12 +322,17 @@
             }
 
             &_edit {
-                width: 70px;
-                text-transform: uppercase;
-
                 &.Header-Button_isVisible {
                     opacity: .5;
+                    text-transform: uppercase;
+                    width: 70px;
                 }
+            }
+
+            &_share {
+                left: 15px;
+                opacity: 0.5;
+                position: absolute;
             }
 
             &_home {

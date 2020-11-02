@@ -12,12 +12,16 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import Image from 'Component/Image';
 import Loader from 'Component/Loader';
 import ProductCard from 'Component/ProductCard';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
 import { ProductType } from 'Type/ProductList';
 import CSS from 'Util/CSS';
+import media from 'Util/Media';
+
+import { SHARE_WISHLIST_ICON } from './MyAccountMyWishlist.config';
 
 import './MyAccountMyWishlist.style';
 
@@ -187,11 +191,13 @@ export class MyAccountMyWishlist extends PureComponent {
 
         return (
             <button
-              block="Button"
+              mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
               onClick={ shareWishlist }
               disabled={ disabled }
             >
-                { __('Share Wishlist') }
+                <Image
+                  src={ media(SHARE_WISHLIST_ICON, '', false) }
+                />
             </button>
         );
     }
@@ -255,6 +261,7 @@ export class MyAccountMyWishlist extends PureComponent {
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
                 { this.renderClearWishlist() }
+                { this.renderShareWishlistButton() }
                 { this.renderAddAllToCart() }
             </div>
         );
