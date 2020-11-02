@@ -38,11 +38,6 @@ import {
     SEARCH
 } from './Header.config';
 
-export const WishlistDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
-);
-
 /** @namespace Component/Header/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
