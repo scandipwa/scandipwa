@@ -205,11 +205,9 @@ export class CheckoutContainer extends PureComponent {
             this.setState({ checkoutStep: SHIPPING_STEP });
         }
 
-        if (email !== prevEmail && isEmailAvailable) {
+        if (email !== prevEmail) {
             this.checkEmailAvailability(email);
         }
-
-        // console.log(isEmailAvailable, email)
 
         if (!isEmailAvailable) {
             updateEmail(email);

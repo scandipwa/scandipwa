@@ -22,9 +22,16 @@ export const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
+export const CheckoutDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Checkout/Checkout.dispatcher'
+);
+
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = (state) => ({
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
+});
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchtoProps */
 // eslint-disable-next-line no-unused-vars
@@ -47,17 +54,32 @@ export class MyAccountSignInContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
-        emailValue: PropTypes.string
+        emailValue: PropTypes.string,
+        isEmailAvailable: PropTypes.bool,
+        setSignInState: PropTypes.func,
+        handleEmailInput: PropTypes.func
     };
 
     static defaultProps = {
-        emailValue: ''
+        emailValue: '',
+        isEmailAvailable: true,
+        setSignInState: () => {},
+        handleEmailInput: () => {}
     };
 
     containerFunctions = {
         onSignInSuccess: this.onSignInSuccess.bind(this),
         onSignInAttempt: this.onSignInAttempt.bind(this)
     };
+
+    componentDidUpdate(prevProps) {
+        const { isCheckout, isEmailAvailable, setSignInState } = this.props;
+        const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
+
+        if (isCheckout && isEmailAvailable && !prevIsEmailAvailable) {
+            setSignInState('');
+        }
+    }
 
     containerProps = () => {
         const {
@@ -67,7 +89,8 @@ export class MyAccountSignInContainer extends PureComponent {
             handleCreateAccount,
             isCheckout,
             setLoadingState,
-            emailValue
+            emailValue,
+            handleEmailInput
         } = this.props;
 
         return {
@@ -77,7 +100,8 @@ export class MyAccountSignInContainer extends PureComponent {
             handleCreateAccount,
             isCheckout,
             setLoadingState,
-            emailValue
+            emailValue,
+            handleEmailInput
         };
     };
 
