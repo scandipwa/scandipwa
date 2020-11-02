@@ -22,11 +22,6 @@ export const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
-export const CheckoutDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Checkout/Checkout.dispatcher'
-);
-
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
