@@ -13,6 +13,7 @@ export const UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS';
 export const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
 export const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
 export const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
+export const UPDATE_CUSTOMER_IS_LOADING = 'UPDATE_CUSTOMER_IS_LOADING';
 
 /** @namespace Store/MyAccount/Action/updateCustomerSignInStatus */
 export const updateCustomerSignInStatus = (status) => ({
@@ -35,4 +36,10 @@ export const updateCustomerPasswordResetStatus = (status) => ({
 /** @namespace Store/MyAccount/Action/updateCustomerPasswordForgotStatus */
 export const updateCustomerPasswordForgotStatus = () => ({
     type: UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
+});
+
+/** @namespace Store/MyAccount/Action/updateCustomerIsLoading */
+export const updateIsLoading = (isLoading) => ({
+    type: UPDATE_CUSTOMER_IS_LOADING,
+    isLoading
 });

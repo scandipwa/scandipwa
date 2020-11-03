@@ -419,6 +419,44 @@
     }
 }
 
+@mixin base-plus-minus-icon {
+    $size: 20px;
+    $line-size: 10px;
+    $line-bg-color: #000;
+
+    width: $size;
+    height: $size;
+
+    &::before,
+    &::after {
+        content: '';
+        display: block;
+        height: 1px;
+        background-color: $line-bg-color;
+        width: $line-size;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &::after {
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+}
+
+@mixin minus-icon {
+    @include base-plus-minus-icon;
+
+    &::after {
+        display: none;
+    }
+}
+
+@mixin plus-icon {
+    @include base-plus-minus-icon;
+}
+
 @mixin ios-plus {
     $color-storm-grey: #7b7b86;
 

@@ -54,9 +54,5 @@
 
     &-Wrapper {
         text-align: center;
-
-        @include after-mobile {
-            margin-bottom: 12rem;
-        }
     }
 }

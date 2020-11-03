@@ -37,6 +37,7 @@ export class SliderWidgetContainer extends DataContainer {
 
     state = {
         slider: {
+            slideSpeed: 0,
             slides: [{ image: '', slide_text: '', isPlaceholder: true }]
         }
     };

@@ -328,7 +328,12 @@
             }
 
             &_edit {
-                @include edit-button;
+                width: 70px;
+                text-transform: uppercase;
+
+                &.Header-Button_isVisible {
+                    opacity: .5;
+                }
             }
 
             &_home {

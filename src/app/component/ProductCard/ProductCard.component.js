@@ -44,7 +44,8 @@ export class ProductCard extends PureComponent {
         registerSharedElement: PropTypes.func.isRequired,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
-        mix: PropTypes.shape({})
+        mix: PropTypes.shape({}),
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
     };
 
     static defaultProps = {
@@ -52,7 +53,23 @@ export class ProductCard extends PureComponent {
         linkTo: {},
         children: null,
         isLoading: false,
-        mix: {}
+        mix: {},
+        renderContent: false
+    };
+
+    contentObject = {
+        renderCardLinkWrapper: this.renderCardLinkWrapper.bind(this),
+        pictureBlock: {
+            picture: this.renderPicture.bind(this)
+        },
+        content: {
+            review: this.renderReviews.bind(this),
+            productPrice: this.renderProductPrice.bind(this),
+            confOptions: this.renderVisualConfigurableOptions.bind(this),
+            tierPrice: this.renderTierPrice.bind(this),
+            mainDetails: this.renderMainDetails.bind(this),
+            additionalProductDetails: this.renderAdditionalProductDetails.bind(this)
+        }
     };
 
     imageRef = createRef();
@@ -130,7 +147,7 @@ export class ProductCard extends PureComponent {
         );
     }
 
-    renderPicture() {
+    renderPicture(mix = {}) {
         const { product: { id, name }, thumbnail } = this.props;
 
         this.sharedComponent = (
@@ -139,7 +156,7 @@ export class ProductCard extends PureComponent {
               src={ thumbnail }
               alt={ name }
               ratio="custom"
-              mix={ { block: 'ProductCard', elem: 'Picture' } }
+              mix={ { block: 'ProductCard', elem: 'Picture', mix } }
               isPlaceholder={ !id }
             />
         );
@@ -216,7 +233,7 @@ export class ProductCard extends PureComponent {
         );
     }
 
-    renderCardWrapper(children) {
+    renderCardLinkWrapper(children, mix = {}) {
         const { linkTo, product: { url } } = this.props;
 
         if (!url) {
@@ -229,9 +246,36 @@ export class ProductCard extends PureComponent {
               elem="Link"
               to={ linkTo }
               onClick={ this.registerSharedElement }
+              mix={ mix }
             >
               { children }
             </Link>
+        );
+    }
+
+    renderCardContent() {
+        const { renderContent } = this.props;
+
+        if (renderContent) {
+            return renderContent(this.contentObject);
+        }
+
+        return (
+            this.renderCardLinkWrapper((
+                <>
+                    <figure block="ProductCard" elem="Figure">
+                        { this.renderPicture() }
+                    </figure>
+                    <div block="ProductCard" elem="Content">
+                        { this.renderReviews() }
+                        { this.renderProductPrice() }
+                        { this.renderVisualConfigurableOptions() }
+                        { this.renderTierPrice() }
+                        { this.renderMainDetails() }
+                        { this.renderAdditionalProductDetails() }
+                    </div>
+                </>
+            ))
         );
     }
 
@@ -248,21 +292,7 @@ export class ProductCard extends PureComponent {
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />
-                { this.renderCardWrapper((
-                    <>
-                        <figure block="ProductCard" elem="Figure">
-                            { this.renderPicture() }
-                        </figure>
-                        <div block="ProductCard" elem="Content">
-                            { this.renderReviews() }
-                            { this.renderProductPrice() }
-                            { this.renderVisualConfigurableOptions() }
-                            { this.renderTierPrice() }
-                            { this.renderMainDetails() }
-                            { this.renderAdditionalProductDetails() }
-                        </div>
-                    </>
-                )) }
+                { this.renderCardContent() }
                 <div block="ProductCard" elem="AdditionalContent">
                     { children }
                 </div>

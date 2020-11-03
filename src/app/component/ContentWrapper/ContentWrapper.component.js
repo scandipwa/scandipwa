@@ -29,25 +29,41 @@ export class ContentWrapper extends PureComponent {
             block: PropTypes.string,
             elem: PropTypes.string
         }),
-        label: PropTypes.string.isRequired
+        label: PropTypes.string.isRequired,
+        isNotSection: PropTypes.bool
     };
 
     static defaultProps = {
         mix: {},
         wrapperMix: {},
-        children: null
+        children: null,
+        isNotSection: false
     };
 
-    render() {
+    renderContentWrapper() {
         const {
-            children, mix, wrapperMix, label
+            children, wrapperMix
         } = this.props;
 
         return (
+            <div block="ContentWrapper" mix={ wrapperMix }>
+                { children }
+            </div>
+        );
+    }
+
+    render() {
+        const {
+            mix, label, isNotSection
+        } = this.props;
+
+        if (isNotSection) {
+            return this.renderContentWrapper();
+        }
+
+        return (
             <section mix={ mix } aria-label={ label }>
-                <div block="ContentWrapper" mix={ wrapperMix }>
-                    { children }
-                </div>
+                { this.renderContentWrapper() }
             </section>
         );
     }

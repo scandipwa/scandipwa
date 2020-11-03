@@ -159,6 +159,31 @@ export class WishlistDispatcher {
             }
         );
     }
+
+    // TODO: Need to make it in one request
+    removeItemsFromWishlist(dispatch, itemIdMap) {
+        if (!itemIdMap.length) {
+            return null;
+        }
+
+        return itemIdMap.map((id) => (
+            fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(id)).then(
+                /** @namespace Store/Wishlist/Dispatcher/removeItemsFromWishlistNoMessagesFetchMutationThen */
+                () => {
+                    dispatch(removeItemFromWishlist(id));
+                    dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
+                },
+                /** @namespace Store/Wishlist/Dispatcher/removeItemsFromWishlistFetchMutationError */
+                (error) => {
+                    const [message] = error;
+
+                    dispatch(showNotification('error', message || __('Error updating wishlist!')));
+                    // eslint-disable-next-line no-console
+                    console.log(error);
+                }
+            )
+        ));
+    }
 }
 
 export default new WishlistDispatcher();
