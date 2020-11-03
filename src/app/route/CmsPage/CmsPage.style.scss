@@ -14,6 +14,13 @@
         margin-top: calc(var(--header-total-height) + 1rem);
     }
 
+    &-Content {
+        ul,
+        ol {
+            margin-top: 1rem;
+        }
+    }
+
     &-Wrapper {
         grid-template-columns: auto;
         max-width: var(--content-wrapper-width);
