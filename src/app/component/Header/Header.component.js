@@ -12,7 +12,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { lazy, Suspense } from 'react';
+import { createRef, lazy, Suspense } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CmsBlock from 'Component/CmsBlock';
@@ -29,6 +29,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 
@@ -80,6 +81,8 @@ export class Header extends NavigationAbstract {
         searchCriteria: PropTypes.string.isRequired,
         header_logo_src: PropTypes.string,
         logo_alt: PropTypes.string,
+        logo_height: PropTypes.number,
+        logo_width: PropTypes.number,
         isLoading: PropTypes.bool,
         showMyAccountLogin: PropTypes.bool,
         isCheckout: PropTypes.bool.isRequired,
@@ -90,10 +93,14 @@ export class Header extends NavigationAbstract {
 
     static defaultProps = {
         logo_alt: 'ScandiPWA logo',
+        logo_height: 25,
+        logo_width: 200,
         showMyAccountLogin: false,
         header_logo_src: '',
         isLoading: true
     };
+
+    logoRef = createRef();
 
     stateMap = {
         [DEFAULT_STATE_NAME]: {
@@ -277,13 +284,19 @@ export class Header extends NavigationAbstract {
     renderLogoImage() {
         const {
             header_logo_src,
-            logo_alt
+            logo_alt,
+            logo_height,
+            logo_width
         } = this.props;
+
+        CSS.setVariable(this.logoRef, 'header-logo-height', `${logo_height}px`);
+        CSS.setVariable(this.logoRef, 'header-logo-width', `${logo_width}px`);
 
         return (
             <Logo
               src={ media(header_logo_src, LOGO_MEDIA) }
               alt={ logo_alt }
+              title={ logo_alt }
             />
         );
     }
@@ -627,6 +640,7 @@ export class Header extends NavigationAbstract {
                   block="Header"
                   mods={ { name, isHiddenOnMobile, isCheckout } }
                   mix={ { block: 'FixedElement', elem: 'Top' } }
+                  ref={ this.logoRef }
                 >
                     { this.renderTopMenu() }
                     <nav block="Header" elem="Nav">

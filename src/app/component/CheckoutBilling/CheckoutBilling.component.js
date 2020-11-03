@@ -21,6 +21,7 @@ import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 import './CheckoutBilling.style';
 
@@ -130,6 +131,23 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
+    renderOrderTotal() {
+        const { totals: { grand_total, quote_currency_code } } = this.props;
+
+        const orderTotal = formatPrice(grand_total, quote_currency_code);
+
+        return (
+            <div block="Checkout" elem="OrderTotal">
+                <span>
+                    { __('Order total:') }
+                </span>
+                <span>
+                    { orderTotal }
+                </span>
+            </div>
+        );
+    }
+
     renderActions() {
         const {
             isOrderButtonVisible,
@@ -150,6 +168,7 @@ export class CheckoutBilling extends PureComponent {
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
+                { this.renderOrderTotal() }
                 <button
                   type="submit"
                   block="Button"

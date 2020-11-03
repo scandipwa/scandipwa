@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.CheckoutAddressForm {
-    max-width: 470px;
-}
+export { default } from './ProductReviewItem.component';

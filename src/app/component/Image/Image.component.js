@@ -31,6 +31,7 @@ import './Image.style';
 export class Image extends PureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
+        title: PropTypes.string,
         src: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
@@ -66,6 +67,7 @@ export class Image extends PureComponent {
         isPlaceholder: false,
         wrapperSize: {},
         style: {},
+        title: null,
         imageRef: () => {}
     };
 
@@ -120,7 +122,11 @@ export class Image extends PureComponent {
 
     renderImage() {
         const {
-            alt, src, isPlaceholder, style
+            alt,
+            isPlaceholder,
+            src,
+            style,
+            title
         } = this.props;
         const { imageStatus } = this.state;
 
@@ -145,6 +151,7 @@ export class Image extends PureComponent {
                   alt={ alt }
                   mods={ { isLoading: imageStatus === IMAGE_LOADING } }
                   style={ style }
+                  title={ title }
                   onLoad={ this.onLoad }
                   onError={ this.onError }
                   loading="lazy"

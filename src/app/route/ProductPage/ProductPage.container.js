@@ -14,7 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { PDP } from 'Component/Header/Header.config';
+import { CATEGORY, PDP } from 'Component/Header/Header.config';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
@@ -185,6 +186,8 @@ export class ProductPageContainer extends PureComponent {
          */
         this.updateHeaderState();
         this.updateBreadcrumbs();
+
+        this.scrollTopIfPreviousPageWasPLP();
     }
 
     componentDidUpdate(prevProps) {
@@ -258,6 +261,38 @@ export class ProductPageContainer extends PureComponent {
          */
         if (JSON.stringify(items) !== JSON.stringify(prevItems)) {
             this.getRequiredProductOptions(items);
+        }
+    }
+
+    scrollTopIfPreviousPageWasPLP() {
+        const {
+            navigation: {
+                navigationStateHistory,
+                navigationStateHistory: { length }
+            }
+        } = this.props;
+
+        const minNavStackLength = 2;
+
+        // When first load is PDP
+        if (length <= minNavStackLength) {
+            return;
+        }
+
+        // Minus two, one so array keys match length, one for previous item.
+        const prevPageId = length - 2;
+        const { name: prevName } = navigationStateHistory[prevPageId];
+
+        // One before prev page
+        const beforePrevPageId = prevPageId - 1;
+        const { name: beforePrevName } = navigationStateHistory[beforePrevPageId];
+
+        /**
+         * For some reason on desktop going from PLP to PDP
+         * in navigation stack is added default name between
+         */
+        if (CATEGORY === prevName || (beforePrevName === CATEGORY && prevName === DEFAULT_STATE_NAME)) {
+            window.scrollTo(0, 0);
         }
     }
 
