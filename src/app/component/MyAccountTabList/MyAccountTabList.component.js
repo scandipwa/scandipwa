@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import ExpandableContent from 'Component/ExpandableContent';
 import MyAccountTabListItem from 'Component/MyAccountTabListItem';
 import { activeTabType, tabMapType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 
 import './MyAccountTabList.style';
 
@@ -37,6 +38,9 @@ export class MyAccountTabList extends PureComponent {
 
     onTabClick = (key) => {
         const { changeActiveTab } = this.props;
+        if (!isSignedIn()) {
+            return;
+        }
         this.toggleExpandableContent();
         changeActiveTab(key);
     };
