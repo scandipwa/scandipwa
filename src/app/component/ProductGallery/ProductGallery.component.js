@@ -200,6 +200,7 @@ export class ProductGallery extends PureComponent {
 
             return (
                 <Image
+                  key={ index }
                   src={ src }
                   ratio="custom"
                   mix={ {

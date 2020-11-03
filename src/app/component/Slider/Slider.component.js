@@ -44,7 +44,10 @@ export class Slider extends PureComponent {
         onClick: PropTypes.func,
         isVertical: PropTypes.bool,
         isHeightTransitionDisabledOnMount: PropTypes.bool,
-        sliderHeight: PropTypes.number,
+        sliderHeight: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
         sliderRef: PropTypes.object
     };
 

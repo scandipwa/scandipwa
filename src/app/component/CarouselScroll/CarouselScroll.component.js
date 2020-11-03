@@ -11,6 +11,8 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import CarouselScrollArrow from 'Component/CarouselScrollArrow';
+import CarouselScrollItem from 'Component/CarouselScrollItem';
 import { ChildrenType } from 'Type/Common';
 import CSS from 'Util/CSS';
 
@@ -55,7 +57,7 @@ export class CarouselScroll extends PureComponent {
     componentDidUpdate(prevProps) {
         const { children: { length: prevChildrenLength } } = prevProps;
         const { activeItemId, children: { length: childrenLength } } = this.props;
-        const { activeItemId: prevaAtiveItemId } = this.state;
+        const { activeItemId: prevActiveItemId } = this.state;
 
         if (prevChildrenLength !== childrenLength) {
             this.handleReset();
@@ -63,7 +65,7 @@ export class CarouselScroll extends PureComponent {
             return;
         }
 
-        if (activeItemId !== null && activeItemId !== prevaAtiveItemId) {
+        if (activeItemId !== null && activeItemId !== prevActiveItemId) {
             this.handleChange(activeItemId);
         }
     }
@@ -79,11 +81,11 @@ export class CarouselScroll extends PureComponent {
 
         const isEndReached = (showedItemCount - showedActiveItemNr) + nextId + 1 > childrenLength;
 
-        const possition = isEndReached
+        const position = isEndReached
             ? childrenLength - showedItemCount
             : nextId - (showedActiveItemNr - 1);
 
-        return `${ -possition * offsetHeight }px`;
+        return `${ -position * offsetHeight }px`;
     }
 
     setTranslate(nextId) {
@@ -110,13 +112,13 @@ export class CarouselScroll extends PureComponent {
         this.handleChange(activeItemId);
     };
 
-    handleChange(nextId) {
+    handleChange = (nextId) => {
         const { onChange } = this.props;
 
         this.setTranslate(nextId);
         this.setState({ activeItemId: nextId });
         onChange(nextId);
-    }
+    };
 
     handleReset() {
         const { onChange } = this.props;
@@ -140,16 +142,12 @@ export class CarouselScroll extends PureComponent {
         const isDisabled = isNextArrow
             ? activeItemId === childrenLength - 1
             : !activeItemId;
-        const mods = { isNextArrow, isDisabled };
 
         return (
-            <button
-              block="CarouselScroll"
-              elem="Arrow"
-              mods={ mods }
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => this.handleArrowClick(isNextArrow) }
-              aria-label="Arrow"
+            <CarouselScrollArrow
+              isNextArrow={ isNextArrow }
+              isDisabled={ isDisabled }
+              onClick={ this.handleArrowClick }
             />
         );
     }
@@ -158,16 +156,15 @@ export class CarouselScroll extends PureComponent {
         const { activeItemId } = this.state;
 
         return (
-            <button
-              block="CarouselScroll"
-              elem="Item"
-              mods={ { isActive: key === activeItemId } }
-              ref={ this.itemRef }
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => this.handleChange(key) }
+            <CarouselScrollItem
+              key={ key }
+              position={ key }
+              onClick={ this.handleChange }
+              itemRef={ this.itemRef }
+              isActive={ key === activeItemId }
             >
                 { child }
-            </button>
+            </CarouselScrollItem>
         );
     };
 

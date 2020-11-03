@@ -47,10 +47,6 @@ export class ProductGalleryContainer extends PureComponent {
         areDetailsLoaded: false
     };
 
-    state = {
-        isImageZoomPopupActive: false
-    };
-
     sliderRef = createRef();
 
     containerFunctions = {
@@ -68,7 +64,8 @@ export class ProductGalleryContainer extends PureComponent {
         this.state = {
             activeImage: 0,
             isZoomEnabled: false,
-            prevProdId: id
+            prevProdId: id,
+            isImageZoomPopupActive: false
         };
     }
 
