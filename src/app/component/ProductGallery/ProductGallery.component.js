@@ -14,6 +14,7 @@ import { createRef, PureComponent } from 'react';
 import { withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
+import CarouselScroll from 'Component/CarouselScroll';
 import Image from 'Component/Image';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
@@ -24,7 +25,10 @@ import { LocationType } from 'Type/Common';
 import CSS from 'Util/CSS';
 
 import {
-    GALLERY_LENGTH_BEFORE_COLLAPSE, IMAGE_TYPE, MAX_ZOOM_SCALE, PLACEHOLDER_TYPE, VIDEO_TYPE
+    IMAGE_TYPE,
+    MAX_ZOOM_SCALE,
+    PLACEHOLDER_TYPE,
+    VIDEO_TYPE
 } from './ProductGallery.config';
 
 import './ProductGallery.style';
@@ -55,7 +59,11 @@ export class ProductGallery extends PureComponent {
         handleZoomChange: PropTypes.func.isRequired,
         registerSharedElementDestination: PropTypes.func.isRequired,
         disableZoom: PropTypes.func.isRequired,
-        location: LocationType.isRequired
+        location: LocationType.isRequired,
+        sliderRef: PropTypes.object.isRequired,
+        handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        isImageZoomPopupActive: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -65,8 +73,6 @@ export class ProductGallery extends PureComponent {
     maxScale = MAX_ZOOM_SCALE;
 
     imageRef = createRef();
-
-    sliderRef = createRef();
 
     state = {
         scrollEnabled: true
@@ -82,39 +88,39 @@ export class ProductGallery extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { productId, location: { pathname } } = this.props;
+        const { productId, location: { pathname }, sliderRef } = this.props;
         const { productId: prevProductId, location: { pathname: prevPathname } } = prevProps;
 
         if (productId !== prevProductId) {
             this.updateSharedDestinationElement();
         }
 
-        if (this.sliderRef && pathname !== prevPathname) {
+        if (sliderRef && pathname !== prevPathname) {
             CSS.setVariable(
-                this.sliderRef.current.draggableRef,
+                sliderRef.current.draggableRef,
                 'animation-speed',
                 0
             );
         }
     }
 
+    handleSliderClick = () => {
+        const { handleImageZoomPopupActiveChange } = this.props;
+
+        handleImageZoomPopupActiveChange(true);
+    };
+
     updateSharedDestinationElement() {
         const { registerSharedElementDestination } = this.props;
         registerSharedElementDestination(this.imageRef);
     }
 
-    renderAdditionalPicture = (media, index = 0) => {
-        const { onActiveImageChange } = this.props;
-
-        return (
-            <ProductGalleryThumbnailImage
-              key={ index }
-              media={ media }
-              index={ index }
-              onActiveImageChange={ onActiveImageChange }
-            />
-        );
-    };
+    renderAdditionalPicture = (media, index = 0) => (
+        <ProductGalleryThumbnailImage
+          key={ index }
+          media={ media }
+        />
+    );
 
     /**
      * Renders a video thumbnail which opens popup player on click/tap
@@ -178,8 +184,35 @@ export class ProductGallery extends PureComponent {
      * @private
      */
     renderImage(mediaData, index) {
-        const { isZoomEnabled, handleZoomChange, disableZoom } = this.props;
+        const {
+            isZoomEnabled,
+            handleZoomChange,
+            disableZoom,
+            isMobile,
+            isImageZoomPopupActive
+        } = this.props;
         const { scrollEnabled } = this.state;
+
+        if (!isMobile) {
+            const { base: { url: src } } = mediaData;
+
+            const style = isImageZoomPopupActive ? { height: 'auto' } : {};
+
+            return (
+                <Image
+                  key={ index }
+                  src={ src }
+                  ratio="custom"
+                  mix={ {
+                      block: 'ProductGallery',
+                      elem: 'SliderImage',
+                      mods: { isPlaceholder: !src }
+                  } }
+                  isPlaceholder={ !src }
+                  style={ style }
+                />
+            );
+        }
 
         return (
             <TransformWrapper
@@ -247,24 +280,23 @@ export class ProductGallery extends PureComponent {
     }
 
     renderAdditionalPictures() {
-        const { gallery } = this.props;
+        const {
+            gallery,
+            isImageZoomPopupActive,
+            activeImage,
+            onActiveImageChange
+        } = this.props;
 
         if (gallery.length === 1) {
             return <div block="ProductGallery" elem="Additional" />;
         }
 
         return (
-            <div block="ProductGallery" elem="Additional">
-                { gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture) }
+            <div block="ProductGallery" elem="Additional" mods={ { isImageZoomPopupActive } }>
+                <CarouselScroll activeItemId={ activeImage } onChange={ onActiveImageChange } showedItemCount={ 4 }>
+                    { gallery.map(this.renderAdditionalPicture) }
+                </CarouselScroll>
             </div>
-        );
-    }
-
-    renderGalleryNotice() {
-        return (
-            <p block="ProductGallery" elem="Notice">
-                { __('Scroll over image to zoom in') }
-            </p>
         );
     }
 
@@ -273,22 +305,35 @@ export class ProductGallery extends PureComponent {
             gallery,
             activeImage,
             isZoomEnabled,
-            onActiveImageChange
+            onActiveImageChange,
+            isImageZoomPopupActive,
+            sliderRef
         } = this.props;
 
+        const mods = {
+            isImageZoomPopupActive,
+            isZoomInCursor: gallery.length > 1 && !isImageZoomPopupActive
+        };
+
         return (
-            <div ref={ this.imageRef }>
+            <div
+              ref={ this.imageRef }
+              block="ProductGallery"
+              elem="SliderWrapper"
+            >
                 <Slider
-                  ref={ this.sliderRef }
-                  mix={ { block: 'ProductGallery', elem: 'Slider' } }
+                  sliderRef={ sliderRef }
+                  mix={ { block: 'ProductGallery', elem: 'Slider', mods } }
                   showCrumbs
                   activeImage={ activeImage }
                   onActiveImageChange={ onActiveImageChange }
                   isInteractionDisabled={ isZoomEnabled }
+                  onClick={ this.handleSliderClick }
+                  sliderHeight={ isImageZoomPopupActive ? '100%' : 0 }
+                  isHeightTransitionDisabledOnMount
                 >
                     { gallery.map(this.renderSlide) }
                 </Slider>
-                { this.renderGalleryNotice() }
             </div>
         );
     }

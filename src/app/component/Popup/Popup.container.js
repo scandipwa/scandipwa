@@ -46,11 +46,13 @@ export class PopupContainer extends PureComponent {
         activeOverlay: PropTypes.string.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        onVisible: PropTypes.func
+        onVisible: PropTypes.func,
+        onClose: PropTypes.func
     };
 
     static defaultProps = {
-        onVisible: () => {}
+        onVisible: () => {},
+        onClose: () => {}
     };
 
     containerFunctions = {
