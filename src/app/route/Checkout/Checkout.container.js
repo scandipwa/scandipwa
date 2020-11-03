@@ -210,11 +210,9 @@ export class CheckoutContainer extends PureComponent {
             });
         }
 
-        if (email !== prevEmail && isEmailAvailable) {
+        if (email !== prevEmail) {
             this.checkEmailAvailability(email);
         }
-
-        // console.log(isEmailAvailable, email)
 
         if (!isEmailAvailable) {
             updateEmail(email);
