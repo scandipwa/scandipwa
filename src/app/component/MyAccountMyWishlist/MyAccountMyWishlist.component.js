@@ -190,7 +190,6 @@ export class MyAccountMyWishlist extends PureComponent {
         return (
             <button
               mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
-              mods={ { likeLink: true } }
               onClick={ shareWishlist }
               disabled={ disabled }
             >
