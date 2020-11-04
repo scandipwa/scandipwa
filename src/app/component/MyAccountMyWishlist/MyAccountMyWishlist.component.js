@@ -186,7 +186,7 @@ export class MyAccountMyWishlist extends PureComponent {
         } = this.props;
 
         const disabled = isWishlistLoading || isWishlistEmpty;
-        console.log(disabled);
+
         return (
             <button
               mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
