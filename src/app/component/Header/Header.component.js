@@ -16,11 +16,9 @@ import { lazy, Suspense } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CmsBlock from 'Component/CmsBlock';
-import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
 import Menu from 'Component/Menu';
-import { SHARE_WISHLIST_ICON } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.config';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
@@ -34,6 +32,7 @@ import { isSignedIn } from 'Util/Auth';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 
+import wishListShareButton from '../../../public/assets/images/global/shareWishList.svg';
 import {
     CART,
     CART_EDITING,
@@ -279,9 +278,7 @@ export class Header extends NavigationAbstract {
               onClick={ shareWishlist }
               disabled={ isWishlistLoading }
             >
-                <Image
-                  src={ media(SHARE_WISHLIST_ICON, '', false) }
-                />
+                <img src={ wishListShareButton } alt="Wishlist share" />
             </button>
         );
     }

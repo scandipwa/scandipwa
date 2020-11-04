@@ -119,14 +119,12 @@
     }
 
     &-ShareWishlistButton {
-        @include after-mobile {
-            margin-right: 15px;
-        }
+        height: 30px;
+        margin: auto 15px;
+        width: 30px;
 
-        .Image {
-            height: 30px;
-            margin: auto;
-            width: 30px;
+        &[disabled] {
+            @include button-disabled();
         }
     }
 }
