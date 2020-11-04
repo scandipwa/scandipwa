@@ -70,6 +70,14 @@ export class SearchField extends PureComponent {
         return { isPlaceholderVisible: true };
     }
 
+    componentDidUpdate() {
+        const { showSearch } = this.state;
+
+        if (showSearch) {
+            this.onIconClick();
+        }
+    }
+
     onClearSearchButtonClick(isFocusOnSearchBar = true) {
         const { onClearSearchButtonClick } = this.props;
         if (isFocusOnSearchBar) {

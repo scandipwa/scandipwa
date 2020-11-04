@@ -30,6 +30,10 @@ export class CheckoutDispatcher extends QueryDispatcher {
         dispatch(updateEmailAvailable(is_email_available));
     }
 
+    onError(error, dispatch) {
+        dispatch(updateEmailAvailable(true));
+    }
+
     prepareRequest(email) {
         return CheckEmailQuery.getIsEmailAvailableQuery(email);
     }

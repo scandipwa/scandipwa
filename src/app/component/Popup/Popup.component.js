@@ -71,11 +71,12 @@ export class Popup extends Overlay {
     }
 
     hidePopUp = () => {
-        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
+        const { hideActiveOverlay, goToPreviousNavigationState, onClose } = this.props;
         const isVisible = this.getIsVisible();
         if (isVisible) {
             hideActiveOverlay();
             goToPreviousNavigationState();
+            onClose();
         }
     };
 
@@ -123,7 +124,7 @@ export class Popup extends Overlay {
     }
 
     renderContent() {
-        const { children } = this.props;
+        const { children, contentMix } = this.props;
         const isVisible = this.getIsVisible();
 
         if (!isVisible) {
@@ -132,7 +133,7 @@ export class Popup extends Overlay {
 
         return (
             <ClickOutside onClick={ this.handleClickOutside }>
-                <div block="Popup" elem="Content">
+                <div block="Popup" elem="Content" mix={ contentMix }>
                     <header block="Popup" elem="Header">
                         { this.renderTitle() }
                         { this.renderCloseButton() }
