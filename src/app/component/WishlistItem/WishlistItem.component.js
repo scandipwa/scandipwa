@@ -153,7 +153,15 @@ export class WishlistItem extends PureComponent {
     }
 
     getWishlistProduct() {
-        const { product, product: { url } } = this.props;
+        const {
+            product,
+            product: { url, type_id }
+        } = this.props;
+
+        if (type_id !== 'configurable') {
+            return product;
+        }
+
         const wishedVariant = product.variants.find(({ sku }) => sku === product.wishlist.sku);
 
         return {
@@ -247,7 +255,8 @@ export class WishlistItem extends PureComponent {
     renderContent = (renderMethods) => {
         const {
             content: { productPrice },
-            pictureBlock: { picture: renderPicture }, renderCardLinkWrapper
+            pictureBlock: { picture: renderPicture },
+            renderCardLinkWrapper
         } = renderMethods;
 
         const { isMobile } = this.props;
