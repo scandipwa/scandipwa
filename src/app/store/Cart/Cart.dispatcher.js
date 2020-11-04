@@ -31,10 +31,16 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
  */
 export class CartDispatcher {
     updateInitialCartData(dispatch) {
+        const guestQuoteId = this._getGuestQuoteId();
+
         if (isSignedIn()) {
+            // This is logged in customer, no need for quote id
             this._syncCartWithBE(dispatch);
+        } else if (guestQuoteId) {
+            // This is guest
+            this._syncCartWithBE(dispatch, guestQuoteId);
         } else {
-            this.createGuestEmptyCart(dispatch);
+            this._updateCartData({}, dispatch);
         }
     }
 

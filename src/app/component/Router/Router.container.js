@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+// eslint-disable-next-line simple-import-sort/sort
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import {
     isMobile,
     isMobileClientHints,
@@ -22,6 +24,8 @@ import {
 } from 'Util/Mobile';
 
 import Router from './Router.component';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
+import { isSignedIn } from 'Util/Auth';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -55,12 +59,12 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
+    initCart: () => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+    ),
     init: () => {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
-        );
-        CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
@@ -72,6 +76,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class RouterContainer extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired,
+        initCart: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         updateConfigDevice: PropTypes.func.isRequired,
         base_link_url: PropTypes.string,
@@ -175,7 +180,13 @@ export class RouterContainer extends PureComponent {
     };
 
     initializeApplication() {
-        const { init } = this.props;
+        const { init, initCart } = this.props;
+        const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
+        if (guestQuoteId || isSignedIn()) {
+            initCart();
+        }
+
         init();
     }
 
