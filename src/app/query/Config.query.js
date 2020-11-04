@@ -70,6 +70,8 @@ export class ConfigQuery {
             // 'paypal_sandbox_flag',
             // 'paypal_client_id',
             'logo_alt',
+            'logo_height',
+            'logo_width',
             'cookie_text',
             'cookie_link',
             'terms_are_enabled',

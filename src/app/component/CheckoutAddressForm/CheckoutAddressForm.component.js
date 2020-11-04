@@ -17,8 +17,6 @@ import { debounce } from 'Util/Request';
 
 import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
 
-import './CheckoutAddressForm.style';
-
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm {
     static propTypes = {

@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import CartCoupon from 'Component/CartCoupon';
 import CheckoutBilling from 'Component/CheckoutBilling';
+import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShipping from 'Component/CheckoutShipping';
 import CheckoutSuccess from 'Component/CheckoutSuccess';
@@ -64,8 +65,10 @@ export class Checkout extends PureComponent {
         isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
+        isGuestEmailSaved: PropTypes.bool.isRequired,
         goBack: PropTypes.func.isRequired,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -143,6 +146,29 @@ export class Checkout extends PureComponent {
         );
     }
 
+    renderGuestForm() {
+        const {
+            checkoutStep,
+            isCreateUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved
+        } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
+
+        return (
+            <CheckoutGuestForm
+              isBilling={ isBilling }
+              isCreateUser={ isCreateUser }
+              onEmailChange={ onEmailChange }
+              onCreateUserChange={ onCreateUserChange }
+              onPasswordChange={ onPasswordChange }
+              isGuestEmailSaved={ isGuestEmailSaved }
+            />
+        );
+    }
+
     renderShippingStep() {
         const {
             shippingMethods,
@@ -214,11 +240,17 @@ export class Checkout extends PureComponent {
         return <Loader isLoading={ isLoading } />;
     }
 
-    renderSummary() {
-        const { checkoutTotals, checkoutStep, paymentTotals } = this.props;
+    renderSummary(showOnMobile = false) {
+        const {
+            checkoutTotals,
+            checkoutStep,
+            paymentTotals,
+            isMobile,
+            totals: { coupon_code }
+        } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
-        if (!areTotalsVisible) {
+        if (!areTotalsVisible || (showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
             return null;
         }
 
@@ -227,6 +259,10 @@ export class Checkout extends PureComponent {
               checkoutStep={ checkoutStep }
               totals={ checkoutTotals }
               paymentTotals={ paymentTotals }
+              isExpandable={ isMobile }
+              couponCode={ coupon_code }
+              // eslint-disable-next-line react/jsx-no-bind
+              renderCmsBlock={ () => this.renderPromo(true) }
             />
         );
     }
@@ -244,22 +280,31 @@ export class Checkout extends PureComponent {
 
     renderCartCoupon() {
         const {
-            totals: { coupon_code }
+            totals: { coupon_code },
+            isMobile
         } = this.props;
+
+        if (isMobile) {
+            return null;
+        }
 
         return (
             <ExpandableContent
               heading={ __('Have a discount code?') }
-              mix={ { block: 'Checkout', elem: 'Discount' } }
+              mix={ { block: 'Checkout', elem: 'Coupon' } }
             >
                 <CartCoupon couponCode={ coupon_code } />
             </ExpandableContent>
         );
     }
 
-    renderPromo() {
-        const { checkoutStep } = this.props;
+    renderPromo(showOnMobile = false) {
+        const { checkoutStep, isMobile } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
+
+        if (!showOnMobile && isMobile) {
+            return null;
+        }
 
         const {
             checkout_content: {
@@ -281,8 +326,10 @@ export class Checkout extends PureComponent {
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }
                 >
+                    { this.renderSummary(true) }
                     <div block="Checkout" elem="Step">
                         { this.renderTitle() }
+                        { this.renderGuestForm() }
                         { this.renderStep() }
                         { this.renderLoader() }
                     </div>

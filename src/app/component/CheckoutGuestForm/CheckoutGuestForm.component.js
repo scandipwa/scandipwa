@@ -151,7 +151,9 @@ export class CheckoutGuestForm extends FieldForm {
             handleCreateAccount,
             setLoadingState,
             onSignIn,
-            emailValue
+            emailValue,
+            handleEmailInput,
+            setSignInState
         } = this.props;
 
         return (
@@ -161,6 +163,8 @@ export class CheckoutGuestForm extends FieldForm {
               handleForgotPassword={ handleForgotPassword }
               handleCreateAccount={ handleCreateAccount }
               isCheckout
+              handleEmailInput={ handleEmailInput }
+              setSignInState={ setSignInState }
               emailValue={ emailValue }
               setLoadingState={ setLoadingState }
               onSignIn={ onSignIn }

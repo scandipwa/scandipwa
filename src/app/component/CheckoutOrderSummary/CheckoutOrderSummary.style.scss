@@ -10,9 +10,8 @@
  */
 
 .CheckoutOrderSummary {
-    @include mobile {
-        display: none;
-    }
+    $divider-border-color: #e0e0e0;
+    $divider-border: solid 1px $divider-border-color;
 
     &-Header {
         display: flex;
@@ -49,6 +48,10 @@
     }
 
     &-OrderItems {
+        @include mobile {
+            background-color: var(--secondary-base-color);
+        }
+
         h3 {
             text-align: left;
         }
@@ -58,6 +61,11 @@
         list-style: none;
         margin: 0;
         padding: 0;
+
+        @include mobile {
+            --cart-item-background: var(--secondary-base-color);
+            --cart-item-divider-color: $divider-border-color;
+        }
     }
 
     &-CartItemDescription {
@@ -117,6 +125,25 @@
 
     &-Details {
         justify-self: end;
+    }
+
+    &-ExpandableContent {
+        margin: 0 -1.4rem;
+        background-color: var(--secondary-base-color);
+    }
+
+    &-Coupon {
+        @include mobile {
+            padding: 10px 1.4rem;
+            border-bottom: $divider-border;
+            margin: 0 -1.4rem;
+            width: auto;
+        }
+    }
+
+    &-CmsBlock {
+        padding: 10px 0;
+        border-bottom: $divider-border;
     }
 
     .ProductPrice {

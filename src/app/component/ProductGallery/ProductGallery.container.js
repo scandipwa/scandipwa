@@ -10,30 +10,50 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
+import ImageZoomPopup from 'Component/ImageZoomPopup';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { ProductType } from 'Type/ProductList';
 
 import ProductGallery from './ProductGallery.component';
-import { AMOUNT_OF_PLACEHOLDERS, IMAGE_TYPE, THUMBNAIL_KEY } from './ProductGallery.config';
+import {
+    AMOUNT_OF_PLACEHOLDERS,
+    IMAGE_TYPE,
+    PRODUCT_GALERY_POPUP_ID,
+    THUMBNAIL_KEY
+} from './ProductGallery.config';
+
+/** @namespace Component/ProductGallery/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    isMobile: state.ConfigReducer.device.isMobile
+});
+
+/** @namespace Component/ProductGallery/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
 
 /** @namespace Component/ProductGallery/Container */
 export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool
+        areDetailsLoaded: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         areDetailsLoaded: false
     };
 
+    sliderRef = createRef();
+
     containerFunctions = {
         onActiveImageChange: this.onActiveImageChange.bind(this),
         handleZoomChange: this.handleZoomChange.bind(this),
-        disableZoom: this.disableZoom.bind(this)
+        disableZoom: this.disableZoom.bind(this),
+        handleImageZoomPopupActiveChange: this.handleImageZoomPopupActiveChange.bind(this)
     };
 
     __construct(props) {
@@ -44,7 +64,8 @@ export class ProductGalleryContainer extends PureComponent {
         this.state = {
             activeImage: 0,
             isZoomEnabled: false,
-            prevProdId: id
+            prevProdId: id,
+            isImageZoomPopupActive: false
         };
     }
 
@@ -56,6 +77,16 @@ export class ProductGalleryContainer extends PureComponent {
         }
 
         return { prevProdId: id, activeImage: 0 };
+    }
+
+    handleImageZoomPopupActiveChange(isImageZoomPopupActive) {
+        const { isMobile } = this.props;
+
+        if (isMobile) {
+            return;
+        }
+
+        this.setState({ isImageZoomPopupActive });
     }
 
     onActiveImageChange(activeImage) {
@@ -118,15 +149,18 @@ export class ProductGalleryContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { activeImage, isZoomEnabled } = this.state;
-        const { product: { id } } = this.props;
+        const { activeImage, isZoomEnabled, isImageZoomPopupActive } = this.state;
+        const { product: { id }, isMobile } = this.props;
 
         return {
             gallery: this.getGalleryPictures(),
             productName: this._getProductName(),
             activeImage,
             isZoomEnabled,
-            productId: id
+            productId: id,
+            isMobile,
+            isImageZoomPopupActive,
+            sliderRef: this.sliderRef
         };
     };
 
@@ -156,19 +190,32 @@ export class ProductGalleryContainer extends PureComponent {
         }
     }
 
+    handleImageZoomPopupClose = () => {
+        this.handleImageZoomPopupActiveChange(false);
+    };
+
     render() {
+        const { isImageZoomPopupActive, activeImage } = this.state;
+
         return (
-            <Subscribe to={ [SharedTransitionContainer] }>
-                { ({ registerSharedElementDestination }) => (
-                    <ProductGallery
-                      registerSharedElementDestination={ registerSharedElementDestination }
-                      { ...this.containerProps() }
-                      { ...this.containerFunctions }
-                    />
-                ) }
-            </Subscribe>
+            <ImageZoomPopup
+              isActive={ isImageZoomPopupActive }
+              onClose={ this.handleImageZoomPopupClose }
+              activeImageId={ activeImage }
+              popupId={ PRODUCT_GALERY_POPUP_ID }
+            >
+                <Subscribe to={ [SharedTransitionContainer] }>
+                    { ({ registerSharedElementDestination }) => (
+                        <ProductGallery
+                          registerSharedElementDestination={ registerSharedElementDestination }
+                          { ...this.containerProps() }
+                          { ...this.containerFunctions }
+                        />
+                    ) }
+                </Subscribe>
+            </ImageZoomPopup>
         );
     }
 }
 
-export default ProductGalleryContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductGalleryContainer);
