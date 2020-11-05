@@ -9,14 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// eslint-disable-next-line simple-import-sort/sort
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { updateConfigDevice } from 'Store/Config/Config.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
-
 import {
     isMobile,
     isMobileClientHints,
@@ -74,7 +72,6 @@ export const mapDispatchToProps = (dispatch) => ({
 export class RouterContainer extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired,
-        initCart: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         updateConfigDevice: PropTypes.func.isRequired,
         base_link_url: PropTypes.string,
