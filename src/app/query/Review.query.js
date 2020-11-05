@@ -14,40 +14,47 @@ import { Field } from 'Util/Query';
 /** @namespace Query/Review */
 export class ReviewQuery {
     getAddProductReviewMutation(reviewItem) {
-        return new Field('addProductReview')
-            .addArgument('productReviewItem', 'ProductReviewInput!', reviewItem)
-            .addFieldList(this._getAddProductReviewFields());
+        return new Field('createProductReview')
+            .setAlias('addProductReview')
+            .addArgument('input', 'CreateProductReviewInput!', reviewItem)
+            .addField(new Field('review').addField('nickname'));
     }
 
     getRatingQuery() {
-        return new Field('getRatings')
+        return new Field('productReviewRatingsMetadata')
             .setAlias('reviewRatings')
             .addFieldList(this._getRatingFields());
     }
 
     _getRatingFields() {
         return [
-            'rating_id',
-            'rating_code',
-            this._getRatingOptionsField()
+            this._getRatingItemsField()
         ];
     }
 
-    _getAddProductReviewFields() {
+    _getRatingItemsField() {
+        return new Field('items')
+            .addFieldList(this._getRatingItemsFields());
+    }
+
+    _getRatingItemsFields() {
         return [
-            'detail'
+            new Field('id').setAlias('rating_id'),
+            new Field('name').setAlias('rating_code'),
+            this._getRatingOptionsField()
         ];
     }
 
     _getRatingOptionFields() {
         return [
-            'option_id',
+            new Field('value_id').setAlias('option_id'),
             'value'
         ];
     }
 
     _getRatingOptionsField() {
-        return new Field('rating_options')
+        return new Field('values')
+            .setAlias('rating_options')
             .addFieldList(this._getRatingOptionFields());
     }
 }
