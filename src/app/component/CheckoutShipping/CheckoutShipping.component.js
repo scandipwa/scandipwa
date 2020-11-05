@@ -31,8 +31,7 @@ export class CheckoutShipping extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         selectedShippingMethod: shippingMethodType,
         onAddressSelect: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        totals: TotalsType.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
