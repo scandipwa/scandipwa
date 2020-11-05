@@ -17,12 +17,12 @@ import './ReviewStar.style';
 /** @namespace Component/ReviewStar/Component */
 export class ReviewStar extends PureComponent {
     static propTypes = {
-        value: PropTypes.number.isRequired,
-        name: PropTypes.number.isRequired,
+        value: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         isChecked: PropTypes.bool.isRequired,
-        option_id: PropTypes.number.isRequired,
-        rating_id: PropTypes.number.isRequired,
+        option_id: PropTypes.string.isRequired,
+        rating_id: PropTypes.string.isRequired,
         onStarRatingClick: PropTypes.func.isRequired
     };
 
