@@ -38,9 +38,10 @@ export class ExpandableContentShowMore extends PureComponent {
         this.state = {
             isOpen: false,
             opened: showElemCount,
-            offset: 0,
             expandingOrCollapsing: false
         };
+
+        this.offset = 0;
     }
 
     componentDidUpdate() {
@@ -55,8 +56,9 @@ export class ExpandableContentShowMore extends PureComponent {
     }
 
     expandOrCollapse(isOpen) {
-        const { opened, offset } = this.state;
+        const { opened } = this.state;
         const { showElemCount, children } = this.props;
+        const { offset } = this;
 
         const MAX_ANIMATED_COUNT = 20;
 
@@ -73,9 +75,9 @@ export class ExpandableContentShowMore extends PureComponent {
     }
 
     handleShowAllButtonClick = () => {
-        const { pageYOffset } = window;
+        this.offset = window.pageYOffset;
 
-        this.setState({ offset: pageYOffset, expandingOrCollapsing: true });
+        this.setState({ expandingOrCollapsing: true });
     };
 
     renderShowAllButton() {
