@@ -67,6 +67,9 @@ export const mapDispatchToProps = (dispatch) => ({
     resetCart: () => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
     ),
+    resetGuestCart: () => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)
+    ),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
     showInfoNotification: (message) => dispatch(showNotification('info', message)),
@@ -94,6 +97,7 @@ export class CheckoutContainer extends PureComponent {
         createAccount: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
+        resetGuestCart: PropTypes.func.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
@@ -281,7 +285,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     setDetailsStep(orderID) {
-        const { resetCart, setNavigationState } = this.props;
+        const { resetCart, resetGuestCart, setNavigationState } = this.props;
 
         // For some reason not logged in user cart preserves qty in it
         if (!isSignedIn()) {
@@ -289,7 +293,13 @@ export class CheckoutContainer extends PureComponent {
         }
 
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-        resetCart();
+
+        // For guest we can just update cart without creating new quote id
+        if (isSignedIn()) {
+            resetCart();
+        } else {
+            resetGuestCart();
+        }
 
         this.setState({
             isLoading: false,

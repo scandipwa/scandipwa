@@ -39,8 +39,6 @@ export class CartDispatcher {
         } else if (guestQuoteId) {
             // This is guest
             this._syncCartWithBE(dispatch, guestQuoteId);
-        } else {
-            this._updateCartData({}, dispatch);
         }
     }
 
@@ -52,6 +50,10 @@ export class CartDispatcher {
                 this._updateCartData({}, dispatch);
             }
         );
+    }
+
+    resetGuestCart(dispatch) {
+        return this._updateCartData({}, dispatch);
     }
 
     _createEmptyCart(dispatch) {
