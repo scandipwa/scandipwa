@@ -13,7 +13,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Html from 'Component/Html';
 import Loader from 'Component/Loader';
 import KlarnaQuery from 'Query/Klarna.query';
 import { isSignedIn } from 'Util/Auth';
@@ -36,7 +35,8 @@ export class Klarna extends PureComponent {
     };
 
     state = {
-        isLoading: true
+        isLoading: true,
+        canShowPaymentSelector: true
     };
 
     async initiateKlarna() {
@@ -57,7 +57,7 @@ export class Klarna extends PureComponent {
             window.Klarna.Payments.init({ client_token });
             window.Klarna.Payments.load({
                 container: `#${KLARNA_PAYMENTS_CONTAINER_ID}`,
-                payment_method_category: 'pay_later'
+                payment_method_category: localStorage.getItem('kl_pm')
             });
 
             setOrderButtonEnableStatus(true);
@@ -80,15 +80,56 @@ export class Klarna extends PureComponent {
             script.parentNode.removeChild(script);
         }
 
+        const klarnaScript = document.createElement('script');
+        klarnaScript.setAttribute('id', KLARNA_SCRIPT_ID);
+        klarnaScript.setAttribute('src', 'https://x.klarnacdn.net/kp/lib/v1/api.js');
+        klarnaScript.async = true;
+        document.head.appendChild(klarnaScript);
+    }
+
+    loadPaymentMethod(method) {
+        this.setState({ isLoading: true });
+        localStorage.setItem('kl_pm', method);
+        this.renderScript();
+        this.setState({ canShowPaymentSelector: false });
+    }
+
+    renderPaymentSelector() {
+        const { canShowPaymentSelector } = this.state;
+
+        if (!canShowPaymentSelector) {
+            return null;
+        }
+
+        const { setOrderButtonEnableStatus } = this.props;
+
+        this.setState({ isLoading: false });
+        setOrderButtonEnableStatus(false);
+
         return (
-            <Html
-              content={ `<script
-                      async
-                      id=${ KLARNA_SCRIPT_ID }
-                      src='https://x.klarnacdn.net/kp/lib/v1/api.js'
-                ></script>` }
-            />
-        );
+            <div block="Klarna-PaymentSelector">
+                <button
+                  onClick={ () => this.loadPaymentMethod('pay_later') }
+                  block="Button"
+                >
+                    { __('Pay later') }
+                </button>
+
+                <button
+                  onClick={ () => this.loadPaymentMethod('pay_now') }
+                  block="Button"
+                >
+                    { __('Pay now') }
+                </button>
+
+                <button
+                  onClick={ () => this.loadPaymentMethod('pay_over_time') }
+                  block="Button"
+                >
+                    { __('Pay over time') }
+                </button>
+            </div>
+        )
     }
 
     render() {
@@ -98,6 +139,7 @@ export class Klarna extends PureComponent {
             <div block="Klarna">
                 { this.renderScript() }
                 <Loader isLoading={ isLoading } />
+                { this.renderPaymentSelector() }
                 <div id={ KLARNA_PAYMENTS_CONTAINER_ID } />
             </div>
         );

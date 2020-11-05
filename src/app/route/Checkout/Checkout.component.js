@@ -204,6 +204,8 @@ export class Checkout extends PureComponent {
             savePaymentInformation
         } = this.props;
 
+        console.log(paymentMethods);
+
         return (
             <CheckoutBilling
               setLoading={ setLoading }
