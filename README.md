@@ -152,6 +152,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://gagglethread.com"><img src="https://avatars2.githubusercontent.com/u/56184739?v=4" width="100px;" alt=""/><br /><sub><b>santosh-gaggle</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=santosh-gaggle" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Asantosh-gaggle" title="Bug reports">🐛</a> <a href="#translation-santosh-gaggle" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/AleksandrsKondratjevs"><img src="https://avatars3.githubusercontent.com/u/68007919?v=4" width="100px;" alt=""/><br /><sub><b>AleksandrsKondratjevs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=AleksandrsKondratjevs" title="Code">💻</a></td>
     <td align="center"><a href="http://polander.github.io/portfolio"><img src="https://avatars2.githubusercontent.com/u/8862593?v=4" width="100px;" alt=""/><br /><sub><b>Dmitry</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=polander" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/dfelton"><img src="https://avatars0.githubusercontent.com/u/2659558?v=4" width="100px;" alt=""/><br /><sub><b>Darren Felton</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=dfelton" title="Code">💻</a></td>
   </tr>
 </table>
 
