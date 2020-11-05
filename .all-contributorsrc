@@ -568,6 +568,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "dfelton",
+      "name": "Darren Felton",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2659558?v=4",
+      "profile": "https://github.com/dfelton",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
