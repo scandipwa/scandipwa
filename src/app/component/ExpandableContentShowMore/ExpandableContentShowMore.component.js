@@ -28,19 +28,54 @@ export class ExpandableContentShowMore extends PureComponent {
         showElemCount: 3
     };
 
-    state = {
-        isOpen: false
-    };
-
     ref = createRef();
+
+    __construct(props) {
+        super.__construct(props);
+
+        const { showElemCount } = props;
+
+        this.state = {
+            isOpen: false,
+            opened: showElemCount,
+            offset: 0,
+            expandingOrCollapsing: false
+        };
+    }
+
+    componentDidUpdate() {
+        const {
+            expandingOrCollapsing,
+            isOpen
+        } = this.state;
+
+        if (expandingOrCollapsing) {
+            setTimeout(() => this.expandOrCollapse(isOpen), 1);
+        }
+    }
+
+    expandOrCollapse(isOpen) {
+        const { opened, offset } = this.state;
+        const { showElemCount, children } = this.props;
+
+        const MAX_ANIMATED_COUNT = 20;
+
+        if (opened > showElemCount && isOpen) {
+            const count = children.length - opened > MAX_ANIMATED_COUNT ? showElemCount : opened - 1;
+            this.setState({ opened: count }, () => window.scrollTo(0, offset));
+        } else if (opened < children.length && !isOpen) {
+            const count = opened - showElemCount > MAX_ANIMATED_COUNT ? children.length : opened + 1;
+            this.setState({ opened: count }, () => window.scrollTo(0, offset));
+        } else {
+            this.setState({ isOpen: !isOpen, expandingOrCollapsing: false },
+                () => window.scrollTo(0, offset));
+        }
+    }
 
     handleShowAllButtonClick = () => {
         const { pageYOffset } = window;
 
-        this.setState(
-            ({ isOpen }) => ({ isOpen: !isOpen }),
-            () => window.scrollTo(0, pageYOffset)
-        );
+        this.setState({ offset: pageYOffset, expandingOrCollapsing: true });
     };
 
     renderShowAllButton() {
@@ -67,10 +102,10 @@ export class ExpandableContentShowMore extends PureComponent {
     }
 
     renderContent() {
-        const { children, showElemCount } = this.props;
-        const { isOpen } = this.state;
+        const { children } = this.props;
+        const { opened } = this.state;
 
-        const child = !isOpen ? children.slice(0, showElemCount) : children;
+        const child = children.slice(0, opened);
 
         return (
             <>
