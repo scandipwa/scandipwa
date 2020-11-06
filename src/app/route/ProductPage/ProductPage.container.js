@@ -17,12 +17,18 @@ import { withRouter } from 'react-router';
 import { CATEGORY, PDP } from 'Component/Header/Header.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import {
+    MAX_NUMBER_OF_RECENT_PRODUCTS,
+    RECENTLY_VIEWED_PRODUCTS
+} from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
@@ -75,7 +81,8 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateRecentlyViewedProducts: (products) => dispatch(updateRecentlyViewedProducts(products))
 });
 
 /** @namespace Route/ProductPage/Container */
@@ -110,7 +117,8 @@ export class ProductPageContainer extends PureComponent {
         match: MatchType.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
-        metaTitle: PropTypes.string
+        metaTitle: PropTypes.string,
+        updateRecentlyViewedProducts: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -262,6 +270,32 @@ export class ProductPageContainer extends PureComponent {
         if (JSON.stringify(items) !== JSON.stringify(prevItems)) {
             this.getRequiredProductOptions(items);
         }
+
+        this._addToRecentlyViewedProducts();
+    }
+
+    _addToRecentlyViewedProducts() {
+        const {
+            product, product: { sku: newSku },
+            updateRecentlyViewedProducts
+        } = this.props;
+
+        // necessary for skipping not loaded products
+        if (!newSku) {
+            return;
+        }
+
+        const recentProducts = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
+
+        if (recentProducts.length === MAX_NUMBER_OF_RECENT_PRODUCTS) {
+            recentProducts.pop();
+        }
+
+        // Remove product from existing recentProducts to add it later in the beginning
+        const newRecentProducts = recentProducts.filter(({ sku }) => (newSku !== sku));
+
+        newRecentProducts.unshift(product);
+        updateRecentlyViewedProducts(newRecentProducts);
     }
 
     scrollTopIfPreviousPageWasPLP() {

@@ -13,9 +13,15 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
+import RecentlyViewedWidget from 'Component/RecentlyViewedWidget';
 import RenderWhenVisible from 'Component/RenderWhenVisible';
 
-import { CATALOG_PRODUCT_LIST, NEW_PRODUCTS, SLIDER } from './WidgetFactory.config';
+import {
+    CATALOG_PRODUCT_LIST,
+    NEW_PRODUCTS,
+    RECENTLY_VIEWED,
+    SLIDER
+} from './WidgetFactory.config';
 
 import './WidgetFactory.style';
 
@@ -39,6 +45,9 @@ export class WidgetFactory extends PureComponent {
         },
         [CATALOG_PRODUCT_LIST]: {
             component: ProductListWidget
+        },
+        [RECENTLY_VIEWED]: {
+            component: RecentlyViewedWidget
         }
     };
 
