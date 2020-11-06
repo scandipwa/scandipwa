@@ -20,8 +20,8 @@ import './RecentlyViewedWidget.style';
 /** @namespace Component/RecentlyViewedWidget/Component */
 export class RecentlyViewedWidget extends PureComponent {
     static propTypes = {
-        products: ItemsType.isRequired,
-        pageSize: PropTypes.number
+        pageSize: PropTypes.number,
+        products: ItemsType.isRequired
     };
 
     static defaultProps = {

@@ -8,12 +8,14 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+import {
+    RECENTLY_VIEWED_PRODUCTS
+} from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import {
     UPDATE_RECENTLY_VIEWED_PRODUCTS
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
-
-export const RECENTLY_VIEWED_PRODUCTS = 'recentlyViewedProducts';
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = () => ({

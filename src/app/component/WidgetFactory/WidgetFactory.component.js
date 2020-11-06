@@ -13,7 +13,6 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
-import RecentlyViewedWidget from 'Component/RecentlyViewedWidget';
 import RenderWhenVisible from 'Component/RenderWhenVisible';
 
 import {
@@ -28,6 +27,7 @@ import './WidgetFactory.style';
 export const ProductListWidget = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/ProductListWidget'));
 export const NewProducts = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/NewProducts'));
 export const HomeSlider = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Component/SliderWidget'));
+export const RecentlyViewedWidget = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Component/RecentlyViewedWidget'));
 
 /** @namespace Component/WidgetFactory/Component */
 export class WidgetFactory extends PureComponent {

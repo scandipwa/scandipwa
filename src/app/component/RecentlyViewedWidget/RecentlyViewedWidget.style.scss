@@ -16,8 +16,8 @@
 .RecentlyViewedWidget {
     @include after-mobile {
         grid-column: 2;
-        padding-bottom: 2rem;
         min-height: auto;
+        padding-bottom: 2rem;
     }
 
     &-Page {
@@ -31,8 +31,8 @@
         }
 
         @include mobile {
-            grid-template-columns: 1fr 1fr;
             border: 0;
+            grid-template-columns: 1fr 1fr;
         }
 
         @include after-mobile {
@@ -46,8 +46,8 @@
     }
 
     &_isLoading {
-        opacity: 0;
         animation: appear 100ms 200ms ease-in forwards;
+        opacity: 0;
     }
 
     &-More {
