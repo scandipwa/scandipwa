@@ -24,6 +24,7 @@ import { formatPrice } from 'Util/Price';
 /** @namespace Component/CheckoutShipping/Component */
 export class CheckoutShipping extends PureComponent {
     static propTypes = {
+        totals: TotalsType.isRequired,
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
@@ -31,8 +32,7 @@ export class CheckoutShipping extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         selectedShippingMethod: shippingMethodType,
         onAddressSelect: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        totals: TotalsType.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -40,7 +40,12 @@ export class CheckoutShipping extends PureComponent {
     };
 
     renderOrderTotal() {
-        const { totals: { grand_total, quote_currency_code } } = this.props;
+        const {
+            totals: {
+                grand_total,
+                quote_currency_code
+            }
+        } = this.props;
 
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
