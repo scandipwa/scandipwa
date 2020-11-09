@@ -99,7 +99,7 @@ export class WishlistItemContainer extends PureComponent {
     getAttributes = () => {
         const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
 
-        const { attributes } = variants.find(({ sku }) => sku === wishlistSku) || {};
+        const { attributes = [] } = variants.find(({ sku }) => sku === wishlistSku) || {};
 
         return Object.values(attributes).reduce((acc, { attribute_code, attribute_value }) => {
             const {

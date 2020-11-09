@@ -28,6 +28,9 @@ export const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem
     storeConfig: {}
 };
 
+/** @namespace Store/Config/Reducer/getIndexedRatings */
+export const getIndexedRatings = (reviewRatings) => reviewRatings.items || [];
+
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
     ...filterStoreConfig(storeConfig),
@@ -71,7 +74,7 @@ export const ConfigReducer = (
         return {
             ...state,
             countries,
-            reviewRatings,
+            reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements,
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null

@@ -77,7 +77,8 @@ export class OrderQuery {
     }
 
     _prepareAttributes() {
-        return new Field('attributes')
+        return new Field('s_attributes')
+            .setAlias('attributes')
             .addFieldList(this._prepareAttributesFields());
     }
 

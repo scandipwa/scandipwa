@@ -12,6 +12,7 @@
 import MyAccountQuery from 'Query/MyAccount.query';
 import {
     updateCustomerDetails,
+    updateCustomerIsAuthTokenExpired,
     updateCustomerPasswordForgotStatus,
     updateCustomerPasswordResetStatus,
     updateCustomerSignInStatus,
@@ -66,9 +67,13 @@ export class MyAccountDispatcher {
         );
     }
 
-    logout(_, dispatch) {
+    logout(authTokenExpired = false, dispatch) {
+        if (authTokenExpired) {
+            dispatch(updateCustomerIsAuthTokenExpired(true));
+        } else {
+            deleteAuthorizationToken();
+        }
         dispatch(updateCustomerSignInStatus(false));
-        deleteAuthorizationToken();
         CartDispatcher.then(
             ({ default: dispatcher }) => {
                 dispatcher.createGuestEmptyCart(dispatch);

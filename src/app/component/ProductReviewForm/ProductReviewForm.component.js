@@ -36,7 +36,7 @@ export class ProductReviewForm extends PureComponent {
         handleNicknameChange: PropTypes.func.isRequired,
         handleSummaryChange: PropTypes.func.isRequired,
         handleDetailChange: PropTypes.func.isRequired,
-        ratingData: PropTypes.objectOf(PropTypes.number).isRequired,
+        ratingData: PropTypes.objectOf(PropTypes.string).isRequired,
         reviewData: PropTypes.shape({
             nickname: PropTypes.string,
             summary: PropTypes.string,

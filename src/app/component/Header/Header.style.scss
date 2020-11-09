@@ -328,10 +328,10 @@
             }
 
             &_edit {
-                width: 70px;
                 text-transform: uppercase;
 
                 &.Header-Button_isVisible {
+                    width: 70px;
                     opacity: .5;
                 }
             }

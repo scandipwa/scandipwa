@@ -11,7 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
 export const MAX_ZOOM_SCALE = 8;
 
 export const IMAGE_TYPE = 'image';
@@ -20,3 +19,5 @@ export const PLACEHOLDER_TYPE = 'placeholder';
 
 export const THUMBNAIL_KEY = 'small_image';
 export const AMOUNT_OF_PLACEHOLDERS = 0;
+
+export const PRODUCT_GALERY_POPUP_ID = 'ProductGalleryPopup';

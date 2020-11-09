@@ -10,4 +10,5 @@
  */
 
 export const ANIMATION_DURATION = 300;
+export const HEIGHT_TRANSITION_SPEED_ON_MOUNT = 300;
 export const ACTIVE_SLIDE_PERCENT = 0.1;
