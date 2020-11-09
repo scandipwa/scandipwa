@@ -115,8 +115,8 @@ export class CartPage extends PureComponent {
     renderTotal() {
         const {
             totals: {
-                subtotal_with_discount,
-                tax_amount
+                subtotal_with_discount = 0,
+                tax_amount = 0
             }
         } = this.props;
 
