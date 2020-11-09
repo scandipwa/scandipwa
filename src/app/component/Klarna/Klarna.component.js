@@ -94,6 +94,18 @@ export class Klarna extends PureComponent {
         this.setState({ canShowPaymentSelector: false });
     }
 
+    loadPaymentMethodPayLater = () => {
+        this.loadPaymentMethod('pay_later');
+    };
+
+    loadPaymentMethodPayNow = () => {
+        this.loadPaymentMethod('pay_now');
+    };
+
+    loadPaymentMethodPayOverTime = () => {
+        this.loadPaymentMethod('pay_over_time');
+    };
+
     renderPaymentSelector() {
         const { canShowPaymentSelector } = this.state;
 
@@ -109,27 +121,27 @@ export class Klarna extends PureComponent {
         return (
             <div block="Klarna-PaymentSelector">
                 <button
-                  onClick={ () => this.loadPaymentMethod('pay_later') }
+                  onClick={ this.loadPaymentMethodPayLater }
                   block="Button"
                 >
                     { __('Pay later') }
                 </button>
 
                 <button
-                  onClick={ () => this.loadPaymentMethod('pay_now') }
+                  onClick={ this.loadPaymentMethodPayNow }
                   block="Button"
                 >
                     { __('Pay now') }
                 </button>
 
                 <button
-                  onClick={ () => this.loadPaymentMethod('pay_over_time') }
+                  onClick={ this.loadPaymentMethodPayOverTime }
                   block="Button"
                 >
                     { __('Pay over time') }
                 </button>
             </div>
-        )
+        );
     }
 
     render() {
