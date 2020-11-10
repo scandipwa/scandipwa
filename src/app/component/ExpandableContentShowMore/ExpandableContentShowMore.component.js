@@ -28,25 +28,35 @@ export class ExpandableContentShowMore extends PureComponent {
         showElemCount: 3
     };
 
-    state = {
-        isOpen: true
-    };
+    __construct(props) {
+        super.__construct(props);
 
-    isExpanding = false;
+        this.ref = createRef();
 
-    expandableContentHeight = 'auto';
+        const { showElemCount, children: { length } } = this.props;
 
-    expandableRef = createRef();
+        this.expandableRef = createRef();
+        this.expandableContentHeight = 'auto';
 
-    ref = createRef();
+        this.state = {
+            isOpen: length > showElemCount,
+            isExpanding: false
+        };
+    }
 
     componentDidMount() {
-        this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
-        this.setState({ isOpen: false });
+        const { isOpen } = this.state;
+
+        if (isOpen) {
+            this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            this.setState({ isOpen: false });
+        }
     }
 
     getSnapshotBeforeUpdate() {
-        if (this.isExpanding) {
+        const { isExpanding } = this.state;
+
+        if (isExpanding) {
             const { pageYOffset } = window;
             const preventScrolling = () => window.scrollTo(0, pageYOffset);
 
@@ -57,9 +67,11 @@ export class ExpandableContentShowMore extends PureComponent {
                 .slice(0, -1) * ONE_SECOND_IN_MS;
 
             window.addEventListener('scroll', preventScrolling);
-            setTimeout(() => window.removeEventListener('scroll', preventScrolling),
-                transitionDurationCSStoMS);
-            this.isExpanding = false;
+            setTimeout(() => {
+                window.removeEventListener('scroll', preventScrolling);
+                this.setState({ isExpanding: false });
+            },
+            transitionDurationCSStoMS);
         }
 
         return null;
@@ -68,17 +80,21 @@ export class ExpandableContentShowMore extends PureComponent {
     componentDidUpdate() {}
 
     handleShowAllButtonClick = () => {
-        this.isExpanding = true;
-        this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
+        const { isExpanding } = this.state;
+
+        if (!isExpanding) {
+            this.setState(({ isOpen }) => ({ isOpen: !isOpen, isExpanding: true }));
+        }
     };
 
     renderShowAllButton() {
-        const { showElemCount, children } = this.props;
-        const { isOpen } = this.state;
+        const { showElemCount, children: { length } } = this.props;
 
-        if (children.length <= showElemCount) {
+        if (length <= showElemCount) {
             return null;
         }
+
+        const { isOpen } = this.state;
 
         const mods = isOpen ? { state: 'isOpen' } : {};
 
@@ -95,28 +111,40 @@ export class ExpandableContentShowMore extends PureComponent {
         );
     }
 
-    renderContent() {
+    renderExpandableChildren() {
+        const { isOpen, isExpanding } = this.state;
         const { children, showElemCount } = this.props;
-        const { isOpen } = this.state;
 
-        const childStatic = children.slice(0, showElemCount);
-        const childExpandable = children.slice(showElemCount);
+        if (children.length <= showElemCount) {
+            return null;
+        }
 
+        const child = (isOpen || isExpanding) ? children.slice(showElemCount) : null;
         const style = {
             maxHeight: isOpen ? this.expandableContentHeight : 0
         };
 
         return (
+            <div
+              ref={ this.expandableRef }
+              block="ExpandableContentShowMore"
+              elem="ExpandableChildren"
+              style={ style }
+            >
+                { child }
+            </div>
+        );
+    }
+
+    renderContent() {
+        const { children, showElemCount } = this.props;
+
+        const child = children.slice(0, showElemCount);
+
+        return (
             <>
-                { childStatic }
-                <div
-                  ref={ this.expandableRef }
-                  block="ExpandableContentShowMore"
-                  elem="ExpandableChildren"
-                  style={ style }
-                >
-                    { childExpandable }
-                </div>
+                { child }
+                { this.renderExpandableChildren() }
                 { this.renderShowAllButton() }
             </>
         );
