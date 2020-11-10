@@ -32,21 +32,29 @@ export class ExpandableContentShowMore extends PureComponent {
         isOpen: false
     };
 
+    isExpanding = false;
+
     ref = createRef();
 
     getSnapshotBeforeUpdate() {
-        const { pageYOffset } = window;
-        const preventScrolling = () => window.scrollTo(0, pageYOffset);
-        const EXPAND_ANIM_DURATION_MS = 400;
+        if (this.isExpanding) {
+            const { pageYOffset } = window;
+            const preventScrolling = () => window.scrollTo(0, pageYOffset);
+            const EXPAND_ANIM_DURATION_MS = 400;
 
-        window.addEventListener('scroll', preventScrolling);
-        return setTimeout(() => window.removeEventListener('scroll', preventScrolling),
-            EXPAND_ANIM_DURATION_MS);
+            window.addEventListener('scroll', preventScrolling);
+            setTimeout(() => window.removeEventListener('scroll', preventScrolling),
+                EXPAND_ANIM_DURATION_MS);
+            this.isExpanding = false;
+        }
+
+        return null;
     }
 
     componentDidUpdate() {}
 
     handleShowAllButtonClick = () => {
+        this.isExpanding = true;
         this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
     };
 
