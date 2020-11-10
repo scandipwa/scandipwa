@@ -154,7 +154,12 @@ export class CmsPageContainer extends DataContainer {
             updateBreadcrumbs
         } = this.props;
 
-        const { content_heading, meta_title, title, meta_description } = page;
+        const { 
+            content_heading, 
+            meta_title, 
+            title, 
+            meta_description 
+        } = page;
 
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
 
