@@ -29,22 +29,36 @@ export class ExpandableContentShowMore extends PureComponent {
     };
 
     state = {
-        isOpen: false
+        isOpen: true
     };
 
     isExpanding = false;
 
+    expandableContentHeight = 'auto';
+
+    expandableRef = createRef();
+
     ref = createRef();
+
+    componentDidMount() {
+        this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+        this.setState({ isOpen: false });
+    }
 
     getSnapshotBeforeUpdate() {
         if (this.isExpanding) {
             const { pageYOffset } = window;
             const preventScrolling = () => window.scrollTo(0, pageYOffset);
-            const EXPAND_ANIM_DURATION_MS = 400;
+
+            const ONE_SECOND_IN_MS = 1000;
+            const transitionDurationCSStoMS = window
+                .getComputedStyle(this.expandableRef.current)
+                .getPropertyValue('transition-duration')
+                .slice(0, -1) * ONE_SECOND_IN_MS;
 
             window.addEventListener('scroll', preventScrolling);
             setTimeout(() => window.removeEventListener('scroll', preventScrolling),
-                EXPAND_ANIM_DURATION_MS);
+                transitionDurationCSStoMS);
             this.isExpanding = false;
         }
 
@@ -88,16 +102,15 @@ export class ExpandableContentShowMore extends PureComponent {
         const childStatic = children.slice(0, showElemCount);
         const childExpandable = children.slice(showElemCount);
 
-        const FILTER_MAX_HEIGHT = 50;
-
         const style = {
-            maxHeight: isOpen ? childExpandable.length * FILTER_MAX_HEIGHT : 0
+            maxHeight: isOpen ? this.expandableContentHeight : 0
         };
 
         return (
             <>
                 { childStatic }
                 <div
+                  ref={ this.expandableRef }
                   block="ExpandableContentShowMore"
                   elem="ExpandableChildren"
                   style={ style }
