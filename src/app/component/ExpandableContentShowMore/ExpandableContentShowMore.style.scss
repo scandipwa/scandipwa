@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 .ExpandableContentShowMore {
     text-align: left;
 
@@ -41,5 +40,10 @@
                 }
             }
         }
+    }
+
+    &-ExpandableChildren {
+        transition: .5s;
+        overflow: hidden;
     }
 }

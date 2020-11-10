@@ -28,56 +28,26 @@ export class ExpandableContentShowMore extends PureComponent {
         showElemCount: 3
     };
 
+    state = {
+        isOpen: false
+    };
+
     ref = createRef();
 
-    __construct(props) {
-        super.__construct(props);
+    getSnapshotBeforeUpdate() {
+        const { pageYOffset } = window;
+        const preventScrolling = () => window.scrollTo(0, pageYOffset);
+        const EXPAND_ANIM_DURATION_MS = 400;
 
-        const { showElemCount } = props;
-
-        this.state = {
-            isOpen: false,
-            opened: showElemCount,
-            expandingOrCollapsing: false
-        };
+        window.addEventListener('scroll', preventScrolling);
+        return setTimeout(() => window.removeEventListener('scroll', preventScrolling),
+            EXPAND_ANIM_DURATION_MS);
     }
 
-    componentDidUpdate() {
-        const {
-            expandingOrCollapsing,
-            isOpen
-        } = this.state;
-
-        if (expandingOrCollapsing) {
-            setTimeout(() => this.expandOrCollapse(isOpen), 1);
-        }
-    }
-
-    expandOrCollapse(isOpen) {
-        const { opened } = this.state;
-        const { showElemCount, children } = this.props;
-        const offset = window.pageYOffset;
-
-        const MAX_ANIMATED_COUNT = 20;
-
-        if (opened > showElemCount && isOpen) {
-            const count = children.length - opened > MAX_ANIMATED_COUNT ? showElemCount : opened - 1;
-            this.setState({ opened: count }, () => window.scrollTo(0, offset));
-        } else if (opened < children.length && !isOpen) {
-            const count = opened - showElemCount > MAX_ANIMATED_COUNT ? children.length : opened + 1;
-            this.setState({ opened: count }, () => window.scrollTo(0, offset));
-        } else {
-            this.setState({ isOpen: !isOpen, expandingOrCollapsing: false },
-                () => window.scrollTo(0, offset));
-        }
-    }
+    componentDidUpdate() {}
 
     handleShowAllButtonClick = () => {
-        const { expandingOrCollapsing } = this.state;
-
-        if (!expandingOrCollapsing) {
-            this.setState({ expandingOrCollapsing: true });
-        }
+        this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
     };
 
     renderShowAllButton() {
@@ -104,14 +74,28 @@ export class ExpandableContentShowMore extends PureComponent {
     }
 
     renderContent() {
-        const { children } = this.props;
-        const { opened } = this.state;
+        const { children, showElemCount } = this.props;
+        const { isOpen } = this.state;
 
-        const child = children.slice(0, opened);
+        const childStatic = children.slice(0, showElemCount);
+        const childExpandable = children.slice(showElemCount);
+
+        const FILTER_MAX_HEIGHT = 50;
+
+        const style = {
+            maxHeight: isOpen ? childExpandable.length * FILTER_MAX_HEIGHT : 0
+        };
 
         return (
             <>
-                { child }
+                { childStatic }
+                <div
+                  block="ExpandableContentShowMore"
+                  elem="ExpandableChildren"
+                  style={ style }
+                >
+                    { childExpandable }
+                </div>
                 { this.renderShowAllButton() }
             </>
         );
