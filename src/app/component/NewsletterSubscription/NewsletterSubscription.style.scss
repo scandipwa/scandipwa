@@ -1,0 +1,94 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.NewsletterSubscription {
+    --newsletter-subscription-input-background: var(--input-background-color);
+    --newsletter-subscription-input-color: #{$black};
+    --newsletter-subscription-placeholder-color: #9f9c9c;
+    --newsletter-subscription-button-background: var(--link-color);
+
+    min-width: 230px;
+    padding: 0 1rem;
+
+    @include desktop {
+        padding: 0;
+    }
+
+    .FieldForm {
+        &-Fieldset {
+            display: flex;
+            flex-wrap: nowrap;
+
+            &_isLoading {
+                opacity: .7;
+                pointer-events: none;
+            }
+
+            .Field {
+                width: 100%;
+                margin-top: 0;
+
+                &-Message {
+                    position: absolute;
+                }
+
+                input {
+                    background-color: var(--newsletter-subscription-input-background);
+                    color: var(--newsletter-subscription-input-color);
+                    border: 1px solid transparent;
+                    padding: 14px 12px;
+
+                    &::placeholder {
+                        color: var(--newsletter-subscription-placeholder-color);
+                    }
+                }
+
+                &_hasError {
+                    input {
+                        border: 1px solid var(--primary-error-color);
+                        border-right: 0;
+                    }
+                }
+            }
+        }
+
+        &-Fields {
+            margin-bottom: 0;
+        }
+
+        &-Button {
+            padding: 12px;
+            background-color: var(--newsletter-subscription-button-background);
+            border-color: var(--newsletter-subscription-button-background);
+
+            &:focus,
+            &:hover {
+                border-color: var(--newsletter-subscription-button-background);
+                background-color: var(--newsletter-subscription-button-background);
+            }
+
+            &::after {
+                display: block;
+                content: '';
+                background-image: url('./images/letter-icon.svg');
+                background-repeat: no-repeat;
+                height: 14px;
+                width: 18px;
+            }
+        }
+    }
+
+    .Form {
+        &_isInvalid {
+            margin-bottom: 1.8rem;
+        }
+    }
+}
