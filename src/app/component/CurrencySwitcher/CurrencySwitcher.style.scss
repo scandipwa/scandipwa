@@ -1,0 +1,67 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.CurrencySwitcher {
+    .FieldSelect {
+        &-Select {
+            border: none;
+            border-bottom: 1px solid var(--input-border-color);
+        }
+    }
+    
+    @include desktop {
+        display: inline-block;
+
+        .Field {
+            margin: .5rem;
+        }
+
+        .FieldSelect {
+            &::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-left: 3px solid transparent;
+                border-right: 3px solid transparent;
+                border-bottom: 3px solid black;
+                transition: transform 200ms ease-in-out;
+                transform: rotate(180deg);
+                will-change: transform;
+            }
+
+            &[aria-expanded='true'] {
+                &::after {
+                    transform: rotate(0);
+                }
+            }
+
+            &-Select {
+                border: none;
+                font-size: 1rem;
+                padding: 0;
+                min-height: auto;
+            }
+
+            &-Options {
+                overflow-y: auto;
+                text-align: center;
+                margin-top: 1rem;
+            }
+
+            &-Option {
+                padding: 0;
+                line-height: 2.8rem;
+                font-size: 1.2rem;
+            }
+        }
+    }
+}

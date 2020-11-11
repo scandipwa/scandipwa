@@ -22,14 +22,17 @@ export const filterStoreConfig = (config) => Object.entries(config).reduce(
     {}
 );
 
-export const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem('config') || {
+export const {
+    countries, reviewRatings, storeConfig, currencyData
+} = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
-    storeConfig: {}
+    storeConfig: {},
+    currencyData: {}
 };
 
 /** @namespace Store/Config/Reducer/getIndexedRatings */
-export const getIndexedRatings = (reviewRatings) => reviewRatings.items || [];
+export const getIndexedRatings = (reviewRatings) => ((reviewRatings) ? reviewRatings.items || [] : []);
 
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
@@ -37,6 +40,7 @@ export const getInitialState = () => ({
     countries,
     reviewRatings,
     checkoutAgreements: [],
+    currencyData,
     isLoading: true,
     device: {
         isMobile: true,
@@ -60,6 +64,7 @@ export const ConfigReducer = (
             countries,
             reviewRatings,
             checkoutAgreements,
+            currencyData,
             storeConfig = {}
         } = {},
         device
@@ -76,6 +81,7 @@ export const ConfigReducer = (
             countries,
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements,
+            currencyData,
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value
