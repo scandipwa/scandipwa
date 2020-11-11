@@ -53,31 +53,20 @@ export class ExpandableContentShowMore extends PureComponent {
         }
     }
 
-    getSnapshotBeforeUpdate() {
+    componentDidUpdate(prevProps) {
         const { isExpanding } = this.state;
 
         if (isExpanding) {
-            const { pageYOffset } = window;
-            const preventScrolling = () => window.scrollTo(0, pageYOffset);
-
             const ONE_SECOND_IN_MS = 1000;
             const transitionDurationCSStoMS = window
                 .getComputedStyle(this.expandableRef.current)
                 .getPropertyValue('transition-duration')
                 .slice(0, -1) * ONE_SECOND_IN_MS;
 
-            window.addEventListener('scroll', preventScrolling);
-            setTimeout(() => {
-                window.removeEventListener('scroll', preventScrolling);
-                this.setState({ isExpanding: false });
-            },
-            transitionDurationCSStoMS);
+            setTimeout(() => this.setState({ isExpanding: false }),
+                transitionDurationCSStoMS);
         }
 
-        return null;
-    }
-
-    componentDidUpdate(prevProps) {
         const { children: { length } } = this.props;
         const { children: { length: prevLength } } = prevProps;
 

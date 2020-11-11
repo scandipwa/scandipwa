@@ -14,6 +14,8 @@
     --product-configurable-attributes-margin: 0;
     --product-configurable-attributes-content-padding: 0;
 
+    overflow-anchor: none;
+
     @include mobile {
         --product-configurable-attributes-content-padding: .7rem .7rem 2.1rem;
     }

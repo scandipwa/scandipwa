@@ -27,7 +27,7 @@
             right: 0;
             top: 50%;
             transform: translate(calc(100% + 5px), -75%) rotate(-45deg);
-            transition: .4s;
+            transition: .5s;
         }
 
         &:focus:not(:hover) {
@@ -44,7 +44,7 @@
     }
 
     &-ExpandableChildren {
-        transition: .4s;
+        transition: .5s;
         overflow: hidden;
     }
 }
