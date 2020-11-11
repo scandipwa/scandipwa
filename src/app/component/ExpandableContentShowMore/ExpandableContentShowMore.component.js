@@ -77,7 +77,30 @@ export class ExpandableContentShowMore extends PureComponent {
         return null;
     }
 
-    componentDidUpdate() {}
+    componentDidUpdate(prevProps) {
+        const { children: { length } } = this.props;
+        const { children: { length: prevLength } } = prevProps;
+
+        if (length !== prevLength) {
+            this.getExpandableContentHeight();
+        }
+    }
+
+    getExpandableContentHeight() {
+        const { isOpen } = this.state;
+        const { showElemCount, children: { length } } = this.props;
+
+        if (isOpen && length <= showElemCount) {
+            this.setState({ isOpen: false });
+            return;
+        }
+
+        this.expandableContentHeight = 'auto';
+        this.setState({ isOpen: true }, () => {
+            this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            this.setState({ isOpen: false });
+        });
+    }
 
     handleShowAllButtonClick = () => {
         const { isExpanding } = this.state;
@@ -115,13 +138,9 @@ export class ExpandableContentShowMore extends PureComponent {
         const { isOpen, isExpanding } = this.state;
         const { children, showElemCount } = this.props;
 
-        if (children.length <= showElemCount) {
-            return null;
-        }
-
         const child = (isOpen || isExpanding) ? children.slice(showElemCount) : null;
         const style = {
-            maxHeight: isOpen ? this.expandableContentHeight : 0
+            height: isOpen ? this.expandableContentHeight : 0
         };
 
         return (
