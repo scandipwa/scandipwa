@@ -12,8 +12,8 @@
  */
 
 import { getAuthorizationToken } from 'Util/Auth';
-
 import { getCurrency } from 'Util/Currency';
+
 import { hash } from './Hash';
 
 export const GRAPHQL_URI = '/graphql';
@@ -58,7 +58,8 @@ export const appendTokenToHeaders = (headers) => {
  * @namespace Util/Request/formatURI
  */
 export const formatURI = (query, variables, url) => {
-    variables['_currency'] = getCurrency();
+    // eslint-disable-next-line no-param-reassign
+    variables._currency = getCurrency();
 
     const stringifyVariables = Object.keys(variables).reduce(
         (acc, variable) => [...acc, `${ variable }=${ JSON.stringify(variables[variable]) }`],
