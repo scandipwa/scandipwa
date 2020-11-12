@@ -18,7 +18,11 @@ import KlarnaQuery from 'Query/Klarna.query';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation } from 'Util/Request';
 
-import { KLARNA_PAYMENTS_CONTAINER_ID, KLARNA_SCRIPT_ID } from './Klarna.config';
+import {
+    KLARNA_PAYMENTS_CONTAINER_ID,
+    KLARNA_PAYMENTS_DEVICE_RECOGNITION_ID,
+    KLARNA_SCRIPT_ID
+} from './Klarna.config';
 
 import './Klarna.style';
 
@@ -36,8 +40,17 @@ export class Klarna extends PureComponent {
 
     state = {
         isLoading: true,
-        canShowPaymentSelector: true
+        canShowPaymentSelector: true,
+        paymentIsShown: false
     };
+
+    componentWillUnmount() {
+        const { paymentIsShown } = this.state;
+
+        if (paymentIsShown) {
+            document.getElementById(KLARNA_PAYMENTS_DEVICE_RECOGNITION_ID).remove();
+        }
+    }
 
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
@@ -85,13 +98,17 @@ export class Klarna extends PureComponent {
         klarnaScript.setAttribute('src', 'https://x.klarnacdn.net/kp/lib/v1/api.js');
         klarnaScript.async = true;
         document.head.appendChild(klarnaScript);
+
+        this.setState({ paymentIsShown: true });
     }
 
     loadPaymentMethod(method) {
-        this.setState({ isLoading: true });
+        this.setState({
+            isLoading: true,
+            canShowPaymentSelector: false
+        });
         localStorage.setItem('kl_pm', method);
         this.renderScript();
-        this.setState({ canShowPaymentSelector: false });
     }
 
     loadPaymentMethodPayLater = () => {
@@ -149,7 +166,6 @@ export class Klarna extends PureComponent {
 
         return (
             <div block="Klarna">
-                { this.renderScript() }
                 <Loader isLoading={ isLoading } />
                 { this.renderPaymentSelector() }
                 <div id={ KLARNA_PAYMENTS_CONTAINER_ID } />
