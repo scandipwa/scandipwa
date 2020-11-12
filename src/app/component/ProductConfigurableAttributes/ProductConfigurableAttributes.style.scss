@@ -57,7 +57,7 @@
 
         &Content {
             overflow-anchor: none;
-            
+
             @include after-mobile {
                 margin-bottom: 1.2rem;
             }
