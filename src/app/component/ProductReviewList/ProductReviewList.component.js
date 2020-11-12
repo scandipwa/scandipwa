@@ -27,8 +27,12 @@ export class ProductReviewList extends PureComponent {
 
     renderReviews() {
         const { product: { reviews } } = this.props;
-        return reviews.map((reviewItem) => (
-            <ProductReviewItem reviewItem={ reviewItem } key={ reviewItem.review_id } />
+        return reviews.map((reviewItem, i) => (
+            <ProductReviewItem
+              reviewItem={ reviewItem }
+              // eslint-disable-next-line react/no-array-index-key
+              key={ i }
+            />
         ));
     }
 

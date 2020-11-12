@@ -114,6 +114,8 @@ export class FieldContainer extends PureComponent {
         switch (type) {
         case NUMBER_TYPE:
             return 0;
+        case CHECKBOX_TYPE:
+            return false;
         default:
             return '';
         }

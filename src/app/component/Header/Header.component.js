@@ -539,7 +539,7 @@ export class Header extends NavigationAbstract {
               elem="Button"
               mods={ { type: 'edit', isVisible } }
               onClick={ onEditButtonClick }
-              aria-label="Clear"
+              aria-label="Edit"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
             >
@@ -629,10 +629,18 @@ export class Header extends NavigationAbstract {
     }
 
     render() {
+        const { stateMap } = this;
         const {
             navigationState: { name, isHiddenOnMobile = false },
-            isCheckout
+            isCheckout,
+            device
         } = this.props;
+
+        if (!device.isMobile) {
+            // hide edit button on desktop
+            stateMap[CUSTOMER_WISHLIST].edit = false;
+            stateMap[CART_OVERLAY].edit = false;
+        }
 
         return (
             <section block="Header" elem="Wrapper">

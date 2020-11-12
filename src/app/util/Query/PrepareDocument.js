@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Field from 'Util/Query/Field';
-
 export const MUTATION_TYPE = 'mutation';
 export const QUERY_TYPE = 'query';
 
@@ -20,57 +16,76 @@ export const QUERY_TYPE = 'query';
  * Prepare request body string from query list (all entries must be instances of Query).
  * @param  {Array<Field>} queries
  * @return {String} JSON String, format: `{"query":"{alias: queryName (attr:key) { field1, field2 }}"}`
- * @namespace Util/Query/prepareDocument
+ * @namespace Util/Query/prepareFieldString
  */
-export const prepareDocument = (queries) => {
-    const args = [];
-    const querySelections = [];
-    const variableDefinitions = [];
-    const variableAssignments = queries.reduce((variableAssignmentMap, querySelection) => {
-        if (!(querySelection instanceof Field)) {
-            console.warn('Query can only be prepared from other queries!');
-            return {};
+export const prepareFieldString = (rootField, accArgs = {}) => {
+    const {
+        alias, name, args, children
+    } = rootField;
+
+    const resolvedArgs = args.reduce((acc, arg) => {
+        const { name, type, value } = arg;
+
+        if (!accArgs[name]) {
+            // eslint-disable-next-line no-param-reassign
+            accArgs[name] = [];
         }
 
-        querySelection.build(args);
-        querySelections.push(querySelection.toString());
-        variableDefinitions.push(...querySelection.variableDefinitions);
+        // add type and value of the argument into argument accumulator,
+        // we will need this value when building the query doc and variables
+        const index = accArgs[name].push([type, value]);
 
-        return {
-            ...variableAssignmentMap,
-            ...querySelection.variableValues
-        };
-    }, {});
+        // join each argument as "name:$var_1"
+        return [...acc, `${name}:$${name}_${index}`];
+    }, []);
 
-    return {
-        variableDefinitions,
-        querySelections,
-        variableAssignments
-    };
+    // join arguments, wrap into "()" and join with ","
+    const formattedArgs = resolvedArgs.length ? `(${resolvedArgs.join(',')})` : '';
+
+    // join child fields with ","
+    const formattedChildren = children.map((field) => prepareFieldString(field, accArgs)).join(',');
+
+    // wrap body with "{}"
+    const body = children.length ? `{${formattedChildren}}` : '';
+
+    // format like "alias:name(arg: $var){field1,field2}"
+    return `${alias}${name}${formattedArgs}${body}`;
 };
 
 /** @namespace Util/Query/prepareRequest */
-export const prepareRequest = (document, type) => {
+export const prepareRequest = (fields, type) => {
+    const fieldsArray = Array.isArray(fields) ? fields : [fields];
+
     if (type !== MUTATION_TYPE && type !== QUERY_TYPE) {
-        console.warn('Request can only prepared from Query or Mutation.');
-        return null;
+        // we only support Mutation and Query types
+        throw new Error(`GraphQL document type "${type}" is not supported.`);
     }
 
-    const {
-        variableDefinitions,
-        querySelections,
-        variableAssignments
-    } = prepareDocument(document);
+    const variables = {};
+    const accArgs = {};
 
-    if (!querySelections || !variableAssignments) {
-        return null;
-    }
+    // prepare fields from each field passed
+    const fieldStrings = fieldsArray.map((field) => prepareFieldString(field, accArgs)).join(',');
 
-    const variables = variableDefinitions.length ? `(${ variableDefinitions.join(', ') })` : '';
+    // go through argument accumulator collected in "prepareFieldString", join values
+    // into the format "$var:Type" and append variable value to variables field
+    const resolvedArgs = Object.entries(accArgs).reduce((acc, [name, dataArray]) => {
+        dataArray.forEach(([type, value], i) => {
+            const variable = `${name}_${i + 1}`;
+            acc.push(`$${variable}:${type}`);
+            variables[variable] = value;
+        });
+
+        return acc;
+    }, []);
+
+    // Wrap arguments with "()" and join using ","
+    const formattedArgs = resolvedArgs.length ? `(${resolvedArgs.join(',')})` : '';
 
     return {
-        query: `${type} ${variables} {${ querySelections.join(', ') }}`,
-        variables: variableAssignments
+        // format like "query($var_1:String){test(arg: $var_1){id}}"
+        query: `${type}${formattedArgs}{${fieldStrings}}`,
+        variables
     };
 };
 
