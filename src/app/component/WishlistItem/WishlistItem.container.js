@@ -191,7 +191,7 @@ export class WishlistItemContainer extends PureComponent {
             <SwipeToDelete
               renderRightSideContent={ this.renderRightSideContent }
               topElemMix={ { block: 'WishlistItem' } }
-              onAheadOfDragItemRemoveTheshold={ this.containerFunctions.removeItem }
+              onAheadOfDragItemRemoveThreshold={ this.containerFunctions.removeItem }
             >
                 <WishlistItem
                   { ...this.props }
