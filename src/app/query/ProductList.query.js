@@ -47,14 +47,16 @@ export class ProductListQuery {
         const [from, to] = value[0].split('_');
 
         if (from === '*') {
-            return `${key}: { to: ${to} } `;
+            return { [key]: { to } };
         }
 
         if (to === '*') {
-            return `${key}: { from: ${from} } `;
+            return { [key]: { from } };
         }
 
-        return `${key}: { from: ${from}, to: ${to} } `;
+        return {
+            [key]: { from, to }
+        };
     }
 
     _getCustomFilters = (filters = {}) => (
@@ -64,43 +66,43 @@ export class ProductListQuery {
             }
 
             if (key === 'price') {
-                return [
+                return {
                     ...acc,
-                    this._getPriceFilter(key, attribute)
-                ];
+                    ...this._getPriceFilter(key, attribute)
+                };
             }
 
-            return [
+            return {
                 ...acc,
-                `${key}: { in: [ ${attribute.join(',')} ] } `
-            ];
-        }, [])
+                [key]: { in: attribute }
+            };
+        }, {})
     );
 
     _getFilterArgumentMap() {
         return {
-            categoryIds: (id) => [`category_id: { eq: ${id} }`],
-            categoryUrlPath: (url) => [`category_url_path: { eq: ${url} }`],
+            categoryIds: (id) => ({ category_id: { eq: id } }),
+            categoryUrlPath: (url) => ({ category_url_path: { eq: url } }),
             priceRange: ({ min, max }) => {
-                const filters = [];
+                const price = {};
 
-                if (min && !max) {
-                    filters.push(`price: { from: ${min} }`);
-                } else if (!min && max) {
-                    filters.push(`price: { to: ${max} }`);
-                } else if (min && max) {
-                    filters.push(`price: { from: ${min}, to: ${max} }`);
+                if (min) {
+                    price.from = min;
                 }
 
-                return filters;
+                if (max) {
+                    price.to = max;
+                }
+
+                return { price };
             },
-            productsSkuArray: (sku) => [`sku: { in: [${ encodeURIComponent(sku) }] }`],
-            productSKU: (sku) => [`sku: { eq: ${ encodeURIComponent(sku) } }`],
-            productUrlPath: (url) => [`url_key: { eq: ${url}}`],
+            productsSkuArray: (sku) => ({ sku: { in: sku } }),
+            productSKU: (sku) => ({ sku: { eq: sku } }),
+            productUrlPath: (url) => ({ url_key: { eq: url } }),
             customFilters: this._getCustomFilters,
-            newToDate: (date) => [`news_to_date: { gteq: ${date} }`],
-            conditions: (conditions) => [`conditions: { eq: ${conditions} }`],
-            customerGroupId: (id) => [`customer_group_id: { eq: ${id} }`]
+            newToDate: (date) => ({ news_to_date: { gteq: date } }),
+            conditions: (conditions) => ({ conditions: { eq: conditions } }),
+            customerGroupId: (id) => ({ customer_group_id: { eq: id } })
         };
     }
 
@@ -116,11 +118,11 @@ export class ProductListQuery {
             },
             search: {
                 type: 'String!',
-                handler: (option) => encodeURIComponent(option)
+                handler: (option) => option
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
-                handler: ({ sortKey, sortDirection }) => `{${sortKey}: ${sortDirection || 'ASC'}}`
+                handler: ({ sortKey, sortDirection }) => ({ [sortKey]: sortDirection || 'ASC' })
             },
             filter: {
                 type: 'ProductAttributeFilterInput!',
@@ -153,12 +155,12 @@ export class ProductListQuery {
                                 return acc;
                             }
 
-                            return [...acc, ...filterArgumentMap[key](option)];
+                            return { ...acc, ...filterArgumentMap[key](option) };
                         },
-                        []
+                        {}
                     );
 
-                    return `{${ parsedOptions.join(',') }}`;
+                    return parsedOptions;
                 }
             }
         };
@@ -235,7 +237,8 @@ export class ProductListQuery {
         if (!isVariant) {
             fields.push(
                 'url',
-                this._getReviewSummaryField(),
+                this._getReviewCountField(),
+                this._getRatingSummaryField()
             );
 
             // if variants are not needed
@@ -463,7 +466,8 @@ export class ProductListQuery {
     }
 
     _getAttributesField(isVariant) {
-        return new Field('attributes')
+        return new Field('s_attributes')
+            .setAlias('attributes')
             .addFieldList(this._getAttributeFields(isVariant));
     }
 
@@ -541,45 +545,57 @@ export class ProductListQuery {
         ];
     }
 
-    _getRatingVoteFields() {
+    _getRatingsBreakdownFields() {
         return [
-            'vote_id',
-            'rating_code',
-            'percent'
+            new Field('name').setAlias('rating_code'),
+            'value'
         ];
     }
 
-    _getRatingVotesField() {
-        return new Field('rating_votes')
-            .addFieldList(this._getRatingVoteFields());
+    _getRatingsBreakdownField() {
+        return new Field('ratings_breakdown')
+            .setAlias('rating_votes')
+            .addFieldList(this._getRatingsBreakdownFields());
     }
 
-    _getReviewFields() {
+    _getReviewItemsFields() {
         return [
-            'review_id',
+            'average_rating',
             'nickname',
-            'title',
-            'detail',
+            new Field('summary').setAlias('title'),
+            new Field('text').setAlias('detail'),
             'created_at',
-            this._getRatingVotesField()
+            this._getRatingsBreakdownField()
+        ];
+    }
+
+    _getReviewItemsField() {
+        return new Field('items')
+            .addFieldList(this._getReviewItemsFields());
+    }
+
+    _getReviewsFields() {
+        return [
+            this._getReviewItemsField()
         ];
     }
 
     _getReviewsField() {
         return new Field('reviews')
-            .addFieldList(this._getReviewFields());
+            // Hard-coded pages, it will be very hard to
+            // paginate using current implementation
+            // eslint-disable-next-line no-magic-numbers
+            .addArgument('pageSize', 'Int', 20)
+            .addArgument('currentPage', 'Int', 1)
+            .addFieldList(this._getReviewsFields());
     }
 
-    _getReviewSummaryFields() {
-        return [
-            'rating_summary',
-            'review_count'
-        ];
+    _getReviewCountField() {
+        return new Field('review_count');
     }
 
-    _getReviewSummaryField() {
-        return new Field('review_summary')
-            .addFieldList(this._getReviewSummaryFields());
+    _getRatingSummaryField() {
+        return new Field('rating_summary');
     }
 
     _getBundleOptionsFields() {

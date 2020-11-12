@@ -328,10 +328,11 @@
             }
 
             &_edit {
+                text-transform: uppercase;
+
                 &.Header-Button_isVisible {
-                    opacity: .5;
-                    text-transform: uppercase;
                     width: 70px;
+                    opacity: .5;
                 }
             }
 
@@ -343,8 +344,6 @@
                     width: 0;
                     margin-left: 1rem;
                     margin-top: .5rem;
-                    opacity: .5;
-                }
             }
 
             &_home {

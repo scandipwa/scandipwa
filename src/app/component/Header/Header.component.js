@@ -562,7 +562,7 @@ export class Header extends NavigationAbstract {
               elem="Button"
               mods={ { type: 'edit', isVisible } }
               onClick={ onEditButtonClick }
-              aria-label="Clear"
+              aria-label="Edit"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
             >

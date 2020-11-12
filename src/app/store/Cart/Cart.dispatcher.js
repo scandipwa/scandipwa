@@ -31,10 +31,14 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
  */
 export class CartDispatcher {
     updateInitialCartData(dispatch) {
+        const guestQuoteId = this._getGuestQuoteId();
+
         if (isSignedIn()) {
+            // This is logged in customer, no need for quote id
             this._syncCartWithBE(dispatch);
-        } else {
-            this.createGuestEmptyCart(dispatch);
+        } else if (guestQuoteId) {
+            // This is guest
+            this._syncCartWithBE(dispatch, guestQuoteId);
         }
     }
 
@@ -46,6 +50,10 @@ export class CartDispatcher {
                 this._updateCartData({}, dispatch);
             }
         );
+    }
+
+    resetGuestCart(dispatch) {
+        return this._updateCartData({}, dispatch);
     }
 
     _createEmptyCart(dispatch) {

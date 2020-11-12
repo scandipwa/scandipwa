@@ -58,11 +58,11 @@ export const appendTokenToHeaders = (headers) => {
  */
 export const formatURI = (query, variables, url) => {
     const stringifyVariables = Object.keys(variables).reduce(
-        (acc, variable) => [...acc, `${ variable }=${ variables[ variable ] }`],
+        (acc, variable) => [...acc, `${ variable }=${ JSON.stringify(variables[variable]) }`],
         [`?hash=${ hash(query) }`]
     );
 
-    return `${ url }${ stringifyVariables.join('&') }`.replace(/ /g, '');
+    return `${ url }${ stringifyVariables.join('&') }`;
 };
 
 /**

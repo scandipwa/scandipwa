@@ -13,5 +13,7 @@
 export const DRAG_RIGHT_OPEN_TRESHHOLD = 80;
 // Threshhold after we open right side
 export const DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD = DRAG_RIGHT_OPEN_TRESHHOLD / 2;
+// Treshold after we remove item on touchend as percentage of item width
+export const DRAG_ITEM_REMOVE_TRESHOLD = 0.8;
 
 export const ANIMATION_DURATION = 300;
