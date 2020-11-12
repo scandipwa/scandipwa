@@ -13,38 +13,9 @@ import Field from 'Util/Query/Field';
 
 /** @namespace Util/Query/Fragment */
 export class Fragment extends Field {
-    /**
-     * Creates an instance of Fragment.
-     * @param  {String} name Name of the Fragment
-     * @memberof Fragment
-     */
     __construct(name) {
         super.__construct(name);
-        this._name = name;
-    }
-
-    /**
-     * Add fragment syntax to name
-     * @private
-     * @return {String}
-     * @memberof Fragment
-     */
-    _addFragmentSyntax() {
-        return `... on ${this.name}`;
-    }
-
-    /**
-     * Converts Field to string
-     * @return {String}
-     * @memberof Field
-     */
-    toString() {
-        const { fieldList } = this;
-        if (Object.keys(fieldList).length === 0) {
-            return this.name;
-        }
-        const output = Object.keys(fieldList).map((key) => fieldList[key].toString());
-        return `${ this._addFragmentSyntax() } { ${ output.join(', ') } }`;
+        this.name = `... on ${name}`;
     }
 }
 

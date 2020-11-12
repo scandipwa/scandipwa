@@ -32,16 +32,15 @@ export class ProductReviewItem extends PureComponent {
         return date ? date.toDateString() : created_at;
     }
 
-    renderReviewListItemRating = (ratingVoteItem) => {
+    renderReviewListItemRating = (ratingVoteItem, i) => {
         const {
-            vote_id,
             rating_code,
             percent
         } = ratingVoteItem;
 
         return (
             <div
-              key={ vote_id }
+              key={ i }
               block="ProductReviewItem"
               elem="RatingSummaryItem"
               itemType="http://schema.org/Rating"
@@ -79,14 +78,12 @@ export class ProductReviewItem extends PureComponent {
             reviewItem: {
                 title,
                 detail,
-                review_id,
                 rating_votes
             }
         } = this.props;
 
         return (
             <li
-              key={ review_id }
               block="ProductReviewItem"
               itemType="http://schema.org/Review"
               itemProp="review"

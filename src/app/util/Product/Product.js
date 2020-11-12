@@ -157,18 +157,40 @@ export const getIndexedCustomOptions = (options) => options.reduce(
     []
 );
 
-/** @namespace Util/Product/getIndexedProductReviewSummary */
-export const getIndexedProductReviewSummary = (review_summary) => {
-    if (!review_summary) {
-        return {
-            rating_summary: null,
-            review_count: null
-        };
+/** @namespace Util/Product/getIndexedReviews */
+export const getIndexedReviews = (reviews) => {
+    if (!reviews) {
+        return null;
     }
 
-    return {
-        ...review_summary
-    };
+    const { items } = reviews;
+    const ONE_FIFTH_OF_A_HUNDRED = 20;
+
+    return items.reduce((acc, review) => {
+        const { rating_votes = [], ...restOfReview } = review;
+
+        const newRatingVotes = rating_votes.reduce((acc, vote) => {
+            const { rating_code, value } = vote;
+
+            return [
+                ...acc,
+                {
+                    rating_code,
+                    value,
+                    // stars / 5 * 100 to get percent
+                    percent: value * ONE_FIFTH_OF_A_HUNDRED
+                }
+            ];
+        }, []);
+
+        return [
+            ...acc,
+            {
+                ...restOfReview,
+                rating_votes: newRatingVotes
+            }
+        ];
+    }, []);
 };
 
 /** @namespace Util/Product/getIndexedProduct */
@@ -178,11 +200,13 @@ export const getIndexedProduct = (product) => {
         configurable_options: initialConfigurableOptions = [],
         attributes: initialAttributes = [],
         options: initialOptions = [],
-        review_summary: initialReviewSummary
+        rating_summary,
+        review_count,
+        reviews: initialReviews
     } = product;
 
     const attributes = getIndexedAttributes(initialAttributes || []);
-    const review_summary = getIndexedProductReviewSummary(initialReviewSummary);
+    const reviews = getIndexedReviews(initialReviews);
 
     return {
         ...product,
@@ -190,7 +214,12 @@ export const getIndexedProduct = (product) => {
         variants: getIndexedVariants(initialVariants),
         options: getIndexedCustomOptions(initialOptions || []),
         attributes,
-        review_summary
+        // Magento 2.4.1 review endpoint compatibility
+        reviews,
+        review_summary: {
+            rating_summary,
+            review_count
+        }
     };
 };
 

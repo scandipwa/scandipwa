@@ -61,7 +61,7 @@ export class MenuContainer extends DataContainer {
         const { header_content: { header_menu } = {} } = window.contentConfiguration;
 
         return {
-            identifier: [header_menu || 'new-main-menu']
+            identifier: header_menu || 'new-main-menu'
         };
     }
 

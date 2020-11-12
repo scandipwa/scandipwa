@@ -99,9 +99,9 @@ export class WishlistItemContainer extends PureComponent {
     getAttributes = () => {
         const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
 
-        const { attributes } = variants.find(({ sku }) => sku === wishlistSku) || {};
+        const { attributes = [] } = variants.find(({ sku }) => sku === wishlistSku) || {};
 
-        return Object.values(attributes).reduce((acc, { attribute_code, attribute_value }) => {
+        return attributes ? Object.values(attributes).reduce((acc, { attribute_code, attribute_value }) => {
             const {
                 attribute_options: {
                     [attribute_value]: {
@@ -118,7 +118,7 @@ export class WishlistItemContainer extends PureComponent {
             }
 
             return acc;
-        }, []);
+        }, []) : [];
     };
 
     addItemToCart() {
@@ -191,6 +191,7 @@ export class WishlistItemContainer extends PureComponent {
             <SwipeToDelete
               renderRightSideContent={ this.renderRightSideContent }
               topElemMix={ { block: 'WishlistItem' } }
+              onAheadOfDragItemRemoveTheshold={ this.containerFunctions.removeItem }
             >
                 <WishlistItem
                   { ...this.props }
