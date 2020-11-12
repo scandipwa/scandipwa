@@ -19,8 +19,6 @@ import WishlistItem from 'Component/WishlistItem';
 import { ProductType } from 'Type/ProductList';
 import CSS from 'Util/CSS';
 
-import wishListShareButton from '../../../public/assets/images/global/shareWishList.svg';
-
 import './MyAccountMyWishlist.style';
 
 /** @namespace Component/MyAccountMyWishlist/Component */
@@ -192,9 +190,8 @@ export class MyAccountMyWishlist extends PureComponent {
               mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
               onClick={ shareWishlist }
               disabled={ disabled }
-            >
-                 <img src={ wishListShareButton } alt="Wishlist share" />
-            </button>
+              aria-label="Share"
+            />
         );
     }
 

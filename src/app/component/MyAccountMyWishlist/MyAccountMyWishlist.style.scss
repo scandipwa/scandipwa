@@ -119,9 +119,10 @@
     }
 
     &-ShareWishlistButton {
-        height: 30px;
-        margin: auto 15px;
-        width: 30px;
+        @include share-button;
+
+        height: 0;
+        margin: 1.4rem 2rem 0 0;
 
         &[disabled] {
             @include button-disabled();

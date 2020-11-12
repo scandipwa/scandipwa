@@ -336,9 +336,15 @@
             }
 
             &_share {
-                left: 15px;
-                opacity: .5;
-                position: absolute;
+                @include share-button;
+
+                &.Header-Button_isVisible {
+                    height: 0;
+                    width: 0;
+                    margin-left: 1rem;
+                    margin-top: .5rem;
+                    opacity: .5;
+                }
             }
 
             &_home {

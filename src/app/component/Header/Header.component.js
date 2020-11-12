@@ -33,7 +33,6 @@ import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 
-import wishListShareButton from '../../../public/assets/images/global/shareWishList.svg';
 import {
     CART,
     CART_EDITING,
@@ -184,6 +183,7 @@ export class Header extends NavigationAbstract {
         cancel: this.renderCancelButton.bind(this),
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
+        share: this.renderShareWishListButton.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         account: this.renderAccount.bind(this),
@@ -191,8 +191,7 @@ export class Header extends NavigationAbstract {
         search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
-        ok: this.renderOkButton.bind(this),
-        share: this.renderShareWishListButton.bind(this)
+        ok: this.renderOkButton.bind(this)
     };
 
     renderBackButton(isVisible = false) {
@@ -283,10 +282,10 @@ export class Header extends NavigationAbstract {
               elem="Button"
               mods={ { type: 'share', isVisible } }
               onClick={ shareWishlist }
+              aria-label="Share"
+              aria-hidden={ !isVisible }
               disabled={ isWishlistLoading }
-            >
-                <img src={ wishListShareButton } alt="Wishlist share" />
-            </button>
+            />
         );
     }
 
@@ -653,10 +652,19 @@ export class Header extends NavigationAbstract {
     }
 
     render() {
+        const { stateMap } = this;
         const {
             navigationState: { name, isHiddenOnMobile = false },
-            isCheckout
+            isCheckout,
+            device
         } = this.props;
+
+        if (!device.isMobile) {
+            // hide edit button on desktop
+            stateMap[CUSTOMER_WISHLIST].edit = false;
+            stateMap[CUSTOMER_WISHLIST].share = false;
+            stateMap[CART_OVERLAY].edit = false;
+        }
 
         return (
             <section block="Header" elem="Wrapper">
