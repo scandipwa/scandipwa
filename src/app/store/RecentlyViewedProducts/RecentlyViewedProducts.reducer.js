@@ -10,6 +10,7 @@
  */
 
 import {
+    MAX_NUMBER_OF_RECENT_PRODUCTS,
     RECENTLY_VIEWED_PRODUCTS
 } from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import {
@@ -29,11 +30,23 @@ export const RecentlyViewedProductsReducer = (
 ) => {
     switch (action.type) {
     case UPDATE_RECENTLY_VIEWED_PRODUCTS:
-        const { recentlyViewedProducts = [] } = action;
+        const {
+            product,
+            product: { sku: newSku }
+        } = action;
+        const { recentlyViewedProducts } = state;
 
-        BrowserDatabase.setItem(recentlyViewedProducts, RECENTLY_VIEWED_PRODUCTS);
+        if (recentlyViewedProducts.length === MAX_NUMBER_OF_RECENT_PRODUCTS) {
+            recentlyViewedProducts.pop();
+        }
 
-        return { ...state, recentlyViewedProducts };
+        // Remove product from existing recentProducts to add it later in the beginning
+        const newRecentProducts = recentlyViewedProducts.filter(({ sku }) => (newSku !== sku));
+        newRecentProducts.unshift(product);
+
+        BrowserDatabase.setItem(newRecentProducts, RECENTLY_VIEWED_PRODUCTS);
+
+        return { ...state, recentlyViewedProducts: newRecentProducts };
 
     default:
         return state;

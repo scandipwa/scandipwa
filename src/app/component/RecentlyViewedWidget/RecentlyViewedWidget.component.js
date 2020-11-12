@@ -33,15 +33,20 @@ export class RecentlyViewedWidget extends PureComponent {
 
         return (
             <ul block="RecentlyViewedWidget" elem="Page">
-                { products.slice(0, pageSize).map((product, i) => (
-                    <ProductCard
-                      selectedFilters={ product.selectedFilters }
-                      product={ product }
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={ `${product.id}_${i}` }
-                    />
-                )) }
+                { products.slice(0, pageSize).map((product) => this.renderProductCard(product)) }
             </ul>
+        );
+    }
+
+    renderProductCard(product) {
+        const { id, selectedFilters } = product;
+
+        return (
+            <ProductCard
+              selectedFilters={ selectedFilters }
+              product={ product }
+              key={ id }
+            />
         );
     }
 

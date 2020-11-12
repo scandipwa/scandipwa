@@ -17,10 +17,6 @@ import { withRouter } from 'react-router';
 import { CATEGORY, PDP } from 'Component/Header/Header.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import {
-    MAX_NUMBER_OF_RECENT_PRODUCTS,
-    RECENTLY_VIEWED_PRODUCTS
-} from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -28,7 +24,6 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
-import BrowserDatabase from 'Util/BrowserDatabase';
 import { getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
@@ -276,26 +271,17 @@ export class ProductPageContainer extends PureComponent {
 
     _addToRecentlyViewedProducts() {
         const {
-            product, product: { sku: newSku },
+            product,
+            product: { sku },
             updateRecentlyViewedProducts
         } = this.props;
 
         // necessary for skipping not loaded products
-        if (!newSku) {
+        if (!sku) {
             return;
         }
 
-        const recentProducts = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
-
-        if (recentProducts.length === MAX_NUMBER_OF_RECENT_PRODUCTS) {
-            recentProducts.pop();
-        }
-
-        // Remove product from existing recentProducts to add it later in the beginning
-        const newRecentProducts = recentProducts.filter(({ sku }) => (newSku !== sku));
-
-        newRecentProducts.unshift(product);
-        updateRecentlyViewedProducts(newRecentProducts);
+        updateRecentlyViewedProducts(product);
     }
 
     scrollTopIfPreviousPageWasPLP() {
