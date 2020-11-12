@@ -85,17 +85,17 @@
             }
         </style>
 
-        <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.publicPath %>media/favicon/favicon.png">
-       
+        <link rel="shortcut icon" href="/pub/media/favicon/favicon.png">
+
         <?php foreach ($icons['ios_startup'] as $icon): ?>
-            <?= sprintf(' <link rel="apple-touch-startup-image" sizes="%s" href="%s">;', $icon["sizes"], $icon["href"]); ?>
+            <?= sprintf('<link rel="apple-touch-startup-image" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
         <?php endforeach; ?>
 
         <?php foreach ($icons['icon'] as $icon): ?>
-            <?= sprintf(' <link rel="icon" sizes="%s" href="%s">;', $icon["sizes"], $icon["href"]); ?>
+            <?= sprintf('<link rel="icon" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
         <?php endforeach; ?>
 
-        <link rel="manifest" href="<%= htmlWebpackPlugin.options.publicPath %>media/webmanifest/manifest.webmanifest">
+        <link rel="manifest" href="/pub/media/webmanifest/manifest.webmanifest">
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
     </head>
