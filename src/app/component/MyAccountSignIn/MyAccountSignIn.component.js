@@ -57,7 +57,7 @@ export class MyAccountSignIn extends PureComponent {
                   id="email"
                   name="email"
                   value={ emailValue }
-                  autocomplete={ isCheckout ? "off" : "email" }
+                  autocomplete={ isCheckout ? 'off' : 'email' }
                   validation={ ['notEmpty', 'email'] }
                   onChange={ handleEmailInput }
                 />
