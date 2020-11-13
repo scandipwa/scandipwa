@@ -17,6 +17,7 @@ import ContactForm from 'Component/ContactForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import NoMatch from 'Route/NoMatch';
+import { DeviceType } from 'Type/Device';
 
 import { DEFAULT_CONTACT_US_CMS_BLOCK } from './ContactPage.config';
 
@@ -26,28 +27,45 @@ import './ContactPage.style';
 export class ContactPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
-        isEnabled: PropTypes.bool.isRequired
+        isEnabled: PropTypes.bool.isRequired,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
         isLoading: false
     };
 
-    renderPage() {
+    renderHeading() {
+        const { device } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
+
+        return (
+            <h1 block="ContactPage" elem="Heading">
+                { __('Contact Us') }
+            </h1>
+        );
+    }
+
+    renderCmsBlock() {
         const {
             contact_us_content: {
                 contact_us_cms_block = DEFAULT_CONTACT_US_CMS_BLOCK
             } = {}
         } = window.contentConfiguration;
 
+        return <CmsBlock identifier={ contact_us_cms_block } />;
+    }
+
+    renderPage() {
         return (
             <ContentWrapper label="Contact Page">
-                <h1 block="ContactPage" elem="Heading">
-                    { __('Contact Us') }
-                </h1>
+                { this.renderHeading() }
                 <div block="ContactPage" elem="ColumnWrapper">
                     <div block="ContactPage" elem="Column" mods={ { isContent: true } }>
-                        <CmsBlock identifier={ contact_us_cms_block } />
+                        { this.renderCmsBlock() }
                     </div>
                     <div block="ContactPage" elem="Column">
                         <ContactForm />

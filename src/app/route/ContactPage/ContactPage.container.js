@@ -28,7 +28,9 @@ export const BreadcrumbsDispatcher = import(
 );
 
 /** @namespace Route/ContactPage/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Route/ContactPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -87,7 +89,7 @@ export class ContactPageContainer extends DataContainer {
 
         setHeaderState({
             name: CONTACT_US,
-            title: null
+            title: __('Contact Us')
         });
     }
 
