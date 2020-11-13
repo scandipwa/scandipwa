@@ -12,41 +12,77 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CmsBlock from 'Component/CmsBlock';
 import ContactForm from 'Component/ContactForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
+import NoMatch from 'Route/NoMatch';
+
+import { DEFAULT_CONTACT_US_CMS_BLOCK } from './ContactPage.config';
 
 import './ContactPage.style';
 
 /** @namespace Route/ContactPage/Component */
 export class ContactPage extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        isEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         isLoading: false
     };
 
+    renderPage() {
+        const {
+            contact_us_content: {
+                contact_us_cms_block = DEFAULT_CONTACT_US_CMS_BLOCK
+            } = {}
+        } = window.contentConfiguration;
+
+        return (
+            <ContentWrapper label="Contact Page">
+                <h1 block="ContactPage" elem="Heading">
+                    { __('Contact Us') }
+                </h1>
+                <div block="ContactPage" elem="ColumnWrapper">
+                    <div block="ContactPage" elem="Column" mods={ { isContent: true } }>
+                        <CmsBlock identifier={ contact_us_cms_block } />
+                    </div>
+                    <div block="ContactPage" elem="Column">
+                        <ContactForm />
+                    </div>
+                </div>
+            </ContentWrapper>
+        );
+    }
+
+    renderNoPage() {
+        return <NoMatch />;
+    }
+
+    renderPageContents() {
+        const { isEnabled, isLoading } = this.props;
+
+        if (isEnabled) {
+            return this.renderPage();
+        }
+
+        if (!isLoading) {
+            return this.renderNoPage();
+        }
+
+        return null;
+    }
+
     render() {
         const { isLoading } = this.props;
+
         return (
-            <div block="ContactPage">
-                <ContentWrapper label="Contact Page">
-                    <Loader isLoading={ isLoading } />
-                    <h1 block="ContactPage" elem="Heading">
-                        { __('Contact Us') }
-                    </h1>
-                    <div block="ContactPage" elem="ColumnWrapper">
-                        <div block="ContactPage" elem="Column" mods={ { isContent: true } }>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ex quam, egestas lobortis accumsan vel, maximus nec felis. Vivamus ex lorem, pellentesque dapibus sem vitae, ultrices tempor turpis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin tincidunt, lorem id fermentum scelerisque, diam sem aliquet augue, sit amet sodales ligula velit sed mauris. Vestibulum felis sem, molestie sed leo at, bibendum venenatis purus. Integer sodales purus quis leo porta maximus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed vel tortor sed mi molestie commodo in mattis urna. Sed pretium neque ac orci pellentesque, non tristique dolor tincidunt. Curabitur id massa sagittis, ullamcorper justo eget, dictum ligula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque diam tellus, posuere vel risus quis, condimentum molestie dolor. Etiam ultricies est enim, non tempor est commodo nec. Suspendisse maximus at nunc ut cursus. Proin condimentum porta nibh viverra elementum.
-                        </div>
-                        <div block="ContactPage" elem="Column">
-                            <ContactForm />
-                        </div>
-                    </div>
-                </ContentWrapper>
-            </div>
+            <main block="ContactPage">
+                <Loader isLoading={ isLoading } />
+                { this.renderPageContents() }
+            </main>
         );
     }
 }

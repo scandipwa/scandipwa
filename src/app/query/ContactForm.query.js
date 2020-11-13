@@ -18,6 +18,11 @@ export class ContactFormQuery {
             .addArgument('contact', 'ContactForm!', options)
             .addField('message');
     }
+
+    getContactPageConfigQuery() {
+        return new Field('contactPageConfig')
+            .addField('enabled');
+    }
 }
 
 export default new ContactFormQuery();

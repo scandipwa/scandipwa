@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { CONTACT_US } from 'Component/Header/Header.config';
+import ContactFormQuery from 'Query/ContactForm.query';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -48,10 +49,16 @@ export class ContactPageContainer extends DataContainer {
         showNotification: PropTypes.func.isRequired
     };
 
+    state = {
+        isLoading: false,
+        isEnabled: false
+    };
+
     componentDidMount() {
         this.updateMeta();
         this.updateBreadcrumbs();
         this.updateHeader();
+        this.getEnabledState();
     }
 
     updateMeta() {
@@ -82,6 +89,22 @@ export class ContactPageContainer extends DataContainer {
             name: CONTACT_US,
             title: null
         });
+    }
+
+    getEnabledState() {
+        const { showNotification } = this.props;
+        this.setState({ isLoading: true });
+
+        this.fetchData(
+            ContactFormQuery.getContactPageConfigQuery(),
+            ({ contactPageConfig: { enabled } = {} }) => {
+                this.setState({ isEnabled: enabled, isLoading: false });
+            },
+            ([e]) => {
+                this.setState({ isLoading: false });
+                showNotification(e.message);
+            }
+        );
     }
 
     render() {

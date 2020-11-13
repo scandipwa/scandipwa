@@ -1,6 +1,4 @@
 .ContactPage {
-    padding: 1.2rem 0;
-
     &-Heading {
         height: 3.6rem;
         margin-top: 2.4rem;
@@ -10,6 +8,10 @@
 
     &-ColumnWrapper {
         display: flex;
+
+        @include mobile {
+            display: block;
+        }
     }
 
     &-Column {
@@ -17,6 +19,10 @@
 
         &_isContent {
             margin-right: 1.8rem;
+
+            @include mobile {
+                margin-right: 0;
+            }
         }
     }
 }
