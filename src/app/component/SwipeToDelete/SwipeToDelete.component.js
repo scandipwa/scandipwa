@@ -18,8 +18,9 @@ import CSS from 'Util/CSS';
 
 import {
     ANIMATION_DURATION,
-    DRAG_ITEM_REMOVE_TRESHOLD,
-    DRAG_RIGHT_OPEN_TRESHHOLD,
+    ANIMATION_DURATION_ON_REMOVE,
+    DRAG_ITEM_REMOVE_THRESHOLD,
+    DRAG_RIGHT_OPEN_THRESHOLD,
     DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD
 } from './SwipeToDelete.config';
 
@@ -31,26 +32,28 @@ export class SwipeToDelete extends PureComponent {
         children: ChildrenType.isRequired,
         dragRightOpenTriggerThreshold: PropTypes.number,
         dragRightOpenThreshold: PropTypes.number,
-        dragItemRemoveTreshold: PropTypes.number,
+        dragItemRemoveThreshold: PropTypes.number,
         animationDuration: PropTypes.number,
+        animationDurationOnRemove: PropTypes.number,
         renderRightSideContent: PropTypes.func,
         rightSideMix: PropTypes.object,
         topElemMix: PropTypes.object,
-        onAheadOfDragItemRemoveTheshold: PropTypes.func
+        onAheadOfDragItemRemoveThreshold: PropTypes.func
     };
 
     static defaultProps = {
-        // Threshhold after we open right side
+        // Threshold after we open right side
         dragRightOpenTriggerThreshold: DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD,
-        // Width of opeded right side
-        dragRightOpenThreshold: DRAG_RIGHT_OPEN_TRESHHOLD,
-        // Treshold after we remove item on touchend as percentage of item width
-        dragItemRemoveTreshold: DRAG_ITEM_REMOVE_TRESHOLD,
+        // Width of opened right side
+        dragRightOpenThreshold: DRAG_RIGHT_OPEN_THRESHOLD,
+        // Threshold after we remove item on touchend as percentage of item width
+        dragItemRemoveThreshold: DRAG_ITEM_REMOVE_THRESHOLD,
         animationDuration: ANIMATION_DURATION,
+        animationDurationOnRemove: ANIMATION_DURATION_ON_REMOVE,
         renderRightSideContent: () => {},
         rightSideMix: {},
         topElemMix: {},
-        onAheadOfDragItemRemoveTheshold: () => {}
+        onAheadOfDragItemRemoveThreshold: () => {}
     };
 
     state = {
@@ -62,10 +65,13 @@ export class SwipeToDelete extends PureComponent {
 
     draggableRemoveThreshold;
 
+    draggableWidth;
+
     componentDidMount() {
         // Sets default style
-        this.setTranlateXStyle(0);
+        this.setTranslateXStyle(0);
         this.setRightSideContentWidth();
+        this.setDraggableWidth();
         this.setDraggableRemoveThreshold();
     }
 
@@ -74,18 +80,24 @@ export class SwipeToDelete extends PureComponent {
         CSS.setVariable(this.draggableRef, 'right-side-content-width', `${ dragRightOpenThreshold }px`);
     }
 
-    setTranlateXStyle(translate) {
+    setTranslateXStyle(translate) {
         CSS.setVariable(this.draggableRef, 'translateX', `${ translate }px`);
     }
 
-    setDraggableRemoveThreshold() {
+    setDraggableWidth() {
         const { draggableRef } = this;
+        const { width } = draggableRef.current.getBoundingClientRect();
+        this.draggableWidth = width;
+    }
+
+    setDraggableRemoveThreshold() {
+        const { draggableWidth } = this;
         const {
             dragRightOpenThreshold,
-            dragItemRemoveTreshold
+            dragItemRemoveThreshold
         } = this.props;
-        const { width } = draggableRef.current.getBoundingClientRect();
-        this.draggableRemoveThreshold = width * dragItemRemoveTreshold - dragRightOpenThreshold;
+
+        this.draggableRemoveThreshold = draggableWidth * dragItemRemoveThreshold - dragRightOpenThreshold;
     }
 
     setAnimationSpeedStyle(specAnimationDuration) {
@@ -115,31 +127,31 @@ export class SwipeToDelete extends PureComponent {
             });
         }
 
-        // When draging to left from current start point, going negative translateX
+        // When dragging to left from current start point, going negative translateX
         if (translateX <= 0) {
             const translate = isRightSideOpen
                 // Add (remove to have minus value) opened content width, to have full -translateX value
                 ? translateX - dragRightOpenThreshold
                 : translateX;
 
-            this.setTranlateXStyle(translate);
+            this.setTranslateXStyle(translate);
 
             return;
         }
 
-        // When draging to right from current start point, going positive translateX
+        // When dragging to right from current start point, going positive translateX
         if (translateX > 0) {
             // When translate goes out of screen
             if (!isRightSideOpen || (isRightSideOpen && translateX - dragRightOpenThreshold > 0)) {
-                this.setTranlateXStyle(0);
+                this.setTranslateXStyle(0);
 
                 return;
             }
 
-            // When content is openeded and draging to right side
+            // When content is opened and dragging to right side
             if (translateX - dragRightOpenThreshold < 0 && isRightSideOpen) {
                 // Add (remove to have minus value) opened content width, to have full -translateX value
-                this.setTranlateXStyle(translateX - dragRightOpenThreshold);
+                this.setTranslateXStyle(translateX - dragRightOpenThreshold);
             }
         }
     };
@@ -148,29 +160,31 @@ export class SwipeToDelete extends PureComponent {
         const {
             dragRightOpenThreshold,
             dragRightOpenTriggerThreshold,
-            onAheadOfDragItemRemoveTheshold
+            onAheadOfDragItemRemoveThreshold,
+            animationDurationOnRemove
         } = this.props;
         const { isAheadRemoveItemThreshold } = this.state;
-
-        this.setAnimationSpeedStyle();
+        const { draggableWidth } = this;
         const shouldOpen = translateX > -dragRightOpenTriggerThreshold;
 
         if (isAheadRemoveItemThreshold) {
-            this.setState({ isAheadRemoveItemThreshold: false });
-            this.setTranlateXStyle(0);
-            onAheadOfDragItemRemoveTheshold();
+            // swipe to the end
+            this.setAnimationSpeedStyle(animationDurationOnRemove);
+            this.setTranslateXStyle(-draggableWidth);
+            onAheadOfDragItemRemoveThreshold();
             return;
         }
 
+        this.setAnimationSpeedStyle();
         this.setState({ isRightSideOpen: !shouldOpen });
 
         if (shouldOpen) {
-            this.setTranlateXStyle(0);
+            this.setTranslateXStyle(0);
 
             return;
         }
 
-        this.setTranlateXStyle(-dragRightOpenThreshold);
+        this.setTranslateXStyle(-dragRightOpenThreshold);
     };
 
     renderRightSideContent() {
