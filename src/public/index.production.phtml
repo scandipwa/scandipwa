@@ -90,6 +90,10 @@
         <?php foreach ($icons['ios_startup'] as $icon): ?>
             <?= sprintf('<link rel="apple-touch-startup-image" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
         <?php endforeach; ?>
+        
+        <?php foreach ($icons['ios'] as $icon): ?>
+            <?= sprintf('<link rel="apple-touch-icon" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
+        <?php endforeach; ?>
 
         <?php foreach ($icons['icon'] as $icon): ?>
             <?= sprintf('<link rel="icon" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
