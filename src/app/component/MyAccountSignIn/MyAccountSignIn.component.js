@@ -40,7 +40,8 @@ export class MyAccountSignIn extends PureComponent {
             onFormError,
             handleForgotPassword,
             emailValue,
-            handleEmailInput
+            handleEmailInput,
+            isCheckout
         } = this.props;
 
         return (
@@ -56,7 +57,7 @@ export class MyAccountSignIn extends PureComponent {
                   id="email"
                   name="email"
                   value={ emailValue }
-                  autocomplete="email"
+                  autocomplete={ isCheckout ? 'off' : 'email' }
                   validation={ ['notEmpty', 'email'] }
                   onChange={ handleEmailInput }
                 />
