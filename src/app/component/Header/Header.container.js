@@ -59,7 +59,7 @@ export const mapDispatchToProps = (dispatch) => ({
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    showPopup: (payload) => dispatch(showPopup(payload)),
+    showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
@@ -189,7 +189,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     shareWishlist() {
         const { showPopup } = this.props;
-        showPopup(SHARE_WISHLIST_POPUP_ID, { title: __('Share Wishlist') });
+        showPopup({ title: __('Share Wishlist') });
     }
 
     getNavigationState() {
