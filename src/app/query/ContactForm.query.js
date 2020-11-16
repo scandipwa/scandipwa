@@ -14,14 +14,27 @@ import { Field } from 'Util/Query';
 /** @namespace Query/ContactForm */
 export class ContactFormQuery {
     getSendContactFormMutation(options) {
-        return new Field('contactForm')
-            .addArgument('contact', 'ContactForm!', options)
-            .addField('message');
+        const mutation = new Field('contactForm');
+        this._addSendContactFormMutationArguments(mutation, options);
+        mutation.addFieldList(this._getSendContactFormMutationResponse());
+        return mutation;
     }
 
     getContactPageConfigQuery() {
         return new Field('contactPageConfig')
-            .addField('enabled');
+            .addFieldList(this._getContactPageConfigFields());
+    }
+
+    _addSendContactFormMutationArguments(mutation, options) {
+        return mutation.addArgument('contact', 'ContactForm!', options);
+    }
+
+    _getSendContactFormMutationResponse() {
+        return ['message'];
+    }
+
+    _getContactPageConfigFields() {
+        return ['enabled'];
     }
 }
 

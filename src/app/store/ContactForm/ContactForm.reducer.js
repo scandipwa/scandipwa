@@ -12,8 +12,7 @@
 import { UPDATE_CONTACT_FORM } from './ContactForm.action';
 
 export const initialState = {
-    success: false,
-    error: false
+    isLoading: false
 };
 
 /** @namespace Store/ContactForm/Reducer/contactFormReducer */

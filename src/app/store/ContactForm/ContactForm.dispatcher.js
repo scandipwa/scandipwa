@@ -26,10 +26,7 @@ export class ContactFormDispatcher {
         const mutation = ContactFormQuery.getSendContactFormMutation(options);
 
         dispatch(updateContactForm({
-            isLoading: true,
-            success: false,
-            error: false,
-            formSent: false
+            isLoading: true
         }));
 
         return fetchMutation(mutation)
@@ -38,17 +35,13 @@ export class ContactFormDispatcher {
                 (data) => {
                     dispatch(showNotification('success', data.contactForm.message));
                     dispatch(updateContactForm({
-                        success: true,
-                        isLoading: false,
-                        formSent: true,
-                        message: data.contactForm.message
+                        isLoading: false
                     }));
                 },
                 /** @namespace Store/ContactForm/Dispatcher/fetchMutationError */
                 (error) => {
                     dispatch(showNotification('error', error[0].message));
                     dispatch(updateContactForm({
-                        error: true,
                         isLoading: false
                     }));
                 }

@@ -21,7 +21,9 @@ export const ContactFormDispatcher = import(
 );
 
 /** @namespace Component/ContactForm/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    isLoading: state.ContactFormReducer.isLoading
+});
 
 /** @namespace Component/ContactForm/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -36,35 +38,19 @@ export class ContactFormContainer extends PureComponent {
         sendMessage: PropTypes.func.isRequired
     };
 
-    state = {
-        isLoading: false
-    };
-
     containerFunctions = {
         onFormSubmit: this.onFormSubmit.bind(this)
     };
 
     onFormSubmit(fields) {
         const { sendMessage } = this.props;
-
-        this.setState({ isLoading: true });
-
-        sendMessage(fields)
-            .then(
-                /** @namespace Component/ContactForm/Container/sendMessageThen */
-                () => this.setState({ isLoading: false })
-            )
-            .catch(
-                /** @namespace Component/ContactForm/Container/sendMessageThenCatch */
-                () => this.setState({ isLoading: false })
-            );
+        sendMessage(fields);
     }
 
     render() {
         return (
             <ContactForm
               { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
             />
         );
