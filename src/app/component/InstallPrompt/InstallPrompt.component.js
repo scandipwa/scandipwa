@@ -34,7 +34,7 @@ export class InstallPrompt extends PureComponent {
         // - Chrome for Android
         // - Samsung Internet
         // but iOS has own "Add to Home Screen button" on Safari share menu
-        return hasInstallPromptEvent || (device.ios && device.safari) || true;
+        return hasInstallPromptEvent || (device.ios && device.safari);
     }
 
     renderPrompt() {
