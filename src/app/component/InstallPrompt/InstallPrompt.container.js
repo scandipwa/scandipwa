@@ -32,10 +32,9 @@ export class InstallPromptContainer extends PureComponent {
         device: DeviceType.isRequired
     };
 
-    installPromptEvent = null;
-
     state = {
-        isBannerClosed: BrowserDatabase.getItem('postpone_installation')
+        isBannerClosed: BrowserDatabase.getItem('postpone_installation'),
+        installPromptEvent: null
     };
 
     containerFunctions = {
@@ -48,15 +47,17 @@ export class InstallPromptContainer extends PureComponent {
     }
 
     handleAppInstall() {
-        if (!this.installPromptEvent) {
+        const { installPromptEvent } = this.state;
+
+        if (!installPromptEvent) {
             return;
         }
 
         // Show the modal add to home screen dialog
-        this.installPromptEvent.prompt();
+        installPromptEvent.prompt();
 
         // Wait for the user to respond to the prompt
-        this.installPromptEvent.userChoice.then(
+        installPromptEvent.userChoice.then(
             /** @namespace Component/InstallPrompt/Container/then */
             (choice) => {
                 if (choice.outcome === 'accepted') {
@@ -64,7 +65,7 @@ export class InstallPromptContainer extends PureComponent {
                 }
 
                 // Clear the saved prompt since it can't be used again
-                this.installPromptEvent = null;
+                this.setState({ installPromptEvent: null });
             }
         );
     }
@@ -78,16 +79,27 @@ export class InstallPromptContainer extends PureComponent {
     listenForInstallPrompt() {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
-
-            this.installPromptEvent = event;
+            this.setState({ installPromptEvent: event });
         });
+    }
+
+    hasSupport() {
+        const { installPromptEvent } = this.state;
+        const { device } = this.props;
+        // since currently BeforeInstallPromptEvent is supported only on
+        // - Android webview
+        // - Chrome for Android
+        // - Samsung Internet
+        // but iOS has own "Add to Home Screen button" on Safari share menu
+        return !!installPromptEvent || (device.ios && device.safari);
     }
 
     render() {
         const { isBannerClosed } = this.state;
         const { device } = this.props;
+        const hasSupport = this.hasSupport();
 
-        if (device.standaloneMode || isBannerClosed) {
+        if (device.standaloneMode || isBannerClosed || !hasSupport) {
             return null;
         }
 

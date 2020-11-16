@@ -15,6 +15,7 @@ export const isMobile = {
     blackBerry: (agent = navigator.userAgent) => /blackberry/i.test(agent),
     iOS: (agent = navigator.userAgent) => /iphone|ipod/i.test(agent),
     opera: (agent = navigator.userAgent) => /opera mini/i.test(agent),
+    safari: (agent = navigator.userAgent) => /safari/i.test(agent) && !/chrome/i.test(agent),
     windows: (agent = navigator.userAgent) => /iemobile/i.test(agent),
     // iPad uses 810 so we need to handle that.
     any: () => window.matchMedia('(max-width: 810px)').matches,
