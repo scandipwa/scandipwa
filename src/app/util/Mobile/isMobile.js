@@ -13,7 +13,7 @@ export const isUsingClientHints = 'userAgentData' in navigator;
 export const isMobile = {
     android: (agent = navigator.userAgent) => /android/i.test(agent),
     blackBerry: (agent = navigator.userAgent) => /blackberry/i.test(agent),
-    iOS: (agent = navigator.userAgent) => /iphone|ipod/i.test(agent),
+    iOS: (agent = navigator.userAgent) => /iphone|ipod|ipad/i.test(agent),
     opera: (agent = navigator.userAgent) => /opera mini/i.test(agent),
     safari: (agent = navigator.userAgent) => /safari/i.test(agent) && !/chrome/i.test(agent),
     windows: (agent = navigator.userAgent) => /iemobile/i.test(agent),

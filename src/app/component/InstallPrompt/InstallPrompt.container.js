@@ -12,10 +12,10 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import InstallPromptAndroid from 'Component/InstallPromptAndroid';
-import InstallPromptIOS from 'Component/InstallPromptIOS';
 import { DeviceType } from 'Type/Device';
 import BrowserDatabase from 'Util/BrowserDatabase';
+
+import InstallPrompt from './InstallPrompt.component';
 
 /** @namespace Component/InstallPrompt/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -32,9 +32,11 @@ export class InstallPromptContainer extends PureComponent {
         device: DeviceType.isRequired
     };
 
+    installPromptEvent = null;
+
     state = {
         isBannerClosed: BrowserDatabase.getItem('postpone_installation'),
-        installPromptEvent: null
+        hasInstallPromptEvent: false
     };
 
     containerFunctions = {
@@ -47,17 +49,15 @@ export class InstallPromptContainer extends PureComponent {
     }
 
     handleAppInstall() {
-        const { installPromptEvent } = this.state;
-
-        if (!installPromptEvent) {
+        if (!this.installPromptEvent) {
             return;
         }
 
         // Show the modal add to home screen dialog
-        installPromptEvent.prompt();
+        this.installPromptEvent.prompt();
 
         // Wait for the user to respond to the prompt
-        installPromptEvent.userChoice.then(
+        this.installPromptEvent.userChoice.then(
             /** @namespace Component/InstallPrompt/Container/then */
             (choice) => {
                 if (choice.outcome === 'accepted') {
@@ -65,7 +65,8 @@ export class InstallPromptContainer extends PureComponent {
                 }
 
                 // Clear the saved prompt since it can't be used again
-                this.setState({ installPromptEvent: null });
+                this.installPromptEvent = null;
+                this.setState({ hasInstallPromptEvent: false });
             }
         );
     }
@@ -79,39 +80,19 @@ export class InstallPromptContainer extends PureComponent {
     listenForInstallPrompt() {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
-            this.setState({ installPromptEvent: event });
+            this.installPromptEvent = event;
+            this.setState({ hasInstallPromptEvent: event });
         });
     }
 
-    hasSupport() {
-        const { installPromptEvent } = this.state;
-        const { device } = this.props;
-        // since currently BeforeInstallPromptEvent is supported only on
-        // - Android webview
-        // - Chrome for Android
-        // - Samsung Internet
-        // but iOS has own "Add to Home Screen button" on Safari share menu
-        return !!installPromptEvent || (device.ios && device.safari);
-    }
-
     render() {
-        const { isBannerClosed } = this.state;
-        const { device } = this.props;
-        const hasSupport = this.hasSupport();
-
-        if (device.standaloneMode || isBannerClosed || !hasSupport) {
-            return null;
-        }
-
-        if (device.ios) {
-            return <InstallPromptIOS { ...this.containerFunctions } />;
-        }
-
-        if (device.android) {
-            return <InstallPromptAndroid { ...this.containerFunctions } />;
-        }
-
-        return null;
+        return (
+            <InstallPrompt
+              { ...this.props }
+              { ...this.state }
+              containerFunctions={ this.containerFunctions }
+            />
+        );
     }
 }
 
