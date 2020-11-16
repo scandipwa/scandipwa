@@ -591,9 +591,9 @@ export class CheckoutContainer extends PureComponent {
             }));
 
             const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
-            const { placeOrder: { order: { order_id } } } = orderData;
+            const { placeOrder: { order: { order_id, transaction_id } } } = orderData;
 
-            this.setDetailsStep(order_id);
+            this.setDetailsStep(order_id, transaction_id);
         } catch (e) {
             this._handleError(e);
         }

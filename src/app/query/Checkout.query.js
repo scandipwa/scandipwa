@@ -86,7 +86,7 @@ export class CheckoutQuery {
 
     _getOrderField() {
         return new Field('order')
-            .addFieldList(['order_id']);
+            .addFieldList(['order_id', 'transaction_id']);
     }
 
     _getSaveAddressInformationFields() {
