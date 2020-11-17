@@ -34,6 +34,9 @@ export const {
 /** @namespace Store/Config/Reducer/getIndexedRatings */
 export const getIndexedRatings = (reviewRatings) => ((reviewRatings) ? reviewRatings.items || [] : []);
 
+/** @namespace Store/Config/Reducer/getCurrencyData */
+export const getCurrencyData = (base, state) => ((base) || state.currencyData || {});
+
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
     ...filterStoreConfig(storeConfig),
@@ -81,7 +84,7 @@ export const ConfigReducer = (
             countries,
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements,
-            currencyData,
+            currencyData: getCurrencyData(currencyData, state),
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value
