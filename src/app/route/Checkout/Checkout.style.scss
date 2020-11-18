@@ -14,6 +14,8 @@
 }
 
 .Checkout {
+    padding-bottom: var(--header-nav-height);
+
     @include desktop {
         margin-top: var(--header-total-height);
     }
