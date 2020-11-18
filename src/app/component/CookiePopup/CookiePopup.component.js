@@ -25,7 +25,8 @@ import './CookiePopup.style';
 export class CookiePopup extends PureComponent {
     static propTypes = {
         cookieText: PropTypes.string,
-        cookieLink: PropTypes.string
+        cookieLink: PropTypes.string,
+        code: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -33,10 +34,13 @@ export class CookiePopup extends PureComponent {
         cookieLink: ''
     };
 
-    state = { isAccepted: BrowserDatabase.getItem(COOKIE_POPUP) || false };
+    // eslint-disable-next-line react/destructuring-assignment
+    state = { isAccepted: BrowserDatabase.getItem(`${COOKIE_POPUP}_${this.props.code}`) || false };
 
     acceptCookies = () => {
-        BrowserDatabase.setItem(true, COOKIE_POPUP, ONE_MONTH_IN_SECONDS);
+        const { code } = this.props;
+
+        BrowserDatabase.setItem(true, `${COOKIE_POPUP}_${code}`, ONE_MONTH_IN_SECONDS);
         this.setState({ isAccepted: true });
     };
 
