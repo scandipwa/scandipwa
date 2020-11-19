@@ -9,27 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import debounceRender from 'react-debounce-render';
 import PropTypes from 'prop-types';
-import { PagesType, FilterType } from 'Type/ProductList';
+import { PureComponent } from 'react';
+
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
 import { MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
+import { FilterType, PagesType } from 'Type/ProductList';
+
+import { observerThreshold } from './ProductList.config';
+
 import './ProductList.style';
-
-export const observerThreshold = 10;
-
-export const INTERSECTION_RATIO = 0.5;
-
-export const RENDER_PAGE_FREQUENCY = 150; // (ms)
 
 /**
  * List of category products
  * @class ProductList
  * @namespace Component/ProductList/Component
  */
-export class ProductList extends ExtensiblePureComponent {
+export class ProductList extends PureComponent {
     static propTypes = {
+        device: DeviceType.isRequired,
         title: PropTypes.string,
         pages: PagesType.isRequired,
         selectedFilters: FilterType,
@@ -44,6 +44,7 @@ export class ProductList extends ExtensiblePureComponent {
         isVisible: PropTypes.bool,
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
+        isWidget: PropTypes.bool,
         mix: MixType
     };
 
@@ -61,7 +62,8 @@ export class ProductList extends ExtensiblePureComponent {
         loadPrevPage: () => {},
         currentPage: 1,
         isShowLoading: false,
-        isVisible: true
+        isVisible: true,
+        isWidget: false
     };
 
     nodes = {};
@@ -70,7 +72,15 @@ export class ProductList extends ExtensiblePureComponent {
 
     pagesIntersecting = [];
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        const { isWidget, currentPage, device } = this.props;
+        const { currentPage: prevCurrentPage } = prevProps;
+
+        // Scroll up on page change, ignore widgets
+        if (prevCurrentPage !== currentPage && !isWidget && !device.isMobile) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         const { isInfiniteLoaderEnabled } = this.props;
 
         if (isInfiniteLoaderEnabled) {
@@ -100,7 +110,7 @@ export class ProductList extends ExtensiblePureComponent {
                 const { currentPage } = this.props;
 
                 entries.forEach(({ target, isIntersecting }) => {
-                    const page = +Object.keys(this.nodes).find(node => this.nodes[node] === target);
+                    const page = +Object.keys(this.nodes).find((node) => this.nodes[node] === target);
                     const index = this.pagesIntersecting.indexOf(page);
 
                     if (isIntersecting && index === -1) {
@@ -337,7 +347,4 @@ export class ProductList extends ExtensiblePureComponent {
     }
 }
 
-export default debounceRender(
-    ProductList,
-    RENDER_PAGE_FREQUENCY, { leading: false }
-);
+export default ProductList;

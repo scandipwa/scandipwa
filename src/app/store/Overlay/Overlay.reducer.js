@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { SHOW_POPUP } from 'Store/Popup';
+import { SHOW_POPUP } from 'Store/Popup/Popup.action';
 
 import {
-    TOGGLE_OVERLAY,
-    HIDE_ACTIVE_OVERLAY
+    HIDE_ACTIVE_OVERLAY,
+    TOGGLE_OVERLAY
 } from './Overlay.action';
 
 /** @namespace Store/Overlay/Reducer/getInitialState */

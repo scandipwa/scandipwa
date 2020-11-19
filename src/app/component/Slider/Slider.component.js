@@ -11,32 +11,44 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Children, createRef } from 'react';
 import PropTypes from 'prop-types';
+import { Children, createRef, PureComponent } from 'react';
 
-import { MixType, ChildrenType } from 'Type/Common';
 import Draggable from 'Component/Draggable';
-import isMobile from 'Util/Mobile';
+import { ChildrenType, MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
 import CSS from 'Util/CSS';
 
-import './Slider.style';
+import {
+    ACTIVE_SLIDE_PERCENT,
+    ANIMATION_DURATION,
+    HEIGHT_TRANSITION_SPEED_ON_MOUNT
+} from './Slider.config';
 
-export const ANIMATION_DURATION = 300;
-export const ACTIVE_SLIDE_PERCENT = 0.1;
+import './Slider.style';
 
 /**
  * Slider component
  * @class Slider
  * @namespace Component/Slider/Component
  */
-export class Slider extends ExtensiblePureComponent {
+export class Slider extends PureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
         activeImage: PropTypes.number,
         onActiveImageChange: PropTypes.func,
         mix: MixType,
         children: ChildrenType.isRequired,
-        isInteractionDisabled: PropTypes.bool
+        isInteractionDisabled: PropTypes.bool,
+        device: DeviceType.isRequired,
+        onClick: PropTypes.func,
+        isVertical: PropTypes.bool,
+        isHeightTransitionDisabledOnMount: PropTypes.bool,
+        sliderHeight: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
+        sliderRef: PropTypes.object
     };
 
     static defaultProps = {
@@ -44,7 +56,12 @@ export class Slider extends ExtensiblePureComponent {
         onActiveImageChange: () => {},
         showCrumbs: false,
         isInteractionDisabled: false,
-        mix: {}
+        mix: {},
+        onClick: null,
+        isVertical: false,
+        isHeightTransitionDisabledOnMount: false,
+        sliderHeight: null,
+        sliderRef: null
     };
 
     sliderWidth = 0;
@@ -63,8 +80,8 @@ export class Slider extends ExtensiblePureComponent {
 
     renderCrumb = this.renderCrumb.bind(this);
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { activeImage } = this.props;
 
@@ -74,10 +91,10 @@ export class Slider extends ExtensiblePureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { activeImage } = props;
+        const { activeImage, children } = props;
         const { prevActiveImage } = state;
 
-        if (prevActiveImage !== activeImage) {
+        if (prevActiveImage !== activeImage && children.length !== 1) {
             return { prevActiveImage: activeImage };
         }
 
@@ -85,6 +102,12 @@ export class Slider extends ExtensiblePureComponent {
     }
 
     componentDidMount() {
+        this.addWindowResizeWatcher();
+
+        if (!this.getIsSlider()) {
+            return;
+        }
+
         const sliderChildren = this.draggableRef.current.children;
         const sliderWidth = this.draggableRef.current.offsetWidth;
         this.sliderWidth = sliderWidth;
@@ -93,12 +116,17 @@ export class Slider extends ExtensiblePureComponent {
             return;
         }
 
+        this.setStyleVariablesOnMount();
+
+        const sliderRef = this.getSliderRef();
+        const sliderHeight = `${ sliderChildren[0].offsetHeight }px`;
+
         sliderChildren[0].onload = () => {
-            CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
+            CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         };
 
         setTimeout(() => {
-            CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
+            CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         }, ANIMATION_DURATION);
     }
 
@@ -106,27 +134,95 @@ export class Slider extends ExtensiblePureComponent {
         const { activeImage: prevActiveImage } = prevProps;
         const { activeImage } = this.props;
 
-        if (activeImage !== prevActiveImage) {
-            const newTranslate = -activeImage * this.sliderWidth;
+        if (activeImage !== prevActiveImage && this.getIsSlider()) {
+            const newTranslate = -activeImage * this.getSlideWidth();
+
+            this.setAnimationSpeedStyle(Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION));
+            this.setTranlateXStyle(newTranslate);
+        }
+    }
+
+    addWindowResizeWatcher() {
+        window.addEventListener('resize', () => {
+            const { activeImage } = this.props;
+            const newTranslate = -activeImage * this.getSlideWidth();
+
+            this.setTranlateXStyle(newTranslate);
+
+            // Removed animation to avoid image movement while changing window width.
+            this.setAnimationSpeedStyle(0);
+
+            const delay = 500;
+            setTimeout(() => {
+                this.setAnimationSpeedStyle();
+            }, delay);
+        });
+    }
+
+    setStyleVariablesOnMount() {
+        const { sliderHeight, isHeightTransitionDisabledOnMount, activeImage } = this.props;
+
+        const sliderRef = this.getSliderRef();
+
+        if (isHeightTransitionDisabledOnMount) {
+            const transitionSpeed = isHeightTransitionDisabledOnMount
+                ? 0
+                : `${ HEIGHT_TRANSITION_SPEED_ON_MOUNT }ms`;
 
             CSS.setVariable(
-                this.draggableRef,
-                'animation-speed',
-                `${ Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION) }ms`
-            );
-
-            CSS.setVariable(
-                this.draggableRef,
-                'translateX',
-                `${newTranslate}px`
+                sliderRef,
+                'height-transition-speed',
+                transitionSpeed
             );
         }
+
+        if (sliderHeight) {
+            CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
+        }
+
+        const newTranslate = -activeImage * this.getSlideWidth();
+        this.setTranlateXStyle(newTranslate);
+    }
+
+    setTranlateXStyle(translate) {
+        const { isVertical } = this.props;
+
+        CSS.setVariable(this.draggableRef, isVertical ? 'translateY' : 'translateX', `${ translate }px`);
+    }
+
+    setAnimationSpeedStyle(animationDuration = ANIMATION_DURATION) {
+        CSS.setVariable(this.draggableRef, 'animation-speed', `${ animationDuration }ms`);
+    }
+
+    getIsSlider() {
+        const { children } = this.props;
+
+        return children.length !== 1;
+    }
+
+    getSlideWidth() {
+        const { isVertical } = this.props;
+        const { offsetWidth = 0, offsetHeight = 0 } = this.draggableRef.current || {};
+
+        return isVertical ? offsetHeight : offsetWidth;
+    }
+
+    getSliderRef() {
+        const { sliderRef } = this.props;
+
+        return sliderRef || this.sliderRef;
     }
 
     onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
         const { originalX } = state;
         const { prevActiveImage: prevActiveSlider } = this.state;
-        const { onActiveImageChange } = this.props;
+        const { onActiveImageChange, device, onClick } = this.props;
+
+        if (onClick) {
+            onClick();
+
+            return -prevActiveSlider;
+        }
 
         const fullSliderPoss = Math.round(fullSliderSize / slideSize);
         const elementPossitionInDOM = this.draggableRef.current.getBoundingClientRect().x;
@@ -135,7 +231,7 @@ export class Slider extends ExtensiblePureComponent {
         const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
         const mousePossitionInElement = originalX - realElementPossitionInDOM;
 
-        if (isMobile.any()) {
+        if (device.isMobile) {
             return sliderPossition;
         }
 
@@ -155,19 +251,29 @@ export class Slider extends ExtensiblePureComponent {
     }
 
     getFullSliderWidth() {
-        const fullSliderWidth = this.draggableRef.current.scrollWidth;
-        return fullSliderWidth - this.sliderWidth;
+        const { isVertical } = this.props;
+        const { scrollWidth: fullSliderWidth, scrollHeight } = this.draggableRef.current;
+
+        const width = isVertical ? scrollHeight : fullSliderWidth;
+
+        return width - this.getSlideWidth();
     }
 
     calculateNextSlide(state) {
+        const { isVertical } = this.props;
         const {
-            translateX: translate,
-            lastTranslateX: lastTranslate
+            translateX,
+            translateY,
+            lastTranslateX,
+            lastTranslateY
         } = state;
+
+        const lastTranslate = isVertical ? lastTranslateY : lastTranslateX;
+        const translate = isVertical ? translateY : translateX;
 
         const { onActiveImageChange } = this.props;
 
-        const slideSize = this.sliderWidth;
+        const slideSize = this.getSlideWidth();
 
         const fullSliderSize = this.getFullSliderWidth();
 
@@ -208,39 +314,39 @@ export class Slider extends ExtensiblePureComponent {
     }
 
     handleDragStart() {
-        CSS.setVariable(this.draggableRef, 'animation-speed', '0');
+        this.setAnimationSpeedStyle(0);
     }
 
     handleDrag(state) {
-        const { translateX } = state;
+        const { isVertical } = this.props;
+        const { translateX, translateY } = state;
 
-        const translate = translateX;
+        const translate = isVertical ? translateY : translateX;
 
         const fullSliderSize = this.getFullSliderWidth();
 
         if (translate < 0 && translate > -fullSliderSize) {
-            CSS.setVariable(
-                this.draggableRef,
-                'translateX',
-                `${translate}px`
-            );
+            this.setTranlateXStyle(translate);
         }
     }
 
     handleDragEnd(state, callback) {
+        const { isVertical } = this.props;
         const activeSlide = this.calculateNextSlide(state);
-
-        const slideSize = this.sliderWidth;
-
+        const slideSize = this.getSlideWidth();
         const newTranslate = activeSlide * slideSize;
 
-        CSS.setVariable(this.draggableRef, 'animation-speed', '300ms');
+        this.setAnimationSpeedStyle();
+        this.setTranlateXStyle(newTranslate);
 
-        CSS.setVariable(
-            this.draggableRef,
-            'translateX',
-            `${newTranslate}px`
-        );
+        if (isVertical) {
+            callback({
+                originalY: newTranslate,
+                lastTranslateY: newTranslate
+            });
+
+            return;
+        }
 
         callback({
             originalX: newTranslate,
@@ -294,6 +400,7 @@ export class Slider extends ExtensiblePureComponent {
               block="Slider"
               elem="Image"
               mods={ { type: 'single' } }
+              // eslint-disable-next-line react/jsx-no-bind
               onClick={ () => this.changeActiveImage(i) }
             >
                 <div
@@ -305,31 +412,42 @@ export class Slider extends ExtensiblePureComponent {
         );
     }
 
+    renderSliderContent() {
+        const { activeImage, children, isVertical } = this.props;
+
+        if (!this.getIsSlider()) {
+            return children;
+        }
+
+        return (
+            <Draggable
+              mix={ { block: 'Slider', elem: 'Wrapper', mods: { isVertical } } }
+              draggableRef={ this.draggableRef }
+              onDragStart={ this.handleDragStart }
+              onDragEnd={ this.handleDragEnd }
+              onDrag={ this.handleDrag }
+              onClick={ this.handleClick }
+              shiftX={ -activeImage * this.getSlideWidth() }
+              shiftY={ -activeImage * this.getSlideWidth() }
+            >
+                { children }
+            </Draggable>
+        );
+    }
+
     render() {
         const {
             showCrumbs,
-            mix,
-            activeImage,
-            children
+            mix
         } = this.props;
 
         return (
             <div
               block="Slider"
               mix={ mix }
-              ref={ this.sliderRef }
+              ref={ this.getSliderRef() }
             >
-                <Draggable
-                  mix={ { block: 'Slider', elem: 'Wrapper' } }
-                  draggableRef={ this.draggableRef }
-                  onDragStart={ this.handleDragStart }
-                  onDragEnd={ this.handleDragEnd }
-                  onDrag={ this.handleDrag }
-                  onClick={ this.handleClick }
-                  shiftX={ -activeImage * this.sliderWidth }
-                >
-                    { children }
-                </Draggable>
+                { this.renderSliderContent() }
                 { showCrumbs && this.renderCrumbs() }
             </div>
         );

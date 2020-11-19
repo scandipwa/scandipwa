@@ -12,12 +12,13 @@
 // TODO: implement props passing
 
 import { Subscribe } from 'unstated';
-import SharedTransitionContainer from './SharedTransition.unstated';
-import SharedTransition from './SharedTransition.component';
 
-export default props => (
+import SharedTransition from './SharedTransition.component';
+import SharedTransitionContainer from './SharedTransition.unstated';
+
+export default (props) => (
     <Subscribe to={ [SharedTransitionContainer] }>
-        { sharedTransition => (
+        { (sharedTransition) => (
             <SharedTransition
               { ...props }
               { ...sharedTransition }

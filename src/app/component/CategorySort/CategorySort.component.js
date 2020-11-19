@@ -10,8 +10,11 @@
  */
 
 import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import { PureComponent } from 'react';
+
 import Field from 'Component/Field';
+import TextPlaceholder from 'Component/TextPlaceholder';
+
 import './CategorySort.style';
 
 /**
@@ -19,7 +22,7 @@ import './CategorySort.style';
  * @class ProductSort
  * @namespace Component/CategorySort/Component
  */
-export class CategorySort extends ExtensiblePureComponent {
+export class CategorySort extends PureComponent {
     static propTypes = {
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,
@@ -36,17 +39,11 @@ export class CategorySort extends ExtensiblePureComponent {
             disabled: PropTypes.bool,
             label: PropTypes.string
         })).isRequired,
-        sortFields: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.arrayOf(PropTypes.shape({
-                id: PropTypes.string,
-                label: PropTypes.string
-            }))
-        ])
+        isMatchingInfoFilter: PropTypes.bool
     };
 
     static defaultProps = {
-        sortFields: []
+        isMatchingInfoFilter: false
     };
 
     onChange = (value) => {
@@ -66,10 +63,13 @@ export class CategorySort extends ExtensiblePureComponent {
 
     renderSortField() {
         const {
-            sortKey, sortDirection, sortFields, selectOptions
+            sortKey,
+            sortDirection,
+            selectOptions,
+            isMatchingInfoFilter
         } = this.props;
 
-        if (!sortFields.length) {
+        if (!isMatchingInfoFilter) {
             return this.renderPlaceholder();
         }
 

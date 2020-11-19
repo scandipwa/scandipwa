@@ -9,18 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef } from 'react';
 import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
 
-import Link from 'Component/Link';
 import Image from 'Component/Image';
+import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
-import ProductPrice from 'Component/ProductPrice';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { ProductType } from 'Type/ProductList';
+import { CONFIGURABLE } from 'Util/Product';
 
 import './ProductCard.style';
 
@@ -29,7 +30,7 @@ import './ProductCard.style';
  * @class ProductCard
  * @namespace Component/ProductCard/Component
  */
-export class ProductCard extends ExtensiblePureComponent {
+export class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
@@ -43,7 +44,8 @@ export class ProductCard extends ExtensiblePureComponent {
         registerSharedElement: PropTypes.func.isRequired,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
-        mix: PropTypes.shape({})
+        mix: PropTypes.shape({}),
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
     };
 
     static defaultProps = {
@@ -51,7 +53,23 @@ export class ProductCard extends ExtensiblePureComponent {
         linkTo: {},
         children: null,
         isLoading: false,
-        mix: {}
+        mix: {},
+        renderContent: false
+    };
+
+    contentObject = {
+        renderCardLinkWrapper: this.renderCardLinkWrapper.bind(this),
+        pictureBlock: {
+            picture: this.renderPicture.bind(this)
+        },
+        content: {
+            review: this.renderReviews.bind(this),
+            productPrice: this.renderProductPrice.bind(this),
+            confOptions: this.renderVisualConfigurableOptions.bind(this),
+            tierPrice: this.renderTierPrice.bind(this),
+            mainDetails: this.renderMainDetails.bind(this),
+            additionalProductDetails: this.renderAdditionalProductDetails.bind(this)
+        }
     };
 
     imageRef = createRef();
@@ -61,18 +79,42 @@ export class ProductCard extends ExtensiblePureComponent {
         registerSharedElement(this.imageRef);
     };
 
+    renderConfigurablePriceBadge() {
+        const {
+            product: { type_id }
+        } = this.props;
+
+        if (type_id !== CONFIGURABLE) {
+            return null;
+        }
+
+        return (
+            <p
+              mix={ {
+                  block: 'ProductCard',
+                  elem: 'PriceBadge'
+              } }
+            >
+                { __('As Low as') }
+            </p>
+        );
+    }
+
     renderProductPrice() {
-        const { productOrVariant: { price_range } } = this.props;
+        const { product: { price_range } } = this.props;
 
         if (!price_range) {
             return <TextPlaceholder />;
         }
 
         return (
-            <ProductPrice
-              price={ price_range }
-              mix={ { block: 'ProductCard', elem: 'Price' } }
-            />
+            <>
+                { this.renderConfigurablePriceBadge() }
+                <ProductPrice
+                  price={ price_range }
+                  mix={ { block: 'ProductCard', elem: 'Price' } }
+                />
+            </>
         );
     }
 
@@ -105,7 +147,7 @@ export class ProductCard extends ExtensiblePureComponent {
         );
     }
 
-    renderPicture() {
+    renderPicture(mix = {}) {
         const { product: { id, name }, thumbnail } = this.props;
 
         this.sharedComponent = (
@@ -114,7 +156,7 @@ export class ProductCard extends ExtensiblePureComponent {
               src={ thumbnail }
               alt={ name }
               ratio="custom"
-              mix={ { block: 'ProductCard', elem: 'Picture' } }
+              mix={ { block: 'ProductCard', elem: 'Picture', mix } }
               isPlaceholder={ !id }
             />
         );
@@ -132,7 +174,14 @@ export class ProductCard extends ExtensiblePureComponent {
     }
 
     renderReviews() {
-        const { product: { review_summary: { rating_summary } = {} } } = this.props;
+        const {
+            product: {
+                review_summary: {
+                    rating_summary
+                } = {}
+            }
+        } = this.props;
+
         if (!rating_summary) {
             return null;
         }
@@ -184,7 +233,7 @@ export class ProductCard extends ExtensiblePureComponent {
         );
     }
 
-    renderCardWrapper(children) {
+    renderCardLinkWrapper(children, mix = {}) {
         const { linkTo, product: { url } } = this.props;
 
         if (!url) {
@@ -197,9 +246,36 @@ export class ProductCard extends ExtensiblePureComponent {
               elem="Link"
               to={ linkTo }
               onClick={ this.registerSharedElement }
+              mix={ mix }
             >
               { children }
             </Link>
+        );
+    }
+
+    renderCardContent() {
+        const { renderContent } = this.props;
+
+        if (renderContent) {
+            return renderContent(this.contentObject);
+        }
+
+        return (
+            this.renderCardLinkWrapper((
+                <>
+                    <figure block="ProductCard" elem="Figure">
+                        { this.renderPicture() }
+                    </figure>
+                    <div block="ProductCard" elem="Content">
+                        { this.renderReviews() }
+                        { this.renderProductPrice() }
+                        { this.renderVisualConfigurableOptions() }
+                        { this.renderTierPrice() }
+                        { this.renderMainDetails() }
+                        { this.renderAdditionalProductDetails() }
+                    </div>
+                </>
+            ))
         );
     }
 
@@ -216,21 +292,7 @@ export class ProductCard extends ExtensiblePureComponent {
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />
-                { this.renderCardWrapper((
-                    <>
-                        <figure block="ProductCard" elem="Figure">
-                            { this.renderPicture() }
-                        </figure>
-                        <div block="ProductCard" elem="Content">
-                            { this.renderReviews() }
-                            { this.renderProductPrice() }
-                            { this.renderVisualConfigurableOptions() }
-                            { this.renderTierPrice() }
-                            { this.renderMainDetails() }
-                            { this.renderAdditionalProductDetails() }
-                        </div>
-                    </>
-                )) }
+                { this.renderCardContent() }
                 <div block="ProductCard" elem="AdditionalContent">
                     { children }
                 </div>

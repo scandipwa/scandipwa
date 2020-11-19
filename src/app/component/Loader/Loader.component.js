@@ -10,6 +10,8 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import './Loader.style';
 
 /**
@@ -18,10 +20,18 @@ import './Loader.style';
  * @class Loader
  * @namespace Component/Loader/Component
  */
-export class Loader extends ExtensiblePureComponent {
+export class Loader extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired
     };
+
+    renderMain() {
+        return (
+            <div block="Loader" elem="Main">
+                <span />
+            </div>
+        );
+    }
 
     render() {
         const { isLoading } = this.props;
@@ -33,9 +43,7 @@ export class Loader extends ExtensiblePureComponent {
         return (
             <div block="Loader">
                 <div block="Loader" elem="Scale">
-                    <div block="Loader" elem="Main">
-                        <span />
-                    </div>
+                    { this.renderMain() }
                 </div>
             </div>
         );

@@ -2,8 +2,6 @@
 
 # ScandiPWA Theme
 
-[![The dev branch - 2.x-dev](https://img.shields.io/badge/dev%20branch-2.x--dev-blue)](https://github.com/scandipwa/base-theme/tree/2.x-dev)
-[![The stable branch - 2.x-stable](https://img.shields.io/badge/stable%20branch-2.x--stable-blue)](https://github.com/scandipwa/base-theme/tree/2.x-stable)
 [![Join community Slack](https://img.shields.io/badge/join-community%20slack-brightgreen)](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk)
 [![Explore documentation](https://img.shields.io/badge/explore-documentation-orange)](https://docs.scandipwa.com/)
 
@@ -57,7 +55,7 @@ ScandiPWA core team is here to make your life easier and the coding process more
 
 - [Video Tutorials](https://www.youtube.com/playlist?list=PLy0PoJ53Gjy3iHQmsZCD1WAazhyS03l-y)
 - [Weekly webinars](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww/videos)
-- [ScandiPWA User Guide](https://scandiweb.atlassian.net/wiki/spaces/SUG/overview)
+- [ScandiPWA User Guide](https://manual.scandipwa.com/)
 - [ScandiPWA Documentation](https://docs.scandipwa.com/)
 
 **Still feeling lost?**
@@ -144,6 +142,17 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://bigstep.dk"><img src="https://avatars3.githubusercontent.com/u/22077162?v=4" width="100px;" alt=""/><br /><sub><b>Ismail Cam</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Abigstepdenmark" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/fooman"><img src="https://avatars0.githubusercontent.com/u/455508?v=4" width="100px;" alt=""/><br /><sub><b>Kristof, Fooman</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Afooman" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Senthil83"><img src="https://avatars1.githubusercontent.com/u/34179568?v=4" width="100px;" alt=""/><br /><sub><b>Senthil83</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3ASenthil83" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/ankith-codilar"><img src="https://avatars0.githubusercontent.com/u/67680823?v=4" width="100px;" alt=""/><br /><sub><b>Ankith G</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=ankith-codilar" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Aankith-codilar" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/astik"><img src="https://avatars0.githubusercontent.com/u/572233?v=4" width="100px;" alt=""/><br /><sub><b>Romain Gonord</b></sub></a><br /><a href="#question-astik" title="Answering Questions">💬</a> <a href="#ideas-astik" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/scandipwa/base-theme/commits?author=astik" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/peterflex7"><img src="https://avatars0.githubusercontent.com/u/26825774?v=4" width="100px;" alt=""/><br /><sub><b>peterflex7</b></sub></a><br /><a href="#ideas-peterflex7" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/drc0"><img src="https://avatars0.githubusercontent.com/u/5507633?v=4" width="100px;" alt=""/><br /><sub><b>Davide</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=drc0" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Adrc0" title="Bug reports">🐛</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://gagglethread.com"><img src="https://avatars2.githubusercontent.com/u/56184739?v=4" width="100px;" alt=""/><br /><sub><b>santosh-gaggle</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=santosh-gaggle" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Asantosh-gaggle" title="Bug reports">🐛</a> <a href="#translation-santosh-gaggle" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/AleksandrsKondratjevs"><img src="https://avatars3.githubusercontent.com/u/68007919?v=4" width="100px;" alt=""/><br /><sub><b>AleksandrsKondratjevs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=AleksandrsKondratjevs" title="Code">💻</a></td>
+    <td align="center"><a href="http://polander.github.io/portfolio"><img src="https://avatars2.githubusercontent.com/u/8862593?v=4" width="100px;" alt=""/><br /><sub><b>Dmitry</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=polander" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/dfelton"><img src="https://avatars0.githubusercontent.com/u/2659558?v=4" width="100px;" alt=""/><br /><sub><b>Darren Felton</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=dfelton" title="Code">💻</a></td>
   </tr>
 </table>
 
@@ -153,7 +162,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 ### Want to join the list?
 
-Here is how you can do it - [How to contribute]()
+Here is how you can do it - [How to contribute](https://docs.scandipwa.com/docs/contribute.html)
 
 ## License
 

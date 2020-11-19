@@ -11,17 +11,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createPortal } from 'react-dom';
-import { createRef } from 'react';
 import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+import { createPortal } from 'react-dom';
 
-import isMobile from 'Util/Mobile';
-import { MixType, ChildrenType } from 'Type/Common';
+import { ChildrenType, MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
 
 import './Overlay.style';
 
 /** @namespace Component/Overlay/Component */
-export class Overlay extends ExtensiblePureComponent {
+export class Overlay extends PureComponent {
     static propTypes = {
         mix: MixType,
         id: PropTypes.string.isRequired,
@@ -31,7 +31,8 @@ export class Overlay extends ExtensiblePureComponent {
         areOtherOverlaysOpen: PropTypes.bool.isRequired,
         isStatic: PropTypes.bool,
         isRenderInPortal: PropTypes.bool,
-        children: ChildrenType
+        children: ChildrenType,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -57,11 +58,11 @@ export class Overlay extends ExtensiblePureComponent {
     }
 
     onVisible() {
-        const { onVisible, isStatic } = this.props;
+        const { onVisible, isStatic, device } = this.props;
         if (isStatic) {
             return;
         }
-        if (isMobile.any()) {
+        if (device.isMobile) {
             this.freezeScroll();
         }
         this.overlayRef.current.focus();
@@ -69,11 +70,11 @@ export class Overlay extends ExtensiblePureComponent {
     }
 
     onHide() {
-        const { onHide, isStatic } = this.props;
+        const { onHide, isStatic, device } = this.props;
         if (isStatic) {
             return;
         }
-        if (isMobile.any()) {
+        if (device.isMobile) {
             this.unfreezeScroll();
         }
         onHide();
@@ -97,9 +98,9 @@ export class Overlay extends ExtensiblePureComponent {
     }
 
     renderInMobilePortal(content) {
-        const { isStatic, isRenderInPortal } = this.props;
+        const { isStatic, isRenderInPortal, device } = this.props;
 
-        if (!isStatic && isMobile.any() && isRenderInPortal) {
+        if (!isStatic && device.isMobile && isRenderInPortal) {
             return createPortal(content, document.body);
         }
 

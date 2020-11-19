@@ -10,18 +10,28 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { CartDispatcher } from 'Store/Cart';
+
 import CartCoupon from './CartCoupon.component';
 
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
 /** @namespace Component/CartCoupon/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
-    removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
+export const mapDispatchToProps = (dispatch) => ({
+    applyCouponToCart: (couponCode) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.applyCouponToCart(dispatch, couponCode)
+    ),
+    removeCouponFromCart: () => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeCouponFromCart(dispatch)
+    )
 });
 
 /** @namespace Component/CartCoupon/Container */
-export class CartCouponContainer extends ExtensiblePureComponent {
+export class CartCouponContainer extends PureComponent {
     static propTypes = {
         couponCode: PropTypes.string,
         applyCouponToCart: PropTypes.func.isRequired,
@@ -74,6 +84,6 @@ export class CartCouponContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/CartCoupon/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartCouponContainer);

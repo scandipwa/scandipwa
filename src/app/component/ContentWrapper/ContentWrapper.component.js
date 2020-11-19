@@ -10,7 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
-import { MixType, ChildrenType } from 'Type/Common';
+import { PureComponent } from 'react';
+
+import { ChildrenType, MixType } from 'Type/Common';
+
 import './ContentWrapper.style';
 
 /**
@@ -18,7 +21,7 @@ import './ContentWrapper.style';
  * @class ContentWrapper
  * @namespace Component/ContentWrapper/Component
  */
-export class ContentWrapper extends ExtensiblePureComponent {
+export class ContentWrapper extends PureComponent {
     static propTypes = {
         children: ChildrenType,
         mix: MixType,
@@ -26,25 +29,41 @@ export class ContentWrapper extends ExtensiblePureComponent {
             block: PropTypes.string,
             elem: PropTypes.string
         }),
-        label: PropTypes.string.isRequired
+        label: PropTypes.string.isRequired,
+        isNotSection: PropTypes.bool
     };
 
     static defaultProps = {
         mix: {},
         wrapperMix: {},
-        children: null
+        children: null,
+        isNotSection: false
     };
 
-    render() {
+    renderContentWrapper() {
         const {
-            children, mix, wrapperMix, label
+            children, wrapperMix
         } = this.props;
 
         return (
+            <div block="ContentWrapper" mix={ wrapperMix }>
+                { children }
+            </div>
+        );
+    }
+
+    render() {
+        const {
+            mix, label, isNotSection
+        } = this.props;
+
+        if (isNotSection) {
+            return this.renderContentWrapper();
+        }
+
+        return (
             <section mix={ mix } aria-label={ label }>
-                <div block="ContentWrapper" mix={ wrapperMix }>
-                    { children }
-                </div>
+                { this.renderContentWrapper() }
             </section>
         );
     }

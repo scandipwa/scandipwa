@@ -10,29 +10,37 @@
  */
 
 import PropTypes from 'prop-types';
-import Overlay from 'Component/Overlay';
-import ResetButton from 'Component/ResetButton';
+import { PureComponent } from 'react';
+
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import Loader from 'Component/Loader';
+import Overlay from 'Component/Overlay';
+import ResetButton from 'Component/ResetButton';
+
+import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 
 import './CategoryFilterOverlay.style';
 
-export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
-
 /** @namespace Component/CategoryFilterOverlay/Component */
-export class CategoryFilterOverlay extends ExtensiblePureComponent {
+export class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
+        isMatchingInfoFilter: PropTypes.bool,
         isInfoLoading: PropTypes.bool.isRequired,
         isProductsLoading: PropTypes.bool.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
+        onHide: PropTypes.func.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired
+    };
+
+    static defaultProps = {
+        isMatchingInfoFilter: false
     };
 
     renderFilters() {
@@ -40,15 +48,14 @@ export class CategoryFilterOverlay extends ExtensiblePureComponent {
             availableFilters,
             customFiltersValues,
             toggleCustomFilter,
+            isMatchingInfoFilter,
             getFilterUrl
         } = this.props;
-
-        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
 
         return (
             <CategoryConfigurableAttributes
               mix={ { block: 'CategoryFilterOverlay', elem: 'Attributes' } }
-              isReady={ isLoaded }
+              isReady={ isMatchingInfoFilter }
               configurable_options={ availableFilters }
               getLink={ getFilterUrl }
               parameters={ customFiltersValues }
@@ -168,6 +175,7 @@ export class CategoryFilterOverlay extends ExtensiblePureComponent {
     render() {
         const {
             onVisible,
+            onHide,
             totalPages,
             isProductsLoading,
             isContentFiltered
@@ -182,6 +190,7 @@ export class CategoryFilterOverlay extends ExtensiblePureComponent {
         return (
             <Overlay
               onVisible={ onVisible }
+              onHide={ onHide }
               mix={ { block: 'CategoryFilterOverlay' } }
               id={ CATEGORY_FILTER_OVERLAY_ID }
               isRenderInPortal={ false }

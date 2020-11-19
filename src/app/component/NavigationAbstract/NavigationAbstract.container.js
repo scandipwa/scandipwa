@@ -12,21 +12,34 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
-import { DEFAULT_STATE_NAME } from './NavigationAbstract.component';
+import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
+/** @namespace Component/NavigationAbstract/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
+
+/** @namespace Component/NavigationAbstract/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
+
 /** @namespace Component/NavigationAbstract/Container */
-export class NavigationAbstractContainer extends ExtensiblePureComponent {
+export class NavigationAbstractContainer extends PureComponent {
     static propTypes = {
         setNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
-        navigationState: PropTypes.object.isRequired
+        navigationState: PropTypes.object.isRequired,
+        device: DeviceType.isRequired
     };
 
     default_state = DEFAULT_STATE;
@@ -42,11 +55,12 @@ export class NavigationAbstractContainer extends ExtensiblePureComponent {
     componentDidMount() {
         const { setNavigationState } = this.props;
         setNavigationState(this.getNavigationState());
-        history.listen(history => this.setState(this.onRouteChanged(history)));
+        history.listen((history) => this.setState(this.onRouteChanged(history)));
     }
 
     onRouteChanged(history) {
-        if (!isMobile.any() && !isMobile.tablet()) {
+        const { device } = this.props;
+        if (!device.isMobile) {
             return this.handleDesktopRouteChange(history);
         }
 
@@ -57,7 +71,11 @@ export class NavigationAbstractContainer extends ExtensiblePureComponent {
         const { pathname } = location;
 
         const activeRoute = Object.keys(this.routeMap)
-            .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
+            .find((route) => (
+                route !== '/'
+                || pathname === appendWithStoreCode('/')
+                || pathname === '/'
+            ) && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;
     }
@@ -119,4 +137,4 @@ export class NavigationAbstractContainer extends ExtensiblePureComponent {
     }
 }
 
-export default NavigationAbstractContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationAbstractContainer);

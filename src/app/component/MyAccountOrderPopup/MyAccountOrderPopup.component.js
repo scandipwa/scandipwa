@@ -10,20 +10,21 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import Popup from 'Component/Popup';
-import { orderType } from 'Type/Account';
+import Image from 'Component/Image';
 import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import Image from 'Component/Image';
-import { formatCurrency } from 'Util/Price';
+import Popup from 'Component/Popup';
+import { orderType } from 'Type/Account';
+import { formatPrice } from 'Util/Price';
+
+import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
 
 import './MyAccountOrderPopup.style';
 
-export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
-
 /** @namespace Component/MyAccountOrderPopup/Component */
-export class MyAccountOrderPopup extends ExtensiblePureComponent {
+export class MyAccountOrderPopup extends PureComponent {
     static propTypes = {
         order: orderType.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -97,8 +98,7 @@ export class MyAccountOrderPopup extends ExtensiblePureComponent {
                     </dd>
                     <dt>{ __('Price: ') }</dt>
                     <dd>
-                        { formatCurrency(currency_code) }
-                        { shipping_amount }
+                        { formatPrice(shipping_amount, currency_code) }
                     </dd>
                 </dl>
                 { this.renderShippingAddressTable() }
@@ -138,12 +138,22 @@ export class MyAccountOrderPopup extends ExtensiblePureComponent {
                     <td>{ name }</td>
                     <td>{ qty }</td>
                     <td>
-                        { formatCurrency(currency_code) }
-                        { row_total }
+                        { formatPrice(row_total, currency_code) }
                     </td>
                 </tr>
             );
         });
+    }
+
+    renderItemsHeading() {
+        return (
+            <tr>
+                <th>{ __('Image') }</th>
+                <th>{ __('Name') }</th>
+                <th>{ __('Quantity') }</th>
+                <th>{ __('Total') }</th>
+            </tr>
+        );
     }
 
     renderProducts() {
@@ -155,12 +165,7 @@ export class MyAccountOrderPopup extends ExtensiblePureComponent {
                   elem="Products"
                 >
                     <thead>
-                        <tr>
-                            <th>{ __('Image') }</th>
-                            <th>{ __('Name') }</th>
-                            <th>{ __('Quantity') }</th>
-                            <th>{ __('Total') }</th>
-                        </tr>
+                        { this.renderItemsHeading() }
                     </thead>
                     <tbody>
                         { this.renderItems() }
@@ -180,13 +185,11 @@ export class MyAccountOrderPopup extends ExtensiblePureComponent {
                 <dl>
                     <dt>{ __('Subtotal: ') }</dt>
                     <dd>
-                        { formatCurrency(currency_code) }
-                        { sub_total }
+                        { formatPrice(sub_total, currency_code) }
                     </dd>
                     <dt>{ __('Grand total: ') }</dt>
                     <dd>
-                        { formatCurrency(currency_code) }
-                        { grand_total }
+                        { formatPrice(grand_total, currency_code) }
                     </dd>
                 </dl>
             </div>

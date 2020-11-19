@@ -9,17 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
-import { RegionQuery, ReviewQuery, ConfigQuery } from 'Query';
-import { showNotification } from 'Store/Notification';
-import { updateConfig } from 'Store/Config';
+import ConfigQuery from 'Query/Config.query';
+import RegionQuery from 'Query/Region.query';
+import ReviewQuery from 'Query/Review.query';
+import { updateConfig } from 'Store/Config/Config.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 /** @namespace Store/Config/Dispatcher */
 export class ConfigDispatcher extends QueryDispatcher {
-    constructor() {
-        super('Config');
+    __construct() {
+        super.__construct('Config');
     }
 
     onSuccess(data, dispatch) {
@@ -43,4 +45,4 @@ export class ConfigDispatcher extends QueryDispatcher {
     }
 }
 
-export default new (ConfigDispatcher)();
+export default new ConfigDispatcher();

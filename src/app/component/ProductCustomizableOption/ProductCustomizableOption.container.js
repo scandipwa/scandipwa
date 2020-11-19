@@ -9,14 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
-import { formatCurrency } from 'Util/Price';
+import { PureComponent } from 'react';
+
+import { formatPrice } from 'Util/Price';
+
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
-class ProductCustomizableOptionContainer extends ExtensiblePureComponent {
+/** @namespace Component/ProductCustomizableOption/Container */
+export class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
+        productOptionsData: PropTypes.object.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired
@@ -36,7 +40,8 @@ class ProductCustomizableOptionContainer extends ExtensiblePureComponent {
     };
 
     containerProps = () => ({
-        optionType: this.getOptionType()
+        optionType: this.getOptionType(),
+        requiredSelected: this.getIsRequiredSelected()
     });
 
     getOptionType() {
@@ -46,12 +51,54 @@ class ProductCustomizableOptionContainer extends ExtensiblePureComponent {
         return type;
     }
 
+    getIsRequiredSelected() {
+        const {
+            productOptionsData,
+            productOptionsData: {
+                requiredOptions,
+                productOptions,
+                productOptionsMulti
+            },
+            option: {
+                option_id
+            }
+        } = this.props;
+
+        if (Object.keys(productOptionsData).length < 1 || !requiredOptions) {
+            return true;
+        }
+
+        const selectedItems = [...productOptions || [], ...productOptionsMulti || []];
+        const isRequired = requiredOptions.reduce((acc, item) => {
+            if (item === option_id) {
+                acc.push(item);
+            }
+
+            return acc;
+        }, []);
+
+        if (!isRequired.length) {
+            return true;
+        }
+
+        const isRequiredSelected = selectedItems.reduce((acc, { option_id }) => {
+            if (isRequired[0] === option_id) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        return !!isRequiredSelected.length;
+    }
+
     renderOptionLabel(priceType, price) {
         switch (priceType) {
         case 'PERCENT':
             return `${ price }%`;
         default:
-            return `${ formatCurrency() }${ price }`;
+            /* TODO: get currency code */
+            return formatPrice(price);
         }
     }
 

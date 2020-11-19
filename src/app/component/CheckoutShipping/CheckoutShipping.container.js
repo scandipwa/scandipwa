@@ -10,25 +10,36 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { shippingMethodsType } from 'Type/Checkout';
-import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
+import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { customerType } from 'Type/Account';
+import { shippingMethodsType } from 'Type/Checkout';
+import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
 /** @namespace Component/CheckoutShipping/Container/mapStateToProps */
-export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
+export const mapStateToProps = (state) => ({
+    customer: state.MyAccountReducer.customer,
+    addressLinesQty: state.ConfigReducer.address_lines_quantity,
+    totals: state.CartReducer.cartTotals
+});
+
+/** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    updateShippingFields: (fields) => dispatch(updateShippingFields(fields))
 });
 
 /** @namespace Component/CheckoutShipping/Container */
-export class CheckoutShippingContainer extends ExtensiblePureComponent {
+export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
-        customer: customerType.isRequired
+        customer: customerType.isRequired,
+        addressLinesQty: PropTypes.number.isRequired,
+        updateShippingFields: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -38,8 +49,8 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
         onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { shippingMethods } = props;
         const [selectedShippingMethod] = shippingMethods;
@@ -63,16 +74,22 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
     }
 
     onShippingSuccess(fields) {
-        const { saveAddressInformation } = this.props;
+        const {
+            saveAddressInformation,
+            updateShippingFields,
+            addressLinesQty
+        } = this.props;
 
         const {
             selectedCustomerAddressId,
             selectedShippingMethod
         } = this.state;
 
+        const formFields = getFormFields(fields, addressLinesQty);
+
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
-            : trimAddressFields(fields);
+            : trimAddressFields(formFields);
 
         const {
             carrier_code: shipping_carrier_code,
@@ -87,8 +104,8 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
         };
 
         saveAddressInformation(data);
+        updateShippingFields(fields);
     }
-
 
     _getAddressById(addressId) {
         const { customer: { addresses } } = this.props;
@@ -106,9 +123,5 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
         );
     }
 }
-
-/** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutShippingContainer);

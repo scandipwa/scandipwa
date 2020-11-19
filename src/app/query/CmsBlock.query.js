@@ -16,7 +16,7 @@ import { Field } from 'Util/Query';
  * @class CmsBlocksQuery
  * @namespace Query/CmsBlock
  */
-export class CmsBlockQuery extends ExtensibleClass {
+export class CmsBlockQuery {
     /**
      * get CMS Block query
      * @param  {{identifier: String, title: String, content: String}} options A object containing different aspects of query, each item can be omitted
@@ -49,4 +49,4 @@ export class CmsBlockQuery extends ExtensibleClass {
     }
 }
 
-export default new (CmsBlockQuery)();
+export default new CmsBlockQuery();

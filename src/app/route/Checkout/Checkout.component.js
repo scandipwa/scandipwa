@@ -10,30 +10,36 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
-import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
-import CheckoutSuccess from 'Component/CheckoutSuccess';
-import CheckoutGuestForm from 'Component/CheckoutGuestForm';
-import CheckoutShipping from 'Component/CheckoutShipping';
+import CartCoupon from 'Component/CartCoupon';
 import CheckoutBilling from 'Component/CheckoutBilling';
-import ContentWrapper from 'Component/ContentWrapper';
-import { CHECKOUT } from 'Component/Header';
-import { addressType } from 'Type/Account';
-import { TotalsType } from 'Type/MiniCart';
-import { HistoryType } from 'Type/Common';
+import CheckoutGuestForm from 'Component/CheckoutGuestForm';
+import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
+import CheckoutShipping from 'Component/CheckoutShipping';
+import CheckoutSuccess from 'Component/CheckoutSuccess';
 import CmsBlock from 'Component/CmsBlock';
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import { CHECKOUT } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
+import { addressType } from 'Type/Account';
+import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
+import { HistoryType } from 'Type/Common';
+import { TotalsType } from 'Type/MiniCart';
+import { appendWithStoreCode } from 'Util/Url';
+
+import {
+    BILLING_STEP,
+    CHECKOUT_URL,
+    DETAILS_STEP,
+    SHIPPING_STEP
+} from './Checkout.config';
 
 import './Checkout.style';
 
-export const SHIPPING_STEP = 'SHIPPING_STEP';
-export const BILLING_STEP = 'BILLING_STEP';
-export const DETAILS_STEP = 'DETAILS_STEP';
-export const CHECKOUT_URL = '/checkout';
-
 /** @namespace Route/Checkout/Component */
-export class Checkout extends ExtensiblePureComponent {
+export class Checkout extends PureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
@@ -50,7 +56,6 @@ export class Checkout extends ExtensiblePureComponent {
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired,
         paymentTotals: TotalsType,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
@@ -60,7 +65,10 @@ export class Checkout extends ExtensiblePureComponent {
         isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
-        goBack: PropTypes.func.isRequired
+        isGuestEmailSaved: PropTypes.bool.isRequired,
+        goBack: PropTypes.func.isRequired,
+        totals: TotalsType.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -72,13 +80,15 @@ export class Checkout extends ExtensiblePureComponent {
             title: __('Shipping step'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
-            areTotalsVisible: true
+            areTotalsVisible: true,
+            renderCartCoupon: this.renderCartCoupon.bind(this)
         },
         [BILLING_STEP]: {
             title: __('Billing step'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
-            areTotalsVisible: true
+            areTotalsVisible: true,
+            renderCartCoupon: this.renderCartCoupon.bind(this)
         },
         [DETAILS_STEP]: {
             title: __('Thank you for your purchase!'),
@@ -89,16 +99,12 @@ export class Checkout extends ExtensiblePureComponent {
     };
 
     componentDidMount() {
-        const { checkoutStep, history, goBack } = this.props;
+        const { checkoutStep, history } = this.props;
         const { url } = this.stepMap[checkoutStep];
 
         this.updateHeader();
 
-        history.replace(`${ CHECKOUT_URL }${ url }`);
-
-        window.onpopstate = () => {
-            goBack();
-        };
+        history.replace(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
     }
 
     componentDidUpdate(prevProps) {
@@ -126,7 +132,7 @@ export class Checkout extends ExtensiblePureComponent {
         const { checkoutStep, history } = this.props;
         const { url } = this.stepMap[checkoutStep];
 
-        history.push(`${ CHECKOUT_URL }${ url }`);
+        history.push(appendWithStoreCode(`${ CHECKOUT_URL }${ url }`));
     }
 
     renderTitle() {
@@ -168,7 +174,11 @@ export class Checkout extends ExtensiblePureComponent {
             shippingMethods,
             onShippingEstimationFieldsChange,
             saveAddressInformation,
-            isDeliveryOptionsLoading
+            isDeliveryOptionsLoading,
+            onPasswordChange,
+            onCreateUserChange,
+            onEmailChange,
+            isCreateUser
         } = this.props;
 
         return (
@@ -177,6 +187,10 @@ export class Checkout extends ExtensiblePureComponent {
               shippingMethods={ shippingMethods }
               saveAddressInformation={ saveAddressInformation }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
+              onPasswordChange={ onPasswordChange }
+              onCreateUserChange={ onCreateUserChange }
+              onEmailChange={ onEmailChange }
+              isCreateUser={ isCreateUser }
             />
         );
     }
@@ -226,11 +240,17 @@ export class Checkout extends ExtensiblePureComponent {
         return <Loader isLoading={ isLoading } />;
     }
 
-    renderSummary() {
-        const { checkoutTotals, checkoutStep, paymentTotals } = this.props;
+    renderSummary(showOnMobile = false) {
+        const {
+            checkoutTotals,
+            checkoutStep,
+            paymentTotals,
+            isMobile,
+            totals: { coupon_code }
+        } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
-        if (!areTotalsVisible) {
+        if (!areTotalsVisible || (showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
             return null;
         }
 
@@ -239,13 +259,52 @@ export class Checkout extends ExtensiblePureComponent {
               checkoutStep={ checkoutStep }
               totals={ checkoutTotals }
               paymentTotals={ paymentTotals }
+              isExpandable={ isMobile }
+              couponCode={ coupon_code }
+              // eslint-disable-next-line react/jsx-no-bind
+              renderCmsBlock={ () => this.renderPromo(true) }
             />
         );
     }
 
-    renderPromo() {
+    renderCoupon() {
         const { checkoutStep } = this.props;
+        const { renderCartCoupon } = this.stepMap[checkoutStep];
+
+        if (renderCartCoupon) {
+            return renderCartCoupon();
+        }
+
+        return null;
+    }
+
+    renderCartCoupon() {
+        const {
+            totals: { coupon_code },
+            isMobile
+        } = this.props;
+
+        if (isMobile) {
+            return null;
+        }
+
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'Checkout', elem: 'Coupon' } }
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
+        );
+    }
+
+    renderPromo(showOnMobile = false) {
+        const { checkoutStep, isMobile } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
+
+        if (!showOnMobile && isMobile) {
+            return null;
+        }
 
         const {
             checkout_content: {
@@ -267,6 +326,7 @@ export class Checkout extends ExtensiblePureComponent {
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }
                 >
+                    { this.renderSummary(true) }
                     <div block="Checkout" elem="Step">
                         { this.renderTitle() }
                         { this.renderGuestForm() }
@@ -276,6 +336,7 @@ export class Checkout extends ExtensiblePureComponent {
                     <div>
                         { this.renderSummary() }
                         { this.renderPromo() }
+                        { this.renderCoupon() }
                     </div>
                 </ContentWrapper>
             </main>

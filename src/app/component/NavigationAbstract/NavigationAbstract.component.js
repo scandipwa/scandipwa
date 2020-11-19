@@ -12,11 +12,12 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-export const DEFAULT_STATE_NAME = 'default';
+import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
 /** @namespace Component/NavigationAbstract/Component */
-export class NavigationAbstract extends ExtensiblePureComponent {
+export class NavigationAbstract extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         navigationState: PropTypes.object.isRequired
@@ -31,14 +32,17 @@ export class NavigationAbstract extends ExtensiblePureComponent {
     renderMap = {};
 
     renderNavigationState() {
-        const { navigationState: { name } } = this.props;
+        const { navigationState: { name, hiddenElements = [] } } = this.props;
 
+        // Get current page/state render methods
         const source = this.stateMap[name]
             ? this.stateMap[name]
             : this.stateMap[this.defaultStateName];
 
+        // Return defined render methods for current page/state
+        // * Dont render methods which id's are passed inside hiddenElements
         return Object.entries(this.renderMap).map(
-            ([key, renderFunction]) => renderFunction(source[key], key)
+            ([key, renderFunction]) => renderFunction(source[key] && !hiddenElements.includes(key), key)
         );
     }
 

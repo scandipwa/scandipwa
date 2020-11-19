@@ -11,13 +11,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import Overlay from 'Component/Overlay/Overlay.component';
-import ClickOutside from 'Component/ClickOutside';
-import './Popup.style';
+import { createPortal } from 'react-dom';
 
-export const ESCAPE_KEY = 27;
+import ClickOutside from 'Component/ClickOutside';
+import Overlay from 'Component/Overlay/Overlay.component';
+
+import { ESCAPE_KEY } from './Popup.config';
+
+import './Popup.style';
 
 /** @namespace Component/Popup/Component */
 export class Popup extends Overlay {
@@ -28,7 +30,7 @@ export class Popup extends Overlay {
     };
 
     static defaultProps = {
-        ...Popup.defaultProps,
+        ...Overlay.defaultProps,
         clickOutside: true,
         title: ''
     };
@@ -45,23 +47,40 @@ export class Popup extends Overlay {
         const { onVisible } = this.props;
         this.freezeScroll();
         this.overlayRef.current.focus();
+
+        window.addEventListener('popstate', this.hidePopUp);
+
+        window.history.pushState(
+            {
+                popupOpen: true
+            },
+            '',
+            location.pathname
+        );
+
         onVisible();
     }
 
     onHide() {
         const { onHide } = this.props;
+        window.removeEventListener('popstate', this.hidePopUp);
+
         this.unfreezeScroll();
+
         onHide();
     }
 
     hidePopUp = () => {
-        const { hideActiveOverlay } = this.props;
+        const { hideActiveOverlay, goToPreviousNavigationState, onClose } = this.props;
         const isVisible = this.getIsVisible();
         if (isVisible) {
             hideActiveOverlay();
+            goToPreviousNavigationState();
+            onClose();
         }
     };
 
+    // Same with click outside
     handleClickOutside = () => {
         const { clickOutside } = this.props;
         if (!clickOutside) {
@@ -93,8 +112,19 @@ export class Popup extends Overlay {
         );
     }
 
+    renderCloseButton() {
+        return (
+            <button
+              block="Popup"
+              elem="CloseBtn"
+              aria-label={ __('Close') }
+              onClick={ this.hidePopUp }
+            />
+        );
+    }
+
     renderContent() {
-        const { children } = this.props;
+        const { children, contentMix } = this.props;
         const isVisible = this.getIsVisible();
 
         if (!isVisible) {
@@ -103,15 +133,10 @@ export class Popup extends Overlay {
 
         return (
             <ClickOutside onClick={ this.handleClickOutside }>
-                <div block="Popup" elem="Content">
+                <div block="Popup" elem="Content" mix={ contentMix }>
                     <header block="Popup" elem="Header">
                         { this.renderTitle() }
-                        <button
-                          block="Popup"
-                          elem="CloseBtn"
-                          title="Close Popup"
-                          onClick={ this.hidePopUp }
-                        />
+                        { this.renderCloseButton() }
                     </header>
                     { children }
                 </div>

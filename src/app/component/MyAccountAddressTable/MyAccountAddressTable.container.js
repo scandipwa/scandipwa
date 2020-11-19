@@ -10,27 +10,32 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { showPopup } from 'Store/Popup';
+
 import {
-    ADDRESS_POPUP_ID, EDIT_ADDRESS, DELETE_ADDRESS
-} from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.component';
+    ADDRESS_POPUP_ID,
+    DELETE_ADDRESS,
+    EDIT_ADDRESS
+} from 'Component/MyAccountAddressPopup/MyAccountAddressPopup.config';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
+
 import MyAccountAddressTable from './MyAccountAddressTable.component';
 
 /** @namespace Component/MyAccountAddressTable/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     countries: state.ConfigReducer.countries
 });
 
 /** @namespace Component/MyAccountAddressTable/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showEditPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showEditPopup: (payload) => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
 });
 
 /** @namespace Component/MyAccountAddressTable/Container */
-export class MyAccountAddressTableContainer extends ExtensiblePureComponent {
+export class MyAccountAddressTableContainer extends PureComponent {
     static propTypes = {
         address: addressType.isRequired,
         showEditPopup: PropTypes.func.isRequired,

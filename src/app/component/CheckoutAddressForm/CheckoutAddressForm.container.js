@@ -10,16 +10,19 @@
  */
 
 import { connect } from 'react-redux';
+
 import CheckoutAddressForm from './CheckoutAddressForm.component';
 
 /** @namespace Component/CheckoutAddressForm/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     countries: state.ConfigReducer.countries,
-    default_country: state.ConfigReducer.default_country
+    default_country: state.ConfigReducer.default_country,
+    addressLinesQty: state.ConfigReducer.address_lines_quantity,
+    shippingFields: state.CheckoutReducer.shippingFields
 });
 
 /** @namespace Component/CheckoutAddressForm/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressForm);

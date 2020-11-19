@@ -14,32 +14,37 @@
         @include after-mobile {
             display: grid;
             grid-template-columns: 1fr 2fr;
-            grid-gap: 2rem;
+            grid-gap: 2.4rem;
         }
     }
 
     &-ProductName {
         font-weight: 700;
-        font-size: 2rem;
+        font-size: 2.4rem;
 
         @include mobile {
-            font-size: 1.8rem;
+
+            font-size: 2.52rem;
         }
     }
 
     &-Content {
         @include mobile {
-            margin-top: 2rem;
+            margin-top: 2.8rem;
         }
     }
 
     &-Rating {
-        margin: 1rem 0 1.3rem;
+        margin: 1.2rem 0 1.56rem;
         text-align: left;
         direction: rtl;
         border: 0;
         /* stylelint-disable-next-line unknownProperties, property-no-unknown */
         white-space-collapse: discard; // alternative of `font-size: 0`
+
+        @include mobile {
+            margin: 1.4rem 0 1.82rem;
+        }
 
         &:first-child {
             @include mobile {
@@ -50,16 +55,22 @@
 
     &-Legend {
         border-bottom: 0;
-        padding-bottom: .3rem;
+        padding-bottom: .36rem;
         font-weight: 700;
-        font-size: 1.05rem;
+        font-size: 1.26rem;
+
+        @include mobile {
+            padding-bottom: .42rem;
+            font-size: 1.47rem;
+        }
     }
 
     & &-Button {
-        margin-top: 1rem;
+        margin-top: 1.2rem;
 
         @include mobile {
-            margin-top: 2rem;
+
+            margin-top: 2.8rem;
             width: 100%;
         }
     }

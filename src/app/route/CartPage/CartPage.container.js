@@ -10,44 +10,54 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { CART, CART_EDITING } from 'Component/Header/Header.config';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { updateMeta } from 'Store/Meta/Meta.action';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
-import { CART, CART_EDITING } from 'Component/Header';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { changeNavigationState } from 'Store/Navigation';
-import { showNotification } from 'Store/Notification';
-import { toggleOverlayByKey } from 'Store/Overlay';
-import { TotalsType } from 'Type/MiniCart';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { HistoryType } from 'Type/Common';
-import { updateMeta } from 'Store/Meta';
-import history from 'Util/History';
-
+import { DeviceType } from 'Type/Device';
+import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
-import isMobile from 'Util/Mobile';
+import { hasOutOfStockProductsInCartItems } from 'Util/Cart';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
+
 import CartPage from './CartPage.component';
 
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+
 /** @namespace Route/CartPage/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-    guest_checkout: state.ConfigReducer.guest_checkout
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+export const mapDispatchToProps = (dispatch) => ({
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+    ),
+    showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    updateMeta: meta => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta))
 });
 
 /** @namespace Route/CartPage/Container */
-export class CartPageContainer extends ExtensiblePureComponent {
+export class CartPageContainer extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
@@ -56,7 +66,8 @@ export class CartPageContainer extends ExtensiblePureComponent {
         updateMeta: PropTypes.func.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
         history: HistoryType.isRequired,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        device: DeviceType.isRequired
     };
 
     state = { isEditing: false };
@@ -102,32 +113,52 @@ export class CartPageContainer extends ExtensiblePureComponent {
         }
     }
 
+    containerProps = () => {
+        const { totals } = this.props;
+
+        return {
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+        };
+    };
+
     onCheckoutButtonClick(e) {
         const {
             history,
             guest_checkout,
             showOverlay,
-            showNotification
+            showNotification,
+            device,
+            totals
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
+        if (hasOutOfStockProductsInCartItems(totals.items)) {
+            return;
+        }
+
         if (guest_checkout) {
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({
+                pathname: appendWithStoreCode(CHECKOUT_URL)
+            });
+
             return;
         }
 
         if (isSignedIn()) {
-            history.push({ pathname: CHECKOUT_URL });
+            history.push({
+                pathname: appendWithStoreCode(CHECKOUT_URL)
+            });
+
             return;
         }
 
         // fir notification whatever device that is
         showNotification('info', __('Please sign-in to complete checkout!'));
 
-        if (isMobile.any()) { // for all mobile devices, simply switch route
-            history.push({ pathname: '/my-account' });
+        if (device.isMobile) { // for all mobile devices, simply switch route
+            history.push({ pathname: appendWithStoreCode('/my-account') });
             return;
         }
 
@@ -147,7 +178,7 @@ export class CartPageContainer extends ExtensiblePureComponent {
 
     _changeHeaderState() {
         const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = `${ items_qty || '0' } Items`;
+        const title = __('%s Items', items_qty || 0);
 
         changeHeaderState({
             name: CART,
@@ -174,6 +205,7 @@ export class CartPageContainer extends ExtensiblePureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

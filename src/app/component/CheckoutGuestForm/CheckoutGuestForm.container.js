@@ -9,87 +9,119 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
-import { showNotification } from 'Store/Notification';
+import {
+    STATE_CREATE_ACCOUNT,
+    STATE_FORGOT_PASSWORD,
+    STATE_SIGN_IN
+} from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { showNotification } from 'Store/Notification/Notification.action';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
 
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
 /** @namespace Component/CheckoutGuestForm/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
-    isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required
+    isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required,
+    emailValue: state.CheckoutReducer.email,
+    isEmailAvailable: state.CheckoutReducer.isEmailAvailable
 });
 
 /** @namespace Component/CheckoutGuestForm/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showErrorNotification: error => dispatch(showNotification('error', error[0].message))
+export const mapDispatchToProps = (dispatch) => ({
+    signIn: (options) => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
+    ),
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message))
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
-export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
+export class CheckoutGuestFormContainer extends PureComponent {
     static propTypes = {
-        isBilling: PropTypes.bool,
         isCreateUser: PropTypes.bool.isRequired,
         isGuestEmailSaved: PropTypes.bool,
         isSignedIn: PropTypes.bool.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired
+        onPasswordChange: PropTypes.func.isRequired,
+        emailValue: PropTypes.string,
+        onSignIn: PropTypes.func,
+        isEmailAvailable: PropTypes.bool.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        signIn: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        isBilling: false,
-        isGuestEmailSaved: false
+        emailValue: '',
+        isGuestEmailSaved: false,
+        onSignIn: () => {}
+    };
+
+    state = {
+        isLoading: false,
+        signInState: ''
     };
 
     containerFunctions = {
         handleEmailInput: this.handleEmailInput.bind(this),
         handleCreateUser: this.handleCreateUser.bind(this),
-        handlePasswordInput: this.handlePasswordInput.bind(this)
+        handlePasswordInput: this.handlePasswordInput.bind(this),
+        handleForgotPassword: this.handleForgotPassword.bind(this),
+        handleSignIn: this.handleSignIn.bind(this),
+        handleCreateAccount: this.handleCreateAccount.bind(this),
+        onFormError: this.onFormError.bind(this),
+        setSignInState: this.setSignInState.bind(this),
+        setLoadingState: this.setLoadingState.bind(this)
     };
 
-    componentDidMount() {
-        const { isSignedIn } = this.props;
+    containerProps = () => {
+        const { emailValue } = this.props;
+        return ({
+            formId: SHIPPING_STEP,
+            emailValue
+        });
+    };
 
-        if (window.formPortalCollector && !isSignedIn) {
-            window.formPortalCollector.subscribe(
-                this._getFormPortalId(),
-                this.applyEmailTyped,
-                'CheckoutGuestFormContainer'
-            );
-        }
+    onFormError() {
+        this.setState({ isLoading: false });
     }
 
-    componentWillUnmount() {
-        this.unsubscribeFromForm();
+    handleForgotPassword(e) {
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({ signInState: STATE_FORGOT_PASSWORD });
     }
 
-    containerProps = () => ({
-        formId: this._getFormPortalId()
-    });
+    handleSignIn(e) {
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({ signInState: STATE_SIGN_IN });
+    }
 
-    applyEmailTyped = () => {
-        const { isGuestEmailSaved } = this.props;
+    handleCreateAccount(e) {
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({ signInState: STATE_CREATE_ACCOUNT });
+    }
 
-        if (isGuestEmailSaved) {
-            this.unsubscribeFromForm();
-        }
+    setSignInState(signInState) {
+        this.setState({ signInState });
+    }
 
-        return {};
-    };
-
-    unsubscribeFromForm = () => {
-        if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(
-                this._getFormPortalId(),
-                'CheckoutGuestFormContainer'
-            );
-        }
-    };
+    setLoadingState(isLoading) {
+        this.setState({ isLoading });
+    }
 
     handleEmailInput(email) {
         const { onEmailChange } = this.props;
@@ -106,11 +138,6 @@ export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
         onPasswordChange(password);
     }
 
-    _getFormPortalId() {
-        const { isBilling } = this.props;
-        return isBilling ? BILLING_STEP : SHIPPING_STEP;
-    }
-
     render() {
         const { isSignedIn, isGuestEmailSaved } = this.props;
         if (isSignedIn || isGuestEmailSaved) {
@@ -120,6 +147,7 @@ export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
         return (
             <CheckoutGuestForm
               { ...this.props }
+              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

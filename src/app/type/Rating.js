@@ -12,13 +12,13 @@
 import PropTypes from 'prop-types';
 
 export const RatingOptionItemType = PropTypes.shape({
-    option_id: PropTypes.number,
-    value: PropTypes.number
+    option_id: PropTypes.string,
+    value: PropTypes.string
 });
 
 export const RatingItemsType = PropTypes.arrayOf(
     PropTypes.shape({
-        rating_id: PropTypes.number,
+        rating_id: PropTypes.string,
         rating_code: PropTypes.string,
         rating_options: PropTypes.arrayOf(RatingOptionItemType)
     })

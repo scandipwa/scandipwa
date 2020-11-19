@@ -11,29 +11,28 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import Klarna from 'Component/Klarna';
 import Braintree from 'Component/Braintree';
-import { paymentMethodsType } from 'Type/Checkout';
 import CheckoutPayment from 'Component/CheckoutPayment';
+import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
+import { paymentMethodsType } from 'Type/Checkout';
+
+import {
+    BRAINTREE,
+    KLARNA
+} from './CheckoutPayments.config';
 
 import './CheckoutPayments.style';
 
-export const KLARNA = 'klarna_kp';
-export const BRAINTREE = 'braintree';
-export const CHECK_MONEY = 'checkmo';
-
 /** @namespace Component/CheckoutPayments/Component */
-export class CheckoutPayments extends ExtensiblePureComponent {
+export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
-        setLoading: PropTypes.func.isRequired,
-        setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
         initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
-        setOrderButtonVisibility: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.string.isRequired,
         billingAddress: PropTypes.shape({

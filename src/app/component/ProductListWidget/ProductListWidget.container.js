@@ -9,22 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
-import DataContainer from 'Util/Request/DataContainer';
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { getIndexedProducts } from 'Util/Product';
-import { showNotification } from 'Store/Notification';
-import { updateNoMatch } from 'Store/NoMatch';
+import DataContainer from 'Util/Request/DataContainer';
 
 import './ProductListWidget.style';
 
-/** @namespace Component/ProductListWidget/Container/mapStateToProps */
 /** @namespace Component/ProductListWidget/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     updateNoMatch,
     showNotification
 });
@@ -165,6 +164,7 @@ export class ProductListWidgetContainer extends DataContainer {
               isInfiniteLoaderEnabled={ false }
               numberOfPlaceholders={ 6 }
               mix={ { block: 'ProductListWidget' } }
+              isWidget
             />
         );
     }
@@ -172,6 +172,6 @@ export class ProductListWidgetContainer extends DataContainer {
 
 /** @namespace Component/ProductListWidget/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductListWidgetContainer);

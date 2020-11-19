@@ -10,10 +10,11 @@
  */
 
 import { getIndexedProducts } from 'Util/Product';
+
 import {
+    CLEAR_SEARCH_RESULTS,
     UPDATE_SEARCH_BAR,
-    UPDATE_SEARCH_LOAD_STATUS,
-    CLEAR_SEARCH_RESULTS
+    UPDATE_SEARCH_LOAD_STATUS
 } from './SearchBar.action';
 
 /** @namespace Store/SearchBar/Reducer/getInitialState */

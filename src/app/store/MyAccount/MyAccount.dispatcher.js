@@ -9,24 +9,34 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import MyAccountQuery from 'Query/MyAccount.query';
 import {
-    updateCustomerSignInStatus,
     updateCustomerDetails,
+    updateCustomerIsAuthTokenExpired,
+    updateCustomerPasswordForgotStatus,
     updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
-} from 'Store/MyAccount';
-import { fetchMutation, executePost } from 'Util/Request';
-import {
-    setAuthorizationToken,
-    deleteAuthorizationToken
-} from 'Util/Auth';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import { CartDispatcher } from 'Store/Cart';
-import { MyAccountQuery } from 'Query';
-import { prepareQuery } from 'Util/Query';
-import BrowserDatabase from 'Util/BrowserDatabase';
+    updateCustomerSignInStatus,
+    updateIsLoading
+} from 'Store/MyAccount/MyAccount.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
+import {
+    deleteAuthorizationToken,
+    setAuthorizationToken
+} from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { prepareQuery } from 'Util/Query';
+import { executePost, fetchMutation } from 'Util/Request';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
+export const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
 
 export const CUSTOMER = 'customer';
 
@@ -37,7 +47,7 @@ export const ONE_MONTH_IN_SECONDS = 2628000;
  * @class MyAccount
  * @namespace Store/MyAccount/Dispatcher
  */
-export class MyAccountDispatcher extends ExtensibleClass {
+export class MyAccountDispatcher {
     requestCustomerData(dispatch) {
         const query = MyAccountQuery.getCustomerQuery();
 
@@ -47,21 +57,32 @@ export class MyAccountDispatcher extends ExtensibleClass {
         }
 
         return executePost(prepareQuery([query])).then(
-            /** @namespace Store/MyAccount/Dispatcher/executePostThen */
+            /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostThen */
             ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
-            /** @namespace Store/MyAccount/Dispatcher/executePostThen */
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostError */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
-    logout(_, dispatch) {
+    logout(authTokenExpired = false, dispatch) {
+        if (authTokenExpired) {
+            dispatch(updateCustomerIsAuthTokenExpired(true));
+        } else {
+            deleteAuthorizationToken();
+        }
         dispatch(updateCustomerSignInStatus(false));
-        deleteAuthorizationToken();
-        CartDispatcher.updateInitialCartData(dispatch);
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
+        CartDispatcher.then(
+            ({ default: dispatcher }) => {
+                dispatcher.createGuestEmptyCart(dispatch);
+                dispatcher.updateInitialCartData(dispatch);
+            }
+        );
+        WishlistDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+        );
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         dispatch(updateCustomerDetails({}));
@@ -76,10 +97,10 @@ export class MyAccountDispatcher extends ExtensibleClass {
     forgotPassword(options = {}, dispatch) {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationThen */
             () => dispatch(updateCustomerPasswordForgotStatus()),
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationError */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -93,9 +114,9 @@ export class MyAccountDispatcher extends ExtensibleClass {
         const mutation = MyAccountQuery.getResetPasswordMutation(options);
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationThen */
             ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
             () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
     }
@@ -108,23 +129,27 @@ export class MyAccountDispatcher extends ExtensibleClass {
     createAccount(options = {}, dispatch) {
         const { customer: { email }, password } = options;
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
+        dispatch(updateIsLoading(true));
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationThen */
             (data) => {
                 const { createCustomer: { customer } } = data;
                 const { confirmation_required } = customer;
 
                 if (confirmation_required) {
+                    dispatch(updateIsLoading(false));
                     return 2;
                 }
 
                 return this.signIn({ email, password }, dispatch);
             },
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+
+            /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationError */
             (error) => {
                 dispatch(showNotification('error', error[0].message));
                 Promise.reject();
+                dispatch(updateIsLoading(false));
 
                 return false;
             }
@@ -140,9 +165,9 @@ export class MyAccountDispatcher extends ExtensibleClass {
         const mutation = MyAccountQuery.getConfirmAccountMutation(options);
 
         return fetchMutation(mutation).then(
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationThen */
             () => dispatch(showNotification('success', __('Your account is confirmed!'))),
-            /** @namespace Store/MyAccount/Dispatcher/fetchMutationThen */
+            /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationError */
             () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
         );
     }
@@ -155,20 +180,21 @@ export class MyAccountDispatcher extends ExtensibleClass {
     async signIn(options = {}, dispatch) {
         const mutation = MyAccountQuery.getSignInMutation(options);
 
-        try {
-            const result = await fetchMutation(mutation);
-            const { generateCustomerToken: { token } } = result;
+        const result = await fetchMutation(mutation);
+        const { generateCustomerToken: { token } } = result;
 
-            setAuthorizationToken(token);
-            dispatch(updateCustomerSignInStatus(true));
-            CartDispatcher.updateInitialCartData(dispatch);
-            WishlistDispatcher.updateInitialWishlistData(dispatch);
+        setAuthorizationToken(token);
+        dispatch(updateCustomerSignInStatus(true));
+        CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+        );
+        WishlistDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+        );
+        dispatch(updateIsLoading(false));
 
-            return true;
-        } catch ([e]) {
-            throw e;
-        }
+        return true;
     }
 }
 
-export default new (MyAccountDispatcher)();
+export default new MyAccountDispatcher();

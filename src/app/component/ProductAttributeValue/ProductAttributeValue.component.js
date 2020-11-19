@@ -12,13 +12,18 @@
  */
 
 import PropTypes from 'prop-types';
-import { AttributeType } from 'Type/ProductList';
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field';
 import { MixType } from 'Type/Common';
-import Field from 'Component/Field/Field.component';
+import { AttributeType } from 'Type/ProductList';
+
+import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
+
 import './ProductAttributeValue.style';
 
 /** @namespace Component/ProductAttributeValue/Component */
-export class ProductAttributeValue extends ExtensiblePureComponent {
+export class ProductAttributeValue extends PureComponent {
     static propTypes = {
         getLink: PropTypes.func,
         onClick: PropTypes.func,
@@ -96,11 +101,11 @@ export class ProductAttributeValue extends ExtensiblePureComponent {
     }
 
     renderSelectAttribute() {
-        const { attribute: { attribute_value } } = this.props;
+        const { attribute: { attribute_value, attribute_code } } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
         const { label, swatch_data } = attributeOption;
 
-        if (!swatch_data) {
+        if (!swatch_data || STRING_ONLY_ATTRIBUTE_CODES.includes(attribute_code)) {
             return this.renderStringValue(label || __('N/A'));
         }
 

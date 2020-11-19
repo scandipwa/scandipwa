@@ -149,7 +149,7 @@
             text-transform: uppercase;
             left: 35px;
             top: 11px;
-            font-size: 12px;
+            font-size: 1.2rem;
         }
     }
 }
@@ -234,7 +234,7 @@
     height: 15px;
     width: 15px;
     position: absolute;
-    right: 2rem;
+    right: 2.4rem;
 
     &::before,
     &::after {
@@ -419,6 +419,44 @@
     }
 }
 
+@mixin base-plus-minus-icon {
+    $size: 20px;
+    $line-size: 10px;
+    $line-bg-color: #000;
+
+    width: $size;
+    height: $size;
+
+    &::before,
+    &::after {
+        content: '';
+        display: block;
+        height: 1px;
+        background-color: $line-bg-color;
+        width: $line-size;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &::after {
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+}
+
+@mixin minus-icon {
+    @include base-plus-minus-icon;
+
+    &::after {
+        display: none;
+    }
+}
+
+@mixin plus-icon {
+    @include base-plus-minus-icon;
+}
+
 @mixin ios-plus {
     $color-storm-grey: #7b7b86;
 
@@ -434,4 +472,67 @@
     height: 20px;
     margin: 0 4px;
     width: 20px;
+}
+
+@mixin share-button {
+    $share-button-stroke-width: calc(var(--header-icon-stroke-width) + 1px);
+
+    background-image: linear-gradient(to right, var(--header-color) 15%, var(--header-background) 0);
+    background-repeat: repeat-x;
+    background-size: 12px $share-button-stroke-width;
+    border-radius: 1px;
+    padding: calc(9px - #{$share-button-stroke-width});
+
+    border: {
+        bottom: $share-button-stroke-width solid var(--header-color);
+        left: $share-button-stroke-width solid var(--header-color);
+        right: $share-button-stroke-width solid var(--header-color);
+    }
+
+    @include desktop {
+        background-image: linear-gradient(to right, var(--header-color) 20%, var(--my-account-content-background) 0);
+        background-size: 15px $share-button-stroke-width;
+        padding: calc(11px - #{$share-button-stroke-width});
+    }
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+    }
+
+    &::before {
+        background-color: var(--header-color);
+        height: 10px;
+        left: 6px;
+        top: -4px;
+        width: $share-button-stroke-width;
+
+        @include desktop {
+            height: 13px;
+            left: 8px;
+            top: -6px;
+            width: 2px;
+        }
+    }
+
+    &::after {
+        height: 4px;
+        left: 4px;
+        top: -4px;
+        transform: rotate(45deg);
+        width: 4px;
+
+        border: {
+            left: $share-button-stroke-width solid var(--header-color);
+            top: $share-button-stroke-width solid var(--header-color);
+        }
+
+        @include desktop {
+            height: 6px;
+            left: 5px;
+            top: -7px;
+            width: 6px;
+        }
+    }
 }

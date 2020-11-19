@@ -10,36 +10,38 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
-import MyAccountOverlay from 'Component/MyAccountOverlay';
+import ContentWrapper from 'Component/ContentWrapper';
 import MyAccountAddressBook from 'Component/MyAccountAddressBook';
-import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
 import MyAccountDashboard from 'Component/MyAccountDashboard';
 import MyAccountMyOrders from 'Component/MyAccountMyOrders';
+import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
+import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
+import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
-import ContentWrapper from 'Component/ContentWrapper';
 import {
     activeTabType,
-    tabMapType,
+    ADDRESS_BOOK,
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    ADDRESS_BOOK,
-    NEWSLETTER_SUBSCRIPTION
+    NEWSLETTER_SUBSCRIPTION,
+    tabMapType
 } from 'Type/Account';
 
 import './MyAccount.style';
 
 /** @namespace Route/MyAccount/Component */
-export class MyAccount extends ExtensiblePureComponent {
+export class MyAccount extends PureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
         changeActiveTab: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         onSignOut: PropTypes.func.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        isEditingActive: PropTypes.bool.isRequired
     };
 
     renderMap = {
@@ -52,7 +54,12 @@ export class MyAccount extends ExtensiblePureComponent {
 
     renderLoginOverlay() {
         const { onSignIn } = this.props;
-        return <MyAccountOverlay onSignIn={ onSignIn } />;
+
+        return (
+            <MyAccountOverlay
+              onSignIn={ onSignIn }
+            />
+        );
     }
 
     renderContent() {
@@ -61,7 +68,8 @@ export class MyAccount extends ExtensiblePureComponent {
             tabMap,
             changeActiveTab,
             isSignedIn,
-            onSignOut
+            onSignOut,
+            isEditingActive
         } = this.props;
 
         if (!isSignedIn) {
@@ -84,7 +92,7 @@ export class MyAccount extends ExtensiblePureComponent {
                 />
                 <div block="MyAccount" elem="TabContent">
                     <h1 block="MyAccount" elem="Heading">{ name }</h1>
-                    <TabContent />
+                    <TabContent isEditingActive={ isEditingActive } />
                 </div>
             </ContentWrapper>
         );

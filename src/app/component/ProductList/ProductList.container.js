@@ -9,21 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-import { getQueryParam, setQueryParams } from 'Util/Url';
-import { PagesType, FilterInputType } from 'Type/ProductList';
+import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
 import { HistoryType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
+import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
-import isMobile from 'Util/Mobile';
+import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
 
-export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
+/** @namespace Component/ProductList/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
+
+/** @namespace Component/ProductList/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    requestProductListInfo: (options) => ProductListInfoDispatcher.handleData(dispatch, options)
+});
 
 /** @namespace Component/ProductList/Container */
-export class ProductListContainer extends ExtensiblePureComponent {
+export class ProductListContainer extends PureComponent {
     containerFunctions = {
         loadPrevPage: this.loadPage.bind(this, false),
         loadPage: this.loadPage.bind(this),
@@ -33,20 +44,24 @@ export class ProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
-        getIsNewCategory: PropTypes.func.isRequired,
         pages: PagesType.isRequired,
         pageSize: PropTypes.number,
         isLoading: PropTypes.bool.isRequired,
+        isPageLoading: PropTypes.bool,
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
+        requestProductListInfo: PropTypes.func.isRequired,
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        isPreventRequest: PropTypes.bool,
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
         filter: FilterInputType,
         search: PropTypes.string,
         sort: PropTypes.objectOf(PropTypes.string),
         noAttributes: PropTypes.bool,
-        noVariants: PropTypes.bool
+        noVariants: PropTypes.bool,
+        isWidget: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -55,10 +70,13 @@ export class ProductListContainer extends ExtensiblePureComponent {
         search: '',
         selectedFilters: {},
         sort: undefined,
+        isPreventRequest: false,
         isPaginationEnabled: true,
         isInfiniteLoaderEnabled: true,
+        isPageLoading: false,
         noAttributes: false,
-        noVariants: false
+        noVariants: false,
+        isWidget: false
     };
 
     state = {
@@ -66,7 +84,7 @@ export class ProductListContainer extends ExtensiblePureComponent {
     };
 
     componentDidMount() {
-        const { pages, getIsNewCategory } = this.props;
+        const { pages, isPreventRequest } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -75,7 +93,7 @@ export class ProductListContainer extends ExtensiblePureComponent {
         }
 
         // Is true when category is changed. This check prevents making new requests when navigating back to PLP from PDP
-        if (getIsNewCategory()) {
+        if (!isPreventRequest) {
             this.requestPage(this._getPageFromUrl());
         }
     }
@@ -101,6 +119,27 @@ export class ProductListContainer extends ExtensiblePureComponent {
         }
     }
 
+    isEmptyFilter() {
+        const { filter } = this.props;
+
+        const validFilters = Object.entries(filter).filter(([key, value]) => {
+            switch (key) {
+            case 'priceRange':
+                return value.min > 0 || value.max > 0;
+            case 'customFilters':
+                return Object.keys(value).length > 0;
+            case 'categoryIds':
+            default:
+                return true;
+            }
+        });
+
+        /**
+         * If there is more then one valid filter, filters are not empty.
+         */
+        return validFilters.length > 0;
+    }
+
     requestPage = (currentPage = 1, isNext = false) => {
         const {
             sort,
@@ -108,16 +147,29 @@ export class ProductListContainer extends ExtensiblePureComponent {
             filter,
             pageSize,
             requestProductList,
+            requestProductListInfo,
             noAttributes,
             noVariants
         } = this.props;
 
-        if (!isNext) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        /**
+         * In case the wrong category was passed down to the product list,
+         * prevent it from being requested.
+         */
+        if (filter.categoryIds === -1) {
+            return;
         }
+
+        /**
+         * Do not request page if there are no filters
+         */
+        if (!search && !this.isEmptyFilter()) {
+            return;
+        }
+
+        // TODO: product list requests filters alongside the page
+        // TODO: sometimes product list is requested more then once
+        // TODO: the product list should not request itself, when coming from PDP
 
         const options = {
             isNext,
@@ -132,7 +184,15 @@ export class ProductListContainer extends ExtensiblePureComponent {
             }
         };
 
+        const infoOptions = {
+            args: {
+                filter,
+                search
+            }
+        };
+
         requestProductList(options);
+        requestProductListInfo(infoOptions);
     };
 
     containerProps = () => ({
@@ -145,10 +205,10 @@ export class ProductListContainer extends ExtensiblePureComponent {
     });
 
     _getIsInfiniteLoaderEnabled() { // disable infinite scroll on mobile
-        const { isInfiniteLoaderEnabled } = this.props;
+        const { isInfiniteLoaderEnabled, device } = this.props;
 
-        // allow scroll on tablet and mobile
-        if (isMobile.any() || isMobile.tablet()) {
+        // allow scroll and mobile
+        if (device.isMobile) {
             return isInfiniteLoaderEnabled;
         }
 
@@ -185,7 +245,8 @@ export class ProductListContainer extends ExtensiblePureComponent {
 
     loadPage(next = true) {
         const { pagesCount } = this.state;
-        const { isLoading } = this.props;
+        const { isPageLoading } = this.props;
+
         const {
             minPage,
             maxPage,
@@ -196,7 +257,7 @@ export class ProductListContainer extends ExtensiblePureComponent {
         const isUpdatable = totalPages > 0 && pagesCount === loadedPagesCount;
         const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
 
-        if (isUpdatable && shouldUpdateList && !isLoading) {
+        if (isUpdatable && shouldUpdateList && !isPageLoading) {
             this.setState({ pagesCount: pagesCount + 1 });
             this.requestPage(next ? maxPage + 1 : minPage - 1, true);
         }
@@ -221,4 +282,4 @@ export class ProductListContainer extends ExtensiblePureComponent {
     }
 }
 
-export default withRouter(ProductListContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductListContainer));

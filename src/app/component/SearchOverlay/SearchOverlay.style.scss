@@ -13,8 +13,6 @@
     --search-criteria-background: var(--secondary-base-color);
     --search-criteria-label-color: rgba(10, 10, 10, .44);
     --search-criteria-search-term-color: #0a0a0a;
-    --search-item-divider-color: #eee;
-    --search-item-title-color: #000;
 }
 
 .SearchOverlay {
@@ -72,8 +70,12 @@
 
         &_isVisible {
             opacity: 1;
-            padding: .7rem 1rem .5rem;
+            padding: .84rem 1.2rem .6rem;
             max-height: 100px;
+
+            @include mobile {
+                padding: .98rem 1.4rem .7rem;
+            }
         }
 
         strong {
@@ -83,11 +85,15 @@
     }
 
     &-Results {
-        padding: 1rem;
+        padding: 1.2rem;
+
+        @include mobile {
+            padding: 1.4rem;
+        }
 
         @include desktop {
-            max-height: calc(100vh - var(--header-total-height) - 7rem);
-            padding: 1rem 3rem 2rem 3rem;
+            max-height: calc(100vh - var(--header-total-height) - 8.4rem);
+            padding: 1.2rem 3.6rem 2.4rem 3.6rem;
             overflow-y: auto;
         }
 
@@ -95,77 +101,6 @@
             @include desktop {
                 text-align: center;
             }
-        }
-    }
-
-    &-Item {
-        padding: .5rem 0;
-        margin-bottom: 0;
-
-        @include desktop {
-            overflow: hidden;
-        }
-
-        &::before {
-            content: none;
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 1rem;
-            right: 1rem;
-            height: 1px;
-            background-color: var(--search-item-divider-color);
-        }
-
-        &:last-child {
-            margin-bottom: 0;
-
-            &::after {
-                content: none;
-            }
-        }
-    }
-
-    &-Wrapper {
-        display: grid;
-        grid-template-columns: 4rem calc(100% - 5rem);
-        grid-column-gap: 1rem;
-    }
-
-    &-Content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    &-Brand {
-        text-transform: uppercase;
-        font-weight: 200;
-        font-size: .8rem;
-        line-height: 1.2rem;
-    }
-
-    &-Title {
-        color: var(--search-item-title-color);
-        font-size: 1.1rem;
-        font-weight: 600;
-        max-width: calc(100vw - 7rem);
-
-        &_isLoaded {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-    }
-
-    &-Link {
-        color: inherit;
-
-        &:hover {
-            text-decoration: none;
         }
     }
 }

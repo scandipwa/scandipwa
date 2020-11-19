@@ -10,15 +10,17 @@
  */
 
 import { connect } from 'react-redux';
+
 import DemoNotice from './DemoNotice.component';
 
 /** @namespace Component/DemoNotice/Container/mapStateToProps */
-export const mapStateToProps = state => ({
-    isDemoNoticeEnabled: state.ConfigReducer.demo_notice
+export const mapStateToProps = (state) => ({
+    isDemoNoticeEnabled: state.ConfigReducer.demo_notice,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/DemoNotice/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DemoNotice);

@@ -9,24 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import BraintreeDropIn from 'Util/Braintree';
-import { paymentMethodsType } from 'Type/Checkout';
-import { showNotification } from 'Store/Notification';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
+import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.config';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
-import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
-import CheckoutPayments, { BRAINTREE, KLARNA } from './CheckoutPayments.component';
+import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { paymentMethodsType } from 'Type/Checkout';
+import BraintreeDropIn from 'Util/Braintree';
+
+import CheckoutPayments from './CheckoutPayments.component';
+import { BRAINTREE, KLARNA } from './CheckoutPayments.config';
 
 /** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showError: message => dispatch(showNotification('error', message))
+export const mapDispatchToProps = (dispatch) => ({
+    showError: (message) => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/CheckoutPayments/Container */
-export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
+export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
         onPaymentMethodSelect: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
@@ -45,8 +48,8 @@ export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
         [KLARNA]: this.getKlarnaData.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const { paymentMethods } = props;
         const [{ code } = {}] = paymentMethods;
@@ -114,6 +117,6 @@ export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/CheckoutPayments/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPaymentsContainer);

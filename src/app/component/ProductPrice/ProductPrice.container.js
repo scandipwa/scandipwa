@@ -10,11 +10,13 @@
  */
 
 import PropTypes from 'prop-types';
-import { PriceType } from 'Type/ProductList';
+import { PureComponent } from 'react';
+
 import { MixType } from 'Type/Common';
+import { PriceType } from 'Type/ProductList';
 import {
-    formatCurrency,
     calculateFinalPrice,
+    formatPrice,
     roundPrice
 } from 'Util/Price';
 
@@ -25,7 +27,7 @@ import ProductPrice from './ProductPrice.component';
  * @class ProductPrice
  * @namespace Component/ProductPrice/Container
  */
-export class ProductPriceContainer extends ExtensiblePureComponent {
+export class ProductPriceContainer extends PureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool,
         price: PriceType,
@@ -62,15 +64,13 @@ export class ProductPriceContainer extends ExtensiblePureComponent {
 
         const roundedRegularPrice = roundPrice(regularPriceValue);
         const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-        const formatedCurrency = roundPrice(finalPrice);
-        const currency = formatCurrency(priceCurrency);
+        const formattedFinalPrice = formatPrice(finalPrice, priceCurrency);
 
         return {
             roundedRegularPrice,
             priceCurrency,
             discountPercentage,
-            formatedCurrency,
-            currency
+            formattedFinalPrice
         };
     };
 
@@ -83,6 +83,5 @@ export class ProductPriceContainer extends ExtensiblePureComponent {
         );
     }
 }
-
 
 export default ProductPriceContainer;

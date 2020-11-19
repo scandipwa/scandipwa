@@ -10,32 +10,58 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'Util/Request';
-import { CartDispatcher } from 'Store/Cart';
-import { ProductType } from 'Type/ProductList';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import WishlistItem from './WishlistItem.component';
 
-export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
+import SwipeToDelete from 'Component/SwipeToDelete';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { ProductType } from 'Type/ProductList';
+import { debounce } from 'Util/Request';
+
+import WishlistItem from './WishlistItem.component';
+import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+export const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
+
+/** @namespace Component/WishlistItem/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = (state) => ({
+    isMobile: state.ConfigReducer.device.isMobile
+});
 
 /** @namespace Component/WishlistItem/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
-    updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
-    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
+    addProductToCart: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    ),
+    updateWishlistItem: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWishlistItem(dispatch, options)
+    ),
+    removeFromWishlist: (options) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeItemFromWishlist(dispatch, options)
+    ),
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 /** @namespace Component/WishlistItem/Container */
-export class WishlistItemContainer extends ExtensiblePureComponent {
+export class WishlistItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         updateWishlistItem: PropTypes.func.isRequired,
-        removeFromWishlist: PropTypes.func.isRequired
+        removeFromWishlist: PropTypes.func.isRequired,
+        handleSelectIdChange: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -63,43 +89,36 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
         return {
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
-            parameters: this._getParameters(),
+            attributes: this.getAttributes(),
             isLoading
         };
     };
 
-    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
+    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find((i) => variants[i].sku === sku);
 
-    _getParameters = () => {
-        const { product } = this.props;
+    getAttributes = () => {
+        const { product: { variants, configurable_options, wishlist: { sku: wishlistSku } } } = this.props;
 
-        const {
-            type_id,
-            wishlist: { sku },
-            variants,
-            configurable_options
-        } = product;
+        const { attributes = [] } = variants.find(({ sku }) => sku === wishlistSku) || {};
 
-        if (type_id !== 'configurable') {
-            return {};
-        }
+        return attributes ? Object.values(attributes).reduce((acc, { attribute_code, attribute_value }) => {
+            const {
+                attribute_options: {
+                    [attribute_value]: {
+                        value,
+                        label
+                    } = {}
+                } = {}
+            } = configurable_options[attribute_code] || {};
 
-        const options = Object.keys(configurable_options) || [];
-        const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
+            if (value === attribute_value) {
+                acc.push(label);
 
-        const { attributes = {} } = variants[configurableVariantIndex];
-        const parameters = Object.entries(attributes).reduce((acc, [code, { attribute_value }]) => {
-            if (!options.includes(code)) {
                 return acc;
             }
 
-            return {
-                ...acc,
-                [code]: [attribute_value]
-            };
-        }, {});
-
-        return parameters;
+            return acc;
+        }, []) : [];
     };
 
     addItemToCart() {
@@ -122,17 +141,17 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
 
         return addProductToCart({ product, quantity })
             .then(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => this.removeItem(id),
-                /** @namespace Component/WishlistItem/Container/addProductToCartThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartCatch */
                 () => this.showNotification('error', __('Error Adding Product To Cart'))
             )
             .then(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThenThen */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThen */
                 () => showNotification('success', __('Product Added To Cart'))
             )
             .catch(
-                /** @namespace Component/WishlistItem/Container/addProductToCartThenThenCatch */
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThenCatch */
                 () => this.showNotification('error', __('Error cleaning wishlist'))
             );
     }
@@ -144,24 +163,44 @@ export class WishlistItemContainer extends ExtensiblePureComponent {
     }
 
     removeItem(noMessages = true) {
-        const { product: { wishlist: { id: item_id } }, removeFromWishlist } = this.props;
+        const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
         this.setState({ isLoading: true });
+
+        handleSelectIdChange(item_id);
+
         return removeFromWishlist({ item_id, noMessages });
     }
 
+    renderRightSideContent = () => {
+        const { removeItem } = this.containerFunctions;
+
+        return (
+            <button
+              block="WishlistItem"
+              elem="SwipeToDeleteRightSide"
+              onClick={ removeItem }
+              aria-label={ __('Remove') }
+            >
+                { __('Delete') }
+            </button>
+        );
+    };
+
     render() {
         return (
-            <WishlistItem
-              { ...this.props }
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
-            />
+            <SwipeToDelete
+              renderRightSideContent={ this.renderRightSideContent }
+              topElemMix={ { block: 'WishlistItem' } }
+              onAheadOfDragItemRemoveThreshold={ this.containerFunctions.removeItem }
+            >
+                <WishlistItem
+                  { ...this.props }
+                  { ...this.containerProps() }
+                  { ...this.containerFunctions }
+                />
+            </SwipeToDelete>
         );
     }
 }
-
-/** @namespace Component/WishlistItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistItemContainer);

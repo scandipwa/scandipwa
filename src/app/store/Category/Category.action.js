@@ -17,7 +17,7 @@ export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
  * @return {void}
  * @namespace Store/Category/Action/updateCurrentCategory
  */
-export const updateCurrentCategory = category => ({
+export const updateCurrentCategory = (category) => ({
     type: UPDATE_CURRENT_CATEGORY,
     category
 });

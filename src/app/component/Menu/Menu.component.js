@@ -10,28 +10,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import Link from 'Component/Link';
-import isMobile from 'Util/Mobile';
-import { MenuType } from 'Type/Menu';
 import CmsBlock from 'Component/CmsBlock';
-import { getSortedItems } from 'Util/Menu';
-import StoreSwitcher from 'Component/StoreSwitcher';
+import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import { DeviceType } from 'Type/Device';
+import { MenuType } from 'Type/Menu';
+import { getSortedItems } from 'Util/Menu';
 
 import './Menu.style';
 
-
 /** @namespace Component/Menu/Component */
-export class Menu extends ExtensiblePureComponent {
+export class Menu extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         activeMenuItemsStack: PropTypes.array.isRequired,
         handleSubcategoryClick: PropTypes.func.isRequired,
         closeMenu: PropTypes.func.isRequired,
-        onCategoryHover: PropTypes.func.isRequired
+        onCategoryHover: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     renderDesktopSubLevelItems(item, mods) {
@@ -51,10 +51,11 @@ export class Menu extends ExtensiblePureComponent {
     }
 
     renderDesktopSubLevel(category) {
+        const { device } = this.props;
         const { children, item_class, item_id } = category;
         const childrenArray = getSortedItems(Object.values(children));
 
-        if (isMobile.any() || !childrenArray.length) {
+        if (device.isMobile || !childrenArray.length) {
             return null;
         }
 
@@ -76,7 +77,7 @@ export class Menu extends ExtensiblePureComponent {
                   elem="ItemList"
                   mods={ { ...mods } }
                 >
-                    { childrenArray.map(item => this.renderDesktopSubLevelItems(item, mods)) }
+                    { childrenArray.map((item) => this.renderDesktopSubLevelItems(item, mods)) }
                 </div>
             </div>
         );
@@ -87,7 +88,8 @@ export class Menu extends ExtensiblePureComponent {
             handleSubcategoryClick,
             activeMenuItemsStack,
             onCategoryHover,
-            closeMenu
+            closeMenu,
+            device
         } = this.props;
 
         const {
@@ -100,11 +102,13 @@ export class Menu extends ExtensiblePureComponent {
         const childrenArray = Object.values(children);
         const subcategoryMods = { type: 'subcategory' };
 
-        if (childrenArray.length && isMobile.any()) {
+        if (childrenArray.length && device.isMobile) {
             return (
                 <div
                   key={ item_id }
-                  onClick={ e => handleSubcategoryClick(e, item) }
+                  // TODO: split into smaller components
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ (e) => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   role="button"
                 >
@@ -210,6 +214,10 @@ export class Menu extends ExtensiblePureComponent {
         const { activeMenuItemsStack, closeMenu } = this.props;
         const isVisible = activeMenuItemsStack.includes(item_id);
 
+        if (!isVisible) {
+            return null;
+        }
+
         return (
             <div
               block="Menu"
@@ -241,7 +249,8 @@ export class Menu extends ExtensiblePureComponent {
     };
 
     renderSubMenuDesktop(itemList) {
-        if (isMobile.any() || isMobile.tablet()) {
+        const { device } = this.props;
+        if (device.isMobile) {
             return null;
         }
 
@@ -251,7 +260,8 @@ export class Menu extends ExtensiblePureComponent {
     }
 
     renderAdditionalInformation(checkMobile = false) {
-        if (checkMobile && !isMobile.any()) {
+        const { device } = this.props;
+        if (checkMobile && !device.isMobile) {
             return null;
         }
 
@@ -268,17 +278,20 @@ export class Menu extends ExtensiblePureComponent {
             activeMenuItemsStack,
             handleSubcategoryClick,
             onCategoryHover,
-            closeMenu
+            closeMenu,
+            device
         } = this.props;
 
         const { children } = item;
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
 
-        if (childrenArray.length && (isMobile.any() || isMobile.tablet())) {
+        if (childrenArray.length && device.isMobile) {
             return (
                 <div
-                  onClick={ e => handleSubcategoryClick(e, item) }
+                  // TODO: split into smaller components
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ (e) => handleSubcategoryClick(e, item) }
                   tabIndex="0"
                   block="Menu"
                   elem="SubCatLink"
@@ -348,7 +361,8 @@ export class Menu extends ExtensiblePureComponent {
     }
 
     renderStoreSwitcher() {
-        if (!isMobile.any() && !isMobile.tablet()) {
+        const { device } = this.props;
+        if (!device.isMobile) {
             return null;
         }
 
@@ -359,7 +373,6 @@ export class Menu extends ExtensiblePureComponent {
         const { closeMenu } = this.props;
 
         return (
-
             <div
               block="Menu"
               elem="MenuWrapper"

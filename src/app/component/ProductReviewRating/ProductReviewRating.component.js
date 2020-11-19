@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef } from 'react';
 import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
 
-import CSS from 'Util/CSS';
 import { MixType } from 'Type/Common';
+import CSS from 'Util/CSS';
 
 import './ProductReviewRating.style';
 
@@ -21,7 +21,7 @@ import './ProductReviewRating.style';
  * @class ProductReviewRating
  * @namespace Component/ProductReviewRating/Component
  */
-export class ProductReviewRating extends ExtensiblePureComponent {
+export class ProductReviewRating extends PureComponent {
     static propTypes = {
         summary: PropTypes.number,
         code: PropTypes.string,

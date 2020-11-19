@@ -10,17 +10,20 @@
  */
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
-import './NavigationTabs.style';
-import isMobile from 'Util/Mobile';
+import { DeviceType } from 'Type/Device';
 
-export const HOME_TAB = 'HOME_TAB';
-export const MENU_TAB = 'MENU_TAB';
-export const ACCOUNT_TAB = 'ACCOUNT_TAB';
-export const CART_TAB = 'CART_TAB';
-export const CHECKOUT_TAB = 'CHECKOUT_TAB';
+import {
+    ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
+} from './NavigationTabs.config';
+
+import './NavigationTabs.style';
 
 /** @namespace Component/NavigationTabs/Component */
 export class NavigationTabs extends NavigationAbstract {
+    static propTypes = {
+        device: DeviceType.isRequired
+    };
+
     defaultStateName = MENU_TAB;
 
     stateMap = {
@@ -150,14 +153,18 @@ export class NavigationTabs extends NavigationAbstract {
     }
 
     render() {
-        const { navigationState: { isHidden } } = this.props;
+        const { navigationState: { isHidden }, device } = this.props;
 
-        if (!isMobile.tablet() && !isMobile.any()) {
+        if (!device.isMobile) {
             return null;
         }
 
         return (
-            <footer block="NavigationTabs" mods={ { isHidden } }>
+            <footer
+              block="NavigationTabs"
+              mods={ { isHidden } }
+              mix={ { block: 'FixedElement', elem: 'Bottom' } }
+            >
                 <nav block="NavigationTabs" elem="Nav">
                     { this.renderNavigationState() }
                 </nav>

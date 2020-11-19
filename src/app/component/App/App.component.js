@@ -9,16 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
-import store from 'Store';
 import Router from 'Component/Router';
-import SomethingWentWrong from 'Route/SomethingWentWrong';
 import SharedTransition from 'Component/SharedTransition';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
+import configureStore from 'Store';
 
 /** @namespace Component/App/Component */
-export class App extends ExtensiblePureComponent {
+export class App extends PureComponent {
     productionFunctions = [
         this.disableReactDevTools.bind(this),
         this.injectComment.bind(this)
@@ -43,9 +44,22 @@ export class App extends ExtensiblePureComponent {
         errorDetails: {}
     };
 
+    __construct(props) {
+        super.__construct(props);
+
+        this.configureAppBasedOnEnvironment();
+    }
+
+    componentDidCatch(err, info) {
+        this.setState({
+            isSomethingWentWrong: true,
+            errorDetails: { err, info }
+        });
+    }
+
     renderRedux(children) {
         return (
-            <Provider store={ store } key="redux">
+            <Provider store={ configureStore() } key="redux">
                 { children }
             </Provider>
         );
@@ -60,7 +74,9 @@ export class App extends ExtensiblePureComponent {
     }
 
     enableHotReload() {
-        module.hot.accept();
+        if (module.hot) {
+            module.hot.accept();
+        }
     }
 
     injectComment() {
@@ -74,7 +90,7 @@ export class App extends ExtensiblePureComponent {
      */
     disableReactDevTools() {
         if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
-            // eslint-disable-next-line no-restricted-syntax, fp/no-loops
+            // eslint-disable-next-line no-restricted-syntax, fp/no-loops, no-unused-vars
             for (const [key, value] of Object.entries(window.__REACT_DEVTOOLS_GLOBAL_HOOK__)) {
                 window.__REACT_DEVTOOLS_GLOBAL_HOOK__[key] = typeof value === 'function' ? () => {} : null;
             }
@@ -86,25 +102,12 @@ export class App extends ExtensiblePureComponent {
             ? this.productionFunctions
             : this.developmentFunctions;
 
-        functionsToRun.forEach(func => func());
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.configureAppBasedOnEnvironment();
+        functionsToRun.forEach((func) => func());
     }
 
     handleErrorReset = () => {
         this.setState({ isSomethingWentWrong: false });
     };
-
-    componentDidCatch(err, info) {
-        this.setState({
-            isSomethingWentWrong: true,
-            errorDetails: { err, info }
-        });
-    }
 
     renderSharedTransition() {
         return (
@@ -118,7 +121,7 @@ export class App extends ExtensiblePureComponent {
         );
     }
 
-    renderRootComponents = () => this.rootComponents.map(render => render());
+    renderRootComponents = () => this.rootComponents.map((render) => render());
 
     renderContextProviders() {
         const { isSomethingWentWrong } = this.state;

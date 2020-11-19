@@ -10,20 +10,22 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
-import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
-import { ordersType } from 'Type/Account';
 import Loader from 'Component/Loader';
-import isMobile from 'Util/Mobile';
+import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
+import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
+import { ordersType } from 'Type/Account';
+import { DeviceType } from 'Type/Device';
 
 import './MyAccountMyOrders.style';
 
 /** @namespace Component/MyAccountMyOrders/Component */
-export class MyAccountMyOrders extends ExtensiblePureComponent {
+export class MyAccountMyOrders extends PureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        device: DeviceType.isRequired
     };
 
     renderPopup() {
@@ -31,10 +33,22 @@ export class MyAccountMyOrders extends ExtensiblePureComponent {
     }
 
     renderNoOrders() {
+        const { device } = this.props;
         return (
             <tr block="MyAccountMyOrders" elem="NoOrders">
                 { /* eslint-disable-next-line no-magic-numbers */ }
-                <td colSpan={ isMobile.any() ? 3 : 4 }>{ __('You have no orders.') }</td>
+                <td colSpan={ device.isMobile ? 3 : 4 }>{ __('You have no orders.') }</td>
+            </tr>
+        );
+    }
+
+    renderOrderHeadingRow() {
+        return (
+            <tr>
+                <th>{ __('Order') }</th>
+                <th>{ __('Date') }</th>
+                <th>{ __('Status') }</th>
+                <th block="hidden-mobile">{ __('Total') }</th>
             </tr>
         );
     }
@@ -43,15 +57,10 @@ export class MyAccountMyOrders extends ExtensiblePureComponent {
         return (
             <table block="MyAccountMyOrders" elem="Table">
                 <thead>
-                    <tr>
-                        <th>{ __('Order') }</th>
-                        <th>{ __('Date') }</th>
-                        <th>{ __('Status') }</th>
-                        <th block="hidden-mobile">{ __('Total') }</th>
-                    </tr>
+                    { this.renderOrderHeadingRow() }
                 </thead>
                 <tbody>
-                    { this.renderOrdersList() }
+                    { this.renderOrderRows() }
                 </tbody>
             </table>
         );
@@ -68,7 +77,7 @@ export class MyAccountMyOrders extends ExtensiblePureComponent {
         );
     };
 
-    renderOrdersList() {
+    renderOrderRows() {
         const { orderList, isLoading } = this.props;
 
         if (!isLoading && !orderList.length) {

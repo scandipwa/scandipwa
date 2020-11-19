@@ -9,17 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 
-export const CHECKBOX = 'checkbox';
-export const DROPDOWN = 'dropdown';
-export const TEXT_FIELD = 'field';
-export const AREA_FIELD = 'area';
+import {
+    AREA_FIELD, CHECKBOX, DROPDOWN, TEXT_FIELD
+} from './ProductCustomizableOption.config';
 
-class ProductCustomizableOption extends ExtensiblePureComponent {
+/** @namespace Component/ProductCustomizableOption/Component */
+export class ProductCustomizableOption extends PureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
         textValue: PropTypes.string.isRequired,
@@ -29,7 +30,8 @@ class ProductCustomizableOption extends ExtensiblePureComponent {
         setDropdownValue: PropTypes.func.isRequired,
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
-        getDropdownOptions: PropTypes.func.isRequired
+        getDropdownOptions: PropTypes.func.isRequired,
+        requiredSelected: PropTypes.bool.isRequired
     };
 
     renderMap = {
@@ -52,8 +54,10 @@ class ProductCustomizableOption extends ExtensiblePureComponent {
     };
 
     renderRequired(isRequired) {
+        const { requiredSelected } = this.props;
+
         // skip undefined and false
-        if (isRequired !== true) {
+        if (isRequired !== true || requiredSelected) {
             return null;
         }
 

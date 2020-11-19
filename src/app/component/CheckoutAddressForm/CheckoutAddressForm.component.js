@@ -10,12 +10,12 @@
  */
 
 import PropTypes from 'prop-types';
-import FormPortal from 'Component/FormPortal';
-import { debounce } from 'Util/Request';
-import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
-import './CheckoutAddressForm.style';
 
-export const UPDATE_STATE_FREQUENCY = 1000; // (ms)
+import FormPortal from 'Component/FormPortal';
+import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import { debounce } from 'Util/Request';
+
+import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
 
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm {
@@ -34,8 +34,8 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         this.setState(() => ({ [key]: value }));
     }, UPDATE_STATE_FREQUENCY);
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const {
             address: { region: { region = '' } = {} }
@@ -102,6 +102,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     get fieldMap() {
         // country_id, region, region_id, city - are used for shipping estimation
+        const { shippingFields } = this.props;
 
         const {
             default_billing,
@@ -113,15 +114,36 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
         fieldMap.city = {
             ...city,
-            onChange: value => this.onChange('city', value)
+            onChange: (value) => this.onChange('city', value)
         };
 
         fieldMap.postcode = {
             ...postcode,
-            onChange: value => this.onChange('postcode', value)
+            onChange: (value) => this.onChange('postcode', value)
         };
 
+        // Preserve values from global state
+        Object.entries(fieldMap).forEach(([key]) => {
+            if (Object.hasOwnProperty.call(shippingFields, key)) {
+                fieldMap[key].value = shippingFields[key];
+
+                // Handle setting dropdown/input depending on regions existance
+                if (key === 'country_id') {
+                    this.handleInitialCountryValue(shippingFields[key]);
+                }
+            }
+        });
+
         return fieldMap;
+    }
+
+    handleInitialCountryValue(initialValue) {
+        if (this.handledInitialCountry) {
+            return;
+        }
+
+        this.onCountryChange(initialValue);
+        this.handledInitialCountry = true;
     }
 
     getRegionFields() {
@@ -129,7 +151,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         const { region_string } = regionFieldData;
 
         if (region_string) {
-            regionFieldData.region_string.onChange = v => this.onChange('region', v);
+            regionFieldData.region_string.onChange = (v) => this.onChange('region', v);
         }
 
         return regionFieldData;

@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { customerType } from 'Type/Account';
 import PropTypes from 'prop-types';
-import KeyValueTable from 'Component/KeyValueTable';
 
-/** @namespace Component/MyAccountCustomerForm/Component */
+import KeyValueTable from 'Component/KeyValueTable';
+import { customerType } from 'Type/Account';
+
+/** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {
         customer: customerType.isRequired,

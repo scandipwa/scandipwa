@@ -490,6 +490,93 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Senthil83",
+      "name": "Senthil83",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/34179568?v=4",
+      "profile": "https://github.com/Senthil83",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "ankith-codilar",
+      "name": "Ankith G",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/67680823?v=4",
+      "profile": "https://github.com/ankith-codilar",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "astik",
+      "name": "Romain Gonord",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/572233?v=4",
+      "profile": "https://github.com/astik",
+      "contributions": [
+        "question",
+        "ideas",
+        "code"
+      ]
+    },
+    {
+      "login": "peterflex7",
+      "name": "peterflex7",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/26825774?v=4",
+      "profile": "https://github.com/peterflex7",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "drc0",
+      "name": "Davide",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5507633?v=4",
+      "profile": "https://github.com/drc0",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "santosh-gaggle",
+      "name": "santosh-gaggle",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/56184739?v=4",
+      "profile": "https://gagglethread.com",
+      "contributions": [
+        "code",
+        "bug",
+        "translation"
+      ]
+    },
+    {
+      "login": "AleksandrsKondratjevs",
+      "name": "AleksandrsKondratjevs",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/68007919?v=4",
+      "profile": "https://github.com/AleksandrsKondratjevs",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "polander",
+      "name": "Dmitry",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8862593?v=4",
+      "profile": "http://polander.github.io/portfolio",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "dfelton",
+      "name": "Darren Felton",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2659558?v=4",
+      "profile": "https://github.com/dfelton",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

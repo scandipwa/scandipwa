@@ -9,15 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import isMobile from 'Util/Mobile';
 import InstallPromptAndroid from 'Component/InstallPromptAndroid';
 import InstallPromptIOS from 'Component/InstallPromptIOS';
+import { DeviceType } from 'Type/Device';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
+/** @namespace Component/InstallPrompt/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
+
+/** @namespace Component/InstallPrompt/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
+
 /** @namespace Component/InstallPrompt/Container */
-export class InstallPromptContainer extends ExtensiblePureComponent {
-    installPromptEvent = null;
+export class InstallPromptContainer extends PureComponent {
+    static propTypes = {
+        device: DeviceType.isRequired
+    };
 
     state = {
         isBannerClosed: BrowserDatabase.getItem('postpone_installation')
@@ -33,15 +46,15 @@ export class InstallPromptContainer extends ExtensiblePureComponent {
     }
 
     handleAppInstall() {
-        if (!this.installPromptEvent) {
+        if (!window.promt_event) {
             return;
         }
 
         // Show the modal add to home screen dialog
-        this.installPromptEvent.prompt();
+        window.promt_event.prompt();
 
         // Wait for the user to respond to the prompt
-        this.installPromptEvent.userChoice.then(
+        window.promt_event.userChoice.then(
             /** @namespace Component/InstallPrompt/Container/then */
             (choice) => {
                 if (choice.outcome === 'accepted') {
@@ -49,7 +62,7 @@ export class InstallPromptContainer extends ExtensiblePureComponent {
                 }
 
                 // Clear the saved prompt since it can't be used again
-                this.installPromptEvent = null;
+                window.promt_event = null;
             }
         );
     }
@@ -63,23 +76,23 @@ export class InstallPromptContainer extends ExtensiblePureComponent {
     listenForInstallPrompt() {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
-
-            this.installPromptEvent = event;
+            window.promt_event = Object.assign(event);
         });
     }
 
     render() {
         const { isBannerClosed } = this.state;
+        const { device } = this.props;
 
-        if (isMobile.standaloneMode() || isBannerClosed) {
+        if (device.standaloneMode || isBannerClosed) {
             return null;
         }
 
-        if (isMobile.iOS()) {
+        if (device.ios) {
             return <InstallPromptIOS { ...this.containerFunctions } />;
         }
 
-        if (isMobile.android()) {
+        if (device.android) {
             return <InstallPromptAndroid { ...this.containerFunctions } />;
         }
 
@@ -87,4 +100,4 @@ export class InstallPromptContainer extends ExtensiblePureComponent {
     }
 }
 
-export default InstallPromptContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(InstallPromptContainer);

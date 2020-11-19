@@ -11,27 +11,46 @@
 
 .ProductGallery {
     @include desktop {
-        display: grid;
-        grid-template-columns: 150px 1fr;
-        grid-gap: 1.5rem;
-        max-height: 40rem;
+        display: flex;
+        height: 100%;
     }
 
     &-Additional {
-        display: grid;
-        grid-gap: 1.5rem;
+        $margin-right: 1.8rem;
+
+        width: 150px;
+        margin-right: $margin-right;
+
+        @include mobile {
+            margin-right: 2.1rem;
+        }
+
+        @include desktop {
+            height: 48rem;
+            margin: auto $margin-right auto 0;
+        }
 
         @include before-desktop {
             display: none;
         }
+
+        &_isImageZoomPopupActive {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+    &-SliderWrapper {
+        flex: 1;
     }
 
     &-Slider {
-        min-height: 40rem;
+        min-height: 480px;
         height: var(--slider-height);
 
         @include mobile {
-            min-height: 30rem;
+            min-height: 420px;
         }
 
         &::after {
@@ -46,6 +65,16 @@
                 pointer-events: none;
             }
         }
+
+        &_isImageZoomPopupActive {
+            cursor: pointer;
+        }
+
+        &_isZoomInCursor {
+            @include after-mobile {
+                cursor: zoom-in;
+            }
+        }
     }
 
     .react-transform-component,
@@ -55,13 +84,9 @@
         width: 100%;
     }
 
-    &-Notice {
-        color: var(--secondary-dark-color);
-        font-size: .9rem;
-        text-align: center;
-
-        @include mobile {
-            display: none;
+    &-SliderImage {
+        .Image-Image {
+            transform: translateY(var(--translateYOnCursorMove));
         }
     }
 }

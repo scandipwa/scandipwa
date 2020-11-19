@@ -1,53 +1,62 @@
-/* eslint-disable */
-const generateGetHandler = require('./generateGetHandler');
-const generateApplyHandler = require('./generateApplyHandler');
-const generateConstructHandler = require('./generateConstructHandler');
-const generateMiddlewaredClass = require('./generateMiddlewaredClass');
-const sortPlugins = require('./sortPlugins');
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/* eslint-disable no-param-reassign, @scandipwa/scandipwa-guidelines/export-level-one */
+const generateGetHandler = require('./handlers/generateGetHandler');
+const generateApplyHandler = require('./handlers/generateApplyHandler');
+const generateConstructHandler = require('./handlers/generateConstructHandler');
+const applyClassWrappers = require('./middlewarers/generateMiddlewaredClass');
+
+const addNamespaceToMiddlewarable = (Middlewarable, namespace) => {
+    // Retrieve already existing namespaces
+    // Prevent mutating the namespaces of parent object
+    const namespaces = Object.assign(
+        [],
+        Reflect.get(Middlewarable.prototype, '__namespaces__')
+    );
+
+    // Prevent duplicate namespaces for overridden classes
+    if (!namespaces.includes(namespace)) {
+        namespaces.push(namespace);
+    }
+
+    // Set the namespaces for class
+    Middlewarable.prototype.__namespaces__ = namespaces;
+};
+
+const getNamespacesFromMiddlewarable = (Middlewarable) => Middlewarable.prototype.__namespaces__;
 
 /**
  * Middleware function is supposed to wrap source classes
  * in order to provide plugin functionality
- * @param {Class} Class
+ * @param {Function} Middlewarable
  * @param {string} namespace
  */
-function middleware(Class, namespace) {
-    Class.prototype.__namespace__ = namespace;
-    const handler = {};
+function middleware(Middlewarable, namespace) {
+    addNamespaceToMiddlewarable(Middlewarable, namespace);
 
-    // All classes inherit from extensible classes
-    // ~ if `Class` inherits from class other than Object
-    // ~ if `Class` is class, not regular function
-    if (Class.prototype.__proto__.constructor.name === 'Object') {
-        // Apply handler for functions - intercepts function calls
-        Object.defineProperty(
-            handler,
-            'apply',
-            { value: generateApplyHandler(namespace) }
-        );
-    } else {
+    const handler = {
         // Get handler for members - intercepts `get` calls, meant for class static members
-        Object.defineProperty(
-            handler,
-            'get',
-            { value: generateGetHandler('class', namespace) }
-        );
+        get: generateGetHandler('class', getNamespacesFromMiddlewarable(Middlewarable)),
+
+        // Apply handler for functions - intercepts function calls
+        apply: generateApplyHandler(getNamespacesFromMiddlewarable(Middlewarable)),
+
         // Construct handler for classes - intercepts `new` operator calls, changes properties
-        Object.defineProperty(
-            handler,
-            'construct',
-            { value: generateConstructHandler(namespace) }
-        );
-    }
+        construct: generateConstructHandler(getNamespacesFromMiddlewarable(Middlewarable))
+    };
 
-    // Provide an opportunity to wrap proxy with additional functions.
-    const namespacePluginsClass = globalThis.plugins?.[namespace]?.['class'] || [];
-    const MiddlewaredClass = generateMiddlewaredClass(
-        new Proxy(Class, handler),
-        sortPlugins(namespacePluginsClass)
-    );
+    const proxy = new Proxy(Middlewarable, handler);
 
-    return MiddlewaredClass;
+    // TODO check if class
+    return applyClassWrappers(proxy);
 }
 
 module.exports = middleware;

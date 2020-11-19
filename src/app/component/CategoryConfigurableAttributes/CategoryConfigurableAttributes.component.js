@@ -9,55 +9,52 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ExpandableContent from 'Component/ExpandableContent';
+import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
-import CategoryPriceRange from 'Component/CategoryPriceRange';
-import CategorySubcategories from 'Component/CategorySubcategories';
-import ExpandableContent from 'Component/ExpandableContent';
+import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
-    renderPriceRange() {
-        return (
-            <CategoryPriceRange key="price" />
-        );
+    getPriceLabel(option) {
+        const { currency_code } = this.props;
+        const { value_string } = option;
+        const [from, to] = value_string.split('_');
+        const priceFrom = formatPrice(from, currency_code);
+        const priceTo = formatPrice(to, currency_code);
+
+        if (from === '*') {
+            return __('Up to %s', priceTo);
+        }
+
+        if (to === '*') {
+            return __('From %s', priceFrom);
+        }
+
+        return __('From %s, to %s', priceFrom, priceTo);
     }
 
-    renderCategory(option) {
-        const {
-            isContentExpanded,
-            getSubHeading
-        } = this.props;
+    renderPriceSwatch(option) {
+        const { attribute_options, ...priceOption } = option;
 
-        const {
-            attribute_label,
-            attribute_options
-        } = option;
+        if (attribute_options) {
+            // do not render price filter if it includes "*_*" aggregation
+            if (attribute_options['*_*']) {
+                return null;
+            }
 
-        return (
-            <ExpandableContent
-              key="cat"
-              heading={ attribute_label }
-              subHeading={ getSubHeading(option) }
-              mix={ {
-                  block: 'ProductConfigurableAttributes',
-                  elem: 'Expandable'
-              } }
-              isContentExpanded={ isContentExpanded }
-            >
-                <div
-                  block="ProductConfigurableAttributes"
-                  elem="DropDownList"
-                >
-                    { Object.entries(attribute_options).map(([key, option]) => (
-                        <CategorySubcategories
-                          key={ key }
-                          option={ option }
-                        />
-                    )) }
-                </div>
-            </ExpandableContent>
-        );
+            priceOption.attribute_options = Object.entries(attribute_options).reduce((acc, [key, option]) => {
+                acc[key] = {
+                    ...option,
+                    label: this.getPriceLabel(option)
+                };
+
+                return acc;
+            }, {});
+        }
+
+        return this.renderDropdownOrSwatch(priceOption);
     }
 
     renderDropdownOrSwatch(option) {
@@ -96,9 +93,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
 
         switch (attribute_code) {
         case 'price':
-            return this.renderPriceRange(option);
-        case 'cat':
-            return this.renderCategory(option);
+            return this.renderPriceSwatch(option);
         default:
             return this.renderDropdownOrSwatch(option);
         }
@@ -119,9 +114,11 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
               block="ProductConfigurableAttributes"
               elem="DropDownList"
             >
-                { attribute_values.map(attribute_value => (
-                    this.renderConfigurableAttributeValue({ ...option, attribute_value })
-                )) }
+                <ExpandableContentShowMore>
+                    { attribute_values.map((attribute_value) => (
+                        this.renderConfigurableAttributeValue({ ...option, attribute_value })
+                    )) }
+                </ExpandableContentShowMore>
             </div>
         );
     }

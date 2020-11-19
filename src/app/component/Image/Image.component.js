@@ -11,26 +11,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef } from 'react';
 import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
 import { MixType } from 'Type/Common';
+
+import {
+    IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
+} from './Image.config';
+
 import './Image.style';
 
 /**
  * Image component
  * Images are loaded only when they appear in a viewport
  * @class Image
+ * @namespace Component/Image/Component
  */
-
-export const IMAGE_LOADING = 0;
-export const IMAGE_LOADED = 1;
-export const IMAGE_NOT_FOUND = 2;
-export const IMAGE_NOT_SPECIFIED = 3;
-
-/** @namespace Component/Image/Component */
-export class Image extends ExtensiblePureComponent {
+export class Image extends PureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
+        title: PropTypes.string,
         src: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
@@ -66,6 +67,7 @@ export class Image extends ExtensiblePureComponent {
         isPlaceholder: false,
         wrapperSize: {},
         style: {},
+        title: null,
         imageRef: () => {}
     };
 
@@ -120,7 +122,11 @@ export class Image extends ExtensiblePureComponent {
 
     renderImage() {
         const {
-            alt, src, isPlaceholder, style
+            alt,
+            isPlaceholder,
+            src,
+            style,
+            title
         } = this.props;
         const { imageStatus } = this.state;
 
@@ -143,7 +149,9 @@ export class Image extends ExtensiblePureComponent {
                   elem="Image"
                   src={ src || '' }
                   alt={ alt }
+                  mods={ { isLoading: imageStatus === IMAGE_LOADING } }
                   style={ style }
+                  title={ title }
                   onLoad={ this.onLoad }
                   onError={ this.onError }
                   loading="lazy"

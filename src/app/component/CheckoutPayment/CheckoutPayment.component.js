@@ -10,11 +10,14 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import { paymentMethodType } from 'Type/Checkout';
+
 import './CheckoutPayment.style';
 
 /** @namespace Component/CheckoutPayment/Component */
-export class CheckoutPayment extends ExtensiblePureComponent {
+export class CheckoutPayment extends PureComponent {
     static propTypes = {
         method: paymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,

@@ -9,31 +9,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createStore, combineReducers } from 'redux';
+import {
+    combineReducers,
+    createStore
+} from 'redux';
 
-import { CategoryReducer } from 'Store/Category';
-import { NotificationReducer } from 'Store/Notification';
-import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
-import { ProductReducer } from 'Store/Product';
-import { ProductListReducer } from 'Store/ProductList';
-import { ProductListInfoReducer } from 'Store/ProductListInfo';
-import { CartReducer } from 'Store/Cart';
-import { OrderReducer } from 'Store/Order';
-import { WishlistReducer } from 'Store/Wishlist';
-import { NoMatchReducer } from 'Store/NoMatch';
-import { SearchBarReducer } from 'Store/SearchBar';
-import { UrlRewritesReducer } from 'Store/UrlRewrites';
-import { MyAccountReducer } from 'Store/MyAccount';
-import { NavigationReducer } from 'Store/Navigation';
-import { OverlayReducer } from 'Store/Overlay';
-import { OfflineReducer } from 'Store/Offline';
-import { PopupReducer } from 'Store/Popup';
-import { ConfigReducer } from 'Store/Config';
-import { MetaReducer } from 'Store/Meta';
-import { LinkedProductsReducer } from 'Store/LinkedProducts';
+import BreadcrumbsReducer from 'Store/Breadcrumbs/Breadcrumbs.reducer';
+import CartReducer from 'Store/Cart/Cart.reducer';
+import CategoryReducer from 'Store/Category/Category.reducer';
+import CheckoutReducer from 'Store/Checkout/Checkout.reducer';
+import ConfigReducer from 'Store/Config/Config.reducer';
+import LinkedProductsReducer from 'Store/LinkedProducts/LinkedProducts.reducer';
+import MetaReducer from 'Store/Meta/Meta.reducer';
+import MyAccountReducer from 'Store/MyAccount/MyAccount.reducer';
+import NavigationReducer from 'Store/Navigation/Navigation.reducer';
+import NoMatchReducer from 'Store/NoMatch/NoMatch.reducer';
+import NotificationReducer from 'Store/Notification/Notification.reducer';
+import OfflineReducer from 'Store/Offline/Offline.reducer';
+import OrderReducer from 'Store/Order/Order.reducer';
+import OverlayReducer from 'Store/Overlay/Overlay.reducer';
+import PopupReducer from 'Store/Popup/Popup.reducer';
+import ProductReducer from 'Store/Product/Product.reducer';
+import ProductListReducer from 'Store/ProductList/ProductList.reducer';
+import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reducer';
+import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
+import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
+import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
+import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
 
 /** @namespace Store/Index/getReducers */
-export const getReducers = () => ({
+export const getStaticReducers = () => ({
     CategoryReducer,
     NotificationReducer,
     BreadcrumbsReducer,
@@ -53,11 +58,20 @@ export const getReducers = () => ({
     UrlRewritesReducer,
     ConfigReducer,
     MetaReducer,
-    LinkedProductsReducer
+    LinkedProductsReducer,
+    CheckoutReducer,
+    RecentlyViewedProductsReducer
 });
 
+export function createReducer(asyncReducers) {
+    return combineReducers({
+        ...getStaticReducers(),
+        ...asyncReducers
+    });
+}
+
 export const store = createStore(
-    combineReducers(getReducers()),
+    createReducer(),
     ( // enable Redux dev-tools only in development
         process.env.NODE_ENV === 'development'
         && window.__REDUX_DEVTOOLS_EXTENSION__
@@ -66,4 +80,25 @@ export const store = createStore(
     })
 );
 
-export default store;
+/**
+ * Configure the store
+ * @namespace Store/Index/configureStore
+ * */
+export default function configureStore() {
+    // Add a dictionary to keep track of the registered async reducers
+    store.asyncReducers = {};
+
+    // Create an inject reducer function
+    // This function adds the async reducer, and creates a new combined reducer
+    store.injectReducer = (key, asyncReducer) => {
+        store.asyncReducers[key] = asyncReducer;
+        store.replaceReducer(createReducer(store.asyncReducers));
+    };
+
+    // Return the modified store
+    return store;
+}
+
+export function getStore() {
+    return store;
+}

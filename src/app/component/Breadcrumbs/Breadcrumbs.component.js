@@ -10,11 +10,12 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import TextPlaceholder from 'Component/TextPlaceholder';
+import Breadcrumb from 'Component/Breadcrumb';
 import ContentWrapper from 'Component/ContentWrapper';
 import { BreadcrumbsType } from 'Type/Breadcrumbs';
-import Link from 'Component/Link';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './Breadcrumbs.style';
 
@@ -23,7 +24,7 @@ import './Breadcrumbs.style';
  * @class Breadcrumbs
  * @namespace Component/Breadcrumbs/Component
  */
-export class Breadcrumbs extends ExtensiblePureComponent {
+export class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired
@@ -34,27 +35,13 @@ export class Breadcrumbs extends ExtensiblePureComponent {
         const isDisabled = !url || breadcrumbs.length - 1 === i;
 
         return (
-            <li
-              block="Breadcrumbs"
-              elem="Crumb"
+            <Breadcrumb
+              name={ name }
+              url={ url }
+              index={ i }
               key={ i }
-              itemProp="itemListElement"
-              itemScope
-              itemType="http://schema.org/ListItem"
-            >
-                <Link
-                  block="Breadcrumbs"
-                  elem="Link"
-                  to={ url || '' }
-                  tabIndex={ isDisabled ? '-1' : '0' }
-                >
-                    <meta itemProp="item" content={ window.location.origin + (url || '') } />
-                    <span itemProp="name">
-                        <TextPlaceholder content={ name } />
-                    </span>
-                    <meta itemProp="position" content={ i } />
-                </Link>
-            </li>
+              isDisabled={ isDisabled }
+            />
         );
     }
 
@@ -67,7 +54,11 @@ export class Breadcrumbs extends ExtensiblePureComponent {
     render() {
         const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible || location.pathname === '/') {
+        if (
+            !areBreadcrumbsVisible
+            || location.pathname === appendWithStoreCode('/')
+            || location.pathname === '/'
+        ) {
             return null;
         }
 

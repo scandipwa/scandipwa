@@ -9,25 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Link from 'Component/Link';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
+
 import './NoMatch.style';
 
 /** @namespace Route/NoMatch/Component */
-export class NoMatch extends ExtensiblePureComponent {
+export class NoMatch extends PureComponent {
     static propTypes = {
-        updateBreadcrumbs: PropTypes.func.isRequired
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        cleanUpTransition: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         this.updateBreadcrumbs();
+        this.cleanUpTransition();
     }
 
-    /**
-     * Dispatch breadcrumbs update
-     * @return {void}
-     */
+    cleanUpTransition() {
+        const { cleanUpTransition } = this.props;
+
+        cleanUpTransition();
+    }
+
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [

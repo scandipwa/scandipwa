@@ -16,7 +16,7 @@ import { Field } from 'Util/Query';
  * @class Slider
  * @namespace Query/Slider
  */
-export class SliderQuery extends ExtensibleClass {
+export class SliderQuery {
     getQuery(options) {
         const { sliderId } = options;
 
@@ -29,6 +29,7 @@ export class SliderQuery extends ExtensibleClass {
     _getSliderFields() {
         return [
             this._getSlidesField(),
+            this._getSlideSpeedField(),
             'slider_id',
             'title'
         ];
@@ -49,6 +50,10 @@ export class SliderQuery extends ExtensibleClass {
         return new Field('slides')
             .addFieldList(this._getSlideFields());
     }
+
+    _getSlideSpeedField() {
+        return new Field('slide_speed').setAlias('slideSpeed');
+    }
 }
 
-export default new (SliderQuery)();
+export default new SliderQuery();

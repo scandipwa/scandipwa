@@ -9,15 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import PropTypes from 'prop-types';
-import SharedWishlistItem from 'Component/SharedWishlistItem';
+
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
-
 import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
+import SharedWishlistItem from 'Component/SharedWishlistItem';
 
 import './WishlistSharedPage.style';
 
-export default class WishlistSharedPage extends SourceWishlist {
+/** @namespace Route/WishlistSharedPage/Component */
+export class WishlistSharedPage extends SourceWishlist {
     static propTypes = {
         creatorsName: PropTypes.string.isRequired
     };
@@ -79,3 +80,5 @@ export default class WishlistSharedPage extends SourceWishlist {
         );
     }
 }
+
+export default WishlistSharedPage;

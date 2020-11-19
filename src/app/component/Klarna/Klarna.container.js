@@ -10,21 +10,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { showNotification } from 'Store/Notification';
+
+import { showNotification } from 'Store/Notification/Notification.action';
+
 import KlarnaComponent from './Klarna.component';
 
 /** @namespace Component/Klarna/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showError: message => dispatch(showNotification('error', message))
+export const mapDispatchToProps = (dispatch) => ({
+    showError: (message) => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/Klarna/Container */
-export class KlarnaContainer extends ExtensiblePureComponent {
+export class KlarnaContainer extends PureComponent {
     static authorize() {
         return new Promise((resolve, reject) => {
-            Klarna.Payments.authorize(
-                { payment_method_category: 'pay_later' },
+            window.Klarna.Payments.authorize(
+                { payment_method_category: localStorage.getItem('kl_pm') },
                 {},
                 (res) => {
                     const { error, approved, authorization_token } = res;
@@ -45,6 +48,6 @@ export class KlarnaContainer extends ExtensiblePureComponent {
 
 /** @namespace Component/Klarna/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(KlarnaContainer);

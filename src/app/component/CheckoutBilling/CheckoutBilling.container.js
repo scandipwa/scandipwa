@@ -10,37 +10,39 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { showPopup } from 'Store/Popup';
-import { showNotification } from 'Store/Notification';
-import { paymentMethodsType } from 'Type/Checkout';
-import { customerType, addressType } from 'Type/Account';
-import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
-import { TotalsType } from 'Type/MiniCart';
-import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
-} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component';
+} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
+import { addressType, customerType } from 'Type/Account';
+import { paymentMethodsType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
 /** @namespace Component/CheckoutBilling/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
-    termsAndConditions: state.ConfigReducer.checkoutAgreements
+    termsAndConditions: state.ConfigReducer.checkoutAgreements,
+    addressLinesQty: state.ConfigReducer.address_lines_quantity
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showErrorNotification: message => dispatch(showNotification('error', message)),
-    showPopup: payload => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showErrorNotification: (message) => dispatch(showNotification('error', message)),
+    showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 
 /** @namespace Component/CheckoutBilling/Container */
-export class CheckoutBillingContainer extends ExtensiblePureComponent {
+export class CheckoutBillingContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
@@ -49,6 +51,7 @@ export class CheckoutBillingContainer extends ExtensiblePureComponent {
         shippingAddress: addressType.isRequired,
         customer: customerType.isRequired,
         totals: TotalsType.isRequired,
+        addressLinesQty: PropTypes.number.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string,
             content: PropTypes.string,
@@ -82,19 +85,29 @@ export class CheckoutBillingContainer extends ExtensiblePureComponent {
         showPopup: this.showPopup.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
-        const { paymentMethods, totals: { is_virtual } } = props;
+        const { paymentMethods, customer } = props;
         const [method] = paymentMethods;
         const { code: paymentMethod } = method || {};
 
         this.state = {
-            isSameAsShipping: !is_virtual,
+            isSameAsShipping: this.isSameShippingAddress(customer),
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
             paymentMethod
         };
+    }
+
+    isSameShippingAddress({ default_billing, default_shipping }) {
+        const { totals: { is_virtual } } = this.props;
+
+        if (is_virtual) {
+            return false;
+        }
+
+        return default_billing === default_shipping;
     }
 
     onAddressSelect(id) {
@@ -111,6 +124,7 @@ export class CheckoutBillingContainer extends ExtensiblePureComponent {
 
     onBillingSuccess(fields, asyncData) {
         const { savePaymentInformation } = this.props;
+
         const address = this._getAddress(fields);
         const paymentMethod = this._getPaymentData(asyncData);
 
@@ -172,18 +186,21 @@ export class CheckoutBillingContainer extends ExtensiblePureComponent {
     }
 
     _getAddress(fields) {
-        const { shippingAddress } = this.props;
+        const { addressLinesQty, shippingAddress } = this.props;
 
         const {
             isSameAsShipping,
             selectedCustomerAddressId
         } = this.state;
 
+        const formFields = getFormFields(fields, addressLinesQty);
+
         if (isSameAsShipping) {
             return shippingAddress;
         }
+
         if (!selectedCustomerAddressId) {
-            return trimAddressFields(fields);
+            return trimAddressFields(formFields);
         }
 
         const { customer: { addresses } } = this.props;

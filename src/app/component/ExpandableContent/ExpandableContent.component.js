@@ -8,14 +8,16 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import { MixType, ChildrenType } from 'Type/Common';
-import './ExpandableContent.style';
+import { createRef, PureComponent } from 'react';
 
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { ChildrenType, MixType } from 'Type/Common';
+import { getFixedElementHeight } from 'Util/CSS';
+
+import './ExpandableContent.style';
 /** @namespace Component/ExpandableContent/Component */
-export class ExpandableContent extends ExtensiblePureComponent {
+export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -41,9 +43,10 @@ export class ExpandableContent extends ExtensiblePureComponent {
         onClick: null
     };
 
-    constructor(props) {
-        super(props);
+    expandableContentRef = createRef();
 
+    __construct(props) {
+        super.__construct(props);
         const { isContentExpanded } = this.props;
         this.state = {
             isContentExpanded,
@@ -63,14 +66,45 @@ export class ExpandableContent extends ExtensiblePureComponent {
         return null;
     }
 
+    scrollToExpandedContent() {
+        const { isContentExpanded } = this.state;
+        const elem = this.expandableContentRef && this.expandableContentRef.current;
+
+        if (isContentExpanded && !elem) {
+            return;
+        }
+
+        const elemToWindowTopDist = elem.getBoundingClientRect().top;
+        const windowToPageTopDist = document.body.getBoundingClientRect().top;
+        const topToElemDistance = elemToWindowTopDist - windowToPageTopDist;
+        const {
+            total: totalFixedElementHeight,
+            bottom: bottomFixedElementHeight
+        } = getFixedElementHeight();
+
+        const elemMaxOffsetHeight = screen.height > elem.offsetHeight + bottomFixedElementHeight
+            ? elem.offsetHeight
+            : screen.height - totalFixedElementHeight;
+        const scrollTo = topToElemDistance - (screen.height - bottomFixedElementHeight - elemMaxOffsetHeight);
+
+        // checking if button is in a view-port
+        if (-windowToPageTopDist >= scrollTo) {
+            return;
+        }
+
+        window.scrollTo({ behavior: 'smooth', top: scrollTo });
+    }
+
     toggleExpand = () => {
         const { onClick } = this.props;
         if (onClick) {
-            onClick(); return;
+            onClick();
+            return;
         }
-        this.setState(({ isContentExpanded }) => (
-            { isContentExpanded: !isContentExpanded }
-        ));
+        this.setState(
+            ({ isContentExpanded }) => ({ isContentExpanded: !isContentExpanded }),
+            () => this.scrollToExpandedContent()
+        );
     };
 
     renderButton() {
@@ -95,7 +129,7 @@ export class ExpandableContent extends ExtensiblePureComponent {
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
                     { typeof heading === 'string' ? (
-                        <TextPlaceholder content={ heading } />
+                        <TextPlaceholder content={ heading } length="medium" />
                     ) : (
                         heading
                     ) }
@@ -108,7 +142,6 @@ export class ExpandableContent extends ExtensiblePureComponent {
                     { subHeading }
                 </span>
             </button>
-
         );
     }
 
@@ -116,7 +149,6 @@ export class ExpandableContent extends ExtensiblePureComponent {
         const { children, mix } = this.props;
         const { isContentExpanded } = this.state;
         const mods = { isContentExpanded };
-
         return (
             <div
               block="ExpandableContent"
@@ -131,11 +163,11 @@ export class ExpandableContent extends ExtensiblePureComponent {
 
     render() {
         const { mix } = this.props;
-
         return (
             <article
               block="ExpandableContent"
               mix={ mix }
+              ref={ this.expandableContentRef }
             >
                 { this.renderButton() }
                 { this.renderContent() }
@@ -143,5 +175,4 @@ export class ExpandableContent extends ExtensiblePureComponent {
         );
     }
 }
-
 export default ExpandableContent;

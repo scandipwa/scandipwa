@@ -10,26 +10,31 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import media, { WYSIWYG_MEDIA } from 'Util/Media';
-import Link from 'Component/Link';
-import CmsBlock from 'Component/CmsBlock';
-import CartItem from 'Component/CartItem';
-import { TotalsType } from 'Type/MiniCart';
 import CartCoupon from 'Component/CartCoupon';
-import ProductLinks from 'Component/ProductLinks';
+import CartItem from 'Component/CartItem';
+import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
-import { formatCurrency, roundPrice } from 'Util/Price';
 import ExpandableContent from 'Component/ExpandableContent';
+import Link from 'Component/Link';
+import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 import './CartPage.style';
 
 /** @namespace Route/CartPage/Component */
-export class CartPage extends ExtensiblePureComponent {
+export class CartPage extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        onCheckoutButtonClick: PropTypes.func.isRequired
+        onCheckoutButtonClick: PropTypes.func.isRequired,
+        hasOutOfStockProductsInCart: PropTypes.bool
+    };
+
+    static defaultProps = {
+        hasOutOfStockProductsInCart: false
     };
 
     renderCartItems() {
@@ -49,7 +54,7 @@ export class CartPage extends ExtensiblePureComponent {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
-                    { items.map(item => (
+                    { items.map((item) => (
                         <CartItem
                           key={ item.item_id }
                           item={ item }
@@ -80,7 +85,7 @@ export class CartPage extends ExtensiblePureComponent {
 
     renderPriceLine(price) {
         const { totals: { quote_currency_code } } = this.props;
-        return `${formatCurrency(quote_currency_code)}${roundPrice(price)}`;
+        return formatPrice(price, quote_currency_code);
     }
 
     renderTotalDetails(isMobile = false) {
@@ -110,32 +115,47 @@ export class CartPage extends ExtensiblePureComponent {
     renderTotal() {
         const {
             totals: {
-                subtotal_incl_tax = 0
+                subtotal_with_discount = 0,
+                tax_amount = 0
             }
         } = this.props;
 
         return (
             <dl block="CartPage" elem="Total" aria-label="Complete order total">
                 <dt>{ __('Order total:') }</dt>
-                <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
+                <dd>{ this.renderPriceLine(subtotal_with_discount + tax_amount) }</dd>
             </dl>
         );
     }
 
-    renderButtons() {
-        const { onCheckoutButtonClick } = this.props;
+    renderSecureCheckoutButton() {
+        const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
+
+        if (hasOutOfStockProductsInCart) {
+            return (
+                <div block="CartPage" elem="OutOfStockProductsWarning">
+                    { __('Remove out of stock products from cart') }
+                </div>
+            );
+        }
 
         return (
+            <button
+              block="CartPage"
+              elem="CheckoutButton"
+              mix={ { block: 'Button' } }
+              onClick={ onCheckoutButtonClick }
+            >
+                <span />
+                { __('Secure checkout') }
+            </button>
+        );
+    }
+
+    renderButtons() {
+        return (
             <div block="CartPage" elem="CheckoutButtons">
-                <button
-                  block="CartPage"
-                  elem="CheckoutButton"
-                  mix={ { block: 'Button' } }
-                  onClick={ onCheckoutButtonClick }
-                >
-                    <span />
-                    { __('Secure checkout') }
-                </button>
+                { this.renderSecureCheckoutButton() }
                 <Link
                   block="CartPage"
                   elem="ContinueShopping"
@@ -149,7 +169,11 @@ export class CartPage extends ExtensiblePureComponent {
 
     renderTotals() {
         return (
-            <article block="CartPage" elem="Summary">
+            <article
+              block="CartPage"
+              elem="Summary"
+              mix={ { block: 'FixedElement', elem: 'Bottom' } }
+            >
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
                 { this.renderTotalDetails() }
                 { this.renderTotal() }
@@ -161,19 +185,31 @@ export class CartPage extends ExtensiblePureComponent {
     renderDiscount() {
         const {
             totals: {
+                applied_rule_ids,
                 coupon_code,
                 discount_amount = 0
             }
         } = this.props;
 
-        if (!coupon_code) {
+        if (!applied_rule_ids) {
             return null;
+        }
+
+        if (!coupon_code) {
+            return (
+                <>
+                    <dt>
+                        { __('Discount: ') }
+                    </dt>
+                    <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+                </>
+            );
         }
 
         return (
             <>
                 <dt>
-                    { __('Coupon ') }
+                    { __('Discount/Coupon ') }
                     <strong block="CartPage" elem="DiscountCoupon">{ coupon_code.toUpperCase() }</strong>
                 </dt>
                 <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
@@ -190,17 +226,6 @@ export class CartPage extends ExtensiblePureComponent {
         );
     }
 
-    renderPaymentMethods() {
-        return (
-            <img
-              block="CartPage"
-              elem="PaymentMethods"
-              src={ media('etc/payment-methods.jpg', WYSIWYG_MEDIA) }
-              alt="Shipping car icon"
-            />
-        );
-    }
-
     renderPromoContent() {
         const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
 
@@ -209,23 +234,14 @@ export class CartPage extends ExtensiblePureComponent {
         }
 
         return (
-            <>
-                <figure
-                  block="CartPage"
-                  elem="PromoBlock"
-                >
-                    <img
-                      block="CartPage"
-                      elem="PromoImage"
-                      src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
-                      alt="Shipping car icon"
-                    />
-                    <figcaption block="CartPage" elem="PromoText">
+            <figure
+              block="CartPage"
+              elem="PromoBlock"
+            >
+                <figcaption block="CartPage" elem="PromoText">
                     { __('Free shipping on order 49$ and more.') }
-                    </figcaption>
-                </figure>
-                { this.renderPaymentMethods() }
-            </>
+                </figcaption>
+            </figure>
         );
     }
 
@@ -240,6 +256,14 @@ export class CartPage extends ExtensiblePureComponent {
         );
     }
 
+    renderHeading() {
+        return (
+            <h1 block="CartPage" elem="Heading">
+                { __('Shopping cart') }
+            </h1>
+        );
+    }
+
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
@@ -248,7 +272,7 @@ export class CartPage extends ExtensiblePureComponent {
                   label="Cart page details"
                 >
                     <div block="CartPage" elem="Static">
-                        <h1 block="CartPage" elem="Heading">{ __('Shopping cart') }</h1>
+                        { this.renderHeading() }
                         { this.renderCartItems() }
                         { this.renderTotalDetails(true) }
                         { this.renderDiscountCode() }

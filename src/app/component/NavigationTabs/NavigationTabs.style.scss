@@ -55,10 +55,14 @@
         display: flex;
         align-items: center;
         justify-content: space-around;
-        padding: 0 1rem;
+        padding: 0 1.2rem;
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;
+
+        @include mobile {
+            padding: 0 1.4rem;
+        }
     }
 
     &-Button {

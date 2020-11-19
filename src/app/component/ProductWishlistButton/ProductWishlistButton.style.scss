@@ -6,9 +6,17 @@
 .ProductWishlistButton {
     --loader-scale: .6;
 
-    margin-left: .9rem;
+    margin-left: 1.08rem;
     vertical-align: middle;
     display: inline-block;
+
+    @include mobile {
+        margin-left: 1.26rem;
+    }
+
+    @include tablet-portrait {
+        margin-top: 1.2rem;
+    }
 
     &-Button {
         --button-padding: 0;

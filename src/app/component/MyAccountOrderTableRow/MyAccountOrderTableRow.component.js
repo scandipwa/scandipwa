@@ -10,13 +10,15 @@
  */
 
 import PropTypes from 'prop-types';
-import { formatCurrency } from 'Util/Price';
-import './MyAccountOrderTableRow.style';
+import { PureComponent } from 'react';
 
 import { baseOrderInfoType } from 'Type/Account';
+import { formatPrice } from 'Util/Price';
+
+import './MyAccountOrderTableRow.style';
 
 /** @namespace Component/MyAccountOrderTableRow/Component */
-export class MyAccountOrderTableRow extends ExtensiblePureComponent {
+export class MyAccountOrderTableRow extends PureComponent {
     static propTypes = {
         currency_code: PropTypes.string.isRequired,
         base_order_info: baseOrderInfoType.isRequired,
@@ -41,8 +43,7 @@ export class MyAccountOrderTableRow extends ExtensiblePureComponent {
                 <td>{ created_at }</td>
                 <td>{ status_label }</td>
                 <td block="hidden-mobile">
-                    { /* TODO: get currency symbol */ }
-                    { grand_total ? `${formatCurrency(currency_code)}${grand_total}` : '' }
+                    { grand_total ? formatPrice(grand_total, currency_code) : '' }
                 </td>
             </tr>
         );

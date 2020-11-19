@@ -11,29 +11,42 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { MatchType } from 'Type/Common';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import { executeGet } from 'Util/Request';
-import { prepareQuery } from 'Util/Query';
-import { WishlistQuery } from 'Query';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import WishlistQuery from 'Query/Wishlist.query';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { MatchType } from 'Type/Common';
 import { getIndexedProduct } from 'Util/Product';
-import { updateNoMatch } from 'Store/NoMatch';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
 
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+export const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
+
 /** @namespace Route/WishlistSharedPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
-    moveWishlistToCart: sharingCode => WishlistDispatcher.moveWishlistToCart(dispatch, sharingCode),
-    showNotification: message => dispatch(showNotification('success', message)),
-    showError: message => dispatch(showNotification('error', message)),
+export const mapDispatchToProps = (dispatch) => ({
+    clearWishlist: () => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.clearWishlist(dispatch)
+    ),
+    moveWishlistToCart: (sharingCode) => WishlistDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.moveWishlistToCart(dispatch, sharingCode)
+    ),
+    showNotification: (message) => dispatch(showNotification('success', message)),
+    showError: (message) => dispatch(showNotification('error', message)),
     showNoMatch: () => dispatch(updateNoMatch(true)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch)
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
+    )
 });
 
 /** @namespace Route/WishlistSharedPage/Container/wishlistSharedContainer */
@@ -77,7 +90,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         return moveWishlistToCart(sharingCode).then(
             /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartThen */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
-            /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartThen */
+            /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartCatch */
             ([{ message }]) => showError(message)
         );
     };
@@ -92,7 +105,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
         this.setLoading();
 
         executeGet(query, 'SharedWishlist', FIVE_MINUTES_IN_SECONDS).then(
-            /** @namespace Route/WishlistSharedPage/Container/executeGetThen */
+            /** @namespace Route/WishlistSharedPage/Container/requestWishlistExecuteGetThen */
             ({ wishlist, wishlist: { items_count, creators_name: creatorsName } = {} }) => {
                 if (!items_count) {
                     this.setLoading(false);
@@ -125,7 +138,6 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
                     };
                 }, {});
 
-
                 updateBreadcrumbs([
                     { name: creatorsName, url: `/wishlist/shared/${code}` },
                     { name: __('Shared Wishlist'), url: '/' }
@@ -138,7 +150,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
                     isWishlistLoading: false
                 });
             },
-            /** @namespace Route/WishlistSharedPage/Container/executeGetThen */
+            /** @namespace Route/WishlistSharedPage/Container/executeGetCatch */
             ([{ message }]) => {
                 showError(message);
                 showNoMatch();
@@ -168,4 +180,8 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(WishlistSharedPageContainer);
+/** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WishlistSharedPageContainer);

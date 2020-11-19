@@ -12,7 +12,7 @@
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Config */
-export class ConfigQuery extends ExtensibleClass {
+export class ConfigQuery {
     getStoreListField() {
         return new Field('storeList')
             .addFieldList(this._getStoreListFields());
@@ -35,12 +35,12 @@ export class ConfigQuery extends ExtensibleClass {
         ];
     }
 
-
     _getStoreListFields() {
         return [
             'name',
             'is_active',
             'base_url',
+            'base_link_url',
             'code'
         ];
     }
@@ -67,12 +67,15 @@ export class ConfigQuery extends ExtensibleClass {
             'default_title',
             'default_country',
             'secure_base_media_url',
-            'paypal_sandbox_flag',
-            'paypal_client_id',
+            // 'paypal_sandbox_flag',
+            // 'paypal_client_id',
             'logo_alt',
+            'logo_height',
+            'logo_width',
             'cookie_text',
             'cookie_link',
             'terms_are_enabled',
+            'address_lines_quantity',
             'base_url',
             'pagination_frame',
             'pagination_frame_skip',
@@ -82,9 +85,10 @@ export class ConfigQuery extends ExtensibleClass {
             'reviews_allow_guest',
             'demo_notice',
             'guest_checkout',
-            'is_email_confirmation_required'
+            'is_email_confirmation_required',
+            'base_link_url'
         ];
     }
 }
 
-export default new (ConfigQuery)();
+export default new ConfigQuery();

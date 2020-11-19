@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { GUEST_QUOTE_ID } from 'Store/Cart';
+import { Field } from 'Util/Query';
 
 /**
  * MyAccount Mutations
  * @class MyAccount
  * @namespace Query/MyAccount
  */
-export class MyAccountQuery extends ExtensibleClass {
+export class MyAccountQuery {
     /**
      * Get ResetPassword mutation
      * @param {{token: String, password: String, password_confirmation: String}} options A object containing different aspects of query, each item can be omitted
@@ -48,7 +48,7 @@ export class MyAccountQuery extends ExtensibleClass {
         return new Field('generateCustomerToken')
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
-            .addArgument('guest_quote_id', 'String!', guestQuoteId)
+            .addArgument('guest_quote_id', 'String', guestQuoteId)
             .addField('token');
     }
 
@@ -195,4 +195,4 @@ export class MyAccountQuery extends ExtensibleClass {
     }
 }
 
-export default new (MyAccountQuery)();
+export default new MyAccountQuery();

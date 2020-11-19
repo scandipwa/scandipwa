@@ -14,7 +14,7 @@
  * @class CSS
  * @namespace Util/CSS
  */
-export class CSS extends ExtensibleClass {
+export class CSS {
     /**
      * Change CSS custom property in referenced node scope
      * @static
@@ -30,5 +30,25 @@ export class CSS extends ExtensibleClass {
         }
     }
 }
+
+/** @namespace Util/CSS/getHeight */
+export const getElementHeight = (id) => Array.from(
+    document.getElementsByClassName(id)
+).reduce((acc, item) => {
+    const { offsetHeight } = item;
+    return acc + offsetHeight;
+}, 0);
+
+/** @namespace Util/CSS/getFixedElementHeight */
+export const getFixedElementHeight = () => {
+    const top = getElementHeight('FixedElement-Top');
+    const bottom = getElementHeight('FixedElement-Bottom');
+
+    return {
+        total: top + bottom,
+        top,
+        bottom
+    };
+};
 
 export default CSS;

@@ -10,24 +10,33 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { MyAccountDispatcher } from 'Store/MyAccount';
+
 import { customerType } from 'Type/Account';
+
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
+
 /** @namespace Component/CheckoutAddressBook/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 /** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
+export const mapDispatchToProps = (dispatch) => ({
+    requestCustomerData: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
+    )
 });
 
 /** @namespace Component/CheckoutAddressBook/Container */
-export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
+export class CheckoutAddressBookContainer extends PureComponent {
     static propTypes = {
         isSignedIn: PropTypes.bool.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
@@ -62,8 +71,8 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
         onAddressSelect: this.onAddressSelect.bind(this)
     });
 
-    constructor(props) {
-        super(props);
+    __construct(props) {
+        super.__construct(props);
 
         const {
             requestCustomerData,

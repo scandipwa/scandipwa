@@ -18,13 +18,16 @@
     --header-desktop-button-color: var(--primary-base-color);
     --header-height: 50px;
     --header-nav-height: 50px;
-    --header-logo-width: 200px;
-    --header-logo-height: calc(var(--header-height) - 30px);
-    --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height));
+    --header-total-height:
+        calc(
+            var(--header-height)
+            + var(--offline-notice-height)
+            + var(--demo-notice-height)
+            + env(safe-area-inset-top)
+        );
 
     @include desktop {
         --header-dots-color: #000;
-        --header-logo-height: calc(var(--header-nav-height) - 35px);
     }
 
     @include after-mobile {
@@ -56,6 +59,9 @@
 }
 
 .Header {
+    --header-logo-width: 0;
+    --header-logo-height: 0;
+
     position: fixed;
     top: var(--demo-notice-height);
     left: 0;
@@ -72,6 +78,12 @@
         @include before-desktop {
             /* stylelint-disable-next-line length-zero-no-unit */
             --header-height: 0px;
+        }
+    }
+
+    &-Wrapper {
+        @include desktop {
+            margin-bottom: var(--header-total-height);
         }
     }
 
@@ -167,9 +179,9 @@
 
         .MyAccountOverlay {
             @include before-desktop {
-                height: 100vh;
-                position: absolute;
-                right: -10px;
+                top: var(--header-total-height);
+                height: calc(100vh - var(--header-total-height));
+                position: fixed;
                 width: 100vw;
             }
         }
@@ -201,14 +213,22 @@
         justify-content: space-between;
         z-index: 21;
         padding: {
-            left: 1rem;
-            right: 2rem;
-            top: 1rem;
+            left: 1.2rem;
+            right: 2.4rem;
+            top: 1.2rem;
         };
+
+        @include mobile {
+            padding: {
+                left: 1.4rem;
+                right: 2.8rem;
+                top: 1.4rem;
+            }
+        }
     }
 
     &-Contacts {
-        font-size: 12px;
+        font-size: 1.2rem;
         color: var(--header-contacts-color);
 
         span:first-child {
@@ -219,8 +239,12 @@
     &-Nav {
         align-items: center;
         height: var(--header-nav-height);
-        padding: 0 1rem;
+        padding: 0 1.2rem;
         z-index: 20;
+
+        @include mobile {
+            padding: 0 1.4rem;
+        }
 
         @include before-desktop {
             border-bottom: 1px solid var(--primary-divider-color);
@@ -290,7 +314,7 @@
                 @include desktop {
                     cursor: default;
                     height: auto;
-                    margin-right: 1.2rem;
+                    margin-right: 1.44rem;
                     width: auto;
                 }
             }
@@ -304,7 +328,24 @@
             }
 
             &_edit {
-                @include edit-button;
+                text-transform: uppercase;
+
+                &.Header-Button_isVisible {
+                    width: 70px;
+                    opacity: .5;
+                }
+            }
+
+            &_share {
+                @include share-button;
+
+                &.Header-Button_isVisible {
+                    height: 0;
+                    width: 0;
+                    margin-left: 1rem;
+                    margin-top: .5rem;
+                    opacity: .5;
+                }
             }
 
             &_home {
@@ -313,7 +354,7 @@
 
             &_ok,
             &_cancel {
-                font-size: 14px;
+                font-size: 1.4rem;
                 opacity: .5;
 
                 &.Header-Button_isVisible {
@@ -331,11 +372,12 @@
 
         &Title {
             cursor: pointer;
-            padding-right: .4rem;
+            padding-right: .48rem;
             text-transform: uppercase;
             color: var(--header-color);
 
             @include mobile {
+                padding-right: .56rem;
                 display: none;
             }
         }
@@ -348,14 +390,27 @@
             cursor: pointer;
             display: flex;
             height: 26px;
-            margin-left: 2rem;
-            padding-right: 1.8rem;
+            margin-left: 2.4rem;
+            padding-right: 2.16rem;
+
+            @include mobile {
+                margin-left: 2.8rem;
+                padding-right: 2.52rem;
+            }
+
+            @include tablet-portrait {
+                margin-left: 0;
+            }
         }
 
         &Title {
             color: var(--header-color);
-            margin-right: .7rem;
+            margin-right: .84rem;
             text-transform: uppercase;
+
+            @include mobile {
+                margin-right: .98rem;
+            }
         }
 
         &Icon {
@@ -378,7 +433,7 @@
                 border-radius: 7px;
                 color: var(--header-background);
                 display: inline-block;
-                font-size: 12px;
+                font-size: 1.2rem;
                 left: 50%;
                 padding: 0 4px 1px;
                 position: absolute;
@@ -414,6 +469,10 @@
                 @include logo-visible;
             }
         }
+
+        .Image-Image {
+            object-fit: fill;
+        }
     }
 
     &-Title {
@@ -423,7 +482,7 @@
         transition-duration: 200ms;
 
         text-align: center;
-        font-size: 1.3rem;
+        font-size: 1.56rem;
         color: var(--header-color);
 
         overflow: hidden;
@@ -435,23 +494,24 @@
         position: absolute;
         margin: auto;
         width: 100%;
-        height: 1.5rem;
-        line-height: 1.5rem;
+        height: 1.8rem;
+        line-height: 1.8rem;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
+
+        @include mobile {
+            font-size: 1.82rem;
+            height: 2.1rem;
+            line-height: 2.1rem;
+        }
 
         &_isVisible {
             @include before-desktop {
                 opacity: 1;
                 max-width: calc(100% - 180px);
             }
-        }
-
-        .TextPlaceholder {
-            opacity: 0;
-            animation: appear 150ms 100ms forwards;
         }
     }
 
@@ -461,12 +521,6 @@
             @include before-desktop {
                 text-decoration: none;
             }
-        }
-    }
-
-    .Menu-MenuWrapper {
-        @include tablet {
-            display: none;
         }
     }
 }

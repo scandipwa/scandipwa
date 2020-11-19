@@ -10,18 +10,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef } from 'react';
 import PropTypes from 'prop-types';
-import history from 'Util/History';
-import isMobile from 'Util/Mobile';
+import {
+    createRef,
+    lazy,
+    PureComponent,
+    Suspense
+} from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
-import SearchOverlay from 'Component/SearchOverlay';
+import Loader from 'Component/Loader';
+import { DeviceType } from 'Type/Device';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './SearchField.style';
 
+export const SearchOverlay = lazy(
+    () => import(
+        /* webpackMode: "lazy", webpackChunkName: "category" */
+        'Component/SearchOverlay'
+    )
+);
+
 /** @namespace Component/SearchField/Component */
-export class SearchField extends ExtensiblePureComponent {
+export class SearchField extends PureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
         onSearchBarFocus: PropTypes.func.isRequired,
@@ -30,7 +43,8 @@ export class SearchField extends ExtensiblePureComponent {
         onClearSearchButtonClick: PropTypes.func.isRequired,
         isVisible: PropTypes.bool,
         isActive: PropTypes.bool,
-        hideActiveOverlay: PropTypes.func
+        hideActiveOverlay: PropTypes.func,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -56,6 +70,14 @@ export class SearchField extends ExtensiblePureComponent {
         return { isPlaceholderVisible: true };
     }
 
+    componentDidUpdate() {
+        const { showSearch } = this.state;
+
+        if (showSearch) {
+            this.onIconClick();
+        }
+    }
+
     onClearSearchButtonClick(isFocusOnSearchBar = true) {
         const { onClearSearchButtonClick } = this.props;
         if (isFocusOnSearchBar) {
@@ -65,16 +87,21 @@ export class SearchField extends ExtensiblePureComponent {
     }
 
     onSearchEnterPress = (e) => {
-        if (e.key === 'Enter') {
-            const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
-            const search = searchCriteria.replace(/\s\s+/g, '%20');
+        const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
+        const search = searchCriteria.trim().replace(/\s\s+/g, '%20');
+        const trimmedSearch = searchCriteria.trim();
 
-            history.push(`/search/${ search }`);
+        if (e.key === 'Enter' && trimmedSearch !== '') {
+            history.push(appendWithStoreCode(`/search/${ search }`));
             hideActiveOverlay();
             onSearchBarChange({ target: { value: '' } });
             this.searchBarRef.current.blur();
             this.closeSearch();
         }
+    };
+
+    onIconClick = () => {
+        this.searchBarRef.current.focus();
     };
 
     openSearch = () => {
@@ -120,12 +147,22 @@ export class SearchField extends ExtensiblePureComponent {
         );
     }
 
+    renderOverlayFallback() {
+        return <Loader isLoading />;
+    }
+
     renderSearch() {
         const {
             searchCriteria,
             onSearchBarFocus,
             isActive
         } = this.props;
+
+        const { showSearch } = this.state;
+
+        if (!showSearch) {
+            return null;
+        }
 
         return (
             <div
@@ -149,13 +186,16 @@ export class SearchField extends ExtensiblePureComponent {
                   elem="SearchIcon"
                   role="button"
                   tabIndex="0"
-                  onClick={ () => this.searchBarRef.current.focus() }
+                  onClick={ this.onIconClick }
+                  aria-label={ __('Search') }
                 />
-                <SearchOverlay
-                  hideOverlay
-                  clearSearch={ this.clearSearch }
-                  searchCriteria={ searchCriteria }
-                />
+                <Suspense fallback={ this.renderOverlayFallback() }>
+                    <SearchOverlay
+                      isHideOverlay
+                      clearSearch={ this.clearSearch }
+                      searchCriteria={ searchCriteria }
+                    />
+                </Suspense>
             </div>
         );
     }
@@ -171,6 +211,7 @@ export class SearchField extends ExtensiblePureComponent {
                   role="button"
                   tabIndex="0"
                   onClick={ this.closeSearch }
+                  aria-label={ __('Close') }
                 />
             );
         }
@@ -182,14 +223,16 @@ export class SearchField extends ExtensiblePureComponent {
               role="button"
               tabIndex="0"
               onClick={ this.openSearch }
+              aria-label={ __('Search') }
             />
         );
     }
 
     renderDesktopContent() {
+        const { device } = this.props;
         const { showSearch } = this.state;
 
-        if (isMobile.any() || isMobile.tablet()) {
+        if (device.isMobile) {
             return null;
         }
 
@@ -211,10 +254,11 @@ export class SearchField extends ExtensiblePureComponent {
         const {
             searchCriteria,
             onSearchBarFocus,
-            isActive
+            isActive,
+            device
         } = this.props;
 
-        if (!isMobile.any() && !isMobile.tablet()) {
+        if (!device.isMobile) {
             return null;
         }
 
@@ -244,7 +288,9 @@ export class SearchField extends ExtensiblePureComponent {
                 >
                     <span>{ __('Search') }</span>
                 </div>
-                <SearchOverlay clearSearch={ this.clearSearch } searchCriteria={ searchCriteria } />
+                <Suspense fallback={ this.renderOverlayFallback() }>
+                    <SearchOverlay clearSearch={ this.clearSearch } searchCriteria={ searchCriteria } />
+                </Suspense>
             </>
         );
     }

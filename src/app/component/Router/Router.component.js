@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
 
 /**
@@ -11,60 +12,53 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import {
     cloneElement,
     lazy,
+    PureComponent,
     Suspense
 } from 'react';
-
-import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
 import { Router as ReactRouter } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
-import Meta from 'Component/Meta';
-import Loader from 'Component/Loader';
-import Footer from 'Component/Footer';
-import CookiePopup from 'Component/CookiePopup';
-import Header from 'Component/Header';
-import DemoNotice from 'Component/DemoNotice';
 import Breadcrumbs from 'Component/Breadcrumbs';
-import OfflineNotice from 'Component/OfflineNotice';
+import CookiePopup from 'Component/CookiePopup';
+import DemoNotice from 'Component/DemoNotice';
+import Footer from 'Component/Footer';
+import Header from 'Component/Header';
+import Loader from 'Component/Loader';
+import Meta from 'Component/Meta';
 import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
 import NotificationList from 'Component/NotificationList';
+import OfflineNotice from 'Component/OfflineNotice';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
+import UrlRewrites from 'Route/UrlRewrites';
 import history from 'Util/History';
 
-// suppress prop-types warning on Route component when using with React.lazy
-// until react-router-dom@4.4.0 or higher version released
-/* eslint-disable react/forbid-foreign-prop-types */
-Route.propTypes.component = PropTypes.oneOfType([
-    Route.propTypes.component,
-    PropTypes.object
-]);
-/* eslint-enable react/forbid-foreign-prop-types */
+import {
+    AFTER_ITEMS_TYPE,
+    BEFORE_ITEMS_TYPE,
+    SWITCH_ITEMS_TYPE
+} from './Router.config';
 
-export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
-export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/Checkout'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CmsPage'));
-export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/HomePage'));
-export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MyAccount'));
-export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/NoMatchHandler'));
-export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
-export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
-export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
-export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
-export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
-export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
-export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/WishlistSharedPage'));
+export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
+export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/HomePage'));
+export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/MyAccount'));
+export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/SearchPage'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
+export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
+export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
 
-export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
-export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
-export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
+/** @namespace Component/Router/Component/withStoreRegex */
+export const withStoreRegex = (path) => window.storeRegexText.concat(path);
 
 /** @namespace Component/Router/Component */
-export class Router extends ExtensiblePureComponent {
+export class Router extends PureComponent {
     static propTypes = {
         isBigOffline: PropTypes.bool
     };
@@ -102,59 +96,51 @@ export class Router extends ExtensiblePureComponent {
 
     [SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path="/" exact component={ HomePage } />,
+            component: <Route path={ withStoreRegex('/') } exact render={ (props) => <HomePage { ...props } /> } />,
             position: 10
         },
         {
-            component: <Route path="/category" component={ CategoryPage } />,
-            position: 20
-        },
-        {
-            component: <Route path="/search/:query/" component={ SearchPage } />,
+            component: <Route path={ withStoreRegex('/search/:query/') } render={ (props) => <SearchPage { ...props } /> } />,
             position: 25
         },
         {
-            component: <Route path="/product" component={ ProductPage } />,
-            position: 30
-        },
-        {
-            component: <Route path="/page" component={ CmsPage } />,
+            component: <Route path={ withStoreRegex('/page') } render={ (props) => <CmsPage { ...props } /> } />,
             position: 40
         },
         {
-            component: <Route path="/cart" exact component={ CartPage } />,
+            component: <Route path={ withStoreRegex('/cart') } exact render={ (props) => <CartPage { ...props } /> } />,
             position: 50
         },
         {
-            component: <Route path="/checkout/:step?" component={ Checkout } />,
+            component: <Route path={ withStoreRegex('/checkout/:step?') } render={ (props) => <Checkout { ...props } /> } />,
             position: 55
         },
         {
-            component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+            component: <Route path={ withStoreRegex('/:account*/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
             position: 60
         },
         {
-            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            component: <Route path={ withStoreRegex('/:account*/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
             position: 65
         },
         {
-            component: <Route path="/my-account/:tab?" component={ MyAccount } />,
+            component: <Route path={ withStoreRegex('/my-account/:tab?') } render={ (props) => <MyAccount { ...props } /> } />,
             position: 70
         },
         {
-            component: <Route path="/forgot-password" component={ MyAccount } />,
+            component: <Route path={ withStoreRegex('/forgot-password') } render={ (props) => <MyAccount { ...props } /> } />,
             position: 71
         },
         {
-            component: <Route path="/menu" component={ MenuPage } />,
+            component: <Route path={ withStoreRegex('/menu') } render={ (props) => <MenuPage { ...props } /> } />,
             position: 80
         },
         {
-            component: <Route path="/wishlist/shared/:code" component={ WishlistShared } />,
+            component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ (props) => <WishlistShared { ...props } /> } />,
             position: 81
         },
         {
-            component: <Route component={ UrlRewrites } />,
+            component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,
             position: 1000
         }
     ];
@@ -183,21 +169,19 @@ export class Router extends ExtensiblePureComponent {
     }
 
     getSortedItems(type) {
-        return this[type].reduce((acc, { component, position }) => {
-            if (!component) {
-                // eslint-disable-next-line no-console
-                console.warn('There is an item without a component property declared in main router.');
-                return acc;
-            }
+        return this[type].sort(
+            (a, b) => a.position - b.position
+        ).filter(
+            (entry) => {
+                if (!entry.component) {
+                    // eslint-disable-next-line no-console
+                    console.warn('There is an item without a component property declared in main router.');
+                    return false;
+                }
 
-            if (acc[position]) {
-                // eslint-disable-next-line no-console
-                console.warn(`There is already an item with ${ position } declared in main router.`);
-                return acc;
+                return true;
             }
-
-            return { ...acc, [position]: component };
-        }, {});
+        );
     }
 
     handleErrorReset = () => {
@@ -205,9 +189,8 @@ export class Router extends ExtensiblePureComponent {
     };
 
     renderItemsOfType(type) {
-        return Object.entries(this.getSortedItems(type)).map(
-            ([key, component]) => cloneElement(component, { key })
-        );
+        return this.getSortedItems(type)
+            .map(({ position, component }) => cloneElement(component, { key: position }));
     }
 
     renderMainItems() {
@@ -219,11 +202,9 @@ export class Router extends ExtensiblePureComponent {
 
         return (
             <Suspense fallback={ this.renderFallbackPage() }>
-                <NoMatchHandler>
-                    <Switch>
-                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                    </Switch>
-                </NoMatchHandler>
+                <Switch>
+                    { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                </Switch>
             </Suspense>
         );
     }

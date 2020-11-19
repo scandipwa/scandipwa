@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation } from 'Util/Request';
 import { Field } from 'Util/Query';
+import { fetchMutation } from 'Util/Request';
 
 /** @namespace Util/Braintree */
-export class Braintree extends ExtensibleClass {
+export class Braintree {
     isLoading = false;
 
-    constructor(containerId) {
-        super();
+    __construct(containerId) {
+        super.__construct();
         this.containerId = containerId;
     }
 

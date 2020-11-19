@@ -16,7 +16,7 @@ import { Field } from 'Util/Query';
  * @class OrderQuery
  * @namespace Query/Order
  */
-export class OrderQuery extends ExtensibleClass {
+export class OrderQuery {
     getOrderListQuery() {
         return new Field('getOrderList')
             .addFieldList(this._getOrderListFields(true));
@@ -77,7 +77,8 @@ export class OrderQuery extends ExtensibleClass {
     }
 
     _prepareAttributes() {
-        return new Field('attributes')
+        return new Field('s_attributes')
+            .setAlias('attributes')
             .addFieldList(this._prepareAttributesFields());
     }
 
@@ -237,4 +238,4 @@ export class OrderQuery extends ExtensibleClass {
     }
 }
 
-export default new (OrderQuery)();
+export default new OrderQuery();

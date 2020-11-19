@@ -12,12 +12,15 @@
  */
 
 import PropTypes from 'prop-types';
-import Link from 'Component/Link';
+import { PureComponent } from 'react';
+
 import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
+
 import './SomethingWentWrong.style';
 
 /** @namespace Route/SomethingWentWrong/Component */
-export class SomethingWentWrong extends ExtensiblePureComponent {
+export class SomethingWentWrong extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         errorDetails: PropTypes.shape({

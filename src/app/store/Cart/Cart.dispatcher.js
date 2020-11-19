@@ -9,14 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation, fetchQuery } from 'Util/Request';
-import { updateTotals } from 'Store/Cart';
+import CartQuery from 'Query/Cart.query';
+import { updateTotals } from 'Store/Cart/Cart.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
-import { CartQuery } from 'Query';
-import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
+import { fetchMutation, fetchQuery } from 'Util/Request';
+
+export const LinkedProductsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/LinkedProducts/LinkedProducts.dispatcher'
+);
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -25,7 +29,7 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
  * @class CartDispatcher
  * @namespace Store/Cart/Dispatcher
  */
-export class CartDispatcher extends ExtensibleClass {
+export class CartDispatcher {
     updateInitialCartData(dispatch) {
         const guestQuoteId = this._getGuestQuoteId();
 
@@ -35,25 +39,29 @@ export class CartDispatcher extends ExtensibleClass {
         } else if (guestQuoteId) {
             // This is guest
             this._syncCartWithBE(dispatch, guestQuoteId);
-        } else {
-            // This is guest, cart is empty
-            // Need to create empty cart and save quote
-            this._createEmptyCart(dispatch).then(
-                /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
-                (data) => {
-                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                    this._updateCartData({}, dispatch);
-                }
-            );
         }
+    }
+
+    createGuestEmptyCart(dispatch) {
+        return this._createEmptyCart(dispatch).then(
+            /** @namespace Store/Cart/Dispatcher/updateInitialCartData_createEmptyCartThen */
+            (data) => {
+                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                this._updateCartData({}, dispatch);
+            }
+        );
+    }
+
+    resetGuestCart(dispatch) {
+        return this._updateCartData({}, dispatch);
     }
 
     _createEmptyCart(dispatch) {
         return fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationThen */
             ({ createEmptyCart }) => createEmptyCart,
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationCatch */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -64,7 +72,7 @@ export class CartDispatcher extends ExtensibleClass {
     handle_syncCartWithBEError(dispatch) {
         return this._createEmptyCart(dispatch)
             .then(
-                /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
+                /** @namespace Store/Cart/Dispatcher/handle_syncCartWithBEError_createEmptyCartThen */
                 (data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                     this._updateCartData({}, dispatch);
@@ -77,10 +85,10 @@ export class CartDispatcher extends ExtensibleClass {
         fetchQuery(CartQuery.getCartQuery(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchQueryThen */
-            result => this.handle_syncCartWithBESuccess(dispatch, result),
-            /** @namespace Store/Cart/Dispatcher/fetchQueryThen */
-            error => this.handle_syncCartWithBEError(dispatch, error)
+            /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryThen */
+            (result) => this.handle_syncCartWithBESuccess(dispatch, result),
+            /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryError */
+            (error) => this.handle_syncCartWithBEError(dispatch, error)
         );
     }
 
@@ -96,15 +104,15 @@ export class CartDispatcher extends ExtensibleClass {
             { sku, item_id, quantity },
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationThen */
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch */
             (error) => {
                 const [{ debugMessage = '' }] = error || [{}];
 
                 if (debugMessage.match('No such entity with cartId ')) {
                     return this._createEmptyCart(dispatch).then(
-                        /** @namespace Store/Cart/Dispatcher/_createEmptyCartThen */
+                        /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch_createEmptyCartThen */
                         (data) => {
                             BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                             this._updateCartData({}, dispatch);
@@ -119,14 +127,23 @@ export class CartDispatcher extends ExtensibleClass {
         );
     }
 
-    addProductToCart(dispatch, options) {
+    async addProductToCart(dispatch, options) {
+        const guestQuoteId = this._getGuestQuoteId();
         const {
             product,
             quantity,
-            customizableOptionsData
+            productOptionsData
         } = options;
-        const { sku, type_id: product_type } = product;
-        const { customizableOptions, customizableOptionsMulti } = customizableOptionsData;
+
+        const {
+            sku,
+            type_id: product_type
+        } = product;
+
+        const {
+            productOptions,
+            productOptionsMulti
+        } = productOptionsData || {};
 
         const productToAdd = {
             sku,
@@ -134,23 +151,30 @@ export class CartDispatcher extends ExtensibleClass {
             quantity,
             product_option: {
                 extension_attributes: getExtensionAttributes(
-                    { ...product, customizableOptions, customizableOptionsMulti }
+                    {
+                        ...product,
+                        productOptions,
+                        productOptionsMulti
+                    }
                 )
             }
         };
 
+        if (!guestQuoteId) {
+            await this.createGuestEmptyCart(dispatch);
+        }
+
         if (this._canBeAdded(options)) {
-            return fetchMutation(CartQuery.getSaveCartItemMutation(
-                productToAdd, !isSignedIn() && this._getGuestQuoteId()
-            )).then(
-                /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-                ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-                /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-                ([{ message }]) => {
-                    dispatch(showNotification('error', message));
-                    return Promise.reject();
-                }
-            );
+            try {
+                const { saveCartItem: { cartData } } = await fetchMutation(CartQuery.getSaveCartItemMutation(
+                    productToAdd, !isSignedIn() && this._getGuestQuoteId()
+                ));
+
+                return this._updateCartData(cartData, dispatch);
+            } catch ([{ message }]) {
+                dispatch(showNotification('error', message));
+                return Promise.reject();
+            }
         }
 
         return Promise.reject();
@@ -161,38 +185,43 @@ export class CartDispatcher extends ExtensibleClass {
             item_id,
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationThen */
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationError */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
-    applyCouponToCart(dispatch, couponCode) {
-        return fetchMutation(CartQuery.getApplyCouponMutation(
-            couponCode, !isSignedIn() && this._getGuestQuoteId()
-        )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            ({ applyCoupon: { cartData } }) => {
-                this._updateCartData(cartData, dispatch);
-                dispatch(showNotification('success', __('Coupon was applied!')));
-            },
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
-        );
+    async applyCouponToCart(dispatch, couponCode) {
+        const guestQuoteId = this._getGuestQuoteId();
+
+        if (!guestQuoteId) {
+            await this.createGuestEmptyCart(dispatch);
+        }
+
+        try {
+            const { applyCoupon: { cartData } } = await fetchMutation(CartQuery.getApplyCouponMutation(
+                couponCode, !isSignedIn() && this._getGuestQuoteId()
+            ));
+
+            this._updateCartData(cartData, dispatch);
+            dispatch(showNotification('success', __('Coupon was applied!')));
+        } catch (error) {
+            dispatch(showNotification('error', error[0].message));
+        }
     }
 
     removeCouponFromCart(dispatch) {
         return fetchMutation(CartQuery.getRemoveCouponMutation(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
+            /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationThen */
             ({ removeCoupon: { cartData } }) => {
                 this._updateCartData(cartData, dispatch);
                 dispatch(showNotification('success', __('Coupon was removed!')));
             },
-            /** @namespace Store/Cart/Dispatcher/fetchMutationThen */
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationError */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -208,20 +237,30 @@ export class CartDispatcher extends ExtensibleClass {
 
                 if (childProductLinks) {
                     Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
-                        .map(item => links.push(item));
+                        .map((item) => links.push(item));
                 }
 
                 if (product_links) {
                     Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
-                        .map(item => links.push(item));
+                        .map((item) => links.push(item));
                 }
 
                 return links;
             }, []);
 
             if (product_links.length !== 0) {
-                LinkedProductsDispatcher.handleData(dispatch, product_links);
+                LinkedProductsDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
+                );
+            } else {
+                // LinkedProductsDispatcher.then(
+                //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+                // );
             }
+        } else {
+            // LinkedProductsDispatcher.then(
+            //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+            // );
         }
     }
 
@@ -259,4 +298,4 @@ export class CartDispatcher extends ExtensibleClass {
     }
 }
 
-export default new (CartDispatcher)();
+export default new CartDispatcher();

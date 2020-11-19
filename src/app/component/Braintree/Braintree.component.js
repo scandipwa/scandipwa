@@ -10,13 +10,16 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import Loader from 'Component/Loader';
+
+import { BRAINTREE_CONTAINER_ID } from './Braintree.config';
+
 import './Braintree.style';
 
-export const BRAINTREE_CONTAINER_ID = 'BRAINTREE_CONTAINER_ID';
-
 /** @namespace Component/Braintree/Component */
-export class Braintree extends ExtensiblePureComponent {
+export class Braintree extends PureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired
     };

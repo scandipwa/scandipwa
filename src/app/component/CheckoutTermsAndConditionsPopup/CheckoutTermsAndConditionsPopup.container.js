@@ -10,19 +10,19 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import CheckoutTermsAndConditionsPopup, {
-    TERMS_AND_CONDITIONS_POPUP_ID
-} from './CheckoutTermsAndConditionsPopup.component';
+import CheckoutTermsAndConditionsPopup from './CheckoutTermsAndConditionsPopup.component';
+import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     payload: state.PopupReducer.popupPayload[TERMS_AND_CONDITIONS_POPUP_ID] || {}
 });
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container */
-export class CheckoutTermsAndConditionsPopupContainer extends ExtensiblePureComponent {
+export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
     static propTypes = {
         payload: PropTypes.shape({
             text: PropTypes.string
@@ -47,6 +47,6 @@ export class CheckoutTermsAndConditionsPopupContainer extends ExtensiblePureComp
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = dispatch => ({});
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutTermsAndConditionsPopupContainer);

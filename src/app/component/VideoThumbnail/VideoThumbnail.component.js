@@ -12,16 +12,19 @@
  */
 
 import PropTypes from 'prop-types';
-import { MediaItemType } from 'Type/ProductList';
-import './VideoThumbnail.style';
+import { PureComponent } from 'react';
+
 import Image from 'Component/Image/Image.container';
+import { MediaItemType } from 'Type/ProductList';
+
+import './VideoThumbnail.style';
 
 /**
  * VideoThumbnail component
  * @class VideoThumbnail
  * @namespace Component/VideoThumbnail/Component/videoThumbnail
  */
-export class VideoThumbnail extends ExtensiblePureComponent {
+export class VideoThumbnail extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
         onPlayClick: PropTypes.func.isRequired

@@ -10,23 +10,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import media from 'Util/Media';
-import Link from 'Component/Link';
-import isMobile from 'Util/Mobile';
 import Image from 'Component/Image';
+import Link from 'Component/Link';
+import { DeviceType } from 'Type/Device';
+import media from 'Util/Media';
 
 /** @namespace Component/MenuItem/Component */
-export class MenuItem extends ExtensiblePureComponent {
+export class MenuItem extends PureComponent {
     static propTypes = {
         activeMenuItemsStack: PropTypes.array.isRequired,
         item: PropTypes.object.isRequired,
         itemMods: PropTypes.object,
         handleCategoryHover: PropTypes.func.isRequired,
         isLink: PropTypes.bool,
-        closeMenu: PropTypes.func
+        closeMenu: PropTypes.func,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -36,10 +37,11 @@ export class MenuItem extends ExtensiblePureComponent {
     };
 
     renderItemContentImage(icon, itemMods) {
+        const { device } = this.props;
         const { isBanner, isLogo, type } = itemMods;
 
         if (!icon
-            || ((!isMobile.any() && !isMobile.tablet()) && !isBanner && !isLogo)
+            || (!device.isMobile && !isBanner && !isLogo)
             || (type === 'subcategory')
         ) {
             return null;

@@ -10,8 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
-import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
+
 import Loader from 'Component/Loader';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
+
 import './CheckoutAddressTable.style';
 
 /** @namespace Component/CheckoutAddressTable/Component */

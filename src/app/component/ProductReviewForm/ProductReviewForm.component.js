@@ -10,9 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
-import Form from 'Component/Form';
 import Field from 'Component/Field';
+import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import ReviewStar from 'Component/ReviewStar';
 import { RatingItemsType } from 'Type/Rating';
@@ -24,7 +25,7 @@ import './ProductReviewForm.style';
  * @class ProductReviewForm
  * @namespace Component/ProductReviewForm/Component
  */
-export class ProductReviewForm extends ExtensiblePureComponent {
+export class ProductReviewForm extends PureComponent {
     static propTypes = {
         reviewRatings: RatingItemsType.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -35,7 +36,7 @@ export class ProductReviewForm extends ExtensiblePureComponent {
         handleNicknameChange: PropTypes.func.isRequired,
         handleSummaryChange: PropTypes.func.isRequired,
         handleDetailChange: PropTypes.func.isRequired,
-        ratingData: PropTypes.objectOf(PropTypes.number).isRequired,
+        ratingData: PropTypes.objectOf(PropTypes.string).isRequired,
         reviewData: PropTypes.shape({
             nickname: PropTypes.string,
             summary: PropTypes.string,
@@ -83,7 +84,7 @@ export class ProductReviewForm extends ExtensiblePureComponent {
                     </legend>
                     { rating_options
                         .sort(({ value }, { value: nextValue }) => nextValue - value)
-                        .map(option => this.renderReviewStar(option, rating_id)) }
+                        .map((option) => this.renderReviewStar(option, rating_id)) }
                 </fieldset>
             );
         });

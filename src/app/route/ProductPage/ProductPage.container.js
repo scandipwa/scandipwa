@@ -10,68 +10,95 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import history from 'Util/History';
-import { PDP } from 'Component/Header';
-import { MetaDispatcher } from 'Store/Meta';
-import { getVariantIndex } from 'Util/Product';
+import { CATEGORY, PDP } from 'Component/Header/Header.config';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
-import { ProductDispatcher } from 'Store/Product';
-import { changeNavigationState } from 'Store/Navigation';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
-import { setBigOfflineNotice } from 'Store/Offline';
-import { LocationType, HistoryType, MatchType } from 'Type/Common';
-import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { getVariantIndex } from 'Util/Product';
+import { debounce } from 'Util/Request';
 import {
-    getUrlParam,
     convertQueryStringToKeyValuePairs,
-    updateQueryParamWithoutHistory,
+    objectToUri,
     removeQueryParamWithoutHistory,
-    objectToUri
+    updateQueryParamWithoutHistory
 } from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
 
+export const BreadcrumbsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+
+export const MetaDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Meta/Meta.dispatcher'
+);
+
+export const ProductDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Product/Product.dispatcher'
+);
+
 /** @namespace Route/ProductPage/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     isOffline: state.OfflineReducer.isOffline,
-    product: state.ProductReducer.product
+    product: state.ProductReducer.product,
+    navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
+    metaTitle: state.MetaReducer.title,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+export const mapDispatchToProps = (dispatch) => ({
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: (state) => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: (options) => {
-        ProductDispatcher.handleData(dispatch, options);
-        LinkedProductsDispatcher.clearLinkedProducts(dispatch);
+        // TODO: check linked products, there might be issues :'(
+        ProductDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch, options)
+        );
     },
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
+    setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
+    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
+    ),
+    updateMetaFromProduct: (product) => MetaDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
+    ),
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateRecentlyViewedProducts: (products) => dispatch(updateRecentlyViewedProducts(products))
 });
 
 /** @namespace Route/ProductPage/Container */
-export class ProductPageContainer extends ExtensiblePureComponent {
+export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
         parameters: {},
-        customizableOptionsData: {}
+        productOptionsData: {},
+        selectedBundlePrice: 0,
+        currentProductSKU: ''
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
         getLink: this.getLink.bind(this),
-        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
+        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
+        setBundlePrice: this.setBundlePrice.bind(this)
     };
 
     static propTypes = {
         location: LocationType,
-        isOnlyPlaceholder: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
         setBigOfflineNotice: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
@@ -82,26 +109,41 @@ export class ProductPageContainer extends ExtensiblePureComponent {
         productSKU: PropTypes.string,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
-        match: MatchType.isRequired
+        match: MatchType.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
+        navigation: PropTypes.shape(PropTypes.shape).isRequired,
+        metaTitle: PropTypes.string,
+        updateRecentlyViewedProducts: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         location: { state: {} },
-        isOnlyPlaceholder: false,
-        productSKU: ''
+        productSKU: '',
+        metaTitle: undefined
     };
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props, state) {
         const {
             product: {
+                sku,
                 variants,
                 configurable_options
             },
             location: { search }
         } = props;
 
+        const { currentProductSKU: prevSKU } = state;
+
+        const currentProductSKU = prevSKU === sku ? '' : prevSKU;
+
+        /**
+         * If the product we expect to load is loaded -
+         * reset expected SKU
+         */
         if (!configurable_options && !variants) {
-            return null;
+            return {
+                currentProductSKU
+            };
         }
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
@@ -114,67 +156,181 @@ export class ProductPageContainer extends ExtensiblePureComponent {
             }, {});
 
         if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
-            return { parameters };
+            return {
+                parameters,
+                currentProductSKU
+            };
         }
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
-        return { parameters, configurableVariantIndex };
+
+        return {
+            parameters,
+            currentProductSKU,
+            configurableVariantIndex
+        };
     }
 
     componentDidMount() {
-        const {
-            location: { pathname },
-            history
-        } = this.props;
+        /**
+         * Always make sure the navigation switches into the MENU tab
+         * */
+        this.updateNavigationState();
 
-        if (pathname === '/product' || pathname === '/product/') {
-            history.push('/');
-            return;
-        }
+        /**
+         * Ensure transition PDP => homepage => PDP always having proper meta
+         */
+        this.updateMeta();
 
-        this._requestProduct();
-        this._onProductUpdate();
+        /**
+         * Make sure to update header state, the data-source will
+         * define the correct information to use for update
+         * (it can be a product, history state product or an empty object).
+         */
+        this.updateHeaderState();
+        this.updateBreadcrumbs();
+
+        this.scrollTopIfPreviousPageWasPLP();
     }
 
     componentDidUpdate(prevProps) {
         const {
-            location: { pathname },
-            product: { id, options },
+            isOffline,
             productSKU,
-            isOnlyPlaceholder
+            product: {
+                sku,
+                options,
+                items
+            }
         } = this.props;
 
         const {
-            location: { pathname: prevPathname },
-            product: {
-                id: prevId,
-                options: prevOptions
-            },
             productSKU: prevProductSKU,
-            isOnlyPlaceholder: prevIsOnlyPlaceholder
+            product: {
+                sku: prevSku,
+                options: prevOptions,
+                items: prevItems
+            }
         } = prevProps;
 
+        const { sku: stateSKU } = history?.state?.state?.product || {};
+
+        if (isOffline) {
+            debounce(this.setOfflineNoticeSize, LOADING_TIME)();
+        }
+
+        /**
+         * We should also update product based data if, the URL
+         * rewrite SKU has changed to matching the product history SKU
+         * one. At this point there could be sufficient data for
+         * some updates (i.e. header state).
+         */
         if (
-            pathname !== prevPathname
-            || isOnlyPlaceholder !== prevIsOnlyPlaceholder
-            || productSKU !== prevProductSKU
+            productSKU !== prevProductSKU
+            && stateSKU === productSKU
         ) {
-            this._requestProduct();
+            this.updateHeaderState();
         }
 
+        /**
+         * If the currently loaded category ID does not match the ID of
+         * category ID from URL rewrite, request category.
+         */
+        if (productSKU !== sku) {
+            this.requestProduct();
+        }
+
+        /**
+         * If product ID was changed => it is loaded => we need to
+         * update product specific information, i.e. breadcrumbs.
+         */
+        if (sku !== prevSku) {
+            this.updateBreadcrumbs();
+            this.updateHeaderState();
+            this.updateMeta();
+        }
+
+        /**
+         * LEGACY: needed to make sure required items are
+         * selected in the bundle product.
+         */
         if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
-            this.getRequiredCustomizableOptions(options);
+            this.getRequiredProductOptions(options);
         }
 
-        if (id !== prevId) {
-            const dataSource = this._getDataSource();
-            const { updateMetaFromProduct } = this.props;
-
-            updateMetaFromProduct(dataSource);
+        /**
+         * LEGACY needed to make sure required options are
+         * selected in the customizable options product.
+         */
+        if (JSON.stringify(items) !== JSON.stringify(prevItems)) {
+            this.getRequiredProductOptions(items);
         }
 
-        this._onProductUpdate();
+        this._addToRecentlyViewedProducts();
     }
+
+    _addToRecentlyViewedProducts() {
+        const {
+            product,
+            product: { sku },
+            updateRecentlyViewedProducts
+        } = this.props;
+
+        // necessary for skipping not loaded products
+        if (!sku) {
+            return;
+        }
+
+        updateRecentlyViewedProducts(product);
+    }
+
+    scrollTopIfPreviousPageWasPLP() {
+        const {
+            navigation: {
+                navigationStateHistory,
+                navigationStateHistory: { length }
+            }
+        } = this.props;
+
+        const minNavStackLength = 2;
+
+        // When first load is PDP
+        if (length <= minNavStackLength) {
+            return;
+        }
+
+        // Minus two, one so array keys match length, one for previous item.
+        const prevPageId = length - 2;
+        const { name: prevName } = navigationStateHistory[prevPageId];
+
+        // One before prev page
+        const beforePrevPageId = prevPageId - 1;
+        const { name: beforePrevName } = navigationStateHistory[beforePrevPageId];
+
+        /**
+         * For some reason on desktop going from PLP to PDP
+         * in navigation stack is added default name between
+         */
+        if (CATEGORY === prevName || (beforePrevName === CATEGORY && prevName === DEFAULT_STATE_NAME)) {
+            window.scrollTo(0, 0);
+        }
+    }
+
+    setOfflineNoticeSize = () => {
+        const { setBigOfflineNotice, productSKU } = this.props;
+        const { sku } = this.getDataSource();
+
+        /**
+         * If there is any information about the product, in example,
+         * we know it's URL-rewrite SKU is matching the product SKU -
+         * show the small offline notice, else - show larger one.
+         */
+        if (sku !== productSKU) {
+            setBigOfflineNotice(true);
+        } else {
+            setBigOfflineNotice(false);
+        }
+    };
 
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
@@ -191,14 +347,14 @@ export class ProductPageContainer extends ExtensiblePureComponent {
         return `${pathname}${query}`;
     }
 
-    getRequiredCustomizableOptions(options) {
-        const { customizableOptionsData } = this.state;
+    getRequiredProductOptions(options) {
+        const { productOptionsData } = this.state;
 
         if (!options) {
             return [];
         }
 
-        const requiredCustomizableOptions = options.reduce((acc, { option_id, required }) => {
+        const requiredOptions = options.reduce((acc, { option_id, required }) => {
             if (required) {
                 acc.push(option_id);
             }
@@ -207,23 +363,27 @@ export class ProductPageContainer extends ExtensiblePureComponent {
         }, []);
 
         return this.setState({
-            customizableOptionsData:
-                { ...customizableOptionsData, requiredCustomizableOptions }
+            productOptionsData:
+                { ...productOptionsData, requiredOptions }
         });
     }
 
+    setBundlePrice(price) {
+        this.setState({ selectedBundlePrice: price });
+    }
+
     getSelectedCustomizableOptions(values, updateArray = false) {
-        const { customizableOptionsData } = this.state;
+        const { productOptionsData } = this.state;
 
         if (updateArray) {
             this.setState({
-                customizableOptionsData:
-                    { ...customizableOptionsData, customizableOptionsMulti: values }
+                productOptionsData:
+                    { ...productOptionsData, productOptionsMulti: values }
             });
         } else {
             this.setState({
-                customizableOptionsData:
-                    { ...customizableOptionsData, customizableOptions: values }
+                productOptionsData:
+                    { ...productOptionsData, productOptions: values }
             });
         }
     }
@@ -249,9 +409,9 @@ export class ProductPageContainer extends ExtensiblePureComponent {
     }
 
     containerProps = () => ({
-        productOrVariant: this._getProductOrVariant(),
-        dataSource: this._getDataSource(),
-        areDetailsLoaded: this._getAreDetailsLoaded()
+        productOrVariant: this.getProductOrVariant(),
+        dataSource: this.getDataSource(),
+        areDetailsLoaded: this.getAreDetailsLoaded()
     });
 
     updateConfigurableVariant(key, value) {
@@ -288,44 +448,28 @@ export class ProductPageContainer extends ExtensiblePureComponent {
         }
     }
 
-    _onProductUpdate() {
-        const { isOffline, setBigOfflineNotice } = this.props;
-        const dataSource = this._getDataSource();
-
-        if (Object.keys(dataSource).length) {
-            this._updateBreadcrumbs(dataSource);
-            this._updateHeaderState(dataSource);
-            this._updateNavigationState();
-
-            if (isOffline) {
-                setBigOfflineNotice(false);
-            }
-        } else if (isOffline) {
-            setBigOfflineNotice(true);
-        }
-    }
-
-    _getAreDetailsLoaded() {
+    getAreDetailsLoaded() {
         const { product } = this.props;
-        const dataSource = this._getDataSource();
+        const dataSource = this.getDataSource();
         return dataSource === product;
     }
 
-    _getProductOrVariant() {
-        const dataSource = this._getDataSource();
+    getProductOrVariant() {
+        const dataSource = this.getDataSource();
         const { variants } = dataSource;
-        const currentVariantIndex = this._getConfigurableVariantIndex(variants);
+        const currentVariantIndex = this.getConfigurableVariantIndex(variants);
         const variant = variants && variants[currentVariantIndex];
 
         return variant || dataSource;
     }
 
-    _getConfigurableVariantIndex(variants) {
+    getConfigurableVariantIndex(variants) {
         const { configurableVariantIndex, parameters } = this.state;
 
         if (configurableVariantIndex >= 0) {
             return configurableVariantIndex;
         }
+
         if (variants) {
             return getVariantIndex(variants, parameters);
         }
@@ -333,79 +477,96 @@ export class ProductPageContainer extends ExtensiblePureComponent {
         return -1;
     }
 
-    _getDataSource() {
-        const { product, location: { state } } = this.props;
-        const productIsLoaded = Object.keys(product).length > 0;
-        const locationStateExists = state && state.product && Object.keys(state.product).length > 0;
-
-        // return nothing, if no product in url state and no loaded product
-        if (!locationStateExists && !productIsLoaded) {
-            return {};
-        }
-
-        // use product from props, if product is loaded and state does not exist, or state product is equal loaded product
-        const useLoadedProduct = productIsLoaded && (
-            (locationStateExists && (product.id === state.product.id))
-            || !locationStateExists
-        );
-
-        return useLoadedProduct ? product : state.product;
-    }
-
-    _getProductRequestFilter() {
+    getDataSource() {
         const {
-            location,
-            match,
-            productSKU
+            productSKU,
+            product
         } = this.props;
 
-        if (productSKU) {
-            return {
-                productsSkuArray: [productSKU]
-            };
+        const { sku } = product;
+        const { product: stateProduct } = history?.state?.state || {};
+        const { sku: stateSKU } = stateProduct || {};
+
+        /**
+         * If URL rewrite requested matches loaded product SKU
+         * assume it is a data-source.
+         */
+        if (productSKU === sku) {
+            return product;
         }
 
-        return {
-            productUrlPath: getUrlParam(match, location)
-        };
+        /**
+         * If URL rewrite requested matches product SKU from
+         * history state - it is a data-source.
+         */
+        if (productSKU === stateSKU) {
+            return stateProduct;
+        }
+
+        /**
+         * Else there is no place to get a up-to-date
+         * information about the product from.
+         */
+        return {};
     }
 
-    _requestProduct() {
-        const {
-            requestProduct,
-            isOnlyPlaceholder
-        } = this.props;
+    getProductRequestFilter() {
+        const { productSKU } = this.props;
+        return { productSKU };
+    }
 
-        if (isOnlyPlaceholder) {
-            return; // ignore placeholder requests
+    requestProduct() {
+        const { requestProduct, productSKU } = this.props;
+        const { currentProductSKU } = this.state;
+
+        /**
+         * If URL rewrite was not passed - do not request the product.
+         */
+        if (!productSKU) {
+            return;
         }
+
+        /**
+         * Skip loading the same product SKU the second time
+         */
+        if (currentProductSKU === productSKU) {
+            return;
+        }
+
+        this.setState({ currentProductSKU: productSKU });
 
         const options = {
             isSingleProduct: true,
-            args: { filter: this._getProductRequestFilter() }
+            args: { filter: this.getProductRequestFilter() }
         };
 
         requestProduct(options);
     }
 
-    _updateNavigationState() {
+    updateNavigationState() {
         const { changeNavigationState } = this.props;
         changeNavigationState({ name: MENU_TAB });
     }
 
-    _updateHeaderState({ name: title }) {
+    updateMeta() {
+        const { updateMetaFromProduct } = this.props;
+        updateMetaFromProduct(this.getDataSource());
+    }
+
+    updateHeaderState() {
+        const { name = '' } = this.getDataSource();
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
             name: PDP,
-            title,
-            onBackClick: () => history.goBack()
+            title: name,
+            onBackClick: () => history.back()
         });
     }
 
-    _updateBreadcrumbs(dataSource) {
+    updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
-        updateBreadcrumbs(dataSource);
+        updateBreadcrumbs(this.getDataSource());
     }
 
     render() {

@@ -10,5 +10,14 @@
  */
 
 .CheckoutGuestForm {
-    margin: 2rem 0;
+    margin: 2.4rem 0;
+
+    @include mobile {
+        margin: 2.8rem 0;
+    }
+
+    .Button {
+        width: 100%;
+        margin-top: 2rem;
+    }
 }

@@ -10,10 +10,12 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import './KeyValueTable.style';
 
 /** @namespace Component/KeyValueTable/Component */
-export class KeyValueTable extends ExtensiblePureComponent {
+export class KeyValueTable extends PureComponent {
     static propTypes = {
         title: PropTypes.string
     };

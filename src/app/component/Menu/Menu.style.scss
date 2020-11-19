@@ -27,7 +27,11 @@
 
 .Menu {
     &-MenuWrapper {
-        padding: 1rem;
+        padding: 1.2rem;
+
+        @include mobile {
+            padding: 1.4rem;
+        }
 
         @include desktop {
             min-height: var(--menu-desktop-height);
@@ -75,7 +79,7 @@
 
         @include desktop {
             display: block;
-            padding-left: 1rem;
+            padding-left: 1.2rem;
             padding-right: 40px;
             z-index: 100;
             max-width: var(--content-wrapper-width);
@@ -107,7 +111,11 @@
             &_subcategory {
                 background: var(--menu-background-color);
                 grid-auto-rows: max-content;
-                padding: 0 1rem;
+                padding: 0 1.2rem;
+
+                @include mobile {
+                    padding: 0 1.4rem;
+                }
 
                 @include desktop {
                     // display: grid;
@@ -126,21 +134,30 @@
     &-ItemCaption {
         &_type {
             &_main {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
                 font-weight: bold;
                 line-height: 1.2;
                 text-align: left;
 
+                @include mobile {
+                    font-size: 2.1rem;
+                }
+
                 @include desktop {
-                    font-size: 14px;
+                    font-size: 1.4rem;
                     font-weight: normal;
                 }
             }
 
             &_subcategory {
-                font-size: 1rem;
+                font-size: 1.2rem;
                 font-weight: normal;
-                padding-left: 1.5rem;
+                padding: 1.2rem 0;
+
+                @include mobile {
+                    font-size: 1.4rem;
+                    padding: 1.4rem 0;
+                }
 
                 @include desktop {
                     padding-left: 0;
@@ -149,7 +166,7 @@
         }
 
         &_isLogo {
-            font-size: 11px;
+            font-size: 1.1rem;
         }
 
         &_isBanner {
@@ -210,13 +227,22 @@
 
     &-Item {
         @include before-desktop {
-            margin-top: .5rem;
+            margin-top: .6rem;
+            padding-left: 0;
+        }
+
+        @include mobile {
+            margin-top: .7rem;
             padding-left: 0;
         }
 
         @include desktop {
             margin-bottom: 0;
-            padding: 0 2rem;
+            padding: 0 2.4rem;
+        }
+
+        @include tablet-portrait {
+            padding: 0 .5rem;
         }
 
         &:first-child {
@@ -285,7 +311,11 @@
     }
 
     &-SubCategories {
-        padding: 40px 55px 60px 1rem;
+        padding: 40px 55px 60px 1.2rem;
+
+        @include mobile {
+            padding: 40px 55px 60px 1.4rem;
+        }
     }
 
     &-SubMenu {
@@ -314,6 +344,10 @@
 
         &_isVisible {
             @include subcategory-visible;
+            @include mobile {
+                height: 100%;
+                overflow-y: scroll;
+            }
 
             .Menu-Link {
                 @include desktop {
@@ -334,8 +368,8 @@
         flex-basis: 200px;
 
         @include desktop {
-            margin-right: 4rem;
-            margin-bottom: 2rem;
+            margin-right: 4.8rem;
+            margin-bottom: 2.4rem;
         }
 
         &_isBanner {
@@ -348,7 +382,7 @@
 
             @include desktop {
                 color: var(--menu-second-level-color);
-                font-size: 14px;
+                font-size: 1.4rem;
                 text-transform: uppercase;
             }
         }
@@ -400,9 +434,14 @@
 
             &_subcategory {
                 border-radius: 50%;
-                height: 3.2rem;
+                height: 3.84rem;
                 padding-bottom: 0;
-                width: 3.2rem;
+                width: 3.84rem;
+
+                @include mobile {
+                    height: 4.48rem;
+                    width: 4.48rem;
+                }
             }
         }
     }
@@ -413,7 +452,11 @@
         padding-left: 0;
 
         @include before-desktop {
-            padding: 1rem 0;
+            padding: 1.2rem 0;
+        }
+
+        @include mobile {
+            padding: 1.4rem 0;
         }
 
         @include desktop {

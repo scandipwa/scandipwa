@@ -10,15 +10,16 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import { shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 import './CheckoutDeliveryOption.style';
-import { formatCurrency, roundPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutDeliveryOption/Component */
-export class CheckoutDeliveryOption extends ExtensiblePureComponent {
+export class CheckoutDeliveryOption extends PureComponent {
     static propTypes = {
         option: shippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
@@ -45,19 +46,41 @@ export class CheckoutDeliveryOption extends ExtensiblePureComponent {
             totals: { quote_currency_code }
         } = this.props;
 
-        const roundedUpPrice = roundPrice(price_incl_tax);
-
+        const formattedPrice = formatPrice(price_incl_tax, quote_currency_code);
         return (
             <strong>
-                { ` - ${roundedUpPrice}${formatCurrency(quote_currency_code)}` }
+                { ` - ${formattedPrice}` }
             </strong>
+        );
+    }
+
+    renderRow() {
+        const {
+            option: {
+                carrier_title,
+                method_title
+            }
+        } = this.props;
+
+        return (
+            <div block="CheckoutDeliveryOption" elem="Row">
+                <span>
+                    { __('Carrier method: ') }
+                    <strong>{ carrier_title }</strong>
+                </span>
+                <br />
+                <span>
+                    { __('Rate: ') }
+                    <strong>{ method_title }</strong>
+                </span>
+                { this.renderPrice() }
+            </div>
         );
     }
 
     render() {
         const {
-            isSelected,
-            option: { carrier_title, method_title }
+            isSelected
         } = this.props;
 
         return (
@@ -69,18 +92,7 @@ export class CheckoutDeliveryOption extends ExtensiblePureComponent {
                   onClick={ this.onClick }
                   type="button"
                 >
-                    <div block="CheckoutDeliveryOption" elem="Row">
-                        <span>
-                            { __('Carrier method: ') }
-                            <strong>{ carrier_title }</strong>
-                        </span>
-                        <br />
-                        <span>
-                            { __('Rate: ') }
-                            <strong>{ method_title }</strong>
-                        </span>
-                        { this.renderPrice() }
-                    </div>
+                    { this.renderRow() }
                 </button>
             </li>
         );

@@ -9,16 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from 'Util/Query';
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { GUEST_QUOTE_ID } from 'Store/Cart';
+import { Field } from 'Util/Query';
 
 /** @namespace Query/Wishlist */
-export class WishlistQuery extends ExtensibleClass {
+export class WishlistQuery {
     getWishlistQuery(sharingCode) {
-        const field = new Field('wishlist')
+        const field = new Field('s_wishlist')
+            .setAlias('wishlist')
             .addFieldList(this._getWishlistFields());
 
         if (sharingCode) {
@@ -29,22 +30,26 @@ export class WishlistQuery extends ExtensibleClass {
     }
 
     getSaveWishlistItemMutation(wishlistItem) {
-        return new Field('saveWishlistItem')
+        return new Field('s_saveWishlistItem')
+            .setAlias('saveWishlistItem')
             .addArgument('wishlistItem', 'WishlistItemInput!', wishlistItem)
             .addFieldList(this._getItemsFields());
     }
 
     getShareWishlistMutation(input) {
-        return new Field('shareWishlist')
+        return new Field('s_shareWishlist')
+            .setAlias('shareWishlist')
             .addArgument('input', 'ShareWishlistInput!', input);
     }
 
     getClearWishlist() {
-        return new Field('clearWishlist');
+        return new Field('s_clearWishlist')
+            .setAlias('clearWishlist');
     }
 
     getMoveWishlistToCart(sharingCode) {
-        const field = new Field('moveWishlistToCart');
+        const field = new Field('s_moveWishlistToCart')
+            .setAlias('moveWishlistToCart');
 
         if (sharingCode) {
             field.addArgument('sharingCode', 'ID', sharingCode);
@@ -59,7 +64,8 @@ export class WishlistQuery extends ExtensibleClass {
     }
 
     getRemoveProductFromWishlistMutation(item_id) {
-        return new Field('removeProductFromWishlist')
+        return new Field('s_removeProductFromWishlist')
+            .setAlias('removeProductFromWishlist')
             .addArgument('itemId', 'ID!', item_id);
     }
 
@@ -93,4 +99,4 @@ export class WishlistQuery extends ExtensibleClass {
     }
 }
 
-export default new (WishlistQuery)();
+export default new WishlistQuery();

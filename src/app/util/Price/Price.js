@@ -15,6 +15,12 @@ import currencyMap from './Price.config';
 /** @namespace Util/Price/formatCurrency */
 export const formatCurrency = (currency = 'USD') => currencyMap[currency];
 
+/** @namespace Util/Price/formatPrice */
+export const formatPrice = (price, currency = 'USD') => {
+    const language = navigator.languages ? navigator.languages[0] : navigator.language;
+    return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
+};
+
 /**
  * Calculate final price
  * @param {Number} discount discount percentage
@@ -31,4 +37,4 @@ export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg
  * @return {Number} price rounded to 2 digits
  * @namespace Util/Price/roundPrice
  */
-export const roundPrice = price => parseFloat(price).toFixed(2);
+export const roundPrice = (price) => parseFloat(price).toFixed(2);

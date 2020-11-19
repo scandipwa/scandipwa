@@ -11,7 +11,12 @@
 
 .ProductPage {
     @include after-mobile {
-        padding-top: 1rem;
+        padding-top: 1.2rem;
+    }
+
+    @include tablet {
+        padding-top: 0;
+        margin-top: 0;
     }
 
     @include mobile {
@@ -27,13 +32,13 @@
     &-Wrapper {
         display: grid;
         grid-template-columns: 6fr 4fr;
-        grid-column-gap: 2rem;
+        grid-column-gap: 2.4rem;
         grid-template-rows: min-content min-content;
-        padding-top: 2rem;
+        padding-top: 2.4rem;
 
         @include after-mobile {
-            grid-column-gap: 4rem;
-            padding-bottom: 6rem;
+            grid-column-gap: 4.8rem;
+            padding-bottom: 7.2rem;
         }
 
         @include mobile {

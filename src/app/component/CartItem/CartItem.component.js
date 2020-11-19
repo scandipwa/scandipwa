@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,12 +11,15 @@
  */
 
 import PropTypes from 'prop-types';
-import Link from 'Component/Link';
-import Image from 'Component/Image';
-import Field from 'Component/Field';
+import { PureComponent } from 'react';
+
 import CartItemPrice from 'Component/CartItemPrice';
+import Field from 'Component/Field';
+import Image from 'Component/Image';
+import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
+
 import './CartItem.style';
 
 /**
@@ -23,7 +27,7 @@ import './CartItem.style';
  * @class CartItem
  * @namespace Component/CartItem/Component
  */
-export class CartItem extends ExtensiblePureComponent {
+export class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         item: CartItemType.isRequired,
@@ -42,7 +46,10 @@ export class CartItem extends ExtensiblePureComponent {
             }),
             PropTypes.string
         ]).isRequired,
-        thumbnail: PropTypes.string.isRequired
+        thumbnail: PropTypes.string.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        getProductVariant: PropTypes.func.isRequired,
+        isProductInStock: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -50,7 +57,44 @@ export class CartItem extends ExtensiblePureComponent {
         isLikeTable: false
     };
 
-    renderConfiguration() {
+    renderProductConfigurationOption = ([key, attribute]) => {
+        const {
+            item: {
+                product: {
+                    configurable_options
+                }
+            }
+        } = this.props;
+
+        const { attribute_code, attribute_value } = attribute;
+
+        if (!Object.keys(configurable_options).includes(key) || attribute_value === null) {
+            return null;
+        }
+
+        const {
+            [attribute_code]: { // configurable option attribute
+                attribute_options: {
+                    [attribute_value]: { // attribute option value label
+                        label
+                    }
+                }
+            }
+        } = configurable_options;
+
+        return (
+            <li
+              key={ attribute_code }
+              aria-label={ attribute_code }
+              block="CartItem"
+              elem="Option"
+            >
+                { label }
+            </li>
+        );
+    };
+
+    renderProductConfigurations() {
         const {
             item: {
                 product: {
@@ -66,8 +110,11 @@ export class CartItem extends ExtensiblePureComponent {
             return null;
         }
 
-        const product = getCurrentProduct() || {};
-        const { attributes = [] } = product;
+        const { attributes = [] } = getCurrentProduct() || {};
+
+        if (!Object.entries(attributes).length) {
+            return null;
+        }
 
         return (
             <ul
@@ -75,111 +122,202 @@ export class CartItem extends ExtensiblePureComponent {
               elem="Options"
               mods={ { isLikeTable } }
             >
-                { Object.entries(attributes).map(([key, { attribute_code, attribute_value }]) => (
-                    Object.keys(configurable_options).includes(key) && (
-                        <li
-                          key={ attribute_code }
-                          aria-label={ attribute_code }
-                          block="CartItem"
-                          elem="Option"
-                        >
-                            { configurable_options[attribute_code].attribute_options[attribute_value].label }
-                        </li>
-                    ))) }
+                { Object.entries(attributes).map(this.renderProductConfigurationOption) }
             </ul>
         );
     }
 
-    renderContent() {
-        const { isLikeTable, linkTo } = this.props;
+    renderWrapperContent() {
+        return (
+            <figure block="CartItem" elem="Wrapper">
+                { this.renderImage() }
+                { this.renderContent() }
+            </figure>
+        );
+    }
+
+    renderWrapper() {
+        const { linkTo, isProductInStock } = this.props;
+
+        // TODO: implement shared-transition here?
+
+        if (!isProductInStock || Object.keys(linkTo).length === 0) {
+            // If product is out of stock, or link is not set
+            return (
+                <span block="CartItem" elem="Link">
+                    { this.renderWrapperContent() }
+                </span>
+            );
+        }
 
         return (
             <Link to={ linkTo } block="CartItem" elem="Link">
-                <figure block="CartItem" elem="Wrapper">
-                    { this.renderImage() }
-                    <figcaption
-                      block="CartItem"
-                      elem="Content"
-                      mods={ { isLikeTable } }
-                    >
-                        { this.renderProductDetails() }
-                    </figcaption>
-                </figure>
+                { this.renderWrapperContent() }
             </Link>
         );
     }
 
-    renderCustomizableOptions(customizableOptions) {
-        if (!customizableOptions.length) {
+    renderProductOptionValue = (optionValue, i, array) => {
+        const { label, value } = optionValue;
+        const isNextAvailable = Boolean(array[i + 1]);
+
+        return (
+            <span
+              block="CartItem"
+              elem="ItemOptionValue"
+              key={ label }
+            >
+                { label || value }{ isNextAvailable && ', ' }
+            </span>
+        );
+    };
+
+    renderProductOption = (option) => {
+        const { label, values, id } = option;
+
+        return (
+            <div
+              block="CartItem"
+              elem="ItemOption"
+              key={ id }
+            >
+                <div
+                  block="CartItem"
+                  elem="ItemOptionLabel"
+                  key={ `label-${ id }` }
+                >
+                    { `${ label }:` }
+                </div>
+                <div block="CartItem" elem="ItemOptionValues">
+                    { values.map(this.renderProductOptionValue) }
+                </div>
+            </div>
+        );
+    };
+
+    renderProductOptions(itemOptions = []) {
+        const { isLikeTable } = this.props;
+
+        if (!itemOptions.length) {
             return null;
         }
 
         return (
-            <div block="CartItem" elem="CustomizableOptionsWrapper">
-                { customizableOptions.map(({ label, values, id }) => (
-                    <div
-                      block="CartItem"
-                      elem="CustomizableOption"
-                      key={ id }
-                    >
-                        <div
-                          block="CartItem"
-                          elem="CustomizableOptionLabel"
-                          key={ `label-${ id }` }
-                        >
-                            { `${ label }:` }
-                        </div>
-                        <div block="CartItem" elem="CustomizableOptionValues">
-                            { values.map(({ label, value }) => (
-                                <div
-                                  block="CartItem"
-                                  elem="CustomizableOptionValue"
-                                  key={ label }
-                                >
-                                    { label || value }
-                                </div>
-                            )) }
-                        </div>
-                    </div>
-                )) }
+            <div
+              block="CartItem"
+              elem="ItemOptionsWrapper"
+              mods={ { isLikeTable } }
+            >
+                { itemOptions.map(this.renderProductOption) }
             </div>
         );
     }
 
-    renderProductDetails() {
+    renderProductName() {
         const {
-            isLikeTable,
-            currency_code,
             item: {
-                row_total,
                 product: {
                     name
-                },
-                customizable_options
+                }
             }
         } = this.props;
 
         return (
-            <>
-                <p
-                  block="CartItem"
-                  elem="Heading"
-                  itemProp="name"
-                >
-                    { name }
-                </p>
-                { this.renderCustomizableOptions(customizable_options) }
-                { this.renderConfiguration() }
-                <CartItemPrice
-                  row_total={ row_total }
-                  currency_code={ currency_code }
-                  mix={ {
-                      block: 'CartItem',
-                      elem: 'Price',
-                      mods: { isLikeTable }
-                  } }
-                />
-            </>
+            <p
+              block="CartItem"
+              elem="Heading"
+            >
+                { name }
+            </p>
+        );
+    }
+
+    renderProductPrice() {
+        const {
+            isLikeTable,
+            currency_code,
+            item: {
+                row_total
+            }
+        } = this.props;
+
+        return (
+            <CartItemPrice
+              row_total={ row_total }
+              currency_code={ currency_code }
+              mix={ {
+                  block: 'CartItem',
+                  elem: 'Price',
+                  mods: { isLikeTable }
+              } }
+            />
+        );
+    }
+
+    renderOutOfStockMessage() {
+        const { isProductInStock } = this.props;
+
+        if (isProductInStock) {
+            return null;
+        }
+
+        return (
+            <p block="CartItem" elem="OutOfStock">
+                { __('Product is out of stock') }
+            </p>
+        );
+    }
+
+    renderContent() {
+        const {
+            isLikeTable,
+            item: {
+                customizable_options,
+                bundle_options
+            } = {}
+        } = this.props;
+
+        return (
+            <figcaption
+              block="CartItem"
+              elem="Content"
+              mods={ { isLikeTable } }
+            >
+                { this.renderOutOfStockMessage() }
+                { this.renderProductName() }
+                { this.renderProductOptions(customizable_options) }
+                { this.renderProductOptions(bundle_options) }
+                { this.renderProductConfigurations() }
+                { this.renderProductPrice() }
+            </figcaption>
+        );
+    }
+
+    renderQuantityChangeField() {
+        const {
+            item: { qty },
+            minSaleQuantity,
+            maxSaleQuantity,
+            handleChangeQuantity,
+            isProductInStock
+        } = this.props;
+
+        if (!isProductInStock) {
+            return null;
+        }
+
+        return (
+            <Field
+              id="item_qty"
+              name="item_qty"
+              type="number"
+              isControlled
+              min={ minSaleQuantity }
+              max={ maxSaleQuantity }
+              mix={ { block: 'CartItem', elem: 'Qty' } }
+              value={ qty }
+              onChange={ handleChangeQuantity }
+            />
         );
     }
 
@@ -187,11 +325,7 @@ export class CartItem extends ExtensiblePureComponent {
         const {
             isEditing,
             isLikeTable,
-            item: { qty },
-            minSaleQuantity,
-            maxSaleQuantity,
-            handleRemoveItem,
-            handleChangeQuantity
+            handleRemoveItem
         } = this.props;
 
         return (
@@ -210,23 +344,15 @@ export class CartItem extends ExtensiblePureComponent {
                 >
                     <span>{ __('Delete') }</span>
                 </button>
-                <Field
-                  id="item_qty"
-                  name="item_qty"
-                  type="number"
-                  isControlled
-                  min={ minSaleQuantity }
-                  max={ maxSaleQuantity }
-                  mix={ { block: 'CartItem', elem: 'Qty' } }
-                  value={ qty }
-                  onChange={ handleChangeQuantity }
-                />
+                { this.renderQuantityChangeField() }
             </div>
         );
     }
 
     renderImage() {
-        const { item: { product: { name } }, thumbnail } = this.props;
+        const { item: { product: { name } }, thumbnail, isProductInStock } = this.props;
+
+        const isNotAvailable = !isProductInStock;
 
         return (
             <>
@@ -234,7 +360,10 @@ export class CartItem extends ExtensiblePureComponent {
                   src={ thumbnail }
                   mix={ {
                       block: 'CartItem',
-                      elem: 'Picture'
+                      elem: 'Picture',
+                      mods: {
+                          isNotAvailable
+                      }
                   } }
                   ratio="custom"
                   alt={ `Product ${name} thumbnail.` }
@@ -243,7 +372,6 @@ export class CartItem extends ExtensiblePureComponent {
                   style={ { display: 'none' } }
                   alt={ name }
                   src={ thumbnail }
-                  itemProp="image"
                 />
             </>
         );
@@ -253,13 +381,9 @@ export class CartItem extends ExtensiblePureComponent {
         const { isLoading } = this.props;
 
         return (
-            <li
-              block="CartItem"
-              itemScope
-              itemType="http://schema.org/Product"
-            >
+            <li block="CartItem">
                 <Loader isLoading={ isLoading } />
-                { this.renderContent() }
+                { this.renderWrapper() }
                 { this.renderActions() }
             </li>
         );

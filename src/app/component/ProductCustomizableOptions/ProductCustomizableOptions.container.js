@@ -9,12 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import { OptionsType } from 'Type/ProductList';
+
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
-class ProductCustomizableOptionsContainer extends ExtensiblePureComponent {
+/** @namespace Component/ProductCustomizableOptions/Container */
+export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: OptionsType,
         getSelectedCustomizableOptions: PropTypes.func.isRequired
@@ -109,14 +112,14 @@ class ProductCustomizableOptionsContainer extends ExtensiblePureComponent {
         const { textFieldValues } = this.state;
 
         if (!option_value) {
-            const filteredOptions = textFieldValues.filter(item => item.option_id !== option_id);
+            const filteredOptions = textFieldValues.filter((item) => item.option_id !== option_id);
             return this.setState({ textFieldValues: filteredOptions });
         }
 
         const textFieldValue = { option_id, option_value };
 
         if (textFieldValues.some(({ option_id: val }) => option_id === val)) {
-            const filteredItems = textFieldValues.filter(value => value.option_id !== option_id);
+            const filteredItems = textFieldValues.filter((value) => value.option_id !== option_id);
             return this.setState({ textFieldValues: filteredItems.concat(textFieldValue) });
         }
 
@@ -128,14 +131,14 @@ class ProductCustomizableOptionsContainer extends ExtensiblePureComponent {
         const { option_id } = option;
 
         if (!value) {
-            const filteredOptions = selectedDropdownOptions.filter(item => item.option_id !== option_id);
+            const filteredOptions = selectedDropdownOptions.filter((item) => item.option_id !== option_id);
             return this.setState({ selectedDropdownOptions: filteredOptions });
         }
 
         const optionData = { option_id, option_value: value };
 
         if (selectedDropdownOptions.some(({ option_id: val }) => option_id === val)) {
-            const filteredItems = selectedDropdownOptions.filter(value => value.option_id !== option_id);
+            const filteredItems = selectedDropdownOptions.filter((value) => value.option_id !== option_id);
             return this.setState({ selectedDropdownOptions: filteredItems.concat(optionData) });
         }
 
@@ -152,7 +155,7 @@ class ProductCustomizableOptionsContainer extends ExtensiblePureComponent {
         if (selectedCheckboxValues.some(({ option_value: val }) => option_value === val)) {
             this.setState({
                 selectedCheckboxValues: selectedCheckboxValues.filter(
-                    value => value.option_value !== option_value
+                    (value) => value.option_value !== option_value
                 ) || []
             });
 

@@ -33,7 +33,7 @@ export const showNotification = (msgType, msgText, msgDebug) => ({
  * @return {void}
  * @namespace Store/Notification/Action/hideNotification
  */
-export const hideNotification = id => ({
+export const hideNotification = (id) => ({
     type: HIDE_NOTIFICATION,
     id
 });

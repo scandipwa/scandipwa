@@ -10,21 +10,22 @@
  */
 
 import PropTypes from 'prop-types';
-import Popup from 'Component/Popup';
-import { addressType } from 'Type/Account';
+import { PureComponent } from 'react';
+
+import Loader from 'Component/Loader';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import Popup from 'Component/Popup';
+import { addressType } from 'Type/Account';
+
+import {
+    ADD_ADDRESS, ADDRESS_POPUP_ID, DELETE_ADDRESS, EDIT_ADDRESS
+} from './MyAccountAddressPopup.config';
+
 import './MyAccountAddressPopup.style';
-import Loader from 'Component/Loader';
-
-export const ADDRESS_POPUP_ID = 'MyAccountAddressPopup';
-
-export const EDIT_ADDRESS = 'EDIT_ADDRESS';
-export const DELETE_ADDRESS = 'DELETE_ADDRESS';
-export const ADD_ADDRESS = 'ADD_ADDRESS';
 
 /** @namespace Component/MyAccountAddressPopup/Component */
-export class MyAccountAddressPopup extends ExtensiblePureComponent {
+export class MyAccountAddressPopup extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         handleAddress: PropTypes.func.isRequired,

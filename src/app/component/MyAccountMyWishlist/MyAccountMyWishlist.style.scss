@@ -14,11 +14,13 @@
 }
 
 .MyAccountMyWishlist {
+    --myaccount-wihslist-products-margin-bottom: 0;
+
     &-Products {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: max-content;
-        grid-column-gap: 2rem;
+        grid-column-gap: 2.4rem;
 
         @media (min-width: 1370px) {
             grid-template-columns: repeat(4, 1fr);
@@ -29,18 +31,24 @@
         }
 
         @include mobile {
+            grid-column-gap: 2.8rem;
             grid-template-columns: 1fr;
             border: 0;
+            margin: 0 calc(-1 * var(--my-account-wrapper-padding-mobile));
         }
 
         @include after-mobile {
             grid-column: 2;
         }
+
+        @include before-desktop {
+            margin-bottom: var(--myaccount-wihslist-products-margin-bottom);
+        }
     }
 
     &-ActionBar {
         display: flex;
-        padding: 0 0 1rem;
+        padding: 0 0 1.2rem;
         justify-content: flex-end;
 
         @include after-mobile {
@@ -50,21 +58,28 @@
         }
 
         @include mobile {
+            background-color: var(--my-account-content-background);
+            bottom: var(--navigation-tabs-height);
             display: block;
-        }
-
-        button + button {
-            margin-left: 1rem;
-
-            @include mobile {
-                margin-top: 1rem;
-                margin-left: 0;
-            }
+            left: 0;
+            padding: 1.4rem 1.4rem;
+            position: fixed;
+            width: 100%;
         }
     }
 
+    &-ActionBarActionWrapper {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
     &-NoProductsButton {
-        margin-top: 1rem;
+        margin-top: 1.2rem;
+
+        @include mobile {
+            margin-top: 1.4rem;
+        }
     }
 
     &-Button {
@@ -73,19 +88,44 @@
         }
     }
 
-    &-Description {
-        margin-top: 0;
+    &-ClearRemoveItemsButton {
+        text-transform: uppercase;
+        color: initial;
 
-        input {
-            width: 100%;
+        &.Button {
+            width: auto;
         }
     }
 
-    .ProductCard {
-        padding: 1rem 0;
+    &-ClearWishlistButton {
+        $color: #ed3f3f;
+        font-weight: bold;
+        text-transform: uppercase;
 
-        @include mobile {
-            border-top: 1px solid var(--wishlist-item-border-color);
+        @include after-mobile {
+            order: 1;
+            margin-left: 15px;
+        }
+
+        &,
+        &:not([disabled]):focus,
+        &:not([disabled]):hover {
+            color: $color;
+        }
+
+        &.Button {
+            width: auto;
+        }
+    }
+
+    &-ShareWishlistButton {
+        @include share-button;
+
+        height: 0;
+        margin: 1.4rem 2rem 0 0;
+
+        &[disabled] {
+            @include button-disabled();
         }
     }
 }

@@ -10,13 +10,17 @@
  */
 
 import PropTypes from 'prop-types';
-import { activeTabType, tabMapType } from 'Type/Account';
-import MyAccountTabListItem from 'Component/MyAccountTabListItem';
-import './MyAccountTabList.style';
+import { PureComponent } from 'react';
+
 import ExpandableContent from 'Component/ExpandableContent';
+import MyAccountTabListItem from 'Component/MyAccountTabListItem';
+import { activeTabType, tabMapType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
+
+import './MyAccountTabList.style';
 
 /** @namespace Component/MyAccountTabList/Component */
-export class MyAccountTabList extends ExtensiblePureComponent {
+export class MyAccountTabList extends PureComponent {
     static propTypes = {
         tabMap: tabMapType.isRequired,
         activeTab: activeTabType.isRequired,
@@ -34,6 +38,9 @@ export class MyAccountTabList extends ExtensiblePureComponent {
 
     onTabClick = (key) => {
         const { changeActiveTab } = this.props;
+        if (!isSignedIn()) {
+            return;
+        }
         this.toggleExpandableContent();
         changeActiveTab(key);
     };
@@ -81,7 +88,6 @@ export class MyAccountTabList extends ExtensiblePureComponent {
             ...Object.entries(tabMap).map(this.renderTabListItem),
             this.renderLogoutTab()
         ];
-
 
         return (
             <ExpandableContent

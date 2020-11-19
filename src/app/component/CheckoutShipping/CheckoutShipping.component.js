@@ -10,17 +10,21 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
-import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
-import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
-import Loader from 'Component/Loader';
 import Form from 'Component/Form';
+import Loader from 'Component/Loader';
+import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutShipping/Component */
-export class CheckoutShipping extends ExtensiblePureComponent {
+export class CheckoutShipping extends PureComponent {
     static propTypes = {
+        totals: TotalsType.isRequired,
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
@@ -35,11 +39,34 @@ export class CheckoutShipping extends ExtensiblePureComponent {
         selectedShippingMethod: null
     };
 
+    renderOrderTotal() {
+        const {
+            totals: {
+                grand_total,
+                quote_currency_code
+            }
+        } = this.props;
+
+        const orderTotal = formatPrice(grand_total, quote_currency_code);
+
+        return (
+            <div block="Checkout" elem="OrderTotal">
+                <span>
+                    { __('Order total:') }
+                </span>
+                <span>
+                    { orderTotal }
+                </span>
+            </div>
+        );
+    }
+
     renderActions() {
         const { selectedShippingMethod } = this.props;
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
+                { this.renderOrderTotal() }
                 <button
                   type="submit"
                   block="Button"

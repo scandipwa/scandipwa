@@ -9,17 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
+import SliderQuery from 'Query/Slider.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import DataContainer from 'Util/Request/DataContainer';
-import { showNotification } from 'Store/Notification';
-import { SliderQuery } from 'Query';
 
 import SliderWidget from './SliderWidget.component';
 
+/** @namespace Component/SliderWidget/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
+
 /** @namespace Component/SliderWidget/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
@@ -32,6 +37,7 @@ export class SliderWidgetContainer extends DataContainer {
 
     state = {
         slider: {
+            slideSpeed: 0,
             slides: [{ image: '', slide_text: '', isPlaceholder: true }]
         }
     };
@@ -55,7 +61,7 @@ export class SliderWidgetContainer extends DataContainer {
         this.fetchData(
             [SliderQuery.getQuery({ sliderId })],
             ({ slider }) => this.setState({ slider }),
-            e => showNotification('error', 'Error fetching Slider!', e)
+            (e) => showNotification('error', 'Error fetching Slider!', e)
         );
     }
 
@@ -73,9 +79,5 @@ export class SliderWidgetContainer extends DataContainer {
         );
     }
 }
-
-/** @namespace Component/SliderWidget/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SliderWidgetContainer);

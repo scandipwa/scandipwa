@@ -10,23 +10,32 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { OrderDispatcher } from 'Store/Order';
+
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
+export const OrderDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Order/Order.dispatcher'
+);
+
 /** @namespace Component/MyAccountMyOrders/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     orderList: state.OrderReducer.orderList,
-    isLoading: state.OrderReducer.isLoading
+    isLoading: state.OrderReducer.isLoading,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/MyAccountMyOrders/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    getOrderList: () => OrderDispatcher.requestOrders(dispatch)
+export const mapDispatchToProps = (dispatch) => ({
+    getOrderList: () => OrderDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
+    )
 });
 
 /** @namespace Component/MyAccountMyOrders/Container */
-export class MyAccountMyOrdersContainer extends ExtensiblePureComponent {
+export class MyAccountMyOrdersContainer extends PureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired
     };

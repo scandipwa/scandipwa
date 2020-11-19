@@ -9,15 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+import { createPortal } from 'react-dom';
 
 /**
  * Page Meta data
  * @class Meta
  * @namespace Component/Meta/Component
  */
-export class Meta extends ExtensiblePureComponent {
+export class Meta extends PureComponent {
     static propTypes = {
         metadata: PropTypes.arrayOf(
             PropTypes.shape({
@@ -29,11 +30,16 @@ export class Meta extends ExtensiblePureComponent {
                 ])
             })
         ).isRequired,
-        canonical_url: PropTypes.string.isRequired,
+        canonical_url: PropTypes.string,
         default_title: PropTypes.string.isRequired,
         title_prefix: PropTypes.string.isRequired,
         title_suffix: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired
+        title: PropTypes.string
+    };
+
+    static defaultProps = {
+        title: '',
+        canonical_url: ''
     };
 
     renderTitle() {
@@ -62,6 +68,7 @@ export class Meta extends ExtensiblePureComponent {
         }
 
         return (
+            // eslint-disable-next-line jsx-a11y/control-has-associated-label
             <link rel="canonical" href={ canonical_url } />
         );
     }
@@ -72,7 +79,7 @@ export class Meta extends ExtensiblePureComponent {
             <>
                 { this.renderTitle() }
                 { this.renderCanonical() }
-                { metadata.map(tag => <meta key={ tag.name || tag.property } { ...tag } />) }
+                { metadata.map((tag) => <meta key={ tag.name || tag.property } { ...tag } />) }
             </>
         );
     }

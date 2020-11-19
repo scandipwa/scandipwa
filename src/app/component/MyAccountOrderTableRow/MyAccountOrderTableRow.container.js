@@ -10,24 +10,27 @@
  */
 
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { showPopup } from 'Store/Popup';
-import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.component';
+
+import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.config';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { orderType } from 'Type/Account';
+
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapStateToProps */
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
     currency_code: state.ConfigReducer.default_display_currency_code
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload))
+export const mapDispatchToProps = (dispatch) => ({
+    showPopup: (payload) => dispatch(showPopup(ORDER_POPUP_ID, payload))
 });
 
 /** @namespace Component/MyAccountOrderTableRow/Container */
-export class MyAccountOrderTableRowContainer extends ExtensiblePureComponent {
+export class MyAccountOrderTableRowContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         currency_code: PropTypes.string,

@@ -10,14 +10,17 @@
  */
 
 import PropTypes from 'prop-types';
-import Popup from 'Component/Popup';
-import './CheckoutTermsAndConditionsPopup.style';
-import Html from 'Component/Html';
+import { PureComponent } from 'react';
 
-export const TERMS_AND_CONDITIONS_POPUP_ID = 'CheckoutTermsAndConditionsPopup';
+import Html from 'Component/Html';
+import Popup from 'Component/Popup';
+
+import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
+
+import './CheckoutTermsAndConditionsPopup.style';
 
 /** @namespace Component/CheckoutTermsAndConditionsPopup/Component */
-export class CheckoutTermsAndConditionsPopup extends ExtensiblePureComponent {
+export class CheckoutTermsAndConditionsPopup extends PureComponent {
     static propTypes = {
         payload: PropTypes.shape({
             text: PropTypes.string

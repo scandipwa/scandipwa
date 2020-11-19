@@ -10,28 +10,35 @@
  */
 
 import PropTypes from 'prop-types';
-import { TotalsType } from 'Type/MiniCart';
+import { PureComponent } from 'react';
+
+import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
-import { formatCurrency, roundPrice } from 'Util/Price';
+import ExpandableContent from 'Component/ExpandableContent';
+import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
+
 import './CheckoutOrderSummary.style';
-import {
-    SHIPPING_STEP
-} from 'Route/Checkout/Checkout.component';
 
 /**
  * Checkout Order Summary component
  * @namespace Component/CheckoutOrderSummary/Component
  */
-export class CheckoutOrderSummary extends ExtensiblePureComponent {
+export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
-        paymentTotals: TotalsType,
-        checkoutStep: PropTypes.string.isRequired
+        checkoutStep: PropTypes.string.isRequired,
+        couponCode: PropTypes.string,
+        renderCmsBlock: PropTypes.func,
+        isExpandable: PropTypes.bool
     };
 
     static defaultProps = {
         totals: {},
-        paymentTotals: {}
+        couponCode: '',
+        renderCmsBlock: () => {},
+        isExpandable: false
     };
 
     renderPriceLine(price, name, mods) {
@@ -40,7 +47,7 @@ export class CheckoutOrderSummary extends ExtensiblePureComponent {
         }
 
         const { totals: { quote_currency_code } } = this.props;
-        const priceString = formatCurrency(quote_currency_code);
+        const priceString = formatPrice(price, quote_currency_code);
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
@@ -48,7 +55,7 @@ export class CheckoutOrderSummary extends ExtensiblePureComponent {
                     { name }
                 </strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
-                    { `${priceString}${roundPrice(price)}` }
+                    { `${priceString}` }
                 </strong>
             </li>
         );
@@ -72,21 +79,29 @@ export class CheckoutOrderSummary extends ExtensiblePureComponent {
         );
     };
 
-    renderCouponCode() {
+    renderDiscount() {
         const {
             totals: {
+                applied_rule_ids,
                 discount_amount,
                 coupon_code
             }
         } = this.props;
 
-        if (!coupon_code) {
+        if (!applied_rule_ids) {
             return null;
+        }
+
+        if (!coupon_code) {
+            return this.renderPriceLine(
+                -Math.abs(discount_amount),
+                __('Discount %s:', '')
+            );
         }
 
         return this.renderPriceLine(
             -Math.abs(discount_amount),
-            __('Coupon %s:', coupon_code.toUpperCase())
+            __('Discount/Coupon %s:', coupon_code.toUpperCase())
         );
     }
 
@@ -121,13 +136,12 @@ export class CheckoutOrderSummary extends ExtensiblePureComponent {
         const {
             totals: {
                 subtotal,
+                subtotal_with_discount,
                 tax_amount,
                 grand_total,
                 shipping_amount
             },
-            paymentTotals: {
-                grand_total: payment_grand_total
-            }, checkoutStep
+            checkoutStep
         } = this.props;
 
         return (
@@ -137,22 +151,75 @@ export class CheckoutOrderSummary extends ExtensiblePureComponent {
                     { checkoutStep !== SHIPPING_STEP
                         ? this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true })
                         : null }
-                    { this.renderCouponCode() }
+                    { this.renderDiscount() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
                     { checkoutStep !== SHIPPING_STEP
-                        ? this.renderPriceLine(payment_grand_total || grand_total, __('Order total'))
-                        : this.renderPriceLine(subtotal + tax_amount, __('Order total')) }
+                        ? this.renderPriceLine(grand_total + shipping_amount, __('Order total'))
+                        : this.renderPriceLine(subtotal_with_discount + tax_amount, __('Order total')) }
                 </ul>
             </div>
+        );
+    }
+
+    renderCoupon() {
+        const { couponCode } = this.props;
+
+        return (
+            <CartCoupon
+              couponCode={ couponCode }
+              mix={ { block: 'CheckoutOrderSummary', elem: 'Coupon' } }
+              title={ __('Have a discount code?') }
+            />
+        );
+    }
+
+    renderCmsBlock() {
+        const { renderCmsBlock } = this.props;
+
+        return (
+            <div
+              block="CheckoutOrderSummary"
+              elem="CmsBlock"
+            >
+                { renderCmsBlock() }
+            </div>
+        );
+    }
+
+    renderExpandableContent() {
+        return (
+            <ExpandableContent
+              heading={ __('Order summary') }
+              mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContent' } }
+            >
+                { this.renderItems() }
+                { this.renderCmsBlock() }
+                { this.renderCoupon() }
+                { this.renderTotals() }
+            </ExpandableContent>
+        );
+    }
+
+    renderContent() {
+        const { isExpandable } = this.props;
+
+        if (isExpandable) {
+            return this.renderExpandableContent();
+        }
+
+        return (
+            <>
+                { this.renderHeading() }
+                { this.renderItems() }
+                { this.renderTotals() }
+            </>
         );
     }
 
     render() {
         return (
             <article block="CheckoutOrderSummary" aria-label="Order Summary">
-                { this.renderHeading() }
-                { this.renderItems() }
-                { this.renderTotals() }
+                { this.renderContent() }
             </article>
         );
     }

@@ -9,14 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
-import ProductCard from 'Component/ProductCard';
 import AddToCart from 'Component/AddToCart';
 import Field from 'Component/Field';
+import ProductCard from 'Component/ProductCard';
+import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 
 import './SharedWishlistItem.style';
 
-export default class SharedWishlistItem extends SourceWishlistItem {
+/** @namespace Component/SharedWishlistItem/Component */
+export class SharedWishlistItem extends SourceWishlistItem {
     renderAddToCart() {
         const {
             product,
@@ -65,3 +66,5 @@ export default class SharedWishlistItem extends SourceWishlistItem {
         );
     }
 }
+
+export default SharedWishlistItem;

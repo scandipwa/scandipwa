@@ -9,32 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import debounceRender from 'react-debounce-render';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import PropTypes from 'prop-types';
-import { RENDER_PAGE_FREQUENCY } from 'Component/ProductList/ProductList.component';
+import { PureComponent } from 'react';
+
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 /** @namespace Component/CategoryItemsCount/Component */
-export class CategoryItemsCount extends ExtensiblePureComponent {
+export class CategoryItemsCount extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool.isRequired,
-        isOnlyPlaceholder: PropTypes.bool.isRequired,
-        totalItems: PropTypes.number.isRequired
+        totalItems: PropTypes.number.isRequired,
+        isMatchingListFilter: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isMatchingListFilter: false
     };
 
     render() {
         const {
-            isLoading: isProductsLoading,
-            isOnlyPlaceholder,
-            totalItems
+            totalItems,
+            isMatchingListFilter
         } = this.props;
-
-        const isLoading = isOnlyPlaceholder || isProductsLoading;
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
                 <TextPlaceholder
-                  content={ (isLoading
+                  content={ (!isMatchingListFilter
                       ? __('Products are loading...')
                       : __('%s items found', totalItems)
                   ) }
@@ -44,7 +44,4 @@ export class CategoryItemsCount extends ExtensiblePureComponent {
     }
 }
 
-export default debounceRender(
-    CategoryItemsCount,
-    RENDER_PAGE_FREQUENCY, { leading: false }
-);
+export default CategoryItemsCount;

@@ -8,14 +8,16 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import PropTypes from 'prop-types';
-import { formatCurrency, roundPrice } from 'Util/Price';
+import { PureComponent } from 'react';
+
 import { ProductType } from 'Type/ProductList';
+import { formatPrice } from 'Util/Price';
+
 import './TierPrices.style';
 
 /** @namespace Component/TierPrices/Component */
-export class TierPrices extends ExtensiblePureComponent {
+export class TierPrices extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         isLowestPrice: PropTypes.bool
@@ -52,13 +54,14 @@ export class TierPrices extends ExtensiblePureComponent {
             return null;
         }
 
+        const formattedPrice = formatPrice(value, currency);
+
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
                 { __(
-                    'Buy %s for %s%s each and ',
+                    'Buy %s for %s each and ',
                     quantity,
-                    formatCurrency(currency),
-                    roundPrice(value)
+                    formattedPrice
                 ) }
                 <strong>
                     { __(
@@ -87,11 +90,12 @@ export class TierPrices extends ExtensiblePureComponent {
         const lowestValue = price_tiers
             .reduce((acc, { final_price: { value } }) => (acc < value ? acc : value), price_tiers[0].final_price.value);
 
+        const formattedPrice = formatPrice(lowestValue, currency);
         return (
             <span block="TierPrices" elem="Item" mods={ { isLowest: true } }>
                 { __('As low as ') }
                 <span block="TierPrices" elem="ItemPrice">
-                    { `${ formatCurrency(currency) }${ roundPrice(lowestValue) }` }
+                    { `${ formattedPrice }` }
                 </span>
             </span>
         );

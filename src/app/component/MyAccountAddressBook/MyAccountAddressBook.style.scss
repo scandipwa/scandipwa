@@ -11,8 +11,12 @@
 
 .MyAccountAddressBook {
     display: grid;
-    grid-gap: 2rem;
+    grid-gap: 2.4rem;
     grid-template-columns: 1fr;
+
+    @include mobile {
+        grid-gap: 2.8rem;
+    }
 
     &-Button {
         @include after-mobile {
@@ -23,10 +27,10 @@
     }
 
     button + button {
-        margin-left: 1rem;
+        margin-left: 1.2rem;
 
         @include mobile {
-            margin-top: 1rem;
+            margin-top: 1.4rem;
             margin-left: 0;
         }
     }

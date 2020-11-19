@@ -10,15 +10,18 @@
  */
 
 import PropTypes from 'prop-types';
-import { IMAGE_TYPE, VIDEO_TYPE, PLACEHOLDER_TYPE } from 'Component/ProductGallery/ProductGallery.component';
-import { THUMBNAIL_KEY } from 'Component/ProductGallery/ProductGallery.container';
-import media, { PRODUCT_MEDIA } from 'Util/Media';
+import { PureComponent } from 'react';
+
 import Image from 'Component/Image';
+import {
+    IMAGE_TYPE, PLACEHOLDER_TYPE, THUMBNAIL_KEY, VIDEO_TYPE
+} from 'Component/ProductGallery/ProductGallery.config';
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 
 import './ProductGalleryThumbnailImage.style';
 
 /** @namespace Component/ProductGalleryThumbnailImage/Component */
-export class ProductGalleryThumbnailImage extends ExtensiblePureComponent {
+export class ProductGalleryThumbnailImage extends PureComponent {
     static propTypes = {
         media: PropTypes.shape({
             label: PropTypes.string,
@@ -31,14 +34,7 @@ export class ProductGalleryThumbnailImage extends ExtensiblePureComponent {
             thumbnail: PropTypes.shape({
                 url: PropTypes.string
             })
-        }).isRequired,
-        index: PropTypes.number.isRequired,
-        onActiveImageChange: PropTypes.func.isRequired
-    };
-
-    onActiveImageChange = () => {
-        const { index, onActiveImageChange } = this.props;
-        onActiveImageChange(index);
+        }).isRequired
     };
 
     renderMedia() {
@@ -112,12 +108,11 @@ export class ProductGalleryThumbnailImage extends ExtensiblePureComponent {
 
     render() {
         return (
-            <button
+            <div
               block="ProductGalleryThumbnailImage"
-              onClick={ this.onActiveImageChange }
             >
                 { this.renderMedia() }
-            </button>
+            </div>
         );
     }
 }

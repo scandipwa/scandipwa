@@ -10,17 +10,15 @@
  */
 
 import { connect } from 'react-redux';
-import { CmsBlocksAndSliderDispatcher } from 'Store/CmsBlocksAndSlider';
+
 import CategoryDetails from './CategoryDetails.component';
 
 /** @namespace Component/CategoryDetails/Container/mapStateToProps */
-export const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks
-});
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = (state) => ({});
 
 /** @namespace Component/CategoryDetails/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    requestBlocks: options => CmsBlocksAndSliderDispatcher.handleData(dispatch, options)
-});
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryDetails);

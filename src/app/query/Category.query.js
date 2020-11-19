@@ -16,9 +16,9 @@ import { Field } from 'Util/Query';
  * @class CategoryQuery
  * @namespace Query/Category
  */
-export class CategoryQuery extends ExtensibleClass {
-    constructor() {
-        super();
+export class CategoryQuery {
+    __construct() {
+        super.__construct();
         this.options = {};
     }
 
@@ -32,13 +32,12 @@ export class CategoryQuery extends ExtensibleClass {
     }
 
     _getConditionalArguments() {
-        const { categoryUrlPath, categoryIds } = this.options;
-        if (categoryUrlPath) {
-            return ['url_path', 'String!', categoryUrlPath];
-        }
+        const { categoryIds } = this.options;
+
         if (categoryIds) {
             return ['id', 'Int!', categoryIds];
         }
+
         throw new Error(__('There was an error requesting the category'));
     }
 
@@ -56,7 +55,8 @@ export class CategoryQuery extends ExtensibleClass {
         return [
             'category_name',
             'category_level',
-            'category_url_path'
+            'category_url',
+            'category_is_active'
         ];
     }
 
@@ -97,4 +97,4 @@ export class CategoryQuery extends ExtensibleClass {
     }
 }
 
-export default new (CategoryQuery)();
+export default new CategoryQuery();

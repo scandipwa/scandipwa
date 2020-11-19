@@ -9,24 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { ProductType, FilterType } from 'Type/ProductList';
+import { FilterType, ProductType } from 'Type/ProductList';
 import { getVariantsIndexes } from 'Util/Product';
-import { CartDispatcher } from 'Store/Cart';
 import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+export const mapDispatchToProps = (dispatch) => ({
+    addProduct: (options) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    )
 });
 
 /** @namespace Component/ProductCard/Container */
-export class ProductCardContainer extends ExtensiblePureComponent {
+export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType
@@ -141,15 +148,15 @@ export class ProductCardContainer extends ExtensiblePureComponent {
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
 
-        return (
-            (
-                type_id === 'configurable'
-                && variants !== undefined
-                && variants.length
-            )
-                ? variants[this._getCurrentVariantIndex()]
-                : product
-        ) || {};
+        if (
+            type_id === 'configurable'
+            && variants !== undefined
+            && variants.length
+        ) {
+            return variants[this._getCurrentVariantIndex()] || {};
+        }
+
+        return product || {};
     }
 
     _getAvailableVisualOptions() {
@@ -200,9 +207,8 @@ export class ProductCardContainer extends ExtensiblePureComponent {
     }
 }
 
-
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = state => ({});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCardContainer);

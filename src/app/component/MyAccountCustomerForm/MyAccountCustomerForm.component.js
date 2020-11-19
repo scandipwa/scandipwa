@@ -11,8 +11,8 @@
 
 import PropTypes from 'prop-types';
 
-import { customerType } from 'Type/Account';
 import FieldForm from 'Component/FieldForm';
+import { customerType } from 'Type/Account';
 
 /** @namespace Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerForm extends FieldForm {
