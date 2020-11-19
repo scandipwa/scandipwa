@@ -18,12 +18,10 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 
-const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
 const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
@@ -170,8 +168,6 @@ const webpackConfig = ([lang, translation]) => ({
             publicPath,
             chunksSortMode: 'none'
         }),
-
-        new WebpackPwaManifest(webmanifestConfig(projectRoot)),
 
         new webpack.DefinePlugin({
             'process.env': {

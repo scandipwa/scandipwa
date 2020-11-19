@@ -9,9 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// Width of opeded right side
-export const DRAG_RIGHT_OPEN_TRESHHOLD = 80;
-// Threshhold after we open right side
-export const DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD = DRAG_RIGHT_OPEN_TRESHHOLD / 2;
+// Width of opened right side
+export const DRAG_RIGHT_OPEN_THRESHOLD = 80;
+// Threshold after we open right side
+export const DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD = DRAG_RIGHT_OPEN_THRESHOLD / 2;
+// Threshold after we remove item on touchend as percentage of item width
+export const DRAG_ITEM_REMOVE_THRESHOLD = 0.8;
 
 export const ANIMATION_DURATION = 300;
+export const ANIMATION_DURATION_ON_REMOVE = 180;

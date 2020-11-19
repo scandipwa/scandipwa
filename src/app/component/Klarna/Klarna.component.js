@@ -13,13 +13,16 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Html from 'Component/Html';
 import Loader from 'Component/Loader';
 import KlarnaQuery from 'Query/Klarna.query';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation } from 'Util/Request';
 
-import { KLARNA_PAYMENTS_CONTAINER_ID, KLARNA_SCRIPT_ID } from './Klarna.config';
+import {
+    KLARNA_PAYMENTS_CONTAINER_ID,
+    KLARNA_PAYMENTS_DEVICE_RECOGNITION_ID,
+    KLARNA_SCRIPT_ID
+} from './Klarna.config';
 
 import './Klarna.style';
 
@@ -36,8 +39,18 @@ export class Klarna extends PureComponent {
     };
 
     state = {
-        isLoading: true
+        isLoading: true,
+        canShowPaymentSelector: true,
+        paymentIsShown: false
     };
+
+    componentWillUnmount() {
+        const { paymentIsShown } = this.state;
+
+        if (paymentIsShown) {
+            document.getElementById(KLARNA_PAYMENTS_DEVICE_RECOGNITION_ID).remove();
+        }
+    }
 
     async initiateKlarna() {
         const { showError, setOrderButtonEnableStatus } = this.props;
@@ -57,7 +70,7 @@ export class Klarna extends PureComponent {
             window.Klarna.Payments.init({ client_token });
             window.Klarna.Payments.load({
                 container: `#${KLARNA_PAYMENTS_CONTAINER_ID}`,
-                payment_method_category: 'pay_later'
+                payment_method_category: localStorage.getItem('kl_pm')
             });
 
             setOrderButtonEnableStatus(true);
@@ -80,14 +93,71 @@ export class Klarna extends PureComponent {
             script.parentNode.removeChild(script);
         }
 
+        const klarnaScript = document.createElement('script');
+        klarnaScript.setAttribute('id', KLARNA_SCRIPT_ID);
+        klarnaScript.setAttribute('src', 'https://x.klarnacdn.net/kp/lib/v1/api.js');
+        klarnaScript.async = true;
+        document.head.appendChild(klarnaScript);
+
+        this.setState({ paymentIsShown: true });
+    }
+
+    loadPaymentMethod(method) {
+        this.setState({
+            isLoading: true,
+            canShowPaymentSelector: false
+        });
+        localStorage.setItem('kl_pm', method);
+        this.renderScript();
+    }
+
+    loadPaymentMethodPayLater = () => {
+        this.loadPaymentMethod('pay_later');
+    };
+
+    loadPaymentMethodPayNow = () => {
+        this.loadPaymentMethod('pay_now');
+    };
+
+    loadPaymentMethodPayOverTime = () => {
+        this.loadPaymentMethod('pay_over_time');
+    };
+
+    renderPaymentSelector() {
+        const { canShowPaymentSelector } = this.state;
+
+        if (!canShowPaymentSelector) {
+            return null;
+        }
+
+        const { setOrderButtonEnableStatus } = this.props;
+
+        this.setState({ isLoading: false });
+        setOrderButtonEnableStatus(false);
+
         return (
-            <Html
-              content={ `<script
-                      async
-                      id=${ KLARNA_SCRIPT_ID }
-                      src='https://x.klarnacdn.net/kp/lib/v1/api.js'
-                ></script>` }
-            />
+            <div block="Klarna-PaymentSelector">
+                <button
+                  onClick={ this.loadPaymentMethodPayLater }
+                  block="Button"
+                >
+                    { __('Pay later') }
+                </button>
+
+                <button
+                  onClick={ this.loadPaymentMethodPayNow }
+                  block="Button"
+                >
+                    { __('Pay now') }
+                </button>
+
+                <button
+                  onClick={ this.loadPaymentMethodPayOverTime }
+                  block="Button"
+                >
+                    { __('Pay over time') }
+                </button>
+            </div>
         );
     }
 
@@ -96,8 +166,8 @@ export class Klarna extends PureComponent {
 
         return (
             <div block="Klarna">
-                { this.renderScript() }
                 <Loader isLoading={ isLoading } />
+                { this.renderPaymentSelector() }
                 <div id={ KLARNA_PAYMENTS_CONTAINER_ID } />
             </div>
         );

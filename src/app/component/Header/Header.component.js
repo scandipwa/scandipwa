@@ -71,6 +71,7 @@ export class Header extends NavigationAbstract {
         onMyAccountButtonClick: PropTypes.func.isRequired,
         onSearchBarChange: PropTypes.func.isRequired,
         onClearButtonClick: PropTypes.func.isRequired,
+        isWishlistLoading: PropTypes.bool.isRequired,
         onEditButtonClick: PropTypes.func.isRequired,
         onMinicartButtonClick: PropTypes.func.isRequired,
         onOkButtonClick: PropTypes.func.isRequired,
@@ -80,6 +81,7 @@ export class Header extends NavigationAbstract {
         onMinicartOutsideClick: PropTypes.func.isRequired,
         isClearEnabled: PropTypes.bool.isRequired,
         searchCriteria: PropTypes.string.isRequired,
+        shareWishlist: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string,
         logo_alt: PropTypes.string,
         logo_height: PropTypes.number,
@@ -131,6 +133,7 @@ export class Header extends NavigationAbstract {
             title: true
         },
         [CUSTOMER_WISHLIST]: {
+            share: true,
             title: true,
             edit: true,
             ok: true
@@ -150,8 +153,7 @@ export class Header extends NavigationAbstract {
             title: true
         },
         [CART_OVERLAY]: {
-            title: true,
-            edit: true
+            title: true
         },
         [CART_EDITING]: {
             ok: true,
@@ -182,6 +184,7 @@ export class Header extends NavigationAbstract {
         cancel: this.renderCancelButton.bind(this),
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
+        share: this.renderShareWishListButton.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         account: this.renderAccount.bind(this),
@@ -263,6 +266,26 @@ export class Header extends NavigationAbstract {
               isVisible={ isVisible }
               isActive={ name === SEARCH }
               hideActiveOverlay={ hideActiveOverlay }
+            />
+        );
+    }
+
+    renderShareWishListButton(isVisible = false) {
+        const {
+            isWishlistLoading,
+            shareWishlist
+        } = this.props;
+
+        return (
+            <button
+              key="share"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'share', isVisible } }
+              onClick={ shareWishlist }
+              aria-label="Share"
+              aria-hidden={ !isVisible }
+              disabled={ isWishlistLoading }
             />
         );
     }
@@ -641,6 +664,7 @@ export class Header extends NavigationAbstract {
         if (!device.isMobile) {
             // hide edit button on desktop
             stateMap[CUSTOMER_WISHLIST].edit = false;
+            stateMap[CUSTOMER_WISHLIST].share = false;
             stateMap[CART_OVERLAY].edit = false;
         }
 

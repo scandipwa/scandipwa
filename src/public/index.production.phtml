@@ -1,6 +1,7 @@
 <?php
     $colorConfig = $this->getThemeConfiguration('color_customization');
     $contentConfig = $this->getThemeConfiguration('content_customization');
+    $icons = $this->getAppIconData();
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +85,21 @@
             }
         </style>
 
-        <link rel="shortcut icon" href="<?= $this->getStaticFile("assets/favicon/favicon.ico"); ?>">
+        <link rel="shortcut icon" href="/pub/media/favicon/favicon.png">
+
+        <?php foreach ($icons['ios_startup'] as $icon): ?>
+            <?= sprintf('<link rel="apple-touch-startup-image" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
+        <?php endforeach; ?>
+        
+        <?php foreach ($icons['ios'] as $icon): ?>
+            <?= sprintf('<link rel="apple-touch-icon" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
+        <?php endforeach; ?>
+
+        <?php foreach ($icons['icon'] as $icon): ?>
+            <?= sprintf('<link rel="icon" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
+        <?php endforeach; ?>
+
+        <link rel="manifest" href="/pub/media/webmanifest/manifest.json">
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
     </head>
