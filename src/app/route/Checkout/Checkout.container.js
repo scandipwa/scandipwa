@@ -17,6 +17,7 @@ import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
+import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
@@ -83,7 +84,8 @@ export const mapDispatchToProps = (dispatch) => ({
     updateEmail: (email) => dispatch(updateEmail(email)),
     checkEmailAvailability: (email) => CheckoutDispatcher.then(
         ({ default: dispatcher }) => dispatcher.handleData(dispatch, email)
-    )
+    ),
+    updateShippingPrice: (data) => dispatch(updateShippingPrice(data))
 });
 
 /** @namespace Route/Checkout/Container */
@@ -123,7 +125,8 @@ export class CheckoutContainer extends PureComponent {
         updateShippingFields: PropTypes.func.isRequired,
         updateEmail: PropTypes.func.isRequired,
         checkEmailAvailability: PropTypes.func.isRequired,
-        isEmailAvailable: PropTypes.bool.isRequired
+        isEmailAvailable: PropTypes.bool.isRequired,
+        updateShippingPrice: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -442,6 +445,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async saveAddressInformation(addressInformation) {
+        const { updateShippingPrice } = this.props;
         const { shipping_address } = addressInformation;
 
         this.setState({
@@ -463,6 +467,8 @@ export class CheckoutContainer extends PureComponent {
             /** @namespace Route/Checkout/Container/saveAddressInformationFetchMutationThen */
             ({ saveAddressInformation: data }) => {
                 const { payment_methods, totals } = data;
+
+                updateShippingPrice(totals);
 
                 BrowserDatabase.setItem(
                     totals,

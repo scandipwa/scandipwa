@@ -15,6 +15,12 @@ import { PureComponent } from 'react';
 import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
 import ExpandableContent from 'Component/ExpandableContent';
+import {
+    DISPLAY_CART_TAX_IN_SHIPPING_BOTH,
+    DISPLAY_CART_TAX_IN_SHIPPING_INCL_TAX,
+    DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH,
+    DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX
+} from 'Route/CartPage/CartPage.config';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
@@ -41,7 +47,7 @@ export class CheckoutOrderSummary extends PureComponent {
         isExpandable: false
     };
 
-    renderPriceLine(price, name, mods) {
+    renderPriceLine(price, name, mods, subPrice = null) {
         if (!price) {
             return null;
         }
@@ -56,6 +62,7 @@ export class CheckoutOrderSummary extends PureComponent {
                 </strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
                     { `${priceString}` }
+                    { subPrice }
                 </strong>
             </li>
         );
@@ -132,30 +139,146 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderTotals() {
+    renderSubPrice(price) {
+        const {
+            totals: {
+                quote_currency_code
+            }
+        } = this.props;
+
+        if (!price) {
+            return null;
+        }
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ formatPrice(price || 0, quote_currency_code) }` }
+            </span>
+        );
+    }
+
+    renderSubTotal() {
         const {
             totals: {
                 subtotal,
+                subtotal_incl_tax,
+                cart_display_config: {
+                    display_tax_in_subtotal
+                } = {}
+            }
+        } = this.props;
+        const title = __('Cart Subtotal');
+
+        if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH) {
+            return this.renderPriceLine(
+                subtotal_incl_tax,
+                title,
+                {},
+                this.renderSubPrice(subtotal)
+            );
+        }
+
+        if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX) {
+            return this.renderPriceLine(subtotal_incl_tax, title);
+        }
+
+        return this.renderPriceLine(subtotal, title);
+    }
+
+    renderShipping() {
+        const {
+            totals: {
+                shipping_amount,
+                shipping_incl_tax,
+                cart_display_config: {
+                    display_tax_in_shipping_amount
+                } = {}
+            },
+            checkoutStep
+        } = this.props;
+        const title = __('Shipping');
+        const mods = { divider: true };
+
+        if (checkoutStep === SHIPPING_STEP) {
+            return null;
+        }
+
+        if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_BOTH) {
+            return this.renderPriceLine(
+                shipping_incl_tax,
+                title,
+                mods,
+                this.renderSubPrice(shipping_amount)
+            );
+        }
+
+        if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_INCL_TAX) {
+            return this.renderPriceLine(shipping_incl_tax, title, mods);
+        }
+
+        return this.renderPriceLine(shipping_amount, title, mods);
+    }
+
+    getOrderTotal() {
+        const {
+            totals: {
                 subtotal_with_discount,
                 tax_amount,
-                grand_total,
-                shipping_amount
+                grand_total
             },
             checkoutStep
         } = this.props;
 
+        if (checkoutStep !== SHIPPING_STEP) {
+            return grand_total;
+        }
+
+        return subtotal_with_discount + tax_amount;
+    }
+
+    renderOrderTotal() {
+        const {
+            totals: {
+                tax_amount,
+                cart_display_config: {
+                    include_tax_in_order_total
+                } = {}
+            }
+        } = this.props;
+        const title = __('Order total');
+        const orderTotal = this.getOrderTotal();
+
+        if (include_tax_in_order_total) {
+            return this.renderPriceLine(
+                orderTotal,
+                title,
+                {},
+                this.renderSubPrice(orderTotal - tax_amount)
+            );
+        }
+
+        return this.renderPriceLine(orderTotal, title);
+    }
+
+    renderTax() {
+        const {
+            totals: {
+                tax_amount
+            }
+        } = this.props;
+
+        return this.renderPriceLine(tax_amount, __('Tax'));
+    }
+
+    renderTotals() {
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
-                    { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
-                    { checkoutStep !== SHIPPING_STEP
-                        ? this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true })
-                        : null }
+                    { this.renderSubTotal() }
+                    { this.renderShipping() }
                     { this.renderDiscount() }
-                    { this.renderPriceLine(tax_amount, __('Tax')) }
-                    { checkoutStep !== SHIPPING_STEP
-                        ? this.renderPriceLine(grand_total, __('Order total'))
-                        : this.renderPriceLine(subtotal_with_discount + tax_amount, __('Order total')) }
+                    { this.renderTax() }
+                    { this.renderOrderTotal() }
 
                 </ul>
             </div>

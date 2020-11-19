@@ -208,7 +208,7 @@
     &-Total {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         font-size: 1.8rem;
         font-weight: bold;
         padding: 1.2rem 0;
@@ -219,6 +219,16 @@
 
         @include mobile {
             padding: 1.4rem 1.4rem  0;
+        }
+
+        dd {
+            text-align: right;
+
+            span {
+                display: block;
+                font-size: .6em;
+                font-weight: 300;
+            }
         }
     }
 
@@ -253,6 +263,12 @@
 
         dd {
             text-align: right;
+
+            span {
+                display: block;
+                font-size: .7em;
+                font-weight: 300;
+            }
         }
 
         &_isMobile {
