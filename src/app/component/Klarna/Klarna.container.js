@@ -27,7 +27,7 @@ export class KlarnaContainer extends PureComponent {
     static authorize() {
         return new Promise((resolve, reject) => {
             window.Klarna.Payments.authorize(
-                { payment_method_category: 'pay_later' },
+                { payment_method_category: localStorage.getItem('kl_pm') },
                 {},
                 (res) => {
                     const { error, approved, authorization_token } = res;

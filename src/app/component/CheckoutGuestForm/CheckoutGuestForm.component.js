@@ -137,6 +137,7 @@ export class CheckoutGuestForm extends FieldForm {
               id="guest_create_user"
               name="guest_create_user"
               value={ isCreateUser }
+              checked={ isCreateUser }
               skipValue
               onChange={ handleCreateUser }
             />

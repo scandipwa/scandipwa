@@ -21,6 +21,7 @@ import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
@@ -75,7 +76,8 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
-    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
+    goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateRecentlyViewedProducts: (products) => dispatch(updateRecentlyViewedProducts(products))
 });
 
 /** @namespace Route/ProductPage/Container */
@@ -110,7 +112,8 @@ export class ProductPageContainer extends PureComponent {
         match: MatchType.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
-        metaTitle: PropTypes.string
+        metaTitle: PropTypes.string,
+        updateRecentlyViewedProducts: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -262,6 +265,23 @@ export class ProductPageContainer extends PureComponent {
         if (JSON.stringify(items) !== JSON.stringify(prevItems)) {
             this.getRequiredProductOptions(items);
         }
+
+        this._addToRecentlyViewedProducts();
+    }
+
+    _addToRecentlyViewedProducts() {
+        const {
+            product,
+            product: { sku },
+            updateRecentlyViewedProducts
+        } = this.props;
+
+        // necessary for skipping not loaded products
+        if (!sku) {
+            return;
+        }
+
+        updateRecentlyViewedProducts(product);
     }
 
     scrollTopIfPreviousPageWasPLP() {

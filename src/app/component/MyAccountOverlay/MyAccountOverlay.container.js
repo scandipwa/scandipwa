@@ -189,8 +189,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         this.setState({ state });
     }
 
-    setLoadingState(loading) {
-        this.setState({ loading });
+    setLoadingState(isLoading) {
+        this.setState({ isLoading });
     }
 
     redirectOrGetState = (props) => {
