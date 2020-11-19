@@ -16,6 +16,7 @@ import { createRef, lazy, Suspense } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CmsBlock from 'Component/CmsBlock';
+import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
 import Menu from 'Component/Menu';
@@ -645,6 +646,7 @@ export class Header extends NavigationAbstract {
                     { this.renderContacts() }
                 </div>
                 <div block="Header" elem="Switcher">
+                    <CurrencySwitcher />
                     <StoreSwitcher />
                 </div>
             </div>
