@@ -16,6 +16,7 @@ import { createRef, lazy, Suspense } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CmsBlock from 'Component/CmsBlock';
+import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
 import Menu from 'Component/Menu';
@@ -41,6 +42,7 @@ import {
     CHECKOUT,
     CHECKOUT_ACCOUNT,
     CMS_PAGE,
+    CONTACT_US,
     CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
     CUSTOMER_SUB_ACCOUNT,
@@ -176,6 +178,10 @@ export class Header extends NavigationAbstract {
         [CMS_PAGE]: {
             back: true,
             title: true
+        },
+        [CONTACT_US]: {
+            title: true,
+            back: true
         }
     };
 
@@ -645,6 +651,7 @@ export class Header extends NavigationAbstract {
                     { this.renderContacts() }
                 </div>
                 <div block="Header" elem="Switcher">
+                    <CurrencySwitcher />
                     <StoreSwitcher />
                 </div>
             </div>
