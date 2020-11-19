@@ -32,7 +32,7 @@ import {
     CART,
     CART_OVERLAY, CATEGORY,
     CHECKOUT, CHECKOUT_ACCOUNT,
-    CMS_PAGE, CUSTOMER_ACCOUNT,
+    CMS_PAGE, CONTACT_US, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
     MENU, PDP,
     SEARCH
@@ -97,6 +97,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         '/cart': { name: CART },
         '/menu': { name: MENU },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
+        '/contact': { name: CONTACT_US, onBackClick: () => history.goBack() },
         '/': { name: DEFAULT_STATE_NAME, isHiddenOnMobile: true }
     };
 
