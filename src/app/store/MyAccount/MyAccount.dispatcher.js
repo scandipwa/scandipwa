@@ -180,24 +180,20 @@ export class MyAccountDispatcher {
     async signIn(options = {}, dispatch) {
         const mutation = MyAccountQuery.getSignInMutation(options);
 
-        try {
-            const result = await fetchMutation(mutation);
-            const { generateCustomerToken: { token } } = result;
+        const result = await fetchMutation(mutation);
+        const { generateCustomerToken: { token } } = result;
 
-            setAuthorizationToken(token);
-            dispatch(updateCustomerSignInStatus(true));
-            CartDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
-            );
-            WishlistDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
-            );
-            dispatch(updateIsLoading(false));
+        setAuthorizationToken(token);
+        dispatch(updateCustomerSignInStatus(true));
+        CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
+        );
+        WishlistDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+        );
+        dispatch(updateIsLoading(false));
 
-            return true;
-        } catch ([e]) {
-            throw e;
-        }
+        return true;
     }
 }
 

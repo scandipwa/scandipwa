@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,7 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const SLIDER = 'Slider';
-export const NEW_PRODUCTS = 'NewProducts';
-export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
-export const RECENTLY_VIEWED = 'RecentlyViewed';
+export const RECENTLY_VIEWED_PRODUCTS = 'recentlyViewedProducts';
+export const MAX_NUMBER_OF_RECENT_PRODUCTS = 100;
