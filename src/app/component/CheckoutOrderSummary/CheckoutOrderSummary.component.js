@@ -47,7 +47,7 @@ export class CheckoutOrderSummary extends PureComponent {
         isExpandable: false
     };
 
-    renderPriceLine(price, name, mods, subPrice = null) {
+    renderPriceLine(price, name, mods, subPrice = null, appendContent = null) {
         if (!price) {
             return null;
         }
@@ -64,6 +64,7 @@ export class CheckoutOrderSummary extends PureComponent {
                     { `${priceString}` }
                     { subPrice }
                 </strong>
+                { appendContent }
             </li>
         );
     }
@@ -260,14 +261,51 @@ export class CheckoutOrderSummary extends PureComponent {
         return this.renderPriceLine(orderTotal, title);
     }
 
-    renderTax() {
+    renderTaxFullSummary() {
         const {
             totals: {
-                tax_amount
+                cart_display_config: {
+                    display_full_tax_summary
+                } = {},
+                applied_taxes
             }
         } = this.props;
 
-        return this.renderPriceLine(tax_amount, __('Tax'));
+        if (!display_full_tax_summary || !applied_taxes.length) {
+            return null;
+        }
+
+        return applied_taxes
+            .flatMap(({ rates }) => rates)
+            .map(({ percent, title }) => (
+                <div block="CheckoutOrderSummary" elem="AppendedContent">
+                    { `${title} (${percent}%)` }
+                </div>
+            ));
+    }
+
+    renderTax() {
+        const {
+            totals: {
+                tax_amount = 0,
+                cart_display_config: {
+                    display_full_tax_summary,
+                    display_zero_tax_subtotal
+                } = {}
+            }
+        } = this.props;
+
+        if (!tax_amount && !display_zero_tax_subtotal) {
+            return null;
+        }
+
+        return this.renderPriceLine(
+            tax_amount,
+            __('Tax'),
+            { withAppendedContent: display_full_tax_summary },
+            null,
+            this.renderTaxFullSummary()
+        );
     }
 
     renderTotals() {

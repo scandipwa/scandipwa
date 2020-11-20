@@ -45,6 +45,10 @@
         &::before {
             content: none;
         }
+
+        &_withAppendedContent {
+            flex-wrap: wrap;
+        }
     }
 
     &-OrderItems {
@@ -172,5 +176,9 @@
             font-size: .7em;
             font-weight: 300;
         }
+    }
+
+    &-AppendedContent {
+        flex-basis: 100%;
     }
 }

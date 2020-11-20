@@ -106,7 +106,8 @@ export class CartQuery {
             'is_virtual',
             'applied_rule_ids',
             this._getCartItemsField(),
-            this._getCartDisplayConfigField()
+            this._getCartDisplayConfigField(),
+            this._getAppliedTaxesField()
         ];
     }
 
@@ -223,6 +224,23 @@ export class CartQuery {
             'include_tax_in_order_total',
             'display_full_tax_summary',
             'display_zero_tax_subtotal'
+        ];
+    }
+
+    _getAppliedTaxesField() {
+        return new Field('applied_taxes')
+            .addField(this._getAppliedTaxesRatesField());
+    }
+
+    _getAppliedTaxesRatesField() {
+        return new Field('rates')
+            .addFieldList(this._getAppliedTaxesRatesFields());
+    }
+
+    _getAppliedTaxesRatesFields() {
+        return [
+            'percent',
+            'title'
         ];
     }
 }

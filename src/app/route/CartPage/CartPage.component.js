@@ -106,36 +106,62 @@ export class CartPage extends PureComponent {
     }
 
     renderSubTotalExlTax() {
-        const {
-            totals: {
-                cart_display_config: {
-                    display_zero_tax_subtotal
-                } = {}
-            },
-            cartSubTotalExlTax
-        } = this.props;
+        const { cartSubTotalExlTax } = this.props;
 
-        if (!cartSubTotalExlTax && !display_zero_tax_subtotal) {
+        if (!cartSubTotalExlTax) {
             return null;
         }
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartSubTotalExlTax || 0) }` }
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartSubTotalExlTax) }` }
             </span>
         );
+    }
+
+    renderTaxFullSummary() {
+        const {
+            totals: {
+                cart_display_config: {
+                    display_full_tax_summary
+                } = {},
+                applied_taxes
+            }
+        } = this.props;
+
+        if (!display_full_tax_summary || !applied_taxes.length) {
+            return null;
+        }
+
+        return applied_taxes
+            .flatMap(({ rates }) => rates)
+            .map(({ percent, title }) => (
+                <div block="CartPage" elem="TaxRate">
+                    { `${title} (${percent}%)` }
+                </div>
+            ));
     }
 
     renderTax() {
         const {
             totals: {
-                tax_amount = 0
+                tax_amount = 0,
+                cart_display_config: {
+                    display_zero_tax_subtotal
+                } = {}
             }
         } = this.props;
 
+        if (!tax_amount && !display_zero_tax_subtotal) {
+            return null;
+        }
+
         return (
             <>
-                <dt>{ __('Tax:') }</dt>
+                <dt>
+                    { __('Tax:') }
+                    { this.renderTaxFullSummary() }
+                </dt>
                 <dd>{ this.renderPriceLine(tax_amount) }</dd>
             </>
         );
