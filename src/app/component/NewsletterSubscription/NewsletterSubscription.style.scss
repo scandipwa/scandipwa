@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.NewsletterSubscription {
+:root {
     --newsletter-subscription-input-background: var(--input-background-color);
     --newsletter-subscription-input-color: #{$black};
-    --newsletter-subscription-placeholder-color: #9f9c9c;
+    --newsletter-subscription-placeholder-color: #{$default-secondary-dark-color};
     --newsletter-subscription-button-background: var(--link-color);
+}
 
+.NewsletterSubscription {
     min-width: 230px;
     padding: 0 1rem;
 
@@ -65,7 +67,7 @@
         }
 
         &-Button {
-            padding: 12px;
+            width: 44px;
             background-color: var(--newsletter-subscription-button-background);
             border-color: var(--newsletter-subscription-button-background);
 
@@ -75,14 +77,7 @@
                 background-color: var(--newsletter-subscription-button-background);
             }
 
-            &::after {
-                display: block;
-                content: '';
-                background-image: url('./images/letter-icon.svg');
-                background-repeat: no-repeat;
-                height: 14px;
-                width: 18px;
-            }
+            @include email-icon;
         }
     }
 

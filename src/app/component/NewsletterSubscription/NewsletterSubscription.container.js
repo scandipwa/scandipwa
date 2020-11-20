@@ -44,9 +44,7 @@ export class NewsletterSubscriptionContainer extends PureComponent {
         isLoading: false
     };
 
-    onFormSubmitSuccess = this.onFormSubmitSuccess.bind(this);
-
-    onFormSubmitError = this.onFormSubmitError.bind(this);
+    onFormSubmitDone = this.onFormSubmitDone.bind(this);
 
     onFormSubmit(fields) {
         const { subscribeToNewsletter } = this.props;
@@ -55,15 +53,11 @@ export class NewsletterSubscriptionContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         subscribeToNewsletter(email)
-            .then(this.onFormSubmitSuccess)
-            .catch(this.onFormSubmitError);
+            .then(this.onFormSubmitDone)
+            .catch(this.onFormSubmitDone);
     }
 
-    onFormSubmitSuccess() {
-        this.setState({ isLoading: false });
-    }
-
-    onFormSubmitError() {
+    onFormSubmitDone() {
         this.setState({ isLoading: false });
     }
 
