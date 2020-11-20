@@ -19,6 +19,7 @@ import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductGallery from 'Component/ProductGallery';
 import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
+import ProductPageTabs from 'Component/ProductPageTabs';
 import ProductReviews from 'Component/ProductReviews';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { DeviceType } from 'Type/Device';
@@ -27,6 +28,7 @@ import { ProductType } from 'Type/ProductList';
 import './ProductPage.style';
 
 /** @namespace Route/ProductPage/Component */
+// eslint-disable-next-line @scandipwa/scandipwa-guidelines/derived-class-names
 export class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
@@ -148,6 +150,8 @@ export class ProductPage extends PureComponent {
                 >
                     { this.renderProductPageContent() }
                 </ContentWrapper>
+                <ProductPageTabs />
+                { /* <h1>{ __('Reviews') }</h1> */ }
                 { this.renderAdditionalSections() }
             </main>
         );

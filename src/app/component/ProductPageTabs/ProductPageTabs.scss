@@ -1,0 +1,18 @@
+.Tabs {
+    font-size: 14px;
+
+    &-Element {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 15px;
+        &.active {
+            background-color: #f3f3f3;
+        }
+    }
+
+    &-Container {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #f3f3f3
+    }
+}
