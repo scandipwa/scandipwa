@@ -4,7 +4,7 @@
   "private": true,
   "author": "Scandiweb info@scandiweb.com",
   "license": "OSL-3.0",
-  "proxy": "https://demo.scandipwa.com/",
+  "proxy": "https://de-demo.scandipwa.com/",
   "engineStrict": true,
   "engines": {
     "node": "^10"
