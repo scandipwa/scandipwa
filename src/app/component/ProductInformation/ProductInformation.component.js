@@ -28,7 +28,7 @@ export class ProductInformation extends PureComponent {
         attributesWithValues: AttributeType.isRequired
     };
 
-    renderAttribute = ([attributeLabel, valueLabel]) => (!this.isEmpty(valueLabel) && !this.isEmpty(attributeLabel) ? (
+    renderAttribute = ([attributeLabel, valueLabel]) => (
         <Fragment key={ attributeLabel }>
             <dt block="ProductInformation" elem="AttributeLabel">
                 { attributeLabel }
@@ -41,11 +41,7 @@ export class ProductInformation extends PureComponent {
                 />
             </dd>
         </Fragment>
-    ) : null);
-
-    isEmpty(object) {
-        return (!object || object === 'null' || object.length === 0);
-    }
+    );
 
     renderAttributes() {
         const { attributesWithValues } = this.props;
