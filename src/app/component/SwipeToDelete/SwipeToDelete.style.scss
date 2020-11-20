@@ -11,6 +11,7 @@
 
 :root {
     --swipe-to-delete-bg-color: #ff3b30;
+    --right-side-content-animation-speed: .3s;
 }
 
 .SwipeToDelete {
@@ -32,10 +33,15 @@
 
     &-RightSideContent {
         height: 100%;
-        margin-left: auto;
+        margin-left: calc(100% - var(--right-side-content-width));
         display: flex;
         justify-content: center;
         align-items: center;
         width: var(--right-side-content-width);
+        transition: margin-left var(--right-side-content-animation-speed) ease-out;
+
+        &_isAheadRemoveItemThreshold {
+            margin-left: 0;
+        }
     }
 }

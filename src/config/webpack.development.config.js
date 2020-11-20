@@ -18,12 +18,10 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
 const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
 
-const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
@@ -267,8 +265,6 @@ const config = (env, argv) => {
                 publicPath: '/',
                 chunksSortMode: 'none'
             }),
-
-            new WebpackPwaManifest(webmanifestConfig(projectRoot)),
 
             new CopyWebpackPlugin([
                 { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
