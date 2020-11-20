@@ -225,13 +225,14 @@ export class CheckoutOrderSummary extends PureComponent {
             totals: {
                 subtotal_with_discount,
                 tax_amount,
-                grand_total
+                grand_total,
+                shipping_amount
             },
             checkoutStep
         } = this.props;
 
         if (checkoutStep !== SHIPPING_STEP) {
-            return grand_total;
+            return grand_total + shipping_amount;
         }
 
         return subtotal_with_discount + tax_amount;
@@ -317,7 +318,6 @@ export class CheckoutOrderSummary extends PureComponent {
                     { this.renderDiscount() }
                     { this.renderTax() }
                     { this.renderOrderTotal() }
-
                 </ul>
             </div>
         );

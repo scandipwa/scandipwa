@@ -28,28 +28,85 @@ export class ExpandableContentShowMore extends PureComponent {
         showElemCount: 3
     };
 
-    state = {
-        isOpen: false
-    };
+    __construct(props) {
+        super.__construct(props);
 
-    ref = createRef();
+        this.ref = createRef();
+
+        const { showElemCount, children: { length } } = this.props;
+
+        this.expandableRef = createRef();
+        this.expandableContentHeight = 'auto';
+
+        this.state = {
+            isOpen: length > showElemCount,
+            isExpanding: false
+        };
+    }
+
+    componentDidMount() {
+        const { isOpen } = this.state;
+
+        if (isOpen) {
+            this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            this.setState({ isOpen: false });
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { isExpanding } = this.state;
+
+        if (isExpanding) {
+            const ONE_SECOND_IN_MS = 1000;
+            const transitionDurationCSStoMS = window
+                .getComputedStyle(this.expandableRef.current)
+                .getPropertyValue('transition-duration')
+                .slice(0, -1) * ONE_SECOND_IN_MS;
+
+            setTimeout(() => this.setState({ isExpanding: false }),
+                transitionDurationCSStoMS);
+        }
+
+        const { children: { length } } = this.props;
+        const { children: { length: prevLength } } = prevProps;
+
+        if (length !== prevLength) {
+            this.getExpandableContentHeight();
+        }
+    }
+
+    getExpandableContentHeight() {
+        const { isOpen } = this.state;
+        const { showElemCount, children: { length } } = this.props;
+
+        if (isOpen && length <= showElemCount) {
+            this.setState({ isOpen: false });
+            return;
+        }
+
+        this.expandableContentHeight = 'auto';
+        this.setState({ isOpen: true }, () => {
+            this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            this.setState({ isOpen: false });
+        });
+    }
 
     handleShowAllButtonClick = () => {
-        const { pageYOffset } = window;
+        const { isExpanding } = this.state;
 
-        this.setState(
-            ({ isOpen }) => ({ isOpen: !isOpen }),
-            () => window.scrollTo(0, pageYOffset)
-        );
+        if (!isExpanding) {
+            this.setState(({ isOpen }) => ({ isOpen: !isOpen, isExpanding: true }));
+        }
     };
 
     renderShowAllButton() {
-        const { showElemCount, children } = this.props;
-        const { isOpen } = this.state;
+        const { showElemCount, children: { length } } = this.props;
 
-        if (children.length <= showElemCount) {
+        if (length <= showElemCount) {
             return null;
         }
+
+        const { isOpen } = this.state;
 
         const mods = isOpen ? { state: 'isOpen' } : {};
 
@@ -66,15 +123,36 @@ export class ExpandableContentShowMore extends PureComponent {
         );
     }
 
+    renderExpandableChildren() {
+        const { isOpen, isExpanding } = this.state;
+        const { children, showElemCount } = this.props;
+
+        const child = (isOpen || isExpanding) ? children.slice(showElemCount) : null;
+        const style = {
+            height: isOpen ? this.expandableContentHeight : 0
+        };
+
+        return (
+            <div
+              ref={ this.expandableRef }
+              block="ExpandableContentShowMore"
+              elem="ExpandableChildren"
+              style={ style }
+            >
+                { child }
+            </div>
+        );
+    }
+
     renderContent() {
         const { children, showElemCount } = this.props;
-        const { isOpen } = this.state;
 
-        const child = !isOpen ? children.slice(0, showElemCount) : children;
+        const child = children.slice(0, showElemCount);
 
         return (
             <>
                 { child }
+                { this.renderExpandableChildren() }
                 { this.renderShowAllButton() }
             </>
         );

@@ -16,4 +16,11 @@
     @include mobile {
         padding: 2.8rem 0;
     }
+
+    &-PaymentSelector {
+        .Button {
+            width: 100%;
+            margin: 1rem 0;
+        }
+    }
 }
