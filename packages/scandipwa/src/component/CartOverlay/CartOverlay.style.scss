@@ -1,0 +1,182 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --cart-overlay-totals-background: var(--secondary-base-color);
+    --cart-overlay-divider-background: #d8d8d8;
+    --cart-overlay-promo-background: #fff;
+    --cart-overlay-width: 400px;
+}
+
+.CartOverlay {
+    @include after-mobile {
+        position: absolute;
+        top: calc(var(--header-nav-height) - 7px);
+        right: 22px;
+        padding: 0;
+        width: var(--cart-overlay-width);
+    }
+
+    &_isVisible {
+        @include after-mobile {
+            border: 1px solid var(--overlay-desktop-border-color);
+        }
+    }
+
+    &::before {
+        @include after-mobile {
+            content: '';
+            position: absolute;
+            top: -9px;
+            right: 9px;
+            height: 15px;
+            width: 15px;
+            transform: rotate(45deg);
+            background-color: var(--overlay-desktop-border-color);
+            border: {
+                top: 1px solid var(--overlay-desktop-border-color);
+                left: 1px solid var(--overlay-desktop-border-color);
+            }
+        }
+    }
+
+    &-Empty {
+        padding: 1.2rem;
+        border-bottom: 1px solid var(--expandable-content-color);
+
+        @include mobile {
+            padding: 1.4rem;
+        }
+    }
+
+    &-Actions {
+        display: flex;
+        padding: 1.2rem;
+
+        @include mobile {
+            padding: 1.4rem;
+        }
+    }
+
+    &-OutOfStockProductsWarning {
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        background-color: var(--primary-error-color, red);
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    &-CheckoutButton {
+        margin-left: 1.2rem;
+
+        span {
+            @include lock-button;
+        }
+
+        @include mobile {
+            margin-left: 1.4rem;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        @include after-mobile {
+            flex-grow: 1;
+            text-align: center;
+        }
+    }
+
+    &-CartButton {
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-Promo,
+    &-Total {
+        min-height: 4.8rem;
+
+        @include mobile {
+            min-height: 5.6rem;
+        }
+
+        @include after-mobile {
+            min-height: 3.6rem;
+        }
+    }
+
+    &-Promo {
+        padding: 1.2rem;
+        text-align: center;
+        background: var(--cart-overlay-promo-background);
+        margin-bottom: 0;
+
+        @include mobile {
+            padding: 1.4rem;
+            border-bottom: 1px solid var(--cart-overlay-divider-background);
+            border-top: 1px solid var(--expandable-content-color);
+        }
+
+        @include after-mobile {
+            padding: .84rem;
+            background: var(--primary-light-color);
+        }
+
+        strong {
+            margin: 0 5px;
+        }
+    }
+
+    &-Items {
+        max-height: 40vh;
+        overflow-y: scroll;
+    }
+
+    &-Total,
+    &-Discount,
+    &-Tax {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 1.2rem .6rem;
+        font-size: 1.8rem;
+        background: var(--cart-overlay-totals-background);
+
+        @include mobile {
+            padding: 1.4rem 1.4rem .7rem;
+        }
+
+        @include after-mobile {
+            font-size: 1.6rem;
+        }
+    }
+
+    &-Total {
+        font-weight: bold;
+        padding: .6rem 1.2rem 1.2rem;
+
+        @include mobile {
+            padding: .7rem 1.4rem 1.4rem;
+        }
+
+        @include after-mobile {
+            border-bottom: 1px solid var(--cart-item-divider-color);
+        }
+    }
+
+    &-DiscountCoupon {
+        &::after {
+            content: ':';
+            font-weight: normal;
+        }
+    }
+}

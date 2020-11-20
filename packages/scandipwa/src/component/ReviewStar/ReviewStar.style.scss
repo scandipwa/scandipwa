@@ -1,0 +1,44 @@
+.ReviewStar {
+    --star-outline-color: var(--secondary-dark-color);
+
+    // reset from input default styles
+    display: inline;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: 0;
+
+    transition: color 150ms ease-in;
+    color: $white;
+    text-shadow:
+        -1px 0 var(--star-outline-color),
+        0 1px var(--star-outline-color),
+        1px 0 var(--star-outline-color),
+        0 -1px var(--star-outline-color);
+
+    font-size: 4rem;
+    line-height: 1;
+    /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+    font-family: Times; // make sure ★ appears correctly
+    letter-spacing: 3px;
+
+    &::after {
+        content: '★';
+        font-family: serif;
+    }
+
+    &:checked,
+    &:hover,
+    &[checked],
+    &:checked ~ input,
+    &:hover ~ input,
+    &[checked] ~ input {
+        --star-outline-color: var(--primary-base-color);
+
+        color: var(--primary-base-color);
+    }
+
+    &:focus {
+        border: 0;
+    }
+}

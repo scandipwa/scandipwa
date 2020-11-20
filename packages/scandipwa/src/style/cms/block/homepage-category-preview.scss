@@ -1,0 +1,96 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --homepage-button-background: #fff;
+    --homepage-button-color: #000;
+}
+
+.HomepageCategories {
+    @include desktop {
+        grid-gap: 1.2rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 3px;
+    }
+
+    &-Figure {
+        margin-top: 1.2rem;
+
+        @include mobile {
+            margin-top: 1.4rem;
+        }
+
+        @include after-mobile {
+            margin-top: 5px;
+            height: 400px;
+        }
+
+        .Image {
+            height: 100%;
+            display: block;
+            padding-bottom: 0;
+
+            @include mobile {
+                height: 0;
+                padding-bottom: 56.5%;
+            }
+
+            &-Image {
+                object-fit: cover;
+            }
+        }
+    }
+
+    &-Figcaption {
+        --button-background: var(--homepage-button-background);
+        --button-color: var(--homepage-button-color);
+        --button-border: transparent;
+        --button-hover-background: var(--homepage-button-color);
+        --button-hover-color: var(--homepage-button-background);
+        --button-hover-border: transparent;
+        --button-padding: 13px 40px;
+        --button-border-width: 0;
+
+        @include mobile {
+            --button-padding: 5px 0;
+        }
+
+        @include after-mobile {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            text-align: center;
+        }
+
+        &_isPlaceholder {
+            padding-bottom: 31px;
+        }
+    }
+
+    &-Button.Button {
+        font-weight: 300;
+
+        @include mobile {
+            text-align: left;
+            width: 100%;
+        }
+    }
+
+    a {
+        display: block;
+
+        + a {
+            margin-left: 0;
+        }
+    }
+}

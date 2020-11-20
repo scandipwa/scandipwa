@@ -1,0 +1,160 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { MixType } from 'Type/Common';
+import { PriceType } from 'Type/ProductList';
+
+import './ProductPrice.style';
+
+/**
+ * Product price
+ * @class ProductPrice
+ * @namespace Component/ProductPrice/Component
+ */
+export class ProductPrice extends PureComponent {
+    static propTypes = {
+        isSchemaRequired: PropTypes.bool,
+        roundedRegularPrice: PropTypes.string,
+        priceCurrency: PropTypes.string,
+        discountPercentage: PropTypes.number,
+        formattedFinalPrice: PropTypes.string,
+        variantsCount: PropTypes.number,
+        price: PriceType,
+        mix: MixType
+    };
+
+    static defaultProps = {
+        isSchemaRequired: false,
+        roundedRegularPrice: '0',
+        priceCurrency: 'USD',
+        discountPercentage: 0,
+        formattedFinalPrice: '0',
+        variantsCount: 0,
+        mix: {},
+        price: {}
+    };
+
+    renderPlaceholder() {
+        const { mix } = this.props;
+
+        return (
+            <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
+                <TextPlaceholder mix={ { block: 'ProductPrice', elem: 'Placeholder' } } length="custom" />
+            </p>
+        );
+    }
+
+    getCurrencySchema() {
+        const { isSchemaRequired, priceCurrency } = this.props;
+        return isSchemaRequired ? { itemProp: 'priceCurrency', content: priceCurrency } : {};
+    }
+
+    getCurrentPriceSchema() {
+        const { isSchemaRequired, variantsCount, price } = this.props;
+        const content_price = price.minimum_price.final_price
+            ? price.minimum_price.final_price.value : price.minimum_price.regular_price.value;
+
+        if (variantsCount > 1) {
+            return isSchemaRequired ? { itemProp: 'lowPrice', content: content_price } : {};
+        }
+
+        return isSchemaRequired ? { itemProp: 'price', content: content_price } : {};
+    }
+
+    renderCurrentPrice() {
+        const {
+            discountPercentage,
+            formattedFinalPrice
+        } = this.props;
+
+        const priceSchema = this.getCurrentPriceSchema();
+
+        // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
+        const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
+
+        return (
+            <PriceSemanticElementName>
+                <span { ...priceSchema }>{ formattedFinalPrice }</span>
+            </PriceSemanticElementName>
+        );
+    }
+
+    renderOldPrice() {
+        const {
+            roundedRegularPrice,
+            discountPercentage,
+            isSchemaRequired,
+            variantsCount
+        } = this.props;
+
+        const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
+
+        return (
+            <del
+              block="ProductPrice"
+              elem="HighPrice"
+              mods={ { isVisible: discountPercentage > 0 } }
+              aria-label={ __('Old product price') }
+              { ...schema }
+            >
+                { roundedRegularPrice }
+            </del>
+        );
+    }
+
+    renderSchema() {
+        const { isSchemaRequired } = this.props;
+
+        if (isSchemaRequired) {
+            const currencySchema = this.getCurrencySchema();
+            return (
+                <meta { ...currencySchema } />
+            );
+        }
+
+        return null;
+    }
+
+    render() {
+        const {
+            price: {
+                minimum_price: {
+                    final_price,
+                    regular_price
+                } = {}
+            } = {},
+            formattedFinalPrice,
+            mix
+        } = this.props;
+
+        if (!final_price || !regular_price) {
+            return this.renderPlaceholder();
+        }
+
+        return (
+            <p
+              block="ProductPrice"
+              mix={ mix }
+              aria-label={ `Product price: ${formattedFinalPrice}` }
+            >
+                { this.renderCurrentPrice() }
+                { this.renderOldPrice() }
+                { this.renderSchema() }
+            </p>
+        );
+    }
+}
+
+export default ProductPrice;

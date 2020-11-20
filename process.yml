@@ -1,3 +1,0 @@
-apps:
-  - script: "npm run dev-server"
-  - script: "npm run watch-dev-server"

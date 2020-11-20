@@ -1,0 +1,212 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --category-filter-overlay-desktop-color: #979797;
+    --category-filter-overlay-selected-color: var(--primary-base-color);
+    --category-filter-overlay-hover-color: var(--primary-light-color);
+}
+
+.CategoryFilterOverlay {
+    @include desktop {
+        position: relative;
+        grid-row: 1/6;
+        width: 100%;
+        opacity: 1;
+        pointer-events: all;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+    }
+
+    @include before-desktop {
+        transition: transform 200ms ease-in-out;
+        transform: translateY(100%);
+        will-change: transform;
+    }
+
+    &_isVisible {
+        transform: translateY(0%);
+    }
+
+    &-NoResults {
+        margin: 0;
+        padding: 1.2rem 1.2rem 0;
+
+        @include mobile {
+            padding: 1.4rem 1.4rem 0;
+        }
+
+        @include desktop {
+            padding: 0 0 1.2rem 0;
+        }
+    }
+
+    &-Heading {
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-transform: none;
+        margin-top: 0;
+
+        @include before-desktop {
+            display: none;
+        }
+    }
+
+    &-Item {
+        @include desktop {
+            margin-right: 1.2rem;
+        }
+
+        &_isSelected {
+            &:not(.Swatch_type_color):not(.Swatch_type_cat) {
+                --category-filter-overlay-desktop-color: var(--category-filter-overlay-selected-color);
+            }
+        }
+
+        &:not(.Swatch_type_color):not(.Swatch_type_cat) {
+            @include desktop {
+                padding: 0 12px;
+                border: 1px solid var(--category-filter-overlay-desktop-color);
+                color: var(--category-filter-overlay-desktop-color);
+                margin-right: 6px;
+            }
+
+            &:hover {
+                @include desktop {
+                    --category-filter-overlay-desktop-color: var(--category-filter-overlay-hover-color);
+                }
+            }
+        }
+
+        &_type_cat {
+            &::before {
+                @include desktop {
+                    content: '\2022';
+
+                    margin-right: 1.2rem;
+                    margin-left: 2px;
+                }
+            }
+        }
+    }
+
+    &-Placeholder {
+        padding: 1.2rem;
+
+        @include mobile {
+            padding: 1.4rem;
+        }
+    }
+
+    &-Attributes {
+        --option-margin: .6rem;
+
+        @include mobile {
+            --option-margin: .7rem;
+        }
+
+        @include desktop {
+            --option-margin: 0 12px 12px 0;
+        }
+    }
+
+    &-Filter {
+        order: 50;
+
+        @include desktop {
+            margin-bottom: 1.2rem;
+        }
+    }
+
+    &-SeeResults,
+    &-ResetButton {
+        @include before-desktop {
+            position: sticky;
+            padding: 1.2rem;
+            width: 100%;
+            left: 0;
+        }
+
+        @include mobile {
+            padding: 1.4rem;
+        }
+    }
+
+    &-SeeResults {
+        @include desktop {
+            display: none;
+        }
+
+        .CategoryFilterOverlay-NoResults ~ & {
+            @include before-desktop {
+                display: none;
+            }
+        }
+    }
+
+    &-Button.Button {
+        width: 100%;
+    }
+
+    &-ResetButton {
+        margin-bottom: 1.2rem;
+
+        @include mobile {
+            margin-bottom: 1.4rem;
+        }
+
+        @include before-desktop {
+            display: none;
+        }
+
+        .CategoryFilterOverlay-NoResults ~ & {
+            @include before-desktop {
+                display: block;
+            }
+        }
+    }
+
+    li {
+        padding-left: 0;
+
+        &::before {
+            content: none;
+        }
+
+        &:last-child {
+            @include before-desktop {
+                margin-bottom: .72rem;
+            }
+
+            @include mobile {
+                margin-bottom: .84rem;
+            }
+        }
+    }
+
+    .ProductAttributeValue-Image-Overlay {
+        @include before-desktop {
+            margin: .6rem;
+        }
+
+        @include mobile {
+            margin: .7rem;
+        }
+    }
+
+    .TextPlaceholder,
+    .ProductConfigurableAttributes-Placeholder {
+        opacity: 0;
+        animation: appear 100ms 300ms forwards;
+    }
+}
