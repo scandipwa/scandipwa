@@ -23,11 +23,11 @@
         padding-bottom: 75px;
     }
 
-    > section:nth-child(even) {
-        @include after-mobile {
-            background-color: var(--secondary-base-color);
-        }
-    }
+    // > section:nth-child(even) {
+    // @include after-mobile {
+    //     background-color: var(--secondary-base-color);
+    // }
+    // }
 
     &-Wrapper {
         display: grid;
