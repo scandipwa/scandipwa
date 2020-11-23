@@ -14,13 +14,12 @@ import { Fragment, PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
-// import Html from 'Component/Html';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { AttributeType, ProductType } from 'Type/ProductList';
 
 import './ProductInformationAttributes.style';
 
-/** @namespace Component/ProductInformation/Component */
+/** @namespace Component/ProductInformationAttributes/Component */
 export class ProductInformationAttributes extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
