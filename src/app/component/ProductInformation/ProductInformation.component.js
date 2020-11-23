@@ -77,7 +77,7 @@ export class ProductInformation extends PureComponent {
 
         return (
             <ExpandableContent
-              // show placeholder if the details are not loaded
+                // show placeholder if the details are not loaded
               heading={ heading }
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
@@ -85,6 +85,29 @@ export class ProductInformation extends PureComponent {
                 { this.renderAttributes() }
             </ExpandableContent>
         );
+    }
+
+    isHTMLWhiteSpaceOrUndefined(htmlString) {
+        if (!htmlString || htmlString.trim() === '') {
+            return true;
+        }
+
+        const parser = new DOMParser();
+        const document = parser.parseFromString(htmlString.trim(), 'text/html');
+
+        if (document.body.children.length === 0) {
+            return false;
+        }
+
+        // eslint-disable-next-line fp/no-let
+        let isWhiteSpace = true;
+        Array.from(document.body.children).forEach((element) => {
+            if (element.innerText !== '') {
+                isWhiteSpace = false;
+            }
+        });
+
+        return isWhiteSpace;
     }
 
     render() {
@@ -95,7 +118,7 @@ export class ProductInformation extends PureComponent {
             }
         } = this.props;
 
-        if (!html && areDetailsLoaded) {
+        if (this.isHTMLWhiteSpaceOrUndefined(html) && areDetailsLoaded) {
             return null;
         }
 
