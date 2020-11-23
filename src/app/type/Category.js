@@ -29,7 +29,8 @@ export const CategoryFragment = {
     name: PropTypes.string,
     product_count: PropTypes.number,
     url_key: PropTypes.string,
-    url_path: PropTypes.string
+    url_path: PropTypes.string,
+    display_mode: PropTypes.string
 };
 
 export const CategoryTreeType = PropTypes.shape({

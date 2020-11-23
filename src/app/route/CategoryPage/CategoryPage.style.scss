@@ -27,6 +27,16 @@
         @include mobile {
             padding: 0;
         }
+
+        &_hideProducts {
+            display: block;
+
+            .CategoryPage-CMS {
+                @include mobile {
+                    margin-top: 0;
+                }
+            }
+        }
     }
 
     &-ProductListWrapper {
