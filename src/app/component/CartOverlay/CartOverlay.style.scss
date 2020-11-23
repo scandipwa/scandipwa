@@ -50,7 +50,6 @@
 
     &-Empty {
         padding: 1.2rem;
-        border-bottom: 1px solid var(--expandable-content-color);
 
         @include mobile {
             padding: 1.4rem;
