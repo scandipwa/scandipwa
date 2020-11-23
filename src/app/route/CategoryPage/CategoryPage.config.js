@@ -11,9 +11,3 @@
  */
 
 export const LOADING_TIME = 500;
-
-export const DISPLAY_MODE_PRODUCTS = 'PRODUCTS';
-
-export const DISPLAY_MODE_CMS_BLOCK = 'PAGE';
-
-export const DISPLAY_MODE_BOTH = 'PRODUCTS_AND_PAGE';
