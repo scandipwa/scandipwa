@@ -1,6 +1,7 @@
 .ProductConfigurableAttributeDropdown {
     @include after-mobile {
         --input-padding: 10px 20px;
+        width: 200px;
     }
 
     @include mobile {

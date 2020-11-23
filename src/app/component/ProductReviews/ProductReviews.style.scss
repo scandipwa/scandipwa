@@ -10,12 +10,13 @@
  */
 
 .ProductReviews {
+    border-top: 1px solid var(--expandable-content-divider-color);
+
     @include desktop {
         z-index: 1;
     }
 
     @include mobile {
-        border-top: 1px solid var(--expandable-content-divider-color);
         top: -2px;
     }
 

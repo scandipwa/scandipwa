@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,4 +11,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductInformation.component';
+export const Tab = {
+    ABOUT: 'about',
+    DETAILS: 'details',
+    REVIEWS: 'reviews'
+};
+
+export const DEFAULT_TAB = Tab.ABOUT;
