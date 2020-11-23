@@ -12,7 +12,7 @@
 :root {
     --newsletter-subscription-input-background: var(--input-background-color);
     --newsletter-subscription-input-color: #{$black};
-    --newsletter-subscription-placeholder-color: #{$default-secondary-dark-color};
+    --newsletter-subscription-placeholder-color: var(--secondary-dark-color);
     --newsletter-subscription-button-background: var(--link-color);
 }
 
