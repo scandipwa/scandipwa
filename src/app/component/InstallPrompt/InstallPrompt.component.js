@@ -27,14 +27,27 @@ export class InstallPrompt extends PureComponent {
         containerFunctions: PropTypes.object.isRequired
     };
 
+    /**
+     * Currently BeforeInstallPromptEvent is supported only on
+     * - Android webview
+     * - Chrome for Android
+     * - Samsung Internet
+     * But iOS has own "Add to Home Screen button" on Safari share menu
+     */
     hasSupport() {
-        const { device, hasInstallPromptEvent } = this.props;
-        // since currently BeforeInstallPromptEvent is supported only on
-        // - Android webview
-        // - Chrome for Android
-        // - Samsung Internet
-        // but iOS has own "Add to Home Screen button" on Safari share menu
-        return hasInstallPromptEvent || (device.ios && device.safari);
+        const { device, hasInstallPromptEvent, isBannerClosed } = this.props;
+        const {
+            android,
+            ios,
+            safari,
+            standaloneMode
+        } = device;
+        const isAndroid = android && hasInstallPromptEvent;
+        const isIos = ios && safari;
+
+        return (isAndroid || isIos)
+            && !standaloneMode
+            && !isBannerClosed;
     }
 
     renderPrompt() {
@@ -52,21 +65,17 @@ export class InstallPrompt extends PureComponent {
     }
 
     render() {
-        const { device, isBannerClosed } = this.props;
-        const displayComponent = (device.ios || device.android)
-            && !device.standaloneMode
-            && !isBannerClosed
-            && this.hasSupport();
+        const displayComponent = this.hasSupport();
 
-        if (displayComponent) {
-            return (
-                <div block="InstallPrompt">
-                    { this.renderPrompt() }
-                </div>
-            );
+        if (!displayComponent) {
+            return null;
         }
 
-        return null;
+        return (
+            <div block="InstallPrompt">
+                { this.renderPrompt() }
+            </div>
+        );
     }
 }
 
