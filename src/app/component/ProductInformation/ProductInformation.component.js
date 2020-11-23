@@ -77,7 +77,7 @@ export class ProductInformation extends PureComponent {
 
         return (
             <ExpandableContent
-                // show placeholder if the details are not loaded
+              // show placeholder if the details are not loaded
               heading={ heading }
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
@@ -92,22 +92,18 @@ export class ProductInformation extends PureComponent {
             return true;
         }
 
+        // creates a DOM object from string
         const parser = new DOMParser();
         const document = parser.parseFromString(htmlString.trim(), 'text/html');
 
+        // handles the case of plain text
         if (document.body.children.length === 0) {
             return false;
         }
 
-        // eslint-disable-next-line fp/no-let
-        let isWhiteSpace = true;
-        Array.from(document.body.children).forEach((element) => {
-            if (element.innerText !== '') {
-                isWhiteSpace = false;
-            }
-        });
-
-        return isWhiteSpace;
+        // check if at least one HTML element has content
+        const elementsWithContent = Array.from(document.body.children).filter((element) => element.innerText !== '');
+        return elementsWithContent.length === 0;
     }
 
     render() {
