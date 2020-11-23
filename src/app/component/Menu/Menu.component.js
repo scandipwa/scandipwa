@@ -21,6 +21,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import { DeviceType } from 'Type/Device';
 import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
+import { debounce } from 'Util/Request';
 
 import './Menu.style';
 
@@ -34,6 +35,13 @@ export class Menu extends PureComponent {
         onCategoryHover: PropTypes.func.isRequired,
         device: DeviceType.isRequired
     };
+
+    componentDidMount() {
+        const { closeMenu } = this.props;
+        const SCROLL_DEBOUNCE_DELAY = 10;
+
+        window.addEventListener('scroll', debounce(closeMenu, SCROLL_DEBOUNCE_DELAY));
+    }
 
     renderDesktopSubLevelItems(item, mods) {
         const { item_id } = item;
