@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
+import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import {
     DISPLAY_CART_TAX_IN_SHIPPING_BOTH,
@@ -23,7 +24,6 @@ import {
 } from 'Route/CartPage/CartPage.config';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
-import { formatPrice } from 'Util/Price';
 
 import './CheckoutOrderSummary.style';
 
@@ -47,25 +47,20 @@ export class CheckoutOrderSummary extends PureComponent {
         isExpandable: false
     };
 
-    renderPriceLine(price, name, mods, subPrice = null, appendContent = null) {
+    renderPriceLine(price, title, mods) {
         if (!price) {
             return null;
         }
 
         const { totals: { quote_currency_code } } = this.props;
-        const priceString = formatPrice(price, quote_currency_code);
 
         return (
-            <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
-                <strong block="CheckoutOrderSummary" elem="Text">
-                    { name }
-                </strong>
-                <strong block="CheckoutOrderSummary" elem="Text">
-                    { `${priceString}` }
-                    { subPrice }
-                </strong>
-                { appendContent }
-            </li>
+            <CheckoutOrderSummaryPriceLine
+              price={ price }
+              currency={ quote_currency_code }
+              title={ title }
+              mods={ mods }
+            />
         );
     }
 
@@ -140,29 +135,12 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderSubPrice(price) {
-        const {
-            totals: {
-                quote_currency_code
-            }
-        } = this.props;
-
-        if (!price) {
-            return null;
-        }
-
-        return (
-            <span>
-                { `${ __('Excl. tax:') } ${ formatPrice(price || 0, quote_currency_code) }` }
-            </span>
-        );
-    }
-
     renderSubTotal() {
         const {
             totals: {
                 subtotal,
                 subtotal_incl_tax,
+                quote_currency_code,
                 cart_display_config: {
                     display_tax_in_subtotal
                 } = {}
@@ -171,11 +149,13 @@ export class CheckoutOrderSummary extends PureComponent {
         const title = __('Cart Subtotal');
 
         if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH) {
-            return this.renderPriceLine(
-                subtotal_incl_tax,
-                title,
-                {},
-                this.renderSubPrice(subtotal)
+            return (
+                <CheckoutOrderSummaryPriceLine
+                  price={ subtotal_incl_tax }
+                  currency={ quote_currency_code }
+                  title={ title }
+                  subPrice={ subtotal }
+                />
             );
         }
 
@@ -191,6 +171,7 @@ export class CheckoutOrderSummary extends PureComponent {
             totals: {
                 shipping_amount,
                 shipping_incl_tax,
+                quote_currency_code,
                 cart_display_config: {
                     display_tax_in_shipping_amount
                 } = {}
@@ -205,11 +186,14 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_BOTH) {
-            return this.renderPriceLine(
-                shipping_incl_tax,
-                title,
-                mods,
-                this.renderSubPrice(shipping_amount)
+            return (
+                <CheckoutOrderSummaryPriceLine
+                  price={ shipping_incl_tax }
+                  currency={ quote_currency_code }
+                  title={ title }
+                  mods={ mods }
+                  subPrice={ shipping_amount }
+                />
             );
         }
 
@@ -242,6 +226,7 @@ export class CheckoutOrderSummary extends PureComponent {
         const {
             totals: {
                 tax_amount,
+                quote_currency_code,
                 cart_display_config: {
                     include_tax_in_order_total
                 } = {}
@@ -251,11 +236,13 @@ export class CheckoutOrderSummary extends PureComponent {
         const orderTotal = this.getOrderTotal();
 
         if (include_tax_in_order_total) {
-            return this.renderPriceLine(
-                orderTotal,
-                title,
-                {},
-                this.renderSubPrice(orderTotal - tax_amount)
+            return (
+                <CheckoutOrderSummaryPriceLine
+                  price={ orderTotal }
+                  currency={ quote_currency_code }
+                  title={ title }
+                  subPrice={ orderTotal - tax_amount }
+                />
             );
         }
 
@@ -278,8 +265,9 @@ export class CheckoutOrderSummary extends PureComponent {
 
         return applied_taxes
             .flatMap(({ rates }) => rates)
-            .map(({ percent, title }) => (
-                <div block="CheckoutOrderSummary" elem="AppendedContent">
+            .map(({ percent, title }, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <div block="CheckoutOrderSummary" elem="AppendedContent" key={ i }>
                     { `${title} (${percent}%)` }
                 </div>
             ));
@@ -289,6 +277,7 @@ export class CheckoutOrderSummary extends PureComponent {
         const {
             totals: {
                 tax_amount = 0,
+                quote_currency_code,
                 cart_display_config: {
                     display_full_tax_summary,
                     display_zero_tax_subtotal
@@ -300,12 +289,15 @@ export class CheckoutOrderSummary extends PureComponent {
             return null;
         }
 
-        return this.renderPriceLine(
-            tax_amount,
-            __('Tax'),
-            { withAppendedContent: display_full_tax_summary },
-            null,
-            this.renderTaxFullSummary()
+        return (
+            <CheckoutOrderSummaryPriceLine
+              price={ tax_amount }
+              currency={ quote_currency_code }
+              title={ __('Tax') }
+              mods={ { withAppendedContent: display_full_tax_summary } }
+            >
+                { this.renderTaxFullSummary() }
+            </CheckoutOrderSummaryPriceLine>
         );
     }
 

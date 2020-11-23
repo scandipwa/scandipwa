@@ -80,7 +80,12 @@ export class CartItemPriceContainer extends PureComponent {
     }
 
     render() {
-        return <CartItemPrice { ...this.props } { ...this.containerProps() } />;
+        return (
+            <CartItemPrice
+              { ...this.props }
+              { ...this.containerProps() }
+            />
+        );
     }
 }
 
