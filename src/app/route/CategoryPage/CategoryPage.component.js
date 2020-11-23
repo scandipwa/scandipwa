@@ -24,8 +24,13 @@ import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 
+import {
+    DISPLAY_MODE_BOTH,
+    DISPLAY_MODE_CMS_BLOCK,
+    DISPLAY_MODE_PRODUCTS
+} from './CategoryPage.config';
+
 import './CategoryPage.style';
-import './CategoryPage.style.scss';
 
 /** @namespace Route/CategoryPage/Component */
 export class CategoryPage extends PureComponent {
@@ -69,6 +74,18 @@ export class CategoryPage extends PureComponent {
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
     }
 
+    displayProducts() {
+        const { category: { display_mode } = {} } = this.props;
+        return display_mode === DISPLAY_MODE_PRODUCTS
+            || display_mode === DISPLAY_MODE_BOTH;
+    }
+
+    displayCmsBlock() {
+        const { category: { display_mode } = {} } = this.props;
+        return display_mode === DISPLAY_MODE_CMS_BLOCK
+            || display_mode === DISPLAY_MODE_BOTH;
+    }
+
     renderCategoryDetails() {
         const { category } = this.props;
 
@@ -103,6 +120,10 @@ export class CategoryPage extends PureComponent {
             selectedFilters,
             isMatchingInfoFilter
         } = this.props;
+
+        if (!this.displayProducts()) {
+            return null;
+        }
 
         return (
             <CategoryFilterOverlay
@@ -164,6 +185,10 @@ export class CategoryPage extends PureComponent {
             isMatchingInfoFilter
         } = this.props;
 
+        if (!this.displayProducts()) {
+            return null;
+        }
+
         return (
             <div block="CategoryPage" elem="ProductListWrapper">
                 { this.renderItemsCount(true) }
@@ -182,7 +207,7 @@ export class CategoryPage extends PureComponent {
     renderCmsBlock() {
         const { category: { cms_block } } = this.props;
 
-        if (!cms_block) {
+        if (!cms_block || !this.displayCmsBlock()) {
             return null;
         }
 
@@ -202,29 +227,42 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderMiscellaneous() {
+        if (!this.displayProducts()) {
+            return null;
+        }
+
+        return (
+            <aside block="CategoryPage" elem="Miscellaneous">
+                { this.renderItemsCount() }
+                { this.renderCategorySort() }
+                { this.renderFilterButton() }
+            </aside>
+        );
+    }
+
     renderContent() {
         return (
             <>
                 { this.renderFilterOverlay() }
                 { this.renderCategoryDetails() }
                 { this.renderCmsBlock() }
-                <aside block="CategoryPage" elem="Miscellaneous">
-                    { this.renderItemsCount() }
-                    { this.renderCategorySort() }
-                    { this.renderFilterButton() }
-                </aside>
+                { this.renderMiscellaneous() }
                 { this.renderCategoryProductList() }
             </>
         );
     }
 
     render() {
+        const hideProducts = !this.displayProducts();
+
         return (
             <main block="CategoryPage">
                 <ContentWrapper
                   wrapperMix={ {
                       block: 'CategoryPage',
-                      elem: 'Wrapper'
+                      elem: 'Wrapper',
+                      mods: { hideProducts }
                   } }
                   label="Category page"
                 >
