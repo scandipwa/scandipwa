@@ -91,6 +91,7 @@ export class CategoryQuery {
             'default_sort_by',
             'meta_description',
             'landing_page',
+            'display_mode',
             this._getCmsBlockField(),
             this._getBreadcrumbsField()
         ];

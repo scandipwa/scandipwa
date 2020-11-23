@@ -32,8 +32,6 @@ export class InstallPromptContainer extends PureComponent {
         device: DeviceType.isRequired
     };
 
-    installPromptEvent = null;
-
     state = {
         isBannerClosed: BrowserDatabase.getItem('postpone_installation'),
         hasInstallPromptEvent: false
@@ -49,15 +47,15 @@ export class InstallPromptContainer extends PureComponent {
     }
 
     handleAppInstall() {
-        if (!this.installPromptEvent) {
+        if (!window.promt_event) {
             return;
         }
 
         // Show the modal add to home screen dialog
-        this.installPromptEvent.prompt();
+        window.promt_event.prompt();
 
         // Wait for the user to respond to the prompt
-        this.installPromptEvent.userChoice.then(
+        window.promt_event.userChoice.then(
             /** @namespace Component/InstallPrompt/Container/then */
             (choice) => {
                 if (choice.outcome === 'accepted') {
@@ -65,7 +63,7 @@ export class InstallPromptContainer extends PureComponent {
                 }
 
                 // Clear the saved prompt since it can't be used again
-                this.installPromptEvent = null;
+                window.promt_event = null;
                 this.setState({ hasInstallPromptEvent: false });
             }
         );
@@ -80,7 +78,7 @@ export class InstallPromptContainer extends PureComponent {
     listenForInstallPrompt() {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
-            this.installPromptEvent = event;
+            window.promt_event = Object.assign(event);
             this.setState({ hasInstallPromptEvent: true });
         });
     }

@@ -400,7 +400,8 @@ export class CheckoutContainer extends PureComponent {
         const {
             createAccount,
             totals: { is_virtual },
-            showSuccessNotification
+            showSuccessNotification,
+            isEmailAvailable
         } = this.props;
 
         const {
@@ -413,7 +414,7 @@ export class CheckoutContainer extends PureComponent {
             }
         } = this.state;
 
-        if (!isCreateUser) {
+        if (!isCreateUser || !isEmailAvailable) {
             return this.saveGuestEmail();
         }
 

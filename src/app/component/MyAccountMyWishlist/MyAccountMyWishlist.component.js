@@ -187,12 +187,11 @@ export class MyAccountMyWishlist extends PureComponent {
 
         return (
             <button
-              block="Button"
+              mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
               onClick={ shareWishlist }
               disabled={ disabled }
-            >
-                { __('Share Wishlist') }
-            </button>
+              aria-label="Share"
+            />
         );
     }
 
@@ -255,6 +254,7 @@ export class MyAccountMyWishlist extends PureComponent {
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
                 { this.renderClearWishlist() }
+                { this.renderShareWishlistButton() }
                 { this.renderAddAllToCart() }
             </div>
         );
