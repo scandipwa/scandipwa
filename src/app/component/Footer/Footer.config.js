@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const RENDER_NEWSLETTER = 'render_newsletter';
+
 // eslint-disable-next-line import/prefer-default-export
 export const COLUMN_MAP = [
     {
@@ -69,6 +71,14 @@ export const COLUMN_MAP = [
             {
                 href: 'https://twitter.com/scandipwa',
                 src: 'assets/images/twitter.png'
+            }
+        ]
+    },
+    {
+        title: 'Newsletter',
+        items: [
+            {
+                render: RENDER_NEWSLETTER
             }
         ]
     }
