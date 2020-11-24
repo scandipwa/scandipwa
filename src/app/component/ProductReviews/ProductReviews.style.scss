@@ -10,6 +10,7 @@
  */
 
 .ProductReviews {
+    top: -1px;
     border-top: 1px solid var(--expandable-content-divider-color);
 
     @include desktop {
@@ -17,7 +18,7 @@
     }
 
     @include mobile {
-        top: -2px;
+        top: -1px;
     }
 
     &-Title {

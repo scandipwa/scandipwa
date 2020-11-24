@@ -41,7 +41,7 @@ export class ProductTabs extends PureComponent {
         const childrenArray = React.Children.toArray(children);
 
         return childrenArray.map((item) => {
-            if (item.props.tabName === activeTab) {
+            if (item.props.tabName.toLowerCase() === activeTab.toLowerCase()) {
                 return item;
             }
 
@@ -65,7 +65,7 @@ export class ProductTabs extends PureComponent {
                       key={ item.props.tabName }
                       block="ProductTab"
                       elem="Item"
-                      mods={ { isActive: item.props.tabName === activeTab } }
+                      mods={ { isActive: item.props.tabName.toLowerCase() === activeTab.toLowerCase() } }
                     >
                         <button
                           mix={ { block: 'ProductTab', elem: 'Button' } }

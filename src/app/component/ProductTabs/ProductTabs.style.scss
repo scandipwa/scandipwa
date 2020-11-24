@@ -34,7 +34,10 @@
 
     &-Button {
         margin: 0;
-        padding: 1.5rem 2rem;
+        padding: 0;
+        padding: 1.2rem 2rem;
         font-weight: bold;
+
+        outline: 1px sold red;
     }
 }
