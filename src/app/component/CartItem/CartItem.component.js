@@ -19,6 +19,7 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
+import { isMobile } from 'Util/Mobile';
 
 import './CartItem.style';
 
@@ -147,6 +148,12 @@ export class CartItem extends PureComponent {
                 <span block="CartItem" elem="Link">
                     { this.renderWrapperContent() }
                 </span>
+            );
+        }
+
+        if (isMobile.any()) {
+            return (
+                this.renderWrapperContent()
             );
         }
 
@@ -284,10 +291,14 @@ export class CartItem extends PureComponent {
               mods={ { isLikeTable } }
             >
                 { this.renderOutOfStockMessage() }
-                { this.renderProductName() }
+                <div block="CartItem" elem="HeadingWrapper">
+                    { this.renderProductName() }
+                    { isMobile.any() ? this.renderDeleteButton() : null }
+                </div>
                 { this.renderProductOptions(customizable_options) }
                 { this.renderProductOptions(bundle_options) }
                 { this.renderProductConfigurations() }
+                { isMobile.any() ? this.renderQuantityChangeField() : null }
                 { this.renderProductPrice() }
             </figcaption>
         );
@@ -307,26 +318,32 @@ export class CartItem extends PureComponent {
         }
 
         return (
-            <Field
-              id="item_qty"
-              name="item_qty"
-              type="number"
-              isControlled
-              min={ minSaleQuantity }
-              max={ maxSaleQuantity }
-              mix={ { block: 'CartItem', elem: 'Qty' } }
-              value={ qty }
-              onChange={ handleChangeQuantity }
-            />
+            <div block="CartItem" elem="QuantityWrapper">
+                <span block="CartItem" elem="QuantityText">{ __('Qty:') }</span>
+                <Field
+                  id="item_qty"
+                  name="item_qty"
+                  type="number"
+                  isControlled
+                  min={ minSaleQuantity }
+                  max={ maxSaleQuantity }
+                  mix={ { block: 'CartItem', elem: 'Qty' } }
+                  value={ qty }
+                  onChange={ handleChangeQuantity }
+                />
+            </div>
         );
     }
 
     renderActions() {
         const {
             isEditing,
-            isLikeTable,
-            handleRemoveItem
+            isLikeTable
         } = this.props;
+
+        if (isMobile.any()) {
+            return null;
+        }
 
         return (
             <div
@@ -334,40 +351,46 @@ export class CartItem extends PureComponent {
               elem="Actions"
               mods={ { isEditing, isLikeTable } }
             >
-                <button
-                  block="CartItem"
-                  id="RemoveItem"
-                  name="RemoveItem"
-                  elem="Delete"
-                  aria-label="Remove item from cart"
-                  onClick={ handleRemoveItem }
-                >
-                    <span>{ __('Delete') }</span>
-                </button>
+                { this.renderDeleteButton() }
                 { this.renderQuantityChangeField() }
             </div>
         );
     }
 
-    renderImage() {
-        const { item: { product: { name } }, thumbnail, isProductInStock } = this.props;
-
-        const isNotAvailable = !isProductInStock;
+    renderDeleteButton() {
+        const { handleRemoveItem } = this.props;
 
         return (
+            <button
+              block="CartItem"
+              id="RemoveItem"
+              name="RemoveItem"
+              elem="Delete"
+              aria-label="Remove item from cart"
+              onClick={ handleRemoveItem }
+            >
+                <span block="CartItem" elem="DeleteButtonText">{ __('Delete') }</span>
+            </button>
+        );
+    }
+
+    renderImageElement() {
+        const { item: { product: { name } }, thumbnail, isProductInStock } = this.props;
+        const isNotAvailable = !isProductInStock;
+        return (
             <>
-                <Image
-                  src={ thumbnail }
-                  mix={ {
-                      block: 'CartItem',
-                      elem: 'Picture',
-                      mods: {
-                          isNotAvailable
-                      }
-                  } }
-                  ratio="custom"
-                  alt={ `Product ${name} thumbnail.` }
-                />
+            <Image
+              src={ thumbnail }
+              mix={ {
+                  block: 'CartItem',
+                  elem: 'Picture',
+                  mods: {
+                      isNotAvailable
+                  }
+              } }
+              ratio="custom"
+              alt={ `Product ${name} thumbnail.` }
+            />
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
@@ -375,6 +398,20 @@ export class CartItem extends PureComponent {
                 />
             </>
         );
+    }
+
+    renderImage() {
+        const { linkTo } = this.props;
+
+        if (isMobile.any()) {
+            return (
+                <Link to={ linkTo } block="CartItem" elem="Link">
+                    { this.renderImageElement() }
+                </Link>
+            );
+        }
+
+        return this.renderImageElement();
     }
 
     render() {
