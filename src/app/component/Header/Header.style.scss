@@ -88,9 +88,14 @@
     }
 
     &_isHiddenOnMobile {
-        @include before-desktop {
-            pointer-events: none;
-            opacity: 0;
+        @include mobile {
+            position: sticky;
+            opacity: 1;
+        }
+
+        .Header-LogoWrapper {
+            max-width: 100%;
+            opacity: 1;
         }
     }
 
@@ -244,10 +249,6 @@
 
         @include mobile {
             padding: 0 1.4rem;
-        }
-
-        @include before-desktop {
-            border-bottom: 1px solid var(--primary-divider-color);
         }
 
         @include desktop {
