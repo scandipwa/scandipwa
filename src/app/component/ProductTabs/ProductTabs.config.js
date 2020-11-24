@@ -11,10 +11,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const Tab = {
-    ABOUT: 'about',
-    DETAILS: 'details',
-    REVIEWS: 'reviews'
-};
-
-export const DEFAULT_TAB = Tab.ABOUT;
+export const DEFAULT_TAB = 'about';
