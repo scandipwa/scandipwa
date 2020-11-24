@@ -28,6 +28,7 @@ import './CheckoutOrderSummary.style';
 export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
+        paymentTotals: TotalsType,
         checkoutStep: PropTypes.string.isRequired,
         couponCode: PropTypes.string,
         renderCmsBlock: PropTypes.func,
@@ -36,6 +37,7 @@ export class CheckoutOrderSummary extends PureComponent {
 
     static defaultProps = {
         totals: {},
+        paymentTotals: {},
         couponCode: '',
         renderCmsBlock: () => {},
         isExpandable: false
@@ -141,6 +143,9 @@ export class CheckoutOrderSummary extends PureComponent {
                 grand_total,
                 shipping_amount
             },
+            paymentTotals: {
+                grand_total: payment_grand_total
+            },
             checkoutStep
         } = this.props;
 
@@ -154,7 +159,7 @@ export class CheckoutOrderSummary extends PureComponent {
                     { this.renderDiscount() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
                     { checkoutStep !== SHIPPING_STEP
-                        ? this.renderPriceLine(grand_total + shipping_amount, __('Order total'))
+                        ? this.renderPriceLine(payment_grand_total || grand_total, __('Order total'))
                         : this.renderPriceLine(subtotal_with_discount + tax_amount, __('Order total')) }
                 </ul>
             </div>
