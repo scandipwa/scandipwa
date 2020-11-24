@@ -10,6 +10,7 @@
  */
 
 import ConfigQuery from 'Query/Config.query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import RegionQuery from 'Query/Region.query';
 import ReviewQuery from 'Query/Review.query';
 import { updateConfig } from 'Store/Config/Config.action';
@@ -40,7 +41,8 @@ export class ConfigDispatcher extends QueryDispatcher {
             RegionQuery.getCountriesQuery(),
             ReviewQuery.getRatingQuery(),
             ConfigQuery.getQuery(),
-            ConfigQuery.getCheckoutAgreements()
+            ConfigQuery.getCheckoutAgreements(),
+            MyAccountQuery.getCustomerConfig()
         ];
     }
 }

@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
+import { SHOW_VAT_NUMBER_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { customerType } from 'Type/Account';
 
 /** @namespace Component/MyAccountCustomerForm/Component */
@@ -45,6 +46,27 @@ export class MyAccountCustomerForm extends FieldForm {
             lastname: {
                 label: __('Last name'),
                 validation: ['notEmpty']
+            },
+            ...this.getVatField()
+        };
+    }
+
+    getVatField() {
+        const { showTaxVatNumber } = this.props;
+        const validation = [];
+
+        if (!showTaxVatNumber) {
+            return {};
+        }
+
+        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
+            validation.push('notEmpty');
+        }
+
+        return {
+            taxvat: {
+                label: __('Tax/VAT Number'),
+                validation
             }
         };
     }

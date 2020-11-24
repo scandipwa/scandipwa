@@ -176,6 +176,7 @@ export class MyAccountQuery {
             'suffix',
             'default_shipping',
             'default_billing',
+            'vat_id',
             this._getRegionField()
         ];
     }
@@ -192,6 +193,18 @@ export class MyAccountQuery {
         return new Field('forgotPassword')
             .addArgument('email', 'String!', email)
             .addField('status');
+    }
+
+    getCustomerConfig() {
+        return new Field('customerConfig')
+            .addFieldList(this._getCustomerConfigFields());
+    }
+
+    _getCustomerConfigFields() {
+        return [
+            'show_vat_number_on_storefront',
+            'show_tax_vat_number'
+        ];
     }
 }
 

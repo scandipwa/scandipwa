@@ -26,7 +26,8 @@ export const MyAccountDispatcher = import(
 /** @namespace Component/MyAccountCreateAccount/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
-    isLoading: state.MyAccountReducer.isLoading
+    isLoading: state.MyAccountReducer.isLoading,
+    showTaxVatNumber: state.ConfigReducer.show_tax_vat_number
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -77,7 +78,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             email,
             firstname,
             lastname,
-            is_subscribed
+            is_subscribed,
+            taxvat
         } = fields;
 
         const customerData = {
@@ -85,7 +87,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                 firstname,
                 lastname,
                 email,
-                is_subscribed
+                is_subscribed,
+                taxvat
             },
             password
         };

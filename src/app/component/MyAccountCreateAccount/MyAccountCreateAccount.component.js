@@ -16,14 +16,40 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { signInStateType } from 'Type/Account';
 
+import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
+
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
     static propTypes = {
         state: signInStateType.isRequired,
         onCreateAccountAttempt: PropTypes.func.isRequired,
         onCreateAccountSuccess: PropTypes.func.isRequired,
-        handleSignIn: PropTypes.func.isRequired
+        handleSignIn: PropTypes.func.isRequired,
+        showTaxVatNumber: PropTypes.string.isRequired
     };
+
+    renderVatNumberField() {
+        const { showTaxVatNumber } = this.props;
+        const validation = [];
+
+        if (!showTaxVatNumber) {
+            return null;
+        }
+
+        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
+            validation.push('notEmpty');
+        }
+
+        return (
+            <Field
+              type="text"
+              label={ __('Tax/VAT Number') }
+              id="taxvat"
+              name="taxvat"
+              validation={ validation }
+            />
+        );
+    }
 
     renderCreateAccountPersonalInfoFields() {
         return (
@@ -45,6 +71,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   autocomplete="family-name"
                   validation={ ['notEmpty'] }
                 />
+                { this.renderVatNumberField() }
                 <Field
                   type="checkbox"
                   value="is_subscribed"

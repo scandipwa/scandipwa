@@ -109,6 +109,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             default_shipping,
             city,
             postcode,
+            vat_id,
             ...fieldMap
         } = super.fieldMap;
 
@@ -121,6 +122,13 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             ...postcode,
             onChange: (value) => this.onChange('postcode', value)
         };
+
+        // since object doesn't maintain the order of it's properties
+        // and last modified property goes to the end of the property list,
+        // move vat_id after postcode
+        if (vat_id) {
+            fieldMap.vat_id = vat_id;
+        }
 
         // Preserve values from global state
         Object.entries(fieldMap).forEach(([key]) => {
