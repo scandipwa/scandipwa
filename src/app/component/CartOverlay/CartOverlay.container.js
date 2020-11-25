@@ -38,7 +38,7 @@ export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     device: state.ConfigReducer.device,
     guest_checkout: state.ConfigReducer.guest_checkout,
-    currencyCode: state.ConfigReducer.default_display_currency_code,
+    currencyCode: state.CartReducer.cartTotals.quote_currency_code,
     activeOverlay: state.OverlayReducer.activeOverlay
 });
 

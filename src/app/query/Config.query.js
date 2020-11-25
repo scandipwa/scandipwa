@@ -23,6 +23,31 @@ export class ConfigQuery {
             .addFieldList(this._getCheckoutAgreementFields());
     }
 
+    getCurrencyField() {
+        return new Field('available_currencies_data')
+            .addFieldList([
+                'id',
+                'label',
+                'value'
+            ]);
+    }
+
+    getCurrencyData() {
+        return new Field('currencyData')
+            .addFieldList([
+                this.getCurrencyField(),
+                'current_currency_code'
+            ]);
+    }
+
+    getSaveSelectedCurrencyMutation(newCurrency) {
+        return new Field('saveSelectedCurrency')
+            .addArgument('currency', 'String', newCurrency)
+            .addFieldList([
+                this.getCurrencyData()
+            ]);
+    }
+
     _getCheckoutAgreementFields() {
         return [
             'agreement_id',

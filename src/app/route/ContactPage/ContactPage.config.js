@@ -9,16 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-
 // eslint-disable-next-line import/prefer-default-export
-export const DeviceType = PropTypes.shape({
-    isMobile: PropTypes.bool,
-    android: PropTypes.bool,
-    ios: PropTypes.bool,
-    blackberry: PropTypes.bool,
-    opera: PropTypes.bool,
-    safari: PropTypes.bool,
-    windows: PropTypes.bool,
-    standaloneMode: PropTypes.bool
-});
+export const DEFAULT_CONTACT_US_CMS_BLOCK = 'contact_us_page_block';
