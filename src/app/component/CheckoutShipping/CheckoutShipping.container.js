@@ -110,7 +110,10 @@ export class CheckoutShippingContainer extends PureComponent {
     _getAddressById(addressId) {
         const { customer: { addresses } } = this.props;
         const address = addresses.find(({ id }) => id === addressId);
-        return trimCustomerAddress(address);
+        return {
+            ...trimCustomerAddress(address),
+            save_in_address_book: false
+        };
     }
 
     render() {
