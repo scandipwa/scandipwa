@@ -16,6 +16,7 @@ import { createRef, lazy, Suspense } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import CmsBlock from 'Component/CmsBlock';
+import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
 import Menu from 'Component/Menu';
@@ -41,6 +42,7 @@ import {
     CHECKOUT,
     CHECKOUT_ACCOUNT,
     CMS_PAGE,
+    CONTACT_US,
     CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
     CUSTOMER_SUB_ACCOUNT,
@@ -70,6 +72,7 @@ export class Header extends NavigationAbstract {
         onMyAccountButtonClick: PropTypes.func.isRequired,
         onSearchBarChange: PropTypes.func.isRequired,
         onClearButtonClick: PropTypes.func.isRequired,
+        isWishlistLoading: PropTypes.bool.isRequired,
         onEditButtonClick: PropTypes.func.isRequired,
         onMinicartButtonClick: PropTypes.func.isRequired,
         onOkButtonClick: PropTypes.func.isRequired,
@@ -79,6 +82,7 @@ export class Header extends NavigationAbstract {
         onMinicartOutsideClick: PropTypes.func.isRequired,
         isClearEnabled: PropTypes.bool.isRequired,
         searchCriteria: PropTypes.string.isRequired,
+        shareWishlist: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string,
         logo_alt: PropTypes.string,
         logo_height: PropTypes.number,
@@ -130,6 +134,7 @@ export class Header extends NavigationAbstract {
             title: true
         },
         [CUSTOMER_WISHLIST]: {
+            share: true,
             title: true,
             edit: true,
             ok: true
@@ -149,8 +154,7 @@ export class Header extends NavigationAbstract {
             title: true
         },
         [CART_OVERLAY]: {
-            title: true,
-            edit: true
+            title: true
         },
         [CART_EDITING]: {
             ok: true,
@@ -174,6 +178,10 @@ export class Header extends NavigationAbstract {
         [CMS_PAGE]: {
             back: true,
             title: true
+        },
+        [CONTACT_US]: {
+            title: true,
+            back: true
         }
     };
 
@@ -181,6 +189,7 @@ export class Header extends NavigationAbstract {
         cancel: this.renderCancelButton.bind(this),
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
+        share: this.renderShareWishListButton.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         account: this.renderAccount.bind(this),
@@ -262,6 +271,26 @@ export class Header extends NavigationAbstract {
               isVisible={ isVisible }
               isActive={ name === SEARCH }
               hideActiveOverlay={ hideActiveOverlay }
+            />
+        );
+    }
+
+    renderShareWishListButton(isVisible = false) {
+        const {
+            isWishlistLoading,
+            shareWishlist
+        } = this.props;
+
+        return (
+            <button
+              key="share"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'share', isVisible } }
+              onClick={ shareWishlist }
+              aria-label="Share"
+              aria-hidden={ !isVisible }
+              disabled={ isWishlistLoading }
             />
         );
     }
@@ -622,6 +651,7 @@ export class Header extends NavigationAbstract {
                     { this.renderContacts() }
                 </div>
                 <div block="Header" elem="Switcher">
+                    <CurrencySwitcher />
                     <StoreSwitcher />
                 </div>
             </div>
@@ -639,6 +669,7 @@ export class Header extends NavigationAbstract {
         if (!device.isMobile) {
             // hide edit button on desktop
             stateMap[CUSTOMER_WISHLIST].edit = false;
+            stateMap[CUSTOMER_WISHLIST].share = false;
             stateMap[CART_OVERLAY].edit = false;
         }
 

@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CartItemPrice from './CartItemPrice.component';
-
-export default CartItemPrice;
+export { default } from './CartItemPrice.container';

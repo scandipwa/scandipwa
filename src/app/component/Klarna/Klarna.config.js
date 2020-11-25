@@ -13,3 +13,4 @@
 
 export const KLARNA_SCRIPT_ID = 'klarna_script';
 export const KLARNA_PAYMENTS_CONTAINER_ID = 'klarna-payments-container';
+export const KLARNA_PAYMENTS_DEVICE_RECOGNITION_ID = 'klarna-payments-device-recognition';

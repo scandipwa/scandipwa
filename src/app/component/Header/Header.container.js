@@ -16,10 +16,12 @@ import { withRouter } from 'react-router';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device';
 import { isSignedIn as isSignedInWithToken } from 'Util/Auth';
 import history from 'Util/History';
@@ -30,7 +32,7 @@ import {
     CART,
     CART_OVERLAY, CATEGORY,
     CHECKOUT, CHECKOUT_ACCOUNT,
-    CMS_PAGE, CUSTOMER_ACCOUNT,
+    CMS_PAGE, CONTACT_US, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
     MENU, PDP,
     SEARCH
@@ -48,7 +50,8 @@ export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    isWishlistLoading: state.WishlistReducer.isLoading
 });
 
 /** @namespace Component/Header/Container/mapDispatchToProps */
@@ -56,6 +59,7 @@ export const mapDispatchToProps = (dispatch) => ({
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    showPopup: (payload) => dispatch(showPopup(payload)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
@@ -68,6 +72,8 @@ export const DEFAULT_HEADER_STATE = {
 export class HeaderContainer extends NavigationAbstractContainer {
     static propTypes = {
         showOverlay: PropTypes.func.isRequired,
+        isWishlistLoading: PropTypes.bool.isRequired,
+        showPopup: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string,
@@ -91,6 +97,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         '/cart': { name: CART },
         '/menu': { name: MENU },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
+        '/contact': { name: CONTACT_US, onBackClick: () => history.goBack() },
         '/': { name: DEFAULT_STATE_NAME, isHiddenOnMobile: true }
     };
 
@@ -110,6 +117,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
         onSignIn: this.onSignIn.bind(this),
+        shareWishlist: this.shareWishlist.bind(this),
         hideActiveOverlay: this.props.hideActiveOverlay
     };
 
@@ -123,7 +131,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             logo_height,
             logo_width,
             isLoading,
-            device
+            device,
+            isWishlistLoading
         } = this.props;
 
         const {
@@ -153,7 +162,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             searchCriteria,
             isCheckout,
             showMyAccountLogin,
-            device
+            device,
+            isWishlistLoading
         };
     };
 
@@ -176,6 +186,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
     componentDidUpdate(prevProps) {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
+    }
+
+    shareWishlist() {
+        const { showPopup } = this.props;
+        showPopup(SHARE_WISHLIST_POPUP_ID, { title: __('Share Wishlist') });
     }
 
     getNavigationState() {

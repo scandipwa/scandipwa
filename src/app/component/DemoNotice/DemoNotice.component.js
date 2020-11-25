@@ -40,6 +40,8 @@ export class DemoNotice extends PureComponent {
 
         if (isDemoNoticeEnabled) {
             document.documentElement.classList.add('isDemoVisible');
+        } else {
+            document.documentElement.classList.remove('isDemoVisible');
         }
     }
 

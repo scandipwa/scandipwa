@@ -14,3 +14,4 @@
 export const SLIDER = 'Slider';
 export const NEW_PRODUCTS = 'NewProducts';
 export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
+export const RECENTLY_VIEWED = 'RecentlyViewed';

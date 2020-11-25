@@ -18,20 +18,48 @@ import { formatPrice, roundPrice } from 'Util/Price';
 /** @namespace Component/CartItemPrice/Component */
 export class CartItemPrice extends PureComponent {
     static propTypes = {
-        row_total: PropTypes.number.isRequired,
+        price: PropTypes.number.isRequired,
+        subPrice: PropTypes.number.isRequired,
         currency_code: PropTypes.string.isRequired,
         mix: MixType.isRequired
     };
 
+    renderPrice() {
+        const { price, currency_code } = this.props;
+        const value = roundPrice(price);
+
+        return (
+            <span aria-label={ __('Current product price') }>
+                <data value={ value }>{ formatPrice(price, currency_code) }</data>
+            </span>
+        );
+    }
+
+    renderSubPrice() {
+        const { subPrice, currency_code } = this.props;
+
+        if (!subPrice) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label={ __('Current product price excl. tax') }
+              block="ProductPrice"
+              elem="SubPrice"
+            >
+                { `${ __('Excl. tax:') } ${ formatPrice(subPrice, currency_code) }` }
+            </span>
+        );
+    }
+
     render() {
-        const { row_total, currency_code, mix } = this.props;
-        const price = roundPrice(row_total);
+        const { mix } = this.props;
 
         return (
             <p block="ProductPrice" aria-label={ __('Product Price') } mix={ mix }>
-                <span aria-label={ __('Current product price') }>
-                    <data value={ price }>{ `${formatPrice(row_total, currency_code)}` }</data>
-                </span>
+                { this.renderPrice() }
+                { this.renderSubPrice() }
             </p>
         );
     }

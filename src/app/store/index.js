@@ -19,6 +19,7 @@ import CartReducer from 'Store/Cart/Cart.reducer';
 import CategoryReducer from 'Store/Category/Category.reducer';
 import CheckoutReducer from 'Store/Checkout/Checkout.reducer';
 import ConfigReducer from 'Store/Config/Config.reducer';
+import ContactFormReducer from 'Store/ContactForm/ContactForm.reducer';
 import LinkedProductsReducer from 'Store/LinkedProducts/LinkedProducts.reducer';
 import MetaReducer from 'Store/Meta/Meta.reducer';
 import MyAccountReducer from 'Store/MyAccount/MyAccount.reducer';
@@ -32,6 +33,7 @@ import PopupReducer from 'Store/Popup/Popup.reducer';
 import ProductReducer from 'Store/Product/Product.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
 import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reducer';
+import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
 import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
 import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
 import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
@@ -58,7 +60,9 @@ export const getStaticReducers = () => ({
     ConfigReducer,
     MetaReducer,
     LinkedProductsReducer,
-    CheckoutReducer
+    CheckoutReducer,
+    ContactFormReducer,
+    RecentlyViewedProductsReducer
 });
 
 export function createReducer(asyncReducers) {

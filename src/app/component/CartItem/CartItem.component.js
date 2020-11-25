@@ -237,13 +237,15 @@ export class CartItem extends PureComponent {
             isLikeTable,
             currency_code,
             item: {
-                row_total
+                row_total,
+                row_total_incl_tax
             }
         } = this.props;
 
         return (
             <CartItemPrice
               row_total={ row_total }
+              row_total_incl_tax={ row_total_incl_tax }
               currency_code={ currency_code }
               mix={ {
                   block: 'CartItem',
