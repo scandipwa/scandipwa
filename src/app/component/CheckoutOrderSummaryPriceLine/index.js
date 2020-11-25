@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CartItemPrice.container';
+export { default } from './CheckoutOrderSummaryPriceLine.component';
