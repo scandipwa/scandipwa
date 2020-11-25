@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
+import { isMobile } from 'Util/Mobile';
 
-import { DEFAULT_TAB, DESKTOP_WIDTH } from './ProductTabs.config';
+import { DEFAULT_TAB } from './ProductTabs.config';
 
 import './ProductTabs.style';
 
@@ -76,7 +77,7 @@ export class ProductTabs extends PureComponent {
                     </li>
                 )) }
                 </ul>
-                { window.innerWidth < DESKTOP_WIDTH
+                { isMobile.any()
                     ? this.renderAllTabs(childrenArray)
                     : this.renderActiveTab(activeTab, childrenArray) }
             </>

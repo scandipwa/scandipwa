@@ -12,5 +12,3 @@
  */
 
 export const DEFAULT_TAB = 'about';
-
-export const DESKTOP_WIDTH = 810;
