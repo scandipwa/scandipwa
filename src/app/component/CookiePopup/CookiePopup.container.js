@@ -16,7 +16,8 @@ import CookiePopup from './CookiePopup.component';
 /** @namespace Component/CookiePopup/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     cookieText: state.ConfigReducer.cookie_text,
-    cookieLink: state.ConfigReducer.cookie_link
+    cookieLink: state.ConfigReducer.cookie_link,
+    code: state.ConfigReducer.code
 });
 
 /** @namespace Component/CookiePopup/Container/mapDispatchToProps */
