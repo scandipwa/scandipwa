@@ -18,6 +18,7 @@ import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { paymentMethodsType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
 import BraintreeDropIn from 'Util/Braintree';
 
 import CheckoutPayments from './CheckoutPayments.component';
@@ -28,12 +29,22 @@ export const mapDispatchToProps = (dispatch) => ({
     showError: (message) => dispatch(showNotification('error', message))
 });
 
+/** @namespace Component/CheckoutPayments/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    totals: state.CartReducer.cartTotals,
+    email: state.CheckoutReducer.email,
+    address: state.CheckoutReducer.shippingFields
+});
+
 /** @namespace Component/CheckoutPayments/Container */
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
         onPaymentMethodSelect: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired
+        paymentMethods: paymentMethodsType.isRequired,
+        totals: TotalsType.isRequired,
+        email: PropTypes.string.isRequired,
+        address: PropTypes.object.isRequired
     };
 
     containerFunctions = {
@@ -73,7 +84,17 @@ export class CheckoutPaymentsContainer extends PureComponent {
     }
 
     getBraintreeData() {
-        return { asyncData: this.braintree.requestPaymentNonce() };
+        const {
+            totals: {
+                grand_total = 0
+            },
+            email,
+            address
+        } = this.props;
+
+        return {
+            asyncData: this.braintree.requestPaymentNonce(grand_total, email, address)
+        };
     }
 
     collectAdditionalData = () => {
@@ -114,9 +135,5 @@ export class CheckoutPaymentsContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/CheckoutPayments/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPaymentsContainer);
