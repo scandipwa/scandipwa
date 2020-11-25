@@ -34,13 +34,22 @@ export class CookiePopup extends PureComponent {
         cookieLink: ''
     };
 
-    // eslint-disable-next-line react/destructuring-assignment
-    state = { isAccepted: BrowserDatabase.getItem(`${COOKIE_POPUP}_${this.props.code}`) || false };
+    state = {
+        isAccepted: this.getAcceptCookieValue()
+    };
+
+    getAcceptCookieValue() {
+        const { code } = this.props;
+        const param = `${ COOKIE_POPUP }_${ code }`;
+
+        return !!BrowserDatabase.getItem(param);
+    }
 
     acceptCookies = () => {
         const { code } = this.props;
+        const param = `${ COOKIE_POPUP }_${ code }`;
 
-        BrowserDatabase.setItem(true, `${COOKIE_POPUP}_${code}`, ONE_MONTH_IN_SECONDS);
+        BrowserDatabase.setItem(true, param, ONE_MONTH_IN_SECONDS);
         this.setState({ isAccepted: true });
     };
 
