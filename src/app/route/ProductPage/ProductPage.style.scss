@@ -23,12 +23,6 @@
         padding-bottom: 75px;
     }
 
-    // > section:nth-child(even) {
-    // @include after-mobile {
-    //     background-color: var(--secondary-base-color);
-    // }
-    // }
-
     &-Wrapper {
         display: grid;
         grid-template-columns: 6fr 4fr;

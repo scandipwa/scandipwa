@@ -3,7 +3,7 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 
-import { DEFAULT_TAB } from './ProductTabs.config';
+import { DEFAULT_TAB, DESKTOP_WIDTH } from './ProductTabs.config';
 
 import './ProductTabs.style';
 
@@ -33,13 +33,7 @@ export class ProductTabs extends PureComponent {
         });
     }
 
-    renderActiveTab(activeTab) {
-        const {
-            children
-        } = this.props;
-
-        const childrenArray = React.Children.toArray(children);
-
+    renderActiveTab(activeTab, childrenArray) {
         return childrenArray.map((item) => {
             if (item.props.tabName.toLowerCase() === activeTab.toLowerCase()) {
                 return item;
@@ -47,6 +41,10 @@ export class ProductTabs extends PureComponent {
 
             return false;
         });
+    }
+
+    renderAllTabs(childrenArray) {
+        return childrenArray.map((item) => item);
     }
 
     renderTabs() {
@@ -78,7 +76,9 @@ export class ProductTabs extends PureComponent {
                     </li>
                 )) }
                 </ul>
-                { this.renderActiveTab(activeTab) }
+                { window.innerWidth < DESKTOP_WIDTH
+                    ? this.renderAllTabs(childrenArray)
+                    : this.renderActiveTab(activeTab, childrenArray) }
             </>
         );
     }

@@ -118,17 +118,17 @@ export class ProductPage extends PureComponent {
                     <ProductInformation
                       product={ { ...dataSource, parameters } }
                       areDetailsLoaded={ areDetailsLoaded }
-                      tabName="about"
+                      tabName={ __('About') }
                     />
                     <ProductInformationAttributes
                       product={ { ...dataSource, parameters } }
                       areDetailsLoaded={ areDetailsLoaded }
-                      tabName="details"
+                      tabName={ __('Details') }
                     />
                     <ProductReviews
                       product={ dataSource }
                       areDetailsLoaded={ areDetailsLoaded }
-                      tabName="reviews"
+                      tabName={ __('Reviews') }
                     />
                 </ProductTabs>
 

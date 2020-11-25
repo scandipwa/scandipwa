@@ -10,7 +10,12 @@
  */
 
 .ProductTabs {
-    display: flex;
+    display: none;
+    border-bottom: 1px solid var(--expandable-content-divider-color);
+
+    @include desktop {
+        display: flex;
+    }
 }
 
 .ProductTab {
