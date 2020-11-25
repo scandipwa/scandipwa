@@ -18,6 +18,7 @@ export const DeviceType = PropTypes.shape({
     ios: PropTypes.bool,
     blackberry: PropTypes.bool,
     opera: PropTypes.bool,
+    safari: PropTypes.bool,
     windows: PropTypes.bool,
     standaloneMode: PropTypes.bool
 });
