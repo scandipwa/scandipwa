@@ -54,6 +54,12 @@
         }
     }
 
+    &_HideOnDesktop {
+        @include desktop() {
+            display: none;
+        }
+    }
+
     &-Overlay {
         background-color: var(--menu-desktop-background-color);
         height: 100vh;
