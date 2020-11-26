@@ -127,7 +127,9 @@ export class Footer extends PureComponent {
         return <NewsletterSubscription key={ i } />;
     }
 
-    renderCmsBlockWrapper(footer_cms) {
+    renderCmsBlockWrapper() {
+        const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
+
         return (
             <div
               block="Footer"
@@ -153,7 +155,7 @@ export class Footer extends PureComponent {
         const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
 
         if (footer_cms) {
-            return this.renderCmsBlockWrapper(footer_cms);
+            return this.renderCmsBlockWrapper();
         }
 
         return (
