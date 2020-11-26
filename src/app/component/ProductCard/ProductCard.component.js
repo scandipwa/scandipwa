@@ -21,7 +21,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { ProductType } from 'Type/ProductList';
-import { CONFIGURABLE } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE } from 'Util/Product';
 
 import './ProductCard.style';
 
@@ -74,6 +74,28 @@ export class ProductCard extends PureComponent {
 
     imageRef = createRef();
 
+    isConfigurableProductOutOfStock(productVariants) {
+        const variantsInStock = productVariants.filter((productVariant) => productVariant.stock_status === 'IN_STOCK');
+
+        if (variantsInStock.length === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    isBundleProductOutOfStock(item) {
+        const { options } = item;
+
+        const optionsInStock = options.filter((option) => option.product.stock_status === 'IN_STOCK');
+
+        if (optionsInStock.length === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
         registerSharedElement(this.imageRef);
@@ -101,10 +123,28 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductPrice() {
-        const { product: { price_range } } = this.props;
+        const { product: { price_range, type_id } } = this.props;
 
         if (!price_range) {
             return <TextPlaceholder />;
+        }
+
+        if (type_id === CONFIGURABLE) {
+            const { product: { variants } } = this.props;
+            if (this.isConfigurableProductOutOfStock(variants)) {
+                return null;
+            }
+        }
+        if (type_id === BUNDLE) {
+            const { product: { items } } = this.props;
+
+            if (items.length === 0) {
+                return null;
+            }
+
+            if (this.isBundleProductOutOfStock(items[0])) {
+                return null;
+            }
         }
 
         return (
