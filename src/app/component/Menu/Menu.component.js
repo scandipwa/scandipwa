@@ -23,6 +23,8 @@ import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
 import { debounce } from 'Util/Request';
 
+import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
+
 import './Menu.style';
 
 /** @namespace Component/Menu/Component */
@@ -38,9 +40,14 @@ export class Menu extends PureComponent {
 
     componentDidMount() {
         const { closeMenu } = this.props;
-        const SCROLL_DEBOUNCE_DELAY = 10;
 
-        window.addEventListener('scroll', debounce(closeMenu, SCROLL_DEBOUNCE_DELAY));
+        this.debouncedCloseMenu = debounce(closeMenu, SCROLL_DEBOUNCE_DELAY);
+
+        window.addEventListener('scroll', this.debouncedCloseMenu);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.debouncedCloseMenu);
     }
 
     renderDesktopSubLevelItems(item, mods) {
