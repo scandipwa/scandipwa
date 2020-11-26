@@ -20,7 +20,7 @@ import NewsletterSubscription from 'Component/NewsletterSubscription';
 import { DeviceType } from 'Type/Device';
 import media from 'Util/Media';
 
-import { COLUMN_MAP, RENDER_NEWSLETTER } from './Footer.config';
+import { COLUMN_MAP, NEWSLETTER_COLUMN, RENDER_NEWSLETTER } from './Footer.config';
 
 import './Footer.style';
 
@@ -86,11 +86,17 @@ export class Footer extends PureComponent {
         return this.renderColumnItemLink(item, i);
     };
 
-    renderColumn = ({ title, items, isItemsHorizontal }, i) => {
+    renderColumn = (column, i) => {
+        const {
+            title,
+            items,
+            isItemsHorizontal,
+            mods = {}
+        } = column;
         const contentMods = isItemsHorizontal ? { direction: 'horizontal' } : {};
 
         return (
-            <div block="Footer" elem="Column" key={ i }>
+            <div block="Footer" elem="Column" mods={ mods } key={ i }>
                 <h3 block="Footer" elem="ColumnTitle">
                     { title }
                 </h3>
@@ -121,11 +127,33 @@ export class Footer extends PureComponent {
         return <NewsletterSubscription key={ i } />;
     }
 
+    renderCmsBlockWrapper(footer_cms) {
+        return (
+            <div
+              block="Footer"
+              elem="CmsBlockWrapper"
+              mix={ { block: 'Footer', elem: 'Content' } }
+            >
+                <div
+                  block="Footer"
+                  elem="Columns"
+                  mix={ { block: 'ContentWrapper' } }
+                >
+                    <CmsBlock identifier={ footer_cms } />
+                    { this.renderColumn({
+                        ...NEWSLETTER_COLUMN,
+                        mods: { isNewsletter: true }
+                    }) }
+                </div>
+            </div>
+        );
+    }
+
     renderContent() {
         const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
 
         if (footer_cms) {
-            return <CmsBlock identifier={ footer_cms } />;
+            return this.renderCmsBlockWrapper(footer_cms);
         }
 
         return (
