@@ -75,8 +75,14 @@ export class CategoryPage extends PureComponent {
     }
 
     displayProducts() {
-        const { category: { display_mode } = {} } = this.props;
-        return display_mode === DISPLAY_MODE_PRODUCTS
+        const {
+            category: {
+                display_mode = DISPLAY_MODE_PRODUCTS
+            } = {}
+        } = this.props;
+
+        return display_mode === null
+            || display_mode === DISPLAY_MODE_PRODUCTS
             || display_mode === DISPLAY_MODE_BOTH;
     }
 
