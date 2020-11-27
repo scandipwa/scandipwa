@@ -87,6 +87,25 @@ export class ProductInformation extends PureComponent {
         );
     }
 
+    isHTMLWhiteSpaceOrUndefined(htmlString) {
+        if (!htmlString || htmlString.trim() === '') {
+            return true;
+        }
+
+        // creates a DOM object from string
+        const parser = new DOMParser();
+        const document = parser.parseFromString(htmlString.trim(), 'text/html');
+
+        // handles the case of plain text
+        if (document.body.children.length === 0) {
+            return false;
+        }
+
+        // check if at least one HTML element has content
+        const elementsWithContent = Array.from(document.body.children).filter((element) => element.innerText !== '');
+        return elementsWithContent.length === 0;
+    }
+
     render() {
         const {
             areDetailsLoaded,
@@ -95,7 +114,7 @@ export class ProductInformation extends PureComponent {
             }
         } = this.props;
 
-        if (!html && areDetailsLoaded) {
+        if (this.isHTMLWhiteSpaceOrUndefined(html) && areDetailsLoaded) {
             return null;
         }
 

@@ -25,7 +25,8 @@ import './CookiePopup.style';
 export class CookiePopup extends PureComponent {
     static propTypes = {
         cookieText: PropTypes.string,
-        cookieLink: PropTypes.string
+        cookieLink: PropTypes.string,
+        code: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -33,10 +34,22 @@ export class CookiePopup extends PureComponent {
         cookieLink: ''
     };
 
-    state = { isAccepted: BrowserDatabase.getItem(COOKIE_POPUP) || false };
+    state = {
+        isAccepted: this.getAcceptCookieValue()
+    };
+
+    getAcceptCookieValue() {
+        const { code } = this.props;
+        const param = `${ COOKIE_POPUP }_${ code }`;
+
+        return !!BrowserDatabase.getItem(param);
+    }
 
     acceptCookies = () => {
-        BrowserDatabase.setItem(true, COOKIE_POPUP, ONE_MONTH_IN_SECONDS);
+        const { code } = this.props;
+        const param = `${ COOKIE_POPUP }_${ code }`;
+
+        BrowserDatabase.setItem(true, param, ONE_MONTH_IN_SECONDS);
         this.setState({ isAccepted: true });
     };
 
