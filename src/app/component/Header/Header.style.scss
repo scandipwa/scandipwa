@@ -88,14 +88,9 @@
     }
 
     &_isHiddenOnMobile {
-        @include mobile {
-            position: sticky;
-            opacity: 1;
-        }
-
-        .Header-LogoWrapper {
-            max-width: 100%;
-            opacity: 1;
+        @include before-desktop {
+            pointer-events: none;
+            opacity: 0;
         }
     }
 
@@ -466,9 +461,7 @@
         }
 
         &_isVisible {
-            @include desktop {
-                @include logo-visible;
-            }
+            @include logo-visible;
         }
 
         .Image-Image {
