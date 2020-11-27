@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import CookiePopup from './CookiePopup.component';
@@ -24,4 +26,26 @@ export const mapStateToProps = (state) => ({
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(CookiePopup);
+/** @namespace Component/CookiePopup/Container */
+export class CookiePopupContainer extends PureComponent {
+    static propTypes = {
+        code: PropTypes.string
+    };
+
+    static defaultProps = {
+        code: ''
+    };
+
+    render() {
+        const { code } = this.props;
+
+        return (
+            <CookiePopup
+              { ...this.props }
+              key={ code }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CookiePopupContainer);
