@@ -263,11 +263,13 @@ export class ProductCard extends PureComponent {
         return (
             this.renderCardLinkWrapper((
                 <>
-                    <figure block="ProductCard" elem="Figure">
+                    <div block="ProductCard" elem="Figure-Review">
+                        <figure block="ProductCard" elem="Figure">
                         { this.renderPicture() }
-                    </figure>
-                    <div block="ProductCard" elem="Content">
+                        </figure>
                         { this.renderReviews() }
+                    </div>
+                    <div block="ProductCard" elem="Content">
                         { this.renderProductPrice() }
                         { this.renderVisualConfigurableOptions() }
                         { this.renderTierPrice() }
