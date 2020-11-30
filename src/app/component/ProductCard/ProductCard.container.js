@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import { getVariantsIndexes } from 'Util/Product';
 import { objectToUri } from 'Util/Url';
@@ -36,7 +37,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
-        selectedFilters: FilterType
+        selectedFilters: FilterType,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -209,6 +211,8 @@ export class ProductCardContainer extends PureComponent {
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCardContainer);

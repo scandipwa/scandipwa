@@ -20,6 +20,7 @@ import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { CONFIGURABLE } from 'Util/Product';
 
@@ -34,6 +35,7 @@ export class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
+        device: DeviceType.isRequired,
         productOrVariant: ProductType.isRequired,
         thumbnail: PropTypes.string,
         availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
@@ -130,7 +132,10 @@ export class ProductCard extends PureComponent {
     }
 
     renderVisualConfigurableOptions() {
-        const { availableVisualOptions } = this.props;
+        const { availableVisualOptions, device } = this.props;
+        if (device.isMobile) {
+            return null;
+        }
 
         return (
             <div block="ProductCard" elem="ConfigurableOptions">
