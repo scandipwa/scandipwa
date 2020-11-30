@@ -270,11 +270,11 @@ export class ProductCard extends PureComponent {
                         { this.renderReviews() }
                     </div>
                     <div block="ProductCard" elem="Content">
-                        { this.renderProductPrice() }
-                        { this.renderVisualConfigurableOptions() }
-                        { this.renderTierPrice() }
-                        { this.renderMainDetails() }
                         { this.renderAdditionalProductDetails() }
+                        { this.renderMainDetails() }
+                        { this.renderProductPrice() }
+                        { this.renderTierPrice() }
+                        { this.renderVisualConfigurableOptions() }
                     </div>
                 </>
             ))

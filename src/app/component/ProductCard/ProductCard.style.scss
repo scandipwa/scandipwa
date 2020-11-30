@@ -48,15 +48,9 @@
         width: 100%;
         font-size: 1.08rem;
         max-width: 100%;
-        overflow: hidden;
-        white-space: nowrap;
 
         @include mobile {
             font-size: 1.26rem;
-        }
-
-        &_isLoaded {
-            text-overflow: ellipsis;
         }
 
         @include after-mobile {
@@ -66,9 +60,7 @@
     }
 
     &-Name {
-        @include after-mobile {
-            margin-top: .6rem;
-        }
+        margin-bottom: .6rem;
     }
 
     &-Brand {
@@ -123,27 +115,23 @@
     &-ConfigurableOptions {
         flex-grow: 1;
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         align-items: center;
     }
 
     &-Color {
-        --product-card-color-size: 9px;
-
-        @include after-mobile {
-            --product-card-color-size: 10px;
-        }
-
+        --product-card-color-size: 15px;
         display: inline-block;
         width: var(--product-card-color-size);
         height: var(--product-card-color-size);
         border-radius: 50%;
         overflow: hidden;
-        margin-left: calc(var(--product-card-color-size) / 3);
+        margin:  4px 7px 0 0;
         border: 1px solid var(--product-card-color-border-color);
     }
 
     &-Price {
+        width: 100%;
         @include after-mobile {
             font-size: 2rem;
         }
@@ -170,10 +158,6 @@
         &:focus {
             text-decoration: none;
         }
-    }
-
-    p {
-        margin-bottom: 0;
     }
 
     .TextPlaceholder,
