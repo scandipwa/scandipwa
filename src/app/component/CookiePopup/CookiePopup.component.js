@@ -26,12 +26,13 @@ export class CookiePopup extends PureComponent {
     static propTypes = {
         cookieText: PropTypes.string,
         cookieLink: PropTypes.string,
-        code: PropTypes.string.isRequired
+        code: PropTypes.string
     };
 
     static defaultProps = {
         cookieText: '',
-        cookieLink: ''
+        cookieLink: '',
+        code: ''
     };
 
     state = {

@@ -14,9 +14,11 @@ import { connect } from 'react-redux';
 
 import ConfigQuery from 'Query/Config.query';
 import { showNotification } from 'Store/Notification/Notification.action';
+import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import DataContainer from 'Util/Request/DataContainer';
 
 import StoreSwitcher from './StoreSwitcher.component';
+import { STORE_CONFIG_KEY } from './StoreSwitcher.config';
 
 /** @namespace Component/StoreSwitcher/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -144,6 +146,7 @@ export class StoreSwitcherContainer extends DataContainer {
             return;
         }
 
+        BrowserDatabase.deleteItem(STORE_CONFIG_KEY);
         window.location = store.storeLinkUrl;
     }
 

@@ -21,7 +21,7 @@ import Link from './Link.component';
 
 /** @namespace Component/Link/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    baseLinkUrl: state.ConfigReducer.base_link_url
+    baseLinkUrl: state.ConfigReducer.base_link_url || ''
 });
 
 /** @namespace Component/Link/Container */
