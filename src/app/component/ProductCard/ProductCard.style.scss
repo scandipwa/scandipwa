@@ -181,24 +181,24 @@
         }
     }
 
-    &-Heart {
-        height: 15px;
-        fill: transparent;
-        @include mobile {
-            height: 10px;
-        }
-    }
-
+    &-Heart,
     &-Fill-Heart {
-        height: 18px;
-        fill: var(--primary-base-color);
+        height: 17px;
+        fill: transparent;
 
         path {
-            stroke: transparent;
+            stroke-width: .5px;
         }
 
         @include mobile {
             height: 12px;
+        }
+    }
+
+    &-Fill-Heart {
+        fill: var(--primary-base-color);
+        path {
+            stroke: transparent;
         }
     }
 
