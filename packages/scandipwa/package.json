@@ -7,7 +7,7 @@
         "build": "scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/scandipwa-scripts": "^2",
+        "@scandipwa/scandipwa-scripts": "^2.0.8",
         "braintree-web-drop-in": "^1.23.0",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
@@ -47,7 +47,7 @@
             "scandipwa/cache": "^1.1.1",
             "scandipwa/locale": "^1.2",
             "scandipwa/contact-graphql": "^1.0.0",
-            "scandipwa/klarna-graphql" : "^1.1.1"
+            "scandipwa/klarna-graphql": "^1.1.1"
         }
     },
     "browserslist": {
