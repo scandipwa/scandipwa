@@ -291,6 +291,17 @@
             margin-left: -12px;
         }
 
+        &:after {
+            @-moz-document url-prefix() {
+                @include largest-screen {
+                    box-shadow:  6px 3px 0 -1px var(--header-color),
+                    -6px 3px 0 -1px var(--header-color),
+                    -2px 3px 0 -1px var(--header-color),
+                    2px 3px 0 -1px var(--header-color);
+                }
+            }
+        }
+        
         height: 35px;
         padding-left: 35px;
         font-size: 1.4rem;
