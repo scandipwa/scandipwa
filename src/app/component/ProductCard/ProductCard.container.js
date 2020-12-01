@@ -212,7 +212,8 @@ export class ProductCardContainer extends PureComponent {
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    productsInWishlist: state.WishlistReducer.productsInWishlist
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCardContainer);

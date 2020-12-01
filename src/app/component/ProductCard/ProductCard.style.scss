@@ -14,6 +14,7 @@
     --product-card-color-border-color: #efefef;
     --product-cart-picture-label-background: rgba(255, 255, 255, .7);
     --product-cart-reviews-background: rgba(243, 243, 243, .55);
+    --product-cart-WishListButton-background:  rgba(243, 243, 243, .78);
 }
 
 .ProductCard {
@@ -157,6 +158,41 @@
         &:hover,
         &:focus {
             text-decoration: none;
+        }
+    }
+
+    &-WishListButton{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: var(--product-cart-WishListButton-background);
+        position: absolute;
+        top: 15px;
+        right: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @include mobile {
+            width: 16px;
+            height: 16px;
+            top: 5px;
+            right: 6px;
+        }
+    }
+
+    &-Heart {
+        height: 15px;
+        @include mobile {
+            height: 10px;
+        }
+    }
+
+    &-Fill-Heart{
+        height: 18px;
+        fill: var(--primary-base-color);
+        @include mobile {
+            height: 12px;
         }
     }
 
