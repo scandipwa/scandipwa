@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/framework",
     "description": "Framework extension for ScandiPWA.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "OSL-3.0",
     "dependencies": {
         "react": "^16.13.1",
