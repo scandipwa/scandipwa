@@ -154,6 +154,7 @@ export class RouterContainer extends PureComponent {
                 ios: isMobile.iOS(platform),
                 blackberry: isMobile.blackBerry(model),
                 opera: isMobile.opera(model),
+                safari: isMobile.safari(model),
                 windows: isMobile.windows(model)
             });
         } else {
@@ -163,6 +164,7 @@ export class RouterContainer extends PureComponent {
                 ios: isMobile.iOS(),
                 blackberry: isMobile.blackBerry(),
                 opera: isMobile.opera(),
+                safari: isMobile.safari(),
                 windows: isMobile.windows()
             });
         }

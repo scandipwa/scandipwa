@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { ProductType } from 'Type/ProductList';
-import media, { PRODUCT_MEDIA } from 'Util/Media';
 
 import SearchItem from './SearchItem.component';
 
@@ -75,13 +74,11 @@ export class SearchItemContainer extends PureComponent {
     getImgSrc() {
         const {
             product: {
-                thumbnail: { path } = {}
+                thumbnail: { url } = {}
             }
         } = this.props;
 
-        return path
-            ? media(path, PRODUCT_MEDIA)
-            : undefined;
+        return url;
     }
 
     getCustomAttribute() {

@@ -12,7 +12,7 @@
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 
-import { UPDATE_TOTALS } from './Cart.action';
+import { UPDATE_SHIPPING_PRICE, UPDATE_TOTALS } from './Cart.action';
 
 export const CART_TOTALS = 'cart_totals';
 
@@ -39,6 +39,24 @@ export const updateCartTotals = (action) => {
     return { cartTotals };
 };
 
+/** @namespace Store/Cart/Reducer/updateShippingPrice */
+export const updateShippingPrice = (action, state) => {
+    const {
+        data: {
+            shipping_amount,
+            shipping_incl_tax
+        } = {}
+    } = action;
+
+    return {
+        cartTotals: {
+            ...state.cartTotals,
+            shipping_amount,
+            shipping_incl_tax
+        }
+    };
+};
+
 /** @namespace Store/Cart/Reducer/getInitialState */
 export const getInitialState = () => ({
     cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
@@ -54,7 +72,8 @@ export const CartReducer = (
     switch (type) {
     case UPDATE_TOTALS:
         return updateCartTotals(action, state);
-
+    case UPDATE_SHIPPING_PRICE:
+        return updateShippingPrice(action, state);
     default:
         return state;
     }

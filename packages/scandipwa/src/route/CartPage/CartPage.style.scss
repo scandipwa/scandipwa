@@ -17,6 +17,8 @@
 }
 
 .CartPage {
+    margin-bottom: var(--header-nav-height);
+
     @include before-desktop {
         padding-bottom: 113px;
         margin-bottom: var(--navigation-tabs-height);
@@ -208,7 +210,7 @@
     &-Total {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         font-size: 1.8rem;
         font-weight: bold;
         padding: 1.2rem 0;
@@ -219,6 +221,16 @@
 
         @include mobile {
             padding: 1.4rem 1.4rem  0;
+        }
+
+        dd {
+            text-align: right;
+
+            span {
+                display: block;
+                font-size: .6em;
+                font-weight: 300;
+            }
         }
     }
 
@@ -253,6 +265,12 @@
 
         dd {
             text-align: right;
+
+            span {
+                display: block;
+                font-size: .7em;
+                font-weight: 300;
+            }
         }
 
         &_isMobile {
@@ -391,5 +409,9 @@
 
     &-ExpandableContentContent {
         margin-top: 0;
+    }
+
+    &-TaxRate {
+        font-weight: 300;
     }
 }

@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CmsBlock from 'Component/CmsBlock';
+import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
@@ -268,6 +269,7 @@ export class Menu extends PureComponent {
         return (
             <>
                 { this.renderStoreSwitcher() }
+                { this.renderCurrencySwitcher() }
                 { this.renderPromotionCms() }
             </>
         );
@@ -358,6 +360,15 @@ export class Menu extends PureComponent {
                 { this.renderSubMenuDesktop(children) }
             </>
         );
+    }
+
+    renderCurrencySwitcher() {
+        const { device } = this.props;
+        if (!device.isMobile) {
+            return null;
+        }
+
+        return <CurrencySwitcher />;
     }
 
     renderStoreSwitcher() {

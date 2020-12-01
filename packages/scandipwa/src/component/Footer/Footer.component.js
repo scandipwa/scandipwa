@@ -16,10 +16,11 @@ import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
+import NewsletterSubscription from 'Component/NewsletterSubscription';
 import { DeviceType } from 'Type/Device';
 import media from 'Util/Media';
 
-import { COLUMN_MAP } from './Footer.config';
+import { COLUMN_MAP, RENDER_NEWSLETTER } from './Footer.config';
 
 import './Footer.style';
 
@@ -40,6 +41,12 @@ export class Footer extends PureComponent {
         isVisibleOnMobile: false
     };
 
+    renderMap = {
+        [RENDER_NEWSLETTER]: {
+            render: this.renderNewsletterSubscriptionBlock
+        }
+    };
+
     renderColumnItemContent(src, title) {
         if (!src) {
             return title;
@@ -53,7 +60,7 @@ export class Footer extends PureComponent {
         );
     }
 
-    renderColumnItem = ({ href = '/', title, src }) => {
+    renderColumnItemLink = ({ href = '/', title, src }, i) => {
         const mods = src ? { type: 'image' } : {};
 
         return (
@@ -62,17 +69,28 @@ export class Footer extends PureComponent {
               elem="ColumnItem"
               to={ href }
               mods={ mods }
+              key={ i }
             >
                 { this.renderColumnItemContent(src, title) }
             </Link>
         );
     };
 
-    renderColumn = ({ title, items, isItemsHorizontal }) => {
+    renderColumnItem = (item, i) => {
+        const { render } = item;
+
+        if (render) {
+            return this.renderMap[render].render(item, i);
+        }
+
+        return this.renderColumnItemLink(item, i);
+    };
+
+    renderColumn = ({ title, items, isItemsHorizontal }, i) => {
         const contentMods = isItemsHorizontal ? { direction: 'horizontal' } : {};
 
         return (
-            <div block="Footer" elem="Column">
+            <div block="Footer" elem="Column" key={ i }>
                 <h3 block="Footer" elem="ColumnTitle">
                     { title }
                 </h3>
@@ -92,10 +110,15 @@ export class Footer extends PureComponent {
             <ContentWrapper
               isNotSection
               wrapperMix={ { block: 'Footer', elem: 'Columns' } }
+              label=""
             >
                 { COLUMN_MAP.map(this.renderColumn) }
             </ContentWrapper>
         );
+    }
+
+    renderNewsletterSubscriptionBlock(item, i) {
+        return <NewsletterSubscription key={ i } />;
     }
 
     renderContent() {
@@ -119,6 +142,7 @@ export class Footer extends PureComponent {
             <ContentWrapper
               mix={ { block: 'Footer', elem: 'CopyrightContentWrapper' } }
               wrapperMix={ { block: 'Footer', elem: 'CopyrightContent' } }
+              label=""
             >
                 <span block="Footer" elem="Copyright">
                     { copyright }
