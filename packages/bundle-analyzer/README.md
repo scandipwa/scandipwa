@@ -1,4 +1,4 @@
-# @scandipwa/m2-theme
+# @scandipwa/bundle-analyzer
 
 This package includes Webpack bundle analyzer extension used by [Create Scandipwa App](https://github.com/scandipwa/create-scandipwa-app).
 
