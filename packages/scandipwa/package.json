@@ -7,7 +7,7 @@
         "build": "scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/scandipwa-scripts": "^2.0.8",
+        "@scandipwa/scandipwa-scripts": "^2.0.9",
         "braintree-web-drop-in": "^1.23.0",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",

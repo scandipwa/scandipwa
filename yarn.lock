@@ -2350,6 +2350,27 @@
     eslint-plugin-simple-import-sort "^5.0.3"
     typescript "^4.0.3"
 
+"@scandipwa/eslint-config@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-config/-/eslint-config-0.1.7.tgz#a793ef0539fdc2b9b8ddf7be29514c6431c02d87"
+  integrity sha512-5o/+JzzSRQ+ui+X2V+zHy6U1ETp6MKgBQSC48oW/KqWpqM5io00pz9P7CvA3exdKq/thuMsyImWC0uZBclH5FQ==
+  dependencies:
+    "@scandipwa/eslint-plugin-scandipwa-guidelines" "^2.0.5"
+    "@typescript-eslint/eslint-plugin" "^4.5.0"
+    "@typescript-eslint/parser" "^4.5.0"
+    babel-eslint "^10.1.0"
+    eslint-config-airbnb "^18.2.0"
+    eslint-plugin-array-func "^3.1.7"
+    eslint-plugin-babel "^5.3.1"
+    eslint-plugin-fp "^2.3.0"
+    eslint-plugin-import "^2.22.1"
+    eslint-plugin-jest "^22.1.3"
+    eslint-plugin-jsx-a11y "^6.3.1"
+    eslint-plugin-react "^7.21.5"
+    eslint-plugin-react-hooks "^4.0.0"
+    eslint-plugin-simple-import-sort "^5.0.3"
+    typescript "^4.0.3"
+
 "@scandipwa/eslint-plugin-scandipwa-guidelines@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@scandipwa/eslint-plugin-scandipwa-guidelines/-/eslint-plugin-scandipwa-guidelines-2.0.2.tgz#4bf240ba44b2aa986604afccf6725818e084332d"
@@ -2362,6 +2383,14 @@
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@scandipwa/eslint-plugin-scandipwa-guidelines/-/eslint-plugin-scandipwa-guidelines-2.0.4.tgz#ae69684a052a6c262726a4be60ef09afcd09ccc7"
   integrity sha512-T8g2PQareM8iItM5fqUAZ4WDJwoeltF3cI1qlsHrGa1ig+KGFpQC7vL+xPPdpjrnuzj5qtQgb8zl9Up1ndLibw==
+  dependencies:
+    eslint-traverse "^1.0.0"
+    requireindex "~1.1.0"
+
+"@scandipwa/eslint-plugin-scandipwa-guidelines@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@scandipwa/eslint-plugin-scandipwa-guidelines/-/eslint-plugin-scandipwa-guidelines-2.0.5.tgz#f6f64c9af68a37b2c7f4823caf7d5dfdf2b54bb0"
+  integrity sha512-tjBCAfXPzzs7A7AGBPzxl64ceXJ3aI530dboNQdUZ31KHEcT6rftFq5yDYHjzA+hDFf3z/Y8aVL+YuT9zry64g==
   dependencies:
     eslint-traverse "^1.0.0"
     requireindex "~1.1.0"
@@ -2379,10 +2408,10 @@
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
-"@scandipwa/scandipwa-dev-utils@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.0.15.tgz#702d93a9d6c1e9ab72338f6ca50ac5f4365f3e2d"
-  integrity sha512-l4W7cmudVgSuzCc1DQFEfUPQY3+ibe/U5rSz+iUv5Uk8L9O56rMuzxmiQtTaeaIiApNedOrHYQWBha4IoJbyNQ==
+"@scandipwa/scandipwa-dev-utils@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.0.16.tgz#1951ce7f85152a9d07f06fe2d935ab6b1aa0d109"
+  integrity sha512-5ITXLFuZW3qZjtVZ2MHVSfUkvAspb3e0cWW+83n0sNACSH3aaXkCsUDFLrCuc0bXkZ0lObBJnUQixMuibCWiuQ==
   dependencies:
     chalk "^4.1.0"
     cross-spawn "^7.0.3"
@@ -2424,21 +2453,21 @@
     react-scripts "3.4.1"
     tree-kill "^1.2.2"
 
-"@scandipwa/scandipwa-scripts@^2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.0.8.tgz#9efb74fa351b67ed745c044f531af6148117c0a3"
-  integrity sha512-y/Vf9zdXGWWpY8xf7T4n88FjrRXfSgY93HHYYu7OK7hX4LNm4Ls6zbxD97gf/7kR6jnwVkt9ImBr+ehNrSM+bA==
+"@scandipwa/scandipwa-scripts@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.0.9.tgz#14b8b0cab99fdd1ad556861485579545061de7ed"
+  integrity sha512-446v4lAzZZZK/fd9Jpj+C/PyJpT8b2ivV4NbbxMw7zwELwFopg7+lvwIWWgBOOUQx/8nhrpa7QLPbAFbYIdn0A==
   dependencies:
     "@babel/plugin-transform-arrow-functions" "^7.10.4"
     "@babel/plugin-transform-async-to-generator" "^7.10.4"
     "@scandipwa/babel-plugin-middleware-decorator" "0.1.2"
     "@scandipwa/craco" "0.0.4"
-    "@scandipwa/eslint-config" "^0.1.6"
-    "@scandipwa/scandipwa-dev-utils" "^0.0.15"
+    "@scandipwa/eslint-config" "^0.1.7"
+    "@scandipwa/scandipwa-dev-utils" "^0.0.16"
     "@scandipwa/scandipwa-extensibility" "1.0.2"
-    "@scandipwa/webpack-extension-import-loader" "^0.0.11"
-    "@scandipwa/webpack-fallback-plugin" "^1.1.3"
-    "@scandipwa/webpack-i18n-plugin" "^0.0.15"
+    "@scandipwa/webpack-extension-import-loader" "^0.0.12"
+    "@scandipwa/webpack-fallback-plugin" "1.1.3"
+    "@scandipwa/webpack-i18n-plugin" "^0.1.0"
     babel-plugin-module-resolver "^4.0.0"
     babel-plugin-transform-rebem-jsx "^0.3.3"
     chokidar "^3.4.2"
@@ -2451,12 +2480,12 @@
     react-scripts "3.4.1"
     tree-kill "^1.2.2"
 
-"@scandipwa/webpack-extension-import-loader@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-extension-import-loader/-/webpack-extension-import-loader-0.0.11.tgz#1aa654e54395be86f786245396321b04af88dcad"
-  integrity sha512-Wb0q9qpLOSHk8vMJ4vMHqtNjeOlDHW17vR3wXtTEqiJ2PPFFu5vwmjaPZ+RhS1gGvciB7XK/07NZKQIYN04Dlg==
+"@scandipwa/webpack-extension-import-loader@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-extension-import-loader/-/webpack-extension-import-loader-0.0.12.tgz#332040aa8ea975164ee60fa88fe32a1cd5606a8d"
+  integrity sha512-sgv24Um5QfJH10a0+dia3AqQIOMPQjFxmbxMmZDK9rHpwqBP8nxKhoAUgy4WAjBJ5NyNApWMr5Ku+OmrMqA3Hw==
   dependencies:
-    "@scandipwa/scandipwa-dev-utils" "^0.0.15"
+    "@scandipwa/scandipwa-dev-utils" "^0.0.16"
 
 "@scandipwa/webpack-extension-import-loader@^0.0.7":
   version "0.0.7"
@@ -2470,7 +2499,7 @@
   resolved "https://registry.yarnpkg.com/@scandipwa/webpack-fallback-plugin/-/webpack-fallback-plugin-1.1.2.tgz#dd0ba066ac4c09449f955e0c7f9d7d1b0421df99"
   integrity sha512-iVJv+IGIqH6triqzMjWLhSbU8x6qAFWSa3WUbB2s1/euQoKbsNbNQkhHZepQ+w7JKbkFqknA6FgC5BjHYxsSLQ==
 
-"@scandipwa/webpack-fallback-plugin@^1.1.3":
+"@scandipwa/webpack-fallback-plugin@1.1.3":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@scandipwa/webpack-fallback-plugin/-/webpack-fallback-plugin-1.1.3.tgz#e5d32b86c30ff7d4f45a026c202f64c665895819"
   integrity sha512-actEaPpWz6K72XjZIXVxHhC5btTicACLGwxb0PuRAwkOIaiviYzfMMv133SkG4bW0INQBMNjI90y2d33r0HucQ==
@@ -2482,12 +2511,12 @@
   dependencies:
     "@scandipwa/scandipwa-dev-utils" "^0.0.11"
 
-"@scandipwa/webpack-i18n-plugin@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-plugin/-/webpack-i18n-plugin-0.0.15.tgz#cf6bd9fb62a3fe9b6f279013788fec004834d814"
-  integrity sha512-H3cDCIMql/1BASS+OiWIT6UdbcTg02Vq8YoI9ClSNSSzcZ5jvWg7lxpkzj+3dVpaxoLCzqm7hq24MmOfLvCPXQ==
+"@scandipwa/webpack-i18n-plugin@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-plugin/-/webpack-i18n-plugin-0.1.0.tgz#26812ff2aaaf43f1251723c390a9d02f61cbaa2f"
+  integrity sha512-S/IjcXWuGi9zPyHeBabUsp/RETEPrfJFeT/mecC2b+m9LBR45x2SRYSZ4ZgVgiMcfnzaQ03W0RYNv2QKMxI4rQ==
   dependencies:
-    "@scandipwa/scandipwa-dev-utils" "^0.0.15"
+    "@scandipwa/scandipwa-dev-utils" "^0.0.16"
 
 "@svgr/babel-plugin-add-jsx-attribute@^4.2.0":
   version "4.2.0"
