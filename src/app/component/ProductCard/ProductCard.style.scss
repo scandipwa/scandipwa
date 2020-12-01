@@ -183,6 +183,7 @@
 
     &-Heart {
         height: 15px;
+        fill: transparent;
         @include mobile {
             height: 10px;
         }
@@ -191,6 +192,11 @@
     &-Fill-Heart {
         height: 18px;
         fill: var(--primary-base-color);
+
+        path {
+            stroke: transparent;
+        }
+
         @include mobile {
             height: 12px;
         }
