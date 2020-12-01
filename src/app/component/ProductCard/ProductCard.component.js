@@ -23,8 +23,9 @@ import TierPrices from 'Component/TierPrices';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE } from 'Util/Product';
 
-import './ProductCard.style';
+import { IN_STOCK } from './ProductCard.config';
 
+import './ProductCard.style';
 /**
  * Product card
  * @class ProductCard
@@ -75,13 +76,9 @@ export class ProductCard extends PureComponent {
     imageRef = createRef();
 
     isConfigurableProductOutOfStock(productVariants) {
-        const variantsInStock = productVariants.filter((productVariant) => productVariant.stock_status === 'IN_STOCK');
+        const variantsInStock = productVariants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
 
-        if (variantsInStock.length === 0) {
-            return true;
-        }
-
-        return false;
+        return variantsInStock.length === 0;
     }
 
     isBundleProductOutOfStock(item) {
