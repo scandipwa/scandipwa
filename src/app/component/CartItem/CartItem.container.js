@@ -31,7 +31,9 @@ export const CartDispatcher = import(
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({

@@ -18,8 +18,8 @@ import Field from 'Component/Field';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import { DeviceType } from 'Type/Device';
 import { CartItemType } from 'Type/MiniCart';
-import { isMobile } from 'Util/Mobile';
 
 import './CartItem.style';
 
@@ -50,7 +50,8 @@ export class CartItem extends PureComponent {
         thumbnail: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired,
         getProductVariant: PropTypes.func.isRequired,
-        isProductInStock: PropTypes.bool.isRequired
+        isProductInStock: PropTypes.bool.isRequired,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -138,7 +139,7 @@ export class CartItem extends PureComponent {
     }
 
     renderWrapper() {
-        const { linkTo, isProductInStock } = this.props;
+        const { linkTo, isProductInStock, device } = this.props;
 
         // TODO: implement shared-transition here?
 
@@ -151,7 +152,7 @@ export class CartItem extends PureComponent {
             );
         }
 
-        if (isMobile.any()) {
+        if (device.isMobile) {
             return (
                 this.renderWrapperContent()
             );
@@ -281,8 +282,30 @@ export class CartItem extends PureComponent {
             item: {
                 customizable_options,
                 bundle_options
-            } = {}
+            } = {},
+            device
         } = this.props;
+
+        if (device.isMobile) {
+            return (
+                <figcaption
+                  block="CartItem"
+                  elem="Content"
+                  mods={ { isLikeTable } }
+                >
+                    { this.renderOutOfStockMessage() }
+                    <div block="CartItem" elem="HeadingWrapper">
+                        { this.renderProductName() }
+                        { this.renderDeleteButton() }
+                    </div>
+                    { this.renderProductOptions(customizable_options) }
+                    { this.renderProductOptions(bundle_options) }
+                    { this.renderProductConfigurations() }
+                    { this.renderQuantityChangeField() }
+                    { this.renderProductPrice() }
+                </figcaption>
+            );
+        }
 
         return (
             <figcaption
@@ -293,12 +316,10 @@ export class CartItem extends PureComponent {
                 { this.renderOutOfStockMessage() }
                 <div block="CartItem" elem="HeadingWrapper">
                     { this.renderProductName() }
-                    { isMobile.any() ? this.renderDeleteButton() : null }
                 </div>
                 { this.renderProductOptions(customizable_options) }
                 { this.renderProductOptions(bundle_options) }
                 { this.renderProductConfigurations() }
-                { isMobile.any() ? this.renderQuantityChangeField() : null }
                 { this.renderProductPrice() }
             </figcaption>
         );
@@ -338,10 +359,11 @@ export class CartItem extends PureComponent {
     renderActions() {
         const {
             isEditing,
-            isLikeTable
+            isLikeTable,
+            device
         } = this.props;
 
-        if (isMobile.any()) {
+        if (device.isMobile) {
             return null;
         }
 
@@ -401,9 +423,9 @@ export class CartItem extends PureComponent {
     }
 
     renderImage() {
-        const { linkTo } = this.props;
+        const { linkTo, device } = this.props;
 
-        if (isMobile.any()) {
+        if (device.isMobile) {
             return (
                 <Link to={ linkTo } block="CartItem" elem="Link">
                     { this.renderImageElement() }
