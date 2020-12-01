@@ -7,10 +7,10 @@
         "clean": "lerna clean --yes"
     },
     "devDependencies": {
+        "@scandipwa/eslint-config": "^0.1.6",
         "eslint": "^6.6.0",
         "husky": "^4.3.0",
-        "lerna": "^3.22.1",
-        "@scandipwa/eslint-config": "0.1.2"
+        "lerna": "^3.22.1"
     },
     "husky": {
         "hooks": {
