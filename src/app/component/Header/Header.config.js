@@ -31,3 +31,4 @@ export const CHECKOUT_ACCOUNT = 'checkout_account';
 export const CMS_PAGE = 'cms-page';
 export const MY_ACCOUNT = 'my-account';
 export const NO_MATCH = 'no-match';
+export const CONTACT_US = 'contact-us';

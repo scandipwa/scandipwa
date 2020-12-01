@@ -79,7 +79,7 @@ export class CartOverlay extends PureComponent {
     renderNoCartItems() {
         return (
             <p block="CartOverlay" elem="Empty">
-                { __('There are no products in cart.') }
+                { __('You have no items in your shopping cart.') }
             </p>
         );
     }
@@ -154,9 +154,9 @@ export class CartOverlay extends PureComponent {
     }
 
     renderSecureCheckoutButton() {
-        const { totals: { items }, handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
+        const { handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
 
-        const options = !items || items.length < 1 || hasOutOfStockProductsInCart
+        const options = hasOutOfStockProductsInCart
             ? {
                 onClick: (e) => e.preventDefault(),
                 disabled: true
@@ -189,6 +189,24 @@ export class CartOverlay extends PureComponent {
                     { __('View cart') }
                 </Link>
                 { this.renderSecureCheckoutButton() }
+            </div>
+        );
+    }
+
+    renderCartAdditional() {
+        const { totals: { items } } = this.props;
+
+        if (!items || items.length < 1) {
+            return null;
+        }
+
+        return (
+            <div block="CartOverlay" elem="Additional">
+                { this.renderDiscount() }
+                { this.renderTax() }
+                { this.renderTotals() }
+                { this.renderOutOfStockProductsWarning() }
+                { this.renderActions() }
             </div>
         );
     }
@@ -235,11 +253,7 @@ export class CartOverlay extends PureComponent {
             >
                 { this.renderPromo() }
                 { this.renderCartItems() }
-                { this.renderDiscount() }
-                { this.renderTax() }
-                { this.renderTotals() }
-                { this.renderOutOfStockProductsWarning() }
-                { this.renderActions() }
+                { this.renderCartAdditional() }
             </Overlay>
         );
     }
