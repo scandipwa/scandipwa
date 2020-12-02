@@ -11,8 +11,8 @@
 
 .ReviewStar {
     --star-outline-color: var(--secondary-dark-color);
-    --empty-star-image-url: url("star_placeholder.png");
-    --filled-star-image-url: url("filled_star_placeholder.png");
+    --empty-star-image-url: url('star_placeholder.png');
+    --filled-star-image-url: url('filled_star_placeholder.png');
 
     // reset from input default styles
     display: inline;
@@ -37,7 +37,7 @@
         display: inline-block;
         width: 20px;
         height: 20px;
-        content: "";
+        content: '';
     }
 
     &:checked,
@@ -57,7 +57,7 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            content: "";
+            content: '';
         }
     }
 
