@@ -1,5 +1,18 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 .ReviewStar {
     --star-outline-color: var(--secondary-dark-color);
+    --empty-star-image-url: url("star_placeholder.png");
+    --filled-star-image-url: url("filled_star_placeholder.png");
 
     // reset from input default styles
     display: inline;
@@ -10,12 +23,7 @@
 
     transition: color 150ms ease-in;
     color: $white;
-    text-shadow:
-        -1px 0 var(--star-outline-color),
-        0 1px var(--star-outline-color),
-        1px 0 var(--star-outline-color),
-        0 -1px var(--star-outline-color);
-
+    text-shadow: -1px 0 var(--star-outline-color), 0 1px var(--star-outline-color), 1px 0 var(--star-outline-color), 0 -1px var(--star-outline-color);
     font-size: 4rem;
     line-height: 1;
     /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
@@ -23,8 +31,13 @@
     letter-spacing: 3px;
 
     &::after {
-        content: '★';
-        font-family: serif;
+        background-image: var(--empty-star-image-url);
+        background-size: 20px 20px;
+        background-repeat: no-repeat;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        content: "";
     }
 
     &:checked,
@@ -36,6 +49,16 @@
         --star-outline-color: var(--primary-base-color);
 
         color: var(--primary-base-color);
+
+        &:after {
+            background-image: var(--filled-star-image-url);
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            content: "";
+        }
     }
 
     &:focus {
