@@ -111,7 +111,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const BOTTOM_MIN_OFFSET = 100;
 
         const doc = document.body;
-        const offset = doc.scrollTop + window.innerHeight;
+        const offset = window.innerHeight + window.scrollY;
         const height = doc.offsetHeight;
 
         if (windowY < TOP_MIN_OFFSET) {
@@ -120,7 +120,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (offset >= height - BOTTOM_MIN_OFFSET) {
+        if (offset >= height) {
             // We are on the bottom
             document.documentElement.classList.remove('hideOnScroll');
             return;
