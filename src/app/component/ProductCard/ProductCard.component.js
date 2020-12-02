@@ -86,11 +86,7 @@ export class ProductCard extends PureComponent {
 
         const optionsInStock = options.filter((option) => option.product.stock_status === 'IN_STOCK');
 
-        if (optionsInStock.length === 0) {
-            return true;
-        }
-
-        return false;
+        return optionsInStock.length === 0;
     }
 
     registerSharedElement = () => {
