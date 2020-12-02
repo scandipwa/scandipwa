@@ -48,6 +48,16 @@
             top-left-radius: 2px;
             top-right-radius: 2px;
         };
+        
+        @include largest-screen {
+            @-moz-document url-prefix() {
+                box-shadow:
+                    6px 3px 0 -1px var(--header-color),
+                    -6px 3px 0 -1px var(--header-color),
+                    -2px 3px 0 -1px var(--header-color),
+                    2px 3px 0 -1px var(--header-color);
+            }
+        }    
     }
 }
 
