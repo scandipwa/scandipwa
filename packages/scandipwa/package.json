@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "@scandipwa/scandipwa-scripts": "^2.0.9",
+        "@scandipwa/m2-theme": "0.0.13",
         "braintree-web-drop-in": "^1.23.0",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
@@ -29,6 +30,10 @@
     },
     "scandipwa": {
         "themeAlias": "Source",
+        "type": "theme",
+        "extensions": {
+            "@scandipwa/m2-theme": true
+        },
         "composer": {
             "magento/framework": "*",
             "scandipwa/menu-organizer": "^2.0",

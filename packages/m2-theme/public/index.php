@@ -1,11 +1,17 @@
 <?php
     $colorConfig = $this->getThemeConfiguration('color_customization');
     $contentConfig = $this->getThemeConfiguration('content_customization');
+    $icons = $this->getAppIconData();
 ?>
 <!DOCTYPE html>
 <html lang="<?= $this->getLocaleCode() ?>">
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+
+        <!-- Muli font import from Abode -->
+        <link rel="stylesheet" href="https://use.typekit.net/gbk7rfi.css">
+
         <script>
             (function() {
                 if (typeof globalThis === 'object') return;
@@ -22,6 +28,23 @@
             window.storeRegexText = `/(${window.storeList.join('|')})?`;
         </script>
 
+        <!-- Icons -->
+        <link rel="shortcut icon" href="/pub/media/favicon/favicon.png">
+
+        <?php foreach ($icons['ios_startup'] as $icon): ?>
+            <?= sprintf('<link rel="apple-touch-startup-image" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
+        <?php endforeach; ?>
+
+        <?php foreach ($icons['ios'] as $icon): ?>
+            <?= sprintf('<link rel="apple-touch-icon" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
+        <?php endforeach; ?>
+
+        <?php foreach ($icons['icon'] as $icon): ?>
+            <?= sprintf('<link rel="icon" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
+        <?php endforeach; ?>
+
+        <!-- Manifest -->
+        <link rel="manifest" href="/pub/media/webmanifest/manifest.json">
     <style>
         <?php if ($colorConfig['enable_color_customization']['enable_custom_colors'] !== "0"): ?>
             <?php $colorArray = $colorConfig['primary_colors'] + $colorConfig['secondary_colors']; ?>

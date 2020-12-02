@@ -3,6 +3,7 @@
     "name": "create-scandipwa-app",
     "scripts": {
         "eslint": "eslint ./packages --resolve-plugins-relative-to . --cache --no-error-on-unmatched-pattern --ext .js,.ts,.tsx",
+        "csa": "create-scandipwa-app packages/test",
         "postinstall": "lerna bootstrap",
         "clean": "lerna clean --yes"
     },

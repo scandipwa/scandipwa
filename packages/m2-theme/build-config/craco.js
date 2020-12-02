@@ -6,7 +6,7 @@ const { sources } = require('@scandipwa/scandipwa-scripts/lib/sources');
 const { getLoader, loaderByName } = require('@scandipwa/craco');
 
 // The variable is passed automatically, use --magento flag
-const isMagento = process.env.PWA_BUILD_MODE === 'magento';
+const isMagento = process.env.BUILD_MODE === 'magento';
 
 module.exports = {
     plugin: {
@@ -25,13 +25,6 @@ module.exports = {
             // For Magento use PHP template (defined in /public/index.php)
             config.paths.appHtml = FallbackPlugin.getFallbackPathname('./public/index.php', sources);
 
-            // TODO: implement PHP-based approach for development as Magento theme.
-            // See more: https://medium.com/@agent_hunt/how-to-use-index-php-as-the-index-file-with-create-react-app-ff760c910a6a
-            // In case it is Magento - we would like to see customization,
-            // meta and other things directly from Magento 2 => require
-            // disk write for PHP to work with.
-            // cracoConfig.webpack.plugins.push(new HtmlWebpackHardDiskPlugin());
-
             // Always return the config object.
             return config;
         },
@@ -43,7 +36,7 @@ module.exports = {
             // For Magento setup, change output file name
             webpackConfig.plugins.forEach((plugin) => {
                 if (plugin instanceof HtmlWebpackPlugin) {
-                    plugin.options.filename = '../templates/root.phtml';
+                    plugin.options.filename = '../templates/scandipwa_root.phtml';
                     plugin.options.minify = false;
                 }
             });
