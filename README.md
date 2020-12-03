@@ -21,7 +21,30 @@ Data-integrity. Changes from Magento 2 admin are reflected immediately.
 
 But that's not it! We also prepared a well-thought file-structure, naming-convention, component organization patterns and packed them into ESLint rules!
 
-## Contributors
+## Expirience demo
+
+Experience features and performance through 3 different demos:
+- [Luma default data](https://luma-demo.scandipwa.com/)
+- [Realistic Store Experince](https://tech-demo.scandipwa.com/)
+- [40 000 SKU Store](https://demo.scandipwa.com/)
+
+
+## Need help?
+
+- [Video Tutorials](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww/videos)
+- [ScandiPWA User Guide](https://manual.scandipwa.com/)
+- [Create ScandiPWA App](https://scandipwa.gitbook.io/create-scandipwa-app/)
+- [ScandiPWA Documentation](https://docs.scandipwa.com/) (:warning: will be replaced with new documentation soon)
+
+**Still feeling lost?**
+
+Join our community [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask the core team directly!
+
+## Contribution
+
+We'd love to have your helping hand on `scandipwa`! See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information on what we're looking for and how to get started.
+
+Thanks to these **awesome** :heart: people for contribution!
 
 <a href="https://github.com/scandipwa/scandipwa/graphs/contributors">
 <img src="https://contributors-img.web.app/image?repo=scandipwa/scandipwa" />
