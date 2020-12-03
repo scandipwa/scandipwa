@@ -12,16 +12,16 @@
 :root {
     --popup-background: #0003;
     @include mobile {
-        --popup-content-padding: 1.4rem;
+        --popup-content-margin: 1.4rem;
     }
 
     --popup-content-background: #{$white};
     --popup-min-width: 100%;
-    --popup-content-padding: 1.2rem;
+    --popup-content-margin: 1.2rem;
 
     @include after-mobile {
         --popup-min-width: 490px;
-        --popup-content-padding: 2.4rem;
+        --popup-content-margin: 2.4rem;
     }
 }
 
@@ -74,6 +74,10 @@
         max-width: calc(var(--content-wrapper-width) * .8);
         max-height: 80%;
         overflow-y: scroll;
+        
+        > * {
+            margin: var(--popup-content-margin)
+        }
 
         @include mobile {
             border-radius: 0;
