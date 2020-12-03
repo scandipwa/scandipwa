@@ -37,3 +37,10 @@ Please also provide a test plan, i.e. specify how you verified that your additio
 4. Type in `yarn start`
 
 Now you can modify files and see changes!
+
+## Publishing
+
+Use `lerna publish --exact` command.
+
+For canary publishing, use `lerna publish --canary --exact --preid next --dist-tag=next minor`
+
