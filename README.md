@@ -31,14 +31,14 @@ Experience features and performance through 3 different demos:
 
 ## Need help?
 
+Here are some awesome resources to start with!
+
 - [Video Tutorials](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww/videos)
 - [ScandiPWA User Guide](https://manual.scandipwa.com/)
 - [Create ScandiPWA App](https://scandipwa.gitbook.io/create-scandipwa-app/)
 - [ScandiPWA Documentation](https://docs.scandipwa.com/) (:warning: will be replaced with new documentation soon)
 
-**Still feeling lost?**
-
-Join our community [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask the core team directly!
+**Still feeling lost?** Join our [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask community directly!
 
 ## Contribution
 
