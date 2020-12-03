@@ -31,6 +31,7 @@ import OrderReducer from 'Store/Order/Order.reducer';
 import OverlayReducer from 'Store/Overlay/Overlay.reducer';
 import PopupReducer from 'Store/Popup/Popup.reducer';
 import ProductReducer from 'Store/Product/Product.reducer';
+import ProductCompareReducer from 'Store/ProductCompare/ProductCompare.reducer';
 import ProductListReducer from 'Store/ProductList/ProductList.reducer';
 import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reducer';
 import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
@@ -62,7 +63,8 @@ export const getStaticReducers = () => ({
     LinkedProductsReducer,
     CheckoutReducer,
     ContactFormReducer,
-    RecentlyViewedProductsReducer
+    RecentlyViewedProductsReducer,
+    ProductCompareReducer
 });
 
 export function createReducer(asyncReducers) {

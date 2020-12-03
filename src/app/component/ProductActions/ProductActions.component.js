@@ -21,6 +21,7 @@ import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductBundleItems from 'Component/ProductBundleItems';
+import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductPrice from 'Component/ProductPrice';
@@ -470,6 +471,18 @@ export class ProductActions extends PureComponent {
         );
     }
 
+    renderProductCompareButton() {
+        const {
+            product: {
+                sku
+            } = {}
+        } = this.props;
+
+        return (
+            <ProductCompareButton productSku={ sku } />
+        );
+    }
+
     renderReviews() {
         const {
             product: {
@@ -554,6 +567,7 @@ export class ProductActions extends PureComponent {
                 >
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
+                    { this.renderProductCompareButton() }
                     { this.renderProductWishlistButton() }
                 </div>
                 { this.renderReviews() }
