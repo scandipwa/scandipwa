@@ -7,8 +7,8 @@
         "build": "scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/scandipwa-scripts": "^2.0.9",
         "@scandipwa/m2-theme": "0.0.13",
+        "@scandipwa/scandipwa-scripts": "^2.0.12",
         "braintree-web-drop-in": "^1.23.0",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
