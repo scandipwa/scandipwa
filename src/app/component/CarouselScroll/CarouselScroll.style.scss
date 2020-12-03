@@ -16,5 +16,9 @@
         height: 100%;
         transform: translateY(var(--translateY));
         transition: transform var(--animation-speed);
+
+        @-moz-document url-prefix() {
+            padding: 0.5px;
+        }
     }
 }
