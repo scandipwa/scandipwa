@@ -18,6 +18,7 @@ import Loader from 'Component/Loader';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { DeviceType } from 'Type/Device';
@@ -47,8 +48,7 @@ export class ProductCard extends PureComponent {
         children: PropTypes.element,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({}),
-        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
-        productsInWishlist: PropTypes.shape({})
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
     };
 
     static defaultProps = {
@@ -57,8 +57,7 @@ export class ProductCard extends PureComponent {
         children: null,
         isLoading: false,
         mix: {},
-        renderContent: false,
-        productsInWishlist: {}
+        renderContent: false
     };
 
     contentObject = {
@@ -106,7 +105,6 @@ export class ProductCard extends PureComponent {
 
     renderProductPrice() {
         const { product: { price_range } } = this.props;
-
         if (!price_range) {
             return <TextPlaceholder />;
         }
@@ -206,27 +204,18 @@ export class ProductCard extends PureComponent {
     renderProductCardWishlistButton() {
         const {
             product,
-            productsInWishlist
+            mix
         } = this.props;
 
-        const isInWishList = Object.values(productsInWishlist).some((e) => e.id === product.id);
+        if (Object.values(mix).includes('WishlistItem')) {
+            return null;
+        }
 
         return (
-            <div block="ProductCard" elem="WishListButton">
-                <svg
-                  block="ProductCard"
-                  elem={ isInWishList ? 'Fill-Heart' : 'Heart' }
-                  viewBox="0 0 15 15"
-                >
-                    <g>
-                        <path
-                          stroke="#000"
-                          d="m7.69442,4.97048c2.56195,-6.3162 12.59975,0 0,
-                          8.12083c-12.59975,-8.12083 -2.56195,-14.43704 0,-8.12083z"
-                        />
-                    </g>
-                </svg>
-            </div>
+                <ProductWishlistButton
+                  product={ product }
+                  mix={ { block: 'ProductCard', elem: 'WishListButton' } }
+                />
         );
     }
 
@@ -302,13 +291,12 @@ export class ProductCard extends PureComponent {
                         { this.renderPicture() }
                         </figure>
                         { this.renderReviews() }
-                        { this.renderProductCardWishlistButton() }
                     </div>
                     <div block="ProductCard" elem="Content">
                         { this.renderAdditionalProductDetails() }
                         { this.renderMainDetails() }
-                        { this.renderProductPrice() }
                         { this.renderTierPrice() }
+                        { this.renderProductPrice() }
                         { this.renderVisualConfigurableOptions() }
                     </div>
                 </>
@@ -330,6 +318,7 @@ export class ProductCard extends PureComponent {
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderCardContent() }
+                { this.renderProductCardWishlistButton() }
                 <div block="ProductCard" elem="AdditionalContent">
                     { children }
                 </div>
