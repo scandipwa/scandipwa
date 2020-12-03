@@ -63,12 +63,6 @@
     }
 }
 
-@mixin largest-screen {
-    @media (min-width: 1920px) {
-        @content;
-    }
-}
-
 @mixin standalone {
     /* stylelint-disable-next-line media-feature-name-no-unknown */
     @media all and (display-mode: standalone) {
