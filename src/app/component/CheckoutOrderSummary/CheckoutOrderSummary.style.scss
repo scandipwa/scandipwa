@@ -45,6 +45,10 @@
         &::before {
             content: none;
         }
+
+        &_withAppendedContent {
+            flex-wrap: wrap;
+        }
     }
 
     &-OrderItems {
@@ -148,6 +152,12 @@
 
     .ProductPrice {
         margin-top: 0;
+
+        &-SubPrice {
+            display: block;
+            font-size: .7em;
+            font-weight: 300;
+        }
     }
 
     .CartItem-Wrapper {
@@ -156,5 +166,19 @@
         @include mobile {
             padding: 1.4rem 0;
         }
+    }
+
+    &-Text {
+        text-align: right;
+
+        span {
+            display: block;
+            font-size: .7em;
+            font-weight: 300;
+        }
+    }
+
+    &-AppendedContent {
+        flex-basis: 100%;
     }
 }

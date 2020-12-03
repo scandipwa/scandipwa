@@ -53,6 +53,7 @@ export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunk
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
+export const ContactPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "contact" */ 'Route/ContactPage'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path) => window.storeRegexText.concat(path);
@@ -138,6 +139,10 @@ export class Router extends PureComponent {
         {
             component: <Route path={ withStoreRegex('/wishlist/shared/:code') } render={ (props) => <WishlistShared { ...props } /> } />,
             position: 81
+        },
+        {
+            component: <Route path={ withStoreRegex('/contact') } render={ (props) => <ContactPage { ...props } /> } />,
+            position: 82
         },
         {
             component: <Route render={ (props) => <UrlRewrites { ...props } /> } />,

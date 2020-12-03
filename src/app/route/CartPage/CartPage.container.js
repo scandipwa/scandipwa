@@ -31,6 +31,10 @@ import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
+import {
+    DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH,
+    DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX
+} from './CartPage.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -117,9 +121,64 @@ export class CartPageContainer extends PureComponent {
         const { totals } = this.props;
 
         return {
-            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items),
+            cartSubTotal: this.getCartSubTotal(),
+            cartSubTotalExlTax: this.getCartSubTotalExclTax(),
+            cartOrderTotalExlTax: this.getCartOrderTotalExclTax()
         };
     };
+
+    getCartSubTotal() {
+        const {
+            totals: {
+                cart_display_config: {
+                    display_tax_in_subtotal
+                } = {},
+                subtotal,
+                subtotal_incl_tax
+            }
+        } = this.props;
+
+        if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX) {
+            return subtotal;
+        }
+
+        return subtotal_incl_tax;
+    }
+
+    getCartSubTotalExclTax() {
+        const {
+            totals: {
+                cart_display_config: {
+                    display_tax_in_subtotal
+                } = {},
+                subtotal
+            }
+        } = this.props;
+
+        if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH) {
+            return subtotal;
+        }
+
+        return null;
+    }
+
+    getCartOrderTotalExclTax() {
+        const {
+            totals: {
+                cart_display_config: {
+                    include_tax_in_order_total
+                } = {},
+                subtotal_with_discount
+            }
+        } = this.props;
+
+        if (include_tax_in_order_total) {
+            return subtotal_with_discount;
+        }
+
+        return null;
+    }
 
     onCheckoutButtonClick(e) {
         const {

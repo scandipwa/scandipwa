@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import Html from 'Component/Html';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 
@@ -121,6 +122,43 @@ export class ProductAttributeValue extends PureComponent {
         default:
             return this.renderStringValue(label || __('N/A'));
         }
+    }
+
+    renderImageAttribute() {
+        const {
+            attribute: {
+                attribute_label,
+                attribute_value
+            }
+        } = this.props;
+
+        if (!attribute_value || attribute_value === 'no_selection') {
+            return this.renderPlaceholder();
+        }
+
+        return (
+            <img
+              block="ProductAttributeValue"
+              elem="MediaImage"
+              src={ `/media/catalog/product${attribute_value}` }
+              alt={ attribute_label }
+            />
+        );
+    }
+
+    renderTextAreaAttribute() {
+        const {
+            attribute: { attribute_value }
+        } = this.props;
+
+        return (
+            <div
+              block="ProductAttributeValue"
+              elem="TextArea"
+            >
+                <Html content={ attribute_value } />
+            </div>
+        );
     }
 
     renderPlaceholder() {
@@ -240,6 +278,10 @@ export class ProductAttributeValue extends PureComponent {
             return this.renderTextAttribute();
         case 'multiselect':
             return this.renderMultiSelectAttribute();
+        case 'media_image':
+            return this.renderImageAttribute();
+        case 'textarea':
+            return this.renderTextAreaAttribute();
         default:
             return this.renderPlaceholder();
         }

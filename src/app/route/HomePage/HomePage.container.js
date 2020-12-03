@@ -43,7 +43,7 @@ export class HomePageContainer extends PureComponent {
 
         changeHeaderState({
             name: DEFAULT_STATE_NAME,
-            isHiddenOnMobile: true
+            isHiddenOnMobile: false
         });
     }
 

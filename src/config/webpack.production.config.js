@@ -162,7 +162,7 @@ const webpackConfig = ([lang, translation]) => ({
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(projectRoot, 'src', 'public', 'index.production.phtml'),
-            filename: '../templates/root.phtml',
+            filename: '../templates/scandipwa_root.phtml',
             inject: false,
             hash: true,
             publicPath,

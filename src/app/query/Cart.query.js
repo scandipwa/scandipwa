@@ -102,9 +102,12 @@ export class CartQuery {
             'subtotal_with_discount',
             'coupon_code',
             'shipping_amount',
+            'shipping_incl_tax',
             'is_virtual',
             'applied_rule_ids',
-            this._getCartItemsField()
+            this._getCartItemsField(),
+            this._getCartDisplayConfigField(),
+            this._getAppliedTaxesField()
         ];
     }
 
@@ -181,6 +184,7 @@ export class CartQuery {
             'price',
             'item_id',
             'row_total',
+            'row_total_incl_tax',
             'tax_amount',
             'tax_percent',
             'discount_amount',
@@ -205,6 +209,39 @@ export class CartQuery {
     _getCartItemsField() {
         return new Field('items')
             .addFieldList(this._getCartItemFields());
+    }
+
+    _getCartDisplayConfigField() {
+        return new Field('cart_display_config')
+            .addFieldList(this._getCartDisplayConfigFields());
+    }
+
+    _getCartDisplayConfigFields() {
+        return [
+            'display_tax_in_price',
+            'display_tax_in_subtotal',
+            'display_tax_in_shipping_amount',
+            'include_tax_in_order_total',
+            'display_full_tax_summary',
+            'display_zero_tax_subtotal'
+        ];
+    }
+
+    _getAppliedTaxesField() {
+        return new Field('applied_taxes')
+            .addField(this._getAppliedTaxesRatesField());
+    }
+
+    _getAppliedTaxesRatesField() {
+        return new Field('rates')
+            .addFieldList(this._getAppliedTaxesRatesFields());
+    }
+
+    _getAppliedTaxesRatesFields() {
+        return [
+            'percent',
+            'title'
+        ];
     }
 }
 

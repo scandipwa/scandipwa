@@ -12,10 +12,10 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import InstallPromptAndroid from 'Component/InstallPromptAndroid';
-import InstallPromptIOS from 'Component/InstallPromptIOS';
 import { DeviceType } from 'Type/Device';
 import BrowserDatabase from 'Util/BrowserDatabase';
+
+import InstallPrompt from './InstallPrompt.component';
 
 /** @namespace Component/InstallPrompt/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -33,7 +33,8 @@ export class InstallPromptContainer extends PureComponent {
     };
 
     state = {
-        isBannerClosed: BrowserDatabase.getItem('postpone_installation')
+        isBannerClosed: BrowserDatabase.getItem('postpone_installation'),
+        hasInstallPromptEvent: false
     };
 
     containerFunctions = {
@@ -63,6 +64,7 @@ export class InstallPromptContainer extends PureComponent {
 
                 // Clear the saved prompt since it can't be used again
                 window.promt_event = null;
+                this.setState({ hasInstallPromptEvent: false });
             }
         );
     }
@@ -77,26 +79,18 @@ export class InstallPromptContainer extends PureComponent {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
             window.promt_event = Object.assign(event);
+            this.setState({ hasInstallPromptEvent: true });
         });
     }
 
     render() {
-        const { isBannerClosed } = this.state;
-        const { device } = this.props;
-
-        if (device.standaloneMode || isBannerClosed) {
-            return null;
-        }
-
-        if (device.ios) {
-            return <InstallPromptIOS { ...this.containerFunctions } />;
-        }
-
-        if (device.android) {
-            return <InstallPromptAndroid { ...this.containerFunctions } />;
-        }
-
-        return null;
+        return (
+            <InstallPrompt
+              { ...this.props }
+              { ...this.state }
+              containerFunctions={ this.containerFunctions }
+            />
+        );
     }
 }
 
