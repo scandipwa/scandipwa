@@ -23,8 +23,6 @@ import TierPrices from 'Component/TierPrices';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE } from 'Util/Product';
 
-import { IN_STOCK } from './ProductCard.config';
-
 import './ProductCard.style';
 /**
  * Product card
@@ -46,7 +44,9 @@ export class ProductCard extends PureComponent {
         children: PropTypes.element,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({}),
-        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+        isConfigurableProductOutOfStock: PropTypes.func.isRequired,
+        isBundleProductOutOfStock: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -75,20 +75,6 @@ export class ProductCard extends PureComponent {
 
     imageRef = createRef();
 
-    isConfigurableProductOutOfStock(productVariants) {
-        const variantsInStock = productVariants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
-
-        return variantsInStock.length === 0;
-    }
-
-    isBundleProductOutOfStock(item) {
-        const { options } = item;
-
-        const optionsInStock = options.filter((option) => option.product.stock_status === 'IN_STOCK');
-
-        return optionsInStock.length === 0;
-    }
-
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
         registerSharedElement(this.imageRef);
@@ -116,28 +102,29 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductPrice() {
-        const { product: { price_range, type_id } } = this.props;
+        const {
+            product: { price_range, type_id },
+            isConfigurableProductOutOfStock,
+            isBundleProductOutOfStock
+        } = this.props;
 
         if (!price_range) {
             return <TextPlaceholder />;
         }
 
-        if (type_id === CONFIGURABLE) {
-            const { product: { variants } } = this.props;
-            if (this.isConfigurableProductOutOfStock(variants)) {
+        switch (type_id) {
+        case CONFIGURABLE:
+            if (isConfigurableProductOutOfStock()) {
                 return null;
             }
-        }
-        if (type_id === BUNDLE) {
-            const { product: { items } } = this.props;
-
-            if (items.length === 0) {
+            break;
+        case BUNDLE:
+            if (isBundleProductOutOfStock()) {
                 return null;
             }
-
-            if (this.isBundleProductOutOfStock(items[0])) {
-                return null;
-            }
+            break;
+        default:
+            break;
         }
 
         return (
