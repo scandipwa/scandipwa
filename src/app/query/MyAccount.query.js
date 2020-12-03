@@ -194,18 +194,6 @@ export class MyAccountQuery {
             .addArgument('email', 'String!', email)
             .addField('status');
     }
-
-    getCustomerConfig() {
-        return new Field('customerConfig')
-            .addFieldList(this._getCustomerConfigFields());
-    }
-
-    _getCustomerConfigFields() {
-        return [
-            'show_vat_number_on_storefront',
-            'show_tax_vat_number'
-        ];
-    }
 }
 
 export default new MyAccountQuery();

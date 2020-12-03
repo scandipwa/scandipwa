@@ -16,8 +16,6 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { signInStateType } from 'Type/Account';
 
-import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
-
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
     static propTypes = {
@@ -25,19 +23,15 @@ export class MyAccountCreateAccount extends PureComponent {
         onCreateAccountAttempt: PropTypes.func.isRequired,
         onCreateAccountSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
-        showTaxVatNumber: PropTypes.string.isRequired
+        showTaxVatNumber: PropTypes.string.isRequired,
+        vatNumberValidation: PropTypes.array.isRequired
     };
 
     renderVatNumberField() {
-        const { showTaxVatNumber } = this.props;
-        const validation = [];
+        const { showTaxVatNumber, vatNumberValidation } = this.props;
 
         if (!showTaxVatNumber) {
             return null;
-        }
-
-        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
-            validation.push('notEmpty');
         }
 
         return (
@@ -46,7 +40,7 @@ export class MyAccountCreateAccount extends PureComponent {
               label={ __('Tax/VAT Number') }
               id="taxvat"
               name="taxvat"
-              validation={ validation }
+              validation={ vatNumberValidation }
             />
         );
     }

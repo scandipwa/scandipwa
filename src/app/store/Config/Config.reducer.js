@@ -68,8 +68,7 @@ export const ConfigReducer = (
             reviewRatings,
             checkoutAgreements,
             currencyData,
-            storeConfig = {},
-            customerConfig = {}
+            storeConfig = {}
         } = {},
         device
     } = action;
@@ -89,8 +88,7 @@ export const ConfigReducer = (
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value
-            isLoading: false,
-            ...customerConfig
+            isLoading: false
         };
 
     case UPDATE_CONFIG_DEVICE:

@@ -9,8 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { SHOW_VAT_NUMBER_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 
 import MyAccountCustomerForm from './MyAccountCustomerForm.component';
 
@@ -24,10 +27,29 @@ export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/MyAccountCustomerForm/Container */
 export class MyAccountCustomerFormContainer extends PureComponent {
+    static propTypes = {
+        showTaxVatNumber: PropTypes.string.isRequired
+    };
+
+    containerProps = {
+        vatNumberValidation: this.getVatNumberValidation()
+    };
+
+    getVatNumberValidation() {
+        const { showTaxVatNumber } = this.props;
+
+        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
+            return ['notEmpty'];
+        }
+
+        return [];
+    }
+
     render() {
         return (
             <MyAccountCustomerForm
               { ...this.props }
+              { ...this.containerProps }
             />
         );
     }

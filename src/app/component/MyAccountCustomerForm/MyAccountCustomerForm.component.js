@@ -12,14 +12,14 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
-import { SHOW_VAT_NUMBER_REQUIRED } from 'Component/MyAccountCreateAccount/MyAccountCreateAccount.config';
 import { customerType } from 'Type/Account';
 
 /** @namespace Component/MyAccountCustomerForm/Component */
 export class MyAccountCustomerForm extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
-        onSave: PropTypes.func.isRequired
+        onSave: PropTypes.func.isRequired,
+        vatNumberValidation: PropTypes.array.isRequired
     };
 
     onFormSuccess = (fields) => {
@@ -52,21 +52,16 @@ export class MyAccountCustomerForm extends FieldForm {
     }
 
     getVatField() {
-        const { showTaxVatNumber } = this.props;
-        const validation = [];
+        const { showTaxVatNumber, vatNumberValidation } = this.props;
 
         if (!showTaxVatNumber) {
             return {};
         }
 
-        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
-            validation.push('notEmpty');
-        }
-
         return {
             taxvat: {
                 label: __('Tax/VAT Number'),
-                validation
+                validation: vatNumberValidation
             }
         };
     }

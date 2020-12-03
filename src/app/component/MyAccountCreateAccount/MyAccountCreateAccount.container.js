@@ -17,6 +17,7 @@ import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay
 import { showNotification } from 'Store/Notification/Notification.action';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
+import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -46,13 +47,28 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         setSignInState: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        showTaxVatNumber: PropTypes.string.isRequired
     };
+
+    containerProps = {
+        vatNumberValidation: this.getVatNumberValidation()
+    }
 
     containerFunctions = {
         onCreateAccountSuccess: this.onCreateAccountSuccess.bind(this),
         onCreateAccountAttempt: this.onCreateAccountAttempt.bind(this)
     };
+
+    getVatNumberValidation() {
+        const { showTaxVatNumber } = this.props;
+
+        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
+            return ['notEmpty'];
+        }
+
+        return [];
+    }
 
     onCreateAccountAttempt(_, invalidFields) {
         const { showNotification, setLoadingState } = this.props;
@@ -114,6 +130,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         return (
             <MyAccountCreateAccount
               { ...this.props }
+              { ...this.containerProps }
               { ...this.containerFunctions }
             />
         );
