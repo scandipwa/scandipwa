@@ -282,12 +282,10 @@ export class CartItem extends PureComponent {
             item: {
                 customizable_options,
                 bundle_options
-            } = {},
-            device
+            } = {}
         } = this.props;
 
-        if (device.isMobile) {
-            return (
+        return (
                 <figcaption
                   block="CartItem"
                   elem="Content"
@@ -296,45 +294,36 @@ export class CartItem extends PureComponent {
                     { this.renderOutOfStockMessage() }
                     <div block="CartItem" elem="HeadingWrapper">
                         { this.renderProductName() }
-                        { this.renderDeleteButton() }
+                        { this.renderDeleteButton(true) }
                     </div>
                     { this.renderProductOptions(customizable_options) }
                     { this.renderProductOptions(bundle_options) }
                     { this.renderProductConfigurations() }
-                    { this.renderQuantityChangeField() }
+                    { this.renderQuantityChangeField(true) }
                     { this.renderProductPrice() }
                 </figcaption>
-            );
-        }
-
-        return (
-            <figcaption
-              block="CartItem"
-              elem="Content"
-              mods={ { isLikeTable } }
-            >
-                { this.renderOutOfStockMessage() }
-                <div block="CartItem" elem="HeadingWrapper">
-                    { this.renderProductName() }
-                </div>
-                { this.renderProductOptions(customizable_options) }
-                { this.renderProductOptions(bundle_options) }
-                { this.renderProductConfigurations() }
-                { this.renderProductPrice() }
-            </figcaption>
         );
     }
 
-    renderQuantityChangeField() {
+    renderQuantityChangeField(isVisibleOnMobile = false) {
         const {
             item: { qty },
             minSaleQuantity,
             maxSaleQuantity,
             handleChangeQuantity,
-            isProductInStock
+            isProductInStock,
+            device
         } = this.props;
 
         if (!isProductInStock) {
+            return null;
+        }
+
+        if (!isVisibleOnMobile && device.isMobile) {
+            return null;
+        }
+
+        if (isVisibleOnMobile && !device.isMobile) {
             return null;
         }
 
@@ -359,13 +348,8 @@ export class CartItem extends PureComponent {
     renderActions() {
         const {
             isEditing,
-            isLikeTable,
-            device
+            isLikeTable
         } = this.props;
-
-        if (device.isMobile) {
-            return null;
-        }
 
         return (
             <div
@@ -379,8 +363,16 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderDeleteButton() {
-        const { handleRemoveItem } = this.props;
+    renderDeleteButton(isVisibleOnMobile = false) {
+        const { handleRemoveItem, device } = this.props;
+
+        if (!isVisibleOnMobile && device.isMobile) {
+            return null;
+        }
+
+        if (isVisibleOnMobile && !device.isMobile) {
+            return null;
+        }
 
         return (
             <button

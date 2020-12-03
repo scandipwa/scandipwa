@@ -229,12 +229,6 @@
         transition-property: padding, max-height;
         transition-duration: 200ms;
 
-        @include mobile {
-            padding: 0 1.4rem;
-            background-color: var(--cart-item-actions-background);
-            border-top: 1px solid var(--cart-item-action-border);
-        }
-
         @include after-mobile {
             position: absolute;
             bottom: 1.2rem;
@@ -264,30 +258,6 @@
             opacity: 1;
             max-height: 6rem;
             pointer-events: all;
-
-            @include mobile {
-                padding: .7rem 1.4rem;
-                max-height: 7rem;
-            }
-        }
-
-        &::after,
-        &::before {
-            @include mobile {
-                content: '';
-            }
-
-            position: absolute;
-            left: 0;
-            right: 0;
-            margin: auto;
-            top: -1px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 15px 20px 0 20px;
-            border-color: var(--cart-item-background) transparent transparent transparent;
-            z-index: 2;
         }
 
         &::before {
