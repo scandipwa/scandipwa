@@ -9,27 +9,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import UrlRewritesQuery from 'Query/UrlRewrites.query';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { setIsUrlRewritesLoading, updateUrlRewrite } from 'Store/UrlRewrites/UrlRewrites.action';
 import { QueryDispatcher } from 'Util/Request';
-import { UrlRewritesQuery } from 'Query';
-import { showNotification } from 'Store/Notification';
-import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
 
 /**
  * Url Rewrite Dispathcer
  * @class UrlRewritesDispatcher
  * @extends RequestDispatcher
+ * @namespace Store/UrlRewrites/Dispatcher
  */
 export class UrlRewritesDispatcher extends QueryDispatcher {
-    constructor() {
-        super('UrlRewrites', 86400);
+    __construct() {
+        super.__construct('UrlRewrites');
     }
 
-    onSuccess({ urlResolver }, dispatch) {
-        dispatch(updateUrlRewrite(urlResolver || { notFound: true }));
+    onSuccess({ urlResolver }, dispatch, { urlParam }) {
+        dispatch(updateUrlRewrite(urlResolver || { notFound: true }, urlParam));
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching Menu!', error));
+        dispatch(setIsUrlRewritesLoading(false));
+        dispatch(showNotification('error', 'Error fetching URL-rewrites!', error));
     }
 
     /**
@@ -38,17 +40,24 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
      * @return {Query} UrlRewrite query
      * @memberof UrlRewritesDispatcher
      */
-    prepareRequest(options) {
-        return [UrlRewritesQuery.getQuery(options)];
+    prepareRequest(options, dispatch) {
+        dispatch(setIsUrlRewritesLoading(true));
+
+        return [
+            UrlRewritesQuery.getQuery(this.processUrlOptions(options))
+        ];
     }
 
-    /**
-     * Clear url rewrites
-     * @param {Function} dispatch
-     * @memberof UrlRewritesDispatcher
-     */
-    clearUrlRewrites(dispatch) {
-        dispatch(clearUrlRewrite());
+    processUrlOptions(options) {
+        const { urlParam } = options;
+
+        // FAILSAFE: Trim index.php if someone forgot to set "Use Web Server Rewrites" to "Yes"
+        const trimmedParam = urlParam.replace('index.php/', '');
+
+        return {
+            ...options,
+            urlParam: trimmedParam.replace(new RegExp(window.storeRegexText), '')
+        };
     }
 }
 

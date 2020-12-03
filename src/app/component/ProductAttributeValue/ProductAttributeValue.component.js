@@ -1,3 +1,5 @@
+/* eslint-disable no-magic-numbers */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,18 +11,42 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './ProductAttributeValue.style';
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field';
+import Html from 'Component/Html';
+import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 
-class ProductAttributeValue extends Component {
-    constructor(props) {
-        super(props);
+import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
 
-        this.clickHandler = this.clickHandler.bind(this);
-        this.getOptionLabel = this.getOptionLabel.bind(this);
-    }
+import './ProductAttributeValue.style';
+
+/** @namespace Component/ProductAttributeValue/Component */
+export class ProductAttributeValue extends PureComponent {
+    static propTypes = {
+        getLink: PropTypes.func,
+        onClick: PropTypes.func,
+        attribute: AttributeType.isRequired,
+        isSelected: PropTypes.bool,
+        isAvailable: PropTypes.bool,
+        mix: MixType,
+        isFormattedAsText: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isSelected: false,
+        onClick: () => {},
+        getLink: () => {},
+        mix: {},
+        isAvailable: true,
+        isFormattedAsText: false
+    };
+
+    clickHandler = this.clickHandler.bind(this);
+
+    getOptionLabel = this.getOptionLabel.bind(this);
 
     getIsColorLight(hex) {
         const color = (hex.charAt(0) === '#') ? hex.substring(1, 7) : hex;
@@ -35,17 +61,19 @@ class ProductAttributeValue extends Component {
 
         if (attribute_options) {
             const optionValues = attribute_options[value];
-            if (optionValues) return optionValues;
+            if (optionValues) {
+                return optionValues;
+            }
         }
 
         return {};
     }
 
     clickHandler(e) {
-        const { onClick } = this.props;
+        const { onClick, attribute } = this.props;
 
         e.preventDefault();
-        onClick();
+        onClick(attribute);
     }
 
     renderTextAttribute() {
@@ -63,7 +91,10 @@ class ProductAttributeValue extends Component {
 
         const labelsArray = attribute_value.split(',').reduce((labels, value) => {
             const { label } = this.getOptionLabel(value);
-            if (label) labels.push(label);
+            if (label) {
+                labels.push(label);
+            }
+
             return labels;
         }, []);
 
@@ -71,11 +102,13 @@ class ProductAttributeValue extends Component {
     }
 
     renderSelectAttribute() {
-        const { attribute: { attribute_value } } = this.props;
+        const { attribute: { attribute_value, attribute_code } } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
         const { label, swatch_data } = attributeOption;
 
-        if (!swatch_data) return this.renderStringValue(label || __('N/A'));
+        if (!swatch_data || STRING_ONLY_ATTRIBUTE_CODES.includes(attribute_code)) {
+            return this.renderStringValue(label || __('N/A'));
+        }
 
         const { value, type } = swatch_data;
 
@@ -91,6 +124,43 @@ class ProductAttributeValue extends Component {
         }
     }
 
+    renderImageAttribute() {
+        const {
+            attribute: {
+                attribute_label,
+                attribute_value
+            }
+        } = this.props;
+
+        if (!attribute_value || attribute_value === 'no_selection') {
+            return this.renderPlaceholder();
+        }
+
+        return (
+            <img
+              block="ProductAttributeValue"
+              elem="MediaImage"
+              src={ `/media/catalog/product${attribute_value}` }
+              alt={ attribute_label }
+            />
+        );
+    }
+
+    renderTextAreaAttribute() {
+        const {
+            attribute: { attribute_value }
+        } = this.props;
+
+        return (
+            <div
+              block="ProductAttributeValue"
+              elem="TextArea"
+            >
+                <Html content={ attribute_value } />
+            </div>
+        );
+    }
+
     renderPlaceholder() {
         return (
             <div
@@ -101,8 +171,12 @@ class ProductAttributeValue extends Component {
     }
 
     renderColorValue(color, label) {
-        const { isSelected } = this.props;
+        const { isFormattedAsText, isSelected } = this.props;
         const isLight = this.getIsColorLight(color);
+
+        if (isFormattedAsText) {
+            return label || __('N/A');
+        }
 
         return (
             <data
@@ -121,18 +195,64 @@ class ProductAttributeValue extends Component {
     }
 
     renderImageValue(img, label) {
+        const { isFormattedAsText, isSelected } = this.props;
+
+        if (isFormattedAsText) {
+            return label || __('N/A');
+        }
+
         return (
-            <img
-              block="ProductAttributeValue"
-              elem="Image"
-              src={ img }
-              alt={ label }
+            <>
+                <img
+                  block="ProductAttributeValue"
+                  elem="Image"
+                  src={ `/media/attribute/swatch${img}` }
+                  alt={ label }
+                />
+                <data
+                  block="ProductAttributeValue"
+                  elem="Image-Overlay"
+                  value={ label }
+                  title={ label }
+                  style={ {
+                      '--option-is-selected': +isSelected
+                  } }
+                />
+            </>
+        );
+    }
+
+    renderDropdown(value) {
+        const { isSelected } = this.props;
+
+        return (
+            <Field
+              id={ value }
+              name={ value }
+              type="checkbox"
+              label={ value }
+              value={ value }
+              mix={ {
+                  block: 'ProductAttributeValue',
+                  elem: 'Text',
+                  mods: { isSelected }
+              } }
+              checked={ isSelected }
             />
         );
     }
 
     renderStringValue(value, label) {
-        const { isSelected } = this.props;
+        const { isFormattedAsText, isSelected } = this.props;
+        const isSwatch = label;
+
+        if (isFormattedAsText) {
+            return label || value || __('N/A');
+        }
+
+        if (!isSwatch) {
+            return this.renderDropdown(value);
+        }
 
         return (
             <span
@@ -158,6 +278,10 @@ class ProductAttributeValue extends Component {
             return this.renderTextAttribute();
         case 'multiselect':
             return this.renderMultiSelectAttribute();
+        case 'media_image':
+            return this.renderImageAttribute();
+        case 'textarea':
+            return this.renderTextAreaAttribute();
         default:
             return this.renderPlaceholder();
         }
@@ -166,34 +290,45 @@ class ProductAttributeValue extends Component {
     render() {
         const {
             getLink,
-            attribute: { attribute_code, attribute_value }
+            attribute,
+            isAvailable,
+            attribute: { attribute_code, attribute_value },
+            mix,
+            isFormattedAsText
         } = this.props;
 
-        if (attribute_code && !attribute_value) return null;
+        if (attribute_code && !attribute_value) {
+            return null;
+        }
 
-        const href = getLink();
+        const href = getLink(attribute);
+        // Invert to apply css rule without using not()
+        const isNotAvailable = !isAvailable;
+
+        if (isFormattedAsText) {
+            return (
+                <div
+                  block="ProductAttributeValue"
+                  mix={ mix }
+                >
+                    { this.renderAttributeByType() }
+                </div>
+            );
+        }
 
         return (
             <a
               href={ href }
               block="ProductAttributeValue"
+              mods={ { isNotAvailable } }
               onClick={ this.clickHandler }
+              aria-hidden={ isNotAvailable }
+              mix={ mix }
             >
                 { this.renderAttributeByType() }
             </a>
         );
     }
 }
-
-ProductAttributeValue.propTypes = {
-    getLink: PropTypes.func.isRequired,
-    onClick: PropTypes.func.isRequired,
-    attribute: AttributeType.isRequired,
-    isSelected: PropTypes.bool
-};
-
-ProductAttributeValue.defaultProps = {
-    isSelected: false
-};
 
 export default ProductAttributeValue;

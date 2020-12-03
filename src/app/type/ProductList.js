@@ -44,27 +44,36 @@ export const ThumbnailType = PropTypes.shape({
     width: PropTypes.string
 });
 
-export const MediaType = PropTypes.arrayOf(
-    PropTypes.shape({
-        thumbnail: ThumbnailType,
-        content: PropTypes.any,
-        video_content: PropTypes.any,
-        id: PropTypes.number,
-        media_type: PropTypes.string,
-        label: PropTypes.string
-    })
-);
+export const MediaItemType = PropTypes.shape({
+    thumbnail: ThumbnailType,
+    file: PropTypes.string,
+    content: PropTypes.any,
+    video_content: PropTypes.any,
+    id: PropTypes.number,
+    media_type: PropTypes.string,
+    label: PropTypes.string
+});
+
+export const MediaType = PropTypes.arrayOf(MediaItemType);
 
 export const PriceVariantType = PropTypes.shape({
-    amount: PropTypes.shape({
+    discount: PropTypes.shape({
+        amount_off: PropTypes.number,
+        percent_off: PropTypes.number
+    }),
+    final_price: PropTypes.shape({
+        currency: PropTypes.string,
+        value: PropTypes.number
+    }),
+    regular_price: PropTypes.shape({
         currency: PropTypes.string,
         value: PropTypes.number
     })
 });
 
 export const PriceType = PropTypes.shape({
-    minimalPrice: PriceVariantType,
-    regularPrice: PriceVariantType
+    minimum_price: PriceVariantType,
+    maximal_price: PriceVariantType
 });
 
 export const ProductLinksType = PropTypes.arrayOf(
@@ -97,6 +106,56 @@ export const ReviewsType = PropTypes.arrayOf(
     })
 );
 
+export const OptionValueType = PropTypes.shape({
+    option_type_id: PropTypes.number,
+    price: PropTypes.number,
+    price_type: PropTypes.string,
+    sku: PropTypes.string,
+    sort_order: PropTypes.number,
+    title: PropTypes.string
+});
+
+export const OptionsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        option_id: PropTypes.number,
+        required: PropTypes.bool,
+        sort_order: PropTypes.number,
+        title: PropTypes.string,
+        values: PropTypes.arrayOf(OptionValueType)
+    })
+);
+
+export const ItemsType = PropTypes.arrayOf(PropTypes.shape({}));
+
+export const PagesType = PropTypes.objectOf(ItemsType);
+
+export const ItemOptionsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        can_change_quantity: PropTypes.bool,
+        id: PropTypes.number,
+        is_default: PropTypes.bool,
+        label: PropTypes.string,
+        position: PropTypes.number,
+        price: PropTypes.number,
+        price_type: PropTypes.string,
+        // eslint-disable-next-line no-use-before-define
+        product: PropTypes.shape({}),
+        quantity: PropTypes.number
+    })
+);
+
+export const ProductItemsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        option_id: PropTypes.number,
+        options: ItemOptionsType,
+        position: PropTypes.number,
+        required: PropTypes.bool,
+        sku: PropTypes.string,
+        title: PropTypes.string,
+        type: PropTypes.string
+    })
+);
+
 export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
@@ -109,18 +168,26 @@ export const ProductType = PropTypes.shape({
     meta_keyword: PropTypes.string,
     meta_title: PropTypes.string,
     name: PropTypes.string,
-    price: PriceType,
+    price_range: PriceType,
     product_links: ProductLinksType,
     short_description: PropTypes.shape({ html: PropTypes.string }),
     small_image: PropTypes.shape({ url: PropTypes.string }),
     small_image_label: PropTypes.shape({ label: PropTypes.string }),
     special_price: PropTypes.number,
+    special_from_date: PropTypes.string,
+    special_to_date: PropTypes.string,
     thumbnail: PropTypes.shape({ url: PropTypes.string }),
     thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
-    tier_prices: PropTypes.string,
+    price_tiers: PropTypes.arrayOf(PropTypes.shape({
+        discount: PropTypes.shape({ amount_off: PropTypes.number, percent_off: PropTypes.number }),
+        final_price: PropTypes.shape({ currency: PropTypes.string, value: PropTypes.number }),
+        quantity: PropTypes.number
+    })),
     url_key: PropTypes.string,
     quantity: PropTypes.number,
     review_summary: ReviewSummaryType,
+    options: OptionsType,
+    items: ProductItemsType,
     reviews: ReviewsType
 });
 
@@ -128,6 +195,13 @@ export const FilterType = PropTypes.objectOf(
     PropTypes.arrayOf(PropTypes.string)
 );
 
-export const ItemsType = PropTypes.arrayOf(ProductType);
-
-export const PagesType = PropTypes.objectOf(ItemsType);
+export const FilterInputType = PropTypes.shape({
+    categoryIds: PropTypes.number,
+    categoryUrlPath: PropTypes.string,
+    customFilters: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    priceRange: PropTypes.shape({
+        min: PropTypes.number,
+        max: PropTypes.number
+    }),
+    condtions: PropTypes.string
+});

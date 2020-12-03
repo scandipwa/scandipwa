@@ -10,40 +10,31 @@
  */
 
 /* eslint-disable import/prefer-default-export */
+import currencyMap from './Price.config';
+
+/** @namespace Util/Price/formatCurrency */
+export const formatCurrency = (currency = 'USD') => currencyMap[currency];
+
+/** @namespace Util/Price/formatPrice */
+export const formatPrice = (price, currency = 'USD') => {
+    const language = navigator.languages ? navigator.languages[0] : navigator.language;
+    return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
+};
 
 /**
- * Calculates and round subTotal, final, regular and tax prices
- * @param {Object} product Product object
- * @return {Object} Object of prices
+ * Calculate final price
+ * @param {Number} discount discount percentage
+ * @param {Number} min minimum price
+ * @param {Number} reg regular price
+ * @return {Number} final price
+ * @namespace Util/Price/calculateFinalPrice
  */
-export const getProductPrice = (product) => {
-    const { price: { minimalPrice, regularPrice: regPrice } } = product;
-    const tax = 1 - 0.12; // TODO: Hardcoded for now, need to get from configuration
-    const minimalPriceValue = minimalPrice.amount.value;
-    const regularPriceValue = regPrice.amount.value;
+export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg);
 
-    const discountPercentage = Math.floor(Math.round((1 - minimalPriceValue / regularPriceValue) * 100));
-    const subTotalPrice = parseFloat(discountPercentage ? minimalPriceValue : regularPriceValue);
-    const regularPrice = parseFloat(regularPriceValue);
-    const taxPrice = subTotalPrice - (subTotalPrice * tax);
-
-    const roundedsubTotalPrice = subTotalPrice.toFixed(2);
-    const roundedRegularPrice = regularPrice.toFixed(2);
-    const roundedTaxPrice = taxPrice.toFixed(2);
-
-    return {
-        subTotalPrice,
-        regularPrice,
-        taxPrice,
-        roundedsubTotalPrice,
-        roundedRegularPrice,
-        roundedTaxPrice
-    };
-};
-
-export const formatCurrency = (price, currency = 'USD') => {
-    return new Intl.NumberFormat(
-        'en-US',
-        { style: 'currency', currency }
-    ).format(price);
-};
+/**
+ * Calculate final price
+ * @param {Number} price
+ * @return {Number} price rounded to 2 digits
+ * @namespace Util/Price/roundPrice
+ */
+export const roundPrice = (price) => parseFloat(price).toFixed(2);

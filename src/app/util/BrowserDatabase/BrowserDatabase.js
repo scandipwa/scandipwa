@@ -14,8 +14,9 @@
 /**
  * Set of helpers related to Browser Database
  * @class CSS
+ * @namespace Util/BrowserDatabase
  */
-class BrowserDatabase {
+export class BrowserDatabase {
     /**
      * Loads data from browser storage
      * @param {String} location Name of the local storage
@@ -26,8 +27,9 @@ class BrowserDatabase {
         try {
             const entryObject = JSON.parse(localStorage.getItem(location));
             const { data, expiration, createdAt } = entryObject;
+            const MILLISECONDS_TO_SECONDS = 1000;
 
-            if (expiration && Date.now() - createdAt > expiration * 1000) {
+            if (expiration && Date.now() - createdAt > expiration * MILLISECONDS_TO_SECONDS) {
                 localStorage.removeItem(location);
                 return null;
             }

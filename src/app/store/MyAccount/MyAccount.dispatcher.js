@@ -9,79 +9,83 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import MyAccountQuery from 'Query/MyAccount.query';
 import {
-    updateCustomerSignInStatus,
     updateCustomerDetails,
+    updateCustomerIsAuthTokenExpired,
+    updateCustomerPasswordForgotStatus,
     updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
-} from 'Store/MyAccount';
-import { fetchMutation, executePost } from 'Util/Request';
+    updateCustomerSignInStatus,
+    updateIsLoading
+} from 'Store/MyAccount/MyAccount.action';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { ORDERS } from 'Store/Order/Order.reducer';
 import {
-    setAuthorizationToken,
-    deleteAuthorizationToken
+    deleteAuthorizationToken,
+    setAuthorizationToken
 } from 'Util/Auth';
-import { CartDispatcher } from 'Store/Cart';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
-import { MyAccount } from 'Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { prepareQuery } from 'Util/Query';
+import { executePost, fetchMutation } from 'Util/Request';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
+export const WishlistDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Wishlist/Wishlist.dispatcher'
+);
+
+export const CUSTOMER = 'customer';
+
+export const ONE_MONTH_IN_SECONDS = 2628000;
 
 /**
  * My account actions
  * @class MyAccount
+ * @namespace Store/MyAccount/Dispatcher
  */
 export class MyAccountDispatcher {
-    requestCustomerData(options, dispatch) {
-        const { withAddresses } = options;
-        const query = MyAccount.getCustomer(withAddresses);
+    requestCustomerData(dispatch) {
+        const query = MyAccountQuery.getCustomerQuery();
+
+        const customer = BrowserDatabase.getItem(CUSTOMER) || {};
+        if (customer.id) {
+            dispatch(updateCustomerDetails(customer));
+        }
 
         return executePost(prepareQuery([query])).then(
-            ({ customer }) => dispatch(updateCustomerDetails(customer)),
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostThen */
+            ({ customer }) => {
+                dispatch(updateCustomerDetails(customer));
+                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
+            },
+            /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostError */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
-    updateCustomerData(options, dispatch) {
-        const mutation = MyAccount.getUpdateInformationMutation(options);
-        return fetchMutation(mutation).then(
-            ({ customer }) => dispatch(updateCustomerDetails(customer)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    changeCustomerPassword(options, customer, dispatch) {
-        const mutation = MyAccount.getChangeCustomerPasswordMutation(options, customer);
-
-        return fetchMutation(mutation).then(
-            ({ password }) => dispatch(updateCustomerDetails(password)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    logout(_, dispatch) {
+    logout(authTokenExpired = false, dispatch) {
+        if (authTokenExpired) {
+            dispatch(updateCustomerIsAuthTokenExpired(true));
+        } else {
+            deleteAuthorizationToken();
+        }
         dispatch(updateCustomerSignInStatus(false));
-        deleteAuthorizationToken();
-        CartDispatcher.updateInitialCartData(dispatch);
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
-        // TODO: logout in BE
-    }
-
-    createCustomerAddress(options, dispatch) {
-        const mutation = MyAccount.getCreateAddressMutation(options);
-
-        return fetchMutation(mutation).then(
-            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => dispatch(showNotification('error', error[0].message))
+        CartDispatcher.then(
+            ({ default: dispatcher }) => {
+                dispatcher.createGuestEmptyCart(dispatch);
+                dispatcher.updateInitialCartData(dispatch);
+            }
         );
-    }
-
-    updateCustomerAddress(id, options, dispatch) {
-        const mutation = MyAccount.getUpdateAddressMutation(id, options);
-
-        return fetchMutation(mutation).then(
-            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => dispatch(showNotification('error', error[0].message))
+        WishlistDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
+        BrowserDatabase.deleteItem(ORDERS);
+        BrowserDatabase.deleteItem(CUSTOMER);
+        dispatch(updateCustomerDetails({}));
     }
 
     /**
@@ -91,10 +95,12 @@ export class MyAccountDispatcher {
      * @memberof MyAccountDispatcher
      */
     forgotPassword(options = {}, dispatch) {
-        const mutation = MyAccount.getForgotPasswordMutation(options);
-        fetchMutation(mutation).then(
+        const mutation = MyAccountQuery.getForgotPasswordMutation(options);
+        return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationThen */
             () => dispatch(updateCustomerPasswordForgotStatus()),
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationError */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -105,9 +111,12 @@ export class MyAccountDispatcher {
      * @memberof MyAccountDispatcher
      */
     resetPassword(options = {}, dispatch) {
-        const mutation = MyAccount.getResetPasswordMutation(options);
-        fetchMutation(mutation).then(
+        const mutation = MyAccountQuery.getResetPasswordMutation(options);
+
+        return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationThen */
             ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
             () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
     }
@@ -119,14 +128,47 @@ export class MyAccountDispatcher {
      */
     createAccount(options = {}, dispatch) {
         const { customer: { email }, password } = options;
-        const mutation = MyAccount.getCreateAccountMutation(options);
+        const mutation = MyAccountQuery.getCreateAccountMutation(options);
+        dispatch(updateIsLoading(true));
 
-        fetchMutation(mutation).then(
-            ({ customer }) => {
-                this.signIn({ email, password }, dispatch);
-                dispatch(updateCustomerDetails(customer));
+        return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationThen */
+            (data) => {
+                const { createCustomer: { customer } } = data;
+                const { confirmation_required } = customer;
+
+                if (confirmation_required) {
+                    dispatch(updateIsLoading(false));
+                    return 2;
+                }
+
+                return this.signIn({ email, password }, dispatch);
             },
-            error => dispatch(showNotification('error', error[0].message))
+
+            /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationError */
+            (error) => {
+                dispatch(showNotification('error', error[0].message));
+                Promise.reject();
+                dispatch(updateIsLoading(false));
+
+                return false;
+            }
+        );
+    }
+
+    /**
+     * Confirm account action
+     * @param {{key: String, email: String, password: String}} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    confirmAccount(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getConfirmAccountMutation(options);
+
+        return fetchMutation(mutation).then(
+            /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationThen */
+            () => dispatch(showNotification('success', __('Your account is confirmed!'))),
+            /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationError */
+            () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
         );
     }
 
@@ -135,19 +177,23 @@ export class MyAccountDispatcher {
      * @param {{email: String, password: String}} [options={}]
      * @memberof MyAccountDispatcher
      */
-    signIn(options = {}, dispatch) {
-        const mutation = MyAccount.getSignInMutation(options);
+    async signIn(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getSignInMutation(options);
 
-        return fetchMutation(mutation).then(
-            ({ generateCustomerToken: { token } }) => {
-                // TODO: TEST
-                setAuthorizationToken(token);
-                dispatch(updateCustomerSignInStatus(true));
-                CartDispatcher.updateInitialCartData(dispatch);
-                WishlistDispatcher.updateInitialWishlistData(dispatch);
-            },
-            error => dispatch(showNotification('error', error[0].message))
+        const result = await fetchMutation(mutation);
+        const { generateCustomerToken: { token } } = result;
+
+        setAuthorizationToken(token);
+        dispatch(updateCustomerSignInStatus(true));
+        CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
+        WishlistDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+        );
+        dispatch(updateIsLoading(false));
+
+        return true;
     }
 }
 

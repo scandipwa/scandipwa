@@ -5,6 +5,35 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Attach to Chrome",
+            "port": 9222,
+            "request": "attach",
+            "type": "pwa-chrome",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/../move-middlewares-to-bottom.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "name": "Launch Eslint",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/eslint/bin/eslint",
+            "args": [
+                ".",
+                "--debug"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
             "type": "node",
             "name": "Launch Jest",
             "request": "launch",
@@ -30,7 +59,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "https://scandipwa.local/",
+            "url": "https://scandipwa.local",
             "webRoot": "${workspaceFolder}"
         }
     ]

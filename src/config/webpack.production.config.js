@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,36 +10,34 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-// Disabled due webpack plugins being dev dependencies
-
 // TODO: merge Webpack config files
-
 const path = require('path');
+const projectRoot = path.resolve(__dirname, '..', '..');
+
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 
-const { InjectManifest } = require('workbox-webpack-plugin');
+const { getBabelConfig } = require('./babel.config');
+const FallbackPlugin = require('./Extensibility/plugins/FallbackPlugin');
+const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
-const WebmanifestConfig = require('./webmanifest.config');
-const BabelConfig = require('./babel.config');
-const FallbackPlugin = require('./FallbackPlugin');
-
-const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const publicRoot = path.resolve(magentoRoot, 'pub');
+const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
+const parentRoot = parentTheme
+    ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
+    : undefined;
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
-const publicPath = '/static/frontend/Scandiweb/pwa/en_US/Magento_Theme/';
+const staticVersion = Date.now();
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
+const publicPath = `/static/version${staticVersion}/frontend/${fallbackThemeSpecifier}/en_US/Magento_Theme/`;
 
-module.exports = {
+const webpackConfig = ([lang, translation]) => ({
     resolve: {
         extensions: [
             '.js',
@@ -48,12 +47,47 @@ module.exports = {
         ],
         plugins: [
             new FallbackPlugin({
-                fallbackRoot, projectRoot
+                projectRoot,
+                fallbackRoot,
+                fallbackThemeSpecifier,
+                parentRoot,
+                parentThemeSpecifier: parentTheme
+            })
+        ],
+        modules: [
+            path.resolve(projectRoot, 'node_modules'),
+            'node_modules'
+        ]
+    },
+
+    optimization: {
+        splitChunks: {
+            minSize: 50000
+        },
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                test: /\.js(\?.*)?$/i,
+                terserOptions: {
+                    output: {
+                        comments: false
+                    }
+                },
+                extractComments: false
             })
         ]
     },
 
+    resolveLoader: {
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'Extensibility', 'loaders')
+        ]
+    },
+
     cache: false,
+
+    mode: 'production',
 
     stats: {
         warnings: false
@@ -71,15 +105,25 @@ module.exports = {
                 use: [
                     {
                         loader: 'babel-loader',
-                        options: BabelConfig
+                        options: getBabelConfig({ projectRoot, magentoRoot, fallbackRoot, parentRoot })
+                    }
+                ]
+            },
+            {
+                test: /util\/Extensions\/index\.js/,
+                use: [
+                    {
+                        loader: 'extension-import-injector',
+                        options: {
+                            magentoRoot, projectRoot, importAggregator: 'extensions', context: 'app'
+                        }
                     }
                 ]
             },
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'css-hot-loader',
-                    MiniCssExtractPlugin.loader,
+                    'style-loader',
                     'css-loader',
                     {
                         loader: 'postcss-loader',
@@ -108,70 +152,50 @@ module.exports = {
     },
 
     output: {
-        filename: '[hash:6].bundle.js',
-        chunkFilename: '[name].[hash:6].chunk.js',
+        chunkFilename: `${lang}.[name].bundle.js`,
+        filename: `${lang}.bundle.js`,
         path: path.resolve(projectRoot, 'Magento_Theme', 'web'),
         pathinfo: true,
         publicPath
     },
 
     plugins: [
-        new InjectManifest({
-            swSrc: path.resolve(publicRoot, 'sw-compiled.js'),
-            swDest: path.resolve(publicRoot, 'sw.js'),
-            exclude: [/\.phtml/]
-        }),
-
         new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.production.html'),
-            filename: '../templates/root.phtml',
+            template: path.resolve(projectRoot, 'src', 'public', 'index.production.phtml'),
+            filename: '../templates/scandipwa_root.phtml',
             inject: false,
             hash: true,
             publicPath,
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                useShortDoctype: true,
-                minifyCSS: true,
-                minifyJS: true
-            }
+            chunksSortMode: 'none'
         }),
-
-        new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
 
         new webpack.DefinePlugin({
             'process.env': {
                 REBEM_MOD_DELIM: JSON.stringify('_'),
                 REBEM_ELEM_DELIM: JSON.stringify('-'),
-                MAGENTO_VERSION: JSON.stringify('2.3.1')
+                MAGENTO_STATIC_VERSION: staticVersion
             }
         }),
 
         new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'TranslationFunction'))
+            __: path.join(__dirname, 'TranslationFunction'),
+            middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
+            Extensible: path.join(__dirname, 'Extensibility', 'Middleware', 'Extensible'),
+            PureComponent: ['react', 'PureComponent'],
+            React: 'react'
         }),
+
+        new I18nPlugin({ translation }),
 
         new CleanWebpackPlugin([
             path.resolve('Magento_Theme', 'templates'),
             path.resolve('Magento_Theme', 'web')
         ], { root: projectRoot }),
 
-        new MiniCssExtractPlugin(),
-
-        new OptimizeCssAssetsPlugin(),
-
         new CopyWebpackPlugin([
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
-        ]),
-
-        new MinifyPlugin({
-            removeConsole: true,
-            removeDebugger: true
-        }, {
-            comments: false
-        })
+        ])
     ]
-};
+});
+
+module.exports = mapTranslationsToConfig(['en_US'], webpackConfig);

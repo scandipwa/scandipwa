@@ -10,17 +10,26 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { getIndexedParameteredProducts } from 'Util/Product';
-import {
-    UPDATE_TOTALS,
-    UPDATE_ALL_PRODUCTS_IN_CART
-} from './Cart.action';
+import { getIndexedProduct } from 'Util/Product';
 
-export const PRODUCTS_IN_CART = 'cart_products';
+import { UPDATE_SHIPPING_PRICE, UPDATE_TOTALS } from './Cart.action';
+
 export const CART_TOTALS = 'cart_totals';
 
-const updateCartTotals = (action) => {
+/** @namespace Store/Cart/Reducer/updateCartTotals */
+export const updateCartTotals = (action) => {
     const { cartData: cartTotals } = action;
+
+    if (Object.hasOwnProperty.call(cartTotals, 'items')) {
+        const normalizedItemsProduct = cartTotals.items.map((item) => {
+            const normalizedItem = item;
+            normalizedItem.product = getIndexedProduct(item.product);
+
+            return normalizedItem;
+        });
+
+        cartTotals.items = normalizedItemsProduct;
+    }
 
     BrowserDatabase.setItem(
         cartTotals,
@@ -30,39 +39,41 @@ const updateCartTotals = (action) => {
     return { cartTotals };
 };
 
-const updateAllProductsInCart = (action) => {
-    const { products } = action;
-    const productsInCart = getIndexedParameteredProducts(products);
+/** @namespace Store/Cart/Reducer/updateShippingPrice */
+export const updateShippingPrice = (action, state) => {
+    const {
+        data: {
+            shipping_amount,
+            shipping_incl_tax
+        } = {}
+    } = action;
 
-    BrowserDatabase.setItem(
-        productsInCart,
-        PRODUCTS_IN_CART
-    );
-
-    return { productsInCart };
+    return {
+        cartTotals: {
+            ...state.cartTotals,
+            shipping_amount,
+            shipping_incl_tax
+        }
+    };
 };
 
-const initialState = {
-    productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},
+/** @namespace Store/Cart/Reducer/getInitialState */
+export const getInitialState = () => ({
     cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
-};
+});
 
-const CartReducer = (state = initialState, action) => {
+/** @namespace Store/Cart/Reducer */
+export const CartReducer = (
+    state = getInitialState(),
+    action
+) => {
     const { type } = action;
 
     switch (type) {
-    case UPDATE_ALL_PRODUCTS_IN_CART:
-        return {
-            ...state,
-            ...updateAllProductsInCart(action)
-        };
-
     case UPDATE_TOTALS:
-        return {
-            ...state,
-            ...updateCartTotals(action, state)
-        };
-
+        return updateCartTotals(action, state);
+    case UPDATE_SHIPPING_PRICE:
+        return updateShippingPrice(action, state);
     default:
         return state;
     }

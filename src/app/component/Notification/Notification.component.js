@@ -9,28 +9,44 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import CSS from 'Util/CSS';
 import PropTypes from 'prop-types';
-import { NotificationType } from 'Type/NotificationList';
-import './Notification.style';
+import { createRef, PureComponent } from 'react';
 
-// controls CSS animation speed
-const ANIMATION_DURATION = 400;
+import { NotificationType } from 'Type/NotificationList';
+import CSS from 'Util/CSS';
+
+import {
+    ANIMATION_DURATION, ERROR_NOTIFICATION_LIFETIME, ERROR_TYPE, NOTIFICATION_LIFETIME
+} from './Notification.config';
+
+import './Notification.style';
 
 /**
  * Notification block
  * @class Notification
+ * @namespace Component/Notification/Component
  */
-class Notification extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { isNotificationVisible: true };
-        this.notification = React.createRef();
-    }
+export class Notification extends PureComponent {
+    static propTypes = {
+        notificationId: PropTypes.string.isRequired,
+        notification: NotificationType.isRequired,
+        onHideNotification: PropTypes.func.isRequired
+    };
+
+    state = { isNotificationVisible: true };
+
+    notification = createRef();
 
     componentDidMount() {
-        this.hideTimeout = setTimeout(() => this.hideNotification(), 5000);
+        const { notification: { msgType } } = this.props;
+
+        // Make sure error notification stays a little longer
+        if (msgType.toLowerCase() === ERROR_TYPE) {
+            this.hideTimeout = setTimeout(() => this.hideNotification(), ERROR_NOTIFICATION_LIFETIME);
+        } else {
+            this.hideTimeout = setTimeout(() => this.hideNotification(), NOTIFICATION_LIFETIME);
+        }
+
         CSS.setVariable(this.notification, 'animation-duration', `${ANIMATION_DURATION}ms`);
     }
 
@@ -42,9 +58,9 @@ class Notification extends Component {
 
     /**
      * Remove notification from screen
-     * @return {void}
+     * @return {void
      */
-    hideNotification() {
+    hideNotification = () => {
         const { onHideNotification, notificationId } = this.props;
         this.setState({ isNotificationVisible: false });
 
@@ -52,12 +68,33 @@ class Notification extends Component {
         this.CSSHideTimeout = setTimeout(() => {
             onHideNotification(notificationId);
         }, ANIMATION_DURATION);
+    };
+
+    renderDebug() {
+        const { notification: { msgDebug } } = this.props;
+
+        if (!msgDebug) {
+            return null;
+        }
+
+        if (process.env.NODE_ENV === 'production') {
+            return null;
+        }
+
+        // eslint-disable-next-line no-console
+        console.warn(msgDebug); // so we know what was in notification
+
+        return (
+            <pre block="Notification" elem="Debug">
+                { JSON.stringify(msgDebug) }
+            </pre>
+        );
     }
 
     render() {
         const { notification } = this.props;
         const { isNotificationVisible } = this.state;
-        const { msgText, msgType, msgDebug } = notification;
+        const { msgText, msgType } = notification;
 
         const mods = {
             type: msgType.toLowerCase(),
@@ -66,18 +103,12 @@ class Notification extends Component {
 
         return (
             <div block="Notification" mods={ mods } ref={ this.notification }>
-                <button block="Notification" elem="Button" onClick={ () => this.hideNotification() }>Close</button>
+                <button block="Notification" elem="Button" onClick={ this.hideNotification }>Close</button>
                 <p block="Notification" elem="Text">{ msgText }</p>
-                { msgDebug && <pre className="Notification-Debug">{ JSON.stringify(msgDebug) }</pre> }
+                { this.renderDebug() }
             </div>
         );
     }
 }
-
-Notification.propTypes = {
-    notificationId: PropTypes.string.isRequired,
-    notification: NotificationType.isRequired,
-    onHideNotification: PropTypes.func.isRequired
-};
 
 export default Notification;

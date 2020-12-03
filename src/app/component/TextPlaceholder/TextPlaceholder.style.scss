@@ -13,7 +13,6 @@
     pointer-events: none;
 
     &::after {
-        opacity: 0;
         font-family: 'Courier New', Courier, monospace;
         color: transparent;
         background-image: var(--placeholder-image);
@@ -24,12 +23,16 @@
     &_loaded {
         pointer-events: all;
 
-        &:after {
+        &::after {
             opacity: 0;
         }
     }
 
     &_length {
+        &_block::after {
+            content: 'aa';
+        }
+
         &_short::after {
             content: 'aaaaaaaaaaaaa';
 

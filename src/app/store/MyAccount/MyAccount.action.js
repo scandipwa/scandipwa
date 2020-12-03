@@ -9,37 +9,44 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-const UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS';
-const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
-const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
-const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
+export const UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS';
+export const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
+export const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
+export const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
+export const UPDATE_CUSTOMER_IS_LOADING = 'UPDATE_CUSTOMER_IS_LOADING';
+export const UPDATE_CUSTOMER_IS_AUTH_TOKEN_EXPIRED = 'UPDATE_CUSTOMER_IS_AUTH_TOKEN_EXPIRED';
 
-const updateCustomerSignInStatus = status => ({
+/** @namespace Store/MyAccount/Action/updateCustomerSignInStatus */
+export const updateCustomerSignInStatus = (status) => ({
     type: UPDATE_CUSTOMER_SIGN_IN_STATUS,
     status
 });
 
-const updateCustomerDetails = customer => ({
+/** @namespace Store/MyAccount/Action/updateCustomerIsAuthTokenExpired */
+export const updateCustomerIsAuthTokenExpired = (status) => ({
+    type: UPDATE_CUSTOMER_IS_AUTH_TOKEN_EXPIRED,
+    status
+});
+
+/** @namespace Store/MyAccount/Action/updateCustomerDetails */
+export const updateCustomerDetails = (customer) => ({
     type: UPDATE_CUSTOMER_DETAILS,
     customer
 });
 
-const updateCustomerPasswordResetStatus = status => ({
+/** @namespace Store/MyAccount/Action/updateCustomerPasswordResetStatus */
+export const updateCustomerPasswordResetStatus = (status) => ({
     type: UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     status
 });
 
-const updateCustomerPasswordForgotStatus = () => ({
+/** @namespace Store/MyAccount/Action/updateCustomerPasswordForgotStatus */
+export const updateCustomerPasswordForgotStatus = () => ({
     type: UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
 });
 
-export {
-    UPDATE_CUSTOMER_SIGN_IN_STATUS,
-    UPDATE_CUSTOMER_DETAILS,
-    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
-    updateCustomerSignInStatus,
-    updateCustomerDetails,
-    updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
-};
+/** @namespace Store/MyAccount/Action/updateCustomerIsLoading */
+export const updateIsLoading = (isLoading) => ({
+    type: UPDATE_CUSTOMER_IS_LOADING,
+    isLoading
+});

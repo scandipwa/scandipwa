@@ -9,54 +9,94 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ProductListQuery from 'Query/ProductList.query';
+import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
+import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { Field } from 'Util/Query';
-import { ProductListQuery } from 'Query';
 
-class Wishlist {
-    getWishlistQuery() {
-        const items = new Field('items');
-        this._getWishlistItemField(items, true);
+/** @namespace Query/Wishlist */
+export class WishlistQuery {
+    getWishlistQuery(sharingCode) {
+        const field = new Field('s_wishlist')
+            .setAlias('wishlist')
+            .addFieldList(this._getWishlistFields());
 
-        const query = new Field('wishlist')
-            .addField('items_count')
-            .addField('updated_at')
-            .addField(items);
-
-        return query;
-    }
-
-    getAddProductToWishlistMutation(product) {
-        const { sku } = product;
-        const mutation = new Field('addProductToWishlist')
-            .addArgument('productSku', 'String!', sku);
-
-        this._getWishlistItemField(mutation);
-
-        return mutation;
-    }
-
-    getRemoveProductFromWishlistMutation(product) {
-        const { item_id } = product;
-
-        const mutation = new Field('removeProductFromWishlist')
-            .addArgument('itemId', 'String!', item_id);
-
-        return mutation;
-    }
-
-    _getWishlistItemField(field, requestProduct) {
-        field
-            .addField('id');
-
-        if (requestProduct) {
-            field.addField(ProductListQuery._prepareItemsField(
-                { getConfigurableData: true, isSingleProduct: true },
-                new Field('product')
-            ));
+        if (sharingCode) {
+            field.addArgument('sharing_code', 'ID', sharingCode);
         }
+
+        return field;
+    }
+
+    getSaveWishlistItemMutation(wishlistItem) {
+        return new Field('s_saveWishlistItem')
+            .setAlias('saveWishlistItem')
+            .addArgument('wishlistItem', 'WishlistItemInput!', wishlistItem)
+            .addFieldList(this._getItemsFields());
+    }
+
+    getShareWishlistMutation(input) {
+        return new Field('s_shareWishlist')
+            .setAlias('shareWishlist')
+            .addArgument('input', 'ShareWishlistInput!', input);
+    }
+
+    getClearWishlist() {
+        return new Field('s_clearWishlist')
+            .setAlias('clearWishlist');
+    }
+
+    getMoveWishlistToCart(sharingCode) {
+        const field = new Field('s_moveWishlistToCart')
+            .setAlias('moveWishlistToCart');
+
+        if (sharingCode) {
+            field.addArgument('sharingCode', 'ID', sharingCode);
+
+            if (!isSignedIn()) {
+                const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+                field.addArgument('guestCartId', 'ID', guestQuoteId);
+            }
+        }
+
+        return field;
+    }
+
+    getRemoveProductFromWishlistMutation(item_id) {
+        return new Field('s_removeProductFromWishlist')
+            .setAlias('removeProductFromWishlist')
+            .addArgument('itemId', 'ID!', item_id);
+    }
+
+    _getWishlistFields() {
+        return [
+            'updated_at',
+            'items_count',
+            'creators_name',
+            this._getItemsField()
+        ];
+    }
+
+    _getItemsFields() {
+        return [
+            'id',
+            'sku',
+            'qty',
+            'description',
+            this._getProductField()
+        ];
+    }
+
+    _getProductField() {
+        return new Field('product')
+            .addFieldList(ProductListQuery._getProductInterfaceFields());
+    }
+
+    _getItemsField() {
+        return new Field('items')
+            .addFieldList(this._getItemsFields());
     }
 }
 
-export { Wishlist };
-
-export default new Wishlist();
+export default new WishlistQuery();

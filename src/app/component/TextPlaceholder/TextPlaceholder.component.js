@@ -9,38 +9,50 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { MixType } from 'Type/Common';
+
 import './TextPlaceholder.style';
 
 /**
  * Text placeholder
  * @class TextPlaceholder
+ * @namespace Component/TextPlaceholder/Component
  */
-class TextPlaceholder extends Component {
+export class TextPlaceholder extends PureComponent {
+    static propTypes = {
+        content: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool,
+            PropTypes.number
+        ]),
+        length: PropTypes.oneOf([
+            'block',
+            'short',
+            'medium',
+            'long',
+            'paragraph',
+            'custom'
+        ]),
+        mix: MixType
+    };
+
+    static defaultProps = {
+        content: '',
+        length: 'short',
+        mix: {}
+    };
+
     render() {
-        const { content, length } = this.props;
-        if (content) return content;
-        return <span block="TextPlaceholder" mods={ { length } } />;
+        const { content, length, mix } = this.props;
+        if (content) {
+            return content;
+        }
+
+        return <span mix={ mix } block="TextPlaceholder" mods={ { length } } />;
     }
 }
-
-TextPlaceholder.propTypes = {
-    content: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]),
-    length: PropTypes.oneOf([
-        'short',
-        'medium',
-        'long',
-        'paragraph'
-    ])
-};
-
-TextPlaceholder.defaultProps = {
-    content: '',
-    length: 'short'
-};
 
 export default TextPlaceholder;

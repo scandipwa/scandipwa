@@ -8,93 +8,157 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+:root {
+    --category-page-miscellaneous-min-height: 56px;
+}
 
 .CategoryPage {
     &-Wrapper {
-        display: grid;
-        grid-template-columns: 22rem calc(100% - 24rem);
-        grid-column-gap: 2rem;
-        padding-top: 1rem;
+        @include after-mobile {
+            display: grid;
+            padding-top: 2.4rem;
+        }
+
+        @include desktop {
+            grid-template-columns: 280px auto;
+            grid-column-gap: 4.8rem;
+        }
 
         @include mobile {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    &-Options {
-
-        &::-webkit-scrollbar {
-            width: 0;
-            background: none;
+            padding: 0;
         }
 
-        &::-webkit-scrollbar-thumb {
-            background: none;
-        }
+        &_hideProducts {
+            display: block;
 
-        @include after-mobile {
-            grid-row: 1/5;
-            height: 125vh;
-            position: sticky;
-            top: 40px;
-            overflow-y: hidden;
-            padding-right: 2rem;
-            width: 100%;
-        }
-    
-        h3 {
-            margin-top: 0;
-    
-            @include mobile {
-                margin-bottom: 1rem;
-            }
-        }
-    
-        li {
-            padding-left: 0;
-    
-            &::before {
-                content: '';
-            }
-    
-            &:last-child {
+            .CategoryPage-CMS {
                 @include mobile {
-                    margin-bottom: .6rem;
+                    margin-top: 0;
                 }
             }
         }
     }
 
-    &-ItemsCount {
-        color: var(--color-neutral-base);
-        padding-left: 1rem;
+    &-ProductListWrapper {
+        @include before-desktop {
+            padding-top: 56px;
+        }
+    }
 
-        @include mobile {
+    &-ItemsCount {
+        padding: 0;
+
+        @include before-desktop {
             order: 1;
-            font-size: 1.1rem;
-            margin-top: .5rem;
-            padding-left: 0;
-            padding-bottom: 1rem;
+            font-size: 1.08rem;
+            padding: .36rem 1.2rem 1.2rem 0;
+            text-align: center;
+            grid-column: span 2;
         }
 
-        span {
-            color: var(--color-primary-base);
-            font-weight: bold;
-            padding-right: .2rem;
+        @include mobile {
+            padding: .42rem 1.4rem 1.4rem 0;
+            font-size: 1.26rem;
+        }
+    }
+
+    &-Filter {
+        text-transform: uppercase;
+        text-align: right;
+        grid-column: 2;
+        font-weight: 600;
+        font-size: 1.6rem;
+        min-height: 50px;
+
+        @include desktop {
+            display: none;
+        }
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            left: calc(90% - 68px);
+            top: calc(50% - 5px);
+        }
+
+        &::before {
+            right: 70%;
+            width: 11px;
+            height: 8px;
+            background-color: var(--header-color);
+            clip-path:
+                polygon(
+                    5px 8px,
+                    11px 0,
+                    0 0,
+                    5px 8px,
+                    5px 6px,
+                    2px 1.5px,
+                    8.6px 1.5px,
+                    5px 6px
+                );
+        }
+
+        &::after {
+            height: 5px;
+            width: 1px;
+            background-color: var(--header-color);
+            transform: translate3d(5px, 6px, 0);
         }
     }
 
     &-Miscellaneous {
-        display: flex;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        align-items: center;
+        min-height: var(--category-page-miscellaneous-min-height);
+        transform: translateY(0);
+        transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
         @include mobile {
-            flex-direction: column;
-            border: 0;
+            position: fixed;
+            top: var(--header-total-height);
+            left: 0;
+            width: 100%;
+            z-index: 90;
+            background: #fff;
+            border-bottom: 1px solid var(--primary-divider-color);
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include tablet {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include tablet-portrait {
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .hideOnScroll & {
+            @include mobile {
+                transform: translateY(-100%);
+            }
+        }
+
+        > * {
+            @include mobile {
+                padding-left: 1.4rem;
+                padding-right: 1.4rem;
+            }
+        }
+    }
+
+    &-CMS {
+        @include mobile {
+            margin-top: calc(var(--header-total-height) + var(--category-page-miscellaneous-min-height));
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
 
         @include after-mobile {
-            justify-content: space-between;
-            align-items: center;
+            margin-bottom: 10px;
         }
     }
 }

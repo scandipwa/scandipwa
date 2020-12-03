@@ -9,22 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
-import { RegionQuery, Review } from 'Query';
-import { showNotification } from 'Store/Notification';
-import { getCountryList, updateReviewRatings } from 'Store/Config';
+import ConfigQuery from 'Query/Config.query';
+import RegionQuery from 'Query/Region.query';
+import ReviewQuery from 'Query/Review.query';
+import { updateConfig } from 'Store/Config/Config.action';
+import { showNotification } from 'Store/Notification/Notification.action';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { setCurrency } from 'Util/Currency';
+import { fetchMutation, QueryDispatcher } from 'Util/Request';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
+/** @namespace Store/Config/Dispatcher */
 export class ConfigDispatcher extends QueryDispatcher {
-    constructor() {
-        super('Config', 86400);
+    __construct() {
+        super.__construct('Config');
+    }
+
+    static updateCurrency(dispatch, options) {
+        const { currencyCode } = options;
+
+        return fetchMutation(ConfigQuery.getSaveSelectedCurrencyMutation(
+            currencyCode
+        )).then(
+            setCurrency(currencyCode),
+            dispatch(updateConfig())
+        );
     }
 
     onSuccess(data, dispatch) {
         if (data) {
-            const { countries, rating_details } = data;
-
-            dispatch(getCountryList(countries));
-            dispatch(updateReviewRatings(rating_details));
+            BrowserDatabase.setItem(data, 'config', ONE_MONTH_IN_SECONDS);
+            dispatch(updateConfig(data));
         }
     }
 
@@ -34,8 +49,11 @@ export class ConfigDispatcher extends QueryDispatcher {
 
     prepareRequest() {
         return [
-            RegionQuery.getCountriesList(),
-            Review.getRatingDetails()
+            RegionQuery.getCountriesQuery(),
+            ReviewQuery.getRatingQuery(),
+            ConfigQuery.getQuery(),
+            ConfigQuery.getCheckoutAgreements(),
+            ConfigQuery.getCurrencyData()
         ];
     }
 }

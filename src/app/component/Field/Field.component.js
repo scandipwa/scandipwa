@@ -8,220 +8,77 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-/* eslint-disable react/require-default-props */
-// Due complexity of propTypes, TODO: rearrange
-
-/* eslint jsx-a11y/label-has-associated-control: 0 */
+/* eslint-disable jsx-a11y/control-has-associated-label, jsx-a11y/label-has-associated-control */
 // Disabled due bug in `renderCheckboxInput` function
 
-// todo fix text type
-
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'Component/Select';
+import { PureComponent } from 'react';
+
+import FieldInput from 'Component/FieldInput';
+import FieldSelect from 'Component/FieldSelect';
+import FieldTextarea from 'Component/FieldTextarea';
+import { MixType } from 'Type/Common';
+
+import {
+    CHECKBOX_TYPE,
+    NUMBER_TYPE,
+    PASSWORD_TYPE,
+    RADIO_TYPE,
+    SELECT_TYPE,
+    TEXTAREA_TYPE
+} from './Field.config';
+
 import './Field.style';
 
-const TEXT_TYPE = 'text';
-const NUMBER_TYPE = 'number';
-const CHECKBOX_TYPE = 'checkbox';
-const RADIO_TYPE = 'radio';
-const TEXTAREA_TYPE = 'textarea';
-const PASSWORD_TYPE = 'password';
-const SELECT_TYPE = 'select';
-
-const VISIBLE_ALWAYS = 'visibleAlways';
 /**
  * Input fields component
  * @class Field
+ * @namespace Component/Field/Component
  */
-class Field extends Component {
-    constructor(props) {
-        super(props);
+export class Field extends PureComponent {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired,
+        handleChange: PropTypes.func.isRequired,
+        onChangeCheckbox: PropTypes.func.isRequired,
+        onFocus: PropTypes.func.isRequired,
+        onKeyPress: PropTypes.func.isRequired,
+        onKeyEnterDown: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        message: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool
+        ]),
+        validation: PropTypes.arrayOf(PropTypes.string),
+        checked: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string
+        ]),
+        mix: MixType,
+        min: PropTypes.number,
+        max: PropTypes.number
+    };
 
-        const {
-            type,
-            min,
-            value: propsValue
-        } = this.props;
-
-        let value = propsValue;
-
-        if (!propsValue) {
-            switch (type) {
-            case NUMBER_TYPE:
-                if (value < min) value = min;
-                value = 0;
-                break;
-            case CHECKBOX_TYPE:
-                value = false;
-                break;
-            case RADIO_TYPE:
-                value = false;
-                break;
-            default:
-                value = '';
-                break;
-            }
-        }
-
-        this.state = { value, isChecked: value };
-    }
-
-    /**
-     * This allows to sync values if the component is controlled outside of the parent
-     * For e.g. when we have two controlable fields on the screen which both share same prop value
-     * @return {Object} state
-     */
-    static getDerivedStateFromProps(props) {
-        const { value } = props;
-
-        return { value };
-    }
-
-    componentDidUpdate() {
-        const { type, checked } = this.props;
-        const { isChecked } = this.state;
-
-        // eslint-disable-next-liqueraFieldne react/no-did-update-set-state
-        if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
-    }
-
-    onChange(event) {
-        if (typeof event === 'string' || typeof event === 'number') {
-            return this.handleChange(event);
-        }
-
-        return this.handleChange(event.target.value);
-    }
-
-    onFocus(event) {
-        const { onFocus } = this.props;
-
-        if (onFocus) onFocus(event);
-    }
-
-    onBlur(event) {
-        const { onBlur } = this.props;
-
-        if (onBlur) onBlur(event);
-    }
-
-    onKeyPress(event) {
-        const { onKeyPress } = this.props;
-
-        if (onKeyPress) onKeyPress(event);
-    }
-
-    onClick(event) {
-        const { onClick } = this.props;
-
-        if (onClick) onClick(event);
-    }
-
-    handleChange(value) {
-        const { isChecked } = this.state;
-        const {
-            onChange,
-            type,
-            min
-        } = this.props;
-
-        switch (type) {
-        case NUMBER_TYPE:
-            const isValueNaN = Number.isNaN(parseInt(value, 10));
-            if ((value < min || isValueNaN)) return;
-            if (onChange) onChange(value);
-            this.setState({ value });
-            break;
-        case RADIO_TYPE:
-            if (onChange) onChange(!isChecked);
-            this.setState({ isChecked: !isChecked });
-            break;
-        case CHECKBOX_TYPE:
-            if (onChange) onChange(!isChecked);
-            this.setState({ isChecked: !isChecked });
-            break;
-        default:
-            if (onChange) onChange(value);
-            this.setState({ value });
-        }
-    }
+    static defaultProps = {
+        min: 1,
+        max: 99,
+        checked: false,
+        mix: {},
+        label: '',
+        value: null,
+        message: '',
+        validation: []
+    };
 
     renderTextarea() {
-        const {
-            id,
-            rows,
-            isAutocompleteAllowed,
-            formRef
-        } = this.props;
-        const { value } = this.state;
-
         return (
-            <textarea
-              ref={ formRef }
-              id={ id }
-              rows={ rows }
-              value={ value }
-              onChange={ event => this.onChange(event) }
-              onFocus={ event => this.onFocus(event) }
-              onBlur={ event => this.onBlur(event) }
-              onClick={ event => this.onClick(event) }
-              autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
+            <FieldTextarea
+              { ...this.props }
             />
-        );
-    }
-
-    renderRadioInput() {
-        const {
-            id, name, type, value, formRef, checked
-        } = this.props;
-
-        const checkedBool = checked === value;
-
-        return (
-            <>
-                <input
-                  ref={ formRef }
-                  type={ type }
-                  checked={ checkedBool }
-                  name={ name }
-                  value={ value }
-                  onChange={ event => this.onChange(event) }
-                  onKeyPress={ event => this.onChange(event) }
-                  onFocus={ event => this.onFocus(event) }
-                  onBlur={ event => this.onBlur(event) }
-                  onClick={ event => this.onClick(event) }
-                  id={ id }
-                />
-                <label htmlFor={ id } />
-            </>
-        );
-    }
-
-    renderCheckboxInput() {
-        const { isChecked } = this.state;
-        const {
-            id, name, type, value, formRef
-        } = this.props;
-
-        return (
-            <>
-                <input
-                  ref={ formRef }
-                  type={ type }
-                  checked={ isChecked }
-                  name={ name }
-                  value={ value }
-                  onChange={ event => this.onChange(event) }
-                  onKeyPress={ event => this.onChange(event) }
-                  onFocus={ event => this.onFocus(event) }
-                  onBlur={ event => this.onBlur(event) }
-                  onClick={ event => this.onClick(event) }
-                  id={ id }
-                />
-                <label htmlFor={ id } />
-            </>
         );
     }
 
@@ -230,91 +87,98 @@ class Field extends Component {
      * handleToUpdate used to pass child data to parent
      */
     renderTypeText() {
-        const {
-            placeholder,
-            id,
-            isAutocompleteAllowed,
-            formRef,
-            defaultValue
-        } = this.props;
-        const { value } = this.state;
-
         return (
-            <input
-              ref={ formRef }
+            <FieldInput
+              { ...this.props }
               type="text"
-              id={ id }
-              value={ value }
-              onChange={ event => this.onChange(event) }
-              onFocus={ event => this.onFocus(event) }
-              onBlur={ event => this.onBlur(event) }
-              onClick={ event => this.onClick(event) }
-              placeholder={ placeholder }
-              autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
-              defaultValue={ defaultValue }
             />
         );
     }
 
     renderTypePassword() {
-        const { placeholder, id, formRef } = this.props;
-        const { value } = this.state;
-
         return (
-            <input
-              ref={ formRef }
+            <FieldInput
+              { ...this.props }
               type="password"
-              id={ id }
-              value={ value }
-              onChange={ event => this.onChange(event) }
-              onFocus={ event => this.onFocus(event) }
-              onBlur={ event => this.onBlur(event) }
-              onClick={ event => this.onClick(event) }
-              placeholder={ placeholder }
             />
         );
     }
 
     renderTypeNumber() {
-        const { id, formRef } = this.props;
-        const { value } = this.state;
+        const {
+            min,
+            max,
+            value,
+            onKeyEnterDown,
+            handleChange
+        } = this.props;
 
         return (
             <>
-                <input
-                  ref={ formRef }
+                <FieldInput
+                  { ...this.props }
                   type="number"
-                  id={ id }
-                  value={ value }
-                  onChange={ event => this.onChange(event) }
-                  onKeyPress={ event => this.onKeyPress(event) }
-                  onFocus={ event => this.onFocus(event) }
-                  onBlur={ event => this.onBlur(event) }
-                  onClick={ event => this.onClick(event) }
+                  readOnly
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onChange={ (e) => handleChange(e.target.value, false) }
+                  onKeyDown={ onKeyEnterDown }
                 />
-                <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
-                    <span>+</span>
-                </button>
-                <button onClick={ () => this.handleChange(parseFloat(value) - 1) }>
-                    <span>–</span>
-                </button>
+                <button
+                  disabled={ +value === max }
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ () => handleChange(+value + 1) }
+                />
+                <button
+                  disabled={ +value === min }
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ () => handleChange(+value - 1) }
+                />
             </>
         );
     }
 
-    renderTypeSelect() {
-        const { id, formRef, options } = this.props;
-        const { value } = this.state;
+    renderCheckbox() {
+        const {
+            id,
+            onChangeCheckbox
+        } = this.props;
 
         return (
-            <Select
-              block="Field"
-              elem="Select"
-              id={ id }
-              reference={ formRef }
-              options={ options }
-              selectedOption={ value }
-              onGetKey={ event => this.onChange(event) }
+            <>
+                <FieldInput
+                  { ...this.props }
+                  type="checkbox"
+                  onChange={ onChangeCheckbox }
+                />
+                <label htmlFor={ id } />
+            </>
+        );
+    }
+
+    renderRadioButton() {
+        const {
+            id,
+            label,
+            onClick
+        } = this.props;
+
+        return (
+            <label htmlFor={ id }>
+                <FieldInput
+                  { ...this.props }
+                  type="radio"
+                  onChange={ onClick }
+                />
+                <label htmlFor={ id } />
+                { label }
+            </label>
+        );
+    }
+
+    renderSelectWithOptions() {
+        return (
+            <FieldSelect
+              { ...this.props }
             />
         );
     }
@@ -322,9 +186,9 @@ class Field extends Component {
     renderInputOfType(type) {
         switch (type) {
         case CHECKBOX_TYPE:
-            return this.renderCheckboxInput();
+            return this.renderCheckbox();
         case RADIO_TYPE:
-            return this.renderRadioInput();
+            return this.renderRadioButton();
         case NUMBER_TYPE:
             return this.renderTypeNumber();
         case TEXTAREA_TYPE:
@@ -332,99 +196,65 @@ class Field extends Component {
         case PASSWORD_TYPE:
             return this.renderTypePassword();
         case SELECT_TYPE:
-            return this.renderTypeSelect();
+            return this.renderSelectWithOptions();
         default:
             return this.renderTypeText();
         }
     }
 
-    render() {
-        const {
-            id, type, label, note, noteDisplayMode, message, state, block, elem
-        } = this.props;
+    renderLabel() {
+        const { id, label, validation } = this.props;
+        const isRequired = validation.includes('notEmpty');
 
-        const mix = (block && elem) ? { block, elem } : undefined;
-        const mods = {
-            type,
-            hasError: !!message,
-            ...(state ? { [state]: true } : {})
-        };
-        const noteMods = noteDisplayMode ? { [noteDisplayMode]: true } : {};
+        if (!label) {
+            return null;
+        }
 
         return (
-            <div block="Field" mods={ mods } mix={ mix }>
-                { label && <label htmlFor={ id }>{ label }</label> }
+            <label
+              block="Field"
+              elem="Label"
+              mods={ { isRequired } }
+              htmlFor={ id }
+            >
+                { label }
+            </label>
+        );
+    }
+
+    renderMessage() {
+        const { message } = this.props;
+
+        if (!message) {
+            return null;
+        }
+
+        return (
+            <p block="Field" elem="Message">
+                { message }
+            </p>
+        );
+    }
+
+    render() {
+        const {
+            mix,
+            type,
+            message
+        } = this.props;
+
+        return (
+            <div
+              block="Field"
+              mods={ { type, hasError: !!message } }
+              mix={ mix }
+            >
+                { this.renderLabel() }
                 { this.renderInputOfType(type) }
-                { message && <p block="Field" elem="Message">{ message }</p> }
-                { note && <p block="Field" elem="Note" mods={ noteMods }>{ note }</p> }
+                { this.renderMessage() }
             </div>
         );
     }
 }
-
-Field.propTypes = {
-    id: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([
-        TEXT_TYPE,
-        NUMBER_TYPE,
-        CHECKBOX_TYPE,
-        TEXTAREA_TYPE,
-        RADIO_TYPE,
-        PASSWORD_TYPE,
-        SELECT_TYPE
-    ]).isRequired,
-    name: PropTypes.string,
-    label: PropTypes.string,
-    note: PropTypes.string,
-    noteDisplayMode: PropTypes.oneOf([
-        VISIBLE_ALWAYS
-    ]),
-    message: PropTypes.string,
-    placeholder: PropTypes.string,
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool
-    ]),
-    state: PropTypes.string,
-    rows: PropTypes.number,
-    checked: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.string
-    ]),
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onClick: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    min: PropTypes.number,
-    block: PropTypes.string,
-    elem: PropTypes.string,
-    formRef: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ]),
-    isAutocompleteAllowed: PropTypes.bool,
-    options: PropTypes.arrayOf(
-        PropTypes.oneOfType([
-            PropTypes.shape({
-                id: PropTypes.string,
-                label: PropTypes.string
-            }),
-            PropTypes.shape({
-                code: PropTypes.string,
-                name: PropTypes.string
-            })
-        ])
-    ),
-    defaultValue: PropTypes.string
-};
-
-Field.defaultProps = {
-    rows: 4,
-    min: 0,
-    block: null,
-    elem: null
-};
 
 export default Field;

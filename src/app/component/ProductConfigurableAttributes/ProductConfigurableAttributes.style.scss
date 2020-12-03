@@ -10,22 +10,63 @@
  */
 
 :root {
-    --option-size: 35px;
-}
+    --product-configurable-attributes-direction: flex-start;
+    --product-configurable-attributes-margin: 0;
+    --product-configurable-attributes-content-padding: 0;
 
-.ProductConfigurableAttributes {
-    &-Attribute {
-        padding-bottom: 1.5rem;
+    @include mobile {
+        --product-configurable-attributes-content-padding: .7rem .7rem 2.1rem;
     }
 }
 
-.ProductConfigurableAttribute {    
-    &-AttributesList { 
+.ProductConfigurableAttributes {
+    &-SwatchList,
+    &-DropDownList {
+        text-align: center;
+
+        @include after-mobile {
+            --option-size: 33px;
+        }
+    }
+
+    &-SwatchList {
         display: flex;
         flex-wrap: wrap;
+        justify-content: var(--product-configurable-attributes-direction);
+        align-items: center;
+    }
 
-        & > * {
-            margin: 0 7px 5px 3px;
+    &-DropDownList {
+        width: 100%;
+    }
+
+    &-Expandable {
+        margin: var(--product-configurable-attributes-margin);
+    }
+
+    &-ExpandableContent {
+        &Button {
+            @include after-mobile {
+                min-height: 30px;
+            }
+        }
+
+        &SubHeading {
+            text-transform: capitalize;
+        }
+
+        &Content {
+            overflow-anchor: none;
+
+            @include after-mobile {
+                margin-bottom: 1.2rem;
+            }
+
+            &_isContentExpanded {
+                @include mobile {
+                    padding: var(--product-configurable-attributes-content-padding);
+                }
+            }
         }
     }
 
@@ -33,10 +74,11 @@
         font-size: 1.2em;
         font-weight: 700;
         line-height: 1;
-        margin: 0 0 1rem;
+        margin: 0 0 1.2rem;
 
         @include mobile {
-          display: none;
+            margin: 0 0 1.4rem;
+            display: none;
         }
     }
 
@@ -46,5 +88,6 @@
         background-size: var(--placeholder-size);
         height: var(--option-size);
         width: var(--option-size);
+        margin: var(--option-margin);
     }
 }

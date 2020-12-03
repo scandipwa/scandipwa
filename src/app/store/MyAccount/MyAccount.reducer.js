@@ -9,25 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    isSignedIn as isInitiallySignedIn
-} from 'Util/Auth';
+import { isInitiallySignedIn } from 'Util/Auth';
 
 import {
-    UPDATE_CUSTOMER_SIGN_IN_STATUS,
     UPDATE_CUSTOMER_DETAILS,
+    UPDATE_CUSTOMER_IS_AUTH_TOKEN_EXPIRED,
+    UPDATE_CUSTOMER_IS_LOADING,
+    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
+    UPDATE_CUSTOMER_SIGN_IN_STATUS
 } from './MyAccount.action';
 
-const initialState = {
+/** @namespace Store/MyAccount/Reducer/getInitialState */
+export const getInitialState = () => ({
     isSignedIn: isInitiallySignedIn(),
+    isAuthTokenExpired: false,
     passwordResetStatus: false,
     isPasswordForgotSend: false,
+    isLoading: false,
     customer: {}
-};
+});
 
-const MyAccountReducer = (state = initialState, action) => {
+/** @namespace Store/MyAccount/Reducer */
+export const MyAccountReducer = (
+    state = getInitialState(),
+    action
+) => {
     const { status, customer } = action;
 
     switch (action.type) {
@@ -35,6 +42,12 @@ const MyAccountReducer = (state = initialState, action) => {
         return {
             ...state,
             isSignedIn: status
+        };
+
+    case UPDATE_CUSTOMER_IS_AUTH_TOKEN_EXPIRED:
+        return {
+            ...state,
+            isAuthTokenExpired: status
         };
 
     case UPDATE_CUSTOMER_PASSWORD_RESET_STATUS:
@@ -53,6 +66,13 @@ const MyAccountReducer = (state = initialState, action) => {
         return {
             ...state,
             customer
+        };
+    case UPDATE_CUSTOMER_IS_LOADING:
+        const { isLoading } = action;
+
+        return {
+            ...state,
+            isLoading
         };
 
     default:

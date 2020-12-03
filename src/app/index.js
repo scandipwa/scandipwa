@@ -9,35 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import AppRouter from 'Route';
-import store from 'Store';
-import ReactDOM from 'react-dom';
+import 'Util/Extensions';
+import 'Util/Polyfill';
 import 'Style/main';
 
-// Disable react dev tools in production
-if (process.env.NODE_ENV === 'production'
-    && window.__REACT_DEVTOOLS_GLOBAL_HOOK__
-) window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {};
+import { render } from 'react-dom';
 
-// Enable React hot reload in development
-if (process.env.NODE_ENV === 'development') {
-    module.hot.accept('./index.js', () => {
-        // eslint-disable-next-line import/no-self-import, global-require
-        const NextRootContainer = require('./index.js').default;
-        ReactDOM.render(<NextRootContainer />, document.getElementById('root'));
-    });
-}
+import App from 'Component/App';
 
-class App extends Component {
-    render() {
-        return (
-            <Provider store={ store }>
-                <AppRouter />
-            </Provider>
-        );
-    }
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));

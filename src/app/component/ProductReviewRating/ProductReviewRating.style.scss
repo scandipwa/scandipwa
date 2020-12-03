@@ -9,16 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --product-rating-background: #979797;
+    --product-rating-filled-background: var(--primary-base-color);
+    --product-rating-size: 1.8rem;
+
+    @include mobile {
+        --product-rating-size: 2.1rem;
+    }
+}
+
 .ProductReviewRating {
     --percentage: 0%;
-    margin-right: .5rem;
+
     display: inline-block;
-    line-height: 1;
-    font-size: 1.7rem;
+    font-size: var(--product-rating-size);
+    letter-spacing: 2px;
 
     &::before {
         content: '★★★★★';
-        background: linear-gradient(90deg, var(--color-primary-base) var(--percentage), var(--color-neutral-light) var(--percentage));
+        background:
+            linear-gradient(
+                90deg,
+                var(--product-rating-filled-background) var(--percentage),
+                var(--product-rating-background) var(--percentage)
+            );
+
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,146 +10,405 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import CmsBlock from 'Component/CmsBlock';
+import CurrencySwitcher from 'Component/CurrencySwitcher';
+import Link from 'Component/Link';
+import MenuItem from 'Component/MenuItem';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import { DeviceType } from 'Type/Device';
 import { MenuType } from 'Type/Menu';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import { getSortedItems } from 'Util/Menu';
+import { debounce } from 'Util/Request';
+
+import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
+
 import './Menu.style';
 
-/**
- * Menu component
- * @class Menu
- */
-class Menu extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isActive: false,
-            canGoBack: false
-        };
-        this.handleItemClick = this.handleItemClick.bind(this);
-        this.handleItemFocus = this.handleItemFocus.bind(this);
+/** @namespace Component/Menu/Component */
+export class Menu extends PureComponent {
+    static propTypes = {
+        menu: MenuType.isRequired,
+        activeMenuItemsStack: PropTypes.array.isRequired,
+        handleSubcategoryClick: PropTypes.func.isRequired,
+        closeMenu: PropTypes.func.isRequired,
+        onCategoryHover: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
+    };
+
+    componentDidMount() {
+        const { closeMenu } = this.props;
+
+        this.debouncedCloseMenu = debounce(closeMenu, SCROLL_DEBOUNCE_DELAY);
+
+        window.addEventListener('scroll', this.debouncedCloseMenu);
     }
 
-    handleItemClick() {
-        this.setState({ isActive: false, canGoBack: false });
-        document.activeElement.blur();
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.debouncedCloseMenu);
     }
 
-    handleItemFocus() {
-        const { isActive } = this.state;
-        if (!isActive) this.setState({ isActive: true });
-    }
+    renderDesktopSubLevelItems(item, mods) {
+        const { item_id } = item;
+        const { closeMenu, activeMenuItemsStack } = this.props;
 
-    /**
-     * Change menu icon on mobile depending on depth
-     * @param {Number} d depth
-     * @return {void}
-     */
-    handleMenuChange(d) {
-        const { canGoBack, isActive } = this.state;
-
-        switch (d) {
-        case 1:
-            this.setState({ canGoBack: true });
-            break;
-
-        case 0:
-            if (canGoBack) {
-                this.setState({ canGoBack: false });
-                break;
-            } else if (isActive) {
-                this.setState({ isActive: false });
-                break;
-            } else {
-                this.setState({ isActive: true });
-                break;
-            }
-
-        default:
-            break;
-        }
-    }
-
-    renderChildren(children, d) {
         return (
-            <ul block="Menu" elem="Wrapper" mods={ { d } }>
-                { children
-                    .sort((a, b) => a.position - b.position)
-                    .map(child => this.renderItem(child, d))
-                }
-            </ul>
+            <MenuItem
+              activeMenuItemsStack={ activeMenuItemsStack }
+              item={ item }
+              itemMods={ mods }
+              closeMenu={ closeMenu }
+              isLink
+              key={ item_id }
+            />
         );
     }
 
-    renderItem(item, d = 0) {
+    renderDesktopSubLevel(category) {
+        const { device } = this.props;
+        const { children, item_class, item_id } = category;
+        const childrenArray = getSortedItems(Object.values(children));
+
+        if (device.isMobile || !childrenArray.length) {
+            return null;
+        }
+
+        const isBanner = item_class === 'Menu-ItemFigure_type_banner';
+        const isLogo = item_class === 'Menu-ItemFigure_type_logo';
+        const mods = {
+            isBanner: !!isBanner,
+            isLogo: !!isLogo
+        };
+
+        return (
+            <div
+              block="Menu"
+              elem="SubLevelDesktop"
+              key={ item_id }
+            >
+                <div
+                  block="Menu"
+                  elem="ItemList"
+                  mods={ { ...mods } }
+                >
+                    { childrenArray.map((item) => this.renderDesktopSubLevelItems(item, mods)) }
+                </div>
+            </div>
+        );
+    }
+
+    renderSubLevelItems = (item) => {
         const {
-            item_id, title, children, url, category_id
+            handleSubcategoryClick,
+            activeMenuItemsStack,
+            onCategoryHover,
+            closeMenu,
+            device
+        } = this.props;
+
+        const {
+            item_id,
+            children,
+            item_class
         } = item;
 
-        const childrenArray = Object.values(children || {});
-        const hasChildren = !!childrenArray.length;
-        const link = `${ category_id ? '/category' : '' }${url}`; // TODO: replace with config
+        const isBanner = item_class === 'Menu-ItemFigure_type_banner';
+        const childrenArray = Object.values(children);
+        const subcategoryMods = { type: 'subcategory' };
+
+        if (childrenArray.length && device.isMobile) {
+            return (
+                <div
+                  key={ item_id }
+                  // TODO: split into smaller components
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ (e) => handleSubcategoryClick(e, item) }
+                  tabIndex="0"
+                  role="button"
+                >
+                    <MenuItem
+                      activeMenuItemsStack={ activeMenuItemsStack }
+                      item={ item }
+                      itemMods={ subcategoryMods }
+                      onCategoryHover={ onCategoryHover }
+                      closeMenu={ closeMenu }
+                    />
+                    { this.renderSubLevel(item) }
+                </div>
+            );
+        }
 
         return (
-            <li
-              key={ item_id }
+            <div
               block="Menu"
-              elem="Item"
-              mods={ { d, hasChildren } }
+              elem="SubItemWrapper"
+              key={ item_id }
+              mods={ { isBanner } }
             >
-                { !hasChildren && title && link
-                    ? (
-                        <Link
-                          to={ link }
-                          onClick={ this.handleItemClick }
-                          onFocus={ this.handleItemFocus }
-                        >
-                            { title }
-                        </Link>
-                    )
-                    : (
-                        <p onTouchEnd={ () => this.handleMenuChange(d) }>
-                            <TextPlaceholder content={ title } />
-                        </p>
-                    )
-                }
-                { hasChildren && this.renderChildren(childrenArray, d + 1) }
-            </li>
+                <MenuItem
+                  activeMenuItemsStack={ activeMenuItemsStack }
+                  item={ item }
+                  closeMenu={ closeMenu }
+                  isLink
+                />
+                { this.renderDesktopSubLevel(item) }
+            </div>
+        );
+    };
+
+    renderSubLevel(category) {
+        const { activeMenuItemsStack } = this.props;
+        const { item_id, children } = category;
+        const childrenArray = getSortedItems(Object.values(children));
+        const isVisible = activeMenuItemsStack.includes(item_id);
+        const subcategoryMods = { type: 'subcategory' };
+
+        return (
+            <div
+              block="Menu"
+              elem="SubMenu"
+              mods={ { isVisible } }
+              key={ item_id }
+            >
+                <div
+                  block="Menu"
+                  elem="ItemList"
+                  mods={ { ...subcategoryMods } }
+                >
+                    { childrenArray.map(this.renderSubLevelItems) }
+                </div>
+            </div>
         );
     }
 
-    render() {
-        const { menu } = this.props;
-        const { isActive, canGoBack } = this.state;
+    renderPromotionCms() {
+        const { closeMenu } = this.props;
+        const { header_content: { header_cms } = {} } = window.contentConfiguration;
 
-        const isLoaded = !!Object.keys(menu).length;
-        const placeholderMenu = {
-            1: { item_id: '1' },
-            5: { item_id: '5' },
-            96: { item_id: '96' },
-            97: { item_id: '97' }
-        };
+        if (header_cms) {
+            return <CmsBlock identifier={ header_cms } />;
+        }
+
+        return (
+            <div block="Menu" elem="Promotion">
+                <h3 block="Menu" elem="PageLink">
+                    <Link
+                      to="/about-us"
+                      onClick={ closeMenu }
+                      block="Menu"
+                      elem="Link"
+                    >
+                        { __('ABOUT US') }
+                    </Link>
+                </h3>
+                <h3 block="Menu" elem="PageLink">
+                    <Link
+                      to="/about-us"
+                      onClick={ closeMenu }
+                      block="Menu"
+                      elem="Link"
+                    >
+                        { __('CONTACTS') }
+                    </Link>
+                </h3>
+                <div block="Menu" elem="Social">
+                    <CmsBlock identifier="social-links" />
+                </div>
+            </div>
+        );
+    }
+
+    renderSubMenuDesktopItems = (item) => {
+        const { item_id, children } = item;
+
+        if (!Object.keys(children).length) {
+            return null;
+        }
+
+        const { activeMenuItemsStack, closeMenu } = this.props;
+        const isVisible = activeMenuItemsStack.includes(item_id);
+
+        if (!isVisible) {
+            return null;
+        }
+
+        return (
+            <div
+              block="Menu"
+              elem="SubCategoriesWrapper"
+              mods={ { isVisible } }
+              key={ item_id }
+            >
+                <div
+                  block="Menu"
+                  elem="SubCategoriesWrapperInner"
+                  mods={ { isVisible } }
+                >
+                    <div
+                      block="Menu"
+                      elem="SubCategories"
+                    >
+                        { this.renderSubLevel(item) }
+                    </div>
+                    { this.renderAdditionalInformation() }
+                </div>
+                <div
+                  block="Menu"
+                  elem="Overlay"
+                  mods={ { isVisible } }
+                  onMouseEnter={ closeMenu }
+                />
+            </div>
+        );
+    };
+
+    renderSubMenuDesktop(itemList) {
+        const { device } = this.props;
+        if (device.isMobile) {
+            return null;
+        }
+
+        const childrenArray = getSortedItems(Object.values(itemList));
+
+        return childrenArray.map(this.renderSubMenuDesktopItems);
+    }
+
+    renderAdditionalInformation(checkMobile = false) {
+        const { device } = this.props;
+        if (checkMobile && !device.isMobile) {
+            return null;
+        }
 
         return (
             <>
-                <nav>
-                    <ul
-                      block="Menu"
-                      mods={ { isLoaded, isActive, canGoBack } }
-                      onMouseEnter={ () => this.setState({ isActive: true }) }
-                    >
-                        { Object.values(isLoaded ? menu : placeholderMenu).map(item => this.renderItem(item)) }
-                    </ul>
-                </nav>
+                { this.renderStoreSwitcher() }
+                { this.renderCurrencySwitcher() }
+                { this.renderPromotionCms() }
             </>
         );
     }
+
+    renderFirstLevelItems(item) {
+        const {
+            activeMenuItemsStack,
+            handleSubcategoryClick,
+            onCategoryHover,
+            closeMenu,
+            device
+        } = this.props;
+
+        const { children } = item;
+        const childrenArray = Object.values(children);
+        const itemMods = { type: 'main' };
+
+        if (childrenArray.length && device.isMobile) {
+            return (
+                <div
+                  // TODO: split into smaller components
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ (e) => handleSubcategoryClick(e, item) }
+                  tabIndex="0"
+                  block="Menu"
+                  elem="SubCatLink"
+                  role="button"
+                >
+                    <MenuItem
+                      activeMenuItemsStack={ activeMenuItemsStack }
+                      item={ item }
+                      itemMods={ itemMods }
+                      onCategoryHover={ onCategoryHover }
+                      closeMenu={ closeMenu }
+                    />
+                    { this.renderSubLevel(item) }
+                </div>
+            );
+        }
+
+        return (
+            <MenuItem
+              activeMenuItemsStack={ activeMenuItemsStack }
+              item={ item }
+              itemMods={ itemMods }
+              onCategoryHover={ onCategoryHover }
+              closeMenu={ closeMenu }
+              isLink
+            />
+        );
+    }
+
+    renderFirstLevel = (item) => {
+        const { item_id } = item;
+
+        return (
+            <li key={ item_id } block="Menu" elem="Item">
+                { this.renderFirstLevelItems(item) }
+            </li>
+        );
+    };
+
+    renderTopLevel() {
+        const { menu } = this.props;
+        const categoryArray = Object.values(menu);
+
+        if (!categoryArray.length) {
+            return null;
+        }
+
+        const [{ children, title: mainCategoriesTitle }] = categoryArray;
+        const childrenArray = getSortedItems(Object.values(children));
+
+        return (
+            <>
+                <div block="Menu" elem="MainCategories">
+                    <ul
+                      block="Menu"
+                      elem="ItemList"
+                      mods={ { type: 'main' } }
+                      aria-label={ mainCategoriesTitle }
+                    >
+                        { childrenArray.map(this.renderFirstLevel) }
+                    </ul>
+                    { this.renderAdditionalInformation(true) }
+                </div>
+                { this.renderSubMenuDesktop(children) }
+            </>
+        );
+    }
+
+    renderCurrencySwitcher() {
+        const { device } = this.props;
+        if (!device.isMobile) {
+            return null;
+        }
+
+        return <CurrencySwitcher />;
+    }
+
+    renderStoreSwitcher() {
+        const { device } = this.props;
+        if (!device.isMobile) {
+            return null;
+        }
+
+        return <StoreSwitcher />;
+    }
+
+    render() {
+        const { closeMenu } = this.props;
+
+        return (
+            <div
+              block="Menu"
+              elem="MenuWrapper"
+              onMouseLeave={ closeMenu }
+            >
+                { this.renderTopLevel() }
+            </div>
+
+        );
+    }
 }
-
-Menu.propTypes = {
-    menu: MenuType.isRequired
-};
-
 
 export default Menu;

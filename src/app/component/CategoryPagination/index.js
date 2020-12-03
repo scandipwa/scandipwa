@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CategoryPagination.component';
+export { default } from './CategoryPagination.container';

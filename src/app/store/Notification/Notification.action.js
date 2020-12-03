@@ -18,8 +18,9 @@ export const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';
  * @param  {String} msgText
  * @param  {any} msgDebug
  * @return {void}
+ * @namespace Store/Notification/Action/showNotification
  */
-const showNotification = (msgType, msgText, msgDebug) => ({
+export const showNotification = (msgType, msgText, msgDebug) => ({
     type: SHOW_NOTIFICATION,
     msgType,
     msgText,
@@ -30,13 +31,9 @@ const showNotification = (msgType, msgText, msgDebug) => ({
  * Hide notification with specific id (drop notification from global list).
  * @param  {number} id
  * @return {void}
+ * @namespace Store/Notification/Action/hideNotification
  */
-const hideNotification = id => ({
+export const hideNotification = (id) => ({
     type: HIDE_NOTIFICATION,
     id
 });
-
-export {
-    showNotification,
-    hideNotification
-};

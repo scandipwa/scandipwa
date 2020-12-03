@@ -10,79 +10,87 @@
  */
 
 .ProductGallery {
-    --arrow-color: var(--color-neutral-base);
-
-    display: grid;
-    grid-template-columns: 6rem auto;
-    min-height: 350px;
-
-    @include after-mobile {
-        grid-row: 1 / 3;
-    }
-
-    @include mobile {
+    @include desktop {
+        display: flex;
         height: 100%;
     }
 
-    &_isNotAvailable {
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
+    &-Additional {
+        $margin-right: 1.8rem;
+
+        width: 150px;
+        margin-right: $margin-right;
+
+        @include mobile {
+            margin-right: 2.1rem;
+        }
+
+        @include desktop {
+            height: 48rem;
+            margin: auto $margin-right auto 0;
+        }
+
+        @include before-desktop {
+            display: none;
+        }
+
+        &_isImageZoomPopupActive {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
     }
 
-    &_no_thumbnails {
-        grid-template-columns: auto;
+    &-SliderWrapper {
+        flex: 1;
     }
 
-    button {
-        background-color: transparent;
-        transition-property: background-color;
-        border-color: transparent;
-        margin-bottom: 1rem;
-        margin-left: 0;
+    &-Slider {
+        min-height: 480px;
+        height: var(--slider-height);
 
-        &:not([disabled]) {
-            &:hover,
-            &:active,
-            &:focus {
-                border-color: transparent;
-                background-color: transparent;
+        @include mobile {
+            min-height: 420px;
+        }
+
+        &::after {
+            @include desktop {
+                content: '';
+                box-shadow: inset 0 0 0 3px #fff;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                position: absolute;
+                pointer-events: none;
             }
+        }
 
-            &:hover {
-                --arrow-color: var(--color-neutral-dark);
-            }
+        &_isImageZoomPopupActive {
+            cursor: pointer;
+        }
 
-            &:focus {
-                --arrow-color: var(--color-primary-base);
+        &_isZoomInCursor {
+            @include after-mobile {
+                cursor: zoom-in;
             }
         }
     }
 
-    &-Thumbnail {
-        overflow: hidden;
-        width: 5rem;
-        height: 5rem;
-        padding: 0;
-        box-shadow: 0 0 0 1px var(--color-neutral-light);
-        transition: box-shadow 250ms ease-in;
+    .react-transform-component,
+    .react-transform-element,
+    &-SliderImage {
+        height: 100%;
+        width: 100%;
+    }
 
-        &_active {
-            box-shadow: 0 0 0 2px var(--color-primary-base);
-        }
-
-        &:not([disabled]) {
-            &:hover,
-            &:active,
-            &:focus {
-                box-shadow: 0 0 0 2px var(--color-primary-base);
-            }
-        }
-
-        &:disabled {
-            opacity: 1;
-            box-shadow: 0 0 0 1px var(--color-neutral-light);
+    &-SliderImage {
+        .Image-Image {
+            transform: translateY(var(--translateYOnCursorMove));
         }
     }
+}
+
+.overscrollPrevented {
+    overscroll-behavior: contain;
 }

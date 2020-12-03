@@ -10,54 +10,135 @@
  */
 
 .Field {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
+
+    @include mobile {
+        margin-top: 1.4rem;
+    }
 
     label {
-        padding-bottom: .3rem;
+        font-size: 1.26rem;
+
+        @include mobile {
+            font-size: 1.47rem;
+        }
+    }
+
+    &-Label {
         font-weight: 700;
-        font-size: 1.05rem;
+        padding-bottom: .36rem;
+
+        @include mobile {
+            padding-bottom: .42rem;
+        }
     }
 
     &-Message {
         margin-bottom: -.1em;
-        font-size: 1.05rem;
+        font-size: 1.26rem;
         font-weight: 600;
-        color: var(--color-primary-dark);
+        color: var(--primary-error-color);
+
+        @include mobile {
+            font-size: 1.47rem;
+        }
     }
 
     &-Note {
-        margin-bottom: .2rem;
-        font-size: 1.0rem;
+        margin-bottom: .24rem;
+        font-size: 1.2rem;
         font-weight: 600;
         color: var(--field-note);
         opacity: 0;
         height: 0;
-        transition: height 0.1s ease-in, opacity 0.1s linear;
+        transition: height .1s ease-in, opacity .1s linear;
+        will-change: height, opacity;
 
-        &_visibleAlways {
-            opacity: 1;
-            height: 100%;
+        @include mobile {
+            margin-bottom: .28rem;
+            font-size: 1.4rem;
+        }
+
+        &::before {
+            content: '* ';
         }
     }
 
-    &-Note::before {
-        content: '* ';
-    }
-
     &_hasError {
-        input {
-            border: 1px solid var(--color-primary-dark);
+        input,
+        textarea {
+            border: 1px solid var(--primary-error-color);
         }
     }
 
     &::placeholder {
         color: var(--field-note);
-        font-size: 0.9rem;
+        font-size: 1.08rem;
+
+        @include mobile {
+            font-size: 1.26rem;
+        }
     }
 
-    input:focus + .Field-Note{
+    input:focus + .Field-Note {
         opacity: 1;
         height: 100%;
+    }
+
+    &_style {
+        &_inline {
+            $size-mobile: 20px;
+            $size: 28px;
+            $border-color: #000;
+            $input-width-mobile: 35px;
+            $input-width: 35px;
+
+            &.Field {
+                display: flex;
+                margin: 0;
+
+                button {
+                    position: relative;
+                    width: $size-mobile;
+                    height: $size-mobile;
+                    border: solid 1px $border-color;
+
+                    @include after-mobile {
+                        width: $size;
+                        height: $size;
+                    }
+
+                    &:last-of-type {
+                        order: -1;
+                    }
+                }
+            }
+
+            input {
+                height: $size-mobile;
+                min-height: $size-mobile;
+                width: $input-width-mobile;
+                min-width: $input-width-mobile;
+                border: none;
+                padding: 0;
+                text-align: center;
+
+                @include mobile {
+                    font-size: 1.4rem;
+                }
+
+                @include after-mobile {
+                    height: $size;
+                    min-height: $size;
+                    width: $input-width;
+                    min-width: $input-width;
+                }
+
+                &:focus {
+                    border: none;
+                }
+            }
+        }
     }
 
     &_type {
@@ -66,9 +147,19 @@
             label {
                 &:first-of-type {
                     display: inline-block;
+                    max-width: calc(100vw - 2.4rem - 45px);
+                    vertical-align: middle;
+
+                    @include mobile {
+                        max-width: calc(100vw - 2.8rem - 45px);
+                    }
 
                     ~ label {
-                        margin-left: 1rem;
+                        margin-left: 1.2rem;
+
+                        @include mobile {
+                            margin-left: 1.4rem;
+                        }
                     }
                 }
 
@@ -80,8 +171,8 @@
         }
     }
 
-    [type="checkbox"],
-    [type="radio"] {
+    [type='checkbox'],
+    [type='radio'] {
         position: absolute;
         opacity: 0;
         padding: 0;
@@ -89,19 +180,25 @@
         min-height: 0;
 
         + label {
+            @include mobile {
+                width: 2.1rem;
+                height: 2.1rem;
+            }
+
             --box-color: #{white};
 
             display: inline-block;
             position: relative;
             cursor: pointer;
             padding: 0;
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.8rem;
+            height: 1.8rem;
             background-color: var(--box-color);
-            border: 1px solid color(neutral, base);
+            border: 1px solid var(--input-border-color);
             transition-property: background-color, border-color;
             transition-duration: .25s;
             transition-timing-function: ease-in;
+            will-change: background-color, border-color;
 
             &::after {
                 --checkmark-color: transparent;
@@ -113,14 +210,19 @@
                 transition-duration: .25s;
                 transition-timing-function: ease-in;
                 transition-property: background-color;
+                will-change: background-color;
             }
 
             &:hover {
-                --box-color: #{transparentize(color(neutral, light, true), .4)};
-                border-color: color(primary, base);
+                @include after-mobile {
+                    --box-color: var(--secondary-light-color);
+                    border-color: var(--primary-base-color);
+                }
 
                 &::after {
-                    --checkmark-color: #{color(neutral, base, true)};
+                    @include after-mobile {
+                        --checkmark-color: var(--secondary-dark-color);
+                    }
                 }
             }
         }
@@ -131,22 +233,22 @@
         }
 
         &:checked + label {
-            background-color: color(primary, base, true);
-            border-color: color(primary, base, true);
+            background-color: var(--primary-base-color);
+            border-color: var(--primary-base-color);
 
             &::after {
-                --checkmark-color: #{color(text, white, true)};
+                --checkmark-color: #{$white};
             }
         }
     }
 
-    [type="checkbox"] {
+    [type='checkbox'] {
         + label {
             &::after {
-                left: .25rem;
-                top: .6rem;
-                width: .2rem;
-                height: .2rem;
+                left: .3rem;
+                top: .72rem;
+                width: .24rem;
+                height: .24rem;
                 box-shadow:
                     2px 0 0 var(--checkmark-color),
                     4px 0 0 var(--checkmark-color),
@@ -156,19 +258,29 @@
                     4px -8px 0 var(--checkmark-color);
                 transform: rotate(45deg);
                 transition-property: background-color, box-shadow;
+                will-change: background-color, box-shadow;
+
+                @include mobile {
+                    left: .35rem;
+                    top: .84rem;
+                    width: .28rem;
+                    height: .28rem;
+                }
             }
         }
 
         &:checked {
             &:hover {
                 + label {
-                    background-color: var(--color-primary-base);
+                    @include after-mobile {
+                        background-color: var(--primary-base-color);
+                    }
                 }
             }
         }
     }
 
-    [type="radio"] {
+    [type='radio'] {
         + label {
             border-radius: 50%;
 
@@ -178,20 +290,33 @@
                 top: 0;
                 bottom: 0;
                 margin: auto;
-                width: .5rem;
-                height: .5rem;
+                width: .6rem;
+                height: .6rem;
                 border-radius: 50%;
                 transition-property: background-color, box-shadow;
+                will-change: background-color, box-shadow;
+
+                @include mobile {
+                    width: .7rem;
+                    height: .7rem;
+                }
             }
         }
 
         &:focus + label {
-            --box-color: #{transparentize(color(neutral, light, true), .4)};
-            border-color: color(primary, base);
+            --box-color: var(--secondary-light-color);
+
+            border-color: var(--primary-base-color);
 
             &::after {
-                --checkmark-color: #{color(text, white, true)};
+                --checkmark-color: #{$white};
             }
+        }
+    }
+
+    &-Labels {
+        span {
+            letter-spacing: 1.05px;
         }
     }
 }

@@ -1,75 +1,83 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
+:root {
+    --wishlist-heart-size: 12px;
+    --wishlist-heart-background: var(--primary-base-color);
+}
 
 .ProductWishlistButton {
+    --loader-scale: .6;
+
+    margin-left: 1.08rem;
+    vertical-align: middle;
+    display: inline-block;
+
+    @include mobile {
+        margin-left: 1.26rem;
+    }
+
+    @include tablet-portrait {
+        margin-top: 1.2rem;
+    }
+
     &-Button {
-        --button-background: transparent;
-        --button-hover-background: var(--color-primary-base);
-        --button-hover-color: var(--color-text-white);
-        --button-color: var(--color-primary-base);
-        --button-border-width: 2px;
-        --button-padding: 1rem;
+        --button-padding: 0;
+        --button-hover-background: transparent;
+        --button-hover-border: var(--primary-dark-color);
 
-        @include mobile {
-            margin-left: 0;
-            margin-top: 1rem;
-            width: 100%;
-        }
+        height: 47px;
+        width: 47px;
 
-        &_fullWidth {
-            width: 100%;
-            margin: 0.5rem 0 0;
+        &_isInWishlist {
+            --wishlist-heart-background: #fff;
+            --button-hover-background: var(--primary-dark-color);
+            --button-hover-border: var(--primary-dark-color);
 
-            @include mobile {
-                padding: 0.8rem;
-                font-size: 0.8rem;
+            &:hover {
+                @include after-mobile {
+                    --wishlist-heart-background: #fff;
+                }
             }
         }
 
-        span {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-            transition: all .25s;
+        &.Button {
+            border-radius: 50%;
+        }
+    }
 
-            &:last-child {
-                width: 100%;
-                left: 0;
-                opacity: 0;
-                position: absolute;
-                transform: translateY(0);
-            }
+    &:hover {
+        @include after-mobile {
+            --wishlist-heart-background: var(--primary-dark-color);
+        }
+    }
+
+    &-Heart {
+        transform: rotate(-45deg);
+        bottom: 0;
+        top: 1px;
+        margin: auto;
+
+        &,
+        &::after,
+        &::before {
+            height: var(--wishlist-heart-size);
+            width: var(--wishlist-heart-size);
+            background-color: var(--wishlist-heart-background);
         }
 
-        &_isLoading {
-            span {
-                &:first-child {
-                    opacity: 0;
-                    transform: translateY(-50%);
-                }
+        &::after,
+        &::before {
+            content: '';
+            border-radius: 50%;
+            position: absolute;
+        }
 
-                &:last-child {
-                    opacity: 1;
-                    transform: translateY(-100%);
-                }
-            }
+        &::before {
+            top: calc(var(--wishlist-heart-size) / -2);
+            right: 0;
+        }
 
-            &:active {
-                span {
-                    &:last-child {
-                        opacity: 0.9;
-                        transform: translateY(-120%);
-                    }
-                }
-            }
+        &::after {
+            right: calc(var(--wishlist-heart-size) / -2);
+            top: 0;
         }
     }
 }

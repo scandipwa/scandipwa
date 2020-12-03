@@ -9,85 +9,152 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { MixType } from 'Type/Common';
 import { PriceType } from 'Type/ProductList';
-import { formatCurrency } from 'Util/Price';
+
 import './ProductPrice.style';
 
 /**
  * Product price
  * @class ProductPrice
+ * @namespace Component/ProductPrice/Component
  */
-class ProductPrice extends Component {
-    /**
-     * Calculate discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Nmber} discount percentage
-     */
-    calculateDiscountPercentage(min, reg) {
-        return Math.floor(Math.round((1 - min / reg) * 100));
+export class ProductPrice extends PureComponent {
+    static propTypes = {
+        isSchemaRequired: PropTypes.bool,
+        roundedRegularPrice: PropTypes.string,
+        priceCurrency: PropTypes.string,
+        discountPercentage: PropTypes.number,
+        formattedFinalPrice: PropTypes.string,
+        variantsCount: PropTypes.number,
+        price: PriceType,
+        mix: MixType
+    };
+
+    static defaultProps = {
+        isSchemaRequired: false,
+        roundedRegularPrice: '0',
+        priceCurrency: 'USD',
+        discountPercentage: 0,
+        formattedFinalPrice: '0',
+        variantsCount: 0,
+        mix: {},
+        price: {}
+    };
+
+    renderPlaceholder() {
+        const { mix } = this.props;
+
+        return (
+            <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
+                <TextPlaceholder mix={ { block: 'ProductPrice', elem: 'Placeholder' } } length="custom" />
+            </p>
+        );
     }
 
-    /**
-     * Calculate final price
-     * @param {Number} discount discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Nmber} final price
-     */
-    calculateFinalPrice(discount, min, reg) {
-        return discount ? min : reg;
+    getCurrencySchema() {
+        const { isSchemaRequired, priceCurrency } = this.props;
+        return isSchemaRequired ? { itemProp: 'priceCurrency', content: priceCurrency } : {};
     }
 
-    /**
-     * Calculate final price
-     * @param {Number} price
-     * @return {Nmber} rounded price
-     */
-    roundPrice(price) {
-        return parseFloat(price).toFixed(2);
+    getCurrentPriceSchema() {
+        const { isSchemaRequired, variantsCount, price } = this.props;
+        const content_price = price.minimum_price.final_price
+            ? price.minimum_price.final_price.value : price.minimum_price.regular_price.value;
+
+        if (variantsCount > 1) {
+            return isSchemaRequired ? { itemProp: 'lowPrice', content: content_price } : {};
+        }
+
+        return isSchemaRequired ? { itemProp: 'price', content: content_price } : {};
     }
 
-    render() {
-        const { price: { minimalPrice, regularPrice }, mods } = this.props;
-        const minimalPriceValue = minimalPrice.amount.value;
-        const regularPriceValue = regularPrice.amount.value;
-        const priceCurrency = regularPrice.amount.currency;
-        const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
-        const finalPrice = this.calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-        const priceString = formatCurrency(this.roundPrice(finalPrice), priceCurrency);
+    renderCurrentPrice() {
+        const {
+            discountPercentage,
+            formattedFinalPrice
+        } = this.props;
+
+        const priceSchema = this.getCurrentPriceSchema();
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
         return (
-            <p block="ProductPrice" aria-label={ __('Product Price') } mods={ mods || {} }>
-                <PriceSemanticElementName aria-label={ __('Current product price') }>
-                    <data value={ this.roundPrice(finalPrice) }>{ priceString }</data>
-                </PriceSemanticElementName>
+            <PriceSemanticElementName>
+                <span { ...priceSchema }>{ formattedFinalPrice }</span>
+            </PriceSemanticElementName>
+        );
+    }
 
-                { discountPercentage > 0 && (
-                    <del aria-label={ __('Old product price') }>
-                        { this.roundPrice(regularPriceValue) }
-                    </del>
-                )}
+    renderOldPrice() {
+        const {
+            roundedRegularPrice,
+            discountPercentage,
+            isSchemaRequired,
+            variantsCount
+        } = this.props;
+
+        const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
+
+        return (
+            <del
+              block="ProductPrice"
+              elem="HighPrice"
+              mods={ { isVisible: discountPercentage > 0 } }
+              aria-label={ __('Old product price') }
+              { ...schema }
+            >
+                { roundedRegularPrice }
+            </del>
+        );
+    }
+
+    renderSchema() {
+        const { isSchemaRequired } = this.props;
+
+        if (isSchemaRequired) {
+            const currencySchema = this.getCurrencySchema();
+            return (
+                <meta { ...currencySchema } />
+            );
+        }
+
+        return null;
+    }
+
+    render() {
+        const {
+            price: {
+                minimum_price: {
+                    final_price,
+                    regular_price
+                } = {}
+            } = {},
+            formattedFinalPrice,
+            mix
+        } = this.props;
+
+        if (!final_price || !regular_price) {
+            return this.renderPlaceholder();
+        }
+
+        return (
+            <p
+              block="ProductPrice"
+              mix={ mix }
+              aria-label={ `Product price: ${formattedFinalPrice}` }
+            >
+                { this.renderCurrentPrice() }
+                { this.renderOldPrice() }
+                { this.renderSchema() }
             </p>
         );
     }
 }
-
-ProductPrice.propTypes = {
-    price: PriceType.isRequired,
-    mods: PropTypes.shape({
-        type: PropTypes.string,
-        color: PropTypes.string
-    })
-};
-
-ProductPrice.defaultProps = {
-    mods: {}
-};
 
 export default ProductPrice;

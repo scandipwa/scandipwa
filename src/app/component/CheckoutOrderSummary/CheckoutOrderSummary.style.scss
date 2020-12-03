@@ -10,33 +10,52 @@
  */
 
 .CheckoutOrderSummary {
-    padding: 2rem;
-    background-color: var(--color-summary-background);
-    display: table;
+    $divider-border-color: #e0e0e0;
+    $divider-border: solid 1px $divider-border-color;
 
-    @include mobile {
-        order: 1;
+    &-Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0;
     }
 
-    h3 {
-        padding-bottom: 1rem;
-        border-bottom: 1px solid var(--color-summary-divider);
-        text-transform: uppercase;
-        text-align: center;
+    &-ItemsInCart {
+        font-size: 1.2rem;
+        opacity: .5;
+        text-transform: none;
+        top: 2px;
+        font-weight: 300;
     }
 
     &-SummaryItem {
         justify-content: space-between;
         display: flex;
-        padding-left: 0;
-        margin-bottom: 1.5rem;
+        padding: 1.2rem 0;
+        margin-bottom: 0;
+
+        @include mobile {
+            padding: 1.4rem 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
 
         &::before {
             content: none;
         }
+
+        &_withAppendedContent {
+            flex-wrap: wrap;
+        }
     }
 
     &-OrderItems {
+        @include mobile {
+            background-color: var(--secondary-base-color);
+        }
+
         h3 {
             text-align: left;
         }
@@ -46,27 +65,38 @@
         list-style: none;
         margin: 0;
         padding: 0;
+
+        @include mobile {
+            --cart-item-background: var(--secondary-base-color);
+            --cart-item-divider-color: $divider-border-color;
+        }
     }
 
     &-CartItemDescription {
         margin-top: 5px;
 
         p {
-            font-size: 1.1rem;
+            font-size: 1.32rem;
             line-height: 1.5;
-        }
-    }
 
-    &-Qty {
-        // margin-top: 1rem;
+            @include mobile {
+                font-size: 1.54rem;
+            }
+        }
     }
 
     &-CartItem {
         display: grid;
-        grid-template-columns: 8rem auto auto;
-        grid-column-gap: .5rem;
-        margin: 0 0 .5rem;
+        grid-template-columns: 9.6rem auto auto;
+        grid-column-gap: .6rem;
+        margin: 0 0 .6rem;
         padding: 0;
+
+        @include mobile {
+            grid-template-columns: 11.2rem auto auto;
+            grid-column-gap: .7rem;
+            margin: 0 0 .7rem;
+        }
 
         &::before {
             content: none;
@@ -80,8 +110,13 @@
     }
 
     &-Thumbnail {
-        width: 8rem;
-        height: 8rem;
+        width: 9.6rem;
+        height: 9.6rem;
+
+        @include mobile {
+            width: 11.2rem;
+            height: 11.2rem;
+        }
     }
 
     &-Title {
@@ -96,7 +131,54 @@
         justify-self: end;
     }
 
+    &-ExpandableContent {
+        margin: 0 -1.4rem;
+        background-color: var(--secondary-base-color);
+    }
+
+    &-Coupon {
+        @include mobile {
+            padding: 10px 1.4rem;
+            border-bottom: $divider-border;
+            margin: 0 -1.4rem;
+            width: auto;
+        }
+    }
+
+    &-CmsBlock {
+        padding: 10px 0;
+        border-bottom: $divider-border;
+    }
+
     .ProductPrice {
         margin-top: 0;
+
+        &-SubPrice {
+            display: block;
+            font-size: .7em;
+            font-weight: 300;
+        }
+    }
+
+    .CartItem-Wrapper {
+        padding: 1.2rem 0;
+
+        @include mobile {
+            padding: 1.4rem 0;
+        }
+    }
+
+    &-Text {
+        text-align: right;
+
+        span {
+            display: block;
+            font-size: .7em;
+            font-weight: 300;
+        }
+    }
+
+    &-AppendedContent {
+        flex-basis: 100%;
     }
 }

@@ -9,26 +9,60 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { NoMatchDispatcher } from 'Store/NoMatch';
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+
+import { updateMeta } from 'Store/Meta/Meta.action';
+
 import NoMatchHandler from './NoMatchHandler.component';
 
-const mapStateToProps = state => ({
+export const NoMatchDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/NoMatch/NoMatch.dispatcher'
+);
+
+/** @namespace Route/NoMatchHandler/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
     noMatch: state.NoMatchReducer.noMatch
 });
 
-const mapDispatchToProps = dispatch => ({
+/** @namespace Route/NoMatchHandler/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateNoMatch: (options) => {
-        NoMatchDispatcher.updateNoMatch(dispatch, options);
-    },
-
-    updateToggleHeaderAndFooter: (options) => {
-        HeaderAndFooterDispatcher.toggleHeaderAndFooter(dispatch, options);
+        NoMatchDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
+        );
     }
 });
 
-const NoMatchHandlerContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(NoMatchHandler));
+/** @namespace Route/NoMatchHandler/Container */
+export class NoMatchHandlerContainer extends PureComponent {
+    static propTypes = {
+        updateMeta: PropTypes.func.isRequired,
+        noMatch: PropTypes.bool.isRequired
+    };
 
-export default NoMatchHandlerContainer;
+    componentDidUpdate(prevProps) {
+        const { noMatch, updateMeta } = this.props;
+        const { noMatch: prevNoMatch } = prevProps;
+
+        if (noMatch !== prevNoMatch) {
+            updateMeta({ title: __('Page not found') });
+        }
+    }
+
+    render() {
+        return (
+            <NoMatchHandler
+              { ...this.props }
+            />
+        );
+    }
+}
+
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(NoMatchHandlerContainer)
+);

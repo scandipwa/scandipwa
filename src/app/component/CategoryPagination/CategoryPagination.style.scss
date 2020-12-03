@@ -9,28 +9,48 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
-    --color-pagination-link-text: var(--color-text-black);
-    --color-pagination-link-active-text: var(--color-primary-base);
-}
-
 .CategoryPagination {
     display: flex;
-    justify-content: space-around;
-    padding-bottom: 4rem;
-    max-width: 400px;
+    justify-content: center;
+    min-height: 56px;
     margin: auto;
+    align-items: center;
+    z-index: 2;
+    width: min-content;
+
+    @include desktop {
+        order: 1;
+    }
 
     @include mobile {
-        padding-bottom: 2rem;
-        top: -1.5rem;
+        padding-bottom: 0;
+        display: none;
+    }
+
+    &-Icon {
+        @include back-button;
+
+        cursor: pointer;
+        margin: 0;
+        height: 35px;
+        display: block;
+        width: 35px;
+
+        &:hover,
+        &:focus {
+            --header-color: var(--color-pagination-link-active-text);
+        }
+
+        &_isNext {
+            transform: rotate(180deg);
+        }
     }
 
     &-ListItem {
-        line-height: 1.8;
         margin-bottom: 0;
         padding-left: 0;
-        min-width: 12px;
+        min-width: 35px;
+        display: block;
 
         &::before {
             content: '';
@@ -44,14 +64,6 @@
 
         &:last-child {
             margin-bottom: 0;
-        }
-    }
-
-    &-PaginationLink {
-        color: var(--color-pagination-link-text);
-
-        &_active {
-            --color-pagination-link-text: var(--color-pagination-link-active-text);
         }
     }
 }

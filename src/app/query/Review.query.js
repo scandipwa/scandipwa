@@ -11,25 +11,52 @@
 
 import { Field } from 'Util/Query';
 
-class Review {
-    getAddProductReview(reviewItem) {
-        const mutation = new Field('addProductReview')
-            .addArgument('productReviewItem', 'ProductReviewInput!', reviewItem)
-            .addField('detail');
-
-        return mutation;
+/** @namespace Query/Review */
+export class ReviewQuery {
+    getAddProductReviewMutation(reviewItem) {
+        return new Field('createProductReview')
+            .setAlias('addProductReview')
+            .addArgument('input', 'CreateProductReviewInput!', reviewItem)
+            .addField(new Field('review').addField('nickname'));
     }
 
-    getRatingDetails() {
-        const ratingOptions = new Field('rating_options')
-            .addFieldList(['option_id', 'value']);
+    getRatingQuery() {
+        return new Field('productReviewRatingsMetadata')
+            .setAlias('reviewRatings')
+            .addFieldList(this._getRatingFields());
+    }
 
-        const query = new Field('getRatings')
-            .setAlias('rating_details')
-            .addFieldList(['rating_id', 'rating_code', ratingOptions]);
+    _getRatingFields() {
+        return [
+            this._getRatingItemsField()
+        ];
+    }
 
-        return query;
+    _getRatingItemsField() {
+        return new Field('items')
+            .addFieldList(this._getRatingItemsFields());
+    }
+
+    _getRatingItemsFields() {
+        return [
+            new Field('id').setAlias('rating_id'),
+            new Field('name').setAlias('rating_code'),
+            this._getRatingOptionsField()
+        ];
+    }
+
+    _getRatingOptionFields() {
+        return [
+            new Field('value_id').setAlias('option_id'),
+            'value'
+        ];
+    }
+
+    _getRatingOptionsField() {
+        return new Field('values')
+            .setAlias('rating_options')
+            .addFieldList(this._getRatingOptionFields());
     }
 }
 
-export default new Review();
+export default new ReviewQuery();

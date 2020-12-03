@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,46 +15,132 @@
 // This file is later used by Webpack `babel-loader` directly.
 // This is a workaround for a babel issue https://github.com/babel/babel/issues/8309.
 
-const presets = [
+// It also has additional functionality in terms of generation additional aliases
+
+const path = require('path');
+const fs = require('fs');
+const { extensions } = require('../../scandipwa.json');
+
+const capitalize = value => value.charAt(0).toUpperCase() + value.slice(1);
+const pascalCase = word => capitalize(word.replace(/(-\w)/g, m => m[1].toUpperCase()));
+const ignoreSpecialChars = word => word.replace(/[^\w\s]/gi, '');
+
+const PLUGIN_NAME_SEPARATOR = '.';
+
+/**
+ * Generate aliases for corresponding directory
+ * @param {string} prefix
+ * @param {string|undefined} src
+ * @param {string} projectRoot
+ * @returns {object}
+ */
+const getAliases = (prefix, src, projectRoot) => {
+    if (!src) {
+        return {};
+    }
+
+    const aliases = ['style', 'component', 'route', 'store', 'util', 'query', 'type'].reduce(
+        (acc, curr) => {
+            acc[`${capitalize(prefix)}${capitalize(curr)}`] = './' + path.relative(
+                projectRoot,
+                path.resolve(src, `app/${curr}/`)
+            );
+
+            return acc;
+        }, {}
+    );
+
+    // Only for themes, skip plugins
+    if (!prefix.endsWith(PLUGIN_NAME_SEPARATOR)) {
+        // Add src/plugin for plugins' overrides
+        aliases[`${capitalize(prefix)}Plugin`] = './' + path.relative(
+            projectRoot,
+            path.resolve(src, `plugin`)
+        );
+    // Only for plugins, skip themes
+    } else {
+        // Add src/app/plugin and src/sw/plugin for plugins
+        aliases[`${capitalize(prefix)}AppPlugin`] = './' + path.relative(
+            projectRoot,
+            path.resolve(src, `app/plugin`)
+        );
+
+        aliases[`${capitalize(prefix)}SwPlugin`] = './' + path.relative(
+            projectRoot,
+            path.resolve(src, `sw/plugin`)
+        );
+    }
+
+    return aliases;
+}
+
+/**
+ * Generate aliases for extensions
+ * Get name from composer.json, ignoring the special characters
+ * @param {string} projectRoot
+ * @param {string} magentoRoot
+ */
+const getExtensionsAliases = (projectRoot, magentoRoot) => Object.values(extensions).reduce(
+    (acc, extensionRelative) => {
+        const extensionAbsolute = path.join(magentoRoot, extensionRelative);
+        const composerJsonPath = path.join(extensionAbsolute, 'composer.json');
+        if (!fs.existsSync(composerJsonPath)) {
+            console.log(`No aliases will be available for the package at ${extensionAbsolute}, no composer.json found.`);
+            return acc;
+        }
+
+        const { name: nameField } = require(composerJsonPath);
+        const [vendorName, extensionName] = nameField.split('/');
+        const prefix = `${
+            ignoreSpecialChars(pascalCase(vendorName))
+        }_${
+            ignoreSpecialChars(pascalCase(extensionName))
+        }`.concat(PLUGIN_NAME_SEPARATOR);
+
+        acc = {
+            ...acc,
+            ...getAliases(prefix, path.join(extensionAbsolute, 'src', 'scandipwa'), projectRoot)
+        };
+
+        return acc;
+    }, {}
+);
+
+const traverseSrc = (root) => root ? path.join(root, 'src') : null;
+
+const getPresets = () => ([
     '@babel/preset-env',
     '@babel/preset-react'
-];
+]);
 
-const plugins = [
+const getPlugins = ({ projectRoot, magentoRoot, fallbackRoot, parentRoot }) => ([
     'transform-rebem-jsx',
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-transform-runtime',
+    // TODO: return helpers:true
+    ['@babel/plugin-transform-runtime', { helpers: false }],
     '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-optional-chaining',
     [
         'module-resolver', {
             root: './',
             alias: {
-                Style: './src/app/style/',
-                Component: './src/app/component/',
-                Route: './src/app/route/',
-                Store: './src/app/store/',
-                Util: './src/app/util/',
-                Query: './src/app/query/',
-                Type: './src/app/type/',
-                SourceStyle: '../../../../../vendor/scandipwa/source/src/app/style/',
-                SourceComponent: '../../../../../vendor/scandipwa/source/src/app/component/',
-                SourceRoute: '../../../../../vendor/scandipwa/source/src/app/route/',
-                SourceStore: '../../../../../vendor/scandipwa/source/src/app/store/',
-                SourceUtil: '../../../../../vendor/scandipwa/source/src/app/util/',
-                SourceQuery: '../../../../../vendor/scandipwa/source/src/app/query/',
-                SourceType: '../../../../../vendor/scandipwa/source/src/app/type/'
+                ...getAliases('', traverseSrc(projectRoot), projectRoot),
+                ...getAliases('Source', traverseSrc(fallbackRoot), projectRoot),
+                ...getAliases('Parent', traverseSrc(parentRoot), projectRoot),
+                ...getExtensionsAliases(projectRoot, magentoRoot)
             }
         }
     ],
-    [
-        'console-source', {
-            segments: 1
-        }
-    ]
-];
+    './src/config/Extensibility/plugins/middleware-decorator',
+]);
+
+const getBabelConfig = options => ({
+    presets: getPresets(),
+    plugins: getPlugins(options),
+    sourceType: 'unambiguous'
+});
 
 module.exports = {
-    presets,
-    plugins
+    getBabelConfig
 };

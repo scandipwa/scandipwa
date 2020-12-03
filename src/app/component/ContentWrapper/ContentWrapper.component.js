@@ -9,49 +9,64 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { ChildrenType, MixType } from 'Type/Common';
+
 import './ContentWrapper.style';
 
 /**
  * Content Wrapper
  * @class ContentWrapper
+ * @namespace Component/ContentWrapper/Component
  */
-class ContentWrapper extends Component {
+export class ContentWrapper extends PureComponent {
+    static propTypes = {
+        children: ChildrenType,
+        mix: MixType,
+        wrapperMix: PropTypes.shape({
+            block: PropTypes.string,
+            elem: PropTypes.string
+        }),
+        label: PropTypes.string.isRequired,
+        isNotSection: PropTypes.bool
+    };
+
+    static defaultProps = {
+        mix: {},
+        wrapperMix: {},
+        children: null,
+        isNotSection: false
+    };
+
+    renderContentWrapper() {
+        const {
+            children, wrapperMix
+        } = this.props;
+
+        return (
+            <div block="ContentWrapper" mix={ wrapperMix }>
+                { children }
+            </div>
+        );
+    }
+
     render() {
         const {
-            children, mix, wrapperMix, label
+            mix, label, isNotSection
         } = this.props;
+
+        if (isNotSection) {
+            return this.renderContentWrapper();
+        }
+
         return (
             <section mix={ mix } aria-label={ label }>
-                <div block="ContentWrapper" mix={ wrapperMix }>
-                    { children }
-                </div>
+                { this.renderContentWrapper() }
             </section>
         );
     }
 }
-
-ContentWrapper.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]),
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    }),
-    wrapperMix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    }),
-    label: PropTypes.string.isRequired
-};
-
-ContentWrapper.defaultProps = {
-    mix: {},
-    wrapperMix: {},
-    children: null
-};
 
 export default ContentWrapper;

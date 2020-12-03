@@ -1,3 +1,4 @@
+/* eslint-disable fp/no-let, fp/no-loops */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,104 +10,206 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { CategoryTreeType } from 'Type/Category';
-import { generateQuery } from 'Util/Url';
+import { PureComponent } from 'react';
+
+import CategoryPaginationLink from 'Component/CategoryPaginationLink';
+import TextPlaceholder from 'Component/TextPlaceholder';
+
 import './CategoryPagination.style';
 
-class CategoryPagination extends Component {
-    renderPreviousPageLink(page) {
-        return this.renderPageLink(page, __('Previous page'), false, '<');
-    }
+/** @namespace Component/CategoryPagination/Component */
+export class CategoryPagination extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        pathname: PropTypes.string.isRequired,
+        onPageSelect: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        getSearchQuery: PropTypes.func.isRequired,
+        paginationFrame: PropTypes.number,
+        paginationFrameSkip: PropTypes.number,
+        anchorTextPrevious: PropTypes.string,
+        anchorTextNext: PropTypes.string
+    };
 
-    renderPageLinks() {
-        const { totalPages: length, currentPage } = this.props;
+    static defaultProps = {
+        isLoading: false,
+        paginationFrame: 5,
+        paginationFrameSkip: 4,
+        anchorTextPrevious: '',
+        anchorTextNext: ''
+    };
 
-        return Array.from(
-            { length },
-            ((_, i) => this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, i + 1))
+    renderPreviousPageLink() {
+        const {
+            anchorTextPrevious,
+            currentPage
+        } = this.props;
+
+        if (currentPage <= 1) {
+            return (
+                <li block="CategoryPagination" elem="ListItem" />
+            );
+        }
+
+        return this.renderPageLink(
+            currentPage - 1,
+            __('Previous page'),
+            anchorTextPrevious || this.renderPageIcon()
         );
     }
 
-    renderNextPageLink(page) {
-        return this.renderPageLink(page, __('Next page'), false, '>');
-    }
-
-    renderPageLink(pageNumber, label, isCurrent, text) {
+    renderPageLinks() {
         const {
-            category: { url_path }, getPage, location, history
+            totalPages,
+            paginationFrame,
+            paginationFrameSkip,
+            currentPage
         } = this.props;
 
-        const page = pageNumber !== 1 ? pageNumber : '';
-        const search = generateQuery({ page }, location, history);
+        let pages = [];
+        let i;
 
-        const active = isCurrent ? ' CategoryPagination-PaginationLink_active' : '';
-        const className = `CategoryPagination-PaginationLink${active}`;
+        // Render next pagination links
+        for (i = currentPage; i <= currentPage + paginationFrame; i++) {
+            if (i <= totalPages && pages.length <= paginationFrameSkip) {
+                pages.push(this.renderPageLink(
+                    i,
+                    __('Page %s', i),
+                    i.toString(),
+                    i === currentPage
+                ));
+            }
+        }
+
+        // Render previous pagination links if necessary
+        for (i = 1; i < currentPage; i++) {
+            if (pages.length < paginationFrame) {
+                const id = currentPage - i;
+                const pageData = this.renderPageLink(
+                    id,
+                    __('Page %s', id),
+                    id.toString()
+                );
+
+                pages = [pageData, ...pages];
+            }
+        }
+
+        // Edge case for rendering correct count of next links when current page is 1
+        if (currentPage === 1 && pages.length < totalPages) {
+            for (i = pages.length + 1; i <= paginationFrame; i++) {
+                pages.push(this.renderPageLink(
+                    i,
+                    __('Page %s', i),
+                    i.toString()
+                ));
+            }
+        }
+
+        return pages;
+    }
+
+    renderPageIcon(isNext = false) {
+        return (
+            <span
+              block="CategoryPagination"
+              elem="Icon"
+              mods={ { isNext } }
+            />
+        );
+    }
+
+    renderNextPageLink() {
+        const {
+            anchorTextNext,
+            currentPage,
+            totalPages
+        } = this.props;
+
+        if (currentPage > totalPages - 1) {
+            return (
+                <li block="CategoryPagination" elem="ListItem" />
+            );
+        }
+
+        return this.renderPageLink(
+            currentPage + 1,
+            __('Next page'),
+            anchorTextNext || this.renderPageIcon(true)
+        );
+    }
+
+    renderPageLink(
+        pageNumber,
+        label,
+        children,
+        isCurrent = false
+    ) {
+        const {
+            pathname,
+            onPageSelect,
+            getSearchQuery
+        } = this.props;
 
         return (
             <li
-              key={ page }
+              key={ pageNumber }
               block="CategoryPagination"
               elem="ListItem"
             >
-                <Link
-                  to={ {
-                      pathname: `/category/${ url_path }`,
-                      search
-                  } }
-                  aria-label={ label }
-                  className={ className }
-                  aria-current={ isCurrent ? 'page' : 'false' }
-                  onClick={ () => getPage(pageNumber) }
+                <CategoryPaginationLink
+                  label={ label }
+                  url_path={ pathname }
+                  getPage={ onPageSelect }
+                  isCurrent={ isCurrent }
+                  pageNumber={ pageNumber }
+                  getSearchQueryForPage={ getSearchQuery }
                 >
-                    { text }
-                </Link>
+                    { children }
+                </CategoryPaginationLink>
             </li>
         );
     }
 
+    renderPlaceholder() {
+        return (
+            <ul block="CategoryPagination" mods={ { isLoading: true } }>
+                { Array.from({ length: 4 }, (_, i) => (
+                    <li
+                      key={ i }
+                      block="CategoryPagination"
+                      elem="ListItem"
+                    >
+                        <TextPlaceholder length="block" />
+                    </li>
+                )) }
+            </ul>
+        );
+    }
+
     render() {
-        const {
-            totalPages, currentPage, ariaLabel
-        } = this.props;
+        const { isLoading, totalPages } = this.props;
+
+        if (totalPages === 1) { // do not show pagination, if there are less then one page
+            return <ul block="CategoryPagination" />;
+        }
+
+        if (isLoading) {
+            return this.renderPlaceholder();
+        }
 
         return (
-            <nav aria-label={ ariaLabel }>
+            <nav aria-label={ __('Product list navigation') }>
                 <ul block="CategoryPagination">
-                    { (currentPage > 1)
-                        ? this.renderPreviousPageLink(currentPage - 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                    { this.renderPreviousPageLink() }
                     { this.renderPageLinks() }
-                    { (currentPage <= totalPages - 1)
-                        ? this.renderNextPageLink(currentPage + 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                    { this.renderNextPageLink() }
                 </ul>
             </nav>
         );
     }
 }
-
-CategoryPagination.propTypes = {
-    ariaLabel: PropTypes.string,
-    getPage: PropTypes.func.isRequired,
-    category: CategoryTreeType.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired
-};
-
-CategoryPagination.defaultProps = {
-    ariaLabel: ''
-};
 
 export default CategoryPagination;

@@ -10,27 +10,41 @@
  */
 
 import {
-    UPDATE_URL_REWRITE,
-    CLEAR_URL_REWRITE
+    IS_LOADING_URL_REWRITE,
+    UPDATE_URL_REWRITE
 } from './UrlRewrites.action';
 
-const initialState = {
-    urlRewrite: {}
-};
+/** @namespace Store/UrlRewrites/Reducer/getInitialState */
+export const getInitialState = () => ({
+    urlRewrite: {},
+    isLoading: false
+});
 
-const UrlRewritesReducer = (state = initialState, action) => {
+/** @namespace Store/UrlRewrites/Reducer */
+export const UrlRewritesReducer = (
+    state = getInitialState(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_URL_REWRITE:
-        const { urlRewrite } = action;
+        const {
+            urlRewrite,
+            requestedUrl
+        } = action;
 
         return {
             ...state,
-            urlRewrite
+            isLoading: false,
+            urlRewrite,
+            requestedUrl
         };
-    case CLEAR_URL_REWRITE:
+
+    case IS_LOADING_URL_REWRITE:
+        const { isLoading } = action;
+
         return {
             ...state,
-            urlRewrite: {}
+            isLoading
         };
     default:
         return state;

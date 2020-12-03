@@ -9,112 +9,82 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ContentWrapper from 'Component/ContentWrapper';
+import { PureComponent } from 'react';
+
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import Meta from 'Component/Meta';
-import { getUrlParam } from 'Util/Url';
 import { BlockListType } from 'Type/CMS';
+
 import './CmsPage.style';
 
-class CmsPage extends Component {
-    componentDidMount() {
-        const {
-            requestPage,
-            location,
-            match,
-            enableBreadcrumbs,
-            cmsId,
-            isOnlyPlaceholder,
-            updateCmsPage
-        } = this.props;
-        const urlParam = getUrlParam(match, location);
+/** @namespace Route/CmsPage/Component */
+export class CmsPage extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool.isRequired,
+        isBreadcrumbsActive: PropTypes.bool,
+        page: BlockListType.isRequired
+    };
 
-        updateCmsPage({});
-        if (!isOnlyPlaceholder) requestPage({ id: cmsId || urlParam });
-        enableBreadcrumbs();
+    static defaultProps = {
+        isBreadcrumbsActive: true
+    };
+
+    renderHeading() {
+        const { page: { content_heading } } = this.props;
+
+        if (!content_heading) {
+            return null;
+        }
+
+        return (
+            <h1 block="CmsPage" elem="Heading">
+                <TextPlaceholder content={ content_heading } />
+            </h1>
+        );
     }
 
-    componentDidUpdate(prevProps) {
+    renderContent() {
         const {
-            updateBreadcrumbs,
-            page,
-            requestPage,
-            match,
-            location,
-            location: {
-                pathname
-            },
-            cmsId
+            isLoading,
+            page: { content }
         } = this.props;
-        const {
-            location: {
-                pathname: prevPathname
-            },
-            cmsId: prevCmsId
-        } = prevProps;
 
-        updateBreadcrumbs(page);
-        if (pathname !== prevPathname || cmsId !== prevCmsId) {
-            const urlParam = getUrlParam(match, location);
-            requestPage({ id: cmsId || urlParam });
+        if (isLoading) {
+            return (
+                <>
+                    <div block="CmsPage" elem="SectionPlaceholder" />
+                    <div block="CmsPage" elem="SectionPlaceholder" />
+                    <div block="CmsPage" elem="SectionPlaceholder" />
+                </>
+            );
         }
+
+        if (!isLoading && !content) {
+            return null;
+        }
+
+        return <Html content={ content } />;
     }
 
     render() {
-        const { page } = this.props;
-        const { page: { content, content_heading } } = this.props;
+        const { page, isBreadcrumbsActive } = this.props;
+        const { page_width } = page;
 
         return (
-            <main block="CmsPage">
-                <ContentWrapper
-                  wrapperMix={ { block: 'CmsPage', elem: 'Wrapper' } }
-                  label="CMS page"
-                >
-                    <Meta metaObject={ page } />
-                    <h1 block="CmsPage" elem="Heading">
-                        <TextPlaceholder content={ content_heading } />
-                    </h1>
+            <main
+              block="CmsPage"
+              mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
+            >
+                <div block="CmsPage" elem="Wrapper" mods={ { page_width } }>
+                    { this.renderHeading() }
                     <div block="CmsPage" elem="Content">
-                        { content
-                            ? <Html content={ content } />
-                            : (
-                                <p block="CmsPage" elem="PlaceholderBlock">
-                                    <TextPlaceholder length="paragraph" />
-                                    <TextPlaceholder length="long" />
-                                    <TextPlaceholder length="paragraph" />
-                                    <TextPlaceholder length="medium" />
-                                </p>
-                            )
-                        }
+                        { this.renderContent() }
                     </div>
-                </ContentWrapper>
+                </div>
             </main>
         );
     }
 }
-
-CmsPage.propTypes = {
-    requestPage: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            id: PropTypes.string
-        }).isRequired
-    }).isRequired,
-    page: BlockListType.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    location: PropTypes.shape().isRequired,
-    enableBreadcrumbs: PropTypes.func.isRequired,
-    updateCmsPage: PropTypes.func.isRequired,
-    cmsId: PropTypes.number,
-    isOnlyPlaceholder: PropTypes.bool
-};
-
-CmsPage.defaultProps = {
-    cmsId: 0,
-    isOnlyPlaceholder: false
-};
 
 export default CmsPage;

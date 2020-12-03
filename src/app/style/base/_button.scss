@@ -9,7 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.Button,
-button {
+:root {
+    --button-padding: 13px 22px;
+    --button-color: #{$white};
+    --button-background: var(--primary-base-color);
+    --button-border: var(--primary-base-color);
+    --button-hover-background: var(--primary-dark-color);
+    --button-hover-color: #{$white};
+    --button-hover-border: var(--primary-base-color);
+    --button-border-width: 1px;
+}
+
+.Button {
     @include button;
+}
+
+button {
+    background-color: transparent;
 }

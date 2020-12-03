@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { updateBreadcrumbs, toggleBreadcrumbs } from 'Store/Breadcrumbs';
+import { toggleBreadcrumbs, updateBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 
 /**
  * Breadcrumbs Dispatcher
  * @class BreadcrumbsDispatcher
+ * @namespace Store/Breadcrumbs/Dispatcher
  */
 export class BreadcrumbsDispatcher {
     /**
@@ -66,7 +67,7 @@ export class BreadcrumbsDispatcher {
                 },
                 {
                     url: '/',
-                    name: 'Home'
+                    name: __('Home')
                 }
             ]
             : [];
@@ -81,20 +82,36 @@ export class BreadcrumbsDispatcher {
      * @memberof BreadcrumbsDispatcher
      */
     _getCategoryBreadcrumbs(category) {
-        const { url_path, name, breadcrumbs } = category;
+        const { url, name, breadcrumbs } = category;
         const breadcrumbsList = [];
 
         if (breadcrumbs) {
-            breadcrumbs.sort((a, b) => b.category_level - a.category_level)
-                .map(({ category_name, category_url_key }) => breadcrumbsList.push({
-                    url: `/category/${category_url_key}`,
-                    name: category_name
-                }));
+            breadcrumbs
+                .sort((a, b) => a.category_level - b.category_level)
+                .forEach((crumb) => {
+                    const { category_url, category_name, category_is_active } = crumb;
+
+                    // do not add link to inactive categories
+                    if (category_is_active) {
+                        breadcrumbsList.push({
+                            name: category_name,
+                            url: {
+                                pathname: category_url,
+                                state: { category: true }
+                            }
+                        });
+                    } else {
+                        breadcrumbsList.push({
+                            url: '',
+                            name: category_name
+                        });
+                    }
+                });
         }
 
         return [
-            { url: `/category/${url_path}`, name },
-            ...breadcrumbsList
+            { url, name },
+            ...breadcrumbsList.reverse()
         ];
     }
 
@@ -105,31 +122,41 @@ export class BreadcrumbsDispatcher {
      * @memberof BreadcrumbsDispatcher
      */
     _getProductBreadcrumbs(product) {
-        const { categories, url_key, name } = product;
-        const breadcrumbsList = [];
+        const { categories, url, name } = product;
 
-        if (categories.length) {
-            let breadcrumbsCategory = {};
-            let longestBreadcrumbsLength = 0;
-
-            categories.forEach((category) => {
-                if (category.breadcrumbs) {
-                    const currentCategoryLength = category.breadcrumbs.length;
-                    if (currentCategoryLength > longestBreadcrumbsLength) {
-                        breadcrumbsCategory = category;
-                        longestBreadcrumbsLength = currentCategoryLength;
-                    }
-                } else if (longestBreadcrumbsLength === 0) {
-                    breadcrumbsCategory = category;
-                }
-            });
-
-            breadcrumbsList.push(...this._getCategoryBreadcrumbs(breadcrumbsCategory));
+        if (!categories || !categories.length) {
+            return [];
         }
 
+        const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
+            const { longestBreadcrumbsLength } = acc;
+            const { breadcrumbs } = category;
+            const breadcrumbsLength = (breadcrumbs || []).length;
+
+            if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) {
+                return acc;
+            }
+
+            if (longestBreadcrumbsLength === 0) {
+                return { ...acc, breadcrumbsCategory: category };
+            }
+
+            if (breadcrumbsLength <= longestBreadcrumbsLength) {
+                return acc;
+            }
+
+            return {
+                breadcrumbsCategory: category,
+                longestBreadcrumbsLength: breadcrumbsLength
+            };
+        }, {
+            breadcrumbsCategory: {},
+            longestBreadcrumbsLength: 0
+        });
+
         return [
-            { url: `/product/${url_key}`, name },
-            ...breadcrumbsList
+            { url, name },
+            ...this._getCategoryBreadcrumbs(breadcrumbsCategory)
         ];
     }
 }

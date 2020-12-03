@@ -11,9 +11,25 @@
 
 .NotificationList {
     position: fixed;
-    z-index: 100;
-    top: 30px;
+    z-index: 300;
+    top: calc(var(--header-height) + var(--breadcrumbs-height) + 20px);
     right: 30px;
     max-width: 550px;
     list-style: none;
+
+    @include after-mobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    @include mobile {
+        overflow: hidden;
+        max-width: 100vw;
+        position: sticky;
+        width: 100%;
+        top: var(--header-total-height);
+        right: 0;
+    }
 }

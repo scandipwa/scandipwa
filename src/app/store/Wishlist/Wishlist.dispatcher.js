@@ -9,19 +9,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation, fetchQuery } from 'Util/Request';
+import WishlistQuery from 'Query/Wishlist.query';
+import { showNotification } from 'Store/Notification/Notification.action';
 import {
+    clearWishlist,
     removeItemFromWishlist,
     updateAllProductsInWishlist,
-    productToBeRemovedAfterAdd
-} from 'Store/Wishlist';
-import { showNotification } from 'Store/Notification';
+    updateIsLoading,
+    updateItemOptions
+} from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
-import { Wishlist } from 'Query';
+import { fetchMutation, fetchQuery } from 'Util/Request';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
 
 /**
  * Product Wishlist Dispatcher
  * @class WishlistDispatcher
+ * @namespace Store/Wishlist/Dispatcher
  */
 export class WishlistDispatcher {
     updateInitialWishlistData(dispatch) {
@@ -34,64 +42,57 @@ export class WishlistDispatcher {
 
     _syncWishlistWithBE(dispatch) {
         // Need to get current wishlist from BE, update wishlist
-        return fetchQuery(Wishlist.getWishlistQuery()).then(
+        return fetchQuery(WishlistQuery.getWishlistQuery()).then(
+            /** @namespace Store/Wishlist/Dispatcher/_syncWishlistWithBEFetchQueryThen */
             (data) => {
                 if (data && data.wishlist && data.wishlist.items_count) {
                     const { wishlist } = data;
                     const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
-                        const { product } = wishlistItem;
-                        const item_id = wishlistItem.id;
-                        const { id } = product;
+                        const {
+                            id,
+                            sku,
+                            product,
+                            description,
+                            qty: quantity
+                        } = wishlistItem;
 
                         return {
                             ...prev,
                             [id]: {
                                 ...product,
-                                item_id
+                                quantity,
+                                wishlist: {
+                                    id,
+                                    sku,
+                                    quantity,
+                                    description
+                                }
                             }
                         };
                     }, {});
 
                     dispatch(updateAllProductsInWishlist(productsToAdd));
+                } else {
+                    dispatch(updateIsLoading(false));
                 }
             },
-            // eslint-disable-next-line no-console
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/Wishlist/Dispatcher/_syncWishlistWithBEFetchQueryError */
+            (error) => {
+                // eslint-disable-next-line no-console
+                console.log(error);
+                dispatch(updateIsLoading(false));
+            }
         );
     }
 
-    addItemToWishlist(dispatch, options) {
-        const { product } = options;
-        const { sku } = product;
-        const productToAdd = { sku };
+    addItemToWishlist(dispatch, wishlistItem) {
+        dispatch(updateIsLoading(true));
+        dispatch(showNotification('success', __('Product added to wish-list!')));
 
-        return fetchMutation(Wishlist.getAddProductToWishlistMutation(
-            productToAdd
-        )).then(
-            () => this._syncWishlistWithBE(dispatch).then(
-                () => dispatch(showNotification('success', __('Product has been added to your Wish List!')))
-            ),
-            // eslint-disable-next-line no-console
-            error => dispatch(showNotification('error', __('Error updating wish list!'))) && console.log(error)
-        );
-    }
-
-    removeItemFromWishlist(dispatch, { product, noMessages }) {
-        if (!product) return null;
-        if (noMessages) {
-            return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
-                () => {
-                    dispatch(removeItemFromWishlist(product));
-                    dispatch(productToBeRemovedAfterAdd(''));
-                }
-            );
-        }
-
-        return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
-            () => {
-                dispatch(removeItemFromWishlist(product));
-                dispatch(showNotification('success', __('Product has been removed from your Wish List!')));
-            },
+        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(wishlistItem)).then(
+            /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationThen */
+            () => this._syncWishlistWithBE(dispatch),
+            /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationError */
             (error) => {
                 dispatch(showNotification('error', __('Error updating wish list!')));
                 // eslint-disable-next-line no-console
@@ -100,11 +101,88 @@ export class WishlistDispatcher {
         );
     }
 
-    updateProductToBeRemovedAfterAdd(dispatch, options) {
-        const { product: { sku } } = options;
-        if (sku) return dispatch(productToBeRemovedAfterAdd(sku));
+    updateWishlistItem(dispatch, options) {
+        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(options)).then(
+            /** @namespace Store/Wishlist/Dispatcher/updateWishlistItemFetchMutationThen */
+            () => dispatch(updateItemOptions(options))
+        );
+    }
 
-        return dispatch(productToBeRemovedAfterAdd(''));
+    clearWishlist(dispatch) {
+        return fetchMutation(WishlistQuery.getClearWishlist())
+            .then(
+                /** @namespace Store/Wishlist/Dispatcher/clearWishlistFetchMutationThen */
+                () => dispatch(clearWishlist())
+            )
+            .catch(
+                /** @namespace Store/Wishlist/Dispatcher/clearWishlistFetchMutationThenCatch */
+                () => dispatch(showNotification('error', __('Error clearing wish list!')))
+            );
+    }
+
+    moveWishlistToCart(dispatch, sharingCode) {
+        return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
+            .then(
+                /** @namespace Store/Wishlist/Dispatcher/moveWishlistToCartFetchMutationThen */
+                () => {
+                    dispatch(clearWishlist());
+                    CartDispatcher.then(
+                        ({ default: dispatcher }) => dispatcher._syncCartWithBE(dispatch)
+                    );
+                }
+            );
+    }
+
+    removeItemFromWishlist(dispatch, { item_id, noMessages }) {
+        if (!item_id) {
+            return null;
+        }
+        dispatch(updateIsLoading(true));
+
+        if (noMessages) {
+            return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
+                /** @namespace Store/Wishlist/Dispatcher/removeItemFromWishlistNoMessagesFetchMutationThen */
+                () => dispatch(removeItemFromWishlist(item_id))
+            );
+        }
+
+        dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
+
+        return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
+            /** @namespace Store/Wishlist/Dispatcher/removeItemFromWishlistFetchMutationThen */
+            () => dispatch(removeItemFromWishlist(item_id)),
+            /** @namespace Store/Wishlist/Dispatcher/removeItemFromWishlistFetchMutationError */
+            (error) => {
+                dispatch(showNotification('error', __('Error updating wish list!')));
+                // eslint-disable-next-line no-console
+                console.log(error);
+            }
+        );
+    }
+
+    // TODO: Need to make it in one request
+    removeItemsFromWishlist(dispatch, itemIdMap) {
+        if (!itemIdMap.length) {
+            return null;
+        }
+
+        return itemIdMap.map((id) => (
+            fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(id)).then(
+                /** @namespace Store/Wishlist/Dispatcher/removeItemsFromWishlistNoMessagesFetchMutationThen */
+                () => {
+                    dispatch(removeItemFromWishlist(id));
+                    dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
+                },
+                /** @namespace Store/Wishlist/Dispatcher/removeItemsFromWishlistFetchMutationError */
+                (error) => {
+                    const [message] = error;
+
+                    dispatch(showNotification('error', message || __('Error updating wishlist!')));
+                    // eslint-disable-next-line no-console
+                    console.log(error);
+                }
+            )
+        ));
     }
 }
 

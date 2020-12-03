@@ -9,35 +9,45 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import './Loader.style';
 
 /**
  * Loader component
  * Loaders overlay to identify loading
  * @class Loader
+ * @namespace Component/Loader/Component
  */
-class Loader extends Component {
+export class Loader extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool.isRequired
+    };
+
+    renderMain() {
+        return (
+            <div block="Loader" elem="Main">
+                <span />
+            </div>
+        );
+    }
+
     render() {
         const { isLoading } = this.props;
 
-        if (!isLoading) return null;
+        if (!isLoading) {
+            return null;
+        }
 
         return (
-            <div block="Loader" elem="LoaderWrapper">
-                <div block="Loader" elem="Main">
-                    <div />
-                    <div />
-                    <div />
+            <div block="Loader">
+                <div block="Loader" elem="Scale">
+                    { this.renderMain() }
                 </div>
             </div>
         );
     }
 }
-
-Loader.propTypes = {
-    isLoading: PropTypes.bool.isRequired
-};
 
 export default Loader;

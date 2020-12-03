@@ -9,141 +9,74 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.Slider {
-    --arrow-color: var(--color-neutral-base);
-    --transition-duration: 750ms; /* to sync CSS animation and JS callback */
-    --translate-percentage: 0%; /* to sync CSS animation and JS callback */
+:root {
+    --slider-crumb-color: #fff;
+    --slider-crumb-background: #000;
+}
 
-    &-Button {
-        padding: 0;
-        margin: 0;
-        width: 3rem;
+.Slider {
+    --translateX: 0;
+    --translateY: 0;
+    --animation-speed: 0;
+    --slider-height: 0;
+    --slide-height: 0;
+    --slide-width: 0;
+    --height-transition-speed: 0;
+
+    max-width: 100%;
+    overflow: hidden;
+    touch-action: pan-y;
+
+    transition: height var(--height-transition-speed);
+
+    &-Wrapper {
+        display: flex;
+        align-items: flex-start;
         height: 100%;
-        left: 0;
-        top: 0;
+
+        will-change: transform;
+        transition: transform var(--animation-speed);
+        transform: translate3d(var(--translateX), var(--translateY), 0);
+
+        > * {
+            flex-grow: 1;
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        &_isVertical {
+            flex-direction: column;
+        }
+    }
+
+    &-Crumbs {
         position: absolute;
+        margin: auto;
+        display: grid;
+        grid-gap: 10px;
+
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, 7px);
+        justify-content: center;
+        bottom: 1.2rem;
 
         @include mobile {
-            display: none;
-        }
-
-        &::after {
-            content: '';
-            transform: rotate(135deg);
-            border: solid var(--arrow-color);
-            border-width: 0 3px 3px 0;
-            display: inline-block;
-            padding: 8px;
-        }
-
-        &_forward {
-            right: 0;
-            left: initial;
-
-            &::after {
-                transform: rotate(-45deg);
-            }
-        }
-
-        &:disabled {
-            visibility: hidden;
+            bottom: 1.4rem;
         }
     }
 
-    &-SlideArea {
-        height: 100%;
-    }
-    
-    &-Wrapper {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    &-Carousel {
-        display: flex;
-        top: 0;
-        height: 100%;
-        transform: translate3d(var(--translate-percentage), 0, 0);
-        will-change: transform;
-        transition: transform var(--transition-duration);
-    }
-
-    &-Slide {
-        padding: 0;
-        height: 100%;
-
-        &::before {
-            content: none;
-        }
-
-        figure {
-            padding-bottom: 0;
-            height: 100%;
-
-            figcaption {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                margin-left: 10%;
-
-                & > div {
-                    font-size: 2rem;
-                    margin-bottom: 2rem;
-
-                    & > span:first-child {
-                        font-size: 4.5rem;
-                    }
-
-                    span {
-                        display: block;
-            
-                        &:last-child {
-                            display: inline;
-                        }
-                    }
-                }
-
-                button {
-                    width: 18rem;
-                    z-index: 1;
-                }
-            }
-
-            img {
-                object-fit: contain;
-            }
-        }
-    }
-
-    &-Breadcrumbs {
-        display: flex;
-        position: absolute;
-        z-index: 1;
-        bottom: 0;
-        width: 100%;
-        align-items: flex-end;
-        justify-content: center;
-    }
-
-    &-Breadcrumb {
-        --breadcrumb-color: var(--color-neutral-dark);
-        --breadcrumb-color-active: var(--color-primary-base);
-
-        width: 9px;
-        height: 9px;
-        padding: 0;
+    &-Crumb {
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
-        border: none;
-        margin-bottom: 1rem;
-        background-color: var(--breadcrumb-color);
+        background-color: var(--slider-crumb-background);
+        border: 1px solid var(--slider-crumb-color);
+        transition: background-color 300ms;
 
-        &_active {
-            background-color: var(--breadcrumb-color-active);
-        }
-
-        &:not([disabled]):hover,
-        &:not([disabled]):focus {
-            background-color: var(--breadcrumb-color-active);
+        &_isActive {
+            background-color: var(--slider-crumb-color);
+            border-color: var(--slider-crumb-background);
         }
     }
 }

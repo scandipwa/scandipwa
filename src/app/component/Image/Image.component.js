@@ -1,3 +1,5 @@
+/* eslint-disable react/no-did-update-set-state */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,206 +11,189 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable prefer-promise-reject-errors */
-// Disabled due promise being reject with custom error (isCanceled)
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { createRef, PureComponent } from 'react';
+
+import { MixType } from 'Type/Common';
+
+import {
+    IMAGE_LOADED, IMAGE_LOADING, IMAGE_NOT_FOUND, IMAGE_NOT_SPECIFIED
+} from './Image.config';
+
 import './Image.style';
 
 /**
  * Image component
  * Images are loaded only when they appear in a viewport
  * @class Image
+ * @namespace Component/Image/Component
  */
-class Image extends Component {
-    constructor(props) {
-        super(props);
-        this.promiseStorage = [];
+export class Image extends PureComponent {
+    static propTypes = {
+        isPlaceholder: PropTypes.bool,
+        title: PropTypes.string,
+        src: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]),
+        style: PropTypes.shape({
+            width: PropTypes.string,
+            height: PropTypes.string
+        }),
+        alt: PropTypes.string,
+        className: PropTypes.string,
+        ratio: PropTypes.oneOf([
+            '4x3',
+            '16x9',
+            'square',
+            'custom'
+        ]),
+        wrapperSize: PropTypes.shape({
+            height: PropTypes.string
+        }),
+        mix: MixType,
+        imageRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ])
+    };
 
-        this.state = {
-            isImageLoaded: false,
-            showImage: false,
-            isImageMissing: false
-        };
+    static defaultProps = {
+        className: '',
+        src: '',
+        alt: '',
+        ratio: 'square',
+        mix: {},
+        isPlaceholder: false,
+        wrapperSize: {},
+        style: {},
+        title: null,
+        imageRef: () => {}
+    };
 
-        this.observer = null;
-        this.onLoadingError = this.onLoadingError.bind(this);
-    }
+    image = createRef();
+
+    state = { imageStatus: IMAGE_LOADING };
+
+    onError = this.onError.bind(this);
+
+    onLoad = this.onLoad.bind(this);
 
     componentDidMount() {
-        if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(() => this.showImage(), { timeout: 50 });
-        } else {
-            setTimeout(this.showImage(), 1);
+        this.onImageChange();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { src: prevSrc } = prevProps;
+        const { src } = this.props;
+
+        if (src !== prevSrc) {
+            this.onImageChange();
         }
     }
 
-    componentWillUnmount() {
-        this.stopObserving();
-    }
+    onImageChange() {
+        const { src } = this.props;
 
-    onLoadingError() {
-        this.setState({ isImageMissing: true })
-    }
-
-    /**
-     * Listens for every picture element load
-     * @param {Object} img SyntheticEvent
-     * @return {void}
-     */
-    onImageLoad(img) {
-        const isPlacehodlerLoaded = (img.target.currentSrc.includes('.svg'));
-        const isImageLoaded = (img.target.currentSrc.includes('.webp')
-            || img.target.currentSrc.includes('.jpg'));
-
-        if (isImageLoaded) {
-            this.setState({ isImageLoaded });
+        if (!src) {
+            return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
         }
 
-        if (isPlacehodlerLoaded) {
-            this.setState({ isPlacehodlerLoaded });
+        return this.setState({ imageStatus: IMAGE_LOADING });
+    }
+
+    onError() {
+        this.setState({ imageStatus: IMAGE_NOT_FOUND });
+    }
+
+    onLoad() {
+        this.setState({ imageStatus: IMAGE_LOADED });
+    }
+
+    renderImageNotFound() {
+        if (navigator.onLine) {
+            return (
+                <span block="Image" elem="Content">{ __('Image not found') }</span>
+            );
         }
+
+        return <span block="Image" elem="Content" mods={ { isOffline: true } } />;
     }
 
-    /**
-     * Parses given url to get desired extension
-     * @param  {Object} img SyntheticEvent
-     * @return {void}
-     */
-    getUrlWithExtension(url, extension) {
-        // return url;
-        if (url) {
-            const path = url.includes('/media/jpg')
-                ? url.replace('/media/jpg', `/media/${ extension }`)
-                : url.replace('/media', `/media/${ extension }`);
-            return path.replace(/\.[^/.]+$/, `.${ extension }`);
+    renderImage() {
+        const {
+            alt,
+            isPlaceholder,
+            src,
+            style,
+            title
+        } = this.props;
+        const { imageStatus } = this.state;
+
+        if (isPlaceholder) {
+            return null;
         }
 
-        return null;
-    }
-
-    stopObserving() {
-        if (this.observer) {
-            if (this.observer.unobserve) {
-                this.observer.unobserve(this.node);
-            }
-            if (this.observer.disconnect) {
-                this.observer.disconnect();
-            }
-            this.observer = null;
-        }
-    }
-
-    isInViewport(el) {
-        const rect = el.getBoundingClientRect();
-
-        return (
-            rect.top >= 0
-            && rect.left >= 0
-            && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-            && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    }
-
-    showImage() {
-        if (this.node && this.isInViewport(this.node)) this.setState({ showImage: true });
-
-        if (this.node) {
-            if ('IntersectionObserver' in window) {
-                const options = {
-                    rootMargin: '0px',
-                    threshold: 0.1
-                };
-
-                this.observer = new IntersectionObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.intersectionRatio > 0) {
-                            this.stopObserving();
-                            this.setState({
-                                showImage: true
-                            });
-                        }
-                    });
-                }, options);
-                this.observer.observe(this.node);
-            } else {
-                this.setState({
-                    showImage: true
-                });
-            }
+        switch (imageStatus) {
+        case IMAGE_NOT_FOUND:
+            return this.renderImageNotFound();
+        case IMAGE_NOT_SPECIFIED:
+            return (
+                <span block="Image" elem="Content">{ __('Image not specified') }</span>
+            );
+        case IMAGE_LOADED:
+        case IMAGE_LOADING:
+            return (
+                <img
+                  block="Image"
+                  elem="Image"
+                  src={ src || '' }
+                  alt={ alt }
+                  mods={ { isLoading: imageStatus === IMAGE_LOADING } }
+                  style={ style }
+                  title={ title }
+                  onLoad={ this.onLoad }
+                  onError={ this.onError }
+                  loading="lazy"
+                />
+            );
+        default:
+            return null;
         }
     }
 
     render() {
         const {
-            isImageLoaded,
-            showImage,
-            isPlacehodlerLoaded,
-            isImageMissing
-        } = this.state;
-
-        const {
-            src,
-            alt,
             ratio,
-            arePlaceholdersShown,
-            showGreyPlaceholder
+            mix,
+            isPlaceholder,
+            wrapperSize,
+            src,
+            imageRef,
+            className
         } = this.props;
 
-        const isPathRelative = (path) => {
-            const isFullPath = path.match(new RegExp('^(http|https)://'));
-
-            return path.charAt(0) === '/' || isFullPath;
-        };
-
-        if (src && !isPathRelative(src)) throw new Error(`${src} is not an absolute path!`);
-
-        const isIcon = src && src.includes('.svg');
+        const { imageStatus } = this.state;
 
         return (
-            <picture
+            <div
               block="Image"
+              ref={ imageRef }
               mods={ {
                   ratio,
-                  isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
-                  isReal: !!src && !showGreyPlaceholder,
-                  isImageMissing
+                  imageStatus,
+                  isPlaceholder,
+                  hasSrc: !!src
               } }
-              ref={ (node) => { this.node = node; } }
-              onLoad={ img => this.onImageLoad(img) }
-              onError={ this.onLoadingError }
+              mix={ mix }
+              style={ wrapperSize }
+              // eslint-disable-next-line react/forbid-dom-props
+              className={ className }
             >
-                { (!arePlaceholdersShown || showImage) && src && !isIcon
-                    && <>
-                        <source srcSet={ src && this.getUrlWithExtension(src, 'webp') } type="image/webp" />
-                        <source srcSet={ src } type="image/jpeg" />
-                        <source srcSet={ src && src.replace('/media/jpg', '/media') } />
-                    </>
-                }
-                { src && <img src={ this.getUrlWithExtension(src, 'svg') } alt={ alt } /> }
-            </picture>
+                { this.renderImage() }
+            </div>
         );
     }
 }
-
-Image.propTypes = {
-    src: PropTypes.string,
-    alt: PropTypes.string,
-    ratio: PropTypes.oneOf([
-        '4x3',
-        '16x9',
-        'square'
-    ]),
-    arePlaceholdersShown: PropTypes.bool,
-    showGreyPlaceholder: PropTypes.bool
-};
-
-Image.defaultProps = {
-    src: '',
-    alt: '',
-    ratio: 'square',
-    arePlaceholdersShown: false,
-    showGreyPlaceholder: false
-};
 
 export default Image;

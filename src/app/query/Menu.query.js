@@ -13,33 +13,48 @@ import { Field } from 'Util/Query';
 /**
  * Menu Query
  * @class MenuQuery
+ * @namespace Query/Menu
  */
-class MenuQuery {
+export class MenuQuery {
     /**
      * get Menu query
-     * @param  {{menuId: String}} options A object containing different aspects of query, each item can be omitted
+     * @param  {{identifier: String}} options A object containing different aspects of query, each item can be omitted
      * @return {Field} Menu query
      * @memberof MenuQuery
      */
-    getQuery(options) {
-        const { menuId } = options;
-
-        const items = new Field('items')
-            .addFieldList([
-                'item_id', 'is_active',
-                'parent_id', 'position', 'title',
-                'item_class', 'url', 'url_type',
-                'cms_page_identifier', 'category_id'
-            ]);
-
+    getQuery({ identifier }) {
         return new Field('scandiwebMenu')
-            .addArgument('id', 'ID!', menuId)
-            .addFieldList(['menu_id', 'is_active', 'css_class'])
-            .addField(items)
+            .addArgument('identifier', 'String!', identifier)
+            .addFieldList(this._getMenuFields())
             .setAlias('menu');
     }
-}
 
-export { MenuQuery };
+    _getMenuFields() {
+        return [
+            'menu_id', 'is_active', 'css_class', this._getMenuItemsField()
+        ];
+    }
+
+    _getMenuItemsField() {
+        return new Field('items')
+            .addFieldList(this._getMenuItemFields());
+    }
+
+    _getMenuItemFields() {
+        return [
+            'url',
+            'icon',
+            'title',
+            'item_id',
+            'position',
+            'url_type',
+            'parent_id',
+            'is_active',
+            'item_class',
+            'category_id',
+            'cms_page_identifier'
+        ];
+    }
+}
 
 export default new MenuQuery();

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,23 +10,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { listenForBroadCast, executeGet } from 'Util/Request/Request';
-import { prepareQuery, Field } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
+import { Field, prepareQuery } from 'Util/Query';
+import { executeGet, listenForBroadCast } from 'Util/Request/Request';
+
+export const ONE_MONTH_IN_SECONDS = 2592000;
+export const FIVE_MINUTES_IN_SECONDS = 300;
 
 /**
  * Abstract request dispatcher.
  * IMPORTANT: it is required to implement `prepareRequest(options)` before using!
  * @class QueryDispatcher
+ * @namespace Util/Request/QueryDispatcher
  */
-class QueryDispatcher {
+export class QueryDispatcher {
     /**
      * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
      * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
      * @memberof QueryDispatcher
      */
-    constructor(name, cacheTTL) {
+    __construct(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
+        super.__construct();
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;
@@ -39,25 +45,41 @@ class QueryDispatcher {
      */
     handleData(dispatch, options) {
         const { name, cacheTTL } = this;
+
         const rawQueries = this.prepareRequest(options, dispatch);
+
+        if (!rawQueries) {
+            return;
+        }
+
         const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
 
-        if (this.promise) this.promise.cancel();
+        if (this.promise) {
+            this.promise.cancel();
+        }
 
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {
                 executeGet(prepareQuery(queries), name, cacheTTL)
-                    .then(data => resolve(data), error => reject(error));
+                    .then(
+                        /** @namespace Util/Request/QueryDispatcher/handleData/executeGetThen */
+                        (data) => resolve(data),
+                        /** @namespace Util/Request/QueryDispatcher/handleData/executeGetError */
+                        (error) => reject(error)
+                    );
             })
         );
 
         this.promise.promise.then(
-            data => this.onSuccess(data, dispatch, options),
-            error => this.onError(error, dispatch, options),
+            /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseThen */
+            (data) => this.onSuccess(data, dispatch, options),
+            /** @namespace Util/Request/QueryDispatcher/handleData/thisPromisePromiseError */
+            (error) => this.onError(error, dispatch, options),
         );
 
         listenForBroadCast(name).then(
-            data => this.onUpdate(data, dispatch, options),
+            /** @namespace Util/Request/QueryDispatcher/handleData/listenForBroadCastThen */
+            (data) => this.onUpdate(data, dispatch, options),
         );
     }
 

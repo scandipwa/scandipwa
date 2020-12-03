@@ -1,0 +1,42 @@
+name: Build the theme (v2)
+
+on:
+  push:
+    branches: [ 2.x-dev ]
+  pull_request:
+    branches: [ 2.x-dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PROJECTROOT: app/design/frontend/Scandiweb/pwa
+      FALLBACKROOT: vendor/scandipwa/source
+    steps:
+    
+    - name: Get the updated repository
+      uses: actions/checkout@v2
+      with:
+        path: vendor/scandipwa/source
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2.1.0
+      with:
+        node-version: 10.19.0
+
+    - name: Bootstrap the theme
+      run: |
+        cp -r $FALLBACKROOT/.github/bootstrapper/* .
+        npm ci
+        npm run bootstrap
+        
+    - name: Install themes dependencies
+      run: |
+        cd $PROJECTROOT
+        npm ci
+
+    - name: Build the theme
+      run: |
+        cd $PROJECTROOT
+        npm run build
+  

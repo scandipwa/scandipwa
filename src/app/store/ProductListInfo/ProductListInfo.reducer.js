@@ -10,30 +10,29 @@
  */
 
 import {
-    UPDATE_PRODUCT_LIST_INFO,
-    UPDATE_INFO_LOAD_STATUS
-} from 'Store/ProductListInfo';
+    UPDATE_INFO_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_INFO
+} from 'Store/ProductListInfo/ProductListInfo.action';
 
-const reduceFilters = filters => filters.reduce((co, item) => {
+/** @namespace Store/ProductListInfo/Reducer/reduceFilters */
+export const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
         name: attribute_label,
         filter_items
     } = item;
 
-    // TODO: Remove this hardcoded check, after solving the problem on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
-    if (attribute_code === 'cat') return co;
-
     const { attribute_values, attribute_options } = filter_items.reduce((attribute, option) => {
         const { value_string } = option;
         const { attribute_values, attribute_options } = attribute;
 
         attribute_values.push(value_string);
+
         return {
             ...attribute,
             attribute_options: {
                 ...attribute_options,
-                [+value_string]: option
+                [value_string]: option
             }
         };
     }, { attribute_values: [], attribute_options: {} });
@@ -50,41 +49,42 @@ const reduceFilters = filters => filters.reduce((co, item) => {
     };
 }, {});
 
-const initialState = {
-    totalItems: 0,
-    minPrice: -0,
-    maxPrice: Infinity,
+/** @namespace Store/ProductListInfo/Reducer/getInitialState */
+export const getInitialState = () => ({
+    minPrice: 0,
+    maxPrice: 0,
     sortFields: {},
     filters: {},
     isLoading: true
-};
+});
 
-const ProductListReducer = (state = initialState, action) => {
+/** @namespace Store/ProductListInfo/Reducer */
+export const ProductListReducer = (
+    state = getInitialState(),
+    action
+) => {
     const {
         type,
-        totalItems,
-        minPrice,
-        maxPrice,
-        sortFields,
-        filters: avaliableFilters = [],
-        isLoading
+        isLoading,
+        selectedFilter,
+        products: {
+            filters: availableFilters = [],
+            min_price,
+            max_price,
+            sort_fields: sortFields
+        } = {}
     } = action;
-
-    const {
-        minPrice: stateMinPrice,
-        maxPrice: stateMaxPrice
-    } = state;
 
     switch (type) {
     case UPDATE_PRODUCT_LIST_INFO:
         return {
             ...state,
-            filters: reduceFilters(avaliableFilters),
-            totalItems,
+            filters: reduceFilters(availableFilters),
             sortFields,
-            minPrice: Math.max(stateMinPrice, minPrice),
-            maxPrice: Math.min(stateMaxPrice, maxPrice),
-            isLoading: false
+            minPrice: Math.floor(min_price),
+            maxPrice: Math.ceil(max_price),
+            isLoading: false,
+            selectedFilter
         };
 
     case UPDATE_INFO_LOAD_STATUS:

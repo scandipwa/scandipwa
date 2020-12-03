@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-let */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,12 +11,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getStore } from 'Store';
+
+// TODO: fix no LET
+
 /**
  * Update query params without adding to history
  * @param {String} name
  * @param {String} value
+ * @namespace Util/Url/updateQueryParamWithoutHistory
  */
-const updateQueryParamWithoutHistory = (name, value, history, location) => {
+export const updateQueryParamWithoutHistory = (name, value, history, location) => {
     const { search, pathname } = location;
 
     const params = new URLSearchParams(search);
@@ -23,16 +30,61 @@ const updateQueryParamWithoutHistory = (name, value, history, location) => {
 };
 
 /**
+ * Remove query param without adding to history
+ * @param {String} name
+ * @namespace Util/Url/removeQueryParamWithoutHistory
+ */
+export const removeQueryParamWithoutHistory = (name, history, location) => {
+    const { search, pathname } = location;
+
+    const params = new URLSearchParams(search);
+    params.delete(name);
+    history.replace(decodeURIComponent(`${ pathname }?${ params }`));
+};
+
+/**
  * Get query param from url
  * @param {Object} match match object from react-router
  * @param {Object} location location object from react-router
+ * @namespace Util/Url/getUrlParam
  */
-const getUrlParam = (match, location) => {
-    const baseUrl = match.path;
-    const currentUrl = location.pathname;
+export const getUrlParam = (match, location) => {
+    const baseUrl = match.path.replace(window.storeRegexText, '').replace('/', '');
+    const currentUrl = location.pathname.replace(new RegExp(window.storeRegexText), '');
 
-    if (baseUrl === '/') return currentUrl.replace(baseUrl, '');
-    return currentUrl.replace(baseUrl, '').substring(1);
+    if (baseUrl === '/') {
+        return currentUrl.replace(baseUrl, '');
+    }
+
+    return currentUrl.replace(baseUrl, '').replace(/^\/*/, '');
+};
+
+/**
+ * Append store code to URL
+ * @param {String} pathname the URL to append store code to
+ * @namespace Util/Url/appendWithStoreCode
+ */
+export const appendWithStoreCode = (pathname) => {
+    const { ConfigReducer: { base_link_url = window.location.origin } = {} } = getStore().getState() || {};
+    const { pathname: storePrefix } = new URL(base_link_url);
+
+    // ignore empty URLs
+    if (!pathname) {
+        return pathname;
+    }
+
+    // match URLs which have the store code in pathname
+    if (pathname.match(`/(${window.storeList.join('|')})`)) {
+        return pathname;
+    }
+
+    if (!pathname.startsWith('/')) {
+        // eslint-disable-next-line no-param-reassign
+        pathname = `/${ pathname }`;
+    }
+
+    // trim the last slash from URL, and append it to pathname
+    return storePrefix.slice(0, -1).concat(pathname);
 };
 
 /**
@@ -40,13 +92,17 @@ const getUrlParam = (match, location) => {
  * @param {String} variable Variable from URL
  * @param {Object} variable location object from react-router
  * @return {String|false} Variable value
+ * @namespace Util/Url/getQueryParam
  */
-const getQueryParam = (variable, location) => {
+export const getQueryParam = (variable, location) => {
     const query = location.search.substring(1);
     const vars = query.split('&');
+    // eslint-disable-next-line fp/no-loops
     for (let i = 0; i < vars.length; i++) {
         const pair = vars[i].split('=');
-        if (pair[0] === variable) return pair[1];
+        if (pair[0] === variable) {
+            return pair[1];
+        }
     }
 
     return false;
@@ -56,16 +112,19 @@ const getQueryParam = (variable, location) => {
  * Convert url params to object with key value pairs
  * @param {String} queryString url query string
  * @return {Object} Key-Value pairs
+ * @namespace Util/Url/convertQueryStringToKeyValuePairs
  */
-const convertQueryStringToKeyValuePairs = (queryString) => {
+export const convertQueryStringToKeyValuePairs = (queryString) => {
     const keyValuePairs = {};
     const params = queryString.substring(1).split('&');
 
     params.forEach((param) => {
         const pair = param.split('=');
-        const [keyPair, valuePair] = pair;
+        const [keyPair, valuePair = []] = pair;
 
-        if (keyPair.length > 0 && valuePair.length > 0) keyValuePairs[keyPair] = valuePair;
+        if (keyPair.length > 0 && valuePair.length > 0) {
+            keyValuePairs[keyPair] = decodeURIComponent(valuePair);
+        }
     });
 
     return keyValuePairs;
@@ -77,8 +136,9 @@ const convertQueryStringToKeyValuePairs = (queryString) => {
  * @param {String} currentKey key of the value to be updated
  * @param {String} currentValue value to be updated
  * @return {Object} Key-Value pairs
+ * @namespace Util/Url/updateKeyValuePairs
  */
-const updateKeyValuePairs = (keyValuePairs, currentKey, currentValue) => {
+export const updateKeyValuePairs = (keyValuePairs, currentKey, currentValue) => {
     const updatedKeyValuePairs = {};
 
     Object.entries(keyValuePairs).forEach((pair) => {
@@ -98,8 +158,9 @@ const updateKeyValuePairs = (keyValuePairs, currentKey, currentValue) => {
  * Convert object with key value pairs to url query string
  * @param {Object} keyValuePairs object with key value pairs
  * @return {String} Converted query string
+ * @namespace Util/Url/convertKeyValuesToQueryString
  */
-const convertKeyValuesToQueryString = (keyValuePairs) => {
+export const convertKeyValuesToQueryString = (keyValuePairs) => {
     let newSearchQuery = '';
 
     Object.entries(keyValuePairs).forEach((pair) => {
@@ -115,8 +176,8 @@ const convertKeyValuesToQueryString = (keyValuePairs) => {
     return `${newSearchQuery.slice(0, -1)}`; // remove trailing '&'
 };
 
-
-const generateQuery = (keyValueObject, location, history) => {
+/** @namespace Util/Url/generateQuery */
+export const generateQuery = (keyValueObject, location, history) => {
     let query = history.location.search;
 
     Object.entries(keyValueObject).forEach((pair) => {
@@ -146,18 +207,21 @@ const generateQuery = (keyValueObject, location, history) => {
  * @param {Object} variable location object from react-router
  * @param {Object} variable react router history object
  * @param {Object} variable is url flush required
+ * @namespace Util/Url/setQueryParams
  */
-const setQueryParams = (keyValueObject, location, history) => {
+export const setQueryParams = (keyValueObject, location, history) => {
+    const { state } = location;
     const query = generateQuery(keyValueObject, location, history);
 
-    history.push({ search: query });
+    history.push({ search: query, state });
 };
 
 /**
  * Remove all queries except default sort options from url
  * @param {Object} variable react router history object
+ * @namespace Util/Url/clearQueriesFromUrl
  */
-const clearQueriesFromUrl = (history) => {
+export const clearQueriesFromUrl = (history) => {
     history.push({ search: '' });
 };
 
@@ -165,22 +229,12 @@ const clearQueriesFromUrl = (history) => {
  * Convert object with key value pairs to url query string
  * @param {Object} keyValuePairs object with key value pairs
  * @return {String} Converted query string
+ * @namespace Util/Url/objectToUri
  */
-const convertKeyValueObjectToQueryString = (keyValueObject = {}) => {
+export const objectToUri = (keyValueObject = {}) => {
     const paramString = Object.entries(keyValueObject).sort()
         .reduce((acc, [key, value]) => `${acc}&${key}=${value}`, '')
         .replace('&', '');
 
     return paramString.length > 0 ? `?${paramString}` : '';
-};
-
-export {
-    getUrlParam,
-    getQueryParam,
-    generateQuery,
-    setQueryParams,
-    clearQueriesFromUrl,
-    updateQueryParamWithoutHistory,
-    convertQueryStringToKeyValuePairs,
-    convertKeyValueObjectToQueryString
 };

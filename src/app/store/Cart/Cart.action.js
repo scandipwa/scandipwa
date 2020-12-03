@@ -12,15 +12,18 @@
 export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
 export const REMOVE_PRODUCT_FROM_CART = 'REMOVE_PRODUCT_FROM_CART';
 export const UPDATE_TOTALS = 'UPDATE_TOTALS';
-export const UPDATE_ALL_PRODUCTS_IN_CART = 'UPDATE_ALL_PRODUCTS_IN_CART';
+export const APPLY_COUPON_TO_CART = 'APPLY_COUPON_TO_CART';
+export const REMOVE_COUPON_FROM_CART = 'REMOVE_COUPON_FROM_CART';
+export const UPDATE_SHIPPING_PRICE = 'UPDATE_SHIPPING_PRICE';
 
 /**
  * Update product list with new list (rewrite if already exists).
  * @param  {Array<Object>} items List of products returned from fetch
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
+ * @namespace Store/Cart/Action/addProductToCart
  */
-const addProductToCart = newProduct => ({
+export const addProductToCart = (newProduct) => ({
     type: ADD_PRODUCT_TO_CART,
     newProduct
 });
@@ -29,35 +32,51 @@ const addProductToCart = newProduct => ({
  * Remove specified product from cart
  * @param  {Object} product Product which should be removed
  * @return {void}
+ * @namespace Store/Cart/Action/removeProductFromCart
  */
-const removeProductFromCart = product => ({
+export const removeProductFromCart = (product) => ({
     type: REMOVE_PRODUCT_FROM_CART,
     product
-});
-
-/**
- * Update all products in cart
- * @param  {Array} product Product which should be removed
- * @return {void}
- */
-const updateAllProductsInCart = products => ({
-    type: UPDATE_ALL_PRODUCTS_IN_CART,
-    products
 });
 
 /**
  * Update totals block
  * @param  {Object} totals Object of calculated totals
  * @return {void}
+ * @namespace Store/Cart/Action/updateTotals
  */
-const updateTotals = cartData => ({
+export const updateTotals = (cartData) => ({
     type: UPDATE_TOTALS,
     cartData
 });
 
-export {
-    addProductToCart,
-    removeProductFromCart,
-    updateTotals,
-    updateAllProductsInCart
-};
+/**
+ * Update shipment price in totals block
+ * @param {Object} data
+ * @return {void}
+ * @namespace Store/Cart/Action/updateShippingPrice
+ */
+export const updateShippingPrice = (data) => ({
+    type: UPDATE_SHIPPING_PRICE,
+    data
+});
+
+/**
+ * Apply coupon to cart
+ * @param  {String} string Coupon code
+ * @return {void}
+ * @namespace Store/Cart/Action/applyCouponToCart
+ */
+export const applyCouponToCart = (couponCode) => ({
+    type: APPLY_COUPON_TO_CART,
+    couponCode
+});
+
+/**
+ * Remove coupon from cart
+ * @return {void}
+ * @namespace Store/Cart/Action/removeCouponFromCart
+ */
+export const removeCouponFromCart = () => ({
+    type: REMOVE_COUPON_FROM_CART
+});

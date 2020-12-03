@@ -12,27 +12,20 @@
 export const UPDATE_PRODUCT_LIST_INFO = 'UPDATE_PRODUCT_LIST_INFO';
 export const UPDATE_INFO_LOAD_STATUS = 'UPDATE_INFO_LOAD_STATUS';
 
-const updateProductListInfo = (totalItems, minPrice, maxPrice, sortFields, filters) => ({
+/** @namespace Store/ProductListInfo/Action/updateProductListInfo */
+export const updateProductListInfo = (products, filter) => ({
     type: UPDATE_PRODUCT_LIST_INFO,
-    totalItems,
-    minPrice,
-    maxPrice,
-    sortFields,
-    filters
+    products,
+    selectedFilter: filter
 });
 
 /**
  * Update loading status
  * @param {Boolean} status Loading indication boolean
  * @return {void}
+ * @namespace Store/ProductListInfo/Action/updateInfoLoadStatus
  */
-const updateInfoLoadStatus = status => ({
+export const updateInfoLoadStatus = (status) => ({
     type: UPDATE_INFO_LOAD_STATUS,
     isLoading: status
 });
-
-
-export {
-    updateProductListInfo,
-    updateInfoLoadStatus
-};

@@ -9,229 +9,296 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
+import { createRef, PureComponent } from 'react';
+
 import Image from 'Component/Image';
-import AddToCart from 'Component/AddToCart';
-import ProductWishlistButton from 'Component/ProductWishlistButton';
+import Link from 'Component/Link';
+import Loader from 'Component/Loader';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import { ProductType, FilterType } from 'Type/ProductList';
-import { getVariantsIndexes } from 'Util/Product';
-import { getReviewText } from 'Util/Review';
-import { getTabIndex } from 'Util/Link';
-import { HashLink } from 'react-router-hash-link';
-import { convertKeyValueObjectToQueryString } from 'Util/Url';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import TierPrices from 'Component/TierPrices';
+import { ProductType } from 'Type/ProductList';
+import { CONFIGURABLE } from 'Util/Product';
+
 import './ProductCard.style';
 
 /**
  * Product card
  * @class ProductCard
+ * @namespace Component/ProductCard/Component
  */
-class ProductCard extends Component {
-    constructor(props) {
-        super(props);
+export class ProductCard extends PureComponent {
+    static propTypes = {
+        linkTo: PropTypes.shape({}),
+        product: ProductType.isRequired,
+        productOrVariant: ProductType.isRequired,
+        thumbnail: PropTypes.string,
+        availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
+            label: PropTypes.string,
+            value: PropTypes.string
+        })).isRequired,
+        getAttribute: PropTypes.func.isRequired,
+        registerSharedElement: PropTypes.func.isRequired,
+        children: PropTypes.element,
+        isLoading: PropTypes.bool,
+        mix: PropTypes.shape({}),
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
+    };
 
-        this.handleConfigurableClick = this.handleConfigurableClick.bind(this);
-    }
+    static defaultProps = {
+        thumbnail: '',
+        linkTo: {},
+        children: null,
+        isLoading: false,
+        mix: {},
+        renderContent: false
+    };
 
-    getConfigurableParameters() {
-        const { product: { variants = [] }, customFilters = {} } = this.props;
-        const filterKeys = Object.keys(customFilters);
+    contentObject = {
+        renderCardLinkWrapper: this.renderCardLinkWrapper.bind(this),
+        pictureBlock: {
+            picture: this.renderPicture.bind(this)
+        },
+        content: {
+            review: this.renderReviews.bind(this),
+            productPrice: this.renderProductPrice.bind(this),
+            confOptions: this.renderVisualConfigurableOptions.bind(this),
+            tierPrice: this.renderTierPrice.bind(this),
+            mainDetails: this.renderMainDetails.bind(this),
+            additionalProductDetails: this.renderAdditionalProductDetails.bind(this)
+        }
+    };
 
-        if (filterKeys.length < 0) return { indexes: [], parameters: {} };
+    imageRef = createRef();
 
-        const indexes = getVariantsIndexes(variants, customFilters);
-        const [index] = indexes;
+    registerSharedElement = () => {
+        const { registerSharedElement } = this.props;
+        registerSharedElement(this.imageRef);
+    };
 
-        if (!variants[index]) return { indexes: [], parameters: {} };
-        const { attributes } = variants[index];
-
-        const parameters = Object.entries(attributes)
-            .reduce((parameters, [key, { attribute_value }]) => {
-                if (filterKeys.includes(key)) return { ...parameters, [key]: attribute_value };
-                return parameters;
-            }, {});
-
-        return { indexes, index, parameters };
-    }
-
-    getLinkTo(parameters) {
-        const { product: { url_key }, product } = this.props;
-
-        if (!url_key) return undefined;
-        return {
-            pathname: `/product/${ url_key }`,
-            state: { product },
-            search: convertKeyValueObjectToQueryString(parameters)
-        };
-    }
-
-    /**
-     * Get thumbnail for the product
-     * @param {Number} currentVariantIndex configurable product index
-     * @return {void}
-     */
-    getThumbnail(currentVariantIndex) {
-        const { product: { thumbnail: { path } = {}, variants = [] } } = this.props;
-
-        if (variants[currentVariantIndex] === undefined) return path;
-        return variants[currentVariantIndex].thumbnail.path;
-    }
-
-    handleConfigurableClick() {
+    renderConfigurablePriceBadge() {
         const {
-            product,
-            updateProductToBeRemovedAfterAdd,
-            wishlistItem
+            product: { type_id }
         } = this.props;
 
-        if (wishlistItem && updateProductToBeRemovedAfterAdd) {
-            return updateProductToBeRemovedAfterAdd({ product });
+        if (type_id !== CONFIGURABLE) {
+            return null;
         }
 
-        return null;
+        return (
+            <p
+              mix={ {
+                  block: 'ProductCard',
+                  elem: 'PriceBadge'
+              } }
+            >
+                { __('As Low as') }
+            </p>
+        );
     }
 
-    renderAddOrConfigureProduct(variantIndexes = [], linkTo, price) {
-        const { product, product: { url_key, type_id } } = this.props;
+    renderProductPrice() {
+        const { product: { price_range } } = this.props;
 
-        if (!price) return (<TextPlaceholder length="medium" />);
-
-        if (type_id === 'configurable' && variantIndexes.length !== 1) {
-            return (
-                <Link
-                  to={ linkTo }
-                  tabIndex={ getTabIndex(url_key) }
-                  onClick={ this.handleConfigurableClick }
-                >
-                    <span>{ __('Configure Product') }</span>
-                </Link>
-            );
+        if (!price_range) {
+            return <TextPlaceholder />;
         }
 
-        if (type_id === 'grouped') {
-            return (
-                <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
-                    <span>{ __('View details') }</span>
-                </Link>
-            );
-        }
-
-        const [index] = variantIndexes;
         return (
-            <AddToCart
-              product={ product }
-              fullWidth
-              removeWishlistItem
-              configurableVariantIndex={ index }
+            <>
+                { this.renderConfigurablePriceBadge() }
+                <ProductPrice
+                  price={ price_range }
+                  mix={ { block: 'ProductCard', elem: 'Price' } }
+                />
+            </>
+        );
+    }
+
+    renderTierPrice() {
+        const { productOrVariant } = this.props;
+
+        return (
+            <TierPrices
+              product={ productOrVariant }
+              isLowestPrice
             />
         );
     }
 
-    renderAddToWishlistButton(notReady) {
-        const { product } = this.props;
-        if (notReady) return <TextPlaceholder length="medium" />;
+    renderVisualConfigurableOptions() {
+        const { availableVisualOptions } = this.props;
 
         return (
-            <ProductWishlistButton
-              product={ product }
-              fullWidth
-            />
-        );
-    }
-
-    renderReviewSummary(linkTo) {
-        const { product: { review_summary, url_key } } = this.props;
-
-        if (!review_summary || !review_summary.review_count) return null;
-
-        const _linkTo = { ...linkTo, hash: '#reviews' };
-        const reviewText = getReviewText(review_summary.review_count);
-
-        return (
-            <div block="ProductCard" elem="ReviewSummary">
-                <ProductReviewRating summary={ review_summary.rating_summary } />
-                <HashLink smooth to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
-                    <span>{ `${review_summary.review_count} ${reviewText}` }</span>
-                </HashLink>
+            <div block="ProductCard" elem="ConfigurableOptions">
+                { availableVisualOptions.map(({ value, label }) => (
+                    <span
+                      block="ProductCard"
+                      elem="Color"
+                      key={ value }
+                      style={ { backgroundColor: value } }
+                      aria-label={ label }
+                    />
+                )) }
             </div>
+        );
+    }
+
+    renderPicture(mix = {}) {
+        const { product: { id, name }, thumbnail } = this.props;
+
+        this.sharedComponent = (
+            <Image
+              imageRef={ this.imageRef }
+              src={ thumbnail }
+              alt={ name }
+              ratio="custom"
+              mix={ { block: 'ProductCard', elem: 'Picture', mix } }
+              isPlaceholder={ !id }
+            />
+        );
+
+        return (
+            <>
+                { this.sharedComponent }
+                <img
+                  style={ { display: 'none' } }
+                  alt={ name }
+                  src={ thumbnail }
+                />
+            </>
+        );
+    }
+
+    renderReviews() {
+        const {
+            product: {
+                review_summary: {
+                    rating_summary
+                } = {}
+            }
+        } = this.props;
+
+        if (!rating_summary) {
+            return null;
+        }
+
+        return (
+            <div
+              block="ProductCard"
+              elem="Reviews"
+            >
+                <ProductReviewRating summary={ rating_summary || 0 } />
+            </div>
+        );
+    }
+
+    renderAdditionalProductDetails() {
+        const { product: { sku }, getAttribute } = this.props;
+        const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration;
+        const brand = getAttribute(attribute_to_display || 'brand') || {};
+
+        if (sku && !brand) {
+            return null;
+        }
+
+        return (
+            <div
+              block="ProductCard"
+              elem="Brand"
+              mods={ { isLoaded: !!brand } }
+            >
+                <ProductAttributeValue
+                  attribute={ brand }
+                  isFormattedAsText
+                />
+            </div>
+        );
+    }
+
+    renderMainDetails() {
+        const { product: { name } } = this.props;
+
+        return (
+            <p
+              block="ProductCard"
+              elem="Name"
+              mods={ { isLoaded: !!name } }
+            >
+                <TextPlaceholder content={ name } length="medium" />
+            </p>
+        );
+    }
+
+    renderCardLinkWrapper(children, mix = {}) {
+        const { linkTo, product: { url } } = this.props;
+
+        if (!url) {
+            return (<div>{ children }</div>);
+        }
+
+        return (
+            <Link
+              block="ProductCard"
+              elem="Link"
+              to={ linkTo }
+              onClick={ this.registerSharedElement }
+              mix={ mix }
+            >
+              { children }
+            </Link>
+        );
+    }
+
+    renderCardContent() {
+        const { renderContent } = this.props;
+
+        if (renderContent) {
+            return renderContent(this.contentObject);
+        }
+
+        return (
+            this.renderCardLinkWrapper((
+                <>
+                    <figure block="ProductCard" elem="Figure">
+                        { this.renderPicture() }
+                    </figure>
+                    <div block="ProductCard" elem="Content">
+                        { this.renderReviews() }
+                        { this.renderProductPrice() }
+                        { this.renderVisualConfigurableOptions() }
+                        { this.renderTierPrice() }
+                        { this.renderMainDetails() }
+                        { this.renderAdditionalProductDetails() }
+                    </div>
+                </>
+            ))
         );
     }
 
     render() {
         const {
-            product: {
-                name,
-                url_key,
-                variants = [],
-                attributes = {}
-            },
-            product,
-            arePlaceholdersShown,
-            mix
+            children,
+            mix,
+            isLoading
         } = this.props;
 
-        const { brand: { attribute_value: brand } = {} } = attributes;
-        const { index, indexes, parameters } = this.getConfigurableParameters();
-        const thumbnail = this.getThumbnail(index);
-        const TagName = url_key ? Link : 'div';
-        const isLoading = !url_key;
-        const linkTo = this.getLinkTo(parameters);
-
-        const { price } = variants[index] || product;
-
         return (
-            <li block="ProductCard" mods={ { isLoading } } mix={ mix }>
-                <TagName
-                  to={ linkTo }
-                  tabIndex={ getTabIndex(url_key) }
-                >
-                    <Image
-                      src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }
-                      alt={ __('Product Thumbnail') }
-                      arePlaceholdersShown={ arePlaceholdersShown }
-                      showGreyPlaceholder={ !url_key }
-                    />
-                    <span block="ProductCard" elem="Brand">
-                        <TextPlaceholder content={ brand } />
-                    </span>
-                    <h4><TextPlaceholder content={ name } /></h4>
-                    { price && <ProductPrice price={ price } /> }
-                </TagName>
-                { this.renderReviewSummary(linkTo) }
-                <div block="ProductCard" elem="Actions">
-                    { this.renderAddOrConfigureProduct(indexes, linkTo, price) }
-                    <ProductWishlistButton
-                      product={ product }
-                      fullWidth
-                      isReady={ !!price }
-                    />
+            <li
+              block="ProductCard"
+              mix={ mix }
+            >
+                <Loader isLoading={ isLoading } />
+                { this.renderCardContent() }
+                <div block="ProductCard" elem="AdditionalContent">
+                    { children }
                 </div>
             </li>
         );
     }
 }
-
-ProductCard.propTypes = {
-    product: ProductType.isRequired,
-    customFilters: FilterType,
-    arePlaceholdersShown: PropTypes.bool,
-    wishlistItem: PropTypes.bool,
-    updateProductToBeRemovedAfterAdd: PropTypes.func.isRequired,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    })
-};
-
-ProductCard.defaultProps = {
-    customFilters: {},
-    arePlaceholdersShown: false,
-    wishlistItem: false,
-    mix: {}
-};
 
 export default ProductCard;

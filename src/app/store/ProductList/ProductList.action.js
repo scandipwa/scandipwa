@@ -12,15 +12,17 @@
 export const APPEND_PAGE = 'APPEND_PAGE';
 export const UPDATE_PRODUCT_LIST_ITEMS = 'UPDATE_PRODUCT_LIST_ITEMS';
 export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
+export const UPDATE_PAGE_LOAD_STATUS = 'UPDATE_PAGE_LOAD_STATUS';
 
 /**
- * Apped page to the list.
+ * Append page to the list.
  * @param {Array<Object>} items List of products returned from fetch
  * @param {Number} minPrice Minimal products price returned from fetch
  * @param {Number} maxPrice Maximal products price returned from fetch
  * @param {Number} currentPage Number of requested page
+ * @namespace Store/ProductList/Action/appendPage
  */
-const appendPage = (items, currentPage) => ({
+export const appendPage = (items, currentPage) => ({
     type: APPEND_PAGE,
     items,
     currentPage
@@ -29,27 +31,38 @@ const appendPage = (items, currentPage) => ({
 /**
  * Update product list with new list (rewrite if already exists).
  * @param {Array<Object>} items List of products returned from fetch
- * @param {Number} currentPage Numver of requested page
+ * @param {Number} currentPage Number of requested page
+ * @param {Number} total_count Number of requested page
  * @return {void}
+ * @namespace Store/ProductList/Action/updateProductListItems
  */
-const updateProductListItems = (items, currentPage) => ({
+export const updateProductListItems = (
+    items,
+    currentPage,
+    total_count,
+    total_pages,
+    args
+) => ({
     type: UPDATE_PRODUCT_LIST_ITEMS,
     items,
-    currentPage
+    currentPage,
+    total_pages,
+    total_count,
+    args
 });
 
 /**
  * Update loading status
  * @param {Boolean} status Loading indication boolean
  * @return {void}
+ * @namespace Store/ProductList/Action/updateLoadStatus
  */
-const updateLoadStatus = status => ({
+export const updateLoadStatus = (status) => ({
     type: UPDATE_LOAD_STATUS,
     isLoading: status
 });
 
-export {
-    appendPage,
-    updateProductListItems,
-    updateLoadStatus
-};
+/** @namespace Store/ProductList/Action/updatePageLoadingStatus */
+export const updatePageLoadingStatus = () => ({
+    type: UPDATE_PAGE_LOAD_STATUS
+});

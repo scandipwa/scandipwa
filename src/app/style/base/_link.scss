@@ -8,12 +8,14 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+:root {
+    --link-color: var(--primary-base-color);
+    --link-hover: var(--primary-dark-color);
+}
 
 a {
-    --link-color: #{color(primary, base, true)};
-    --link-hover: #{color(primary, dark, true)};
     color: var(--link-color);
-     
+
     &:hover {
         text-decoration: underline;
     }
@@ -23,6 +25,10 @@ a {
     }
 
     + a {
-        margin-left: 1rem;
+        margin-left: 1.2rem;
+
+        @include mobile {
+            margin-left: 1.4rem;
+        }
     }
 }

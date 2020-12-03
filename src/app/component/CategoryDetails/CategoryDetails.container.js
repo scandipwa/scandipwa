@@ -10,19 +10,15 @@
  */
 
 import { connect } from 'react-redux';
-import { CmsBlocksAndSliderDispatcher } from 'Store/CmsBlocksAndSlider';
+
 import CategoryDetails from './CategoryDetails.component';
 
-const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks
-});
+/** @namespace Component/CategoryDetails/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = dispatch => ({
-    requestBlocks: (options) => {
-        CmsBlocksAndSliderDispatcher.handleData(dispatch, options);
-    }
-});
+/** @namespace Component/CategoryDetails/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
 
-const CategoryDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryDetails);
-
-export default CategoryDetailsContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryDetails);

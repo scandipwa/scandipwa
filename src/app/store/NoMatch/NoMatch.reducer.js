@@ -13,11 +13,16 @@ import {
     UPDATE_NOMATCH
 } from './NoMatch.action';
 
-const initialState = {
+/** @namespace Store/NoMatch/Reducer/getInitialState */
+export const getInitialState = () => ({
     noMatch: false
-};
+});
 
-const NoMatchReducer = (state = initialState, action) => {
+/** @namespace Store/NoMatch/Reducer */
+export const NoMatchReducer = (
+    state = getInitialState(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_NOMATCH:
         const { noMatch } = action;

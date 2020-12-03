@@ -9,62 +9,78 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { PureComponent } from 'react';
+
+import Breadcrumb from 'Component/Breadcrumb';
 import ContentWrapper from 'Component/ContentWrapper';
 import { BreadcrumbsType } from 'Type/Breadcrumbs';
+import { appendWithStoreCode } from 'Util/Url';
+
 import './Breadcrumbs.style';
-import TextPlaceholder from 'Component/TextPlaceholder';
 
 /**
  * Breadcrumbs
  * @class Breadcrumbs
+ * @namespace Component/Breadcrumbs/Component
  */
-class Breadcrumbs extends Component {
+export class Breadcrumbs extends PureComponent {
+    static propTypes = {
+        breadcrumbs: BreadcrumbsType.isRequired,
+        areBreadcrumbsVisible: PropTypes.bool.isRequired
+    };
+
     renderBreadcrumb({ url, name }, i) {
         const { breadcrumbs } = this.props;
         const isDisabled = !url || breadcrumbs.length - 1 === i;
 
         return (
-            <li block="Breadcrumbs" elem="Crumb" key={ i }>
-                <Link to={ url || '' } tabIndex={ isDisabled ? '-1' : '0' }>
-                    <TextPlaceholder content={ name } />
-                </Link>
-            </li>
+            <Breadcrumb
+              name={ name }
+              url={ url }
+              index={ i }
+              key={ i }
+              isDisabled={ isDisabled }
+            />
         );
     }
 
     renderBreadcrumbList(breadcrumbs) {
-        return breadcrumbs
-            .reverse()
-            .map((breadcrumb, i) => this.renderBreadcrumb(breadcrumb, i));
+        return breadcrumbs.map((_, i) => this.renderBreadcrumb(
+            breadcrumbs[breadcrumbs.length - 1 - i], i
+        ));
     }
 
     render() {
-        const { breadcrumbs, areBreadcrumbsVisible, isHeaderAndFooterVisible } = this.props;
+        const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible || !isHeaderAndFooterVisible) return null;
+        if (
+            !areBreadcrumbsVisible
+            || location.pathname === appendWithStoreCode('/')
+            || location.pathname === '/'
+        ) {
+            return null;
+        }
 
         return (
             <ContentWrapper mix={ { block: 'Breadcrumbs' } } label={ __('Breadcrumbs (current location)...') }>
                 <nav aria-label="Breadcrumbs navigation">
-                    <ul block="Breadcrumbs" elem="List">
-                        { breadcrumbs.length
-                            ? this.renderBreadcrumbList(breadcrumbs)
-                            : this.renderBreadcrumb({}, 0)
-                        }
+                    <ul
+                      block="Breadcrumbs"
+                      elem="List"
+                      itemScope
+                      itemType="http://schema.org/BreadcrumbList"
+                    >
+                        { (
+                            breadcrumbs.length
+                                ? this.renderBreadcrumbList(breadcrumbs)
+                                : this.renderBreadcrumb({}, 0)
+                        ) }
                     </ul>
                 </nav>
             </ContentWrapper>
         );
     }
 }
-
-Breadcrumbs.propTypes = {
-    breadcrumbs: BreadcrumbsType.isRequired,
-    areBreadcrumbsVisible: PropTypes.bool.isRequired,
-    isHeaderAndFooterVisible: PropTypes.bool.isRequired
-};
 
 export default Breadcrumbs;

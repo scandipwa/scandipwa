@@ -14,65 +14,43 @@ import { Field } from 'Util/Query';
 /**
  * CMS Page Query
  * @class CmsPageQuery
+ * @namespace Query/CmsPage
  */
-class CmsPageQuery {
+export class CmsPageQuery {
     /**
      * get CMS Page query
      * @param  {{url_key: String, title: Int, content: String, content_heading: String, page_layout: String, meta_title: String, meta_description: String, meta_keywords, string}} options A object containing different aspects of query, each item can be omitted
      * @return {Query} CMS Page query
      * @memberof CmsPageQuery
      */
-    getQuery(options) {
-        if (!options) throw 'Missing argument `options`';
-        const items = this._prepareFields(options);
-        const { id } = options;
+    getQuery({ id, url_key, identifier }) {
+        if (!id && !url_key && !identifier) {
+            throw new Error('Missing argument `id` or `url_key`!');
+        }
 
-        return new Field('cmsPage')
-            .addArgument('url_key', 'String!', id)
-            .addFieldList(items);
+        const cmsPage = new Field('cmsPage')
+            .addFieldList(this._getPageFields());
+
+        if (identifier) {
+            cmsPage.addArgument('identifier', 'String!', identifier);
+        } else if (id) {
+            cmsPage.addArgument('id', 'Int!', id);
+        }
+
+        return cmsPage;
     }
 
-    /**
-     * Prepare argument map
-     * @param  {{url_key: String, id: Int}} options A object containing different aspects of query, each item can be omitted
-     * @return {Object}
-     * @memberof ProductListQuery
-     */
-    _prepareArgumentList(options) {
-        const {
-            id,
-            url_key
-        } = options;
-
-        const argumentMap = {};
-        if (id) argumentMap.id = id;
-        if (url_key) argumentMap.url_key = url_key;
-
-        return argumentMap;
-    }
-
-    /**
-     * Prepare fields for the CMS Page
-     */
-    _prepareFields(options) {
-        const defaultFields = [
+    _getPageFields() {
+        return [
             'title',
             'content',
+            'page_width',
             'content_heading',
             'meta_title',
             'meta_description',
             'meta_keywords'
         ];
-        let fields = defaultFields;
-
-        if (options.fields) {
-            fields = [...new Set(defaultFields.concat(options.fields))];
-        }
-
-        return fields;
     }
 }
-
-export { CmsPageQuery };
 
 export default new CmsPageQuery();

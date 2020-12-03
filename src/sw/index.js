@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,65 +10,92 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-undef */
-
+import 'Util/Extensions/index-sw.js';
 import workbox from './util/Workbox';
-import { flushCache } from './handler/FlushCache';
-import cacheFirstOneDay, { cacheFirst } from './handler/CacheFirstOneDay';
-import StaleWhileRevalidateHandler from './handler/StaleWhileRevalidateHandler';
+import cacheFirstOneYear from './handler/CacheFirstOneYear';
+import staleWhileRevalidateHandler, { RESPONSE_OK } from './handler/StaleWhileRevalidateHandler';
 
-// ====== Register routes ======
-
-self.CACHE_NAME = 'app-runtime-static';
-
-self.addEventListener('fetch', (event) => {
-    const { request: { url } } = event;
-
-    const { hostname } = new URL(url);
-    if (hostname !== self.location.hostname) return;
-
-    if (url.match(new RegExp(/(?=^.*[^.]{6}$)(?!^.*sockjs)(?!^.*graphql)(?!^.*admin).*/))) {
-        event.respondWith(caches.open(self.CACHE_NAME)
-            .then(cache => cache.match('/')
-                .then(r => (!r
-                    ? fetch('/').then((r) => {
-                        if (r.status === 200) cache.put('/', r.clone()); // if status 200 – cache
-                        return r; // return true response
-                    }) // if does not, fetch
-                    : r // if response exists, return
-                ))));
-    }
-
-    if (url.match(new RegExp(/\/graphql/))) {
-        StaleWhileRevalidateHandler(event);
-    }
-});
-
-self.addEventListener('install', () => {
-    self.skipWaiting();
-
-    const flushCacheByHeader = (name, value) => {
-        const headers = new Headers();
-        headers.append(name, value);
-        const r = new Request('/', { headers });
-        flushCache(r);
-    };
-
-    const { core: { cacheNames: { precache } } } = workbox;
-
-    flushCacheByHeader('Cache-purge', self.CACHE_NAME);
-    flushCacheByHeader('Cache-purge', precache);
-});
-
-workbox.routing.registerRoute(new RegExp(/\/assets/), event => cacheFirst(60 * 60 * 24 * 30).handle(event));
-workbox.routing.registerRoute(new RegExp(/\.css/), cacheFirstOneDay);
-workbox.routing.registerRoute(new RegExp(/\.js/), cacheFirstOneDay);
-
+// ====== Register SW ======
 if (self.__precacheManifest) {
     self.__precacheManifest.push({
         revision: new Date().getTime(),
         url: '/'
     });
-
     workbox.precaching.precacheAndRoute(self.__precacheManifest);
 }
+
+export const respondOffline = async (event) => {
+    const cache = await caches.open(self.CACHE_NAME);
+    const responseFromCache = await cache.match('/');
+
+    if (!navigator.onLine) {
+        return responseFromCache; // respond from cache
+    }
+
+    if (!responseFromCache) {
+        const rootResponse = await fetch('/'); // respond from server
+
+        if (rootResponse.status === RESPONSE_OK) { // cache only 200 responses
+            cache.put('/', rootResponse.clone());
+        }
+    }
+
+    return fetch(event.request); // respond from server
+};
+
+export const onFetch = (event) => {
+    const { request: { url, destination } } = event;
+    const { hostname } = new URL(url);
+
+    if (destination !== 'document') { // skip all NON documents
+        return;
+    }
+
+    if (hostname !== self.location.hostname) { // skip requests to other domains
+        return;
+    }
+
+    event.respondWith(respondOffline(event));
+};
+
+// Custom handler for offline document response
+self.addEventListener('fetch', onFetch);
+
+self.addEventListener('install', () => {
+    self.skipWaiting();
+});
+
+const clearCache = () => (
+    Promise.all([
+        // clear all caches
+        caches.keys().then((cacheNames) => (
+            Promise.all(
+                cacheNames.map((cacheName) => caches.delete(cacheName))
+            )
+        )),
+        // clear indexed DB
+        new Promise((resolve) => {
+            if (!indexedDB) {
+                resolve();
+            }
+
+            const request = indexedDB.deleteDatabase(self.CACHE_NAME);
+            request.onerror = () => resolve();
+            request.onsuccess = () => resolve();
+        })
+    ])
+);
+
+self.addEventListener('activate', (event) => { // clears all caches on re-deploy
+    event.waitUntil(clearCache());
+});
+
+// ====== Register routes ======
+
+self.CACHE_NAME = 'app-runtime-static';
+
+// handle GraphQL
+workbox.routing.registerRoute(new RegExp(/\/graphql/), staleWhileRevalidateHandler);
+
+// handle static assets responses
+workbox.routing.registerRoute(new RegExp(/(\/assets|\.css|\.js)/), cacheFirstOneYear);

@@ -8,33 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-@keyframes maskAnimation {
-    0% {
-        mask-size: 100%;
-        mask-position: center;
-    }
 
-    50% {
-        mask-position: center;
-        mask-size: 300%;
-    }
-
-    100% {
-        mask-position: center;
-        mask-size: 1000%;
-    }
-}
-
-@keyframes maskFinishAnimation {
-    0% {
-        mask-size: 1000%;
-        mask-position: center;
-        mask: radial-gradient(ellipse, black 30%, transparent 61%, transparent 100%), radial-gradient(circle, black 24%, transparent 60%, transparent 100%);
-    }
-
-    100% {
-        mask: 0;
-    }
+:root {
+    --image-default-background: var(--secondary-base-color);
+    --image-content-color: #{$black};
 }
 
 .Image {
@@ -42,11 +19,7 @@
     overflow: hidden;
     height: 0;
     width: 100%;
-
-    /* TODO: move those styles into separate helper */
-    background-image: var(--placeholder-image);
-    background-size: var(--placeholder-size);
-    animation: var(--placeholder-animation);
+    background: var(--image-default-background);
 
     &_ratio {
         &_16x9 {
@@ -62,62 +35,55 @@
         }
     }
 
-    &_isReal {
-        animation: none;
-        background: transparent;
-        mask: radial-gradient(ellipse, black 30%, transparent 61%, transparent 100%), radial-gradient(circle, black 24%, transparent 60%, transparent 100%);
+    &_imageStatus_0,
+    &_isPlaceholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
     }
 
-    &_isLoaded {
-        animation: none;
-        background: transparent;
+    &_hasSrc,
+    &_imageStatus_1 {
+        background: none;
     }
 
-    &_isLoaded.Image_isReal {
-        animation: maskAnimation .5s forwards ease-in-out, maskFinishAnimation 0s .5s forwards ease-in-out;
-    }
+    &-Content {
+        position: absolute;
+        height: max-content;
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        bottom: 0;
+        top: 0;
+        left: 0;
 
-    &_isImageMissing {
-        mask: none;
-        animation: none;
-        appearance: none;
+        color: var(--image-content-color);
+        font-size: 1.4rem;
 
-        &:-moz-broken{
-            opacity: 0;
-        }
-
-        &::after {
-            content: 'Missing image';
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            background: repeating-linear-gradient(
-                -55deg,
-                #efefef,
-                #efefef 10px,
-                #fff 10px,
-                #fff 20px
-            );
-            color: #000;
-            text-transform: none;
-            font-weight: normal;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-            text-align: center;
+        &_isOffline {
+            width: 100%;
+            height: 100%;
+            background: var(--image-default-background);
         }
     }
 
-    > * {
+    &-Image {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        object-position: 50% 50%;
         object-fit: contain;
-        object-position: center;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--image-default-background);
+        }
     }
 }

@@ -14,20 +14,16 @@ import { Field } from 'Util/Query';
 /**
  * Email availability check Query
  * @class CheckEmailQuery
+ * @namespace Query/CheckEmail
  */
-class CheckEmailQuery {
-    getCheckIsEmailAvailableMutation(email, websiteId = null) {
-        const mutation = new Field('checkIsEmailAvailable')
-            .addArgument('email', 'String!', email);
+export class CheckEmailQuery {
+    getIsEmailAvailableQuery(email) {
+        const query = new Field('isEmailAvailable')
+            .addArgument('email', 'String!', email)
+            .addField('is_email_available');
 
-        if (websiteId) mutation.addArgument('websiteId', 'Int', websiteId);
-
-        mutation.addField('isAvailable');
-
-        return mutation;
+        return query;
     }
 }
-
-export { CheckEmailQuery };
 
 export default new CheckEmailQuery();

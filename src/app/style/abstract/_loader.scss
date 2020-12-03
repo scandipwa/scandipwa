@@ -1,31 +1,62 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 %loader {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    height: 5rem;
-    width: 4rem;
-    margin: 0 auto;
+    position: relative;
+    width: 40px;
+    height: 23.09px;
+    background-color: #fff;
+    margin: 11.55px 0;
+    border-left: solid 5px var(--primary-base-color);
+    border-right: solid 5px var(--primary-base-color);
+    box-sizing: border-box;
+    animation: rotate 2s linear infinite;
+    transform-origin: 50% 50%;
 
-    div {
+    &::before,
+    &::after {
+        content: '';
         position: absolute;
-        width: 10px;
-        height: 10px;
+        z-index: 1;
+        width: 28.28px;
+        height: 28.28px;
+        transform: scaleY(.5774) rotate(-45deg);
+        background-color: inherit;
+        left: .8579px;
+        box-sizing: border-box;
+    }
+
+    &::before {
+        top: -14.1421px;
+        border-top: solid 7.0711px var(--primary-base-color);
+        border-right: solid 7.0711px var(--primary-base-color);
+    }
+
+    &::after {
+        bottom: -14.1421px;
+        border-bottom: solid 7.0711px var(--primary-base-color);
+        border-left: solid 7.0711px var(--primary-base-color);
+    }
+
+    span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 18px;
+        height: 18px;
+        background-color: rgb(80, 88, 101);
         border-radius: 50%;
-        background: var(--color-primary-base);
-        animation: ellipsis-dot 1s infinite;
-
-        &:first-child {
-            animation-delay: 0.0s;
-        }
-
-        &:nth-child(2) {
-            left: 1.5rem;
-            animation-delay: 0.1s;
-        }
-
-        &:nth-child(3) {
-            left: 3rem;
-            animation-delay: 0.2s;
-        }
+        z-index: 2;
     }
 }

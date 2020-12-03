@@ -1,0 +1,30 @@
+{
+    "plugins": [
+        "stylelint-scss",
+        "stylelint-order"
+    ],
+    "fix": true,
+    "extends": [
+        "stylelint-config-standard"
+    ],
+    "rules": {
+        "value-keyword-case": [
+            "lower",
+            ignoreProperties: [/\w*animation\w*/]
+        ],
+        "at-rule-no-unknown": null,
+        "at-rule-empty-line-before": null,
+        "declaration-empty-line-before": null,
+        "indentation": 4,
+        "number-leading-zero": "never",
+        "no-descending-specificity": null,
+        "string-quotes": ["single", { "avoidEscape": true }],
+        "scss/at-rule-no-unknown": true,
+        "scss/selector-no-redundant-nesting-selector": true,
+        "order/order": [
+            "custom-properties",
+            "declarations",
+            "rules"
+        ]
+    }
+}

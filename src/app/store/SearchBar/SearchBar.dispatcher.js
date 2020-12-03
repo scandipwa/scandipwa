@@ -9,18 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ProductListQuery from 'Query/ProductList.query';
 import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
-import { updateSearchBar, updateLoadStatus, clearSearchResults } from './SearchBar.action';
+
+import { clearSearchResults, updateLoadStatus, updateSearchBar } from './SearchBar.action';
 
 /**
  * Search Bar Dispatcher
  * @class SearchBarDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/SearchBar/Dispatcher
  */
 export class SearchBarDispatcher extends QueryDispatcher {
-    constructor() {
-        super('SearchBar', 86400);
+    __construct() {
+        super.__construct('SearchBar');
     }
 
     onSuccess(data, dispatch) {
@@ -28,7 +30,7 @@ export class SearchBarDispatcher extends QueryDispatcher {
         dispatch(updateSearchBar(data));
     }
 
-    onError(error, dispatch) {
+    onError(_, dispatch) {
         dispatch(updateLoadStatus(false));
     }
 
@@ -36,15 +38,13 @@ export class SearchBarDispatcher extends QueryDispatcher {
         dispatch(clearSearchResults());
     }
 
-    /**
-     * Prepare ProductList query
-     * @param  {{search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} ProductList query
-     * @memberof CategoryDispatcher
-     */
     prepareRequest(options, dispatch) {
         dispatch(updateLoadStatus(true));
-        return ProductListQuery.getQuery(options);
+
+        return ProductListQuery.getQuery({
+            ...options,
+            notRequireInfo: true
+        });
     }
 }
 

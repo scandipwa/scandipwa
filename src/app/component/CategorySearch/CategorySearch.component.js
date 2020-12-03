@@ -1,10 +1,34 @@
-import React, { Component } from 'react';
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import { CATEGORY_SEARCH_TIMEOUT } from './CategorySearch.config';
+
 import './CategorySearch.style';
 
-class CategorySearch extends Component {
-    constructor(props) {
-        super(props);
+// TODO: add to template
+/** @namespace Component/CategorySearch/Component */
+export class CategorySearch extends PureComponent {
+    static propTypes = {
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]).isRequired,
+        onChange: PropTypes.func.isRequired
+    };
+
+    __construct(props) {
+        super.__construct(props);
         this.state = { value: decodeURIComponent(props.value) };
     }
 
@@ -12,18 +36,20 @@ class CategorySearch extends Component {
         const { value: prevValue } = prevProps;
         const { value } = this.props;
 
-        // eslint-disable-next-line react/no-did-update-set-state
-        if (prevValue !== value) this.setState({ value });
+        if (prevValue !== value) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ value });
+        }
     }
 
-    onChange(e) {
+    onChange = (e) => {
         const { value } = e.target;
         const { onChange } = this.props;
         this.setState({ value });
 
         clearTimeout(this.timeout);
-        this.timeout = setTimeout(onChange, 500, value);
-    }
+        this.timeout = setTimeout(onChange, CATEGORY_SEARCH_TIMEOUT, value);
+    };
 
     render() {
         const { value } = this.state;
@@ -31,19 +57,11 @@ class CategorySearch extends Component {
             <input
               block="CategorySearch"
               value={ value }
-              onChange={ e => this.onChange(e) }
+              onChange={ this.onChange }
               placeholder={ __('I`m looking for...') }
             />
         );
     }
 }
-
-CategorySearch.propTypes = {
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]).isRequired,
-    onChange: PropTypes.func.isRequired
-};
 
 export default CategorySearch;

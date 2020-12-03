@@ -14,39 +14,39 @@ import { Field } from 'Util/Query';
 /**
  * CMS Blocks Query
  * @class CmsBlocksQuery
+ * @namespace Query/CmsBlock
  */
-class CmsBlockQuery {
+export class CmsBlockQuery {
     /**
      * get CMS Block query
      * @param  {{identifier: String, title: String, content: String}} options A object containing different aspects of query, each item can be omitted
      * @return {Field} CMS Block query
      * @memberof CmsBlocksQuery
      */
-    getQuery(options) {
-        if (!options) throw 'Missing argument `options`';
-        const items = CmsBlockQuery._prepareFields(options);
+    getQuery({ identifiers }) {
+        if (!identifiers) {
+            throw new Error('Missing argument `options`');
+        }
 
         return new Field('cmsBlocks')
-            .addArgument('identifiers', '[String]', options.identifiers)
-            .addField(items)
+            .addArgument('identifiers', '[String]', identifiers)
+            .addField(this._getItemsField())
             .setAlias('cmsBlocks');
     }
 
-    /**
-     * Prepare fields for the CMS Block
-     */
-    static _prepareFields(options) {
-        const defaultFields = ['title', 'content'];
-        let fields = defaultFields;
+    _getItemFields() {
+        return [
+            'title',
+            'content',
+            'identifier',
+            'disabled'
+        ];
+    }
 
-        if (options.fields) {
-            fields = [...new Set(defaultFields.concat(options.fields))];
-        }
-
-        return new Field('items').addFieldList(fields);
+    _getItemsField() {
+        return new Field('items')
+            .addFieldList(this._getItemFields());
     }
 }
-
-export { CmsBlockQuery };
 
 export default new CmsBlockQuery();

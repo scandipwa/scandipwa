@@ -9,98 +9,72 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ProductListQuery from 'Query/ProductList.query';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { updateProductDetails } from 'Store/Product/Product.action';
 import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
-import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
-import { updateNoMatch } from 'Store/NoMatch';
-import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
+
+export const LinkedProductsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/LinkedProducts/LinkedProducts.dispatcher'
+);
 
 /**
  * Product List Dispatcher
  * @class ProductDispatcher
  * @extends ProductDispatcher
+ * @namespace Store/Product/Dispatcher
  */
 export class ProductDispatcher extends QueryDispatcher {
-    constructor() {
-        super('Product', 86400);
+    __construct() {
+        super.__construct('Product');
     }
 
     onSuccess(data, dispatch) {
         const { products: { items } } = data;
 
-        if (!(items && items.length > 0)) return dispatch(updateNoMatch(true));
-
-        const [productItem] = items;
-        const product = productItem.type_id === 'grouped'
-            ? this._prepareGroupedProduct(productItem) : productItem;
-
-        // TODO: make one request per description & related in this.prepareRequest
-        if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
-            const { product_links } = productItem;
-            const productsSkuArray = product_links.map(item => `"${item.linked_product_sku}"`);
-
-            RelatedProductsDispatcher.handleData(dispatch, { productsSkuArray });
-        } else {
-            RelatedProductsDispatcher.clearRelatedProducts(dispatch);
+        /**
+         * In case there are no items, or item count is
+         * smaller then 0 => the product was not found.
+         */
+        if (!items || items.length <= 0) {
+            dispatch(updateNoMatch(true));
+            return;
         }
 
-        return dispatch(updateProductDetails(product));
+        const [product] = items;
+
+        const product_links = items.reduce((links, product) => {
+            const { product_links } = product;
+
+            if (product_links) {
+                Object.values(product_links).forEach((item) => {
+                    links.push(item);
+                });
+            }
+
+            return links;
+        }, []);
+
+        LinkedProductsDispatcher.then(
+            ({ default: dispatcher }) => {
+                if (product_links.length > 0) {
+                    dispatcher.handleData(dispatch, product_links);
+                } else {
+                    dispatcher.clearLinkedProducts(dispatch);
+                }
+            }
+        );
+
+        dispatch(updateProductDetails(product));
     }
 
     onError(_, dispatch) {
         dispatch(updateNoMatch(true));
     }
 
-    /**
-     * Prepare ProductList query
-     * @param  {{search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} ProductList query
-     * @memberof ProductDispatcher
-     */
     prepareRequest(options) {
         return ProductListQuery.getQuery(options);
-    }
-
-    /**
-     * Update Grouped Products quantity list
-     * @param {Function} dispatch
-     * @param {{product: Object, quantity: Number}} options A object containing different aspects of query, each item can be omitted
-     * @memberof ProductDispatcher
-     */
-    updateGroupedProductQuantity(dispatch, options) {
-        const { product, quantity } = options;
-
-        return dispatch(updateGroupedProductQuantity(product, quantity));
-    }
-
-    /**
-     * Clear Grouped Products quantity list
-     * @param {Function} dispatch
-     * @memberof ProductDispatcher
-     */
-    clearGroupedProductQuantity(dispatch) {
-        return dispatch(clearGroupedProductQuantity());
-    }
-
-    /**
-     * Prepare Grouped Product for dispatch
-     * @param {Object} groupProduct
-     * @return {Object} prepared product
-     * @memberof ProductDispatcher
-     */
-    _prepareGroupedProduct(groupProduct) {
-        const { items } = groupProduct;
-        const newItems = items.map(item => ({
-            product: {
-                ...item.product,
-                url_key: groupProduct.url_key
-            }
-        }));
-
-        return {
-            ...groupProduct,
-            items: newItems
-        };
     }
 }
 

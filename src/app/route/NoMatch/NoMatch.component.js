@@ -9,21 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
+
 import './NoMatch.style';
 
-class NoMatch extends Component {
+/** @namespace Route/NoMatch/Component */
+export class NoMatch extends PureComponent {
+    static propTypes = {
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        cleanUpTransition: PropTypes.func.isRequired
+    };
+
     componentDidMount() {
         this.updateBreadcrumbs();
+        this.cleanUpTransition();
     }
 
-    /**
-     * Dispatch breadcrumbs update
-     * @return {void}
-     */
+    cleanUpTransition() {
+        const { cleanUpTransition } = this.props;
+
+        cleanUpTransition();
+    }
+
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
@@ -42,7 +53,7 @@ class NoMatch extends Component {
 
     render() {
         return (
-            <main block="NoMatch" aria-label={ __('Page Not Found') }>
+            <main block="NoMatch" aria-label={ __('Page not found') }>
                 <ContentWrapper
                   mix={ { block: 'NoMatch' } }
                   wrapperMix={ { block: 'NoMatch', elem: 'Wrapper' } }
@@ -56,21 +67,20 @@ class NoMatch extends Component {
                     </p>
                     <p>
                         { /* eslint-disable-next-line max-len */ }
-                        { __('Sorry, we can`t find the page you are looking for! Please press a big orange button to come back to homepage.') }
+                        { __('Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.') }
                     </p>
-                    <Link to="/">
-                        <button>
-                            { __('Back to homepage') }
-                        </button>
+                    <Link
+                      to="/"
+                      block="NoMatch"
+                      elem="Button"
+                      mix={ { block: 'Button' } }
+                    >
+                        { __('Back to homepage') }
                     </Link>
                 </ContentWrapper>
             </main>
         );
     }
 }
-
-NoMatch.propTypes = {
-    updateBreadcrumbs: PropTypes.func.isRequired
-};
 
 export default NoMatch;

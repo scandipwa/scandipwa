@@ -9,25 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getIndexedProducts } from 'Util/Product';
+
 import {
+    CLEAR_SEARCH_RESULTS,
     UPDATE_SEARCH_BAR,
-    UPDATE_SEARCH_LOAD_STATUS,
-    CLEAR_SEARCH_RESULTS
+    UPDATE_SEARCH_LOAD_STATUS
 } from './SearchBar.action';
 
-const initialState = {
+/** @namespace Store/SearchBar/Reducer/getInitialState */
+export const getInitialState = () => ({
     productsInSearch: [],
-    isLoading: false
-};
+    isLoading: true
+});
 
-const SearchBarReducer = (state = initialState, action) => {
+/** @namespace Store/SearchBar/Reducer */
+export const SearchBarReducer = (
+    state = getInitialState(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_SEARCH_BAR:
-        const { result: { products: { items } } } = action;
+        const { result: { products: { items: initialItems } } } = action;
 
         return {
             ...state,
-            productsInSearch: items
+            productsInSearch: getIndexedProducts(initialItems)
         };
 
     case UPDATE_SEARCH_LOAD_STATUS:
@@ -41,7 +48,7 @@ const SearchBarReducer = (state = initialState, action) => {
     case CLEAR_SEARCH_RESULTS:
         return {
             ...state,
-            productsInSearch: initialState.productsInSearch
+            productsInSearch: getInitialState().productsInSearch
         };
 
     default:

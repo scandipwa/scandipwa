@@ -8,15 +8,18 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import { connect } from 'react-redux';
+
 import Footer from './Footer.component';
 
-const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks,
-    isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible
+/** @namespace Component/Footer/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    copyright: state.ConfigReducer.copyright,
+    device: state.ConfigReducer.device
 });
 
-const FooterContainer = connect(mapStateToProps)(Footer);
+/** @namespace Component/Footer/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
 
-export default FooterContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

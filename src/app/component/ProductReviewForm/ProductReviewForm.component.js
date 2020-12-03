@@ -9,101 +9,64 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ProductType } from 'Type/ProductList';
-import { RatingItemsType } from 'Type/Rating';
+import { PureComponent } from 'react';
+
 import Field from 'Component/Field';
 import Form from 'Component/Form';
-import ContentWrapper from 'Component/ContentWrapper';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import Loader from 'Component/Loader';
-import { customerType } from 'Type/Account';
+import ReviewStar from 'Component/ReviewStar';
+import { RatingItemsType } from 'Type/Rating';
+
 import './ProductReviewForm.style';
 
 /**
  * ProductReviewForm
  * @class ProductReviewForm
+ * @namespace Component/ProductReviewForm/Component
  */
-class ProductReviewForm extends Component {
-    constructor(props) {
-        super(props);
+export class ProductReviewForm extends PureComponent {
+    static propTypes = {
+        reviewRatings: RatingItemsType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        onReviewSubmitAttempt: PropTypes.func.isRequired,
+        onReviewSubmitSuccess: PropTypes.func.isRequired,
+        onReviewError: PropTypes.func.isRequired,
+        onStarRatingClick: PropTypes.func.isRequired,
+        handleNicknameChange: PropTypes.func.isRequired,
+        handleSummaryChange: PropTypes.func.isRequired,
+        handleDetailChange: PropTypes.func.isRequired,
+        ratingData: PropTypes.objectOf(PropTypes.string).isRequired,
+        reviewData: PropTypes.shape({
+            nickname: PropTypes.string,
+            summary: PropTypes.string,
+            detail: PropTypes.string
+        }).isRequired
+    };
 
-        this.ratingTitleMap = {
-            1: __('Awful'),
-            2: __('Bad'),
-            3: __('Average'),
-            4: __('Good'),
-            5: __('Awesome')
-        };
-
-        this.state = {
-            isLoading: false,
-            ratingData: {}
-        };
-    }
-
-    onReviewSubmitAttempt(_, invalidFields) {
-        const { showNotification, reviewRatings } = this.props;
-        const { ratingData } = this.state;
-
-        const reviewsAreNotValid = invalidFields
-            || !reviewRatings.every(({ rating_id }) => ratingData[rating_id]);
-
-        if (reviewsAreNotValid) {
-            showNotification('error', 'Incorrect data! Please check review fields.');
-        }
-
-        this.setState({ isLoading: !reviewsAreNotValid });
-    }
-
-    onReviewSubmitSuccess(fields) {
-        const { product, addReview } = this.props;
-        const { ratingData: rating_data } = this.state;
-        const { nickname, title, detail } = fields;
-        const { sku: product_sku } = product;
-
-        if (Object.keys(rating_data).length) {
-            addReview({
-                nickname,
-                title,
-                detail,
-                product_sku,
-                rating_data
-            }).then((success) => {
-                /** Clear form after submitting valid review */
-                if (success) {
-                    this.formRef.form.reset();
-                    this.setState({ ratingData: {} });
-                }
-
-                this.setState({ isLoading: false });
-            });
-        }
-    }
-
-    onStarRatingClick(rating_id, option_id) {
-        const { ratingData } = this.state;
-        ratingData[rating_id] = option_id;
-        this.setState({ ratingData });
-    }
+    ratingTitleMap = {
+        1: __('Awful'),
+        2: __('Bad'),
+        3: __('Average'),
+        4: __('Good'),
+        5: __('Awesome')
+    };
 
     renderReviewStar(options, rating_id) {
+        const { ratingData, onStarRatingClick } = this.props;
         const { option_id, value } = options;
-        const { ratingData } = this.state;
         const isChecked = !!ratingData[rating_id] && ratingData[rating_id] === option_id;
 
         return (
-            <input
+            <ReviewStar
               key={ option_id }
-              block="ProductReviewForm"
-              elem="RatingInput"
-              type="radio"
-              name="raiting"
+              name={ rating_id }
               value={ value }
-              defaultChecked={ isChecked }
               title={ this.ratingTitleMap[value] }
-              onClick={ () => this.onStarRatingClick(rating_id, option_id) }
+              isChecked={ isChecked }
+              option_id={ option_id }
+              rating_id={ rating_id }
+              onStarRatingClick={ onStarRatingClick }
             />
         );
     }
@@ -116,108 +79,110 @@ class ProductReviewForm extends Component {
 
             return (
                 <fieldset block="ProductReviewForm" elem="Rating" key={ rating_id }>
-                    <legend block="ProductReviewForm" elem="RatingLegend">
+                    <legend block="ProductReviewForm" elem="Legend">
                         { rating_code }
                     </legend>
                     { rating_options
                         .sort(({ value }, { value: nextValue }) => nextValue - value)
-                        .map(option => this.renderReviewStar(option, rating_id))
-                    }
+                        .map((option) => this.renderReviewStar(option, rating_id)) }
                 </fieldset>
             );
         });
     }
 
-    renderReviewFormContent() {
-        const { customer: { firstname: nickname }, isSignedIn } = this.props;
-
+    renderButton() {
         return (
-            <>
-                <div>
-                    { this.renderReviewRating() }
-                </div>
-                <div block="ProductReviewForm" elem="FormContent">
-                    <Field
-                      type="text"
-                      label="Nickname"
-                      id="nickname"
-                      validation={ ['notEmpty'] }
-                      defaultValue={ isSignedIn ? nickname : '' }
-                    />
-                    <Field
-                      type="text"
-                      label="Summary"
-                      id="title"
-                      validation={ ['notEmpty'] }
-                    />
-                    <Field
-                      type="textarea"
-                      label="Review"
-                      id="detail"
-                      validation={ ['notEmpty'] }
-                    />
-                </div>
-                <div block="ProductReviewForm" elem="Buttons">
-                    <button block="ProductReviewForm" elem="SubmitButton">
-                        { __('Submit Review') }
-                    </button>
-                </div>
-            </>
+            <button
+              block="ProductReviewForm"
+              elem="Button"
+              type="submit"
+              mix={ { block: 'Button' } }
+            >
+                { __('Submit Review') }
+            </button>
         );
     }
 
-    renderHeading() {
-        const { product: { name } } = this.props;
+    renderReviewFormContent() {
+        const {
+            handleNicknameChange,
+            handleSummaryChange,
+            handleDetailChange,
+            reviewData
+        } = this.props;
+
+        const {
+            nickname = '',
+            summary = '',
+            detail = ''
+        } = reviewData;
 
         return (
-            <header block="ProductReviewForm" elem="FormHeading">
-                <h3
+            <div
+              block="ProductReviewForm"
+              elem="Wrapper"
+            >
+                <div>
+                    { this.renderReviewRating() }
+                </div>
+                <div
                   block="ProductReviewForm"
-                  elem="Title"
-                  id="review-form"
+                  elem="Content"
                 >
-                    { __('You\'re reviewing:') }
-                </h3>
-                <p block="ProductReviewForm" elem="ProductName">
-                    <TextPlaceholder content={ name } />
-                </p>
-            </header>
+                    <Field
+                      type="text"
+                      label={ __('Nickname') }
+                      id="nickname"
+                      name="nickname"
+                      validation={ ['notEmpty'] }
+                      value={ nickname }
+                      onChange={ handleNicknameChange }
+                    />
+                    <Field
+                      type="text"
+                      label={ __('Summary') }
+                      id="title"
+                      name="title"
+                      validation={ ['notEmpty'] }
+                      value={ summary }
+                      onChange={ handleSummaryChange }
+                    />
+                    <Field
+                      type="textarea"
+                      label={ __('Review') }
+                      id="detail"
+                      name="detail"
+                      validation={ ['notEmpty'] }
+                      value={ detail }
+                      onChange={ handleDetailChange }
+                    />
+                </div>
+            </div>
         );
     }
 
     render() {
-        const { isLoading } = this.state;
+        const {
+            isLoading,
+            onReviewSubmitAttempt,
+            onReviewSubmitSuccess,
+            onReviewError
+        } = this.props;
 
         return (
-            <ContentWrapper
+            <Form
+              key="product-review"
               mix={ { block: 'ProductReviewForm' } }
-              wrapperMix={ { block: 'ProductReviewForm', elem: 'Wrapper' } }
-              label={ __('Product Review Form') }
+              onSubmit={ onReviewSubmitAttempt }
+              onSubmitSuccess={ onReviewSubmitSuccess }
+              onSubmitError={ onReviewError }
             >
-                { this.renderHeading() }
-                <Form
-                  key="product-review"
-                  mix={ { block: 'ProductReviewForm', elem: 'Form' } }
-                  ref={ (el) => { this.formRef = el; } }
-                  onSubmit={ () => this.onReviewSubmitAttempt() }
-                  onSubmitSuccess={ fields => this.onReviewSubmitSuccess(fields) }
-                  onSubmitError={ (fields, invalidFields) => this.onReviewSubmitAttempt(fields, invalidFields) }
-                >
-                    <Loader isLoading={ isLoading } />
-                    { this.renderReviewFormContent() }
-                </Form>
-            </ContentWrapper>
+                <Loader isLoading={ isLoading } />
+                { this.renderReviewFormContent() }
+                { this.renderButton() }
+            </Form>
         );
     }
 }
-
-ProductReviewForm.propTypes = {
-    product: ProductType.isRequired,
-    addReview: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    customer: customerType.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    reviewRatings: RatingItemsType.isRequired
-};
 
 export default ProductReviewForm;

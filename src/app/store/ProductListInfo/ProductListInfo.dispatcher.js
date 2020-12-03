@@ -9,37 +9,34 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import {
-    updateProductListInfo,
-    updateInfoLoadStatus
-} from 'Store/ProductListInfo';
-import { showNotification } from 'Store/Notification';
-import { updateNoMatch } from 'Store/NoMatch';
+    updateInfoLoadStatus,
+    updateProductListInfo
+} from 'Store/ProductListInfo/ProductListInfo.action';
+import { QueryDispatcher } from 'Util/Request';
 
 /**
  * Product List Info Dispatcher
  * @class ProductListInfoDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/ProductListInfo/Dispatcher
  */
 export class ProductListInfoDispatcher extends QueryDispatcher {
-    constructor() {
-        super('ProductListInfo', 86400);
+    __construct() {
+        super.__construct('ProductListInfo');
     }
 
-    onSuccess(data, dispatch) {
+    onSuccess({ products }, dispatch, options) {
         const {
-            products: {
-                total_count,
-                min_price,
-                max_price,
-                sort_fields,
-                filters
+            args: {
+                filter
             }
-        } = data;
+        } = options;
 
-        dispatch(updateProductListInfo(total_count, min_price, max_price, sort_fields, filters));
+        dispatch(updateProductListInfo(products, filter));
     }
 
     onError(error, dispatch) {
@@ -49,10 +46,10 @@ export class ProductListInfoDispatcher extends QueryDispatcher {
 
     prepareRequest(options, dispatch) {
         dispatch(updateInfoLoadStatus(true));
+
         return ProductListQuery.getQuery({
             ...options,
-            pageSize: 1,
-            notRequireItems: true
+            requireInfo: true
         });
     }
 }

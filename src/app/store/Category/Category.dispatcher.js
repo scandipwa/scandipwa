@@ -9,27 +9,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-param-reassign */
-
+import CategoryQuery from 'Query/Category.query';
+import { updateCurrentCategory } from 'Store/Category/Category.action';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { QueryDispatcher } from 'Util/Request';
-import { CategoryQuery } from 'Query';
-import { updateCurrentCategory } from 'Store/Category';
-import { showNotification } from 'Store/Notification';
-import { updateNoMatch } from 'Store/NoMatch';
 
 /**
  * Category Dispatcher
  * @class CategoryDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/Category/Dispatcher
  */
 export class CategoryDispatcher extends QueryDispatcher {
-    constructor() {
-        super('Category', 86400);
+    __construct() {
+        super.__construct('Category');
     }
 
     onSuccess(data, dispatch, { isSearchPage }) {
         const { category = {}, category: { id } } = data;
-        if (!id && !isSearchPage) dispatch(updateNoMatch(true));
+
+        if (!id && !isSearchPage) {
+            dispatch(updateNoMatch(true));
+        }
+
         dispatch(updateCurrentCategory(category));
     }
 
@@ -42,13 +45,6 @@ export class CategoryDispatcher extends QueryDispatcher {
         }
     }
 
-    /**
-     * Prepare Category query
-     * @param  {{search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @param {Function} dispatch
-     * @return {Query} Category query
-     * @memberof CategoryDispatcher
-     */
     prepareRequest(options) {
         return CategoryQuery.getQuery(options);
     }

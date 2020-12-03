@@ -9,87 +9,95 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import Image from 'Component/Image';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
-import Field from 'Component/Field';
-import { ProductType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import Field from 'Component/Field';
+import Image from 'Component/Image';
+import ProductPrice from 'Component/ProductPrice';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { ProductType } from 'Type/ProductList';
+import media, { PRODUCT_MEDIA } from 'Util/Media';
+
 import './GroupedProductsItem.style';
 
 /**
  * Grouped Product Item
  * @class GroupedProduct
+ * @namespace Component/GroupedProductsItem/Component
  */
-class GroupedProductsItem extends Component {
-    constructor() {
-        super();
+export class GroupedProductsItem extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        changeCount: PropTypes.func.isRequired,
+        itemCount: PropTypes.number.isRequired
+    };
 
-        this.state = {
-            // eslint-disable-next-line react/no-unused-state
-            isConfigurationInitilized: false
-        };
+    renderTitle() {
+        const {
+            product: {
+                name,
+                price_range
+            }
+        } = this.props;
+
+        return (
+            <div block="GroupedProductsItem" elem="Title">
+                <p>
+                    <TextPlaceholder content={ name } />
+                </p>
+                <ProductPrice price={ price_range } mods={ { type: 'regular' } } />
+            </div>
+        );
     }
 
-    componentWillMount() {
-        const { updateGroupedProductQuantity, product } = this.props;
+    renderQuantity() {
+        const {
+            changeCount,
+            itemCount
+        } = this.props;
 
-        updateGroupedProductQuantity({ product, quantity: 1 });
+        return (
+            <div block="GroupedProductsItem" elem="Quantity">
+                <Field
+                  type="number"
+                  id="HeaderInput"
+                  name="HeaderInput"
+                  onChange={ changeCount }
+                  value={ itemCount }
+                  min={ 0 }
+                />
+            </div>
+        );
     }
 
-    /**
-     * Get quantity of grouped product
-     * @param {Number} id Product id
-     * @param {Object} groupedProductQuantity list of grouped products with quantities
-     * @return {Number} product quantity
-     */
-    getCurrentQuantity(id, groupedProductQuantity) {
-        return groupedProductQuantity[id] || 1;
-    }
+    renderImage() {
+        const {
+            product: {
+                thumbnail: {
+                    path: thumb_url
+                }
+            }
+        } = this.props;
 
-    changeCount(itemCount) {
-        const { updateGroupedProductQuantity, product } = this.props;
-
-        updateGroupedProductQuantity({ product, quantity: itemCount });
+        return (
+            <Image
+              mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
+              src={ thumb_url && media(thumb_url, PRODUCT_MEDIA) }
+              alt="Product Thumbnail"
+            />
+        );
     }
 
     render() {
-        const {
-            product: {
-                thumbnail: { path: thumb_url },
-                name,
-                price,
-                id
-            },
-            groupedProductQuantity
-        } = this.props;
-        const itemCount = this.getCurrentQuantity(id, groupedProductQuantity);
-
         return (
             <li block="GroupedProductsItem" aria-label="Product Item">
-                <Image src={ thumb_url && `/media/jpg/catalog/product${ thumb_url }` } alt="Product Thumbnail" />
-                <div block="GroupedProductsItem" elem="Title">
-                    <p><TextPlaceholder content={ name } /></p>
-                    <ProductPrice price={ price } mods={ { type: 'regular' } } />
-                </div>
-                <div block="GroupedProductsItem" elem="Quantity">
-                    <Field
-                      type="number"
-                      id="HeaderInput"
-                      onChange={ itemCount => this.changeCount(itemCount) }
-                      value={ itemCount }
-                    />
-                </div>
+                { this.renderImage() }
+                { this.renderTitle() }
+                { this.renderQuantity() }
             </li>
         );
     }
 }
-
-GroupedProductsItem.propTypes = {
-    product: ProductType.isRequired,
-    updateGroupedProductQuantity: PropTypes.func.isRequired,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
-};
 
 export default GroupedProductsItem;

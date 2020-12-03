@@ -9,28 +9,53 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { CmsBlocksAndSliderDispatcher } from 'Store/CmsBlocksAndSlider';
-import { toggleBreadcrumbs, BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import HomePage from './HomePage.component';
 
-const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks
+import Footer from 'Component/Footer';
+import InstallPrompt from 'Component/InstallPrompt';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+import CmsPage from 'Route/CmsPage';
+import { changeNavigationState } from 'Store/Navigation/Navigation.action';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+
+import './HomePage.style';
+
+/** @namespace Route/HomePage/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 
-const mapDispatchToProps = dispatch => ({
-    requestBlocks: (options) => {
-        CmsBlocksAndSliderDispatcher.handleData(dispatch, options);
-    },
-    disableBreadcrumbs: () => {
-        BreadcrumbsDispatcher.update([], dispatch);
-        dispatch(toggleBreadcrumbs(false));
-    },
-    updateSlider: (options) => {
-        CmsBlocksAndSliderDispatcher.handleData(dispatch, options);
+/** @namespace Route/HomePage/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+});
+
+/** @namespace Route/HomePage/Container */
+export class HomePageContainer extends PureComponent {
+    static propTypes = {
+        changeHeaderState: PropTypes.func.isRequired
+    };
+
+    componentDidMount() {
+        const { changeHeaderState } = this.props;
+
+        changeHeaderState({
+            name: DEFAULT_STATE_NAME,
+            isHiddenOnMobile: false
+        });
     }
-});
 
-const HomePageContainer = connect(mapStateToProps, mapDispatchToProps)(HomePage);
+    render() {
+        return (
+            <div block="HomePage">
+                <InstallPrompt />
+                <CmsPage { ...this.props } />
+                <Footer isVisibleOnMobile />
+            </div>
+        );
+    }
+}
 
-export default HomePageContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(HomePageContainer);

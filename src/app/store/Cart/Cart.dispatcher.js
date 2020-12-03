@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,22 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation, fetchQuery } from 'Util/Request';
-import {
-    updateTotals,
-    updateAllProductsInCart,
-    PRODUCTS_IN_CART
-} from 'Store/Cart';
+import CartQuery from 'Query/Cart.query';
+import { updateTotals } from 'Store/Cart/Cart.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
-import { Cart } from 'Query';
-import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getExtensionAttributes } from 'Util/Product';
+import { fetchMutation, fetchQuery } from 'Util/Request';
+
+export const LinkedProductsDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/LinkedProducts/LinkedProducts.dispatcher'
+);
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
 /**
  * Product Cart Dispatcher
  * @class CartDispatcher
+ * @namespace Store/Cart/Dispatcher
  */
 export class CartDispatcher {
     updateInitialCartData(dispatch) {
@@ -37,179 +39,244 @@ export class CartDispatcher {
         } else if (guestQuoteId) {
             // This is guest
             this._syncCartWithBE(dispatch, guestQuoteId);
-        } else {
-            // This is guest, cart is empty
-            // Need to create empty cart and save quote
-            this._createEmptyCart(dispatch).then((data) => {
-                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                dispatch(updateAllProductsInCart({}));
-                dispatch(updateTotals({}));
-            });
         }
     }
 
-    _createEmptyCart(dispatch) {
-        return fetchMutation(Cart.getCreateEmptyCartMutation()).then(
-            ({ createEmptyCart }) => createEmptyCart,
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    _syncCartWithBE(dispatch) {
-        // Need to get current cart from BE, update cart
-        fetchQuery(Cart.getCartQuery(
-            !isSignedIn() && this._getGuestQuoteId()
-        )).then(
-            ({ cartData }) => this._updateCartData(cartData, dispatch),
-            () => {
-                this._createEmptyCart(dispatch).then((data) => {
-                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                    dispatch(updateAllProductsInCart({}));
-                    dispatch(updateTotals({}));
-                });
+    createGuestEmptyCart(dispatch) {
+        return this._createEmptyCart(dispatch).then(
+            /** @namespace Store/Cart/Dispatcher/updateInitialCartData_createEmptyCartThen */
+            (data) => {
+                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                this._updateCartData({}, dispatch);
             }
         );
     }
 
-    addProductToCart(dispatch, options) {
-        const { product, quantity } = options;
-        const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
-        const { sku, type_id: product_type } = product;
+    resetGuestCart(dispatch) {
+        return this._updateCartData({}, dispatch);
+    }
+
+    _createEmptyCart(dispatch) {
+        return fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
+            /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationThen */
+            ({ createEmptyCart }) => createEmptyCart,
+            /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationCatch */
+            (error) => dispatch(showNotification('error', error[0].message))
+        );
+    }
+
+    handle_syncCartWithBESuccess(dispatch, { cartData }) {
+        this._updateCartData(cartData, dispatch);
+    }
+
+    handle_syncCartWithBEError(dispatch) {
+        return this._createEmptyCart(dispatch)
+            .then(
+                /** @namespace Store/Cart/Dispatcher/handle_syncCartWithBEError_createEmptyCartThen */
+                (data) => {
+                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                    this._updateCartData({}, dispatch);
+                }
+            );
+    }
+
+    _syncCartWithBE(dispatch) {
+        // Need to get current cart from BE, update cart
+        fetchQuery(CartQuery.getCartQuery(
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryThen */
+            (result) => this.handle_syncCartWithBESuccess(dispatch, result),
+            /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryError */
+            (error) => this.handle_syncCartWithBEError(dispatch, error)
+        );
+    }
+
+    changeItemQty(dispatch, options, tries = 0) {
+        const { item_id, quantity, sku } = options;
+
+        if (tries > 2) {
+            dispatch(showNotification('error', __('Internal server error. Can not add to cart.')));
+            return Promise.reject();
+        }
+
+        return fetchMutation(CartQuery.getSaveCartItemMutation(
+            { sku, item_id, quantity },
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationThen */
+            ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
+            /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch */
+            (error) => {
+                const [{ debugMessage = '' }] = error || [{}];
+
+                if (debugMessage.match('No such entity with cartId ')) {
+                    return this._createEmptyCart(dispatch).then(
+                        /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch_createEmptyCartThen */
+                        (data) => {
+                            BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                            this._updateCartData({}, dispatch);
+                            return this.changeItemQty(dispatch, options, tries + 1);
+                        }
+                    );
+                }
+
+                dispatch(showNotification('error', error[0].message));
+                return Promise.reject();
+            }
+        );
+    }
+
+    async addProductToCart(dispatch, options) {
+        const guestQuoteId = this._getGuestQuoteId();
+        const {
+            product,
+            quantity,
+            productOptionsData
+        } = options;
+
+        const {
+            sku,
+            type_id: product_type
+        } = product;
+
+        const {
+            productOptions,
+            productOptionsMulti
+        } = productOptionsData || {};
 
         const productToAdd = {
-            item_id,
             sku,
             product_type,
-            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
-            product_option: { extension_attributes: this._getExtensionAttributes(product) }
+            quantity,
+            product_option: {
+                extension_attributes: getExtensionAttributes(
+                    {
+                        ...product,
+                        productOptions,
+                        productOptionsMulti
+                    }
+                )
+            }
         };
 
-        if (this._isAllowed(options)) {
-            return fetchMutation(Cart.getSaveCartItemMutation(
-                productToAdd, !isSignedIn() && this._getGuestQuoteId()
-            )).then(
-                ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-                error => dispatch(showNotification('error', error[0].message))
-            );
+        if (!guestQuoteId) {
+            await this.createGuestEmptyCart(dispatch);
+        }
+
+        if (this._canBeAdded(options)) {
+            try {
+                const { saveCartItem: { cartData } } = await fetchMutation(CartQuery.getSaveCartItemMutation(
+                    productToAdd, !isSignedIn() && this._getGuestQuoteId()
+                ));
+
+                return this._updateCartData(cartData, dispatch);
+            } catch ([{ message }]) {
+                dispatch(showNotification('error', message));
+                return Promise.reject();
+            }
         }
 
         return Promise.reject();
     }
 
-    removeProductFromCart(dispatch, { product }) {
-        return fetchMutation(Cart.getRemoveCartItemMutation(
-            product,
+    removeProductFromCart(dispatch, item_id) {
+        return fetchMutation(CartQuery.getRemoveCartItemMutation(
+            item_id,
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
+            /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationThen */
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            error => dispatch(showNotification('error', error[0].message))
+            /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationError */
+            (error) => dispatch(showNotification('error', error[0].message))
+        );
+    }
+
+    async applyCouponToCart(dispatch, couponCode) {
+        const guestQuoteId = this._getGuestQuoteId();
+
+        if (!guestQuoteId) {
+            await this.createGuestEmptyCart(dispatch);
+        }
+
+        try {
+            const { applyCoupon: { cartData } } = await fetchMutation(CartQuery.getApplyCouponMutation(
+                couponCode, !isSignedIn() && this._getGuestQuoteId()
+            ));
+
+            this._updateCartData(cartData, dispatch);
+            dispatch(showNotification('success', __('Coupon was applied!')));
+        } catch (error) {
+            dispatch(showNotification('error', error[0].message));
+        }
+    }
+
+    removeCouponFromCart(dispatch) {
+        return fetchMutation(CartQuery.getRemoveCouponMutation(
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationThen */
+            ({ removeCoupon: { cartData } }) => {
+                this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Coupon was removed!')));
+            },
+            /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationError */
+            (error) => dispatch(showNotification('error', error[0].message))
         );
     }
 
     _updateCartData(cartData, dispatch) {
-        const { items } = cartData;
-
-        const productsToAdd = items.reduce((prev, cartProduct) => {
-            const {
-                product: {
-                    variants, id, type_id
-                },
-                product,
-                item_id,
-                sku,
-                qty: quantity
-            } = cartProduct;
-
-            if (type_id === 'configurable') {
-                let configurableVariantIndex = 0;
-
-                const { product: variant } = variants.find(
-                    ({ product }, index) => {
-                        const { sku: productSku } = product;
-                        const isChosenProduct = productSku === sku;
-                        if (isChosenProduct) configurableVariantIndex = index;
-                        return isChosenProduct;
-                    }
-                );
-
-                if (variant) {
-                    const { id: variantId } = variant;
-
-                    return {
-                        ...prev,
-                        [variantId]: {
-                            ...product,
-                            configurableVariantIndex,
-                            item_id,
-                            quantity
-                        }
-                    };
-                }
-            }
-
-            return {
-                ...prev,
-                [id]: {
-                    ...product,
-                    item_id,
-                    quantity
-                }
-            };
-        }, {});
-
         dispatch(updateTotals(cartData));
-        dispatch(updateAllProductsInCart(productsToAdd));
-    }
+        const { items = [] } = cartData;
 
-    _getExtensionAttributes(product) {
-        const {
-            configurable_options,
-            configurableVariantIndex,
-            variants,
-            type_id
-        } = product;
+        if (items.length > 0) {
+            const product_links = items.reduce((links, product) => {
+                const { product: { product_links, variants = [] }, sku: variantSku } = product;
 
-        if (type_id === 'configurable') {
-            const { attributes } = variants[configurableVariantIndex];
+                const { product_links: childProductLinks } = variants.find(({ sku }) => sku === variantSku) || {};
 
-            const configurable_item_options = Object.values(configurable_options)
-                .reduce((prev, { attribute_id, attribute_code }) => {
-                    const { attribute_value } = attributes[attribute_code];
+                if (childProductLinks) {
+                    Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
+                        .map((item) => links.push(item));
+                }
 
-                    if (attribute_value) {
-                        return [
-                            ...prev,
-                            {
-                                option_id: attribute_id,
-                                option_value: attribute_value
-                            }
-                        ];
-                    }
+                if (product_links) {
+                    Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
+                        .map((item) => links.push(item));
+                }
 
-                    return prev;
-                }, []);
+                return links;
+            }, []);
 
-            return { configurable_item_options };
+            if (product_links.length !== 0) {
+                LinkedProductsDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
+                );
+            } else {
+                // LinkedProductsDispatcher.then(
+                //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+                // );
+            }
+        } else {
+            // LinkedProductsDispatcher.then(
+            //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
+            // );
         }
-
-        return {};
     }
 
     _getGuestQuoteId() {
         return BrowserDatabase.getItem(GUEST_QUOTE_ID);
     }
 
-    _getProductInCart(product) {
-        const id = this._getProductAttribute('id', product);
-        const productsInCart = BrowserDatabase.getItem(PRODUCTS_IN_CART) || {};
-
-        if (!productsInCart[id]) return {};
-        return productsInCart[id];
-    }
-
-    _getProductAttribute(attribute, { variants, configurableVariantIndex, [attribute]: attributeValue }) {
-        const isNumber = typeof configurableVariantIndex === 'number';
-        return isNumber ? variants[configurableVariantIndex][attribute] : attributeValue;
+    /**
+     * @param {*} attribute
+     * @param {*} product
+     */
+    _getProductAttribute(attribute, product) {
+        const { variants, configurableVariantIndex, [attribute]: attributeValue } = product;
+        return configurableVariantIndex >= 0
+            ? variants[configurableVariantIndex][attribute]
+            : attributeValue;
     }
 
     /**
@@ -218,7 +285,7 @@ export class CartDispatcher {
      * @return {Boolean} Indicates is allowed or not
      * @memberof CartDispatcher
      */
-    _isAllowed(options) {
+    _canBeAdded(options) {
         if (options.product && options.quantity && (options.product.quantity + options.quantity) < 1) {
             return false;
         }

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,13 +11,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const RESPONSE_OK = 200;
+
+/** @namespace SW/Handler/StaleWhileRevalidateHandler/makeRequestAndUpdateCache */
 const makeRequestAndUpdateCache = (request, cache) => fetch(request).then((response) => {
-    const isValid = response.status === 200;
+    const isValid = response.status === RESPONSE_OK;
     const responseToCache = response.clone();
     if (isValid) cache.put(request.url, responseToCache);
     return response;
 });
 
+/** @namespace SW/Handler/StaleWhileRevalidateHandler/shouldBeRevalidated */
 const shouldBeRevalidated = (request, cache) => {
     const type = request.headers.get('Application-Model');
 
@@ -32,14 +38,24 @@ const shouldBeRevalidated = (request, cache) => {
     return true;
 };
 
-const StaleWhileRevalidateHandler = (event) => {
+/** @namespace SW/Handler/StaleWhileRevalidateHandler/staleWhileRevalidate */
+const staleWhileRevalidate = async (event) => {
     const { request, request: url } = event;
-    event.respondWith(caches.open(self.CACHE_NAME)
-        .then(cache => cache.match(url)
-            .then(cachedResponse => (!cachedResponse
-                ? makeRequestAndUpdateCache(request, cache)
-                : shouldBeRevalidated(request, cache) && cachedResponse
-            ))));
+    const cache = await caches.open(self.CACHE_NAME);
+    const response = await cache.match(url);
+
+    if (response) {
+        shouldBeRevalidated(request, cache);
+        return response;
+    }
+
+    return makeRequestAndUpdateCache(request, cache);
 };
 
-export default StaleWhileRevalidateHandler;
+/** @namespace SW/Handler/StaleWhileRevalidateHandler/staleWhileRevalidateHandler */
+const staleWhileRevalidateHandler = (workboxEvent) => {
+    const { event } = workboxEvent;
+    event.respondWith(staleWhileRevalidate(event));
+};
+
+export default staleWhileRevalidateHandler;

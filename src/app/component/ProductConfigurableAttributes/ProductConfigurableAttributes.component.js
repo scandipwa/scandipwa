@@ -9,131 +9,176 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
+import ExpandableContent from 'Component/ExpandableContent';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
-import './ProductConfigurableAttributes.style';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
+import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 
-class ProductConfigurableAttributes extends Component {
-    /**
-     * Get URL link for attribute
-     *
-     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
-     * @returns {String}
-     * @memberof ProductConfigurableAttributes
-     */
-    getLink({ attribute_code, attribute_value }) {
-        const { getLink } = this.props;
-        return getLink(attribute_code, attribute_value);
-    }
+import './ProductConfigurableAttributes.style';
 
-    /**
-     * Updates URL on click
-     *
-     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
-     * @memberof ProductConfigurableAttributes
-     */
-    handleOptionClick({ attribute_code, attribute_value }) {
-        const { updateConfigurableVariant } = this.props;
-        updateConfigurableVariant(attribute_code, attribute_value);
-    }
+/** @namespace Component/ProductConfigurableAttributes/Component */
+export class ProductConfigurableAttributes extends PureComponent {
+    static propTypes = {
+        isContentExpanded: PropTypes.bool,
+        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
+        configurable_options: PropTypes.objectOf(AttributeType).isRequired,
+        parameters: PropTypes.shape({}).isRequired,
+        updateConfigurableVariant: PropTypes.func.isRequired,
+        isReady: PropTypes.bool,
+        mix: MixType,
+        getIsConfigurableAttributeAvailable: PropTypes.func,
+        handleOptionClick: PropTypes.func.isRequired,
+        getSubHeading: PropTypes.func.isRequired,
+        isSelected: PropTypes.func.isRequired,
+        getLink: PropTypes.func.isRequired
+    };
 
-    /**
-     * Checks whether provided attribute were selected
-     *
-     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
-     * @returns {bool}
-     * @memberof ProductConfigurableAttributes
-     */
-    isSelected({ attribute_code, attribute_value }) {
-        const { parameters = {} } = this.props;
-        const parameter = parameters[attribute_code];
-
-        if (parameter === undefined) return false;
-        if (parameter.length !== undefined) return parameter.includes(attribute_value);
-        return parameter === attribute_value;
-    }
+    static defaultProps = {
+        isReady: true,
+        mix: {},
+        // eslint-disable-next-line no-magic-numbers
+        numberOfPlaceholders: [6, 10, 7],
+        isContentExpanded: false,
+        getIsConfigurableAttributeAvailable: () => true
+    };
 
     renderConfigurableAttributeValue(attribute) {
+        const {
+            getIsConfigurableAttributeAvailable,
+            handleOptionClick,
+            getLink,
+            isSelected
+        } = this.props;
+
         const { attribute_value } = attribute;
 
         return (
             <ProductAttributeValue
               key={ attribute_value }
               attribute={ attribute }
-              isSelected={ this.isSelected(attribute) }
-              onClick={ () => this.handleOptionClick(attribute) }
-              getLink={ () => this.getLink(attribute) }
+              isSelected={ isSelected(attribute) }
+              isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
+              onClick={ handleOptionClick }
+              getLink={ getLink }
             />
         );
     }
 
-    renderPlaceholder() {
+    renderSwatch(option) {
+        const { attribute_values } = option;
+
         return (
-            <>
-                <h4 block="ProductConfigurableAttribute" elem="SectionHeading">
-                    <TextPlaceholder length="medium" />
-                </h4>
-                <div block="ProductConfigurableAttribute" elem="AttributesList">
-                    { Array.from(Array(4).keys(), i => (
+            <div
+              block="ProductConfigurableAttributes"
+              elem="SwatchList"
+            >
+                { attribute_values.map((attribute_value) => (
+                    this.renderConfigurableAttributeValue({ ...option, attribute_value })
+                )) }
+            </div>
+        );
+    }
+
+    renderDropdown(option) {
+        const {
+            updateConfigurableVariant,
+            getIsConfigurableAttributeAvailable,
+            parameters
+        } = this.props;
+
+        return (
+            <ProductConfigurableAttributeDropdown
+              option={ option }
+              updateConfigurableVariant={ updateConfigurableVariant }
+              getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
+              parameters={ parameters }
+            />
+        );
+    }
+
+    renderPlaceholders() {
+        const { numberOfPlaceholders, isContentExpanded } = this.props;
+
+        return numberOfPlaceholders.map((length, i) => (
+            <ExpandableContent
+              // eslint-disable-next-line react/no-array-index-key
+              key={ i }
+              mix={ {
+                  block: 'ProductConfigurableAttributes',
+                  elem: 'Expandable'
+              } }
+              isContentExpanded={ isContentExpanded }
+            >
+                <div
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={ i }
+                  block="ProductConfigurableAttributes"
+                  elem="SwatchList"
+                >
+                    { Array.from({ length }, (_, i) => (
                         <div
+                          // eslint-disable-next-line react/no-array-index-key
                           key={ i }
-                          block="ProductConfigurableAttribute"
+                          block="ProductConfigurableAttributes"
                           elem="Placeholder"
                         />
                     )) }
                 </div>
-            </>
-        );
+            </ExpandableContent>
+        ));
     }
 
     renderConfigurableAttributes() {
-        const { configurable_options } = this.props;
+        const {
+            configurable_options,
+            isContentExpanded,
+            getSubHeading
+        } = this.props;
 
         return Object.values(configurable_options).map((option) => {
-            const { attribute_values, attribute_label, attribute_code } = option;
+            const {
+                attribute_label,
+                attribute_code,
+                attribute_options
+            } = option;
+
+            const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
+            const isSwatch = !!swatch_data;
 
             return (
-                <section
+                <ExpandableContent
                   key={ attribute_code }
-                  className="ProductConfigurableAttributes-Attribute"
-                  block="ProductConfigurableAttribute"
-                  aria-label={ attribute_label }
+                  heading={ attribute_label }
+                  subHeading={ getSubHeading(option) }
+                  mix={ {
+                      block: 'ProductConfigurableAttributes',
+                      elem: 'Expandable'
+                  } }
+                  isContentExpanded={ isContentExpanded }
                 >
-                    <h4 block="ProductConfigurableAttribute" elem="SectionHeading">{ attribute_label }</h4>
-                    <div block="ProductConfigurableAttribute" elem="AttributesList">
-                        { attribute_values.map(attribute_value => (
-                            this.renderConfigurableAttributeValue({ ...option, attribute_value })
-                        )) }
-                    </div>
-                </section>
+                    { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
+                </ExpandableContent>
             );
         });
     }
 
     render() {
-        const { isReady } = this.props;
+        const { isReady, mix } = this.props;
 
         return (
-            <div block="ProductConfigurableAttributes">
-                { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholder() }
+            <div
+              block="ProductConfigurableAttributes"
+              mods={ { isLoading: !isReady } }
+              mix={ mix }
+            >
+                { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholders() }
             </div>
         );
     }
 }
-
-ProductConfigurableAttributes.propTypes = {
-    configurable_options: PropTypes.objectOf(AttributeType).isRequired,
-    getLink: PropTypes.func.isRequired,
-    parameters: PropTypes.shape({}).isRequired,
-    updateConfigurableVariant: PropTypes.func.isRequired,
-    isReady: PropTypes.bool
-};
-
-ProductConfigurableAttributes.defaultProps = {
-    isReady: true
-};
 
 export default ProductConfigurableAttributes;

@@ -1,3 +1,5 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/create-config-files */
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,16 +12,35 @@
  */
 
 import { getAuthorizationToken } from 'Util/Auth';
+import { getCurrency } from 'Util/Currency';
+
 import { hash } from './Hash';
 
-const GRAPHQL_URI = '/graphql';
+export const GRAPHQL_URI = '/graphql';
+
+/** @namespace Util/Request/getStoreCodePath */
+export const getStoreCodePath = () => {
+    const path = location.pathname;
+    // eslint-disable-next-line no-undef
+    const firstPathPart = path.split('/')[1];
+
+    if (window.storeList.includes(firstPathPart)) {
+        return `/${ firstPathPart }`;
+    }
+
+    return '';
+};
+
+/** @namespace Util/Request/getGraphqlEndpoint */
+export const getGraphqlEndpoint = () => getStoreCodePath().concat(GRAPHQL_URI);
 
 /**
  * Append authorization token to header object
  * @param {Object} headers
  * @returns {Object} Headers with appended authorization
+ * @namespace Util/Request/appendTokenToHeaders
  */
-const appendTokenToHeaders = (headers) => {
+export const appendTokenToHeaders = (headers) => {
     const token = getAuthorizationToken();
 
     return {
@@ -34,35 +55,28 @@ const appendTokenToHeaders = (headers) => {
  * @param {Object} variables Request variables
  * @param {String} url GraphQL url
  * @returns {*}
+ * @namespace Util/Request/formatURI
  */
-const formatURI = (query, variables, url) => {
-    let requestUrl;
-    const stringifyVariables = [`?hash=${ hash(query) }`];
-    Object.keys(variables).forEach((variable) => {
-        stringifyVariables.push(`${ variable }=${ variables[ variable ] }`);
-    });
-    if (stringifyVariables.length) {
-        requestUrl = `${ url }${ stringifyVariables.join('&') }`;
-    }
-    requestUrl = requestUrl.replace(/ /g, '');
+export const formatURI = (query, variables, url) => {
+    // eslint-disable-next-line no-param-reassign
+    variables._currency = getCurrency();
 
-    return requestUrl;
+    const stringifyVariables = Object.keys(variables).reduce(
+        (acc, variable) => [...acc, `${ variable }=${ JSON.stringify(variables[variable]) }`],
+        [`?hash=${ hash(query) }`]
+    );
+
+    return `${ url }${ stringifyVariables.join('&') }`;
 };
-
-/**
- * Checks if the given query is a GraphQL mutation
- * @param  {String} query
- * @return {Promise<Object>}
- */
-const isMutation = query => query.substring(0, query.indexOf('(')) === 'mutation';
 
 /**
  *
  * @param {String} uri
  * @param {String} name
  * @returns {Promise<Response>}
+ * @namespace Util/Request/getFetch
  */
-const getFetch = (uri, name) => fetch(uri,
+export const getFetch = (uri, name) => fetch(uri,
     {
         method: 'GET',
         headers: appendTokenToHeaders({
@@ -77,8 +91,9 @@ const getFetch = (uri, name) => fetch(uri,
  * @param {String} graphQlURI
  * @param {{}} query Request body
  * @param {Int} cacheTTL
+ * @namespace Util/Request/putPersistedQuery
  */
-const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
+export const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
     {
         method: 'PUT',
         body: JSON.stringify(query),
@@ -94,8 +109,9 @@ const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI 
  * @param {String} queryObject
  * @param {String} name
  * @returns {Promise<Response>}
+ * @namespace Util/Request/postFetch
  */
-const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
+export const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
     {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
@@ -109,8 +125,9 @@ const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
  * Checks for errors in response, if they exist, rejects promise
  * @param  {Object} res Response from GraphQL endpoint
  * @return {Promise<Object>} Handled GraphqlQL results promise
+ * @namespace Util/Request/checkForErrors
  */
-const checkForErrors = res => new Promise((resolve, reject) => {
+export const checkForErrors = (res) => new Promise((resolve, reject) => {
     const { errors, data } = res;
     return errors ? reject(errors) : resolve(data);
 });
@@ -119,18 +136,32 @@ const checkForErrors = res => new Promise((resolve, reject) => {
  * Handle connection errors
  * @param  {any} err Error from fetch
  * @return {void} Simply console error
+ * @namespace Util/Request/handleConnectionError
  */
-const handleConnectionError = err => console.error(err); // TODO: Add to logs pool
+export const handleConnectionError = (err) => console.error(err); // TODO: Add to logs pool
 
 /**
  * Parse response and check wether it contains errors
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
+ * @namespace Util/Request/parseResponse
  */
-const parseResponse = promise => promise.then(
-    res => res.json().then(checkForErrors, () => handleConnectionError('Can not transform JSON!')),
-    () => handleConnectionError('Can not establish connection!')
-);
+export const parseResponse = (promise) => new Promise((resolve, reject) => {
+    promise.then(
+        /** @namespace Util/Request/promiseThen */
+        (res) => res.json().then(
+            /** @namespace Util/Request/resJsonThen */
+            (res) => resolve(checkForErrors(res)),
+            /** @namespace Util/Request/resJsonError */
+            () => handleConnectionError('Can not transform JSON!') && reject()
+        ),
+        /** @namespace Util/Request/promiseError */
+        (err) => handleConnectionError('Can not establish connection!') && reject(err)
+    );
+});
+
+export const HTTP_410_GONE = 410;
+export const HTTP_201_CREATED = 201;
 
 /**
  * Make GET request to endpoint (via ServiceWorker)
@@ -138,23 +169,33 @@ const parseResponse = promise => promise.then(
  * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
  * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
+ * @namespace Util/Request/executeGet
  */
 export const executeGet = (queryObject, name, cacheTTL) => {
     const { query, variables } = queryObject;
-    const uri = formatURI(query, variables, GRAPHQL_URI);
+    const uri = formatURI(query, variables, getGraphqlEndpoint());
 
     return parseResponse(new Promise((resolve) => {
-        getFetch(uri, name).then((res) => {
-            if (res.status === 410) {
-                putPersistedQuery(GRAPHQL_URI, query, cacheTTL).then((putResponse) => {
-                    if (putResponse.status === 201) {
-                        getFetch(uri, name).then(res => resolve(res));
-                    }
-                });
-            } else {
-                resolve(res);
+        getFetch(uri, name).then(
+            /** @namespace Util/Request/getFetchThen */
+            (res) => {
+                if (res.status === HTTP_410_GONE) {
+                    putPersistedQuery(getGraphqlEndpoint(), query, cacheTTL).then(
+                        /** @namespace Util/Request/putPersistedQueryThen */
+                        (putResponse) => {
+                            if (putResponse.status === HTTP_201_CREATED) {
+                                getFetch(uri, name).then(
+                                    /** @namespace Util/Request/putResponseGetFetchThen */
+                                    (res) => resolve(res)
+                                );
+                            }
+                        }
+                    );
+                } else {
+                    resolve(res);
+                }
             }
-        });
+        );
     }));
 };
 
@@ -162,18 +203,20 @@ export const executeGet = (queryObject, name, cacheTTL) => {
  * Make POST request to endpoint
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
+ * @namespace Util/Request/executePost
  */
 export const executePost = (queryObject) => {
     const { query, variables } = queryObject;
-    return parseResponse(postFetch(GRAPHQL_URI, query, variables));
+    return parseResponse(postFetch(getGraphqlEndpoint(), query, variables));
 };
 
 /**
  * Listen to the BroadCast connection
  * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
  * @return {Promise<any>} Broadcast message promise
+ * @namespace Util/Request/listenForBroadCast
  */
-export const listenForBroadCast = name => new Promise((resolve) => {
+export const listenForBroadCast = (name) => new Promise((resolve) => {
     const { BroadcastChannel } = window;
     if (BroadcastChannel) {
         const bc = new BroadcastChannel(name);
@@ -183,3 +226,14 @@ export const listenForBroadCast = name => new Promise((resolve) => {
         };
     }
 });
+
+/** @namespace Util/Request/debounce */
+export const debounce = (callback, delay) => {
+    // eslint-disable-next-line fp/no-let
+    let timeout;
+    return (...args) => {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => callback.apply(context, args), delay);
+    };
+};

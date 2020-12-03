@@ -11,11 +11,24 @@
 
 // using the default "react-input-range" package css names
 
-.input-range {
-    --range-slider-color: var(--color-primary-base);
+:root {
+    --range-slider-color: #000;
+    --range-slider-active-color: var(--primary-base-color);
+}
 
-    margin: 20px 7px 3.7rem;
+.RangeSelector {
+    &_isChanged {
+        --range-slider-color: var(--range-slider-active-color);
+    }
+}
+
+.input-range {
+    margin: 30px 10px;
     width: calc(100% - 18px);
+
+    @include mobile {
+        margin: 40px 10px;
+    }
 
     &__slider,
     &__track--active {
@@ -25,14 +38,24 @@
 
     &__slider {
         background-color: white;
+        margin-left: -10px;
+        margin-top: -12px;
+        width: 20px;
+        height: 20px;
     }
 
     &__track {
         height: 4px;
     }
 
-    &__slider {
-        width: 14px;
-        height: 14px;
+    &__label {
+        &--value {
+            top: -2.2rem;
+        }
+
+        &--min,
+        &--max {
+            bottom: -1.6rem;
+        }
     }
 }

@@ -9,80 +9,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.Breadcrumbs {
-    background-color: var(--color-breadcrumbs-background);
+:root {
+    --breadcrumbs-height: 40px;
+    --breadcrumbs-background: var(--secondary-base-color);
+    --breadcrumbs-active-color: #888;
+    --breadcrumbs-color: #404040;
+}
 
-    $crumb-padding: 10px;
+.Breadcrumbs {
+    background-color: var(--breadcrumbs-background);
+
+    $crumb-padding: 20px;
     $arrow-size: 4px;
 
-    @include mobile {
-        --color-breadcrumbs-background: #fff;
-    }
+    @include before-desktop {
+        --breadcrumbs-background: #fff;
 
-    @include mobile {
         display: none;
     }
 
     &-List {
         list-style: none;
-        padding: .8rem 0;
-        max-width: 1200px;
-        min-height: calc(2.7rem);
-        margin: {
-            left: auto;
-            right: auto;
-        };
-    }
-
-    &-Crumb {
-        display: inline-block;
-        font-size: 1rem;
-        line-height: 1;
-        padding: 0 $crumb-padding 0 0;
-
-        a {
-            text-transform: capitalize;
-
-            &:visited {
-                color: var(--color-breadcrumbs-base);
-            }
-        }
-
-        &:not(:last-child) {
-            margin: 0;
-
-            &:not(:first-child) {
-                a {
-                    color: var(--color-breadcrumbs-base);
-                }
-            }
-
-            &::after {
-                content: '';
-                position: relative;
-                display: inline-block;
-                height: $arrow-size;
-                width: $arrow-size;
-                transform: rotate(-135deg);
-                margin-left: $crumb-padding - 4;
-                border-color: var(--color-breadcrumbs-arrow);
-                border-style: solid;
-                border-width: 0 0 1px 1px;
-                top: -1px;
-            }
-        }
-
-        &:last-child {
-            pointer-events: none;
-            margin: 0;
-
-            a {
-                color: var(--color-breadcrumbs-current);
-            }
-        }
-
-        &::before {
-            content: none;
-        }
+        padding: 10px 0;
+        height: 40px;
     }
 }

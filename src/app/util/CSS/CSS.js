@@ -12,8 +12,9 @@
 /**
  * Set of helpers related to CSS
  * @class CSS
+ * @namespace Util/CSS
  */
-class CSS {
+export class CSS {
     /**
      * Change CSS custom property in referenced node scope
      * @static
@@ -24,8 +25,30 @@ class CSS {
      * @memberof CSS
      */
     static setVariable(ref, name, value) {
-        ref.current.style.setProperty(`--${name}`, value);
+        if (ref.current) {
+            ref.current.style.setProperty(`--${name}`, value);
+        }
     }
 }
+
+/** @namespace Util/CSS/getHeight */
+export const getElementHeight = (id) => Array.from(
+    document.getElementsByClassName(id)
+).reduce((acc, item) => {
+    const { offsetHeight } = item;
+    return acc + offsetHeight;
+}, 0);
+
+/** @namespace Util/CSS/getFixedElementHeight */
+export const getFixedElementHeight = () => {
+    const top = getElementHeight('FixedElement-Top');
+    const bottom = getElementHeight('FixedElement-Bottom');
+
+    return {
+        total: top + bottom,
+        top,
+        bottom
+    };
+};
 
 export default CSS;

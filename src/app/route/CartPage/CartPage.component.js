@@ -9,106 +9,370 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ContentWrapper from 'Component/ContentWrapper';
+import { PureComponent } from 'react';
+
+import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
-import DiscountCoupons from 'Component/DiscountCoupons';
-import CartSummary from 'Component/CartSummary';
-import { ProductType } from 'Type/ProductList';
+import CmsBlock from 'Component/CmsBlock';
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import Link from 'Component/Link';
+import ProductLinks from 'Component/ProductLinks';
+import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
+
 import './CartPage.style';
 
-class CartPage extends Component {
-    componentDidMount() {
-        this.updateBreadcrumbs();
-    }
+/** @namespace Route/CartPage/Component */
+export class CartPage extends PureComponent {
+    static propTypes = {
+        totals: TotalsType.isRequired,
+        onCheckoutButtonClick: PropTypes.func.isRequired,
+        hasOutOfStockProductsInCart: PropTypes.bool,
+        cartSubTotal: PropTypes.number.isRequired,
+        cartSubTotalExlTax: PropTypes.number.isRequired,
+        cartOrderTotalExlTax: PropTypes.number.isRequired
+    };
 
-    updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        const breadcrumbs = [
-            {
-                url: '/cart',
-                name: __('Shopping cart')
-            },
-            {
-                url: '/',
-                name: __('Home')
-            }
-        ];
+    static defaultProps = {
+        hasOutOfStockProductsInCart: false
+    };
 
-        updateBreadcrumbs(breadcrumbs);
-    }
+    renderCartItems() {
+        const { totals: { items, quote_currency_code } } = this.props;
 
-    /**
-     * Render Cart Item
-     * @return {JSX}
-     */
-    renderItemsList(items) {
-        return Object.keys(items)
-            .map(key => <CartItem key={ key } product={ items[key] } />);
-    }
+        if (!items || items.length < 1) {
+            return (
+                <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
+            );
+        }
 
-    /**
-     * Render Empty message if there is no products in cart
-     * @param {Number} i List key
-     * @return {JSX}
-     */
-    renderEmptyMessage(i) {
         return (
-            <li block="MiniCart" elem="Empty" key={ i }>
-                { __('You have no items in your shopping cart.') }
-            </li>
+            <>
+                <p block="CartPage" elem="TableHead" aria-hidden>
+                    <span>{ __('item') }</span>
+                    <span>{ __('qty') }</span>
+                    <span>{ __('subtotal') }</span>
+                </p>
+                <ul block="CartPage" elem="Items" aria-label="List of items in cart">
+                    { items.map((item) => (
+                        <CartItem
+                          key={ item.item_id }
+                          item={ item }
+                          currency_code={ quote_currency_code }
+                          isEditing
+                          isLikeTable
+                        />
+                    )) }
+                </ul>
+            </>
+        );
+    }
+
+    renderDiscountCode() {
+        const {
+            totals: { coupon_code }
+        } = this.props;
+
+        return (
+            <ExpandableContent
+              heading={ __('Have a discount code?') }
+              mix={ { block: 'CartPage', elem: 'Discount' } }
+            >
+                <CartCoupon couponCode={ coupon_code } />
+            </ExpandableContent>
+        );
+    }
+
+    renderPriceLine(price) {
+        const { totals: { quote_currency_code } } = this.props;
+        return formatPrice(price, quote_currency_code);
+    }
+
+    renderSubTotal() {
+        const { cartSubTotal = 0 } = this.props;
+
+        return (
+            <>
+                <dt>{ __('Subtotal:') }</dt>
+                <dd>
+                    { this.renderPriceLine(cartSubTotal) }
+                    { this.renderSubTotalExlTax() }
+                </dd>
+            </>
+        );
+    }
+
+    renderSubTotalExlTax() {
+        const { cartSubTotalExlTax } = this.props;
+
+        if (!cartSubTotalExlTax) {
+            return null;
+        }
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartSubTotalExlTax) }` }
+            </span>
+        );
+    }
+
+    renderTaxFullSummary() {
+        const {
+            totals: {
+                cart_display_config: {
+                    display_full_tax_summary
+                } = {},
+                applied_taxes
+            }
+        } = this.props;
+
+        if (!display_full_tax_summary || !applied_taxes.length) {
+            return null;
+        }
+
+        return applied_taxes
+            .flatMap(({ rates }) => rates)
+            .map(({ percent, title }) => (
+                <div block="CartPage" elem="TaxRate">
+                    { `${title} (${percent}%)` }
+                </div>
+            ));
+    }
+
+    renderTax() {
+        const {
+            totals: {
+                tax_amount = 0,
+                cart_display_config: {
+                    display_zero_tax_subtotal
+                } = {}
+            }
+        } = this.props;
+
+        if (!tax_amount && !display_zero_tax_subtotal) {
+            return null;
+        }
+
+        return (
+            <>
+                <dt>
+                    { __('Tax:') }
+                    { this.renderTaxFullSummary() }
+                </dt>
+                <dd>{ this.renderPriceLine(tax_amount) }</dd>
+            </>
+        );
+    }
+
+    renderTotalDetails(isMobile = false) {
+        return (
+            <dl
+              block="CartPage"
+              elem="TotalDetails"
+              aria-label={ __('Order total details') }
+              mods={ { isMobile } }
+            >
+                { this.renderSubTotal() }
+                { this.renderDiscount() }
+                { this.renderTax() }
+            </dl>
+        );
+    }
+
+    renderOrderTotalExlTax() {
+        const { cartOrderTotalExlTax } = this.props;
+
+        if (!cartOrderTotalExlTax) {
+            return null;
+        }
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartOrderTotalExlTax) }` }
+            </span>
+        );
+    }
+
+    renderTotal() {
+        const {
+            totals: {
+                subtotal_with_discount = 0,
+                tax_amount = 0
+            }
+        } = this.props;
+
+        return (
+            <dl block="CartPage" elem="Total" aria-label="Complete order total">
+                <dt>{ __('Order total:') }</dt>
+                <dd>
+                    { this.renderPriceLine(subtotal_with_discount + tax_amount) }
+                    { this.renderOrderTotalExlTax() }
+                </dd>
+            </dl>
+        );
+    }
+
+    renderSecureCheckoutButton() {
+        const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
+
+        if (hasOutOfStockProductsInCart) {
+            return (
+                <div block="CartPage" elem="OutOfStockProductsWarning">
+                    { __('Remove out of stock products from cart') }
+                </div>
+            );
+        }
+
+        return (
+            <button
+              block="CartPage"
+              elem="CheckoutButton"
+              mix={ { block: 'Button' } }
+              onClick={ onCheckoutButtonClick }
+            >
+                <span />
+                { __('Secure checkout') }
+            </button>
+        );
+    }
+
+    renderButtons() {
+        return (
+            <div block="CartPage" elem="CheckoutButtons">
+                { this.renderSecureCheckoutButton() }
+                <Link
+                  block="CartPage"
+                  elem="ContinueShopping"
+                  to="/"
+                >
+                    { __('Continue shopping') }
+                </Link>
+            </div>
+        );
+    }
+
+    renderTotals() {
+        return (
+            <article
+              block="CartPage"
+              elem="Summary"
+              mix={ { block: 'FixedElement', elem: 'Bottom' } }
+            >
+                <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
+                { this.renderTotalDetails() }
+                { this.renderTotal() }
+                { this.renderButtons() }
+            </article>
+        );
+    }
+
+    renderDiscount() {
+        const {
+            totals: {
+                applied_rule_ids,
+                coupon_code,
+                discount_amount = 0
+            }
+        } = this.props;
+
+        if (!applied_rule_ids) {
+            return null;
+        }
+
+        if (!coupon_code) {
+            return (
+                <>
+                    <dt>
+                        { __('Discount: ') }
+                    </dt>
+                    <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+                </>
+            );
+        }
+
+        return (
+            <>
+                <dt>
+                    { __('Discount/Coupon ') }
+                    <strong block="CartPage" elem="DiscountCoupon">{ coupon_code.toUpperCase() }</strong>
+                </dt>
+                <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+            </>
+        );
+    }
+
+    renderCrossSellProducts() {
+        return (
+            <ProductLinks
+              linkType={ CROSS_SELL }
+              title={ __('Frequently bought together') }
+            />
+        );
+    }
+
+    renderPromoContent() {
+        const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
+
+        if (cart_cms) {
+            return <CmsBlock identifier={ cart_cms } />;
+        }
+
+        return (
+            <figure
+              block="CartPage"
+              elem="PromoBlock"
+            >
+                <figcaption block="CartPage" elem="PromoText">
+                    { __('Free shipping on order 49$ and more.') }
+                </figcaption>
+            </figure>
+        );
+    }
+
+    renderPromo() {
+        return (
+            <div
+              block="CartPage"
+              elem="Promo"
+            >
+                { this.renderPromoContent() }
+            </div>
+        );
+    }
+
+    renderHeading() {
+        return (
+            <h1 block="CartPage" elem="Heading">
+                { __('Shopping cart') }
+            </h1>
         );
     }
 
     render() {
-        const { products, totals } = this.props;
-
         return (
-            <>
-                <main block="CartPage" aria-label="Cart Page">
-                    <ContentWrapper
-                      mix={ { block: 'CartPage' } }
-                      wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
-                      label={ __('Cart page details') }
-                    >
-                        <h1>Shopping cart</h1>
-                        <div block="CartPage" elem="ItemsList" aria-label={ __('Cart Items List') }>
-                            <div block="CartPage" elem="TableTitles">
-                                <span>{ __('Item') }</span>
-                                <span>{ __('Qty') }</span>
-                                <span>{ __('Subtotal') }</span>
-                            </div>
-                            <ul>
-                                { Object.entries(products).length
-                                    ? (
-                                        <>
-                                            { this.renderItemsList(products) }
-                                            <DiscountCoupons />
-                                        </>
-                                    )
-                                    : this.renderEmptyMessage(1)
-                                }
-                            </ul>
-                        </div>
-                        <CartSummary totals={ totals } />
-                    </ContentWrapper>
-                </main>
-            </>
+            <main block="CartPage" aria-label="Cart Page">
+                <ContentWrapper
+                  wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
+                  label="Cart page details"
+                >
+                    <div block="CartPage" elem="Static">
+                        { this.renderHeading() }
+                        { this.renderCartItems() }
+                        { this.renderTotalDetails(true) }
+                        { this.renderDiscountCode() }
+                        { this.renderCrossSellProducts() }
+                    </div>
+                    <div block="CartPage" elem="Floating">
+                        { this.renderPromo() }
+                        { this.renderTotals() }
+                    </div>
+                </ContentWrapper>
+            </main>
         );
     }
 }
-
-CartPage.propTypes = {
-    products: PropTypes.objectOf(ProductType),
-    totals: TotalsType,
-    updateBreadcrumbs: PropTypes.func.isRequired
-};
-
-CartPage.defaultProps = {
-    products: {},
-    totals: {}
-};
 
 export default CartPage;

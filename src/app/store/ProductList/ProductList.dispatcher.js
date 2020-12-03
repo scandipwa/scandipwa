@@ -9,40 +9,58 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
+import ProductListQuery from 'Query/ProductList.query';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
+import { showNotification } from 'Store/Notification/Notification.action';
 import {
     appendPage,
-    updateProductListItems,
-    updateLoadStatus
-} from 'Store/ProductList';
-import { showNotification } from 'Store/Notification';
-import { updateNoMatch } from 'Store/NoMatch';
+    updateLoadStatus,
+    updatePageLoadingStatus,
+    updateProductListItems
+} from 'Store/ProductList/ProductList.action';
+import { QueryDispatcher } from 'Util/Request';
 
 /**
  * Product List Dispatcher
  * @class ProductListDispatcher
  * @extends QueryDispatcher
+ * @namespace Store/ProductList/Dispatcher
  */
 export class ProductListDispatcher extends QueryDispatcher {
-    constructor() {
-        super('ProductList', 86400);
+    __construct() {
+        super.__construct('ProductList');
     }
 
-    // eslint-disable-next-line consistent-return
     onSuccess(data, dispatch, options) {
-        const { products: { items } } = data;
-
         const {
-            currentPage,
-            isNext
-        } = options;
+            products: {
+                items,
+                total_count,
+                page_info: { total_pages } = {}
+            } = {}
+        } = data;
+
+        const { args, isNext } = options;
+        const { currentPage } = args;
 
         if (isNext) {
-            return dispatch(appendPage(items, currentPage));
+            return dispatch(
+                appendPage(
+                    items,
+                    currentPage
+                )
+            );
         }
 
-        dispatch(updateProductListItems(items, currentPage));
+        return dispatch(
+            updateProductListItems(
+                items,
+                currentPage,
+                total_count,
+                total_pages,
+                args
+            )
+        );
     }
 
     onError(error, dispatch) {
@@ -51,12 +69,15 @@ export class ProductListDispatcher extends QueryDispatcher {
     }
 
     prepareRequest(options, dispatch) {
-        if (!options.isNext) dispatch(updateLoadStatus(true));
+        const { isNext } = options;
 
-        return ProductListQuery.getQuery({
-            ...options,
-            notRequireInfo: true
-        });
+        if (!isNext) {
+            dispatch(updateLoadStatus(true));
+        } else {
+            dispatch(updatePageLoadingStatus());
+        }
+
+        return ProductListQuery.getQuery(options);
     }
 }
 

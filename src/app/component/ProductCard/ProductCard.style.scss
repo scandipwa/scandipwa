@@ -9,161 +9,156 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ProductCard {
-    --card-highlight-color: transparent;
+:root {
+    --product-card-picture-mask-color: #f5f5f5;
+    --product-card-color-border-color: #efefef;
+    --product-cart-picture-label-background: rgba(255, 255, 255, .7);
+}
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid var(--card-highlight-color);
-    background-color: var(--color-text-white);
-    text-align: center;
+.ProductCard {
     padding-left: 0;
     min-width: 0;
-
-    &:hover {
-        --card-highlight-color: var(--color-neutral-light);
-    }
-
-    &:focus,
-    &:focus-within {
-        --card-highlight-color: var(--color-primary-base);
-    }
 
     &::before {
         content: none;
     }
 
     &:last-child {
-        margin-bottom: .6rem;
+        margin-bottom: .72rem;
+
+        @include mobile {
+            margin-bottom: .84rem;
+        }
     }
 
-    a,
-    div {
-        color: inherit;
-        display: block;
-        max-width: 100%;
+    &-Content {
+        padding: 1.2rem;
+        display: flex;
+        flex-wrap: wrap;
+        padding-top: 23px;
 
-        @include after-mobile {
-            padding: 1rem;
+        @include mobile {
+            padding: 23px 1.4rem 1.4rem;
+        }
+    }
+
+    &-Name,
+    &-Brand {
+        width: 100%;
+        font-size: 1.08rem;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+
+        @include mobile {
+            font-size: 1.26rem;
         }
 
-        &:hover,
-        &:focus,
-        &:active {
-            text-decoration: none;
+        &_isLoaded {
+            text-overflow: ellipsis;
+        }
+
+        @include after-mobile {
+            font-size: 1.4rem;
+            line-height: 1.3;
+        }
+    }
+
+    &-Name {
+        @include after-mobile {
+            margin-top: .6rem;
         }
     }
 
     &-Brand {
-        display: block;
+        font-weight: 300;
+        opacity: .5;
+
+        @include mobile {
+            line-height: 1;
+            font-size: 1.2rem;
+        }
+    }
+
+    &-Picture {
+        padding-bottom: 120%;
+    }
+
+    &-PictureMissing {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        height: 20px;
+        bottom: 0;
         margin: auto;
-        white-space: nowrap;
+        top: 0;
+    }
+
+    &-Reviews {
+        --product-rating-size: 1.2rem;
+
+        width: 100%;
+    }
+
+    &-ConfigurableOptions {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    &-Color {
+        --product-card-color-size: 9px;
+
+        @include after-mobile {
+            --product-card-color-size: 10px;
+        }
+
+        display: inline-block;
+        width: var(--product-card-color-size);
+        height: var(--product-card-color-size);
+        border-radius: 50%;
         overflow: hidden;
-        text-overflow: ellipsis;
+        margin-left: calc(var(--product-card-color-size) / 3);
+        border: 1px solid var(--product-card-color-border-color);
+    }
+
+    &-Price {
+        @include after-mobile {
+            font-size: 2rem;
+        }
+    }
+
+    &-PriceBadge {
+        color: var(--secondary-dark-color);
+        margin-right: 5px;
         font-size: 1rem;
-        text-transform: uppercase;
-        color: var(--color-neutral-base);
+        position: absolute;
+        top: 7px;
+    }
 
-        @include mobile {
-            max-width: 9.5rem;
-            font-size: .8rem;
+    &-Figure {
+        flex-grow: 1;
+    }
+
+    &-Link {
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+
+        &:hover,
+        &:focus {
+            text-decoration: none;
         }
     }
 
-    h4 {
-        margin: auto;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-
-        @include mobile {
-            font-size: 1rem;
-        }
+    p {
+        margin-bottom: 0;
     }
 
-    .Image {
-        margin-bottom: 1rem;
-    }
-
-    &-Actions {
-        @include mobile {
-            padding-top: 1rem;
-        }
-
-        a {
-            @include button;
-
-            span {
-                color: var(--color-text-white);
-            }
-
-            @include mobile {
-                padding: 0.8rem;
-                font-size: 0.8rem;
-            }
-        }
-
-        .TextPlaceholder {
-            width: 100%;
-            display: block;
-
-            &::after {
-                font-size: 2.5rem;
-                content: 'a';
-                width: 100%;
-                display: block;
-            }
-
-            &:first-of-type {
-                margin-bottom: 5px;
-            }
-        }
-
-        .ProductWishlistButton {
-            &-Button {
-                margin-left: 0;
-            }
-        }
-    }
-
-    &-ReviewSummary {
-        font-size: 1.1rem;
-        padding-top: 0;
-
-        @include mobile {
-            font-size: 1rem;
-            margin-top: 1rem;
-        }
-
-        .ProductReviewRating,
-        a {
-            display: inline-block;
-            padding: 0;
-        }
-
-        .ProductReviewRating {
-            vertical-align: middle;
-
-            @include mobile {
-                font-size: 1.4rem;
-                margin: 0;
-            }
-        }
-
-        a {
-            color: var(--link-color);
-            vertical-align: sub;
-
-            @include mobile {
-                display: block;
-            }
-
-            &:hover,
-            &:focus {
-                text-decoration: underline;
-            }
-        }
+    .TextPlaceholder,
+    .Image_isPlaceholder {
+        opacity: 0;
+        animation: appear 100ms 300ms forwards;
     }
 }

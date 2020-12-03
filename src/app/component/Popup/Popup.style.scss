@@ -1,0 +1,111 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --popup-background: #0003;
+    @include mobile {
+        --popup-content-padding: 1.4rem;
+    }
+
+    --popup-content-background: #{$white};
+    --popup-min-width: 100%;
+    --popup-content-padding: 1.2rem;
+
+    @include after-mobile {
+        --popup-min-width: 490px;
+        --popup-content-padding: 2.4rem;
+    }
+}
+
+.Popup {
+    opacity: 0;
+    pointer-events: none;
+    z-index: 200;
+    position: fixed;
+    background-color: var(--popup-background);
+    left: 0;
+    bottom: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include mobile {
+        align-items: stretch;
+    }
+
+    &_isVisible {
+        pointer-events: all;
+        opacity: 1;
+        width: 100vw;
+        height: 100vh;
+
+        @include mobile {
+            height: calc(100% - var(--header-total-height));
+        }
+    }
+
+    &-Heading {
+        font-size: 2rem;
+        text-decoration: none;
+        font-weight: 400;
+        margin-top: 0;
+    }
+
+    &-Header {
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-Content {
+        background-color: var(--popup-content-background);
+        border-radius: 5px;
+        padding: var(--popup-content-padding);
+        min-width: var(--popup-min-width);
+        max-width: calc(var(--content-wrapper-width) * .8);
+        max-height: 80%;
+        overflow-y: scroll;
+
+        @include mobile {
+            border-radius: 0;
+            max-height: 100%;
+        }
+    }
+
+    & &-CloseBtn {
+        @include close-button;
+
+        height: 40px;
+        width: 40px;
+        position: absolute;
+        top: -4px;
+        right: -1rem;
+        z-index: 5;
+
+        @include mobile {
+            top: 25px;
+        }
+    }
+
+    .Loader {
+        @include mobile {
+            position: fixed;
+        }
+    }
+}
+
+.scrollDisabled {
+    position: fixed;
+    margin-top: 0;
+    width: 100%;
+    overflow-y: scroll;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,142 +10,118 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router';
+import { PureComponent } from 'react';
+
+import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
-import TextPlaceholder from 'Component/TextPlaceholder';
+
 import './ProductWishlistButton.style';
 
-/**
- * Button for adding product to Cart
- * @class ProductWishlistButton
- */
-class ProductWishlistButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { isLoading: false, redirectToWishlist: false };
-        this.timeOut = null;
-    }
+/** @namespace Component/ProductWishlistButton/Component */
+export class ProductWishlistButton extends PureComponent {
+    static propTypes = {
+        isReady: PropTypes.bool,
+        isLoading: PropTypes.bool,
+        quantity: PropTypes.number,
+        isDisabled: PropTypes.bool,
+        isInWishlist: PropTypes.bool,
+        product: ProductType.isRequired,
+        addToWishlist: PropTypes.func.isRequired,
+        removeFromWishlist: PropTypes.func.isRequired,
+        mix: PropTypes.shape({ block: PropTypes.string, elem: PropTypes.string, mod: PropTypes.string })
+    };
 
-    componentWillUnmount() {
-        clearTimeout(this.timeOut);
-    }
+    static defaultProps = {
+        mix: {},
+        quantity: 1,
+        isReady: true,
+        isLoading: false,
+        isDisabled: false,
+        isInWishlist: false
+    };
 
-    /**
-     * Switch button text to indicated that product has been added
-     * @return {Promise}
-     */
-    setAnimationTimeout() {
-        return setTimeout(() => {
-            this.timeOut = null;
-            this.setState(({ transition }) => ({ transition: !transition }));
-        }, 1500);
-    }
-
-    getProductInWishlist() {
-        const { product, wishlistItems } = this.props;
-        const { id } = product;
-
-        if (!wishlistItems[id]) return false;
-
-        return wishlistItems[id];
-    }
-
-    /**
-     * Button click listener
-     * @return {void}
-     */
-    buttonClick(isProductInWishlist) {
-        const {
-            product,
-            addProductToWishlist,
-            removeProductFromWishlist,
-            showNotification,
-            wishlistItems
-        } = this.props;
-
-        this.setState({ isLoading: true });
+    getTitle = () => {
+        const { isInWishlist, isReady } = this.props;
 
         if (!isSignedIn()) {
-            showNotification('error', __('You must login or register to add items to your wishlist.'));
-            this.setState({ isLoading: false });
-            return null;
+            return __('Please sign in first!');
         }
 
-        if (isProductInWishlist) {
-            const { id } = product;
-
-            return removeProductFromWishlist({
-                product: wishlistItems[id]
-            }).then(() => this.setState({ isLoading: false }));
+        if (!isReady) {
+            return __('Please select variant first!');
         }
 
-        return addProductToWishlist({ product }).then(
-            () => this.setState({ isLoading: false, redirectToWishlist: true })
+        if (isInWishlist) {
+            return __('Remove from Wishlist');
+        }
+
+        return __('Add to Wishlist');
+    };
+
+    onClick = () => {
+        const {
+            product,
+            quantity,
+            isInWishlist,
+            addToWishlist,
+            removeFromWishlist
+        } = this.props;
+
+        if (!isInWishlist) {
+            return addToWishlist(product, quantity);
+        }
+
+        return removeFromWishlist(product, quantity);
+    };
+
+    renderButton() {
+        const { isInWishlist, isDisabled, mix } = this.props;
+
+        return (
+            <button
+              block="ProductWishlistButton"
+              elem="Button"
+              mods={ { isInWishlist, isDisabled } }
+              mix={ { block: 'Button', mods: { isHollow: !isInWishlist }, mix } }
+              title={ this.getTitle() }
+              onClick={ this.onClick }
+            >
+                <div
+                  block="ProductWishlistButton"
+                  elem="Heart"
+                />
+            </button>
         );
     }
 
-    renderButtonText(isProductInWishlist) {
-        if (isProductInWishlist) {
-            return (
-                <>
-                    <span>{ __('Remove from wishlist') }</span>
-                    <span>{ __('Removing...') }</span>
-                </>
-            );
-        }
+    renderLoader() {
+        const { isLoading } = this.props;
 
         return (
-            <>
-                <span>{ __('Add to wishlist') }</span>
-                <span>{ __('Adding...') }</span>
-            </>
+            <Loader isLoading={ isLoading } />
+        );
+    }
+
+    renderContent() {
+        return (
+            <div block="ProductWishlistButton">
+                { this.renderButton() }
+                { this.renderLoader() }
+            </div>
         );
     }
 
     render() {
-        const { isLoading, redirectToWishlist } = this.state;
-        const { fullWidth, isReady } = this.props;
-        const wishlistItem = this.getProductInWishlist();
-        const isProductInWishlist = !!wishlistItem;
-        const isDisabled = isProductInWishlist && !wishlistItem.item_id;
+        const { product: { id } = {} } = this.props;
 
-
-        if (!isReady) return (<TextPlaceholder length="medium" />);
-
-        if (redirectToWishlist) {
-            return <Redirect to="/wishlist" />;
+        if (id !== -1) {
+            return this.renderContent();
         }
 
-        return (
-            <button
-              onClick={ () => this.buttonClick(isProductInWishlist) }
-              block="ProductWishlistButton"
-              elem="Button"
-              mods={ { isLoading, fullWidth } }
-              disabled={ isDisabled || isLoading }
-            >
-                { this.renderButtonText(isProductInWishlist) }
-            </button>
-        );
+        return null;
     }
 }
-
-ProductWishlistButton.propTypes = {
-    product: ProductType.isRequired,
-    addProductToWishlist: PropTypes.func.isRequired,
-    removeProductFromWishlist: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    fullWidth: PropTypes.bool,
-    isReady: PropTypes.bool
-};
-
-ProductWishlistButton.defaultProps = {
-    fullWidth: false,
-    isReady: true
-};
 
 export default ProductWishlistButton;

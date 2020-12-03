@@ -9,29 +9,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-table {
-    --table-color: #{color(primary, base, true)};
-    --table-secondary-color: #{transparentize(color(primary, base, true), .4)};
-    border: 1px solid var(--table-color);
+:root {
+    --table-secondary-color: var(--secondary-light-color);
+}
 
-    td, th {
-        min-width: 10rem;
-        padding: .35rem;
+table {
+    tr:nth-child(even),
+    thead tr {
+        background-color: var(--table-secondary-color);
     }
-    
-    tr {
-        &:nth-child(even) {
-            background-color: var(--table-secondary-color);
+
+    thead tr {
+        border-bottom: 1px solid var(--secondary-dark-color);
+    }
+
+    td,
+    th {
+        font-size: 1.2rem;
+        padding: 10px;
+        text-align: left;
+        min-width: 12rem;
+
+        @include mobile {
+            font-size: 1.4rem;
+            min-width: 14rem;
         }
     }
+}
 
-    td {
-        font-size: 1.2rem;
-    }
-    
-    th {
-        font-size: 1.35rem;
-        color: color(text, white);
-        background-color: var(--table-color);
-    }
+.Table-Wrapper {
+    max-width: 100%;
+    overflow-x: scroll;
 }

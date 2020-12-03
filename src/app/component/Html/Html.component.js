@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,70 +12,117 @@
 
 /* eslint-disable consistent-return */
 // Disabled due `domToReact` internal logic
-import React, { Component } from 'react';
-import Parser from 'html-react-parser';
-import domToReact from 'html-react-parser/lib/dom-to-react';
+import parser from 'html-react-parser';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
-import { Link } from 'react-router-dom';
+import domToReact from 'html-react-parser/lib/dom-to-react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import Image from 'Component/Image';
-import Figure from 'Component/Figure';
+import Link from 'Component/Link';
+import WidgetFactory from 'Component/WidgetFactory';
+import { hash } from 'Util/Request/Hash';
 
 /**
  * Html content parser
  * Component converts HTML strings to React components
  * @class Html
+ * @namespace Component/Html/Component
  */
-class Html extends Component {
-    constructor(props) {
-        super(props);
+export class Html extends PureComponent {
+    static propTypes = {
+        content: PropTypes.string.isRequired
+    };
 
-        this.rules = [
-            {
-                query: { name: ['a'] },
-                replace: this.replaceLinks
-            },
-            {
-                query: { name: ['figure'] },
-                replace: this.replaceFigure
-            },
-            {
-                query: { name: ['img'] },
-                replace: this.replaceImages
-            },
-            {
-                query: { name: ['input'] },
-                replace: this.replaceInput
-            },
-            {
-                query: { name: ['script'] },
-                replace: this.replaceScript
+    createdOutsideElements = {};
+
+    rules = [
+        {
+            query: { name: ['widget'] },
+            replace: this.replaceWidget
+        },
+        {
+            query: { name: ['a'] },
+            replace: this.replaceLinks
+        },
+        {
+            query: { name: ['img'] },
+            replace: this.replaceImages
+        },
+        {
+            query: { name: ['input'] },
+            replace: this.replaceInput
+        },
+        {
+            query: { name: ['script'] },
+            replace: this.replaceScript
+        },
+        {
+            query: { name: ['style'] },
+            replace: this.replaceStyle
+        },
+        {
+            query: { name: ['table'] },
+            replace: this.wrapTable
+        }
+    ];
+
+    parserOptions = {
+        replace: (domNode) => {
+            const { data, name: domName, attribs: domAttrs } = domNode;
+
+            // Let's remove empty text nodes
+            if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
+                return <></>;
             }
-        ];
 
-        this.parserOptions = {
-            replace: (domNode) => {
-                for (let i = 0; i < this.rules.length; i++) {
-                    const { query, replace } = this.rules[i];
+            const rule = this.rules.find((rule) => {
+                const { query: { name, attribs } } = rule;
 
-                    if (query.name && domNode.name && query.name.indexOf(domNode.name) !== -1) {
-                        return replace.call(this, domNode);
-                    } if (query.attribs && domNode.attribs) {
-                        query.attribs.forEach((attrib) => {
-                            if (typeof attrib === 'object') {
-                                const queryAttrib = Object.keys(attrib)[0];
-                                if (Object.prototype.hasOwnProperty.call(domNode.attribs, queryAttrib)) {
-                                    const match = domNode.attribs[queryAttrib].match(Object.values(attrib)[0]);
-                                    if (match) return replace.call(this, domNode);
-                                }
-                            } else if (Object.prototype.hasOwnProperty.call(domNode.attribs, attrib)) {
-                                return replace.call(this, domNode);
+                if (name && domName && name.indexOf(domName) !== -1) {
+                    return true;
+                } if (attribs && domAttrs) {
+                    // eslint-disable-next-line fp/no-loops, fp/no-let
+                    for (let i = 0; i < attribs.length; i++) {
+                        const attrib = attribs[i];
+
+                        if (typeof attrib === 'object') {
+                            const queryAttrib = Object.keys(attrib)[0];
+
+                            if (Object.prototype.hasOwnProperty.call(domAttrs, queryAttrib)) {
+                                return domAttrs[queryAttrib].match(Object.values(attrib)[0]);
                             }
-                        });
+                        } else if (Object.prototype.hasOwnProperty.call(domAttrs, attrib)) {
+                            return true;
+                        }
                     }
                 }
+
+                return false;
+            });
+
+            if (rule) {
+                const { replace } = rule;
+                return replace.call(this, domNode);
             }
-        };
+        }
+    };
+
+    attributesToProps(attribs) {
+        const toCamelCase = (string) => string.replace(/_[a-z]/g, (match) => match.substr(1).toUpperCase());
+
+        const convertPropertiesToValidFormat = (properties) => Object.entries(properties)
+            .reduce((validProps, [key, value]) => {
+                // eslint-disable-next-line no-restricted-globals
+                if (!isNaN(value)) {
+                    return { ...validProps, [toCamelCase(key)]: +value };
+                }
+
+                return { ...validProps, [toCamelCase(key)]: value };
+            }, {});
+
+        const properties = convertPropertiesToValidFormat(attribs);
+        return attributesToProps(properties);
     }
 
     /**
@@ -84,19 +132,15 @@ class Html extends Component {
      * @memberof Html
      */
     replaceLinks({ attribs, children }) {
-        const { href } = attribs;
-        if (href) {
-            const isAbsoluteUrl = value => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
-            const isSpecialLink = value => new RegExp('^(sms|tel|mailto):', 'i').test(value);
-            
-            if (!isAbsoluteUrl(attribs.href) && !isSpecialLink(attribs.href)) {
-                /* eslint no-param-reassign: 0 */
-                // Allowed, because param is not a direct reference
-                attribs.to = attribs.href;
-                delete attribs.href;
+        const { href, ...attrs } = attribs;
 
+        if (href) {
+            const isAbsoluteUrl = (value) => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
+            const isSpecialLink = (value) => new RegExp('^(sms|tel|mailto):', 'i').test(value);
+
+            if (!isAbsoluteUrl(href) && !isSpecialLink(href)) {
                 return (
-                    <Link { ...attributesToProps(attribs) }>
+                    <Link { ...attributesToProps({ ...attrs, to: href }) }>
                         { domToReact(children, this.parserOptions) }
                     </Link>
                 );
@@ -111,52 +155,10 @@ class Html extends Component {
      * @memberof Html
      */
     replaceImages({ attribs }) {
-        if (Object.prototype.hasOwnProperty.call(attribs, 'src')) {
-            return (
-                <Image
-                  { ...attributesToProps(attribs) }
-                  showGreyPlaceholder
-                  arePlaceholdersShown
-                />
-            );
-        }
-    }
+        const attributes = attributesToProps(attribs);
 
-    /**
-     * Replace figure to Figure component
-     * @param  {{ children: Array }}
-     * @return {void|JSX} Return JSX with image
-     * @memberof Html
-     */
-    replaceFigure({ children }) {
-        const newChildren = [];
-        let imageSource;
-        let placeHolderSource;
-        let imageAlt;
-
-        children.forEach((element) => {
-            if (element.name === 'img') {
-                imageSource = element.attribs.src.charAt(0) === '/' ? element.attribs.src : `/${ element.attribs.src }`;
-                placeHolderSource = imageSource.replace(/\.jpg/g, '.svg');
-                imageAlt = element.attribs.alt;
-            } else {
-                newChildren.push(element);
-            }
-        });
-
-        if (imageSource) {
-            return (
-                // TODO temporary solution
-                <Figure
-                  placeholderSrc={ `/media/svg/wysiwyg/cms${ placeHolderSource }` }
-                  src={ `/media/wysiwyg/cms${ imageSource }` }
-                  alt={ imageAlt }
-                  arePlaceholdersShown
-                  showGreyPlaceholder
-                >
-                    { domToReact(newChildren, this.parserOptions) }
-                </Figure>
-            );
+        if (attribs.src) {
+            return <Image { ...attributes } />;
         }
     }
 
@@ -170,27 +172,80 @@ class Html extends Component {
         return <input { ...attributesToProps(attribs) } />;
     }
 
-    replaceScript({ attribs }) {
+    /**
+     * Wrap table in container
+     *
+     * @param attribs
+     * @param children
+     * @returns {*}
+     */
+    wrapTable({ attribs, children }) {
+        return (
+            <div block="Table" elem="Wrapper">
+                <table { ...attributesToProps(attribs) }>
+                    { domToReact(children, this.parserOptions) }
+                </table>
+            </div>
+        );
+    }
+
+    /**
+     * Insert corresponding widget
+     *
+     * @param {{ attribs: Object }} { attribs }
+     * @returns {null|JSX} Return Widget
+     * @memberof Html
+     */
+    replaceWidget({ attribs }) {
+        return <WidgetFactory { ...this.attributesToProps(attribs) } />;
+    }
+
+    replaceStyle(elem) {
+        const { children } = elem;
+        const elemHash = hash(elem);
+
+        if (this.createdOutsideElements[elemHash]) {
+            return <></>;
+        }
+
+        const style = document.createElement('style');
+
+        if (children && children[0]) {
+            style.appendChild(document.createTextNode(children[0].data));
+        }
+
+        document.head.appendChild(style);
+        this.createdOutsideElements[elemHash] = true;
+
+        return <></>;
+    }
+
+    replaceScript(elem) {
+        const { attribs, children } = elem;
+        const elemHash = hash(elem);
+
+        if (this.createdOutsideElements[elemHash]) {
+            return <></>;
+        }
+
         const script = document.createElement('script');
+
         Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
-        document.body.appendChild(script);
+
+        if (children && children[0]) {
+            script.appendChild(document.createTextNode(children[0].data));
+        }
+
+        document.head.appendChild(script);
+        this.createdOutsideElements[elemHash] = true;
 
         return <></>;
     }
 
     render() {
         const { content } = this.props;
-
-        return (
-            <>
-                { Parser(content, this.parserOptions) }
-            </>
-        );
+        return parser(content, this.parserOptions);
     }
 }
-
-Html.propTypes = {
-    content: PropTypes.string.isRequired
-};
 
 export default Html;

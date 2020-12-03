@@ -9,50 +9,87 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import { PureComponent } from 'react';
+import { createPortal } from 'react-dom';
 
 /**
  * Page Meta data
  * @class Meta
+ * @namespace Component/Meta/Component
  */
-class Meta extends Component {
-    render() {
+export class Meta extends PureComponent {
+    static propTypes = {
+        metadata: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string,
+                property: PropTypes.string,
+                content: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.number
+                ])
+            })
+        ).isRequired,
+        canonical_url: PropTypes.string,
+        default_title: PropTypes.string.isRequired,
+        title_prefix: PropTypes.string.isRequired,
+        title_suffix: PropTypes.string.isRequired,
+        title: PropTypes.string
+    };
+
+    static defaultProps = {
+        title: '',
+        canonical_url: ''
+    };
+
+    renderTitle() {
         const {
-            metaObject: {
-                name,
-                title,
-                meta_title,
-                meta_description,
-                meta_keyword,
-                canonical_url
-            }
+            default_title,
+            title_prefix,
+            title_suffix,
+            title
         } = this.props;
 
+        const titlePrefix = title_prefix ? `${ title_prefix } | ` : '';
+        const titleSuffix = title_suffix ? ` | ${ title_suffix }` : '';
+
         return (
-            <Helmet
-              title={ `ScandiPWA | ${ name || title || '...' }` }
-              meta={ [
-                  { name: 'title', content: meta_title },
-                  { name: 'description', content: meta_description },
-                  { name: 'keywords', content: meta_keyword }
-              ] }
-              link={ [
-                  { ...(canonical_url && { rel: 'canonical', href: canonical_url }) }
-              ] }
-            />
+            <title>
+                { `${ titlePrefix }${ title || default_title }${ titleSuffix }` }
+            </title>
+        );
+    }
+
+    renderCanonical() {
+        const { canonical_url } = this.props;
+
+        if (!canonical_url) {
+            return null;
+        }
+
+        return (
+            // eslint-disable-next-line jsx-a11y/control-has-associated-label
+            <link rel="canonical" href={ canonical_url } />
+        );
+    }
+
+    renderMeta() {
+        const { metadata } = this.props;
+        return (
+            <>
+                { this.renderTitle() }
+                { this.renderCanonical() }
+                { metadata.map((tag) => <meta key={ tag.name || tag.property } { ...tag } />) }
+            </>
+        );
+    }
+
+    render() {
+        return createPortal(
+            { ...this.renderMeta() },
+            document.head
         );
     }
 }
-
-Meta.propTypes = {
-    metaObject: PropTypes.shape({
-        name: PropTypes.string,
-        meta_title: PropTypes.string,
-        meta_description: PropTypes.string,
-        meta_keyword: PropTypes.string
-    }).isRequired
-};
 
 export default Meta;

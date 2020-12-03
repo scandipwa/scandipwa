@@ -10,122 +10,73 @@
  */
 
 .ProductReviewForm {
-    padding-top: 1.2rem;
-    padding-bottom: 3rem;
-
-    &-Title {
-        margin-bottom: 0;
+    &-Wrapper {
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-gap: 2.4rem;
+        }
     }
 
     &-ProductName {
         font-weight: 700;
-        font-size: 2rem;
+        font-size: 2.4rem;
 
         @include mobile {
-            font-size: 1.8rem;
+
+            font-size: 2.52rem;
+        }
+    }
+
+    &-Content {
+        @include mobile {
+            margin-top: 2.8rem;
         }
     }
 
     &-Rating {
-        margin: 1rem 0 1.3rem;
+        margin: 1.2rem 0 1.56rem;
         text-align: left;
         direction: rtl;
         border: 0;
+        /* stylelint-disable-next-line unknownProperties, property-no-unknown */
         white-space-collapse: discard; // alternative of `font-size: 0`
 
-        &Legend {
-            border-bottom: 0;
-            padding-bottom: .3rem;
-            font-weight: 700;
-            font-size: 1.05rem;
+        @include mobile {
+            margin: 1.4rem 0 1.82rem;
         }
 
-        &Input {
-            --star-outline-color: #949494;
-
-            // reset from input default styles
-            display: inline;
-            margin: 0;
-            padding: 0;
-            background: none;
-            border: 0;
-
-            transition: color 150ms ease-in;
-            color: var(--color-text-white);
-            text-shadow:
-                -1px 0 var(--star-outline-color),
-                0 1px var(--star-outline-color),
-                1px 0 var(--star-outline-color),
-                0 -1px var(--star-outline-color);
-
-            font-size: 40px;
-            line-height: 1;
-            font-family: Times; // make sure ★ appears correctly
-            letter-spacing: 3px;
-
-            &::after {
-                content: '★';
-            }
-
-            &:checked,
-            &:hover,
-            &[checked],
-            &:checked ~ input,
-            &:hover ~ input,
-            &[checked] ~ input {
-                --star-outline-color: var(--color-primary-base);
-                color: var(--color-primary-base);
-            }
-
-            &:focus {
-                border: 0;
+        &:first-child {
+            @include mobile {
+                margin-top: 0;
             }
         }
     }
 
-    &-Form {
-        @include after-mobile {
-            max-width: 100%;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+    &-Legend {
+        border-bottom: 0;
+        padding-bottom: .36rem;
+        font-weight: 700;
+        font-size: 1.26rem;
 
         @include mobile {
-            max-width: 100%;
+            padding-bottom: .42rem;
+            font-size: 1.47rem;
         }
+    }
 
-        &Content {
-            @include after-mobile {
-                flex-basis: 500px;
-                margin-left: 2rem;
-            }
-        }
+    & &-Button {
+        margin-top: 1.2rem;
 
-        &Heading {
-            margin-bottom: 1.5rem;
+        @include mobile {
 
-            @include after-mobile {
-                text-align: center;
-            }
-        }
-
-        input,
-        textarea {
+            margin-top: 2.8rem;
             width: 100%;
         }
     }
 
-    &-Buttons {
-        margin-top: 1rem;
-        flex-basis: 100%;
-        text-align: center;
-        margin-top: 2.5rem;
-    }
-
-    &-SubmitButton {
-        @include mobile {
-            width: 100%;
-        }
+    input,
+    textarea {
+        width: 100%;
     }
 }

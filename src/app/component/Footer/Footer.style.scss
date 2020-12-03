@@ -9,182 +9,144 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --footer-height: calc(var(--footer-content-height) + var(--footer-copyright-height));
+    --footer-content-height: 320px;
+    --footer-copyright-height: 50px;
+}
+
 .Footer {
-    $icon-size: 25px;
-    $small-icon-size: 20px;
-    $circle-size: 60px;
+    $column-count: 4;
 
-    &-Content {
-        display: none;
-
-        &_isVisible {
-            display: block;
-            padding-top: 3rem;
-            background: var(--color-footer-background);
-        }
+    @include mobile {
+        margin-bottom: var(--navigation-tabs-height);
     }
 
-    &-Promo {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-column-gap: 1rem;
-
-        @include before-desktop  {
-            grid-template-columns: 1fr;
-            grid-row-gap: 1rem;
-        }
-
-        picture {
-            height: $icon-size;
-            width: $icon-size;
-            padding: 0;
-        }
-
-
-        div {
-            display: grid;
-            grid-template-columns: 6rem 1fr;
-            justify-content: center;
-            align-items: center;
-            background: var(--color-footer-light);
-            padding: 2rem;
-
-            div {
-                display: flex;
-                padding: 0;
-                flex-direction: column;
-            }
-
-            div:first-of-type {
-                width: $circle-size;
-                height: $circle-size;
-                border-radius: 50%;
-                border: 1px solid var(--color-primary-base);
-            }
-        }
-
-        span {
-            line-height: 2;
-            font-size: 1.2rem;
-            width: 100%;
-            font-weight: 700;
-        }
-
-        span + span {
-            font-weight: 300;
-
-        }
-    }
-
-    &-Links {
-        padding: 3rem 0;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-column-gap: 1rem;
-
-        @include mobile  {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        h3 {
-            text-transform: uppercase;
-            color: var(--color-primary-base);
-
-            @include mobile  {
-                font-size: 1.2rem;
-            }
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        li {
-            padding: 0;
-            line-height: 2.6;
-
-            @include mobile  {
-                line-height: 2;
-            }
-
-            &::before {
-                content: none;
-            }
-
-            a {
-                color: var(--color-text-black);
-
-                @include mobile  {
-                    font-size: 1rem;
-                }
-            }
-        }
-
-        picture {
-            height: $small-icon-size;
-            width: $small-icon-size;
-            padding: 0;
-        }
-
-        > :nth-child(4) {
-            li {
-                display:inline;
-                margin-right: .5rem;
-            }
-
-            a {
-                text-decoration: none;
-            }
-        }
-
-    }
-
-    &-Copyright {
-        background: var(--color-footer-copyright);
-        padding: 1rem 0;
+    &-CopyrightContentWrapper {
+        background-color: var(--secondary-dark-color);
     }
 
     &-CopyrightContent {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        padding: 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: var(--footer-copyright-height);
 
-        @include mobile  {
-            grid-template-columns: 1fr;
-            grid-row-gap: 1rem;
+        @include after-mobile {
+            padding: 15px 0;
+        }
+    }
+
+    &-Copyright {
+        font-size: 1.5rem;
+        text-align: center;
+
+        a {
+            color: inherit;
+        }
+    }
+
+    &-Content {
+        min-height: var(--footer-content-height);
+        background-color: var(--secondary-base-color);
+    }
+
+    &-Columns {
+        display: flex;
+        height: 100%;
+        padding: 25px 40px;
+        justify-content: space-between;
+
+        @include mobile {
+            flex-direction: column;
+            align-items: center;
             text-align: center;
         }
 
-        picture {
-            height: $icon-size;
-            width: $icon-size;
+        @include after-mobile {
+            padding: 60px 70px;
         }
 
-        ul {
-            display: flex;
-            justify-content: flex-end;
+        @include tablet {
+            padding: {
+                left: 30px;
+                right: 30px;
+            };
+        }
+    }
 
-            @include mobile  {
+    &-Column {
+        &:not(:last-of-type) {
+            @include mobile {
+                margin-bottom: 30px;
+            }
+
+            @include after-mobile {
+                padding-right: 20px;
+                max-width: calc(100% / #{ $column-count - 1 });
+            }
+        }
+    }
+
+    &-ColumnTitle {
+        text-transform: uppercase;
+        margin: 0 0 15px;
+        font-size: 2rem;
+
+        @include after-mobile {
+            margin: 0 0 20px;
+        }
+    }
+
+    &-ColumnContent {
+        display: flex;
+        flex-direction: column;
+
+        &_direction_horizontal {
+            flex-direction: row;
+
+            @include mobile {
                 justify-content: center;
             }
         }
 
-        li {
+        a + a {
+            margin-left: 0;
+        }
+    }
+
+    &-ColumnItem {
+        color: inherit;
+        margin-bottom: 12px;
+        font-size: 1.6rem;
+
+        &:last-of-type {
             margin: 0;
-            padding: 0;
-            display:inline;
-            margin-right: 1rem;
-
-            &::before {
-                content: none;
-            }
-
-            &:last-child {
-                margin: 0;
-            }
         }
 
-        p {
-            color: var(--color-neutral-base);
+        &_type_image {
+            width: 25px;
+
+            &:not(:last-of-type) {
+                margin-right: 20px;
+            }
+        }
+    }
+
+    &-CmsBlockWrapper {
+        .CmsBlock-Wrapper {
+            flex: 1;
+        }
+
+        .ContentWrapper .Footer-Columns {
+            padding: 0;
+        }
+
+        .Footer-Column_isNewsletter {
+            @include desktop {
+                padding-left: 100px;
+            }
         }
     }
 }

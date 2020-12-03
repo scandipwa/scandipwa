@@ -11,43 +11,65 @@
 
 import {
     APPEND_PAGE,
-    UPDATE_PRODUCT_LIST_ITEMS,
-    UPDATE_LOAD_STATUS
-} from 'Store/ProductList';
+    UPDATE_LOAD_STATUS,
+    UPDATE_PAGE_LOAD_STATUS,
+    UPDATE_PRODUCT_LIST_ITEMS
+} from 'Store/ProductList/ProductList.action';
 import { getIndexedProducts } from 'Util/Product';
 
-const initialState = {
+/** @namespace Store/ProductList/Reducer/getInitialState */
+export const getInitialState = () => ({
     pages: {},
-    isLoading: true
+    totalItems: 0,
+    totalPages: 0,
+    isLoading: true,
+    currentArgs: {}
+});
+
+export const defaultConfig = {
+    itemsPerPageCount: 12
 };
 
-const ProductListReducer = (state = initialState, action) => {
+/** @namespace Store/ProductList/Reducer */
+export const ProductListReducer = (
+    state = getInitialState(),
+    action
+) => {
     const {
         type,
         items: initialItems = [],
+        total_pages: totalPages,
+        total_count: totalItems,
         currentPage,
-        isLoading
+        isLoading,
+        args: currentArgs
     } = action;
-
-    const items = getIndexedProducts(initialItems);
 
     switch (type) {
     case APPEND_PAGE:
         return {
             ...state,
+            isPageLoading: false,
             pages: {
                 ...state.pages,
-                [currentPage]: items
+                [currentPage]: getIndexedProducts(initialItems)
             }
         };
 
     case UPDATE_PRODUCT_LIST_ITEMS:
         return {
             ...state,
+            currentArgs,
             isLoading: false,
-            pages: {
-                [currentPage]: items
-            }
+            totalItems,
+            totalPages,
+            pages: { [currentPage]: getIndexedProducts(initialItems) }
+        };
+
+    case UPDATE_PAGE_LOAD_STATUS:
+        return {
+            ...state,
+            isPageLoading: true
         };
 
     case UPDATE_LOAD_STATUS:
