@@ -18,6 +18,7 @@
     --cart-item-actions-color: #000;
     --cart-item-divider-color: var(--expandable-content-divider-color);
     --cart-item-action-border: var(--cart-item-divider-color);
+    --cart-swipe-to-delete-color: #fff;
 }
 
 .CartItem {
@@ -81,6 +82,7 @@
             grid-template-columns: 8.4rem auto;
             grid-gap: 1.4rem;
             padding: 1.4rem;
+            min-height: 130px;
         }
 
         @include after-mobile {
@@ -97,6 +99,10 @@
             @include after-mobile {
                 flex-grow: 1;
             }
+        }
+
+        @include mobile {
+            margin-bottom: .7rem;
         }
     }
 
@@ -162,6 +168,14 @@
     &-Picture {
         align-self: center;
         padding-bottom: 120%;
+
+        @include mobile {
+            height: 100%;
+
+            img {
+                object-fit: cover;
+            }
+        }
     }
 
     &-Price {
@@ -192,6 +206,12 @@
                 }
             }
         }
+
+        @include mobile {
+            text-align: left;
+            display: flex;
+            align-items: flex-end;
+        }
     }
 
     &-Actions {
@@ -208,12 +228,6 @@
         will-change: max-height, opacity, padding;
         transition-property: padding, max-height;
         transition-duration: 200ms;
-
-        @include mobile {
-            padding: 0 1.4rem;
-            background-color: var(--cart-item-actions-background);
-            border-top: 1px solid var(--cart-item-action-border);
-        }
 
         @include after-mobile {
             position: absolute;
@@ -244,30 +258,6 @@
             opacity: 1;
             max-height: 6rem;
             pointer-events: all;
-
-            @include mobile {
-                padding: .7rem 1.4rem;
-                max-height: 7rem;
-            }
-        }
-
-        &::after,
-        &::before {
-            @include mobile {
-                content: '';
-            }
-
-            position: absolute;
-            left: 0;
-            right: 0;
-            margin: auto;
-            top: -1px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 15px 20px 0 20px;
-            border-color: var(--cart-item-background) transparent transparent transparent;
-            z-index: 2;
         }
 
         &::before {
@@ -278,7 +268,9 @@
     }
 
     &-Delete {
-        @include clear-button;
+        @include desktop {
+            @include clear-button;
+        }
 
         @include after-mobile {
             top: 1px;
@@ -291,15 +283,42 @@
             margin-left: -12px;
         }
 
+        @include mobile {
+            @include close-button;
+            height: 30px;
+            width: 30px;
+            padding-left: 0;
+
+            &::before {
+                height: 15px;
+                top: 0;
+            }
+
+            &::after {
+                height: 15px;
+                top: 0;
+            }
+        }
+
         height: 35px;
         padding-left: 35px;
         font-size: 1.4rem;
         color: var(--cart-item-actions-color);
     }
 
+    &-DeleteButtonText {
+        @include mobile {
+            display: none;
+        }
+    }
+
     & &-Qty { // hack to obtain required specificity
         margin-top: 0;
         display: flex;
+
+        @include mobile {
+            align-items: center;
+        }
 
         input {
             background: transparent;
@@ -313,6 +332,11 @@
             width: 44px;
             min-width: 44px;
             font-size: 1.6rem;
+
+            @include mobile {
+                width: 24px;
+                min-width: 24px;
+            }
         }
 
         button {
@@ -341,6 +365,33 @@
                     top: -2.2px;
                 }
             }
+
+            @include mobile {
+                width: 18px;
+                height: 18px;
+            }
         }
+    }
+
+    &-SwipeToDeleteRightSide {
+        height: 100%;
+        font-weight: 600;
+        color: var(--cart-swipe-to-delete-color);
+    }
+
+    &-QuantityWrapper {
+        display: flex;
+        align-items: center;
+        margin-bottom: .7rem;
+    }
+
+    &-QuantityText {
+        margin-right: 10px;
+    }
+
+    &-HeadingWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
     }
 }
