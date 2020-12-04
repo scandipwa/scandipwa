@@ -1,0 +1,19 @@
+{
+    "name": "scandipwa-runtime-i18n",
+    "version": "0.0.0",
+    "license": "proprietary",
+    "dependencies": {
+        "@scandipwa/scandipwa": "3.2.3"
+    },
+    "scandipwa": {
+        "type": "extension",
+        "build": {
+            "cracoPlugins": [
+                "build-config/craco.js"
+            ]
+        }
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    }
+}
