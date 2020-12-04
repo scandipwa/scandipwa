@@ -95,7 +95,13 @@ export class MyAccountOrderPopupContainer extends PureComponent {
     };
 
     requestOrderDetails() {
-        const { payload: { order: { base_order_info: { id } } } } = this.props;
+        const {
+            payload: {
+                order: {
+                    base_order_info: { id } = {}
+                } = {}
+            } = {}
+        } = this.props;
 
         fetchQuery(OrderQuery.getOrderByIdQuery(id)).then(
             /** @namespace Component/MyAccountOrderPopup/Container/requestOrderDetailsFetchQueryThen */
