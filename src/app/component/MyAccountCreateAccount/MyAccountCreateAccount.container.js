@@ -53,7 +53,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
 
     containerProps = {
         vatNumberValidation: this.getVatNumberValidation()
-    }
+    };
 
     containerFunctions = {
         onCreateAccountSuccess: this.onCreateAccountSuccess.bind(this),
