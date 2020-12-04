@@ -388,7 +388,6 @@ export class CheckoutContainer extends PureComponent {
     async createUserOrSaveGuest() {
         const {
             createAccount,
-            totals: { is_virtual },
             showSuccessNotification,
             isEmailAvailable
         } = this.props;
