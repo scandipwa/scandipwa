@@ -11,8 +11,10 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { createPortal } from 'react-dom';
 
 import ContentWrapper from 'Component/ContentWrapper';
+import Html from 'Component/Html';
 import Link from 'Component/Link';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
@@ -26,12 +28,14 @@ export class CookiePopup extends PureComponent {
     static propTypes = {
         cookieText: PropTypes.string,
         cookieLink: PropTypes.string,
+        cookieScript: PropTypes.string,
         code: PropTypes.string
     };
 
     static defaultProps = {
         cookieText: '',
         cookieLink: '',
+        cookieScript: '',
         code: ''
     };
 
@@ -93,7 +97,7 @@ export class CookiePopup extends PureComponent {
         );
     }
 
-    render() {
+    renderDefaultPopup() {
         const { cookieText } = this.props;
         const { isAccepted } = this.state;
 
@@ -113,6 +117,19 @@ export class CookiePopup extends PureComponent {
                 </ContentWrapper>
             </div>
         );
+    }
+
+    render() {
+        const { cookieScript } = this.props;
+
+        if (cookieScript !== '') {
+            return createPortal(
+                <Html content={ cookieScript } />,
+                document.body
+            );
+        }
+
+        return this.renderDefaultPopup();
     }
 }
 

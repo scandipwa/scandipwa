@@ -99,6 +99,7 @@ export class ConfigQuery {
             'logo_width',
             'cookie_text',
             'cookie_link',
+            'cookie_script',
             'terms_are_enabled',
             'address_lines_quantity',
             'base_url',
