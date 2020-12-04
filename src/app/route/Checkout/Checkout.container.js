@@ -276,14 +276,11 @@ export class CheckoutContainer extends PureComponent {
         const { checkoutStep } = this.state;
 
         if (checkoutStep === BILLING_STEP) {
-            this.setState({
-                isLoading: false,
-                checkoutStep: SHIPPING_STEP
-            });
-
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-        }
+            history.push('/default/cart');
 
+            return;
+        }
         history.goBack();
     }
 
