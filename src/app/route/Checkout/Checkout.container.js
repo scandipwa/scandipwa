@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
-import MyAccountQuery from 'Query/MyAccount.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
@@ -320,19 +319,6 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    setShippingAddress = async () => {
-        const { shippingAddress } = this.state;
-        const { region, region_id, ...address } = shippingAddress;
-
-        const mutation = MyAccountQuery.getCreateAddressMutation({
-            ...address, region: { region, region_id }
-        });
-
-        await fetchMutation(mutation);
-
-        return true;
-    };
-
     containerProps = () => {
         const { paymentTotals } = this.state;
 
@@ -437,10 +423,6 @@ export class CheckoutContainer extends PureComponent {
         }
 
         showSuccessNotification(__('Your account has been created successfully!'));
-
-        if (!is_virtual) {
-            return this.setShippingAddress();
-        }
 
         return true;
     }
