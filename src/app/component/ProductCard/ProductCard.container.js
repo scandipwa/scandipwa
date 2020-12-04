@@ -164,34 +164,26 @@ export class ProductCardContainer extends PureComponent {
     _getAvailableVisualOptions() {
         const { product: { configurable_options = [] } } = this.props;
 
-        return Object.values(configurable_options).reduce((acc, { attribute_options = {}, attribute_values }) => {
-            const visualOptions = Object.values(attribute_options).reduce(
-                (acc, option) => {
-                    const {
-                        swatch_data,
-                        label,
-                        value: attrValue
-                    } = option;
+        if (configurable_options.length === 0 || Object.keys(configurable_options).length === 0) {
+            return [];
+        }
 
-                    const { type, value } = swatch_data || {};
+        return Object.values(Object.values(configurable_options)[0].attribute_options).reduce(
+            (acc, option) => {
+                const {
+                    swatch_data,
+                    label
+                } = option;
 
-                    if (
-                        type === '1'
-                        && attribute_values.includes(attrValue)
-                    ) {
-                        acc.push({ value, label });
-                    }
+                const { type, value } = swatch_data || {};
 
-                    return acc;
-                }, []
-            );
+                if (type && value) {
+                    acc.push({ value, label, type });
+                }
 
-            if (visualOptions.length > 0) {
-                return [...acc, ...visualOptions];
-            }
-
-            return acc;
-        }, []);
+                return acc;
+            }, []
+        );
     }
 
     render() {

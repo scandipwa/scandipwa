@@ -139,15 +139,25 @@ export class ProductCard extends PureComponent {
 
         return (
             <div block="ProductCard" elem="ConfigurableOptions">
-                { availableVisualOptions.map(({ value, label }) => (
-                    <span
-                      block="ProductCard"
-                      elem="Color"
-                      key={ value }
-                      style={ { backgroundColor: value } }
-                      aria-label={ label }
-                    />
-                )) }
+                { availableVisualOptions.map(({ value, label, type }) => (
+                    type === '1' ? (
+                        <span
+                          block="ProductCard"
+                          elem="Color"
+                          key={ value }
+                          style={ { backgroundColor: value } }
+                          aria-label={ label }
+                        />
+                    ) : (
+                        <span
+                          block="ProductCard"
+                          elem="String"
+                          title={ label }
+                          key={ value }
+                        >
+                                { value }
+                        </span>
+                    ))) }
             </div>
         );
     }

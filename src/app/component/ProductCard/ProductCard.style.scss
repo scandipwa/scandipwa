@@ -12,6 +12,7 @@
 :root {
     --product-card-picture-mask-color: #f5f5f5;
     --product-card-color-border-color: #efefef;
+    --product-card-text-border-color: #979797;
     --product-cart-picture-label-background: rgba(255, 255, 255, .7);
     --product-cart-reviews-background: rgba(243, 243, 243, .55);
     --product-cart-WishListButton-background: rgba(243, 243, 243, .78);
@@ -121,6 +122,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     &-Color {
@@ -132,6 +134,17 @@
         overflow: hidden;
         margin: 4px 7px 0 0;
         border: 1px solid var(--product-card-color-border-color);
+    }
+
+    &-String {
+        border: 1px solid var(--product-card-text-border-color);
+        color: var(--product-card-text-border-color);
+        display: inline-block;
+        text-align: center;
+        padding: 0 6px;
+        margin: 1px;
+        line-height: 15px;
+        min-width: 20px;
     }
 
     &-Price {
