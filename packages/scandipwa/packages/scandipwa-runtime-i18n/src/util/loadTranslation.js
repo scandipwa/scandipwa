@@ -35,7 +35,7 @@ function loadTranslationFiles(locale) {
 }
 
 // Strategy pattern ensures proper chunk splitting
-export default async function loadLocalization(locale) {
+export default async function loadTranslations(locale) {
     // Import the translations
     const translations = await Promise.all(loadTranslationFiles(locale));
 

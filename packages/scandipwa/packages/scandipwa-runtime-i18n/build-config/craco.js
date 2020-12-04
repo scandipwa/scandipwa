@@ -14,7 +14,7 @@ module.exports = {
                 // if (plugin instanceof webpack.ProvidePlugin) {
                 const { __proto__: { constructor: { name } = {} } = {} } = plugin;
                 if (name === 'ProvidePlugin') {
-                    plugin.definitions.__ = [require.resolve(path.join(__dirname, '../src/util/i18n.js')), 'default'];
+                    plugin.definitions.__ = [require.resolve(path.join(__dirname, '../src/util/__.js')), 'default'];
                 }
             }));
 
