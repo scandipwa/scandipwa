@@ -11,6 +11,15 @@
 
 export const RENDER_NEWSLETTER = 'render_newsletter';
 
+export const NEWSLETTER_COLUMN = {
+    title: __('Newsletter'),
+    items: [
+        {
+            render: RENDER_NEWSLETTER
+        }
+    ]
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export const COLUMN_MAP = [
     {
@@ -74,12 +83,5 @@ export const COLUMN_MAP = [
             }
         ]
     },
-    {
-        title: 'Newsletter',
-        items: [
-            {
-                render: RENDER_NEWSLETTER
-            }
-        ]
-    }
+    NEWSLETTER_COLUMN
 ];

@@ -246,10 +246,6 @@
             padding: 0 1.4rem;
         }
 
-        @include before-desktop {
-            border-bottom: 1px solid var(--primary-divider-color);
-        }
-
         @include desktop {
             justify-content: flex-end;
         }
@@ -465,9 +461,7 @@
         }
 
         &_isVisible {
-            @include desktop {
-                @include logo-visible;
-            }
+            @include logo-visible;
         }
 
         .Image-Image {
