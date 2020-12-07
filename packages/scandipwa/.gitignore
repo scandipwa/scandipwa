@@ -3,6 +3,10 @@
 # dependencies
 /node_modules
 
+# build artifacts
+build/**/*
+magento/Magento_Theme/**/*
+
 # misc
 .DS_Store
 .env.local
