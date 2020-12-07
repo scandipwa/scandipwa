@@ -80,14 +80,14 @@
         background: var(--cart-item-background);
 
         @include mobile {
-            grid-template-columns: 8.4rem auto;
+            grid-template-columns: 100px auto;
             grid-gap: 1.4rem;
             padding: 1.4rem;
             min-height: 130px;
         }
 
         @include after-mobile {
-            grid-template-columns: 8.4rem auto;
+            grid-template-columns: 100px auto;
         }
     }
 
@@ -168,7 +168,7 @@
 
     &-Picture {
         align-self: center;
-        padding-bottom: 120%;
+        padding-bottom: 130%;
 
         @include mobile {
             height: 100%;
@@ -385,11 +385,18 @@
     &-QuantityWrapper {
         display: flex;
         align-items: center;
-        margin-bottom: .7rem;
+        
+        @include mobile {
+            margin-bottom: .7rem;
+        }
     }
 
     &-QuantityText {
         margin-right: 10px;
+        
+        @include after-mobile {
+            display: none;
+        }
     }
 
     &-HeadingWrapper {
