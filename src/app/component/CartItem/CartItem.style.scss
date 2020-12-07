@@ -384,7 +384,7 @@
     &-QuantityWrapper {
         display: flex;
         align-items: center;
-        
+
         @include mobile {
             margin-bottom: .7rem;
         }
@@ -392,7 +392,7 @@
 
     &-QuantityText {
         margin-right: 10px;
-        
+
         @include after-mobile {
             display: none;
         }
