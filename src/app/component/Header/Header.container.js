@@ -31,7 +31,7 @@ import Header from './Header.component';
 import {
     CART,
     CART_OVERLAY, CATEGORY,
-    CHECKOUT, CHECKOUT_ACCOUNT,
+    CHECKOUT, CHECKOUT_ACCOUNT, CHECKOUT_SUCCESS,
     CMS_PAGE, CONTACT_US, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
     MENU, PDP,
@@ -91,6 +91,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         // eslint-disable-next-line max-len
         '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/category': { name: CATEGORY },
+        '/checkout/success': { name: CHECKOUT_SUCCESS },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode('/cart')) },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
