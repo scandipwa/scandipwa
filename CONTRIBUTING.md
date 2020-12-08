@@ -47,7 +47,7 @@ Now you can modify files and see changes!
 5. Now enter the `scandipwa` package directory with `cd packages/scandipwa`
 6. Start the development using the `BUILD_MODE=magento yarn start`
 7. Now keep that process running and open another terminal tab / window / session
-8. Run your Docker application using the `dc up -d`
+8. Run your Docker application using the `dc up -d` (not `dcf` or `dcc`).
 9. Enter the application container using the `inapp bash`
 10. Remove installed ScandiPWA packages: `composer remove scandipwa/installer`
 11. Now add local composer repository: `composer config repo.theme path localmodules/scandipwa/packages/scandipwa/`
@@ -56,7 +56,6 @@ Now you can modify files and see changes!
 14. Disable full-page cache: `magento cache:disable full_page`
 15. Go to Magento 2 admin, visit `Content > Design > Configuration`, select last row, click last column `Edit` button. Select `scandipwa/scandipwa`.
 16. Run `magento cache:flush`
-17. Finally, go to your favorite MySQL client, open `theme` table under the `magento` database (you can find credentials in `.application` file), find `scandipwa/scandipwa` and change the `type` column to `4`.
 
 ## Publishing
 
