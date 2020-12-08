@@ -162,9 +162,9 @@ export class ProductCardContainer extends PureComponent {
     }
 
     _getAvailableVisualOptions() {
-        const { product: { configurable_options = [] } } = this.props;
+        const { product: { configurable_options = {} } } = this.props;
 
-        if (configurable_options.length === 0 || Object.keys(configurable_options).length === 0) {
+        if (Object.keys(configurable_options).length === 0) {
             return [];
         }
 

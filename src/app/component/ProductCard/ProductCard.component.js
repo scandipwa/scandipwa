@@ -25,6 +25,8 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { CONFIGURABLE } from 'Util/Product';
 
+import { OPTION_TYPE_COLOR } from './ProductCard.config';
+
 import './ProductCard.style';
 
 /**
@@ -131,6 +133,23 @@ export class ProductCard extends PureComponent {
         );
     }
 
+    renderVisualOption({ value, label, type }, i) {
+        const _type = type === OPTION_TYPE_COLOR;
+
+        return (
+            <span
+              block="ProductCard"
+              elem={ _type ? 'Color' : 'String' }
+              key={ i }
+              style={ _type ? { backgroundColor: value } : {} }
+              aria-label={ _type ? label : '' }
+              title={ _type ? '' : label }
+            >
+                { _type ? '' : value }
+            </span>
+        );
+    }
+
     renderVisualConfigurableOptions() {
         const { availableVisualOptions, device } = this.props;
         if (device.isMobile) {
@@ -139,25 +158,7 @@ export class ProductCard extends PureComponent {
 
         return (
             <div block="ProductCard" elem="ConfigurableOptions">
-                { availableVisualOptions.map(({ value, label, type }) => (
-                    type === '1' ? (
-                        <span
-                          block="ProductCard"
-                          elem="Color"
-                          key={ value }
-                          style={ { backgroundColor: value } }
-                          aria-label={ label }
-                        />
-                    ) : (
-                        <span
-                          block="ProductCard"
-                          elem="String"
-                          title={ label }
-                          key={ value }
-                        >
-                                { value }
-                        </span>
-                    ))) }
+                { availableVisualOptions.map(this.renderVisualOption) }
             </div>
         );
     }
