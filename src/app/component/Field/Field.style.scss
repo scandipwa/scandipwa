@@ -169,6 +169,10 @@
                 }
             }
         }
+
+        &_number {
+            max-width: 80px;
+        }
     }
 
     [type='checkbox'],
