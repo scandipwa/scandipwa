@@ -11,28 +11,34 @@
 
 import ProductCompareQuery from 'Query/ProductCompare.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { setCompareList, toggleLoader } from 'Store/ProductCompare/ProductCompare.action';
+import {
+    clearComparedProducts,
+    removeComparedProduct,
+    setCompareList,
+    toggleLoader
+} from 'Store/ProductCompare/ProductCompare.action';
 import { GUEST_QUOTE_ID } from 'Store/ProductCompare/ProductCompare.config';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { fetchMutation, QueryDispatcher } from 'Util/Request';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 
 /** @namespace Store/ProductCompare/Dispatcher */
-export class ProductCompareDispatcher extends QueryDispatcher {
-    onSuccess(data, dispatch) {
-        const { compareProducts } = data;
-        dispatch(toggleLoader(false));
-        dispatch(setCompareList(compareProducts));
-    }
-
-    onError(error, dispatch) {
-        dispatch(toggleLoader(false));
-        dispatch(showNotification('error', __('Unable to fetch compare list'), error));
-    }
-
-    prepareRequest(data, dispatch) {
+export class ProductCompareDispatcher {
+    async getCompareList(dispatch) {
         const guestCartId = this._getGuestQuoteId();
+
         dispatch(toggleLoader(true));
-        return ProductCompareQuery.getQuery(guestCartId);
+
+        try {
+            const { compareProducts } = await fetchQuery(
+                ProductCompareQuery.getQuery(guestCartId)
+            );
+
+            dispatch(toggleLoader(false));
+            dispatch(setCompareList(compareProducts));
+        } catch (error) {
+            dispatch(toggleLoader(false));
+            dispatch(showNotification('error', __('Unable to fetch compare list'), error));
+        }
     }
 
     async addProductToCompare(productSku, dispatch) {
@@ -48,11 +54,10 @@ export class ProductCompareDispatcher extends QueryDispatcher {
                 )
             );
 
-            dispatch(toggleLoader(false));
+            dispatch(showNotification('success', __('Product is added to the compare list')));
             return result;
         } catch (error) {
-            dispatch(toggleLoader(false));
-            dispatch(showNotification('error', __('Unable to add product to compare list'), error));
+            dispatch(showNotification('error', __('Unable to add product to the compare list'), error));
             return false;
         }
     }
@@ -70,16 +75,16 @@ export class ProductCompareDispatcher extends QueryDispatcher {
                 )
             );
 
-            dispatch(toggleLoader(false));
+            dispatch(showNotification('success', __('Product is removed from the compare list')));
+            dispatch(removeComparedProduct(productSku));
             return result;
         } catch (error) {
-            dispatch(toggleLoader(false));
-            dispatch(showNotification('error', __('Unable to remove product from compare list'), error));
+            dispatch(showNotification('error', __('Unable to remove product from the compare list'), error));
             return false;
         }
     }
 
-    async clearComparedProducts(data, dispatch) {
+    async clearComparedProducts(dispatch) {
         const guestCartId = this._getGuestQuoteId();
 
         dispatch(toggleLoader(true));
@@ -90,6 +95,8 @@ export class ProductCompareDispatcher extends QueryDispatcher {
             );
 
             dispatch(toggleLoader(false));
+            dispatch(clearComparedProducts());
+            dispatch(showNotification('success', __('Compare list is cleared')));
             return result;
         } catch (error) {
             dispatch(toggleLoader(false));

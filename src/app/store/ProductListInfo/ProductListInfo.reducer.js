@@ -63,20 +63,20 @@ export const ProductListReducer = (
     state = getInitialState(),
     action
 ) => {
-    const {
-        type,
-        isLoading,
-        selectedFilter,
-        products: {
-            filters: availableFilters = [],
-            min_price,
-            max_price,
-            sort_fields: sortFields
-        } = {}
-    } = action;
+    const { type } = action;
 
     switch (type) {
-    case UPDATE_PRODUCT_LIST_INFO:
+    case UPDATE_PRODUCT_LIST_INFO: {
+        const {
+            selectedFilter,
+            products: {
+                filters: availableFilters = [],
+                min_price,
+                max_price,
+                sort_fields: sortFields
+            } = {}
+        } = action;
+
         return {
             ...state,
             filters: reduceFilters(availableFilters),
@@ -86,12 +86,16 @@ export const ProductListReducer = (
             isLoading: false,
             selectedFilter
         };
+    }
 
-    case UPDATE_INFO_LOAD_STATUS:
+    case UPDATE_INFO_LOAD_STATUS: {
+        const { isLoading } = action;
+
         return {
             ...state,
             isLoading
         };
+    }
 
     default:
         return state;

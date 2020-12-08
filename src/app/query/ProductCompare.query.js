@@ -50,7 +50,7 @@ export class ProductCompareQuery extends ProductListQuery {
         const field = new Field('clearComparedProducts');
 
         if (guestCartId) {
-            field.addArgument(guestCartId);
+            field.addArgument('guestCartId', 'String', guestCartId);
         }
 
         return field;
@@ -72,6 +72,7 @@ export class ProductCompareQuery extends ProductListQuery {
         return [
             'id',
             'name',
+            'sku',
             this._getProductThumbnailField(),
             this._getPriceRangeField(),
             this._getComparableAttributesField()

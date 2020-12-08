@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import './ProductCompareButton.style';
+
 /** @namespace Component/ProductCompareButton/Component */
 export class ProductCompareButton extends PureComponent {
     static propTypes = {
@@ -22,7 +24,19 @@ export class ProductCompareButton extends PureComponent {
         const { handleClick } = this.props;
 
         return (
-            <button onClick={ handleClick }>Compare</button>
+            <div block="ProductCompareButton">
+                <button
+                  block="ProductCompareButton"
+                  elem="Button"
+                  onClick={ handleClick }
+                  mix={ {
+                      block: 'Button',
+                      mods: { isHollow: true }
+                  } }
+                >
+                    <div block="ProductCompareButton" elem="Icon" />
+                </button>
+            </div>
         );
     }
 }

@@ -22,22 +22,27 @@ import './ProductCompare.style';
 /** @namespace Component/ProductCompare/Component */
 export class ProductCompare extends PureComponent {
     static propTypes = {
-        products: ProductItemsType,
-        getAttributes: PropTypes.func.isRequired
+        clearCompareList: PropTypes.func.isRequired,
+        getAttributes: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool,
+        products: ProductItemsType
     };
 
     static defaultProps = {
+        isLoading: false,
         products: []
     };
 
     renderClearButton() {
+        const { clearCompareList } = this.props;
+
         return (
             <div
               block="ProductCompare"
               elem="FirstColumn"
               mix={ { block: 'ClearButton' } }
             >
-                <button>
+                <button onClick={ clearCompareList }>
                     { __('Clear Compare') }
                 </button>
             </div>
@@ -47,7 +52,11 @@ export class ProductCompare extends PureComponent {
     renderProductCards() {
         const { products } = this.props;
 
-        return products.map((product) => <ProductCompareItem product={ product } key={ product.id } />);
+        return products.map((product) => (
+            <div block="ProductCompare" elem="Item" key={ product.id }>
+                <ProductCompareItem product={ product } />
+            </div>
+        ));
     }
 
     renderPriceLabel() {
@@ -81,10 +90,6 @@ export class ProductCompare extends PureComponent {
         ));
     }
 
-    renderNoProducts() {
-        return <div>{ __('No products to compare') }</div>;
-    }
-
     renderProducts() {
         return (
             <div block="ProductCompare">
@@ -92,7 +97,7 @@ export class ProductCompare extends PureComponent {
                   block="ProductCompare"
                   elem="Row"
                   mix={ { block: 'ProductCardRow' } }
-                >
+                  >
                     { this.renderClearButton() }
                     { this.renderProductCards() }
                 </div>
@@ -100,29 +105,38 @@ export class ProductCompare extends PureComponent {
                   block="ProductCompare"
                   elem="Row"
                   mix={ { block: 'ProductPriceRow' } }
-                >
+                  >
                     { this.renderPriceLabel() }
                     { this.renderProductPrices() }
                 </div>
                 <div
                   block="ProductCompare"
                   elem="AttributeTable"
-                >
+                  >
                     { this.renderAttributes() }
                 </div>
             </div>
         );
     }
 
+    renderEmpty() {
+        return <div block="ProductCompare" elem="Empty">{ __('Compare list is empty') }</div>;
+    }
+
     render() {
         const {
+            isLoading,
             products: {
                 length
             }
         } = this.props;
 
+        if (isLoading && !length) {
+            return null;
+        }
+
         if (!length) {
-            return this.renderNoProducts();
+            return this.renderEmpty();
         }
 
         return this.renderProducts();

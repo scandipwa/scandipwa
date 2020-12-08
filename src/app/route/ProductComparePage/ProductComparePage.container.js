@@ -28,7 +28,8 @@ export const BreadcrumbsDispatcher = import(
 
 /** @namespace Route/ComparePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    isLoading: state.ProductCompareReducer.isLoading
 });
 
 /** @namespace Route/ComparePage/Container/mapDispatchToProps */
@@ -47,10 +48,11 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductComparePageContainer extends DataContainer {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool
     };
 
-    state = {
+    static defaultProps = {
         isLoading: false
     };
 
@@ -93,7 +95,6 @@ export class ProductComparePageContainer extends DataContainer {
     render() {
         return (
             <ProductComparePage
-              { ...this.state }
               { ...this.props }
             />
         );

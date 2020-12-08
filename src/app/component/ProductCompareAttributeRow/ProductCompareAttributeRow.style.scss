@@ -11,14 +11,22 @@
 
 .ProductCompareAttributeRow {
     display: flex;
+    margin-top: 1rem;
+    font-size: 1.4rem;
 
     &-Title {
         flex: 0 0 auto;
-        width: 200px;
+        width: var(--product-compare-sidebar-width);
     }
 
     &-Value {
         flex: 1;
-        margin: 0 1rem;
+        padding: 0 var(--product-compare-item-gap);
+        min-width: var(--product-compare-column-width);
+
+        &:last-child {
+            padding-right: 0;
+            margin-right: var(--product-compare-item-gap);
+        }
     }
 }

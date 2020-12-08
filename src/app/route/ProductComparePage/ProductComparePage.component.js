@@ -28,27 +28,15 @@ export class ProductComparePage extends PureComponent {
         isLoading: false
     };
 
-    renderPageContents() {
-        const { isLoading } = this.props;
-
-        if (isLoading) {
-            return null;
-        }
-
-        return (
-            <ContentWrapper label="Product Compare Page">
-                <ProductCompare />
-            </ContentWrapper>
-        );
-    }
-
     render() {
         const { isLoading } = this.props;
 
         return (
             <main block="ProductComparePage">
                 <Loader isLoading={ isLoading } />
-                { this.renderPageContents() }
+                <ContentWrapper label={ __('Product Compare Page') }>
+                    <ProductCompare />
+                </ContentWrapper>
             </main>
         );
     }

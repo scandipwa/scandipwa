@@ -9,7 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --product-compare-sidebar-width: 200px;
+    --product-compare-item-count: 3;
+    --product-compare-item-gap: 1rem;
+    --product-compare-column-width: calc((var(--content-wrapper-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
+    --product-compare-border-color: black; // TODO set a proper color
+}
+
 .ProductCompare {
+    overflow: auto;
+    padding-bottom: 1.5rem;
+
     &-Row {
         display: flex;
         align-items: stretch;
@@ -18,11 +29,26 @@
 
     &-FirstColumn {
         flex: 0 0 auto;
-        width: 200px;
+        width: var(--product-compare-sidebar-width);
+    }
+
+    &-Item {
+        min-width: var(--product-compare-column-width);
+        padding: 0 var(--product-compare-item-gap);
+
+        &:last-child {
+            padding-right: 0;
+            margin-right: var(--product-compare-item-gap);
+        }
     }
 
     &-AttributeTable {
         margin-top: 2rem;
+    }
+
+    &-Empty {
+        margin-top: 2rem;
+        font-size: 1.5rem;
     }
 
     .ClearButton {
@@ -35,20 +61,23 @@
         }
     }
 
-    .ProductPriceRow {
-        border-bottom: 1px solid black; // TODO set a proper color
-        padding-bottom: 1rem;
-    }
-
     .PriceLabel,
     .ProductPrice {
         font-weight: 600;
         font-size: 1.8rem;
         margin: 0;
+        border-bottom: 1px solid var(--product-compare-border-color);
+        padding-bottom: 1rem;
     }
 
     .ProductPrice {
         flex: 1;
-        margin: 0 1rem;
+        padding: 0 var(--product-compare-item-gap);
+        min-width: var(--product-compare-column-width);
+
+        &:last-child {
+            padding-right: 0;
+            margin-right: var(--product-compare-item-gap);
+        }
     }
 }

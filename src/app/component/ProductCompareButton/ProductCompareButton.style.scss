@@ -1,0 +1,80 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --product-compare-button-icon-background: var(--primary-base-color);
+}
+
+.ProductCompareButton {
+    --loader-scale: .6;
+
+    margin-left: 1.08rem;
+    vertical-align: middle;
+    display: inline-block;
+
+    @include mobile {
+        margin-left: 1.26rem;
+    }
+
+    @include tablet-portrait {
+        margin-top: 1.2rem;
+    }
+
+    &-Button {
+        --button-padding: 0;
+        --button-hover-background: transparent;
+        --button-hover-border: var(--primary-dark-color);
+
+        height: 47px;
+        width: 47px;
+        border-radius: 50%;
+
+    }
+
+    &:hover {
+        @include after-mobile {
+            --product-compare-button-icon-background: var(--primary-dark-color);
+        }
+    }
+
+    &-Icon {
+        height: 30px;
+        width: 10px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(.7);
+
+        &,
+        &::before,
+        &::after {
+            display: block;
+            background-color: var(--product-compare-button-icon-background);
+            position: absolute;
+            width: 10px;
+        }
+
+        &::before,
+        &::after {
+            content: '';
+            bottom: 0;
+        }
+
+        &::before {
+            height: 10px;
+            left: -12px;
+        }
+
+        &::after {
+            height: 20px;
+            right: -12px;
+        }
+    }
+}

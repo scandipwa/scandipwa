@@ -12,10 +12,10 @@
 .ProductCompareItem {
     flex: 1;
     display: flex;
-    border: 1px solid black; // TODO need a propper color
+    border: 1px solid var(--product-compare-border-color);
     padding: 1rem;
-    margin: 0 1rem;
     position: relative;
+    height: 100%;
 
     &-Figure {
         flex: 0 0 auto;
@@ -34,6 +34,8 @@
         flex: 0 0 auto;
         margin-top: 0;
         line-height: 1;
+        width: 100%;
+        padding-right: 1.9rem;
     }
 
     &-Options {

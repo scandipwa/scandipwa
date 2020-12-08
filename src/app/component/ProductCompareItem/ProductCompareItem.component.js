@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
 // import Image from 'Component/Image/Image.component';
+import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductCompareItem.style';
@@ -20,7 +22,9 @@ import './ProductCompareItem.style';
 /** @namespace Component/ProductCompareItem/Component */
 export class ProductCompareItem extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        product: ProductType.isRequired,
+        removeComparedProduct: PropTypes.func.isRequired
     };
 
     renderProductImage() {
@@ -98,7 +102,23 @@ export class ProductCompareItem extends PureComponent {
     }
 
     renderProductRemoveBtn() {
-        return <button block="ProductCompareItem" elem="CloseBtn">&times;</button>;
+        const { removeComparedProduct } = this.props;
+
+        return (
+            <button
+              block="ProductCompareItem"
+              elem="CloseBtn"
+              onClick={ removeComparedProduct }
+            >
+                &times;
+            </button>
+        );
+    }
+
+    renderLoader() {
+        const { isLoading } = this.props;
+
+        return <Loader isLoading={ isLoading } />;
     }
 
     render() {
@@ -107,6 +127,7 @@ export class ProductCompareItem extends PureComponent {
                 { this.renderProductImage() }
                 { this.renderProductDetails() }
                 { this.renderProductRemoveBtn() }
+                { this.renderLoader() }
             </div>
         );
     }

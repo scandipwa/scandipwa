@@ -24,13 +24,17 @@ export const ProductCompareDispatcher = import(
 
 /** @namespace Component/ProductCompare/Container/mapStateToProps  */
 export const mapStateToProps = (state) => ({
-    products: state.ProductCompareReducer.products
+    products: state.ProductCompareReducer.products,
+    isLoading: state.ProductCompareReducer.isLoading
 });
 
 /** @namespace Component/ProductCompare/Container/mapDispatchToProps  */
 export const mapDispatchToProps = (dispatch) => ({
     fetchCompareList: () => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.handleData(dispatch)
+        ({ default: dispatcher }) => dispatcher.getCompareList(dispatch)
+    ),
+    clearCompareList: () => ProductCompareDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.clearComparedProducts(dispatch)
     )
 });
 
@@ -38,15 +42,19 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductCompareContainer extends PureComponent {
     static propTypes = {
         fetchCompareList: PropTypes.func.isRequired,
+        clearCompareList: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool,
         products: ProductItemsType
     };
 
     static defaultProps = {
+        isLoading: false,
         products: []
     };
 
     containerFunctions = {
-        getAttributes: this.getAttributes.bind(this)
+        getAttributes: this.getAttributes.bind(this),
+        clearCompareList: this.clearCompareList.bind(this)
     };
 
     componentWillMount() {
@@ -55,7 +63,14 @@ export class ProductCompareContainer extends PureComponent {
 
     fetchCompareList() {
         const { fetchCompareList } = this.props;
+
         fetchCompareList();
+    }
+
+    clearCompareList() {
+        const { clearCompareList } = this.props;
+
+        clearCompareList();
     }
 
     getAttributes() {
