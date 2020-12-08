@@ -43,7 +43,7 @@ Now you can modify files and see changes!
 1. In your docker-project root directory, run `mkdir src/localmodules`
 2. Clone the repo into that folder with `git clone https://github.com/scandipwa/scandipwa src/localmodules/scandipwa`
 3. Enter the `scandipwa` folder with `cd src/localmodules/scandipwa`
-4. Install dependencies by running `yarn`
+4. Install dependencies by running `yarn` (make sure you are on a correct branch, `create-scandipwa-app` as of 8th December 2020)
 5. Now enter the `scandipwa` package directory with `cd packages/scandipwa`
 6. Start the development using the `BUILD_MODE=magento yarn start`
 7. Now keep that process running and open another terminal tab / window / session
