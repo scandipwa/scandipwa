@@ -1,11 +1,5 @@
 import loadTranslation from "./loadTranslation";
 
-const {
-    scandipwa: {
-        locales: localeList = ['en_US', 'ru_RU']
-    }
-} = require("../../package.json");
-
 const DEFAULT_LOCALE = "en_US";
 
 class I18n {
@@ -13,7 +7,8 @@ class I18n {
     currentTranslation = {};
 
     getLocaleList() {
-        return localeList;
+        // TODO get from the child-est theme
+        return ['en_US', 'ru_RU'];
     }
 
     getCurrentLocale() {
@@ -33,6 +28,10 @@ class I18n {
         this.rerenderApplication();
     }
 
+    /**
+     * This method should be called on app init
+     * @param {function} rerenderApplication
+     */
     init(rerenderApplication) {
         window.setLocale = this.setLocale.bind(this);
 
