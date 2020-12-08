@@ -60,6 +60,7 @@ module.exports = {
                 return devServerConfig;
             }
 
+            devServerConfig.disableHostCheck = true;
             devServerConfig.writeToDisk = true;
 
             return devServerConfig;
