@@ -19,9 +19,11 @@ module.exports = () => {
         `Using content of ${ logger.style.file('public/index.php') } instead!`
     );
 
-    // Magento will handle the theme
-    process.env.WDS_SOCKET_PORT = 3000;
-    process.env.WDS_SOCKET_HOST = 'localhost';
+    // Run on some port, otherwise Magneto will try to intercept the request
+    process.env.WDS_SOCKET_PORT = process.env.WDS_SOCKET_PORT || 3000;
+    process.env.WDS_SOCKET_HOST = process.env.WDS_SOCKET_HOST || 'localhost';
+
+    // Do not open browser, as Magento will serve files
     process.env.BROWSER = 'none';
 
     const { name: themeName } = require(path.join(process.cwd(), 'composer.json'));

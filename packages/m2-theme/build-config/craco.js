@@ -60,7 +60,10 @@ module.exports = {
                 return devServerConfig;
             }
 
+            // Allow non "localhost" hosts
             devServerConfig.disableHostCheck = true;
+
+            // Write to disk, so Magento can pickup changes
             devServerConfig.writeToDisk = true;
 
             return devServerConfig;
