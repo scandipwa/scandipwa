@@ -24,6 +24,8 @@
     --height-transition-speed: 0;
 
     max-width: 100%;
+    max-height: var(--slider-height);
+
     overflow: hidden;
     touch-action: pan-y;
 
@@ -33,6 +35,14 @@
         display: flex;
         align-items: flex-start;
         height: 100%;
+
+        &_isWidget {
+            @include mobile {
+                width: 80%;
+                margin: auto;
+                overflow: visible;
+            }
+        }
 
         will-change: transform;
         transition: transform var(--animation-speed);
@@ -47,6 +57,7 @@
 
         &_isVertical {
             flex-direction: column;
+            width: 100%;
         }
     }
 

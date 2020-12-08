@@ -10,6 +10,22 @@
  */
 
 .SliderWidget {
+
+    &-Figure {
+
+        &_isSlider {
+            @include mobile {
+                padding: 0 .6rem 0 .6rem;
+            }
+        }
+        &_isVertical {
+
+            @include mobile {
+                padding: .6rem 0 .6rem 0;
+            }
+        }
+    }
+
     &-Figcaption {
         position: absolute;
         top: 50%;
