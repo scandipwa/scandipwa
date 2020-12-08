@@ -1,0 +1,54 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.ProductCompare {
+    &-Row {
+        display: flex;
+        align-items: stretch;
+        margin-top: 2rem;
+    }
+
+    &-FirstColumn {
+        flex: 0 0 auto;
+        width: 200px;
+    }
+
+    &-AttributeTable {
+        margin-top: 2rem;
+    }
+
+    .ClearButton {
+        display: flex;
+        align-items: center;
+        // TODO insert a trash icon
+
+        button {
+            text-transform: uppercase;
+        }
+    }
+
+    .ProductPriceRow {
+        border-bottom: 1px solid black; // TODO set a proper color
+        padding-bottom: 1rem;
+    }
+
+    .PriceLabel,
+    .ProductPrice {
+        font-weight: 600;
+        font-size: 1.8rem;
+        margin: 0;
+    }
+
+    .ProductPrice {
+        flex: 1;
+        margin: 0 1rem;
+    }
+}

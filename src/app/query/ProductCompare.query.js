@@ -9,10 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { ProductListQuery } from 'Query/ProductList.query';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/ProductCompare */
-export class ProductCompare {
+export class ProductCompareQuery extends ProductListQuery {
     getQuery(guestCartId = null) {
         const field = new Field('compareProducts');
 
@@ -70,9 +71,25 @@ export class ProductCompare {
     _getProductsFields() {
         return [
             'id',
-            'name'
+            'name',
+            this._getProductThumbnailField(),
+            this._getPriceRangeField(),
+            this._getComparableAttributesField()
+        ];
+    }
+
+    _getComparableAttributesField() {
+        return new Field('comparableAttributes')
+            .addFieldList(this._getComparableAttributesFields());
+    }
+
+    _getComparableAttributesFields() {
+        return [
+            'attribute_id',
+            'attribute_label',
+            'attribute_value'
         ];
     }
 }
 
-export default new ProductCompare();
+export default new ProductCompareQuery();

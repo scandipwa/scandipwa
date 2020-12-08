@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ProductItemsType } from 'Type/ProductList';
+
 import ProductCompare from './ProductCompare.component';
 
 export const ProductCompareDispatcher = import(
@@ -21,7 +23,9 @@ export const ProductCompareDispatcher = import(
 );
 
 /** @namespace Component/ProductCompare/Container/mapStateToProps  */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    products: state.ProductCompareReducer.products
+});
 
 /** @namespace Component/ProductCompare/Container/mapDispatchToProps  */
 export const mapDispatchToProps = (dispatch) => ({
@@ -33,7 +37,16 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ProductCompare/Container */
 export class ProductCompareContainer extends PureComponent {
     static propTypes = {
-        fetchCompareList: PropTypes.func.isRequired
+        fetchCompareList: PropTypes.func.isRequired,
+        products: ProductItemsType
+    };
+
+    static defaultProps = {
+        products: []
+    };
+
+    containerFunctions = {
+        getAttributes: this.getAttributes.bind(this)
     };
 
     componentWillMount() {
@@ -45,10 +58,31 @@ export class ProductCompareContainer extends PureComponent {
         fetchCompareList();
     }
 
+    getAttributes() {
+        const { products } = this.props;
+
+        if (!products.length) {
+            return [];
+        }
+
+        return products[0]
+            .comparableAttributes
+            .map(
+                ({ attribute_id, attribute_label }, i) => ({
+                    attribute_id,
+                    attribute_label,
+                    attribute_values: products.map(
+                        ({ comparableAttributes }) => comparableAttributes[i].attribute_value
+                    )
+                })
+            );
+    }
+
     render() {
         return (
             <ProductCompare
               { ...this.props }
+              { ...this.containerFunctions }
             />
         );
     }
