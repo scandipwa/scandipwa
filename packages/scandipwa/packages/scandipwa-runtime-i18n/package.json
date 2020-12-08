@@ -1,6 +1,6 @@
 {
     "name": "scandipwa-runtime-i18n",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "license": "proprietary",
     "dependencies": {
         "@scandipwa/scandipwa": "3.2.3"

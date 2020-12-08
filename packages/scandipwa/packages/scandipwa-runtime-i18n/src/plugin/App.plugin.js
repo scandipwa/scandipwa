@@ -9,8 +9,14 @@ const componentDidMount = (args, callback, instance) => {
 
 /** Ensure full application remount on locale change */
 const render = (args, callback) => {
+    const currentLocale = i18n.getCurrentLocale();
+
     return (
-        <div key={i18n.getCurrentLocale()}>
+        <div
+          block="LocalizationWrapper"
+          elem={ currentLocale }
+          key={ currentLocale }
+        >
             { callback(...args) }
         </div>
     )

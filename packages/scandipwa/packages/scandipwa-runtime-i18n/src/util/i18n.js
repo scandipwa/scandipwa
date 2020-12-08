@@ -1,7 +1,9 @@
 import loadTranslation from "./loadTranslation";
 
 const {
-    scandipwa: { locales: localeList }
+    scandipwa: {
+        locales: localeList = ['en_US', 'ru_RU']
+    }
 } = require("../../package.json");
 
 const DEFAULT_LOCALE = "en_US";
@@ -28,8 +30,6 @@ class I18n {
         this.currentLocale = locale;
         this.currentTranslation = await loadTranslation(locale);
 
-
-        console.log('Triggering the App component rerender');
         this.rerenderApplication();
     }
 

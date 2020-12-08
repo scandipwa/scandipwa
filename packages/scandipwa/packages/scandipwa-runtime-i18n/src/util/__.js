@@ -6,9 +6,29 @@ function injectValues(string, ...values) {
   return string.replace(/%s/g, () => values[i++]);
 }
 
-export default function __(string, ...values) {
-  const translatedString = i18n.currentTranslation[string] || string;
-  console.log(translatedString);
+function translateString(string) {
+  return i18n.currentTranslation[string] || string;
+}
 
-  return injectValues(translatedString, ...values);
+function getTranslatedStringWithInjectedValues(string, values) {
+  return injectValues(translateString(string), values);
+}
+
+class TranslatedValue extends String {
+  // Translate and inject values during the initialization
+  constructor(value, args = []) {
+    super(getTranslatedStringWithInjectedValues(value, args));
+
+    this.value = value;
+    this.injectables = args;
+  }
+
+  // Reload the translation each time toString() is  called
+  toString() {
+    return getTranslatedStringWithInjectedValues(this.value, this.injectables);
+  }
+}
+
+export default function __(string, ...values) {
+  return new TranslatedValue(string, values);
 }
