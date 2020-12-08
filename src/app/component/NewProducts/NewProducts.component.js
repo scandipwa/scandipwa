@@ -27,7 +27,7 @@ export class NewProducts extends PureComponent {
 
     static defaultProps = {
         products: Array.from({ length: 4 }, () => ({})),
-        productsPerPage: 4
+        productsPerPage: 6
     };
 
     newProductsRef = createRef();
