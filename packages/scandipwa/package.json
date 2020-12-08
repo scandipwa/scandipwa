@@ -36,6 +36,7 @@
         },
         "composer": {
             "magento/framework": "*",
+            "scandipwa/installer": "^4.0",
             "scandipwa/menu-organizer": "^2.0",
             "scandipwa/persisted-query": "^3.0",
             "scandipwa/slider-graphql": "^2.0",
