@@ -186,9 +186,14 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             can_change_quantity,
             product: { price_range: { minimum_price: { regular_price: { value } } } }
         }) => {
+            const { price_range: { minimum_price: { discount: { percent_off } } } } = this.props;
+
+            // eslint-disable-next-line no-magic-numbers
+            const finalPrice = value - (value * (percent_off / 100));
+
             const dropdownLabel = !can_change_quantity
-                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, value) }`
-                : `${ label } + ${ this.renderOptionLabel(price_type, value) }`;
+                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`
+                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`;
 
             acc.push({
                 id,
