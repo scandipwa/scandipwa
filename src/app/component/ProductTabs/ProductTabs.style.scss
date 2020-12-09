@@ -18,29 +18,3 @@
     }
 }
 
-.ProductTab {
-    &-Item {
-        margin: 0;
-        padding: 0;
-
-        &:last-child {
-            margin: 0;
-            padding: 0;
-        }
-
-        &::before {
-            content: '';
-        }
-
-        &_isActive {
-            background-color: var(--secondary-base-color);
-        }
-    }
-
-    &-Button {
-        margin: 0;
-        padding: 0;
-        padding: 1.2rem 2rem;
-        font-weight: bold;
-    }
-}

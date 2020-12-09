@@ -13,10 +13,10 @@ import { PureComponent } from 'react';
 
 import { ProductType } from 'Type/ProductList';
 
-import ProductInformationAttributes from './ProductInformationAttributes.component';
+import ProductAttributes from './ProductAttributes.component';
 
-/** @namespace Component/ProductInformationAttributes/Container */
-export class ProductInformationAttributesContainer extends PureComponent {
+/** @namespace Component/ProductAttributes/Container */
+export class ProductAttributesContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
@@ -47,7 +47,7 @@ export class ProductInformationAttributesContainer extends PureComponent {
 
     render() {
         return (
-            <ProductInformationAttributes
+            <ProductAttributes
               { ...this.props }
               { ...this.containerProps() }
             />
@@ -55,4 +55,4 @@ export class ProductInformationAttributesContainer extends PureComponent {
     }
 }
 
-export default ProductInformationAttributesContainer;
+export default ProductAttributesContainer;

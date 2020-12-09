@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductInformationAttributes.container';
+export { default } from './ProductAttributes.container';

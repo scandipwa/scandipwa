@@ -1,39 +1,51 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
-import { Children, PureComponent } from 'react';
+import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
+import ProductTab from 'Component/ProductTab';
 import { isMobile } from 'Util/Mobile';
-
-import { DEFAULT_TAB } from './ProductTabs.config';
 
 import './ProductTabs.style';
 
-/**
- * Product tabs
- * @class ProductTabs
- * @namespace Component/ProductTabs/Component
- */
+/** @namespace Component/ProductTabs/Component */
 export class ProductTabs extends PureComponent {
     static propTypes = {
-        tabNames: PropTypes.array.isRequired,
-        children: PropTypes.node
+        tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+        children: PropTypes.node,
+        defaultTab: PropTypes.string
     };
 
     static defaultProps = {
-        children: null
+        children: null,
+        defaultTab: null
     };
 
-    state = {
-        activeTab: DEFAULT_TAB
-    };
+    __construct(props) {
+        super.__construct(props);
 
-    onTabClick = (e) => {
-        const activeTab = e.target.dataset.name;
+        const { defaultTab, tabNames } = this.props;
 
+        this.state = {
+            activeTab: defaultTab || tabNames[0]
+        };
+    }
+
+    onTabClick = (activeTab) => {
         this.setState({
             activeTab
         });
-    }
+    };
 
     renderActiveTab(activeTab, childrenArray) {
         const { tabNames } = this.props;
@@ -51,37 +63,34 @@ export class ProductTabs extends PureComponent {
         return childrenArray.map((item) => item);
     }
 
-    renderTabs() {
-        const { children, tabNames } = this.props;
+    renderTab = (_, i) => {
+        const { tabNames } = this.props;
         const { activeTab } = this.state;
 
-        const childrenArray = Children.toArray(children);
+        return (
+            <ProductTab
+              tabName={ tabNames[i] }
+              key={ tabNames[i] }
+              onClick={ this.onTabClick }
+              isActive={ tabNames[i].toLowerCase() === activeTab.toLowerCase() }
+            />
+        );
+    };
+
+    renderTabs() {
+        const { children } = this.props;
+        const { activeTab } = this.state;
 
         return (
             <>
                 <ul
                   block="ProductTabs"
                 >
-                { childrenArray.map((_, i) => (
-                        <li
-                          key={ tabNames[i] }
-                          block="ProductTab"
-                          elem="Item"
-                          mods={ { isActive: tabNames[i].toLowerCase() === activeTab.toLowerCase() } }
-                        >
-                            <button
-                              mix={ { block: 'ProductTab', elem: 'Button' } }
-                              onClick={ this.onTabClick }
-                              data-name={ tabNames[i] }
-                            >
-                                { tabNames[i].toUpperCase() }
-                            </button>
-                        </li>
-                )) }
+                    { children.map(this.renderTab) }
                 </ul>
                 { isMobile.any()
-                    ? this.renderAllTabs(childrenArray)
-                    : this.renderActiveTab(activeTab, childrenArray) }
+                    ? this.renderAllTabs(children)
+                    : this.renderActiveTab(activeTab, children) }
             </>
         );
     }

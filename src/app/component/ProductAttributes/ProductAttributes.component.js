@@ -17,10 +17,10 @@ import ExpandableContent from 'Component/ExpandableContent';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { AttributeType, ProductType } from 'Type/ProductList';
 
-import './ProductInformationAttributes.style';
+import './ProductAttributes.style';
 
-/** @namespace Component/ProductInformationAttributes/Component */
-export class ProductInformationAttributes extends PureComponent {
+/** @namespace Component/ProductAttributes/Component */
+export class ProductAttributes extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
@@ -29,10 +29,10 @@ export class ProductInformationAttributes extends PureComponent {
 
     renderAttribute = ([attributeLabel, valueLabel]) => (
         <Fragment key={ attributeLabel }>
-            <dt block="ProductInformationAttributes" elem="AttributeLabel">
+            <dt block="ProductAttributes" elem="AttributeLabel">
                 { attributeLabel }
             </dt>
-            <dd block="ProductInformationAttributes" elem="ValueLabel">
+            <dd block="ProductAttributes" elem="ValueLabel">
                 <ProductAttributeValue
                   key={ attributeLabel }
                   attribute={ valueLabel }
@@ -50,7 +50,7 @@ export class ProductInformationAttributes extends PureComponent {
         }
 
         return (
-            <dl block="ProductInformationAttributes" elem="Attributes">
+            <dl block="ProductAttributes" elem="Attributes">
                 { Object.entries(attributesWithValues).map(this.renderAttribute) }
             </dl>
         );
@@ -64,7 +64,7 @@ export class ProductInformationAttributes extends PureComponent {
             <ExpandableContent
               // show placeholder if the details are not loaded
               heading={ heading }
-              mix={ { block: 'ProductInformationAttributes', elem: 'Content' } }
+              mix={ { block: 'ProductAttributes', elem: 'Content' } }
             >
                 { this.renderAttributes() }
             </ExpandableContent>
@@ -85,9 +85,9 @@ export class ProductInformationAttributes extends PureComponent {
 
         return (
             <ContentWrapper
-              label="Product information attributes"
-              mix={ { block: 'ProductInformationAttributes' } }
-              wrapperMix={ { block: 'ProductInformationAttributes', elem: 'Wrapper' } }
+              label="Product attributes"
+              mix={ { block: 'ProductAttributes' } }
+              wrapperMix={ { block: 'ProductAttributes', elem: 'Wrapper' } }
             >
                 { this.renderContent() }
             </ContentWrapper>
@@ -95,4 +95,4 @@ export class ProductInformationAttributes extends PureComponent {
     }
 }
 
-export default ProductInformationAttributes;
+export default ProductAttributes;

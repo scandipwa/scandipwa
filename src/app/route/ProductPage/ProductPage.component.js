@@ -15,10 +15,10 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
+import ProductAttributes from 'Component/ProductAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductGallery from 'Component/ProductGallery';
 import ProductInformation from 'Component/ProductInformation';
-import ProductInformationAttributes from 'Component/ProductInformationAttributes';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import ProductTabs from 'Component/ProductTabs';
@@ -119,7 +119,7 @@ export class ProductPage extends PureComponent {
                       product={ { ...dataSource, parameters } }
                       areDetailsLoaded={ areDetailsLoaded }
                     />
-                    <ProductInformationAttributes
+                    <ProductAttributes
                       product={ { ...dataSource, parameters } }
                       areDetailsLoaded={ areDetailsLoaded }
                     />
