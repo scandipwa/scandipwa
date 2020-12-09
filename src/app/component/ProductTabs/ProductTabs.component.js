@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Children, PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import { isMobile } from 'Util/Mobile';
@@ -15,6 +15,7 @@ import './ProductTabs.style';
  */
 export class ProductTabs extends PureComponent {
     static propTypes = {
+        tabNames: PropTypes.array.isRequired,
         children: PropTypes.node
     };
 
@@ -26,7 +27,7 @@ export class ProductTabs extends PureComponent {
         activeTab: DEFAULT_TAB
     };
 
-    onTabClick(e) {
+    onTabClick = (e) => {
         const activeTab = e.target.dataset.name;
 
         this.setState({
@@ -35,8 +36,10 @@ export class ProductTabs extends PureComponent {
     }
 
     renderActiveTab(activeTab, childrenArray) {
-        return childrenArray.map((item) => {
-            if (item.props.tabName.toLowerCase() === activeTab.toLowerCase()) {
+        const { tabNames } = this.props;
+
+        return childrenArray.map((item, i) => {
+            if (tabNames[i].toLowerCase() === activeTab.toLowerCase()) {
                 return item;
             }
 
@@ -49,32 +52,31 @@ export class ProductTabs extends PureComponent {
     }
 
     renderTabs() {
-        const { children } = this.props;
+        const { children, tabNames } = this.props;
         const { activeTab } = this.state;
 
-        const childrenArray = React.Children.toArray(children);
+        const childrenArray = Children.toArray(children);
 
         return (
             <>
                 <ul
                   block="ProductTabs"
                 >
-                { childrenArray.map((item) => (
-                    <li
-                      key={ item.props.tabName }
-                      block="ProductTab"
-                      elem="Item"
-                      mods={ { isActive: item.props.tabName.toLowerCase() === activeTab.toLowerCase() } }
-                    >
-                        <button
-                          mix={ { block: 'ProductTab', elem: 'Button' } }
-                          // eslint-disable-next-line react/jsx-no-bind
-                          onClick={ (e) => this.onTabClick(e) }
-                          data-name={ item.props.tabName }
+                { childrenArray.map((_, i) => (
+                        <li
+                          key={ tabNames[i] }
+                          block="ProductTab"
+                          elem="Item"
+                          mods={ { isActive: tabNames[i].toLowerCase() === activeTab.toLowerCase() } }
                         >
-                            { item.props.tabName.toUpperCase() }
-                        </button>
-                    </li>
+                            <button
+                              mix={ { block: 'ProductTab', elem: 'Button' } }
+                              onClick={ this.onTabClick }
+                              data-name={ tabNames[i] }
+                            >
+                                { tabNames[i].toUpperCase() }
+                            </button>
+                        </li>
                 )) }
                 </ul>
                 { isMobile.any()
