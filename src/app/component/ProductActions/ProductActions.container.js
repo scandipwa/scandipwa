@@ -287,10 +287,8 @@ export class ProductActionsContainer extends PureComponent {
                 }
             } = product;
 
-            const finalBundlePrice = selectedBundlePrice === 0
-                ? selectedBundlePrice
-                // eslint-disable-next-line no-magic-numbers
-                : selectedBundlePrice - (selectedBundlePrice * (percent_off / 100));
+            // eslint-disable-next-line no-magic-numbers
+            const finalBundlePrice = selectedBundlePrice - (selectedBundlePrice * (percent_off / 100));
 
             const priceValue = { value: finalBundlePrice, currency };
 
