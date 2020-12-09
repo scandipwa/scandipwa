@@ -42,12 +42,6 @@
             "@scandipwa/scandipwa-guidelines/use-named-export": "off",
             "@scandipwa/scandipwa-guidelines/create-config-files": "off"
         }
-    },
-    {
-        "files": "*",
-        "rules": {
-            "linebreak-style": "off"
-        }
     }],
     "rules": {
         "@scandipwa/scandipwa-guidelines/file-structure": "error",

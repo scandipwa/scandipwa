@@ -33,7 +33,7 @@ export class ProductTabs extends PureComponent {
         this.setState({
             activeTab
         });
-    }
+    };
 
     renderActiveTab(activeTab, childrenArray) {
         const { tabNames } = this.props;
