@@ -26,7 +26,7 @@ export class ProductCompareQuery extends ProductListQuery {
 
     getAddProductToCompareMutation(productId, guestCartId = null) {
         const field = new Field('addProductToCompare')
-            .addArgument('product_id', 'String!', productId);
+            .addArgument('product_id', 'Int!', productId);
 
         if (guestCartId) {
             field.addArgument('guestCartId', 'String', guestCartId);
@@ -37,7 +37,7 @@ export class ProductCompareQuery extends ProductListQuery {
 
     getRemoveComparedProductMutation(productId, guestCartId = null) {
         const field = new Field('removeComparedProduct')
-            .addArgument('product_id', 'String!', productId);
+            .addArgument('product_id', 'Int!', productId);
 
         if (guestCartId) {
             field.addArgument('guestCartId', 'String', guestCartId);
@@ -76,7 +76,8 @@ export class ProductCompareQuery extends ProductListQuery {
             'url',
             this._getProductThumbnailField(),
             this._getPriceRangeField(),
-            this._getComparableAttributesField()
+            this._getComparableAttributesField(),
+            this._getConfigurableProductFragment()
         ];
     }
 
@@ -90,6 +91,20 @@ export class ProductCompareQuery extends ProductListQuery {
             'attribute_id',
             'attribute_label',
             'attribute_value'
+        ];
+    }
+
+    _getConfigurableOptionFields() {
+        return [
+            'attribute_code',
+            'label',
+            this._getValuesField()
+        ];
+    }
+
+    _getValueFields() {
+        return [
+            'label'
         ];
     }
 }

@@ -18,6 +18,11 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 
+import {
+    PRODUCT_ADD_TO_CART_DEFAULT_QUANTITY,
+    PRODUCT_ADD_TO_CART_DEFAULT_VARIANT_INDEX
+} from './ProductCompareItem.config';
+
 import './ProductCompareItem.style';
 
 /** @namespace Component/ProductCompareItem/Component */
@@ -66,20 +71,56 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderOptions() {
-        return <div block="ProductCompareItem" elem="Options">Options List</div>;
+    renderConfigurationOption = (option) => {
+        const {
+            attribute_code,
+            values: [
+                { label }
+            ]
+        } = option;
+
+        return (
+            <li
+              key={ attribute_code }
+              aria-label={ attribute_code }
+              block="ProductCompareItem"
+              elem="Option"
+            >
+                { label }
+            </li>
+        );
+    };
+
+    renderConfigurations() {
+        const {
+            product: { configurable_options } = {}
+        } = this.props;
+
+        if (!configurable_options || !configurable_options.length) {
+            return <div block="ProductCompareItem" elem="Options" />;
+        }
+
+        return (
+            <ul
+              block="ProductCompareItem"
+              elem="Options"
+              mods={ { isLikeTable: true } }
+            >
+                { configurable_options.map(this.renderConfigurationOption) }
+            </ul>
+        );
     }
 
     renderAddToCartBtn() {
         const { product } = this.props;
-        const quantity = 1; // TODO set a proper value
-        const configurableVariantIndex = 0; // TODO set a proper value
 
         return (
             <AddToCart
               product={ product }
-              quantity={ quantity }
-              configurableVariantIndex={ configurableVariantIndex }
+              quantity={ PRODUCT_ADD_TO_CART_DEFAULT_QUANTITY }
+              configurableVariantIndex={ PRODUCT_ADD_TO_CART_DEFAULT_VARIANT_INDEX }
+              groupedProductQuantity={ {} }
+              productOptionsData={ {} }
               mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
             />
         );
@@ -89,7 +130,7 @@ export class ProductCompareItem extends PureComponent {
         return (
             <div block="ProductCompareItem" elem="Details">
                 { this.renderTitle() }
-                { this.renderOptions() }
+                { this.renderConfigurations() }
                 { this.renderAddToCartBtn() }
             </div>
         );

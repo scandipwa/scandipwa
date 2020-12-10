@@ -9,5 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// eslint-disable-next-line import/prefer-default-export
-export const GUEST_QUOTE_ID = 'guest_quote_id';
+export const PRODUCT_ADD_TO_CART_DEFAULT_QUANTITY = 1;
+export const PRODUCT_ADD_TO_CART_DEFAULT_VARIANT_INDEX = 0;

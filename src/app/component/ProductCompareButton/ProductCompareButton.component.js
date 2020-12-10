@@ -12,16 +12,23 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Loader from 'Component/Loader';
+
 import './ProductCompareButton.style';
 
 /** @namespace Component/ProductCompareButton/Component */
 export class ProductCompareButton extends PureComponent {
     static propTypes = {
-        handleClick: PropTypes.func.isRequired
+        handleClick: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isLoading: false
     };
 
     render() {
-        const { handleClick } = this.props;
+        const { handleClick, isLoading } = this.props;
 
         return (
             <div block="ProductCompareButton">
@@ -35,6 +42,7 @@ export class ProductCompareButton extends PureComponent {
                   } }
                 >
                     <div block="ProductCompareButton" elem="Icon" />
+                    <Loader isLoading={ isLoading } />
                 </button>
             </div>
         );

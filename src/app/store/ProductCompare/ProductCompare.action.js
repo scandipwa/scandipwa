@@ -27,9 +27,9 @@ export const setCompareList = (payload) => ({
 });
 
 /** @namespace Store/ProductCompare/Action/removeComparedProduct */
-export const removeComparedProduct = (sku) => ({
+export const removeComparedProduct = (productId) => ({
     type: REMOVE_COMPARED_PRODUCT,
-    sku
+    productId
 });
 
 /** @namespace Store/ProductCompare/Action/clearComparedProducts */

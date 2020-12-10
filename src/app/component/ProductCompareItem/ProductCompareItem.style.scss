@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --product-compare-item-option-color: #adadad;
+}
+
 .ProductCompareItem {
     flex: 1;
     display: flex;
@@ -43,7 +47,7 @@
         display: block;
         width: 100%;
         padding-right: 1.9rem;
-        margin: 0 0 1.8rem 0;
+        margin: 0 0 1rem 0;
         font-size: 1.8rem;
         font-weight: 600;
         line-height: 1;
@@ -53,6 +57,28 @@
     &-Options {
         flex: 1;
         font-size: 1.5rem;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        &_isLikeTable {
+            @include after-mobile {
+                flex-grow: 1;
+            }
+        }
+    }
+
+    &-Option {
+        font-size: 1rem;
+        text-transform: uppercase;
+        border: 1px solid var(--product-compare-item-option-color);
+        color: var(--product-compare-item-option-color);
+        padding: 3px 5px;
+        margin-right: 5px;
+
+        &::before {
+            content: none;
+        }
     }
 
     &-AddToCartBtn {

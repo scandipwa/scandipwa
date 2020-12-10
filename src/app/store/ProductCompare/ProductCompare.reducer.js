@@ -48,13 +48,13 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
     }
 
     case REMOVE_COMPARED_PRODUCT: {
-        const { id } = action;
+        const { productId } = action;
         const { count, products } = state;
 
         return {
             ...state,
             count: count - 1,
-            products: products.filter((product) => product.id !== id)
+            products: products.filter(({ id }) => id !== productId)
         };
     }
 

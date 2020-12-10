@@ -27,8 +27,8 @@ export const mapStateToProps = () => ({});
 
 /** @namespace Component/ProductCompareItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    removeComparedProduct: (sku) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.removeComparedProduct(sku, dispatch)
+    removeComparedProduct: (productId) => ProductCompareDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch)
     )
 });
 

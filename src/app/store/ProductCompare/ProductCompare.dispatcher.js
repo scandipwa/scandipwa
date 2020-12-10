@@ -17,14 +17,20 @@ import {
     setCompareList,
     toggleLoader
 } from 'Store/ProductCompare/ProductCompare.action';
-import { GUEST_QUOTE_ID } from 'Store/ProductCompare/ProductCompare.config';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { fetchMutation, fetchQuery } from 'Util/Request';
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
+export const GUEST_QUOTE_ID = 'guest_quote_id';
 
 /** @namespace Store/ProductCompare/Dispatcher */
 export class ProductCompareDispatcher {
     async getCompareList(dispatch) {
-        const guestCartId = this._getGuestQuoteId();
+        const guestCartId = await this._getGuestQuoteId(dispatch);
 
         dispatch(toggleLoader(true));
 
@@ -42,7 +48,7 @@ export class ProductCompareDispatcher {
     }
 
     async addProductToCompare(productId, dispatch) {
-        const guestCartId = this._getGuestQuoteId();
+        const guestCartId = await this._getGuestQuoteId(dispatch);
 
         try {
             const result = await fetchMutation(
@@ -61,7 +67,7 @@ export class ProductCompareDispatcher {
     }
 
     async removeComparedProduct(productId, dispatch) {
-        const guestCartId = this._getGuestQuoteId();
+        const guestCartId = await this._getGuestQuoteId(dispatch);
 
         try {
             const result = await fetchMutation(
@@ -81,7 +87,7 @@ export class ProductCompareDispatcher {
     }
 
     async clearComparedProducts(dispatch) {
-        const guestCartId = this._getGuestQuoteId();
+        const guestCartId = await this._getGuestQuoteId(dispatch);
 
         dispatch(toggleLoader(true));
 
@@ -101,8 +107,15 @@ export class ProductCompareDispatcher {
         }
     }
 
-    _getGuestQuoteId() {
-        return BrowserDatabase.getItem(GUEST_QUOTE_ID);
+    async _getGuestQuoteId(dispatch) {
+        const result = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
+        if (result) {
+            return result;
+        }
+
+        const { default: cartDispatcher } = await CartDispatcher;
+        return cartDispatcher.createGuestEmptyCart(dispatch);
     }
 }
 
