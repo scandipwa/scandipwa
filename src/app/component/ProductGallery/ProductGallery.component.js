@@ -95,7 +95,7 @@ export class ProductGallery extends PureComponent {
             this.updateSharedDestinationElement();
         }
 
-        if (sliderRef && pathname !== prevPathname) {
+        if (sliderRef.current.draggableRef && pathname !== prevPathname) {
             CSS.setVariable(
                 sliderRef.current.draggableRef,
                 'animation-speed',
