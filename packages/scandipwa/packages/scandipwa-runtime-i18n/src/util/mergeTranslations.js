@@ -13,7 +13,7 @@
  * @param {object[]} translations
  * @returns {object}
  */
-export default function mergeTranslations(translations) {
+module.exports = function mergeTranslations(translations) {
     return translations.reduce((mergedTranslations, incomingTranslations) => {
         for (const key in incomingTranslations) {
             // Skip if already translated
@@ -24,6 +24,7 @@ export default function mergeTranslations(translations) {
             const incomingValue = incomingTranslations[key];
 
             // TODO hide for production mode
+            // TODO hide for compilation
             // TODO hide for the default locale
             // If currently translated as `null` and overriding with value => notify!
             if (mergedTranslations[key] === null && incomingValue) {

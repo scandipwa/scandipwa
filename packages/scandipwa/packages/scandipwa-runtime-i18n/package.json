@@ -3,13 +3,14 @@
     "version": "1.0.0",
     "license": "proprietary",
     "dependencies": {
-        "@scandipwa/scandipwa": "3.2.3"
+        "@scandipwa/scandipwa": "3.2.3",
+        "loader-utils": "^2.0.0"
     },
     "scandipwa": {
         "type": "extension",
         "build": {
             "cracoPlugins": [
-                "build-config/craco.js"
+                "build-config/config.plugin.js"
             ]
         }
     },
