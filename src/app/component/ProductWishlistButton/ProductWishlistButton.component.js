@@ -23,7 +23,7 @@ import './ProductWishlistButton.style';
 export class ProductWishlistButton extends PureComponent {
     static propTypes = {
         isReady: PropTypes.bool,
-        isLoadingLocal: PropTypes.bool,
+        isLoading: PropTypes.bool,
         quantity: PropTypes.number,
         isDisabled: PropTypes.bool,
         isInWishlist: PropTypes.bool,
@@ -37,7 +37,7 @@ export class ProductWishlistButton extends PureComponent {
         mix: {},
         quantity: 1,
         isReady: true,
-        isLoadingLocal: false,
+        isLoading: false,
         isDisabled: false,
         isInWishlist: false
     };
@@ -97,10 +97,10 @@ export class ProductWishlistButton extends PureComponent {
     }
 
     renderLoader() {
-        const { isLoadingLocal } = this.props;
+        const { isLoading } = this.props;
 
         return (
-            <Loader isLoading={ isLoadingLocal } />
+            <Loader isLoading={ isLoading } />
         );
     }
 

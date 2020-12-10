@@ -186,10 +186,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
     }
 
     render() {
+        const { isLoadingLocal } = this.state;
+
         return (
             <ProductWishlistButton
+              isLoading={ isLoadingLocal }
               { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions() }
             />
