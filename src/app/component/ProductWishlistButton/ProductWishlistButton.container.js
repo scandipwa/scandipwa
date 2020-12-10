@@ -67,12 +67,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
         isLoadingLocal: false
     };
 
-    componentWillReceiveProps(nextProps) {
-        const { isLoadingLocal } = this.state;
-        const { isLoading } = nextProps;
+    componentDidUpdate(prevProps) {
+        const { isLoading: isPrevLoading } = prevProps;
+        const { isLoading } = this.props;
 
-        if (isLoadingLocal && !isLoading) {
-            this.setState({ isLoadingLocal: false });
+        if (isPrevLoading && !isLoading) {
+            this.setLoadingState(false);
         }
     }
 
@@ -86,6 +86,10 @@ export class ProductWishlistButtonContainer extends PureComponent {
         addToWishlist: this.toggleProductInWishlist.bind(this, true),
         removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
     });
+
+    setLoadingState(state) {
+        return this.setState({ isLoadingLocal: state });
+    }
 
     toggleProductInWishlist = (add = true) => {
         const {
@@ -113,7 +117,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return showNotification('info', __('Please, select desirable option first!'));
         }
 
-        this.setState({ isLoadingLocal: true });
+        this.setLoadingState(true);
 
         const { sku: variantSku, product_option } = product;
         if (add) {

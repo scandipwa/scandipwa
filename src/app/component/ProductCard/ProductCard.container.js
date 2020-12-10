@@ -168,7 +168,9 @@ export class ProductCardContainer extends PureComponent {
             return [];
         }
 
-        return Object.values(Object.values(configurable_options)[0].attribute_options).reduce(
+        const { attribute_options } = Object.values(configurable_options)[0];
+
+        return Object.values(attribute_options).reduce(
             (acc, option) => {
                 const {
                     swatch_data,

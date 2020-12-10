@@ -134,18 +134,18 @@ export class ProductCard extends PureComponent {
     }
 
     renderVisualOption({ value, label, type }, i) {
-        const _type = type === OPTION_TYPE_COLOR;
+        const isColor = type === OPTION_TYPE_COLOR;
 
         return (
             <span
               block="ProductCard"
-              elem={ _type ? 'Color' : 'String' }
+              elem={ isColor ? 'Color' : 'String' }
               key={ i }
-              style={ _type ? { backgroundColor: value } : {} }
-              aria-label={ _type ? label : '' }
-              title={ _type ? '' : label }
+              style={ isColor ? { backgroundColor: value } : {} }
+              aria-label={ isColor ? label : '' }
+              title={ isColor ? '' : label }
             >
-                { _type ? '' : value }
+                { isColor ? '' : value }
             </span>
         );
     }
@@ -213,20 +213,13 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductCardWishlistButton() {
-        const {
-            product,
-            mix
-        } = this.props;
-
-        if (Object.values(mix).includes('WishlistItem')) {
-            return null;
-        }
+        const { product } = this.props;
 
         return (
-                <ProductWishlistButton
-                  product={ product }
-                  mix={ { block: 'ProductCard', elem: 'WishListButton' } }
-                />
+            <ProductWishlistButton
+              product={ product }
+              mix={ { block: 'ProductCard', elem: 'WishListButton' } }
+            />
         );
     }
 
