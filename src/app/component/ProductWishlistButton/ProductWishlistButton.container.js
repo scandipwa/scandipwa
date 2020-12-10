@@ -29,7 +29,7 @@ export const WishlistDispatcher = import(
 /** @namespace Component/ProductWishlistButton/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     productsInWishlist: state.WishlistReducer.productsInWishlist,
-    isLoading: state.WishlistReducer.isLoading
+    isAddingWishlistItem: state.WishlistReducer.isLoading
 });
 
 /** @namespace Component/ProductWishlistButton/Container/mapDispatchToProps */
@@ -48,7 +48,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
         quantity: PropTypes.number,
         product: ProductType.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        isAddingWishlistItem: PropTypes.bool.isRequired,
         configurableVariantIndex: PropTypes.number,
         showNotification: PropTypes.func.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
@@ -64,15 +64,15 @@ export class ProductWishlistButtonContainer extends PureComponent {
     };
 
     state = {
-        isLoadingLocal: false
+        isWishlistButtonLoading: false
     };
 
     componentDidUpdate(prevProps) {
-        const { isLoading: isPrevLoading } = prevProps;
-        const { isLoading } = this.props;
+        const { isAddingWishlistItem: isPrevAddingWishlistItem } = prevProps;
+        const { isAddingWishlistItem } = this.props;
 
-        if (isPrevLoading && !isLoading) {
-            this.setLoading(false);
+        if (isPrevAddingWishlistItem && !isAddingWishlistItem) {
+            this.setWishlistButtonLoading(false);
         }
     }
 
@@ -87,15 +87,15 @@ export class ProductWishlistButtonContainer extends PureComponent {
         removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
     });
 
-    setLoading(isLoading) {
-        return this.setState({ isLoadingLocal: isLoading });
+    setWishlistButtonLoading(isLoading) {
+        return this.setState({ isWishlistButtonLoading: isLoading });
     }
 
     toggleProductInWishlist = (add = true) => {
         const {
             product: { sku, type_id },
             quantity,
-            isLoading,
+            isAddingWishlistItem,
             showNotification,
             productsInWishlist,
             addProductToWishlist,
@@ -107,7 +107,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return showNotification('info', __('You must login or register to add items to your wishlist.'));
         }
 
-        if (isLoading) {
+        if (isAddingWishlistItem) {
             return null;
         }
 
@@ -117,7 +117,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return showNotification('info', __('Please, select desirable option first!'));
         }
 
-        this.setLoading(true);
+        this.setWishlistButtonLoading(true);
 
         const { sku: variantSku, product_option } = product;
         if (add) {
@@ -132,14 +132,14 @@ export class ProductWishlistButtonContainer extends PureComponent {
     };
 
     isDisabled = () => {
-        const { isLoading } = this.props;
+        const { isAddingWishlistItem } = this.props;
         const product = this._getProductVariant();
 
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
             return true;
         }
 
-        return isLoading || !isSignedIn();
+        return isAddingWishlistItem || !isSignedIn();
     };
 
     isInWishlist = () => {
@@ -186,11 +186,11 @@ export class ProductWishlistButtonContainer extends PureComponent {
     }
 
     render() {
-        const { isLoadingLocal } = this.state;
+        const { isWishlistButtonLoading } = this.state;
 
         return (
             <ProductWishlistButton
-              isLoading={ isLoadingLocal }
+              isLoading={ isWishlistButtonLoading }
               { ...this.props }
               { ...this.containerProps() }
               { ...this.containerFunctions() }
