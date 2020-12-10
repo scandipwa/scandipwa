@@ -37,7 +37,7 @@ export class Slider extends PureComponent {
         activeImage: PropTypes.number,
         onActiveImageChange: PropTypes.func,
         children: ChildrenType.isRequired,
-        childrenClones: ChildrenType.isRequired,
+        childrenClones: ChildrenType,
         isInteractionDisabled: PropTypes.bool,
         onClick: PropTypes.func,
         isVertical: PropTypes.bool,
@@ -46,7 +46,9 @@ export class Slider extends PureComponent {
             PropTypes.number,
             PropTypes.string
         ]),
-        sliderRef: PropTypes.object
+        sliderRef: PropTypes.object,
+        infinite: PropTypes.bool,
+        isWidget: PropTypes.bool
     };
 
     static defaultProps = {
@@ -59,7 +61,10 @@ export class Slider extends PureComponent {
         sliderHeight: null,
         sliderRef: null,
         activeImage: null,
-        onActiveImageChange: () => {}
+        onActiveImageChange: () => {},
+        infinite: false,
+        isWidget: false,
+        childrenClones: null
     };
 
     draggableRef = createRef();
@@ -83,11 +88,11 @@ export class Slider extends PureComponent {
     }
 
     componentDidMount() {
-        if (!this.getIsSlider()) {
+        if (!this.getIsScrollable()) {
             return;
         }
 
-        this.addWindowResizeWatcher();
+        window.addEventListener('resize', this.windowResizeWatcher);
 
         const sliderChildren = this.draggableRef.current.children;
 
@@ -100,8 +105,9 @@ export class Slider extends PureComponent {
         this.setStyleVariablesOnMount();
 
         const sliderRef = this.getSliderRef();
-        const sliderHeight = `${ sliderChildren[0].offsetHeight }px`;
+        const sliderHeight = `${ sliderChildren[0].getBoundingClientRect().height }px`;
 
+        CSS.setVariable(this.draggableRef, 'slide-height', sliderHeight);
         sliderChildren[0].onload = () => {
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         };
@@ -112,26 +118,24 @@ export class Slider extends PureComponent {
     }
 
     componentDidUpdate() {
-        if (this.getIsSlider()) {
-            this.setAnimationSpeedStyle();
-            this.setTranlateXStyle(this.getFocusSlideTranslate());
-            this.setActiveImage();
+        if (!this.getIsScrollable()) {
+            return;
         }
+
+        this.setAnimationSpeedStyle();
+        this.setTranlateXStyle(this.getFocusSlideTranslate());
+        this.setActiveImage();
     }
 
-    addWindowResizeWatcher() {
-        window.addEventListener('resize', () => {
-            this.setTranlateXStyle(this.getFocusSlideTranslate());
-
-            // Removed animation to avoid image movement while changing window width.
-            this.setAnimationSpeedStyle(0);
-
-            const delay = 500;
-            setTimeout(() => {
-                this.setAnimationSpeedStyle();
-            }, delay);
-        });
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.windowResizeWatcher);
     }
+
+    windowResizeWatcher = () => {
+        // Remove animation to avoid image movement while changing window width.
+        this.setAnimationSpeedStyle(0);
+        this.setTranslateXStyle(this.getFocusSlideTranslate());
+    };
 
     setStyleVariablesOnMount() {
         const { sliderHeight, isHeightTransitionDisabledOnMount } = this.props;
@@ -168,7 +172,7 @@ export class Slider extends PureComponent {
     getFocusSlide() {
         const { children: { length } } = this.props;
 
-        if (!this.getIsInfinity()) {
+        if (!this.getIsInfinite()) {
             const { activeImage } = this.state;
             return activeImage;
         }
@@ -180,38 +184,41 @@ export class Slider extends PureComponent {
         return -(this.getFocusSlide()) * this.getSlideWidth();
     }
 
-    getIsSlider() {
+    getIsScrollable() {
         const { children: { length } } = this.props;
 
         return length > 0;
     }
 
-    getIsInfinity() {
-        const { childrenClones } = this.props;
+    getIsInfinite() {
+        const { infinite } = this.props;
 
-        return !!childrenClones;
+        return infinite;
     }
 
     setActiveImage() {
         const { activeImage, onActiveImageChange } = this.props;
         const { activeImage: stateActiveImage } = this.state;
 
-        if (activeImage !== stateActiveImage) {
-            if (this.animInAction) {
-                onActiveImageChange(stateActiveImage);
-            } else {
-                this.changeActiveImage(activeImage);
-            }
+        if (activeImage === stateActiveImage) {
+            return;
         }
+
+        if (this.animInAction) {
+            onActiveImageChange(stateActiveImage);
+            return;
+        }
+
+        this.changeActiveImage(activeImage);
     }
 
     getSlideWidth() {
-        const { isVertical, children: { length } } = this.props;
+        const { isVertical } = this.props;
 
         const { width = 0, height = 0 } = this.draggableRef.current
             ? this.draggableRef.current.getBoundingClientRect() : {};
 
-        return isVertical ? height / (length + 2) : width;
+        return isVertical ? height : width;
     }
 
     getSliderRef() {
@@ -349,18 +356,27 @@ export class Slider extends PureComponent {
         callback.call(this, ...args);
     }
 
+    getArrayRange(start, end) {
+        return Array(Math.abs(end - start + 1)).fill().map((_, idx) => start + idx);
+    }
+
     countOffset(active, newActive) {
         const { children: { length } } = this.props;
 
+        // Smallest index on left side (negative means from the end)
         const minIndexOnLeft = active - this.getFocusSlide() + 1;
-        const indexesOnLeft = minIndexOnLeft >= 0
-            ? Array(active - minIndexOnLeft).fill().map((_, idx) => minIndexOnLeft + idx)
-            : Array(active).fill().map((_, idx) => idx).concat(
-                Array(Math.abs(minIndexOnLeft)).fill().map((_, idx) => length + minIndexOnLeft + idx)
-            );
 
+        // Gettings array of indexes that are on the left
+        const indexesOnLeft = minIndexOnLeft >= 0
+            ? this.getArrayRange(minIndexOnLeft, active - 1)
+            : this.getArrayRange(0, active - 1)
+                .concat(this.getArrayRange(length + minIndexOnLeft, length - 1));
+
+        // Getting first left index
         const firstLeftIndex = minIndexOnLeft < 0 ? length + minIndexOnLeft : minIndexOnLeft;
 
+        /* Check if new active slide is on the left and, in case slide count is even,
+        check if new active slide is not first on the left */
         if (indexesOnLeft.includes(newActive) && (length % 2 === 0 ? newActive !== firstLeftIndex : true)) {
             if (newActive > active) {
                 return -(length - newActive + active);
@@ -390,7 +406,7 @@ export class Slider extends PureComponent {
             this.animInAction = false;
         }, ANIMATION_DURATION);
 
-        if (!this.getIsInfinity()) {
+        if (!this.getIsInfinite()) {
             this.setAnimationSpeedStyle();
             this.setState({ activeImage: newActiveImage });
             onActiveImageChange(newActiveImage);
@@ -446,31 +462,37 @@ export class Slider extends PureComponent {
         );
     }
 
+    getSlideList(firstLeftIndex) {
+        const { children, children: { length }, childrenClones } = this.props;
+
+        const leftClone = firstLeftIndex === 0 ? length - 1 : firstLeftIndex - 1;
+        const rightClone = firstLeftIndex >= length ? 0 : firstLeftIndex;
+
+        return [
+            childrenClones[leftClone],
+            ...children.slice(firstLeftIndex, length),
+            ...children.slice(0, firstLeftIndex),
+            (rightClone === leftClone ? null : childrenClones[rightClone])
+        ];
+    }
+
     renderSliderContent() {
         const {
             children,
             children: { length },
             isVertical,
-            childrenClones
+            isWidget
         } = this.props;
         const { activeImage } = this.state;
 
-        if (!this.getIsSlider()) {
+        if (!this.getIsScrollable()) {
             return children;
         }
 
         const slidesOnLeft = activeImage - this.getFocusSlide() + 1;
         const firstLeftIndex = slidesOnLeft < 0 ? length + slidesOnLeft : slidesOnLeft;
 
-        const leftClone = firstLeftIndex === 0 ? length - 1 : firstLeftIndex - 1;
-        const rightClone = firstLeftIndex >= length ? 0 : firstLeftIndex;
-
-        const slides = this.getIsInfinity() ? [childrenClones[leftClone],
-            ...children.slice(firstLeftIndex, length),
-            ...children.slice(0, firstLeftIndex),
-            rightClone === leftClone ? null : childrenClones[rightClone]] : children;
-
-        const isWidget = this.getIsInfinity();
+        const slides = !this.getIsInfinite() ? children : this.getSlideList(firstLeftIndex);
 
         return (
             <Draggable

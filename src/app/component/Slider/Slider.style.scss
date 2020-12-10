@@ -34,10 +34,10 @@
     &-Wrapper {
         display: flex;
         align-items: flex-start;
-        height: 100%;
         will-change: transform;
         transition: transform var(--animation-speed);
         transform: translate3d(var(--translateX), var(--translateY), 0);
+        height: 100%;
 
         &_isWidget {
             @include mobile {
@@ -57,6 +57,7 @@
         &_isVertical {
             flex-direction: column;
             width: 100%;
+            max-height: var(--slide-height);
         }
     }
 

@@ -142,13 +142,17 @@ export class SliderWidget extends PureComponent {
         const children = slides.map(this.renderSlide);
         const childrenClones = slides.map((el, i) => this.renderSlide(el, i + children.length));
 
+        const infinite = children.length > 1;
+
         return (
             <Slider
               mix={ { block: 'SliderWidget', mix: { block } } }
               showCrumbs
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
-              childrenClones={ children.length > 1 ? childrenClones : null }
+              childrenClones={ infinite ? childrenClones : null }
+              infinite={ infinite }
+              isWidget
             >
                 { children }
             </Slider>
