@@ -200,6 +200,7 @@ export class Header extends NavigationAbstract {
         account: this.renderAccount.bind(this),
         minicart: this.renderMinicart.bind(this),
         search: this.renderSearchField.bind(this),
+        compare: this.renderComparePageButton.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this)
@@ -297,6 +298,24 @@ export class Header extends NavigationAbstract {
               aria-hidden={ !isVisible }
               disabled={ isWishlistLoading }
             />
+        );
+    }
+
+    renderComparePageButton() {
+        return (
+            <Link
+              to="compare"
+              key="compare"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'compare' } }
+              aria-label={ __('Compare Page') }
+            >
+                <div
+                  block="Header"
+                  elem="CompareIcon"
+                />
+            </Link>
         );
     }
 

@@ -97,7 +97,7 @@ export class ProductCompare extends PureComponent {
                   block="ProductCompare"
                   elem="Row"
                   mix={ { block: 'ProductCardRow' } }
-                  >
+                >
                     { this.renderClearButton() }
                     { this.renderProductCards() }
                 </div>
@@ -105,14 +105,14 @@ export class ProductCompare extends PureComponent {
                   block="ProductCompare"
                   elem="Row"
                   mix={ { block: 'ProductPriceRow' } }
-                  >
+                >
                     { this.renderPriceLabel() }
                     { this.renderProductPrices() }
                 </div>
                 <div
                   block="ProductCompare"
                   elem="AttributeTable"
-                  >
+                >
                     { this.renderAttributes() }
                 </div>
             </div>
@@ -126,16 +126,15 @@ export class ProductCompare extends PureComponent {
     render() {
         const {
             isLoading,
-            products: {
-                length
-            }
+            products
         } = this.props;
+        const hasProducts = products && products.length;
 
-        if (isLoading && !length) {
+        if (isLoading && !hasProducts) {
             return null;
         }
 
-        if (!length) {
+        if (!hasProducts) {
             return this.renderEmpty();
         }
 

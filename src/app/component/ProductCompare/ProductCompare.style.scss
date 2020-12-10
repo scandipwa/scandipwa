@@ -14,7 +14,7 @@
     --product-compare-item-count: 3;
     --product-compare-item-gap: 1rem;
     --product-compare-column-width: calc((var(--content-wrapper-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
-    --product-compare-border-color: black; // TODO set a proper color
+    --product-compare-border-color: var(--secondary-dark-color);
 }
 
 .ProductCompare {

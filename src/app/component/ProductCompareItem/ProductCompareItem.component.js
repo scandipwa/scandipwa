@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
-// import Image from 'Component/Image/Image.component';
+import Image from 'Component/Image';
+import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 
@@ -30,45 +31,38 @@ export class ProductCompareItem extends PureComponent {
     renderProductImage() {
         const {
             product: {
-                // id,
+                id,
                 name,
-                thumbnail: { url }
+                url,
+                thumbnail: { url: imgUrl }
             }
         } = this.props;
 
-        // return (
-        //     <figure block="ProductCompareItem" elem="Figure">
-        //         <Image
-        //           src={ url }
-        //           alt={ name }
-        //           ratio="custom"
-        //           isPlaceholder={ !id }
-        //         />
-        //         <img
-        //           style={ { display: 'none' } }
-        //           alt={ name }
-        //           src={ url }
-        //         />
-        //     </figure>
-        // );
-
         return (
             <figure block="ProductCompareItem" elem="Figure">
-                <img
-                  alt={ name }
-                  src={ url }
-                />
+                <Link block="ProductCompareItem" elem="ImageLink" to={ url }>
+                    <Image
+                      ratio="custom"
+                      src={ imgUrl }
+                      alt={ name }
+                      isPlaceholder={ !id }
+                    />
+                </Link>
             </figure>
         );
     }
 
     renderTitle() {
-        const { product: { name } } = this.props;
+        const { product: { name, url } } = this.props;
 
         return (
-            <h3 block="ProductCompareItem" elem="Title">
+            <Link
+              block="ProductCompareItem"
+              elem="Title"
+              to={ url }
+            >
                 { name }
-            </h3>
+            </Link>
         );
     }
 

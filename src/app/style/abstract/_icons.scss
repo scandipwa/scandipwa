@@ -564,3 +564,36 @@
         border-left-color: transparent;
     }
 }
+
+@mixin compare-icon($background-color) {
+    height: 30px;
+    width: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.7);
+
+    &,
+    &::before,
+    &::after {
+        display: block;
+        background-color: $background-color;
+        position: absolute;
+        width: 10px;
+    }
+
+    &::before,
+    &::after {
+        content: '';
+        bottom: 0;
+    }
+
+    &::before {
+        height: 10px;
+        left: -12px;
+    }
+
+    &::after {
+        height: 20px;
+        right: -12px;
+    }
+}

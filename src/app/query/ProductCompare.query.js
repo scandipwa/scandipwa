@@ -24,9 +24,9 @@ export class ProductCompareQuery extends ProductListQuery {
         return field.addFieldList(this._getQueryFields());
     }
 
-    getAddProductToCompareMutation(productSku, guestCartId = null) {
+    getAddProductToCompareMutation(productId, guestCartId = null) {
         const field = new Field('addProductToCompare')
-            .addArgument('product_sku', 'String!', productSku);
+            .addArgument('product_id', 'String!', productId);
 
         if (guestCartId) {
             field.addArgument('guestCartId', 'String', guestCartId);
@@ -35,9 +35,9 @@ export class ProductCompareQuery extends ProductListQuery {
         return field;
     }
 
-    getRemoveComparedProductMutation(productSku, guestCartId = null) {
+    getRemoveComparedProductMutation(productId, guestCartId = null) {
         const field = new Field('removeComparedProduct')
-            .addArgument('product_sku', 'String!', productSku);
+            .addArgument('product_id', 'String!', productId);
 
         if (guestCartId) {
             field.addArgument('guestCartId', 'String', guestCartId);
@@ -73,6 +73,7 @@ export class ProductCompareQuery extends ProductListQuery {
             'id',
             'name',
             'sku',
+            'url',
             this._getProductThumbnailField(),
             this._getPriceRangeField(),
             this._getComparableAttributesField()

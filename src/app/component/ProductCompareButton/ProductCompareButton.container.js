@@ -25,16 +25,15 @@ export const mapStateToProps = () => ({});
 
 /** @namespace Component/ProductCompareButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    addProductToCompare: (productSku) => ProductCompareDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCompare(productSku, dispatch)
+    addProductToCompare: (productId) => ProductCompareDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.addProductToCompare(productId, dispatch)
     )
 });
-
 
 /** @namespace Component/ProductCompareButton/Container */
 export class ProductCompareButtonContainer extends PureComponent {
     static propTypes = {
-        productSku: PropTypes.string.isRequired,
+        productId: PropTypes.number.isRequired,
         addProductToCompare: PropTypes.func.isRequired
     };
 
@@ -43,9 +42,9 @@ export class ProductCompareButtonContainer extends PureComponent {
     };
 
     handleClick() {
-        const { addProductToCompare, productSku } = this.props;
+        const { addProductToCompare, productId } = this.props;
 
-        addProductToCompare(productSku);
+        addProductToCompare(productId);
     }
 
     render() {

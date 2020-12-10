@@ -49,13 +49,12 @@ export class ProductCompareItemContainer extends PureComponent {
 
     async removeComparedProduct() {
         const {
-            product: { sku } = {},
+            product: { id } = {},
             removeComparedProduct
         } = this.props;
 
         this.setState({ isLoading: true });
-        await removeComparedProduct(sku);
-        this.setState({ isLoading: false });
+        await removeComparedProduct(id);
     }
 
     render() {

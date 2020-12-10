@@ -41,15 +41,13 @@ export class ProductCompareDispatcher {
         }
     }
 
-    async addProductToCompare(productSku, dispatch) {
+    async addProductToCompare(productId, dispatch) {
         const guestCartId = this._getGuestQuoteId();
-
-        dispatch(toggleLoader(true));
 
         try {
             const result = await fetchMutation(
                 ProductCompareQuery.getAddProductToCompareMutation(
-                    productSku,
+                    productId,
                     guestCartId
                 )
             );
@@ -62,21 +60,19 @@ export class ProductCompareDispatcher {
         }
     }
 
-    async removeComparedProduct(productSku, dispatch) {
+    async removeComparedProduct(productId, dispatch) {
         const guestCartId = this._getGuestQuoteId();
-
-        dispatch(toggleLoader(true));
 
         try {
             const result = await fetchMutation(
                 ProductCompareQuery.getRemoveComparedProductMutation(
-                    productSku,
+                    productId,
                     guestCartId
                 )
             );
 
             dispatch(showNotification('success', __('Product is removed from the compare list')));
-            dispatch(removeComparedProduct(productSku));
+            dispatch(removeComparedProduct(productId));
             return result;
         } catch (error) {
             dispatch(showNotification('error', __('Unable to remove product from the compare list'), error));

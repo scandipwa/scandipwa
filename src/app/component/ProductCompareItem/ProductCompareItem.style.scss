@@ -22,6 +22,14 @@
         width: 100px;
     }
 
+    &-ImageLink {
+        height: 100%;
+
+        .Image {
+            height: 100%;
+        }
+    }
+
     &-Details {
         flex: 1;
         display: flex;
@@ -32,10 +40,14 @@
 
     &-Title {
         flex: 0 0 auto;
-        margin-top: 0;
-        line-height: 1;
+        display: block;
         width: 100%;
         padding-right: 1.9rem;
+        margin: 0 0 1.8rem 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 1;
+        color: var(--body-content-color);
     }
 
     &-Options {

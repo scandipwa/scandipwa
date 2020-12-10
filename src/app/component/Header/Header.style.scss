@@ -357,6 +357,32 @@
                     width: 70px;
                 }
             }
+
+            &_compare {
+                @include button-visible;
+            }
+        }
+    }
+
+    &-CompareIcon {
+        @include compare-icon(var(--header-color));
+
+        &,
+        &::before,
+        &::after {
+            background: transparent;
+            border: 1px solid var(--header-color);
+            box-sizing: border-box;
+        }
+
+        &::before {
+            left: -14px;
+            bottom: -1px;
+        }
+
+        &::after {
+            right: -14px;
+            bottom: -1px;
         }
     }
 

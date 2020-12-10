@@ -474,12 +474,16 @@ export class ProductActions extends PureComponent {
     renderProductCompareButton() {
         const {
             product: {
-                sku
+                id
             } = {}
         } = this.props;
 
+        if (!id) {
+            return null;
+        }
+
         return (
-            <ProductCompareButton productSku={ sku } />
+            <ProductCompareButton productId={ id } />
         );
     }
 
