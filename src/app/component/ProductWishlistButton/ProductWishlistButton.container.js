@@ -72,7 +72,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const { isLoading } = this.props;
 
         if (isPrevLoading && !isLoading) {
-            this.setLoadingState(false);
+            this.setLoading(false);
         }
     }
 
@@ -87,8 +87,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
         removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
     });
 
-    setLoadingState(state) {
-        return this.setState({ isLoadingLocal: state });
+    setLoading(isLoading) {
+        return this.setState({ isLoadingLocal: isLoading });
     }
 
     toggleProductInWishlist = (add = true) => {
@@ -117,7 +117,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return showNotification('info', __('Please, select desirable option first!'));
         }
 
-        this.setLoadingState(true);
+        this.setLoading(true);
 
         const { sku: variantSku, product_option } = product;
         if (add) {

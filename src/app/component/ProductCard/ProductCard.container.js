@@ -184,7 +184,8 @@ export class ProductCardContainer extends PureComponent {
                 }
 
                 return acc;
-            }, []
+            },
+            []
         );
     }
 

@@ -292,7 +292,7 @@ export class ProductCard extends PureComponent {
                 <>
                     <div block="ProductCard" elem="Figure-Review">
                         <figure block="ProductCard" elem="Figure">
-                        { this.renderPicture() }
+                            { this.renderPicture() }
                         </figure>
                         { this.renderReviews() }
                     </div>
