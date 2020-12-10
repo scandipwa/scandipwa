@@ -17,6 +17,7 @@ import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay
 import { showNotification } from 'Store/Notification/Notification.action';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
+import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
 
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -26,7 +27,8 @@ export const MyAccountDispatcher = import(
 /** @namespace Component/MyAccountCreateAccount/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
-    isLoading: state.MyAccountReducer.isLoading
+    isLoading: state.MyAccountReducer.isLoading,
+    showTaxVatNumber: state.ConfigReducer.show_tax_vat_number
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -45,13 +47,28 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         setSignInState: PropTypes.func.isRequired,
         setLoadingState: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        showTaxVatNumber: PropTypes.string.isRequired
+    };
+
+    containerProps = {
+        vatNumberValidation: this.getVatNumberValidation()
     };
 
     containerFunctions = {
         onCreateAccountSuccess: this.onCreateAccountSuccess.bind(this),
         onCreateAccountAttempt: this.onCreateAccountAttempt.bind(this)
     };
+
+    getVatNumberValidation() {
+        const { showTaxVatNumber } = this.props;
+
+        if (showTaxVatNumber === SHOW_VAT_NUMBER_REQUIRED) {
+            return ['notEmpty'];
+        }
+
+        return [];
+    }
 
     onCreateAccountAttempt(_, invalidFields) {
         const { showNotification, setLoadingState } = this.props;
@@ -77,7 +94,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             email,
             firstname,
             lastname,
-            is_subscribed
+            is_subscribed,
+            taxvat
         } = fields;
 
         const customerData = {
@@ -85,7 +103,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
                 firstname,
                 lastname,
                 email,
-                is_subscribed
+                is_subscribed,
+                taxvat
             },
             password
         };
@@ -111,6 +130,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         return (
             <MyAccountCreateAccount
               { ...this.props }
+              { ...this.containerProps }
               { ...this.containerFunctions }
             />
         );

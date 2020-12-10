@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,4 +10,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountCustomerForm.container';
+export const IN_STOCK = 'IN_STOCK';
