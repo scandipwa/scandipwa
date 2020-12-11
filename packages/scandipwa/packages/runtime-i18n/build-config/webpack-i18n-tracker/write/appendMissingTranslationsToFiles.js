@@ -1,7 +1,33 @@
 const path = require('path');
+const fs = require('fs');
 const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
 const afterEmitLogger = require('@scandipwa/after-emit-logger');
 const corruptedJson = require('../after-emit-logs/write-corrupted-json');
+
+function loadTranslationJson(localeFilePath) {
+    try {
+        return require(localeFilePath);
+    } catch (err) {
+        afterEmitLogger.logMessage(corruptedJson(localeFilePath, err));
+        return null;
+    }
+}
+
+function mergeNewMissingTranslatablesIntoTranslations(missingTranslatables, translations) {
+    let mergedAtLeastOne = false;
+
+    missingTranslatables.forEach((missingKey) => {
+        // Ignore ones already present
+        if (translations.hasOwnProperty(missingKey)) {
+            return;
+        }
+
+        mergedAtLeastOne = true;
+        translations[missingKey] = null;
+    });
+
+    return mergedAtLeastOne;
+}
 
 /**
  * Handle missing translations:
@@ -9,24 +35,24 @@ const corruptedJson = require('../after-emit-logs/write-corrupted-json');
  * @param {object} missingTranslations
  * @param {function} logMessage
  */
-module.exports = (missingTranslationMap, logMessage) => {
+module.exports = (missingTranslations) => {
     Object
-        .entries(missingTranslationMap)
-        .forEach(([localeCode, newMissingKeys]) => {
+        .entries(missingTranslations)
+        .forEach(([localeCode, missingTranslatables]) => {
             const localeFilePath = path.join(process.cwd(), 'i18n', `${localeCode}.json`);
+            const translations = loadTranslationJson(localeFilePath);
 
-            let translations;
-            try {
-                translations = require(localeFilePath);
-            } catch (err) {
-                afterEmitLogger.logMessage(corruptedJson(localeFilePath, err));
+            // Handle load error
+            if (translations === null) {
                 return;
             }
 
-            newMissingKeys.forEach((missingKey) => {
-                translations[missingKey] = null;
-            });
+            const mergedAtLeastOne = mergeNewMissingTranslatablesIntoTranslations(missingTranslatables, translations);
+            if (!mergedAtLeastOne) {
+                return;
+            }
 
+            // Write only if contents have been mutated
             writeJson(
                 localeFilePath,
                 translations

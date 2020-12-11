@@ -14,7 +14,6 @@ module.exports = (unusedTranslationMap) => {
 
     return {
         type: 'warn',
-        hideForDefaultLocale: true,
         args: [
             'Some translations are unused!',
             "Consider removing them from your theme's i18n files.",

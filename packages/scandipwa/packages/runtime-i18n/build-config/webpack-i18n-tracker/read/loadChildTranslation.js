@@ -4,12 +4,9 @@ const fs = require('fs');
 const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
 
 const loadJson = require('./loadJson');
-const createWatcher = require('../watcher');
 
 const newLocaleCreated = require('../after-emit-logs/new-locale-created');
 const afterEmitLogger = require('@scandipwa/after-emit-logger');
-
-const TRANSLATION_FILE_CREATED_LOG_TYPE = 'TRANSLATION_FILE_CREATED_LOG_TYPE';
 
 /**
  * Get the theme's main translation file for the given locale

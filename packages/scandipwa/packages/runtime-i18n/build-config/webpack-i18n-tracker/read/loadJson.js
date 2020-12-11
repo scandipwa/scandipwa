@@ -1,3 +1,5 @@
+const fs = require('fs');
+const afterEmitLogger = require('@scandipwa/after-emit-logger');
 const corruptedJson = require('../after-emit-logs/read-corrupted-json');
 
 /**
@@ -7,14 +9,17 @@ const corruptedJson = require('../after-emit-logs/read-corrupted-json');
  * @param {string} pathToTry
  * @param {function} logMessage
  */
-module.exports = (pathToTry, logMessage) => {
-    try {
-        return require(pathToTry);
-    } catch (error) {
-        if (error.code !== 'MODULE_NOT_FOUND') {
-            logMessage(corruptedJson(pathToTry, error));
-        }
-
+module.exports = (pathToTry) => {
+    // Fallback to {} for non existent objects
+    if (!fs.existsSync(pathToTry)) {
         return {};
+    }
+
+    // Use FS to prevent caching
+    try {
+        return JSON.parse(fs.readFileSync(pathToTry));
+    } catch (error) {
+        afterEmitLogger.logMessage(corruptedJson(pathToTry, error));
+        return {}
     }
 }

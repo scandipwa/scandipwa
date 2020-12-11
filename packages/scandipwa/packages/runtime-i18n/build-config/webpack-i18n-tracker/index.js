@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-const localizationManager = require('./localization-manager');
+const LocalizationManager = require('./localization-manager');
 const afterEmitLogger = require('@scandipwa/after-emit-logger');
 
 /**
@@ -21,12 +21,17 @@ class WebpackI18nTracker {
 
     constructor(options = {}) {
         // Set the default locale for the plugin
-        localizationManager.setDefaultLocale(options.defaultLocale);
+        this.localizationManager = new LocalizationManager(options.defaultLocale)
+
+        // Create missing files in child theme
+        this.localizationManager.createMissingTranslationFiles();
     }
 
     emitHandler = () => {
-        localizationManager.handleMissingTranslations();
-        localizationManager.handleUnusedTranslations();
+        this.localizationManager.updateUsedTranslations();
+        this.localizationManager.loadTranslationMap();
+        this.localizationManager.handleMissingTranslations();
+        this.localizationManager.handleUnusedTranslations();
         afterEmitLogger.emitLogs();
 
         return true;
@@ -40,19 +45,30 @@ class WebpackI18nTracker {
             const param = parser.evaluateExpression(firstArgument);
             const paramString = param.string;
 
-            localizationManager.handleIncomingTranslatable(paramString);
+            if (!paramString) {
+                // ? warn here ?
+                return expr;
+            }
+
+            this.localizationManager.linkTranslatableToModule(parser.state.module.resource, paramString);
 
             return expr;
         });
     };
 
+    recompileHandler = (compiler) => {
+        const changedFiles = Object.keys(compiler.watchFileSystem.watcher.mtimes)
+
+        changedFiles.forEach(filename => this.localizationManager.unlinkTranslatablesFromModule(filename));
+    }
+
     apply(compiler) {
         compiler.hooks.emit.tap(this.pluginMeta, this.emitHandler);
+        compiler.hooks.watchRun.tap(this.pluginMeta, this.recompileHandler);
 
-        // Tap to compilation to later hook into parser to catch calls for translation function
         compiler.hooks.compilation.tap(
             this.pluginMeta,
-            (_compilation, { normalModuleFactory }) => {
+            (compilation, { normalModuleFactory }) => {
                 normalModuleFactory.hooks.parser
                     .for('javascript/auto')
                     .tap(this.pluginMeta, this.compilationHandler);

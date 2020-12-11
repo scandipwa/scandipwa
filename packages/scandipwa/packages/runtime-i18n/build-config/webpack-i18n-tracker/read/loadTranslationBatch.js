@@ -6,11 +6,8 @@ const loadJson = require('./loadJson');
  * @param {string[]} packagePaths
  * @param {string} locale
  */
-module.exports = (packagePaths, localeCode, logMessage) => {
+module.exports = (packagePaths, localeCode) => {
     return packagePaths.map(
-        (packagePath) => loadJson(
-            path.join(packagePath, 'i18n', `${localeCode}.json`),
-            logMessage
-        )
+        (packagePath) => loadJson(path.join(packagePath, 'i18n', `${localeCode}.json`))
     );
 }

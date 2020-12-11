@@ -4,11 +4,14 @@ const parentThemeHelper = require('@scandipwa/scandipwa-dev-utils/parent-theme')
 const afterEmitLogger = require('@scandipwa/after-emit-logger');
 const getEnabledLocales = require('../../util/getEnabledLocales');
 
+const appendMissingTranslationsToFiles = require('../write/appendMissingTranslationsToFiles');
+const createMissingTranslationFiles = require('../write/createMissingTranslationFiles');
+
 const loadChildTranslation = require('../read/loadChildTranslation');
 const loadTranslationBatch = require('../read/loadTranslationBatch');
+
 const mergeTranslations = require('../../../src/util/mergeTranslations');
 
-const appendMissingTranslationsToFiles = require('../write/appendMissingTranslationsToFiles');
 const unusedTranslationsMessage = require('../after-emit-logs/unused-translations');
 const missingTranslationsMessage = require('../after-emit-logs/missing-translations');
 
@@ -16,25 +19,134 @@ const getParentRoots = () => parentThemeHelper.getParentThemePaths(process.cwd()
 
 const getExtensionRoots = () => extensions.map((extension) => extension.packagePath);
 
-const isEmptyObject = (object) => JSON.stringify(object) === JSON.stringify({});
-
 class LocalizationManager {
+    moduleMap = {};
     defaultLocale = 'en_US';
-    translationMap = {};
 
-    constructor() {
+    constructor(defaultLocale) {
+        this.defaultLocale = defaultLocale;
+
         // Get the enabled locales from package.json of the child-est theme
         this.enabledLocales = getEnabledLocales();
+    }
 
-        // Load the translations
-        this.translationMap = this.loadTranslationMap();
+    createMissingTranslationFiles() {
+        createMissingTranslationFiles(this.enabledLocales, this.defaultLocale);
+    }
+
+    unlinkTranslatablesFromModule(moduleId) {
+        if (!this.moduleMap[moduleId]) {
+            return;
+        }
+
+        this.moduleMap[moduleId].clear();
+    }
+
+    linkTranslatableToModule(moduleId, translatable) {
+        if (!this.moduleMap[moduleId]) {
+            this.moduleMap[moduleId] = new Set();
+        }
+
+        this.moduleMap[moduleId].add(translatable)
+    }
+
+    updateUsedTranslations() {
+        // Generate an array of used translations
+        const usedTranslationsArray = Object.values(this.moduleMap)
+            .reduce(
+                (acc, cur) => acc.concat(...cur),
+                []
+            );
+
+        // Ensure uniqueness for them
+        this.usedTranslations = new Set(usedTranslationsArray);
+    }
+
+    /**
+     * Handle missing translations not yet present in corresponding files
+     */
+    handleMissingTranslations() {
+        // Initialize missing translations
+        const missingTranslations = {};
+
+        // Check each translatable
+        for (const usedTranslation of this.usedTranslations) {
+
+            // Handle locales separately
+            for (const localeCode in this.translationMap) {
+
+                // Handle missing translation
+                if (!this.translationMap[localeCode].merged[usedTranslation]) {
+
+                    // Handle first missing translation for locale
+                    if (!missingTranslations[localeCode]) {
+                        missingTranslations[localeCode] = new Set;
+                    }
+
+                    missingTranslations[localeCode].add(usedTranslation);
+                }
+            }
+        }
+
+        // Ignore the default locale
+        delete missingTranslations[this.defaultLocale];
+
+        // Count the missing translations for each locale
+        const missingTranslationsCountMap = Object.fromEntries(Object.entries(missingTranslations).map(
+            ([localeCode, missingTranslations]) => [localeCode, missingTranslations.size]
+        ));
+
+        // Handle OK case
+        if (!Object.keys(missingTranslationsCountMap).length) {
+            return;
+        }
+
+        // 1. log which ones are missing
+        afterEmitLogger.logMessage(missingTranslationsMessage(missingTranslationsCountMap));
+
+        // 2. Update files contents
+        appendMissingTranslationsToFiles(missingTranslations);
+    }
+
+    /**
+     * Handle unused translations
+     */
+    handleUnusedTranslations() {
+        const unusedTranslations = {};
+
+        // Loop over translations from files
+        for (const localeCode in this.translationMap) {
+
+            // Check each translation from there
+            for (const translatable in this.translationMap[localeCode].child) {
+
+                // Handle translation not used in the application
+                if (!this.usedTranslations.has(translatable)) {
+
+                    // Handle first unused for the locale
+                    if (!unusedTranslations[localeCode]) {
+                        unusedTranslations[localeCode] = new Set;
+                    }
+
+                    unusedTranslations[localeCode].add(translatable);
+                }
+            }
+        }
+
+        // Handle OK case
+        if (!Object.keys(unusedTranslations).length) {
+            return;
+        }
+
+        // log which ones are unused
+        afterEmitLogger.logMessage(unusedTranslationsMessage(unusedTranslations));
     }
 
     loadTranslationMap() {
         const parentRoots = getParentRoots();
         const extensionRoots = getExtensionRoots();
 
-        return this.enabledLocales.reduce(
+        this.translationMap = this.enabledLocales.reduce(
             (acc, localeCode) => {
                 const localeData = {};
 
@@ -55,9 +167,6 @@ class LocalizationManager {
                     ...localeData.parent,
                     ...localeData.extensions
                 ]);
-                localeData.unused = new Set(Object.keys(localeData.child) || []);
-                localeData.existingMissing = new Set();
-                localeData.newMissing = new Set();
 
                 acc[localeCode] = localeData;
                 return acc;
@@ -65,158 +174,6 @@ class LocalizationManager {
             {}
         )
     }
-
-    setDefaultLocale(locale) {
-        this.defaultLocale = locale;
-    }
-
-    /**
-     * Return format: { ru_RU: [], lv_LV: [] }
-     * @param {string} key
-     */
-    getLocalesDataByKey(key) {
-        return Object.entries(this.translationMap)
-            .reduce(
-                (acc, [localeCode, localeData]) => {
-                    const { [key]: data } = localeData;
-
-                    if (
-                        // handle array
-                        (Array.isArray(data) && data.length) ||
-                        // handle object
-                        (!Array.isArray(data) && Object.keys(data).length) ||
-                        // handle Set
-                        (data instanceof Set && data.size)
-                    ) {
-                        acc[localeCode] = data;
-                    }
-
-                    return acc;
-                },
-                {}
-            )
-    }
-
-    handleIncomingMissing(translatable, localeCode) {
-        // Extract translation if the translated string is not defined at all in the translation files
-        if (!Object.hasOwnProperty.call(this.translationMap[localeCode].merged, translatable)) {
-            this.translationMap[localeCode].newMissing.add(translatable);
-        // Track already present no-valued translations
-        } else {
-            this.translationMap[localeCode].existingMissing.add(translatable);
-        }
-    }
-
-    handleIncomingPresent(translatable, localeCode) {
-        this.translationMap[localeCode].newMissing.delete(translatable);
-        this.translationMap[localeCode].existingMissing.delete(translatable);
-    }
-
-    handleIncomingTranslatable(translatable) {
-        // Handle the string for each locale separately
-        for (const localeCode in this.translationMap) {
-            // The translatable is used => remove from the unused list
-            this.translationMap[localeCode].unused.delete(translatable);
-
-            // Handle missing and present differently
-            if (!this.translationMap[localeCode].merged[translatable]) {
-                this.handleIncomingMissing(translatable, localeCode);
-            } else {
-                this.handleIncomingPresent(translatable, localeCode);
-            }
-        }
-    }
-
-    getMissingTranslationCountMap(existingMissingTranslationsMap, newMissingTranslationsMap) {
-        return [existingMissingTranslationsMap, newMissingTranslationsMap].reduce(
-            (counts, map) => {
-                for (const localeCode in map) {
-                    if (!counts[localeCode]) {
-                        counts[localeCode] = 0;
-                    }
-
-                    counts[localeCode] += map[localeCode].length;
-                }
-
-                return counts;
-            },
-            {}
-        )
-    }
-
-    mergeNewMissingIntoExisting() {
-        for (const localeCode in this.translationMap) {
-            this.translationMap[localeCode].existingMissing = new Set([
-                ...this.translationMap[localeCode].existingMissing,
-                ...this.translationMap[localeCode].newMissing
-            ]);
-
-            this.translationMap[localeCode].newMissing.clear();
-        }
-    }
-
-    countLocalesDataByKey(key) {
-        return Object.entries(this.translationMap)
-            .reduce((acc, [localeCode, localeData]) => {
-                const dataSource = localeData[key];
-
-                if (dataSource instanceof Array) {
-                    acc[localeCode] = dataSource.length;
-                } else if (dataSource instanceof Set) {
-                    acc[localeCode] = dataSource.size;
-                } else if (dataSource instanceof Object) {
-                    acc[localeCode] = Object.keys(dataSource).length
-                } else {
-                    throw new Error(
-                        `Unexpected type in translation map for key ${key} in locale ${localeCode}: ${typeof localeData[key]}`
-                    )
-                }
-
-                return acc;
-            }, {})
-    }
-
-    /**
-     * Handle missing translations not yet present in corresponding files
-     */
-    handleMissingTranslations() {
-        const newMissingTranslationsMap = this.getLocalesDataByKey('newMissing');
-
-        // Ignore default locale for missing translations
-        delete newMissingTranslationsMap[this.defaultLocale];
-
-        // Append the fresh missing translations
-        if (!isEmptyObject(newMissingTranslationsMap)) {
-            appendMissingTranslationsToFiles(
-                newMissingTranslationsMap,
-                this.defaultLocale
-            );
-        }
-
-        // Since now, all the new missing translatables should be treated as existing
-        // Because they had been written into the corresponding translation files
-        this.mergeNewMissingIntoExisting();
-
-        // Count the missing translations for locales
-        const missingTranslationCountMap = this.countLocalesDataByKey('existingMissing');
-        delete missingTranslationCountMap[this.defaultLocale];
-
-        // Log the missing translations warning
-        afterEmitLogger.logMessage(missingTranslationsMessage(missingTranslationCountMap));
-    }
-
-    /**
-     * Handle unused translations
-     */
-    handleUnusedTranslations() {
-        const unusedTranslationMap = this.getLocalesDataByKey('unused');
-
-        if (isEmptyObject(unusedTranslationMap)) {
-            return;
-        }
-
-        afterEmitLogger.logMessage(unusedTranslationsMessage(unusedTranslationMap));
-    }
 }
 
-module.exports = new LocalizationManager;
+module.exports = LocalizationManager;
