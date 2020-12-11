@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,3 +14,5 @@
 export const OPTION_TYPE_COLOR = '1';
 export const OPTION_TYPE_TEXT = '0';
 export const validOptionTypes = [OPTION_TYPE_TEXT, OPTION_TYPE_COLOR];
+
+export const IN_STOCK = 'IN_STOCK';

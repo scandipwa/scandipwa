@@ -206,7 +206,10 @@ export class CheckoutBillingContainer extends PureComponent {
         const { customer: { addresses } } = this.props;
         const address = addresses.find(({ id }) => id === selectedCustomerAddressId);
 
-        return trimCustomerAddress(address);
+        return {
+            ...trimCustomerAddress(address),
+            save_in_address_book: false
+        };
     }
 
     render() {

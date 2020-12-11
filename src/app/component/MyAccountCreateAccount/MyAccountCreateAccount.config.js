@@ -9,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductInformation.component';
+export const SHOW_VAT_NUMBER_REQUIRED = 'req';
+export const SHOW_VAT_NUMBER_OPTIONAL = 'opt';

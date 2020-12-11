@@ -312,7 +312,7 @@ export class ProductGallery extends PureComponent {
 
         const mods = {
             isImageZoomPopupActive,
-            isZoomInCursor: gallery.length > 1 && !isImageZoomPopupActive
+            isZoomInCursor: !isImageZoomPopupActive
         };
 
         return (

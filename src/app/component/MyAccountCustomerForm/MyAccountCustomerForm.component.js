@@ -18,7 +18,8 @@ import { customerType } from 'Type/Account';
 export class MyAccountCustomerForm extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
-        onSave: PropTypes.func.isRequired
+        onSave: PropTypes.func.isRequired,
+        vatNumberValidation: PropTypes.array.isRequired
     };
 
     onFormSuccess = (fields) => {
@@ -45,6 +46,22 @@ export class MyAccountCustomerForm extends FieldForm {
             lastname: {
                 label: __('Last name'),
                 validation: ['notEmpty']
+            },
+            ...this.getVatField()
+        };
+    }
+
+    getVatField() {
+        const { showTaxVatNumber, vatNumberValidation } = this.props;
+
+        if (!showTaxVatNumber) {
+            return {};
+        }
+
+        return {
+            taxvat: {
+                label: __('Tax/VAT Number'),
+                validation: vatNumberValidation
             }
         };
     }

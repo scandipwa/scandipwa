@@ -133,4 +133,20 @@
             }
         }
     }
+
+    &-CmsBlockWrapper {
+        .CmsBlock-Wrapper {
+            flex: 1;
+        }
+
+        .ContentWrapper .Footer-Columns {
+            padding: 0;
+        }
+
+        .Footer-Column_isNewsletter {
+            @include desktop {
+                padding-left: 100px;
+            }
+        }
+    }
 }

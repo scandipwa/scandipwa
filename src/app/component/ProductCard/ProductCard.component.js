@@ -23,12 +23,11 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { CONFIGURABLE } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE } from 'Util/Product';
 
 import { OPTION_TYPE_COLOR, validOptionTypes } from './ProductCard.config';
 
 import './ProductCard.style';
-
 /**
  * Product card
  * @class ProductCard
@@ -51,7 +50,9 @@ export class ProductCard extends PureComponent {
         children: PropTypes.element,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({}),
-        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+        isConfigurableProductOutOfStock: PropTypes.func.isRequired,
+        isBundleProductOutOfStock: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -107,9 +108,29 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductPrice() {
-        const { product: { price_range } } = this.props;
+        const {
+            product: { price_range, type_id },
+            isConfigurableProductOutOfStock,
+            isBundleProductOutOfStock
+        } = this.props;
+
         if (!price_range) {
             return <TextPlaceholder />;
+        }
+
+        switch (type_id) {
+        case CONFIGURABLE:
+            if (isConfigurableProductOutOfStock()) {
+                return null;
+            }
+            break;
+        case BUNDLE:
+            if (isBundleProductOutOfStock()) {
+                return null;
+            }
+            break;
+        default:
+            break;
         }
 
         return (

@@ -9,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductInformation.component';
+// eslint-disable-next-line import/prefer-default-export
+export const STORE_CONFIG_KEY = 'config';

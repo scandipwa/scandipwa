@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
+import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart';
 import { itemIsOutOfStock } from 'Util/Cart';
@@ -30,7 +31,9 @@ export const CartDispatcher = import(
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -234,14 +237,33 @@ export class CartItemContainer extends PureComponent {
         return thumbnail || '';
     }
 
+    renderRightSideContent = () => {
+        const { handleRemoveItem } = this.containerFunctions;
+        return (
+            <button
+              block="CartItem"
+              elem="SwipeToDeleteRightSide"
+              onClick={ handleRemoveItem }
+              aria-label={ __('Remove') }
+            >
+                { __('Delete') }
+            </button>
+        );
+    };
+
     render() {
         return (
-            <CartItem
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
-            />
+            <SwipeToDelete
+              renderRightSideContent={ this.renderRightSideContent }
+              onAheadOfDragItemRemoveThreshold={ this.containerFunctions.handleRemoveItem }
+            >
+                <CartItem
+                  { ...this.props }
+                  { ...this.state }
+                  { ...this.containerFunctions }
+                  { ...this.containerProps() }
+                />
+            </SwipeToDelete>
         );
     }
 }

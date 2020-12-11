@@ -111,7 +111,9 @@ export class ConfigQuery {
             'demo_notice',
             'guest_checkout',
             'is_email_confirmation_required',
-            'base_link_url'
+            'base_link_url',
+            'show_vat_number_on_storefront',
+            'show_tax_vat_number'
         ];
     }
 }

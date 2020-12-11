@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,4 +11,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductInformation.component';
+export const SCROLL_DEBOUNCE_DELAY = 10;

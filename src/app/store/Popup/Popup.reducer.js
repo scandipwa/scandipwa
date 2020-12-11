@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { HIDE_ACTIVE_OVERLAY } from 'Store/Overlay/Overlay.action';
+
 import { SHOW_POPUP } from './Popup.action';
 
 /** @namespace Store/Popup/Reducer/getInitialState */
@@ -26,6 +28,8 @@ export const PopupReducer = (
     switch (type) {
     case SHOW_POPUP:
         return { ...state, popupPayload: payload };
+    case HIDE_ACTIVE_OVERLAY:
+        return { ...state, popupPayload: {} };
     default:
         return state;
     }

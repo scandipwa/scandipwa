@@ -10,13 +10,12 @@
  */
 
 import PropTypes from 'prop-types';
-import { Fragment, PureComponent } from 'react';
+import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
-import { AttributeType, ProductType } from 'Type/ProductList';
+import { ProductType } from 'Type/ProductList';
 
 import './ProductInformation.style';
 
@@ -24,38 +23,8 @@ import './ProductInformation.style';
 export class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired,
-        attributesWithValues: AttributeType.isRequired
+        areDetailsLoaded: PropTypes.bool.isRequired
     };
-
-    renderAttribute = ([attributeLabel, valueLabel]) => (
-        <Fragment key={ attributeLabel }>
-            <dt block="ProductInformation" elem="AttributeLabel">
-                { attributeLabel }
-            </dt>
-            <dd block="ProductInformation" elem="ValueLabel">
-                <ProductAttributeValue
-                  key={ attributeLabel }
-                  attribute={ valueLabel }
-                  isFormattedAsText
-                />
-            </dd>
-        </Fragment>
-    );
-
-    renderAttributes() {
-        const { attributesWithValues } = this.props;
-
-        if (!Object.keys(attributesWithValues).length) {
-            return null;
-        }
-
-        return (
-            <dl block="ProductInformation" elem="Attributes">
-                { Object.entries(attributesWithValues).map(this.renderAttribute) }
-            </dl>
-        );
-    }
 
     renderDescription() {
         const { product: { description: { html } = {} } } = this.props;
@@ -82,9 +51,27 @@ export class ProductInformation extends PureComponent {
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
                 { this.renderDescription() }
-                { this.renderAttributes() }
             </ExpandableContent>
         );
+    }
+
+    isHTMLWhiteSpaceOrUndefined(htmlString) {
+        if (!htmlString || htmlString.trim() === '') {
+            return true;
+        }
+
+        // creates a DOM object from string
+        const parser = new DOMParser();
+        const document = parser.parseFromString(htmlString.trim(), 'text/html');
+
+        // handles the case of plain text
+        if (document.body.children.length === 0) {
+            return false;
+        }
+
+        // check if at least one HTML element has content
+        const elementsWithContent = Array.from(document.body.children).filter((element) => element.innerText !== '');
+        return elementsWithContent.length === 0;
     }
 
     render() {
@@ -95,7 +82,7 @@ export class ProductInformation extends PureComponent {
             }
         } = this.props;
 
-        if (!html && areDetailsLoaded) {
+        if (this.isHTMLWhiteSpaceOrUndefined(html) && areDetailsLoaded) {
             return null;
         }
 

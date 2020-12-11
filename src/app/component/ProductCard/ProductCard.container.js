@@ -20,6 +20,7 @@ import { getVariantsIndexes } from 'Util/Product';
 import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
+import { IN_STOCK } from './ProductCard.config';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -47,7 +48,9 @@ export class ProductCardContainer extends PureComponent {
     };
 
     containerFunctions = {
-        getAttribute: this.getAttribute.bind(this)
+        getAttribute: this.getAttribute.bind(this),
+        isConfigurableProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
+        isBundleProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this)
     };
 
     getAttribute(code) {
@@ -187,6 +190,28 @@ export class ProductCardContainer extends PureComponent {
             },
             []
         );
+    }
+
+    isConfigurableProductOutOfStock() {
+        const { product: { variants } } = this.props;
+
+        const variantsInStock = variants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
+
+        return variantsInStock.length === 0;
+    }
+
+    isBundleProductOutOfStock() {
+        const { product: { items } } = this.props;
+
+        if (items.length === 0) {
+            return true;
+        }
+
+        const { options } = items[0];
+
+        const optionsInStock = options.filter((option) => option.product.stock_status === IN_STOCK);
+
+        return optionsInStock.length === 0;
     }
 
     render() {
