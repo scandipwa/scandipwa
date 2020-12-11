@@ -55,7 +55,7 @@ class LocalizationManager {
                     ...localeData.parent,
                     ...localeData.extensions
                 ]);
-                localeData.unused = Object.assign({}, localeData.child);
+                localeData.unused = new Set(Object.keys(localeData.child) || []);
                 localeData.existingMissing = new Set();
                 localeData.newMissing = new Set();
 
@@ -110,12 +110,15 @@ class LocalizationManager {
     handleIncomingPresent(translatable, localeCode) {
         this.translationMap[localeCode].newMissing.delete(translatable);
         this.translationMap[localeCode].existingMissing.delete(translatable);
-        delete this.translationMap[localeCode].unused[translatable];
     }
 
     handleIncomingTranslatable(translatable) {
         // Handle the string for each locale separately
         for (const localeCode in this.translationMap) {
+            // The translatable is used => remove from the unused list
+            this.translationMap[localeCode].unused.delete(translatable);
+
+            // Handle missing and present differently
             if (!this.translationMap[localeCode].merged[translatable]) {
                 this.handleIncomingMissing(translatable, localeCode);
             } else {
@@ -206,15 +209,13 @@ class LocalizationManager {
      * Handle unused translations
      */
     handleUnusedTranslations() {
-        const has = Object
-            .values(this.translationMap)
-            .some(({ unused }) => Object.keys(unused).length);
+        const unusedTranslationMap = this.getLocalesDataByKey('unused');
 
-        if (!has) {
+        if (isEmptyObject(unusedTranslationMap)) {
             return;
         }
 
-        afterEmitLogger.logMessage(unusedTranslationsMessage(this.translationMap));
+        afterEmitLogger.logMessage(unusedTranslationsMessage(unusedTranslationMap));
     }
 }
 
