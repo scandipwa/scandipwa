@@ -1,4 +1,4 @@
-import mergeTranslations from './mergeTranslations';
+import mergeTranslations from '../../shared/mergeTranslations';
 import localeMap from './localeMap';
 
 // Strategy pattern ensures proper chunk splitting

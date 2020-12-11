@@ -2,7 +2,7 @@ const extensions = require('@scandipwa/scandipwa-dev-utils/extensions');
 const parentThemeHelper = require('@scandipwa/scandipwa-dev-utils/parent-theme');
 
 const afterEmitLogger = require('@scandipwa/after-emit-logger');
-const getEnabledLocales = require('../../shared/getEnabledLocales');
+const getEnabledLocales = require('../../../shared/getEnabledLocales');
 
 const appendMissingTranslationsToFiles = require('../write/appendMissingTranslationsToFiles');
 const createMissingTranslationFiles = require('../write/createMissingTranslationFiles');
@@ -10,7 +10,7 @@ const createMissingTranslationFiles = require('../write/createMissingTranslation
 const loadChildTranslation = require('../read/loadChildTranslation');
 const loadTranslationBatch = require('../read/loadTranslationBatch');
 
-const mergeTranslations = require('../../../src/util/mergeTranslations');
+const mergeTranslations = require('../../../shared/mergeTranslations');
 
 const unusedTranslationsMessage = require('../after-emit-logs/unused-translations');
 const missingTranslationsMessage = require('../after-emit-logs/missing-translations');
