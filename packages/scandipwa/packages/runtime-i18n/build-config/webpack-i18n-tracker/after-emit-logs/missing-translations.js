@@ -11,8 +11,7 @@ module.exports = (missingTranslationsCountMap) => {
         type: 'warn',
         args: [
             'Some translations are missing! The corresponding files have been populated.',
-            'To correct that, go through your translation files and translate everything that has falsy values!',
-            'Some translations are missing for the following locales:',
+            'The following files have a number of missing translations:',
             ...missingForLocales
         ]
     };
