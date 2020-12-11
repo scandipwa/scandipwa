@@ -86,10 +86,12 @@ export class CategoryDetails extends PureComponent {
             return null;
         }
 
+        const trimmedImagePath = image.substring(image.indexOf('/media'));
+
         return (
             <Image
               mix={ { block: 'CategoryDetails', elem: 'Picture' } }
-              src={ image || '' }
+              src={ trimmedImagePath || '' }
               ratio="custom"
               objectFit="cover"
             />
