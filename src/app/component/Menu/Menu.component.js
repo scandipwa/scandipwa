@@ -358,7 +358,6 @@ export class Menu extends PureComponent {
               elem="Item"
               key={ item_id }
               mods={ { isHideOnDesktop } }
-
             >
                 { this.renderFirstLevelItems(item) }
             </li>
