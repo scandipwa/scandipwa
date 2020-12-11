@@ -58,6 +58,13 @@
             flex-direction: column;
             width: 100%;
             max-height: var(--slide-height);
+
+            @include mobile {
+                margin-top: calc(var(--slider-height) * .1);
+                margin-bottom: calc(var(--slider-height) * .1);
+                height: calc(var(--slider-height) * .8);
+                overflow: visible;
+            }
         }
     }
 

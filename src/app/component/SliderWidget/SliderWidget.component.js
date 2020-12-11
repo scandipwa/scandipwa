@@ -49,14 +49,13 @@ export class SliderWidget extends PureComponent {
     };
 
     state = {
-        activeImage: 0
+        activeSlide: 0
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidMount() {
         const { slider: { slideSpeed, slides } } = this.props;
-        const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
-        if (slideSpeed !== prevSlideSpeed && slides.length > 1) {
+        if (slideSpeed && slides.length > 1) {
             this.startCarousel(slideSpeed);
         }
     }
@@ -65,8 +64,8 @@ export class SliderWidget extends PureComponent {
         clearInterval(this.carouselInterval);
     }
 
-    onActiveImageChange = (activeImage) => {
-        this.setState({ activeImage });
+    onActiveSlideChange = (activeSlide) => {
+        this.setState({ activeSlide });
     };
 
     startCarousel = (interval) => {
@@ -76,11 +75,11 @@ export class SliderWidget extends PureComponent {
     };
 
     getImageToShow() {
-        const { activeImage } = this.state;
+        const { activeSlide } = this.state;
         const { slider: { slides: { length } } } = this.props;
 
-        const toShow = activeImage > length - 2 ? 0 : activeImage + 1;
-        this.setState({ activeImage: toShow });
+        const toShow = activeSlide >= length - 1 ? 0 : activeSlide + 1;
+        this.setState({ activeSlide: toShow });
     }
 
     getSlideImage(slide) {
@@ -101,11 +100,12 @@ export class SliderWidget extends PureComponent {
         return `/${desktop_image}`;
     }
 
-    renderSlide = (slide, i) => {
+    renderSlide = (slide) => {
         const {
             slide_text,
             isPlaceholder,
-            title: block
+            title: block,
+            item_id
         } = slide;
 
         const { slider: { slides: { length } }, isVertical } = this.props;
@@ -115,7 +115,7 @@ export class SliderWidget extends PureComponent {
             <figure
               block="SliderWidget"
               elem="Figure"
-              key={ i }
+              key={ block + item_id }
               mods={ { isSlider, isVertical } }
             >
                 <Image
@@ -136,22 +136,19 @@ export class SliderWidget extends PureComponent {
     };
 
     render() {
-        const { activeImage } = this.state;
-        const { slider: { slides, title: block } } = this.props;
+        const { activeSlide } = this.state;
+        const { slider: { slides, title: block }, isVertical } = this.props;
 
         const children = slides.map(this.renderSlide);
-        const childrenClones = slides.map((el, i) => this.renderSlide(el, i + children.length));
-
-        const infinite = children.length > 1;
 
         return (
             <Slider
               mix={ { block: 'SliderWidget', mix: { block } } }
               showCrumbs
-              activeImage={ activeImage }
-              onActiveImageChange={ this.onActiveImageChange }
-              childrenClones={ infinite ? childrenClones : null }
-              infinite={ infinite }
+              activeSlide={ activeSlide }
+              onActiveSlideChange={ this.onActiveSlideChange }
+              isVertical={ isVertical }
+              infinite
               isWidget
             >
                 { children }
