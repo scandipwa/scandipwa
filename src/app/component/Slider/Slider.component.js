@@ -387,7 +387,7 @@ export class Slider extends PureComponent {
 
         /* Check if new active slide is on the left and, in case slide count is even,
         check if new active slide is not first on the left */
-        if (indexesOnLeft.includes(newActive) && (length % 2 === 0 ? newActive !== firstLeftIndex : true)) {
+        if (indexesOnLeft.includes(newActive) && (length % 2 !== 0 || newActive !== firstLeftIndex)) {
             if (newActive > active) {
                 return -(length - newActive + active);
             }
