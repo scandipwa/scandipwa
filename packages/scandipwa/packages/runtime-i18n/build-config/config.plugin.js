@@ -22,21 +22,12 @@ module.exports = {
                 loader: 'webpack-i18n-import-loader'
             });
 
-            // TODO deprecate
-            // Remove the old i18n plugin
-            webpackConfig.plugins = webpackConfig.plugins.filter(
-                (plugin) => {
-                    const { __proto__: { constructor: { name } = {} } = {} } = plugin;
-                    return name !== 'I18nPlugin';
-                }
-            )
-
             // Provide the __ function with the ProvidePlugin
             webpackConfig.plugins.forEach((plugin => {
                 // if (plugin instanceof webpack.ProvidePlugin) {
                 const { __proto__: { constructor: { name } = {} } = {} } = plugin;
                 if (name === 'ProvidePlugin') {
-                    // plugin.definitions.__ = [require.resolve(path.join(__dirname, '../src/util/__.js')), 'default'];
+                    plugin.definitions.__ = [require.resolve(path.join(__dirname, '../src/util/__.js')), 'default'];
                 }
             }));
 
