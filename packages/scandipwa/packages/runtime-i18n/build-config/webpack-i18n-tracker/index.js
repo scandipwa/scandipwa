@@ -42,7 +42,7 @@ class WebpackI18nTracker {
 
             localizationManager.handleIncomingTranslatable(paramString);
 
-            return true;
+            return expr;
         });
     };
 
