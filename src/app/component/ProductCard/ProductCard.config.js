@@ -10,5 +10,5 @@
  */
 
 export const OPTION_TYPE_COLOR = '1';
-
-export default OPTION_TYPE_COLOR;
+export const OPTION_TYPE_TEXT = '0';
+export const validOptionTypes = [OPTION_TYPE_TEXT, OPTION_TYPE_COLOR];

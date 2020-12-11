@@ -25,7 +25,7 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { CONFIGURABLE } from 'Util/Product';
 
-import { OPTION_TYPE_COLOR } from './ProductCard.config';
+import { OPTION_TYPE_COLOR, validOptionTypes } from './ProductCard.config';
 
 import './ProductCard.style';
 
@@ -43,7 +43,8 @@ export class ProductCard extends PureComponent {
         thumbnail: PropTypes.string,
         availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
             label: PropTypes.string,
-            value: PropTypes.string
+            value: PropTypes.string,
+            type: PropTypes.string
         })).isRequired,
         getAttribute: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired,
@@ -152,7 +153,12 @@ export class ProductCard extends PureComponent {
 
     renderVisualConfigurableOptions() {
         const { availableVisualOptions, device } = this.props;
-        if (device.isMobile) {
+
+        if (device.isMobile || !availableVisualOptions.length) {
+            return null;
+        }
+
+        if (!validOptionTypes.includes(availableVisualOptions[0].type)) {
             return null;
         }
 
