@@ -1,8 +1,15 @@
 const path = require('path');
 const fs = require('fs');
+
 const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
+
 const loadJson = require('./loadJson');
+const createWatcher = require('../watcher');
+
 const newLocaleCreated = require('../after-emit-logs/new-locale-created');
+const afterEmitLogger = require('@scandipwa/after-emit-logger');
+
+const TRANSLATION_FILE_CREATED_LOG_TYPE = 'TRANSLATION_FILE_CREATED_LOG_TYPE';
 
 /**
  * Get the theme's main translation file for the given locale
@@ -10,7 +17,7 @@ const newLocaleCreated = require('../after-emit-logs/new-locale-created');
  * @param {function} logMessage
  * @returns {object}
  */
-module.exports = (localeCode, isDefaultLocale, logMessage) => {
+module.exports = (localeCode, isDefaultLocale) => {
     const pathToTry = path.join('i18n', `${localeCode}.json`);
     const absolutePathToTry = path.join(process.cwd(), pathToTry);
 
@@ -24,13 +31,12 @@ module.exports = (localeCode, isDefaultLocale, logMessage) => {
         return {};
     }
 
-    // Handle no translation in child theme
-    logMessage(newLocaleCreated(localeCode, pathToTry));
+    // Handle no translation in child theme:
+    // Create file
+    writeJson(absolutePathToTry, {});
 
-    writeJson(
-        absolutePathToTry,
-        {}
-    );
+    // Add message about the new file to the logs
+    afterEmitLogger.logMessage(newLocaleCreated(localeCode, pathToTry), 2);
 
     return {};
 };

@@ -1,5 +1,6 @@
-const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
 const path = require('path');
+const writeJson = require('@scandipwa/scandipwa-dev-utils/write-json');
+const afterEmitLogger = require('@scandipwa/after-emit-logger');
 const corruptedJson = require('../after-emit-logs/write-corrupted-json');
 
 /**
@@ -18,7 +19,7 @@ module.exports = (missingTranslationMap, logMessage) => {
             try {
                 translations = require(localeFilePath);
             } catch (err) {
-                logMessage(corruptedJson(localeFilePath, err));
+                afterEmitLogger.logMessage(corruptedJson(localeFilePath, err));
                 return;
             }
 

@@ -1,9 +1,10 @@
 {
-    "name": "scandipwa-runtime-i18n",
+    "name": "@scandipwa/runtime-i18n",
     "version": "1.0.0",
     "license": "proprietary",
     "dependencies": {
         "@scandipwa/scandipwa": "3.2.3",
+        "chokidar": "^3.4.3",
         "loader-utils": "^2.0.0"
     },
     "scandipwa": {
