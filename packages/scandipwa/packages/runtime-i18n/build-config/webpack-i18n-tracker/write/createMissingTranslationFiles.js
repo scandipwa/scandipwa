@@ -20,6 +20,6 @@ module.exports = (enabledLocales, defaultLocale) => {
 
             // Create an empty translation file
             writeJson(childTranslationFilePath, {});
-            afterEmitLogger.logMessage(newLocaleCreated(locale, pathToCheck));
+            afterEmitLogger.logMessage(newLocaleCreated(locale, pathToCheck), 3);
         });
 }
