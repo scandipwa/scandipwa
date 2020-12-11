@@ -141,12 +141,43 @@ class LocalizationManager {
         )
     }
 
+    mergeNewMissingIntoExisting() {
+        for (const localeCode in this.translationMap) {
+            this.translationMap[localeCode].existingMissing = new Set([
+                ...this.translationMap[localeCode].existingMissing,
+                ...this.translationMap[localeCode].newMissing
+            ]);
+
+            this.translationMap[localeCode].newMissing.clear();
+        }
+    }
+
+    countLocalesDataByKey(key) {
+        return Object.entries(this.translationMap)
+            .reduce((acc, [localeCode, localeData]) => {
+                const dataSource = localeData[key];
+
+                if (dataSource instanceof Array) {
+                    acc[localeCode] = dataSource.length;
+                } else if (dataSource instanceof Set) {
+                    acc[localeCode] = dataSource.size;
+                } else if (dataSource instanceof Object) {
+                    acc[localeCode] = Object.keys(dataSource).length
+                } else {
+                    throw new Error(
+                        `Unexpected type in translation map for key ${key} in locale ${localeCode}: ${typeof localeData[key]}`
+                    )
+                }
+
+                return acc;
+            }, {})
+    }
+
     /**
      * Handle missing translations not yet present in corresponding files
      */
     handleMissingTranslations() {
         const newMissingTranslationsMap = this.getLocalesDataByKey('newMissing');
-        const existingMissingTranslationsMap = this.getLocalesDataByKey('existingMissing');
 
         // Ignore default locale for missing translations
         delete newMissingTranslationsMap[this.defaultLocale];
@@ -159,11 +190,13 @@ class LocalizationManager {
             );
         }
 
+        // Since now, all the new missing translatables should be treated as existing
+        // Because they had been written into the corresponding translation files
+        this.mergeNewMissingIntoExisting();
+
         // Count the missing translations for locales
-        const missingTranslationCountMap = this.getMissingTranslationCountMap(
-            existingMissingTranslationsMap,
-            newMissingTranslationsMap
-        );
+        const missingTranslationCountMap = this.countLocalesDataByKey('existingMissing');
+        delete missingTranslationCountMap[this.defaultLocale];
 
         // Log the missing translations warning
         afterEmitLogger.logMessage(missingTranslationsMessage(missingTranslationCountMap));
