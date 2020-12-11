@@ -70,11 +70,11 @@ export class SliderWidget extends PureComponent {
 
     startCarousel = (interval) => {
         this.carouselInterval = setInterval(() => {
-            this.getImageToShow();
+            this.updateImageToShow();
         }, interval);
     };
 
-    getImageToShow() {
+    updateImageToShow() {
         const { activeSlide } = this.state;
         const { slider: { slides: { length } } } = this.props;
 
