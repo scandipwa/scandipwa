@@ -56,8 +56,8 @@ class LocalizationManager {
                     ...localeData.extensions
                 ]);
                 localeData.unused = Object.assign({}, localeData.child);
-                localeData.existingMissing = [];
-                localeData.newMissing = [];
+                localeData.existingMissing = new Set();
+                localeData.newMissing = new Set();
 
                 acc[localeCode] = localeData;
                 return acc;
@@ -84,7 +84,9 @@ class LocalizationManager {
                         // handle array
                         (Array.isArray(data) && data.length) ||
                         // handle object
-                        (!Array.isArray(data) && Object.keys(data).length)
+                        (!Array.isArray(data) && Object.keys(data).length) ||
+                        // handle Set
+                        (data instanceof Set && data.size)
                     ) {
                         acc[localeCode] = data;
                     }
@@ -95,23 +97,30 @@ class LocalizationManager {
             )
     }
 
+    handleIncomingMissing(translatable, localeCode) {
+        // Extract translation if the translated string is not defined at all in the translation files
+        if (!Object.hasOwnProperty.call(this.translationMap[localeCode].merged, translatable)) {
+            this.translationMap[localeCode].newMissing.add(translatable);
+        // Track already present no-valued translations
+        } else {
+            this.translationMap[localeCode].existingMissing.add(translatable);
+        }
+    }
+
+    handleIncomingPresent(translatable, localeCode) {
+        this.translationMap[localeCode].newMissing.delete(translatable);
+        this.translationMap[localeCode].existingMissing.delete(translatable);
+        delete this.translationMap[localeCode].unused[translatable];
+    }
+
     handleIncomingTranslatable(translatable) {
         // Handle the string for each locale separately
         for (const localeCode in this.translationMap) {
-
-            // Extract translation if the translated string is missing
             if (!this.translationMap[localeCode].merged[translatable]) {
-                // Track freshly added missing translations
-                if (!Object.hasOwnProperty.call(this.translationMap[localeCode].merged, translatable)) {
-                    this.translationMap[localeCode].newMissing.push(translatable);
-                // Track already present no-valued translations
-                } else {
-                    this.translationMap[localeCode].existingMissing.push(translatable);
-                }
+                this.handleIncomingMissing(translatable, localeCode);
+            } else {
+                this.handleIncomingPresent(translatable, localeCode);
             }
-
-            // Remove from the unused list if the translated string is used
-            delete this.translationMap[localeCode].unused[translatable];
         }
     }
 
