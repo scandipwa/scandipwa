@@ -482,4 +482,16 @@
     .Image {
         background: none;
     }
+
+    &-CompareLinkWrapper {
+        text-transform: uppercase;
+    }
+
+    &-CompareLink {
+        color: var(--body-content-color);
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }

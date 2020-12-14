@@ -59,7 +59,7 @@ export class ProductComparePageContainer extends DataContainer {
     componentDidMount() {
         this.updateMeta();
         this.updateBreadcrumbs();
-        this.updateHeader();
+        this.updateHeaderState();
     }
 
     updateMeta() {
@@ -83,12 +83,13 @@ export class ProductComparePageContainer extends DataContainer {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    updateHeader() {
+    updateHeaderState() {
         const { setHeaderState } = this.props;
 
         setHeaderState({
             name: PRODUCT_COMPARE,
-            title: __('Compare')
+            title: __('Compare'),
+            onBackClick: () => history.back()
         });
     }
 

@@ -11,6 +11,8 @@
 
 :root {
     --product-compare-button-icon-background: var(--primary-base-color);
+    --product-compare-button-grey-background: var(--secondary-base-color);
+    --product-compare-button-grey-color: var(--secondary-dark-color);
 }
 
 .ProductCompareButton {
@@ -46,5 +48,18 @@
 
     &-Icon {
         @include compare-icon(var(--product-compare-button-icon-background));
+    }
+
+    &_isGrey {
+        .ProductCompareButton-Button {
+            border: none;
+            background-color: var(--product-compare-button-grey-background);
+        }
+
+        .ProductCompareButton-Icon,
+        .ProductCompareButton-Icon::before,
+        .ProductCompareButton-Icon::after {
+            background-color: var(--product-compare-button-grey-color);
+        }
     }
 }

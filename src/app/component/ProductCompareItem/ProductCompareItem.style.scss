@@ -65,7 +65,6 @@
         padding-right: 1.9rem;
         margin: 0 0 1rem 0;
         font-size: 1.8rem;
-        font-weight: 600;
         line-height: 1;
         color: var(--body-content-color);
 
@@ -84,6 +83,7 @@
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
+        min-height: 30px;
 
         &_isLikeTable {
             @include after-mobile {

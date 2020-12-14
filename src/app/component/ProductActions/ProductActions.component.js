@@ -474,12 +474,11 @@ export class ProductActions extends PureComponent {
 
     renderProductCompareButton() {
         const {
-            product: {
-                id
-            } = {}
+            product: { id } = {},
+            device: { isMobile } = {}
         } = this.props;
 
-        if (!id) {
+        if (!id || isMobile) {
             return null;
         }
 

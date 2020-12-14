@@ -15,7 +15,10 @@
     --product-card-text-border-color: #979797;
     --product-cart-picture-label-background: rgba(255, 255, 255, .7);
     --product-cart-reviews-background: rgba(243, 243, 243, .55);
-    --product-cart-wishlist-button-background: rgba(243, 243, 243, .78);
+    --product-card-wishlist-button-background: rgba(243, 243, 243, .78);
+    --product-card-wishlist-button-color: #d8d5d5;
+    --product-card-compare-button-background: var(--product-card-wishlist-button-background);
+    --product-card-compare-button-color: var(--product-card-wishlist-button-color);
 }
 
 .ProductCard {
@@ -175,13 +178,22 @@
         }
     }
 
+    &-ProductActions {
+        position: absolute;
+        top: 3%;
+        right: 3%;
+        display: flex;
+        flex-direction: column;
+    }
+
     &-WishListButton {
         width: 30px;
         height: 30px;
-        background-color: var(--product-cart-wishlist-button-background);
+        background-color: var(--product-card-wishlist-button-background);
         border: none;
         transition: all .2s;
         opacity: .7;
+
         @include mobile {
             width: 20px;
             height: 20px;
@@ -189,7 +201,7 @@
 
         .ProductWishlistButton-Heart {
             transform: scale(.7) rotate(-45deg);
-            background-color: #d8d5d5;
+            background-color: var(--product-card-wishlist-button-color);
 
             @include before-desktop {
                 transform: scale(.6) rotate(-45deg);
@@ -198,7 +210,7 @@
 
         ::before,
         ::after {
-            background-color: #d8d5d5;
+            background-color: var(--product-card-wishlist-button-color);
         }
 
         &:hover {
@@ -217,7 +229,7 @@
 
         &:not([disabled]):hover,
         &:not([disabled]):focus {
-            background-color: var(--product-cart-wishlist-button-background);
+            background-color: var(--product-card-wishlist-button-background);
         }
     }
 
@@ -228,13 +240,10 @@
     }
 
     .ProductWishlistButton {
-        margin-left: 0;
-        position: absolute;
-        top: 3%;
-        right: 3%;
+        margin: 0 0 1.08rem 0;
 
         &-Button_isInWishlist {
-            background-color: var(--product-cart-wishlist-button-background);
+            background-color: var(--product-card-wishlist-button-background);
             opacity: 1;
 
             .ProductWishlistButton-Heart {
@@ -244,6 +253,73 @@
             ::before,
             ::after {
                 background-color: var(--primary-base-color);
+            }
+        }
+    }
+
+    .ProductCompareButton {
+        margin: 0 0 1.08rem 0;
+
+        &-Button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background-color: var(--product-card-compare-button-background);
+
+            @include mobile {
+                width: 20px;
+                height: 20px;
+            }
+
+            &:hover {
+                background-color: var(--product-card-compare-button-background);
+
+                @include desktop {
+                    .ProductCompareButton-Icon,
+                    .ProductCompareButton-Icon::before,
+                    .ProductCompareButton-Icon::after {
+                        background-color: var(--primary-base-color);
+                    }
+                }
+            }
+        }
+
+        &-Icon {
+            height: 16px;
+
+            @include mobile {
+                height: 12px;
+            }
+
+            &,
+            &::before,
+            &::after {
+                width: 5px;
+                background-color: var(--product-card-compare-button-color);
+
+                @include mobile {
+                    width: 4px;
+                }
+            }
+
+            &::before {
+                height: 6px;
+                left: -7px;
+
+                @include mobile {
+                    height: 4px;
+                    left: -5px;
+                }
+            }
+
+            &::after {
+                height: 12px;
+                right: -7px;
+
+                @include mobile {
+                    height: 8px;
+                    right: -5px;
+                }
             }
         }
     }

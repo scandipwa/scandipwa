@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
+import { MixType } from 'Type/Common';
 
 import './ProductCompareButton.style';
 
@@ -20,18 +21,20 @@ import './ProductCompareButton.style';
 export class ProductCompareButton extends PureComponent {
     static propTypes = {
         handleClick: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        mix: MixType
     };
 
     static defaultProps = {
-        isLoading: false
+        isLoading: false,
+        mix: {}
     };
 
     render() {
-        const { handleClick, isLoading } = this.props;
+        const { handleClick, isLoading, mix } = this.props;
 
         return (
-            <div block="ProductCompareButton">
+            <div block="ProductCompareButton" mix={ mix }>
                 <button
                   block="ProductCompareButton"
                   elem="Button"

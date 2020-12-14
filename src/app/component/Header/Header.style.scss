@@ -357,9 +357,18 @@
 
             &_compare {
                 @include button-visible;
-                margin: 0 7.5px;
+
+                padding: 0;
+                margin: 0;
+                display: block;
             }
         }
+    }
+
+    &-CompareButtonWrapper {
+        border-right: 2px dotted var(--header-dots-color);
+        margin: 0 20px 0 7px;
+        padding-right: 20px;
     }
 
     &-CompareIcon {
@@ -404,7 +413,6 @@
     &-Minicart {
         &ButtonWrapper {
             align-items: center;
-            border-right: 2px dotted var(--header-dots-color);
             cursor: pointer;
             display: flex;
             height: 26px;

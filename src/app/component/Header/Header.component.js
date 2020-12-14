@@ -190,7 +190,8 @@ export class Header extends NavigationAbstract {
             back: true
         },
         [PRODUCT_COMPARE]: {
-            title: true
+            title: true,
+            back: true
         }
     };
 
@@ -313,19 +314,21 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <Link
-              to="compare"
-              key="compare"
-              block="Header"
-              elem="Button"
-              mods={ { type: 'compare' } }
-              aria-label={ __('Compare Page') }
-            >
-                <div
+            <div block="Header" elem="CompareButtonWrapper">
+                <Link
+                  to="compare"
+                  key="compare"
                   block="Header"
-                  elem="CompareIcon"
-                />
-            </Link>
+                  elem="Button"
+                  mods={ { type: 'compare' } }
+                  aria-label={ __('Compare Page') }
+                >
+                    <div
+                      block="Header"
+                      elem="CompareIcon"
+                    />
+                </Link>
+            </div>
         );
     }
 
