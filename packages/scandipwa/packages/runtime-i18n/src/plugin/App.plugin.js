@@ -1,31 +1,17 @@
-import i18n from '../util/i18n';
-
-/** Initialize the i18n plugin on app start */
-const componentDidMount = (args, callback, instance) => {
-    i18n.init(instance.forceUpdate.bind(instance));
-
-    return callback(...args);
-};
+import I18nComponent from '../component/I18n';
 
 /** Ensure full application remount on locale change */
 const render = (args, callback) => {
-    const currentLocale = i18n.getCurrentLocale();
-
     return (
-        <div
-          block="LocalizationWrapper"
-          elem={ currentLocale }
-          key={ currentLocale }
-        >
+        <I18nComponent>
             { callback(...args) }
-        </div>
+        </I18nComponent>
     )
 }
 
 export default {
     'Component/App/Component': {
         'member-function': {
-            componentDidMount,
             render
         }
     }
