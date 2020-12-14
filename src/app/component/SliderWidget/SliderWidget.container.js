@@ -39,7 +39,8 @@ export class SliderWidgetContainer extends DataContainer {
         slider: {
             slideSpeed: 0,
             slides: [{ image: '', slide_text: '', isPlaceholder: true }]
-        }
+        },
+        isLoaded: false
     };
 
     componentDidMount() {
@@ -60,7 +61,7 @@ export class SliderWidgetContainer extends DataContainer {
 
         this.fetchData(
             [SliderQuery.getQuery({ sliderId })],
-            ({ slider }) => this.setState({ slider }),
+            ({ slider }) => this.setState({ slider, isLoaded: true }),
             (e) => showNotification('error', 'Error fetching Slider!', e)
         );
     }
@@ -71,6 +72,12 @@ export class SliderWidgetContainer extends DataContainer {
     }
 
     render() {
+        const { isLoaded } = this.state;
+
+        if (!isLoaded) {
+            return null;
+        }
+
         return (
             <SliderWidget
               { ...this.props }

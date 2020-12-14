@@ -39,24 +39,23 @@ export class SliderWidget extends PureComponent {
                 })
             )
         }),
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isVertical: PropTypes.bool
     };
 
     static defaultProps = {
-        slider: [{}]
+        slider: [{}],
+        isVertical: false
     };
 
     state = {
-        activeImage: 0,
-        carouselDirection: 'right',
-        imageToShow: 0
+        activeSlide: 0
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidMount() {
         const { slider: { slideSpeed, slides } } = this.props;
-        const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
-        if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
+        if (slideSpeed && slides.length > 1) {
             this.startCarousel(slideSpeed);
         }
     }
@@ -65,37 +64,22 @@ export class SliderWidget extends PureComponent {
         clearInterval(this.carouselInterval);
     }
 
-    onActiveImageChange = (activeImage) => {
-        this.setState({ activeImage });
+    onActiveSlideChange = (activeSlide) => {
+        this.setState({ activeSlide });
     };
 
     startCarousel = (interval) => {
         this.carouselInterval = setInterval(() => {
-            this.getImageToShow();
-
-            const { imageToShow } = this.state;
-
-            this.onActiveImageChange(imageToShow);
+            this.updateImageToShow();
         }, interval);
     };
 
-    getImageToShow() {
-        const { activeImage, carouselDirection } = this.state;
-        const { slider: { slides } } = this.props;
+    updateImageToShow() {
+        const { activeSlide } = this.state;
+        const { slider: { slides: { length } } } = this.props;
 
-        if (activeImage === 0) {
-            this.setState({
-                carouselDirection: 'right',
-                imageToShow: activeImage + 1
-            });
-        } else if (activeImage === slides.length - 1) {
-            this.setState({
-                carouselDirection: 'left',
-                imageToShow: activeImage - 1
-            });
-        } else {
-            this.setState({ imageToShow: carouselDirection === 'right' ? activeImage + 1 : activeImage - 1 });
-        }
+        const toShow = activeSlide >= length - 1 ? 0 : activeSlide + 1;
+        this.setState({ activeSlide: toShow });
     }
 
     getSlideImage(slide) {
@@ -116,18 +100,23 @@ export class SliderWidget extends PureComponent {
         return `/${desktop_image}`;
     }
 
-    renderSlide = (slide, i) => {
+    renderSlide = (slide) => {
         const {
             slide_text,
             isPlaceholder,
-            title: block
+            title: block,
+            item_id
         } = slide;
+
+        const { slider: { slides: { length } }, isVertical } = this.props;
+        const isSlider = length > 1;
 
         return (
             <figure
               block="SliderWidget"
               elem="Figure"
-              key={ i }
+              key={ block + item_id }
+              mods={ { isSlider, isVertical } }
             >
                 <Image
                   mix={ { block: 'SliderWidget', elem: 'FigureImage' } }
@@ -147,17 +136,22 @@ export class SliderWidget extends PureComponent {
     };
 
     render() {
-        const { activeImage } = this.state;
-        const { slider: { slides, title: block } } = this.props;
+        const { activeSlide } = this.state;
+        const { slider: { slides, title: block }, isVertical } = this.props;
+
+        const children = slides.map(this.renderSlide);
 
         return (
             <Slider
               mix={ { block: 'SliderWidget', mix: { block } } }
               showCrumbs
-              activeImage={ activeImage }
-              onActiveImageChange={ this.onActiveImageChange }
+              activeSlide={ activeSlide }
+              onActiveSlideChange={ this.onActiveSlideChange }
+              isVertical={ isVertical }
+              infinite
+              isWidget
             >
-                { slides.map(this.renderSlide) }
+                { children }
             </Slider>
         );
     }
