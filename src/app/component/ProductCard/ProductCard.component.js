@@ -18,13 +18,16 @@ import Loader from 'Component/Loader';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { CONFIGURABLE } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE } from 'Util/Product';
+
+import { OPTION_TYPE_COLOR, validOptionTypes } from './ProductCard.config';
 
 import './ProductCard.style';
-
 /**
  * Product card
  * @class ProductCard
@@ -34,18 +37,22 @@ export class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
+        device: DeviceType.isRequired,
         productOrVariant: ProductType.isRequired,
         thumbnail: PropTypes.string,
         availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
             label: PropTypes.string,
-            value: PropTypes.string
+            value: PropTypes.string,
+            type: PropTypes.string
         })).isRequired,
         getAttribute: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({}),
-        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
+        renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+        isConfigurableProductOutOfStock: PropTypes.func.isRequired,
+        isBundleProductOutOfStock: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -101,10 +108,29 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductPrice() {
-        const { product: { price_range } } = this.props;
+        const {
+            product: { price_range, type_id },
+            isConfigurableProductOutOfStock,
+            isBundleProductOutOfStock
+        } = this.props;
 
         if (!price_range) {
             return <TextPlaceholder />;
+        }
+
+        switch (type_id) {
+        case CONFIGURABLE:
+            if (isConfigurableProductOutOfStock()) {
+                return null;
+            }
+            break;
+        case BUNDLE:
+            if (isBundleProductOutOfStock()) {
+                return null;
+            }
+            break;
+        default:
+            break;
         }
 
         return (
@@ -129,20 +155,37 @@ export class ProductCard extends PureComponent {
         );
     }
 
+    renderVisualOption({ value, label, type }, i) {
+        const isColor = type === OPTION_TYPE_COLOR;
+
+        return (
+            <span
+              block="ProductCard"
+              elem={ isColor ? 'Color' : 'String' }
+              key={ i }
+              style={ isColor ? { backgroundColor: value } : {} }
+              aria-label={ isColor ? label : '' }
+              title={ isColor ? '' : label }
+            >
+                { isColor ? '' : value }
+            </span>
+        );
+    }
+
     renderVisualConfigurableOptions() {
-        const { availableVisualOptions } = this.props;
+        const { availableVisualOptions, device } = this.props;
+
+        if (device.isMobile || !availableVisualOptions.length) {
+            return null;
+        }
+
+        if (!validOptionTypes.includes(availableVisualOptions[0].type)) {
+            return null;
+        }
 
         return (
             <div block="ProductCard" elem="ConfigurableOptions">
-                { availableVisualOptions.map(({ value, label }) => (
-                    <span
-                      block="ProductCard"
-                      elem="Color"
-                      key={ value }
-                      style={ { backgroundColor: value } }
-                      aria-label={ label }
-                    />
-                )) }
+                { availableVisualOptions.map(this.renderVisualOption) }
             </div>
         );
     }
@@ -193,6 +236,17 @@ export class ProductCard extends PureComponent {
             >
                 <ProductReviewRating summary={ rating_summary || 0 } />
             </div>
+        );
+    }
+
+    renderProductCardWishlistButton() {
+        const { product } = this.props;
+
+        return (
+            <ProductWishlistButton
+              product={ product }
+              mix={ { block: 'ProductCard', elem: 'WishListButton' } }
+            />
         );
     }
 
@@ -263,16 +317,18 @@ export class ProductCard extends PureComponent {
         return (
             this.renderCardLinkWrapper((
                 <>
-                    <figure block="ProductCard" elem="Figure">
-                        { this.renderPicture() }
-                    </figure>
-                    <div block="ProductCard" elem="Content">
+                    <div block="ProductCard" elem="Figure-Review">
+                        <figure block="ProductCard" elem="Figure">
+                            { this.renderPicture() }
+                        </figure>
                         { this.renderReviews() }
+                    </div>
+                    <div block="ProductCard" elem="Content">
+                        { this.renderAdditionalProductDetails() }
+                        { this.renderMainDetails() }
+                        { this.renderTierPrice() }
                         { this.renderProductPrice() }
                         { this.renderVisualConfigurableOptions() }
-                        { this.renderTierPrice() }
-                        { this.renderMainDetails() }
-                        { this.renderAdditionalProductDetails() }
                     </div>
                 </>
             ))
@@ -293,6 +349,7 @@ export class ProductCard extends PureComponent {
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderCardContent() }
+                { this.renderProductCardWishlistButton() }
                 <div block="ProductCard" elem="AdditionalContent">
                     { children }
                 </div>

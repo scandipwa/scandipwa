@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unused-state */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -16,31 +14,24 @@ import { Children, createRef, PureComponent } from 'react';
 
 import Draggable from 'Component/Draggable';
 import { ChildrenType, MixType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
 import CSS from 'Util/CSS';
 
 import {
-    ACTIVE_SLIDE_PERCENT,
     ANIMATION_DURATION,
     HEIGHT_TRANSITION_SPEED_ON_MOUNT
 } from './Slider.config';
 
 import './Slider.style';
 
-/**
- * Slider component
- * @class Slider
- * @namespace Component/Slider/Component
- */
+/** @namespace Component/Slider/Component */
 export class Slider extends PureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
-        activeImage: PropTypes.number,
-        onActiveImageChange: PropTypes.func,
         mix: MixType,
+        activeSlide: PropTypes.number,
+        onActiveSlideChange: PropTypes.func,
         children: ChildrenType.isRequired,
         isInteractionDisabled: PropTypes.bool,
-        device: DeviceType.isRequired,
         onClick: PropTypes.func,
         isVertical: PropTypes.bool,
         isHeightTransitionDisabledOnMount: PropTypes.bool,
@@ -48,12 +39,12 @@ export class Slider extends PureComponent {
             PropTypes.number,
             PropTypes.string
         ]),
-        sliderRef: PropTypes.object
+        sliderRef: PropTypes.object,
+        infinite: PropTypes.bool,
+        isWidget: PropTypes.bool
     };
 
     static defaultProps = {
-        activeImage: 0,
-        onActiveImageChange: () => {},
         showCrumbs: false,
         isInteractionDisabled: false,
         mix: {},
@@ -61,12 +52,18 @@ export class Slider extends PureComponent {
         isVertical: false,
         isHeightTransitionDisabledOnMount: false,
         sliderHeight: null,
-        sliderRef: null
+        sliderRef: null,
+        activeSlide: 0,
+        onActiveSlideChange: () => {},
+        infinite: false,
+        isWidget: false
     };
 
-    sliderWidth = 0;
+    state = {
+        activeSlide: 0
+    };
 
-    prevPosition = 0;
+    childrenClones = [];
 
     draggableRef = createRef();
 
@@ -80,47 +77,27 @@ export class Slider extends PureComponent {
 
     renderCrumb = this.renderCrumb.bind(this);
 
-    __construct(props) {
-        super.__construct(props);
-
-        const { activeImage } = this.props;
-
-        this.state = {
-            prevActiveImage: activeImage
-        };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { activeImage, children } = props;
-        const { prevActiveImage } = state;
-
-        if (prevActiveImage !== activeImage && children.length !== 1) {
-            return { prevActiveImage: activeImage };
-        }
-
-        return null;
-    }
-
     componentDidMount() {
-        this.addWindowResizeWatcher();
-
-        if (!this.getIsSlider()) {
+        if (!this.getIsScrollable()) {
             return;
         }
 
+        window.addEventListener('resize', this.windowResizeWatcher);
+
         const sliderChildren = this.draggableRef.current.children;
-        const sliderWidth = this.draggableRef.current.offsetWidth;
-        this.sliderWidth = sliderWidth;
 
         if (!sliderChildren || !sliderChildren[0]) {
             return;
         }
 
+        this.setAnimationSpeedStyle(0);
+        this.setTranslateXStyle(this.getFocusSlideTranslate());
         this.setStyleVariablesOnMount();
 
         const sliderRef = this.getSliderRef();
-        const sliderHeight = `${ sliderChildren[0].offsetHeight }px`;
+        const sliderHeight = `${ sliderChildren[0].getBoundingClientRect().height }px`;
 
+        CSS.setVariable(sliderRef, 'slide-height', sliderHeight);
         sliderChildren[0].onload = () => {
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         };
@@ -130,37 +107,34 @@ export class Slider extends PureComponent {
         }, ANIMATION_DURATION);
     }
 
-    componentDidUpdate(prevProps) {
-        const { activeImage: prevActiveImage } = prevProps;
-        const { activeImage } = this.props;
-
-        if (activeImage !== prevActiveImage && this.getIsSlider()) {
-            const newTranslate = -activeImage * this.getSlideWidth();
-
-            this.setAnimationSpeedStyle(Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION));
-            this.setTranlateXStyle(newTranslate);
+    componentDidUpdate() {
+        if (!this.getIsScrollable()) {
+            return;
         }
+
+        this.setAnimationSpeedStyle();
+        this.setTranslateXStyle(this.getFocusSlideTranslate());
+        this.setActiveSlide();
     }
 
-    addWindowResizeWatcher() {
-        window.addEventListener('resize', () => {
-            const { activeImage } = this.props;
-            const newTranslate = -activeImage * this.getSlideWidth();
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.windowResizeWatcher);
+    }
 
-            this.setTranlateXStyle(newTranslate);
+    windowResizeWatcher = () => {
+        // Remove animation to avoid image movement while changing window width.
+        this.setAnimationSpeedStyle(0);
+        this.setTranslateXStyle(this.getFocusSlideTranslate());
+    };
 
-            // Removed animation to avoid image movement while changing window width.
-            this.setAnimationSpeedStyle(0);
+    cloneChildren() {
+        const { children } = this.props;
 
-            const delay = 500;
-            setTimeout(() => {
-                this.setAnimationSpeedStyle();
-            }, delay);
-        });
+        this.childrenClones = children.map((el) => React.cloneElement(el, { key: `${el.key}-clone` }));
     }
 
     setStyleVariablesOnMount() {
-        const { sliderHeight, isHeightTransitionDisabledOnMount, activeImage } = this.props;
+        const { sliderHeight, isHeightTransitionDisabledOnMount } = this.props;
 
         const sliderRef = this.getSliderRef();
 
@@ -179,12 +153,9 @@ export class Slider extends PureComponent {
         if (sliderHeight) {
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         }
-
-        const newTranslate = -activeImage * this.getSlideWidth();
-        this.setTranlateXStyle(newTranslate);
     }
 
-    setTranlateXStyle(translate) {
+    setTranslateXStyle(translate) {
         const { isVertical } = this.props;
 
         CSS.setVariable(this.draggableRef, isVertical ? 'translateY' : 'translateX', `${ translate }px`);
@@ -194,60 +165,70 @@ export class Slider extends PureComponent {
         CSS.setVariable(this.draggableRef, 'animation-speed', `${ animationDuration }ms`);
     }
 
-    getIsSlider() {
-        const { children } = this.props;
+    /*
+        Getting number of slides translated to left (in hidden overflow).
+        This number will be focus slide (that one that user see).
+    */
+    getFocusSlide() {
+        const { children: { length } } = this.props;
 
-        return children.length > 0;
+        // If slider not infinite, than focus slide = active slide
+        if (!this.getIsInfinite()) {
+            const { activeSlide } = this.state;
+            return activeSlide;
+        }
+
+        // If slider is infinite, focus slide will be on the middle of slider
+        return Math.round((length + 1) / 2);
+    }
+
+    getFocusSlideTranslate() {
+        return -(this.getFocusSlide()) * this.getSlideWidth();
+    }
+
+    getIsScrollable() {
+        const { children: { length } } = this.props;
+
+        return length > 0;
+    }
+
+    getIsInfinite() {
+        const { infinite } = this.props;
+
+        return infinite && this.getIsScrollable();
+    }
+
+    // Changing active slide if new active slide number received from props
+    setActiveSlide() {
+        const { activeSlide: newActiveSlide, onActiveSlideChange } = this.props;
+        const { activeSlide: currentActiveSlide } = this.state;
+
+        if (newActiveSlide === currentActiveSlide) {
+            return;
+        }
+
+        // If transition is happening, prevent slide changing from props
+        if (this.animInAction) {
+            onActiveSlideChange(currentActiveSlide);
+            return;
+        }
+
+        this.changeActiveSlide(newActiveSlide);
     }
 
     getSlideWidth() {
         const { isVertical } = this.props;
-        const { offsetWidth = 0, offsetHeight = 0 } = this.draggableRef.current || {};
 
-        return isVertical ? offsetHeight : offsetWidth;
+        const { width = 0, height = 0 } = this.draggableRef.current
+            ? this.draggableRef.current.getBoundingClientRect() : {};
+
+        return isVertical ? height : width;
     }
 
     getSliderRef() {
         const { sliderRef } = this.props;
 
         return sliderRef || this.sliderRef;
-    }
-
-    onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
-        const { originalX } = state;
-        const { prevActiveImage: prevActiveSlider } = this.state;
-        const { onActiveImageChange, device, onClick } = this.props;
-
-        if (onClick) {
-            onClick();
-
-            return -prevActiveSlider;
-        }
-
-        const fullSliderPoss = Math.round(fullSliderSize / slideSize);
-        const elementPossitionInDOM = this.draggableRef.current.getBoundingClientRect().x;
-
-        const sliderPossition = -prevActiveSlider;
-        const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
-        const mousePossitionInElement = originalX - realElementPossitionInDOM;
-
-        if (device.isMobile) {
-            return sliderPossition;
-        }
-
-        if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
-            const activeSlide = sliderPossition - 1;
-            onActiveImageChange(-activeSlide);
-            return activeSlide;
-        }
-
-        if (slideSize / 2 > mousePossitionInElement && lastTranslate) {
-            const activeSlide = sliderPossition + 1;
-            onActiveImageChange(-activeSlide);
-            return activeSlide;
-        }
-
-        return sliderPossition;
     }
 
     getFullSliderWidth() {
@@ -260,8 +241,10 @@ export class Slider extends PureComponent {
     }
 
     calculateNextSlide(state) {
-        const { isVertical } = this.props;
+        const { isVertical, onClick } = this.props;
         const {
+            originalX,
+            originalY,
             translateX,
             translateY,
             lastTranslateX,
@@ -271,46 +254,60 @@ export class Slider extends PureComponent {
         const lastTranslate = isVertical ? lastTranslateY : lastTranslateX;
         const translate = isVertical ? translateY : translateX;
 
-        const { onActiveImageChange } = this.props;
+        const { children: { length } } = this.props;
+        const { activeSlide } = this.state;
 
-        const slideSize = this.getSlideWidth();
-
-        const fullSliderSize = this.getFullSliderWidth();
-
-        const activeSlidePosition = translate / slideSize;
-        const activeSlidePercent = Math.abs(activeSlidePosition % 1);
-        const isSlideBack = translate > lastTranslate;
-
+        // If it was a click
         if (!translate) {
-            return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+            if (onClick) {
+                onClick();
+            }
+
+            // Getting click coordinates on current slide
+            const original = isVertical ? originalY : originalX;
+            const slideSize = this.getSlideWidth();
+            const elementPositionInDOM = this.draggableRef.current.getBoundingClientRect()[isVertical ? 'y' : 'x'];
+            const realElementPositionInDOM = elementPositionInDOM - lastTranslate;
+            const mousePositionInElement = original - realElementPositionInDOM;
+
+            // If clicked on the right side of slide
+            if (slideSize / 2 < mousePositionInElement) {
+                return {
+                    active: activeSlide + 1 >= length ? 0 : activeSlide + 1,
+                    translate
+                };
+            }
+
+            // If clicked on the left side of slide
+            if (slideSize / 2 > mousePositionInElement) {
+                return {
+                    active: activeSlide - 1 < 0 ? length - 1 : activeSlide - 1,
+                    translate
+                };
+            }
         }
 
-        if (translate >= 0) {
-            onActiveImageChange(0);
-            return 0;
+        // If it was a drag, count drag offset and check drag direction
+        const dragOffset = translate - this.getFocusSlideTranslate();
+
+        if (dragOffset > 0) {
+            return {
+                active: activeSlide - 1 < 0 ? length - 1 : activeSlide - 1,
+                translate: dragOffset
+            };
         }
 
-        if (translate < -fullSliderSize) {
-            const activeSlide = Math.round(fullSliderSize / -slideSize);
-            onActiveImageChange(-activeSlide);
-            return activeSlide;
+        if (dragOffset < 0) {
+            return {
+                active: activeSlide + 1 >= length ? 0 : activeSlide + 1,
+                translate: dragOffset
+            };
         }
 
-        if (isSlideBack && activeSlidePercent < 1 - ACTIVE_SLIDE_PERCENT) {
-            const activeSlide = Math.ceil(activeSlidePosition);
-            onActiveImageChange(-activeSlide);
-            return activeSlide;
-        }
-
-        if (!isSlideBack && activeSlidePercent > ACTIVE_SLIDE_PERCENT) {
-            const activeSlide = Math.floor(activeSlidePosition);
-            onActiveImageChange(-activeSlide);
-            return activeSlide;
-        }
-
-        const activeSlide = Math.round(activeSlidePosition);
-        onActiveImageChange(-activeSlide);
-        return activeSlide;
+        return {
+            active: activeSlide,
+            translate: dragOffset
+        };
     }
 
     handleDragStart() {
@@ -326,18 +323,17 @@ export class Slider extends PureComponent {
         const fullSliderSize = this.getFullSliderWidth();
 
         if (translate < 0 && translate > -fullSliderSize) {
-            this.setTranlateXStyle(translate);
+            this.setTranslateXStyle(translate);
         }
     }
 
     handleDragEnd(state, callback) {
         const { isVertical } = this.props;
-        const activeSlide = this.calculateNextSlide(state);
-        const slideSize = this.getSlideWidth();
-        const newTranslate = activeSlide * slideSize;
 
-        this.setAnimationSpeedStyle();
-        this.setTranlateXStyle(newTranslate);
+        const { active, translate } = this.calculateNextSlide(state);
+        const newTranslate = this.getFocusSlideTranslate();
+
+        this.changeActiveSlide(active, translate);
 
         if (isVertical) {
             callback({
@@ -363,21 +359,80 @@ export class Slider extends PureComponent {
     handleInteraction(callback, ...args) {
         const { isInteractionDisabled } = this.props;
 
-        if (isInteractionDisabled || !callback) {
+        if (isInteractionDisabled || !callback || this.animInAction) {
             return;
         }
 
         callback.call(this, ...args);
     }
 
-    changeActiveImage(activeImage) {
-        const { onActiveImageChange } = this.props;
-        onActiveImageChange(activeImage);
+    getArrayRange(start, end) {
+        return Array(Math.abs(end - start + 1)).fill().map((_, idx) => start + idx);
+    }
+
+    countOffset(active, newActive) {
+        const { children: { length } } = this.props;
+
+        // Smallest index on left side not including clone if it exists (negative means from the end)
+        const minIndexOnLeft = active - this.getFocusSlide() + this.getIsInfinite();
+
+        // Gettings array of indexes that are on the left
+        const indexesOnLeft = minIndexOnLeft >= 0
+            ? this.getArrayRange(minIndexOnLeft, active - 1)
+            : this.getArrayRange(0, active - 1)
+                .concat(this.getArrayRange(length + minIndexOnLeft, length - 1));
+
+        // Getting first left index
+        const firstLeftIndex = minIndexOnLeft < 0 ? length + minIndexOnLeft : minIndexOnLeft;
+
+        /* Check if new active slide is on the left and, in case slide count is even,
+        check if new active slide is not first on the left */
+        if (indexesOnLeft.includes(newActive) && (length % 2 !== 0 || newActive !== firstLeftIndex)) {
+            if (newActive > active) {
+                return -(length - newActive + active);
+            }
+
+            return -(active - newActive);
+        }
+
+        if (newActive < active) {
+            return length - active + newActive;
+        }
+
+        return newActive - active;
+    }
+
+    changeActiveSlide(newActiveSlide, dragOffset = 0) {
+        const { onActiveSlideChange } = this.props;
+        const { activeSlide } = this.state;
+
+        this.animInAction = true;
+
+        setTimeout(() => {
+            this.animInAction = false;
+        }, ANIMATION_DURATION);
+
+        // Count offset to translate slider before animation (only for infinite slider)
+        const offset = this.countOffset(activeSlide, newActiveSlide);
+        const translate = (-this.getFocusSlide() + offset) * this.getSlideWidth() + dragOffset;
+
+        if (this.getIsInfinite()) {
+            this.setAnimationSpeedStyle(0);
+            this.setTranslateXStyle(translate);
+        } else {
+            // If slider is not infinite translate it to left activeSlide times
+            this.setAnimationSpeedStyle();
+            this.setTranslateXStyle(-newActiveSlide * this.getSlideWidth());
+        }
+
+        this.setState({ activeSlide: newActiveSlide });
+        onActiveSlideChange(newActiveSlide);
     }
 
     renderCrumbs() {
         const { children } = this.props;
-        if (children.length <= 1) {
+
+        if (!this.getIsScrollable()) {
             return null;
         }
 
@@ -392,8 +447,8 @@ export class Slider extends PureComponent {
     }
 
     renderCrumb(_, i) {
-        const { activeImage } = this.props;
-        const isActive = i === Math.abs(-activeImage);
+        const { activeSlide } = this.state;
+        const isActive = i === activeSlide;
 
         return (
             <button
@@ -401,7 +456,7 @@ export class Slider extends PureComponent {
               elem="Image"
               mods={ { type: 'single' } }
               // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => this.changeActiveImage(i) }
+              onClick={ () => this.changeActiveSlide(i) }
             >
                 <div
                   block="Slider"
@@ -412,25 +467,72 @@ export class Slider extends PureComponent {
         );
     }
 
-    renderSliderContent() {
-        const { activeImage, children, isVertical } = this.props;
+    getSlideList(firstLeftIndex) {
+        const { children, children: { length } } = this.props;
 
-        if (!this.getIsSlider()) {
+        // Left and right clones are previous and next from first and last slides respectively
+        const leftCloneIndex = firstLeftIndex === 0 ? length - 1 : firstLeftIndex - 1;
+        const rightCloneIndex = firstLeftIndex >= length ? 0 : firstLeftIndex;
+
+        // Cloning necessary children with new key
+        if (this.childrenClones.length !== length) {
+            this.cloneChildren();
+        }
+
+        // Necessary order slide list array
+        return [
+            this.childrenClones[leftCloneIndex],
+            ...children.slice(firstLeftIndex, length),
+            ...children.slice(0, firstLeftIndex),
+            this.childrenClones[rightCloneIndex]
+        ];
+    }
+
+    renderSlides() {
+        const { children } = this.props;
+
+        if (!this.getIsInfinite()) {
             return children;
         }
 
+        const { activeSlide } = this.state;
+
+        /*
+            Getting index of slide to start rendering from (not including clone).
+
+            To get it we subtract focusSlide from activeSlide and add 1 or 0
+            depending on is slider infinite (to not include clone).
+            If received value is negative that means index from the end.
+        */
+        const indexLeftShift = activeSlide - this.getFocusSlide() + this.getIsInfinite();
+        const firstLeftIndex = indexLeftShift < 0 ? children.length + indexLeftShift : indexLeftShift;
+
+        return this.getSlideList(firstLeftIndex);
+    }
+
+    renderSlider() {
+        if (!this.getIsScrollable()) {
+            const { children } = this.props;
+            return children;
+        }
+
+        const {
+            isVertical,
+            isWidget
+        } = this.props;
+
         return (
             <Draggable
-              mix={ { block: 'Slider', elem: 'Wrapper', mods: { isVertical } } }
+              mix={ { block: 'Slider', elem: 'Wrapper', mods: { isVertical, isWidget } } }
               draggableRef={ this.draggableRef }
               onDragStart={ this.handleDragStart }
               onDragEnd={ this.handleDragEnd }
               onDrag={ this.handleDrag }
               onClick={ this.handleClick }
-              shiftX={ -activeImage * this.getSlideWidth() }
-              shiftY={ -activeImage * this.getSlideWidth() }
+              shiftX={ this.getFocusSlideTranslate() }
+              shiftY={ this.getFocusSlideTranslate() }
             >
-                { children }
+                { this.renderSlides() }
             </Draggable>
         );
     }
@@ -447,7 +549,7 @@ export class Slider extends PureComponent {
               mix={ mix }
               ref={ this.getSliderRef() }
             >
-                { this.renderSliderContent() }
+                { this.renderSlider() }
                 { showCrumbs && this.renderCrumbs() }
             </div>
         );

@@ -95,7 +95,7 @@ export class ProductGallery extends PureComponent {
             this.updateSharedDestinationElement();
         }
 
-        if (sliderRef && pathname !== prevPathname) {
+        if (sliderRef.current.draggableRef && pathname !== prevPathname) {
             CSS.setVariable(
                 sliderRef.current.draggableRef,
                 'animation-speed',
@@ -325,8 +325,8 @@ export class ProductGallery extends PureComponent {
                   sliderRef={ sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider', mods } }
                   showCrumbs
-                  activeImage={ activeImage }
-                  onActiveImageChange={ onActiveImageChange }
+                  activeSlide={ activeImage }
+                  onActiveSlideChange={ onActiveImageChange }
                   isInteractionDisabled={ isZoomEnabled }
                   onClick={ this.handleSliderClick }
                   sliderHeight={ isImageZoomPopupActive ? '100%' : 0 }

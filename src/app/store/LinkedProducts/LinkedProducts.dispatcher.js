@@ -74,7 +74,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     prepareRequest(product_links) {
         const relatedSKUs = product_links.reduce((links, link) => {
             const { linked_product_sku } = link;
-            return [...links, `"${ linked_product_sku.replace(/ /g, '%20') }"`];
+            return [...links, `${ linked_product_sku.replace(/ /g, '%20') }`];
         }, []);
 
         return [

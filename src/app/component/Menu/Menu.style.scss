@@ -295,14 +295,11 @@
         will-change: clip-path;
         clip-path: inset(0 0 100% 0);
         margin: auto;
+        overflow-y: auto;
+        max-height: calc(100vh - var(--header-nav-height));
 
         &_isVisible {
             clip-path: inset(0);
-        }
-
-        @media (min-width: 1024px) and (max-width: 1130px) {
-            max-height: calc(80vh - var(--header-nav-height));
-            overflow-y: auto;
         }
     }
 
