@@ -25,6 +25,10 @@
             "custom-properties",
             "declarations",
             "rules"
+        ],
+        "length-zero-no-unit": [
+            true,
+            { "ignore": ["custom-properties"] }
         ]
     }
 }

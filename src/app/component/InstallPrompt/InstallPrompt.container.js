@@ -33,7 +33,7 @@ export class InstallPromptContainer extends PureComponent {
     };
 
     state = {
-        isBannerClosed: BrowserDatabase.getItem('postpone_installation'),
+        isBannerClosed: !!BrowserDatabase.getItem('postpone_installation'),
         hasInstallPromptEvent: false
     };
 

@@ -566,11 +566,10 @@
 }
 
 @mixin compare-icon($background-color) {
-    height: 30px;
-    width: 10px;
+    height: 22px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(.7);
+    transform: translate(-50%, -50%);
 
     &,
     &::before,
@@ -578,7 +577,8 @@
         display: block;
         background-color: $background-color;
         position: absolute;
-        width: 10px;
+        width: 8px;
+        box-sizing: border-box;
     }
 
     &::before,
@@ -588,12 +588,12 @@
     }
 
     &::before {
-        height: 10px;
-        left: -12px;
+        height: 8px;
+        left: -10px;
     }
 
     &::after {
-        height: 20px;
-        right: -12px;
+        height: 16px;
+        right: -10px;
     }
 }

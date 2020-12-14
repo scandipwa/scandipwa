@@ -9,4 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductCompareAttributeRow.container';
+.ProductComparePage {
+    .ContentWrapper {
+        @include mobile {
+            min-height: calc(100vh - var(--header-total-height) - var(--navigation-tabs-height));
+            padding: 0;
+        }
+    }
+}

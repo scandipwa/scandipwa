@@ -12,13 +12,17 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Html from 'Component/Html';
+import { DeviceType } from 'Type/Device';
+
 import './ProductCompareAttributeRow.style';
 
 /** @namespace Component/ProductCompareAttributeRow/Component */
 export class ProductCompareAttributeRow extends PureComponent {
     static propTypes = {
         title: PropTypes.string.isRequired,
-        values: PropTypes.array.isRequired
+        values: PropTypes.array.isRequired,
+        device: DeviceType.isRequired
     };
 
     renderTitle() {
@@ -38,15 +42,27 @@ export class ProductCompareAttributeRow extends PureComponent {
 
         return (
             <div block="ProductCompareAttributeRow" elem="Value" key={ i }>
-                { value }
+                <Html content={ value } />
             </div>
         );
     }
 
     renderValues() {
-        const { values } = this.props;
+        const {
+            device: { isMobile },
+            values
+        } = this.props;
+        const renderableValues = values.map(this.renderValue);
 
-        return values.map(this.renderValue);
+        if (!isMobile) {
+            return renderableValues;
+        }
+
+        return (
+            <div block="ProductCompareAttributeRow" elem="Values">
+                { renderableValues }
+            </div>
+        );
     }
 
     render() {

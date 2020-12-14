@@ -23,7 +23,9 @@ export const ProductCompareDispatcher = import(
 );
 
 /** @namespace Component/ProductCompareItem/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Component/ProductCompareItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({

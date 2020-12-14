@@ -14,19 +14,35 @@
     margin-top: 1rem;
     font-size: 1.4rem;
 
+    @include mobile {
+        display: block;
+        margin: 1rem 0;
+    }
+
     &-Title {
         flex: 0 0 auto;
         width: var(--product-compare-sidebar-width);
+
+        @include mobile {
+            position: sticky;
+            left: 0;
+            font-weight: 600;
+            padding: 1rem;
+            white-space: nowrap;
+        }
+    }
+
+    &-Values {
+        display: flex;
     }
 
     &-Value {
-        flex: 1;
+        flex: 0 0 auto;
         padding: 0 var(--product-compare-item-gap);
-        min-width: var(--product-compare-column-width);
+        width: var(--product-compare-column-width);
 
         &:last-child {
             padding-right: 0;
-            margin-right: var(--product-compare-item-gap);
         }
     }
 }

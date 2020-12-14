@@ -53,6 +53,7 @@ import {
     MENU_SUBCATEGORY,
     PDP,
     POPUP,
+    PRODUCT_COMPARE,
     SEARCH
 } from './Header.config';
 
@@ -187,6 +188,9 @@ export class Header extends NavigationAbstract {
         [CONTACT_US]: {
             title: true,
             back: true
+        },
+        [PRODUCT_COMPARE]: {
+            title: true
         }
     };
 
@@ -199,8 +203,8 @@ export class Header extends NavigationAbstract {
         logo: this.renderLogo.bind(this),
         account: this.renderAccount.bind(this),
         minicart: this.renderMinicart.bind(this),
-        search: this.renderSearchField.bind(this),
         compare: this.renderComparePageButton.bind(this),
+        search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this)
@@ -302,6 +306,12 @@ export class Header extends NavigationAbstract {
     }
 
     renderComparePageButton() {
+        const { device } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
+
         return (
             <Link
               to="compare"

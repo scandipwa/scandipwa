@@ -120,7 +120,7 @@ export class ProductCompare extends PureComponent {
     }
 
     renderEmpty() {
-        return <div block="ProductCompare" elem="Empty">{ __('Compare list is empty') }</div>;
+        return <div block="ProductCompare" elem="Empty">{ __('You have nothing to compare') }</div>;
     }
 
     render() {

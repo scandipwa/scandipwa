@@ -10,40 +10,76 @@
  */
 
 :root {
+    --product-compare-area-width: var(--content-wrapper-width);
     --product-compare-sidebar-width: 200px;
-    --product-compare-item-count: 3;
+    --product-compare-item-count: 4;
+
+    @include mobile {
+        --product-compare-area-width: 100vw;
+        --product-compare-sidebar-width: 0px;
+        --product-compare-item-count: 2.1;
+    }
+
     --product-compare-item-gap: 1rem;
-    --product-compare-column-width: calc((var(--content-wrapper-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
+    --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
     --product-compare-border-color: var(--secondary-dark-color);
+    --product-compare-attribute-table-background-color: var(--secondary-base-color);
 }
 
 .ProductCompare {
     overflow: auto;
     padding-bottom: 1.5rem;
 
+    @include mobile {
+        padding: 0;
+        min-height: calc(100vh - var(--header-total-height) - var(--navigation-tabs-height));
+        display: flex;
+        flex-direction: column;
+    }
+
     &-Row {
         display: flex;
         align-items: stretch;
         margin-top: 2rem;
+
+        @include mobile {
+            flex: 0 0 auto;
+        }
     }
 
     &-FirstColumn {
         flex: 0 0 auto;
         width: var(--product-compare-sidebar-width);
+
+        @include mobile {
+            display: none;
+        }
     }
 
     &-Item {
-        min-width: var(--product-compare-column-width);
+        flex: 0 0 auto;
+        width: var(--product-compare-column-width);
         padding: 0 var(--product-compare-item-gap);
 
         &:last-child {
             padding-right: 0;
-            margin-right: var(--product-compare-item-gap);
+        }
+
+        @include mobile {
+            padding: 0;
         }
     }
 
     &-AttributeTable {
         margin-top: 2rem;
+
+        @include mobile {
+            flex: 1;
+            min-width: fit-content;
+            width: 100%;
+            background-color: var(--product-compare-attribute-table-background-color);
+            border-bottom: 1px solid transparent;
+        }
     }
 
     &-Empty {
@@ -54,10 +90,29 @@
     .ClearButton {
         display: flex;
         align-items: center;
-        // TODO insert a trash icon
 
         button {
+            @include clear-button;
+
+            height: 35px;
+            padding-left: 35px;
             text-transform: uppercase;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    .ProductPriceRow {
+        min-width: fit-content;
+        width: 100%;
+        border-bottom: 1px solid var(--product-compare-border-color);
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+
+        @include mobile {
+            display: none;
         }
     }
 
@@ -66,18 +121,20 @@
         font-weight: 600;
         font-size: 1.8rem;
         margin: 0;
-        border-bottom: 1px solid var(--product-compare-border-color);
-        padding-bottom: 1rem;
     }
 
     .ProductPrice {
-        flex: 1;
+        flex: 0 0 auto;
         padding: 0 var(--product-compare-item-gap);
-        min-width: var(--product-compare-column-width);
+        width: var(--product-compare-column-width);
 
         &:last-child {
             padding-right: 0;
-            margin-right: var(--product-compare-item-gap);
+        }
+
+        @include mobile {
+            padding: 0;
+            width: auto;
         }
     }
 }

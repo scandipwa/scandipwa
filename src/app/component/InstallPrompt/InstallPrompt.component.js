@@ -51,14 +51,14 @@ export class InstallPrompt extends PureComponent {
     }
 
     renderPrompt() {
-        const { device } = this.props;
+        const { device, containerFunctions } = this.props;
 
         if (device.ios) {
-            return <InstallPromptIOS { ...this.containerFunctions } />;
+            return <InstallPromptIOS { ...containerFunctions } />;
         }
 
         if (device.android) {
-            return <InstallPromptAndroid { ...this.containerFunctions } />;
+            return <InstallPromptAndroid { ...containerFunctions } />;
         }
 
         return null;

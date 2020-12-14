@@ -310,7 +310,6 @@
                 @include desktop {
                     cursor: default;
                     height: auto;
-                    margin-right: 1.44rem;
                     width: auto;
                 }
             }
@@ -360,28 +359,27 @@
 
             &_compare {
                 @include button-visible;
+                margin: 0 7.5px;
             }
         }
     }
 
     &-CompareIcon {
-        @include compare-icon(var(--header-color));
+        @include compare-icon(transparent);
 
         &,
         &::before,
         &::after {
-            background: transparent;
             border: 1px solid var(--header-color);
-            box-sizing: border-box;
         }
 
         &::before {
-            left: -14px;
+            left: -11px;
             bottom: -1px;
         }
 
         &::after {
-            right: -14px;
+            right: -11px;
             bottom: -1px;
         }
     }

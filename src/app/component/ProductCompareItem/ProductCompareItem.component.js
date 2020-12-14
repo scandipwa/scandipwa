@@ -16,6 +16,8 @@ import AddToCart from 'Component/AddToCart';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import ProductPrice from 'Component/ProductPrice';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import {
@@ -30,7 +32,8 @@ export class ProductCompareItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         product: ProductType.isRequired,
-        removeComparedProduct: PropTypes.func.isRequired
+        removeComparedProduct: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     renderProductImage() {
@@ -126,9 +129,23 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
+    renderPrice() {
+        const {
+            device: { isMobile } = {},
+            product: { price_range } = {}
+        } = this.props;
+
+        if (!isMobile) {
+            return null;
+        }
+
+        return <ProductPrice price={ price_range } />;
+    }
+
     renderProductDetails() {
         return (
             <div block="ProductCompareItem" elem="Details">
+                { this.renderPrice() }
                 { this.renderTitle() }
                 { this.renderConfigurations() }
                 { this.renderAddToCartBtn() }

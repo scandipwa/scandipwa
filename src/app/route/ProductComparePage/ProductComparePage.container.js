@@ -88,7 +88,7 @@ export class ProductComparePageContainer extends DataContainer {
 
         setHeaderState({
             name: PRODUCT_COMPARE,
-            title: __('Product Compare')
+            title: __('Compare')
         });
     }
 

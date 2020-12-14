@@ -15,13 +15,13 @@ import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import ProductCompare from 'Component/ProductCompare';
-// import { DeviceType } from 'Type/Device';
+
+import './ProductComparePage.style';
 
 /** @namespace Route/ComparePage/Component */
 export class ProductComparePage extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool // ,
-        // device: DeviceType.isRequired
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
