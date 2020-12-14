@@ -41,7 +41,6 @@
 
         &_isWidget {
             @include mobile {
-                width: 80%;
                 margin: auto;
                 overflow: visible;
             }
@@ -64,6 +63,12 @@
                 margin-bottom: calc(var(--slider-height) * .1);
                 height: calc(var(--slider-height) * .8);
                 overflow: visible;
+            }
+        }
+
+        &_isInfinite {
+            @include mobile {
+                width: 80%;
             }
         }
     }
