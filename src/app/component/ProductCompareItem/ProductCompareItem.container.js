@@ -46,7 +46,9 @@ export class ProductCompareItemContainer extends PureComponent {
     };
 
     containerFunctions = {
-        removeComparedProduct: this.removeComparedProduct.bind(this)
+        removeComparedProduct: this.removeComparedProduct.bind(this),
+        getGroupedProductQuantity: this.getGroupedProductQuantity.bind(this),
+        getProductOptionsData: this.getProductOptionsData.bind(this)
     };
 
     async removeComparedProduct() {
@@ -57,6 +59,34 @@ export class ProductCompareItemContainer extends PureComponent {
 
         this.setState({ isLoading: true });
         await removeComparedProduct(id);
+    }
+
+    getGroupedProductQuantity() {
+        const { product: { items } = {} } = this.props;
+
+        if (!items) {
+            return {};
+        }
+
+        return items.reduce((result, item) => {
+            const { product: { id } = {} } = item;
+            Object.assign(result, { [id]: 1 });
+            return result;
+        }, {});
+    }
+
+    getProductOptionsData() {
+        const { product: { options } } = this.props;
+
+        if (!options) {
+            return { requiredOptions: [] };
+        }
+
+        return {
+            requiredOptions: options
+                .map(({ option_id, required }) => (required ? option_id : null))
+                .filter((item) => !!item)
+        };
     }
 
     render() {

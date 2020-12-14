@@ -15,7 +15,10 @@ import { PureComponent } from 'react';
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
+import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
+
+import { MAX_DISPLAY_ITEMS_BEFORE_OVERFLOW } from './ProductCompare.config';
 
 import './ProductCompare.style';
 
@@ -25,7 +28,8 @@ export class ProductCompare extends PureComponent {
         clearCompareList: PropTypes.func.isRequired,
         getAttributes: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
-        products: ProductItemsType
+        products: ProductItemsType,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -91,8 +95,11 @@ export class ProductCompare extends PureComponent {
     }
 
     renderProducts() {
+        const { products, device } = this.props;
+        const wideItems = !device.isMobile && products.length < MAX_DISPLAY_ITEMS_BEFORE_OVERFLOW;
+
         return (
-            <div block="ProductCompare">
+            <div block="ProductCompare" mods={ { wideItems } }>
                 <div
                   block="ProductCompare"
                   elem="Row"

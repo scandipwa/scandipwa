@@ -30,6 +30,13 @@
     overflow: auto;
     padding-bottom: 1.5rem;
 
+    @include desktop {
+        &_wideItems {
+            --product-compare-item-count: 3;
+            --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
+        }
+    }
+
     @include mobile {
         padding: 0;
         min-height: calc(100vh - var(--header-total-height) - var(--navigation-tabs-height));

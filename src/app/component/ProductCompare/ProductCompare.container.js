@@ -25,7 +25,8 @@ export const ProductCompareDispatcher = import(
 /** @namespace Component/ProductCompare/Container/mapStateToProps  */
 export const mapStateToProps = (state) => ({
     products: state.ProductCompareReducer.products,
-    isLoading: state.ProductCompareReducer.isLoading
+    isLoading: state.ProductCompareReducer.isLoading,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/ProductCompare/Container/mapDispatchToProps  */

@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getIndexedProducts } from 'Util/Product';
+
 import {
     CLEAR_COMPARED_PRODUCTS,
     REMOVE_COMPARED_PRODUCT,
@@ -43,7 +45,7 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
         return {
             ...state,
             count,
-            products
+            products: getIndexedProducts(products)
         };
     }
 

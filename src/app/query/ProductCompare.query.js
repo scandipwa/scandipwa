@@ -74,10 +74,13 @@ export class ProductCompareQuery extends ProductListQuery {
             'name',
             'sku',
             'url',
+            'type_id',
             this._getProductThumbnailField(),
             this._getPriceRangeField(),
             this._getComparableAttributesField(),
-            this._getConfigurableProductFragment()
+            this._getConfigurableProductFragment(),
+            this._getGroupedProductItems(),
+            this._getCustomizableProductFragment()
         ];
     }
 

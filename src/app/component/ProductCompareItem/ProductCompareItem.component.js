@@ -33,6 +33,8 @@ export class ProductCompareItem extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         product: ProductType.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
+        getGroupedProductQuantity: PropTypes.func.isRequired,
+        getProductOptionsData: PropTypes.func.isRequired,
         device: DeviceType.isRequired
     };
 
@@ -98,8 +100,9 @@ export class ProductCompareItem extends PureComponent {
         const {
             product: { configurable_options } = {}
         } = this.props;
+        const options = Object.values(configurable_options);
 
-        if (!configurable_options || !configurable_options.length) {
+        if (!options || !options.length) {
             return <div block="ProductCompareItem" elem="Options" />;
         }
 
@@ -109,21 +112,25 @@ export class ProductCompareItem extends PureComponent {
               elem="Options"
               mods={ { isLikeTable: true } }
             >
-                { configurable_options.map(this.renderConfigurationOption) }
+                { options.map(this.renderConfigurationOption) }
             </ul>
         );
     }
 
     renderAddToCartBtn() {
-        const { product } = this.props;
+        const {
+            product,
+            getGroupedProductQuantity,
+            getProductOptionsData
+        } = this.props;
 
         return (
             <AddToCart
               product={ product }
               quantity={ PRODUCT_ADD_TO_CART_DEFAULT_QUANTITY }
               configurableVariantIndex={ PRODUCT_ADD_TO_CART_DEFAULT_VARIANT_INDEX }
-              groupedProductQuantity={ {} }
-              productOptionsData={ {} }
+              groupedProductQuantity={ getGroupedProductQuantity() }
+              productOptionsData={ getProductOptionsData() }
               mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
             />
         );
