@@ -103,8 +103,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 85px;
-        height: 21px;
+        width: 105px;
+        height: 25px;
         position: absolute;
         bottom: 9px;
         background-color: var(--product-cart-reviews-background);
@@ -176,15 +176,12 @@
     }
 
     &-WishListButton {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         background-color: var(--product-cart-wishlist-button-background);
         border: none;
         transition: all .2s;
         opacity: .7;
-        @include mobile {
-            width: 20px;
-            height: 20px;
         }
 
         .ProductWishlistButton-Heart {
