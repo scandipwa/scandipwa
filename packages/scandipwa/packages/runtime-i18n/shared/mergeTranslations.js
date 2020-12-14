@@ -1,9 +1,14 @@
 /* eslint-disable guard-for-in, no-restricted-syntax, no-continue, no-param-reassign */
 
 /**
+ * Simple fallback function for the logging logic
+ */
+function noop() {}
+
+/**
  * Merge all the available translations as follows:
- * All the null values are ignored and do not override anything
- * The first translation that is found gets applied to the application
+ * The null values are overridable by everything, these cases are handled env-specifically.
+ * The first found translation gets applied to the application
  * Search sequence:
  *   1. child theme
  *   2. parent themes from youngest ("father") to oldest ("great-great-grandfather")
@@ -13,28 +18,21 @@
  * @param {object[]} translations
  * @returns {object}
  */
-module.exports = function mergeTranslations(translations) {
+module.exports = function mergeTranslations(translations, handleOverridden = noop) {
     return translations.reduce((mergedTranslations, incomingTranslations) => {
         for (const key in incomingTranslations) {
-            // Skip if already translated
+            // * Skip if already translated
             if (mergedTranslations[key]) {
                 continue;
             }
 
             const incomingValue = incomingTranslations[key];
 
-            // TODO hide for production mode
-            // TODO hide for compilation
-            // TODO hide for the default locale
-            // If currently translated as `null` and overriding with value => notify!
+            // * Handle if overriding null
             if (mergedTranslations[key] === null && incomingValue) {
-                console.warn(
-                    `Overriding translation for key "${key}": null => "${incomingValue}" `
-                    + 'from a translation file with less priority.'
-                );
+                handleOverridden(key, incomingValue);
             }
 
-            // Write the new value into the translation object
             mergedTranslations[key] = incomingValue;
         }
 

@@ -10,7 +10,6 @@
  */
 
 const LocalizationManager = require('./localization-manager');
-const afterEmitLogger = require('@scandipwa/after-emit-logger');
 
 /**
  * @param {object} options object
@@ -30,9 +29,9 @@ class WebpackI18nTracker {
     emitHandler = () => {
         this.localizationManager.updateUsedTranslations();
         this.localizationManager.loadTranslationMap();
+        this.localizationManager.handleOverriddenEmptyTranslations();
         this.localizationManager.handleMissingTranslations();
         this.localizationManager.handleUnusedTranslations();
-        afterEmitLogger.emitLogs();
 
         return true;
     }

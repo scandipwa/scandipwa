@@ -1,5 +1,9 @@
 const logger = require('@scandipwa/scandipwa-dev-utils/logger');
 
+/**
+ * Warn the user about any unused translations present in the translation files
+ * @param {object} unusedTranslationMap
+ */
 module.exports = (unusedTranslationMap) => {
     const unusedForLocales = Object
         .entries(unusedTranslationMap)

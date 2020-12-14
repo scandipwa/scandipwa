@@ -1,5 +1,9 @@
 const logger = require('@scandipwa/scandipwa-dev-utils/logger');
 
+/**
+ * Warn the user about any missing translations
+ * @param {object} missingTranslationsCountMap
+ */
 module.exports = (missingTranslationsCountMap) => {
     const missingForLocales = Object
         .entries(missingTranslationsCountMap)

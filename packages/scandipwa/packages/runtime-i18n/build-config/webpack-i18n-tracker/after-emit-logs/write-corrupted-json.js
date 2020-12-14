@@ -1,7 +1,7 @@
 const logger = require('@scandipwa/scandipwa-dev-utils/logger');
 
 /**
- * Generate error for the after emit logs
+ * Warn about attempting to write into a corrupt JSON
  * @param {string} jsonPath
  * @param {object} error
  */

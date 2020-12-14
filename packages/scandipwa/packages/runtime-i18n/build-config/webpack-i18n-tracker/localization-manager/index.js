@@ -14,13 +14,14 @@ const mergeTranslations = require('../../../shared/mergeTranslations');
 
 const unusedTranslationsMessage = require('../after-emit-logs/unused-translations');
 const missingTranslationsMessage = require('../after-emit-logs/missing-translations');
+const emptyTranslationsOverriddenMessage = require('../after-emit-logs/empty-translations-overridden');
 
 const getParentRoots = () => parentThemeHelper.getParentThemePaths(process.cwd());
-
 const getExtensionRoots = () => extensions.map((extension) => extension.packagePath);
 
 class LocalizationManager {
     moduleMap = {};
+    overriddenEmptyTranslations = {};
     defaultLocale = 'en_US';
 
     constructor(defaultLocale) {
@@ -142,7 +143,16 @@ class LocalizationManager {
         afterEmitLogger.logMessage(unusedTranslationsMessage(unusedTranslations));
     }
 
+    handleOverriddenEmptyTranslations() {
+        if (!Object.keys(this.overriddenEmptyTranslations).length) {
+            return;
+        }
+
+        afterEmitLogger.logMessage(emptyTranslationsOverriddenMessage(this.overriddenEmptyTranslations));
+    }
+
     loadTranslationMap() {
+        this.overriddenEmptyTranslations = {};
         const parentRoots = getParentRoots();
         const extensionRoots = getExtensionRoots();
 
@@ -162,11 +172,16 @@ class LocalizationManager {
                     extensionRoots,
                     localeCode
                 );
-                localeData.merged = mergeTranslations([
-                    localeData.child,
-                    ...localeData.parent,
-                    ...localeData.extensions
-                ]);
+                localeData.merged = mergeTranslations(
+                    [
+                        localeData.child,
+                        ...localeData.parent,
+                        ...localeData.extensions
+                    ],
+                    (translatable, incomingValue) => {
+                        this.overriddenEmptyTranslations[translatable] = incomingValue;
+                    }
+                );
 
                 acc[localeCode] = localeData;
                 return acc;
