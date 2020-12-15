@@ -35,14 +35,9 @@
     }
 
     &-Content {
-        padding: 1.2rem;
+        padding: 10px 0 15px;
         display: flex;
         flex-wrap: wrap;
-        padding-top: 23px;
-
-        @include mobile {
-            padding: 23px 1.4rem 1.4rem;
-        }
     }
 
     &-Name,
@@ -62,7 +57,8 @@
     }
 
     &-Name {
-        margin-bottom: .6rem;
+        margin-bottom: 5px;
+        line-height: inherit;
     }
 
     &-Brand {
@@ -103,10 +99,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 85px;
-        height: 21px;
+        width: 105px;
+        height: 25px;
         position: absolute;
-        bottom: 9px;
+        bottom: 0;
         background-color: var(--product-cart-reviews-background);
         border-radius: 1rem;
         letter-spacing: normal;
@@ -132,7 +128,7 @@
         height: var(--product-card-color-size);
         border-radius: 50%;
         overflow: hidden;
-        margin: 4px 7px 0 0;
+        margin: 5px 7px 0 0;
         border: 1px solid var(--product-card-color-border-color);
     }
 
@@ -142,7 +138,7 @@
         display: inline-block;
         text-align: center;
         padding: 0 6px;
-        margin: 1px;
+        margin: 5px 7px 0 0;
         line-height: 15px;
         min-width: 20px;
     }
@@ -176,18 +172,16 @@
     }
 
     &-WishListButton {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         background-color: var(--product-cart-wishlist-button-background);
         border: none;
         transition: all .2s;
         opacity: .7;
-        @include mobile {
-            width: 20px;
-            height: 20px;
-        }
 
         .ProductWishlistButton-Heart {
+            --wishlist-heart-size: 15px;
+
             transform: scale(.7) rotate(-45deg);
             background-color: #d8d5d5;
 
