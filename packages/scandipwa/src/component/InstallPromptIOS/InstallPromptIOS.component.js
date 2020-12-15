@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import './InstallPromptIOS.style';
+import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 
 /** @namespace Component/InstallPromptIOS/Component */
 export class InstallPromptIOS extends PureComponent {
@@ -19,14 +20,24 @@ export class InstallPromptIOS extends PureComponent {
         handleBannerClose: PropTypes.func.isRequired
     };
 
-    renderCloseButton() {
-        const { handleBannerClose } = this.props;
+    state = {
+        isDismissed: false
+    };
 
+    dismissInstallPrompt = () => {
+        this.setState({
+            isDismissed: true
+        });
+        const THREE_DAYS_IN_SECONDS = '259200';
+        BrowserDatabase.setItem(true, 'postpone_installation', THREE_DAYS_IN_SECONDS);
+    };
+
+    renderCloseButton() {
         return (
             <button
-              block="InstallPromptIOS"
-              elem="Close"
-              onClick={ handleBannerClose }
+                block="InstallPromptIOS"
+                elem="Close"
+                onClick={ this.dismissInstallPrompt }
             >
                 { __('Maybe later') }
             </button>
@@ -55,11 +66,15 @@ export class InstallPromptIOS extends PureComponent {
 
     render() {
         return (
-            <div block="InstallPromptIOS">
-                { this.renderHeading() }
-                { this.renderContent() }
-                { this.renderCloseButton() }
-            </div>
+            <>
+                { !this.state.isDismissed &&
+                    <div block="InstallPromptIOS">
+                        { this.renderHeading() }
+                        { this.renderContent() }
+                        { this.renderCloseButton() }
+                    </div>
+                }
+            </>
         );
     }
 }
