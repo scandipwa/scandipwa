@@ -1,0 +1,14 @@
+{
+    "name": "@scandipwa/service-worker",
+    "version": "0.0.0",
+    "license": "proprietary",
+    "scandipwa": {
+        "type": "extension",
+        "provide": [
+            "src/service-worker.js"
+        ]
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    }
+}
