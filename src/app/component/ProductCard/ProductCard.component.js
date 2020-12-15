@@ -52,7 +52,8 @@ export class ProductCard extends PureComponent {
         mix: PropTypes.shape({}),
         renderContent: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
         isConfigurableProductOutOfStock: PropTypes.func.isRequired,
-        isBundleProductOutOfStock: PropTypes.func.isRequired
+        isBundleProductOutOfStock: PropTypes.func.isRequired,
+        hideWishlistButton: PropTypes.bool
     };
 
     static defaultProps = {
@@ -61,7 +62,8 @@ export class ProductCard extends PureComponent {
         children: null,
         isLoading: false,
         mix: {},
-        renderContent: false
+        renderContent: false,
+        hideWishlistButton: false
     };
 
     contentObject = {
@@ -240,7 +242,11 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductCardWishlistButton() {
-        const { product } = this.props;
+        const { product, hideWishlistButton } = this.props;
+
+        if (hideWishlistButton) {
+            return null;
+        }
 
         return (
             <ProductWishlistButton
