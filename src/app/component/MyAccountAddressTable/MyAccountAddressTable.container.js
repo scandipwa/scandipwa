@@ -70,9 +70,15 @@ export class MyAccountAddressTableContainer extends PureComponent {
 
     getFormatedRegion(address) {
         const { countries } = this.props;
-        const { country_id, region: { region_id, region } } = address;
+        const { country_id, region: regionData } = address;
 
+        if (!regionData) {
+            return {};
+        }
+
+        const { region_id, region } = regionData;
         const country = countries.find(({ id }) => id === country_id);
+
         if (!country) {
             return {};
         }

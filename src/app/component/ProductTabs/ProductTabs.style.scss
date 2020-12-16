@@ -9,4 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductInformation.component';
+.ProductTabs {
+    display: none;
+    border-bottom: 1px solid var(--expandable-content-divider-color);
+
+    @include desktop {
+        display: flex;
+    }
+}

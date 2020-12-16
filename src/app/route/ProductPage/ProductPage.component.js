@@ -15,18 +15,20 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
+import ProductAttributes from 'Component/ProductAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductGallery from 'Component/ProductGallery';
 import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
+import ProductTabs from 'Component/ProductTabs';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
-
 /** @namespace Route/ProductPage/Component */
+
 export class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
@@ -112,14 +114,21 @@ export class ProductPage extends PureComponent {
         return (
             <>
                 { this.renderCustomizableOptions() }
-                <ProductInformation
-                  product={ { ...dataSource, parameters } }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
-                <ProductReviews
-                  product={ dataSource }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
+                <ProductTabs tabNames={ [__('About'), __('Details'), __('Reviews')] }>
+                    <ProductInformation
+                      product={ { ...dataSource, parameters } }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                    <ProductAttributes
+                      product={ { ...dataSource, parameters } }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                    <ProductReviews
+                      product={ dataSource }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                </ProductTabs>
+
                 <ProductLinks
                   linkType={ RELATED }
                   title={ __('Recommended for you') }

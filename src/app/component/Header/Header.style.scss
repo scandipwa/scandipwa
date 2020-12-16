@@ -82,9 +82,7 @@
     }
 
     &-Wrapper {
-        @include desktop {
-            margin-bottom: var(--header-total-height);
-        }
+        margin-bottom: var(--header-total-height);
     }
 
     &_isHiddenOnMobile {

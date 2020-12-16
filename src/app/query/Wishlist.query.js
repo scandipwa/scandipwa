@@ -33,7 +33,7 @@ export class WishlistQuery {
         return new Field('s_saveWishlistItem')
             .setAlias('saveWishlistItem')
             .addArgument('wishlistItem', 'WishlistItemInput!', wishlistItem)
-            .addFieldList(this._getItemsFields());
+            .addFieldList(this._getWishlistItemsFields());
     }
 
     getShareWishlistMutation(input) {
@@ -78,12 +78,18 @@ export class WishlistQuery {
         ];
     }
 
-    _getItemsFields() {
+    _getWishlistItemsFields() {
         return [
             'id',
             'sku',
             'qty',
-            'description',
+            'description'
+        ];
+    }
+
+    _getItemsFields() {
+        return [
+            ...this._getWishlistItemsFields(),
             this._getProductField()
         ];
     }
