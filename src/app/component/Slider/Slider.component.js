@@ -100,6 +100,7 @@ export class Slider extends PureComponent {
 
         setTimeout(() => {
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
+            this.setStyleVariablesOnMount();
         }, ANIMATION_DURATION);
 
         this.setAnimationSpeedStyle(0);
