@@ -130,16 +130,26 @@ export class ProductCardContainer extends PureComponent {
     }
 
     _getThumbnail() {
+        const { selectedFilters = {} } = this.props;
+        let key, count = 0;
+
+        for(key in selectedFilters) {
+            if (selectedFilters.hasOwnProperty(key)) {
+                count++;
+            }
+        }
+
+        if (count === 0) {
+            const { product: { small_image: { url: parentUrl } = {} } } = this.props;
+            if (this._isThumbnailAvailable(parentUrl)) {
+                return parentUrl;
+            }
+        }
+
         const product = this._getProductOrVariant();
         const { small_image: { url } = {} } = product;
         if (this._isThumbnailAvailable(url)) {
             return url;
-        }
-
-        // If thumbnail is, missing we try to get image from parent
-        const { product: { small_image: { url: parentUrl } = {} } } = this.props;
-        if (this._isThumbnailAvailable(parentUrl)) {
-            return parentUrl;
         }
 
         return '';
