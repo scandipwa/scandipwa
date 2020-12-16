@@ -31,6 +31,15 @@
 
     transition: height var(--height-transition-speed);
 
+    @include before-desktop {
+        width: 100vw;
+        max-width: 100vw;
+
+        position: relative;
+        margin-left: -50vw;
+        left: 50%;
+    }
+
     &-Wrapper {
         display: flex;
         align-items: flex-start;
@@ -80,7 +89,7 @@
         bottom: 1.2rem;
 
         @include mobile {
-            bottom: 1.4rem;
+            display: none;
         }
     }
 
