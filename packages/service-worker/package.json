@@ -4,6 +4,11 @@
     "license": "proprietary",
     "scandipwa": {
         "type": "extension",
+        "build": {
+            "cracoPlugins": [
+                "build-config/workbox-dev.js"
+            ]
+        },
         "provide": [
             "src/service-worker.js"
         ]

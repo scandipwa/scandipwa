@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 /* eslint-disable no-restricted-globals */
 
 // This service worker can be customized!
@@ -12,6 +13,8 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
+
+const RESPONSE_OK = 200;
 
 clientsClaim();
 
@@ -29,29 +32,39 @@ export const fileExtensionRegexp = new RegExp('/[^/?]+\\.[^/]+$');
 registerRoute(
     // Return false to exempt requests from being fulfilled by index.html.
     ({ request, url }) => {
-    // If this isn't a navigation, skip.
-        if (request.mode !== 'navigate') {
+        if (navigator.onLine) {
+            // If we are online - do not respond from cache
             return false;
-        } // If this is a URL that starts with /_, skip.
+        }
+
+        if (request.mode !== 'navigate') {
+            // If this isn't a navigation, skip.
+            return false;
+        }
 
         if (url.pathname.startsWith('/_')) {
+            // If this is a URL that starts with /_, skip.
             return false;
-        } // If this looks like a URL for a resource, because it contains // a file extension, skip.
+        }
 
         if (url.pathname.match(fileExtensionRegexp)) {
+            // If this looks like a URL for a resource, because it contains // a file extension, skip.
             return false;
-        } // Return true to signal that we want to use the handler.
+        }
 
+        // Return true to signal that we want to use the handler.
         return true;
     },
-    createHandlerBoundToURL(`${process.env.PUBLIC_URL }/index.html`)
+    createHandlerBoundToURL(`${ process.env.PUBLIC_URL }/index.html`)
 );
 
-// An example runtime caching route for requests that aren't handled by the
-// precache, in this case same-origin .png requests like those from in public/
+// Cache same-origin image requests
 registerRoute(
-    // Add in any other file extensions or routing criteria as needed.
-    ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.png'), // Customize this strategy as needed, e.g., by changing to CacheFirst.
+    ({ url }) => (
+        url.origin === self.location.origin
+        // cache png, gif, jpeg, jpg in image cache
+        && /.(jpe?g|png|gif)$/.test(url.pathname)
+    ),
     new StaleWhileRevalidate({
         cacheName: 'images',
         plugins: [
@@ -62,6 +75,43 @@ registerRoute(
     })
 );
 
+const makeRequestAndUpdateCache = async (request, cache) => {
+    const response = await fetch(request);
+    const isValid = response.status === RESPONSE_OK;
+    const responseToCache = response.clone();
+
+    if (isValid) {
+        cache.put(request.url, responseToCache);
+    }
+
+    return response;
+};
+
+registerRoute(
+    /\/graphql/,
+    async ({ event }) => {
+        const { request } = event;
+        const cache = await caches.open('graphql');
+        const hasResponse = await cache.has(request);
+
+        if (!hasResponse) {
+            // if there is no cached response (notice, we return promise)
+            event.respondWith(makeRequestAndUpdateCache(request, cache));
+        }
+
+        // Give imidiate response & revalidate it (notice, we return promise)
+        event.respondWith(cache.match(request));
+
+        const type = request.headers.get('Application-Model');
+        const revalidatedResponse = await makeRequestAndUpdateCache(request, cache);
+        const responseClone = revalidatedResponse.clone();
+
+        const broadcast = new BroadcastChannel(type);
+        broadcast.postMessage({ payload: await responseClone.json(), type });
+        broadcast.close();
+    }
+);
+
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener('message', (event) => {
@@ -69,5 +119,3 @@ self.addEventListener('message', (event) => {
         self.skipWaiting();
     }
 });
-
-// Any other custom service worker logic can go here.
