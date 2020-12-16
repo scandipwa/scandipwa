@@ -140,6 +140,7 @@ export class SliderWidget extends PureComponent {
         const { slider: { slides, title: block }, isVertical } = this.props;
 
         const children = slides.map(this.renderSlide);
+        const isInfinite = slides.length > 1;
 
         return (
             <Slider
@@ -148,7 +149,7 @@ export class SliderWidget extends PureComponent {
               activeSlide={ activeSlide }
               onActiveSlideChange={ this.onActiveSlideChange }
               isVertical={ isVertical }
-              infinite
+              infinite={ isInfinite }
               isWidget
             >
                 { children }

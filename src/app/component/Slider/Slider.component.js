@@ -518,12 +518,13 @@ export class Slider extends PureComponent {
 
         const {
             isVertical,
-            isWidget
+            isWidget,
+            infinite: isInfinite
         } = this.props;
 
         return (
             <Draggable
-              mix={ { block: 'Slider', elem: 'Wrapper', mods: { isVertical, isWidget } } }
+              mix={ { block: 'Slider', elem: 'Wrapper', mods: { isVertical, isWidget, isInfinite } } }
               draggableRef={ this.draggableRef }
               onDragStart={ this.handleDragStart }
               onDragEnd={ this.handleDragEnd }
