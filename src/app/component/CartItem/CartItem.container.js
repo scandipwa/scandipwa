@@ -46,6 +46,9 @@ export const mapDispatchToProps = (dispatch) => ({
     removeProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
     ),
+    updateCrosssellProducts: (items) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateCrosssellProducts(items, dispatch)
+    ),
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
@@ -55,7 +58,13 @@ export class CartItemContainer extends PureComponent {
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,
         changeItemQty: PropTypes.func.isRequired,
-        removeProduct: PropTypes.func.isRequired
+        removeProduct: PropTypes.func.isRequired,
+        updateCrosssellProducts: PropTypes.func.isRequired,
+        updateCrossselsOnRemove: PropTypes.bool
+    };
+
+    static defaultProps = {
+        updateCrossselsOnRemove: false
     };
 
     state = { isLoading: false };
@@ -133,8 +142,22 @@ export class CartItemContainer extends PureComponent {
      */
     handleRemoveItem() {
         this.setState({ isLoading: true }, () => {
-            const { removeProduct, item: { item_id } } = this.props;
-            this.hideLoaderAfterPromise(removeProduct(item_id));
+            const {
+                removeProduct,
+                updateCrosssellProducts,
+                updateCrossselsOnRemove,
+                item: { item_id }
+            } = this.props;
+
+            this.hideLoaderAfterPromise((async () => {
+                const result = await removeProduct(item_id);
+
+                if (result && updateCrossselsOnRemove) {
+                    await updateCrosssellProducts(result.items);
+                }
+
+                return result;
+            })());
         });
     }
 
