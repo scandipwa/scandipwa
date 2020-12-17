@@ -97,6 +97,7 @@ export class Slider extends PureComponent {
         const sliderRef = this.getSliderRef();
         const sliderHeight = `${ sliderChildren[0].getBoundingClientRect().height }px`;
 
+        CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         CSS.setVariable(sliderRef, 'slide-height', sliderHeight);
         sliderChildren[0].onload = () => {
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);

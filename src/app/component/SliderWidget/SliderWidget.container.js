@@ -72,12 +72,6 @@ export class SliderWidgetContainer extends DataContainer {
     }
 
     render() {
-        const { isLoaded } = this.state;
-
-        if (!isLoaded) {
-            return null;
-        }
-
         return (
             <SliderWidget
               { ...this.props }
