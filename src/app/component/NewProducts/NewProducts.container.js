@@ -48,7 +48,18 @@ export class NewProductsContainer extends PureComponent {
     };
 
     state = {
-        products: undefined
+        products: undefined,
+        siblingsHaveBrands: false,
+        siblingsHavePriceBadge: false,
+        siblingsHaveTierPrice: false,
+        siblingsHaveConfigurableOptions: false
+    };
+
+    productCardFunctions = {
+        setSiblingsHaveBrands: this.setSiblingsHaveBrands.bind(this),
+        setSiblingsHavePriceBadge: this.setSiblingsHavePriceBadge.bind(this),
+        setSiblingsHaveTierPrice: this.setSiblingsHaveTierPrice.bind(this),
+        setSiblingsHaveConfigurableOptions: this.setSiblingsHaveConfigurableOptions.bind(this)
     };
 
     componentDidMount() {
@@ -75,6 +86,22 @@ export class NewProductsContainer extends PureComponent {
             || cacheLifetime !== pCacheLifetime) {
             this.requestProducts();
         }
+    }
+
+    setSiblingsHaveBrands() {
+        this.setState({ siblingsHaveBrands: true });
+    }
+
+    setSiblingsHavePriceBadge() {
+        this.setState({ siblingsHavePriceBadge: true });
+    }
+
+    setSiblingsHaveTierPrice() {
+        this.setState({ siblingsHaveTierPrice: true });
+    }
+
+    setSiblingsHaveConfigurableOptions() {
+        this.setState({ siblingsHaveConfigurableOptions: true });
     }
 
     /**
@@ -138,7 +165,30 @@ export class NewProductsContainer extends PureComponent {
             );
     }
 
-    render = () => <NewProducts { ...this.props } { ...this.state } />;
+    render() {
+        const {
+            siblingsHaveBrands,
+            siblingsHavePriceBadge,
+            siblingsHaveTierPrice,
+            siblingsHaveConfigurableOptions
+        } = this.state;
+
+        const productCardProps = {
+            siblingsHaveBrands,
+            siblingsHavePriceBadge,
+            siblingsHaveTierPrice,
+            siblingsHaveConfigurableOptions
+        };
+
+        return (
+            <NewProducts
+              { ...this.props }
+              { ...this.state }
+              productCardProps={ productCardProps }
+              productCardFunctions={ this.productCardFunctions }
+            />
+        );
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewProductsContainer);

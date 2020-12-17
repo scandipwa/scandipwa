@@ -49,6 +49,20 @@ export class ProductListPage extends PureComponent {
         mix: {}
     };
 
+    state = {
+        siblingsHaveBrands: false,
+        siblingsHavePriceBadge: false,
+        siblingsHaveTierPrice: false,
+        siblingsHaveConfigurableOptions: false
+    };
+
+    productCardFunctions = {
+        setSiblingsHaveBrands: this.setSiblingsHaveBrands.bind(this),
+        setSiblingsHavePriceBadge: this.setSiblingsHavePriceBadge.bind(this),
+        setSiblingsHaveTierPrice: this.setSiblingsHaveTierPrice.bind(this),
+        setSiblingsHaveConfigurableOptions: this.setSiblingsHaveConfigurableOptions.bind(this)
+    };
+
     componentDidMount() {
         this.startObserving();
     }
@@ -59,6 +73,22 @@ export class ProductListPage extends PureComponent {
 
     componentWillUnmount() {
         this.stopObserving();
+    }
+
+    setSiblingsHaveBrands() {
+        this.setState({ siblingsHaveBrands: true });
+    }
+
+    setSiblingsHavePriceBadge() {
+        this.setState({ siblingsHavePriceBadge: true });
+    }
+
+    setSiblingsHaveTierPrice() {
+        this.setState({ siblingsHaveTierPrice: true });
+    }
+
+    setSiblingsHaveConfigurableOptions() {
+        this.setState({ siblingsHaveConfigurableOptions: true });
     }
 
     startObserving() {
@@ -138,12 +168,24 @@ export class ProductListPage extends PureComponent {
             selectedFilters
         } = this.props;
 
+        const {
+            siblingsHaveBrands,
+            siblingsHavePriceBadge,
+            siblingsHaveTierPrice,
+            siblingsHaveConfigurableOptions
+        } = this.state;
+
         return items.map((product, i) => (
             <ProductCard
               product={ product }
               // eslint-disable-next-line react/no-array-index-key
               key={ i }
               selectedFilters={ selectedFilters }
+              siblingsHaveBrands={ siblingsHaveBrands }
+              siblingsHavePriceBadge={ siblingsHavePriceBadge }
+              siblingsHaveTierPrice={ siblingsHaveTierPrice }
+              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+              { ...this.productCardFunctions }
             />
         ));
     }
