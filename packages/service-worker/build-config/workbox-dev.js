@@ -65,8 +65,6 @@ module.exports = {
                                         plugins.splice(modifiedPlugins.length - 1 - index, 1);
                                     }
                                 });
-
-                                loader.options.plugins = plugins;
                             });
                         }
                     }
