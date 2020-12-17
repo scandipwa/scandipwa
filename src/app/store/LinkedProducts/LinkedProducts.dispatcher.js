@@ -71,7 +71,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @return {Query} ProductList query
      * @memberof LinkedProductsDispatcher
      */
-    clearLinkedProducts(dispatch, updateCrosssel = false) {
+    clearLinkedProducts(dispatch, updateCrossSell = false) {
         const linkedProducts = {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
@@ -82,11 +82,11 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
 
         dispatch(updateLinkedProducts({
             ...linkedProducts,
-            updateCrosssel
+            updateCrossSell
         }));
     }
 
-    async fetchCrosssellProducts(dispatch, product_links) {
+    async fetchCrossSellProducts(dispatch, product_links) {
         const query = this.prepareRequest(product_links);
         const data = await fetchQuery(query);
         const { crosssell } = this._processResponse(data, product_links);
@@ -94,18 +94,18 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
 
         Object.assign(linkedProducts, {
             crosssell,
-            updateCrosssel: true
+            updateCrossSell: true
         });
 
         dispatch(updateLinkedProducts(linkedProducts));
     }
 
-    clearCrosssellProducts(dispatch) {
+    clearCrossSellProducts(dispatch) {
         const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS) || {};
 
         Object.assign(linkedProducts, {
             crosssell: { total_count: 0, items: [] },
-            updateCrosssel: true
+            updateCrossSell: true
         });
 
         dispatch(updateLinkedProducts(linkedProducts));

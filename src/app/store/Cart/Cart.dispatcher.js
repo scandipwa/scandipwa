@@ -231,7 +231,7 @@ export class CartDispatcher {
         );
     }
 
-    updateCrosssellProducts(items, dispatch) {
+    updateCrossSellProducts(items, dispatch) {
         if (items && items.length) {
             const product_links = items.reduce((links, product) => {
                 const { product: { product_links, variants = [] }, sku: variantSku } = product;
@@ -253,16 +253,16 @@ export class CartDispatcher {
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.fetchCrosssellProducts(dispatch, product_links)
+                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(dispatch, product_links)
                 );
             } else {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.clearCrosssellProducts(dispatch)
+                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch)
                 );
             }
         } else {
             LinkedProductsDispatcher.then(
-                ({ default: dispatcher }) => dispatcher.clearCrosssellProducts(dispatch)
+                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch)
             );
         }
     }

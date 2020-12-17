@@ -63,8 +63,8 @@ export const mapDispatchToProps = (dispatch) => ({
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    updateCrosssellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrosssellProducts(items, dispatch)
+    updateCrossSellProducts: (items) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
     )
 });
 
@@ -73,7 +73,7 @@ export class CartPageContainer extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        updateCrosssellProducts: PropTypes.func.isRequired,
+        updateCrossSellProducts: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
@@ -96,7 +96,7 @@ export class CartPageContainer extends PureComponent {
 
         this._updateBreadcrumbs();
         this._changeHeaderState();
-        this._updateCrosssellProducts();
+        this._updateCrossSellProducts();
     }
 
     componentDidUpdate(prevProps) {
@@ -268,15 +268,15 @@ export class CartPageContainer extends PureComponent {
         });
     }
 
-    _updateCrosssellProducts() {
+    _updateCrossSellProducts() {
         const {
-            updateCrosssellProducts,
+            updateCrossSellProducts,
             totals: {
                 items = []
             } = {}
         } = this.props;
 
-        updateCrosssellProducts(items);
+        updateCrossSellProducts(items);
     }
 
     render() {
