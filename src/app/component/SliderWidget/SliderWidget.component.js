@@ -40,12 +40,14 @@ export class SliderWidget extends PureComponent {
             )
         }),
         device: DeviceType.isRequired,
-        isVertical: PropTypes.bool
+        isVertical: PropTypes.bool,
+        isLoaded: PropTypes.bool
     };
 
     static defaultProps = {
         slider: [{}],
-        isVertical: false
+        isVertical: false,
+        isLoaded: false
     };
 
     state = {
@@ -135,7 +137,17 @@ export class SliderWidget extends PureComponent {
         );
     };
 
+    renderPlaceholder() {
+        return <div block="WidgetFactory" elem="SliderPlaceholder" />;
+    }
+
     render() {
+        const { isLoaded } = this.state;
+        
+        if (!isLoaded) {
+            return this.renderPlaceholder();
+        }
+
         const { activeSlide } = this.state;
         const { slider: { slides, title: block }, isVertical } = this.props;
 
