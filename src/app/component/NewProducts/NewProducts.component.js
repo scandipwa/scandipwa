@@ -33,6 +33,7 @@ export class NewProducts extends PureComponent {
     };
 
     newProductsRef = createRef();
+
     renderProductCard = this.renderProductCard.bind(this);
 
     componentDidMount() {
