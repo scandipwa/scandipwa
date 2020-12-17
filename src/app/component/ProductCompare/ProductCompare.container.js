@@ -58,7 +58,7 @@ export class ProductCompareContainer extends PureComponent {
         clearCompareList: this.clearCompareList.bind(this)
     };
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchCompareList();
     }
 

@@ -51,15 +51,17 @@
     }
 
     &_isGrey {
-        .ProductCompareButton-Button {
-            border: none;
-            background-color: var(--product-compare-button-grey-background);
-        }
+        .ProductCompareButton {
+            &-Button {
+                border: none;
+                background-color: var(--product-compare-button-grey-background);
+            }
 
-        .ProductCompareButton-Icon,
-        .ProductCompareButton-Icon::before,
-        .ProductCompareButton-Icon::after {
-            background-color: var(--product-compare-button-grey-color);
+            &,
+            &::before,
+            &::after {
+                background-color: var(--product-compare-button-grey-color);
+            }
         }
     }
 }

@@ -13,17 +13,16 @@
     --product-compare-area-width: var(--content-wrapper-width);
     --product-compare-sidebar-width: 200px;
     --product-compare-item-count: 3.2;
+    --product-compare-item-gap: 1rem;
+    --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
+    --product-compare-border-color: var(--secondary-dark-color);
+    --product-compare-attribute-table-background-color: var(--secondary-base-color);
 
     @include mobile {
         --product-compare-area-width: 100vw;
         --product-compare-sidebar-width: 0px;
         --product-compare-item-count: 2.1;
     }
-
-    --product-compare-item-gap: 1rem;
-    --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
-    --product-compare-border-color: var(--secondary-dark-color);
-    --product-compare-attribute-table-background-color: var(--secondary-base-color);
 }
 
 .ProductCompare {

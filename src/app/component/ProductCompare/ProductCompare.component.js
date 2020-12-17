@@ -127,7 +127,11 @@ export class ProductCompare extends PureComponent {
     }
 
     renderEmpty() {
-        return <div block="ProductCompare" elem="Empty">{ __('You have nothing to compare') }</div>;
+        return (
+            <div block="ProductCompare" elem="Empty">
+                { __('You have nothing to compare') }
+            </div>
+        );
     }
 
     render() {
@@ -137,7 +141,7 @@ export class ProductCompare extends PureComponent {
         } = this.props;
         const hasProducts = products && products.length;
 
-        if (isLoading && !hasProducts) {
+        if (isLoading) {
             return null;
         }
 

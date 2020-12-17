@@ -335,7 +335,7 @@ export class ProductCard extends PureComponent {
         return (
             this.renderCardLinkWrapper((
                 <>
-                    <div block="ProductCard" elem="Figure-Review">
+                    <div block="ProductCard" elem="FigureReview">
                         <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
                         </figure>
