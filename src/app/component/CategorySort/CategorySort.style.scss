@@ -46,7 +46,7 @@
         &::after {
             @include before-desktop {
                 left: 55px;
-                bottom: 22px;
+                top: -22px;
             }
         }
 
