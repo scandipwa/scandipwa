@@ -142,8 +142,8 @@ export class SliderWidget extends PureComponent {
     }
 
     render() {
-        const { isLoaded } = this.state;
-        
+        const { isLoaded } = this.props;
+
         if (!isLoaded) {
             return this.renderPlaceholder();
         }
