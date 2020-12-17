@@ -9,6 +9,9 @@
             "name": "Run npm start",
             "request": "launch",
             "type": "node-terminal",
+            "env": {
+                "BROWSER": "none"
+            },
             "cwd": "${workspaceFolder}/packages/scandipwa"
         }
         

@@ -1,7 +1,9 @@
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+/* eslint-disable no-param-reassign */
 const fs = require('fs');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const FallbackPlugin = require('@scandipwa/webpack-fallback-plugin');
 const { sources } = require('@scandipwa/scandipwa-scripts/lib/sources');
+const cloneDeep = require('lodash.clonedeep');
 
 const { getLoaders, loaderByName } = require('@scandipwa/craco');
 
@@ -33,39 +35,39 @@ module.exports = {
                 webpackCompilationPlugins: [
                     {
                         apply: (childCompiler) => {
-                            const {
-                                options,
-                                parentCompilation: { options: parentOptions }
-                            } = childCompiler;
+                            // Copy MODULE options of parent to child
+                            childCompiler.options = {
+                                ...childCompiler.options,
+                                module: cloneDeep(childCompiler.parentCompilation.options.module)
+                            };
 
                             // TODO: do that on initialize hook of compiler ???
-                            // TODO: make sure parent options do not change !!!
 
-                            try {
-                                const {
-                                    hasFoundAny: hasAnyBabelLoaders,
-                                    matches: babelLoaders
-                                } = getLoaders(parentOptions, loaderByName('babel-loader'));
+                            const {
+                                hasFoundAny: hasAnyChildBabelLoaders,
+                                matches: childBabelLoaders
+                            } = getLoaders(childCompiler.options, loaderByName('babel-loader'));
 
-                                if (hasAnyBabelLoaders) {
-                                    babelLoaders.forEach(({ loader }) => {
-                                        const { options: { plugins = [] } } = loader;
-                                        // this is needed to preserve the reference
-                                        plugins.slice().reverse().forEach((plugin, index, newPlugins) => {
-                                            // Get only OUR plugins from the list
-                                            const isOurPlugin = cracoConfig.babel.plugins.indexOf(plugin) !== -1;
-                                            if (isOurPlugin) {
-                                                // we found OUR plugins, ignore them one-by-one
-                                                plugins.splice(newPlugins.length - 1 - index, 1);
-                                            }
-                                        });
-                                    });
-                                }
-                                // Copy the module rule ?
-                                options.module = parentOptions.module;
-                            } catch (e) {
-                                console.log(e);
+                            if (!hasAnyChildBabelLoaders) {
+                                return;
                             }
+
+                            childBabelLoaders.forEach(({ loader }) => {
+                                const { options: { plugins = [] } } = loader;
+
+                                // this is needed to preserve the reference
+                                plugins.slice().reverse().forEach((plugin, index, modifiedPlugins) => {
+                                    // Get only OUR plugins from the list
+                                    const isOurPlugin = cracoConfig.babel.plugins.indexOf(plugin) !== -1;
+
+                                    if (isOurPlugin) {
+                                        // we found OUR plugins, ignore them one-by-one
+                                        plugins.splice(modifiedPlugins.length - 1 - index, 1);
+                                    }
+                                });
+
+                                loader.options.plugins = plugins;
+                            });
                         }
                     }
                 ],
@@ -76,6 +78,11 @@ module.exports = {
                 // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
                 maximumFileSizeToCacheInBytes: 5 * 1024 * 1024
             }));
+
+            webpackConfig.stats = {
+                logging: 'verbose',
+                loggingTrace: true
+            };
 
             return webpackConfig;
         }
