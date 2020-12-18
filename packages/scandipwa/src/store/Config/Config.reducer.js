@@ -35,7 +35,10 @@ export const {
 export const getIndexedRatings = (reviewRatings) => ((reviewRatings) ? reviewRatings.items || [] : []);
 
 /** @namespace Store/Config/Reducer/getCurrencyData */
-export const getCurrencyData = (base, state) => ((base) || state.currencyData || {});
+export const getCurrencyData = (base, state) => (base || state.currencyData || {});
+
+/** @namespace Store/Config/Reducer/getCountryData */
+export const getCountryData = (base, state) => (base || state.countries || {});
 
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
@@ -81,7 +84,7 @@ export const ConfigReducer = (
 
         return {
             ...state,
-            countries,
+            countries: getCountryData(countries, state),
             reviewRatings: getIndexedRatings(reviewRatings),
             checkoutAgreements,
             currencyData: getCurrencyData(currencyData, state),
