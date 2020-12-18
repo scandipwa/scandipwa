@@ -49,6 +49,11 @@ export class Klarna extends PureComponent {
 
         if (paymentIsShown) {
             document.getElementById(KLARNA_PAYMENTS_DEVICE_RECOGNITION_ID).remove();
+            const klarnaDOM = document.getElementById(KLARNA_PAYMENTS_DEVICE_RECOGNITION_ID);
+
+            if (klarnaDOM) {
+                klarnaDOM.remove();
+            }
         }
     }
 
