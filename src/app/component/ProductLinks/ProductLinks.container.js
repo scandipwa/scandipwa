@@ -35,27 +35,28 @@ export class ProductLinksContainer extends PureComponent {
         siblingsHaveConfigurableOptions: false
     };
 
-    productCardFunctions = {
-        setSiblingsHaveBrands: this.setSiblingsHaveBrands.bind(this),
-        setSiblingsHavePriceBadge: this.setSiblingsHavePriceBadge.bind(this),
-        setSiblingsHaveTierPrice: this.setSiblingsHaveTierPrice.bind(this),
-        setSiblingsHaveConfigurableOptions: this.setSiblingsHaveConfigurableOptions.bind(this)
-    };
+    containerProps() {
+        const {
+            siblingsHaveBrands,
+            siblingsHavePriceBadge,
+            siblingsHaveTierPrice,
+            siblingsHaveConfigurableOptions
+        } = this.state;
 
-    setSiblingsHaveBrands() {
-        this.setState({ siblingsHaveBrands: true });
-    }
-
-    setSiblingsHavePriceBadge() {
-        this.setState({ siblingsHavePriceBadge: true });
-    }
-
-    setSiblingsHaveTierPrice() {
-        this.setState({ siblingsHaveTierPrice: true });
-    }
-
-    setSiblingsHaveConfigurableOptions() {
-        this.setState({ siblingsHaveConfigurableOptions: true });
+        return {
+            productCardFunctions: {
+                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
+                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
+                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
+                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+            },
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            }
+        };
     }
 
     render() {
@@ -68,20 +69,6 @@ export class ProductLinksContainer extends PureComponent {
             }
         } = this.props;
 
-        const {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
-        } = this.state;
-
-        const productCardProps = {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
-        };
-
         if (items.length === 0) {
             return null;
         }
@@ -89,8 +76,7 @@ export class ProductLinksContainer extends PureComponent {
         return (
             <ProductLinks
               { ...this.props }
-              productCardProps={ productCardProps }
-              productCardFunctions={ this.productCardFunctions }
+              { ...this.containerProps() }
             />
         );
     }

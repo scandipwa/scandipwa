@@ -107,6 +107,7 @@ export class ProductCard extends PureComponent {
     renderConfigurablePriceBadge() {
         const {
             product: { type_id },
+            siblingsHavePriceBadge,
             setSiblingsHavePriceBadge
         } = this.props;
 
@@ -114,7 +115,9 @@ export class ProductCard extends PureComponent {
             return null;
         }
 
-        setSiblingsHavePriceBadge();
+        if (!siblingsHavePriceBadge) {
+            setSiblingsHavePriceBadge();
+        }
 
         return (
             <p
@@ -177,14 +180,20 @@ export class ProductCard extends PureComponent {
     }
 
     renderTierPrice() {
-        const { productOrVariant, setSiblingsHaveTierPrice } = this.props;
+        const {
+            productOrVariant,
+            siblingsHaveTierPrice,
+            setSiblingsHaveTierPrice
+        } = this.props;
         const { price_tiers } = productOrVariant;
 
         if (!price_tiers || !price_tiers.length) {
             return null;
         }
 
-        setSiblingsHaveTierPrice();
+        if (!siblingsHaveTierPrice) {
+            setSiblingsHaveTierPrice();
+        }
 
         return (
             <TierPrices
@@ -213,6 +222,7 @@ export class ProductCard extends PureComponent {
 
     renderVisualConfigurableOptions() {
         const {
+            siblingsHaveConfigurableOptions,
             setSiblingsHaveConfigurableOptions,
             availableVisualOptions,
             device
@@ -226,7 +236,9 @@ export class ProductCard extends PureComponent {
             return <div block="ProductCard" elem="ConfigurableOptions" />;
         }
 
-        setSiblingsHaveConfigurableOptions();
+        if (!siblingsHaveConfigurableOptions) {
+            setSiblingsHaveConfigurableOptions();
+        }
 
         return (
             <div block="ProductCard" elem="ConfigurableOptions">
@@ -302,6 +314,7 @@ export class ProductCard extends PureComponent {
     renderBrandValue() {
         const {
             getAttribute,
+            siblingsHaveBrands,
             setSiblingsHaveBrands
         } = this.props;
         const {
@@ -315,7 +328,9 @@ export class ProductCard extends PureComponent {
             return null;
         }
 
-        setSiblingsHaveBrands();
+        if (!siblingsHaveBrands) {
+            setSiblingsHaveBrands();
+        }
 
         return (
             <ProductAttributeValue

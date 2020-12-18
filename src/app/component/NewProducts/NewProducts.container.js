@@ -55,13 +55,6 @@ export class NewProductsContainer extends PureComponent {
         siblingsHaveConfigurableOptions: false
     };
 
-    productCardFunctions = {
-        setSiblingsHaveBrands: this.setSiblingsHaveBrands.bind(this),
-        setSiblingsHavePriceBadge: this.setSiblingsHavePriceBadge.bind(this),
-        setSiblingsHaveTierPrice: this.setSiblingsHaveTierPrice.bind(this),
-        setSiblingsHaveConfigurableOptions: this.setSiblingsHaveConfigurableOptions.bind(this)
-    };
-
     componentDidMount() {
         this.requestProducts();
     }
@@ -88,20 +81,28 @@ export class NewProductsContainer extends PureComponent {
         }
     }
 
-    setSiblingsHaveBrands() {
-        this.setState({ siblingsHaveBrands: true });
-    }
+    containerProps() {
+        const {
+            siblingsHaveBrands,
+            siblingsHavePriceBadge,
+            siblingsHaveTierPrice,
+            siblingsHaveConfigurableOptions
+        } = this.state;
 
-    setSiblingsHavePriceBadge() {
-        this.setState({ siblingsHavePriceBadge: true });
-    }
-
-    setSiblingsHaveTierPrice() {
-        this.setState({ siblingsHaveTierPrice: true });
-    }
-
-    setSiblingsHaveConfigurableOptions() {
-        this.setState({ siblingsHaveConfigurableOptions: true });
+        return {
+            productCardFunctions: {
+                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
+                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
+                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
+                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+            },
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            }
+        };
     }
 
     /**
@@ -166,26 +167,11 @@ export class NewProductsContainer extends PureComponent {
     }
 
     render() {
-        const {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
-        } = this.state;
-
-        const productCardProps = {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
-        };
-
         return (
             <NewProducts
               { ...this.props }
               { ...this.state }
-              productCardProps={ productCardProps }
-              productCardFunctions={ this.productCardFunctions }
+              { ...this.containerProps() }
             />
         );
     }

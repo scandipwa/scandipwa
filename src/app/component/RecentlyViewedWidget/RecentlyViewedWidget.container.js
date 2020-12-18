@@ -32,30 +32,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
         siblingsHaveConfigurableOptions: false
     };
 
-    productCardFunctions = {
-        setSiblingsHaveBrands: this.setSiblingsHaveBrands.bind(this),
-        setSiblingsHavePriceBadge: this.setSiblingsHavePriceBadge.bind(this),
-        setSiblingsHaveTierPrice: this.setSiblingsHaveTierPrice.bind(this),
-        setSiblingsHaveConfigurableOptions: this.setSiblingsHaveConfigurableOptions.bind(this)
-    };
-
-    setSiblingsHaveBrands() {
-        this.setState({ siblingsHaveBrands: true });
-    }
-
-    setSiblingsHavePriceBadge() {
-        this.setState({ siblingsHavePriceBadge: true });
-    }
-
-    setSiblingsHaveTierPrice() {
-        this.setState({ siblingsHaveTierPrice: true });
-    }
-
-    setSiblingsHaveConfigurableOptions() {
-        this.setState({ siblingsHaveConfigurableOptions: true });
-    }
-
-    render() {
+    containerProps() {
         const {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
@@ -63,17 +40,26 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
             siblingsHaveConfigurableOptions
         } = this.state;
 
-        const productCardProps = {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
+        return {
+            productCardFunctions: {
+                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
+                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
+                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
+                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+            },
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            }
         };
+    }
 
+    render() {
         return (
             <RecentlyViewedWidget
-              productCardProps={ productCardProps }
-              productCardFunctions={ this.productCardFunctions }
+              { ...this.containerProps() }
             />
         );
     }
