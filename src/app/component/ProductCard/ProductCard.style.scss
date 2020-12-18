@@ -225,16 +225,22 @@
         }
 
         &:hover {
-            opacity: 1;
-            transition: all .2s;
+            @include after-mobile {
+                opacity: 1;
+                transition: all .2s;
+            }
 
             .ProductWishlistButton-Heart {
-                background-color: var(--primary-base-color);
+                @include after-mobile {
+                    background-color: var(--primary-base-color);
+                }
             }
 
             ::before,
             ::after {
-                background-color: var(--primary-base-color);
+                @include after-mobile {
+                    background-color: var(--primary-base-color);
+                }
             }
         }
 
