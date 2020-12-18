@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import validationConfig from 'Component/Form/Form.config';
+
 import Field from './Field.component';
 import {
     CHECKBOX_TYPE,
@@ -52,7 +54,10 @@ export class FieldContainer extends PureComponent {
         onClick: PropTypes.func,
         onKeyPress: PropTypes.func,
         min: PropTypes.number,
-        max: PropTypes.number
+        max: PropTypes.number,
+        validation: PropTypes.arrayOf(PropTypes.string),
+        id: PropTypes.string,
+        formRef: PropTypes.func
     };
 
     static defaultProps = {
@@ -65,7 +70,10 @@ export class FieldContainer extends PureComponent {
         onBlur: () => {},
         onClick: () => {},
         onKeyPress: () => {},
-        isControlled: false
+        formRef: () => {},
+        isControlled: false,
+        validation: [],
+        id: ''
     };
 
     containerFunctions = {
@@ -86,7 +94,8 @@ export class FieldContainer extends PureComponent {
 
         this.state = {
             value,
-            checked
+            checked,
+            validationStatus: null
         };
     }
 
@@ -129,18 +138,63 @@ export class FieldContainer extends PureComponent {
         const {
             type,
             checked,
-            value
+            value,
+            validationStatus
         } = this.state;
 
         return {
             checked: type === CHECKBOX_TYPE ? propsChecked : checked,
-            value
+            value,
+            validationStatus
         };
     };
+
+    validateField() {
+        const {
+            validation, id, formRef: refMap
+        } = this.props;
+
+        if (validation && id && refMap && refMap.current) {
+            const { current: inputNode } = refMap;
+
+            const rule = validation.find((rule) => {
+                if (!validationConfig[rule]) {
+                    return false;
+                }
+                const validationRules = validationConfig[rule];
+                const isValid = validationRules.validate(inputNode, refMap);
+                return !isValid;
+            });
+
+            if (rule) {
+                return validationConfig[rule];
+            }
+        }
+
+        return {};
+    }
 
     onChange(event) {
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
+        }
+
+        if (event.currentTarget.value.length <= 0) {
+            this.setState({
+                validationStatus: null
+            });
+        }
+
+        const isValid = this.validateField();
+
+        if (isValid.validate) {
+            this.setState({
+                validationStatus: false
+            });
+        } else if (!isValid.validate) {
+            this.setState({
+                validationStatus: true
+            });
         }
 
         return this.handleChange(event.target.value);

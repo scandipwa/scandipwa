@@ -53,7 +53,8 @@ export class Field extends PureComponent {
             PropTypes.number,
             PropTypes.bool
         ]),
-        validation: PropTypes.arrayOf(PropTypes.string),
+        validation: PropTypes.arrayOf(PropTypes.string).isRequired,
+        validationStatus: PropTypes.string,
         checked: PropTypes.oneOfType([
             PropTypes.bool,
             PropTypes.string
@@ -71,7 +72,7 @@ export class Field extends PureComponent {
         label: '',
         value: null,
         message: '',
-        validation: []
+        validationStatus: null
     };
 
     renderTextarea() {
@@ -240,13 +241,14 @@ export class Field extends PureComponent {
         const {
             mix,
             type,
-            message
+            message,
+            validationStatus
         } = this.props;
 
         return (
             <div
               block="Field"
-              mods={ { type, hasError: !!message } }
+              mods={ { type, hasError: validationStatus === false || !!message, isValid: validationStatus === true } }
               mix={ mix }
             >
                 { this.renderLabel() }
