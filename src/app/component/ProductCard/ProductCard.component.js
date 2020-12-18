@@ -370,7 +370,14 @@ export class ProductCard extends PureComponent {
         const { linkTo, product: { url } } = this.props;
 
         if (!url) {
-            return (<div>{ children }</div>);
+            return (
+                <div
+                  block="ProductCard"
+                  elem="Link"
+                >
+                    { children }
+                </div>
+            );
         }
 
         return (

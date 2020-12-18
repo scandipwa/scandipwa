@@ -70,10 +70,6 @@
     &-Attributes {
         display: flex;
         flex-wrap: wrap;
-
-        @include mobile {
-            margin-top: 2.8rem;
-        }
     }
 
     &-ValueLabel,

@@ -39,25 +39,24 @@ export class SliderWidget extends PureComponent {
                 })
             )
         }),
-        device: DeviceType.isRequired,
-        isVertical: PropTypes.bool,
-        isLoaded: PropTypes.bool
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
-        slider: [{}],
-        isVertical: false,
-        isLoaded: false
+        slider: [{}]
     };
 
     state = {
-        activeSlide: 0
+        activeImage: 0,
+        carouselDirection: 'right',
+        imageToShow: 0
     };
 
-    componentDidMount() {
+    componentDidUpdate(prevProps) {
         const { slider: { slideSpeed, slides } } = this.props;
+        const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
-        if (slideSpeed && slides.length > 1) {
+        if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
             this.startCarousel(slideSpeed);
         }
     }
@@ -66,22 +65,37 @@ export class SliderWidget extends PureComponent {
         clearInterval(this.carouselInterval);
     }
 
-    onActiveSlideChange = (activeSlide) => {
-        this.setState({ activeSlide });
+    onActiveImageChange = (activeImage) => {
+        this.setState({ activeImage });
     };
 
     startCarousel = (interval) => {
         this.carouselInterval = setInterval(() => {
-            this.updateImageToShow();
+            this.getImageToShow();
+
+            const { imageToShow } = this.state;
+
+            this.onActiveImageChange(imageToShow);
         }, interval);
     };
 
-    updateImageToShow() {
-        const { activeSlide } = this.state;
-        const { slider: { slides: { length } } } = this.props;
+    getImageToShow() {
+        const { activeImage, carouselDirection } = this.state;
+        const { slider: { slides } } = this.props;
 
-        const toShow = activeSlide >= length - 1 ? 0 : activeSlide + 1;
-        this.setState({ activeSlide: toShow });
+        if (activeImage === 0) {
+            this.setState({
+                carouselDirection: 'right',
+                imageToShow: activeImage + 1
+            });
+        } else if (activeImage === slides.length - 1) {
+            this.setState({
+                carouselDirection: 'left',
+                imageToShow: activeImage - 1
+            });
+        } else {
+            this.setState({ imageToShow: carouselDirection === 'right' ? activeImage + 1 : activeImage - 1 });
+        }
     }
 
     getSlideImage(slide) {
@@ -102,23 +116,18 @@ export class SliderWidget extends PureComponent {
         return `/${desktop_image}`;
     }
 
-    renderSlide = (slide) => {
+    renderSlide = (slide, i) => {
         const {
             slide_text,
             isPlaceholder,
-            title: block,
-            item_id
+            title: block
         } = slide;
-
-        const { slider: { slides: { length } }, isVertical } = this.props;
-        const isSlider = length > 1;
 
         return (
             <figure
               block="SliderWidget"
               elem="Figure"
-              key={ block + item_id }
-              mods={ { isSlider, isVertical } }
+              key={ i }
             >
                 <Image
                   mix={ { block: 'SliderWidget', elem: 'FigureImage' } }
@@ -137,38 +146,18 @@ export class SliderWidget extends PureComponent {
         );
     };
 
-    renderPlaceholder() {
-        return <div block="WidgetFactory" elem="SliderPlaceholder" />;
-    }
-
     render() {
-        const { isLoaded } = this.props;
-
-        if (!isLoaded) {
-            return this.renderPlaceholder();
-        }
-
-        const { activeSlide } = this.state;
-        const {
-            slider: { slides, title: block },
-            device: { isMobile } = {},
-            isVertical
-        } = this.props;
-
-        const children = slides.map(this.renderSlide);
-        const isInfinite = slides.length > 1;
+        const { activeImage } = this.state;
+        const { slider: { slides, title: block } } = this.props;
 
         return (
             <Slider
               mix={ { block: 'SliderWidget', mix: { block } } }
-              showCrumbs={ !isMobile }
-              activeSlide={ activeSlide }
-              onActiveSlideChange={ this.onActiveSlideChange }
-              isVertical={ isVertical }
-              infinite={ isInfinite }
-              isWidget
+              showCrumbs
+              activeImage={ activeImage }
+              onActiveImageChange={ this.onActiveImageChange }
             >
-                { children }
+                { slides.map(this.renderSlide) }
             </Slider>
         );
     }
