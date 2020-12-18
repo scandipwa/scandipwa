@@ -3,9 +3,10 @@ const fs = require('fs');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const FallbackPlugin = require('@scandipwa/webpack-fallback-plugin');
 const { sources } = require('@scandipwa/scandipwa-scripts/lib/sources');
-const cloneDeep = require('lodash.clonedeep');
+const getWorkboxBabelPlugin = require('./lib/workbox-babel-plugin');
+const getWarningPlugin = require('./lib/workbox-warning-plugin');
 
-const { getLoaders, loaderByName } = require('@scandipwa/craco');
+const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
     plugin: {
@@ -30,57 +31,31 @@ module.exports = {
                 return webpackConfig;
             }
 
+            // Remove Workbox warnings
+            webpackConfig.plugins.push(getWarningPlugin());
+
+            // Add out own, custom Workbox plugin
             webpackConfig.plugins.push(new WorkboxWebpackPlugin.InjectManifest({
                 swSrc,
+                exclude: isDev ? [
+                    // ignore all assets in development mode
+                    (_) => true
+                ] : [
+                    /\.map$/,
+                    /asset-manifest\.json$/,
+                    /LICENSE/,
+                    // append service-worker, it should not cache itself
+                    /service-worker\.js/
+                ],
                 webpackCompilationPlugins: [
-                    {
-                        apply: (childCompiler) => {
-                            // Copy MODULE options of parent to child
-                            childCompiler.options = {
-                                ...childCompiler.options,
-                                module: cloneDeep(childCompiler.parentCompilation.options.module)
-                            };
-
-                            // TODO: do that on initialize hook of compiler ???
-
-                            const {
-                                hasFoundAny: hasAnyChildBabelLoaders,
-                                matches: childBabelLoaders
-                            } = getLoaders(childCompiler.options, loaderByName('babel-loader'));
-
-                            if (!hasAnyChildBabelLoaders) {
-                                return;
-                            }
-
-                            childBabelLoaders.forEach(({ loader }) => {
-                                const { options: { plugins = [] } } = loader;
-
-                                // this is needed to preserve the reference
-                                plugins.slice().reverse().forEach((plugin, index, modifiedPlugins) => {
-                                    // Get only OUR plugins from the list
-                                    const isOurPlugin = cracoConfig.babel.plugins.indexOf(plugin) !== -1;
-
-                                    if (isOurPlugin) {
-                                        // we found OUR plugins, ignore them one-by-one
-                                        plugins.splice(modifiedPlugins.length - 1 - index, 1);
-                                    }
-                                });
-                            });
-                        }
-                    }
+                    getWorkboxBabelPlugin(cracoConfig)
                 ],
                 dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
-                exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
                 // Bump up the default maximum size (2mb) that's precached,
                 // to make lazy-loading failure scenarios less likely.
                 // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
                 maximumFileSizeToCacheInBytes: 5 * 1024 * 1024
             }));
-
-            webpackConfig.stats = {
-                logging: 'verbose',
-                loggingTrace: true
-            };
 
             return webpackConfig;
         }
