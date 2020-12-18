@@ -9,5 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const ANIMATION_DURATION = 1000;
+export const ANIMATION_DURATION = 300;
 export const HEIGHT_TRANSITION_SPEED_ON_MOUNT = 300;
