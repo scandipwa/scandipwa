@@ -91,16 +91,19 @@ registerRoute(
     /\/graphql/,
     async ({ event }) => {
         const { request } = event;
-        const cache = await caches.open('graphql');
-        const hasResponse = await cache.has(request);
 
-        if (!hasResponse) {
+        console.log(event);
+
+        const cache = await caches.open('graphql');
+        const responseCache = await cache.match(request);
+
+        if (!responseCache) {
             // if there is no cached response (notice, we return promise)
             event.respondWith(makeRequestAndUpdateCache(request, cache));
         }
 
         // Give imidiate response & revalidate it (notice, we return promise)
-        event.respondWith(cache.match(request));
+        event.respondWith(responseCache);
 
         const type = request.headers.get('Application-Model');
         const revalidatedResponse = await makeRequestAndUpdateCache(request, cache);
