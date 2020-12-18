@@ -43,20 +43,18 @@ const RESPONSE_OK = 200;
 const makeRequestAndUpdateCache = async (request, cache) => {
     const response = await fetch(request);
     const isValid = response.status === RESPONSE_OK;
-    const responseToCache = response.clone();
 
     if (isValid) {
-        cache.put(request.url, responseToCache);
+        cache.put(request.url, response.clone());
     }
 
     return response;
 };
 
-const updateWithFreshDataViaBroadCast = async (request, cache) => {
+const updateWithFreshDataViaBroadcast = async (request, cache) => {
     const type = request.headers.get('Application-Model');
     const revalidatedResponse = await makeRequestAndUpdateCache(request, cache);
     const responseClone = revalidatedResponse.clone();
-
     const broadcast = new BroadcastChannel(type);
     broadcast.postMessage({ payload: await responseClone.json(), type });
     broadcast.close();
@@ -67,17 +65,19 @@ registerRoute(
     async ({ event }) => {
         const { request } = event;
         const cache = await caches.open('graphql');
-        const responseCache = await cache.match(request);
+        const cachedResponse = await cache.match(request);
 
-        if (!responseCache) {
-            // if there is no cached response (notice, we return promise)
+        if (!cachedResponse) {
+            // If there is no cached response,
+            // we must get the response and save it to cache!
             return makeRequestAndUpdateCache(request, cache);
         }
 
-        // Give imidiate response & revalidate it
-        updateWithFreshDataViaBroadCast(request, cache);
+        // For cached response, still do the request, but in background.
+        // We will use the BroadCast channel to update the client if the data is new
+        updateWithFreshDataViaBroadcast(request, cache);
 
-        return responseCache;
+        return cachedResponse;
     }
 );
 
@@ -87,11 +87,13 @@ registerRoute(
         const { url, destination } = request;
         const { hostname } = new URL(url);
 
-        if (destination !== 'document') { // skip all NON documents
+        if (destination !== 'document') {
+            // skip all NON documents
             return false;
         }
 
-        if (hostname !== self.location.hostname) { // skip requests to other domains
+        if (hostname !== self.location.hostname) {
+            // skip requests to other domains
             return false;
         }
 
@@ -104,13 +106,17 @@ registerRoute(
         const responseFromCache = await cache.match('/');
 
         if (!navigator.onLine) {
-            return responseFromCache; // respond from cache
+            // Always respond from cache if we are offline
+            return responseFromCache;
         }
 
         if (!responseFromCache) {
-            const rootResponse = await fetch('/'); // respond from server
+            // Respond from server
+            const rootResponse = await fetch('/');
 
-            if (rootResponse.status === RESPONSE_OK) { // cache only 200 responses
+            if (rootResponse.status === RESPONSE_OK) {
+                // Cache only 200 responses, to make sure, that when we are
+                // offline the page will still load as normal.
                 cache.put('/', rootResponse.clone());
             }
         }
