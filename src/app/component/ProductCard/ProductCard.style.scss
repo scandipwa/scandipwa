@@ -16,11 +16,16 @@
     --product-cart-picture-label-background: rgba(255, 255, 255, .7);
     --product-cart-reviews-background: rgba(243, 243, 243, .55);
     --product-cart-wishlist-button-background: rgba(243, 243, 243, .78);
+    --product-card-name-line-height: 1.2em;
+    --product-card-name-max-rows: 2;
+    --product-card-brand-line-height: 1.2em;
 }
 
 .ProductCard {
     padding-left: 0;
     min-width: 0;
+    display: flex;
+    align-items: stretch;
 
     &::before {
         content: none;
@@ -36,8 +41,9 @@
 
     &-Content {
         padding: 10px 0 15px;
+        flex: 1;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
     }
 
     &-Name,
@@ -57,21 +63,37 @@
     }
 
     &-Name {
-        margin-bottom: 5px;
-        line-height: inherit;
+        flex: 1;
+        margin: 5px 0;
+        line-height: var(--product-card-name-line-height);
+        max-height: calc(var(--product-card-name-line-height) * var(--product-card-name-max-rows));
+        min-height: var(--product-card-name-line-height);
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: var(--product-card-name-max-rows);
     }
 
     &-Brand {
         font-weight: 300;
         opacity: .5;
+
         @include mobile {
             line-height: 1;
             font-size: 1.1rem;
         }
+
         @include after-mobile {
             font-size: 1.2rem;
-            line-height: 1.3;
+            line-height: var(--product-card-brand-line-height);
         }
+    }
+
+    &-BrandAttributeValue {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
     &-Picture {
@@ -143,6 +165,12 @@
         min-width: 20px;
     }
 
+    &-PriceWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
     &-Price {
         width: 100%;
         @include after-mobile {
@@ -164,6 +192,7 @@
         color: inherit;
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         &:hover,
         &:focus {
@@ -239,6 +268,25 @@
             ::after {
                 background-color: var(--primary-base-color);
             }
+        }
+    }
+
+    &_siblingsHaveBrands {
+        .ProductCard-Brand {
+            min-height: var(--product-card-brand-line-height);
+        }
+    }
+
+    &_siblingsHaveTierPrice,
+    &_siblingsHavePriceBadge {
+        .ProductCard-PriceWrapper {
+            min-height: 40px;
+        }
+    }
+
+    &_siblingsHaveConfigurableOptions {
+        .ProductCard-ConfigurableOptions {
+            min-height: 20px;
         }
     }
 }
