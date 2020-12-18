@@ -23,10 +23,9 @@
         }
     }
 
-    &-ExpandableContentHeading {
-        @include desktop {
-            font-size: 2rem;
-            text-transform: uppercase;
+    &-ExpandableContentButton {
+        @include after-mobile {
+            display: none;
         }
     }
 
@@ -71,10 +70,6 @@
     &-Attributes {
         display: flex;
         flex-wrap: wrap;
-
-        @include mobile {
-            margin-top: 2.8rem;
-        }
     }
 
     &-ValueLabel,

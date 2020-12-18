@@ -48,7 +48,9 @@ export class ExpandableContentShowMore extends PureComponent {
         const { isOpen } = this.state;
 
         if (isOpen) {
-            this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            if (this.expandableRef.current) {
+                this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            }
             this.setState({ isOpen: false });
         }
     }
@@ -86,7 +88,9 @@ export class ExpandableContentShowMore extends PureComponent {
 
         this.expandableContentHeight = 'auto';
         this.setState({ isOpen: true }, () => {
-            this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            if (this.expandableRef.current) {
+                this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            }
             this.setState({ isOpen: false });
         });
     }

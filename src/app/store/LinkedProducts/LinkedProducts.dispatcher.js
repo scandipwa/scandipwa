@@ -14,7 +14,7 @@ import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action
 import { showNotification } from 'Store/Notification/Notification.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
-import { QueryDispatcher } from 'Util/Request';
+import { fetchQuery, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
@@ -31,6 +31,87 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     }
 
     onSuccess(data, dispatch, product_links) {
+        const linkedProducts = this._processResponse(data, product_links);
+
+        BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
+        dispatch(updateLinkedProducts(linkedProducts));
+    }
+
+    onError(error, dispatch) {
+        dispatch(showNotification('error', 'Error fetching LinkedProducts!', error));
+    }
+
+    /**
+     * Prepare LinkedProducts query
+     * @return {Query} ProductList query
+     * @memberof LinkedProductsDispatcher
+     * @param product_links
+     */
+    prepareRequest(product_links) {
+        const relatedSKUs = product_links.reduce((links, link) => {
+            const { linked_product_sku } = link;
+            return [...links, `${ linked_product_sku.replace(/ /g, '%20') }`];
+        }, []);
+
+        return [
+            ProductListQuery.getQuery({
+                args: {
+                    filter: {
+                        productsSkuArray: relatedSKUs
+                    }
+                },
+                notRequireInfo: true
+            })
+        ];
+    }
+
+    /**
+     * Clear linked products list
+     * @param {{productsSkuArray: Array<String>}} options A object containing different aspects of query, each item can be omitted
+     * @return {Query} ProductList query
+     * @memberof LinkedProductsDispatcher
+     */
+    clearLinkedProducts(dispatch, updateCrossSell = false) {
+        const linkedProducts = {
+            upsell: { total_count: 0, items: [] },
+            related: { total_count: 0, items: [] },
+            crosssell: { total_count: 0, items: [] }
+        };
+
+        BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
+
+        dispatch(updateLinkedProducts({
+            ...linkedProducts,
+            updateCrossSell
+        }));
+    }
+
+    async fetchCrossSellProducts(dispatch, product_links) {
+        const query = this.prepareRequest(product_links);
+        const data = await fetchQuery(query);
+        const { crosssell } = this._processResponse(data, product_links);
+        const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS);
+
+        Object.assign(linkedProducts, {
+            crosssell,
+            updateCrossSell: true
+        });
+
+        dispatch(updateLinkedProducts(linkedProducts));
+    }
+
+    clearCrossSellProducts(dispatch) {
+        const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS) || {};
+
+        Object.assign(linkedProducts, {
+            crosssell: { total_count: 0, items: [] },
+            updateCrossSell: true
+        });
+
+        dispatch(updateLinkedProducts(linkedProducts));
+    }
+
+    _processResponse(data, product_links) {
         const { products: { items } } = data;
 
         const indexedBySku = items.reduce((acc, item) => {
@@ -57,57 +138,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
             crosssell: { total_count: 0, items: [] }
         });
 
-        BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
-        dispatch(updateLinkedProducts(linkedProducts));
-    }
-
-    onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching LinkedProducts!', error));
-    }
-
-    /**
-     * Prepare LinkedProducts query
-     * @return {Query} ProductList query
-     * @memberof LinkedProductsDispatcher
-     * @param product_links
-     */
-    prepareRequest(product_links) {
-        const relatedSKUs = product_links.reduce((links, link) => {
-            const { linked_product_sku } = link;
-            return [...links, `"${ linked_product_sku.replace(/ /g, '%20') }"`];
-        }, []);
-
-        return [
-            ProductListQuery.getQuery({
-                args: {
-                    filter: {
-                        productsSkuArray: relatedSKUs
-                    }
-                },
-                notRequireInfo: true
-            })
-        ];
-    }
-
-    /**
-     * Clear linked products list
-     * @param {{productsSkuArray: Array<String>}} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} ProductList query
-     * @memberof LinkedProductsDispatcher
-     */
-    clearLinkedProducts(dispatch, updateCrosssel = false) {
-        const linkedProducts = {
-            upsell: { total_count: 0, items: [] },
-            related: { total_count: 0, items: [] },
-            crosssell: { total_count: 0, items: [] }
-        };
-
-        BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
-
-        dispatch(updateLinkedProducts({
-            ...linkedProducts,
-            updateCrosssel
-        }));
+        return linkedProducts;
     }
 }
 

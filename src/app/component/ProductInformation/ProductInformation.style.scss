@@ -23,17 +23,16 @@
         }
     }
 
-    &-ExpandableContentHeading {
-        @include desktop {
-            font-size: 2rem;
-            text-transform: uppercase;
+    &-ExpandableContentButton {
+        @include after-mobile {
+            display: none;
         }
     }
 
     &-ExpandableContentContent {
         &_isContentExpanded {
             @include mobile {
-                padding: 0 1.4rem;
+                padding: 0 1.4rem 1.4rem;
             }
         }
 
