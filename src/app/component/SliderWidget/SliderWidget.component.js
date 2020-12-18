@@ -149,7 +149,11 @@ export class SliderWidget extends PureComponent {
         }
 
         const { activeSlide } = this.state;
-        const { slider: { slides, title: block }, isVertical } = this.props;
+        const {
+            slider: { slides, title: block },
+            device: { isMobile } = {},
+            isVertical
+        } = this.props;
 
         const children = slides.map(this.renderSlide);
         const isInfinite = slides.length > 1;
@@ -157,7 +161,7 @@ export class SliderWidget extends PureComponent {
         return (
             <Slider
               mix={ { block: 'SliderWidget', mix: { block } } }
-              showCrumbs
+              showCrumbs={ !isMobile }
               activeSlide={ activeSlide }
               onActiveSlideChange={ this.onActiveSlideChange }
               isVertical={ isVertical }
