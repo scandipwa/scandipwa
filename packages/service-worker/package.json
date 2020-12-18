@@ -8,10 +8,7 @@
             "cracoPlugins": [
                 "build-config/workbox-dev.js"
             ]
-        },
-        "provide": [
-            "src/service-worker.js"
-        ]
+        }
     },
     "eslintConfig": {
         "extends": "@scandipwa"

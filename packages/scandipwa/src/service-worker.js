@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/export-level-one */
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching';

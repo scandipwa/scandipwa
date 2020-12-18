@@ -7,18 +7,22 @@ const getWorkboxBabelPlugin = require('./lib/workbox-babel-plugin');
 const getWarningPlugin = require('./lib/workbox-warning-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
+const swSrc = FallbackPlugin.getFallbackPathname('src/service-worker.js', sources);
 
 module.exports = {
     plugin: {
+        overrideCracoConfig: ({
+            cracoConfig
+        }) => {
+            // Modify the default path to ServiceWorker (in case CRA changes something)
+            cracoConfig.paths.swSrc = swSrc;
+            return cracoConfig;
+        },
         overrideWebpackConfig: ({
             webpackConfig,
             cracoConfig
-            // context: { paths }
         }) => {
-            // TODO: replace with PATHS if possible
-            const swSrc = FallbackPlugin.getFallbackPathname('src/service-worker.js', sources);
-
-            // Modify plugins if needed
+            // remove original Workbox Inject Manifest plugin
             webpackConfig.plugins.slice().reverse().forEach((plugin, index, newPlugins) => {
                 if (plugin instanceof WorkboxWebpackPlugin.InjectManifest) {
                     // remove Inject manifest plugin if it exists
@@ -34,7 +38,7 @@ module.exports = {
             // Remove Workbox warnings
             webpackConfig.plugins.push(getWarningPlugin());
 
-            // Add out own, custom Workbox plugin
+            // Add our own, custom Workbox plugin
             webpackConfig.plugins.push(new WorkboxWebpackPlugin.InjectManifest({
                 swSrc,
                 exclude: isDev ? [
