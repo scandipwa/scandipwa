@@ -4,8 +4,7 @@ name: Add Labels
 on:
   pull_request:
     branches: |
-      - 3.x-dev
-      - 2.x-dev
+      - master
     types:
       - opened
 
