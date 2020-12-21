@@ -77,23 +77,10 @@ export class ProductCompareQuery extends ProductListQuery {
             'type_id',
             this._getProductThumbnailField(),
             this._getPriceRangeField(),
-            this._getComparableAttributesField(),
+            this._getAttributesField(),
             this._getConfigurableProductFragment(),
             this._getGroupedProductItems(),
             this._getCustomizableProductFragment()
-        ];
-    }
-
-    _getComparableAttributesField() {
-        return new Field('comparableAttributes')
-            .addFieldList(this._getComparableAttributesFields());
-    }
-
-    _getComparableAttributesFields() {
-        return [
-            'attribute_id',
-            'attribute_label',
-            'attribute_value'
         ];
     }
 

@@ -81,17 +81,19 @@ export class ProductCompareContainer extends PureComponent {
             return [];
         }
 
-        return products[0]
-            .comparableAttributes
-            .map(
-                ({ attribute_id, attribute_label }, i) => ({
-                    attribute_id,
-                    attribute_label,
-                    attribute_values: products.map(
-                        ({ comparableAttributes }) => comparableAttributes[i].attribute_value
-                    )
-                })
-            );
+        return Object.values(
+            products.reduce((acc, { attributes }) => {
+                Object.assign(acc, attributes);
+                return acc;
+            }, {})
+        ).map(({ attribute_code, attribute_value, ...rest }) => ({
+            ...rest,
+            attribute_code,
+            attribute_values: products.map(({ attributes }) => {
+                const { attribute_value = null } = attributes[attribute_code] || {};
+                return attribute_value;
+            })
+        }));
     }
 
     render() {
