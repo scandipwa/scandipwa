@@ -5,62 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Attach to Chrome",
-            "port": 9222,
-            "request": "attach",
-            "type": "pwa-chrome",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "node",
+            "command": "npm start",
+            "name": "Run npm start",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}/../move-middlewares-to-bottom.js",
-            "skipFiles": [
-                "<node_internals>/**"
-            ]
-        },
-        {
-            "type": "node",
-            "name": "Launch Eslint",
-            "request": "launch",
-            "program": "${workspaceFolder}/node_modules/eslint/bin/eslint",
-            "args": [
-                ".",
-                "--debug"
-            ],
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen"
-        },
-        {
-            "type": "node",
-            "name": "Launch Jest",
-            "request": "launch",
-            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-            "args": [
-                "--runInBand"
-            ],
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Webpack",
-            "program": "${workspaceFolder}/node_modules/webpack/bin/webpack.js",
-            "args": [
-                "--config",
-                "./src/config/webpack.production.config.js"
-            ]
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Launch Chrome",
-            "url": "https://scandipwa.local",
-            "webRoot": "${workspaceFolder}"
+            "type": "node-terminal",
+            "env": {
+                "BROWSER": "none"
+            },
+            "cwd": "${workspaceFolder}/packages/scandipwa"
         }
+        
     ]
 }
