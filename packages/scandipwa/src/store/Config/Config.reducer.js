@@ -35,7 +35,13 @@ export const {
 export const getIndexedRatings = (reviewRatings) => ((reviewRatings) ? reviewRatings.items || [] : []);
 
 /** @namespace Store/Config/Reducer/getCurrencyData */
-export const getCurrencyData = (base, state) => ((base) || state.currencyData || {});
+export const getCurrencyData = (base, state) => (base || state.currencyData || {});
+
+/** @namespace Store/Config/Reducer/getCountryData */
+export const getCountryData = (base, state) => (base || state.countries || {});
+
+/** @namespace Store/Config/Reducer/getCheckoutAgreementData */
+export const getCheckoutAgreementData = (base, state) => (base || state.checkoutAgreements || {});
 
 /** @namespace Store/Config/Reducer/getInitialState */
 export const getInitialState = () => ({
@@ -81,9 +87,9 @@ export const ConfigReducer = (
 
         return {
             ...state,
-            countries,
+            countries: getCountryData(countries, state),
             reviewRatings: getIndexedRatings(reviewRatings),
-            checkoutAgreements,
+            checkoutAgreements: getCheckoutAgreementData(checkoutAgreements, state),
             currencyData: getCurrencyData(currencyData, state),
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
