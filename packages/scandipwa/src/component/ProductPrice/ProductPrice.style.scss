@@ -10,8 +10,8 @@
  */
 
 :root {
-    --price-color: #b10d0d;
-    --price-discount-color: #808080;
+    --price-color: #000;
+    --price-discount-color: #000;
 }
 
 .ProductPrice {
@@ -32,17 +32,16 @@
         font-size: .7em;
         font-weight: 500;
         opacity: .5;
-        display: inline-block;
-        margin-left: 12px;
-
-        @include mobile {
-            margin-left: 4px;
-        }
     }
 
     &-HighPrice {
         padding-left: .1em;
-        color: var(--price-discount-color);
+        color: var(---price-discount-color);
+        display: none;
+
+        &_isVisible {
+            display: block;
+        }
     }
 
     &-Placeholder {

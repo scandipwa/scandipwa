@@ -46,9 +46,6 @@ export const mapDispatchToProps = (dispatch) => ({
     removeProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
     ),
-    updateCrossSellProducts: (items) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
-    ),
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
@@ -58,13 +55,7 @@ export class CartItemContainer extends PureComponent {
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,
         changeItemQty: PropTypes.func.isRequired,
-        removeProduct: PropTypes.func.isRequired,
-        updateCrossSellProducts: PropTypes.func.isRequired,
-        updateCrossSellsOnRemove: PropTypes.bool
-    };
-
-    static defaultProps = {
-        updateCrossSellsOnRemove: false
+        removeProduct: PropTypes.func.isRequired
     };
 
     state = { isLoading: false };
@@ -142,25 +133,9 @@ export class CartItemContainer extends PureComponent {
      */
     handleRemoveItem() {
         this.setState({ isLoading: true }, () => {
-            this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
+            const { removeProduct, item: { item_id } } = this.props;
+            this.hideLoaderAfterPromise(removeProduct(item_id));
         });
-    }
-
-    async removeProductAndUpdateCrossSell() {
-        const {
-            removeProduct,
-            updateCrossSellProducts,
-            updateCrossSellsOnRemove,
-            item: { item_id }
-        } = this.props;
-
-        const result = await removeProduct(item_id);
-
-        if (result && updateCrossSellsOnRemove) {
-            await updateCrossSellProducts(result.items);
-        }
-
-        return result;
     }
 
     /**

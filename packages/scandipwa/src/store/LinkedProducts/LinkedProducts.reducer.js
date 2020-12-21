@@ -43,7 +43,7 @@ export const LinkedProductsReducer = (
             [UPSELL]: upsell,
             [RELATED]: related,
             [CROSS_SELL]: crosssell,
-            updateCrossSell = false
+            updateCrosssel = false
         }
     } = action;
 
@@ -53,7 +53,7 @@ export const LinkedProductsReducer = (
         }
     } = state;
 
-    if (updateCrossSell) {
+    if (updateCrosssel) {
         return {
             ...state,
             linkedProducts: {

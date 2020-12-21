@@ -140,6 +140,9 @@ export class ProductReviews extends PureComponent {
               elem="Summary"
               { ...reviewSchemaObject }
             >
+                <h3 block="ProductReviews" elem="Title">
+                    { __('Customer reviews') }
+                </h3>
                 { this.renderRatingData() }
                 { this.renderButton() }
             </div>

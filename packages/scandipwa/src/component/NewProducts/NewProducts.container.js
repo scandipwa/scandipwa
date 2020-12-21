@@ -48,11 +48,7 @@ export class NewProductsContainer extends PureComponent {
     };
 
     state = {
-        products: undefined,
-        siblingsHaveBrands: false,
-        siblingsHavePriceBadge: false,
-        siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false
+        products: undefined
     };
 
     componentDidMount() {
@@ -79,30 +75,6 @@ export class NewProductsContainer extends PureComponent {
             || cacheLifetime !== pCacheLifetime) {
             this.requestProducts();
         }
-    }
-
-    containerProps() {
-        const {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
-        } = this.state;
-
-        return {
-            productCardFunctions: {
-                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
-                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
-                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
-            },
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
-            }
-        };
     }
 
     /**
@@ -166,15 +138,7 @@ export class NewProductsContainer extends PureComponent {
             );
     }
 
-    render() {
-        return (
-            <NewProducts
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerProps() }
-            />
-        );
-    }
+    render = () => <NewProducts { ...this.props } { ...this.state } />;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewProductsContainer);

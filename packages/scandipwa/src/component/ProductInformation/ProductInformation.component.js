@@ -10,12 +10,13 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Fragment, PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
-import { ProductType } from 'Type/ProductList';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import { AttributeType, ProductType } from 'Type/ProductList';
 
 import './ProductInformation.style';
 
@@ -23,8 +24,38 @@ import './ProductInformation.style';
 export class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        attributesWithValues: AttributeType.isRequired
     };
+
+    renderAttribute = ([attributeLabel, valueLabel]) => (
+        <Fragment key={ attributeLabel }>
+            <dt block="ProductInformation" elem="AttributeLabel">
+                { attributeLabel }
+            </dt>
+            <dd block="ProductInformation" elem="ValueLabel">
+                <ProductAttributeValue
+                  key={ attributeLabel }
+                  attribute={ valueLabel }
+                  isFormattedAsText
+                />
+            </dd>
+        </Fragment>
+    );
+
+    renderAttributes() {
+        const { attributesWithValues } = this.props;
+
+        if (!Object.keys(attributesWithValues).length) {
+            return null;
+        }
+
+        return (
+            <dl block="ProductInformation" elem="Attributes">
+                { Object.entries(attributesWithValues).map(this.renderAttribute) }
+            </dl>
+        );
+    }
 
     renderDescription() {
         const { product: { description: { html } = {} } } = this.props;
@@ -51,6 +82,7 @@ export class ProductInformation extends PureComponent {
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
                 { this.renderDescription() }
+                { this.renderAttributes() }
             </ExpandableContent>
         );
     }

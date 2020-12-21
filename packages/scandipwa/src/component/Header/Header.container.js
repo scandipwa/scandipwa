@@ -31,7 +31,7 @@ import Header from './Header.component';
 import {
     CART,
     CART_OVERLAY, CATEGORY,
-    CHECKOUT, CHECKOUT_ACCOUNT, CHECKOUT_SUCCESS,
+    CHECKOUT, CHECKOUT_ACCOUNT,
     CMS_PAGE, CONTACT_US, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
     MENU, PDP,
@@ -59,7 +59,7 @@ export const mapDispatchToProps = (dispatch) => ({
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: (stateName) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
+    showPopup: (payload) => dispatch(showPopup(payload)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
@@ -91,7 +91,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         // eslint-disable-next-line max-len
         '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/category': { name: CATEGORY },
-        '/checkout/success': { name: CHECKOUT_SUCCESS },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push(appendWithStoreCode('/cart')) },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push(appendWithStoreCode('/')) },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
@@ -191,7 +190,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     shareWishlist() {
         const { showPopup } = this.props;
-        showPopup({ title: __('Share Wishlist') });
+        showPopup(SHARE_WISHLIST_POPUP_ID, { title: __('Share Wishlist') });
     }
 
     getNavigationState() {

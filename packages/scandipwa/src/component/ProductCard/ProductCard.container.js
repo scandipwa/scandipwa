@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import { getVariantsIndexes } from 'Util/Product';
 import { objectToUri } from 'Util/Url';
@@ -38,8 +37,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
-        selectedFilters: FilterType,
-        device: DeviceType.isRequired
+        selectedFilters: FilterType
     };
 
     static defaultProps = {
@@ -165,31 +163,36 @@ export class ProductCardContainer extends PureComponent {
     }
 
     _getAvailableVisualOptions() {
-        const { product: { configurable_options = {} } } = this.props;
+        const { product: { configurable_options = [] } } = this.props;
 
-        if (Object.keys(configurable_options).length === 0) {
-            return [];
-        }
+        return Object.values(configurable_options).reduce((acc, { attribute_options = {}, attribute_values }) => {
+            const visualOptions = Object.values(attribute_options).reduce(
+                (acc, option) => {
+                    const {
+                        swatch_data,
+                        label,
+                        value: attrValue
+                    } = option;
 
-        const { attribute_options } = Object.values(configurable_options)[0];
+                    const { type, value } = swatch_data || {};
 
-        return Object.values(attribute_options).reduce(
-            (acc, option) => {
-                const {
-                    swatch_data,
-                    label
-                } = option;
+                    if (
+                        type === '1'
+                        && attribute_values.includes(attrValue)
+                    ) {
+                        acc.push({ value, label });
+                    }
 
-                const { type, value } = swatch_data || {};
+                    return acc;
+                }, []
+            );
 
-                if (type && value) {
-                    acc.push({ value, label, type });
-                }
+            if (visualOptions.length > 0) {
+                return [...acc, ...visualOptions];
+            }
 
-                return acc;
-            },
-            []
-        );
+            return acc;
+        }, []);
     }
 
     isConfigurableProductOutOfStock() {
@@ -231,8 +234,6 @@ export class ProductCardContainer extends PureComponent {
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
-});
+export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCardContainer);

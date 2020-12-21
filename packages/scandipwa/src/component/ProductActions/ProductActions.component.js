@@ -172,7 +172,7 @@ export class ProductActions extends PureComponent {
 
     renderBundleItems() {
         const {
-            product: { items, type_id, price_range },
+            product: { items, type_id },
             maxQuantity,
             getSelectedCustomizableOptions,
             productOptionsData,
@@ -195,7 +195,6 @@ export class ProductActions extends PureComponent {
                   maxQuantity={ maxQuantity }
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
-                  price_range={ price_range }
                 />
             </section>
         );

@@ -15,6 +15,13 @@
 }
 
 .ProductInformation {
+    top: -1px;
+    border-top: 1px solid var(--expandable-content-divider-color);
+
+    @include after-mobile {
+        background-color: var(--product-information-background);
+    }
+
     &-Wrapper {
         padding: 0;
 
@@ -23,16 +30,21 @@
         }
     }
 
-    &-ExpandableContentButton {
-        @include after-mobile {
-            display: none;
+    &-ExpandableContentHeading {
+        @include desktop {
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+
+        .TextPlaceholder::after {
+            content: 'aaaaaaaaaaaaaaaaaaa';
         }
     }
 
     &-ExpandableContentContent {
         &_isContentExpanded {
             @include mobile {
-                padding: 0 1.4rem 1.4rem;
+                padding: 0 1.4rem;
             }
         }
 

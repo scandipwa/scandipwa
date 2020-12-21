@@ -278,19 +278,8 @@ export class ProductActionsContainer extends PureComponent {
         } = variants[configurableVariantIndex] || product;
 
         if (type_id === BUNDLE) {
-            const {
-                price_range: {
-                    minimum_price: {
-                        regular_price: { currency },
-                        discount: { percent_off }
-                    }
-                }
-            } = product;
-
-            // eslint-disable-next-line no-magic-numbers
-            const finalBundlePrice = selectedBundlePrice - (selectedBundlePrice * (percent_off / 100));
-
-            const priceValue = { value: finalBundlePrice, currency };
+            const { price_range: { minimum_price: { regular_price: { currency } } } } = product;
+            const priceValue = { value: selectedBundlePrice, currency };
 
             return {
                 minimum_price: {

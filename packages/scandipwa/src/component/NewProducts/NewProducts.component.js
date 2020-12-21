@@ -22,9 +22,7 @@ import './NewProducts.style';
 export class NewProducts extends PureComponent {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),
-        productsPerPage: PropTypes.number,
-        productCardProps: PropTypes.object.isRequired,
-        productCardFunctions: PropTypes.object.isRequired
+        productsPerPage: PropTypes.number
     };
 
     static defaultProps = {
@@ -33,8 +31,6 @@ export class NewProducts extends PureComponent {
     };
 
     newProductsRef = createRef();
-
-    renderProductCard = this.renderProductCard.bind(this);
 
     componentDidMount() {
         this.setStyles();
@@ -49,29 +45,18 @@ export class NewProducts extends PureComponent {
         CSS.setVariable(this.newProductsRef, 'new-products-per-page-count', productsPerPage);
     }
 
-    renderProductCard(product, i) {
-        const {
-            productCardProps,
-            productCardFunctions
-        } = this.props;
-
-        return (
-            <ProductCard
-              key={ product.id || i }
-              product={ product }
-              { ...productCardProps }
-              { ...productCardFunctions }
-            />
-        );
-    }
-
     render() {
         const { products } = this.props;
         return (
             <section block="NewProducts" ref={ this.newProductsRef }>
                 <h3>{ __('New Products') }</h3>
                 <ul block="NewProducts" elem="Products">
-                    { products.map(this.renderProductCard) }
+                    { products.map((product, i) => (
+                        <ProductCard
+                          key={ product.id || i }
+                          product={ product }
+                        />
+                    )) }
                 </ul>
             </section>
         );

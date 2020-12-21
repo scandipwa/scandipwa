@@ -267,7 +267,7 @@ export class WishlistItem extends PureComponent {
 
         return (
             <>
-                <div block="WishlistItem" elem="FigureWrapper">
+                <div>
                     { renderCardLinkWrapper(
                         <>
                             <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
@@ -300,7 +300,6 @@ export class WishlistItem extends PureComponent {
               mix={ { block: 'WishlistItem', elem: 'ProductCard' } }
               isLoading={ isLoading }
               renderContent={ this.renderContent }
-              hideWishlistButton
             />
         );
     }

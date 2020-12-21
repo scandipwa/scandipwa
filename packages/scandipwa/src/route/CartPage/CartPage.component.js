@@ -64,7 +64,6 @@ export class CartPage extends PureComponent {
                           currency_code={ quote_currency_code }
                           isEditing
                           isLikeTable
-                          updateCrossSellsOnRemove
                         />
                     )) }
                 </ul>

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import RecentlyViewedWidget from './RecentlyViewedWidget.component';
@@ -23,46 +22,4 @@ export const mapStateToProps = (state) => ({
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({});
 
-/** @namespace Component/RecentlyViewedWidget/Container */
-export class RecentlyViewedWidgetContainer extends PureComponent {
-    state = {
-        siblingsHaveBrands: false,
-        siblingsHavePriceBadge: false,
-        siblingsHaveTierPrice: false,
-        siblingsHaveConfigurableOptions: false
-    };
-
-    containerProps() {
-        const {
-            siblingsHaveBrands,
-            siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
-        } = this.state;
-
-        return {
-            productCardFunctions: {
-                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
-                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
-                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
-                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
-            },
-            productCardProps: {
-                siblingsHaveBrands,
-                siblingsHavePriceBadge,
-                siblingsHaveTierPrice,
-                siblingsHaveConfigurableOptions
-            }
-        };
-    }
-
-    render() {
-        return (
-            <RecentlyViewedWidget
-              { ...this.containerProps() }
-            />
-        );
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecentlyViewedWidgetContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RecentlyViewedWidget);

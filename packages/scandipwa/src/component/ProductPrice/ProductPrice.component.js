@@ -101,14 +101,11 @@ export class ProductPrice extends PureComponent {
 
         const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
 
-        if (discountPercentage === 0) {
-            return null;
-        }
-
         return (
             <del
               block="ProductPrice"
               elem="HighPrice"
+              mods={ { isVisible: discountPercentage > 0 } }
               aria-label={ __('Old product price') }
               { ...schema }
             >

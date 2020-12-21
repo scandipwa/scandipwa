@@ -34,30 +34,10 @@
     }
 
     &-ProductCard {
-        @include desktop {
-            display: flex;
-            flex-direction: column;
+        @include after-mobile {
             padding: 1.2rem 0;
             margin-bottom: 0;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
         }
-
-        .ProductAttribute {
-            font-size: 1rem;
-            text-transform: uppercase;
-            border: 1px solid #adadad;
-            color: #adadad;
-            padding: 3px 5px;
-            margin-right: 5px;
-            display: inline-block;
-        }
-    }
-
-    &-FigureWrapper {
-        flex: 1;
     }
 
     &-ContentWrapper {
@@ -126,11 +106,6 @@
             float: right;
             text-align: right;
         }
-
-        .ProductPrice {
-            display: flex;
-            flex-direction: column-reverse;
-        }
     }
 
     &-Content {
@@ -162,7 +137,7 @@
     &-RowWrapper {
         margin-top: auto;
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         justify-content: space-between;
 
         @include mobile {
@@ -213,4 +188,14 @@
     .ProductCard-Name {
         white-space: inherit;
     }
+}
+
+.ProductAttribute {
+    font-size: 1rem;
+    text-transform: uppercase;
+    border: 1px solid #adadad;
+    color: #adadad;
+    padding: 3px 5px;
+    margin-right: 5px;
+    display: inline-block;
 }

@@ -12,20 +12,12 @@
 :root {
     --product-card-picture-mask-color: #f5f5f5;
     --product-card-color-border-color: #efefef;
-    --product-card-text-border-color: #979797;
     --product-cart-picture-label-background: rgba(255, 255, 255, .7);
-    --product-cart-reviews-background: rgba(243, 243, 243, .55);
-    --product-cart-wishlist-button-background: rgba(243, 243, 243, .78);
-    --product-card-name-line-height: 1.2em;
-    --product-card-name-max-rows: 2;
-    --product-card-brand-line-height: 1.2em;
 }
 
 .ProductCard {
     padding-left: 0;
     min-width: 0;
-    display: flex;
-    align-items: stretch;
 
     &::before {
         content: none;
@@ -40,10 +32,14 @@
     }
 
     &-Content {
-        padding: 10px 0 15px;
-        flex: 1;
+        padding: 1.2rem;
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
+        padding-top: 23px;
+
+        @include mobile {
+            padding: 23px 1.4rem 1.4rem;
+        }
     }
 
     &-Name,
@@ -51,9 +47,15 @@
         width: 100%;
         font-size: 1.08rem;
         max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
 
         @include mobile {
             font-size: 1.26rem;
+        }
+
+        &_isLoaded {
+            text-overflow: ellipsis;
         }
 
         @include after-mobile {
@@ -63,15 +65,9 @@
     }
 
     &-Name {
-        flex: 1;
-        margin: 5px 0;
-        line-height: var(--product-card-name-line-height);
-        max-height: calc(var(--product-card-name-line-height) * var(--product-card-name-max-rows));
-        min-height: var(--product-card-name-line-height);
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: var(--product-card-name-max-rows);
+        @include after-mobile {
+            margin-top: .6rem;
+        }
     }
 
     &-Brand {
@@ -80,20 +76,8 @@
 
         @include mobile {
             line-height: 1;
-            font-size: 1.1rem;
-        }
-
-        @include after-mobile {
             font-size: 1.2rem;
-            line-height: var(--product-card-brand-line-height);
         }
-    }
-
-    &-BrandAttributeValue {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
     }
 
     &-Picture {
@@ -110,69 +94,36 @@
         top: 0;
     }
 
-    &-Figure-Review {
-        display: flex;
-        justify-content: center;
-    }
-
     &-Reviews {
-        --product-rating-size: 1.6rem;
-        --product-rating-background: #ffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 105px;
-        height: 25px;
-        position: absolute;
-        bottom: 0;
-        background-color: var(--product-cart-reviews-background);
-        border-radius: 1rem;
-        letter-spacing: normal;
-        @include mobile {
-            --product-rating-size: 1.4rem;
-            width: 100%;
-            border-radius: 0;
-        }
+        --product-rating-size: 1.2rem;
+
+        width: 100%;
     }
 
     &-ConfigurableOptions {
         flex-grow: 1;
         display: flex;
-        justify-content: flex-start;
+        justify-content: flex-end;
         align-items: center;
-        flex-wrap: wrap;
     }
 
     &-Color {
-        --product-card-color-size: 15px;
+        --product-card-color-size: 9px;
+
+        @include after-mobile {
+            --product-card-color-size: 10px;
+        }
+
         display: inline-block;
         width: var(--product-card-color-size);
         height: var(--product-card-color-size);
         border-radius: 50%;
         overflow: hidden;
-        margin: 5px 7px 0 0;
+        margin-left: calc(var(--product-card-color-size) / 3);
         border: 1px solid var(--product-card-color-border-color);
     }
 
-    &-String {
-        border: 1px solid var(--product-card-text-border-color);
-        color: var(--product-card-text-border-color);
-        display: inline-block;
-        text-align: center;
-        padding: 0 6px;
-        margin: 5px 7px 0 0;
-        line-height: 15px;
-        min-width: 20px;
-    }
-
-    &-PriceWrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-    }
-
     &-Price {
-        width: 100%;
         @include after-mobile {
             font-size: 2rem;
         }
@@ -180,8 +131,10 @@
 
     &-PriceBadge {
         color: var(--secondary-dark-color);
+        margin-right: 5px;
         font-size: 1rem;
-        margin-bottom: 0;
+        position: absolute;
+        top: 7px;
     }
 
     &-Figure {
@@ -192,7 +145,6 @@
         color: inherit;
         display: flex;
         flex-direction: column;
-        width: 100%;
 
         &:hover,
         &:focus {
@@ -200,99 +152,13 @@
         }
     }
 
-    &-WishListButton {
-        width: 35px;
-        height: 35px;
-        background-color: var(--product-cart-wishlist-button-background);
-        border: none;
-        transition: all .2s;
-        opacity: .7;
-
-        .ProductWishlistButton-Heart {
-            --wishlist-heart-size: 15px;
-
-            transform: scale(.7) rotate(-45deg);
-            background-color: #d8d5d5;
-
-            @include before-desktop {
-                transform: scale(.6) rotate(-45deg);
-            }
-        }
-
-        ::before,
-        ::after {
-            background-color: #d8d5d5;
-        }
-
-        &:hover {
-            @include after-mobile {
-                opacity: 1;
-                transition: all .2s;
-            }
-
-            .ProductWishlistButton-Heart {
-                @include after-mobile {
-                    background-color: var(--primary-base-color);
-                }
-            }
-
-            ::before,
-            ::after {
-                @include after-mobile {
-                    background-color: var(--primary-base-color);
-                }
-            }
-        }
-
-        &:not([disabled]):hover,
-        &:not([disabled]):focus {
-            background-color: var(--product-cart-wishlist-button-background);
-        }
+    p {
+        margin-bottom: 0;
     }
 
     .TextPlaceholder,
     .Image_isPlaceholder {
         opacity: 0;
         animation: appear 100ms 300ms forwards;
-    }
-
-    .ProductWishlistButton {
-        margin-left: 0;
-        position: absolute;
-        top: 3%;
-        right: 3%;
-
-        &-Button_isInWishlist {
-            background-color: var(--product-cart-wishlist-button-background);
-            opacity: 1;
-
-            .ProductWishlistButton-Heart {
-                background-color: var(--primary-base-color);
-            }
-
-            ::before,
-            ::after {
-                background-color: var(--primary-base-color);
-            }
-        }
-    }
-
-    &_siblingsHaveBrands {
-        .ProductCard-Brand {
-            min-height: var(--product-card-brand-line-height);
-        }
-    }
-
-    &_siblingsHaveTierPrice,
-    &_siblingsHavePriceBadge {
-        .ProductCard-PriceWrapper {
-            min-height: 40px;
-        }
-    }
-
-    &_siblingsHaveConfigurableOptions {
-        .ProductCard-ConfigurableOptions {
-            min-height: 20px;
-        }
     }
 }

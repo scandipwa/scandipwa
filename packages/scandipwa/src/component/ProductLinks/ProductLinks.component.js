@@ -25,9 +25,7 @@ export class ProductLinks extends PureComponent {
         areDetailsLoaded: PropTypes.bool,
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
         linkType: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        productCardProps: PropTypes.object.isRequired,
-        productCardFunctions: PropTypes.object.isRequired
+        title: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -35,13 +33,7 @@ export class ProductLinks extends PureComponent {
         areDetailsLoaded: true
     };
 
-    renderProductCard = this.renderProductCard.bind(this);
-
     renderProductCard(product, i) {
-        const {
-            productCardProps,
-            productCardFunctions
-        } = this.props;
         const { id = i } = product;
 
         return (
@@ -50,8 +42,6 @@ export class ProductLinks extends PureComponent {
               elem="Card"
               product={ product }
               key={ id }
-              { ...productCardProps }
-              { ...productCardFunctions }
             />
         );
     }

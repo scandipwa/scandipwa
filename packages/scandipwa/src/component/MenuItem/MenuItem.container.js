@@ -28,26 +28,17 @@ export const mapDispatchToProps = (dispatch) => ({});
 /** @namespace Component/MenuItem/Container/menuItemContainer */
 export class MenuItemContainer extends PureComponent {
     static propTypes = {
-        closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
         item: PropTypes.object.isRequired
     };
 
     static defaultProps = {
-        closeMenu: () => {},
         onCategoryHover: () => {}
     };
 
     containerFunctions = {
-        handleCategoryHover: this.handleCategoryHover.bind(this),
-        onItemClick: this.onItemClick.bind(this)
+        handleCategoryHover: this.handleCategoryHover.bind(this)
     };
-
-    onItemClick() {
-        const { closeMenu } = this.props;
-        window.scrollTo({ top: 0 });
-        closeMenu();
-    }
 
     handleCategoryHover() {
         const { onCategoryHover, item } = this.props;

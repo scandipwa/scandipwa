@@ -406,6 +406,7 @@ export class Menu extends PureComponent {
             >
                 { this.renderTopLevel() }
             </div>
+
         );
     }
 }

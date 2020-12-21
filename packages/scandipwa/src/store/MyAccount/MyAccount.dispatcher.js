@@ -191,8 +191,6 @@ export class MyAccountDispatcher {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
-
-        await this.requestCustomerData(dispatch);
         dispatch(updateIsLoading(false));
 
         return true;

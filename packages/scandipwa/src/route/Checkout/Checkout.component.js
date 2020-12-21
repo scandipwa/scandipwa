@@ -21,7 +21,7 @@ import CheckoutSuccess from 'Component/CheckoutSuccess';
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
-import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
+import { CHECKOUT } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
 import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
@@ -122,7 +122,7 @@ export class Checkout extends PureComponent {
         const { title = '' } = this.stepMap[checkoutStep];
 
         setHeaderState({
-            name: checkoutStep === DETAILS_STEP ? CHECKOUT_SUCCESS : CHECKOUT,
+            name: CHECKOUT,
             title,
             onBackClick: () => goBack()
         });

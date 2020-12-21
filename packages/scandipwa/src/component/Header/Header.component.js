@@ -41,7 +41,6 @@ import {
     CATEGORY,
     CHECKOUT,
     CHECKOUT_ACCOUNT,
-    CHECKOUT_SUCCESS,
     CMS_PAGE,
     CONTACT_US,
     CUSTOMER_ACCOUNT,
@@ -169,10 +168,6 @@ export class Header extends NavigationAbstract {
         },
         [CHECKOUT]: {
             back: true,
-            title: true,
-            account: true
-        },
-        [CHECKOUT_SUCCESS]: {
             title: true,
             account: true
         },
