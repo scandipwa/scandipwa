@@ -31,8 +31,12 @@
     "scandipwa": {
         "themeAlias": "Source",
         "type": "theme",
+        "locales": {
+            "en_US": true
+        },
         "extensions": {
-            "@scandipwa/m2-theme": true
+            "@scandipwa/m2-theme": true,
+            "@scandipwa/webpack-i18n-runtime": true
         },
         "composer": {
             "magento/framework": "*",
