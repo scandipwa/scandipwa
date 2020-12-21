@@ -26,14 +26,14 @@ export class MenuItem extends PureComponent {
         itemMods: PropTypes.object,
         handleCategoryHover: PropTypes.func.isRequired,
         isLink: PropTypes.bool,
-        closeMenu: PropTypes.func,
+        onItemClick: PropTypes.func,
         device: DeviceType.isRequired
     };
 
     static defaultProps = {
         itemMods: {},
         isLink: false,
-        closeMenu: () => {}
+        onItemClick: () => {}
     };
 
     renderItemContentImage(icon, itemMods) {
@@ -100,7 +100,7 @@ export class MenuItem extends PureComponent {
             item,
             itemMods,
             handleCategoryHover,
-            closeMenu
+            onItemClick
         } = this.props;
 
         const {
@@ -118,7 +118,7 @@ export class MenuItem extends PureComponent {
               id={ item_id }
               onMouseEnter={ handleCategoryHover }
               mods={ { isHovered } }
-              onClick={ closeMenu }
+              onClick={ onItemClick }
             >
                 { this.renderItemContent(item, itemMods) }
             </Link>

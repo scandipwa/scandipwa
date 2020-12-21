@@ -112,7 +112,7 @@
         border: 1px solid var(--cart-item-option-color);
         color: var(--cart-item-option-color);
         padding: 3px 5px;
-        margin-right: 5px;
+        margin: 5px 7px 0 0;
     }
 
     &-ItemOptionsWrapper {
@@ -171,10 +171,6 @@
 
         @include mobile {
             height: 100%;
-
-            img {
-                object-fit: cover;
-            }
         }
     }
 
@@ -235,7 +231,7 @@
             position: absolute;
             bottom: 1.2rem;
             right: 0;
-            width: calc(100% - 9.6rem);
+            width: calc(100% - 11.3rem);
             height: 3.6rem;
         }
 

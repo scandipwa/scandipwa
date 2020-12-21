@@ -178,18 +178,21 @@ export class ProductAttributeValue extends PureComponent {
             return label || __('N/A');
         }
 
+        const style = {
+            '--option-background-color': color,
+            '--option-border-color': isLight ? '#000' : color,
+            '--option-check-mark-background': isLight ? '#000' : '#fff',
+            // stylelint-disable-next-line value-keyword-case
+            '--option-is-selected': isSelected ? 1 : 0
+        };
+
         return (
             <data
               block="ProductAttributeValue"
               elem="Color"
               value={ label }
               title={ label }
-              style={ {
-                  '--option-background-color': color,
-                  '--option-border-color': isLight ? '#000' : color,
-                  '--option-check-mark-background': isLight ? '#000' : '#fff',
-                  '--option-is-selected': +isSelected
-              } }
+              style={ style }
             />
         );
     }
@@ -200,6 +203,11 @@ export class ProductAttributeValue extends PureComponent {
         if (isFormattedAsText) {
             return label || __('N/A');
         }
+
+        const style = {
+            // stylelint-disable-next-line value-keyword-case
+            '--option-is-selected': isSelected ? 1 : 0
+        };
 
         return (
             <>
@@ -214,9 +222,7 @@ export class ProductAttributeValue extends PureComponent {
                   elem="Image-Overlay"
                   value={ label }
                   title={ label }
-                  style={ {
-                      '--option-is-selected': +isSelected
-                  } }
+                  style={ style }
                 />
             </>
         );

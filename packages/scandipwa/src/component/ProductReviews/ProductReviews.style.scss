@@ -14,25 +14,6 @@
         z-index: 1;
     }
 
-    @include mobile {
-        border-top: 1px solid var(--expandable-content-divider-color);
-        top: -2px;
-    }
-
-    &-Title {
-        margin: 0 0 .6rem;
-        font-size: 2.4rem;
-
-        @include mobile {
-            margin: 0 0 .7rem;
-            font-size: 2.8rem;
-        }
-
-        @include before-desktop {
-            display: none;
-        }
-    }
-
     &-Wrapper {
         padding: 0;
 
