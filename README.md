@@ -2,8 +2,8 @@
 
 The next-generation front-end for Magento 2. Fast. Reliable. Extensible.
 
-- [Getting started](https://scandipwa.gitbook.io/create-scandipwa-app/getting-started/getting-started#creating-an-app) – create a new application and deploy it as Magento 2 theme or standalone storefront.
-- [Developer guide](https://scandipwa.gitbook.io/create-scandipwa-app/) – Learn how to develop ScandiPWA applications.
+- [Getting started](https://scandipwa.gitbook.io/docs-v2/) – create a new application and deploy it as Magento 2 theme or standalone storefront.
+- [Developer guide](https://scandipwa.gitbook.io/docs-v2/building-your-app/building-a-scandipwa-app) – Learn how to develop ScandiPWA applications.
 
 ## Important features
 
@@ -34,11 +34,11 @@ Experience features and performance through 3 different demos:
 Here are some awesome resources to start with!
 
 - [Video Tutorials](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww/videos)
-- [ScandiPWA User Guide](https://manual.scandipwa.com/)
 - [Create ScandiPWA App](https://scandipwa.gitbook.io/create-scandipwa-app/)
-- [ScandiPWA Documentation](https://docs.scandipwa.com/) (:warning: will be replaced with new documentation soon)
+- [ScandiPWA Documentation](https://scandipwa.gitbook.io/docs-v2)
+- [ScandiPWA User Guide](https://manual.scandipwa.com/)
 
-**Still feeling lost?** Join our [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask community directly!
+**Still feeling lost?** Join our [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask community directly! Alternatively, start a new Discussion on [GitHub](https://github.com/scandipwa/scandipwa/discussions)!
 
 ## Contribution
 
@@ -52,4 +52,4 @@ Thanks to these **awesome** :heart: people for contribution!
 
 ## License
 
-Create React App is open source software licensed as OSL-3.
+ScandiPWA is open source software licensed as OSL-3.
