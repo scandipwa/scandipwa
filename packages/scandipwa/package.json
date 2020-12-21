@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "3.2.4-alpha.2",
+    "version": "3.2.4",
     "scripts": {
         "start": "scandipwa-scripts start",
         "build": "scandipwa-scripts build"
@@ -54,7 +54,7 @@
             "scandipwa/cache": "^1.1.1",
             "scandipwa/locale": "^1.2",
             "scandipwa/contact-graphql": "^1.0.0",
-            "scandipwa/klarna-graphql" : "^1.1.1"
+            "scandipwa/klarna-graphql": "^1.1.1"
         }
     },
     "browserslist": {
