@@ -42,12 +42,13 @@ export class CheckoutShipping extends PureComponent {
     renderOrderTotal() {
         const {
             totals: {
-                grand_total,
+                subtotal_with_discount,
+                tax_amount,
                 quote_currency_code
             }
         } = this.props;
 
-        const orderTotal = formatPrice(grand_total, quote_currency_code);
+        const orderTotal = formatPrice(subtotal_with_discount + tax_amount, quote_currency_code);
 
         return (
             <div block="Checkout" elem="OrderTotal">

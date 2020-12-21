@@ -46,6 +46,7 @@ export class CheckoutBilling extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
+        paymentTotals: TotalsType.isRequired,
         shippingAddress: addressType.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
@@ -132,9 +133,17 @@ export class CheckoutBilling extends PureComponent {
     }
 
     renderOrderTotal() {
-        const { totals: { grand_total, quote_currency_code } } = this.props;
+        const {
+            totals: {
+                grand_total,
+                quote_currency_code
+            },
+            paymentTotals: {
+                grand_total: payment_grand_total
+            }
+        } = this.props;
 
-        const orderTotal = formatPrice(grand_total, quote_currency_code);
+        const orderTotal = formatPrice(payment_grand_total || grand_total, quote_currency_code);
 
         return (
             <div block="Checkout" elem="OrderTotal">

@@ -197,6 +197,7 @@ export class Checkout extends PureComponent {
 
     renderBillingStep() {
         const {
+            paymentTotals,
             setLoading,
             setDetailsStep,
             shippingAddress,
@@ -211,6 +212,7 @@ export class Checkout extends PureComponent {
               setDetailsStep={ setDetailsStep }
               shippingAddress={ shippingAddress }
               savePaymentInformation={ savePaymentInformation }
+              paymentTotals={ paymentTotals }
             />
         );
     }

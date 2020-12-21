@@ -51,6 +51,7 @@ export class CheckoutBillingContainer extends PureComponent {
         shippingAddress: addressType.isRequired,
         customer: customerType.isRequired,
         totals: TotalsType.isRequired,
+        paymentTotals: TotalsType,
         addressLinesQty: PropTypes.number.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string,
@@ -58,6 +59,10 @@ export class CheckoutBillingContainer extends PureComponent {
             name: PropTypes.string
         })).isRequired
     };
+
+    static defaultProps = {
+        paymentTotals: {}
+    }
 
     static getDerivedStateFromProps(props, state) {
         const { paymentMethod, prevPaymentMethods } = state;
