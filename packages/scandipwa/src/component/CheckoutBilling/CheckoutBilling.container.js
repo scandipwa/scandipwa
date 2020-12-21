@@ -62,7 +62,7 @@ export class CheckoutBillingContainer extends PureComponent {
 
     static defaultProps = {
         paymentTotals: {}
-    }
+    };
 
     static getDerivedStateFromProps(props, state) {
         const { paymentMethod, prevPaymentMethods } = state;
