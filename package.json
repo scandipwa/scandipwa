@@ -21,7 +21,8 @@
     "eslintConfig": {
         "extends": "@scandipwa",
         "ignorePatterns": [
-            "**/node_modules/**"
+            "**/node_modules/**",
+            "**/Magento_Theme/**"
         ]
     },
     "workspaces": [
