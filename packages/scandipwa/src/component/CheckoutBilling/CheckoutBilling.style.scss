@@ -1,0 +1,65 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.CheckoutBilling {
+    &-Checkbox {
+        display: inline-block;
+        margin-bottom: 2.4rem;
+
+        @include mobile {
+            margin-bottom: 2.8rem;
+        }
+
+        + .CheckoutAddressBook {
+            margin-top: 0;
+        }
+    }
+
+    &-TermsAndConditions {
+        font-weight: 700;
+        font-size: 1.26rem;
+        margin: 0;
+        margin-bottom: 2.4rem;
+        display: flex;
+        align-items: center;
+
+        @include mobile {
+            font-size: 1.47rem;
+            margin-bottom: 2.8rem;
+        }
+
+        &-Checkbox {
+            margin: 0;
+            margin-left: 1.2rem;
+
+            @include mobile {
+                margin-left: 1.4rem;
+            }
+        }
+    }
+
+    &-TACLabel {
+        display: inline;
+    }
+
+    &-TACLink {
+        color: var(--link-color);
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus {
+            text-decoration: underline;
+        }
+    }
+}

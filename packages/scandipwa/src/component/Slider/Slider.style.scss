@@ -1,0 +1,82 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --slider-crumb-color: #fff;
+    --slider-crumb-background: #000;
+}
+
+.Slider {
+    --translateX: 0;
+    --translateY: 0;
+    --animation-speed: 0;
+    --slider-height: 0;
+    --slide-height: 0;
+    --slide-width: 0;
+    --height-transition-speed: 0;
+
+    max-width: 100%;
+    overflow: hidden;
+    touch-action: pan-y;
+
+    transition: height var(--height-transition-speed);
+
+    &-Wrapper {
+        display: flex;
+        align-items: flex-start;
+        height: 100%;
+
+        will-change: transform;
+        transition: transform var(--animation-speed);
+        transform: translate3d(var(--translateX), var(--translateY), 0);
+
+        > * {
+            flex-grow: 1;
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        &_isVertical {
+            flex-direction: column;
+        }
+    }
+
+    &-Crumbs {
+        position: absolute;
+        margin: auto;
+        display: grid;
+        grid-gap: 10px;
+
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, 7px);
+        justify-content: center;
+        bottom: 1.2rem;
+
+        @include mobile {
+            bottom: 1.4rem;
+        }
+    }
+
+    &-Crumb {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: var(--slider-crumb-background);
+        border: 1px solid var(--slider-crumb-color);
+        transition: background-color 300ms;
+
+        &_isActive {
+            background-color: var(--slider-crumb-color);
+            border-color: var(--slider-crumb-background);
+        }
+    }
+}

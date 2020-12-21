@@ -1,0 +1,34 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --input-type-number-width: 80px;
+    --placeholder-gradient-color: #d9d9d9;
+    --placeholder-image: linear-gradient(to right, #ebebeb 0, var(--placeholder-gradient-color) 15%, #ebebeb 30%);
+    --placeholder-size: 1200px 100%;
+    --placeholder-animation: placeholderAnimation 2s linear infinite;
+    --primary-divider-color: #f0f0f0;
+    --secondary-error-color: #fff;
+    --primary-error-color: #dc6d6d;
+    --secondary-success-color: #fff;
+    --primary-success-color: #7fcd91;
+    --secondary-info-color: #79632e;
+    --primary-info-color: #ffd166;
+    --body-content-color: $black;
+
+    // Declare imported primary colors to change the theme's colors
+    --primary-base-color: var(--imported_primary_base_color, #{$default-primary-base-color});
+    --primary-dark-color: var(--imported_primary_dark_color, #{$default-primary-dark-color});
+    --primary-light-color: var(--imported_primary_light_color, #{$default-primary-light-color});
+    --secondary-base-color: var(--imported_secondary_base_color, #{$default-secondary-base-color});
+    --secondary-dark-color: var(--imported_secondary_dark_color, #{$default-secondary-dark-color});
+    --secondary-light-color: var(--imported_secondary_light_color, #{$default-secondary-light-color});
+}
