@@ -445,6 +445,26 @@ export class CheckoutContainer extends PureComponent {
         return true;
     }
 
+    prepareAddressInformation(addressInformation) {
+        const {
+            shipping_address: {
+                save_in_address_book,
+                ...shippingAddress
+            } = {},
+            billing_address: {
+                save_in_address_book: x,
+                ...billingAddress
+            } = {},
+            ...data
+        } = addressInformation;
+
+        return {
+            ...data,
+            shipping_address: shippingAddress,
+            billing_address: billingAddress
+        };
+    }
+
     async saveAddressInformation(addressInformation) {
         const { updateShippingPrice } = this.props;
         const { shipping_address } = addressInformation;
@@ -462,7 +482,7 @@ export class CheckoutContainer extends PureComponent {
         }
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
-            addressInformation,
+            this.prepareAddressInformation(addressInformation),
             this._getGuestCartId()
         )).then(
             /** @namespace Route/Checkout/Container/saveAddressInformationFetchMutationThen */

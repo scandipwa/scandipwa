@@ -41,6 +41,11 @@ export const BreadcrumbsDispatcher = import(
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
 );
 
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
+);
+
 /** @namespace Route/CartPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
@@ -57,7 +62,10 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateCrossSellProducts: (items) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
+    )
 });
 
 /** @namespace Route/CartPage/Container */
@@ -65,6 +73,7 @@ export class CartPageContainer extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
+        updateCrossSellProducts: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
@@ -87,6 +96,7 @@ export class CartPageContainer extends PureComponent {
 
         this._updateBreadcrumbs();
         this._changeHeaderState();
+        this._updateCrossSellProducts();
     }
 
     componentDidUpdate(prevProps) {
@@ -237,7 +247,7 @@ export class CartPageContainer extends PureComponent {
 
     _changeHeaderState() {
         const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = __('%s Items', items_qty || 0);
+        const title = __('%s Item(s)', items_qty || 0);
 
         changeHeaderState({
             name: CART,
@@ -256,6 +266,17 @@ export class CartPageContainer extends PureComponent {
                 history.goBack();
             }
         });
+    }
+
+    _updateCrossSellProducts() {
+        const {
+            updateCrossSellProducts,
+            totals: {
+                items = []
+            } = {}
+        } = this.props;
+
+        updateCrossSellProducts(items);
     }
 
     render() {

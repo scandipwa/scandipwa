@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
+import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { CartItemType } from 'Type/MiniCart';
 import { itemIsOutOfStock } from 'Util/Cart';
@@ -30,7 +31,9 @@ export const CartDispatcher = import(
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -43,6 +46,9 @@ export const mapDispatchToProps = (dispatch) => ({
     removeProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeProductFromCart(dispatch, options)
     ),
+    updateCrossSellProducts: (items) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
+    ),
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
@@ -52,7 +58,13 @@ export class CartItemContainer extends PureComponent {
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,
         changeItemQty: PropTypes.func.isRequired,
-        removeProduct: PropTypes.func.isRequired
+        removeProduct: PropTypes.func.isRequired,
+        updateCrossSellProducts: PropTypes.func.isRequired,
+        updateCrossSellsOnRemove: PropTypes.bool
+    };
+
+    static defaultProps = {
+        updateCrossSellsOnRemove: false
     };
 
     state = { isLoading: false };
@@ -130,9 +142,25 @@ export class CartItemContainer extends PureComponent {
      */
     handleRemoveItem() {
         this.setState({ isLoading: true }, () => {
-            const { removeProduct, item: { item_id } } = this.props;
-            this.hideLoaderAfterPromise(removeProduct(item_id));
+            this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
         });
+    }
+
+    async removeProductAndUpdateCrossSell() {
+        const {
+            removeProduct,
+            updateCrossSellProducts,
+            updateCrossSellsOnRemove,
+            item: { item_id }
+        } = this.props;
+
+        const result = await removeProduct(item_id);
+
+        if (result && updateCrossSellsOnRemove) {
+            await updateCrossSellProducts(result.items);
+        }
+
+        return result;
     }
 
     /**
@@ -234,14 +262,33 @@ export class CartItemContainer extends PureComponent {
         return thumbnail || '';
     }
 
+    renderRightSideContent = () => {
+        const { handleRemoveItem } = this.containerFunctions;
+        return (
+            <button
+              block="CartItem"
+              elem="SwipeToDeleteRightSide"
+              onClick={ handleRemoveItem }
+              aria-label={ __('Remove') }
+            >
+                { __('Delete') }
+            </button>
+        );
+    };
+
     render() {
         return (
-            <CartItem
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
-            />
+            <SwipeToDelete
+              renderRightSideContent={ this.renderRightSideContent }
+              onAheadOfDragItemRemoveThreshold={ this.containerFunctions.handleRemoveItem }
+            >
+                <CartItem
+                  { ...this.props }
+                  { ...this.state }
+                  { ...this.containerFunctions }
+                  { ...this.containerProps() }
+                />
+            </SwipeToDelete>
         );
     }
 }

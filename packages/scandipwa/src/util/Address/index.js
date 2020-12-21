@@ -22,7 +22,8 @@ export const trimCustomerAddress = (customerAddress) => {
         postcode,
         street,
         telephone,
-        region
+        region,
+        vat_id
     } = customerAddress;
 
     return {
@@ -36,6 +37,7 @@ export const trimCustomerAddress = (customerAddress) => {
         postcode,
         street,
         telephone,
+        vat_id,
         ...region
     };
 };
