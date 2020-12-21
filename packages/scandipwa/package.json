@@ -1,14 +1,15 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "3.2.4-alpha.1",
+    "version": "3.2.4-alpha.2",
     "scripts": {
         "start": "scandipwa-scripts start",
         "build": "scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/m2-theme": "^0.1.0",
-        "@scandipwa/scandipwa-scripts": "^2.0.12",
+        "@scandipwa/m2-theme": "^0.1.1-alpha.0",
+        "@scandipwa/scandipwa-scripts": "^2.1.0",
+        "@scandipwa/service-worker": "^0.0.1",
         "braintree-web-drop-in": "^1.23.0",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
@@ -31,9 +32,13 @@
     "scandipwa": {
         "themeAlias": "Source",
         "type": "theme",
+        "locales": {
+            "en_US": true
+        },
         "extensions": {
             "@scandipwa/m2-theme": true,
-            "@scandipwa/webpack-i18n-runtime": true
+            "@scandipwa/webpack-i18n-runtime": true,
+            "@scandipwa/service-worker": true
         },
         "composer": {
             "magento/framework": "*",
@@ -72,7 +77,8 @@
     "eslintConfig": {
         "extends": "@scandipwa",
         "ignorePatterns": [
-            "src/**"
+            "src/**",
+            "**/node_modules/**"
         ]
     },
     "license": "OSL-3.0",
