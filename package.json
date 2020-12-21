@@ -21,7 +21,6 @@
     "eslintConfig": {
         "extends": "@scandipwa",
         "ignorePatterns": [
-            "packages/scandipwa/**",
             "**/node_modules/**"
         ]
     },
