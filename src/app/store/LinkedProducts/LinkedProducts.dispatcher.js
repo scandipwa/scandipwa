@@ -14,7 +14,7 @@ import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action
 import { showNotification } from 'Store/Notification/Notification.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
-import { QueryDispatcher } from 'Util/Request';
+import { fetchQuery, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
@@ -31,31 +31,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     }
 
     onSuccess(data, dispatch, product_links) {
-        const { products: { items } } = data;
-
-        const indexedBySku = items.reduce((acc, item) => {
-            const { sku } = item;
-            acc[sku] = getIndexedProduct(item);
-            return acc;
-        }, {});
-
-        const linkedProducts = product_links.reduce((acc, link) => {
-            const { linked_product_sku, link_type } = link;
-
-            if (indexedBySku[linked_product_sku]) {
-                acc[link_type].items.push(
-                    indexedBySku[linked_product_sku]
-                );
-
-                acc[link_type].total_count++;
-            }
-
-            return acc;
-        }, {
-            upsell: { total_count: 0, items: [] },
-            related: { total_count: 0, items: [] },
-            crosssell: { total_count: 0, items: [] }
-        });
+        const linkedProducts = this._processResponse(data, product_links);
 
         BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
         dispatch(updateLinkedProducts(linkedProducts));
@@ -95,7 +71,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @return {Query} ProductList query
      * @memberof LinkedProductsDispatcher
      */
-    clearLinkedProducts(dispatch, updateCrosssel = false) {
+    clearLinkedProducts(dispatch, updateCrossSell = false) {
         const linkedProducts = {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
@@ -106,8 +82,63 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
 
         dispatch(updateLinkedProducts({
             ...linkedProducts,
-            updateCrosssel
+            updateCrossSell
         }));
+    }
+
+    async fetchCrossSellProducts(dispatch, product_links) {
+        const query = this.prepareRequest(product_links);
+        const data = await fetchQuery(query);
+        const { crosssell } = this._processResponse(data, product_links);
+        const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS);
+
+        Object.assign(linkedProducts, {
+            crosssell,
+            updateCrossSell: true
+        });
+
+        dispatch(updateLinkedProducts(linkedProducts));
+    }
+
+    clearCrossSellProducts(dispatch) {
+        const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS) || {};
+
+        Object.assign(linkedProducts, {
+            crosssell: { total_count: 0, items: [] },
+            updateCrossSell: true
+        });
+
+        dispatch(updateLinkedProducts(linkedProducts));
+    }
+
+    _processResponse(data, product_links) {
+        const { products: { items } } = data;
+
+        const indexedBySku = items.reduce((acc, item) => {
+            const { sku } = item;
+            acc[sku] = getIndexedProduct(item);
+            return acc;
+        }, {});
+
+        const linkedProducts = product_links.reduce((acc, link) => {
+            const { linked_product_sku, link_type } = link;
+
+            if (indexedBySku[linked_product_sku]) {
+                acc[link_type].items.push(
+                    indexedBySku[linked_product_sku]
+                );
+
+                acc[link_type].total_count++;
+            }
+
+            return acc;
+        }, {
+            upsell: { total_count: 0, items: [] },
+            related: { total_count: 0, items: [] },
+            crosssell: { total_count: 0, items: [] }
+        });
+
+        return linkedProducts;
     }
 }
 

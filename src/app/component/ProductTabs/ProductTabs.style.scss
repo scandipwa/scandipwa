@@ -16,4 +16,10 @@
     @include desktop {
         display: flex;
     }
+
+    &-Wrapper {
+        @include mobile {
+            padding: 0;
+        }
+    }
 }

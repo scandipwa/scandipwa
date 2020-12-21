@@ -13,17 +13,22 @@
     --product-card-picture-mask-color: #f5f5f5;
     --product-card-color-border-color: #efefef;
     --product-card-text-border-color: #979797;
-    --product-cart-picture-label-background: rgba(255, 255, 255, .7);
-    --product-cart-reviews-background: rgba(243, 243, 243, .55);
+    --product-card-picture-label-background: rgba(255, 255, 255, .7);
+    --product-card-reviews-background: rgba(243, 243, 243, .55);
     --product-card-wishlist-button-background: rgba(243, 243, 243, .78);
     --product-card-wishlist-button-color: #d8d5d5;
     --product-card-compare-button-background: var(--product-card-wishlist-button-background);
     --product-card-compare-button-color: var(--product-card-wishlist-button-color);
+    --product-card-name-line-height: 1.2em;
+    --product-card-name-max-rows: 2;
+    --product-card-brand-line-height: 1.2em;
 }
 
 .ProductCard {
     padding-left: 0;
     min-width: 0;
+    display: flex;
+    align-items: stretch;
 
     &::before {
         content: none;
@@ -38,14 +43,10 @@
     }
 
     &-Content {
-        padding: 1.2rem;
+        padding: 10px 0 15px;
+        flex: 1;
         display: flex;
-        flex-wrap: wrap;
-        padding-top: 23px;
-
-        @include mobile {
-            padding: 23px 1.4rem 1.4rem;
-        }
+        flex-direction: column;
     }
 
     &-Name,
@@ -65,20 +66,37 @@
     }
 
     &-Name {
-        margin-bottom: .6rem;
+        flex: 1;
+        margin: 5px 0;
+        line-height: var(--product-card-name-line-height);
+        max-height: calc(var(--product-card-name-line-height) * var(--product-card-name-max-rows));
+        min-height: var(--product-card-name-line-height);
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: var(--product-card-name-max-rows);
     }
 
     &-Brand {
         font-weight: 300;
         opacity: .5;
+
         @include mobile {
             line-height: 1;
             font-size: 1.1rem;
         }
+
         @include after-mobile {
             font-size: 1.2rem;
-            line-height: 1.3;
+            line-height: var(--product-card-brand-line-height);
         }
+    }
+
+    &-BrandAttributeValue {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
     &-Picture {
@@ -106,11 +124,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 85px;
-        height: 21px;
+        width: 105px;
+        height: 25px;
         position: absolute;
-        bottom: 9px;
-        background-color: var(--product-cart-reviews-background);
+        bottom: 0;
+        background-color: var(--product-card-reviews-background);
         border-radius: 1rem;
         letter-spacing: normal;
         @include mobile {
@@ -135,7 +153,7 @@
         height: var(--product-card-color-size);
         border-radius: 50%;
         overflow: hidden;
-        margin: 4px 7px 0 0;
+        margin: 5px 7px 0 0;
         border: 1px solid var(--product-card-color-border-color);
     }
 
@@ -145,9 +163,15 @@
         display: inline-block;
         text-align: center;
         padding: 0 6px;
-        margin: 1px;
+        margin: 5px 7px 0 0;
         line-height: 15px;
         min-width: 20px;
+    }
+
+    &-PriceWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
     }
 
     &-Price {
@@ -171,6 +195,7 @@
         color: inherit;
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         &:hover,
         &:focus {
@@ -187,19 +212,16 @@
     }
 
     &-WishListButton {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         background-color: var(--product-card-wishlist-button-background);
         border: none;
         transition: all .2s;
         opacity: .7;
 
-        @include mobile {
-            width: 20px;
-            height: 20px;
-        }
-
         .ProductWishlistButton-Heart {
+            --wishlist-heart-size: 15px;
+
             transform: scale(.7) rotate(-45deg);
             background-color: var(--product-card-wishlist-button-color);
 
@@ -214,16 +236,22 @@
         }
 
         &:hover {
-            opacity: 1;
-            transition: all .2s;
+            @include after-mobile {
+                opacity: 1;
+                transition: all .2s;
+            }
 
             .ProductWishlistButton-Heart {
-                background-color: var(--primary-base-color);
+                @include after-mobile {
+                    background-color: var(--primary-base-color);
+                }
             }
 
             ::before,
             ::after {
-                background-color: var(--primary-base-color);
+                @include after-mobile {
+                    background-color: var(--primary-base-color);
+                }
             }
         }
 
@@ -321,6 +349,25 @@
                     right: -5px;
                 }
             }
+        }
+    }
+
+    &_siblingsHaveBrands {
+        .ProductCard-Brand {
+            min-height: var(--product-card-brand-line-height);
+        }
+    }
+
+    &_siblingsHaveTierPrice,
+    &_siblingsHavePriceBadge {
+        .ProductCard-PriceWrapper {
+            min-height: 40px;
+        }
+    }
+
+    &_siblingsHaveConfigurableOptions {
+        .ProductCard-ConfigurableOptions {
+            min-height: 20px;
         }
     }
 }

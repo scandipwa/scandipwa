@@ -10,8 +10,8 @@
  */
 
 :root {
-    --price-color: #750d0d;
-    --price-discount-color: #bcb9b9;
+    --price-color: #b10d0d;
+    --price-discount-color: #808080;
 }
 
 .ProductPrice {
@@ -43,11 +43,6 @@
     &-HighPrice {
         padding-left: .1em;
         color: var(--price-discount-color);
-        display: none;
-
-        &_isVisible {
-            display: block;
-        }
     }
 
     &-Placeholder {
