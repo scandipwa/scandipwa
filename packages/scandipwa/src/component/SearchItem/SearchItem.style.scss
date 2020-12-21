@@ -1,0 +1,110 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --search-item-divider-color: #eee;
+    --search-item-title-color: #000;
+}
+
+.SearchItem {
+    padding: .6rem 0;
+    margin-bottom: 0;
+
+    @include mobile {
+        padding: .7rem 0;
+    }
+
+    @include desktop {
+        overflow: hidden;
+    }
+
+    &::before {
+        content: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 1.2rem;
+        right: 1.2rem;
+        height: 1px;
+        background-color: var(--search-item-divider-color);
+
+        @include mobile {
+            left: 1.4rem;
+            right: 1.4rem;
+        }
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+
+        &::after {
+            content: none;
+        }
+    }
+
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: 4.8rem calc(100% - 6rem);
+        grid-column-gap: 1.2rem;
+
+        @include mobile {
+            grid-template-columns: 5.6rem calc(100% - 7rem);
+            grid-column-gap: 1.4rem;
+        }
+    }
+
+    &-Content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &-CustomAttribute {
+        text-transform: uppercase;
+        font-weight: 200;
+        font-size: .96rem;
+        line-height: 1.44rem;
+
+        @include mobile {
+            font-size: 1.12rem;
+            line-height: 1.68rem;
+        }
+    }
+
+    &-Title {
+        color: var(--search-item-title-color);
+        font-size: 1.32rem;
+        font-weight: 600;
+        max-width: calc(100vw - 8.4rem);
+
+        @include mobile {
+            font-size: 1.54rem;
+            max-width: calc(100vw - 9.8rem);
+        }
+
+        &_isLoaded {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+
+    &-Link {
+        color: inherit;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

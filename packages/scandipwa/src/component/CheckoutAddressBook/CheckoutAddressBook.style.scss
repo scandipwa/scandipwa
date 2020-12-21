@@ -1,0 +1,45 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.CheckoutAddressBook {
+    margin: 2.4rem 0;
+    width: 100%;
+
+    @include mobile {
+        margin: 2.8rem 0;
+    }
+
+    &-Wrapper {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &-CustomAddressWrapper {
+        margin: 2.4rem 0;
+
+        @include mobile {
+
+            margin: 1.4rem 0;
+        }
+    }
+
+    & &-Button {
+        display: block;
+
+        @include before-desktop {
+            width: 100%;
+        }
+
+        &_isCustomAddressExpanded {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,155 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --diameter: 1;
+    /* stylelint-disable-next-line length-zero-no-unit */
+    --offline-notice-height: 0px;
+    --offline-notice-display: none;
+}
+
+.OfflineNotice {
+    --fill-color: var(--primary-info-color);
+    --line-color: black;
+
+    display: var(--offline-notice-display);
+    height: var(--offline-notice-height);
+    background: var(--fill-color);
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    position: fixed;
+    z-index: 99;
+    top: calc(var(--header-height) + var(--demo-notice-height));
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    &_isBig {
+        --line-color: var(--primary-info-color);
+        --fill-color: white;
+        --diameter: 16;
+
+        flex-direction: column;
+        text-align: center;
+        padding: 1.2rem;
+
+        @include mobile {
+            --diameter: 10;
+            padding: 1.4rem;
+        }
+    }
+
+    &-Text {
+        &-Title {
+            font-size: 3.6rem;
+
+            @include mobile {
+
+                font-size: 2.8rem;
+            }
+        }
+
+        &-Description {
+            max-width: 36rem;
+            margin: 0 auto;
+            font-size: 1.8rem;
+
+            @include mobile {
+
+                max-width: 28rem;
+                margin: 0 auto;
+                font-size: 1.4rem;
+            }
+        }
+    }
+
+    &-Logo {
+        padding-left: calc(var(--diameter) * 1px);
+        padding-top: calc(var(--diameter) * 4px);
+        padding-right: 25px;
+        width: calc(20px * var(--diameter));
+        height: calc(10px * var(--diameter));
+
+        &_isBig {
+            padding-left: calc(var(--diameter) * 1px);
+            padding-right: 0;
+            padding-top: 0;
+        }
+
+        &-Cloud,
+        &-Stick {
+            &::before,
+            &::after {
+                background: var(--fill-color);
+                content: '';
+                position: absolute;
+            }
+        }
+
+        &-Cloud {
+            &::before,
+            &::after {
+                border-radius: 50% 50% 50% 50%;
+                box-shadow: calc(3px * var(--diameter)) calc(-3px * var(--diameter)) 0 0 var(--fill-color), calc(10px * var(--diameter)) 0 0 0 var(--fill-color), calc(7px * var(--diameter)) calc(-3px * var(--diameter)) 0 calc(-1px * var(--diameter)) var(--fill-color), calc(3px * var(--diameter)) 0 0 0 var(--fill-color), calc(5px * var(--diameter)) 0 0 0 var(--fill-color), calc(8px * var(--diameter)) 0 0 0 var(--fill-color);
+            }
+
+            &::before {
+                --fill-color: var(--line-color);
+                left: 0;
+                top: calc(-2px * var(--diameter));
+                width: calc(8px * var(--diameter));
+                height: calc(8px * var(--diameter));
+            }
+
+            &::after {
+                border-radius: 50% 50% 50% 50%;
+                left: calc(1px * var(--diameter));
+                top: calc(-1px * var(--diameter));
+                width: calc(6px * var(--diameter));
+                height: calc(6px * var(--diameter));
+            }
+        }
+
+        &-Stick {
+            &::before,
+            &::after {
+                -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+                top: 0;
+            }
+
+            &::before {
+                width: calc(22px * var(--diameter));
+                height: calc(3px * var(--diameter));
+                left: calc(-1px * var(--diameter));
+            }
+
+            &::after {
+                --fill-color: var(--line-color);
+                width: calc(20px * var(--diameter));
+                height: calc(1px * var(--diameter));
+                left: calc(-1px * var(--diameter));
+            }
+        }
+    }
+
+    @at-root .offline {
+        --placeholder-image: linear-gradient(var(--placeholder-gradient-color), var(--placeholder-gradient-color));
+        --placeholder-animation: none;
+        --offline-notice-height: calc(var(--header-nav-height) / 2);
+        --offline-notice-display: flex;
+    }
+
+    @at-root .bigOffline {
+        --offline-notice-height: calc(100% - var(--header-height) + var(--demo-notice-height));
+    }
+}

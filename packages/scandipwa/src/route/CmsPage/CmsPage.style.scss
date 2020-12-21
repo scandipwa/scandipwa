@@ -1,0 +1,113 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.CmsPage {
+    &_isBreadcrumbsHidden {
+        margin-top: calc(var(--header-total-height) + 1.2rem);
+
+        @include mobile {
+            margin-top: calc(var(--header-total-height) + 1.4rem);
+        }
+    }
+
+    &-Content {
+        ul,
+        ol {
+            margin-top: 1rem;
+        }
+    }
+
+    &-Wrapper {
+        grid-template-columns: auto;
+        max-width: var(--content-wrapper-width);
+
+        padding: {
+            left: 1.2rem;
+            right: 1.2rem;
+        };
+
+        margin: {
+            top: calc(var(--header-total-height) + 1.2rem);
+            bottom: var(--header-nav-height);
+            left: auto;
+            right: auto;
+        };
+
+        @include mobile {
+            padding: {
+                left: 1.4rem;
+                right: 1.4rem;
+            }
+            margin: {
+                top: calc(var(--header-total-height) + 1.4rem);
+            }
+        }
+
+        @include after-mobile {
+            margin-top: 2.4rem;
+        }
+
+        &_page_width {
+            &_full {
+                max-width: 100%;
+                padding: {
+                    left: 0;
+                    right: 0;
+                };
+            }
+        }
+    }
+
+    &-Heading {
+        margin-bottom: 1.8rem;
+
+        @include mobile {
+            margin-bottom: 2.1rem;
+            display: none;
+        }
+    }
+
+    &-SectionPlaceholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+        margin: 0 0 10px;
+        padding-bottom: 30%;
+
+        @include mobile {
+            padding-bottom: 60%;
+        }
+
+        &:first-child {
+            padding-bottom: 40%;
+
+            @include mobile {
+                padding-bottom: 100%;
+            }
+        }
+    }
+
+    .TextPlaceholder {
+        margin-bottom: 2.16rem;
+        display: block;
+
+        @include mobile {
+            margin-bottom: 2.52rem;
+        }
+    }
+
+    h2,
+    h3 {
+        @include mobile {
+            font-size: 1.4rem;
+        }
+    }
+}

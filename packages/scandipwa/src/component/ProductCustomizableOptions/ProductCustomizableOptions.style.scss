@@ -1,0 +1,111 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --customizable-options-additional-information-color: #2c2c2c;
+    --customizable-options-required-text-color: #dc6d6d;
+}
+
+.ProductCustomizableOptions {
+    &-Content {
+        max-width: 400px;
+
+        .Field {
+            input,
+            textarea {
+                width: 100%;
+            }
+
+            &_type_checkbox {
+                display: flex;
+
+                label {
+                    order: 1;
+
+                    &:first-of-type ~ label {
+                        margin-left: 0;
+                    }
+                }
+
+                .Field-Label {
+                    margin-left: 1.2rem;
+                    order: 2;
+
+                    @include mobile {
+                        margin-left: 1.4rem;
+                    }
+                }
+            }
+        }
+    }
+
+    &-Required {
+        color: var(--customizable-options-required-text-color);
+        margin-top: .6rem;
+
+        @include mobile {
+            margin-top: .7rem;
+        }
+    }
+
+    &-Information {
+        color: var(--customizable-options-additional-information-color);
+        font-size: 1.1rem;
+        margin-top: .6rem;
+
+        @include mobile {
+            margin-top: .7rem;
+        }
+    }
+
+    &-ExpandableContentContent {
+        &_isContentExpanded {
+            @include before-desktop {
+                padding: 0 1.2rem 1.2rem;
+            }
+
+            @include mobile {
+                padding: 0 1.4rem 1.4rem;
+            }
+
+            .Field {
+                &:first-child {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+
+    &-ExpandableContentHeading {
+        @include desktop {
+            font-weight: normal;
+        }
+
+        .ExpandableContent-HeadingAdditional {
+            font-weight: bold;
+        }
+    }
+
+    &-Heading {
+        font-weight: normal;
+
+        &Bold {
+            font-weight: bold;
+        }
+    }
+
+    &_isPlaceholder {
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        max-width: 270px;
+    }
+}
