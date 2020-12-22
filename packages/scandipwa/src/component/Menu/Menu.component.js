@@ -416,9 +416,9 @@ export class Menu extends PureComponent {
 
         return (
             <div
-                block="Menu"
-                elem="MenuWrapper"
-                onMouseLeave={ closeMenu }
+              block="Menu"
+              elem="MenuWrapper"
+              onMouseLeave={ closeMenu }
             >
                 { this.renderTopLevel() }
             </div>
