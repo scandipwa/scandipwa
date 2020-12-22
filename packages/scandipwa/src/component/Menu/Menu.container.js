@@ -17,10 +17,13 @@ import MenuQuery from 'Query/Menu.query';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { DeviceType } from 'Type/Device';
+import history from 'Util/History';
 import MenuHelper from 'Util/Menu';
 import DataContainer from 'Util/Request/DataContainer';
+import { appendWithStoreCode } from 'Util/Url';
 
 import Menu from './Menu.component';
+import { SUBCATEGORY_URL } from './Menu.config';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
@@ -55,6 +58,27 @@ export class MenuContainer extends DataContainer {
 
     componentDidMount() {
         this._getMenu();
+
+        const { device: { isMobile } } = this.props;
+
+        if (isMobile) {
+            window.addEventListener('popstate', this.historyBackHook);
+        }
+    }
+
+    historyBackHook = () => {
+        const { activeMenuItemsStack } = this.state;
+
+        if (activeMenuItemsStack.length) {
+            this.setState({ activeMenuItemsStack: activeMenuItemsStack.slice(1) });
+
+            const { goToPreviousHeaderState } = this.props;
+            goToPreviousHeaderState();
+        }
+    };
+
+    componentWillUnmount() {
+        window.removeEventListener('popstate', this.historyBackHook);
     }
 
     _getMenuOptions() {
@@ -74,42 +98,47 @@ export class MenuContainer extends DataContainer {
         );
     }
 
+    handleHeaderBackClick = () => {
+        history.goBack();
+    };
+
     handleSubcategoryClick(e, activeSubcategory) {
+        const { changeHeaderState } = this.props;
         const { activeMenuItemsStack } = this.state;
-        const { changeHeaderState, goToPreviousHeaderState } = this.props;
         const { item_id, title } = activeSubcategory;
 
         e.stopPropagation();
+
+        if (activeMenuItemsStack.includes(item_id)) {
+            return;
+        }
 
         changeHeaderState({
             name: MENU_SUBCATEGORY,
             force: true,
             title,
-            onBackClick: () => {
-                this.setState(({ activeMenuItemsStack }) => (
-                    { activeMenuItemsStack: activeMenuItemsStack.slice(1) }
-                ));
-                goToPreviousHeaderState();
-            }
+            onBackClick: this.handleHeaderBackClick
         });
 
-        if (!activeMenuItemsStack.includes(item_id)) {
-            this.setState({ activeMenuItemsStack: [item_id, ...activeMenuItemsStack] });
-        }
+        this.setState({ activeMenuItemsStack: [item_id, ...activeMenuItemsStack] });
+        history.push(appendWithStoreCode(`${ SUBCATEGORY_URL }`));
     }
 
     onCategoryHover(activeSubcategory) {
         const { device } = this.props;
+        const { activeMenuItemsStack } = this.state;
+
         if (device.isMobile) {
             return;
         }
 
-        const { activeMenuItemsStack } = this.state;
         const { item_id } = activeSubcategory;
 
-        if (!activeMenuItemsStack.includes(item_id)) {
-            this.setState({ activeMenuItemsStack: [item_id] });
+        if (activeMenuItemsStack.includes(item_id)) {
+            return;
         }
+
+        this.setState({ activeMenuItemsStack: [item_id] });
     }
 
     closeMenu() {

@@ -12,3 +12,4 @@
  */
 
 export const SCROLL_DEBOUNCE_DELAY = 10;
+export const SUBCATEGORY_URL = '/menu/subcategory';
