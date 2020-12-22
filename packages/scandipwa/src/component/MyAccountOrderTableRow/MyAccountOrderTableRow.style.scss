@@ -1,0 +1,30 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --my-account-order-table-row-hover-background: var(--secondary-base-color);
+}
+
+.MyAccountOrderTableRow {
+    height: 36px;
+
+    td,
+    th {
+        @include mobile {
+            min-width: 0;
+        }
+    }
+
+    &:hover {
+        background-color: var(--my-account-order-table-row-hover-background);
+        cursor: pointer;
+    }
+}

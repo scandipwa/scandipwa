@@ -1,0 +1,160 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --expandable-content-color: #000;
+    --expandable-content-divider-color: var(--primary-divider-color);
+}
+
+@mixin expanded-content {
+    padding: 1.2rem;
+    opacity: 1;
+    max-height: 100%;
+
+    @include mobile {
+        padding: 1.4rem;
+    }
+}
+
+.ExpandableContent {
+    @include before-desktop {
+        border-top: 1px solid var(--expandable-content-divider-color);
+    }
+
+    &:first-of-type {
+        border-top: 0;
+    }
+
+    &:last-of-type {
+        @include before-desktop {
+            border-bottom: 1px solid var(--expandable-content-divider-color);
+        }
+    }
+
+    &-Button {
+        text-align: left;
+        width: 100%;
+        will-change: border-color;
+
+        @include before-desktop {
+            min-height: var(--header-nav-height);
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: .6rem 1.2rem;
+        }
+
+        @include mobile {
+            padding: .7rem 1.4rem;
+        }
+
+        &::after,
+        &::before {
+            @include mobile {
+                right: 2.1rem;
+            }
+
+            @include before-desktop {
+                content: '';
+            }
+
+            position: absolute;
+            height: 7px;
+            width: 1px;
+            background-color: var(--expandable-content-color);
+            right: 1.8rem;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        &::before {
+            transform-origin: 50% 50%;
+            transform: scale(1);
+            transition: 200ms transform;
+            will-change: transform;
+        }
+
+        &::after {
+            transform-origin: 50% 50%;
+            transform: rotate(90deg);
+        }
+
+        &_isContentExpanded {
+            &::before {
+                transform: scale(0);
+            }
+        }
+    }
+
+    &-Heading,
+    &-SubHeading {
+        display: block;
+        color: var(--expandable-content-color);
+    }
+
+    &-Heading {
+        font-size: 1.2rem;
+        font-weight: 600;
+        line-height: 1.4;
+        text-transform: uppercase;
+        word-break: break-all;
+
+        @include mobile {
+            font-size: 1.4rem;
+        }
+
+        @include desktop {
+            cursor: auto;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-transform: none;
+        }
+    }
+
+    &-SubHeading {
+        font-weight: 300;
+        font-size: .96rem;
+        line-height: 1.1;
+
+        @include mobile {
+            font-size: 1.12rem;
+        }
+    }
+
+    &-Content {
+        // Disabled as it prevents z-index use inside
+        // will-change: max-height, padding, opacity;
+        transition-property: opacity;
+        transition-duration: 200ms;
+
+        @include before-desktop {
+            padding: 0 1.2rem;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        @include mobile {
+            padding: 0 1.4rem;
+        }
+
+        @include desktop {
+            margin-top: 1.2rem;
+        }
+
+        &_isContentExpanded {
+            @include before-desktop {
+                @include expanded-content;
+            }
+        }
+    }
+}

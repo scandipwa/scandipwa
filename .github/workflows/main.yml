@@ -12,8 +12,6 @@ jobs:
         with:
           node-version: '10.x'
       - name: Install Dependencies
-        run: npm ci
+        run: yarn
       - name: Lint JS
-        run: npm run eslint
-      - name: Lint SCSS
-        run: npm run stylelint
+        run: yarn eslint

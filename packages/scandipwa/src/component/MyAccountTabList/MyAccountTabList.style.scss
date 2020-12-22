@@ -1,0 +1,50 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    @include after-mobile {
+        --my-account-tab-list-background: #{$white};
+    }
+}
+
+.MyAccountTabList {
+    @include after-mobile {
+        padding: 1.2rem 0;
+        background-color: var(--my-account-tab-list-background);
+    }
+
+    &-ExpandableContentContent {
+        @include after-mobile {
+            margin-top: 0;
+        }
+
+        &_isContentExpanded {
+            @include mobile {
+                padding: 0 1.4rem 1.4rem;
+            }
+        }
+    }
+
+    &-ExpandableContentButton {
+        @include after-mobile {
+            display: none;
+        }
+
+        &::before,
+        &::after {
+            right: 2.4rem;
+
+            @include mobile {
+                right: 2.8rem;
+            }
+        }
+    }
+}

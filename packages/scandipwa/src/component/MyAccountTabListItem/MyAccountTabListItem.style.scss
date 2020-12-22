@@ -1,0 +1,85 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --my-account-tab-list-item-color: #404040;
+}
+
+.MyAccountTabListItem {
+    --border-width: 1px;
+    --text-shadow: none;
+
+    padding-left: 0;
+    margin-bottom: 0;
+
+    &::before {
+        content: none;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &_isActive,
+    &:hover {
+        @include after-mobile {
+            --border-width: 2px;
+            --text-shadow:
+                -.02ex 0 var(--my-account-tab-list-item-color),
+                .02ex 0 var(--my-account-tab-list-item-color);
+        }
+    }
+
+    &_isActive {
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-Button {
+        padding: 10px 0;
+        min-width: 100%;
+        min-height: 38px;
+        text-align: left;
+        text-shadow: var(--text-shadow);
+        letter-spacing: .03ex;
+        font-size: 1.4rem;
+
+        @include after-mobile {
+            padding: 10px 2.4rem;
+            min-width: 250px;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 1.2rem;
+            bottom: 0;
+            width: 6px;
+            height: 6px;
+            margin: auto;
+            transform: rotate(45deg);
+            @include mobile {
+                right: 1.4rem;
+            }
+
+            border: {
+                right: var(--border-width) solid var(--my-account-tab-list-item-color);
+                top: var(--border-width) solid var(--my-account-tab-list-item-color);
+            }
+
+            @include after-mobile {
+                right: 2.4rem;
+            }
+        }
+    }
+}

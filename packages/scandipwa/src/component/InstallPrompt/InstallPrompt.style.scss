@@ -1,0 +1,14 @@
+.InstallPrompt {
+    // prevent margin merging
+    border-top: 1px solid transparent;
+
+    @include before-desktop {
+        + .CmsPage {
+            margin-top: 0;
+
+            .CmsPage-Wrapper {
+                margin-top: 0;
+            }
+        }
+    }
+}
