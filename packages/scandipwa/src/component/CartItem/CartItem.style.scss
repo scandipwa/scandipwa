@@ -67,6 +67,8 @@
                 min-height: 6rem;
                 align-self: center;
             }
+           
+            
         }
     }
 
@@ -91,7 +93,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
-        padding-left: 1rem ;
+        padding-left: 2rem ;
         &_isLikeTable {
             @include after-mobile {
                 flex-grow: 1;
@@ -113,8 +115,9 @@
     }
 
     &-ItemOptionsWrapper {
-        margin: 1rem 0 0 1rem;
+        margin: 1rem 0 0 2rem;
         &_isLikeTable {
+            grid-row:3;
             @include desktop {
                 max-width: 45%;
             }
@@ -157,8 +160,8 @@
 
     &-Heading {
         color: var(--cart-item-heading-color);
-        padding: 1rem 0 0 1rem;
-        max-width: 50%;
+        padding: 1rem 0 0 2rem;
+        max-width: 45%;
         max-height: 4rem;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -214,38 +217,44 @@
             align-items: flex-start;
         }
     }
-
+    
     &-Actions {
-        opacity: 0;
-        max-height: 0;
         pointer-events: none;
         display: grid;
-        bottom: 1rem;
         grid-template-columns: 50% 50%;
-        align-items: center;
-
+        grid-gap: 1rem;
         will-change: max-height, opacity, padding;
         transition-property: padding, max-height;
         transition-duration: 200ms;
-
+        
         @include after-mobile {
             position: absolute;
             bottom: 1.2rem;
-            right: 0;
-            width: calc(100% - 11.3rem);
-            height: 3.6rem;
+
         }
 
         &_isLikeTable {
+                left: 50%;
+                width: 30%;
+                bottom: 50%;
+                transform: translateY(40%);
+                // transform: translateX(50%);
+            @media (max-width:1200px) {
+                grid-template-columns: 100%;
+                grid-template-rows: 50% 50%;
+                height: 50%;
+                width: 15%;
+                left:60%;      
+            }
             @include after-mobile {
-                width: 60%;
-                height: 100% ;
-                
+                          
             }
-
-            > * {
-                margin: 0 5px;
-            }
+            
+            // & .CartItem-QuantityWrapper {
+            //     @media (max-width:1200px){
+            //         grid-row: 1;
+            // } 
+           
         }
 
         &_isEditing {
@@ -253,6 +262,8 @@
             opacity: 1;
             max-height: 6rem;
             pointer-events: all;
+            left:50%;
+            transform:translateX(-10%) ;
         }
 
         &::before {
@@ -263,12 +274,13 @@
     }
 
     &-Delete {
+        
         @include desktop {
             @include clear-button;
         }
 
         @include after-mobile {
-            grid-column: 2;
+            
         }
 
         @include tablet {
@@ -307,7 +319,7 @@
     & &-Qty { // hack to obtain required specificity
         margin-top: 0;
         display: flex;
-        
+        bottom: 0;
         @include mobile {
             align-items: center;
         }
@@ -373,8 +385,7 @@
 
     &-QuantityWrapper {
         display: flex;
-        align-items: center;
-        grid-column: 1;
+        align-items: flex-end;
         grid-row: 1;
         @include mobile {
             margin-bottom: .7rem;
