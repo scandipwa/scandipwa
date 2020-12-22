@@ -12,13 +12,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Link from '../Link';
-import Loader from '../Loader';
-import MyAccountAddressTable from '../MyAccountAddressTable';
-import MyAccountCustomerPopup from '../MyAccountCustomerPopup';
-import MyAccountCustomerTable from '../MyAccountCustomerTable';
+import Link from 'Component/Link';
+import Loader from 'Component/Loader';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
+import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
-import { ADDRESS_BOOK, customerType } from '../../type/Account';
+import { ADDRESS_BOOK, customerType } from 'Type/Account';
 
 import './MyAccountDashboard.style';
 

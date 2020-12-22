@@ -11,12 +11,12 @@
 
 import PropTypes from 'prop-types';
 
-import Field from '../Field';
+import Field from 'Component/Field';
 import FieldForm from 'Component/FieldForm/FieldForm.component';
-import FormPortal from '../FormPortal';
-import MyAccountConfirmEmail from '../MyAccountConfirmEmail';
-import MyAccountForgotPassword from '../MyAccountForgotPassword';
-import MyAccountForgotPasswordSuccess from '../MyAccountForgotPasswordSuccess';
+import FormPortal from 'Component/FormPortal';
+import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
+import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
+import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
 import {
     STATE_CONFIRM_EMAIL,
     STATE_FORGOT_PASSWORD,
@@ -24,7 +24,7 @@ import {
     STATE_LOGGED_IN,
     STATE_SIGN_IN
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import MyAccountSignIn from '../MyAccountSignIn';
+import MyAccountSignIn from 'Component/MyAccountSignIn';
 
 import './CheckoutGuestForm.style';
 

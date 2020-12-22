@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 
-import Loader from '../Loader';
+import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddressTable.component';
 
 import './CheckoutAddressTable.style';

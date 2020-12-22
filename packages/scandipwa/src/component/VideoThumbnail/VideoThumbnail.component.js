@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Image from 'Component/Image/Image.container';
-import { MediaItemType } from '../../type/ProductList';
+import { MediaItemType } from 'Type/ProductList';
 
 import './VideoThumbnail.style';
 

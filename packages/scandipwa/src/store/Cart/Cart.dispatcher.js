@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CartQuery from '../../query/Cart.query';
+import CartQuery from 'Query/Cart.query';
 import { updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { isSignedIn } from '../../util/Auth';
-import BrowserDatabase from '../../util/BrowserDatabase';
-import { getExtensionAttributes } from '../../util/Product';
-import { fetchMutation, fetchQuery } from '../../util/Request';
+import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { getExtensionAttributes } from 'Util/Product';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */

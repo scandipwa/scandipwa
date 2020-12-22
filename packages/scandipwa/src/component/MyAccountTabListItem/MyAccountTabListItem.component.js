@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { tabType } from '../../type/Account';
+import { tabType } from 'Type/Account';
 
 import './MyAccountTabListItem.style';
 

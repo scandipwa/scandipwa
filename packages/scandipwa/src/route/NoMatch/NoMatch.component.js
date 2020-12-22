@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ContentWrapper from '../../component/ContentWrapper';
-import Link from '../../component/Link';
+import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
 
 import './NoMatch.style';
 

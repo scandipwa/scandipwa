@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { customerType } from '../../type/Account';
+import { customerType } from 'Type/Account';
 
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 

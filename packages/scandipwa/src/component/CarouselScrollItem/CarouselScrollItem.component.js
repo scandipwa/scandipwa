@@ -11,7 +11,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType } from '../../type/Common';
+import { ChildrenType } from 'Type/Common';
 
 import './CarouselScrollItem.style';
 

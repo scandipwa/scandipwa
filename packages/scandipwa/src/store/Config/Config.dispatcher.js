@@ -9,14 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ConfigQuery from '../../query/Config.query';
-import RegionQuery from '../../query/Region.query';
-import ReviewQuery from '../../query/Review.query';
+import ConfigQuery from 'Query/Config.query';
+import RegionQuery from 'Query/Region.query';
+import ReviewQuery from 'Query/Review.query';
 import { updateConfig } from 'Store/Config/Config.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import BrowserDatabase from '../../util/BrowserDatabase';
-import { setCurrency } from '../../util/Currency';
-import { fetchMutation, QueryDispatcher } from '../../util/Request';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { setCurrency } from 'Util/Currency';
+import { fetchMutation, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 /** @namespace Store/Config/Dispatcher */

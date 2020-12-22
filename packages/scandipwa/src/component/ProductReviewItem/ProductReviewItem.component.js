@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ProductReviewRating from '../ProductReviewRating';
+import ProductReviewRating from 'Component/ProductReviewRating';
 
 import './ProductReviewItem.style';
 

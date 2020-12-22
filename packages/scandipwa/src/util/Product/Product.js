@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { BUNDLE, CONFIGURABLE, SIMPLE } from './index';
+import { BUNDLE, CONFIGURABLE, SIMPLE } from 'Util/Product';
 
 /**
  * Checks whether every option is in attributes

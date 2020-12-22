@@ -14,10 +14,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import FieldInput from '../FieldInput';
-import FieldSelect from '../FieldSelect';
-import FieldTextarea from '../FieldTextarea';
-import { MixType } from '../../type/Common';
+import FieldInput from 'Component/FieldInput';
+import FieldSelect from 'Component/FieldSelect';
+import FieldTextarea from 'Component/FieldTextarea';
+import { MixType } from 'Type/Common';
 
 import {
     CHECKBOX_TYPE,

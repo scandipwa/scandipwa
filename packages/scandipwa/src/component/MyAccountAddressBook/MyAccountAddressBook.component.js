@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import MyAccountAddressPopup from '../MyAccountAddressPopup';
-import MyAccountAddressTable from '../MyAccountAddressTable';
-import { customerType } from '../../type/Account';
+import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import { customerType } from 'Type/Account';
 
 import './MyAccountAddressBook.style';
 

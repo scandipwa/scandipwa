@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import BrowserDatabase from '../BrowserDatabase';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 import { store } from '../../store';
 

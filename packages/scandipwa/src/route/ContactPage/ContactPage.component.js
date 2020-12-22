@@ -12,12 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CmsBlock from '../../component/CmsBlock';
-import ContactForm from '../../component/ContactForm';
-import ContentWrapper from '../../component/ContentWrapper';
-import Loader from '../../component/Loader';
-import NoMatch from '../NoMatch';
-import { DeviceType } from '../../type/Device';
+import CmsBlock from 'Component/CmsBlock';
+import ContactForm from 'Component/ContactForm';
+import ContentWrapper from 'Component/ContentWrapper';
+import Loader from 'Component/Loader';
+import NoMatch from 'Route/NoMatch';
+import { DeviceType } from 'Type/Device';
 
 import { DEFAULT_CONTACT_US_CMS_BLOCK } from './ContactPage.config';
 

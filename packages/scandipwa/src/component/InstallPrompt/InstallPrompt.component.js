@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import InstallPromptAndroid from '../InstallPromptAndroid';
-import InstallPromptIOS from '../InstallPromptIOS';
-import { DeviceType } from '../../type/Device';
+import InstallPromptAndroid from 'Component/InstallPromptAndroid';
+import InstallPromptIOS from 'Component/InstallPromptIOS';
+import { DeviceType } from 'Type/Device';
 
 import './InstallPrompt.style';
 

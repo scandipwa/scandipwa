@@ -21,8 +21,8 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { updateInfoLoadStatus } from 'Store/ProductListInfo/ProductListInfo.action';
-import { debounce } from '../../util/Request';
-import { appendWithStoreCode } from '../../util/Url';
+import { debounce } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
 

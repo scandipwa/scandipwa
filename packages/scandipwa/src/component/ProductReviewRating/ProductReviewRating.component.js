@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { MixType } from '../../type/Common';
-import CSS from '../../util/CSS';
+import { MixType } from 'Type/Common';
+import CSS from 'Util/CSS';
 
 import './ProductReviewRating.style';
 

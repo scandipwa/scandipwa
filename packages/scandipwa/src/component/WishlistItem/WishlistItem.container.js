@@ -13,12 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import SwipeToDelete from '../SwipeToDelete';
+import SwipeToDelete from 'Component/SwipeToDelete';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { ProductType } from '../../type/ProductList';
-import { debounce } from '../../util/Request';
+import { ProductType } from 'Type/ProductList';
+import { debounce } from 'Util/Request';
 
 import WishlistItem from './WishlistItem.component';
 import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';

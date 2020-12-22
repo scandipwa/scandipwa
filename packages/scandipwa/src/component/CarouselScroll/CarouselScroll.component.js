@@ -11,10 +11,10 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import CarouselScrollArrow from '../CarouselScrollArrow';
-import CarouselScrollItem from '../CarouselScrollItem';
-import { ChildrenType } from '../../type/Common';
-import CSS from '../../util/CSS';
+import CarouselScrollArrow from 'Component/CarouselScrollArrow';
+import CarouselScrollItem from 'Component/CarouselScrollItem';
+import { ChildrenType } from 'Type/Common';
+import CSS from 'Util/CSS';
 
 import './CarouselScroll.style';
 

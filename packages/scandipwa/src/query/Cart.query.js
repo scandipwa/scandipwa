@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductListQuery from './ProductList.query';
-import { isSignedIn } from '../util/Auth';
-import { Field } from '../util/Query';
+import ProductListQuery from 'Query/ProductList.query';
+import { isSignedIn } from 'Util/Auth';
+import { Field } from 'Util/Query';
 
 /** @namespace Query/Cart */
 export class CartQuery {

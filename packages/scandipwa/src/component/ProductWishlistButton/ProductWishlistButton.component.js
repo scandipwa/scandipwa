@@ -13,9 +13,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Loader from '../Loader';
-import { ProductType } from '../../type/ProductList';
-import { isSignedIn } from '../../util/Auth';
+import Loader from 'Component/Loader';
+import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
 
 import './ProductWishlistButton.style';
 

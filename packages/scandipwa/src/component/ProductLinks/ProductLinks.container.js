@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ProductType } from '../../type/ProductList';
+import { ProductType } from 'Type/ProductList';
 
 import ProductLinks from './ProductLinks.component';
 

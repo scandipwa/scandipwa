@@ -15,8 +15,8 @@ import { connect } from 'react-redux';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from '../../type/Router';
-import { convertQueryStringToKeyValuePairs } from '../../util/Url';
+import { LocationType } from 'Type/Router';
+import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 
 import ConfirmAccountPage from './ConfirmAccountPage.component';
 

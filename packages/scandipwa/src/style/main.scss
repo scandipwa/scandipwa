@@ -9,18 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@import 'src/style/abstract/abstract';
+@import './abstract/abstract';
 
-@import 'src/style/base/breakpoints';
-@import 'src/style/base/keyframes';
-@import 'src/style/base/root';
-@import 'src/style/base/reset';
-@import 'src/style/base/button';
-@import 'src/style/base/list';
-@import 'src/style/base/link';
-@import 'src/style/base/table';
-@import 'src/style/base/input';
-@import 'src/style/base/fieldset';
-@import 'src/style/base/blockquote';
+@import './base/breakpoints';
+@import './base/keyframes';
+@import './base/root';
+@import './base/reset';
+@import './base/button';
+@import './base/list';
+@import './base/link';
+@import './base/table';
+@import './base/input';
+@import './base/fieldset';
+@import './base/blockquote';
 
-@import 'src/style/cms/block';
+@import './cms/block';

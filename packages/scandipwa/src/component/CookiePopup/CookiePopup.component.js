@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ContentWrapper from '../ContentWrapper';
-import Link from '../Link';
-import BrowserDatabase from '../../util/BrowserDatabase';
+import ContentWrapper from 'Component/ContentWrapper';
+import Link from 'Component/Link';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import { COOKIE_POPUP } from './CookiePopup.config';

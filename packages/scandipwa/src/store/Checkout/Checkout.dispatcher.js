@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CheckEmailQuery from '../../query/CheckEmail.query';
-import { QueryDispatcher } from '../../util/Request';
+import CheckEmailQuery from 'Query/CheckEmail.query';
+import { QueryDispatcher } from 'Util/Request';
 
 import { updateEmailAvailable } from './Checkout.action';
 

@@ -15,13 +15,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { MENU } from 'Component/Header/Header.config';
-import Menu from '../../component/Menu';
+import Menu from 'Component/Menu';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { HistoryType } from '../../type/Common';
-import { DeviceType } from '../../type/Device';
-import { appendWithStoreCode } from '../../util/Url';
+import { HistoryType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './MenuPage.style';
 

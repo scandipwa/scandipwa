@@ -20,10 +20,10 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { DeviceType } from '../../type/Device';
-import { isSignedIn } from '../../util/Auth';
-import history from '../../util/History';
-import { appendWithStoreCode } from '../../util/Url';
+import { DeviceType } from 'Type/Device';
+import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccountOverlay from './MyAccountOverlay.component';
 import {

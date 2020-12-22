@@ -17,7 +17,7 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { DeviceType } from '../../type/Device';
+import { DeviceType } from 'Type/Device';
 
 import NewVersionPopup from './NewVersionPopup.component';
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';

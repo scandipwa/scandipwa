@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ProductBundleItem from '../ProductBundleItem';
+import ProductBundleItem from 'Component/ProductBundleItem';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.component';
 
 /** @namespace Component/ProductBundleItems/Component */

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import MyAccountQuery from '../../query/MyAccount.query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import {
     updateCustomerDetails,
     updateCustomerIsAuthTokenExpired,
@@ -23,10 +23,10 @@ import { ORDERS } from 'Store/Order/Order.reducer';
 import {
     deleteAuthorizationToken,
     setAuthorizationToken
-} from '../../util/Auth';
-import BrowserDatabase from '../../util/BrowserDatabase';
-import { prepareQuery } from '../../util/Query';
-import { executePost, fetchMutation } from '../../util/Request';
+} from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { prepareQuery } from 'Util/Query';
+import { executePost, fetchMutation } from 'Util/Request';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */

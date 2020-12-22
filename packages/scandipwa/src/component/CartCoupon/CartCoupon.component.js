@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from '../Field';
-import Loader from '../Loader';
+import Field from 'Component/Field';
+import Loader from 'Component/Loader';
 
 import './CartCoupon.style';
 

@@ -14,10 +14,10 @@
 import PropTypes from 'prop-types';
 import { Children, createRef, PureComponent } from 'react';
 
-import Draggable from '../Draggable';
-import { ChildrenType, MixType } from '../../type/Common';
-import { DeviceType } from '../../type/Device';
-import CSS from '../../util/CSS';
+import Draggable from 'Component/Draggable';
+import { ChildrenType, MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
+import CSS from 'Util/CSS';
 
 import {
     ACTIVE_SLIDE_PERCENT,

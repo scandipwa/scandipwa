@@ -14,9 +14,9 @@ import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
-import ImageZoomPopup from '../ImageZoomPopup';
+import ImageZoomPopup from 'Component/ImageZoomPopup';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { ProductType } from '../../type/ProductList';
+import { ProductType } from 'Type/ProductList';
 
 import ProductGallery from './ProductGallery.component';
 import {

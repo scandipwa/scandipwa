@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Popup from '../Popup';
+import Popup from 'Component/Popup';
 
 import { NEW_VERSION_POPUP_ID } from './NewVersionPopup.config';
 

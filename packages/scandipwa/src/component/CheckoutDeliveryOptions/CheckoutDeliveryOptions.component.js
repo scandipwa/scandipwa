@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CheckoutDeliveryOption from '../CheckoutDeliveryOption';
-import { shippingMethodsType } from '../../type/Checkout';
+import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
+import { shippingMethodsType } from 'Type/Checkout';
 
 import './CheckoutDeliveryOptions.style';
 

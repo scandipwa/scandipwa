@@ -12,13 +12,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from '../../type/Common';
-import { PriceType } from '../../type/ProductList';
+import { MixType } from 'Type/Common';
+import { PriceType } from 'Type/ProductList';
 import {
     calculateFinalPrice,
     formatPrice,
     roundPrice
-} from '../../util/Price';
+} from 'Util/Price';
 
 import ProductPrice from './ProductPrice.component';
 

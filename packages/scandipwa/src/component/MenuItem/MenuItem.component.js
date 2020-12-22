@@ -13,10 +13,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Image from '../Image';
-import Link from '../Link';
-import { DeviceType } from '../../type/Device';
-import media from '../../util/Media';
+import Image from 'Component/Image';
+import Link from 'Component/Link';
+import { DeviceType } from 'Type/Device';
+import media from 'Util/Media';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {

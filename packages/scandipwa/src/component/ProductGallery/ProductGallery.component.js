@@ -14,15 +14,15 @@ import { createRef, PureComponent } from 'react';
 import { withRouter } from 'react-router';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
-import CarouselScroll from '../CarouselScroll';
-import Image from '../Image';
-import ProductGalleryBaseImage from '../ProductGalleryBaseImage';
-import ProductGalleryThumbnailImage from '../ProductGalleryThumbnailImage';
-import Slider from '../Slider';
-import VideoPopup from '../VideoPopup';
-import VideoThumbnail from '../VideoThumbnail';
-import { LocationType } from '../../type/Common';
-import CSS from '../../util/CSS';
+import CarouselScroll from 'Component/CarouselScroll';
+import Image from 'Component/Image';
+import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
+import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
+import Slider from 'Component/Slider';
+import VideoPopup from 'Component/VideoPopup';
+import VideoThumbnail from 'Component/VideoThumbnail';
+import { LocationType } from 'Type/Common';
+import CSS from 'Util/CSS';
 
 import {
     IMAGE_TYPE,

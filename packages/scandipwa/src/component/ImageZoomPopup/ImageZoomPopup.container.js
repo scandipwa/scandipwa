@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import Popup from '../Popup';
+import Popup from 'Component/Popup';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { ChildrenType, MixType } from '../../type/Common';
+import { ChildrenType, MixType } from 'Type/Common';
 
 import ImageZoomPopup from './ImageZoomPopup.component';
 

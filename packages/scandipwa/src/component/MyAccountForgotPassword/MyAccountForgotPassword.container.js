@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { STATE_FORGOT_PASSWORD_SUCCESS } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
-import { signInStateType } from '../../type/Account';
+import { signInStateType } from 'Type/Account';
 
 import MyAccountForgotPassword from './MyAccountForgotPassword.component';
 

@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import TextPlaceholder from '../TextPlaceholder';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 /** @namespace Component/CategoryItemsCount/Component */
 export class CategoryItemsCount extends PureComponent {

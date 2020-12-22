@@ -15,11 +15,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
-import { HistoryType } from '../../type/Common';
-import { DeviceType } from '../../type/Device';
-import { FilterInputType, PagesType } from '../../type/ProductList';
-import { LocationType } from '../../type/Router';
-import { getQueryParam, setQueryParams } from '../../util/Url';
+import { HistoryType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
+import { FilterInputType, PagesType } from 'Type/ProductList';
+import { LocationType } from 'Type/Router';
+import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import ProductList from './ProductList.component';
 

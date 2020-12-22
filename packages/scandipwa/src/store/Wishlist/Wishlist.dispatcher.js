@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import WishlistQuery from '../../query/Wishlist.query';
+import WishlistQuery from 'Query/Wishlist.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import {
     clearWishlist,
@@ -18,8 +18,8 @@ import {
     updateIsLoading,
     updateItemOptions
 } from 'Store/Wishlist/Wishlist.action';
-import { isSignedIn } from '../../util/Auth';
-import { fetchMutation, fetchQuery } from '../../util/Request';
+import { isSignedIn } from 'Util/Auth';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */

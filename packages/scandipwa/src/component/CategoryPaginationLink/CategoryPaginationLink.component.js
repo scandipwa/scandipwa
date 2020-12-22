@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Link from '../Link';
-import { ChildrenType } from '../../type/Common';
+import Link from 'Component/Link';
+import { ChildrenType } from 'Type/Common';
 
 import './CategoryPaginationLink.style';
 

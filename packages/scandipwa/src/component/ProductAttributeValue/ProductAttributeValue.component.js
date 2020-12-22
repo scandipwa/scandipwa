@@ -14,10 +14,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from '../Field';
-import Html from '../Html';
-import { MixType } from '../../type/Common';
-import { AttributeType } from '../../type/ProductList';
+import Field from 'Component/Field';
+import Html from 'Component/Html';
+import { MixType } from 'Type/Common';
+import { AttributeType } from 'Type/ProductList';
 
 import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
 

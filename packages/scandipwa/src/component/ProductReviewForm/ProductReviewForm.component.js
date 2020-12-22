@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from '../Field';
-import Form from '../Form';
-import Loader from '../Loader';
-import ReviewStar from '../ReviewStar';
-import { RatingItemsType } from '../../type/Rating';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
+import ReviewStar from 'Component/ReviewStar';
+import { RatingItemsType } from 'Type/Rating';
 
 import './ProductReviewForm.style';
 

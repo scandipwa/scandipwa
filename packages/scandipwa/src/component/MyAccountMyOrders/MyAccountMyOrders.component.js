@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Loader from '../Loader';
-import MyAccountOrderPopup from '../MyAccountOrderPopup';
-import MyAccountOrderTableRow from '../MyAccountOrderTableRow';
-import { ordersType } from '../../type/Account';
-import { DeviceType } from '../../type/Device';
+import Loader from 'Component/Loader';
+import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
+import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
+import { ordersType } from 'Type/Account';
+import { DeviceType } from 'Type/Device';
 
 import './MyAccountMyOrders.style';
 

@@ -19,10 +19,10 @@ import {
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { addressType, customerType } from '../../type/Account';
-import { paymentMethodsType } from '../../type/Checkout';
-import { TotalsType } from '../../type/MiniCart';
-import { getFormFields, trimAddressFields, trimCustomerAddress } from '../../util/Address';
+import { addressType, customerType } from 'Type/Account';
+import { paymentMethodsType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
 

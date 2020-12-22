@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductListQuery from '../../query/ProductList.query';
+import ProductListQuery from 'Query/ProductList.query';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { updateProductDetails } from 'Store/Product/Product.action';
-import { QueryDispatcher } from '../../util/Request';
+import { QueryDispatcher } from 'Util/Request';
 
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */

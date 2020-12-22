@@ -13,18 +13,18 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ContentWrapper from '../../component/ContentWrapper';
-import ProductActions from '../../component/ProductActions';
-import ProductAttributes from '../../component/ProductAttributes';
-import ProductCustomizableOptions from '../../component/ProductCustomizableOptions';
-import ProductGallery from '../../component/ProductGallery';
-import ProductInformation from '../../component/ProductInformation';
-import ProductLinks from '../../component/ProductLinks';
-import ProductReviews from '../../component/ProductReviews';
-import ProductTabs from '../../component/ProductTabs';
+import ContentWrapper from 'Component/ContentWrapper';
+import ProductActions from 'Component/ProductActions';
+import ProductAttributes from 'Component/ProductAttributes';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import ProductGallery from 'Component/ProductGallery';
+import ProductInformation from 'Component/ProductInformation';
+import ProductLinks from 'Component/ProductLinks';
+import ProductReviews from 'Component/ProductReviews';
+import ProductTabs from 'Component/ProductTabs';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { DeviceType } from '../../type/Device';
-import { ProductType } from '../../type/ProductList';
+import { DeviceType } from 'Type/Device';
+import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
 /** @namespace Route/ProductPage/Component */

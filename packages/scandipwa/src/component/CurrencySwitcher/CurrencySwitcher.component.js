@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from '../Field';
-import { getCurrency } from '../../util/Currency';
+import Field from 'Component/Field';
+import { getCurrency } from 'Util/Currency';
 
 import './CurrencySwitcher.style';
 

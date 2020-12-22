@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getIndexedProducts } from '../../util/Product';
+import { getIndexedProducts } from 'Util/Product';
 
 import {
     CLEAR_SEARCH_RESULTS,

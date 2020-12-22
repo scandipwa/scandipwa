@@ -13,11 +13,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Braintree from '../Braintree';
-import CheckoutPayment from '../CheckoutPayment';
-import Klarna from '../Klarna';
-import NotSupportedPayment from '../NotSupportedPayment';
-import { paymentMethodsType } from '../../type/Checkout';
+import Braintree from 'Component/Braintree';
+import CheckoutPayment from 'Component/CheckoutPayment';
+import Klarna from 'Component/Klarna';
+import NotSupportedPayment from 'Component/NotSupportedPayment';
+import { paymentMethodsType } from 'Type/Checkout';
 
 import {
     BRAINTREE,

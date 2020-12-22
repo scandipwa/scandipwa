@@ -12,18 +12,18 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import Image from '../Image';
-import Link from '../Link';
-import Loader from '../Loader';
-import ProductAttributeValue from '../ProductAttributeValue';
-import ProductPrice from '../ProductPrice';
-import ProductReviewRating from '../ProductReviewRating';
-import ProductWishlistButton from '../ProductWishlistButton';
-import TextPlaceholder from '../TextPlaceholder';
-import TierPrices from '../TierPrices';
-import { DeviceType } from '../../type/Device';
-import { ProductType } from '../../type/ProductList';
-import { BUNDLE, CONFIGURABLE } from '../../util/Product';
+import Image from 'Component/Image';
+import Link from 'Component/Link';
+import Loader from 'Component/Loader';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import TierPrices from 'Component/TierPrices';
+import { DeviceType } from 'Type/Device';
+import { ProductType } from 'Type/ProductList';
+import { BUNDLE, CONFIGURABLE } from 'Util/Product';
 
 import { OPTION_TYPE_COLOR, validOptionTypes } from './ProductCard.config';
 

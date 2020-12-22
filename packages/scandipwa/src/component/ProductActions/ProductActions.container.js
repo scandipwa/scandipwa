@@ -13,12 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ProductType } from '../../type/ProductList';
+import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
     CONFIGURABLE,
     GROUPED
-} from '../../util/Product';
+} from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
 import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';

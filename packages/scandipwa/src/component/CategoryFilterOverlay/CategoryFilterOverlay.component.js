@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CategoryConfigurableAttributes from '../CategoryConfigurableAttributes';
-import Loader from '../Loader';
-import Overlay from '../Overlay';
-import ResetButton from '../ResetButton';
+import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
+import Loader from 'Component/Loader';
+import Overlay from 'Component/Overlay';
+import ResetButton from 'Component/ResetButton';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 

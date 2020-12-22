@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ExpandableContent from '../ExpandableContent';
-import ProductAttributeValue from '../ProductAttributeValue';
-import ProductConfigurableAttributeDropdown from '../ProductConfigurableAttributeDropdown';
-import { MixType } from '../../type/Common';
-import { AttributeType } from '../../type/ProductList';
+import ExpandableContent from 'Component/ExpandableContent';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
+import { MixType } from 'Type/Common';
+import { AttributeType } from 'Type/ProductList';
 
 import './ProductConfigurableAttributes.style';
 

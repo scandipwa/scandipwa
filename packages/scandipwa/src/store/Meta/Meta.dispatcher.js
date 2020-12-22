@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import { updateMeta } from 'Store/Meta/Meta.action';
-import { appendWithStoreCode } from '../../util/Url';
+import { appendWithStoreCode } from 'Util/Url';
 
 /**
  * Meta Dispatcher

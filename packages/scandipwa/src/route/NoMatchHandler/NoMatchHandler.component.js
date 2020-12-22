@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import NoMatch from '../NoMatch';
-import { ChildrenType } from '../../type/Common';
-import { LocationType } from '../../type/Router';
+import NoMatch from 'Route/NoMatch';
+import { ChildrenType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
 
 /** @namespace Route/NoMatchHandler/Component */
 export class NoMatchHandler extends PureComponent {

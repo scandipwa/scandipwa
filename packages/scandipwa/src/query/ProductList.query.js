@@ -10,8 +10,8 @@
  */
 
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
-import BrowserDatabase from '../util/BrowserDatabase';
-import { Field, Fragment } from '../util/Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { Field, Fragment } from 'Util/Query';
 
 /**
  * Product List Query

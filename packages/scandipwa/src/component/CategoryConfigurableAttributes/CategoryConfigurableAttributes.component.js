@@ -9,18 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ExpandableContent from '../ExpandableContent';
-import ExpandableContentShowMore from '../ExpandableContentShowMore';
+import ExpandableContent from 'Component/ExpandableContent';
+import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
-import { formatPrice } from '../../util/Price';
+import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     getPriceLabel(option) {
         const { currency_code } = this.props;
-        const { value_string } = option;
-        const [from, to] = value_string.split('_');
+        const { label } = option;
+        const [from, to] = label.split('~');
         const priceFrom = formatPrice(from, currency_code);
         const priceTo = formatPrice(to, currency_code);
 

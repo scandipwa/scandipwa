@@ -12,22 +12,22 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CartCoupon from '../../component/CartCoupon';
-import CheckoutBilling from '../../component/CheckoutBilling';
-import CheckoutGuestForm from '../../component/CheckoutGuestForm';
-import CheckoutOrderSummary from '../../component/CheckoutOrderSummary';
-import CheckoutShipping from '../../component/CheckoutShipping';
-import CheckoutSuccess from '../../component/CheckoutSuccess';
-import CmsBlock from '../../component/CmsBlock';
-import ContentWrapper from '../../component/ContentWrapper';
-import ExpandableContent from '../../component/ExpandableContent';
+import CartCoupon from 'Component/CartCoupon';
+import CheckoutBilling from 'Component/CheckoutBilling';
+import CheckoutGuestForm from 'Component/CheckoutGuestForm';
+import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
+import CheckoutShipping from 'Component/CheckoutShipping';
+import CheckoutSuccess from 'Component/CheckoutSuccess';
+import CmsBlock from 'Component/CmsBlock';
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
-import Loader from '../../component/Loader';
-import { addressType } from '../../type/Account';
-import { paymentMethodsType, shippingMethodsType } from '../../type/Checkout';
-import { HistoryType } from '../../type/Common';
-import { TotalsType } from '../../type/MiniCart';
-import { appendWithStoreCode } from '../../util/Url';
+import Loader from 'Component/Loader';
+import { addressType } from 'Type/Account';
+import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
+import { HistoryType } from 'Type/Common';
+import { TotalsType } from 'Type/MiniCart';
+import { appendWithStoreCode } from 'Util/Url';
 
 import {
     BILLING_STEP,

@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from '../Field';
-import TextPlaceholder from '../TextPlaceholder';
+import Field from 'Component/Field';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 import './CategorySort.style';
 

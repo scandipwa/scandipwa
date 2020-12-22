@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@import 'src/style/abstract/variables';
-@import 'src/style/abstract/media';
-@import 'src/style/abstract/button';
-@import 'src/style/abstract/loader';
-@import 'src/style/abstract/icons';
-@import 'src/style/abstract/parts';
+@import './variables';
+@import './media';
+@import './button';
+@import './loader';
+@import './icons';
+@import './parts';

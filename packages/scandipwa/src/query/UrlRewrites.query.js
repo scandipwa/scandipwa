@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Field } from '../util/Query';
+import { Field } from 'Util/Query';
 /**
  * UrlRewrites Query
  * @class UrlRewritesQuery

@@ -11,9 +11,9 @@
 
 import PropTypes from 'prop-types';
 
-import FormPortal from '../FormPortal';
+import FormPortal from 'Component/FormPortal';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
-import { debounce } from '../../util/Request';
+import { debounce } from 'Util/Request';
 
 import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
 

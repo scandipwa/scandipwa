@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { HistoryType } from '../../type/Common';
-import { LocationType } from '../../type/Router';
-import { generateQuery, getQueryParam } from '../../util/Url';
+import { HistoryType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
+import { generateQuery, getQueryParam } from 'Util/Url';
 
 import CategoryPagination from './CategoryPagination.component';
 

@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import { ChildrenType } from '../../type/Common';
+import { ChildrenType } from 'Type/Common';
 
 import './RenderWhenVisible.style';
 

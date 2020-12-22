@@ -18,8 +18,8 @@ import { FILTER } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { HistoryType, LocationType } from '../../type/Common';
-import { getQueryParam, setQueryParams } from '../../util/Url';
+import { HistoryType, LocationType } from 'Type/Common';
+import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 

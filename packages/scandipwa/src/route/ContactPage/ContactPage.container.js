@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { CONTACT_US } from 'Component/Header/Header.config';
-import ContactFormQuery from '../../query/ContactForm.query';
+import ContactFormQuery from 'Query/ContactForm.query';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';

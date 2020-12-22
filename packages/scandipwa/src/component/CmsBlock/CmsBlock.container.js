@@ -10,7 +10,7 @@
  */
 import PropTypes from 'prop-types';
 
-import CmsBlockQuery from '../../query/CmsBlock.query';
+import CmsBlockQuery from 'Query/CmsBlock.query';
 import DataContainer from 'Util/Request/DataContainer';
 
 import CmsBlock from './CmsBlock.component';

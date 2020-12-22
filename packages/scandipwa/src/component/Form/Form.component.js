@@ -18,8 +18,8 @@ import {
 } from 'react';
 
 import { FieldContainer } from 'Component/Field/Field.container';
-import { ChildrenType, MixType } from '../../type/Common';
-import FormPortalCollector from '../../util/FormPortalCollector';
+import { ChildrenType, MixType } from 'Type/Common';
+import FormPortalCollector from 'Util/FormPortalCollector';
 
 import validationConfig from './Form.config';
 

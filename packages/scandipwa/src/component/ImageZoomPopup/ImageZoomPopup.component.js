@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import TranslateOnCursorMove from '../TranslateOnCursorMove';
-import { ChildrenType } from '../../type/Common';
+import TranslateOnCursorMove from 'Component/TranslateOnCursorMove';
+import { ChildrenType } from 'Type/Common';
 
 import './ImageZoomPopup.style';
 

@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { signInStateType } from '../../type/Account';
+import { signInStateType } from 'Type/Account';
 
 /** @namespace Component/MyAccountConfirmEmail/Component */
 export class MyAccountConfirmEmail extends PureComponent {

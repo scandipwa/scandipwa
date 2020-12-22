@@ -17,7 +17,7 @@ import {
     PureComponent
 } from 'react';
 
-import { ChildrenType } from '../../type/Common';
+import { ChildrenType } from 'Type/Common';
 
 /** @namespace Component/ClickOutside/Component */
 export class ClickOutside extends PureComponent {

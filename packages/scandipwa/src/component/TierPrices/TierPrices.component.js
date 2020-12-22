@@ -11,8 +11,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ProductType } from '../../type/ProductList';
-import { formatPrice } from '../../util/Price';
+import { ProductType } from 'Type/ProductList';
+import { formatPrice } from 'Util/Price';
 
 import './TierPrices.style';
 

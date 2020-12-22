@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import TextPlaceholder from '../TextPlaceholder';
-import { MixType } from '../../type/Common';
-import { PriceType } from '../../type/ProductList';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { MixType } from 'Type/Common';
+import { PriceType } from 'Type/ProductList';
 
 import './ProductPrice.style';
 

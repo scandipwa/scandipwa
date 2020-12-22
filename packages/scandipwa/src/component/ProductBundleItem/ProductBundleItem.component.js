@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 
-import Field from '../Field';
+import Field from 'Component/Field';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
 
 import {

@@ -13,10 +13,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Loader from '../Loader';
-import KlarnaQuery from '../../query/Klarna.query';
-import { isSignedIn } from '../../util/Auth';
-import { fetchMutation } from '../../util/Request';
+import Loader from 'Component/Loader';
+import KlarnaQuery from 'Query/Klarna.query';
+import { isSignedIn } from 'Util/Auth';
+import { fetchMutation } from 'Util/Request';
 
 import {
     KLARNA_PAYMENTS_CONTAINER_ID,

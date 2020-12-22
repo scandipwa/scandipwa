@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from '../../type/Common';
+import { MixType } from 'Type/Common';
 
 import Image from './Image.component';
 

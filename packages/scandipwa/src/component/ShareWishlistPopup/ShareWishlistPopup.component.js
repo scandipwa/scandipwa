@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Popup from '../Popup';
-import ShareWishlistForm from '../ShareWishlistForm';
+import Popup from 'Component/Popup';
+import ShareWishlistForm from 'Component/ShareWishlistForm';
 
 import { SHARE_WISHLIST_POPUP_ID } from './ShareWishlistPopup.config';
 

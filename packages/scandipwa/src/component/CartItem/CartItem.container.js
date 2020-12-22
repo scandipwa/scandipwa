@@ -14,13 +14,13 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
-import SwipeToDelete from '../SwipeToDelete';
+import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { CartItemType } from '../../type/MiniCart';
-import { itemIsOutOfStock } from '../../util/Cart';
-import { CONFIGURABLE } from '../../util/Product';
-import { makeCancelable } from '../../util/Promise';
-import { objectToUri } from '../../util/Url';
+import { CartItemType } from 'Type/MiniCart';
+import { itemIsOutOfStock } from 'Util/Cart';
+import { CONFIGURABLE } from 'Util/Product';
+import { makeCancelable } from 'Util/Promise';
+import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
 

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import BrowserDatabase from '../../util/BrowserDatabase';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 import { UPDATE_CONFIG, UPDATE_CONFIG_DEVICE } from './Config.action';
 

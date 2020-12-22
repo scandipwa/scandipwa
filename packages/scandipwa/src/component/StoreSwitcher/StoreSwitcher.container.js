@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ConfigQuery from '../../query/Config.query';
+import ConfigQuery from 'Query/Config.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import DataContainer from 'Util/Request/DataContainer';

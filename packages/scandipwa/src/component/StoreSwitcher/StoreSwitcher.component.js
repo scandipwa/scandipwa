@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ClickOutside from '../ClickOutside';
-import Field from '../Field';
-import StoreItems from '../StoreItems';
-import { DeviceType } from '../../type/Device';
+import ClickOutside from 'Component/ClickOutside';
+import Field from 'Component/Field';
+import StoreItems from 'Component/StoreItems';
+import { DeviceType } from 'Type/Device';
 
 import './StoreSwitcher.style';
 

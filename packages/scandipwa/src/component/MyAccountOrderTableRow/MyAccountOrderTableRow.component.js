@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { baseOrderInfoType } from '../../type/Account';
-import { formatPrice } from '../../util/Price';
+import { baseOrderInfoType } from 'Type/Account';
+import { formatPrice } from 'Util/Price';
 
 import './MyAccountOrderTableRow.style';
 

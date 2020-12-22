@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Breadcrumb from '../Breadcrumb';
-import ContentWrapper from '../ContentWrapper';
-import { BreadcrumbsType } from '../../type/Breadcrumbs';
-import { appendWithStoreCode } from '../../util/Url';
+import Breadcrumb from 'Component/Breadcrumb';
+import ContentWrapper from 'Component/ContentWrapper';
+import { BreadcrumbsType } from 'Type/Breadcrumbs';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './Breadcrumbs.style';
 

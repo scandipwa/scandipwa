@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { ProductType } from '../../type/ProductList';
-import { isSignedIn } from '../../util/Auth';
-import { getExtensionAttributes } from '../../util/Product';
+import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
+import { getExtensionAttributes } from 'Util/Product';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
 import { ERROR_CONFIGURABLE_NOT_PROVIDED } from './ProductWishlistButton.config';

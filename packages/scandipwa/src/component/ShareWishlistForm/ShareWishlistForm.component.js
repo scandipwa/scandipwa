@@ -10,7 +10,7 @@
  */
 import PropTypes from 'prop-types';
 
-import FieldForm from '../FieldForm';
+import FieldForm from 'Component/FieldForm';
 
 /** @namespace Component/ShareWishlistForm/Component */
 export class ShareWishlistForm extends FieldForm {

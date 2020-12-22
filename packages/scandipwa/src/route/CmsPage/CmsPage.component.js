@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Html from '../../component/Html';
-import TextPlaceholder from '../../component/TextPlaceholder';
-import { BlockListType } from '../../type/CMS';
+import Html from 'Component/Html';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { BlockListType } from 'Type/CMS';
 
 import './CmsPage.style';
 

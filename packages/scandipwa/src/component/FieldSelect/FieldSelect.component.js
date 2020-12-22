@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ClickOutside from '../ClickOutside';
+import ClickOutside from 'Component/ClickOutside';
 
 import './FieldSelect.style';
 

@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { customerType } from '../../type/Account';
-import { shippingMethodsType } from '../../type/Checkout';
-import { getFormFields, trimAddressFields, trimCustomerAddress } from '../../util/Address';
+import { customerType } from 'Type/Account';
+import { shippingMethodsType } from 'Type/Checkout';
+import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 
 import CheckoutShipping from './CheckoutShipping.component';
 

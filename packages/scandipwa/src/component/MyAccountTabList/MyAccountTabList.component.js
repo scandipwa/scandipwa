@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ExpandableContent from '../ExpandableContent';
-import MyAccountTabListItem from '../MyAccountTabListItem';
-import { activeTabType, tabMapType } from '../../type/Account';
-import { isSignedIn } from '../../util/Auth';
+import ExpandableContent from 'Component/ExpandableContent';
+import MyAccountTabListItem from 'Component/MyAccountTabListItem';
+import { activeTabType, tabMapType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 
 import './MyAccountTabList.style';
 

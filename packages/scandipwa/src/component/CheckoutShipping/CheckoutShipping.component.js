@@ -12,14 +12,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CheckoutAddressBook from '../CheckoutAddressBook';
-import CheckoutDeliveryOptions from '../CheckoutDeliveryOptions';
-import Form from '../Form';
-import Loader from '../Loader';
+import CheckoutAddressBook from 'Component/CheckoutAddressBook';
+import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { shippingMethodsType, shippingMethodType } from '../../type/Checkout';
-import { TotalsType } from '../../type/MiniCart';
-import { formatPrice } from '../../util/Price';
+import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutShipping/Component */
 export class CheckoutShipping extends PureComponent {

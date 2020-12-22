@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { formatPrice } from '../../util/Price';
+import { formatPrice } from 'Util/Price';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 

@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import ProductCard from '../ProductCard';
-import { MixType } from '../../type/Common';
-import { FilterType, ProductType } from '../../type/ProductList';
+import ProductCard from 'Component/ProductCard';
+import { MixType } from 'Type/Common';
+import { FilterType, ProductType } from 'Type/ProductList';
 
 import { DEFAULT_PLACEHOLDER_COUNT } from './ProductListPage.config';
 

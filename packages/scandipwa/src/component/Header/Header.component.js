@@ -14,24 +14,24 @@
 import PropTypes from 'prop-types';
 import { createRef, lazy, Suspense } from 'react';
 
-import ClickOutside from '../ClickOutside';
-import CmsBlock from '../CmsBlock';
-import CurrencySwitcher from '../CurrencySwitcher';
-import Link from '../Link';
-import Logo from '../Logo';
-import Menu from '../Menu';
+import ClickOutside from 'Component/ClickOutside';
+import CmsBlock from 'Component/CmsBlock';
+import CurrencySwitcher from 'Component/CurrencySwitcher';
+import Link from 'Component/Link';
+import Logo from 'Component/Logo';
+import Menu from 'Component/Menu';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
-import OfflineNotice from '../OfflineNotice';
-import PopupSuspense from '../PopupSuspense';
-import SearchField from '../SearchField';
-import StoreSwitcher from '../StoreSwitcher';
-import { DeviceType } from '../../type/Device';
-import { TotalsType } from '../../type/MiniCart';
-import { isSignedIn } from '../../util/Auth';
-import CSS from '../../util/CSS';
-import media from '../../util/Media';
+import OfflineNotice from 'Component/OfflineNotice';
+import PopupSuspense from 'Component/PopupSuspense';
+import SearchField from 'Component/SearchField';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import { DeviceType } from 'Type/Device';
+import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
+import CSS from 'Util/CSS';
+import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 
 import {
@@ -58,8 +58,8 @@ import {
 
 import './Header.style';
 
-export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ '../CartOverlay'));
-export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ '../MyAccountOverlay'));
+export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
+export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
 
 /** @namespace Component/Header/Component */
 export class Header extends NavigationAbstract {

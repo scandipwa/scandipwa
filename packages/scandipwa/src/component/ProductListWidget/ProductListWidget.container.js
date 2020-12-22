@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ProductList from '../ProductList';
-import ProductListQuery from '../../query/ProductList.query';
+import ProductList from 'Component/ProductList';
+import ProductListQuery from 'Query/ProductList.query';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { getIndexedProducts } from '../../util/Product';
+import { getIndexedProducts } from 'Util/Product';
 import DataContainer from 'Util/Request/DataContainer';
 
 import './ProductListWidget.style';

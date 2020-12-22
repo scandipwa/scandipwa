@@ -19,7 +19,7 @@ import {
     isMobile,
     isMobileClientHints,
     isUsingClientHints
-} from '../../util/Mobile';
+} from 'Util/Mobile';
 
 import Router from './Router.component';
 

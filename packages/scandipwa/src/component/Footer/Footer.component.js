@@ -12,13 +12,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CmsBlock from '../CmsBlock';
-import ContentWrapper from '../ContentWrapper';
-import Image from '../Image';
-import Link from '../Link';
-import NewsletterSubscription from '../NewsletterSubscription';
-import { DeviceType } from '../../type/Device';
-import media from '../../util/Media';
+import CmsBlock from 'Component/CmsBlock';
+import ContentWrapper from 'Component/ContentWrapper';
+import Image from 'Component/Image';
+import Link from 'Component/Link';
+import NewsletterSubscription from 'Component/NewsletterSubscription';
+import { DeviceType } from 'Type/Device';
+import media from 'Util/Media';
 
 import { COLUMN_MAP, NEWSLETTER_COLUMN, RENDER_NEWSLETTER } from './Footer.config';
 

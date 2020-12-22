@@ -11,7 +11,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ProductCustomizableOption from '../ProductCustomizableOption';
+import ProductCustomizableOption from 'Component/ProductCustomizableOption';
 
 import './ProductCustomizableOptions.style';
 

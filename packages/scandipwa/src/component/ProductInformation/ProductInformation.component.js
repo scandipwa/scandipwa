@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ContentWrapper from '../ContentWrapper';
-import ExpandableContent from '../ExpandableContent';
-import Html from '../Html';
-import { ProductType } from '../../type/ProductList';
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import Html from 'Component/Html';
+import { ProductType } from 'Type/ProductList';
 
 import './ProductInformation.style';
 

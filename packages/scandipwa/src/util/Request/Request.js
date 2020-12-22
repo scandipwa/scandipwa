@@ -11,8 +11,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getAuthorizationToken } from '../Auth';
-import { getCurrency } from '../Currency';
+import { getAuthorizationToken } from 'Util/Auth';
+import { getCurrency } from 'Util/Currency';
 
 import { hash } from './Hash';
 

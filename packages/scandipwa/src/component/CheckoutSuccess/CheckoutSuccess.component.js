@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Link from '../Link';
+import Link from 'Component/Link';
 
 import './CheckoutSuccess.style';
 

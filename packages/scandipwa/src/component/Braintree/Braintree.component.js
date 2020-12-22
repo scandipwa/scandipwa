@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Loader from '../Loader';
+import Loader from 'Component/Loader';
 
 import { BRAINTREE_CONTAINER_ID } from './Braintree.config';
 

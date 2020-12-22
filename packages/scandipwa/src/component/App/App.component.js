@@ -13,9 +13,9 @@ import { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
-import Router from '../Router';
-import SharedTransition from '../SharedTransition';
-import SomethingWentWrong from '../../route/SomethingWentWrong';
+import Router from 'Component/Router';
+import SharedTransition from 'Component/SharedTransition';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
 import configureStore from 'Store';
 
 /** @namespace Component/App/Component */

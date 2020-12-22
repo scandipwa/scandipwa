@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Link from '../Link';
-import TextPlaceholder from '../TextPlaceholder';
+import Link from 'Component/Link';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 import './Breadcrumb.style';
 

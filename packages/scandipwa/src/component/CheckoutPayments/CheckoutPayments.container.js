@@ -17,9 +17,9 @@ import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.config';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { paymentMethodsType } from '../../type/Checkout';
-import { TotalsType } from '../../type/MiniCart';
-import BraintreeDropIn from '../../util/Braintree';
+import { paymentMethodsType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+import BraintreeDropIn from 'Util/Braintree';
 
 import CheckoutPayments from './CheckoutPayments.component';
 import { BRAINTREE, KLARNA } from './CheckoutPayments.config';

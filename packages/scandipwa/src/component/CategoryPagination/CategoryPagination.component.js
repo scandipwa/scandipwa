@@ -13,8 +13,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CategoryPaginationLink from '../CategoryPaginationLink';
-import TextPlaceholder from '../TextPlaceholder';
+import CategoryPaginationLink from 'Component/CategoryPaginationLink';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 import './CategoryPagination.style';
 

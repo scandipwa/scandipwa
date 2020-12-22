@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { DeviceType } from '../../type/Device';
+import { DeviceType } from 'Type/Device';
 
 import './DemoNotice.style';
 

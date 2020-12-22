@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import BrowserDatabase from '../../util/BrowserDatabase';
-import { getIndexedProduct } from '../../util/Product';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedProduct } from 'Util/Product';
 
 import { UPDATE_SHIPPING_PRICE, UPDATE_TOTALS } from './Cart.action';
 

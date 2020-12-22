@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
-import NoMatch from '../NoMatch';
+import NoMatch from 'Route/NoMatch';
 
 import {
     TYPE_CATEGORY,
@@ -22,9 +22,9 @@ import {
     TYPE_PRODUCT
 } from './UrlRewrites.config';
 
-export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "product" */ '../ProductPage'));
-export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ '../CategoryPage'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ '../CmsPage'));
+export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'));
+export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
 
 /**
  * Additional types possible:

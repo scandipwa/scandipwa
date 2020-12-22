@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { isInitiallySignedIn } from '../../util/Auth';
+import { isInitiallySignedIn } from 'Util/Auth';
 
 import {
     UPDATE_CUSTOMER_DETAILS,

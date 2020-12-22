@@ -14,7 +14,7 @@
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
-import ClickOutside from '../ClickOutside';
+import ClickOutside from 'Component/ClickOutside';
 import Overlay from 'Component/Overlay/Overlay.component';
 
 import { ESCAPE_KEY } from './Popup.config';

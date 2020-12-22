@@ -17,9 +17,9 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { customerType } from '../../type/Account';
-import { ProductType } from '../../type/ProductList';
-import { RatingItemsType } from '../../type/Rating';
+import { customerType } from 'Type/Account';
+import { ProductType } from 'Type/ProductList';
+import { RatingItemsType } from 'Type/Rating';
 
 import ProductReviewForm from './ProductReviewForm.component';
 

@@ -11,7 +11,7 @@
 
 import { PureComponent } from 'react';
 
-import { ProductType } from '../../type/ProductList';
+import { ProductType } from 'Type/ProductList';
 
 import ProductAttributes from './ProductAttributes.component';
 

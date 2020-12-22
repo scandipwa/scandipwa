@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ExpandableContent from '../ExpandableContent';
-import Field from '../Field';
+import ExpandableContent from 'Component/ExpandableContent';
+import Field from 'Component/Field';
 
 import {
     AREA_FIELD, CHECKBOX, DROPDOWN, TEXT_FIELD

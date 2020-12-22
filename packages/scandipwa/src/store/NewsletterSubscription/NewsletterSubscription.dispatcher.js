@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import NewsletterSubscriptionQuery from '../../query/NewsletterSubscription.query';
+import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { fetchMutation } from '../../util/Request';
+import { fetchMutation } from 'Util/Request';
 
 /**
  * Product Cart Dispatcher

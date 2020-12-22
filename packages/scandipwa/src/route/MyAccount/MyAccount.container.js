@@ -24,10 +24,10 @@ import {
     MY_ORDERS,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION
-} from '../../type/Account';
-import { HistoryType, LocationType, MatchType } from '../../type/Common';
-import { DeviceType } from '../../type/Device';
-import { appendWithStoreCode } from '../../util/Url';
+} from 'Type/Account';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
+import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
 import {

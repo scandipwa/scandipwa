@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import BrowserDatabase from '../../util/BrowserDatabase';
-import { getIndexedParameteredProducts } from '../../util/Product';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedParameteredProducts } from 'Util/Product';
 
 import {
     CLEAR_WISHLIST,

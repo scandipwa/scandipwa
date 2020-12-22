@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CategoryPagination from '../CategoryPagination';
-import ProductListPage from '../ProductListPage';
-import { MixType } from '../../type/Common';
-import { DeviceType } from '../../type/Device';
-import { FilterType, PagesType } from '../../type/ProductList';
+import CategoryPagination from 'Component/CategoryPagination';
+import ProductListPage from 'Component/ProductListPage';
+import { MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
+import { FilterType, PagesType } from 'Type/ProductList';
 
 import { observerThreshold } from './ProductList.config';
 

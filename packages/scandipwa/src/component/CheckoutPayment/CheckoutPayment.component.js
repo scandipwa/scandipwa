@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { paymentMethodType } from '../../type/Checkout';
+import { paymentMethodType } from 'Type/Checkout';
 
 import './CheckoutPayment.style';
 

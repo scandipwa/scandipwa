@@ -13,9 +13,9 @@
 
 import { PureComponent } from 'react';
 
-import Popup from '../Popup';
-import { MediaItemType } from '../../type/ProductList';
-import { makeCancelable } from '../../util/Promise';
+import Popup from 'Component/Popup';
+import { MediaItemType } from 'Type/ProductList';
+import { makeCancelable } from 'Util/Promise';
 
 import { VIDEO_POPUP_ID, VIMEO_FORMAT, YOUTUBE_FORMAT } from './VideoPopup.config';
 

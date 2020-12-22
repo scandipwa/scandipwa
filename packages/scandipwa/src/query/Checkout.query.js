@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { isSignedIn } from '../util/Auth';
-import { Field } from '../util/Query';
+import { isSignedIn } from 'Util/Auth';
+import { Field } from 'Util/Query';
 
 /** @namespace Query/Checkout */
 export class CheckoutQuery {

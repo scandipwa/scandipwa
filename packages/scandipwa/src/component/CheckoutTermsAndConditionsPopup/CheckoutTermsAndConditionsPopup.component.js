@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Html from '../Html';
-import Popup from '../Popup';
+import Html from 'Component/Html';
+import Popup from 'Component/Popup';
 
 import { TERMS_AND_CONDITIONS_POPUP_ID } from './CheckoutTermsAndConditionsPopup.config';
 

@@ -18,9 +18,9 @@ import domToReact from 'html-react-parser/lib/dom-to-react';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Image from '../Image';
-import Link from '../Link';
-import WidgetFactory from '../WidgetFactory';
+import Image from 'Component/Image';
+import Link from 'Component/Link';
+import WidgetFactory from 'Component/WidgetFactory';
 import { hash } from 'Util/Request/Hash';
 
 /**

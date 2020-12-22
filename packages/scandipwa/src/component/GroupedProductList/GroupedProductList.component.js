@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import GroupedProductsItem from '../GroupedProductsItem';
-import { ProductType } from '../../type/ProductList';
+import GroupedProductsItem from 'Component/GroupedProductsItem';
+import { ProductType } from 'Type/ProductList';
 
 /**
  * Product description

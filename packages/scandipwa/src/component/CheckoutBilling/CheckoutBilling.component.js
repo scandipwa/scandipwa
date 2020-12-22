@@ -12,16 +12,16 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CheckoutAddressBook from '../CheckoutAddressBook';
-import CheckoutPayments from '../CheckoutPayments';
-import CheckoutTermsAndConditionsPopup from '../CheckoutTermsAndConditionsPopup';
-import Field from '../Field';
-import Form from '../Form';
+import CheckoutAddressBook from 'Component/CheckoutAddressBook';
+import CheckoutPayments from 'Component/CheckoutPayments';
+import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
-import { addressType } from '../../type/Account';
-import { paymentMethodsType } from '../../type/Checkout';
-import { TotalsType } from '../../type/MiniCart';
-import { formatPrice } from '../../util/Price';
+import { addressType } from 'Type/Account';
+import { paymentMethodsType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 import './CheckoutBilling.style';
 

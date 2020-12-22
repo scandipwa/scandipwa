@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Image from '../Image';
+import Image from 'Component/Image';
 import {
     IMAGE_TYPE, PLACEHOLDER_TYPE, THUMBNAIL_KEY, VIDEO_TYPE
 } from 'Component/ProductGallery/ProductGallery.config';
-import media, { PRODUCT_MEDIA } from '../../util/Media';
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 
 import './ProductGalleryThumbnailImage.style';
 

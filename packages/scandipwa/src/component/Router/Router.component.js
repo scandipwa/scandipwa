@@ -22,20 +22,20 @@ import {
 import { Router as ReactRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
-import Breadcrumbs from '../Breadcrumbs';
-import CookiePopup from '../CookiePopup';
-import DemoNotice from '../DemoNotice';
-import Footer from '../Footer';
-import Header from '../Header';
-import Loader from '../Loader';
-import Meta from '../Meta';
-import NavigationTabs from '../NavigationTabs';
-import NewVersionPopup from '../NewVersionPopup';
-import NotificationList from '../NotificationList';
-import OfflineNotice from '../OfflineNotice';
-import SomethingWentWrong from '../../route/SomethingWentWrong';
-import UrlRewrites from '../../route/UrlRewrites';
-import history from '../../util/History';
+import Breadcrumbs from 'Component/Breadcrumbs';
+import CookiePopup from 'Component/CookiePopup';
+import DemoNotice from 'Component/DemoNotice';
+import Footer from 'Component/Footer';
+import Header from 'Component/Header';
+import Loader from 'Component/Loader';
+import Meta from 'Component/Meta';
+import NavigationTabs from 'Component/NavigationTabs';
+import NewVersionPopup from 'Component/NewVersionPopup';
+import NotificationList from 'Component/NotificationList';
+import OfflineNotice from 'Component/OfflineNotice';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
+import UrlRewrites from 'Route/UrlRewrites';
+import history from 'Util/History';
 
 import {
     AFTER_ITEMS_TYPE,
@@ -43,17 +43,17 @@ import {
     SWITCH_ITEMS_TYPE
 } from './Router.config';
 
-export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ '../../route/CartPage'));
-export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ '../../route/Checkout'));
-export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ '../../route/CmsPage'));
-export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ '../../route/HomePage'));
-export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ '../../route/MyAccount'));
-export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ '../../route/PasswordChangePage'));
-export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ '../../route/SearchPage'));
-export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ '../../route/ConfirmAccountPage'));
-export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ '../../route/MenuPage'));
-export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ '../../route/WishlistSharedPage'));
-export const ContactPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "contact" */ '../../route/ContactPage'));
+export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Route/CartPage'));
+export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "checkout" */ 'Route/Checkout'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/HomePage'));
+export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Route/MyAccount'));
+export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/PasswordChangePage'));
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/SearchPage'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/ConfirmAccountPage'));
+export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/MenuPage'));
+export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
+export const ContactPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "contact" */ 'Route/ContactPage'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path) => window.storeRegexText.concat(path);

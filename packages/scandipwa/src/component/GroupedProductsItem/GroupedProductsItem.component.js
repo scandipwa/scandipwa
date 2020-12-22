@@ -12,12 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from '../Field';
-import Image from '../Image';
-import ProductPrice from '../ProductPrice';
-import TextPlaceholder from '../TextPlaceholder';
-import { ProductType } from '../../type/ProductList';
-import media, { PRODUCT_MEDIA } from '../../util/Media';
+import Field from 'Component/Field';
+import Image from 'Component/Image';
+import ProductPrice from 'Component/ProductPrice';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { ProductType } from 'Type/ProductList';
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 
 import './GroupedProductsItem.style';
 

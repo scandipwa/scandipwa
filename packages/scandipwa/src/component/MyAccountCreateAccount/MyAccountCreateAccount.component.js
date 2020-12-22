@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Field from '../Field';
-import Form from '../Form';
-import { signInStateType } from '../../type/Account';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import { signInStateType } from 'Type/Account';
 
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {

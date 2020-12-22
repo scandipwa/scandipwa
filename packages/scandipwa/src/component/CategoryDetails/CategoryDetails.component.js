@@ -11,10 +11,10 @@
 
 import { PureComponent } from 'react';
 
-import Html from '../Html';
-import Image from '../Image';
-import TextPlaceholder from '../TextPlaceholder';
-import { CategoryTreeType } from '../../type/Category';
+import Html from 'Component/Html';
+import Image from 'Component/Image';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { CategoryTreeType } from 'Type/Category';
 
 import './CategoryDetails.style';
 

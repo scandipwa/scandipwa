@@ -10,7 +10,7 @@
  */
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
-import { DeviceType } from '../../type/Device';
+import { DeviceType } from 'Type/Device';
 
 import {
     ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB

@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ChildrenType } from '../../type/Common';
+import { ChildrenType } from 'Type/Common';
 
 import SwipeToDelete from './SwipeToDelete.component';
 

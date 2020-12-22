@@ -22,16 +22,16 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
-import { HistoryType, LocationType, MatchType } from '../../type/Common';
-import { ProductType } from '../../type/ProductList';
-import { getVariantIndex } from '../../util/Product';
-import { debounce } from '../../util/Request';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { ProductType } from 'Type/ProductList';
+import { getVariantIndex } from 'Util/Product';
+import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
     objectToUri,
     removeQueryParamWithoutHistory,
     updateQueryParamWithoutHistory
-} from '../../util/Url';
+} from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
 

@@ -12,10 +12,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 
-import ContentWrapper from '../../component/ContentWrapper';
-import Field from '../../component/Field';
-import Form from '../../component/Form';
-import Loader from '../../component/Loader';
+import ContentWrapper from 'Component/ContentWrapper';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import Loader from 'Component/Loader';
 
 import './ConfirmAccountPage.style';
 

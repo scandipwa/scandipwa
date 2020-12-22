@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { shippingMethodsType } from '../../type/Checkout';
+import { shippingMethodsType } from 'Type/Checkout';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 

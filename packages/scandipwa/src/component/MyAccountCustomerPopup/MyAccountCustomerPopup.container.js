@@ -13,15 +13,15 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import MyAccountQuery from '../../query/MyAccount.query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import BrowserDatabase from '../../util/BrowserDatabase';
-import { fetchMutation } from '../../util/Request';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { fetchMutation } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import MyAccountCustomerPopup from './MyAccountCustomerPopup.component';

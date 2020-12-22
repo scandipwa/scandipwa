@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { NotificationType } from '../../type/NotificationList';
-import CSS from '../../util/CSS';
+import { NotificationType } from 'Type/NotificationList';
+import CSS from 'Util/CSS';
 
 import {
     ANIMATION_DURATION, ERROR_NOTIFICATION_LIFETIME, ERROR_TYPE, NOTIFICATION_LIFETIME

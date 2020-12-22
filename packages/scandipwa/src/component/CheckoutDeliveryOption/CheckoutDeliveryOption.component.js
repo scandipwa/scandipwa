@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { shippingMethodType } from '../../type/Checkout';
-import { TotalsType } from '../../type/MiniCart';
-import { formatPrice } from '../../util/Price';
+import { shippingMethodType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 import './CheckoutDeliveryOption.style';
 

@@ -16,25 +16,25 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import AddToCart from '../AddToCart';
-import Field from '../Field';
-import GroupedProductList from '../GroupedProductList';
-import Html from '../Html';
-import ProductBundleItems from '../ProductBundleItems';
-import ProductConfigurableAttributes from '../ProductConfigurableAttributes';
-import ProductCustomizableOptions from '../ProductCustomizableOptions';
-import ProductPrice from '../ProductPrice';
-import ProductReviewRating from '../ProductReviewRating';
-import ProductWishlistButton from '../ProductWishlistButton';
-import TextPlaceholder from '../TextPlaceholder';
-import TierPrices from '../TierPrices';
-import { DeviceType } from '../../type/Device';
-import { PriceType, ProductType } from '../../type/ProductList';
+import AddToCart from 'Component/AddToCart';
+import Field from 'Component/Field';
+import GroupedProductList from 'Component/GroupedProductList';
+import Html from 'Component/Html';
+import ProductBundleItems from 'Component/ProductBundleItems';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import ProductPrice from 'Component/ProductPrice';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import TierPrices from 'Component/TierPrices';
+import { DeviceType } from 'Type/Device';
+import { PriceType, ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
     CONFIGURABLE,
     GROUPED
-} from '../../util/Product';
+} from 'Util/Product';
 
 import './ProductActions.style';
 

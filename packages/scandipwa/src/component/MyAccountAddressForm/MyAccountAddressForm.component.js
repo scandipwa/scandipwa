@@ -11,10 +11,10 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from '../FieldForm';
-import { addressType } from '../../type/Account';
-import { countriesType } from '../../type/Config';
-import { setAddressesInFormObject } from '../../util/Address';
+import FieldForm from 'Component/FieldForm';
+import { addressType } from 'Type/Account';
+import { countriesType } from 'Type/Config';
+import { setAddressesInFormObject } from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {

@@ -13,15 +13,15 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import Loader from '../Loader';
-import MyAccountConfirmEmail from '../MyAccountConfirmEmail';
-import MyAccountCreateAccount from '../MyAccountCreateAccount';
-import MyAccountForgotPassword from '../MyAccountForgotPassword';
-import MyAccountForgotPasswordSuccess from '../MyAccountForgotPasswordSuccess';
-import MyAccountSignIn from '../MyAccountSignIn';
-import Overlay from '../Overlay';
-import { signInStateType } from '../../type/Account';
-import { DeviceType } from '../../type/Device';
+import Loader from 'Component/Loader';
+import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
+import MyAccountCreateAccount from 'Component/MyAccountCreateAccount';
+import MyAccountForgotPassword from 'Component/MyAccountForgotPassword';
+import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuccess';
+import MyAccountSignIn from 'Component/MyAccountSignIn';
+import Overlay from 'Component/Overlay';
+import { signInStateType } from 'Type/Account';
+import { DeviceType } from 'Type/Device';
 
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,

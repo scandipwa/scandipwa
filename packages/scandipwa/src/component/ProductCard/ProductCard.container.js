@@ -14,10 +14,10 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
-import { DeviceType } from '../../type/Device';
-import { FilterType, ProductType } from '../../type/ProductList';
-import { getVariantsIndexes } from '../../util/Product';
-import { objectToUri } from '../../util/Url';
+import { DeviceType } from 'Type/Device';
+import { FilterType, ProductType } from 'Type/ProductList';
+import { getVariantsIndexes } from 'Util/Product';
+import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 import { IN_STOCK } from './ProductCard.config';

@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Overlay from '../Overlay';
-import SearchItem from '../SearchItem';
-import { ItemsType } from '../../type/ProductList';
+import Overlay from 'Component/Overlay';
+import SearchItem from 'Component/SearchItem';
+import { ItemsType } from 'Type/ProductList';
 
 import {
     AMOUNT_OF_PLACEHOLDERS,

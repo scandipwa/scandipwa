@@ -22,10 +22,10 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { DeviceType } from '../../type/Device';
-import { isSignedIn as isSignedInWithToken } from '../../util/Auth';
-import history from '../../util/History';
-import { appendWithStoreCode, setQueryParams } from '../../util/Url';
+import { DeviceType } from 'Type/Device';
+import { isSignedIn as isSignedInWithToken } from 'Util/Auth';
+import history from 'Util/History';
+import { appendWithStoreCode, setQueryParams } from 'Util/Url';
 
 import Header from './Header.component';
 import {

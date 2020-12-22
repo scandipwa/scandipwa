@@ -12,14 +12,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ContentWrapper from '../../component/ContentWrapper';
-import MyAccountAddressBook from '../../component/MyAccountAddressBook';
-import MyAccountDashboard from '../../component/MyAccountDashboard';
-import MyAccountMyOrders from '../../component/MyAccountMyOrders';
-import MyAccountMyWishlist from '../../component/MyAccountMyWishlist';
-import MyAccountNewsletterSubscription from '../../component/MyAccountNewsletterSubscription';
-import MyAccountOverlay from '../../component/MyAccountOverlay';
-import MyAccountTabList from '../../component/MyAccountTabList';
+import ContentWrapper from 'Component/ContentWrapper';
+import MyAccountAddressBook from 'Component/MyAccountAddressBook';
+import MyAccountDashboard from 'Component/MyAccountDashboard';
+import MyAccountMyOrders from 'Component/MyAccountMyOrders';
+import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
+import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
+import MyAccountOverlay from 'Component/MyAccountOverlay';
+import MyAccountTabList from 'Component/MyAccountTabList';
 import {
     activeTabType,
     ADDRESS_BOOK,
@@ -28,7 +28,7 @@ import {
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION,
     tabMapType
-} from '../../type/Account';
+} from 'Type/Account';
 
 import './MyAccount.style';
 

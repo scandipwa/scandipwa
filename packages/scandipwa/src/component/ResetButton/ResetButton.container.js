@@ -12,8 +12,8 @@
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { HistoryType, LocationType } from '../../type/Common';
-import { setQueryParams } from '../../util/Url';
+import { HistoryType, LocationType } from 'Type/Common';
+import { setQueryParams } from 'Util/Url';
 
 import ResetButton from './ResetButton.component';
 

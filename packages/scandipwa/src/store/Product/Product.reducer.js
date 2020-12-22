@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { getIndexedProduct } from '../../util/Product';
+import { getIndexedProduct } from 'Util/Product';
 
 import { UPDATE_PRODUCT_DETAILS } from './Product.action';
 

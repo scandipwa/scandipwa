@@ -16,8 +16,8 @@ import { Redirect } from 'react-router';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { LocationType } from '../../type/Common';
-import { getQueryParam } from '../../util/Url';
+import { LocationType } from 'Type/Common';
+import { getQueryParam } from 'Util/Url';
 
 import PasswordChangePage from './PasswordChangePage.component';
 import {

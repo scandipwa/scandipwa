@@ -13,17 +13,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { CMS_PAGE } from 'Component/Header/Header.config';
-import CmsPageQuery from '../../query/CmsPage.query';
+import CmsPageQuery from 'Query/CmsPage.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { LocationType, MatchType } from '../../type/Common';
-import history from '../../util/History';
-import { debounce } from '../../util/Request';
+import { LocationType, MatchType } from 'Type/Common';
+import history from 'Util/History';
+import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
-import { appendWithStoreCode, getUrlParam } from '../../util/Url';
+import { appendWithStoreCode, getUrlParam } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 import { LOADING_TIME } from './CmsPage.config';

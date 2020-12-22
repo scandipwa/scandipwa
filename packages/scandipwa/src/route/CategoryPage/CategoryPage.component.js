@@ -12,17 +12,17 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CategoryDetails from '../../component/CategoryDetails';
-import CategoryFilterOverlay from '../../component/CategoryFilterOverlay';
+import CategoryDetails from 'Component/CategoryDetails';
+import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
-import CategoryItemsCount from '../../component/CategoryItemsCount';
-import CategoryProductList from '../../component/CategoryProductList';
-import CategorySort from '../../component/CategorySort';
-import ContentWrapper from '../../component/ContentWrapper';
-import Html from '../../component/Html';
-import { CategoryTreeType } from '../../type/Category';
-import { DeviceType } from '../../type/Device';
-import { FilterInputType, FilterType } from '../../type/ProductList';
+import CategoryItemsCount from 'Component/CategoryItemsCount';
+import CategoryProductList from 'Component/CategoryProductList';
+import CategorySort from 'Component/CategorySort';
+import ContentWrapper from 'Component/ContentWrapper';
+import Html from 'Component/Html';
+import { CategoryTreeType } from 'Type/Category';
+import { DeviceType } from 'Type/Device';
+import { FilterInputType, FilterType } from 'Type/ProductList';
 
 import {
     DISPLAY_MODE_BOTH,

@@ -15,8 +15,8 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ChildrenType, MixType } from '../../type/Common';
-import { DeviceType } from '../../type/Device';
+import { ChildrenType, MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
 
 import './Overlay.style';
 

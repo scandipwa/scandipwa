@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { Fragment, PureComponent } from 'react';
 
-import ContentWrapper from '../ContentWrapper';
-import ExpandableContent from '../ExpandableContent';
-import ProductAttributeValue from '../ProductAttributeValue';
-import { AttributeType, ProductType } from '../../type/ProductList';
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
+import { AttributeType, ProductType } from 'Type/ProductList';
 
 import './ProductAttributes.style';
 

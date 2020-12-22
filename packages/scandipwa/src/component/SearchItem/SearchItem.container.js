@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { ProductType } from '../../type/ProductList';
+import { ProductType } from 'Type/ProductList';
 
 import SearchItem from './SearchItem.component';
 

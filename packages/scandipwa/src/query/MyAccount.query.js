@@ -10,8 +10,8 @@
  */
 
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
-import BrowserDatabase from '../util/BrowserDatabase';
-import { Field } from '../util/Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { Field } from 'Util/Query';
 
 /**
  * MyAccount Mutations

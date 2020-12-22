@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { appendWithStoreCode } from '../../util/Url';
+import { appendWithStoreCode } from 'Util/Url';
 
 import Link from './Link.component';
 

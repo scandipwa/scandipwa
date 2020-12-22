@@ -11,8 +11,8 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from '../FieldForm';
-import Loader from '../Loader';
+import FieldForm from 'Component/FieldForm';
+import Loader from 'Component/Loader';
 
 import './ContactForm.style';
 

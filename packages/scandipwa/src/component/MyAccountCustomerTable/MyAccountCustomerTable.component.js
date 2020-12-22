@@ -11,8 +11,8 @@
 
 import PropTypes from 'prop-types';
 
-import KeyValueTable from '../KeyValueTable';
-import { customerType } from '../../type/Account';
+import KeyValueTable from 'Component/KeyValueTable';
+import { customerType } from 'Type/Account';
 
 /** @namespace Component/MyAccountCustomerTable/Component */
 export class MyAccountCustomerTable extends KeyValueTable {

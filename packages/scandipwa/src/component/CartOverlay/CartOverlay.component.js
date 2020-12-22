@@ -12,15 +12,15 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CartItem from '../CartItem';
-import CmsBlock from '../CmsBlock';
+import CartItem from 'Component/CartItem';
+import CmsBlock from 'Component/CmsBlock';
 import { CART_OVERLAY } from 'Component/Header/Header.config';
-import Link from '../Link';
-import Overlay from '../Overlay';
+import Link from 'Component/Link';
+import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
-import { DeviceType } from '../../type/Device';
-import { TotalsType } from '../../type/MiniCart';
-import { formatPrice } from '../../util/Price';
+import { DeviceType } from 'Type/Device';
+import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 import './CartOverlay.style';
 

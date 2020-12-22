@@ -13,11 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import OrderQuery from '../../query/Order.query';
+import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { orderType } from '../../type/Account';
-import { getIndexedProducts } from '../../util/Product';
-import { fetchQuery } from '../../util/Request';
+import { orderType } from 'Type/Account';
+import { getIndexedProducts } from 'Util/Product';
+import { fetchQuery } from 'Util/Request';
 
 import MyAccountOrderPopup from './MyAccountOrderPopup.component';
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';

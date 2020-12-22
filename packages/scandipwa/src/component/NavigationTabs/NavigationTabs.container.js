@@ -16,9 +16,9 @@ import { NavigationAbstractContainer } from 'Component/NavigationAbstract/Naviga
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import browserHistory from '../../util/History';
-import { debounce } from '../../util/Request';
-import { appendWithStoreCode } from '../../util/Url';
+import browserHistory from 'Util/History';
+import { debounce } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
 
 import NavigationTabs from './NavigationTabs.component';
 import {

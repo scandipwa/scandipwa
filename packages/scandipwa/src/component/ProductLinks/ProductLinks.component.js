@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
-import ContentWrapper from '../ContentWrapper';
-import ProductCard from '../ProductCard';
-import { ProductType } from '../../type/ProductList';
+import ContentWrapper from 'Component/ContentWrapper';
+import ProductCard from 'Component/ProductCard';
+import { ProductType } from 'Type/ProductList';
 
 import './ProductLinks.style';
 

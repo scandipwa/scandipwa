@@ -16,7 +16,7 @@ import {
 import {
     UPDATE_RECENTLY_VIEWED_PRODUCTS
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
-import BrowserDatabase from '../../util/BrowserDatabase';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = () => ({

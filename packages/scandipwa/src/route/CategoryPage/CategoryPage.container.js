@@ -23,14 +23,14 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     updateInfoLoadStatus
 } from 'Store/ProductListInfo/ProductListInfo.action';
-import { CategoryTreeType } from '../../type/Category';
-import { HistoryType, LocationType, MatchType } from '../../type/Common';
-import { debounce } from '../../util/Request';
+import { CategoryTreeType } from 'Type/Category';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { debounce } from 'Util/Request';
 import {
     appendWithStoreCode,
     getQueryParam,
     setQueryParams
-} from '../../util/Url';
+} from 'Util/Url';
 
 import CategoryPage from './CategoryPage.component';
 import { LOADING_TIME } from './CategoryPage.config';

@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { isSignedIn } from '../../util/Auth';
+import { isSignedIn } from 'Util/Auth';
 
 import ProductReviews from './ProductReviews.component';
 import { REVIEW_POPUP_ID } from './ProductReviews.config';

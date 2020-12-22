@@ -14,13 +14,13 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
-import { ProductType } from '../../type/ProductList';
-import { isSignedIn } from '../../util/Auth';
+import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
 import {
     BUNDLE,
     CONFIGURABLE,
     GROUPED
-} from '../../util/Product';
+} from 'Util/Product';
 
 import AddToCart from './AddToCart.component';
 

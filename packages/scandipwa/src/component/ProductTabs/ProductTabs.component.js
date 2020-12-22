@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ContentWrapper from '../ContentWrapper';
-import ProductTab from '../ProductTab';
-import { isMobile } from '../../util/Mobile';
+import ContentWrapper from 'Component/ContentWrapper';
+import ProductTab from 'Component/ProductTab';
+import { isMobile } from 'Util/Mobile';
 
 import './ProductTabs.style';
 

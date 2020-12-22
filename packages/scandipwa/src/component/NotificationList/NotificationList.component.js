@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Notification from '../Notification';
-import { NotificationListType } from '../../type/NotificationList';
+import Notification from 'Component/Notification';
+import { NotificationListType } from 'Type/NotificationList';
 
 import './NotificationList.style';
 

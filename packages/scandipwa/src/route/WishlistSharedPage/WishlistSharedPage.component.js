@@ -10,10 +10,10 @@
  */
 import PropTypes from 'prop-types';
 
-import ContentWrapper from '../../component/ContentWrapper';
-import Loader from '../../component/Loader';
+import ContentWrapper from 'Component/ContentWrapper';
+import Loader from 'Component/Loader';
 import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
-import SharedWishlistItem from '../../component/SharedWishlistItem';
+import SharedWishlistItem from 'Component/SharedWishlistItem';
 
 import './WishlistSharedPage.style';
 

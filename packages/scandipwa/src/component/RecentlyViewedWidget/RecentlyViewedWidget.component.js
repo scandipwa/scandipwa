@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ProductCard from '../ProductCard';
-import { ItemsType } from '../../type/ProductList';
+import ProductCard from 'Component/ProductCard';
+import { ItemsType } from 'Type/ProductList';
 
 import './RecentlyViewedWidget.style';
 

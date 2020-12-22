@@ -22,13 +22,13 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { HistoryType } from '../../type/Common';
-import { DeviceType } from '../../type/Device';
-import { TotalsType } from '../../type/MiniCart';
-import { isSignedIn } from '../../util/Auth';
-import { hasOutOfStockProductsInCartItems } from '../../util/Cart';
-import history from '../../util/History';
-import { appendWithStoreCode } from '../../util/Url';
+import { HistoryType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
+import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
+import { hasOutOfStockProductsInCartItems } from 'Util/Cart';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
 import {

@@ -13,13 +13,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CartItemPrice from '../CartItemPrice';
-import Field from '../Field';
-import Image from '../Image';
-import Link from '../Link';
-import Loader from '../Loader';
-import { DeviceType } from '../../type/Device';
-import { CartItemType } from '../../type/MiniCart';
+import CartItemPrice from 'Component/CartItemPrice';
+import Field from 'Component/Field';
+import Image from 'Component/Image';
+import Link from 'Component/Link';
+import Loader from 'Component/Loader';
+import { DeviceType } from 'Type/Device';
+import { CartItemType } from 'Type/MiniCart';
 
 import './CartItem.style';
 

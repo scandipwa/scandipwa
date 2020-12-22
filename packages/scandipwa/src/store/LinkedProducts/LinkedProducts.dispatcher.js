@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductListQuery from '../../query/ProductList.query';
+import ProductListQuery from 'Query/ProductList.query';
 import { updateLinkedProducts } from 'Store/LinkedProducts/LinkedProducts.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import BrowserDatabase from '../../util/BrowserDatabase';
-import { getIndexedProduct } from '../../util/Product';
-import { fetchQuery, QueryDispatcher } from '../../util/Request';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedProduct } from 'Util/Product';
+import { fetchQuery, QueryDispatcher } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';

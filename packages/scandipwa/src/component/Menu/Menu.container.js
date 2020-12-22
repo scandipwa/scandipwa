@@ -13,11 +13,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { MENU_SUBCATEGORY } from 'Component/Header/Header.config';
-import MenuQuery from '../../query/Menu.query';
+import MenuQuery from 'Query/Menu.query';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { DeviceType } from '../../type/Device';
-import MenuHelper from '../../util/Menu';
+import { DeviceType } from 'Type/Device';
+import MenuHelper from 'Util/Menu';
 import DataContainer from 'Util/Request/DataContainer';
 
 import Menu from './Menu.component';

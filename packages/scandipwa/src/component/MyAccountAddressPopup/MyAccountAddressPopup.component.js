@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Loader from '../Loader';
-import MyAccountAddressForm from '../MyAccountAddressForm';
-import MyAccountAddressTable from '../MyAccountAddressTable';
-import Popup from '../Popup';
-import { addressType } from '../../type/Account';
+import Loader from 'Component/Loader';
+import MyAccountAddressForm from 'Component/MyAccountAddressForm';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import Popup from 'Component/Popup';
+import { addressType } from 'Type/Account';
 
 import {
     ADD_ADDRESS, ADDRESS_POPUP_ID, DELETE_ADDRESS, EDIT_ADDRESS

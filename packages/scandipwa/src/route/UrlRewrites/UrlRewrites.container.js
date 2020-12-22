@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { HistoryType, LocationType, MatchType } from '../../type/Common';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
 
 import UrlRewrites from './UrlRewrites.component';
 import {

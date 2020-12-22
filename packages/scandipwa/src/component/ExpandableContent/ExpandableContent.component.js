@@ -11,9 +11,9 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import TextPlaceholder from '../TextPlaceholder';
-import { ChildrenType, MixType } from '../../type/Common';
-import { getFixedElementHeight } from '../../util/CSS';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { ChildrenType, MixType } from 'Type/Common';
+import { getFixedElementHeight } from 'Util/CSS';
 
 import './ExpandableContent.style';
 /** @namespace Component/ExpandableContent/Component */

@@ -11,8 +11,8 @@
 
 import { PureComponent } from 'react';
 
-import ProductReviewItem from '../ProductReviewItem';
-import { ProductType } from '../../type/ProductList';
+import ProductReviewItem from 'Component/ProductReviewItem';
+import { ProductType } from 'Type/ProductList';
 
 import './ProductReviewList.style';
 

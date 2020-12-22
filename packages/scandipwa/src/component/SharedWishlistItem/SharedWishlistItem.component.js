@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import AddToCart from '../AddToCart';
-import Field from '../Field';
-import ProductCard from '../ProductCard';
+import AddToCart from 'Component/AddToCart';
+import Field from 'Component/Field';
+import ProductCard from 'Component/ProductCard';
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 
 import './SharedWishlistItem.style';

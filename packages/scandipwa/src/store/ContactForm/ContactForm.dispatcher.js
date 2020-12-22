@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ContactFormQuery from '../../query/ContactForm.query';
+import ContactFormQuery from 'Query/ContactForm.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { fetchMutation } from '../../util/Request';
+import { fetchMutation } from 'Util/Request';
 
 import { updateContactForm } from './ContactForm.action';
 

@@ -12,13 +12,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ContentWrapper from '../ContentWrapper';
-import ExpandableContent from '../ExpandableContent';
-import Popup from '../Popup';
-import ProductReviewForm from '../ProductReviewForm';
-import ProductReviewList from '../ProductReviewList';
-import ProductReviewRating from '../ProductReviewRating';
-import { ProductType } from '../../type/ProductList';
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import Popup from 'Component/Popup';
+import ProductReviewForm from 'Component/ProductReviewForm';
+import ProductReviewList from 'Component/ProductReviewList';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import { ProductType } from 'Type/ProductList';
 
 import { REVIEW_POPUP_ID } from './ProductReviews.config';
 

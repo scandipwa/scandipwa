@@ -10,8 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { makeCancelable } from '../Promise';
-import { Field, prepareQuery } from '../Query';
+import { makeCancelable } from 'Util/Promise';
+import { Field, prepareQuery } from 'Util/Query';
 import { executeGet, listenForBroadCast } from 'Util/Request/Request';
 
 export const ONE_MONTH_IN_SECONDS = 2592000;

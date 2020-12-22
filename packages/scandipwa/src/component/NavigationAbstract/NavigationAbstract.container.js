@@ -15,9 +15,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from '../../type/Device';
-import history from '../../util/History';
-import { appendWithStoreCode } from '../../util/Url';
+import { DeviceType } from 'Type/Device';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 

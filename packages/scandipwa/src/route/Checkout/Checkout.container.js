@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import CheckoutQuery from '../../query/Checkout.query';
-import MyAccountQuery from '../../query/MyAccount.query';
+import CheckoutQuery from 'Query/Checkout.query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
 import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
@@ -24,15 +24,15 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { customerType } from '../../type/Account';
-import { HistoryType } from '../../type/Common';
-import { TotalsType } from '../../type/MiniCart';
-import { isSignedIn } from '../../util/Auth';
-import BrowserDatabase from '../../util/BrowserDatabase';
-import history from '../../util/History';
-import { debounce, fetchMutation, fetchQuery } from '../../util/Request';
+import { customerType } from 'Type/Account';
+import { HistoryType } from 'Type/Common';
+import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import history from 'Util/History';
+import { debounce, fetchMutation, fetchQuery } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import { appendWithStoreCode } from '../../util/Url';
+import { appendWithStoreCode } from 'Util/Url';
 
 import Checkout from './Checkout.component';
 import {

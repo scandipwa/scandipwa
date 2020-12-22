@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm/FieldForm.component';
-import Form from '../Form';
+import Form from 'Component/Form';
 
 import './NewsletterSubscription.style';
 

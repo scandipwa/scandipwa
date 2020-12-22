@@ -12,8 +12,8 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DeviceType } from '../../type/Device';
-import BrowserDatabase from '../../util/BrowserDatabase';
+import { DeviceType } from 'Type/Device';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 import InstallPrompt from './InstallPrompt.component';
 

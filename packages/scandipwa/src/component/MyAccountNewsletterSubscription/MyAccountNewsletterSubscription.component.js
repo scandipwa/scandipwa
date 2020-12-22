@@ -11,8 +11,8 @@
 
 import PropTypes from 'prop-types';
 
-import FieldForm from '../FieldForm';
-import { customerType } from '../../type/Account';
+import FieldForm from 'Component/FieldForm';
+import { customerType } from 'Type/Account';
 
 import './MyAccountNewsletterSubscription.style.scss';
 

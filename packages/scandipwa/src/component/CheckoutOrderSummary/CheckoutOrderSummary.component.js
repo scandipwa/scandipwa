@@ -12,10 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CartCoupon from '../CartCoupon';
-import CartItem from '../CartItem';
-import CheckoutOrderSummaryPriceLine from '../CheckoutOrderSummaryPriceLine';
-import ExpandableContent from '../ExpandableContent';
+import CartCoupon from 'Component/CartCoupon';
+import CartItem from 'Component/CartItem';
+import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
+import ExpandableContent from 'Component/ExpandableContent';
 import {
     DISPLAY_CART_TAX_IN_SHIPPING_BOTH,
     DISPLAY_CART_TAX_IN_SHIPPING_INCL_TAX,
@@ -23,7 +23,7 @@ import {
     DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX
 } from 'Route/CartPage/CartPage.config';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import { TotalsType } from '../../type/MiniCart';
+import { TotalsType } from 'Type/MiniCart';
 
 import './CheckoutOrderSummary.style';
 

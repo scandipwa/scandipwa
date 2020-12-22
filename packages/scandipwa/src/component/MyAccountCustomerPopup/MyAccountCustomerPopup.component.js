@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Loader from '../Loader';
-import MyAccountCustomerForm from '../MyAccountCustomerForm';
-import MyAccountPasswordForm from '../MyAccountPasswordForm';
-import Popup from '../Popup';
-import { customerType } from '../../type/Account';
+import Loader from 'Component/Loader';
+import MyAccountCustomerForm from 'Component/MyAccountCustomerForm';
+import MyAccountPasswordForm from 'Component/MyAccountPasswordForm';
+import Popup from 'Component/Popup';
+import { customerType } from 'Type/Account';
 
 import { CHANGE_PASSWORD, CUSTOMER_POPUP_ID, EDIT_CUSTOMER } from './MyAccountCustomerPopup.config';
 

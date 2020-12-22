@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import WishlistQuery from '../../query/Wishlist.query';
+import WishlistQuery from 'Query/Wishlist.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { fetchMutation } from '../../util/Request';
+import { fetchMutation } from 'Util/Request';
 
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 

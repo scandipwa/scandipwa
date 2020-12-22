@@ -13,13 +13,13 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import MyAccountQuery from '../../query/MyAccount.query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
-import { addressType } from '../../type/Account';
-import { fetchMutation } from '../../util/Request';
+import { addressType } from 'Type/Account';
+import { fetchMutation } from 'Util/Request';
 
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
 import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';

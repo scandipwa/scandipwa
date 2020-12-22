@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from '../../type/Common';
-import { formatPrice, roundPrice } from '../../util/Price';
+import { MixType } from 'Type/Common';
+import { formatPrice, roundPrice } from 'Util/Price';
 
 /** @namespace Component/CartItemPrice/Component */
 export class CartItemPrice extends PureComponent {

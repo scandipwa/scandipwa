@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { MixType } from '../../type/Common';
-import { ProductType } from '../../type/ProductList';
+import { MixType } from 'Type/Common';
+import { ProductType } from 'Type/ProductList';
 
 import './AddToCart.style';
 

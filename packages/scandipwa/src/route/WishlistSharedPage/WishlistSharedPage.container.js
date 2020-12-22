@@ -13,13 +13,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { MyAccountMyWishlistContainer } from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.container';
-import WishlistQuery from '../../query/Wishlist.query';
+import WishlistQuery from 'Query/Wishlist.query';
 import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { MatchType } from '../../type/Common';
-import { getIndexedProduct } from '../../util/Product';
-import { prepareQuery } from '../../util/Query';
-import { executeGet } from '../../util/Request';
+import { MatchType } from 'Type/Common';
+import { getIndexedProduct } from 'Util/Product';
+import { prepareQuery } from 'Util/Query';
+import { executeGet } from 'Util/Request';
 import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';

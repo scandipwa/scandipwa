@@ -12,12 +12,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Image from '../Image';
-import Loader from '../Loader';
-import MyAccountAddressTable from '../MyAccountAddressTable';
-import Popup from '../Popup';
-import { orderType } from '../../type/Account';
-import { formatPrice } from '../../util/Price';
+import Image from 'Component/Image';
+import Loader from 'Component/Loader';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import Popup from 'Component/Popup';
+import { orderType } from 'Type/Account';
+import { formatPrice } from 'Util/Price';
 
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
 

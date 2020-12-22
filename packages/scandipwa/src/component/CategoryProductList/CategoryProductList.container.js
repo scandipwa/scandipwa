@@ -12,9 +12,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import ProductList from '../ProductList';
+import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
-import { FilterInputType } from '../../type/ProductList';
+import { FilterInputType } from 'Type/ProductList';
 
 import './CategoryProductList.style';
 

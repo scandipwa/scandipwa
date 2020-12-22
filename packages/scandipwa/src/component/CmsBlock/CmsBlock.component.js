@@ -11,8 +11,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Html from '../Html';
-import { ChildrenType } from '../../type/Common';
+import Html from 'Component/Html';
+import { ChildrenType } from 'Type/Common';
 
 /**
  * Cms Block

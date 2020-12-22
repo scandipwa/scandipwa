@@ -18,18 +18,18 @@ import {
     Suspense
 } from 'react';
 
-import ClickOutside from '../ClickOutside';
-import Loader from '../Loader';
-import { DeviceType } from '../../type/Device';
-import history from '../../util/History';
-import { appendWithStoreCode } from '../../util/Url';
+import ClickOutside from 'Component/ClickOutside';
+import Loader from 'Component/Loader';
+import { DeviceType } from 'Type/Device';
+import history from 'Util/History';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './SearchField.style';
 
 export const SearchOverlay = lazy(
     () => import(
         /* webpackMode: "lazy", webpackChunkName: "category" */
-        '../SearchOverlay'
+        'Component/SearchOverlay'
     )
 );
 

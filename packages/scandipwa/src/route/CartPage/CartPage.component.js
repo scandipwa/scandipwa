@@ -12,16 +12,16 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CartCoupon from '../../component/CartCoupon';
-import CartItem from '../../component/CartItem';
-import CmsBlock from '../../component/CmsBlock';
-import ContentWrapper from '../../component/ContentWrapper';
-import ExpandableContent from '../../component/ExpandableContent';
-import Link from '../../component/Link';
-import ProductLinks from '../../component/ProductLinks';
+import CartCoupon from 'Component/CartCoupon';
+import CartItem from 'Component/CartItem';
+import CmsBlock from 'Component/CmsBlock';
+import ContentWrapper from 'Component/ContentWrapper';
+import ExpandableContent from 'Component/ExpandableContent';
+import Link from 'Component/Link';
+import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { TotalsType } from '../../type/MiniCart';
-import { formatPrice } from '../../util/Price';
+import { TotalsType } from 'Type/MiniCart';
+import { formatPrice } from 'Util/Price';
 
 import './CartPage.style';
 

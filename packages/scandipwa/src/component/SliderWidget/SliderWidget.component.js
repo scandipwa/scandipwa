@@ -13,10 +13,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Html from '../Html';
-import Image from '../Image';
-import Slider from '../Slider';
-import { DeviceType } from '../../type/Device';
+import Html from 'Component/Html';
+import Image from 'Component/Image';
+import Slider from 'Component/Slider';
+import { DeviceType } from 'Type/Device';
 
 import './SliderWidget.style';
 

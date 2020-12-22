@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { ChildrenType } from '../../type/Common';
-import { formatPrice } from '../../util/Price';
+import { ChildrenType } from 'Type/Common';
+import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
 export class CheckoutOrderSummaryPriceLine extends PureComponent {
