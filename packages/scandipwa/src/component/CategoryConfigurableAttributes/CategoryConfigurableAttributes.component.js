@@ -19,8 +19,8 @@ import { formatPrice } from 'Util/Price';
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     getPriceLabel(option) {
         const { currency_code } = this.props;
-        const { value_string } = option;
-        const [from, to] = value_string.split('_');
+        const { label } = option;
+        const [from, to] = label.split('~');
         const priceFrom = formatPrice(from, currency_code);
         const priceTo = formatPrice(to, currency_code);
 
