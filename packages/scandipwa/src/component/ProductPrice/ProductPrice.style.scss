@@ -1,0 +1,59 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --price-color: #b10d0d;
+    --price-discount-color: #808080;
+}
+
+.ProductPrice {
+    color: var(--price-color);
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: middle;
+
+    @include mobile {
+        font-size: 1.8rem;
+    }
+
+    ins {
+        text-decoration: none;
+    }
+
+    del {
+        font-size: .7em;
+        font-weight: 500;
+        opacity: .5;
+        display: inline-block;
+        margin-left: 12px;
+
+        @include mobile {
+            margin-left: 4px;
+        }
+    }
+
+    &-HighPrice {
+        padding-left: .1em;
+        color: var(--price-discount-color);
+    }
+
+    &-Placeholder {
+        &::after {
+            content: 'aaaaa';
+        }
+    }
+
+    &-SubPrice {
+        display: block;
+        font-weight: 500;
+        font-size: .7em;
+    }
+}

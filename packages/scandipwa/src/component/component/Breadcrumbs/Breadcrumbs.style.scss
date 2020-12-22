@@ -1,0 +1,36 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --breadcrumbs-height: 40px;
+    --breadcrumbs-background: var(--secondary-base-color);
+    --breadcrumbs-active-color: #888;
+    --breadcrumbs-color: #404040;
+}
+
+.Breadcrumbs {
+    background-color: var(--breadcrumbs-background);
+
+    $crumb-padding: 20px;
+    $arrow-size: 4px;
+
+    @include before-desktop {
+        --breadcrumbs-background: #fff;
+
+        display: none;
+    }
+
+    &-List {
+        list-style: none;
+        padding: 10px 0;
+        height: 40px;
+    }
+}

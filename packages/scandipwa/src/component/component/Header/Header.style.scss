@@ -1,0 +1,518 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --header-background: #fff;
+    --header-color: #000;
+    --header-contacts-color: #414141;
+    --header-icon-stroke-width: 1px;
+    --header-search-clear-background: #838383;
+    --header-desktop-button-color: var(--primary-base-color);
+    --header-height: 50px;
+    --header-nav-height: 50px;
+    --header-total-height:
+        calc(
+            var(--header-height)
+            + var(--offline-notice-height)
+            + var(--demo-notice-height)
+            + env(safe-area-inset-top)
+        );
+
+    @include desktop {
+        --header-dots-color: #000;
+    }
+
+    @include after-mobile {
+        --header-nav-height: 60px;
+        --header-top-menu-height: 30px;
+        --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height));
+    }
+}
+
+@mixin button-invisible {
+    opacity: 0;
+    padding: 0;
+    width: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+@mixin button-visible {
+    opacity: 1;
+    padding: 7.5px;
+    width: 35px;
+    pointer-events: all;
+    overflow: visible;
+}
+
+@mixin logo-visible {
+    opacity: 1;
+    max-width: 100%;
+}
+
+.Header {
+    --header-logo-width: 0;
+    --header-logo-height: 0;
+
+    position: fixed;
+    top: var(--demo-notice-height);
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--header-background);
+    padding-top: env(safe-area-inset-top, 0);
+
+    @include desktop {
+        border-bottom: 1px solid var(--primary-divider-color);
+    }
+
+    @at-root .hiddenHeader {
+        @include before-desktop {
+            /* stylelint-disable-next-line length-zero-no-unit */
+            --header-height: 0px;
+        }
+    }
+
+    &-Wrapper {
+        margin-bottom: var(--header-total-height);
+    }
+
+    &_isHiddenOnMobile {
+        @include before-desktop {
+            pointer-events: none;
+            opacity: 0;
+        }
+    }
+
+    &_name {
+        &_cart {
+            .Header-Button_type_minicart {
+                @include desktop {
+                    --header-color: var(--primary-base-color);
+                }
+            }
+        }
+
+        &_cart_overlay {
+            .Header-Button_type_minicart,
+            .Header-MinicartTitle {
+                @include after-mobile {
+                    --header-color: var(--primary-base-color);
+                }
+            }
+
+            .Header-MinicartItemCount {
+                @include after-mobile {
+                    color: var(--primary-base-color);
+                }
+            }
+        }
+
+        &_menu,
+        &_menu_subcategory {
+            .Header-Button_type {
+                &_close {
+                    @include desktop {
+                        @include button-visible;
+                    }
+                }
+
+                &_menu {
+                    @include desktop {
+                        @include button-invisible;
+                    }
+                }
+            }
+        }
+
+        &_customer_account,
+        &_customer_sub_account {
+            .Header-Button_type_account,
+            .Header-MyAccountTitle {
+                @include desktop {
+                    --header-color: var(--header-desktop-button-color);
+                }
+            }
+        }
+
+        &_checkout {
+            .Header-Button,
+            .Header-SearchWrapper,
+            .SearchField {
+                @include desktop {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &_isCheckout {
+        .Header {
+            &-Button_type_account {
+                display: block;
+            }
+
+            &-Nav {
+                @include desktop {
+                    justify-content: flex-end;
+                }
+            }
+
+            &-MyAccount {
+                @include before-desktop {
+                    position: absolute;
+                    right: 10px;
+                    width: auto;
+                }
+            }
+        }
+
+        .MyAccountOverlay {
+            @include before-desktop {
+                top: var(--header-total-height);
+                height: calc(100vh - var(--header-total-height));
+                position: fixed;
+                width: 100vw;
+            }
+        }
+    }
+
+    &-Banner {
+        background: var(--primary-base-color);
+        color: $white;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        display: block;
+        z-index: 100;
+
+        strong {
+            margin-left: 3px;
+        }
+    }
+
+    &-TopMenu,
+    &-Nav {
+        display: flex;
+        margin: auto;
+        max-width: var(--content-wrapper-width);
+    }
+
+    &-TopMenu {
+        height: var(--header-top-menu-height);
+        justify-content: space-between;
+        z-index: 21;
+        padding: {
+            left: 1.2rem;
+            right: 2.4rem;
+            top: 1.2rem;
+        };
+
+        @include mobile {
+            padding: {
+                left: 1.4rem;
+                right: 2.8rem;
+                top: 1.4rem;
+            }
+        }
+    }
+
+    &-Contacts {
+        font-size: 1.2rem;
+        color: var(--header-contacts-color);
+
+        span:first-child {
+            margin-right: 20px;
+        }
+    }
+
+    &-Nav {
+        align-items: center;
+        height: var(--header-nav-height);
+        padding: 0 1.2rem;
+        z-index: 20;
+
+        @include mobile {
+            padding: 0 1.4rem;
+        }
+
+        @include desktop {
+            justify-content: flex-end;
+        }
+    }
+
+    &-Button {
+        @include button-invisible;
+
+        cursor: pointer;
+        margin: 0;
+        height: 35px;
+
+        &_isVisible {
+            @include before-desktop {
+                @include button-visible;
+            }
+        }
+
+        &_isDisabled {
+            pointer-events: none;
+            opacity: .1;
+        }
+
+        &_type {
+            &_menu,
+            &_account,
+            &_minicart {
+                @include desktop {
+                    @include button-visible;
+                }
+            }
+
+            &_close {
+                @include close-button;
+            }
+
+            &_back {
+                @include back-button;
+            }
+
+            &_menu {
+                @include menu-button;
+
+                @include desktop {
+                    width: 100px;
+                }
+            }
+
+            &_account {
+                @include account-button;
+
+                &.Header-Button_isVisible {
+                    overflow: hidden;
+                }
+            }
+
+            &_minicart {
+                @include before-desktop {
+                    @include minicart-button;
+                }
+
+                @include desktop {
+                    cursor: default;
+                    height: auto;
+                    margin-right: 1.44rem;
+                    width: auto;
+                }
+            }
+
+            &_searchClear {
+                @include clear-search-button;
+            }
+
+            &_clear {
+                @include clear-button;
+            }
+
+            &_edit {
+                text-transform: uppercase;
+
+                &.Header-Button_isVisible {
+                    width: 70px;
+                    opacity: .5;
+                }
+            }
+
+            &_share {
+                @include share-button;
+
+                &.Header-Button_isVisible {
+                    height: 0;
+                    width: 0;
+                    margin-left: 1rem;
+                    margin-top: .5rem;
+                    opacity: .5;
+                }
+            }
+
+            &_home {
+                @include home-icon;
+            }
+
+            &_ok,
+            &_cancel {
+                font-size: 1.4rem;
+                opacity: .5;
+
+                &.Header-Button_isVisible {
+                    width: 70px;
+                }
+            }
+        }
+    }
+
+    &-MyAccount {
+        &Wrapper {
+            align-items: center;
+            display: flex;
+        }
+
+        &Title {
+            cursor: pointer;
+            padding-right: .48rem;
+            text-transform: uppercase;
+            color: var(--header-color);
+
+            @include mobile {
+                padding-right: .56rem;
+                display: none;
+            }
+        }
+    }
+
+    &-Minicart {
+        &ButtonWrapper {
+            align-items: center;
+            border-right: 2px dotted var(--header-dots-color);
+            cursor: pointer;
+            display: flex;
+            height: 26px;
+            margin-left: 2.4rem;
+            padding-right: 2.16rem;
+
+            @include mobile {
+                margin-left: 2.8rem;
+                padding-right: 2.52rem;
+            }
+
+            @include tablet-portrait {
+                margin-left: 0;
+            }
+        }
+
+        &Title {
+            color: var(--header-color);
+            margin-right: .84rem;
+            text-transform: uppercase;
+
+            @include mobile {
+                margin-right: .98rem;
+            }
+        }
+
+        &Icon {
+            @include minicart-button;
+
+            @include desktop {
+                height: 20px;
+                width: 20px;
+                top: 1px;
+            }
+        }
+
+        &ItemCount {
+            line-height: 13px;
+            min-width: 14px;
+            padding-left: 5px;
+
+            @include before-desktop {
+                background: var(--primary-base-color);
+                border-radius: 7px;
+                color: var(--header-background);
+                display: inline-block;
+                font-size: 1.2rem;
+                left: 50%;
+                padding: 0 4px 1px;
+                position: absolute;
+                top: 18px;
+                transform: translateX(3px);
+                z-index: 2;
+            }
+        }
+    }
+
+    &-LogoWrapper {
+        position: absolute;
+        height: var(--header-logo-height);
+        width: var(--header-logo-width);
+        max-width: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+        overflow: hidden;
+
+        transition-property: opacity;
+        transition-duration: 200ms;
+
+        @include desktop {
+            @include logo-visible;
+        }
+
+        &_isVisible {
+            @include logo-visible;
+        }
+
+        .Image-Image {
+            object-fit: fill;
+        }
+    }
+
+    &-Title {
+        opacity: 0;
+        max-width: 0;
+        transition-property: opacity;
+        transition-duration: 200ms;
+
+        text-align: center;
+        font-size: 1.56rem;
+        color: var(--header-color);
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        pointer-events: none;
+
+        position: absolute;
+        margin: auto;
+        width: 100%;
+        height: 1.8rem;
+        line-height: 1.8rem;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        @include mobile {
+            font-size: 1.82rem;
+            height: 2.1rem;
+            line-height: 2.1rem;
+        }
+
+        &_isVisible {
+            @include before-desktop {
+                opacity: 1;
+                max-width: calc(100% - 180px);
+            }
+        }
+    }
+
+    a {
+        &:hover,
+        &:focus {
+            @include before-desktop {
+                text-decoration: none;
+            }
+        }
+    }
+}

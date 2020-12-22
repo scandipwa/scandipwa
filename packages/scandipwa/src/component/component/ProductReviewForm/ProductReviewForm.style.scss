@@ -1,0 +1,82 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.ProductReviewForm {
+    &-Wrapper {
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-gap: 2.4rem;
+        }
+    }
+
+    &-ProductName {
+        font-weight: 700;
+        font-size: 2.4rem;
+
+        @include mobile {
+
+            font-size: 2.52rem;
+        }
+    }
+
+    &-Content {
+        @include mobile {
+            margin-top: 2.8rem;
+        }
+    }
+
+    &-Rating {
+        margin: 1.2rem 0 1.56rem;
+        text-align: left;
+        direction: rtl;
+        border: 0;
+        /* stylelint-disable-next-line unknownProperties, property-no-unknown */
+        white-space-collapse: discard; // alternative of `font-size: 0`
+
+        @include mobile {
+            margin: 1.4rem 0 1.82rem;
+        }
+
+        &:first-child {
+            @include mobile {
+                margin-top: 0;
+            }
+        }
+    }
+
+    &-Legend {
+        border-bottom: 0;
+        padding-bottom: .36rem;
+        font-weight: 700;
+        font-size: 1.26rem;
+
+        @include mobile {
+            padding-bottom: .42rem;
+            font-size: 1.47rem;
+        }
+    }
+
+    & &-Button {
+        margin-top: 1.2rem;
+
+        @include mobile {
+
+            margin-top: 2.8rem;
+            width: 100%;
+        }
+    }
+
+    input,
+    textarea {
+        width: 100%;
+    }
+}

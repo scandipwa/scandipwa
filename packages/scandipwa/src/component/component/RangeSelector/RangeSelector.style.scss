@@ -1,0 +1,61 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+// using the default "react-input-range" package css names
+
+:root {
+    --range-slider-color: #000;
+    --range-slider-active-color: var(--primary-base-color);
+}
+
+.RangeSelector {
+    &_isChanged {
+        --range-slider-color: var(--range-slider-active-color);
+    }
+}
+
+.input-range {
+    margin: 30px 10px;
+    width: calc(100% - 18px);
+
+    @include mobile {
+        margin: 40px 10px;
+    }
+
+    &__slider,
+    &__track--active {
+        background-color: var(--range-slider-color);
+        border-color: var(--range-slider-color);
+    }
+
+    &__slider {
+        background-color: white;
+        margin-left: -10px;
+        margin-top: -12px;
+        width: 20px;
+        height: 20px;
+    }
+
+    &__track {
+        height: 4px;
+    }
+
+    &__label {
+        &--value {
+            top: -2.2rem;
+        }
+
+        &--min,
+        &--max {
+            bottom: -1.6rem;
+        }
+    }
+}

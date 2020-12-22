@@ -1,0 +1,24 @@
+{
+    "name": "@scandipwa/bundle-analyzer",
+    "description": "Webpack bundle analyzer extension used by CSA.",
+    "version": "0.0.5",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "react-dev-utils": "^10.2.1",
+        "webpack-bundle-analyzer": "^4.1.0"
+    },
+    "scandipwa": {
+        "type": "extension",
+        "build": {
+            "cracoPlugins": [
+                "build-config/analyzer.js"
+            ]
+        }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    }
+}

@@ -1,0 +1,49 @@
+.InstallPromptIOS {
+    background: var(--secondary-light-color);
+    padding: 1.2rem;
+    margin: 1.2rem;
+
+    @include mobile {
+        padding: 1.4rem;
+        margin: 1.4rem;
+    }
+
+    &-Heading {
+        margin: .6rem 0;
+        text-align: center;
+
+        @include mobile {
+            margin: .7rem 0;
+        }
+    }
+
+    &-Content {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    &-Close {
+        color: var(--secondary-dark-color);
+        width: 100%;
+        text-align: right;
+        text-decoration: underline;
+        margin-top: 5px;
+    }
+
+    &-Plus {
+        @include ios-plus;
+        transform: scale(.9);
+        transform-origin: 50% 50%;
+    }
+
+    &-Share {
+        @include ios-share;
+        transform: scale(.8);
+        transform-origin: 50% 50%;
+    }
+
+    p {
+        line-height: 1;
+    }
+}

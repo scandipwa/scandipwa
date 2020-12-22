@@ -1,0 +1,93 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --product-configurable-attributes-direction: flex-start;
+    --product-configurable-attributes-margin: 0;
+    --product-configurable-attributes-content-padding: 0;
+
+    @include mobile {
+        --product-configurable-attributes-content-padding: .7rem .7rem 2.1rem;
+    }
+}
+
+.ProductConfigurableAttributes {
+    &-SwatchList,
+    &-DropDownList {
+        text-align: center;
+
+        @include after-mobile {
+            --option-size: 33px;
+        }
+    }
+
+    &-SwatchList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: var(--product-configurable-attributes-direction);
+        align-items: center;
+    }
+
+    &-DropDownList {
+        width: 100%;
+    }
+
+    &-Expandable {
+        margin: var(--product-configurable-attributes-margin);
+    }
+
+    &-ExpandableContent {
+        &Button {
+            @include after-mobile {
+                min-height: 30px;
+            }
+        }
+
+        &SubHeading {
+            text-transform: capitalize;
+        }
+
+        &Content {
+            overflow-anchor: none;
+
+            @include after-mobile {
+                margin-bottom: 1.2rem;
+            }
+
+            &_isContentExpanded {
+                @include mobile {
+                    padding: var(--product-configurable-attributes-content-padding);
+                }
+            }
+        }
+    }
+
+    &-SectionHeading {
+        font-size: 1.2em;
+        font-weight: 700;
+        line-height: 1;
+        margin: 0 0 1.2rem;
+
+        @include mobile {
+            margin: 0 0 1.4rem;
+            display: none;
+        }
+    }
+
+    &-Placeholder {
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        height: var(--option-size);
+        width: var(--option-size);
+        margin: var(--option-margin);
+    }
+}
