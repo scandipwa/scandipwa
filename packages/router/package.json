@@ -1,0 +1,26 @@
+{
+    "name": "@scandipwa/router",
+    "description": "Router extension for ScandiPWA.",
+    "version": "0.0.3",
+    "license": "OSL-3.0",
+    "peerDependencies": {
+        "@scandipwa/framework": "^0.0.1"
+    },
+    "dependencies": {
+        "history": "^4.9.0",
+        "react-router": "^5.2.0",
+        "react-router-dom": "^5.2.0"
+    },
+    "scandipwa": {
+        "type": "extension",
+        "extensions": {
+            "@scandipwa/framework": true
+        }
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}
