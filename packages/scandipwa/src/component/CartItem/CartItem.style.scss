@@ -57,7 +57,6 @@
         display: grid;
         width:100%;
         height: 100%;
-
         @include after-mobile {
             padding-bottom: 4.8rem;
         }
@@ -74,8 +73,6 @@
     &-Wrapper {
         display: grid;
         grid-template-columns: 7.2rem auto;
-        grid-gap: 1.2rem;
-        padding: 1.2rem;
         background: var(--cart-item-background);
 
         @include mobile {
@@ -86,7 +83,7 @@
         }
 
         @include after-mobile {
-            grid-template-columns: 100px auto;
+            grid-template-columns: 20% 80%;
         }
     }
 
@@ -94,7 +91,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
-
+        padding-left: 1rem ;
         &_isLikeTable {
             @include after-mobile {
                 flex-grow: 1;
@@ -116,6 +113,7 @@
     }
 
     &-ItemOptionsWrapper {
+        margin: 1rem 0 0 1rem;
         &_isLikeTable {
             @include desktop {
                 max-width: 45%;
@@ -182,7 +180,7 @@
     &-Price {
         flex-grow: 1;
         text-align: right;
-        margin-bottom: 0;
+        margin-right: 1rem;
 
         @include after-mobile {
             font-size: 1.6rem;
@@ -219,14 +217,12 @@
 
     &-Actions {
         opacity: 0;
-        padding: 0 1.2rem;
         max-height: 0;
         pointer-events: none;
-
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        bottom: 1rem;
+        grid-template-columns: 50% 50%;
         align-items: center;
-        flex-direction: row-reverse;
 
         will-change: max-height, opacity, padding;
         transition-property: padding, max-height;
@@ -242,12 +238,9 @@
 
         &_isLikeTable {
             @include after-mobile {
-                width: 20%;
-                bottom: 0;
-                right: 20%;
-                top: -5px;
-                margin: auto;
-                justify-content: center;
+                width: 60%;
+                height: 100% ;
+                
             }
 
             > * {
@@ -257,7 +250,6 @@
 
         &_isEditing {
             transition-property: padding, max-height, opacity;
-            padding: .6rem 1.2rem;
             opacity: 1;
             max-height: 6rem;
             pointer-events: all;
@@ -276,14 +268,11 @@
         }
 
         @include after-mobile {
-            top: 1px;
+            grid-column: 2;
         }
 
         @include tablet {
-            height: auto;
-            padding-top: 8px;
-            margin-top: 7px;
-            margin-left: -12px;
+            
         }
 
         @include mobile {
@@ -318,7 +307,7 @@
     & &-Qty { // hack to obtain required specificity
         margin-top: 0;
         display: flex;
-
+        
         @include mobile {
             align-items: center;
         }
@@ -385,7 +374,8 @@
     &-QuantityWrapper {
         display: flex;
         align-items: center;
-
+        grid-column: 1;
+        grid-row: 1;
         @include mobile {
             margin-bottom: .7rem;
         }
