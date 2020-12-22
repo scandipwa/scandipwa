@@ -84,6 +84,29 @@ export class CartOverlay extends PureComponent {
         );
     }
 
+    renderOrderTotalExlTax() {
+        const {
+            totals: {
+                cart_display_config: {
+                    include_tax_in_order_total
+                } = {},
+                subtotal_incl_tax = 0,
+                tax_amount = 0
+            }
+        } = this.props;
+        const result = subtotal_incl_tax - tax_amount;
+
+        if (!include_tax_in_order_total) {
+            return null;
+        }
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(result) }` }
+            </span>
+        );
+    }
+
     renderTotals() {
         const {
             totals: {
@@ -99,7 +122,10 @@ export class CartOverlay extends PureComponent {
               elem="Total"
             >
                 <dt>{ __('Order total:') }</dt>
-                <dd>{ this.renderPriceLine(result) }</dd>
+                <dd>
+                    { this.renderPriceLine(result) }
+                    { this.renderOrderTotalExlTax() }
+                </dd>
             </dl>
         );
     }
