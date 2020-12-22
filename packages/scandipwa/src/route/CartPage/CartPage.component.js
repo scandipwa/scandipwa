@@ -147,13 +147,15 @@ export class CartPage extends PureComponent {
         const {
             totals: {
                 tax_amount = 0,
+                shipping_tax_amount = 0,
                 cart_display_config: {
                     display_zero_tax_subtotal
                 } = {}
             }
         } = this.props;
+        const tax = tax_amount - shipping_tax_amount;
 
-        if (!tax_amount && !display_zero_tax_subtotal) {
+        if (!tax && !display_zero_tax_subtotal) {
             return null;
         }
 
@@ -163,7 +165,7 @@ export class CartPage extends PureComponent {
                     { __('Tax:') }
                     { this.renderTaxFullSummary() }
                 </dt>
-                <dd>{ this.renderPriceLine(tax_amount) }</dd>
+                <dd>{ this.renderPriceLine(tax) }</dd>
             </>
         );
     }
@@ -201,15 +203,17 @@ export class CartPage extends PureComponent {
         const {
             totals: {
                 subtotal_with_discount = 0,
-                tax_amount = 0
+                tax_amount = 0,
+                shipping_tax_amount = 0
             }
         } = this.props;
+        const result = subtotal_with_discount + tax_amount - shipping_tax_amount;
 
         return (
             <dl block="CartPage" elem="Total" aria-label="Complete order total">
                 <dt>{ __('Order total:') }</dt>
                 <dd>
-                    { this.renderPriceLine(subtotal_with_discount + tax_amount) }
+                    { this.renderPriceLine(result) }
                     { this.renderOrderTotalExlTax() }
                 </dd>
             </dl>

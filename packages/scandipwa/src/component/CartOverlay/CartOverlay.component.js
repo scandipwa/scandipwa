@@ -85,7 +85,13 @@ export class CartOverlay extends PureComponent {
     }
 
     renderTotals() {
-        const { totals: { subtotal_incl_tax = 0 } } = this.props;
+        const {
+            totals: {
+                subtotal_incl_tax = 0,
+                shipping_tax_amount = 0
+            } = {}
+        } = this.props;
+        const result = subtotal_incl_tax - shipping_tax_amount;
 
         return (
             <dl
@@ -93,13 +99,19 @@ export class CartOverlay extends PureComponent {
               elem="Total"
             >
                 <dt>{ __('Order total:') }</dt>
-                <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
+                <dd>{ this.renderPriceLine(result) }</dd>
             </dl>
         );
     }
 
     renderTax() {
-        const { totals: { tax_amount = 0 } } = this.props;
+        const {
+            totals: {
+                tax_amount = 0,
+                shipping_tax_amount = 0
+            } = {}
+        } = this.props;
+        const result = tax_amount - shipping_tax_amount;
 
         return (
             <dl
@@ -107,7 +119,7 @@ export class CartOverlay extends PureComponent {
               elem="Tax"
             >
                 <dt>{ __('Tax total:') }</dt>
-                <dd>{ this.renderPriceLine(tax_amount || 0) }</dd>
+                <dd>{ this.renderPriceLine(result) }</dd>
             </dl>
         );
     }

@@ -145,7 +145,8 @@ export class CartPageContainer extends PureComponent {
                     display_tax_in_subtotal
                 } = {},
                 subtotal,
-                subtotal_incl_tax
+                subtotal_incl_tax,
+                shipping_tax_amount = 0
             }
         } = this.props;
 
@@ -153,7 +154,7 @@ export class CartPageContainer extends PureComponent {
             return subtotal;
         }
 
-        return subtotal_incl_tax;
+        return subtotal_incl_tax - shipping_tax_amount;
     }
 
     getCartSubTotalExclTax() {
