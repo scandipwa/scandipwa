@@ -18,6 +18,7 @@
     --cart-item-actions-color: #000;
     --cart-item-divider-color: var(--expandable-content-divider-color);
     --cart-item-action-border: var(--cart-item-divider-color);
+    --cart-swipe-to-delete-color: #fff;
 }
 
 .CartItem {
@@ -78,13 +79,14 @@
         background: var(--cart-item-background);
 
         @include mobile {
-            grid-template-columns: 8.4rem auto;
+            grid-template-columns: 100px auto;
             grid-gap: 1.4rem;
             padding: 1.4rem;
+            min-height: 130px;
         }
 
         @include after-mobile {
-            grid-template-columns: 8.4rem auto;
+            grid-template-columns: 100px auto;
         }
     }
 
@@ -98,6 +100,10 @@
                 flex-grow: 1;
             }
         }
+
+        @include mobile {
+            margin-bottom: .7rem;
+        }
     }
 
     &-Option {
@@ -106,7 +112,7 @@
         border: 1px solid var(--cart-item-option-color);
         color: var(--cart-item-option-color);
         padding: 3px 5px;
-        margin-right: 5px;
+        margin: 5px 7px 0 0;
     }
 
     &-ItemOptionsWrapper {
@@ -161,7 +167,11 @@
 
     &-Picture {
         align-self: center;
-        padding-bottom: 120%;
+        padding-bottom: 130%;
+
+        @include mobile {
+            height: 100%;
+        }
     }
 
     &-Price {
@@ -192,6 +202,14 @@
                 }
             }
         }
+
+        @include mobile {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-start;
+        }
     }
 
     &-Actions {
@@ -209,17 +227,11 @@
         transition-property: padding, max-height;
         transition-duration: 200ms;
 
-        @include mobile {
-            padding: 0 1.4rem;
-            background-color: var(--cart-item-actions-background);
-            border-top: 1px solid var(--cart-item-action-border);
-        }
-
         @include after-mobile {
             position: absolute;
             bottom: 1.2rem;
             right: 0;
-            width: calc(100% - 9.6rem);
+            width: calc(100% - 11.3rem);
             height: 3.6rem;
         }
 
@@ -244,30 +256,6 @@
             opacity: 1;
             max-height: 6rem;
             pointer-events: all;
-
-            @include mobile {
-                padding: .7rem 1.4rem;
-                max-height: 7rem;
-            }
-        }
-
-        &::after,
-        &::before {
-            @include mobile {
-                content: '';
-            }
-
-            position: absolute;
-            left: 0;
-            right: 0;
-            margin: auto;
-            top: -1px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 15px 20px 0 20px;
-            border-color: var(--cart-item-background) transparent transparent transparent;
-            z-index: 2;
         }
 
         &::before {
@@ -278,7 +266,9 @@
     }
 
     &-Delete {
-        @include clear-button;
+        @include desktop {
+            @include clear-button;
+        }
 
         @include after-mobile {
             top: 1px;
@@ -291,15 +281,42 @@
             margin-left: -12px;
         }
 
+        @include mobile {
+            @include close-button;
+            height: 30px;
+            width: 30px;
+            padding-left: 0;
+
+            &::before {
+                height: 15px;
+                top: 0;
+            }
+
+            &::after {
+                height: 15px;
+                top: 0;
+            }
+        }
+
         height: 35px;
         padding-left: 35px;
         font-size: 1.4rem;
         color: var(--cart-item-actions-color);
     }
 
+    &-DeleteButtonText {
+        @include mobile {
+            display: none;
+        }
+    }
+
     & &-Qty { // hack to obtain required specificity
         margin-top: 0;
         display: flex;
+
+        @include mobile {
+            align-items: center;
+        }
 
         input {
             background: transparent;
@@ -313,6 +330,11 @@
             width: 44px;
             min-width: 44px;
             font-size: 1.6rem;
+
+            @include mobile {
+                width: 24px;
+                min-width: 24px;
+            }
         }
 
         button {
@@ -341,6 +363,40 @@
                     top: -2.2px;
                 }
             }
+
+            @include mobile {
+                width: 18px;
+                height: 18px;
+            }
         }
+    }
+
+    &-SwipeToDeleteRightSide {
+        height: 100%;
+        font-weight: 600;
+        color: var(--cart-swipe-to-delete-color);
+    }
+
+    &-QuantityWrapper {
+        display: flex;
+        align-items: center;
+
+        @include mobile {
+            margin-bottom: .7rem;
+        }
+    }
+
+    &-QuantityText {
+        margin-right: 10px;
+
+        @include after-mobile {
+            display: none;
+        }
+    }
+
+    &-HeadingWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
     }
 }

@@ -45,6 +45,7 @@ export class Popup extends Overlay {
 
     onVisible() {
         const { onVisible } = this.props;
+
         this.freezeScroll();
         this.overlayRef.current.focus();
 

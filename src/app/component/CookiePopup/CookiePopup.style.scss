@@ -28,6 +28,7 @@
     z-index: 300;
 
     @include mobile {
+        margin-bottom: 51px;
         padding: 1.4rem 0 calc(env(safe-area-inset-bottom) + 1.4rem);
     }
 

@@ -21,12 +21,16 @@ import './RecentlyViewedWidget.style';
 export class RecentlyViewedWidget extends PureComponent {
     static propTypes = {
         pageSize: PropTypes.number,
-        products: ItemsType.isRequired
+        products: ItemsType.isRequired,
+        productCardProps: PropTypes.object.isRequired,
+        productCardFunctions: PropTypes.object.isRequired
     };
 
     static defaultProps = {
         pageSize: 6
     };
+
+    renderProductCard = this.renderProductCard.bind(this);
 
     renderProducts(products) {
         const { pageSize } = this.props;
@@ -39,6 +43,10 @@ export class RecentlyViewedWidget extends PureComponent {
     }
 
     renderProductCard(product) {
+        const {
+            productCardProps,
+            productCardFunctions
+        } = this.props;
         const { id, selectedFilters } = product;
 
         return (
@@ -46,12 +54,14 @@ export class RecentlyViewedWidget extends PureComponent {
               selectedFilters={ selectedFilters }
               product={ product }
               key={ id }
+              { ...productCardProps }
+              { ...productCardFunctions }
             />
         );
     }
 
     render() {
-        const { products } = this.props;
+        const { products = [] } = this.props;
 
         if (!products.length) {
             return null;

@@ -23,7 +23,8 @@ export class MyAccountAddressForm extends FieldForm {
         countries: countriesType.isRequired,
         default_country: PropTypes.string,
         onSave: PropTypes.func,
-        addressLinesQty: PropTypes.number.isRequired
+        addressLinesQty: PropTypes.number.isRequired,
+        showVatNumber: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -134,6 +135,20 @@ export class MyAccountAddressForm extends FieldForm {
         return streets;
     }
 
+    getVatField() {
+        const { showVatNumber } = this.props;
+
+        if (!showVatNumber) {
+            return {};
+        }
+
+        return {
+            vat_id: {
+                label: __('VAT Number')
+            }
+        };
+    }
+
     get fieldMap() {
         const { countryId } = this.state;
         const { countries, address } = this.props;
@@ -181,7 +196,8 @@ export class MyAccountAddressForm extends FieldForm {
                 label: __('Zip/Postal code'),
                 validation: ['notEmpty']
             },
-            ...this.getAddressFields()
+            ...this.getAddressFields(),
+            ...this.getVatField()
             // Will be back with B2B update
             // company: {
             //     label: __('Company')
