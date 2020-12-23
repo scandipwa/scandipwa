@@ -187,11 +187,14 @@ export class WishlistItemContainer extends PureComponent {
     };
 
     render() {
+        const { isLoading } = this.state;
+
         return (
             <SwipeToDelete
               renderRightSideContent={ this.renderRightSideContent }
               topElemMix={ { block: 'WishlistItem' } }
               onAheadOfDragItemRemoveThreshold={ this.containerFunctions.removeItem }
+              isLoading={ isLoading }
             >
                 <WishlistItem
                   { ...this.props }

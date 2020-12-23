@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import Draggable from 'Component/Draggable';
+import Loader from 'Component/Loader';
 import { ChildrenType } from 'Type/Common';
 import CSS from 'Util/CSS';
 
@@ -38,7 +39,8 @@ export class SwipeToDelete extends PureComponent {
         renderRightSideContent: PropTypes.func,
         rightSideMix: PropTypes.object,
         topElemMix: PropTypes.object,
-        onAheadOfDragItemRemoveThreshold: PropTypes.func
+        onAheadOfDragItemRemoveThreshold: PropTypes.func,
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
@@ -53,7 +55,8 @@ export class SwipeToDelete extends PureComponent {
         renderRightSideContent: () => {},
         rightSideMix: {},
         topElemMix: {},
-        onAheadOfDragItemRemoveThreshold: () => {}
+        onAheadOfDragItemRemoveThreshold: () => {},
+        isLoading: false
     };
 
     state = {
@@ -228,7 +231,7 @@ export class SwipeToDelete extends PureComponent {
     }
 
     render() {
-        const { topElemMix } = this.props;
+        const { topElemMix, isLoading } = this.props;
 
         return (
             <Draggable
@@ -238,6 +241,7 @@ export class SwipeToDelete extends PureComponent {
               onDragEnd={ this.handleDragEnd }
               mix={ topElemMix }
             >
+                <Loader isLoading={ isLoading } />
                 { this.renderChildren() }
             </Draggable>
         );
