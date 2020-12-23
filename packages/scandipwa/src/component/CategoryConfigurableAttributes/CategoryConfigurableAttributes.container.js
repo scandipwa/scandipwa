@@ -18,7 +18,7 @@ import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.com
 
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    currency_code: state.ConfigReducer.default_display_currency_code
+    currency_code: state.ConfigReducer.currencyData.current_currency_code
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container */
