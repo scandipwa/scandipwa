@@ -12,6 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import {
+    DISPLAY_CART_TAX_IN_SHIPPING_BOTH,
+    DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX
+} from 'Route/CartPage/CartPage.config';
 import { shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
@@ -40,16 +44,57 @@ export class CheckoutDeliveryOption extends PureComponent {
         onClick(option);
     };
 
-    renderPrice() {
+    getOptionPrice() {
         const {
-            option: { price_incl_tax },
-            totals: { quote_currency_code }
+            option: {
+                price_incl_tax,
+                price_excl_tax
+            },
+            totals: {
+                cart_display_config: {
+                    display_tax_in_shipping_amount
+                } = {},
+                quote_currency_code
+            }
         } = this.props;
 
-        const formattedPrice = formatPrice(price_incl_tax, quote_currency_code);
+        if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX) {
+            return formatPrice(price_excl_tax, quote_currency_code);
+        }
+
+        return formatPrice(price_incl_tax, quote_currency_code);
+    }
+
+    renderOptionSubPrice() {
+        const {
+            option: {
+                price_excl_tax
+            },
+            totals: {
+                cart_display_config: {
+                    display_tax_in_shipping_amount
+                } = {},
+                quote_currency_code
+            }
+        } = this.props;
+
+        if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_BOTH) {
+            return (
+                <span block="CheckoutDeliveryOption" elem="SubPrice">
+                    { __('Excl. tax: ') }
+                    { formatPrice(price_excl_tax, quote_currency_code) }
+                </span>
+            );
+        }
+
+        return null;
+    }
+
+    renderPrice() {
         return (
             <strong>
-                { ` - ${formattedPrice}` }
+                { ` - ${ this.getOptionPrice() }` }
+                { this.renderOptionSubPrice() }
             </strong>
         );
     }
