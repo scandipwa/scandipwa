@@ -332,7 +332,10 @@
 
             &_share {
                 @include share-button;
-
+                @include mobile{
+                    padding: 0;
+                    border: 0;
+                }
                 &.Header-Button_isVisible {
                     height: 0;
                     width: 0;
