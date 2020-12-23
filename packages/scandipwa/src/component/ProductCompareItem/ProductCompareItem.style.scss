@@ -1,0 +1,127 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --product-compare-item-option-color: #adadad;
+    --product-compare-item-divider-color: var(--expandable-content-divider-color);
+}
+
+.ProductCompareItem {
+    display: flex;
+    border: 1px solid var(--product-compare-border-color);
+    padding: 1rem;
+    position: relative;
+    height: 100%;
+
+    @include mobile {
+        flex-direction: column;
+        border: none;
+        border-right: 1px solid var(--product-compare-item-divider-color);
+        padding-bottom: 0;
+    }
+
+    &-Figure {
+        flex: 0 0 auto;
+        width: 100px;
+
+        @include mobile {
+            width: 100%;
+            height: 100px;
+        }
+    }
+
+    &-ImageLink {
+        height: 100%;
+
+        .Image {
+            height: 100%;
+        }
+    }
+
+    &-Details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 1rem;
+
+        @include mobile {
+            margin: 1rem 0 0 0;
+        }
+    }
+
+    &-Title {
+        flex: 0 0 auto;
+        display: block;
+        width: 100%;
+        padding-right: 1.9rem;
+        margin: 0 0 1rem 0;
+        font-size: 1.8rem;
+        line-height: 1;
+        color: var(--body-content-color);
+
+        @include mobile {
+            padding: 0;
+            margin: 1rem 0;
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+    }
+
+    &-Options {
+        flex: 1;
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        min-height: 30px;
+
+        &_isLikeTable {
+            @include after-mobile {
+                flex-grow: 1;
+            }
+        }
+    }
+
+    &-Option {
+        font-size: 1rem;
+        text-transform: uppercase;
+        border: 1px solid var(--product-compare-item-option-color);
+        color: var(--product-compare-item-option-color);
+        padding: 3px 5px;
+        margin-right: 5px;
+        white-space: nowrap;
+
+        &::before {
+            content: none;
+        }
+    }
+
+    &-AddToCartBtn {
+        flex: 0 0 auto;
+
+        @include mobile {
+            min-width: 100%;
+            white-space: nowrap;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    &-CloseBtn {
+        position: absolute;
+        right: 1rem;
+        top: 0;
+        font-size: 3rem;
+        line-height: 1;
+    }
+}

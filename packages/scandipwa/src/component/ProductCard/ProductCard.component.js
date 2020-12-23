@@ -16,6 +16,7 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
@@ -296,6 +297,14 @@ export class ProductCard extends PureComponent {
         );
     }
 
+    renderProductCompareButton() {
+        const { product: { id } } = this.props;
+
+        return (
+            <ProductCompareButton productId={ id } />
+        );
+    }
+
     renderProductCardWishlistButton() {
         const { product, hideWishlistButton } = this.props;
 
@@ -308,6 +317,15 @@ export class ProductCard extends PureComponent {
               product={ product }
               mix={ { block: 'ProductCard', elem: 'WishListButton' } }
             />
+        );
+    }
+
+    renderProductActions() {
+        return (
+            <div block="ProductCard" elem="ProductActions">
+                { this.renderProductCardWishlistButton() }
+                { this.renderProductCompareButton() }
+            </div>
         );
     }
 
@@ -403,7 +421,7 @@ export class ProductCard extends PureComponent {
         return (
             this.renderCardLinkWrapper((
                 <>
-                    <div block="ProductCard" elem="Figure-Review">
+                    <div block="ProductCard" elem="FigureReview">
                         <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
                         </figure>
@@ -446,7 +464,7 @@ export class ProductCard extends PureComponent {
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderCardContent() }
-                { this.renderProductCardWishlistButton() }
+                { this.renderProductActions() }
                 <div block="ProductCard" elem="AdditionalContent">
                     { children }
                 </div>
