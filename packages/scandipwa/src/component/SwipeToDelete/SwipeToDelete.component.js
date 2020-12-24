@@ -232,6 +232,7 @@ export class SwipeToDelete extends PureComponent {
 
     render() {
         const { topElemMix, isLoading } = this.props;
+        const { isAheadRemoveItemThreshold } = this.state;
 
         return (
             <Draggable
@@ -241,7 +242,7 @@ export class SwipeToDelete extends PureComponent {
               onDragEnd={ this.handleDragEnd }
               mix={ topElemMix }
             >
-                <Loader isLoading={ isLoading } />
+                <Loader isLoading={ isLoading && isAheadRemoveItemThreshold } />
                 { this.renderChildren() }
             </Draggable>
         );
