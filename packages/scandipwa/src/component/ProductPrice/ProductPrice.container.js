@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -20,7 +21,21 @@ import {
     roundPrice
 } from 'Util/Price';
 
+import {
+    DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH,
+    DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX
+} from './ProductPrice.config';
+
 import ProductPrice from './ProductPrice.component';
+
+/** @namespace Component/ProductPrice/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    displayTaxInPrice: state.ConfigReducer.priceTaxDisplay.product_price_display_type
+});
+
+/** @namespace Component/ProductPrice/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
 
 /**
  * Product price
@@ -62,17 +77,80 @@ export class ProductPriceContainer extends PureComponent {
             return {};
         }
 
-        const roundedRegularPrice = roundPrice(regularPriceValue);
-        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-        const formattedFinalPrice = formatPrice(finalPrice, priceCurrency);
+        const roundedRegularPrice = this.getRoundedRegularPrice();
+        const formattedFinalPrice = this.getFormattedFinalPrice();
+        const formattedSubPrice = this.getFormattedSubPrice();
 
         return {
             roundedRegularPrice,
             priceCurrency,
             discountPercentage,
-            formattedFinalPrice
+            formattedFinalPrice,
+            formattedSubPrice
         };
     };
+
+    getRoundedRegularPrice() {
+        const {
+            price: {
+                minimum_price: {
+                    regular_price: {
+                        value: regularPriceValue
+                    } = {}
+                } = {}
+            } = {},
+            displayTaxInPrice
+        } = this.props;
+
+        // TODO
+        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
+            return null;
+        }
+
+        return roundPrice(regularPriceValue)
+    }
+
+    getFormattedFinalPrice() {
+        const {
+            price: {
+                minimum_price: {
+                    discount: {
+                        percent_off: discountPercentage
+                    } = {},
+                    final_price: {
+                        value: minimalPriceValue,
+                        currency: priceCurrency
+                    } = {},
+                    regular_price: {
+                        value: regularPriceValue
+                    } = {}
+                } = {}
+            } = {},
+            displayTaxInPrice
+        } = this.props;
+
+        // TODO
+        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
+            return null;
+        }
+
+        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
+
+        return formatPrice(finalPrice, priceCurrency);
+    }
+
+    getFormattedSubPrice() {
+        const {
+            displayTaxInPrice
+        } = this.props;
+
+        // TODO
+        if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH) {
+            return null;
+        }
+
+        return null;
+    }
 
     render() {
         return (

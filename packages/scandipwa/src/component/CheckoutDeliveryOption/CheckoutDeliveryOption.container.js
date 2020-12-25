@@ -15,7 +15,8 @@ import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    displayTaxInPrice: state.ConfigReducer.priceTaxDisplay.shipping_price_display_type
 });
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapDispatchToProps */
