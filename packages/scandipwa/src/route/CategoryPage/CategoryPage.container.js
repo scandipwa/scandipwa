@@ -526,9 +526,9 @@ export class CategoryPageContainer extends PureComponent {
             history
         } = this.props;
 
-        const { isFromCategory } = history?.location?.state || {};
+        const { category } = history?.location?.state || {};
 
-        const onBackClick = isFromCategory
+        const onBackClick = category
             ? () => history.goBack()
             : () => history.push(appendWithStoreCode('/menu'));
 
