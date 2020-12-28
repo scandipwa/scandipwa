@@ -104,31 +104,118 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    renderAdditionalSections() {
+    isProductInformationTabEmpty() {
+        const { dataSource } = this.props;
+
+        return !(dataSource
+            && dataSource.description
+            && dataSource.description.html
+            && dataSource.description.html.length);
+    }
+
+    isProductAttributesTabEmpty() {
+        const { dataSource } = this.props;
+
+        return !(dataSource
+                && dataSource.attributes
+                && !(Object.keys(dataSource.attributes).length === 0));
+    }
+
+    getTabNames() {
+        const tabNames = [];
+
+        if (!this.isProductInformationTabEmpty()) {
+            tabNames.push(__('About'));
+        }
+
+        if (!this.isProductAttributesTabEmpty()) {
+            tabNames.push(__('Details'));
+        }
+
+        tabNames.push(...[
+            __('Reviews')
+        ]);
+
+        return tabNames;
+    }
+
+    renderProductInformationTab() {
         const {
             dataSource,
             parameters,
             areDetailsLoaded
         } = this.props;
 
+        if (this.isProductInformationTabEmpty()) {
+            return null;
+        }
+
+        return (
+            <ProductInformation
+              product={ { ...dataSource, parameters } }
+              areDetailsLoaded={ areDetailsLoaded }
+            />
+        );
+    }
+
+    renderProductAttributesTab() {
+        const {
+            dataSource,
+            parameters,
+            areDetailsLoaded
+        } = this.props;
+
+        if (this.isProductAttributesTabEmpty()) {
+            return null;
+        }
+
+        return (
+            <ProductAttributes
+              product={ { ...dataSource, parameters } }
+              areDetailsLoaded={ areDetailsLoaded }
+            />
+        );
+    }
+
+    renderProductTabItems() {
+        const {
+            dataSource,
+            areDetailsLoaded
+        } = this.props;
+
+        const productTabItems = [
+            this.renderProductInformationTab(),
+            this.renderProductAttributesTab(),
+            <ProductReviews
+              product={ dataSource }
+              areDetailsLoaded={ areDetailsLoaded }
+            />
+        ];
+
+        return (
+            <ProductTabs tabNames={ this.getTabNames() }>
+                { productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>) }
+            </ProductTabs>
+        );
+    }
+
+    renderProductTabs() {
+        return (
+            <>
+                { this.renderProductTabItems() }
+            </>
+        );
+    }
+
+    renderAdditionalSections() {
+        const {
+            areDetailsLoaded
+        } = this.props;
+
         return (
             <>
                 { this.renderCustomizableOptions() }
-                <ProductTabs tabNames={ [__('About'), __('Details'), __('Reviews')] }>
-                    <ProductInformation
-                      product={ { ...dataSource, parameters } }
-                      areDetailsLoaded={ areDetailsLoaded }
-                    />
-                    <ProductAttributes
-                      product={ { ...dataSource, parameters } }
-                      areDetailsLoaded={ areDetailsLoaded }
-                    />
-                    <ProductReviews
-                      product={ dataSource }
-                      areDetailsLoaded={ areDetailsLoaded }
-                    />
-                </ProductTabs>
-
+                { this.renderProductTabs() }
                 <ProductLinks
                   linkType={ RELATED }
                   title={ __('Recommended for you') }
