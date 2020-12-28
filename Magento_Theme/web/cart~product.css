@@ -1,0 +1,111 @@
+@charset "UTF-8";
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+@media (max-width: 810px) {
+  .ProductLinks {
+    margin-top: 1.4rem;
+    border-bottom: 1px solid var(--primary-divider-color); } }
+
+@media (min-width: 811px) {
+  .ProductLinks {
+    grid-column: 1 / span 2; } }
+
+.ProductLinks-Wrapper {
+  padding-bottom: 3.6rem;
+  padding-top: 3.6rem; }
+  @media (max-width: 810px) {
+    .ProductLinks-Wrapper {
+      padding: 0; } }
+
+.ProductLinks-List {
+  display: grid;
+  grid-gap: 1.2rem;
+  grid-template-columns: 1fr 1fr; }
+  @media (max-width: 810px) {
+    .ProductLinks-List {
+      grid-gap: 1.4rem; } }
+  @media (min-width: 811px) {
+    .ProductLinks-List {
+      grid-template-columns: repeat(6, 1fr);
+      grid-gap: 3.6rem;
+      justify-content: center; } }
+  @media (min-width: 811px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+    .ProductLinks-List {
+      grid-template-columns: repeat(3, 1fr); } }
+
+.ProductLinks-Title {
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 1; }
+  @media (max-width: 810px) {
+    .ProductLinks-Title {
+      padding: .42rem 1.4rem 1.82rem; } }
+  @media (min-width: 811px) {
+    .ProductLinks-Title {
+      padding: 1.2rem 0 3.6rem;
+      font-size: 2rem;
+      font-weight: bold; } }
+
+.ProductLinks .Image_imageStatus_1 {
+  mix-blend-mode: multiply; }
+
+
+/*# sourceMappingURL=cart~product.css.map*/

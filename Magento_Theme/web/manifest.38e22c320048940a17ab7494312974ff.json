@@ -1,0 +1,108 @@
+{
+  "icons": [
+    {
+      "src": "/icons/android/icon_512x512.e3eec6385a26ae8d8e66ac8b24f03489.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_192x192.4cad571521bb89638cbdaf4947ad3feb.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_144x144.c00c6eb30a26de9f07f24724f096a595.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_96x96.d4a6aa0add3c2d15512ce46a9dba69c8.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_72x72.55f523dd0b128e857b1a9c59794f6b97.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_48x48.0fe761dd94c530f4c9994ffe45cca2b6.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android/icon_36x36.184330f03485f344fb843e4ebc6f4160.png",
+      "sizes": "36x36",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_640x640.47e1bc671474a21ebac713beaa7e03f3.png",
+      "sizes": "640x640",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_750x750.c59f28b29ba8e9458e2d2b71c2eb639d.png",
+      "sizes": "750x750",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_1242x1242.0a80ddd63378b6797db820b9598c6e45.png",
+      "sizes": "1242x1242",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_1125x1125.42e3ebc2dcf7a4c9a468a6145e1df91e.png",
+      "sizes": "1125x1125",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_1536x1536.4f9acd3dbcf70027ada7046f88d46ec9.png",
+      "sizes": "1536x1536",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_1668x1668.b00c82355a2a2ef44bd5cee983d882ea.png",
+      "sizes": "1668x1668",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_2048x2048.1190f4b4b5fb75bad5d47db0096dfbcd.png",
+      "sizes": "2048x2048",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_1024x1024.7a881b6d9d40e5591cb55c9c04163974.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_180x180.9fd527d8f6f3cf2d7d12e387d4662119.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_167x167.45d0d1bb2c30a7894e5d20f7aaa4c5b8.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_152x152.f0b3352fc08a4ddb880f768aabc8bc4c.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/ios/icon_120x120.ee93c288662eba12537a3dbe274df905.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    }
+  ],
+  "name": "ScandiPWA",
+  "short_name": "ScandiPWA",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "ScandiPWA theme DEMO store",
+  "background_color": "#ffffff",
+  "lang": "en-US",
+  "theme_color": "#ffffff"
+}

@@ -1,0 +1,207 @@
+@charset "UTF-8";
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+@media (min-width: 811px) {
+  .ProductConfigurableAttributeDropdown {
+    width: 45%; } }
+
+@media (min-width: 811px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+  .ProductConfigurableAttributeDropdown {
+    width: 60%; } }
+
+@media (max-width: 810px) {
+  .ProductConfigurableAttributeDropdown {
+    margin: var(--option-margin); } }
+
+@charset "UTF-8";
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+:root {
+  --product-configurable-attributes-direction: flex-start;
+  --product-configurable-attributes-margin: 0;
+  --product-configurable-attributes-content-padding: 0; }
+  @media (max-width: 810px) {
+    :root {
+      --product-configurable-attributes-content-padding: .7rem .7rem 2.1rem; } }
+
+.ProductConfigurableAttributes-SwatchList, .ProductConfigurableAttributes-DropDownList {
+  text-align: center; }
+  @media (min-width: 811px) {
+    .ProductConfigurableAttributes-SwatchList, .ProductConfigurableAttributes-DropDownList {
+      --option-size: 33px; } }
+
+.ProductConfigurableAttributes-SwatchList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: var(--product-configurable-attributes-direction);
+  align-items: center; }
+
+.ProductConfigurableAttributes-DropDownList {
+  width: 100%; }
+
+.ProductConfigurableAttributes-Expandable {
+  margin: var(--product-configurable-attributes-margin); }
+
+@media (min-width: 811px) {
+  .ProductConfigurableAttributes-ExpandableContentButton {
+    min-height: 30px; } }
+
+.ProductConfigurableAttributes-ExpandableContentSubHeading {
+  text-transform: capitalize; }
+
+.ProductConfigurableAttributes-ExpandableContentContent {
+  overflow-anchor: none; }
+  @media (min-width: 811px) {
+    .ProductConfigurableAttributes-ExpandableContentContent {
+      margin-bottom: 1.2rem; } }
+  @media (max-width: 810px) {
+    .ProductConfigurableAttributes-ExpandableContentContent_isContentExpanded {
+      padding: var(--product-configurable-attributes-content-padding); } }
+
+.ProductConfigurableAttributes-SectionHeading {
+  font-size: 1.2em;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0 0 1.2rem; }
+  @media (max-width: 810px) {
+    .ProductConfigurableAttributes-SectionHeading {
+      margin: 0 0 1.4rem;
+      display: none; } }
+
+.ProductConfigurableAttributes-Placeholder {
+  -webkit-animation: var(--placeholder-animation);
+          animation: var(--placeholder-animation);
+  background-image: var(--placeholder-image);
+  background-size: var(--placeholder-size);
+  height: var(--option-size);
+  width: var(--option-size);
+  margin: var(--option-margin); }
+
+
+/*# sourceMappingURL=category~product.css.map*/

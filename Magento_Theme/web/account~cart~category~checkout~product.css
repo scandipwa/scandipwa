@@ -1,0 +1,180 @@
+@charset "UTF-8";
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+:root {
+  --expandable-content-color: #000;
+  --expandable-content-divider-color: var(--primary-divider-color); }
+
+@media (max-width: 810px) {
+  .ExpandableContent {
+    border-top: 1px solid var(--expandable-content-divider-color); } }
+
+.ExpandableContent:first-of-type {
+  border-top: 0; }
+
+@media (max-width: 810px) {
+  .ExpandableContent:last-of-type {
+    border-bottom: 1px solid var(--expandable-content-divider-color); } }
+
+.ExpandableContent-Button {
+  text-align: left;
+  width: 100%;
+  will-change: border-color; }
+  @media (max-width: 810px) {
+    .ExpandableContent-Button {
+      min-height: var(--header-nav-height);
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: .6rem 1.2rem; } }
+  @media (max-width: 810px) {
+    .ExpandableContent-Button {
+      padding: .7rem 1.4rem; } }
+  .ExpandableContent-Button::after, .ExpandableContent-Button::before {
+    position: absolute;
+    height: 7px;
+    width: 1px;
+    background-color: var(--expandable-content-color);
+    right: 1.8rem;
+    top: 0;
+    bottom: 0;
+    margin: auto; }
+    @media (max-width: 810px) {
+      .ExpandableContent-Button::after, .ExpandableContent-Button::before {
+        right: 2.1rem; } }
+    @media (max-width: 810px) {
+      .ExpandableContent-Button::after, .ExpandableContent-Button::before {
+        content: ''; } }
+  .ExpandableContent-Button::before {
+    transform-origin: 50% 50%;
+    transform: scale(1);
+    transition: 200ms transform;
+    will-change: transform; }
+  .ExpandableContent-Button::after {
+    transform-origin: 50% 50%;
+    transform: rotate(90deg); }
+  .ExpandableContent-Button_isContentExpanded::before {
+    transform: scale(0); }
+
+.ExpandableContent-Heading, .ExpandableContent-SubHeading {
+  display: block;
+  color: var(--expandable-content-color); }
+
+.ExpandableContent-Heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  word-break: break-all; }
+  @media (max-width: 810px) {
+    .ExpandableContent-Heading {
+      font-size: 1.4rem; } }
+  @media (min-width: 811px) {
+    .ExpandableContent-Heading {
+      cursor: auto;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-transform: none; } }
+
+.ExpandableContent-SubHeading {
+  font-weight: 300;
+  font-size: .96rem;
+  line-height: 1.1; }
+  @media (max-width: 810px) {
+    .ExpandableContent-SubHeading {
+      font-size: 1.12rem; } }
+
+.ExpandableContent-Content {
+  transition-property: opacity;
+  transition-duration: 200ms; }
+  @media (max-width: 810px) {
+    .ExpandableContent-Content {
+      padding: 0 1.2rem;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0; } }
+  @media (max-width: 810px) {
+    .ExpandableContent-Content {
+      padding: 0 1.4rem; } }
+  @media (min-width: 811px) {
+    .ExpandableContent-Content {
+      margin-top: 1.2rem; } }
+  @media (max-width: 810px) {
+    .ExpandableContent-Content_isContentExpanded {
+      padding: 1.2rem;
+      opacity: 1;
+      max-height: 100%; } }
+  @media (max-width: 810px) and (max-width: 810px) {
+    .ExpandableContent-Content_isContentExpanded {
+      padding: 1.4rem; } }
+
+
+/*# sourceMappingURL=account~cart~category~checkout~product.css.map*/

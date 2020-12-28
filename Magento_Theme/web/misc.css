@@ -1,0 +1,323 @@
+@charset "UTF-8";
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+.PasswordChangePage-Wrapper {
+  padding: 2.4rem 0;
+  max-width: 600px; }
+  @media (max-width: 810px) {
+    .PasswordChangePage-Wrapper {
+      padding: 2.4rem; }
+      .PasswordChangePage-Wrapper h1 {
+        font-size: 1.8rem; } }
+  @media (max-width: 810px) {
+    .PasswordChangePage-Wrapper {
+      padding: 2.8rem; }
+      .PasswordChangePage-Wrapper h1 {
+        font-size: 2.1rem; } }
+  .PasswordChangePage-Wrapper input {
+    width: 100%;
+    height: 100%; }
+  .PasswordChangePage-Wrapper button {
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 0;
+    font-weight: 700;
+    font-size: 1.32rem;
+    line-height: normal;
+    text-transform: uppercase;
+    padding: var(--button-padding);
+    color: var(--button-color);
+    background-color: var(--button-background);
+    transition-property: background-color, color, border;
+    will-change: background-color, color, border;
+    transition-timing-function: ease-out;
+    transition-duration: .25s;
+    cursor: pointer;
+    border-width: var(--button-border-width);
+    border-style: solid;
+    border-color: var(--button-border);
+    margin-top: 1.2rem; }
+    @media (max-width: 810px) {
+      .PasswordChangePage-Wrapper button {
+        font-size: 1.54rem; } }
+    .PasswordChangePage-Wrapper button:hover, .PasswordChangePage-Wrapper button:focus {
+      text-decoration: none; }
+    @media (min-width: 811px) {
+      .PasswordChangePage-Wrapper button:not([disabled]):hover, .PasswordChangePage-Wrapper button:not([disabled]):focus {
+        border-color: var(--button-hover-border);
+        background-color: var(--button-hover-background);
+        color: var(--button-hover-color); } }
+    .PasswordChangePage-Wrapper button[disabled] {
+      opacity: .25;
+      cursor: not-allowed; }
+    .PasswordChangePage-Wrapper button_isHollow {
+      border-color: var(--button-background);
+      color: var(--button-background);
+      background: transparent; }
+    .PasswordChangePage-Wrapper button_likeLink {
+      --button-border: transparent;
+      --button-background: transparent;
+      --button-color: var(--primary-base-color);
+      --button-hover-border: transparent;
+      --button-hover-background: transparent;
+      --button-hover-color: var(--primary-base-color);
+      text-transform: none;
+      margin: 0;
+      padding: 0;
+      font-weight: normal;
+      text-align: left; }
+      .PasswordChangePage-Wrapper button_likeLink:hover, .PasswordChangePage-Wrapper button_likeLink:focus {
+        text-decoration: underline; }
+
+.PasswordChangePage-Button {
+  margin-top: 1.2rem; }
+  @media (max-width: 810px) {
+    .PasswordChangePage-Button {
+      margin-top: 1.4rem;
+      width: 100%; } }
+
+@charset "UTF-8";
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+.SharedWishlistItem-Row {
+  margin-top: 0; }
+
+@charset "UTF-8";
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+.WishlistSharedPage-Products {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: -webkit-max-content;
+  grid-auto-rows: max-content;
+  grid-column-gap: 2.4rem; }
+  @media (min-width: 811px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+    .WishlistSharedPage-Products {
+      grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 810px) {
+    .WishlistSharedPage-Products {
+      grid-column-gap: 2.8rem;
+      grid-template-columns: 1fr;
+      border: 0; } }
+  @media (min-width: 811px) {
+    .WishlistSharedPage-Products {
+      grid-column: 2; } }
+
+.WishlistSharedPage-ActionBar {
+  display: flex;
+  padding: 0;
+  justify-content: flex-end;
+  z-index: 1; }
+  @media (min-width: 811px) {
+    .WishlistSharedPage-ActionBar {
+      position: absolute;
+      top: -3px;
+      right: 0; } }
+  @media (max-width: 810px) {
+    .WishlistSharedPage-ActionBar {
+      margin-top: 1.4rem; } }
+
+.WishlistSharedPage-CreatorsInfo {
+  margin: 2.4rem 0;
+  font-weight: normal; }
+  @media (max-width: 810px) {
+    .WishlistSharedPage-CreatorsInfo {
+      margin: 1.4rem 0 2.8rem;
+      font-size: 2.1rem; } }
+
+
+/*# sourceMappingURL=misc.css.map*/
