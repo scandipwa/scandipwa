@@ -42,7 +42,9 @@ export class ProductPage extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isProductInformationTabEmpty: PropTypes.bool.isRequired,
+        isProductAttributesTabEmpty: PropTypes.bool.isRequired
     };
 
     renderProductPageContent() {
@@ -104,37 +106,22 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    isProductInformationTabEmpty() {
-        const { dataSource } = this.props;
-
-        return !(dataSource
-            && dataSource.description
-            && dataSource.description.html
-            && dataSource.description.html.length);
-    }
-
-    isProductAttributesTabEmpty() {
-        const { dataSource } = this.props;
-
-        return !(dataSource
-                && dataSource.attributes
-                && !(Object.keys(dataSource.attributes).length === 0));
-    }
-
     getTabNames() {
         const tabNames = [];
+        const {
+            isProductInformationTabEmpty,
+            isProductAttributesTabEmpty
+        } = this.props;
 
-        if (!this.isProductInformationTabEmpty()) {
+        if (!isProductInformationTabEmpty()) {
             tabNames.push(__('About'));
         }
 
-        if (!this.isProductAttributesTabEmpty()) {
+        if (!isProductAttributesTabEmpty()) {
             tabNames.push(__('Details'));
         }
 
-        tabNames.push(...[
-            __('Reviews')
-        ]);
+        tabNames.push(__('Reviews'));
 
         return tabNames;
     }
@@ -143,10 +130,11 @@ export class ProductPage extends PureComponent {
         const {
             dataSource,
             parameters,
-            areDetailsLoaded
+            areDetailsLoaded,
+            isProductInformationTabEmpty
         } = this.props;
 
-        if (this.isProductInformationTabEmpty()) {
+        if (isProductInformationTabEmpty()) {
             return null;
         }
 
@@ -162,10 +150,11 @@ export class ProductPage extends PureComponent {
         const {
             dataSource,
             parameters,
-            areDetailsLoaded
+            areDetailsLoaded,
+            isProductAttributesTabEmpty
         } = this.props;
 
-        if (this.isProductAttributesTabEmpty()) {
+        if (isProductAttributesTabEmpty()) {
             return null;
         }
 
@@ -177,33 +166,33 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    renderProductTabItems() {
+    renderProductReviewsTab() {
         const {
             dataSource,
             areDetailsLoaded
         } = this.props;
 
-        const productTabItems = [
-            this.renderProductInformationTab(),
-            this.renderProductAttributesTab(),
+        return (
             <ProductReviews
               product={ dataSource }
               areDetailsLoaded={ areDetailsLoaded }
             />
-        ];
-
-        return (
-            <ProductTabs tabNames={ this.getTabNames() }>
-                { productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>) }
-            </ProductTabs>
         );
     }
 
     renderProductTabs() {
+        const productTabItems = [
+            this.renderProductInformationTab(),
+            this.renderProductAttributesTab(),
+            this.renderProductReviewsTab()
+        ];
+
+        const productTabs = productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>);
+
         return (
-            <>
-                { this.renderProductTabItems() }
-            </>
+            <ProductTabs tabNames={ this.getTabNames() }>
+                { productTabs }
+            </ProductTabs>
         );
     }
 
