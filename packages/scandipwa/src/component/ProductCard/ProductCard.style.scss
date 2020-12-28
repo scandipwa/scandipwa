@@ -43,8 +43,10 @@
     }
 
     &-Content {
-        display: grid;
-        grid-gap: .5rem;
+        padding: 10px 0 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     &-Name,

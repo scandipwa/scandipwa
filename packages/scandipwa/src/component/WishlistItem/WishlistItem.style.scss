@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
+ :root {
     --whislist-swipe-to-delete-color: #fff;
     --whislist-qty-button-size: 20px;
 }
@@ -34,10 +34,6 @@
     }
 
     &-ProductCard {
-        @include mobile{
-            display: grid;
-            grid-template-rows: 1fr auto;
-        }
         @include desktop {
             display: flex;
             flex-direction: column;
@@ -66,10 +62,8 @@
 
     &-ContentWrapper {
         @include mobile {
-            display:grid;
-            width: 90%;
-            grid-template-columns: minmax(100px,20%) 80% ;
-            grid-template-rows: 100%;
+            display: flex;
+            flex: 1;
             min-height: 130px;
         }
     }
@@ -92,10 +86,11 @@
     &-AddToCart {
         display: inline-block;
         margin-top: 0;
-        white-space: nowrap;
+
         @include mobile {
             padding: 7px;
             font-size: 1.4rem;
+            margin-left: auto;
         }
 
         @include after-mobile {
@@ -140,9 +135,9 @@
 
     &-Content {
         @include mobile {
-            display:grid;
-            width: 100%;
-            
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
     }
 
@@ -184,7 +179,7 @@
     }
 
     &-SelectWrapper {
-        width: 100%;
+        display: flex;
     }
 
     &-Select {
