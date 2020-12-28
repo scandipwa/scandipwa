@@ -12,13 +12,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import {
-    DISPLAY_CART_TAX_IN_SHIPPING_BOTH,
-    DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX
-} from 'Route/CartPage/CartPage.config';
 import { shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
+
+import {
+    DISPLAY_SHIPPING_PRICES_BOTH,
+    DISPLAY_SHIPPING_PRICES_EXCL_TAX
+} from './CheckoutDeliveryOption.config';
 
 import './CheckoutDeliveryOption.style';
 
@@ -28,7 +29,8 @@ export class CheckoutDeliveryOption extends PureComponent {
         option: shippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
         isSelected: PropTypes.bool,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        displayTaxInPrice: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -51,14 +53,12 @@ export class CheckoutDeliveryOption extends PureComponent {
                 price_excl_tax
             },
             totals: {
-                cart_display_config: {
-                    display_tax_in_shipping_amount
-                } = {},
                 quote_currency_code
-            }
+            },
+            displayTaxInPrice
         } = this.props;
 
-        if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX) {
+        if (displayTaxInPrice === DISPLAY_SHIPPING_PRICES_EXCL_TAX) {
             return formatPrice(price_excl_tax, quote_currency_code);
         }
 
@@ -71,14 +71,12 @@ export class CheckoutDeliveryOption extends PureComponent {
                 price_excl_tax
             },
             totals: {
-                cart_display_config: {
-                    display_tax_in_shipping_amount
-                } = {},
                 quote_currency_code
-            }
+            },
+            displayTaxInPrice
         } = this.props;
 
-        if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_BOTH) {
+        if (displayTaxInPrice === DISPLAY_SHIPPING_PRICES_BOTH) {
             return (
                 <span block="CheckoutDeliveryOption" elem="SubPrice">
                     { __('Excl. tax: ') }
