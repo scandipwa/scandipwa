@@ -90,6 +90,7 @@ export class ConfigQuery {
             'default_display_currency_code',
             'default_keywords',
             'default_title',
+            'default_description',
             'default_country',
             'secure_base_media_url',
             // 'paypal_sandbox_flag',
