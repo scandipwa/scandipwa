@@ -51,14 +51,17 @@ export class Menu extends PureComponent {
     }
 
     renderDesktopSubLevelItems(item, mods) {
-        const { item_id } = item;
+        const { item_id, item_class } = item;
         const { closeMenu, activeMenuItemsStack } = this.props;
+
+        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
+        const itemMods = { ...mods, isHideOnDesktop };
 
         return (
             <MenuItem
               activeMenuItemsStack={ activeMenuItemsStack }
               item={ item }
-              itemMods={ mods }
+              itemMods={ itemMods }
               closeMenu={ closeMenu }
               isLink
               key={ item_id }
@@ -115,6 +118,12 @@ export class Menu extends PureComponent {
         } = item;
 
         const isBanner = item_class === 'Menu-ItemFigure_type_banner';
+        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
+        const mods = {
+            isBanner: !!isBanner,
+            isHideOnDesktop: !!isHideOnDesktop
+        };
+
         const childrenArray = Object.values(children);
         const subcategoryMods = { type: 'subcategory' };
 
@@ -145,7 +154,7 @@ export class Menu extends PureComponent {
               block="Menu"
               elem="SubItemWrapper"
               key={ item_id }
-              mods={ { isBanner } }
+              mods={ mods }
             >
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
@@ -340,10 +349,17 @@ export class Menu extends PureComponent {
     }
 
     renderFirstLevel = (item) => {
-        const { item_id } = item;
+        const { item_id, item_class } = item;
+
+        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
 
         return (
-            <li key={ item_id } block="Menu" elem="Item">
+            <li
+              block="Menu"
+              elem="Item"
+              key={ item_id }
+              mods={ { isHideOnDesktop } }
+            >
                 { this.renderFirstLevelItems(item) }
             </li>
         );
