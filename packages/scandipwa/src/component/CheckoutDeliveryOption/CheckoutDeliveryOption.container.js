@@ -60,4 +60,4 @@ export class CheckoutDeliveryOptionContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOption);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOptionContainer);

@@ -32,14 +32,15 @@ export class CartPage extends PureComponent {
         onCheckoutButtonClick: PropTypes.func.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
         cartSubtotal: PropTypes.number,
+        cartSubtotalSubPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number,
-        cartOrderTotalExlTax: PropTypes.number.isRequired,
         cartDisplayConfig: PropTypes.object.isRequired
     };
 
     static defaultProps = {
         hasOutOfStockProductsInCart: false,
         cartSubtotal: 0,
+        cartSubtotalSubPrice: null,
         cartTotalSubPrice: null
     };
 
@@ -110,15 +111,15 @@ export class CartPage extends PureComponent {
     }
 
     renderSubTotalExlTax() {
-        const { cartTotalSubPrice } = this.props;
+        const { cartSubtotalSubPrice } = this.props;
 
-        if (!cartTotalSubPrice) {
+        if (!cartSubtotalSubPrice) {
             return null;
         }
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartTotalSubPrice) }` }
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartSubtotalSubPrice) }` }
             </span>
         );
     }
@@ -187,15 +188,15 @@ export class CartPage extends PureComponent {
     }
 
     renderOrderTotalExlTax() {
-        const { cartOrderTotalExlTax } = this.props;
+        const { cartTotalSubPrice } = this.props;
 
-        if (!cartOrderTotalExlTax) {
+        if (!cartTotalSubPrice) {
             return null;
         }
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartOrderTotalExlTax) }` }
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartTotalSubPrice) }` }
             </span>
         );
     }
@@ -203,8 +204,7 @@ export class CartPage extends PureComponent {
     renderTotal() {
         const {
             totals: {
-                subtotal_with_discount = 0,
-                tax_amount = 0
+                grand_total = 0
             }
         } = this.props;
 
@@ -212,7 +212,7 @@ export class CartPage extends PureComponent {
             <dl block="CartPage" elem="Total" aria-label="Complete order total">
                 <dt>{ __('Order total:') }</dt>
                 <dd>
-                    { this.renderPriceLine(subtotal_with_discount + tax_amount) }
+                    { this.renderPriceLine(grand_total) }
                     { this.renderOrderTotalExlTax() }
                 </dd>
             </dl>

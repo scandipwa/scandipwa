@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
 import {
     getCartShippingPrice,
@@ -59,21 +58,11 @@ export class CheckoutOrderSummaryContainer extends PureComponent {
     getOrderTotal() {
         const {
             totals: {
-                subtotal_with_discount,
-                tax_amount,
                 grand_total
-            },
-            paymentTotals: {
-                grand_total: payment_grand_total
-            },
-            checkoutStep
+            }
         } = this.props;
 
-        if (checkoutStep !== SHIPPING_STEP) {
-            return payment_grand_total || grand_total;
-        }
-
-        return subtotal_with_discount + tax_amount;
+        return grand_total;
     }
 
     render() {
@@ -86,4 +75,4 @@ export class CheckoutOrderSummaryContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutOrderSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutOrderSummaryContainer);

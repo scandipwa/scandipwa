@@ -251,13 +251,14 @@ export const getCartTotalSubPrice = (state) => {
         } = {},
         CartReducer: {
             cartTotals: {
-                subtotal_with_discount = 0
+                grand_total = 0,
+                tax_amount = 0
             } = {}
         } = {}
     } = state;
 
     if (include_tax_in_order_total) {
-        return subtotal_with_discount;
+        return grand_total - tax_amount;
     }
 
     return null;

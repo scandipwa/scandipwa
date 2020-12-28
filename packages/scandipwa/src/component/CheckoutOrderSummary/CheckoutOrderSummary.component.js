@@ -263,7 +263,7 @@ export class CheckoutOrderSummary extends PureComponent {
 
         return (
             <CheckoutOrderSummaryPriceLine
-              price={ tax_amount }
+              price={ tax_amount.toFixed(2) }
               currency={ quote_currency_code }
               title={ __('Tax') }
               mods={ { withAppendedContent: display_full_tax_summary } }
