@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -174,8 +173,8 @@ export class ProductPrice extends PureComponent {
               aria-label={ `Product price: ${formattedFinalPrice}` }
             >
                 { this.renderCurrentPrice() }
-                { this.renderSubPrice() }
                 { this.renderOldPrice() }
+                { this.renderSubPrice() }
                 { this.renderSchema() }
             </p>
         );

@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import { MixType } from 'Type/Common';
 import { PriceType } from 'Type/ProductList';
@@ -21,12 +21,12 @@ import {
     roundPrice
 } from 'Util/Price';
 
+import ProductPrice from './ProductPrice.component';
 import {
     DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH,
-    DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX
+    DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX,
+    DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX
 } from './ProductPrice.config';
-
-import ProductPrice from './ProductPrice.component';
 
 /** @namespace Component/ProductPrice/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -46,11 +46,13 @@ export class ProductPriceContainer extends PureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool,
         price: PriceType,
-        mix: MixType
+        mix: MixType,
+        displayTaxInPrice: PropTypes.string
     };
 
     static defaultProps = {
         isSchemaRequired: false,
+        displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX,
         mix: {},
         price: {}
     };
@@ -96,18 +98,20 @@ export class ProductPriceContainer extends PureComponent {
                 minimum_price: {
                     regular_price: {
                         value: regularPriceValue
+                    } = {},
+                    regular_price_excl_tax: {
+                        value: regularPriceExclTaxValue
                     } = {}
                 } = {}
             } = {},
             displayTaxInPrice
         } = this.props;
 
-        // TODO
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
-            return null;
+            return roundPrice(regularPriceExclTaxValue);
         }
 
-        return roundPrice(regularPriceValue)
+        return roundPrice(regularPriceValue);
     }
 
     getFormattedFinalPrice() {
@@ -121,17 +125,28 @@ export class ProductPriceContainer extends PureComponent {
                         value: minimalPriceValue,
                         currency: priceCurrency
                     } = {},
+                    final_price_excl_tax: {
+                        value: minimalPriceExclTaxValue
+                    } = {},
                     regular_price: {
                         value: regularPriceValue
+                    } = {},
+                    regular_price_excl_tax: {
+                        value: regularPriceExclTaxValue
                     } = {}
                 } = {}
             } = {},
             displayTaxInPrice
         } = this.props;
 
-        // TODO
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
-            return null;
+            const finalPrice = calculateFinalPrice(
+                discountPercentage,
+                minimalPriceExclTaxValue,
+                regularPriceExclTaxValue
+            );
+
+            return formatPrice(finalPrice, priceCurrency);
         }
 
         const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
@@ -141,12 +156,31 @@ export class ProductPriceContainer extends PureComponent {
 
     getFormattedSubPrice() {
         const {
+            price: {
+                minimum_price: {
+                    discount: {
+                        percent_off: discountPercentage
+                    } = {},
+                    final_price_excl_tax: {
+                        value: minimalPriceExclTaxValue,
+                        currency: priceCurrency
+                    } = {},
+                    regular_price_excl_tax: {
+                        value: regularPriceExclTaxValue
+                    } = {}
+                } = {}
+            } = {},
             displayTaxInPrice
         } = this.props;
 
-        // TODO
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH) {
-            return null;
+            const finalPrice = calculateFinalPrice(
+                discountPercentage,
+                minimalPriceExclTaxValue,
+                regularPriceExclTaxValue
+            );
+
+            return formatPrice(finalPrice, priceCurrency);
         }
 
         return null;
@@ -162,4 +196,4 @@ export class ProductPriceContainer extends PureComponent {
     }
 }
 
-export default ProductPriceContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPriceContainer);
