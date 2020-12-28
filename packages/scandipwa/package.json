@@ -4,6 +4,7 @@
     "version": "3.2.5",
     "scripts": {
         "start": "scandipwa-scripts start",
+        "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
         "build": "scandipwa-scripts build"
     },
     "dependencies": {

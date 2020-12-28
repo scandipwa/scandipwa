@@ -12,10 +12,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import {
-    DISPLAY_CART_TAX_IN_SHIPPING_BOTH,
-    DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX
-} from 'Route/CartPage/CartPage.config';
 import { shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
@@ -28,11 +24,15 @@ export class CheckoutDeliveryOption extends PureComponent {
         option: shippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
         isSelected: PropTypes.bool,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        optionPrice: PropTypes.number,
+        optionSubPrice: PropTypes.number
     };
 
     static defaultProps = {
-        isSelected: false
+        isSelected: false,
+        optionPrice: 0,
+        optionSubPrice: null
     };
 
     onClick = () => {
@@ -46,48 +46,33 @@ export class CheckoutDeliveryOption extends PureComponent {
 
     getOptionPrice() {
         const {
-            option: {
-                price_incl_tax,
-                price_excl_tax
-            },
             totals: {
-                cart_display_config: {
-                    display_tax_in_shipping_amount
-                } = {},
                 quote_currency_code
-            }
+            },
+            optionPrice
         } = this.props;
 
-        if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX) {
-            return formatPrice(price_excl_tax, quote_currency_code);
-        }
-
-        return formatPrice(price_incl_tax, quote_currency_code);
+        return formatPrice(optionPrice, quote_currency_code);
     }
 
     renderOptionSubPrice() {
         const {
-            option: {
-                price_excl_tax
-            },
             totals: {
-                cart_display_config: {
-                    display_tax_in_shipping_amount
-                } = {},
                 quote_currency_code
-            }
+            },
+            optionSubPrice
         } = this.props;
 
-        if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_BOTH) {
-            return (
-                <span block="CheckoutDeliveryOption" elem="SubPrice">
-                    { __('Excl. tax: ') }
-                    { formatPrice(price_excl_tax, quote_currency_code) }
-                </span>
-            );
+        if (!optionSubPrice) {
+            return null;
         }
 
-        return null;
+        return (
+            <span block="CheckoutDeliveryOption" elem="SubPrice">
+                { __('Excl. tax: ') }
+                { formatPrice(optionSubPrice, quote_currency_code) }
+            </span>
+        );
     }
 
     renderPrice() {

@@ -31,13 +31,16 @@ export class CartPage extends PureComponent {
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
-        cartSubTotal: PropTypes.number.isRequired,
-        cartSubTotalExlTax: PropTypes.number.isRequired,
-        cartOrderTotalExlTax: PropTypes.number.isRequired
+        cartSubtotal: PropTypes.number,
+        cartTotalSubPrice: PropTypes.number,
+        cartOrderTotalExlTax: PropTypes.number.isRequired,
+        cartDisplayConfig: PropTypes.object.isRequired
     };
 
     static defaultProps = {
-        hasOutOfStockProductsInCart: false
+        hasOutOfStockProductsInCart: false,
+        cartSubtotal: 0,
+        cartTotalSubPrice: null
     };
 
     renderCartItems() {
@@ -93,13 +96,13 @@ export class CartPage extends PureComponent {
     }
 
     renderSubTotal() {
-        const { cartSubTotal = 0 } = this.props;
+        const { cartSubtotal } = this.props;
 
         return (
             <>
                 <dt>{ __('Subtotal:') }</dt>
                 <dd>
-                    { this.renderPriceLine(cartSubTotal) }
+                    { this.renderPriceLine(cartSubtotal) }
                     { this.renderSubTotalExlTax() }
                 </dd>
             </>
@@ -107,15 +110,15 @@ export class CartPage extends PureComponent {
     }
 
     renderSubTotalExlTax() {
-        const { cartSubTotalExlTax } = this.props;
+        const { cartTotalSubPrice } = this.props;
 
-        if (!cartSubTotalExlTax) {
+        if (!cartTotalSubPrice) {
             return null;
         }
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartSubTotalExlTax) }` }
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartTotalSubPrice) }` }
             </span>
         );
     }
@@ -123,11 +126,11 @@ export class CartPage extends PureComponent {
     renderTaxFullSummary() {
         const {
             totals: {
-                cart_display_config: {
-                    display_full_tax_summary
-                } = {},
-                applied_taxes
-            }
+                applied_taxes = []
+            },
+            cartDisplayConfig: {
+                display_full_tax_summary
+            } = {}
         } = this.props;
 
         if (!display_full_tax_summary || !applied_taxes.length) {
@@ -146,11 +149,11 @@ export class CartPage extends PureComponent {
     renderTax() {
         const {
             totals: {
-                tax_amount = 0,
-                cart_display_config: {
-                    display_zero_tax_subtotal
-                } = {}
-            }
+                tax_amount = 0
+            },
+            cartDisplayConfig: {
+                display_zero_tax_subtotal
+            } = {}
         } = this.props;
 
         if (!tax_amount && !display_zero_tax_subtotal) {

@@ -78,6 +78,12 @@ export class CartQuery {
         return mutation;
     }
 
+    getCartDisplayConfig() {
+        return new Field('getCartDisplayConfig')
+            .setAlias('cartDisplayConfig')
+            .addFieldList(this._getCartDisplayConfigFields());
+    }
+
     _getSaveCartItemFields(quoteId) {
         return [
             this.getCartQuery(quoteId)
@@ -106,7 +112,6 @@ export class CartQuery {
             'is_virtual',
             'applied_rule_ids',
             this._getCartItemsField(),
-            this._getCartDisplayConfigField(),
             this._getAppliedTaxesField()
         ];
     }
@@ -209,11 +214,6 @@ export class CartQuery {
     _getCartItemsField() {
         return new Field('items')
             .addFieldList(this._getCartItemFields());
-    }
-
-    _getCartDisplayConfigField() {
-        return new Field('cart_display_config')
-            .addFieldList(this._getCartDisplayConfigFields());
     }
 
     _getCartDisplayConfigFields() {
