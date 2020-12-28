@@ -140,8 +140,9 @@ export class CheckoutOrderSummary extends PureComponent {
     renderSubTotal() {
         const {
             totals: {
-                subtotal,
-                subtotal_incl_tax,
+                subtotal = 0,
+                subtotal_incl_tax = 0,
+                shipping_tax_amount = 0,
                 quote_currency_code,
                 cart_display_config: {
                     display_tax_in_subtotal
@@ -153,7 +154,7 @@ export class CheckoutOrderSummary extends PureComponent {
         if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH) {
             return (
                 <CheckoutOrderSummaryPriceLine
-                  price={ subtotal_incl_tax }
+                  price={ subtotal_incl_tax - shipping_tax_amount }
                   currency={ quote_currency_code }
                   title={ title }
                   subPrice={ subtotal }
@@ -162,7 +163,7 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX) {
-            return this.renderPriceLine(subtotal_incl_tax, title);
+            return this.renderPriceLine(subtotal_incl_tax - shipping_tax_amount, title);
         }
 
         return this.renderPriceLine(subtotal, title);
@@ -230,19 +231,22 @@ export class CheckoutOrderSummary extends PureComponent {
         const {
             totals: {
                 tax_amount,
+                shipping_tax_amount,
                 quote_currency_code,
                 cart_display_config: {
                     include_tax_in_order_total
                 } = {}
-            }
+            },
+            checkoutStep
         } = this.props;
         const title = __('Order total');
         const orderTotal = this.getOrderTotal();
+        const shippingTax = checkoutStep === SHIPPING_STEP ? shipping_tax_amount : 0;
 
         if (include_tax_in_order_total) {
             return (
                 <CheckoutOrderSummaryPriceLine
-                  price={ orderTotal }
+                  price={ orderTotal - shippingTax }
                   currency={ quote_currency_code }
                   title={ title }
                   subPrice={ orderTotal - tax_amount }
@@ -281,6 +285,7 @@ export class CheckoutOrderSummary extends PureComponent {
         const {
             totals: {
                 tax_amount = 0,
+                shipping_tax_amount = 0,
                 quote_currency_code,
                 cart_display_config: {
                     display_full_tax_summary,
@@ -288,14 +293,15 @@ export class CheckoutOrderSummary extends PureComponent {
                 } = {}
             }
         } = this.props;
+        const tax = tax_amount - shipping_tax_amount;
 
-        if (!tax_amount && !display_zero_tax_subtotal) {
+        if (!tax && !display_zero_tax_subtotal) {
             return null;
         }
 
         return (
             <CheckoutOrderSummaryPriceLine
-              price={ tax_amount }
+              price={ tax }
               currency={ quote_currency_code }
               title={ __('Tax') }
               mods={ { withAppendedContent: display_full_tax_summary } }
