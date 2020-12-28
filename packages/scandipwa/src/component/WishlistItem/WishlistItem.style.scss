@@ -34,6 +34,10 @@
     }
 
     &-ProductCard {
+        @include mobile{
+            display: grid;
+            grid-template-rows: 1fr auto;
+        }
         @include desktop {
             display: flex;
             flex-direction: column;
@@ -62,8 +66,10 @@
 
     &-ContentWrapper {
         @include mobile {
-            display: flex;
-            flex: 1;
+            display:grid;
+            width: 90%;
+            grid-template-columns: minmax(100px,20%) 80% ;
+            grid-template-rows: 100%;
             min-height: 130px;
         }
     }
@@ -86,11 +92,10 @@
     &-AddToCart {
         display: inline-block;
         margin-top: 0;
-
+        white-space: nowrap;
         @include mobile {
             padding: 7px;
             font-size: 1.4rem;
-            margin-left: auto;
         }
 
         @include after-mobile {
@@ -135,9 +140,9 @@
 
     &-Content {
         @include mobile {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            display:grid;
+            width: 100%;
+            
         }
     }
 
@@ -179,7 +184,7 @@
     }
 
     &-SelectWrapper {
-        display: flex;
+        width: 100%;
     }
 
     &-Select {
