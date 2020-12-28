@@ -40,6 +40,14 @@ export class ConfigQuery {
             ]);
     }
 
+    getPriceDisplayTypeField() {
+        return new Field('priceTaxDisplay')
+            .addFieldList([
+                'product_price_display_type',
+                'shipping_price_display_type'
+            ]);
+    }
+
     getSaveSelectedCurrencyMutation(newCurrency) {
         return new Field('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
@@ -114,7 +122,8 @@ export class ConfigQuery {
             'is_email_confirmation_required',
             'base_link_url',
             'show_vat_number_on_storefront',
-            'show_tax_vat_number'
+            'show_tax_vat_number',
+            this.getPriceDisplayTypeField()
         ];
     }
 }

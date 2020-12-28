@@ -30,6 +30,7 @@ export class ProductPrice extends PureComponent {
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
         formattedFinalPrice: PropTypes.string,
+        formattedSubPrice: PropTypes.string,
         variantsCount: PropTypes.number,
         price: PriceType,
         mix: MixType
@@ -41,6 +42,7 @@ export class ProductPrice extends PureComponent {
         priceCurrency: 'USD',
         discountPercentage: 0,
         formattedFinalPrice: '0',
+        formattedSubPrice: null,
         variantsCount: 0,
         mix: {},
         price: {}
@@ -88,6 +90,24 @@ export class ProductPrice extends PureComponent {
             <PriceSemanticElementName>
                 <span { ...priceSchema }>{ formattedFinalPrice }</span>
             </PriceSemanticElementName>
+        );
+    }
+
+    renderSubPrice() {
+        const { formattedSubPrice } = this.props;
+
+        if (!formattedSubPrice) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label={ __('Current product price excl. tax') }
+              block="ProductPrice"
+              elem="SubPrice"
+            >
+                { `${ __('Excl. tax:') } ${ formattedSubPrice }` }
+            </span>
         );
     }
 
@@ -154,6 +174,7 @@ export class ProductPrice extends PureComponent {
             >
                 { this.renderCurrentPrice() }
                 { this.renderOldPrice() }
+                { this.renderSubPrice() }
                 { this.renderSchema() }
             </p>
         );
