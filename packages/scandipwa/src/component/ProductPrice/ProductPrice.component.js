@@ -111,6 +111,11 @@ export class ProductPrice extends PureComponent {
         );
     }
 
+    isDiscountApplied() {
+        const { discountPercentage } = this.props;
+        return !discountPercentage;
+    }
+
     renderOldPrice() {
         const {
             roundedRegularPrice,
@@ -171,6 +176,7 @@ export class ProductPrice extends PureComponent {
               block="ProductPrice"
               mix={ mix }
               aria-label={ `Product price: ${formattedFinalPrice}` }
+              style={ { color: this.isDiscountApplied() ? 'black' : '' } }
             >
                 { this.renderCurrentPrice() }
                 { this.renderOldPrice() }
