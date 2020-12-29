@@ -14,27 +14,21 @@
     --product-compare-sidebar-width: 200px;
     --product-compare-item-count: 3.2;
     --product-compare-item-gap: 1rem;
-    --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
+    --product-compare-column-width: calc(350px + var(--product-compare-item-gap) * 2);
     --product-compare-border-color: var(--secondary-dark-color);
     --product-compare-attribute-table-background-color: var(--secondary-base-color);
 
     @include mobile {
         --product-compare-area-width: 100vw;
         --product-compare-sidebar-width: 0px;
-        --product-compare-item-count: 2.1;
+        --product-compare-item-count: 1.5;
+        --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
     }
 }
 
 .ProductCompare {
     overflow: auto;
     padding-bottom: 1.5rem;
-
-    @include desktop {
-        &_wideItems {
-            --product-compare-item-count: 3;
-            --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
-        }
-    }
 
     @include mobile {
         padding: 0;
@@ -50,12 +44,17 @@
 
         @include mobile {
             flex: 0 0 auto;
+            margin-top: 0;
         }
     }
 
     &-FirstColumn {
         flex: 0 0 auto;
         width: var(--product-compare-sidebar-width);
+        position: sticky;
+        left: 0;
+        background-color: $white;
+        z-index: 100;
 
         @include mobile {
             display: none;
@@ -131,7 +130,7 @@
 
     .ProductPrice {
         flex: 0 0 auto;
-        padding: 0 var(--product-compare-item-gap);
+        padding: 2px var(--product-compare-item-gap);
         width: var(--product-compare-column-width);
 
         &:last-child {

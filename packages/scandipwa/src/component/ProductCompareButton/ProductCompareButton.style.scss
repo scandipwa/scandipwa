@@ -38,6 +38,10 @@
         height: 47px;
         width: 47px;
         border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
     }
 
     &:hover {
@@ -51,16 +55,19 @@
     }
 
     &_isGrey {
-        .ProductCompareButton {
-            &-Button {
-                border: none;
+        .ProductCompareButton-Button {
+            border: none;
                 background-color: var(--product-compare-button-grey-background);
+        }
+
+        .ProductCompareButton-Icon {
+            &,
+            &::before {
+                background-color: var(--product-compare-button-grey-color);
             }
 
-            &,
-            &::before,
             &::after {
-                background-color: var(--product-compare-button-grey-color);
+                border-color: var(--product-compare-button-grey-color);
             }
         }
     }
