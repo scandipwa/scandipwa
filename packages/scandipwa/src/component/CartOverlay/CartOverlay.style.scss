@@ -161,11 +161,6 @@
 
     &-Total {
         font-weight: bold;
-        padding: .6rem 1.2rem 1.2rem;
-
-        @include mobile {
-            padding: .7rem 1.4rem 1.4rem;
-        }
 
         @include after-mobile {
             border-bottom: 1px solid var(--cart-item-divider-color);

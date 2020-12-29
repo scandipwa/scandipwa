@@ -86,6 +86,12 @@ export class ProductPrice extends PureComponent {
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
+        // force unequal comparatment - unsure of resulting type
+        // eslint-disable-next-line eqeqeq
+        if (formattedFinalPrice == 0) {
+            return null;
+        }
+
         return (
             <PriceSemanticElementName>
                 <span { ...priceSchema }>{ formattedFinalPrice }</span>
@@ -158,6 +164,7 @@ export class ProductPrice extends PureComponent {
                     regular_price
                 } = {}
             } = {},
+            discountPercentage,
             formattedFinalPrice,
             mix
         } = this.props;
@@ -169,6 +176,7 @@ export class ProductPrice extends PureComponent {
         return (
             <p
               block="ProductPrice"
+              mods={ { hasDiscount: discountPercentage !== 0 } }
               mix={ mix }
               aria-label={ `Product price: ${formattedFinalPrice}` }
             >

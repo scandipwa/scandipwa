@@ -210,7 +210,7 @@
     &-Total {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
         font-size: 1.8rem;
         font-weight: bold;
         padding: 1.2rem 0;
@@ -243,7 +243,7 @@
         justify-content: space-between;
         align-items: center;
         font-size: 1.4rem;
-        font-weight: 600;
+        font-weight: bold;
         margin-top: 1.8rem;
         display: none;
 
@@ -261,6 +261,7 @@
 
         @include desktop {
             display: grid;
+            grid-template-columns: 2fr 1fr;
         }
 
         dd {

@@ -152,6 +152,9 @@
 
     .ProductPrice {
         margin-top: 0;
+        font-weight: bold;
+        line-height: 1;
+        font-size: 1.4rem;
 
         &-SubPrice {
             display: block;

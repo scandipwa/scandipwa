@@ -131,6 +131,7 @@ export class WishlistItem extends PureComponent {
         return (
             <button
               block="Button"
+              mods={ { isHollow: isMobile } }
               mix={ { block: 'WishlistItem', elem: 'AddToCart', mods } }
               onClick={ addToCart }
             >
