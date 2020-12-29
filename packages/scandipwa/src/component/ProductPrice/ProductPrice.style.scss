@@ -10,7 +10,8 @@
  */
 
 :root {
-    --price-color: #b10d0d;
+    --price-color: #{$black};
+    --price-with-discount-color: #b10d0d;
     --price-discount-color: #808080;
 }
 
@@ -19,6 +20,11 @@
     font-weight: 700;
     line-height: 1;
     vertical-align: middle;
+    margin-bottom: 0;
+
+    &_hasDiscount {
+        color: var(--price-with-discount-color);
+    }
 
     @include mobile {
         font-size: 1.8rem;
