@@ -94,7 +94,9 @@ export class ProductPageContainer extends PureComponent {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
         getLink: this.getLink.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
-        setBundlePrice: this.setBundlePrice.bind(this)
+        setBundlePrice: this.setBundlePrice.bind(this),
+        isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
+        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
     static propTypes = {
@@ -267,6 +269,18 @@ export class ProductPageContainer extends PureComponent {
         }
 
         this._addToRecentlyViewedProducts();
+    }
+
+    isProductInformationTabEmpty() {
+        const dataSource = this.getDataSource();
+
+        return !dataSource?.description?.html.length;
+    }
+
+    isProductAttributesTabEmpty() {
+        const dataSource = this.getDataSource();
+
+        return Object.keys(dataSource?.attributes || {}).length === 0;
     }
 
     _addToRecentlyViewedProducts() {

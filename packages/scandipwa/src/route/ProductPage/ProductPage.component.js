@@ -16,7 +16,6 @@ import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
 import ProductAttributes from 'Component/ProductAttributes';
-import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductGallery from 'Component/ProductGallery';
 import ProductInformation from 'Component/ProductInformation';
@@ -43,31 +42,10 @@ export class ProductPage extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isProductInformationTabEmpty: PropTypes.bool.isRequired,
+        isProductAttributesTabEmpty: PropTypes.bool.isRequired
     };
-
-    renderProductCompareButton() {
-        const {
-            dataSource: { id } = {},
-            device: { isMobile } = {}
-        } = this.props;
-
-        if (!isMobile) {
-            return null;
-        }
-
-        return (
-            <div block="ProductPage" elem="ProductCompareButtonWrapper">
-                <ProductCompareButton
-                  productId={ id }
-                  mix={ {
-                      block: 'ProductCompareButton',
-                      mods: { isGrey: true }
-                  } }
-                />
-            </div>
-        );
-    }
 
     renderProductPageContent() {
         const {
@@ -90,7 +68,6 @@ export class ProductPage extends PureComponent {
                   product={ productOrVariant }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                { this.renderProductCompareButton() }
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
@@ -129,31 +106,105 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    renderAdditionalSections() {
+    getTabNames() {
+        const tabNames = [];
+        const {
+            isProductInformationTabEmpty,
+            isProductAttributesTabEmpty
+        } = this.props;
+
+        if (!isProductInformationTabEmpty()) {
+            tabNames.push(__('About'));
+        }
+
+        if (!isProductAttributesTabEmpty()) {
+            tabNames.push(__('Details'));
+        }
+
+        tabNames.push(__('Reviews'));
+
+        return tabNames;
+    }
+
+    renderProductInformationTab() {
         const {
             dataSource,
             parameters,
+            areDetailsLoaded,
+            isProductInformationTabEmpty
+        } = this.props;
+
+        if (isProductInformationTabEmpty()) {
+            return null;
+        }
+
+        return (
+            <ProductInformation
+              product={ { ...dataSource, parameters } }
+              areDetailsLoaded={ areDetailsLoaded }
+            />
+        );
+    }
+
+    renderProductAttributesTab() {
+        const {
+            dataSource,
+            parameters,
+            areDetailsLoaded,
+            isProductAttributesTabEmpty
+        } = this.props;
+
+        if (isProductAttributesTabEmpty()) {
+            return null;
+        }
+
+        return (
+            <ProductAttributes
+              product={ { ...dataSource, parameters } }
+              areDetailsLoaded={ areDetailsLoaded }
+            />
+        );
+    }
+
+    renderProductReviewsTab() {
+        const {
+            dataSource,
+            areDetailsLoaded
+        } = this.props;
+
+        return (
+            <ProductReviews
+              product={ dataSource }
+              areDetailsLoaded={ areDetailsLoaded }
+            />
+        );
+    }
+
+    renderProductTabs() {
+        const productTabItems = [
+            this.renderProductInformationTab(),
+            this.renderProductAttributesTab(),
+            this.renderProductReviewsTab()
+        ];
+
+        const productTabs = productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>);
+
+        return (
+            <ProductTabs tabNames={ this.getTabNames() }>
+                { productTabs }
+            </ProductTabs>
+        );
+    }
+
+    renderAdditionalSections() {
+        const {
             areDetailsLoaded
         } = this.props;
 
         return (
             <>
                 { this.renderCustomizableOptions() }
-                <ProductTabs tabNames={ [__('About'), __('Details'), __('Reviews')] }>
-                    <ProductInformation
-                      product={ { ...dataSource, parameters } }
-                      areDetailsLoaded={ areDetailsLoaded }
-                    />
-                    <ProductAttributes
-                      product={ { ...dataSource, parameters } }
-                      areDetailsLoaded={ areDetailsLoaded }
-                    />
-                    <ProductReviews
-                      product={ dataSource }
-                      areDetailsLoaded={ areDetailsLoaded }
-                    />
-                </ProductTabs>
-
+                { this.renderProductTabs() }
                 <ProductLinks
                   linkType={ RELATED }
                   title={ __('Recommended for you') }
