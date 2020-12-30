@@ -15,9 +15,7 @@ import { connect } from 'react-redux';
 
 import { ProductType } from 'Type/ProductList';
 import {
-    BUNDLE,
-    CONFIGURABLE,
-    GROUPED
+    BUNDLE
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
@@ -88,34 +86,16 @@ export class ProductActionsContainer extends PureComponent {
     }
 
     state = {
-        quantity: 1,
         groupedProductQuantity: {}
     };
 
     containerFunctions = {
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
-        onProductValidationError: this.onProductValidationError.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
-        setQuantity: this.setQuantity.bind(this),
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
-
-    static getDerivedStateFromProps(props, state) {
-        const { quantity } = state;
-        const minQty = ProductActionsContainer.getMinQuantity(props);
-        const maxQty = ProductActionsContainer.getMaxQuantity(props);
-
-        if (quantity < minQty) {
-            return { quantity: minQty };
-        }
-        if (quantity > maxQty) {
-            return { quantity: maxQty };
-        }
-
-        return null;
-    }
 
     onConfigurableProductError = this.onProductError.bind(this, this.configurableOptionsRef);
 
@@ -136,23 +116,6 @@ export class ProductActionsContainer extends PureComponent {
         // eslint-disable-next-line no-unused-expressions
         current.offsetWidth; // trigger a DOM reflow
         current.classList.add('animate');
-    }
-
-    onProductValidationError(type) {
-        switch (type) {
-        case CONFIGURABLE:
-            this.onConfigurableProductError();
-            break;
-        case GROUPED:
-            this.onGroupedProductError();
-            break;
-        default:
-            break;
-        }
-    }
-
-    setQuantity(value) {
-        this.setState({ quantity: +value });
     }
 
     // TODO: make key=>value based

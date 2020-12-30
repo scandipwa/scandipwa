@@ -16,17 +16,14 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import AddToCart from 'Component/AddToCart';
-import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
+import ProductAddToCart from 'Component/ProductAddToCart';
 import ProductBundleItems from 'Component/ProductBundleItems';
-import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { DeviceType } from 'Type/Device';
@@ -48,21 +45,19 @@ export class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,
-        minQuantity: PropTypes.number.isRequired,
+        // minQuantity: PropTypes.number.isRequired,
         maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
         showOnlyIfLoaded: PropTypes.func.isRequired,
-        quantity: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getLink: PropTypes.func.isRequired,
-        setQuantity: PropTypes.func.isRequired,
+        selectedBundlePrice: PropTypes.number.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
-        onProductValidationError: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
@@ -293,53 +288,34 @@ export class ProductActions extends PureComponent {
         );
     }
 
-    renderQuantityInput() {
+    renderAddToCart() {
         const {
-            quantity,
-            maxQuantity,
-            minQuantity,
-            setQuantity,
-            product: { type_id }
+            configurableVariantIndex,
+            parameters,
+            getLink,
+            product,
+            productOrVariant,
+            areDetailsLoaded,
+            productOptionsData,
+            selectedBundlePrice,
+            device
         } = this.props;
 
-        if (type_id === GROUPED) {
+        if (device.isMobile) {
             return null;
         }
 
         return (
-            <Field
-              id="item_qty"
-              name="item_qty"
-              type="number"
-              value={ quantity }
-              max={ maxQuantity }
-              min={ minQuantity }
-              mix={ { block: 'ProductActions', elem: 'Qty' } }
-              onChange={ setQuantity }
-            />
-        );
-    }
-
-    renderAddToCart() {
-        const {
-            configurableVariantIndex,
-            product,
-            quantity,
-            groupedProductQuantity,
-            onProductValidationError,
-            productOptionsData
-        } = this.props;
-
-        return (
-            <AddToCart
-              product={ product }
-              configurableVariantIndex={ configurableVariantIndex }
-              mix={ { block: 'ProductActions', elem: 'AddToCart' } }
-              quantity={ quantity }
-              groupedProductQuantity={ groupedProductQuantity }
-              onProductValidationError={ onProductValidationError }
-              productOptionsData={ productOptionsData }
-            />
+          <ProductAddToCart
+            getLink={ getLink }
+            product={ product }
+            parameters={ parameters }
+            productOrVariant={ productOrVariant }
+            areDetailsLoaded={ areDetailsLoaded }
+            productOptionsData={ productOptionsData }
+            selectedBundlePrice={ selectedBundlePrice }
+            configurableVariantIndex={ configurableVariantIndex }
+          />
         );
     }
 
@@ -454,39 +430,6 @@ export class ProductActions extends PureComponent {
         );
     }
 
-    renderProductWishlistButton() {
-        const {
-            product,
-            quantity,
-            configurableVariantIndex,
-            onProductValidationError
-        } = this.props;
-
-        return (
-            <ProductWishlistButton
-              product={ product }
-              quantity={ quantity }
-              configurableVariantIndex={ configurableVariantIndex }
-              onProductValidationError={ onProductValidationError }
-            />
-        );
-    }
-
-    renderProductCompareButton() {
-        const {
-            product: { id } = {},
-            device: { isMobile } = {}
-        } = this.props;
-
-        if (!id || isMobile) {
-            return null;
-        }
-
-        return (
-            <ProductCompareButton productId={ id } />
-        );
-    }
-
     renderReviews() {
         const {
             product: {
@@ -564,16 +507,7 @@ export class ProductActions extends PureComponent {
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
-                <div
-                  block="ProductActions"
-                  elem="AddToCartWrapper"
-                  mix={ { block: 'FixedElement', elem: 'Bottom' } }
-                >
-                    { this.renderQuantityInput() }
-                    { this.renderAddToCart() }
-                    { this.renderProductCompareButton() }
-                    { this.renderProductWishlistButton() }
-                </div>
+                { this.renderAddToCart() }
                 { this.renderReviews() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }

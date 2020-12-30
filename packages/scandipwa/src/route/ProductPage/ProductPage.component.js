@@ -15,7 +15,9 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
+import ProductAddToCard from 'Component/ProductAddToCart';
 import ProductAttributes from 'Component/ProductAttributes';
+import ProductBottomSheet from 'Component/ProductBottomSheet';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductGallery from 'Component/ProductGallery';
@@ -24,12 +26,13 @@ import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import ProductTabs from 'Component/ProductTabs';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { HistoryType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
-/** @namespace Route/ProductPage/Component */
 
+/** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
@@ -43,7 +46,8 @@ export class ProductPage extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        history: HistoryType.isRequired
     };
 
     renderProductCompareButton() {
@@ -69,6 +73,15 @@ export class ProductPage extends PureComponent {
         );
     }
 
+    renderBottomPlaceholder() {
+        return (
+          <span
+            block="ProductPage"
+            elem="BottomPlaceholder"
+          />
+        );
+    }
+
     renderProductPageContent() {
         const {
             configurableVariantIndex,
@@ -81,8 +94,52 @@ export class ProductPage extends PureComponent {
             getSelectedCustomizableOptions,
             productOptionsData,
             setBundlePrice,
-            selectedBundlePrice
+            selectedBundlePrice,
+            device,
+            history
         } = this.props;
+
+        if (device.isMobile) {
+            return (
+                <>
+                  <ProductGallery
+                    product={ productOrVariant }
+                    areDetailsLoaded={ areDetailsLoaded }
+                  />
+                  { this.renderProductCompareButton() }
+                  <ProductAddToCard
+                    getLink={ getLink }
+                    product={ dataSource }
+                    parameters={ parameters }
+                    productOrVariant={ productOrVariant }
+                    areDetailsLoaded={ areDetailsLoaded }
+                    productOptionsData={ productOptionsData }
+                    selectedBundlePrice={ selectedBundlePrice }
+                    configurableVariantIndex={ configurableVariantIndex }
+                  />
+                  <ProductBottomSheet
+                    product={ dataSource }
+                    history={ history }
+                  >
+                    <ProductActions
+                      getLink={ getLink }
+                      updateConfigurableVariant={ updateConfigurableVariant }
+                      product={ dataSource }
+                      productOrVariant={ productOrVariant }
+                      parameters={ parameters }
+                      areDetailsLoaded={ areDetailsLoaded }
+                      configurableVariantIndex={ configurableVariantIndex }
+                      getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                      productOptionsData={ productOptionsData }
+                      setBundlePrice={ setBundlePrice }
+                      selectedBundlePrice={ selectedBundlePrice }
+                    />
+                  </ProductBottomSheet>
+                  { this.renderAdditionalSections() }
+                  { this.renderBottomPlaceholder() }
+                </>
+            );
+        }
 
         return (
             <>
@@ -169,6 +226,7 @@ export class ProductPage extends PureComponent {
     }
 
     render() {
+        const { device } = this.props;
         return (
             <main
               block="ProductPage"
@@ -182,7 +240,7 @@ export class ProductPage extends PureComponent {
                 >
                     { this.renderProductPageContent() }
                 </ContentWrapper>
-                { this.renderAdditionalSections() }
+                { !device.isMobile ? this.renderAdditionalSections() : null }
             </main>
         );
     }

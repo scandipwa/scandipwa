@@ -23,6 +23,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
@@ -110,6 +111,7 @@ export class ProductPageContainer extends PureComponent {
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired,
+        device: DeviceType.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
@@ -555,11 +557,13 @@ export class ProductPageContainer extends PureComponent {
 
     updateHeaderState() {
         const { name = '' } = this.getDataSource();
-        const { changeHeaderState } = this.props;
+        const { changeHeaderState, device } = this.props;
+
+        const title = device.isMobile ? '' : name;
 
         changeHeaderState({
             name: PDP,
-            title: name,
+            title,
             onBackClick: () => history.back()
         });
     }

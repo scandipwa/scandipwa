@@ -22,6 +22,9 @@
     @include mobile {
         padding-bottom: 75px;
     }
+    &-BottomPlaceholder {
+        height: 125px;
+    }
 
     &-Wrapper {
         display: grid;

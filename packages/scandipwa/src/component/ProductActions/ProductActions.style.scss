@@ -145,7 +145,7 @@
 
     &-PriceWrapper {
         @include mobile {
-            padding: 2.1rem 0 2.1rem 1.4rem;
+            padding: 1rem 0 3rem 1.5rem;
         }
 
         @include after-mobile {
@@ -209,41 +209,6 @@
 
         .Field_type_number {
             max-width: 80px;
-        }
-    }
-
-    &-AddToCart {
-        @include before-desktop {
-            flex-grow: 1;
-        }
-    }
-
-    &-AddToCartWrapper {
-        order: -2;
-        margin-top: .6rem;
-
-        @include before-desktop {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: fixed;
-            z-index: 85;
-            bottom: var(--navigation-tabs-height);
-            left: 0;
-            width: 100%;
-            background: var(--header-background);
-            border-top: 1px solid var(--primary-divider-color);
-            padding: 1.2rem;
-        }
-
-        @include mobile {
-            margin-top: .7rem;
-            padding: 1.4rem;
-        }
-
-        @include desktop {
-            order: 22;
-            margin-right: 1.2rem;
         }
     }
 
@@ -447,23 +412,6 @@
 
         &_isSelected {
             --product-actions-option-border-color: var(--product-actions-selected-option-border-color);
-        }
-    }
-
-    &-Qty {
-        order: 23;
-        margin-top: 0;
-        display: inline-block;
-        vertical-align: middle;
-
-        + .ProductActions-AddToCart {
-            @include desktop {
-                margin-left: 10px;
-            }
-        }
-
-        @include before-desktop {
-            display: none;
         }
     }
 

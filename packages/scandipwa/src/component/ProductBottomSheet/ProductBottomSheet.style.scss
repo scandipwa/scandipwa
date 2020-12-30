@@ -1,0 +1,46 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+// .ReactSwipeableBottomSheet--closed,
+// .ReactSwipeableBottomSheet--open {
+//     max-height: calc(100vh - 50px);
+// }
+.ProductBottomSheet {
+    &-Pill {
+        width: 70px;
+        height: 4px;
+        background: #968f8f;
+        border-radius: 10px;
+    }
+    &-PillWrapper {
+        position: relative;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        padding: 5px;
+        z-index: 1;
+    }
+    &-ProductTitle {
+        box-sizing: border-box;
+        color: black;
+        font-size: 24px;
+        flex: 1;
+        padding-left: 1.5rem;
+    }
+
+    &-BottomPlaceholder {
+        // bottom bar height + add to cart wrapper height
+        height: calc(50px + 78px)
+    }
+}
+.react-swipeable-view-container {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
