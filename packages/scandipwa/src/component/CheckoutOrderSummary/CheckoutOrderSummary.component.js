@@ -16,7 +16,7 @@ import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
-import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
 
 import './CheckoutOrderSummary.style';
@@ -37,7 +37,6 @@ export class CheckoutOrderSummary extends PureComponent {
         cartSubtotalSubPrice: PropTypes.number,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
-        cartTotalPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number
     };
 
@@ -50,7 +49,6 @@ export class CheckoutOrderSummary extends PureComponent {
         cartSubtotalSubPrice: null,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
-        cartTotalPrice: 0,
         cartTotalSubPrice: null
     };
 
@@ -166,43 +164,48 @@ export class CheckoutOrderSummary extends PureComponent {
         return this.renderPriceLine(cartSubtotal, title);
     }
 
+    getShippingLabel() {
+        const { checkoutStep } = this.props;
+
+        if (checkoutStep === BILLING_STEP) {
+            return __('Shipping');
+        }
+
+        return __('Estimated Shipping');
+    }
+
     renderShipping() {
         const {
             totals: {
                 quote_currency_code
             },
-            checkoutStep,
             cartShippingPrice,
             cartShippingSubPrice
         } = this.props;
-        const title = __('Shipping');
+        const title = this.getShippingLabel();
         const mods = { divider: true };
 
-        if (checkoutStep === SHIPPING_STEP) {
-            return null;
+        if (!cartShippingSubPrice) {
+            return this.renderPriceLine(cartShippingPrice, title, mods);
         }
 
-        if (cartShippingSubPrice) {
-            return (
-                <CheckoutOrderSummaryPriceLine
-                  price={ cartShippingPrice }
-                  currency={ quote_currency_code }
-                  title={ title }
-                  mods={ mods }
-                  subPrice={ cartShippingSubPrice }
-                />
-            );
-        }
-
-        return this.renderPriceLine(cartShippingPrice, title, mods);
+        return (
+            <CheckoutOrderSummaryPriceLine
+              price={ cartShippingPrice }
+              currency={ quote_currency_code }
+              title={ title }
+              mods={ mods }
+              subPrice={ cartShippingSubPrice }
+            />
+        );
     }
 
     renderOrderTotal() {
         const {
             totals: {
+                grand_total,
                 quote_currency_code
             },
-            cartTotalPrice,
             cartTotalSubPrice
         } = this.props;
         const title = __('Order total');
@@ -210,7 +213,7 @@ export class CheckoutOrderSummary extends PureComponent {
         if (cartTotalSubPrice) {
             return (
                 <CheckoutOrderSummaryPriceLine
-                  price={ cartTotalPrice }
+                  price={ grand_total }
                   currency={ quote_currency_code }
                   title={ title }
                   subPrice={ cartTotalSubPrice }
@@ -218,7 +221,7 @@ export class CheckoutOrderSummary extends PureComponent {
             );
         }
 
-        return this.renderPriceLine(cartTotalPrice, title);
+        return this.renderPriceLine(grand_total, title);
     }
 
     renderTaxFullSummary() {
@@ -263,7 +266,7 @@ export class CheckoutOrderSummary extends PureComponent {
 
         return (
             <CheckoutOrderSummaryPriceLine
-              price={ tax_amount.toFixed(2) }
+              price={ tax_amount.toFixed(2) } // since we display tax even if value is 0
               currency={ quote_currency_code }
               title={ __('Tax') }
               mods={ { withAppendedContent: display_full_tax_summary } }

@@ -34,6 +34,8 @@ export class CartPage extends PureComponent {
         cartSubtotal: PropTypes.number,
         cartSubtotalSubPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number,
+        cartShippingPrice: PropTypes.number,
+        cartShippingSubPrice: PropTypes.number,
         cartDisplayConfig: PropTypes.object.isRequired
     };
 
@@ -41,7 +43,9 @@ export class CartPage extends PureComponent {
         hasOutOfStockProductsInCart: false,
         cartSubtotal: 0,
         cartSubtotalSubPrice: null,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        cartShippingPrice: 0,
+        cartShippingSubPrice: null
     };
 
     renderCartItems() {
@@ -172,6 +176,42 @@ export class CartPage extends PureComponent {
         );
     }
 
+    renderEstimatedShippingSubPrice() {
+        const {
+            cartShippingSubPrice
+        } = this.props;
+
+        if (!cartShippingSubPrice) {
+            return null;
+        }
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartShippingSubPrice) }` }
+            </span>
+        );
+    }
+
+    renderEstimatedShipping() {
+        const {
+            cartShippingPrice
+        } = this.props;
+
+        if (!cartShippingPrice) {
+            return null;
+        }
+
+        return (
+            <>
+                <dt>{ __('Estimated Shipping:') }</dt>
+                <dd>
+                    { this.renderPriceLine(cartShippingPrice) }
+                    { this.renderEstimatedShippingSubPrice() }
+                </dd>
+            </>
+        );
+    }
+
     renderTotalDetails(isMobile = false) {
         return (
             <dl
@@ -181,6 +221,7 @@ export class CartPage extends PureComponent {
               mods={ { isMobile } }
             >
                 { this.renderSubTotal() }
+                { this.renderEstimatedShipping() }
                 { this.renderDiscount() }
                 { this.renderTax() }
             </dl>

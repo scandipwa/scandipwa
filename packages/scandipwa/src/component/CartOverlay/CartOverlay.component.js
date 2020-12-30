@@ -35,11 +35,17 @@ export class CartOverlay extends PureComponent {
         currencyCode: PropTypes.string.isRequired,
         showOverlay: PropTypes.func.isRequired,
         activeOverlay: PropTypes.string.isRequired,
-        hasOutOfStockProductsInCart: PropTypes.bool
+        hasOutOfStockProductsInCart: PropTypes.bool,
+        cartTotalSubPrice: PropTypes.number,
+        cartShippingPrice: PropTypes.number,
+        cartShippingSubPrice: PropTypes.number
     };
 
     static defaultProps = {
-        hasOutOfStockProductsInCart: false
+        hasOutOfStockProductsInCart: false,
+        cartTotalSubPrice: null,
+        cartShippingPrice: 0,
+        cartShippingSubPrice: null
     };
 
     componentDidMount() {
@@ -84,6 +90,20 @@ export class CartOverlay extends PureComponent {
         );
     }
 
+    renderOrderTotalExlTax() {
+        const { cartTotalSubPrice } = this.props;
+
+        if (!cartTotalSubPrice) {
+            return null;
+        }
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartTotalSubPrice) }` }
+            </span>
+        );
+    }
+
     renderTotals() {
         const { totals: { grand_total = 0 } } = this.props;
 
@@ -93,7 +113,10 @@ export class CartOverlay extends PureComponent {
               elem="Total"
             >
                 <dt>{ __('Order total:') }</dt>
-                <dd>{ this.renderPriceLine(grand_total) }</dd>
+                <dd>
+                    { this.renderPriceLine(grand_total) }
+                    { this.renderOrderTotalExlTax() }
+                </dd>
             </dl>
         );
     }
@@ -108,6 +131,47 @@ export class CartOverlay extends PureComponent {
             >
                 <dt>{ __('Tax total:') }</dt>
                 <dd>{ this.renderPriceLine(tax_amount || 0) }</dd>
+            </dl>
+        );
+    }
+
+    renderEstimatedShippingSubPrice() {
+        const {
+            cartShippingSubPrice
+        } = this.props;
+
+        if (!cartShippingSubPrice) {
+            return null;
+        }
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartShippingSubPrice) }` }
+            </span>
+        );
+    }
+
+    renderEstimatedShipping() {
+        const {
+            cartShippingPrice
+        } = this.props;
+
+        if (!cartShippingPrice) {
+            return null;
+        }
+
+        return (
+            <dl
+              block="CartOverlay"
+              elem="Shipping"
+            >
+                <dt>
+                    { __('Estimated Shipping: ') }
+                </dt>
+                <dd>
+                    { this.renderPriceLine(cartShippingPrice) }
+                    { this.renderEstimatedShippingSubPrice() }
+                </dd>
             </dl>
         );
     }
@@ -202,6 +266,7 @@ export class CartOverlay extends PureComponent {
 
         return (
             <div block="CartOverlay" elem="Additional">
+                { this.renderEstimatedShipping() }
                 { this.renderDiscount() }
                 { this.renderTax() }
                 { this.renderTotals() }

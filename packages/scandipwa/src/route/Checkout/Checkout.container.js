@@ -210,6 +210,8 @@ export class CheckoutContainer extends PureComponent {
 
         // Handle going back from billing to shipping
         if (/shipping/.test(urlStep) && /billing/.test(prevUrlStep)) {
+            BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 checkoutStep: SHIPPING_STEP,

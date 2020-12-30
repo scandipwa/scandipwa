@@ -111,6 +111,10 @@ export class CartQuery {
             'shipping_incl_tax',
             'is_virtual',
             'applied_rule_ids',
+            'shipping_amount',
+            'shipping_incl_tax',
+            'shipping_tax_amount',
+            'shipping_method',
             this._getCartItemsField(),
             this._getAppliedTaxesField()
         ];

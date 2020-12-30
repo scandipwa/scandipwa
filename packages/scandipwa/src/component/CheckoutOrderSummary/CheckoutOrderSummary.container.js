@@ -9,11 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { TotalsType } from 'Type/MiniCart';
 import {
     getCartShippingPrice,
     getCartShippingSubPrice,
@@ -37,42 +34,4 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/CheckoutOrderSummary/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
-export class CheckoutOrderSummaryContainer extends PureComponent {
-    static propTypes = {
-        totals: TotalsType,
-        paymentTotals: TotalsType,
-        checkoutStep: PropTypes.string.isRequired
-    };
-
-    static defaultProps = {
-        totals: {},
-        paymentTotals: {}
-    };
-
-    containerProps() {
-        return {
-            cartTotalPrice: this.getOrderTotal()
-        };
-    }
-
-    getOrderTotal() {
-        const {
-            totals: {
-                grand_total
-            }
-        } = this.props;
-
-        return grand_total;
-    }
-
-    render() {
-        return (
-            <CheckoutOrderSummary
-              { ...this.props }
-              { ...this.containerProps() }
-            />
-        );
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutOrderSummaryContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutOrderSummary);

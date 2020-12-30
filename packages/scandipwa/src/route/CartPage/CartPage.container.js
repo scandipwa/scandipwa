@@ -27,6 +27,8 @@ import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import {
+    getCartShippingPrice,
+    getCartShippingSubPrice,
     getCartSubtotal,
     getCartSubtotalSubPrice,
     getCartTotalSubPrice,
@@ -56,7 +58,9 @@ export const mapStateToProps = (state) => ({
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
     cartSubtotal: getCartSubtotal(state),
     cartSubtotalSubPrice: getCartSubtotalSubPrice(state),
-    cartTotalSubPrice: getCartTotalSubPrice(state)
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    cartShippingPrice: getCartShippingPrice(state),
+    cartShippingSubPrice: getCartShippingSubPrice(state)
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
