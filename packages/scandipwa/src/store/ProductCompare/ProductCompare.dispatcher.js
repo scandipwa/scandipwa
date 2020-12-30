@@ -12,8 +12,10 @@
 import ProductCompareQuery from 'Query/ProductCompare.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import {
+    addComparedProductIds,
     clearComparedProducts,
     removeComparedProduct,
+    setComparedProductIds,
     setCompareList,
     toggleLoader
 } from 'Store/ProductCompare/ProductCompare.action';
@@ -58,6 +60,7 @@ export class ProductCompareDispatcher {
                 )
             );
 
+            dispatch(addComparedProductIds(productId));
             dispatch(showNotification('success', __('Product is added to the compare list')));
             return result;
         } catch (error) {
@@ -104,6 +107,26 @@ export class ProductCompareDispatcher {
             dispatch(toggleLoader(false));
             dispatch(showNotification('error', __('Unable to clear product compare list'), error));
             return false;
+        }
+    }
+
+    async updateInitialProductCompareData(dispatch) {
+        const guestCartId = await this._getGuestQuoteId(dispatch);
+
+        try {
+            const {
+                compareProducts: {
+                    products = []
+                } = {}
+            } = await fetchQuery(
+                ProductCompareQuery.getProductIds(guestCartId)
+            );
+
+            const productIds = products.map(({ id }) => id);
+
+            dispatch(setComparedProductIds(productIds));
+        } catch (error) {
+            dispatch(showNotification('error', __('Unable to fetch compare product ids'), error));
         }
     }
 

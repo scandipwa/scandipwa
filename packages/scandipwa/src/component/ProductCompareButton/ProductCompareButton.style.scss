@@ -10,13 +10,24 @@
  */
 
 :root {
-    --product-compare-button-icon-background: var(--primary-base-color);
-    --product-compare-button-grey-background: var(--secondary-base-color);
-    --product-compare-button-grey-color: var(--secondary-dark-color);
+    --product-compare-button-color: var(--primary-base-color);
+    --product-compare-button-dark-color: var(--primary-dark-color);
+    --product-compare-button-light-color: #{$white};
+    --product-compare-button-grey-color: #d8d5d5;
+    --product-compare-button-grey-light-color: rgba(243, 243, 243, .78);
 }
 
 .ProductCompareButton {
     --loader-scale: .6;
+    --button-padding: 0;
+
+    --button-color: var(--product-compare-button-color);
+    --button-background: var(--product-compare-button-light-color);
+    --button-border: var(--product-compare-button-color);
+
+    --button-hover-color: var(--product-compare-button-dark-color);
+    --button-hover-background: var(--product-compare-button-light-color);
+    --button-hover-border: var(--product-compare-button-dark-color);
 
     margin-left: 1.08rem;
     vertical-align: middle;
@@ -31,10 +42,6 @@
     }
 
     &-Button {
-        --button-padding: 0;
-        --button-hover-background: transparent;
-        --button-hover-border: var(--primary-dark-color);
-
         height: 47px;
         width: 47px;
         border-radius: 50%;
@@ -44,30 +51,50 @@
         overflow: hidden;
     }
 
-    &:hover {
-        @include after-mobile {
-            --product-compare-button-icon-background: var(--primary-dark-color);
-        }
+    &-Icon {
+        @include compare-icon(var(--button-color));
     }
 
-    &-Icon {
-        @include compare-icon(var(--product-compare-button-icon-background));
+    @include desktop {
+        &:hover {
+            --button-color: var(--button-hover-color);
+        }
     }
 
     &_isGrey {
-        .ProductCompareButton-Button {
-            border: none;
-                background-color: var(--product-compare-button-grey-background);
+        --button-color: var(--product-compare-button-grey-color);
+        --button-background: var(--product-compare-button-grey-light-color);
+        --button-border: var(--product-compare-button-grey-light-color);
+        --button-hover-background: var(--product-compare-button-grey-light-color);
+        --button-hover-border: var(--product-compare-button-color);
+
+        @include desktop {
+            &:hover {
+                --button-color: var(--product-compare-button-color);
+            }
+        }
+    }
+
+    &_isActive {
+        --button-color: var(--product-compare-button-color);
+
+        @include desktop {
+            &:hover {
+                --button-color: var(--product-compare-button-dark-color);
+            }
         }
 
-        .ProductCompareButton-Icon {
-            &,
-            &::before {
-                background-color: var(--product-compare-button-grey-color);
-            }
+        &:not(.ProductCompareButton_isGrey) {
+            --button-color: var(--product-compare-button-light-color);
+            --button-background: var(--product-compare-button-color);
+            --button-border: var(--product-compare-button-color);
+            --button-hover-background: var(--product-compare-button-dark-color);
+            --button-hover-border: var(--product-compare-button-dark-color);
 
-            &::after {
-                border-color: var(--product-compare-button-grey-color);
+            @include desktop {
+                &:hover {
+                    --button-color: var(--product-compare-button-light-color);
+                }
             }
         }
     }

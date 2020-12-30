@@ -127,7 +127,7 @@
 
         @include mobile {
             --product-rating-size: 1.4rem;
-            
+
             width: 100%;
             border-radius: 0;
         }
@@ -287,42 +287,18 @@
             width: 35px;
             height: 35px;
             border: none;
-            background-color: var(--product-card-compare-button-background);
-
-            &:focus {
-                background-color: var(--product-card-compare-button-background);
-            }
-
-            &_isActive,
-            &:hover {
-                background-color: var(--product-card-compare-button-background);
-
-                @include desktop {
-                    .ProductCompareButton-Icon,
-                    .ProductCompareButton-Icon::before {
-                        background-color: var(--primary-base-color);
-                    }
-
-                    .ProductCompareButton-Icon::after {
-                        border-color: var(--primary-base-color);
-                    }
-                }
-            }
         }
 
         &-Icon {
             height: 23px;
-            background-color: var(--product-card-compare-button-color);
 
             &::before {
-                background-color: var(--product-card-compare-button-color);
                 width: 5px;
                 left: -5px;
             }
 
             &::after {
                 width: 5px;
-                border-color: var(--product-card-compare-button-color);
             }
         }
     }

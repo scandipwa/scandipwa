@@ -13,6 +13,8 @@ export const TOGGLE_COMPARE_LIST_LOADER = 'TOGGLE_COMPARE_LIST_LOADER';
 export const SET_COMPARE_LIST = 'SET_COMPARE_LIST';
 export const REMOVE_COMPARED_PRODUCT = 'REMOVE_COMPARED_PRODUCT';
 export const CLEAR_COMPARED_PRODUCTS = 'CLEAR_COMPARED_PRODUCTS';
+export const SET_COMPARED_PRODUCT_IDS = 'SET_COMPARED_PRODUCT_IDS';
+export const ADD_COMPARED_PRODUCT_ID = 'ADD_COMPARED_PRODUCT_ID';
 
 /** @namespace Store/ProductCompare/Action/toggleLoader */
 export const toggleLoader = (isLoading) => ({
@@ -35,4 +37,16 @@ export const removeComparedProduct = (productId) => ({
 /** @namespace Store/ProductCompare/Action/clearComparedProducts */
 export const clearComparedProducts = () => ({
     type: CLEAR_COMPARED_PRODUCTS
+});
+
+/** @namespace Store/ProductCompare/Action/clearComparedProducts/setComparedProductIds */
+export const setComparedProductIds = (productIds) => ({
+    type: SET_COMPARED_PRODUCT_IDS,
+    productIds
+});
+
+/** @namespace Store/ProductCompare/Action/clearComparedProducts/addComparedProductIds */
+export const addComparedProductIds = (productId) => ({
+    type: ADD_COMPARED_PRODUCT_ID,
+    productId
 });
