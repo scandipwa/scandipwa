@@ -24,9 +24,9 @@
         width: var(--product-compare-sidebar-width);
         position: sticky;
         left: 0;
+        font-weight: 700;
 
         @include mobile {
-            font-weight: 700;
             padding: 1rem;
             white-space: nowrap;
         }
