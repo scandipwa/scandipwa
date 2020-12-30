@@ -30,7 +30,7 @@ import {
 
 /** @namespace Component/ProductPrice/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    displayTaxInPrice: state.ConfigReducer.priceTaxDisplay.product_price_display_type
+    displayTaxInPrice: state.ConfigReducer?.priceTaxDisplay?.product_price_display_type
 });
 
 /** @namespace Component/ProductPrice/Container/mapDispatchToProps */
