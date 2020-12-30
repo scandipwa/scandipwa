@@ -109,6 +109,7 @@ export class CartQuery {
             'coupon_code',
             'shipping_amount',
             'shipping_incl_tax',
+            'shipping_tax_amount',
             'is_virtual',
             'applied_rule_ids',
             'shipping_amount',

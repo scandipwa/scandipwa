@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import ProductCompareItem from './ProductCompareItem.component';
@@ -38,7 +39,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductCompareItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        removeComparedProduct: PropTypes.func.isRequired
+        removeComparedProduct: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     state = {
@@ -49,6 +51,10 @@ export class ProductCompareItemContainer extends PureComponent {
         removeComparedProduct: this.removeComparedProduct.bind(this),
         getGroupedProductQuantity: this.getGroupedProductQuantity.bind(this),
         getProductOptionsData: this.getProductOptionsData.bind(this)
+    };
+
+    containerProps = {
+        imgUrl: this.getProductImage()
     };
 
     async removeComparedProduct() {
@@ -89,11 +95,30 @@ export class ProductCompareItemContainer extends PureComponent {
         };
     }
 
+    getProductImage() {
+        const {
+            product: {
+                thumbnail,
+                small_image
+            } = {},
+            device: {
+                isMobile
+            } = {}
+        } = this.props;
+
+        if (isMobile) {
+            return small_image.url;
+        }
+
+        return thumbnail.url;
+    }
+
     render() {
         return (
             <ProductCompareItem
               { ...this.props }
               { ...this.state }
+              { ...this.containerProps }
               { ...this.containerFunctions }
             />
         );
