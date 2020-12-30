@@ -66,7 +66,7 @@ export class ProductBottomSheet extends PureComponent {
         const bodyStyle = {
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
-            maxHeight: 'calc(100vh - 150px)'
+            maxHeight: 'calc(100vh - 50px)'
         };
 
         return (
