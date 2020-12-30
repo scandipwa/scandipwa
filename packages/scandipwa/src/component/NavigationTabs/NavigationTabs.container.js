@@ -100,7 +100,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { navigationState: { isVisibleOnScroll: prevIsVisible } } = prevProps;
 
         if (isVisibleOnScroll !== prevIsVisible) {
-            this.scrollPosition = window.scrollY;
+            this.scrollPosition = window.pageYOffset;
             document.documentElement.classList.remove('hideOnScroll');
         }
     }
@@ -110,8 +110,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const TOP_MIN_OFFSET = 100;
 
         const doc = document.body;
-        const offset = window.innerHeight + window.scrollY;
-        const height = doc.offsetHeight;
+        const offset = window.innerHeight + window.pageYOffset;
+        const height = doc.scrollHeight;
 
         if (windowY < TOP_MIN_OFFSET) {
             // We are on top
@@ -145,7 +145,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        const windowY = window.scrollY;
+        const windowY = window.pageYOffset;
         this.handleNavVisibilityOnScroll(windowY);
         this.scrollPosition = windowY;
     };
