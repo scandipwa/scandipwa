@@ -134,9 +134,9 @@ export class ProductPage extends PureComponent {
                       setBundlePrice={ setBundlePrice }
                       selectedBundlePrice={ selectedBundlePrice }
                     />
-                  </ProductBottomSheet>
                   { this.renderAdditionalSections() }
                   { this.renderBottomPlaceholder() }
+                  </ProductBottomSheet>
                 </>
             );
         }
