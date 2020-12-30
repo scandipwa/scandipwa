@@ -1,0 +1,88 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+@mixin button-disabled {
+    opacity: .25;
+    cursor: not-allowed;
+}
+
+@mixin button {
+    text-decoration: none; // because we never need underlines in buttons
+
+    display: inline-block;
+    border-radius: 0;
+    font-weight: 700;
+    font-size: 1.32rem;
+    line-height: normal;
+    text-transform: uppercase;
+    padding: var(--button-padding);
+    color: var(--button-color);
+    background-color: var(--button-background);
+    transition-property: background-color, color, border;
+    will-change: background-color, color, border;
+    transition-timing-function: ease-out;
+    transition-duration: .25s;
+    cursor: pointer;
+    @include mobile {
+        font-size: 1.54rem;
+    }
+
+    border: {
+        width: var(--button-border-width);
+        style: solid;
+        color: var(--button-border);
+    }
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+
+    &:not([disabled]) {
+        &:hover,
+        &:focus {
+            @include after-mobile {
+                border-color: var(--button-hover-border);
+                background-color: var(--button-hover-background);
+                color: var(--button-hover-color);
+            }
+        }
+    }
+
+    &[disabled] {
+        @include button-disabled();
+    }
+
+    &_isHollow {
+        border-color: var(--button-background);
+        color: var(--button-background);
+        background: transparent;
+    }
+
+    &_likeLink {
+        --button-border: transparent;
+        --button-background: transparent;
+        --button-color: var(--primary-base-color);
+        --button-hover-border: transparent;
+        --button-hover-background: transparent;
+        --button-hover-color: var(--primary-base-color);
+
+        text-transform: none;
+        margin: 0;
+        padding: 0;
+        font-weight: normal;
+        text-align: left;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
+}

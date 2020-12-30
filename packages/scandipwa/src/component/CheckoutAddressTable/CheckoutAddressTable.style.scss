@@ -1,0 +1,100 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --checkout-address-table-border: var(--secondary-base-color);
+    --checkout-address-table-hover-border: var(--secondary-base-color);
+    --checkout-address-table-check-mark-hover-color: var(--secondary-dark-color);
+    --checkout-address-selected-color: var(--primary-base-color);
+    --checkout-address-table-check-mark-selected-color: var(--checkout-address-table-border);
+}
+
+.CheckoutAddressTable {
+    width: 100%;
+
+    &:first-child &-Button {
+        margin-top: 0;
+    }
+
+    &-Button {
+        --check-mark-opacity: 0;
+
+        border: 2px solid var(--checkout-address-table-border);
+        margin: 1.2rem 1.2rem 0 0;
+        transition-property: border-color, background, border-color;
+        transition-duration: 150ms;
+        transition-timing-function: ease-in;
+        width: 100%;
+
+        @include mobile {
+            margin: 1.4rem 1.4rem 0 0;
+        }
+
+        &::before,
+        &::after {
+            content: '';
+            opacity: var(--check-mark-opacity);
+            position: absolute;
+            z-index: 1;
+            transition: opacity 150ms ease-in;
+        }
+
+        &::before {
+            top: 6px;
+            right: 6px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--checkout-address-table-border);
+        }
+
+        &::after {
+            top: 12px;
+            right: 11px;
+            width: 12px;
+            height: 6px;
+            transform: rotate(135deg);
+            border-right: 2px solid var(--check-mark-color);
+            border-top: 2px solid var(--check-mark-color);
+        }
+
+        &:not(&_isSelected):hover {
+            --check-mark-opacity: 1;
+            --checkout-address-table-border: var(--checkout-address-table-hover-border);
+            --check-mark-color: var(--checkout-address-table-check-mark-hover-color);
+        }
+
+        &_isSelected {
+            --check-mark-opacity: 1;
+            --checkout-address-table-border: var(--checkout-address-selected-color);
+            --check-mark-color: var(--checkout-address-table-check-mark-selected-color);
+        }
+    }
+
+    &-SelectedLabel {
+        color: var(--checkout-address-selected-color);
+        text-transform: uppercase;
+
+        &::before {
+            content: ' - ';
+            color: $black;
+        }
+    }
+
+    .KeyValueTable {
+        margin: 0;
+    }
+
+    td,
+    th {
+        width: auto;
+    }
+}

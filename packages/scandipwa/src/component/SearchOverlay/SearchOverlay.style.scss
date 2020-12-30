@@ -1,0 +1,106 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --search-criteria-background: var(--secondary-base-color);
+    --search-criteria-label-color: rgba(10, 10, 10, .44);
+    --search-criteria-search-term-color: #0a0a0a;
+}
+
+.SearchOverlay {
+    --placeholder-animation: placeholderAnimation 2s linear infinite;
+
+    @include desktop {
+        transition-property: width, opacity, transform, border-color;
+        transition-duration: 200ms;
+        transform-origin: 0 0;
+        transform: scaleY(0);
+        will-change: width, transform, border;
+        width: var(--search-bar-width);
+        max-width: calc(var(--search-bar-max-width) + 2px);
+        text-align: left;
+        top: calc(100% - 1px);
+        right: -1px;
+        border-width: 0 1px 1px;
+        border-style: solid;
+        border-color: transparent;
+        max-height: 50vh;
+        overflow-y: scroll;
+    }
+
+    &_isVisible {
+        z-index: 100;
+
+        @include desktop {
+            transform: scaleY(1);
+            border-color: var(--search-field-border-color);
+            width: calc(var(--search-bar-width) + 2px);
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 1px;
+        width: calc(100% - 2px);
+        height: 1px;
+        background-color: var(--search-criteria-background);
+    }
+
+    &-Criteria {
+        margin-bottom: 0;
+        background-color: var(--search-criteria-background);
+        color: var(--search-criteria-label-color);
+        padding: 0;
+        max-height: 0;
+
+        opacity: 0;
+        transition: opacity 200ms;
+        will-change: max-height, padding, opacity;
+        overflow: hidden;
+
+        &_isVisible {
+            opacity: 1;
+            padding: .84rem 1.2rem .6rem;
+            max-height: 100px;
+
+            @include mobile {
+                padding: .98rem 1.4rem .7rem;
+            }
+        }
+
+        strong {
+            color: var(--search-criteria-search-term-color);
+            margin-left: 5px;
+        }
+    }
+
+    &-Results {
+        padding: 1.2rem;
+
+        @include mobile {
+            padding: 1.4rem;
+        }
+
+        @include desktop {
+            max-height: calc(100vh - var(--header-total-height) - 8.4rem);
+            padding: 1.2rem 3.6rem 2.4rem 3.6rem;
+            overflow-y: auto;
+        }
+
+        > p {
+            @include desktop {
+                text-align: center;
+            }
+        }
+    }
+}

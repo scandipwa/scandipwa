@@ -1,0 +1,23 @@
+#Auto labeling for pull requests
+
+name: Add Labels
+on:
+  pull_request:
+    branches: |
+      - master
+    types:
+      - opened
+
+jobs:
+  add-label:
+    name: Add Label
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: christianvuerings/add-labels@v1.1
+        with:
+          labels:
+            Waiting Review
+            
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTOLABELERTOKEN }}

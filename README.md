@@ -1,38 +1,128 @@
-# ScandiPWA Theme
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
+![ScandiPWA](https://user-images.githubusercontent.com/29531824/101024697-24d42880-357d-11eb-868d-6577919e96e3.png)
 
-This repository contains ScandiPWA Theme sources. 
+The next-generation front-end for Magento 2. Fast. Reliable. Extensible.
 
-> Unless you are trying to commit to "core" components - use `composer require scandipwa\installer` [package](https://bitbucket.org/scandiweb/scandipwa-theme-installer) instead.
+---
 
-## Installation notes
-It is important to ensure you are following the best practices and setting web-server root to `/pub` folder or adapt the build configs prefixing the pathes with `/pub` dir https://github.com/scandipwa/base-theme/issues/134
+- [Getting started](https://scandipwa.gitbook.io/docs-v2/) – create a new application and deploy it as Magento 2 theme or standalone storefront.
+- [Developer guide](https://scandipwa.gitbook.io/docs-v2/building-your-app/building-a-scandipwa-app) – learn how to develop ScandiPWA applications.
+- [Deploy into Cloud](https://readymage.com/) - get production environment in 10 minutes
 
-[Official Magento 2 docs](https://devdocs.magento.com/guides/v2.3/install-gde/tutorials/change-docroot-to-pub.html)
+## Key features
 
-### Upgrading to version ^1.7
+### :white_check_mark: 350+ Magento features supported 
 
-When upgrading to theme version ^1.7, pay attention to `webpack.*.config` files, new plugin was added there. Also, the index is now split in two parts: the `index.production.html` and `index.development.html`.
+Customize your PWA directly from Magento  back-end configurations and use settings like:
 
-## Environment
+- Multistore
+- Localization
+- Price Rules
+- Tax and more!
 
-ScandiPWA Theme is based on React and Redux. It is built with Webpack v4, therefore **you will need NodeJS environment support** on your CI/CD server or local machine in order to build it.
+Discover [the complete feature list](https://manual.scandipwa.com/).
 
-## Runtime
+### :vertical_traffic_light: Middleware-less design
 
-Once theme is built it is a valid Magento 2 theme with no additional requirements.
+Data-integrity and simple server setup. Changes from Magento 2 admin are reflected immediately on your PWA storefront.
 
-## Caching
+> Sounds interesting? Make sure to
+:star: `scandipwa/scandipwa` repository so you can keep up to date with the latest releases!
 
-For better performance Varnish cache is required. You must ensure Varnish is caching static (javascript and CSS) in order to have the best performance for the app shell loading.
+### :building_construction: Extensible architecture 
 
-## ScandiPWA docs
+- [Theming mechanism](https://scandipwa.gitbook.io/create-scandipwa-app/themes/extensions-and-themes) 
+- [Application-wise plugins](https://scandipwa.gitbook.io/create-scandipwa-app/extensions/application-plugins)
+- [Build-configuration plugins](https://scandipwa.gitbook.io/create-scandipwa-app/extensions/build-configuration-plugins)
+- [Extension-based architecture](https://scandipwa.gitbook.io/create-scandipwa-app/extensions/extensions)
+- [Translations](https://scandipwa.gitbook.io/create-scandipwa-app/building-your-app/internationalization) and more features 
 
-Read [full application documentation](https://docs.scandipwa.com/#/theme/01-Project)
+> Powered by [Create ScandiPWA App](https://github.com/scandipwa/create-scandipwa-app).
 
-## Docker for local development
+:gift: **BONUS!** You will get ESLins rules covering:
 
-The docker environment is prepared to deploy and develop theme - [scandipwa-base](https://github.com/scandipwa/scandipwa-base)
+- Well-thought file-structure
+- Naming-convention
+- Component organization patterns
+
+## Need help?
+
+Here are some awesome resources to start with!
+
+- :video_camera: [Video Tutorials](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww/videos)
+- :blue_book: [Create ScandiPWA App Documentation](https://scandipwa.gitbook.io/create-scandipwa-app/)
+- :orange_book: [ScandiPWA Documentation](https://scandipwa.gitbook.io/docs-v2)
+- :green_book: [ScandiPWA User Guide](https://manual.scandipwa.com/)
+
+**Still feeling lost?** Join our :busts_in_silhouette: [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask community directly! Alternatively, start a new :speech_balloon: [Discussion](https://github.com/scandipwa/scandipwa/discussions) on GitHub!
+
+## Experience demo
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://demo.scandipwa.com">
+          <img
+            src="https://user-images.githubusercontent.com/52198221/102813236-23a25880-43d1-11eb-802d-047bce753f72.png"
+            alt="40000 SKU Demo" width="300px"/>
+        </a>
+        <a href="https://demo.scandipwa.com"><br><strong>Visit demo</strong></a><br>
+      </td>
+      <td align="left" valign="center">
+        <h3>40 000 SKUs Store</h3>
+        <p>Hight performance even with large catalog.</p>
+        <p>See the list of feature highlights <a href="https://scandipwa.com/demo">here</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://tech-demo.scandipwa.com">
+          <img
+            src="https://user-images.githubusercontent.com/52198221/102813239-256c1c00-43d1-11eb-99f3-df6c39f69740.png"
+            alt="Realistic Store" width="300px" />
+        </a>
+         <a href="https://tech-demo.scandipwa.com"><br><strong>Visit demo</strong></a><br>
+      </td>
+      <td align="left" valign="center">
+        <h3>Realistic Store Experience</h3><p>Technology retailer store with
+        real products and images.</p><p> See the list of feature highlights <a href="https://scandipwa.com/demo">here</a>.</p>
+      </td>
+    </tr>
+     <tr>
+      <td align="center" valign="middle">
+        <a href="https://luma-demo.scandipwa.com">
+          <img
+            src="https://user-images.githubusercontent.com/52198221/102813232-22712b80-43d1-11eb-8681-54fe180b6349.png"
+            alt="Luma Store" width="300px" />
+        </a>
+         <a href="https://luma-demo.scandipwa.com"><br><strong>Visit demo</strong></a><br>
+      </td>
+      <td align="left" valign="center">
+        <h3>Luma Default Data Demo</h3><p>Compare against default
+        Magento Luma theme.</p><p> See the list of feature highlights <a href="https://scandipwa.com/demo">here</a>.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Want to schedule a guided demo?** &rarr; :email: [Contact Us](https://scandipwa.com/contact-us)
+
+## See it in action
+
+Check the [list of live websites](https://scandipwa.com/case-studies.html) built with ScandiPWA.
+
+[![Case Studies](https://user-images.githubusercontent.com/52198221/103226455-d70ccf00-4934-11eb-9753-ad1b0000733c.png)](https://scandipwa.com/case-studies.html)
+
+## Contribution
+
+We'd love to have your helping hand on `scandipwa`! See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information on what we're looking for and how to get started.
+
+Thanks to these **awesome** :heart: people for contribution!
+
+<a href="https://github.com/scandipwa/scandipwa/graphs/contributors">
+<img src="https://contributors-img.web.app/image?repo=scandipwa/scandipwa" />
+</a>
 
 ## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_large)
+
+ScandiPWA is open source software licensed as OSL-3.

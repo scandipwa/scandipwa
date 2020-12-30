@@ -1,0 +1,23 @@
+{
+    "name": "@scandipwa/framework",
+    "description": "Framework extension for ScandiPWA.",
+    "version": "0.0.3",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1"
+    },
+    "scandipwa": {
+        "type": "extension",
+        "provide": [
+            "src/index.js",
+            "public/index.html"
+        ]
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

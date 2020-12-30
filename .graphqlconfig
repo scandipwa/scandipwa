@@ -1,7 +1,0 @@
-{
-    "extensions": {
-        "endpoints": {
-            "dev": "https://scandipwa.local/graphql"
-        }
-    }
-}

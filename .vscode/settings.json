@@ -1,0 +1,9 @@
+{
+    "cSpell.words": [
+        "Stateful",
+        "Unmount"
+    ],
+    "search.exclude": {
+        "**/Magento_Theme": true
+    }
+}

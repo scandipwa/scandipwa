@@ -1,0 +1,96 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.MyAccountOrderPopup {
+    &-Address,
+    &-Products {
+        margin-bottom: 1.2rem;
+
+        @include after-mobile {
+            margin-top: 2.4rem;
+        }
+
+        @include mobile {
+            margin-bottom: 2.8rem;
+        }
+    }
+
+    &-Products {
+        width: 100%;
+        margin-top: 1.2rem;
+        table-layout: initial;
+
+        @include mobile {
+            margin-top: 1.4rem;
+        }
+
+        td,
+        th {
+            vertical-align: middle;
+        }
+    }
+
+    &-Thumbnail {
+        width: 60px;
+        height: 60px;
+        padding: 0;
+    }
+
+    &-Row {
+        height: 80px;
+        padding: 10px 0;
+
+        &:nth-child(even) {
+            img {
+                mix-blend-mode: multiply;
+            }
+        }
+    }
+
+    &-Content {
+        min-height: 200px;
+
+        @include after-mobile {
+            display: grid;
+            grid-gap: 2.4rem;
+        }
+    }
+
+    h4 {
+        font-size: 1.44rem;
+
+        @include mobile {
+            font-size: 1.68rem;
+        }
+    }
+
+    dt {
+        font-weight: bold;
+    }
+
+    dl {
+        display: grid;
+        margin-top: 1.2rem;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: .6rem;
+
+        @include mobile {
+            margin-top: 1.4rem;
+            grid-gap: .7rem;
+            margin-bottom: 2.8rem;
+        }
+    }
+
+    td,
+    th {
+        min-width: 0;
+    }
+}
