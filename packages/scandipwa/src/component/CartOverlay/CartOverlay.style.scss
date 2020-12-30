@@ -142,7 +142,8 @@
 
     &-Total,
     &-Discount,
-    &-Tax {
+    &-Tax,
+    &-Shipping {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -156,6 +157,16 @@
 
         @include after-mobile {
             font-size: 1.6rem;
+        }
+
+        dd {
+            text-align: right;
+
+            span {
+                display: block;
+                font-size: .6em;
+                font-weight: 300;
+            }
         }
     }
 

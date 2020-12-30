@@ -308,7 +308,9 @@ export class Header extends NavigationAbstract {
 
     renderComparePageButton() {
         const {
-            device: { isMobile },
+            device: {
+                isMobile
+            } = {},
             isCheckout
         } = this.props;
 
