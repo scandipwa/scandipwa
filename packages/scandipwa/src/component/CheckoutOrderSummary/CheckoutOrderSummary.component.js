@@ -221,7 +221,7 @@ export class CheckoutOrderSummary extends PureComponent {
         } = this.props;
 
         if (checkoutStep !== SHIPPING_STEP) {
-            return payment_grand_total || grand_total;
+            return grand_total || payment_grand_total;
         }
 
         return subtotal_with_discount + tax_amount;
