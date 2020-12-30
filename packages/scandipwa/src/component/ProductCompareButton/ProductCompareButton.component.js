@@ -22,16 +22,23 @@ export class ProductCompareButton extends PureComponent {
     static propTypes = {
         handleClick: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
+        isActive: PropTypes.bool,
         mix: MixType
     };
 
     static defaultProps = {
         isLoading: false,
+        isActive: false,
         mix: {}
     };
 
     render() {
-        const { handleClick, isLoading, mix } = this.props;
+        const {
+            handleClick,
+            isLoading,
+            isActive,
+            mix
+        } = this.props;
 
         return (
             <div block="ProductCompareButton" mix={ mix }>
@@ -39,6 +46,7 @@ export class ProductCompareButton extends PureComponent {
                   block="ProductCompareButton"
                   elem="Button"
                   onClick={ handleClick }
+                  mods={ { isActive } }
                   mix={ {
                       block: 'Button',
                       mods: { isHollow: true }

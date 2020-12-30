@@ -302,6 +302,7 @@ export class WishlistItem extends PureComponent {
               isLoading={ isLoading }
               renderContent={ this.renderContent }
               hideWishlistButton
+              hideCompareButton
             />
         );
     }

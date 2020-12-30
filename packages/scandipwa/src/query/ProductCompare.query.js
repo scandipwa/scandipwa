@@ -76,6 +76,7 @@ export class ProductCompareQuery extends ProductListQuery {
             'url',
             'type_id',
             this._getProductThumbnailField(),
+            this._getProductSmallField(),
             this._getPriceRangeField(),
             this._getAttributesField(),
             this._getConfigurableProductFragment(),

@@ -38,7 +38,8 @@ export class ProductCompareButtonContainer extends PureComponent {
     };
 
     state = {
-        isLoading: false
+        isLoading: false,
+        isActive: false
     };
 
     containerFunctions = {
@@ -47,12 +48,16 @@ export class ProductCompareButtonContainer extends PureComponent {
 
     async handleClick() {
         const { addProductToCompare, productId } = this.props;
+        const { isActive } = this.state;
 
         this.setState({ isLoading: true });
 
         await addProductToCompare(productId);
 
-        this.setState({ isLoading: false });
+        this.setState({
+            isLoading: false,
+            isActive: !isActive
+        });
     }
 
     render() {
