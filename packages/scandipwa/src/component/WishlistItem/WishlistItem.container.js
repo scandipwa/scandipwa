@@ -73,6 +73,8 @@ export class WishlistItemContainer extends PureComponent {
         isLoading: false
     };
 
+    removeItemOnSwipe = this.removeItem.bind(this, false, true);
+
     changeQuantity = debounce((quantity) => {
         const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
         updateWishlistItem({ item_id, quantity });
@@ -162,29 +164,25 @@ export class WishlistItemContainer extends PureComponent {
         showNotification(...args);
     }
 
-    removeItem(noMessages = true) {
+    removeItem(noMessages = true, isRemoveOnly = false) {
         const { product: { wishlist: { id: item_id } }, removeFromWishlist, handleSelectIdChange } = this.props;
         this.setState({ isLoading: true });
 
-        handleSelectIdChange(item_id);
+        handleSelectIdChange(item_id, isRemoveOnly);
 
         return removeFromWishlist({ item_id, noMessages });
     }
 
-    renderRightSideContent = () => {
-        const { removeItem } = this.containerFunctions;
-
-        return (
-            <button
-              block="WishlistItem"
-              elem="SwipeToDeleteRightSide"
-              onClick={ removeItem }
-              aria-label={ __('Remove') }
-            >
-                { __('Delete') }
-            </button>
-        );
-    };
+    renderRightSideContent = () => (
+        <button
+          block="WishlistItem"
+          elem="SwipeToDeleteRightSide"
+          onClick={ this.removeItemOnSwipe }
+          aria-label={ __('Remove') }
+        >
+            { __('Delete') }
+        </button>
+    );
 
     render() {
         return (
