@@ -84,6 +84,15 @@ export class ProductActions extends PureComponent {
 
     groupedProductsRef = createRef();
 
+    componentDidUpdate(prevProps) {
+        const { product: { id: prevId } } = prevProps;
+        const { product: { id }, minQuantity, setQuantity } = this.props;
+
+        if (id !== prevId) {
+            setQuantity(minQuantity);
+        }
+    }
+
     renderStock(stockStatus) {
         if (stockStatus === 'OUT_OF_STOCK') {
             return __('Out of stock');
