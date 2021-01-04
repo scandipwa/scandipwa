@@ -292,7 +292,7 @@
         @include mobile {
             @include close-button;
 
-            position: absolute;
+            position: relative;
             right: -8px;
             height: 30px;
             width: 30px;
