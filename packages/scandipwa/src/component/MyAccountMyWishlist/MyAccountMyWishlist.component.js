@@ -77,10 +77,20 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    handleSelectIdChange = (id) => {
+    handleSelectIdChange = (id, isRemoveOnly = false) => {
         const { selectedIdMap: prevSelectedIdMap } = this.state;
         const selectIdIndex = prevSelectedIdMap.findIndex((selectId) => selectId === id);
         const selectedIdMap = Array.from(prevSelectedIdMap);
+
+        if (isRemoveOnly) {
+            if (selectIdIndex !== -1) {
+                selectedIdMap.splice(selectIdIndex, 1);
+
+                this.setState({ selectedIdMap });
+            }
+
+            return;
+        }
 
         if (selectIdIndex === -1) {
             selectedIdMap.push(id);
