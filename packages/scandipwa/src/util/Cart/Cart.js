@@ -11,6 +11,10 @@
  */
 
 import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
+import {
+    DISPLAY_SHIPPING_PRICES_BOTH,
+    DISPLAY_SHIPPING_PRICES_EXCL_TAX
+} from 'Component/CheckoutDeliveryOption/CheckoutDeliveryOption.config';
 
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX';
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX';
@@ -202,8 +206,8 @@ export const getCartShippingSubPrice = (state) => {
 export const getCartShippingItemPrice = (state) => (props) => {
     const {
         ConfigReducer: {
-            cartDisplayConfig: {
-                display_tax_in_shipping_amount
+            priceTaxDisplay: {
+                shipping_price_display_type
             } = {}
         } = {}
     } = state;
@@ -213,7 +217,7 @@ export const getCartShippingItemPrice = (state) => (props) => {
         price_excl_tax = 0
     } = props;
 
-    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX) {
+    if (shipping_price_display_type === DISPLAY_SHIPPING_PRICES_EXCL_TAX) {
         return price_excl_tax;
     }
 
@@ -224,8 +228,8 @@ export const getCartShippingItemPrice = (state) => (props) => {
 export const getCartShippingItemSubPrice = (state) => (props) => {
     const {
         ConfigReducer: {
-            cartDisplayConfig: {
-                display_tax_in_shipping_amount
+            priceTaxDisplay: {
+                shipping_price_display_type
             } = {}
         } = {}
     } = state;
@@ -234,7 +238,7 @@ export const getCartShippingItemSubPrice = (state) => (props) => {
         price_excl_tax = 0
     } = props;
 
-    if (display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_BOTH) {
+    if (shipping_price_display_type === DISPLAY_SHIPPING_PRICES_BOTH) {
         return price_excl_tax;
     }
 
