@@ -494,4 +494,17 @@
     .Image {
         background: none;
     }
+
+    &-CompareLinkWrapper {
+        text-transform: uppercase;
+        order: 1;
+    }
+
+    &-CompareLink {
+        color: var(--body-content-color);
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }

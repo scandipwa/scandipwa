@@ -17,13 +17,13 @@ import MenuQuery from 'Query/Menu.query';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { DeviceType } from 'Type/Device';
+import history from 'Util/History';
 import MenuHelper from 'Util/Menu';
 import DataContainer from 'Util/Request/DataContainer';
 
 import Menu from './Menu.component';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
 });
@@ -42,19 +42,73 @@ export class MenuContainer extends DataContainer {
         device: DeviceType.isRequired
     };
 
-    state = {
-        activeMenuItemsStack: [],
-        menu: {}
-    };
-
     containerFunctions = {
         handleSubcategoryClick: this.handleSubcategoryClick.bind(this),
         closeMenu: this.closeMenu.bind(this),
         onCategoryHover: this.onCategoryHover.bind(this)
     };
 
+    __construct(props) {
+        super.__construct(props);
+
+        const {
+            stack: activeMenuItemsStack = []
+        } = history.location.state || {};
+
+        this.state = {
+            activeMenuItemsStack,
+            menu: {}
+        };
+    }
+
+    populateHeaderStateFromStack = () => {
+        const { changeHeaderState } = this.props;
+        const { activeMenuItemsStack, menu } = this.state;
+        const [mainMenu] = Object.values(menu);
+
+        activeMenuItemsStack.slice().reduceRight((acc, itemId) => {
+            const {
+                children: {
+                    [itemId]: currentItem
+                }
+            } = acc;
+
+            const { title } = currentItem;
+
+            changeHeaderState({
+                name: MENU_SUBCATEGORY,
+                force: true,
+                title,
+                onBackClick: this.handleHeaderBackClick
+            });
+
+            return currentItem;
+        }, mainMenu);
+    };
+
     componentDidMount() {
+        const { device: { isMobile } } = this.props;
+
         this._getMenu();
+
+        if (isMobile) {
+            window.addEventListener('popstate', this.historyBackHook);
+        }
+    }
+
+    historyBackHook = () => {
+        const { activeMenuItemsStack } = this.state;
+
+        if (activeMenuItemsStack.length) {
+            this.setState({ activeMenuItemsStack: activeMenuItemsStack.slice(1) });
+
+            const { goToPreviousHeaderState } = this.props;
+            goToPreviousHeaderState();
+        }
+    };
+
+    componentWillUnmount() {
+        window.removeEventListener('popstate', this.historyBackHook);
     }
 
     _getMenuOptions() {
@@ -70,46 +124,55 @@ export class MenuContainer extends DataContainer {
             [MenuQuery.getQuery(this._getMenuOptions())],
             ({ menu }) => this.setState({
                 menu: MenuHelper.reduce(menu)
-            })
+            }, this.populateHeaderStateFromStack)
         );
     }
 
     handleSubcategoryClick(e, activeSubcategory) {
+        const { changeHeaderState } = this.props;
         const { activeMenuItemsStack } = this.state;
-        const { changeHeaderState, goToPreviousHeaderState } = this.props;
         const { item_id, title } = activeSubcategory;
 
         e.stopPropagation();
+
+        if (activeMenuItemsStack.includes(item_id)) {
+            return;
+        }
 
         changeHeaderState({
             name: MENU_SUBCATEGORY,
             force: true,
             title,
-            onBackClick: () => {
-                this.setState(({ activeMenuItemsStack }) => (
-                    { activeMenuItemsStack: activeMenuItemsStack.slice(1) }
-                ));
-                goToPreviousHeaderState();
-            }
+            onBackClick: this.handleHeaderBackClick
         });
 
-        if (!activeMenuItemsStack.includes(item_id)) {
-            this.setState({ activeMenuItemsStack: [item_id, ...activeMenuItemsStack] });
-        }
+        const newActiveMenuItemsStack = [item_id, ...activeMenuItemsStack];
+        this.setState({ activeMenuItemsStack: newActiveMenuItemsStack });
+
+        // keep the stack here, so later we can de-construct menu out of it
+        const { pathanme } = location;
+        history.push(pathanme, { stack: newActiveMenuItemsStack });
     }
+
+    handleHeaderBackClick = () => {
+        history.goBack();
+    };
 
     onCategoryHover(activeSubcategory) {
         const { device } = this.props;
+        const { activeMenuItemsStack } = this.state;
+
         if (device.isMobile) {
             return;
         }
 
-        const { activeMenuItemsStack } = this.state;
         const { item_id } = activeSubcategory;
 
-        if (!activeMenuItemsStack.includes(item_id)) {
-            this.setState({ activeMenuItemsStack: [item_id] });
+        if (activeMenuItemsStack.includes(item_id)) {
+            return;
         }
+
+        this.setState({ activeMenuItemsStack: [item_id] });
     }
 
     closeMenu() {

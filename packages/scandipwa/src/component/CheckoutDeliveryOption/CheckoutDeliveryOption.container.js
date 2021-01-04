@@ -9,17 +9,55 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { shippingMethodType } from 'Type/Checkout';
+import { getCartShippingItemPrice, getCartShippingItemSubPrice } from 'Util/Cart';
 
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
+    getCartShippingItemPrice: getCartShippingItemPrice(state),
+    getCartShippingItemSubPrice: getCartShippingItemSubPrice(state)
 });
 
 /** @namespace Component/CheckoutDeliveryOption/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOption);
+/** @namespace Component/CheckoutDeliveryOption/Container */
+export class CheckoutDeliveryOptionContainer extends PureComponent {
+    static propTypes = {
+        getCartShippingItemPrice: PropTypes.func.isRequired,
+        getCartShippingItemSubPrice: PropTypes.func.isRequired,
+        option: shippingMethodType.isRequired
+    };
+
+    containerProps() {
+        const {
+            getCartShippingItemPrice,
+            getCartShippingItemSubPrice,
+            option = {}
+        } = this.props;
+
+        return {
+            optionPrice: getCartShippingItemPrice(option),
+            optionSubPrice: getCartShippingItemSubPrice(option)
+        };
+    }
+
+    render() {
+        return (
+            <CheckoutDeliveryOption
+              { ...this.props }
+              { ...this.containerProps() }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOptionContainer);

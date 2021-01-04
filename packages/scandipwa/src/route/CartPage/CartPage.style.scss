@@ -210,7 +210,7 @@
     &-Total {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
         font-size: 1.8rem;
         font-weight: bold;
         padding: 1.2rem 0;
@@ -243,7 +243,7 @@
         justify-content: space-between;
         align-items: center;
         font-size: 1.4rem;
-        font-weight: 600;
+        font-weight: bold;
         margin-top: 1.8rem;
         display: none;
 
@@ -261,6 +261,7 @@
 
         @include desktop {
             display: grid;
+            grid-template-columns: 2fr 1fr;
         }
 
         dd {
@@ -370,13 +371,26 @@
         }
     }
 
-    .CartItem-Heading {
+    .CartItem-HeadingWrapper {
+        @include after-mobile {
+            max-width: 45%;
+        }
+
+        @media (min-width: 1145px) {
+            max-width: 50%;
+        }
+
         @include tablet-portrait {
             margin-top: -1.5rem;
+            max-width: unset;
         }
     }
 
     .CartItem-Actions {
+        @include tablet {
+            display: grid;
+        }
+
         @include tablet-portrait {
             width: 100%;
             right: 0;
@@ -388,6 +402,38 @@
         }
 
         .CartItem-Delete {
+            @include tablet {
+                height: auto;
+                margin-left: -12px;
+                margin-top: 5px;
+                order: 1;
+                padding-top: 8px;
+
+                &::before {
+                    top: 8px;
+                    left: 30px;
+                }
+
+                &::after {
+                    top: 4px;
+                    left: 32px;
+                }
+            }
+
+            @include tablet-portrait {
+                order: 0;
+
+                &::before {
+                    top: 8px;
+                    left: 15px;
+                }
+
+                &::after {
+                    top: 4px;
+                    left: 17px;
+                }
+            }
+
             @include tablet-portrait {
                 margin-top: -7px;
             }
@@ -397,6 +443,21 @@
             @include tablet-portrait {
                 margin-left: 8rem;
             }
+        }
+    }
+
+    .CartItem-Options {
+        @include after-mobile {
+            max-width: 45%;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 1145px) {
+            max-width: 50%;
+        }
+
+        @include tablet-portrait {
+            max-width: 70%;
         }
     }
 

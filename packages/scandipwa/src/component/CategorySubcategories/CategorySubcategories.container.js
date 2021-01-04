@@ -47,7 +47,7 @@ export class CategorySubcategoriesContainer extends PureComponent {
 
         history.push({
             pathname: appendWithStoreCode(value_string),
-            state: { isFromCategory: true, category: true },
+            state: { category: true },
             search: history.location.search
         });
     }

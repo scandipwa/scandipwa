@@ -383,7 +383,9 @@ export class ProductListQuery {
         return [
             this._getDiscountField(),
             this._getFinalPriceField(),
-            this._getRegularPriceField()
+            this._getFinalPriceExclTaxField(),
+            this._getRegularPriceField(),
+            this._getRegularPriceExclTaxField()
         ];
     }
 
@@ -817,8 +819,20 @@ export class ProductListQuery {
             .addField('value');
     }
 
+    _getFinalPriceExclTaxField() {
+        return new Field('final_price_excl_tax')
+            .addField('currency')
+            .addField('value');
+    }
+
     _getRegularPriceField() {
         return new Field('regular_price')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getRegularPriceExclTaxField() {
+        return new Field('regular_price_excl_tax')
             .addField('currency')
             .addField('value');
     }

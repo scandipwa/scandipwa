@@ -125,10 +125,10 @@ export class AddToCartContainer extends PureComponent {
             }
         } = this.props;
 
-        const isAllItemsAvailable = items.every(({ product: { id } }) => groupedProductQuantity[id]);
+        const isAllItemsAvailable = items.some(({ product: { id } }) => groupedProductQuantity[id]);
 
         if (!isAllItemsAvailable) {
-            showNotification('info', __('Sorry! Child product quantities are invalid!'));
+            showNotification('info', __('Please specify the quantity of product(s)!'));
             return false;
         }
 
