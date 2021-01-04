@@ -87,6 +87,7 @@ export class ProductPageContainer extends PureComponent {
         parameters: {},
         productOptionsData: {},
         selectedBundlePrice: 0,
+        selectedBundlePriceExclTax: 0,
         currentProductSKU: ''
     };
 
@@ -368,8 +369,12 @@ export class ProductPageContainer extends PureComponent {
         });
     }
 
-    setBundlePrice(price) {
-        this.setState({ selectedBundlePrice: price });
+    setBundlePrice(prices) {
+        const { price = 0, priceExclTax = 0 } = prices;
+        this.setState({
+            selectedBundlePrice: price,
+            selectedBundlePriceExclTax: priceExclTax
+        });
     }
 
     getSelectedCustomizableOptions(values, updateArray = false) {

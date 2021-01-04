@@ -43,6 +43,7 @@ export class ProductPage extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
+        selectedBundlePriceExclTax: PropTypes.number.isRequired,
         device: DeviceType.isRequired
     };
 
@@ -81,7 +82,8 @@ export class ProductPage extends PureComponent {
             getSelectedCustomizableOptions,
             productOptionsData,
             setBundlePrice,
-            selectedBundlePrice
+            selectedBundlePrice,
+            selectedBundlePriceExclTax
         } = this.props;
 
         return (
@@ -103,6 +105,7 @@ export class ProductPage extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   selectedBundlePrice={ selectedBundlePrice }
+                  selectedBundlePriceExclTax={ selectedBundlePriceExclTax }
                 />
             </>
         );
