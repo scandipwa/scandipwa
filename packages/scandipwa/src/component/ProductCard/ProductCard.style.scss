@@ -22,6 +22,7 @@
     --product-card-name-line-height: 1.2em;
     --product-card-name-max-rows: 2;
     --product-card-brand-line-height: 1.2em;
+    --product-card-color-size: 15px;
 }
 
 .ProductCard {
@@ -43,19 +44,25 @@
     }
 
     &-Content {
-        display: grid;
-        grid-gap: .5rem;
+        padding: 10px 0 15px;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
     }
 
     &-Name,
     &-Brand {
         width: 100%;
-        font-size: 1.08rem;
         max-width: 100%;
+    }
 
-        @include mobile {
-            font-size: 1.26rem;
-        }
+    &-Name {
+        margin: 5px 0;
+        line-height: var(--product-card-name-line-height);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 1.26rem;
 
         @include after-mobile {
             font-size: 1.4rem;
@@ -63,30 +70,18 @@
         }
     }
 
-    &-Name {
-        flex: 1;
-        margin: 5px 0;
-        line-height: var(--product-card-name-line-height);
-        max-height: calc(var(--product-card-name-line-height) * var(--product-card-name-max-rows));
-        min-height: var(--product-card-name-line-height);
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: var(--product-card-name-max-rows);
-    }
-
     &-Brand {
         font-weight: 300;
         opacity: .5;
-
-        @include mobile {
-            line-height: 1;
-            font-size: 1.1rem;
-        }
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-height: var(--product-card-brand-line-height);
+        line-height: var(--product-card-brand-line-height);
+        font-size: 1.1rem;
 
         @include after-mobile {
             font-size: 1.2rem;
-            line-height: var(--product-card-brand-line-height);
         }
     }
 
@@ -129,23 +124,24 @@
         background-color: var(--product-card-reviews-background);
         border-radius: 1rem;
         letter-spacing: normal;
+
         @include mobile {
             --product-rating-size: 1.4rem;
+            
             width: 100%;
             border-radius: 0;
         }
     }
 
     &-ConfigurableOptions {
-        flex-grow: 1;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         flex-wrap: wrap;
+        min-height: calc(var(--product-card-color-size) + 5px);
     }
 
     &-Color {
-        --product-card-color-size: 15px;
         display: inline-block;
         width: var(--product-card-color-size);
         height: var(--product-card-color-size);
@@ -170,6 +166,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        flex-grow: 1;
     }
 
     &-Price {
@@ -287,65 +284,45 @@
         margin: 0 0 1.08rem 0;
 
         &-Button {
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border: none;
             background-color: var(--product-card-compare-button-background);
 
-            @include mobile {
-                width: 20px;
-                height: 20px;
+            &:focus {
+                background-color: var(--product-card-compare-button-background);
             }
 
+            &_isActive,
             &:hover {
                 background-color: var(--product-card-compare-button-background);
 
                 @include desktop {
                     .ProductCompareButton-Icon,
-                    .ProductCompareButton-Icon::before,
-                    .ProductCompareButton-Icon::after {
+                    .ProductCompareButton-Icon::before {
                         background-color: var(--primary-base-color);
+                    }
+
+                    .ProductCompareButton-Icon::after {
+                        border-color: var(--primary-base-color);
                     }
                 }
             }
         }
 
         &-Icon {
-            height: 16px;
-
-            @include mobile {
-                height: 12px;
-            }
-
-            &,
-            &::before,
-            &::after {
-                width: 5px;
-                background-color: var(--product-card-compare-button-color);
-
-                @include mobile {
-                    width: 4px;
-                }
-            }
+            height: 23px;
+            background-color: var(--product-card-compare-button-color);
 
             &::before {
-                height: 6px;
-                left: -7px;
-
-                @include mobile {
-                    height: 4px;
-                    left: -5px;
-                }
+                background-color: var(--product-card-compare-button-color);
+                width: 5px;
+                left: -5px;
             }
 
             &::after {
-                height: 12px;
-                right: -7px;
-
-                @include mobile {
-                    height: 8px;
-                    right: -5px;
-                }
+                width: 5px;
+                border-color: var(--product-card-compare-button-color);
             }
         }
     }

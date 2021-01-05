@@ -331,15 +331,11 @@
 
             &_share {
                 @include share-button;
-                @include mobile{
-                    padding: 0;
-                    border: 0;
-                }
+
                 &.Header-Button_isVisible {
                     height: 0;
                     width: 0;
                     margin-left: 1rem;
-                    margin-top: .5rem;
                     opacity: .5;
                 }
             }
@@ -363,7 +359,9 @@
 
                 padding: 0;
                 margin: 0;
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     }
@@ -375,23 +373,7 @@
     }
 
     &-CompareIcon {
-        @include compare-icon(transparent);
-
-        &,
-        &::before,
-        &::after {
-            border: 1px solid var(--header-color);
-        }
-
-        &::before {
-            left: -11px;
-            bottom: -1px;
-        }
-
-        &::after {
-            right: -11px;
-            bottom: -1px;
-        }
+        @include compare-icon(var(--header-color));
     }
 
     &-MyAccount {
@@ -456,19 +438,25 @@
             line-height: 13px;
             min-width: 14px;
             padding-left: 5px;
+            background: var(--primary-base-color);
+            border-radius: 10px;
+            color: var(--header-background);
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 3px 5px 1px;
+            position: absolute;
+            transform: translateX(3px);
+            z-index: 2;
 
-            @include before-desktop {
-                background: var(--primary-base-color);
-                border-radius: 7px;
-                color: var(--header-background);
-                display: inline-block;
-                font-size: 1.2rem;
+            @include after-mobile {
+                left: 100%;
+                transform: translateX(-30px);
+                top: 12px;
+            }
+
+            @include mobile {
                 left: 50%;
-                padding: 0 4px 1px;
-                position: absolute;
                 top: 18px;
-                transform: translateX(3px);
-                z-index: 2;
             }
         }
     }

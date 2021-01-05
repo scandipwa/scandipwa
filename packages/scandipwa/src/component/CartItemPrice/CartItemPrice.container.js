@@ -13,28 +13,15 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { getCartItemPrice, getCartItemSubPrice } from 'Util/Cart';
+
 import CartItemPrice from './CartItemPrice.component';
-import {
-    DISPLAY_CART_TAX_IN_PRICE_BOTH,
-    DISPLAY_CART_TAX_IN_PRICE_EXL_TAX
-} from './CartItemPrice.config';
 
 /** @namespace Component/CartItemPrice/Container/mapStateToProps */
-export const mapStateToProps = (state) => {
-    const {
-        CartReducer: {
-            cartTotals: {
-                cart_display_config: {
-                    display_tax_in_price
-                } = {}
-            }
-        }
-    } = state;
-
-    return {
-        displayTaxInPrice: display_tax_in_price
-    };
-};
+export const mapStateToProps = (state) => ({
+    getCartItemPrice: getCartItemPrice(state),
+    getCartItemSubPrice: getCartItemSubPrice(state)
+});
 
 /** @namespace Component/CartItemPrice/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
@@ -42,42 +29,22 @@ export const mapDispatchToProps = () => ({});
 /** @namespace Component/CartItemPrice/Container */
 export class CartItemPriceContainer extends PureComponent {
     static propTypes = {
-        displayTaxInPrice: PropTypes.string.isRequired,
-        row_total: PropTypes.number.isRequired,
-        row_total_incl_tax: PropTypes.number.isRequired
+        getCartItemPrice: PropTypes.func.isRequired,
+        getCartItemSubPrice: PropTypes.func.isRequired
     };
 
-    containerProps = () => ({
-        price: this.getPrice(),
-        subPrice: this.getSubPrice()
-    });
-
-    getPrice() {
+    containerProps = () => {
         const {
-            row_total,
-            row_total_incl_tax,
-            displayTaxInPrice
+            getCartItemPrice,
+            getCartItemSubPrice,
+            ...rest
         } = this.props;
 
-        if (displayTaxInPrice === DISPLAY_CART_TAX_IN_PRICE_EXL_TAX) {
-            return row_total;
-        }
-
-        return row_total_incl_tax;
-    }
-
-    getSubPrice() {
-        const {
-            row_total,
-            displayTaxInPrice
-        } = this.props;
-
-        if (displayTaxInPrice === DISPLAY_CART_TAX_IN_PRICE_BOTH) {
-            return row_total;
-        }
-
-        return null;
-    }
+        return {
+            price: getCartItemPrice(rest),
+            subPrice: getCartItemSubPrice(rest)
+        };
+    };
 
     render() {
         return (

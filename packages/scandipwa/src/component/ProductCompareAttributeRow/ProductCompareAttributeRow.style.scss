@@ -22,13 +22,18 @@
     &-Title {
         flex: 0 0 auto;
         width: var(--product-compare-sidebar-width);
+        position: sticky;
+        left: 0;
+        font-weight: 700;
 
         @include mobile {
-            position: sticky;
-            left: 0;
-            font-weight: 600;
             padding: 1rem;
             white-space: nowrap;
+        }
+
+        @include desktop {
+            background-color: $white;
+            z-index: 100;
         }
     }
 

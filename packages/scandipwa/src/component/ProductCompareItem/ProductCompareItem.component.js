@@ -35,7 +35,8 @@ export class ProductCompareItem extends PureComponent {
         removeComparedProduct: PropTypes.func.isRequired,
         getGroupedProductQuantity: PropTypes.func.isRequired,
         getProductOptionsData: PropTypes.func.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        imgUrl: PropTypes.string.isRequired
     };
 
     renderProductImage() {
@@ -43,9 +44,9 @@ export class ProductCompareItem extends PureComponent {
             product: {
                 id,
                 name,
-                url,
-                thumbnail: { url: imgUrl }
-            }
+                url
+            },
+            imgUrl
         } = this.props;
 
         return (
@@ -168,9 +169,8 @@ export class ProductCompareItem extends PureComponent {
               block="ProductCompareItem"
               elem="CloseBtn"
               onClick={ removeComparedProduct }
-            >
-                &times;
-            </button>
+              aria-label={ __('Remove') }
+            />
         );
     }
 
