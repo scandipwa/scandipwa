@@ -93,25 +93,11 @@
     }
 
     &_name {
-        &_cart {
-            .Header-Button_type_minicart {
-                @include desktop {
-                    --header-color: var(--primary-base-color);
-                }
-            }
-        }
-
         &_cart_overlay {
             .Header-Button_type_minicart,
             .Header-MinicartTitle {
                 @include after-mobile {
                     --header-color: var(--primary-base-color);
-                }
-            }
-
-            .Header-MinicartItemCount {
-                @include after-mobile {
-                    color: var(--primary-base-color);
                 }
             }
         }

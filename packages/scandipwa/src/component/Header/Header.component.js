@@ -40,7 +40,6 @@ import {
     CART_OVERLAY,
     CATEGORY,
     CHECKOUT,
-    CHECKOUT_ACCOUNT,
     CHECKOUT_SUCCESS,
     CMS_PAGE,
     CONTACT_US,
@@ -176,10 +175,6 @@ export class Header extends NavigationAbstract {
         [CHECKOUT_SUCCESS]: {
             title: true,
             account: true
-        },
-        [CHECKOUT_ACCOUNT]: {
-            title: true,
-            close: true
         },
         [CMS_PAGE]: {
             back: true,

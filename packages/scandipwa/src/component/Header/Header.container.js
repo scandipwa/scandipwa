@@ -31,7 +31,7 @@ import Header from './Header.component';
 import {
     CART,
     CART_OVERLAY, CATEGORY,
-    CHECKOUT, CHECKOUT_ACCOUNT, CHECKOUT_SUCCESS,
+    CHECKOUT, CHECKOUT_SUCCESS,
     CMS_PAGE, CONTACT_US, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
     MENU, PDP,
@@ -364,7 +364,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         this.setState({ showMyAccountLogin: true }, () => {
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setNavigationState({
-                name: CHECKOUT_ACCOUNT,
+                name: CUSTOMER_ACCOUNT,
                 title: 'Sign in',
                 onCloseClick: this.closeOverlay
             });
@@ -379,7 +379,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             device
         } = this.props;
 
-        if (device.isMobile || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT, CHECKOUT_ACCOUNT].includes(name)) {
+        if (device.isMobile || ![CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT].includes(name)) {
             return;
         }
 
