@@ -350,12 +350,19 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const {
             showOverlay,
             setNavigationState,
+            navigationState: { name },
             isSignedIn
         } = this.props;
+
+        if (name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT) {
+            this.onMyAccountOutsideClick();
+            return;
+        }
 
         if (isSignedIn && !isSignedInWithToken()) {
             return;
         }
+
         if (isSignedInWithToken()) {
             history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
             return;
