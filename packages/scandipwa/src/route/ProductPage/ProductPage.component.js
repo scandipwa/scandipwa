@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
 import ProductAttributes from 'Component/ProductAttributes';
+import ProductCompareButton from 'Component/ProductCompareButton/ProductCompareButton.component';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductGallery from 'Component/ProductGallery';
 import ProductInformation from 'Component/ProductInformation';
@@ -44,8 +45,32 @@ export class ProductPage extends PureComponent {
         selectedBundlePrice: PropTypes.number.isRequired,
         device: DeviceType.isRequired,
         isProductInformationTabEmpty: PropTypes.bool.isRequired,
-        isProductAttributesTabEmpty: PropTypes.bool.isRequired
+        isProductAttributesTabEmpty: PropTypes.bool.isRequired,
+        isInformationTabEmpty: PropTypes.bool.isRequired
     };
+
+    renderProductCompareButton() {
+        const {
+            dataSource: { id } = {},
+            device: { isMobile } = {}
+        } = this.props;
+
+        if (!isMobile) {
+            return null;
+        }
+
+        return (
+            <div block="ProductPage" elem="ProductCompareButtonWrapper">
+                <ProductCompareButton
+                  productId={ id }
+                  mix={ {
+                      block: 'ProductCompareButton',
+                      mods: { isGrey: true }
+                  } }
+                />
+            </div>
+        );
+    }
 
     renderProductPageContent() {
         const {
@@ -68,6 +93,7 @@ export class ProductPage extends PureComponent {
                   product={ productOrVariant }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
+                { this.renderProductCompareButton() }
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
@@ -131,10 +157,10 @@ export class ProductPage extends PureComponent {
             dataSource,
             parameters,
             areDetailsLoaded,
-            isProductInformationTabEmpty
+            isInformationTabEmpty
         } = this.props;
 
-        if (isProductInformationTabEmpty()) {
+        if (isInformationTabEmpty) {
             return null;
         }
 
@@ -180,18 +206,20 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    renderProductTabs() {
+    renderProductTabItems() {
         const productTabItems = [
             this.renderProductInformationTab(),
             this.renderProductAttributesTab(),
             this.renderProductReviewsTab()
         ];
 
-        const productTabs = productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>);
+        return productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>);
+    }
 
+    renderProductTabs() {
         return (
             <ProductTabs tabNames={ this.getTabNames() }>
-                { productTabs }
+                { this.renderProductTabItems() }
             </ProductTabs>
         );
     }
