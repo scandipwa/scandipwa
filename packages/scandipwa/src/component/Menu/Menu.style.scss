@@ -54,12 +54,6 @@
         }
     }
 
-    &_HideOnDesktop {
-        @include desktop() {
-            display: none;
-        }
-    }
-
     &-Overlay {
         background-color: var(--menu-desktop-background-color);
         height: 100vh;
@@ -229,6 +223,12 @@
                 object-fit: cover;
             }
         }
+
+        &_isHideOnDesktop {
+            @include desktop {
+                display: none;
+            }
+        }
     }
 
     &-Item {
@@ -261,6 +261,12 @@
 
         button {
             width: 100%;
+        }
+
+        &_isHideOnDesktop {
+            @include desktop {
+                display: none;
+            }
         }
     }
 
@@ -380,6 +386,12 @@
             flex-basis: 400px;
         }
 
+        &_isHideOnDesktop {
+            @include desktop {
+                display: none;
+            }
+        }
+
         > .Menu-Link {
             display: block;
 
@@ -481,5 +493,18 @@
 
     .Image {
         background: none;
+    }
+
+    &-CompareLinkWrapper {
+        text-transform: uppercase;
+        order: 1;
+    }
+
+    &-CompareLink {
+        color: var(--body-content-color);
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 }

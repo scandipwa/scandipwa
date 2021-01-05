@@ -2472,6 +2472,11 @@
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-extensibility/-/scandipwa-extensibility-1.0.2.tgz#7fef00f9b5fb5ea9d634cdf96a916c59e8486b0a"
   integrity sha512-3YUKzeXbAqrXcwh2zUyJsamARwl42fD256E0hryDIikx2+CNj4BKvHVMhtfYMRNhb64Vv/BRPa0BoRkw8HAwXA==
 
+"@scandipwa/scandipwa-extensibility@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-extensibility/-/scandipwa-extensibility-1.0.3.tgz#5c59d2f33c1ae347b92d66d5bc007459967d95db"
+  integrity sha512-07hcqPeCN1H0HzQ+L20r9HtaDoSWh/qf+Bluo9Hwvz/j8bip7ltWTSwB8YtfWbb6zJKTB/2+ksZrRYqGcOjBhA==
+
 "@scandipwa/scandipwa-scripts@2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.1.1.tgz#f4f51db68113cc9662275b701175a20ee0dea3fc"
@@ -2499,7 +2504,7 @@
     react-scripts "4.0.1"
     tree-kill "^1.2.2"
 
-"@scandipwa/scandipwa-scripts@^2.0.11", "@scandipwa/scandipwa-scripts@^2.1.0":
+"@scandipwa/scandipwa-scripts@^2.0.11":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.1.0.tgz#95e3d341dc5f313711ee826f61f247ca236b8930"
   integrity sha512-xBkDYKo2vS2FErow+F2g1pxLP2RImEiytAs+aJV6XukJ/DbHM8RHt9U1esyNJ55f2M3ynpiWk6AkY6jNyBDTkg==
@@ -2511,6 +2516,33 @@
     "@scandipwa/eslint-config" "0.1.9"
     "@scandipwa/scandipwa-dev-utils" "0.0.19"
     "@scandipwa/scandipwa-extensibility" "1.0.2"
+    "@scandipwa/webpack-extension-import-loader" "0.0.16"
+    "@scandipwa/webpack-fallback-plugin" "1.1.4"
+    "@scandipwa/webpack-i18n-plugin" "0.1.4"
+    babel-plugin-module-resolver "^4.0.0"
+    babel-plugin-transform-rebem-jsx "^0.3.3"
+    chokidar "^3.4.2"
+    craco-sass-resources-loader "^1.1.0"
+    cross-spawn "^7.0.0"
+    debounce "^1.2.0"
+    node-sass "4.14.1"
+    progress-bar-webpack-plugin "^2.1.0"
+    react-dev-utils "^10.2.1"
+    react-scripts "4.0.1"
+    tree-kill "^1.2.2"
+
+"@scandipwa/scandipwa-scripts@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.1.2.tgz#4751fc4e80578ad980f99c76985d91af326440b2"
+  integrity sha512-H08HoQURTM7w7B07adU783g7bHZfBgLQ0s1lAhzo/sV3anoCDxr0ejvVCAfIVPdRThd0oBpISMe9e7qafPK4Qg==
+  dependencies:
+    "@babel/plugin-transform-arrow-functions" "^7.10.4"
+    "@babel/plugin-transform-async-to-generator" "^7.10.4"
+    "@scandipwa/babel-plugin-middleware-decorator" "0.1.2"
+    "@scandipwa/craco" "0.1.0"
+    "@scandipwa/eslint-config" "0.1.9"
+    "@scandipwa/scandipwa-dev-utils" "0.0.19"
+    "@scandipwa/scandipwa-extensibility" "1.0.3"
     "@scandipwa/webpack-extension-import-loader" "0.0.16"
     "@scandipwa/webpack-fallback-plugin" "1.1.4"
     "@scandipwa/webpack-i18n-plugin" "0.1.4"

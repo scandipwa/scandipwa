@@ -16,6 +16,7 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
@@ -54,6 +55,7 @@ export class ProductCard extends PureComponent {
         isConfigurableProductOutOfStock: PropTypes.func.isRequired,
         isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
+        hideCompareButton: PropTypes.bool,
         siblingsHaveBrands: PropTypes.bool,
         setSiblingsHaveBrands: PropTypes.func,
         siblingsHavePriceBadge: PropTypes.bool,
@@ -72,6 +74,7 @@ export class ProductCard extends PureComponent {
         mix: {},
         renderContent: false,
         hideWishlistButton: false,
+        hideCompareButton: false,
         siblingsHaveBrands: false,
         setSiblingsHaveBrands: () => null,
         siblingsHavePriceBadge: false,
@@ -296,6 +299,21 @@ export class ProductCard extends PureComponent {
         );
     }
 
+    renderProductCompareButton() {
+        const {
+            product: { id },
+            hideCompareButton
+        } = this.props;
+
+        if (hideCompareButton) {
+            return null;
+        }
+
+        return (
+            <ProductCompareButton productId={ id } />
+        );
+    }
+
     renderProductCardWishlistButton() {
         const { product, hideWishlistButton } = this.props;
 
@@ -308,6 +326,15 @@ export class ProductCard extends PureComponent {
               product={ product }
               mix={ { block: 'ProductCard', elem: 'WishListButton' } }
             />
+        );
+    }
+
+    renderProductActions() {
+        return (
+            <div block="ProductCard" elem="ProductActions">
+                { this.renderProductCardWishlistButton() }
+                { this.renderProductCompareButton() }
+            </div>
         );
     }
 
@@ -403,7 +430,7 @@ export class ProductCard extends PureComponent {
         return (
             this.renderCardLinkWrapper((
                 <>
-                    <div block="ProductCard" elem="Figure-Review">
+                    <div block="ProductCard" elem="FigureReview">
                         <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
                         </figure>
@@ -446,7 +473,7 @@ export class ProductCard extends PureComponent {
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderCardContent() }
-                { this.renderProductCardWishlistButton() }
+                { this.renderProductActions() }
                 <div block="ProductCard" elem="AdditionalContent">
                     { children }
                 </div>

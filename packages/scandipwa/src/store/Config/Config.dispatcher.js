@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import CartQuery from 'Query/Cart.query';
 import ConfigQuery from 'Query/Config.query';
 import RegionQuery from 'Query/Region.query';
 import ReviewQuery from 'Query/Review.query';
@@ -53,7 +54,8 @@ export class ConfigDispatcher extends QueryDispatcher {
             ReviewQuery.getRatingQuery(),
             ConfigQuery.getQuery(),
             ConfigQuery.getCheckoutAgreements(),
-            ConfigQuery.getCurrencyData()
+            ConfigQuery.getCurrencyData(),
+            CartQuery.getCartDisplayConfig()
         ];
     }
 }

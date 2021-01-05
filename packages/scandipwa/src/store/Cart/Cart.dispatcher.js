@@ -48,6 +48,7 @@ export class CartDispatcher {
             (data) => {
                 BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                 this._updateCartData({}, dispatch);
+                return data;
             }
         );
     }

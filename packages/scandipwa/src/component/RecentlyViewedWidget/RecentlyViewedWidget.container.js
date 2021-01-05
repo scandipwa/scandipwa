@@ -59,6 +59,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
     render() {
         return (
             <RecentlyViewedWidget
+              { ...this.props }
               { ...this.containerProps() }
             />
         );

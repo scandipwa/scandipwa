@@ -158,7 +158,8 @@ export class CmsPageContainer extends DataContainer {
             content_heading,
             meta_title,
             title,
-            meta_description
+            meta_description,
+            meta_keywords
         } = page;
 
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
@@ -167,6 +168,7 @@ export class CmsPageContainer extends DataContainer {
         updateMeta({
             title: meta_title || title,
             description: meta_description,
+            keywords: meta_keywords,
             canonical_url: window.location.href
         });
 

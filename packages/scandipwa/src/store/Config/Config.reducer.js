@@ -23,12 +23,13 @@ export const filterStoreConfig = (config) => Object.entries(config).reduce(
 );
 
 export const {
-    countries, reviewRatings, storeConfig, currencyData
+    countries, reviewRatings, storeConfig, currencyData, cartDisplayConfig
 } = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
     storeConfig: {},
-    currencyData: {}
+    currencyData: {},
+    cartDisplayConfig: {}
 };
 
 /** @namespace Store/Config/Reducer/getIndexedRatings */
@@ -51,6 +52,7 @@ export const getInitialState = () => ({
     checkoutAgreements: [],
     currencyData,
     isLoading: true,
+    cartDisplayConfig,
     device: {
         isMobile: true,
         android: true,
@@ -74,7 +76,8 @@ export const ConfigReducer = (
             reviewRatings,
             checkoutAgreements,
             currencyData,
-            storeConfig = {}
+            storeConfig = {},
+            cartDisplayConfig = {}
         } = {},
         device
     } = action;
@@ -94,7 +97,8 @@ export const ConfigReducer = (
             ...filteredStoreConfig,
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value
-            isLoading: false
+            isLoading: false,
+            cartDisplayConfig
         };
 
     case UPDATE_CONFIG_DEVICE:

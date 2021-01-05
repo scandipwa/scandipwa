@@ -77,10 +77,20 @@ export class MyAccountMyWishlist extends PureComponent {
         );
     }
 
-    handleSelectIdChange = (id) => {
+    handleSelectIdChange = (id, isRemoveOnly = false) => {
         const { selectedIdMap: prevSelectedIdMap } = this.state;
         const selectIdIndex = prevSelectedIdMap.findIndex((selectId) => selectId === id);
         const selectedIdMap = Array.from(prevSelectedIdMap);
+
+        if (isRemoveOnly) {
+            if (selectIdIndex !== -1) {
+                selectedIdMap.splice(selectIdIndex, 1);
+
+                this.setState({ selectedIdMap });
+            }
+
+            return;
+        }
 
         if (selectIdIndex === -1) {
             selectedIdMap.push(id);
@@ -149,7 +159,7 @@ export class MyAccountMyWishlist extends PureComponent {
               onClick={ removeAll }
               disabled={ isActionsDisabled }
             >
-                { __('Clear Wishlist') }
+                { __('Clear') }
             </button>
         );
     }
@@ -187,11 +197,14 @@ export class MyAccountMyWishlist extends PureComponent {
 
         return (
             <button
-              mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
+              block="Button"
+              mods={ { isHollow: true } }
+              mix={ { } }
               onClick={ shareWishlist }
               disabled={ disabled }
-              aria-label="Share"
-            />
+            >
+                { __('Share') }
+            </button>
         );
     }
 
@@ -253,9 +266,9 @@ export class MyAccountMyWishlist extends PureComponent {
 
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
-                { this.renderClearWishlist() }
-                { this.renderShareWishlistButton() }
                 { this.renderAddAllToCart() }
+                { this.renderShareWishlistButton() }
+                { this.renderClearWishlist() }
             </div>
         );
     }
