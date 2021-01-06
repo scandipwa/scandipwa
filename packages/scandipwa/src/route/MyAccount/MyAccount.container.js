@@ -163,12 +163,14 @@ export class MyAccountContainer extends PureComponent {
     componentDidUpdate(prevProps, prevState) {
         const { wishlistItems: prevWishlistItems } = prevProps;
         const { wishlistItems, isSignedIn } = this.props;
-        const { prevActiveTab } = prevState;
+        const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
         this.redirectIfNotSignedIn();
+
         if (prevActiveTab !== activeTab) {
             this.updateBreadcrumbs();
+            this.changeHeaderState();
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {

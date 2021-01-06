@@ -22,13 +22,10 @@
         }
 
         &_isLowest {
-            font-size: 1.2rem;
-            margin-top: 2px;
-            padding: 0;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
+            color: var(--secondary-dark-color);
+            font-size: 1rem;
+            margin-bottom: 0;
+            line-height: 1.8;
         }
     }
 

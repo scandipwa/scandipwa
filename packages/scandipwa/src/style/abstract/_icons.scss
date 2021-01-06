@@ -475,13 +475,13 @@
 }
 
 @mixin share-button {
-    $share-button-stroke-width: calc(var(--header-icon-stroke-width) + 1px);
+    $share-button-stroke-width: var(--header-icon-stroke-width);
 
     background-image: linear-gradient(to right, var(--header-color) 15%, var(--header-background) 0);
     background-repeat: repeat-x;
     background-size: 12px $share-button-stroke-width;
     border-radius: 1px;
-    padding: calc(9px - #{$share-button-stroke-width});
+    padding: calc(6px - #{$share-button-stroke-width}) calc(8px - #{$share-button-stroke-width});
 
     border: {
         bottom: $share-button-stroke-width solid var(--header-color);
@@ -562,5 +562,36 @@
         transform-origin: top left;
         border-top-color: transparent;
         border-left-color: transparent;
+    }
+}
+
+@mixin compare-icon($background-color) {
+    width: 1px;
+    height: 25px;
+    background-color: $background-color;
+
+    &::before,
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: calc(100% - 7px);
+        box-sizing: border-box;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 1px;
+        box-sizing: border-box;
+    }
+
+    &::before {
+        left: -7px;
+        background-color: $background-color;
+    }
+
+    &::after {
+        left: 3px;
+        border: 1px solid $background-color;
+        border-left: none;
     }
 }

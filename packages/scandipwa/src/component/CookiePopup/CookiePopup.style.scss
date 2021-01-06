@@ -30,6 +30,9 @@
     @include mobile {
         margin-bottom: 51px;
         padding: 1.4rem 0 calc(env(safe-area-inset-bottom) + 1.4rem);
+        z-index: 90;
+        transform: translateY(0);
+        transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
     }
 
     &-ContentWrapper {

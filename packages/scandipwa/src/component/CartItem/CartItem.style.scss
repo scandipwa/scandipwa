@@ -58,8 +58,10 @@
         flex-wrap: wrap;
         flex-direction: column;
 
-        @include after-mobile {
-            padding-bottom: 4.8rem;
+        .CartItem_isEditing &:not(.CartItem-Content_isLikeTable) {
+            @include after-mobile {
+                padding-bottom: 4.8rem;
+            }
         }
 
         &_isLikeTable {
@@ -116,6 +118,10 @@
     }
 
     &-ItemOptionsWrapper {
+        @include mobile {
+            margin-top: .7rem;
+        }
+
         &_isLikeTable {
             @include desktop {
                 max-width: 45%;
@@ -153,7 +159,8 @@
         margin-bottom: .6rem;
 
         @include mobile {
-            margin-bottom: .7rem;
+            margin-bottom: .2rem;
+            margin-top: .2rem;
         }
     }
 
@@ -181,6 +188,10 @@
 
         @include after-mobile {
             font-size: 1.6rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            flex-direction: column;
         }
 
         &_isLikeTable {
@@ -247,6 +258,10 @@
 
             > * {
                 margin: 0 5px;
+
+                @include tablet-portrait {
+                    margin: unset;
+                }
             }
         }
 
@@ -274,15 +289,11 @@
             top: 1px;
         }
 
-        @include tablet {
-            height: auto;
-            padding-top: 8px;
-            margin-top: 7px;
-            margin-left: -12px;
-        }
-
         @include mobile {
             @include close-button;
+
+            position: absolute;
+            right: -8px;
             height: 30px;
             width: 30px;
             padding-left: 0;
@@ -330,6 +341,7 @@
             width: 44px;
             min-width: 44px;
             font-size: 1.6rem;
+            top: 1px;
 
             @include mobile {
                 width: 24px;
@@ -398,5 +410,10 @@
         display: flex;
         justify-content: space-between;
         align-items: baseline;
+    }
+
+    .ProductPrice-SubPrice {
+        font-size: .6em;
+        font-weight: 300;
     }
 }

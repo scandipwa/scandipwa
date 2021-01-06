@@ -71,14 +71,14 @@ export class MetaDispatcher {
     _getCategoryMeta(category) {
         const {
             description, name, canonical_url,
-            meta_title, meta_keyword, meta_description,
+            meta_title, meta_keywords, meta_description,
             meta_robots = 'follow, index'
         } = category;
 
         return {
             description: meta_description || description,
             title: meta_title || name,
-            keywords: meta_keyword,
+            keywords: meta_keywords,
             canonical_url: `${window.location.origin}${appendWithStoreCode(canonical_url)}`,
             robots: meta_robots
         };
