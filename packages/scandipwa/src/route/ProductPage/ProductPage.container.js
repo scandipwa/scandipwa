@@ -591,6 +591,7 @@ export class ProductPageContainer extends PureComponent {
               { ...this.containerFunctions }
               { ...this.containerProps() }
               isInformationTabEmpty={ this.isProductInformationTabEmpty() }
+              isAttributesTabEmpty={ this.isProductAttributesTabEmpty() }
             />
         );
     }

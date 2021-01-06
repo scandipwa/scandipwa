@@ -23,6 +23,11 @@ import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import ProductTabs from 'Component/ProductTabs';
+import {
+    PRODUCT_ATTRIBUTES,
+    PRODUCT_INFORMATION,
+    PRODUCT_REVIEWS
+} from 'Route/ProductPage/ProductPage.config';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
@@ -44,9 +49,23 @@ export class ProductPage extends PureComponent {
         setBundlePrice: PropTypes.func.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         device: DeviceType.isRequired,
-        isProductInformationTabEmpty: PropTypes.bool.isRequired,
-        isProductAttributesTabEmpty: PropTypes.bool.isRequired,
-        isInformationTabEmpty: PropTypes.bool.isRequired
+        isInformationTabEmpty: PropTypes.bool.isRequired,
+        isAttributesTabEmpty: PropTypes.bool.isRequired
+    };
+
+    tabMap = {
+        [PRODUCT_INFORMATION]: {
+            name: __('About'),
+            shouldTabRender: this.shouldInformationTabRender.bind(this)
+        },
+        [PRODUCT_ATTRIBUTES]: {
+            name: __('Details'),
+            shouldTabRender: this.shouldAttributesTabRender.bind(this)
+        },
+        [PRODUCT_REVIEWS]: {
+            name: __('Reviews'),
+            shouldTabRender: this.shouldReviewsTabRender.bind(this)
+        }
     };
 
     renderProductCompareButton() {
@@ -132,26 +151,6 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    getTabNames() {
-        const tabNames = [];
-        const {
-            isProductInformationTabEmpty,
-            isProductAttributesTabEmpty
-        } = this.props;
-
-        if (!isProductInformationTabEmpty()) {
-            tabNames.push(__('About'));
-        }
-
-        if (!isProductAttributesTabEmpty()) {
-            tabNames.push(__('Details'));
-        }
-
-        tabNames.push(__('Reviews'));
-
-        return tabNames;
-    }
-
     renderProductInformationTab() {
         const {
             dataSource,
@@ -177,10 +176,10 @@ export class ProductPage extends PureComponent {
             dataSource,
             parameters,
             areDetailsLoaded,
-            isProductAttributesTabEmpty
+            isAttributesTabEmpty
         } = this.props;
 
-        if (isProductAttributesTabEmpty()) {
+        if (isAttributesTabEmpty) {
             return null;
         }
 
@@ -214,6 +213,35 @@ export class ProductPage extends PureComponent {
         ];
 
         return productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>);
+    }
+
+    shouldInformationTabRender() {
+        const { isInformationTabEmpty } = this.props;
+        return isInformationTabEmpty;
+    }
+
+    shouldAttributesTabRender() {
+        const { isAttributesTabEmpty } = this.props;
+        return isAttributesTabEmpty;
+    }
+
+    shouldReviewsTabRender() {
+        // Return false since the tab is always NOT empty
+        return false;
+    }
+
+    getTabNames() {
+        const renderTabs = [];
+
+        Object.values(this.tabMap).filter(Boolean).map((item) => {
+            if (!item.shouldTabRender()) {
+                renderTabs.push(item.name);
+            }
+
+            return true;
+        });
+
+        return renderTabs;
     }
 
     renderProductTabs() {
