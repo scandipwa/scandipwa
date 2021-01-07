@@ -110,6 +110,7 @@ export class CartPageContainer extends PureComponent {
             headerState,
             headerState: { name }
         } = this.props;
+
         const {
             totals: { items_qty: prevItemsQty },
             headerState: { name: prevName }
@@ -120,6 +121,7 @@ export class CartPageContainer extends PureComponent {
                 this._changeHeaderState();
             }
         }
+
         if (items_qty !== prevItemsQty) {
             const title = `${ items_qty || '0' } Items`;
             changeHeaderState({
@@ -151,6 +153,7 @@ export class CartPageContainer extends PureComponent {
         if (hasOutOfStockProductsInCartItems(totals.items)) {
             return;
         }
+
         if (guest_checkout) {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
@@ -158,6 +161,7 @@ export class CartPageContainer extends PureComponent {
 
             return;
         }
+
         if (isSignedIn()) {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
@@ -165,12 +169,14 @@ export class CartPageContainer extends PureComponent {
 
             return;
         }
-        // fir notification whatever device that is
+
+        // for notification whatever device that is
         showNotification('info', __('Please sign-in to complete checkout!'));
         if (device.isMobile) { // for all mobile devices, simply switch route
             history.push({ pathname: appendWithStoreCode('/my-account') });
             return;
         }
+
         // for desktop, just open customer overlay
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
     }
@@ -188,6 +194,7 @@ export class CartPageContainer extends PureComponent {
     _changeHeaderState() {
         const { changeHeaderState, totals: { items_qty } } = this.props;
         const title = __('%s Item(s)', items_qty || 0);
+
         changeHeaderState({
             name: CART,
             title,
@@ -229,4 +236,5 @@ export class CartPageContainer extends PureComponent {
         );
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);
