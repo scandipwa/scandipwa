@@ -16,7 +16,7 @@
 
 .ProductCompareItem {
     display: flex;
-    border: 1px solid var(--product-compare-border-color);
+    border: 1px solid var(--secondary-base-color);
     padding: 1rem;
     position: relative;
     height: 100%;
@@ -34,7 +34,7 @@
 
         @include mobile {
             width: 100%;
-            height: 100px;
+            height: 270px;
         }
     }
 
@@ -64,7 +64,7 @@
         width: 100%;
         padding-right: 1.9rem;
         margin: 0 0 1rem 0;
-        font-size: 1.8rem;
+        font-size: 1.4rem;
         line-height: 1;
         color: var(--body-content-color);
 
@@ -108,6 +108,7 @@
 
     &-AddToCartBtn {
         flex: 0 0 auto;
+        width: 100%;
 
         @include mobile {
             min-width: 100%;
@@ -118,10 +119,17 @@
     }
 
     &-CloseBtn {
+        @include close-button;
+
+        width: 15px;
+        height: 15px;
         position: absolute;
-        right: 1rem;
-        top: 0;
-        font-size: 3rem;
-        line-height: 1;
+        top: 10px;
+        right: 10px;
+
+        &::before,
+        &::after {
+            top: -2px;
+        }
     }
 }

@@ -55,6 +55,7 @@ export class ProductCard extends PureComponent {
         isConfigurableProductOutOfStock: PropTypes.func.isRequired,
         isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
+        hideCompareButton: PropTypes.bool,
         siblingsHaveBrands: PropTypes.bool,
         setSiblingsHaveBrands: PropTypes.func,
         siblingsHavePriceBadge: PropTypes.bool,
@@ -73,6 +74,7 @@ export class ProductCard extends PureComponent {
         mix: {},
         renderContent: false,
         hideWishlistButton: false,
+        hideCompareButton: false,
         siblingsHaveBrands: false,
         setSiblingsHaveBrands: () => null,
         siblingsHavePriceBadge: false,
@@ -298,7 +300,14 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductCompareButton() {
-        const { product: { id } } = this.props;
+        const {
+            product: { id },
+            hideCompareButton
+        } = this.props;
+
+        if (hideCompareButton) {
+            return null;
+        }
 
         return (
             <ProductCompareButton productId={ id } />

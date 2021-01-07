@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/router",
     "description": "Router extension for ScandiPWA.",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "license": "OSL-3.0",
     "peerDependencies": {
         "@scandipwa/framework": "^0.0.1"

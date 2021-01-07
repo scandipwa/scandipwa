@@ -359,7 +359,9 @@
 
                 padding: 0;
                 margin: 0;
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     }
@@ -371,23 +373,7 @@
     }
 
     &-CompareIcon {
-        @include compare-icon(transparent);
-
-        &,
-        &::before,
-        &::after {
-            border: 1px solid var(--header-color);
-        }
-
-        &::before {
-            left: -11px;
-            bottom: -1px;
-        }
-
-        &::after {
-            right: -11px;
-            bottom: -1px;
-        }
+        @include compare-icon(var(--header-color));
     }
 
     &-MyAccount {

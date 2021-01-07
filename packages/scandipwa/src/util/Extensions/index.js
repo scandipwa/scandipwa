@@ -15,4 +15,4 @@ export const extensions = [];
 // See config/loaders/extension-import-injector
 // * ScandiPWA extension importing magic comment! */
 
-globalThis.plugins = generateConfig(extensions);
+window.plugins = generateConfig(extensions);

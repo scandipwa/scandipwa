@@ -41,6 +41,20 @@ module.exports = {
                 }
             });
 
+            try {
+                // Optional dependency (if the @scandipwa/service-worker is installed)
+                const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+
+                // Yes, another loop, but it is more readable
+                webpackConfig.plugins.forEach((plugin) => {
+                    if (plugin instanceof WorkboxWebpackPlugin.InjectManifest) {
+                        plugin.config.exclude.push(/scandipwa_root/);
+                    }
+                });
+            } catch (e) {
+                // Supress error, there is nothing to see here :D
+            }
+
             const { isFound: isFileLoaderFound, match: fileLoader } = getLoader(
                 webpackConfig,
                 loaderByName('file-loader')
