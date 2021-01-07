@@ -9,7 +9,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -62,7 +61,6 @@ export const mapStateToProps = (state) => ({
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state)
 });
-
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
@@ -76,7 +74,6 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
     )
 });
-
 /** @namespace Route/CartPage/Container */
 export class CartPageContainer extends PureComponent {
     static propTypes = {
@@ -100,9 +97,7 @@ export class CartPageContainer extends PureComponent {
 
     componentDidMount() {
         const { updateMeta } = this.props;
-
         updateMeta({ title: __('Cart') });
-
         this._updateBreadcrumbs();
         this._changeHeaderState();
         this._updateCrossSellProducts();
@@ -111,13 +106,12 @@ export class CartPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             changeHeaderState,
-            totals: { items },
+            totals: { items_qty },
             headerState,
             headerState: { name }
         } = this.props;
-
         const {
-            totals: { items: prevItems },
+            totals: { items_qty: prevItemsQty },
             headerState: { name: prevName }
         } = prevProps;
 
@@ -126,9 +120,8 @@ export class CartPageContainer extends PureComponent {
                 this._changeHeaderState();
             }
         }
-
-        if (items.length !== prevItems.length) {
-            const title = `${ items.length || '0' } Item(s)`;
+        if (items_qty !== prevItemsQty) {
+            const title = `${ items_qty || '0' } Items`;
             changeHeaderState({
                 ...headerState,
                 title
@@ -138,7 +131,6 @@ export class CartPageContainer extends PureComponent {
 
     containerProps = () => {
         const { totals } = this.props;
-
         return {
             hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
@@ -156,11 +148,9 @@ export class CartPageContainer extends PureComponent {
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
-
         if (hasOutOfStockProductsInCartItems(totals.items)) {
             return;
         }
-
         if (guest_checkout) {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
@@ -168,7 +158,6 @@ export class CartPageContainer extends PureComponent {
 
             return;
         }
-
         if (isSignedIn()) {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
@@ -176,15 +165,12 @@ export class CartPageContainer extends PureComponent {
 
             return;
         }
-
         // fir notification whatever device that is
         showNotification('info', __('Please sign-in to complete checkout!'));
-
         if (device.isMobile) { // for all mobile devices, simply switch route
             history.push({ pathname: appendWithStoreCode('/my-account') });
             return;
         }
-
         // for desktop, just open customer overlay
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
     }
@@ -200,10 +186,8 @@ export class CartPageContainer extends PureComponent {
     }
 
     _changeHeaderState() {
-        const { changeHeaderState, totals: { items } } = this.props;
-
-        const title = __('%s Item(s)', items.length || 0);
-
+        const { changeHeaderState, totals: { items_qty } } = this.props;
+        const title = __('%s Item(s)', items_qty || 0);
         changeHeaderState({
             name: CART,
             title,
@@ -245,5 +229,4 @@ export class CartPageContainer extends PureComponent {
         );
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);
