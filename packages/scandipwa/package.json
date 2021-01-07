@@ -11,7 +11,7 @@
         "@scandipwa/m2-theme": "^0.1.1",
         "@scandipwa/scandipwa-scripts": "^2.2.0",
         "@scandipwa/service-worker": "^0.0.4",
-        "@scandipwa/webpack-i18n-runtime": "^0.0.1",
+        "@scandipwa/webpack-i18n-runtime": "^0.0.3",
         "braintree-web-drop-in": "^1.23.0",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",

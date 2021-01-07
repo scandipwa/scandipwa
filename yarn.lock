@@ -2545,6 +2545,13 @@
     "@scandipwa/webpack-fallback-plugin" "1.2.0"
     lodash.clonedeep "^4.5.0"
 
+"@scandipwa/webpack-after-emit-logger@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-after-emit-logger/-/webpack-after-emit-logger-0.0.2.tgz#c648055b7addb7b36801421f1f15366ad183a8f5"
+  integrity sha512-oK2ekkL9mNs2HpgaNBDxrPcL4knd0VdogpkueybeVknSQ0ddbDWWaN7xvfLM0M75gzi+8mBoI3dD5V+r42nAHg==
+  dependencies:
+    "@scandipwa/scandipwa-dev-utils" "0.0.20"
+
 "@scandipwa/webpack-extension-import-loader@0.0.16":
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/@scandipwa/webpack-extension-import-loader/-/webpack-extension-import-loader-0.0.16.tgz#1daf4209cf74d33efb7d3b447d448a20830fc8ba"
@@ -2568,6 +2575,14 @@
   integrity sha512-tNQg/hAtOGWQp3ZC8dO6CrW9NeQRrEXUkNhPiYCGnl8SC1+hWXsee0A9C8bG+ZkMCFXO/yich8F5ynGDfmfUwQ==
   dependencies:
     "@scandipwa/scandipwa-dev-utils" "0.0.20"
+
+"@scandipwa/webpack-i18n-runtime@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-runtime/-/webpack-i18n-runtime-0.0.3.tgz#4b26f9ecff90a36333b66902f00c8d9d6bc856b9"
+  integrity sha512-s81lP9Hvf9lWtsCJusoMcUaLYPKTmXsIyzmOoKpIu4foI1Ylss39TZ95480uyogP28NY37+ikcCUnylOKVQC/A==
+  dependencies:
+    "@scandipwa/scandipwa-dev-utils" "0.0.20"
+    "@scandipwa/webpack-after-emit-logger" "0.0.2"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.1"
