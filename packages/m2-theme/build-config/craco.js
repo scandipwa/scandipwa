@@ -2,7 +2,6 @@
 const path = require('path');
 const FallbackPlugin = require('@scandipwa/webpack-fallback-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { sources } = require('@scandipwa/scandipwa-scripts/lib/sources');
 const { getLoader, loaderByName } = require('@scandipwa/craco');
 
 // The variable is passed automatically, use --magento flag
@@ -23,7 +22,7 @@ module.exports = {
             config.paths.appBuild = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
 
             // For Magento use PHP template (defined in /public/index.php)
-            config.paths.appHtml = FallbackPlugin.getFallbackPathname('./public/index.php', sources);
+            config.paths.appHtml = FallbackPlugin.getFallbackPathname('./public/index.php');
 
             // Always return the config object.
             return config;
