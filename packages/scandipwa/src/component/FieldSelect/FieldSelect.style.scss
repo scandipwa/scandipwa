@@ -73,7 +73,7 @@ $select-arrow-width: 6px !default;
         border-style: solid;
         border-color: transparent;
 
-        overflow-y: scroll;
+        overflow-y: hidden;
         transition: 200ms max-height;
         will-change: max-height;
         max-height: 0;
