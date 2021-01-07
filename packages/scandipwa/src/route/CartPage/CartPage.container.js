@@ -9,6 +9,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -61,6 +62,7 @@ export const mapStateToProps = (state) => ({
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state)
 });
+
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
@@ -74,6 +76,7 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
     )
 });
+
 /** @namespace Route/CartPage/Container */
 export class CartPageContainer extends PureComponent {
     static propTypes = {
@@ -97,7 +100,9 @@ export class CartPageContainer extends PureComponent {
 
     componentDidMount() {
         const { updateMeta } = this.props;
+
         updateMeta({ title: __('Cart') });
+
         this._updateBreadcrumbs();
         this._changeHeaderState();
         this._updateCrossSellProducts();
@@ -122,8 +127,8 @@ export class CartPageContainer extends PureComponent {
             }
         }
 
-        if (items_qty !== prevItemsQty) {
-            const title = `${ items_qty || '0' } Items`;
+        if (items_qty.length !== prevItemsQty.length) {
+            const title = `${ items_qty.length || '0' } Item(s)`;
             changeHeaderState({
                 ...headerState,
                 title
@@ -133,6 +138,7 @@ export class CartPageContainer extends PureComponent {
 
     containerProps = () => {
         const { totals } = this.props;
+
         return {
             hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
@@ -150,6 +156,7 @@ export class CartPageContainer extends PureComponent {
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
+
         if (hasOutOfStockProductsInCartItems(totals.items)) {
             return;
         }
@@ -170,8 +177,9 @@ export class CartPageContainer extends PureComponent {
             return;
         }
 
-        // for notification whatever device that is
+        // fir notification whatever device that is
         showNotification('info', __('Please sign-in to complete checkout!'));
+
         if (device.isMobile) { // for all mobile devices, simply switch route
             history.push({ pathname: appendWithStoreCode('/my-account') });
             return;
@@ -193,7 +201,8 @@ export class CartPageContainer extends PureComponent {
 
     _changeHeaderState() {
         const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = __('%s Item(s)', items_qty || 0);
+
+        const title = __('%s Item(s)', items_qty.length || 0);
 
         changeHeaderState({
             name: CART,
