@@ -8,6 +8,7 @@
 
     &-ColumnWrapper {
         display: flex;
+        margin-bottom: 2.4rem;
 
         @include mobile {
             display: block;
@@ -23,6 +24,15 @@
 
             @include mobile {
                 margin-right: 0;
+            }
+        }
+    }
+
+    .Form {
+        .Button {
+            
+            @include mobile {
+                width: 100%;
             }
         }
     }

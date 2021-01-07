@@ -40,6 +40,14 @@ export class ConfigQuery {
             ]);
     }
 
+    getPriceDisplayTypeField() {
+        return new Field('priceTaxDisplay')
+            .addFieldList([
+                'product_price_display_type',
+                'shipping_price_display_type'
+            ]);
+    }
+
     getSaveSelectedCurrencyMutation(newCurrency) {
         return new Field('saveSelectedCurrency')
             .addArgument('currency', 'String', newCurrency)
@@ -90,6 +98,7 @@ export class ConfigQuery {
             'default_display_currency_code',
             'default_keywords',
             'default_title',
+            'default_description',
             'default_country',
             'secure_base_media_url',
             // 'paypal_sandbox_flag',
@@ -111,7 +120,10 @@ export class ConfigQuery {
             'demo_notice',
             'guest_checkout',
             'is_email_confirmation_required',
-            'base_link_url'
+            'base_link_url',
+            'show_vat_number_on_storefront',
+            'show_tax_vat_number',
+            this.getPriceDisplayTypeField()
         ];
     }
 }

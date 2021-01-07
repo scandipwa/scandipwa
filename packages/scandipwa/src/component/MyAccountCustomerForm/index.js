@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountCustomerForm.component';
+export { default } from './MyAccountCustomerForm.container';

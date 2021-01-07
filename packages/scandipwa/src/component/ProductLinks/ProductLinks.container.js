@@ -28,6 +28,37 @@ export class ProductLinksContainer extends PureComponent {
         linkType: PropTypes.string.isRequired
     };
 
+    state = {
+        siblingsHaveBrands: false,
+        siblingsHavePriceBadge: false,
+        siblingsHaveTierPrice: false,
+        siblingsHaveConfigurableOptions: false
+    };
+
+    containerProps() {
+        const {
+            siblingsHaveBrands,
+            siblingsHavePriceBadge,
+            siblingsHaveTierPrice,
+            siblingsHaveConfigurableOptions
+        } = this.state;
+
+        return {
+            productCardFunctions: {
+                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
+                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
+                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
+                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+            },
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            }
+        };
+    }
+
     render() {
         const {
             linkType,
@@ -45,6 +76,7 @@ export class ProductLinksContainer extends PureComponent {
         return (
             <ProductLinks
               { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }

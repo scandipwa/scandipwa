@@ -82,9 +82,7 @@
     }
 
     &-Wrapper {
-        @include desktop {
-            margin-bottom: var(--header-total-height);
-        }
+        margin-bottom: var(--header-total-height);
     }
 
     &_isHiddenOnMobile {
@@ -246,10 +244,6 @@
             padding: 0 1.4rem;
         }
 
-        @include before-desktop {
-            border-bottom: 1px solid var(--primary-divider-color);
-        }
-
         @include desktop {
             justify-content: flex-end;
         }
@@ -314,7 +308,6 @@
                 @include desktop {
                     cursor: default;
                     height: auto;
-                    margin-right: 1.44rem;
                     width: auto;
                 }
             }
@@ -343,7 +336,6 @@
                     height: 0;
                     width: 0;
                     margin-left: 1rem;
-                    margin-top: .5rem;
                     opacity: .5;
                 }
             }
@@ -361,7 +353,27 @@
                     width: 70px;
                 }
             }
+
+            &_compare {
+                @include button-visible;
+
+                padding: 0;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
+    }
+
+    &-CompareButtonWrapper {
+        border-right: 2px dotted var(--header-dots-color);
+        margin: 0 20px 0 7px;
+        padding-right: 20px;
+    }
+
+    &-CompareIcon {
+        @include compare-icon(var(--header-color));
     }
 
     &-MyAccount {
@@ -386,7 +398,6 @@
     &-Minicart {
         &ButtonWrapper {
             align-items: center;
-            border-right: 2px dotted var(--header-dots-color);
             cursor: pointer;
             display: flex;
             height: 26px;
@@ -427,19 +438,25 @@
             line-height: 13px;
             min-width: 14px;
             padding-left: 5px;
+            background: var(--primary-base-color);
+            border-radius: 10px;
+            color: var(--header-background);
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 3px 5px 1px;
+            position: absolute;
+            transform: translateX(3px);
+            z-index: 2;
 
-            @include before-desktop {
-                background: var(--primary-base-color);
-                border-radius: 7px;
-                color: var(--header-background);
-                display: inline-block;
-                font-size: 1.2rem;
+            @include after-mobile {
+                left: 100%;
+                transform: translateX(-30px);
+                top: 12px;
+            }
+
+            @include mobile {
                 left: 50%;
-                padding: 0 4px 1px;
-                position: absolute;
                 top: 18px;
-                transform: translateX(3px);
-                z-index: 2;
             }
         }
     }
@@ -465,9 +482,7 @@
         }
 
         &_isVisible {
-            @include desktop {
-                @include logo-visible;
-            }
+            @include logo-visible;
         }
 
         .Image-Image {

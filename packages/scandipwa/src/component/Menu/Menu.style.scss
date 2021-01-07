@@ -223,6 +223,12 @@
                 object-fit: cover;
             }
         }
+
+        &_isHideOnDesktop {
+            @include desktop {
+                display: none;
+            }
+        }
     }
 
     &-Item {
@@ -255,6 +261,12 @@
 
         button {
             width: 100%;
+        }
+
+        &_isHideOnDesktop {
+            @include desktop {
+                display: none;
+            }
         }
     }
 
@@ -289,14 +301,11 @@
         will-change: clip-path;
         clip-path: inset(0 0 100% 0);
         margin: auto;
+        overflow-y: auto;
+        max-height: calc(100vh - var(--header-nav-height));
 
         &_isVisible {
             clip-path: inset(0);
-        }
-
-        @media (min-width: 1024px) and (max-width: 1130px) {
-            max-height: calc(80vh - var(--header-nav-height));
-            overflow-y: auto;
         }
     }
 
@@ -375,6 +384,12 @@
         &_isBanner {
             flex-grow: 1;
             flex-basis: 400px;
+        }
+
+        &_isHideOnDesktop {
+            @include desktop {
+                display: none;
+            }
         }
 
         > .Menu-Link {
@@ -478,5 +493,18 @@
 
     .Image {
         background: none;
+    }
+
+    &-CompareLinkWrapper {
+        text-transform: uppercase;
+        order: 1;
+    }
+
+    &-CompareLink {
+        color: var(--body-content-color);
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 }

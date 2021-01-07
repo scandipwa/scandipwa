@@ -10,8 +10,9 @@
  */
 
 :root {
-    --price-color: #000;
-    --price-discount-color: #000;
+    --price-color: #{$black};
+    --price-with-discount-color: #b10d0d;
+    --price-discount-color: #808080;
 }
 
 .ProductPrice {
@@ -19,6 +20,11 @@
     font-weight: 700;
     line-height: 1;
     vertical-align: middle;
+    margin-bottom: 0;
+
+    &_hasDiscount {
+        color: var(--price-with-discount-color);
+    }
 
     @include mobile {
         font-size: 1.8rem;
@@ -32,16 +38,17 @@
         font-size: .7em;
         font-weight: 500;
         opacity: .5;
+        display: inline-block;
+        margin-left: 12px;
+
+        @include mobile {
+            margin-left: 4px;
+        }
     }
 
     &-HighPrice {
         padding-left: .1em;
-        color: var(---price-discount-color);
-        display: none;
-
-        &_isVisible {
-            display: block;
-        }
+        color: var(--price-discount-color);
     }
 
     &-Placeholder {
@@ -53,6 +60,6 @@
     &-SubPrice {
         display: block;
         font-weight: 500;
-        font-size: .7em;
+        font-size: .5em;
     }
 }

@@ -131,6 +131,7 @@ export class WishlistItem extends PureComponent {
         return (
             <button
               block="Button"
+              mods={ { isHollow: isMobile } }
               mix={ { block: 'WishlistItem', elem: 'AddToCart', mods } }
               onClick={ addToCart }
             >
@@ -267,7 +268,7 @@ export class WishlistItem extends PureComponent {
 
         return (
             <>
-                <div>
+                <div block="WishlistItem" elem="FigureWrapper">
                     { renderCardLinkWrapper(
                         <>
                             <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
@@ -300,6 +301,8 @@ export class WishlistItem extends PureComponent {
               mix={ { block: 'WishlistItem', elem: 'ProductCard' } }
               isLoading={ isLoading }
               renderContent={ this.renderContent }
+              hideWishlistButton
+              hideCompareButton
             />
         );
     }

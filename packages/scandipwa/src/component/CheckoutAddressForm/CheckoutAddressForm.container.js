@@ -18,7 +18,8 @@ export const mapStateToProps = (state) => ({
     countries: state.ConfigReducer.countries,
     default_country: state.ConfigReducer.default_country,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    shippingFields: state.CheckoutReducer.shippingFields
+    shippingFields: state.CheckoutReducer.shippingFields,
+    showVatNumber: state.ConfigReducer.show_vat_number_on_storefront
 });
 
 /** @namespace Component/CheckoutAddressForm/Container/mapDispatchToProps */

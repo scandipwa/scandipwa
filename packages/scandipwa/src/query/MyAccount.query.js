@@ -176,6 +176,7 @@ export class MyAccountQuery {
             'suffix',
             'default_shipping',
             'default_billing',
+            'vat_id',
             this._getRegionField()
         ];
     }

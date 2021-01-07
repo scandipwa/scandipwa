@@ -30,6 +30,7 @@ export class ProductPrice extends PureComponent {
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
         formattedFinalPrice: PropTypes.string,
+        formattedSubPrice: PropTypes.string,
         variantsCount: PropTypes.number,
         price: PriceType,
         mix: MixType
@@ -41,6 +42,7 @@ export class ProductPrice extends PureComponent {
         priceCurrency: 'USD',
         discountPercentage: 0,
         formattedFinalPrice: '0',
+        formattedSubPrice: null,
         variantsCount: 0,
         mix: {},
         price: {}
@@ -84,10 +86,34 @@ export class ProductPrice extends PureComponent {
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
+        // force unequal comparatment - unsure of resulting type
+        // eslint-disable-next-line eqeqeq
+        if (formattedFinalPrice == 0) {
+            return null;
+        }
+
         return (
             <PriceSemanticElementName>
                 <span { ...priceSchema }>{ formattedFinalPrice }</span>
             </PriceSemanticElementName>
+        );
+    }
+
+    renderSubPrice() {
+        const { formattedSubPrice } = this.props;
+
+        if (!formattedSubPrice) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label={ __('Current product price excl. tax') }
+              block="ProductPrice"
+              elem="SubPrice"
+            >
+                { `${ __('Excl. tax:') } ${ formattedSubPrice }` }
+            </span>
         );
     }
 
@@ -101,11 +127,14 @@ export class ProductPrice extends PureComponent {
 
         const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
 
+        if (discountPercentage === 0) {
+            return null;
+        }
+
         return (
             <del
               block="ProductPrice"
               elem="HighPrice"
-              mods={ { isVisible: discountPercentage > 0 } }
               aria-label={ __('Old product price') }
               { ...schema }
             >
@@ -135,6 +164,7 @@ export class ProductPrice extends PureComponent {
                     regular_price
                 } = {}
             } = {},
+            discountPercentage,
             formattedFinalPrice,
             mix
         } = this.props;
@@ -146,11 +176,13 @@ export class ProductPrice extends PureComponent {
         return (
             <p
               block="ProductPrice"
+              mods={ { hasDiscount: discountPercentage !== 0 } }
               mix={ mix }
               aria-label={ `Product price: ${formattedFinalPrice}` }
             >
                 { this.renderCurrentPrice() }
                 { this.renderOldPrice() }
+                { this.renderSubPrice() }
                 { this.renderSchema() }
             </p>
         );

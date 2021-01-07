@@ -26,19 +26,27 @@ import { HistoryType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
-import { hasOutOfStockProductsInCartItems } from 'Util/Cart';
+import {
+    getCartShippingPrice,
+    getCartShippingSubPrice,
+    getCartSubtotal,
+    getCartSubtotalSubPrice,
+    getCartTotalSubPrice,
+    hasOutOfStockProductsInCartItems
+} from 'Util/Cart';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import CartPage from './CartPage.component';
-import {
-    DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH,
-    DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX
-} from './CartPage.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Breadcrumbs/Breadcrumbs.dispatcher'
+);
+
+export const CartDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Cart/Cart.dispatcher'
 );
 
 /** @namespace Route/CartPage/Container/mapStateToProps */
@@ -46,7 +54,13 @@ export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     guest_checkout: state.ConfigReducer.guest_checkout,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
+    cartSubtotal: getCartSubtotal(state),
+    cartSubtotalSubPrice: getCartSubtotalSubPrice(state),
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    cartShippingPrice: getCartShippingPrice(state),
+    cartShippingSubPrice: getCartShippingSubPrice(state)
 });
 
 /** @namespace Route/CartPage/Container/mapDispatchToProps */
@@ -57,7 +71,10 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    updateMeta: (meta) => dispatch(updateMeta(meta))
+    updateMeta: (meta) => dispatch(updateMeta(meta)),
+    updateCrossSellProducts: (items) => CartDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateCrossSellProducts(items, dispatch)
+    )
 });
 
 /** @namespace Route/CartPage/Container */
@@ -65,6 +82,7 @@ export class CartPageContainer extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
+        updateCrossSellProducts: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
@@ -87,18 +105,19 @@ export class CartPageContainer extends PureComponent {
 
         this._updateBreadcrumbs();
         this._changeHeaderState();
+        this._updateCrossSellProducts();
     }
 
     componentDidUpdate(prevProps) {
         const {
             changeHeaderState,
-            totals: { items_qty },
+            totals: { items },
             headerState,
             headerState: { name }
         } = this.props;
 
         const {
-            totals: { items_qty: prevItemsQty },
+            totals: { items: prevItems },
             headerState: { name: prevName }
         } = prevProps;
 
@@ -108,8 +127,8 @@ export class CartPageContainer extends PureComponent {
             }
         }
 
-        if (items_qty !== prevItemsQty) {
-            const title = `${ items_qty || '0' } Items`;
+        if (items.length !== prevItems.length) {
+            const title = `${ items.length || '0' } Item(s)`;
             changeHeaderState({
                 ...headerState,
                 title
@@ -121,64 +140,9 @@ export class CartPageContainer extends PureComponent {
         const { totals } = this.props;
 
         return {
-            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items),
-            cartSubTotal: this.getCartSubTotal(),
-            cartSubTotalExlTax: this.getCartSubTotalExclTax(),
-            cartOrderTotalExlTax: this.getCartOrderTotalExclTax()
+            hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
     };
-
-    getCartSubTotal() {
-        const {
-            totals: {
-                cart_display_config: {
-                    display_tax_in_subtotal
-                } = {},
-                subtotal,
-                subtotal_incl_tax
-            }
-        } = this.props;
-
-        if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX) {
-            return subtotal;
-        }
-
-        return subtotal_incl_tax;
-    }
-
-    getCartSubTotalExclTax() {
-        const {
-            totals: {
-                cart_display_config: {
-                    display_tax_in_subtotal
-                } = {},
-                subtotal
-            }
-        } = this.props;
-
-        if (display_tax_in_subtotal === DISPLAY_CART_TAX_IN_SUBTOTAL_BOTH) {
-            return subtotal;
-        }
-
-        return null;
-    }
-
-    getCartOrderTotalExclTax() {
-        const {
-            totals: {
-                cart_display_config: {
-                    include_tax_in_order_total
-                } = {},
-                subtotal_with_discount
-            }
-        } = this.props;
-
-        if (include_tax_in_order_total) {
-            return subtotal_with_discount;
-        }
-
-        return null;
-    }
 
     onCheckoutButtonClick(e) {
         const {
@@ -236,8 +200,9 @@ export class CartPageContainer extends PureComponent {
     }
 
     _changeHeaderState() {
-        const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = __('%s Items', items_qty || 0);
+        const { changeHeaderState, totals: { items } } = this.props;
+
+        const title = __('%s Item(s)', items.length || 0);
 
         changeHeaderState({
             name: CART,
@@ -256,6 +221,17 @@ export class CartPageContainer extends PureComponent {
                 history.goBack();
             }
         });
+    }
+
+    _updateCrossSellProducts() {
+        const {
+            updateCrossSellProducts,
+            totals: {
+                items = []
+            } = {}
+        } = this.props;
+
+        updateCrossSellProducts(items);
     }
 
     render() {

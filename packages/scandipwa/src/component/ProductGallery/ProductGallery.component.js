@@ -95,7 +95,7 @@ export class ProductGallery extends PureComponent {
             this.updateSharedDestinationElement();
         }
 
-        if (sliderRef && pathname !== prevPathname) {
+        if (sliderRef?.current?.draggableRef && pathname !== prevPathname) {
             CSS.setVariable(
                 sliderRef.current.draggableRef,
                 'animation-speed',
@@ -312,7 +312,7 @@ export class ProductGallery extends PureComponent {
 
         const mods = {
             isImageZoomPopupActive,
-            isZoomInCursor: gallery.length > 1 && !isImageZoomPopupActive
+            isZoomInCursor: !isImageZoomPopupActive
         };
 
         return (

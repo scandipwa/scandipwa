@@ -31,12 +31,27 @@ export class CurrencySwitcher extends PureComponent {
         handleCurrencySelect: PropTypes.func.isRequired
     };
 
+    getCurrencyValue() {
+        const {
+            currencyData: {
+                available_currencies_data: availableCurrencies,
+                current_currency_code: currentCurrencyCode
+            } = {}
+        } = this.props;
+
+        // check whether user’s selected currency is among available currencies for current store,
+        // otherwise use default currency for current store.
+        const currency = getCurrency();
+        const value = availableCurrencies.some((e) => e.id === currency) ? currency : currentCurrencyCode;
+
+        return value;
+    }
+
     render() {
         const {
             handleCurrencySelect,
             currencyData: {
-                available_currencies_data: availableCurrencies,
-                current_currency_code: currentCurrencyCode
+                available_currencies_data: availableCurrencies
             } = {}
         } = this.props;
 
@@ -49,7 +64,7 @@ export class CurrencySwitcher extends PureComponent {
                       type="select"
                       placeholder={ __('Select currency') }
                       selectOptions={ availableCurrencies }
-                      value={ getCurrency() || currentCurrencyCode }
+                      value={ this.getCurrencyValue() }
                       onChange={ handleCurrencySelect }
                     />
                 </div>

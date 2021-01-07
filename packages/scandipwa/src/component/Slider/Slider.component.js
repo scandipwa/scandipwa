@@ -197,7 +197,7 @@ export class Slider extends PureComponent {
     getIsSlider() {
         const { children } = this.props;
 
-        return children.length !== 1;
+        return children.length > 0;
     }
 
     getSlideWidth() {

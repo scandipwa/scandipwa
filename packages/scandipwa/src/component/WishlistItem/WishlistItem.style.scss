@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
+ :root {
     --whislist-swipe-to-delete-color: #fff;
     --whislist-qty-button-size: 20px;
 }
@@ -34,10 +34,51 @@
     }
 
     &-ProductCard {
-        @include after-mobile {
+        display: flex;
+        flex-direction: column;
+
+        @include desktop {
             padding: 1.2rem 0;
             margin-bottom: 0;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
+
+        .ProductAttribute {
+            font-size: 1rem;
+            text-transform: uppercase;
+            border: 1px solid #adadad;
+            color: #adadad;
+            padding: 3px 5px;
+            margin-right: 5px;
+            display: inline-block;
+        }
+
+        .ProductCard-Name {
+            white-space: inherit;
+        }
+    
+        .ProductPrice_hasDiscount {
+            @include mobile {
+                display: flex;
+                flex-direction: column;
+            }
+    
+            del {
+                margin-left: 4px;
+    
+                @include mobile {
+                    order: -1;
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    &-FigureWrapper {
+        flex: 1;
     }
 
     &-ContentWrapper {
@@ -68,8 +109,8 @@
         margin-top: 0;
 
         @include mobile {
-            padding: 7px;
-            font-size: 1.4rem;
+            padding: 7px 12px 4px;
+            font-size: 1.3rem;
             margin-left: auto;
         }
 
@@ -137,7 +178,7 @@
     &-RowWrapper {
         margin-top: auto;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: space-between;
 
         @include mobile {
@@ -155,6 +196,7 @@
 
     &-SelectWrapper {
         display: flex;
+        width: 100%;
     }
 
     &-Select {
@@ -173,10 +215,6 @@
         @include mobile {
             height: 100%;
         }
-
-        img {
-            object-fit: cover;
-        }
     }
 
     &-SwipeToDeleteRightSide {
@@ -184,18 +222,4 @@
         font-weight: 600;
         color: var(--whislist-swipe-to-delete-color);
     }
-
-    .ProductCard-Name {
-        white-space: inherit;
-    }
-}
-
-.ProductAttribute {
-    font-size: 1rem;
-    text-transform: uppercase;
-    border: 1px solid #adadad;
-    color: #adadad;
-    padding: 3px 5px;
-    margin-right: 5px;
-    display: inline-block;
 }

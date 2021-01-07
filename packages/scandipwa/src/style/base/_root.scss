@@ -22,6 +22,7 @@
     --primary-success-color: #7fcd91;
     --secondary-info-color: #79632e;
     --primary-info-color: #ffd166;
+    --body-content-color: $black;
 
     // Declare imported primary colors to change the theme's colors
     --primary-base-color: var(--imported_primary_base_color, #{$default-primary-base-color});

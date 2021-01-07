@@ -48,6 +48,7 @@ export class CartDispatcher {
             (data) => {
                 BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                 this._updateCartData({}, dispatch);
+                return data;
             }
         );
     }
@@ -186,9 +187,15 @@ export class CartDispatcher {
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationThen */
-            ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
+            ({ removeCartItem: { cartData } }) => {
+                this._updateCartData(cartData, dispatch);
+                return cartData;
+            },
             /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationError */
-            (error) => dispatch(showNotification('error', error[0].message))
+            (error) => {
+                dispatch(showNotification('error', error[0].message));
+                return null;
+            }
         );
     }
 
@@ -225,11 +232,8 @@ export class CartDispatcher {
         );
     }
 
-    _updateCartData(cartData, dispatch) {
-        dispatch(updateTotals(cartData));
-        const { items = [] } = cartData;
-
-        if (items.length > 0) {
+    updateCrossSellProducts(items, dispatch) {
+        if (items && items.length) {
             const product_links = items.reduce((links, product) => {
                 const { product: { product_links, variants = [] }, sku: variantSku } = product;
 
@@ -250,18 +254,22 @@ export class CartDispatcher {
 
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.then(
-                    ({ default: dispatcher }) => dispatcher.handleData(dispatch, product_links)
+                    ({ default: dispatcher }) => dispatcher.fetchCrossSellProducts(dispatch, product_links)
                 );
             } else {
-                // LinkedProductsDispatcher.then(
-                //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
-                // );
+                LinkedProductsDispatcher.then(
+                    ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch)
+                );
             }
         } else {
-            // LinkedProductsDispatcher.then(
-            //     ({ default: dispatcher }) => dispatcher.clearLinkedProducts(dispatch, true)
-            // );
+            LinkedProductsDispatcher.then(
+                ({ default: dispatcher }) => dispatcher.clearCrossSellProducts(dispatch)
+            );
         }
+    }
+
+    _updateCartData(cartData, dispatch) {
+        dispatch(updateTotals(cartData));
     }
 
     _getGuestQuoteId() {

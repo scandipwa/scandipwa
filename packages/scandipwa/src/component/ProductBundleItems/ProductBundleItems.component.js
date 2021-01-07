@@ -35,12 +35,14 @@ export class ProductBundleItems extends ProductCustomizableOptions {
             setSelectedDropdownValue,
             maxQuantity,
             updateQuantity,
-            productOptionsData
+            productOptionsData,
+            price_range
         } = this.props;
 
         return items.map((item, key) => (
             <ProductBundleItem
               option={ item }
+              price_range={ price_range }
               /* eslint-disable-next-line react/no-array-index-key */
               key={ key }
               setSelectedCheckboxValues={ setSelectedCheckboxValues }

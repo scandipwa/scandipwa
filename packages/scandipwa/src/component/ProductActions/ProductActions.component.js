@@ -21,6 +21,7 @@ import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductBundleItems from 'Component/ProductBundleItems';
+import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductPrice from 'Component/ProductPrice';
@@ -83,6 +84,15 @@ export class ProductActions extends PureComponent {
     configurableOptionsRef = createRef();
 
     groupedProductsRef = createRef();
+
+    componentDidUpdate(prevProps) {
+        const { product: { id: prevId } } = prevProps;
+        const { product: { id }, minQuantity, setQuantity } = this.props;
+
+        if (id !== prevId) {
+            setQuantity(minQuantity);
+        }
+    }
 
     renderStock(stockStatus) {
         if (stockStatus === 'OUT_OF_STOCK') {
@@ -172,7 +182,7 @@ export class ProductActions extends PureComponent {
 
     renderBundleItems() {
         const {
-            product: { items, type_id },
+            product: { items, type_id, price_range },
             maxQuantity,
             getSelectedCustomizableOptions,
             productOptionsData,
@@ -195,6 +205,7 @@ export class ProductActions extends PureComponent {
                   maxQuantity={ maxQuantity }
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
+                  price_range={ price_range }
                 />
             </section>
         );
@@ -470,6 +481,21 @@ export class ProductActions extends PureComponent {
         );
     }
 
+    renderProductCompareButton() {
+        const {
+            product: { id } = {},
+            device: { isMobile } = {}
+        } = this.props;
+
+        if (!id || isMobile) {
+            return null;
+        }
+
+        return (
+            <ProductCompareButton productId={ id } />
+        );
+    }
+
     renderReviews() {
         const {
             product: {
@@ -554,6 +580,7 @@ export class ProductActions extends PureComponent {
                 >
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
+                    { this.renderProductCompareButton() }
                     { this.renderProductWishlistButton() }
                 </div>
                 { this.renderReviews() }

@@ -49,6 +49,13 @@ export class ProductListPage extends PureComponent {
         mix: {}
     };
 
+    state = {
+        siblingsHaveBrands: false,
+        siblingsHavePriceBadge: false,
+        siblingsHaveTierPrice: false,
+        siblingsHaveConfigurableOptions: false
+    };
+
     componentDidMount() {
         this.startObserving();
     }
@@ -59,6 +66,30 @@ export class ProductListPage extends PureComponent {
 
     componentWillUnmount() {
         this.stopObserving();
+    }
+
+    containerProps() {
+        const {
+            siblingsHaveBrands,
+            siblingsHavePriceBadge,
+            siblingsHaveTierPrice,
+            siblingsHaveConfigurableOptions
+        } = this.state;
+
+        return {
+            productCardFunctions: {
+                setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
+                setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
+                setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
+                setSiblingsHaveConfigurableOptions: () => this.setState({ siblingsHaveConfigurableOptions: true })
+            },
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            }
+        };
     }
 
     startObserving() {
@@ -144,6 +175,7 @@ export class ProductListPage extends PureComponent {
               // eslint-disable-next-line react/no-array-index-key
               key={ i }
               selectedFilters={ selectedFilters }
+              { ...this.containerProps() }
             />
         ));
     }

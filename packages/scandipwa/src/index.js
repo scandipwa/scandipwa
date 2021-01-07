@@ -14,6 +14,7 @@ import 'Util/Polyfill';
 import 'Style/main';
 
 import { render } from 'react-dom';
+
 import App from 'Component/App';
 
 // let's register service-worker

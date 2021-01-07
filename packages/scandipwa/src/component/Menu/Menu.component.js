@@ -21,6 +21,9 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import { DeviceType } from 'Type/Device';
 import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
+import { debounce } from 'Util/Request';
+
+import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
 
 import './Menu.style';
 
@@ -35,15 +38,30 @@ export class Menu extends PureComponent {
         device: DeviceType.isRequired
     };
 
+    componentDidMount() {
+        const { closeMenu } = this.props;
+
+        this.debouncedCloseMenu = debounce(closeMenu, SCROLL_DEBOUNCE_DELAY);
+
+        window.addEventListener('scroll', this.debouncedCloseMenu);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.debouncedCloseMenu);
+    }
+
     renderDesktopSubLevelItems(item, mods) {
-        const { item_id } = item;
+        const { item_id, item_class } = item;
         const { closeMenu, activeMenuItemsStack } = this.props;
+
+        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
+        const itemMods = { ...mods, isHideOnDesktop };
 
         return (
             <MenuItem
               activeMenuItemsStack={ activeMenuItemsStack }
               item={ item }
-              itemMods={ mods }
+              itemMods={ itemMods }
               closeMenu={ closeMenu }
               isLink
               key={ item_id }
@@ -100,6 +118,12 @@ export class Menu extends PureComponent {
         } = item;
 
         const isBanner = item_class === 'Menu-ItemFigure_type_banner';
+        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
+        const mods = {
+            isBanner: !!isBanner,
+            isHideOnDesktop: !!isHideOnDesktop
+        };
+
         const childrenArray = Object.values(children);
         const subcategoryMods = { type: 'subcategory' };
 
@@ -130,7 +154,7 @@ export class Menu extends PureComponent {
               block="Menu"
               elem="SubItemWrapper"
               key={ item_id }
-              mods={ { isBanner } }
+              mods={ mods }
             >
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
@@ -270,6 +294,7 @@ export class Menu extends PureComponent {
             <>
                 { this.renderStoreSwitcher() }
                 { this.renderCurrencySwitcher() }
+                { this.renderComparePageLink() }
                 { this.renderPromotionCms() }
             </>
         );
@@ -324,10 +349,17 @@ export class Menu extends PureComponent {
     }
 
     renderFirstLevel = (item) => {
-        const { item_id } = item;
+        const { item_id, item_class } = item;
+
+        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
 
         return (
-            <li key={ item_id } block="Menu" elem="Item">
+            <li
+              block="Menu"
+              elem="Item"
+              key={ item_id }
+              mods={ { isHideOnDesktop } }
+            >
                 { this.renderFirstLevelItems(item) }
             </li>
         );
@@ -380,6 +412,21 @@ export class Menu extends PureComponent {
         return <StoreSwitcher />;
     }
 
+    renderComparePageLink() {
+        const { device } = this.props;
+        if (!device.isMobile) {
+            return null;
+        }
+
+        return (
+            <h3 block="Menu" elem="CompareLinkWrapper">
+                <Link to="compare" block="Menu" elem="CompareLink">
+                    { __('Compare') }
+                </Link>
+            </h3>
+        );
+    }
+
     render() {
         const { closeMenu } = this.props;
 
@@ -391,7 +438,6 @@ export class Menu extends PureComponent {
             >
                 { this.renderTopLevel() }
             </div>
-
         );
     }
 }
