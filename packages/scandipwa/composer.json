@@ -23,7 +23,7 @@
         "scandipwa/store-graphql": "^1.1.1",
         "scandipwa/customization": "^1.4",
         "scandipwa/cache": "^1.1.1",
-        "scandipwa/locale": "^1.2",
+        "scandipwa/locale": "^2",
         "scandipwa/contact-graphql": "^1.0.0",
         "scandipwa/klarna-graphql": "^1.1.1"
     },
