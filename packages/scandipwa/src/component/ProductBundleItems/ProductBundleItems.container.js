@@ -75,62 +75,73 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     getOptionPrice(item, selectedValues) {
         const { option_id } = item;
         let price = 0;
+        let priceExclTax = 0;
 
-        selectedValues.reduce((acc, { id, quantity, value }) => {
+        selectedValues.forEach(({ id, quantity, value }) => {
             if (option_id === id) {
                 const { options } = item;
 
-                options.reduce((acc, { id: optionId, product }) => {
+                options.forEach(({ id: optionId, product }) => {
                     if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
-                        const { price_range: { minimum_price: { final_price: { value } } } } = product;
-                        price += (value * quantity);
+                        const {
+                            price_range: {
+                                minimum_price: {
+                                    final_price: {
+                                        value: itemPrice = 0
+                                    } = {},
+                                    final_price_excl_tax: {
+                                        value: itemPriceExclTax = 0
+                                    } = {}
+                                } = {}
+                            } = {}
+                        } = product;
+
+                        price += itemPrice * quantity;
+                        priceExclTax += itemPriceExclTax * quantity;
                     }
-
-                    return acc;
-                }, []);
+                });
             }
+        });
 
-            return acc;
-        }, []);
-
-        return price;
+        return { price, priceExclTax };
     }
 
     getItemsPrice = (item) => {
-        const { selectedDropdownOptions, selectedCheckboxValues } = this.state;
-        let price = 0;
+        const {
+            selectedDropdownOptions,
+            selectedCheckboxValues
+        } = this.state;
 
         if (selectedCheckboxValues.length) {
-            price += this.getOptionPrice(item, selectedCheckboxValues);
+            return this.getOptionPrice(item, selectedCheckboxValues);
         }
 
         if (selectedDropdownOptions.length) {
-            price += this.getOptionPrice(item, selectedDropdownOptions);
+            return this.getOptionPrice(item, selectedDropdownOptions);
         }
 
-        return price;
+        return { price: 0, priceExclTax: 0 };
     };
 
     getTotalPrice() {
         const { items } = this.props;
-        let totalPrice = 0;
 
-        const priceValues = items.map(this.getItemsPrice);
-
-        priceValues.reduce((acc, item) => {
-            totalPrice += item;
-
-            return acc;
-        }, []);
-
-        return totalPrice;
+        return items
+            .map(this.getItemsPrice)
+            .reduce(
+                ({ price, priceExclTax }, item) => ({
+                    price: price + item.price,
+                    priceExclTax: priceExclTax + item.priceExclTax
+                }),
+                { price: 0, priceExclTax: 0 }
+            );
     }
 
     updateSelectedOptions() {
         const { getSelectedCustomizableOptions, setBundlePrice } = this.props;
         const { selectedDropdownOptions, selectedCheckboxValues } = this.state;
         const bundleOptions = [];
-        const bundlePrice = this.getTotalPrice();
+        const bundlePrices = this.getTotalPrice();
 
         bundleOptions.push(
             ...bundleOptions,
@@ -139,7 +150,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         );
 
         getSelectedCustomizableOptions(bundleOptions);
-        setBundlePrice(bundlePrice);
+        setBundlePrice(bundlePrices);
     }
 
     setSelectedDropdownValue(id, option) {

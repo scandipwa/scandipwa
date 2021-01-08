@@ -50,7 +50,8 @@ export class ProductPage extends PureComponent {
         selectedBundlePrice: PropTypes.number.isRequired,
         device: DeviceType.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
-        isAttributesTabEmpty: PropTypes.bool.isRequired
+        isAttributesTabEmpty: PropTypes.bool.isRequired,
+        selectedBundlePriceExclTax: PropTypes.number.isRequired
     };
 
     tabMap = {
@@ -103,7 +104,8 @@ export class ProductPage extends PureComponent {
             getSelectedCustomizableOptions,
             productOptionsData,
             setBundlePrice,
-            selectedBundlePrice
+            selectedBundlePrice,
+            selectedBundlePriceExclTax
         } = this.props;
 
         return (
@@ -125,6 +127,7 @@ export class ProductPage extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   selectedBundlePrice={ selectedBundlePrice }
+                  selectedBundlePriceExclTax={ selectedBundlePriceExclTax }
                 />
             </>
         );
