@@ -163,12 +163,14 @@ export class MyAccountContainer extends PureComponent {
     componentDidUpdate(prevProps, prevState) {
         const { wishlistItems: prevWishlistItems } = prevProps;
         const { wishlistItems, isSignedIn } = this.props;
-        const { prevActiveTab } = prevState;
+        const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
         this.redirectIfNotSignedIn();
+
         if (prevActiveTab !== activeTab) {
             this.updateBreadcrumbs();
+            this.changeHeaderState();
         }
 
         if (Object.keys(wishlistItems).length !== Object.keys(prevWishlistItems).length) {
@@ -207,9 +209,12 @@ export class MyAccountContainer extends PureComponent {
         this.changeHeaderState();
     }
 
-    changeWishlistHeaderState(hiddenElements = ['ok']) {
+    changeWishlistHeaderState(hiddenElements) {
         const { changeHeaderState } = this.props;
+        const { isEditingActive } = this.state;
         const { [MY_WISHLIST]: { headerTitle } } = this.tabMap;
+
+        const currentHiddenElements = hiddenElements || [isEditingActive ? 'edit' : 'ok'];
 
         const handleClick = (isEdit = false) => {
             this.setState({ isEditingActive: isEdit });
@@ -224,7 +229,7 @@ export class MyAccountContainer extends PureComponent {
             name: CUSTOMER_WISHLIST,
             onEditClick: () => handleClick(true),
             onOkClick: () => handleClick(),
-            hiddenElements,
+            hiddenElements: currentHiddenElements,
             shouldNotGoToPrevState: true
         });
     }

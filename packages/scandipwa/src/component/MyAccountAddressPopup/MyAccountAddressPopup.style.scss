@@ -17,4 +17,10 @@
             margin: 1.4rem 0;
         }
     }
+
+    .Button {
+        @include mobile {
+            width: 100%;
+        }
+    }
 }

@@ -38,6 +38,7 @@ export class ProductActionsContainer extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
+        selectedBundlePriceExclTax: PropTypes.number.isRequired,
         getLink: PropTypes.func.isRequired
     };
 
@@ -270,7 +271,8 @@ export class ProductActionsContainer extends PureComponent {
             product,
             product: { variants = [], type_id },
             configurableVariantIndex,
-            selectedBundlePrice
+            selectedBundlePrice,
+            selectedBundlePriceExclTax
         } = this.props;
 
         const {
@@ -288,14 +290,20 @@ export class ProductActionsContainer extends PureComponent {
             } = product;
 
             // eslint-disable-next-line no-magic-numbers
-            const finalBundlePrice = selectedBundlePrice - (selectedBundlePrice * (percent_off / 100));
+            const discount = (1 - percent_off / 100);
+
+            const finalBundlePrice = selectedBundlePrice * discount;
+            const finalBundlePriceExclTax = selectedBundlePriceExclTax * discount;
 
             const priceValue = { value: finalBundlePrice, currency };
+            const priceValueExclTax = { value: finalBundlePriceExclTax, currency };
 
             return {
                 minimum_price: {
                     final_price: priceValue,
-                    regular_price: priceValue
+                    regular_price: priceValue,
+                    final_price_excl_tax: priceValueExclTax,
+                    regular_price_excl_tax: priceValueExclTax
                 }
             };
         }
