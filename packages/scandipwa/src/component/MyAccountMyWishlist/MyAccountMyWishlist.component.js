@@ -34,7 +34,8 @@ export class MyAccountMyWishlist extends PureComponent {
         isActionsDisabled: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        removeSelectedFromWishlist: PropTypes.func.isRequired
+        removeSelectedFromWishlist: PropTypes.func.isRequired,
+        loadingItemsMap: PropTypes.objectOf(Object).isRequired
     };
 
     state = {
@@ -119,12 +120,13 @@ export class MyAccountMyWishlist extends PureComponent {
     );
 
     renderProduct = ([id, product]) => {
-        const { isEditingActive } = this.props;
+        const { isEditingActive, loadingItemsMap } = this.props;
 
         return (
             <WishlistItem
               key={ id }
               product={ product }
+              isRemoving={ loadingItemsMap[id] }
               isEditingActive={ isEditingActive }
               handleSelectIdChange={ this.handleSelectIdChange }
             />

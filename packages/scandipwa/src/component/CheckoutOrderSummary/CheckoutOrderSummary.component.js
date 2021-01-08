@@ -239,7 +239,7 @@ export class CheckoutOrderSummary extends PureComponent {
         }
 
         return applied_taxes
-            .flatMap(({ rates }) => rates)
+            .map(({ rates }) => rates)
             .map(({ percent, title }, i) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <div block="CheckoutOrderSummary" elem="AppendedContent" key={ i }>

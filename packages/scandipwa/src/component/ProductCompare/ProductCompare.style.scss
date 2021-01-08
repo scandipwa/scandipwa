@@ -54,7 +54,7 @@
         position: sticky;
         left: 0;
         background-color: $white;
-        z-index: 100;
+        z-index: 10;
 
         @include mobile {
             display: none;
