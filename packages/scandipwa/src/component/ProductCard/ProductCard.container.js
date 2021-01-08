@@ -16,7 +16,7 @@ import { Subscribe } from 'unstated';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
-import { getVariantsIndexes } from 'Util/Product';
+import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
 import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
@@ -26,6 +26,11 @@ export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
+
+/** @namespace Component/ProductCard/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -99,14 +104,14 @@ export class ProductCardContainer extends PureComponent {
 
     _getCurrentVariantIndex() {
         const { index } = this._getConfigurableParameters();
-        return index >= 0 ? index : 0;
+        return index;
     }
 
     _getConfigurableParameters() {
         const { product: { variants = [] }, selectedFilters = {} } = this.props;
         const filterKeys = Object.keys(selectedFilters);
 
-        if (filterKeys.length < 0) {
+        if (filterKeys.length === 0) {
             return { indexes: [], parameters: {} };
         }
 
@@ -153,12 +158,8 @@ export class ProductCardContainer extends PureComponent {
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
 
-        if (
-            type_id === 'configurable'
-            && variants !== undefined
-            && variants.length
-        ) {
-            return variants[this._getCurrentVariantIndex()] || {};
+        if (type_id === CONFIGURABLE && variants?.length) {
+            return variants[this._getCurrentVariantIndex()] || product || {};
         }
 
         return product || {};
@@ -228,11 +229,5 @@ export class ProductCardContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/ProductCard/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCardContainer);

@@ -479,12 +479,13 @@ export class ProductPageContainer extends PureComponent {
 
     getConfigurableVariantIndex(variants) {
         const { configurableVariantIndex, parameters } = this.state;
+        const hasParameters = !!Object.keys(parameters).length;
 
         if (configurableVariantIndex >= 0) {
             return configurableVariantIndex;
         }
 
-        if (variants) {
+        if (variants && hasParameters) {
             return getVariantIndex(variants, parameters);
         }
 
