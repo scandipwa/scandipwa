@@ -27,6 +27,7 @@ export class WishlistItem extends PureComponent {
         changeDescription: PropTypes.func,
         removeItem: PropTypes.func,
         isLoading: PropTypes.bool,
+        isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         attributes: PropTypes.array.isRequired,
@@ -38,7 +39,8 @@ export class WishlistItem extends PureComponent {
         changeQuantity: () => {},
         changeDescription: () => {},
         removeItem: () => {},
-        isLoading: false
+        isLoading: false,
+        isRemoving: false
     };
 
     renderDescription() {
@@ -293,13 +295,13 @@ export class WishlistItem extends PureComponent {
     };
 
     render() {
-        const { isLoading } = this.props;
+        const { isLoading, isRemoving } = this.props;
 
         return (
             <ProductCard
               product={ this.getWishlistProduct() }
               mix={ { block: 'WishlistItem', elem: 'ProductCard' } }
-              isLoading={ isLoading }
+              isLoading={ isLoading || isRemoving }
               renderContent={ this.renderContent }
               hideWishlistButton
               hideCompareButton
