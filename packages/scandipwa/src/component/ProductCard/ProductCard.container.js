@@ -27,6 +27,11 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
+/** @namespace Component/ProductCard/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    device: state.ConfigReducer.device
+});
+
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     addProduct: (options) => CartDispatcher.then(
@@ -228,11 +233,5 @@ export class ProductCardContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/ProductCard/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCardContainer);

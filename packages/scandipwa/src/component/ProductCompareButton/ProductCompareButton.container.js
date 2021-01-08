@@ -21,43 +21,62 @@ export const ProductCompareDispatcher = import(
 );
 
 /** @namespace Component/ProductCompareButton/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    comparedProducts: state.ProductCompareReducer.productIds
+});
 
 /** @namespace Component/ProductCompareButton/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     addProductToCompare: (productId) => ProductCompareDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCompare(productId, dispatch)
+    ),
+    removeComparedProduct: (productId) => ProductCompareDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch)
     )
 });
 
 /** @namespace Component/ProductCompareButton/Container */
 export class ProductCompareButtonContainer extends PureComponent {
     static propTypes = {
-        productId: PropTypes.number.isRequired,
-        addProductToCompare: PropTypes.func.isRequired
+        productId: PropTypes.number,
+        addProductToCompare: PropTypes.func.isRequired,
+        removeComparedProduct: PropTypes.func.isRequired,
+        comparedProducts: PropTypes.arrayOf(PropTypes.number).isRequired
     };
 
-    state = {
-        isLoading: false,
-        isActive: false
+    static defaultProps = {
+        productId: null
     };
 
     containerFunctions = {
         handleClick: this.handleClick.bind(this)
     };
 
+    containerProps = () => ({
+        isActive: this.isActive()
+    });
+
+    isActive() {
+        const { comparedProducts, productId } = this.props;
+        return comparedProducts.indexOf(productId) !== -1;
+    }
+
     async handleClick() {
-        const { addProductToCompare, productId } = this.props;
-        const { isActive } = this.state;
+        const {
+            productId,
+            addProductToCompare,
+            removeComparedProduct
+        } = this.props;
 
         this.setState({ isLoading: true });
 
-        await addProductToCompare(productId);
+        if (this.isActive()) {
+            await removeComparedProduct(productId);
+        } else {
+            await addProductToCompare(productId);
+        }
 
-        this.setState({
-            isLoading: false,
-            isActive: !isActive
-        });
+        this.setState({ isLoading: false });
     }
 
     render() {
@@ -65,6 +84,7 @@ export class ProductCompareButtonContainer extends PureComponent {
             <ProductCompareButton
               { ...this.props }
               { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

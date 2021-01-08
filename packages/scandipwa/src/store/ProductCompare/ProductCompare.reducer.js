@@ -12,9 +12,11 @@
 import { getIndexedProducts } from 'Util/Product';
 
 import {
+    ADD_COMPARED_PRODUCT_ID,
     CLEAR_COMPARED_PRODUCTS,
     REMOVE_COMPARED_PRODUCT,
     SET_COMPARE_LIST,
+    SET_COMPARED_PRODUCT_IDS,
     TOGGLE_COMPARE_LIST_LOADER
 } from './ProductCompare.action';
 
@@ -22,7 +24,8 @@ import {
 export const getInitialState = () => ({
     isLoading: false,
     count: 0,
-    products: []
+    products: [],
+    productIds: []
 });
 
 /** @namespace Store/ProductCompare/Reducer */
@@ -51,12 +54,13 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
 
     case REMOVE_COMPARED_PRODUCT: {
         const { productId } = action;
-        const { count, products } = state;
+        const { count, products, productIds } = state;
 
         return {
             ...state,
             count: count - 1,
-            products: products.filter(({ id }) => id !== productId)
+            products: products.filter(({ id }) => id !== productId),
+            productIds: productIds.filter((id) => id !== productId)
         };
     }
 
@@ -64,7 +68,25 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
         return {
             ...state,
             count: 0,
-            products: []
+            products: [],
+            productIds: []
+        };
+    }
+
+    case SET_COMPARED_PRODUCT_IDS: {
+        const { productIds } = action;
+        return {
+            ...state,
+            productIds
+        };
+    }
+
+    case ADD_COMPARED_PRODUCT_ID: {
+        const { productId } = action;
+        const { productIds } = state;
+        return {
+            ...state,
+            productIds: [...productIds, productId]
         };
     }
 

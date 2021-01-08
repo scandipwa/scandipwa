@@ -41,16 +41,16 @@ export class ProductCompareButton extends PureComponent {
         } = this.props;
 
         return (
-            <div block="ProductCompareButton" mix={ mix }>
+            <div
+              block="ProductCompareButton"
+              mods={ { isActive } }
+              mix={ mix }
+            >
                 <button
                   block="ProductCompareButton"
                   elem="Button"
                   onClick={ handleClick }
-                  mods={ { isActive } }
-                  mix={ {
-                      block: 'Button',
-                      mods: { isHollow: true }
-                  } }
+                  mix={ { block: 'Button' } }
                 >
                     <div block="ProductCompareButton" elem="Icon" />
                     <Loader isLoading={ isLoading } />
