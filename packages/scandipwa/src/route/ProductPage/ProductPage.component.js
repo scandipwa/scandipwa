@@ -57,15 +57,25 @@ export class ProductPage extends PureComponent {
     tabMap = {
         [PRODUCT_INFORMATION]: {
             name: __('About'),
-            shouldTabRender: this.shouldInformationTabRender.bind(this)
+            shouldTabRender: () => {
+                const { isInformationTabEmpty } = this.props;
+                return isInformationTabEmpty;
+            },
+            render: this.renderProductInformationTab.bind(this)
         },
         [PRODUCT_ATTRIBUTES]: {
             name: __('Details'),
-            shouldTabRender: this.shouldAttributesTabRender.bind(this)
+            shouldTabRender: () => {
+                const { isAttributesTabEmpty } = this.props;
+                return isAttributesTabEmpty;
+            },
+            render: this.renderProductAttributesTab.bind(this)
         },
         [PRODUCT_REVIEWS]: {
             name: __('Reviews'),
-            shouldTabRender: this.shouldReviewsTabRender.bind(this)
+            // Return false since it always returns 'Add review' button
+            shouldTabRender: () => false,
+            render: this.renderProductReviewsTab.bind(this)
         }
     };
 
@@ -209,34 +219,19 @@ export class ProductPage extends PureComponent {
     }
 
     renderProductTabItems() {
-        const productTabItems = [
-            this.renderProductInformationTab(),
-            this.renderProductAttributesTab(),
-            this.renderProductReviewsTab()
-        ];
+        const productTabItems = [];
+        Object.values(this.tabMap).map((item) => {
+            productTabItems.push(item.render());
+            return true;
+        });
 
         return productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>);
-    }
-
-    shouldInformationTabRender() {
-        const { isInformationTabEmpty } = this.props;
-        return isInformationTabEmpty;
-    }
-
-    shouldAttributesTabRender() {
-        const { isAttributesTabEmpty } = this.props;
-        return isAttributesTabEmpty;
-    }
-
-    shouldReviewsTabRender() {
-        // Return false since the tab is always NOT empty
-        return false;
     }
 
     getTabNames() {
         const renderTabs = [];
 
-        Object.values(this.tabMap).filter(Boolean).map((item) => {
+        Object.values(this.tabMap).map((item) => {
             if (!item.shouldTabRender()) {
                 renderTabs.push(item.name);
             }

@@ -430,7 +430,9 @@ export class ProductPageContainer extends PureComponent {
     containerProps = () => ({
         productOrVariant: this.getProductOrVariant(),
         dataSource: this.getDataSource(),
-        areDetailsLoaded: this.getAreDetailsLoaded()
+        areDetailsLoaded: this.getAreDetailsLoaded(),
+        isInformationTabEmpty: this.isProductInformationTabEmpty(),
+        isAttributesTabEmpty: this.isProductAttributesTabEmpty()
     });
 
     updateConfigurableVariant(key, value) {
@@ -596,8 +598,6 @@ export class ProductPageContainer extends PureComponent {
               { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
-              isInformationTabEmpty={ this.isProductInformationTabEmpty() }
-              isAttributesTabEmpty={ this.isProductAttributesTabEmpty() }
             />
         );
     }
