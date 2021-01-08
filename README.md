@@ -1,4 +1,4 @@
-![ScandiPWA](https://user-images.githubusercontent.com/29531824/101024697-24d42880-357d-11eb-868d-6577919e96e3.png)
+![ScandiPWA](https://user-images.githubusercontent.com/29531824/104035590-fc25fb00-51da-11eb-9171-d5f2e9211753.png)
 
 The next-generation front-end for Magento 2. Fast. Reliable. Extensible.
 
@@ -111,7 +111,7 @@ Here are some awesome resources to start with!
 
 Check the [list of live websites](https://scandipwa.com/case-studies.html) built with ScandiPWA.
 
-[![Case Studies](https://user-images.githubusercontent.com/52198221/102813576-bb07ab80-43d1-11eb-8857-1a7e8c55d65b.png)](https://scandipwa.com/case-studies.html)
+[![Case Studies](https://user-images.githubusercontent.com/52198221/103226455-d70ccf00-4934-11eb-9753-ad1b0000733c.png)](https://scandipwa.com/case-studies.html)
 
 ## Contribution
 

@@ -25,7 +25,7 @@ export class CSS {
      * @memberof CSS
      */
     static setVariable(ref, name, value) {
-        if (ref.current) {
+        if (ref && ref.current) {
             ref.current.style.setProperty(`--${name}`, value);
         }
     }

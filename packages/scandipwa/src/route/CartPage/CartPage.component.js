@@ -143,7 +143,7 @@ export class CartPage extends PureComponent {
         }
 
         return applied_taxes
-            .flatMap(({ rates }) => rates)
+            .map(({ rates }) => rates)
             .map(({ percent, title }) => (
                 <div block="CartPage" elem="TaxRate">
                     { `${title} (${percent}%)` }

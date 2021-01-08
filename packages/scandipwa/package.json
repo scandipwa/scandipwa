@@ -9,8 +9,9 @@
     },
     "dependencies": {
         "@scandipwa/m2-theme": "^0.1.1",
-        "@scandipwa/scandipwa-scripts": "^2.1.2",
-        "@scandipwa/service-worker": "^0.0.2",
+        "@scandipwa/scandipwa-scripts": "^2.2.0",
+        "@scandipwa/service-worker": "^0.0.4",
+        "@scandipwa/webpack-i18n-runtime": "^0.0.3",
         "braintree-web-drop-in": "^1.23.0",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
@@ -33,8 +34,12 @@
     "scandipwa": {
         "themeAlias": "Source",
         "type": "theme",
+        "locales": {
+            "en_US": true
+        },
         "extensions": {
             "@scandipwa/m2-theme": true,
+            "@scandipwa/webpack-i18n-runtime": true,
             "@scandipwa/service-worker": true
         },
         "composer": {
@@ -54,7 +59,7 @@
             "scandipwa/store-graphql": "^1.1.3",
             "scandipwa/customization": "^1.4",
             "scandipwa/cache": "^1.1.1",
-            "scandipwa/locale": "^1.2",
+            "scandipwa/locale": "^2",
             "scandipwa/contact-graphql": "^1.0.0",
             "scandipwa/klarna-graphql": "^1.1.2",
             "scandipwa/compare-graphql": "^1.0.2"

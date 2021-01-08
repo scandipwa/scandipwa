@@ -38,7 +38,8 @@ export class CartOverlay extends PureComponent {
         hasOutOfStockProductsInCart: PropTypes.bool,
         cartTotalSubPrice: PropTypes.number,
         cartShippingPrice: PropTypes.number,
-        cartShippingSubPrice: PropTypes.number
+        cartShippingSubPrice: PropTypes.number,
+        cartDisplaySettings: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -125,8 +126,15 @@ export class CartOverlay extends PureComponent {
         const {
             totals: {
                 tax_amount = 0
+            } = {},
+            cartDisplaySettings: {
+                display_zero_tax_subtotal
             } = {}
         } = this.props;
+
+        if (!tax_amount && !display_zero_tax_subtotal) {
+            return null;
+        }
 
         return (
             <dl
