@@ -107,7 +107,7 @@ export class ProductCompareItem extends PureComponent {
         }
 
         return (
-            <Link to={ url }>
+            <Link to={ url } block="ProductCompareItem" elem="AddToCartBtnWrapper">
                 { this.renderAddToCartBtn() }
             </Link>
         );
