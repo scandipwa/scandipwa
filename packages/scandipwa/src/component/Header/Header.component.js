@@ -125,7 +125,8 @@ export class Header extends NavigationAbstract {
             title: true
         },
         [CUSTOMER_ACCOUNT]: {
-            title: true
+            title: true,
+            close: true
         },
         [CUSTOMER_SUB_ACCOUNT]: {
             title: true,
