@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
+import { HistoryType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 
 import { BOTTOM_SHEET_HEIGHT } from './ProductBottomSheet.config';
@@ -22,38 +23,71 @@ import './ProductBottomSheet.style.scss';
 export class ProductBottomSheet extends PureComponent {
     static propTypes = {
         children: PropTypes.any.isRequired,
-        product: ProductType.isRequired
+        product: ProductType.isRequired,
+        history: HistoryType.isRequired
     };
 
     state = {
         open: false,
-        overflowHeight: 250
+        overflowHeight: 200
     };
 
     titleRef = createRef();
 
-    componentDidUpdate() {
+    // componentDidMount() {
+    //     window.addEventListener('popstate', this.onPopState);
+    // }
+
+    componentDidUpdate(prevProps) {
+        const { history, history: { location: { pathname } } } = this.props;
+        const { open } = this.state;
+        const { history: prevHistory, history: { location: { pathname: prevPathname } } } = prevProps;
+
+        // console.log({ prevPathname, pathname, open });
+
+        if (prevPathname !== pathname && open) {
+            this.setBottomSheetOpen(false);
+        }
+
+        // if (prevPathname !== pathname) {
+        console.log({ history, prevHistory });
+        // }
+
         this.updateOverflowHeight();
     }
 
+    // componentWillUnmount() {
+    //     window.removeEventListener('popstate', this.onPopState);
+    // }
+
+    // onPopState = () => {
+    //     const { history } = this.props;
+    //     console.log(history);
+    // };
+
     updateOverflowHeight() {
+        const { overflowHeight } = this.state;
         if (this.titleRef && this.titleRef.current) {
             const { current: titleEl } = this.titleRef;
             const rect = titleEl.getBoundingClientRect();
 
-            this.setState({
-                overflowHeight: BOTTOM_SHEET_HEIGHT + rect.height
-            });
+            const newOverflowHeight = BOTTOM_SHEET_HEIGHT + rect.height;
+
+            if (overflowHeight !== newOverflowHeight) {
+                this.setState({
+                    overflowHeight: newOverflowHeight
+                });
+            }
         }
     }
 
-    onBottomSheet = (open) => {
+    setBottomSheetOpen = (open) => {
         this.setState({ open });
     };
 
     toggleBottomSheet = () => {
         const { open } = this.state;
-        this.onBottomSheet(!open);
+        this.setBottomSheetOpen(!open);
     };
 
     render() {
@@ -66,26 +100,29 @@ export class ProductBottomSheet extends PureComponent {
         const bodyStyle = {
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
-            maxHeight: 'calc(100vh - 50px)'
+            // eslint-disable-next-line no-magic-numbers
+            marginBottom: 77,
+            maxHeight: 'calc(var(--vh, 1vh) * 100 - 77px)'
         };
 
         return (
             <SwipeableBottomSheet
               overflowHeight={ overflowHeight }
               open={ open }
-              onChange={ this.onBottomSheet }
+              onChange={ this.setBottomSheetOpen }
               fullscreen
               style={ style }
               bodyStyle={ bodyStyle }
             >
-            <span block="ProductBottomSheet" elem="PillWrapper">
-                <span block="ProductBottomSheet" elem="Pill" />
-            </span>
-            <div ref={ this.titleRef } block="ProductBottomSheet" elem="ProductTitle">
-                { product.name }
-            </div>
-            { children }
-            <div block="ProductBottomSheet" elem="BottomPlaceholder" />
+                <div block="ProductBottomSheet" elem="Wrapper">
+                    <span block="ProductBottomSheet" elem="PillWrapper">
+                        <span block="ProductBottomSheet" elem="Pill" />
+                    </span>
+                    <div ref={ this.titleRef } block="ProductBottomSheet" elem="Title">
+                        { product.name }
+                    </div>
+                    { children }
+                </div>
             </SwipeableBottomSheet>
         );
     }

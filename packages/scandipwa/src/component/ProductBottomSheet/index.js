@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductBottomSheet.component';
+export { default } from './ProductBottomSheet.container';

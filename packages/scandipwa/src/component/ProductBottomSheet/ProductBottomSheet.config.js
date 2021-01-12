@@ -10,4 +10,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const BOTTOM_SHEET_HEIGHT = 217;
+export const BOTTOM_SHEET_HEIGHT = 170;

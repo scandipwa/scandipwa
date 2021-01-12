@@ -8,11 +8,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-// .ReactSwipeableBottomSheet--closed,
-// .ReactSwipeableBottomSheet--open {
-//     max-height: calc(100vh - 50px);
-// }
+
 .ProductBottomSheet {
+    &-Wrapper {
+        min-height: calc(var(--vh, 1vh) * 100 - 120px);
+        // margin-bottom: 140px;
+    }
     &-Pill {
         width: 70px;
         height: 4px;
@@ -20,27 +21,32 @@
         border-radius: 10px;
     }
     &-PillWrapper {
-        position: relative;
+        position: fixed;
+        top: 0;
         display: flex;
         width: 100%;
         justify-content: center;
-        padding: 5px;
+        padding: 0.5rem;
         z-index: 1;
     }
-    &-ProductTitle {
+
+    &-Title {
+        font-size: 2.8rem;
+        line-height: 4.2rem;
+        font-weight: bold;
         box-sizing: border-box;
         color: black;
-        font-size: 24px;
         flex: 1;
         padding-left: 1.5rem;
-    }
-
-    &-BottomPlaceholder {
-        // bottom bar height + add to cart wrapper height
-        height: calc(50px + 78px)
+        margin-top: 1rem;
     }
 }
 .react-swipeable-view-container {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+
+    // to enable clicks on top of react-swipeable wrapper
+    & > div:nth-child(2) {
+        z-index: -1;
+    }
 }
