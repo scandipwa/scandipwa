@@ -28,7 +28,7 @@ export class MyAccountQuery {
     getResetPasswordMutation(options) {
         const { token, password, password_confirmation } = options;
 
-        return new Field('resetPassword')
+        return new Field('asResetPassword')
             .addArgument('token', 'String!', token)
             .addArgument('password', 'String!', password)
             .addArgument('password_confirmation', 'String!', password_confirmation)
