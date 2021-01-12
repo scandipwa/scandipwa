@@ -44,7 +44,10 @@ export class Form extends PureComponent {
 
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
+
+        // TODO 2: Should we preserve refMap somehow?
         const refMap = {};
+
         const children = Form.cloneChildren(
             propsChildren,
             (child) => {
@@ -57,6 +60,7 @@ export class Form extends PureComponent {
 
                 // point the new ref to the element
                 return cloneElement(child, {
+                // TODO 1: remove data duplication
                     formRef: newRef,
                     formRefMap: refMap
                 });
@@ -101,10 +105,15 @@ export class Form extends PureComponent {
 
                 if (message) {
                     invalidFields.push(id);
-                    return cloneElement(child, { message, formRef: refMap[name] });
+                    return cloneElement(child, {
+                        message,
+                        formRef: refMap[name]
+                    });
                 }
 
-                return cloneElement(child, { formRef: refMap[name] });
+                return cloneElement(child, {
+                    formRef: refMap[name]
+                });
             }
         );
 
@@ -154,7 +163,14 @@ export class Form extends PureComponent {
             return Form.updateChildrenRefs(props);
         }
 
-        return Form.cloneAndValidateChildren(children, refMap);
+        // refMap should be returned here
+        return {
+            ...Form.cloneAndValidateChildren(children, refMap),
+
+            // TODO 3: optimization
+            // This clones children for the second time, this is no good
+            ...Form.updateChildrenRefs(props)
+        };
     }
 
     handleFormSubmit = async (e) => {
