@@ -1,4 +1,4 @@
-![ScandiPWA](https://user-images.githubusercontent.com/29531824/101024697-24d42880-357d-11eb-868d-6577919e96e3.png)
+![ScandiPWA](https://user-images.githubusercontent.com/29531824/104035590-fc25fb00-51da-11eb-9171-d5f2e9211753.png)
 
 The next-generation front-end for Magento 2. Fast. Reliable. Extensible.
 

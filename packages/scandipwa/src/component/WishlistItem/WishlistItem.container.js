@@ -66,7 +66,7 @@ export class WishlistItemContainer extends PureComponent {
 
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
-        removeItem: this.removeItem.bind(this, false)
+        removeItem: this.removeItem.bind(this, false, true)
     };
 
     state = {

@@ -13,7 +13,27 @@
                 "BROWSER": "none"
             },
             "cwd": "${workspaceFolder}/packages/scandipwa"
+        },
+        {
+            "command": "npm run build",
+            "name": "Run npm build",
+            "request": "launch",
+            "type": "node-terminal",
+            "env": {
+                "BROWSER": "none"
+            },
+            "cwd": "${workspaceFolder}/packages/scandipwa"
+        },
+        {
+            "command": "npm run build",
+            "name": "Run npm build (MAGENTO)",
+            "request": "launch",
+            "type": "node-terminal",
+            "env": {
+                "BROWSER": "none",
+                "BUILD_MODE": "magento"
+            },
+            "cwd": "${workspaceFolder}/packages/scandipwa"
         }
-        
     ]
 }
