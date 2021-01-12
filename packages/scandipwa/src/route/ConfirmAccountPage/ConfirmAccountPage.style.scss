@@ -10,7 +10,7 @@
  */
 
 .ConfirmAccountPage {
-    --content-wrapper-width: 600px;
+    --content-wrapper-width: 450px;
 
     &-Wrapper {
         @include before-desktop {
@@ -18,15 +18,20 @@
         }
 
         @include mobile {
+            --content-wrapper-width: 600px;
+
             padding-top: .7rem;
         }
     }
 
     &-Button {
-        margin-top: 1.2rem;
+        position: absolute;
+        top: 2.8rem;
+        right: 0;
 
         @include mobile {
-            margin-top: 1.4rem;
+            position: relative;
+            top: 0;
             width: 100%;
         }
 
@@ -57,7 +62,7 @@
         @include after-mobile {
             display: flex;
             align-items: flex-end;
-            justify-content: center;
+            justify-content: flex-start;
         }
     }
 
