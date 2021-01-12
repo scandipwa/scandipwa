@@ -154,7 +154,7 @@
     &-SubHeading {
         font-size: 1.4rem;
         line-height: 1.2;
-        flex-grow: 1;
+        flex-grow: 2;
         width: 100%;
         margin-bottom: .6rem;
 
@@ -293,10 +293,10 @@
             @include close-button;
 
             position: absolute;
-            right: -8px;
+            right: 0;
             height: 30px;
-            width: 30px;
             padding-left: 0;
+            flex-grow: 1;
 
             &::before {
                 height: 15px;
