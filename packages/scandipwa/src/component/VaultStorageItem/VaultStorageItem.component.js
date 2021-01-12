@@ -18,6 +18,8 @@ import { getCardIconByType } from 'Util/Card';
 
 import './VaultStorageItem.style';
 
+/** @namespace Component/VaultStorageItem/Component */
+
 export class VaultStorageItem extends PureComponent {
     static propTypes = {
         paymentMethod: PropTypes.object.isRequired,
@@ -31,16 +33,6 @@ export class VaultStorageItem extends PureComponent {
     static defaultProps = {
         isSelected: false
     };
-
-    renderContent() {
-        const { isCheckout } = this.props;
-
-        if (!isCheckout) {
-            return this.renderMyAccountCard();
-        }
-
-        return this.renderCard();
-    }
 
     renderCardIcon() {
         const {
@@ -173,6 +165,16 @@ export class VaultStorageItem extends PureComponent {
                 </button>
             </li>
         );
+    }
+
+    renderContent() {
+        const { isCheckout } = this.props;
+
+        if (!isCheckout) {
+            return this.renderMyAccountCard();
+        }
+
+        return this.renderCard();
     }
 
     render() {

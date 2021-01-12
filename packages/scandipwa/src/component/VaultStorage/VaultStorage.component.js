@@ -18,6 +18,8 @@ import { DeviceType } from 'Type/Device';
 
 import './VaultStorage.style';
 
+/** @namespace Component/VaultStorage/Component */
+
 export class VaultStorage extends PureComponent {
     static propTypes = {
         storedPaymentMethods: PropTypes.object.isRequired,

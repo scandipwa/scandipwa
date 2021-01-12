@@ -33,11 +33,6 @@ export const mapDispatchToProps = (dispatch) => ({
         VaultDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
         );
-    },
-    updateIsLoading: () => {
-        VaultDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateIsLoading(dispatch)
-        );
     }
 });
 
