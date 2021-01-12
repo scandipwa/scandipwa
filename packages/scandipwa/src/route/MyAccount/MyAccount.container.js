@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -273,16 +272,14 @@ export class MyAccountContainer extends PureComponent {
     updateTabMap() {
         const { braintreeVaultActive } = this.props;
 
-        if (!braintreeVaultActive) {
-            return null;
-        }
-
-        return (
+        if (braintreeVaultActive) {
             this.tabMap[VAULT_STORAGE] = {
                 url: '/vault-storage',
                 name: __('Stored Payment Methods')
-            }
-        );
+            };
+        }
+
+        return null;
     }
 
     updateBreadcrumbs() {
