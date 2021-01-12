@@ -168,13 +168,8 @@ export class ProductPage extends PureComponent {
         const {
             dataSource,
             parameters,
-            areDetailsLoaded,
-            isInformationTabEmpty
+            areDetailsLoaded
         } = this.props;
-
-        if (isInformationTabEmpty) {
-            return null;
-        }
 
         return (
             <ProductInformation
@@ -188,13 +183,8 @@ export class ProductPage extends PureComponent {
         const {
             dataSource,
             parameters,
-            areDetailsLoaded,
-            isAttributesTabEmpty
+            areDetailsLoaded
         } = this.props;
-
-        if (isAttributesTabEmpty) {
-            return null;
-        }
 
         return (
             <ProductAttributes
@@ -219,27 +209,23 @@ export class ProductPage extends PureComponent {
     }
 
     renderProductTabItems() {
-        const productTabItems = [];
-        Object.values(this.tabMap).map((item) => {
-            productTabItems.push(item.render());
-            return true;
-        });
+        return Object.values(this.tabMap).reduce((tabRenders, { shouldTabRender, render }) => {
+            if (!shouldTabRender()) {
+                tabRenders.push(render());
+            }
 
-        return productTabItems.filter(Boolean).map((item) => <div key={ item.toString() }>{ item }</div>);
+            return tabRenders;
+        }, []);
     }
 
     getTabNames() {
-        const renderTabs = [];
-
-        Object.values(this.tabMap).map((item) => {
-            if (!item.shouldTabRender()) {
-                renderTabs.push(item.name);
+        return Object.values(this.tabMap).reduce((tabNames, { shouldTabRender, name }) => {
+            if (!shouldTabRender()) {
+                tabNames.push(name);
             }
 
-            return true;
-        });
-
-        return renderTabs;
+            return tabNames;
+        }, []);
     }
 
     renderProductTabs() {
