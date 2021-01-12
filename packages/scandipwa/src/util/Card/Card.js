@@ -13,9 +13,10 @@
 import NONE from '../../../../public/assets/images/cc/NONE.png';
 import { CARD_ICON_MAP } from './Card.config';
 
-/** @namespace Util/Card/getCardIconByType */
+/** @namespace Util/Card/searchIcon */
 export const searchIcon = (type) => CARD_ICON_MAP.find(((card) => card.type === type));
 
+/** @namespace Util/Card/getCardIconByType */
 export const getCardIconByType = (type) => {
     const result = searchIcon(type);
 
