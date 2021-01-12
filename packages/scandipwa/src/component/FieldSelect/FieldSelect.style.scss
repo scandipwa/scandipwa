@@ -79,6 +79,18 @@ $select-arrow-width: 6px !default;
         max-height: 0;
         -webkit-overflow-scrolling: touch;
 
+        // Firefox support
+        scrollbar-width: none !important;
+        scrollbar-color: none !important;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            display: none;
+        }
+
         &_isExpanded {
             @include desktop {
                 max-height: 200px;
