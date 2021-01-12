@@ -64,6 +64,12 @@
         @include mobile {
             bottom: 1.4rem;
         }
+
+        &_isVertical {
+            width: auto;
+            right: 1rem;
+            margin: 50% auto;
+        }
     }
 
     &-Crumb {
