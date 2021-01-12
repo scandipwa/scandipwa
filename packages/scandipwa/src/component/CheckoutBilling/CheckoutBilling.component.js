@@ -37,9 +37,12 @@ export class CheckoutBilling extends PureComponent {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
+        isSavePayment: PropTypes.bool.isRequired,
         termsAreEnabled: PropTypes.bool,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
+        onPaymentSavedInVaultChange: PropTypes.func.isRequired,
+        onStoredPaymentMethodSelect: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
         onBillingError: PropTypes.func.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
@@ -236,8 +239,11 @@ export class CheckoutBilling extends PureComponent {
 
     renderPayments() {
         const {
+            isSavePayment,
             paymentMethods,
             onPaymentMethodSelect,
+            onPaymentSavedInVaultChange,
+            onStoredPaymentMethodSelect,
             setLoading,
             setDetailsStep,
             shippingAddress
@@ -249,10 +255,13 @@ export class CheckoutBilling extends PureComponent {
 
         return (
             <CheckoutPayments
+              isSavePayment={ isSavePayment }
               setLoading={ setLoading }
               setDetailsStep={ setDetailsStep }
               paymentMethods={ paymentMethods }
               onPaymentMethodSelect={ onPaymentMethodSelect }
+              onPaymentSavedInVaultChange={ onPaymentSavedInVaultChange }
+              onStoredPaymentMethodSelect={ onStoredPaymentMethodSelect }
               setOrderButtonVisibility={ this.setOrderButtonVisibility }
               billingAddress={ shippingAddress }
               setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }

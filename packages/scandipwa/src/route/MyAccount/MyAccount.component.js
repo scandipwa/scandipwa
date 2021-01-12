@@ -20,6 +20,7 @@ import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
 import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
+import VaultStorage from 'Component/VaultStorage';
 import {
     activeTabType,
     ADDRESS_BOOK,
@@ -27,7 +28,8 @@ import {
     MY_ORDERS,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION,
-    tabMapType
+    tabMapType,
+    VAULT_STORAGE
 } from 'Type/Account';
 
 import './MyAccount.style';
@@ -48,6 +50,7 @@ export class MyAccount extends PureComponent {
         [DASHBOARD]: MyAccountDashboard,
         [MY_ORDERS]: MyAccountMyOrders,
         [MY_WISHLIST]: MyAccountMyWishlist,
+        [VAULT_STORAGE]: VaultStorage,
         [ADDRESS_BOOK]: MyAccountAddressBook,
         [NEWSLETTER_SUBSCRIPTION]: MyAccountNewsletterSubscription
     };

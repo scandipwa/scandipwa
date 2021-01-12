@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -23,7 +24,8 @@ import {
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    NEWSLETTER_SUBSCRIPTION
+    NEWSLETTER_SUBSCRIPTION,
+    VAULT_STORAGE
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
@@ -47,7 +49,8 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     device: state.ConfigReducer.device,
-    wishlistItems: state.WishlistReducer.productsInWishlist
+    wishlistItems: state.WishlistReducer.productsInWishlist,
+    braintreeVaultActive: state.ConfigReducer.braintree_cc_vault
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -76,6 +79,7 @@ export class MyAccountContainer extends PureComponent {
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
         device: DeviceType.isRequired,
+        braintreeVaultActive: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.object
     };
 
@@ -153,6 +157,7 @@ export class MyAccountContainer extends PureComponent {
 
         this.redirectIfNotSignedIn();
         this.onSignIn();
+        this.updateTabMap();
         this.updateBreadcrumbs();
     }
 
@@ -263,6 +268,21 @@ export class MyAccountContainer extends PureComponent {
 
         history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }${ url }`));
         this.changeHeaderState(activeTab);
+    }
+
+    updateTabMap() {
+        const { braintreeVaultActive } = this.props;
+
+        if (!braintreeVaultActive) {
+            return null;
+        }
+
+        return (
+            this.tabMap[VAULT_STORAGE] = {
+                url: '/vault-storage',
+                name: __('Stored Payment Methods')
+            }
+        );
     }
 
     updateBreadcrumbs() {

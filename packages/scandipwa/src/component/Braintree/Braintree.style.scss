@@ -21,6 +21,18 @@
         border-radius: 5px;
     }
 
+    &-Checkbox {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        right: 1.2rem;
+
+        .Field-Label {
+            padding-top: .4rem;
+            margin-left: .95rem
+        }
+    }
+
     .braintree-placeholder {
         display: none;
     }

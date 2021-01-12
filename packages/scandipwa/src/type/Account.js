@@ -83,6 +83,7 @@ export const MY_ORDERS = 'my-orders';
 export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address-book';
 export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
+export const VAULT_STORAGE = 'vault-storage';
 
 export const activeTabType = PropTypes.string;
 

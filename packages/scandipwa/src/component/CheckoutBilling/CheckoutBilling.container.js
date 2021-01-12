@@ -13,7 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import {
+    BRAINTREE,
+    BRAINTREE_CC_VAULT,
+    KLARNA
+} from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
@@ -82,6 +86,8 @@ export class CheckoutBillingContainer extends PureComponent {
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
+        onPaymentSavedInVaultChange: this.onPaymentSavedInVaultChange.bind(this),
+        onStoredPaymentMethodSelect: this.onStoredPaymentMethodSelect.bind(this),
         showPopup: this.showPopup.bind(this)
     };
 
@@ -96,6 +102,8 @@ export class CheckoutBillingContainer extends PureComponent {
             isSameAsShipping: this.isSameShippingAddress(customer),
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
+            cardPublicHash: null,
+            isSavePayment: false,
             paymentMethod
         };
     }
@@ -120,6 +128,14 @@ export class CheckoutBillingContainer extends PureComponent {
 
     onPaymentMethodSelect(code) {
         this.setState({ paymentMethod: code });
+    }
+
+    onPaymentSavedInVaultChange() {
+        this.setState(({ isSavePayment }) => ({ isSavePayment: !isSavePayment }));
+    }
+
+    onStoredPaymentMethodSelect(publicHash) {
+        this.setState({ cardPublicHash: publicHash });
     }
 
     onBillingSuccess(fields, asyncData) {
@@ -156,7 +172,11 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     _getPaymentData(asyncData) {
-        const { paymentMethod: code } = this.state;
+        const {
+            cardPublicHash,
+            isSavePayment,
+            paymentMethod: code
+        } = this.state;
 
         switch (code) {
         case BRAINTREE:
@@ -166,7 +186,15 @@ export class CheckoutBillingContainer extends PureComponent {
                 code,
                 additional_data: {
                     payment_method_nonce: nonce,
-                    is_active_payment_token_enabler: false
+                    is_active_payment_token_enabler: isSavePayment
+                }
+            };
+
+        case BRAINTREE_CC_VAULT:
+            return {
+                code,
+                additional_data: {
+                    public_hash: cardPublicHash
                 }
             };
 

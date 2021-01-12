@@ -1,0 +1,63 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+ :root {
+     --vault-card-border-color: var(--primary-divider-color);
+     --vault-card-border-hover-color: var(--secondary-dark-color);
+     --vault-card-border-selected-color: var(--primary-base-color);
+ }
+
+.VaultStorageItem {
+    &-Card {
+        align-items: center;
+        display: flex;
+        margin: 1rem 0;
+        padding: 0;
+
+        &:before {
+            content: none;
+        }
+    }
+
+    &-Button {
+        align-items: center;
+        border-radius: .5rem;
+        border: 1px solid var(--vault-card-border-color);
+        display: flex;
+        gap: 1rem;
+        padding: 1.2rem 3.6rem 1.2rem;
+        text-align: left;
+        width: 100%;
+
+        &_isSelected {
+            border-color: var(--vault-card-border-selected-color);
+        }
+
+        &:hover {
+            border-color: var(--vault-card-border-hover-color);
+        }
+    }
+
+    &-Icon {
+        .Image {
+            height: 3rem;
+            padding-bottom: unset;
+            top: 10px;
+            width: 4rem;
+        }
+
+        &_isCheckout {
+            .Image {
+                top: 0;
+            }
+        }
+    }
+}

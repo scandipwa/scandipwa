@@ -37,6 +37,7 @@ import ProductListInfoReducer from 'Store/ProductListInfo/ProductListInfo.reduce
 import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
 import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
 import UrlRewritesReducer from 'Store/UrlRewrites/UrlRewrites.reducer';
+import VaultReducer from 'Store/Vault/Vault.reducer';
 import WishlistReducer from 'Store/Wishlist/Wishlist.reducer';
 
 /** @namespace Store/Index/getReducers */
@@ -64,7 +65,8 @@ export const getStaticReducers = () => ({
     CheckoutReducer,
     ContactFormReducer,
     RecentlyViewedProductsReducer,
-    ProductCompareReducer
+    ProductCompareReducer,
+    VaultReducer
 });
 
 export function createReducer(asyncReducers) {

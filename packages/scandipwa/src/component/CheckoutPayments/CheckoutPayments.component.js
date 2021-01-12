@@ -17,10 +17,12 @@ import Braintree from 'Component/Braintree';
 import CheckoutPayment from 'Component/CheckoutPayment';
 import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
+import VaultStorage from 'Component/VaultStorage';
 import { paymentMethodsType } from 'Type/Checkout';
 
 import {
     BRAINTREE,
+    BRAINTREE_CC_VAULT,
     KLARNA
 } from './CheckoutPayments.config';
 
@@ -29,11 +31,15 @@ import './CheckoutPayments.style';
 /** @namespace Component/CheckoutPayments/Component */
 export class CheckoutPayments extends PureComponent {
     static propTypes = {
+        isSavePayment: PropTypes.bool.isRequired,
         showError: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
+        onPaymentSavedInVaultChange: PropTypes.func.isRequired,
+        onStoredPaymentMethodSelect: PropTypes.func.isRequired,
         initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
+        braintreeVaultActive: PropTypes.bool.isRequired,
         selectedPaymentCode: PropTypes.string.isRequired,
         billingAddress: PropTypes.shape({
             city: PropTypes.string,
@@ -61,6 +67,7 @@ export class CheckoutPayments extends PureComponent {
 
     paymentRenderMap = {
         [BRAINTREE]: this.renderBrainTreePayment.bind(this),
+        [BRAINTREE_CC_VAULT]: this.renderBrainTreeVault.bind(this),
         [KLARNA]: this.renderKlarnaPayment.bind(this)
     };
 
@@ -85,8 +92,31 @@ export class CheckoutPayments extends PureComponent {
     }
 
     renderBrainTreePayment() {
-        const { initBraintree } = this.props;
-        return <Braintree init={ initBraintree } />;
+        const {
+            initBraintree,
+            onPaymentSavedInVaultChange,
+            isSavePayment,
+            braintreeVaultActive
+        } = this.props;
+
+        return (
+            <Braintree
+              init={ initBraintree }
+              onPaymentSavedInVaultChange={ onPaymentSavedInVaultChange }
+              isSavePayment={ isSavePayment }
+              isVaultActive={ braintreeVaultActive }
+            />
+        );
+    }
+
+    renderBrainTreeVault() {
+        const { onStoredPaymentMethodSelect } = this.props;
+        return (
+            <VaultStorage
+              onStoredPaymentMethodSelect={ onStoredPaymentMethodSelect }
+              isCheckout
+            />
+        );
     }
 
     renderKlarnaPayment() {

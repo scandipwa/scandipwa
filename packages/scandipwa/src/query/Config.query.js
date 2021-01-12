@@ -123,6 +123,7 @@ export class ConfigQuery {
             'base_link_url',
             'show_vat_number_on_storefront',
             'show_tax_vat_number',
+            'braintree_cc_vault',
             this.getPriceDisplayTypeField()
         ];
     }

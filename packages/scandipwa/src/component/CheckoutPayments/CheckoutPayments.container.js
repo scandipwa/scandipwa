@@ -33,7 +33,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     email: state.CheckoutReducer.email,
-    address: state.CheckoutReducer.shippingFields
+    address: state.CheckoutReducer.shippingFields,
+    braintreeVaultActive: state.ConfigReducer.braintree_cc_vault
 });
 
 /** @namespace Component/CheckoutPayments/Container */

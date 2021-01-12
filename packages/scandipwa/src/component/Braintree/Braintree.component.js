@@ -12,7 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Field from 'Component/Field';
 import Loader from 'Component/Loader';
+import { isSignedIn } from 'Util/Auth';
 
 import { BRAINTREE_CONTAINER_ID } from './Braintree.config';
 
@@ -21,7 +23,10 @@ import './Braintree.style';
 /** @namespace Component/Braintree/Component */
 export class Braintree extends PureComponent {
     static propTypes = {
-        init: PropTypes.func.isRequired
+        init: PropTypes.func.isRequired,
+        onPaymentSavedInVaultChange: PropTypes.func.isRequired,
+        isSavePayment: PropTypes.bool.isRequired,
+        isVaultActive: PropTypes.bool.isRequired
     };
 
     state = {
@@ -37,6 +42,32 @@ export class Braintree extends PureComponent {
         );
     }
 
+    renderSavePaymentCheckbox() {
+        const {
+            onPaymentSavedInVaultChange,
+            isSavePayment,
+            isVaultActive
+        } = this.props;
+        const { isLoading } = this.state;
+
+        if (isLoading || !isSignedIn() || !isVaultActive) {
+            return null;
+        }
+
+        return (
+            <Field
+              id="isSavePayment"
+              name="isSavePayment"
+              type="checkbox"
+              label={ __('Save card for later?') }
+              value="isSavePayment"
+              mix={ { block: 'Braintree', elem: 'Checkbox' } }
+              checked={ isSavePayment }
+              onChange={ onPaymentSavedInVaultChange }
+            />
+        );
+    }
+
     render() {
         const { isLoading } = this.state;
 
@@ -48,6 +79,7 @@ export class Braintree extends PureComponent {
                   elem="Form"
                   id={ BRAINTREE_CONTAINER_ID }
                 />
+                { this.renderSavePaymentCheckbox() }
             </div>
         );
     }
