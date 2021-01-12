@@ -20,10 +20,14 @@
     }
 
     @include mobile {
-        padding-bottom: 75px;
+        height: 100vh;
+        margin-top: -50px;
+        margin-bottom: 0;
     }
     &-BottomPlaceholder {
-        height: 125px;
+        @include desktop {
+            height: 125px;
+        }
     }
 
     &-Wrapper {
@@ -56,5 +60,9 @@
         position: absolute;
         top: 0;
         right: 1.4rem;
+
+        @include mobile {
+            top: 1.4rem;
+        }
     }
 }
