@@ -110,7 +110,7 @@ export class ProductCompareContainer extends PureComponent {
 
     getMultiSelectAttributeValue(value, options) {
         return value
-            .split(',')
+            .split(/,\s*/)
             .map((v) => this.getAttributeValue(v, options))
             .filter((v) => !!v)
             .join(', ');
