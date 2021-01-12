@@ -232,6 +232,7 @@ export class ProductPageContainer extends PureComponent {
             && stateSKU === productSKU
         ) {
             this.updateHeaderState();
+            this.updateNavigationState();
         }
 
         /**
@@ -546,8 +547,13 @@ export class ProductPageContainer extends PureComponent {
     }
 
     updateNavigationState() {
-        const { changeNavigationState } = this.props;
-        changeNavigationState({ name: MENU_TAB });
+        const { changeNavigationState, device } = this.props;
+
+        if (device.isMobile) {
+            changeNavigationState({ isHidden: true });
+        } else {
+            changeNavigationState({ name: MENU_TAB });
+        }
     }
 
     updateMeta() {
