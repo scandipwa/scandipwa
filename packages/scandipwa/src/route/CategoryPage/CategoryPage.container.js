@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
@@ -158,6 +158,8 @@ export class CategoryPageContainer extends PureComponent {
         onSortChange: this.onSortChange.bind(this)
     };
 
+    ref = createRef();
+
     static getDerivedStateFromProps(props, state) {
         const { currentCategoryIds } = state;
         const { category: { id } } = props;
@@ -212,6 +214,28 @@ export class CategoryPageContainer extends PureComponent {
              */
             this.updateHeaderState(true);
             this.updateBreadcrumbs(true);
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    console.log('bottom');
+                    document.documentElement.classList.remove('hideOnScroll');
+                } else {
+                    document.documentElement.classList.add('hideOnScroll');
+                }
+            },
+            {
+                root: null,
+                rootMargin: '0px',
+                threshold: 1.0
+            }
+        );
+
+        if (this.ref.current) {
+            observer.observe(this.ref.current);
+        } else {
+            observer.unobserve(this.ref.current);
         }
     }
 
@@ -347,7 +371,8 @@ export class CategoryPageContainer extends PureComponent {
         isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
         selectedSort: this.getSelectedSortFromUrl(),
         selectedFilters: this.getSelectedFiltersFromUrl(),
-        isContentFiltered: this.isContentFiltered()
+        isContentFiltered: this.isContentFiltered(),
+        pageBottomRef: this.ref
     });
 
     isContentFiltered() {
