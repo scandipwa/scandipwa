@@ -63,6 +63,7 @@
 
         @include mobile {
             top: 1.4rem;
+            z-index: 99; // same index as mobile header
         }
     }
 }
