@@ -13,8 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
+import { BUNDLE, CONFIGURABLE } from 'Util/Product';
 
 import ProductCompareItem from './ProductCompareItem.component';
 
@@ -32,7 +34,8 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     removeComparedProduct: (productId) => ProductCompareDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeComparedProduct(productId, dispatch)
-    )
+    ),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Component/ProductCompareItem/Container */
@@ -40,7 +43,8 @@ export class ProductCompareItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         removeComparedProduct: PropTypes.func.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     state = {
@@ -50,11 +54,14 @@ export class ProductCompareItemContainer extends PureComponent {
     containerFunctions = {
         removeComparedProduct: this.removeComparedProduct.bind(this),
         getGroupedProductQuantity: this.getGroupedProductQuantity.bind(this),
-        getProductOptionsData: this.getProductOptionsData.bind(this)
+        getProductOptionsData: this.getProductOptionsData.bind(this),
+        overriddenAddToCartBtnHandler: this.overriddenAddToCartBtnHandler.bind(this)
     };
 
     containerProps = {
-        imgUrl: this.getProductImage()
+        imgUrl: this.getProductImage(),
+        overrideAddToCartBtnBehavior: this.getOverrideAddToCartBtnBehavior(),
+        linkTo: this.getLinkTo()
     };
 
     async removeComparedProduct() {
@@ -111,6 +118,27 @@ export class ProductCompareItemContainer extends PureComponent {
         }
 
         return thumbnail.url;
+    }
+
+    getLinkTo() {
+        const { product: { url }, product } = this.props;
+
+        return {
+            pathname: url,
+            state: { product }
+        };
+    }
+
+    getOverrideAddToCartBtnBehavior() {
+        const { product: { type_id, options } } = this.props;
+        const types = [BUNDLE, CONFIGURABLE];
+
+        return !!(types.indexOf(type_id) !== -1 || options?.length);
+    }
+
+    overriddenAddToCartBtnHandler() {
+        const { showNotification } = this.props;
+        showNotification('info', __('Please select required option!'));
     }
 
     render() {
