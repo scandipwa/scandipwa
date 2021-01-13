@@ -61,7 +61,7 @@ export class ProductPage extends PureComponent {
                 const { isInformationTabEmpty } = this.props;
                 return isInformationTabEmpty;
             },
-            render: this.renderProductInformationTab.bind(this)
+            render: (key) => this.renderProductInformationTab(key)
         },
         [PRODUCT_ATTRIBUTES]: {
             name: __('Details'),
@@ -69,13 +69,13 @@ export class ProductPage extends PureComponent {
                 const { isAttributesTabEmpty } = this.props;
                 return isAttributesTabEmpty;
             },
-            render: this.renderProductAttributesTab.bind(this)
+            render: (key) => this.renderProductAttributesTab(key)
         },
         [PRODUCT_REVIEWS]: {
             name: __('Reviews'),
             // Return false since it always returns 'Add review' button
             shouldTabRender: () => false,
-            render: this.renderProductReviewsTab.bind(this)
+            render: (key) => this.renderProductReviewsTab(key)
         }
     };
 
@@ -164,7 +164,7 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    renderProductInformationTab() {
+    renderProductInformationTab(key) {
         const {
             dataSource,
             parameters,
@@ -175,11 +175,12 @@ export class ProductPage extends PureComponent {
             <ProductInformation
               product={ { ...dataSource, parameters } }
               areDetailsLoaded={ areDetailsLoaded }
+              key={ key }
             />
         );
     }
 
-    renderProductAttributesTab() {
+    renderProductAttributesTab(key) {
         const {
             dataSource,
             parameters,
@@ -190,11 +191,12 @@ export class ProductPage extends PureComponent {
             <ProductAttributes
               product={ { ...dataSource, parameters } }
               areDetailsLoaded={ areDetailsLoaded }
+              key={ key }
             />
         );
     }
 
-    renderProductReviewsTab() {
+    renderProductReviewsTab(key) {
         const {
             dataSource,
             areDetailsLoaded
@@ -204,14 +206,15 @@ export class ProductPage extends PureComponent {
             <ProductReviews
               product={ dataSource }
               areDetailsLoaded={ areDetailsLoaded }
+              key={ key }
             />
         );
     }
 
     renderProductTabItems() {
-        return Object.values(this.tabMap).reduce((tabRenders, { shouldTabRender, render }) => {
+        return Object.values(this.tabMap).reduce((tabRenders, { shouldTabRender, render, name }) => {
             if (!shouldTabRender()) {
-                tabRenders.push(render());
+                tabRenders.push(render(name));
             }
 
             return tabRenders;
