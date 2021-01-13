@@ -16,7 +16,7 @@ import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 import { HistoryType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 
-import { BOTTOM_SHEET_HEIGHT } from './ProductBottomSheet.config';
+import { BOTTOM_SHEET_BORDER_RADIUS, BOTTOM_SHEET_HEIGHT } from './ProductBottomSheet.config';
 
 import './ProductBottomSheet.style.scss';
 
@@ -90,6 +90,13 @@ export class ProductBottomSheet extends PureComponent {
         this.setBottomSheetOpen(!open);
     };
 
+    closeBottomSheet = () => {
+        const { open } = this.state;
+        if (open) {
+            this.setBottomSheetOpen(false);
+        }
+    };
+
     render() {
         const { open, overflowHeight } = this.state;
         const { children, product } = this.props;
@@ -98,8 +105,9 @@ export class ProductBottomSheet extends PureComponent {
             zIndex: 99
         };
         const bodyStyle = {
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
+            transition: 'border-top-left-radius,border-top-right-radius 0.5s ease-in-out',
+            borderTopLeftRadius: open ? 0 : BOTTOM_SHEET_BORDER_RADIUS,
+            borderTopRightRadius: open ? 0 : BOTTOM_SHEET_BORDER_RADIUS,
             // eslint-disable-next-line no-magic-numbers
             marginBottom: 77,
             maxHeight: 'calc(var(--vh, 1vh) * 100 - 77px)'
@@ -121,6 +129,15 @@ export class ProductBottomSheet extends PureComponent {
                     <div ref={ this.titleRef } block="ProductBottomSheet" elem="Title">
                         { product.name }
                     </div>
+                    <div
+                      aria-label="Close button"
+                      block="ProductBottomSheet"
+                      elem="CloseButton"
+                      role="button"
+                      onClick={ this.closeBottomSheet }
+                      onKeyDown={ this.closeBottomSheet }
+                      tabIndex="0"
+                    />
                     { children }
                 </div>
             </SwipeableBottomSheet>
