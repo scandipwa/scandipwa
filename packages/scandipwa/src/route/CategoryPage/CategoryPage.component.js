@@ -56,8 +56,7 @@ export class CategoryPage extends PureComponent {
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
-        device: DeviceType.isRequired,
-        pageBottomRef: PropTypes.object.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -262,7 +261,6 @@ export class CategoryPage extends PureComponent {
 
     render() {
         const hideProducts = !this.displayProducts();
-        const { pageBottomRef } = this.props;
 
         return (
             <main block="CategoryPage">
@@ -276,10 +274,6 @@ export class CategoryPage extends PureComponent {
                 >
                     { this.renderContent() }
                 </ContentWrapper>
-                <div
-                  block="CategoryPageBottom"
-                  ref={ pageBottomRef }
-                />
             </main>
         );
     }

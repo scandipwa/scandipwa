@@ -106,7 +106,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     }
 
     handleNavVisibilityOnScroll(windowY) {
-        const ERROR_OFFSET = 10;
+        const ERROR_TOP_OFFSET = 10;
+        const ERROR_BOTTOM_OFFSET = 20;
         const TOP_MIN_OFFSET = 100;
 
         const doc = document.body;
@@ -119,14 +120,14 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (offset >= height) {
+        if (offset >= (height - ERROR_BOTTOM_OFFSET)) {
             // We are on the bottom
             document.documentElement.classList.remove('hideOnScroll');
             return;
         }
 
         // Scroll is less then min offset
-        if (Math.abs(windowY - this.scrollPosition) < ERROR_OFFSET) {
+        if (Math.abs(windowY - this.scrollPosition) < ERROR_TOP_OFFSET) {
             return;
         }
 

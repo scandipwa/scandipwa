@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
@@ -158,8 +158,6 @@ export class CategoryPageContainer extends PureComponent {
         onSortChange: this.onSortChange.bind(this)
     };
 
-    ref = createRef();
-
     static getDerivedStateFromProps(props, state) {
         const { currentCategoryIds } = state;
         const { category: { id } } = props;
@@ -183,8 +181,6 @@ export class CategoryPageContainer extends PureComponent {
                 id
             }
         } = this.props;
-
-        this.startObserving();
 
         /**
          * Ensure transition PLP => homepage => PLP always having proper meta
@@ -295,47 +291,6 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    componentWillUnmount() {
-        this.stopObserving();
-    }
-
-    startObserving() {
-        if (this.ref && !this.observer && 'IntersectionObserver' in window) {
-            this.observer = new IntersectionObserver(
-                ([entry]) => {
-                    if (entry.isIntersecting) {
-                        document.documentElement.classList.remove('hideOnScroll');
-                    } else {
-                        document.documentElement.classList.add('hideOnScroll');
-                    }
-                },
-                {
-                    root: null,
-                    rootMargin: '0px',
-                    threshold: 0.1
-                }
-            );
-
-            if (this.ref.current) {
-                this.observer.observe(this.ref.current);
-            }
-        }
-    }
-
-    stopObserving() {
-        if (this.observer) {
-            if (this.observer.unobserve && this.ref.current) {
-                this.observer.unobserve(this.ref.current);
-            }
-
-            if (this.observer.disconnect) {
-                this.observer.disconnect();
-            }
-
-            this.observer = null;
-        }
-    }
-
     onSortChange(sortDirection, sortKey) {
         const { location, history } = this.props;
 
@@ -392,8 +347,7 @@ export class CategoryPageContainer extends PureComponent {
         isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
         selectedSort: this.getSelectedSortFromUrl(),
         selectedFilters: this.getSelectedFiltersFromUrl(),
-        isContentFiltered: this.isContentFiltered(),
-        pageBottomRef: this.ref
+        isContentFiltered: this.isContentFiltered()
     });
 
     isContentFiltered() {
