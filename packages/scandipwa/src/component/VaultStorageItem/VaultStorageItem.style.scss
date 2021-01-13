@@ -35,7 +35,6 @@
         gap: 1rem;
         padding: 1.2rem 3.6rem 1.2rem;
         text-align: left;
-        width: 100%;
 
         &_isSelected {
             border-color: var(--vault-card-border-selected-color);
@@ -43,6 +42,10 @@
 
         &:hover {
             border-color: var(--vault-card-border-hover-color);
+        }
+
+        &_isCheckout {
+            width: 100%;
         }
     }
 
@@ -52,11 +55,23 @@
             padding-bottom: unset;
             top: 10px;
             width: 4rem;
+            right: 5px;
         }
 
         &_isCheckout {
             .Image {
                 top: 0;
+            }
+        }
+    }
+
+    &-Row {
+        @include mobile {
+            padding: 1rem 0;
+
+            th,
+            td {
+                width: 100%;
             }
         }
     }

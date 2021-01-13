@@ -27,6 +27,7 @@ export const mapDispatchToProps = (dispatch) => ({
     deletePaymentMethod: (options) => VaultDispatcher.deletePaymentMethod(dispatch, options)
 });
 
+/** @namespace Component/VaultStorageItem/Container */
 export class VaultStorageItemContainer extends PureComponent {
     static propTypes = {
         paymentMethod: PropTypes.object.isRequired,

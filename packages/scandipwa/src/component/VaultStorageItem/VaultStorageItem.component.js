@@ -73,15 +73,15 @@ export class VaultStorageItem extends PureComponent {
 
         return (
             <tr
-              block="VaultStorageCard"
-              elem="MyAccount"
+              block="VaultStorageItem"
+              elem="Row"
             >
                 <td>{ `${ __('Ending') } ${ maskedCC }` }</td>
                 <td>{ expirationDate }</td>
                 <td>{ this.renderCardIcon() }</td>
                 <td>
                     <button
-                      block="VaultStorageCard"
+                      block="VaultStorageItem"
                       elem="Button"
                       type="button"
                       mix={ { block: 'Button', mods: { isHollow: true } } }
@@ -106,7 +106,10 @@ export class VaultStorageItem extends PureComponent {
         } = this.props;
 
         return (
-            <tbody>
+            <div
+              block="VaultStorageItem"
+              elem="Row"
+            >
                 <tr>
                     <th>{ __('Card Number') }</th>
                     <td>{ `${ __('Ending') } ${ maskedCC }` }</td>
@@ -115,8 +118,10 @@ export class VaultStorageItem extends PureComponent {
                     <th>{ __('Expiration Date') }</th>
                     <td>{ expirationDate }</td>
                 </tr>
+                <tr>
                     <th>{ __('Type') }</th>
                     <td>{ this.renderCardIcon() }</td>
+                </tr>
                 <tr>
                     <th>{ __('Actions') }</th>
                     <td>
@@ -131,7 +136,7 @@ export class VaultStorageItem extends PureComponent {
                         </button>
                     </td>
                 </tr>
-            </tbody>
+            </div>
         );
     }
 
@@ -144,7 +149,8 @@ export class VaultStorageItem extends PureComponent {
                 }
             } = {},
             handleOnClick,
-            isSelected
+            isSelected,
+            isCheckout
         } = this.props;
 
         return (
@@ -156,7 +162,7 @@ export class VaultStorageItem extends PureComponent {
                   block="VaultStorageItem"
                   elem="Button"
                   type="button"
-                  mods={ { isSelected } }
+                  mods={ { isSelected, isCheckout } }
                   onClick={ handleOnClick }
                 >
                     { this.renderCardIcon() }

@@ -51,12 +51,19 @@ export class VaultStorage extends PureComponent {
             selectedStoredPaymentMethod,
             onCardSelect
         } = this.props;
-        const { public_hash } = paymentMethod;
+        const {
+            public_hash,
+            details: {
+                type,
+                maskedCC
+            }
+        } = paymentMethod;
 
         const isSelected = selectedStoredPaymentMethod === public_hash;
 
         return (
             <VaultStorageItem
+              key={ `${ type }-${ maskedCC }` }
               isCheckout={ isCheckout }
               isSelected={ isSelected }
               onCardSelect={ onCardSelect }
@@ -80,10 +87,24 @@ export class VaultStorage extends PureComponent {
     }
 
     renderEmptyVault() {
+        const { isCheckout } = this.props;
+
+        if (isCheckout) {
+            return this.renderEmptyVaultCheckout();
+        }
+
         return (
             <tr block="VaultStorage" elem="EmptyVault">
                 <td colSpan="4">{ __('You have no stored payment methods.') }</td>
             </tr>
+        );
+    }
+
+    renderEmptyVaultCheckout() {
+        return (
+            <div block="VaultStorage" elem="EmptyVault">
+               { __('You have no stored payment methods.') }
+            </div>
         );
     }
 
