@@ -304,7 +304,6 @@ export class CategoryPageContainer extends PureComponent {
             this.observer = new IntersectionObserver(
                 ([entry]) => {
                     if (entry.isIntersecting) {
-                        console.log('bottom!');
                         document.documentElement.classList.remove('hideOnScroll');
                     } else {
                         document.documentElement.classList.add('hideOnScroll');
