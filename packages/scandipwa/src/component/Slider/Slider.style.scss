@@ -67,8 +67,10 @@
 
         &_isVertical {
             width: auto;
+            bottom: 40%;
             right: 1rem;
-            margin: 50% auto;
+            align-items: center;
+            grid-template-columns: auto;
         }
     }
 
