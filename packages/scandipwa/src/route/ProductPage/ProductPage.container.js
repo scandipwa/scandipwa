@@ -87,6 +87,7 @@ export class ProductPageContainer extends PureComponent {
         parameters: {},
         productOptionsData: {},
         selectedBundlePrice: 0,
+        selectedBundlePriceExclTax: 0,
         currentProductSKU: ''
     };
 
@@ -368,8 +369,12 @@ export class ProductPageContainer extends PureComponent {
         });
     }
 
-    setBundlePrice(price) {
-        this.setState({ selectedBundlePrice: price });
+    setBundlePrice(prices) {
+        const { price = 0, priceExclTax = 0 } = prices;
+        this.setState({
+            selectedBundlePrice: price,
+            selectedBundlePriceExclTax: priceExclTax
+        });
     }
 
     getSelectedCustomizableOptions(values, updateArray = false) {
@@ -465,12 +470,13 @@ export class ProductPageContainer extends PureComponent {
 
     getConfigurableVariantIndex(variants) {
         const { configurableVariantIndex, parameters } = this.state;
+        const hasParameters = !!Object.keys(parameters).length;
 
         if (configurableVariantIndex >= 0) {
             return configurableVariantIndex;
         }
 
-        if (variants) {
+        if (variants && hasParameters) {
             return getVariantIndex(variants, parameters);
         }
 

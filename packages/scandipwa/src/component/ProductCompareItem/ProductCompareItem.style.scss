@@ -20,6 +20,7 @@
     padding: 1rem;
     position: relative;
     height: 100%;
+    min-height: 100px;
 
     @include mobile {
         flex-direction: column;
@@ -59,13 +60,13 @@
     }
 
     &-Title {
-        flex: 0 0 auto;
+        flex: 1;
         display: block;
         width: 100%;
         padding-right: 1.9rem;
         margin: 0 0 1rem 0;
         font-size: 1.4rem;
-        line-height: 1;
+        line-height: 1.4;
         color: var(--body-content-color);
 
         @include mobile {
@@ -73,36 +74,6 @@
             margin: 1rem 0;
             font-size: 1.4rem;
             font-weight: 400;
-        }
-    }
-
-    &-Options {
-        flex: 1;
-        font-size: 1.5rem;
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        min-height: 30px;
-
-        &_isLikeTable {
-            @include after-mobile {
-                flex-grow: 1;
-            }
-        }
-    }
-
-    &-Option {
-        font-size: 1rem;
-        text-transform: uppercase;
-        border: 1px solid var(--product-compare-item-option-color);
-        color: var(--product-compare-item-option-color);
-        padding: 3px 5px;
-        margin-right: 5px;
-        white-space: nowrap;
-
-        &::before {
-            content: none;
         }
     }
 
