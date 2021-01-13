@@ -109,7 +109,10 @@
 
     &-ShortDescription {
         @include mobile {
-            margin: 0 5px;
+            margin: 0 0.5rem;
+            & div > p {
+                margin-bottom: 1rem;
+            }
         }
     }
 
@@ -145,7 +148,7 @@
 
     &-PriceWrapper {
         @include mobile {
-            padding: 1rem 0 3rem 1.5rem;
+            padding: 1rem 0 3.5rem 1.5rem;
             min-height: 7rem;
         }
 
@@ -302,10 +305,11 @@
             &_short {
                 @include mobile {
                     border-top: 0;
-                    padding-top: 0;
-                    // padding-top: 0.7rem;
                     bottom: 0;
                     border-bottom: 1px solid var(--expandable-content-divider-color);
+                    background-color: var(--secondary-base-color, lightgrey);
+                    padding-bottom: 0;
+                    padding: 0 1rem;
                 }
 
                 @include after-mobile {
@@ -423,7 +427,7 @@
         @include mobile {
             order: -1;
             padding: 0 1.4rem;
-            top: -2.5rem;
+            top: -3rem;
         }
     }
 }
