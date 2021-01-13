@@ -550,7 +550,7 @@ export class ProductPageContainer extends PureComponent {
         const { changeNavigationState, device } = this.props;
 
         if (device.isMobile) {
-            changeNavigationState({ isHidden: true });
+            changeNavigationState({ name: MENU_TAB, isHidden: true });
         } else {
             changeNavigationState({ name: MENU_TAB });
         }
