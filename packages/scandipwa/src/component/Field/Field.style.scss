@@ -11,7 +11,6 @@
 
 .Field {
     margin-top: 1.2rem;
-
     @include mobile {
         margin-top: 1.4rem;
     }
@@ -103,7 +102,6 @@
             &.Field {
                 display: flex;
                 margin: 0;
-
                 button {
                     position: relative;
                     width: $size-mobile;

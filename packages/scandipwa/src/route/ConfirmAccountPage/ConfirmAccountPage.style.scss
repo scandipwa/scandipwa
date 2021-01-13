@@ -26,17 +26,13 @@
 
     &-Button {
         position: absolute;
-        top: 2.8rem;
+        top: 2.82rem;
         right: 0;
 
         @include mobile {
             position: relative;
             top: 1.2rem;
             width: 100%;
-        }
-
-        @include after-mobile {
-            margin-left: 1.2rem;
         }
     }
 
@@ -61,12 +57,14 @@
     &-Form {
         @include after-mobile {
             display: flex;
-            align-items: flex-end;
+            align-items: flex-start;
             justify-content: flex-start;
         }
     }
 
     input {
+        width: 200px;
+
         @include mobile {
             width: 100%;
         }
