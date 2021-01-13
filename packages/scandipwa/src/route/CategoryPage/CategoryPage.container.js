@@ -184,6 +184,8 @@ export class CategoryPageContainer extends PureComponent {
             }
         } = this.props;
 
+        this.startObserving();
+
         /**
          * Ensure transition PLP => homepage => PLP always having proper meta
          */
@@ -214,27 +216,6 @@ export class CategoryPageContainer extends PureComponent {
              */
             this.updateHeaderState(true);
             this.updateBreadcrumbs(true);
-        }
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    document.documentElement.classList.remove('hideOnScroll');
-                } else {
-                    document.documentElement.classList.add('hideOnScroll');
-                }
-            },
-            {
-                root: null,
-                rootMargin: '0px',
-                threshold: 1.0
-            }
-        );
-
-        if (this.ref.current) {
-            observer.observe(this.ref.current);
-        } else {
-            observer.unobserve(this.ref.current);
         }
     }
 
@@ -311,6 +292,48 @@ export class CategoryPageContainer extends PureComponent {
             && Object.keys(filter.customFilters).length !== Object.keys(prevFilter.customFilters).length
         ) {
             this.updateMeta();
+        }
+    }
+
+    componentWillUnmount() {
+        this.stopObserving();
+    }
+
+    startObserving() {
+        if (this.ref && !this.observer && 'IntersectionObserver' in window) {
+            this.observer = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        console.log('bottom!');
+                        document.documentElement.classList.remove('hideOnScroll');
+                    } else {
+                        document.documentElement.classList.add('hideOnScroll');
+                    }
+                },
+                {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.1
+                }
+            );
+
+            if (this.ref.current) {
+                this.observer.observe(this.ref.current);
+            }
+        }
+    }
+
+    stopObserving() {
+        if (this.observer) {
+            if (this.observer.unobserve && this.ref.current) {
+                this.observer.unobserve(this.ref.current);
+            }
+
+            if (this.observer.disconnect) {
+                this.observer.disconnect();
+            }
+
+            this.observer = null;
         }
     }
 
