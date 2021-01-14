@@ -111,13 +111,13 @@ export class CartPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             changeHeaderState,
-            totals: { items },
+            totals: { items_qty },
             headerState,
             headerState: { name }
         } = this.props;
 
         const {
-            totals: { items: prevItems },
+            totals: { items_qty: prevItemsQty },
             headerState: { name: prevName }
         } = prevProps;
 
@@ -127,8 +127,8 @@ export class CartPageContainer extends PureComponent {
             }
         }
 
-        if (items.length !== prevItems.length) {
-            const title = `${ items.length || '0' } Item(s)`;
+        if (items_qty !== prevItemsQty) {
+            const title = `${ items_qty || '0' } Items`;
             changeHeaderState({
                 ...headerState,
                 title
@@ -200,9 +200,8 @@ export class CartPageContainer extends PureComponent {
     }
 
     _changeHeaderState() {
-        const { changeHeaderState, totals: { items } } = this.props;
-
-        const title = __('%s Item(s)', items.length || 0);
+        const { changeHeaderState, totals: { items_qty } } = this.props;
+        const title = __('%s Item(s)', items_qty || 0);
 
         changeHeaderState({
             name: CART,
