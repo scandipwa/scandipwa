@@ -45,7 +45,6 @@ export class Form extends PureComponent {
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
 
-        // TODO 2: Should we preserve refMap somehow?
         const refMap = {};
 
         const children = Form.cloneChildren(
@@ -157,18 +156,11 @@ export class Form extends PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { refMap, fieldsAreValid } = state;
+        const { refMap } = state;
         const { children } = props;
-        if (fieldsAreValid) {
-            return Form.updateChildrenRefs(props);
-        }
 
-        // refMap should be returned here
         return {
             ...Form.cloneAndValidateChildren(children, refMap),
-
-            // TODO 3: optimization
-            // This clones children for the second time, this is no good
             ...Form.updateChildrenRefs(props)
         };
     }
