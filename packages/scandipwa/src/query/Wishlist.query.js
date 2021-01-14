@@ -10,9 +10,8 @@
  */
 
 import ProductListQuery from 'Query/ProductList.query';
-import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { isSignedIn } from 'Util/Auth';
-import BrowserDatabase from 'Util/BrowserDatabase';
+import { getGuestQuoteId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
 /** @namespace Query/Wishlist */
@@ -55,7 +54,7 @@ export class WishlistQuery {
             field.addArgument('sharingCode', 'ID', sharingCode);
 
             if (!isSignedIn()) {
-                const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+                const guestQuoteId = getGuestQuoteId();
                 field.addArgument('guestCartId', 'ID', guestQuoteId);
             }
         }
