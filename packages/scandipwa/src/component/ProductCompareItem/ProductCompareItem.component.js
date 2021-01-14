@@ -19,7 +19,6 @@ import Loader from 'Component/Loader';
 import ProductPrice from 'Component/ProductPrice';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { CONFIGURABLE } from 'Util/Product';
 
 import {
     PRODUCT_ADD_TO_CART_DEFAULT_QUANTITY,
@@ -37,22 +36,32 @@ export class ProductCompareItem extends PureComponent {
         getGroupedProductQuantity: PropTypes.func.isRequired,
         getProductOptionsData: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
-        imgUrl: PropTypes.string.isRequired
+        imgUrl: PropTypes.string.isRequired,
+        overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
+        linkTo: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.shape({})
+        ]),
+        overriddenAddToCartBtnHandler: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        linkTo: {}
     };
 
     renderProductImage() {
         const {
             product: {
                 id,
-                name,
-                url
+                name
             },
-            imgUrl
+            imgUrl,
+            linkTo
         } = this.props;
 
         return (
             <figure block="ProductCompareItem" elem="Figure">
-                <Link block="ProductCompareItem" elem="ImageLink" to={ url }>
+                <Link block="ProductCompareItem" elem="ImageLink" to={ linkTo }>
                     <Image
                       ratio="custom"
                       src={ imgUrl }
@@ -65,20 +74,20 @@ export class ProductCompareItem extends PureComponent {
     }
 
     renderTitle() {
-        const { product: { name, url } } = this.props;
+        const { product: { name }, linkTo } = this.props;
 
         return (
             <Link
               block="ProductCompareItem"
               elem="Title"
-              to={ url }
+              to={ linkTo }
             >
                 { name }
             </Link>
         );
     }
 
-    renderAddToCartBtn() {
+    renderAddToCartBtnEnabled() {
         const {
             product,
             getGroupedProductQuantity,
@@ -97,20 +106,34 @@ export class ProductCompareItem extends PureComponent {
         );
     }
 
-    renderAddToCartBtnWrapper() {
-        const {
-            product: { type_id, url }
-        } = this.props;
-
-        if (type_id !== CONFIGURABLE) {
-            return this.renderAddToCartBtn();
-        }
-
+    renderAddToCartBtnDisabled() {
+        const { linkTo, overriddenAddToCartBtnHandler } = this.props;
         return (
-            <Link to={ url }>
-                { this.renderAddToCartBtn() }
+            <Link
+              to={ linkTo }
+              onClick={ overriddenAddToCartBtnHandler }
+              block="ProductCompareItem"
+              elem="AddToCartBtnWrapper"
+            >
+                <AddToCart
+                  product={ {} }
+                  groupedProductQuantity={ {} }
+                  productOptionsData={ {} }
+                  disableHandler
+                  mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+                />
             </Link>
         );
+    }
+
+    renderAddToCartBtn() {
+        const { overrideAddToCartBtnBehavior } = this.props;
+
+        if (!overrideAddToCartBtnBehavior) {
+            return this.renderAddToCartBtnEnabled();
+        }
+
+        return this.renderAddToCartBtnDisabled();
     }
 
     renderPrice() {
@@ -131,7 +154,7 @@ export class ProductCompareItem extends PureComponent {
             <div block="ProductCompareItem" elem="Details">
                 { this.renderPrice() }
                 { this.renderTitle() }
-                { this.renderAddToCartBtnWrapper() }
+                { this.renderAddToCartBtn() }
             </div>
         );
     }
