@@ -104,9 +104,9 @@ export class CategoryPage extends PureComponent {
     }
 
     renderFilterButton() {
-        const { isContentFiltered, totalPages } = this.props;
+        const { isContentFiltered, totalPages, category: { is_anchor } } = this.props;
 
-        if (!isContentFiltered && totalPages === 0) {
+        if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
             return null;
         }
 
