@@ -144,6 +144,7 @@ export class CartPage extends PureComponent {
 
         return applied_taxes
             .map(({ rates }) => rates)
+            .reduce((rates, rate) => rates.concat(rate), [])
             .map(({ percent, title }) => (
                 <div block="CartPage" elem="TaxRate">
                     { `${title} (${percent}%)` }
