@@ -51,16 +51,10 @@ export class Form extends PureComponent {
             propsChildren,
             (child) => {
                 const { props: { name } } = child;
+                refMap[name] = createRef();
 
-                const newRef = createRef();
-
-                // add the new ref to the map
-                refMap[name] = newRef;
-
-                // point the new ref to the element
                 return cloneElement(child, {
-                // TODO 1: remove data duplication
-                    formRef: newRef,
+                    formRef: refMap[name],
                     formRefMap: refMap
                 });
             }
