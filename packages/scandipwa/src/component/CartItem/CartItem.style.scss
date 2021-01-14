@@ -159,6 +159,7 @@
         margin-bottom: .6rem;
 
         @include mobile {
+            max-width: 95%;
             margin-bottom: .2rem;
             margin-top: .2rem;
         }
@@ -295,6 +296,7 @@
             position: absolute;
             right: 0;
             height: 30px;
+            max-width: 5%;
             padding-left: 0;
             flex-grow: 1;
 

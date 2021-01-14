@@ -201,8 +201,7 @@ export class CartPageContainer extends PureComponent {
 
     _changeHeaderState() {
         const { changeHeaderState, totals: { items_qty } } = this.props;
-
-        const title = __('%s Item(s)', items_qty.length || 0);
+        const title = __('%s Item(s)', items_qty || 0);
 
         changeHeaderState({
             name: CART,
