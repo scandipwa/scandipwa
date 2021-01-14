@@ -109,9 +109,8 @@
 
     &-ShortDescription {
         @include mobile {
-            margin: 0 0.5rem;
             & div > p {
-                margin-bottom: 1rem;
+                margin: 1rem 0;
             }
         }
     }
@@ -148,7 +147,7 @@
 
     &-PriceWrapper {
         @include mobile {
-            padding: 1rem 0 3.5rem 1.5rem;
+            padding: 0 0 2.5rem 1.5rem;
             min-height: 7rem;
         }
 
@@ -163,7 +162,7 @@
     }
 
     &-Price {
-        font-size: 2.5rem;
+        font-size: 25px;
         align-items: center;
         justify-content: center;
         padding: 0;
@@ -309,7 +308,7 @@
                     border-bottom: 1px solid var(--expandable-content-divider-color);
                     background-color: var(--secondary-base-color, lightgrey);
                     padding-bottom: 0;
-                    padding: 0 1rem;
+                    padding: 0 1.4rem;
                 }
 
                 @include after-mobile {

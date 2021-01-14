@@ -10,6 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const BOTTOM_SHEET_HEIGHT = 160;
+export const BOTTOM_SHEET_HEIGHT = 150;
 
 export const BOTTOM_SHEET_BORDER_RADIUS = 10;

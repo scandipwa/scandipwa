@@ -12,19 +12,20 @@
 .ProductBottomSheet {
     &-Wrapper {
         min-height: calc(var(--vh, 1vh) * 100 - 120px);
-        // margin-bottom: 140px;
+        padding-top: 12px;
     }
     &-Pill {
-        width: 70px;
-        height: 4px;
+        width: 50px;
+        height: 2px;
         background: #968f8f;
-        border-radius: 10px;
+        border-radius: 30px;
     }
     &-PillWrapper {
         position: fixed;
         top: 0;
         display: flex;
         width: 100%;
+        height: 12px;
         justify-content: center;
         padding: 0.5rem;
         z-index: 1;
@@ -34,27 +35,27 @@
     }
 
     &-Title {
-        font-size: 2.8rem;
+        font-size: 25px;
         line-height: 4.2rem;
         font-weight: bold;
         box-sizing: border-box;
         color: black;
         flex: 1;
         padding-left: 1.5rem;
-        margin-top: 1rem;
+        margin: 0;
         transition: margin-top 0.5s ease-in-out;
         .ReactSwipeableBottomSheet--open & {
-            margin-top: 4rem;
+            margin-top: 50px;
         }
     }
 
     &-CloseButton {
         display: none;
         .ReactSwipeableBottomSheet--open & {
-            position: fixed;
+            position: absolute;
             display: flex;
             justify-content: center;
-            right: 1.4rem;
+            left: 1.4rem;
             top: 1.4rem;
             height: 3.5rem;
             width: 3.5rem;
@@ -71,7 +72,7 @@
 .react-swipeable-view-container {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-
+    box-shadow: rgba(0, 0, 0, 0.157) 0px -3px 6px !important;
 
     // to enable clicks on top of react-swipeable wrapper
     & > div:nth-child(2) {

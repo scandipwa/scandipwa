@@ -44,7 +44,7 @@
 
         @include mobile {
             grid-template-columns: 100%;
-            padding: 0;
+            padding-top: 50px;
         }
 
         > .RelatedProducts {
@@ -62,7 +62,7 @@
         right: 1.4rem;
 
         @include mobile {
-            top: 1.4rem;
+            top: calc(50px + 1.4rem);
             z-index: 99; // same index as mobile header
         }
     }
