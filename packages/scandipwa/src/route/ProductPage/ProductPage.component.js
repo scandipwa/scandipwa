@@ -26,7 +26,6 @@ import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import ProductTabs from 'Component/ProductTabs';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import { HistoryType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
@@ -47,7 +46,8 @@ export class ProductPage extends PureComponent {
         setBundlePrice: PropTypes.func.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         device: DeviceType.isRequired,
-        history: HistoryType.isRequired
+        isBottomSheetOpen: PropTypes.bool.isRequired,
+        setBottomSheetOpen: PropTypes.func.isRequired
     };
 
     renderProductCompareButton() {
@@ -96,7 +96,8 @@ export class ProductPage extends PureComponent {
             setBundlePrice,
             selectedBundlePrice,
             device,
-            history
+            isBottomSheetOpen,
+            setBottomSheetOpen
         } = this.props;
 
         if (device.isMobile) {
@@ -119,7 +120,8 @@ export class ProductPage extends PureComponent {
                   />
                   <ProductBottomSheet
                     product={ dataSource }
-                    history={ history }
+                    isBottomSheetOpen={ isBottomSheetOpen }
+                    setBottomSheetOpen={ setBottomSheetOpen }
                   >
                     <ProductActions
                       getLink={ getLink }

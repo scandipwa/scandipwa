@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
-import { HistoryType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 
 import { BOTTOM_SHEET_BORDER_RADIUS, BOTTOM_SHEET_HEIGHT } from './ProductBottomSheet.config';
@@ -24,46 +23,21 @@ export class ProductBottomSheet extends PureComponent {
     static propTypes = {
         children: PropTypes.any.isRequired,
         product: ProductType.isRequired,
-        history: HistoryType.isRequired
+        isBottomSheetOpen: PropTypes.bool.isRequired,
+        setBottomSheetOpen: PropTypes.func.isRequired
     };
 
     state = {
-        open: false,
         overflowHeight: 200
     };
 
     titleRef = createRef();
 
-    // componentDidMount() {
-    //     window.addEventListener('popstate', this.onPopState);
-    // }
-
-    componentDidUpdate(prevProps) {
-        const { history, history: { location: { pathname } } } = this.props;
-        const { open } = this.state;
-        const { history: prevHistory, history: { location: { pathname: prevPathname } } } = prevProps;
-
-        // console.log({ prevPathname, pathname, open });
-
-        if (prevPathname !== pathname && open) {
-            this.setBottomSheetOpen(false);
-        }
-
-        // if (prevPathname !== pathname) {
-        console.log({ history, prevHistory });
-        // }
-
+    componentDidUpdate() {
+        const { isBottomSheetOpen } = this.props;
+        console.log(isBottomSheetOpen);
         this.updateOverflowHeight();
     }
-
-    // componentWillUnmount() {
-    //     window.removeEventListener('popstate', this.onPopState);
-    // }
-
-    // onPopState = () => {
-    //     const { history } = this.props;
-    //     console.log(history);
-    // };
 
     updateOverflowHeight() {
         const { overflowHeight } = this.state;
@@ -81,25 +55,18 @@ export class ProductBottomSheet extends PureComponent {
         }
     }
 
-    setBottomSheetOpen = (open) => {
-        this.setState({ open });
-    };
-
-    toggleBottomSheet = () => {
-        const { open } = this.state;
-        this.setBottomSheetOpen(!open);
-    };
-
     closeBottomSheet = () => {
-        const { open } = this.state;
-        if (open) {
-            this.setBottomSheetOpen(false);
+        const { isBottomSheetOpen, setBottomSheetOpen } = this.props;
+        if (isBottomSheetOpen) {
+            setBottomSheetOpen(false);
         }
     };
 
     render() {
-        const { open, overflowHeight } = this.state;
-        const { children, product } = this.props;
+        const { overflowHeight } = this.state;
+        const {
+            children, product, isBottomSheetOpen, setBottomSheetOpen
+        } = this.props;
 
         const style = {
             zIndex: 99
@@ -111,13 +78,14 @@ export class ProductBottomSheet extends PureComponent {
             // eslint-disable-next-line no-magic-numbers
             marginBottom: 77,
             maxHeight: 'calc(var(--vh, 1vh) * 100 - 77px)'
+            // maxHeight: 'calc(var(--vh, 1vh) * 100 - 127px)'
         };
 
         return (
             <SwipeableBottomSheet
               overflowHeight={ overflowHeight }
-              open={ open }
-              onChange={ this.setBottomSheetOpen }
+              open={ isBottomSheetOpen }
+              onChange={ setBottomSheetOpen }
               fullscreen
               style={ style }
               bodyStyle={ bodyStyle }
@@ -129,7 +97,7 @@ export class ProductBottomSheet extends PureComponent {
                     <div ref={ this.titleRef } block="ProductBottomSheet" elem="Title">
                         { product.name }
                     </div>
-                    <div
+                    { /* <div
                       aria-label="Close button"
                       block="ProductBottomSheet"
                       elem="CloseButton"
@@ -137,7 +105,7 @@ export class ProductBottomSheet extends PureComponent {
                       onClick={ this.closeBottomSheet }
                       onKeyDown={ this.closeBottomSheet }
                       tabIndex="0"
-                    />
+                    /> */ }
                     { children }
                 </div>
             </SwipeableBottomSheet>

@@ -88,14 +88,16 @@ export class ProductPageContainer extends PureComponent {
         parameters: {},
         productOptionsData: {},
         selectedBundlePrice: 0,
-        currentProductSKU: ''
+        currentProductSKU: '',
+        isBottomSheetOpen: false
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
         getLink: this.getLink.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
-        setBundlePrice: this.setBundlePrice.bind(this)
+        setBundlePrice: this.setBundlePrice.bind(this),
+        setBottomSheetOpen: this.setBottomSheetOpen.bind(this)
     };
 
     static propTypes = {
@@ -195,7 +197,7 @@ export class ProductPageContainer extends PureComponent {
         this.scrollTopIfPreviousPageWasPLP();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const {
             isOffline,
             productSKU,
@@ -203,8 +205,15 @@ export class ProductPageContainer extends PureComponent {
                 sku,
                 options,
                 items
-            }
+            },
+            history: {
+                action
+            },
+            device
         } = this.props;
+
+        const { isBottomSheetOpen: prevIsBottomSheetOpen } = prevState;
+        const { isBottomSheetOpen } = this.state;
 
         const {
             productSKU: prevProductSKU,
@@ -247,10 +256,16 @@ export class ProductPageContainer extends PureComponent {
          * If product ID was changed => it is loaded => we need to
          * update product specific information, i.e. breadcrumbs.
          */
-        if (sku !== prevSku) {
+        if (sku !== prevSku || isBottomSheetOpen !== prevIsBottomSheetOpen) {
             this.updateBreadcrumbs();
             this.updateHeaderState();
             this.updateMeta();
+        }
+
+        if (device.isMobile) {
+            if (action === 'PUSH' && sku !== prevSku) {
+                this.closeBottomSheetOpen();
+            }
         }
 
         /**
@@ -564,19 +579,37 @@ export class ProductPageContainer extends PureComponent {
     updateHeaderState() {
         const { name = '' } = this.getDataSource();
         const { changeHeaderState, device } = this.props;
+        const { isBottomSheetOpen } = this.state;
 
         const title = device.isMobile ? '' : name;
+
+        const onBackClick = (device.isMobile && isBottomSheetOpen)
+            ? () => this.setBottomSheetOpen(false)
+            : () => history.back();
 
         changeHeaderState({
             name: PDP,
             title,
-            onBackClick: () => history.back()
+            onBackClick
         });
     }
 
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         updateBreadcrumbs(this.getDataSource());
+    }
+
+    setBottomSheetOpen(open) {
+        this.setState({
+            isBottomSheetOpen: open
+        });
+    }
+
+    closeBottomSheetOpen() {
+        const { isBottomSheetOpen } = this.state;
+        if (isBottomSheetOpen) {
+            this.setBottomSheetOpen(false);
+        }
     }
 
     render() {
