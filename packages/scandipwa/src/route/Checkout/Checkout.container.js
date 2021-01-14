@@ -322,12 +322,14 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    setShippingAddress = async () => {
+    setShippingAddress = async (isDefaultShipping = false) => {
         const { shippingAddress } = this.state;
         const { region, region_id, ...address } = shippingAddress;
 
         const mutation = MyAccountQuery.getCreateAddressMutation({
-            ...address, region: { region, region_id }
+            ...address,
+            region: { region, region_id },
+            default_shipping: isDefaultShipping
         });
 
         await fetchMutation(mutation);
@@ -441,7 +443,7 @@ export class CheckoutContainer extends PureComponent {
         showSuccessNotification(__('Your account has been created successfully!'));
 
         if (!is_virtual) {
-            return this.setShippingAddress();
+            return this.setShippingAddress(true);
         }
 
         return true;
@@ -596,10 +598,11 @@ export class CheckoutContainer extends PureComponent {
 
     async saveBillingAddress(paymentInformation) {
         const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
-        const { billing_address } = paymentInformation;
+        const { billing_address, same_as_shipping } = paymentInformation;
 
         await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
             guest_cart_id,
+            same_as_shipping,
             billing_address: {
                 address: this.trimAddressMagentoStyle(billing_address)
             }
