@@ -10,12 +10,16 @@
  */
 
 import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
 import { ProductType } from 'Type/ProductList';
 
-import { BOTTOM_SHEET_BORDER_RADIUS, BOTTOM_SHEET_HEIGHT } from './ProductBottomSheet.config';
+import {
+    BOTTOM_SHEET_BORDER_RADIUS,
+    BOTTOM_SHEET_BOTTOM_MARGIN,
+    BOTTOM_SHEET_OVERFLOW_HEIGHT
+} from './ProductBottomSheet.config';
 
 import './ProductBottomSheet.style.scss';
 
@@ -27,34 +31,6 @@ export class ProductBottomSheet extends PureComponent {
         setBottomSheetOpen: PropTypes.func.isRequired
     };
 
-    state = {
-        overflowHeight: 200
-    };
-
-    titleRef = createRef();
-
-    componentDidUpdate() {
-        const { isBottomSheetOpen } = this.props;
-        console.log(isBottomSheetOpen);
-        this.updateOverflowHeight();
-    }
-
-    updateOverflowHeight() {
-        const { overflowHeight } = this.state;
-        if (this.titleRef && this.titleRef.current) {
-            const { current: titleEl } = this.titleRef;
-            const rect = titleEl.getBoundingClientRect();
-
-            const newOverflowHeight = BOTTOM_SHEET_HEIGHT + rect.height;
-
-            if (overflowHeight !== newOverflowHeight) {
-                this.setState({
-                    overflowHeight: newOverflowHeight
-                });
-            }
-        }
-    }
-
     closeBottomSheet = () => {
         const { isBottomSheetOpen, setBottomSheetOpen } = this.props;
         if (isBottomSheetOpen) {
@@ -63,7 +39,6 @@ export class ProductBottomSheet extends PureComponent {
     };
 
     render() {
-        const { overflowHeight } = this.state;
         const {
             children, product, isBottomSheetOpen, setBottomSheetOpen
         } = this.props;
@@ -72,43 +47,35 @@ export class ProductBottomSheet extends PureComponent {
             zIndex: 99
         };
         const bodyStyle = {
-            transition: 'border-top-left-radius,border-top-right-radius 0.5s ease-in-out',
-            borderTopLeftRadius: open ? 0 : BOTTOM_SHEET_BORDER_RADIUS,
-            borderTopRightRadius: open ? 0 : BOTTOM_SHEET_BORDER_RADIUS,
-            // eslint-disable-next-line no-magic-numbers
-            marginBottom: 77,
-            maxHeight: 'calc(var(--vh, 1vh) * 100 - 77px)'
-            // maxHeight: 'calc(var(--vh, 1vh) * 100 - 127px)'
+            transition: 'border-top-left-radius,border-top-right-radius 0.5s ease',
+            borderTopLeftRadius: isBottomSheetOpen ? 0 : BOTTOM_SHEET_BORDER_RADIUS,
+            borderTopRightRadius: isBottomSheetOpen ? 0 : BOTTOM_SHEET_BORDER_RADIUS,
+            marginBottom: BOTTOM_SHEET_BOTTOM_MARGIN,
+            maxHeight: 'calc(var(--vh, 1vh) * 100 - 127px)'
         };
 
         return (
-            <SwipeableBottomSheet
-              overflowHeight={ overflowHeight }
-              open={ isBottomSheetOpen }
-              onChange={ setBottomSheetOpen }
-              fullscreen
-              style={ style }
-              bodyStyle={ bodyStyle }
-            >
-                <div block="ProductBottomSheet" elem="Wrapper">
-                    <span block="ProductBottomSheet" elem="PillWrapper">
-                        <span block="ProductBottomSheet" elem="Pill" />
-                    </span>
-                    <div ref={ this.titleRef } block="ProductBottomSheet" elem="Title">
-                        { product.name }
+            <>
+                <div block="ProductBottomSheet" elem="HeaderPlaceholder" mods={ { isBottomSheetOpen } } />
+                <SwipeableBottomSheet
+                  overflowHeight={ BOTTOM_SHEET_OVERFLOW_HEIGHT }
+                  open={ isBottomSheetOpen }
+                  onChange={ setBottomSheetOpen }
+                  fullscreen
+                  style={ style }
+                  bodyStyle={ bodyStyle }
+                >
+                    <div block="ProductBottomSheet" elem="Wrapper">
+                        <span block="ProductBottomSheet" elem="PillWrapper">
+                            <span block="ProductBottomSheet" elem="Pill" />
+                        </span>
+                        <div ref={ this.titleRef } block="ProductBottomSheet" elem="Title">
+                            { product.name }
+                        </div>
+                        { children }
                     </div>
-                    { /* <div
-                      aria-label="Close button"
-                      block="ProductBottomSheet"
-                      elem="CloseButton"
-                      role="button"
-                      onClick={ this.closeBottomSheet }
-                      onKeyDown={ this.closeBottomSheet }
-                      tabIndex="0"
-                    /> */ }
-                    { children }
-                </div>
-            </SwipeableBottomSheet>
+                </SwipeableBottomSheet>
+            </>
         );
     }
 }

@@ -44,7 +44,7 @@
 
         @include mobile {
             grid-template-columns: 100%;
-            padding-top: 50px;
+            padding-top: 0;
         }
 
         > .RelatedProducts {

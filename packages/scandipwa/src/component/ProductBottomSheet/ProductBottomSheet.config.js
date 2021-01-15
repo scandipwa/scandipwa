@@ -11,5 +11,6 @@
  */
 
 export const BOTTOM_SHEET_HEIGHT = 150;
-
+export const BOTTOM_SHEET_BOTTOM_MARGIN = 77;
 export const BOTTOM_SHEET_BORDER_RADIUS = 10;
+export const BOTTOM_SHEET_OVERFLOW_HEIGHT = 190;

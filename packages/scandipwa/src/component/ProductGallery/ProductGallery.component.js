@@ -321,7 +321,7 @@ export class ProductGallery extends PureComponent {
         if (isImageZoomPopupActive) {
             sliderHeight = '100%';
         } else if (isMobile) {
-            sliderHeight = 'calc(100vh - 250px)';
+            sliderHeight = 'calc(100vh - 190px)';
         } else {
             sliderHeight = 0;
         }
