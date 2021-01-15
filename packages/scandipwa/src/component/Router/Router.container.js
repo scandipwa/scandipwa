@@ -109,6 +109,10 @@ export class RouterContainer extends PureComponent {
     __construct(props) {
         super.__construct(props);
 
+        this.state = ({
+            currentUrl: window.location.pathname
+        });
+
         this.initializeApplication();
         this.redirectFromPartialUrl();
         this.handleResize();
@@ -121,6 +125,8 @@ export class RouterContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const { isLoading, updateMeta } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
+
+        this.handleUrlChangeToTop();
 
         if (!isLoading && isLoading !== prevIsLoading) {
             const {
@@ -149,6 +155,18 @@ export class RouterContainer extends PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
+    }
+
+    handleUrlChangeToTop() {
+        const { pathname } = location;
+        const { currentUrl } = this.state;
+
+        if (currentUrl !== pathname) {
+            this.setState({
+                currentUrl: pathname
+            });
+            window.scrollTo(0, 0);
+        }
     }
 
     handleResize = async () => {
