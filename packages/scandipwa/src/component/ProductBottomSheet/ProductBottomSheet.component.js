@@ -51,7 +51,7 @@ export class ProductBottomSheet extends PureComponent {
             borderTopLeftRadius: isBottomSheetOpen ? 0 : BOTTOM_SHEET_BORDER_RADIUS,
             borderTopRightRadius: isBottomSheetOpen ? 0 : BOTTOM_SHEET_BORDER_RADIUS,
             marginBottom: BOTTOM_SHEET_BOTTOM_MARGIN,
-            maxHeight: 'calc(var(--vh, 1vh) * 100 - 127px)'
+            maxHeight: 'calc(var(--vh, 1vh) * 100 - 120px)'
         };
 
         return (
