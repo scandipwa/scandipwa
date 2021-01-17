@@ -18,6 +18,7 @@ import SharedTransitionContainer from 'Component/SharedTransition/SharedTransiti
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { updateNoMatch } from 'Store/NoMatch/NoMatch.action';
 
 import NoMatch from './NoMatch.component';
 
@@ -34,7 +35,8 @@ export const mapDispatchToProps = (dispatch) => ({
         );
     },
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+    changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateNoMatch: (options) => dispatch(updateNoMatch(options))
 });
 
 /** @namespace Route/NoMatch/Container/mapStateToProps */
@@ -48,12 +50,14 @@ export class NoMatchContainer extends PureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
+        updateNoMatch: PropTypes.func.isRequired,
         urlRewrite: PropTypes.object.isRequired
     };
 
     componentDidMount() {
         this.updateHeaderState();
         this.updateMeta();
+        this.updateNoMatch();
     }
 
     updateHeaderState() {
@@ -70,6 +74,12 @@ export class NoMatchContainer extends PureComponent {
         const { updateMeta } = this.props;
 
         updateMeta({ title: __('Page not found'), status_code: '404' });
+    }
+
+    updateNoMatch() {
+        const { updateNoMatch } = this.props;
+
+        updateNoMatch(true);
     }
 
     render() {
