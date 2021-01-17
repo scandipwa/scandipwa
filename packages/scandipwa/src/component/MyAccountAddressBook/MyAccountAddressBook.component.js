@@ -37,7 +37,7 @@ export class MyAccountAddressBook extends PureComponent {
 
         return (
             <MyAccountAddressTable
-              title={ __('Address #%s%s', addressNumber, postfix) }
+              title={ __(`Address #${addressNumber} ${postfix}`) }
               showActions
               address={ address }
               key={ addressNumber }
