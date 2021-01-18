@@ -125,8 +125,12 @@ export class RouterContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const { isLoading, updateMeta } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
+        const { pathname } = location;
+        const { currentUrl } = this.state;
 
-        this.handleUrlChangeToTop();
+        if (currentUrl !== pathname) {
+            this.handleUrlChangeToTop();
+        }
 
         if (!isLoading && isLoading !== prevIsLoading) {
             const {
@@ -159,14 +163,10 @@ export class RouterContainer extends PureComponent {
 
     handleUrlChangeToTop() {
         const { pathname } = location;
-        const { currentUrl } = this.state;
-
-        if (currentUrl !== pathname) {
-            this.setState({
-                currentUrl: pathname
-            });
-            window.scrollTo(0, 0);
-        }
+        this.setState({
+            currentUrl: pathname
+        });
+        window.scrollTo(0, 0);
     }
 
     handleResize = async () => {
