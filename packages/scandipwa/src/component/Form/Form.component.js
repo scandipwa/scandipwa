@@ -44,13 +44,19 @@ export class Form extends PureComponent {
 
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
+
         const refMap = {};
+
         const children = Form.cloneChildren(
             propsChildren,
             (child) => {
                 const { props: { name } } = child;
                 refMap[name] = createRef();
-                return cloneElement(child, { formRef: refMap[name] });
+
+                return cloneElement(child, {
+                    formRef: refMap[name],
+                    formRefMap: refMap
+                });
             }
         );
 
@@ -92,10 +98,15 @@ export class Form extends PureComponent {
 
                 if (message) {
                     invalidFields.push(id);
-                    return cloneElement(child, { message, formRef: refMap[name] });
+                    return cloneElement(child, {
+                        message,
+                        formRef: refMap[name]
+                    });
                 }
 
-                return cloneElement(child, { formRef: refMap[name] });
+                return cloneElement(child, {
+                    formRef: refMap[name]
+                });
             }
         );
 
@@ -139,13 +150,13 @@ export class Form extends PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { refMap, fieldsAreValid } = state;
+        const { refMap } = state;
         const { children } = props;
-        if (fieldsAreValid) {
-            return Form.updateChildrenRefs(props);
-        }
 
-        return Form.cloneAndValidateChildren(children, refMap);
+        return {
+            ...Form.cloneAndValidateChildren(children, refMap),
+            ...Form.updateChildrenRefs(props)
+        };
     }
 
     handleFormSubmit = async (e) => {
