@@ -2504,27 +2504,23 @@
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
-"@scandipwa/scandipwa-extensibility@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-extensibility/-/scandipwa-extensibility-2.0.1.tgz#55eb74eb7410e71643712ca3d63067781912aad5"
-  integrity sha512-jIJ85El5XuacIvD04DhGZjwHRymuSJQrFvdiie6qnEtuF/367e8FdCde/E2QSHN+F39zif0sZ8b4WWDHbmGq0g==
+"@scandipwa/scandipwa-extensibility@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-extensibility/-/scandipwa-extensibility-2.0.0.tgz#58424b716dd79e82126bb15b70cd6ec19b8d3380"
+  integrity sha512-qsT0dqb7X7EErOtZb4cW80BuX1H8iNOGz/u8PDXAHSPt54bRsTevRZ10mhLxrPvc7jptwlAEGZQpu94CXg+RSQ==
   dependencies:
     "@babel/plugin-transform-arrow-functions" "^7.10.4"
     "@babel/plugin-transform-async-to-generator" "^7.10.4"
-    "@scandipwa/craco" "0.1.1"
-    "@scandipwa/scandipwa-dev-utils" "0.0.20"
-    noop-loader "^1.0.0"
-    null-loader "^4.0.1"
 
-"@scandipwa/scandipwa-scripts@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.2.1.tgz#f51fbe283d80922d1c76a12846a770a89c9a3f07"
-  integrity sha512-5iDp2a6jI6vDMtji4UKx+9c4DrW3mykR5nnpHVj4i5ZgmlzZKrjoXPCyPcVT+K0ddIub2fF60GJzk3dNvO30vQ==
+"@scandipwa/scandipwa-scripts@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.2.0.tgz#0d13521ec5366105232f456e79b514e558641c70"
+  integrity sha512-zANpAICxNqHZmeNxsdvwa8/65vNfUQGnF1bDgba+ZFNr/8SGdUOh8eOm9kq5yL3LEAZ7jDAcqgKf4J0VDU2tjg==
   dependencies:
     "@scandipwa/craco" "0.1.1"
     "@scandipwa/eslint-config" "0.1.10"
     "@scandipwa/scandipwa-dev-utils" "0.0.20"
-    "@scandipwa/scandipwa-extensibility" "2.0.1"
+    "@scandipwa/scandipwa-extensibility" "2.0.0"
     "@scandipwa/webpack-extension-import-loader" "0.0.16"
     "@scandipwa/webpack-fallback-plugin" "1.2.0"
     "@scandipwa/webpack-i18n-plugin" "0.1.5"
@@ -10206,11 +10202,6 @@ node-sass@4.14.1:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
-noop-loader@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/noop-loader/-/noop-loader-1.0.0.tgz#04c53f759bb08f56def63ee26922c65e3f0a4e5a"
-  integrity sha1-BMU/dZuwj1be9j7iaSLGXj8KTlo=
-
 "nopt@2 || 3":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
@@ -10362,14 +10353,6 @@ nth-check@^1.0.2, nth-check@~1.0.1:
   integrity sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==
   dependencies:
     boolbase "~1.0.0"
-
-null-loader@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/null-loader/-/null-loader-4.0.1.tgz#8e63bd3a2dd3c64236a4679428632edd0a6dbc6a"
-  integrity sha512-pxqVbi4U6N26lq+LmgIbB5XATP0VdZKOG25DhHi8btMmJJefGArFyDg1yc4U3hWCJbMqSrw0qyrz1UQX+qYXqg==
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
 
 num2fraction@^1.2.2:
   version "1.2.2"
