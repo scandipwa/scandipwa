@@ -46,11 +46,6 @@ export const mapDispatchToProps = (dispatch) => ({
         UrlRewritesDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch, { urlParam })
         );
-    },
-    updateNoMatch: (options) => {
-        NoMatchDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateNoMatch(dispatch, options)
-        );
     }
 });
 
@@ -68,8 +63,7 @@ export class UrlRewritesContainer extends PureComponent {
             type: PropTypes.string,
             sku: PropTypes.string,
             notFound: PropTypes.bool
-        }).isRequired,
-        updateNoMatch: PropTypes.func.isRequired
+        }).isRequired
     };
 
     static defaultProps = {
@@ -124,15 +118,10 @@ export class UrlRewritesContainer extends PureComponent {
         }
     }
 
-    containerProps = () => {
-        const { updateNoMatch } = this.props;
-
-        return {
-            type: this.getType(),
-            props: this.getProps(),
-            updateNoMatch
-        };
-    };
+    containerProps = () => ({
+        type: this.getType(),
+        props: this.getProps()
+    });
 
     getTypeSpecificProps() {
         const {
