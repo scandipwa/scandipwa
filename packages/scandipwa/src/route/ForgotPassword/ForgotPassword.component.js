@@ -1,0 +1,90 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import { withRouter } from 'react-router-dom';
+
+import Loader from 'Component/Loader';
+import {
+    MyAccountOverlay
+} from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+
+import './ForgotPassword.style';
+
+/** @namespace Scandipwa/Route/ForgotPassword/Component/ForgotPasswordComponent */
+export class ForgotPasswordComponent extends MyAccountOverlay {
+    renderSignInWrapper() {
+        const { onLoginClick } = this.props;
+
+        return (
+            <div block="ForgotPassword" elem="SignInWrapper">
+                <h3>{ __('Registered Customers') }</h3>
+                <hr />
+                <p>{ __('If you have an account, sign in with your email address.') }</p>
+                <button block="Button" onClick={ onLoginClick }>{ __('Sign In Here') }</button>
+            </div>
+        );
+    }
+
+    renderCreateAccountWrapper() {
+        const { onCreateAccountClick } = this.props;
+
+        return (
+            <div block="ForgotPassword" elem="CreateAccountWrapper">
+                <h3>{ __('New Customers') }</h3>
+                <hr />
+                <p>
+                    { __('Creating an account has many benefits:') }
+                    { __('check out faster, keep more than one address, track orders and more.') }
+                </p>
+                <button block="Button" onClick={ onCreateAccountClick }>{ __('Create an Account') }</button>
+            </div>
+        );
+    }
+
+    renderForgotPasswordWrapper() {
+        return (
+            <div block="ForgotPassword" elem="ContainerWrapper">
+                <h3>{ __('Forgot Your Password?') }</h3>
+                <hr />
+                <p>
+                    { __('Please enter your email address below to receive a password reset link.') }
+                </p>
+                { this.renderForgotPassword() }
+            </div>
+        );
+    }
+
+    renderAdditionalContent() {
+        return (
+            <div block="ForgotPassword" elem="AdditionalContent">
+                { this.renderCreateAccountWrapper() }
+                { this.renderSignInWrapper() }
+            </div>
+        );
+    }
+
+    render() {
+        const {
+            isLoading
+        } = this.props;
+
+        return (
+            <div block="ForgotPassword" elem="DesktopContentWrapper">
+                <Loader isLoading={ isLoading } />
+                { this.renderForgotPasswordWrapper() }
+                { this.renderAdditionalContent() }
+            </div>
+        );
+    }
+}
+export default withRouter(
+    ForgotPasswordComponent
+);

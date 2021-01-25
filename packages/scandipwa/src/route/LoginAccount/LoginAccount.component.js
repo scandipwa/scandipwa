@@ -1,0 +1,74 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import { withRouter } from 'react-router-dom';
+
+import Loader from 'Component/Loader';
+import {
+    MyAccountOverlay
+} from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+
+import './LoginAccount.style';
+
+/** @namespace Scandipwa/Route/LoginAccount/Component/LoginAccountComponent */
+export class LoginAccountComponent extends MyAccountOverlay {
+    renderSignInWrapper() {
+        return (
+            <div block="LoginAccount" elem="SignInWrapper">
+                <h3>{ __('Registered Customers') }</h3>
+                <hr />
+                <p>{ __('If you have an account, sign in with your email address.') }</p>
+                { this.renderSignIn() }
+            </div>
+        );
+    }
+
+    renderCreateAccountWrapper() {
+        const { onCreateAccountClick } = this.props;
+
+        return (
+            <div block="LoginAccount" elem="CreateAccountWrapper">
+                <h3>{ __('New Customers') }</h3>
+                <hr />
+                <p>
+                    { __('Creating an account has many benefits:') }
+                    { __('check out faster, keep more than one address, track orders and more.') }
+                </p>
+                <button block="Button" onClick={ onCreateAccountClick }>{ __('Create an Account') }</button>
+            </div>
+        );
+    }
+
+    renderContent() {
+        return (
+            <>
+                { this.renderSignInWrapper() }
+                { this.renderCreateAccountWrapper() }
+            </>
+        );
+    }
+
+    render() {
+        const {
+            isLoading
+        } = this.props;
+
+        return (
+            <div block="LoginAccount" elem="DesktopContentWrapper">
+                <Loader isLoading={ isLoading } />
+                { this.renderContent() }
+            </div>
+        );
+    }
+}
+export default withRouter(
+    LoginAccountComponent
+);
