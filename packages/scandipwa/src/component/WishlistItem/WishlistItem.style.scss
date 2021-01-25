@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
+ :root {
     --whislist-swipe-to-delete-color: #fff;
     --whislist-qty-button-size: 20px;
 }
@@ -34,9 +34,10 @@
     }
 
     &-ProductCard {
+        display: flex;
+        flex-direction: column;
+
         @include desktop {
-            display: flex;
-            flex-direction: column;
             padding: 1.2rem 0;
             margin-bottom: 0;
 
@@ -53,6 +54,26 @@
             padding: 3px 5px;
             margin-right: 5px;
             display: inline-block;
+        }
+
+        .ProductCard-Name {
+            white-space: inherit;
+        }
+    
+        .ProductPrice_hasDiscount {
+            @include mobile {
+                display: flex;
+                flex-direction: column;
+            }
+    
+            del {
+                margin-left: 4px;
+    
+                @include mobile {
+                    order: -1;
+                    margin-left: 0;
+                }
+            }
         }
     }
 
@@ -88,8 +109,8 @@
         margin-top: 0;
 
         @include mobile {
-            padding: 7px;
-            font-size: 1.4rem;
+            padding: 7px 12px 4px;
+            font-size: 1.3rem;
             margin-left: auto;
         }
 
@@ -125,11 +146,6 @@
         @include after-mobile {
             float: right;
             text-align: right;
-        }
-
-        .ProductPrice {
-            display: flex;
-            flex-direction: column-reverse;
         }
     }
 
@@ -180,6 +196,7 @@
 
     &-SelectWrapper {
         display: flex;
+        width: 100%;
     }
 
     &-Select {
@@ -198,19 +215,11 @@
         @include mobile {
             height: 100%;
         }
-
-        img {
-            object-fit: cover;
-        }
     }
 
     &-SwipeToDeleteRightSide {
         height: 100%;
         font-weight: 600;
         color: var(--whislist-swipe-to-delete-color);
-    }
-
-    .ProductCard-Name {
-        white-space: inherit;
     }
 }

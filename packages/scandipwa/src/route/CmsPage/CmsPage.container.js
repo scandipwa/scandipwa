@@ -78,7 +78,8 @@ export class CmsPageContainer extends DataContainer {
 
     state = {
         page: {},
-        isLoading: true
+        isLoading: true,
+        isPageLoaded: false
     };
 
     __construct(props) {
@@ -158,7 +159,8 @@ export class CmsPageContainer extends DataContainer {
             content_heading,
             meta_title,
             title,
-            meta_description
+            meta_description,
+            meta_keywords
         } = page;
 
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
@@ -167,6 +169,7 @@ export class CmsPageContainer extends DataContainer {
         updateMeta({
             title: meta_title || title,
             description: meta_description,
+            keywords: meta_keywords,
             canonical_url: window.location.href
         });
 
@@ -181,7 +184,7 @@ export class CmsPageContainer extends DataContainer {
             });
         }
 
-        this.setState({ page, isLoading: false });
+        this.setState({ page, isLoading: false, isPageLoaded: true });
     };
 
     getRequestQueryParams() {
@@ -219,7 +222,8 @@ export class CmsPageContainer extends DataContainer {
 
         this.fetchData(
             [CmsPageQuery.getQuery(params)],
-            this.onPageLoad
+            this.onPageLoad,
+            () => this.setState({ isLoading: false })
         );
     }
 

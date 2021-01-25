@@ -43,16 +43,15 @@ export const updateCartTotals = (action) => {
 export const updateShippingPrice = (action, state) => {
     const {
         data: {
-            shipping_amount,
-            shipping_incl_tax
+            items,
+            ...rest
         } = {}
     } = action;
 
     return {
         cartTotals: {
             ...state.cartTotals,
-            shipping_amount,
-            shipping_incl_tax
+            ...rest
         }
     };
 };

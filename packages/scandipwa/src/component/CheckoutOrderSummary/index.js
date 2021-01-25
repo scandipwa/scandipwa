@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CheckoutOrderSummary.component';
+export { default } from './CheckoutOrderSummary.container';

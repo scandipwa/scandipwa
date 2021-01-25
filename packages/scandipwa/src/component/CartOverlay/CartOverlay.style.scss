@@ -142,7 +142,8 @@
 
     &-Total,
     &-Discount,
-    &-Tax {
+    &-Tax,
+    &-Shipping {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -157,15 +158,20 @@
         @include after-mobile {
             font-size: 1.6rem;
         }
+
+        dd {
+            text-align: right;
+
+            span {
+                display: block;
+                font-size: .6em;
+                font-weight: 300;
+            }
+        }
     }
 
     &-Total {
         font-weight: bold;
-        padding: .6rem 1.2rem 1.2rem;
-
-        @include mobile {
-            padding: .7rem 1.4rem 1.4rem;
-        }
 
         @include after-mobile {
             border-bottom: 1px solid var(--cart-item-divider-color);

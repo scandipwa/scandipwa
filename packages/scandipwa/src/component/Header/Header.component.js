@@ -53,6 +53,7 @@ import {
     MENU_SUBCATEGORY,
     PDP,
     POPUP,
+    PRODUCT_COMPARE,
     SEARCH
 } from './Header.config';
 
@@ -187,6 +188,10 @@ export class Header extends NavigationAbstract {
         [CONTACT_US]: {
             title: true,
             back: true
+        },
+        [PRODUCT_COMPARE]: {
+            title: true,
+            back: true
         }
     };
 
@@ -199,6 +204,7 @@ export class Header extends NavigationAbstract {
         logo: this.renderLogo.bind(this),
         account: this.renderAccount.bind(this),
         minicart: this.renderMinicart.bind(this),
+        compare: this.renderComparePageButton.bind(this),
         search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
@@ -297,6 +303,37 @@ export class Header extends NavigationAbstract {
               aria-hidden={ !isVisible }
               disabled={ isWishlistLoading }
             />
+        );
+    }
+
+    renderComparePageButton() {
+        const {
+            device: {
+                isMobile
+            } = {},
+            isCheckout
+        } = this.props;
+
+        if (isCheckout || isMobile) {
+            return null;
+        }
+
+        return (
+            <div block="Header" elem="CompareButtonWrapper">
+                <Link
+                  to="compare"
+                  key="compare"
+                  block="Header"
+                  elem="Button"
+                  mods={ { type: 'compare' } }
+                  aria-label={ __('Compare Page') }
+                >
+                    <div
+                      block="Header"
+                      elem="CompareIcon"
+                    />
+                </Link>
+            </div>
         );
     }
 

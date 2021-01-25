@@ -22,7 +22,12 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
-import { hasOutOfStockProductsInCartItems } from 'Util/Cart';
+import {
+    getCartShippingPrice,
+    getCartShippingSubPrice,
+    getCartTotalSubPrice,
+    hasOutOfStockProductsInCartItems
+} from 'Util/Cart';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -39,7 +44,11 @@ export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     guest_checkout: state.ConfigReducer.guest_checkout,
     currencyCode: state.CartReducer.cartTotals.quote_currency_code,
-    activeOverlay: state.OverlayReducer.activeOverlay
+    activeOverlay: state.OverlayReducer.activeOverlay,
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    cartShippingPrice: getCartShippingPrice(state),
+    cartShippingSubPrice: getCartShippingSubPrice(state),
+    cartDisplaySettings: state.ConfigReducer.cartDisplaySettings
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */

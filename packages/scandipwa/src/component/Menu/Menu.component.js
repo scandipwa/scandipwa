@@ -294,6 +294,7 @@ export class Menu extends PureComponent {
             <>
                 { this.renderStoreSwitcher() }
                 { this.renderCurrencySwitcher() }
+                { this.renderComparePageLink() }
                 { this.renderPromotionCms() }
             </>
         );
@@ -409,6 +410,21 @@ export class Menu extends PureComponent {
         }
 
         return <StoreSwitcher />;
+    }
+
+    renderComparePageLink() {
+        const { device } = this.props;
+        if (!device.isMobile) {
+            return null;
+        }
+
+        return (
+            <h3 block="Menu" elem="CompareLinkWrapper">
+                <Link to="compare" block="Menu" elem="CompareLink">
+                    { __('Compare') }
+                </Link>
+            </h3>
+        );
     }
 
     render() {

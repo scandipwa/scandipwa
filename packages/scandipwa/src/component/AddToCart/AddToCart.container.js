@@ -64,7 +64,8 @@ export class AddToCartContainer extends PureComponent {
         removeFromWishlist: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         onProductValidationError: PropTypes.func,
-        productOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.object.isRequired,
+        disableHandler: PropTypes.bool
     };
 
     static defaultProps = {
@@ -72,7 +73,8 @@ export class AddToCartContainer extends PureComponent {
         configurableVariantIndex: 0,
         setQuantityToDefault: () => {},
         onProductValidationError: () => {},
-        isLoading: false
+        isLoading: false,
+        disableHandler: false
     };
 
     state = { isLoading: false };
@@ -125,10 +127,10 @@ export class AddToCartContainer extends PureComponent {
             }
         } = this.props;
 
-        const isAllItemsAvailable = items.every(({ product: { id } }) => groupedProductQuantity[id]);
+        const isAllItemsAvailable = items.some(({ product: { id } }) => groupedProductQuantity[id]);
 
         if (!isAllItemsAvailable) {
-            showNotification('info', __('Sorry! Child product quantities are invalid!'));
+            showNotification('info', __('Please specify the quantity of product(s)!'));
             return false;
         }
 
@@ -309,9 +311,14 @@ export class AddToCartContainer extends PureComponent {
 
     buttonClick() {
         const {
-            product: { type_id },
-            onProductValidationError
+            product: { type_id } = {},
+            onProductValidationError,
+            disableHandler
         } = this.props;
+
+        if (disableHandler) {
+            return;
+        }
 
         if (!this.validateAddToCart()) {
             onProductValidationError(type_id);

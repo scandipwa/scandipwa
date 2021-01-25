@@ -19,6 +19,7 @@
     margin: 0;
     padding: 0 0 1.2rem;
     border-bottom: 1px solid var(--product-review-item-border);
+    word-break: break-word;
 
     @include mobile {
         padding: 0 0 1.4rem;

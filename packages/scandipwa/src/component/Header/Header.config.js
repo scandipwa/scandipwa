@@ -33,3 +33,4 @@ export const CMS_PAGE = 'cms-page';
 export const MY_ACCOUNT = 'my-account';
 export const NO_MATCH = 'no-match';
 export const CONTACT_US = 'contact-us';
+export const PRODUCT_COMPARE = 'product-compare';

@@ -277,10 +277,13 @@ export class CartItemContainer extends PureComponent {
     };
 
     render() {
+        const { isLoading } = this.state;
+
         return (
             <SwipeToDelete
               renderRightSideContent={ this.renderRightSideContent }
               onAheadOfDragItemRemoveThreshold={ this.containerFunctions.handleRemoveItem }
+              isLoading={ isLoading }
             >
                 <CartItem
                   { ...this.props }

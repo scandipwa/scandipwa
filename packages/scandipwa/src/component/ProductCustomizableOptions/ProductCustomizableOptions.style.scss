@@ -16,7 +16,9 @@
 
 .ProductCustomizableOptions {
     &-Content {
-        max-width: 400px;
+        @include after-mobile{
+            max-width: 400px;
+        }
 
         .Field {
             input,

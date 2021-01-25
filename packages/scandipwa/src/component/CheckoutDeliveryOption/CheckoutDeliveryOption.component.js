@@ -24,11 +24,15 @@ export class CheckoutDeliveryOption extends PureComponent {
         option: shippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
         isSelected: PropTypes.bool,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        optionPrice: PropTypes.number,
+        optionSubPrice: PropTypes.number
     };
 
     static defaultProps = {
-        isSelected: false
+        isSelected: false,
+        optionPrice: 0,
+        optionSubPrice: null
     };
 
     onClick = () => {
@@ -40,16 +44,42 @@ export class CheckoutDeliveryOption extends PureComponent {
         onClick(option);
     };
 
-    renderPrice() {
+    getOptionPrice() {
         const {
-            option: { price_incl_tax },
-            totals: { quote_currency_code }
+            totals: {
+                quote_currency_code
+            },
+            optionPrice
         } = this.props;
 
-        const formattedPrice = formatPrice(price_incl_tax, quote_currency_code);
+        return formatPrice(optionPrice, quote_currency_code);
+    }
+
+    renderOptionSubPrice() {
+        const {
+            totals: {
+                quote_currency_code
+            },
+            optionSubPrice
+        } = this.props;
+
+        if (!optionSubPrice) {
+            return null;
+        }
+
+        return (
+            <span block="CheckoutDeliveryOption" elem="SubPrice">
+                { __('Excl. tax: ') }
+                { formatPrice(optionSubPrice, quote_currency_code) }
+            </span>
+        );
+    }
+
+    renderPrice() {
         return (
             <strong>
-                { ` - ${formattedPrice}` }
+                { ` - ${ this.getOptionPrice() }` }
+                { this.renderOptionSubPrice() }
             </strong>
         );
     }

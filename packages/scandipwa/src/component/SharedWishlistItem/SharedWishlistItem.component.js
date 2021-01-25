@@ -61,6 +61,7 @@ export class SharedWishlistItem extends SourceWishlistItem {
               mix={ { block: 'WishlistItem' } }
               isLoading={ isLoading }
               hideWishlistButton
+              hideCompareButton
             >
                 { this.renderAddToCart() }
             </ProductCard>

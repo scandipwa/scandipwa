@@ -11,6 +11,7 @@
 
 :root {
     --input-border-color: #e0e0e0;
+    --input-border-color-focus: #{$black};
     --input-background-color: #fff;
     --input-padding: 13px 20px;
     --input-color: var(--primary-base-color);
@@ -26,7 +27,7 @@ select {
     caret-color: var(--primary-base-color);
 
     &:focus {
-        border: 1px solid var(--input-color);
+        border: 1px solid var(--input-border-color-focus);
     }
 
     &:not(:first-of-type) {
@@ -35,6 +36,11 @@ select {
         @include mobile {
             margin-top: 1.4rem;
         }
+    }
+
+    &:-webkit-autofill {
+        box-shadow: 0 0 0 30px var(--input-background-color) inset !important;
+        background-color: var(--input-background-color) !important;
     }
 }
 

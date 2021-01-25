@@ -69,4 +69,14 @@
             --check-mark-color: var(--checkout-delivery-option-check-mark-hover-color);
         }
     }
+
+    &-SubPrice {
+        font-size: .7em;
+        font-weight: 300;
+        text-align: right;
+        position: absolute;
+        right: 0;
+        top: 1.5em;
+        white-space: nowrap;
+    }
 }

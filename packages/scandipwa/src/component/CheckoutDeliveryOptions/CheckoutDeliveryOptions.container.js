@@ -11,11 +11,20 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { shippingMethodsType } from 'Type/Checkout';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
+
+/** @namespace Component/CheckoutDeliveryOptions/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    shippingMethod: state.CartReducer.cartTotals.shipping_method
+});
+
+/** @namespace Component/CheckoutDeliveryOptions/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/CheckoutDeliveryOptions/Container */
 export class CheckoutDeliveryOptionsContainer extends PureComponent {
@@ -25,9 +34,16 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     };
 
     static _getDefaultMethod(props) {
-        const { shippingMethods } = props;
-        const [{ method_code } = [{}]] = shippingMethods;
-        return method_code;
+        const {
+            shippingMethods = [],
+            shippingMethod
+        } = props;
+
+        const result = shippingMethods.find(
+            ({ method_code, carrier_code }) => `${carrier_code}_${method_code}` === shippingMethod
+        ) || shippingMethods[0] || {};
+
+        return result.method_code;
     }
 
     containerFunctions = {
@@ -122,4 +138,4 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     }
 }
 
-export default CheckoutDeliveryOptionsContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOptionsContainer);

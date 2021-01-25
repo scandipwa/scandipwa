@@ -60,11 +60,12 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     };
 
     state = {
-        isLoading: false
+        isLoading: false,
+        loadingItemsMap: {}
     };
 
     containerProps = () => {
-        const { isLoading } = this.state;
+        const { isLoading, loadingItemsMap } = this.state;
         const { isWishlistLoading } = this.props;
 
         const isWishlistEmpty = this._getIsWishlistEmpty();
@@ -72,7 +73,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         return {
             isWishlistEmpty,
             isLoading,
-            isActionsDisabled: isWishlistLoading || isWishlistEmpty
+            isActionsDisabled: isWishlistLoading || isWishlistEmpty,
+            loadingItemsMap
         };
     };
 
@@ -107,6 +109,15 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     removeSelectedFromWishlist = (selectedIdMap) => {
         const { removeSelectedFromWishlist } = this.props;
+        const { loadingItemsMap: prevLoadingItemsMap } = this.state;
+
+        const loadingItemsMap = { ...prevLoadingItemsMap };
+
+        selectedIdMap.forEach((id) => {
+            loadingItemsMap[id] = true;
+        });
+
+        this.setState({ loadingItemsMap });
 
         return removeSelectedFromWishlist(selectedIdMap);
     };

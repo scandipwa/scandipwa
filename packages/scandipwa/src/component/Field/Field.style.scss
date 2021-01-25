@@ -64,6 +64,13 @@
         }
     }
 
+    &_isValid {
+        input,
+        textarea {
+            border: 1px solid var(--primary-success-color);
+        }
+    }
+
     &_hasError {
         input,
         textarea {
