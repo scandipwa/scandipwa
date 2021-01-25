@@ -235,7 +235,7 @@ export const listenForBroadCast = (name) => new Promise((resolve) => {
     const windowId = getWindowId();
 
     if (BroadcastChannel) {
-        const bc = new BroadcastChannel(`${name}_${windowId}`);
+        const bc = new BroadcastChannel(`${ name }_${ windowId }`);
         bc.onmessage = (update) => {
             const { data: { payload: body } } = update;
             resolve(checkForErrors(body));
