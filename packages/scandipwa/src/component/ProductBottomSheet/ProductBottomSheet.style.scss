@@ -63,17 +63,27 @@
         position: fixed;
         width: 100%;
         z-index: 100;
-        background-color: white;
-        height: 0;
+        background-color: transparent;
+        height: 50px;
         top: 0;
         opacity: 0;
         margin-left: -14px;
-        transition: height,opacity 0.2s ease;
 
         &_isBottomSheetOpen {
-            height: 50px;
+            background-color: white;
             opacity: 1;
+            animation: bottomSheetFadeIn 0.35s linear;
         }
+    }
+}
+
+@keyframes bottomSheetFadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
 
