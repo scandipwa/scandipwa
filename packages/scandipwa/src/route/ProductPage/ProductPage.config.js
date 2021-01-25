@@ -8,11 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-/* eslint-disable */
-import generateConfig from './generateConfig';
 
-export const extensions = [];
-// See config/loaders/extension-import-injector
-// * ScandiPWA extension importing magic comment! */
-
-globalThis.plugins = generateConfig(extensions);
+// eslint-disable-next-line import/prefer-default-export
+export const PRODUCT_INFORMATION = 'information';
+export const PRODUCT_ATTRIBUTES = 'attributes';
+export const PRODUCT_REVIEWS = 'reviews';

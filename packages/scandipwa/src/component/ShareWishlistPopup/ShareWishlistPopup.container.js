@@ -22,8 +22,8 @@ import ShareWishlistPopup from './ShareWishlistPopup.component';
 
 /** @namespace Component/ShareWishlistPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showNotification: (message) => dispatch(showNotification('success', __(message))),
-    showError: (message) => dispatch(showNotification('error', __(message))),
+    showNotification: (message) => dispatch(showNotification('success', message)),
+    showError: (message) => dispatch(showNotification('error', message)),
     hidePopup: () => dispatch(showPopup('', {}))
 });
 
@@ -44,7 +44,7 @@ export class ShareWishlistPopupContainer extends PureComponent {
         fetchMutation(WishlistQuery.getShareWishlistMutation({ message, emails })).then(
             /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationThen */
             () => {
-                showNotification('Wishlist has been shared');
+                showNotification(__('Wishlist has been shared'));
                 hidePopup();
             },
             /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationCatch */

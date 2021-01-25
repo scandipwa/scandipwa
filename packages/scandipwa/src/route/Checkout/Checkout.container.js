@@ -322,15 +322,26 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    setShippingAddress = async () => {
+    setShippingAddress = async (isDefaultShipping = false) => {
         const { shippingAddress } = this.state;
         const { region, region_id, ...address } = shippingAddress;
 
         const mutation = MyAccountQuery.getCreateAddressMutation({
-            ...address, region: { region, region_id }
+            ...address,
+            region: { region, region_id },
+            default_shipping: isDefaultShipping
         });
 
-        await fetchMutation(mutation);
+        const data = await fetchMutation(mutation);
+
+        if (data?.createCustomerAddress) {
+            this.setState({
+                shippingAddress: {
+                    ...shippingAddress,
+                    id: data.createCustomerAddress.id
+                }
+            });
+        }
 
         return true;
     };
@@ -346,7 +357,7 @@ export class CheckoutContainer extends PureComponent {
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
-        const [{ message, debugMessage }] = error;
+        const { message, debugMessage } = error?.length ? error[0] : error;
 
         this.setState({
             isDeliveryOptionsLoading: false,
@@ -441,7 +452,7 @@ export class CheckoutContainer extends PureComponent {
         showSuccessNotification(__('Your account has been created successfully!'));
 
         if (!is_virtual) {
-            return this.setShippingAddress();
+            return this.setShippingAddress(true);
         }
 
         return true;
@@ -450,11 +461,13 @@ export class CheckoutContainer extends PureComponent {
     prepareAddressInformation(addressInformation) {
         const {
             shipping_address: {
+                id,
                 save_in_address_book,
                 ...shippingAddress
             } = {},
             billing_address: {
-                save_in_address_book: x,
+                id: dropId,
+                save_in_address_book: dropSaveInAddressBook,
                 ...billingAddress
             } = {},
             ...data
@@ -552,6 +565,7 @@ export class CheckoutContainer extends PureComponent {
         const { countries } = this.props;
 
         const {
+            id, // drop this
             country_id,
             region_code, // drop this
             region_id,
@@ -596,13 +610,24 @@ export class CheckoutContainer extends PureComponent {
 
     async saveBillingAddress(paymentInformation) {
         const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
-        const { billing_address } = paymentInformation;
+        const { billing_address, same_as_shipping } = paymentInformation;
+        const {
+            shippingAddress: {
+                id: shippingAddressId = null
+            } = {}
+        } = this.state;
+        const billingAddress = {
+            address: this.trimAddressMagentoStyle(billing_address)
+        };
+
+        if (same_as_shipping && shippingAddressId) {
+            billingAddress.customer_address_id = shippingAddressId;
+        }
 
         await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
             guest_cart_id,
-            billing_address: {
-                address: this.trimAddressMagentoStyle(billing_address)
-            }
+            same_as_shipping,
+            billing_address: billingAddress
         }));
     }
 

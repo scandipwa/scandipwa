@@ -2,7 +2,6 @@
 const path = require('path');
 const FallbackPlugin = require('@scandipwa/webpack-fallback-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { sources } = require('@scandipwa/scandipwa-scripts/lib/sources');
 const { getLoader, loaderByName } = require('@scandipwa/craco');
 
 // The variable is passed automatically, use --magento flag
@@ -23,7 +22,7 @@ module.exports = {
             config.paths.appBuild = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
 
             // For Magento use PHP template (defined in /public/index.php)
-            config.paths.appHtml = FallbackPlugin.getFallbackPathname('./public/index.php', sources);
+            config.paths.appHtml = FallbackPlugin.getFallbackPathname('./public/index.php');
 
             // Always return the config object.
             return config;
@@ -40,6 +39,20 @@ module.exports = {
                     plugin.options.minify = false;
                 }
             });
+
+            try {
+                // Optional dependency (if the @scandipwa/service-worker is installed)
+                const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+
+                // Yes, another loop, but it is more readable
+                webpackConfig.plugins.forEach((plugin) => {
+                    if (plugin instanceof WorkboxWebpackPlugin.InjectManifest) {
+                        plugin.config.exclude.push(/scandipwa_root/);
+                    }
+                });
+            } catch (e) {
+                // Supress error, there is nothing to see here :D
+            }
 
             const { isFound: isFileLoaderFound, match: fileLoader } = getLoader(
                 webpackConfig,

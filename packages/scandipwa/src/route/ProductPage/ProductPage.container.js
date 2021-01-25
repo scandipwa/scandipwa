@@ -89,7 +89,8 @@ export class ProductPageContainer extends PureComponent {
         productOptionsData: {},
         selectedBundlePrice: 0,
         currentProductSKU: '',
-        isBottomSheetOpen: false
+        isBottomSheetOpen: false,
+        selectedBundlePriceExclTax: 0
     };
 
     containerFunctions = {
@@ -97,7 +98,9 @@ export class ProductPageContainer extends PureComponent {
         getLink: this.getLink.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
         setBundlePrice: this.setBundlePrice.bind(this),
-        setBottomSheetOpen: this.setBottomSheetOpen.bind(this)
+        setBottomSheetOpen: this.setBottomSheetOpen.bind(this),
+        isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
+        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
     static propTypes = {
@@ -287,6 +290,18 @@ export class ProductPageContainer extends PureComponent {
         this._addToRecentlyViewedProducts();
     }
 
+    isProductInformationTabEmpty() {
+        const dataSource = this.getDataSource();
+
+        return !dataSource?.description?.html.length;
+    }
+
+    isProductAttributesTabEmpty() {
+        const dataSource = this.getDataSource();
+
+        return Object.keys(dataSource?.attributes || {}).length === 0;
+    }
+
     _addToRecentlyViewedProducts() {
         const {
             product,
@@ -386,8 +401,12 @@ export class ProductPageContainer extends PureComponent {
         });
     }
 
-    setBundlePrice(price) {
-        this.setState({ selectedBundlePrice: price });
+    setBundlePrice(prices) {
+        const { price = 0, priceExclTax = 0 } = prices;
+        this.setState({
+            selectedBundlePrice: price,
+            selectedBundlePriceExclTax: priceExclTax
+        });
     }
 
     getSelectedCustomizableOptions(values, updateArray = false) {
@@ -429,7 +448,9 @@ export class ProductPageContainer extends PureComponent {
     containerProps = () => ({
         productOrVariant: this.getProductOrVariant(),
         dataSource: this.getDataSource(),
-        areDetailsLoaded: this.getAreDetailsLoaded()
+        areDetailsLoaded: this.getAreDetailsLoaded(),
+        isInformationTabEmpty: this.isProductInformationTabEmpty(),
+        isAttributesTabEmpty: this.isProductAttributesTabEmpty()
     });
 
     updateConfigurableVariant(key, value) {
@@ -483,12 +504,13 @@ export class ProductPageContainer extends PureComponent {
 
     getConfigurableVariantIndex(variants) {
         const { configurableVariantIndex, parameters } = this.state;
+        const hasParameters = !!Object.keys(parameters).length;
 
         if (configurableVariantIndex >= 0) {
             return configurableVariantIndex;
         }
 
-        if (variants) {
+        if (variants && hasParameters) {
             return getVariantIndex(variants, parameters);
         }
 

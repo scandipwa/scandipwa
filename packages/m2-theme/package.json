@@ -1,11 +1,10 @@
 {
     "name": "@scandipwa/m2-theme",
     "description": "Magneto 2 theme build extension used by CSA.",
-    "version": "0.1.1-alpha.0",
+    "version": "0.1.1",
     "license": "OSL-3.0",
     "dependencies": {
         "@scandipwa/craco": "0.0.4",
-        "@scandipwa/scandipwa-scripts": "^2.0.11",
         "@scandipwa/webpack-fallback-plugin": "^1.1.3"
     },
     "scandipwa": {
