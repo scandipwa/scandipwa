@@ -20,9 +20,10 @@
     }
 
     @include mobile {
-        height: calc(var(--vh, 1vh) * 100);
+        min-height: calc(var(--vh, 1vh) * 100 - var(--header-total-height) - var(--navigation-tabs-height));
         margin-top: -50px;
         margin-bottom: 0;
+        overscroll-behavior-y: none;
     }
     &-BottomPlaceholder {
         @include desktop {
@@ -45,6 +46,7 @@
         @include mobile {
             grid-template-columns: 100%;
             padding-top: 0;
+            overscroll-behavior-y: contain;
         }
 
         > .RelatedProducts {
