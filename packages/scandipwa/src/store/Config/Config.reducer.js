@@ -53,6 +53,7 @@ export const getInitialState = () => ({
     currencyData,
     isLoading: true,
     cartDisplayConfig,
+    priceTaxDisplay: {},
     device: {
         isMobile: true,
         android: true,

@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import NoMatch from 'Route/NoMatch';
 import { BlockListType } from 'Type/CMS';
 
 import './CmsPage.style';
@@ -23,7 +24,8 @@ export class CmsPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isBreadcrumbsActive: PropTypes.bool,
-        page: BlockListType.isRequired
+        page: BlockListType.isRequired,
+        isPageLoaded: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -68,8 +70,17 @@ export class CmsPage extends PureComponent {
     }
 
     render() {
-        const { page, isBreadcrumbsActive } = this.props;
+        const {
+            page,
+            isBreadcrumbsActive,
+            isLoading,
+            isPageLoaded
+        } = this.props;
         const { page_width } = page;
+
+        if (!isLoading && !isPageLoaded) {
+            return <NoMatch />;
+        }
 
         return (
             <main
