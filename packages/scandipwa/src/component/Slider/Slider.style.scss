@@ -47,6 +47,7 @@
 
         &_isVertical {
             flex-direction: column;
+            overscroll-behavior: none;
         }
     }
 

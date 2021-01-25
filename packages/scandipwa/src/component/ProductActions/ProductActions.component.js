@@ -45,7 +45,8 @@ export class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,
-        // minQuantity: PropTypes.number.isRequired,
+        setQuantity: PropTypes.func.isRequired,
+        minQuantity: PropTypes.number.isRequired,
         maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
         showOnlyIfLoaded: PropTypes.func.isRequired,
