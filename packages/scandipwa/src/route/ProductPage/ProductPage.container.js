@@ -198,6 +198,7 @@ export class ProductPageContainer extends PureComponent {
         this.updateBreadcrumbs();
 
         this.scrollTopIfPreviousPageWasPLP();
+        this.freezeScrollOnMobile();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -288,6 +289,12 @@ export class ProductPageContainer extends PureComponent {
         }
 
         this._addToRecentlyViewedProducts();
+
+        this.freezeScrollOnMobile();
+    }
+
+    componentWillUnmount() {
+        this.unFreezeScroll();
     }
 
     isProductInformationTabEmpty() {
@@ -631,6 +638,21 @@ export class ProductPageContainer extends PureComponent {
         const { isBottomSheetOpen } = this.state;
         if (isBottomSheetOpen) {
             this.setBottomSheetOpen(false);
+        }
+    }
+
+    freezeScrollOnMobile() {
+        const { device } = this.props;
+        if (device.isMobile) {
+            document.body.classList.add('overscrollDisabled');
+        } else {
+            this.unFreezeScroll();
+        }
+    }
+
+    unFreezeScroll() {
+        if (document.body.classList.contains('overscrollDisabled')) {
+            document.body.classList.remove('overscrollDisabled');
         }
     }
 
