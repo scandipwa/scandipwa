@@ -43,7 +43,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode('/account/login'));
+        history.replace(appendWithStoreCode(`/${ LOGIN }`));
     }
 
     render() {

@@ -12,7 +12,7 @@
 
 import { connect } from 'react-redux';
 
-import { CUSTOMER_SUB_ACCOUNT, LOGIN } from 'Component/Header/Header.config';
+import { CUSTOMER_SUB_ACCOUNT, LOGIN, REGISTER } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
@@ -45,11 +45,11 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode('/account/login'));
+        history.replace(appendWithStoreCode(`/${ LOGIN }`));
     }
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode('/account/create'));
+        history.replace(appendWithStoreCode(`/${ REGISTER }`));
     }
 
     render() {
