@@ -11,6 +11,7 @@
 
 import { connect } from 'react-redux';
 
+import { CUSTOMER_SUB_ACCOUNT, LOGIN } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
@@ -28,18 +29,21 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
         onLoginClick: this.onLoginClick.bind(this)
     };
 
-    onLoginClick() {
-        history.replace(appendWithStoreCode('/account/login'));
+    componentDidMount() {
+        const { setHeaderState } = this.props;
+
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: 'Create account',
+            onBackClick: (e) => {
+                history.push({ pathname: appendWithStoreCode(`/${ LOGIN }`) });
+                this.handleSignIn(e);
+            }
+        });
     }
 
-    componentDidMount() {
-        const {
-            device
-        } = this.props;
-
-        if (device.isMobile) {
-            history.push({ pathname: appendWithStoreCode('/my-account') });
-        }
+    onLoginClick() {
+        history.replace(appendWithStoreCode('/account/login'));
     }
 
     render() {

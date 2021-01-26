@@ -33,7 +33,7 @@ import {
     CHECKOUT, CHECKOUT_ACCOUNT, CHECKOUT_SUCCESS,
     CMS_PAGE, CONTACT_US, CUSTOMER_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE, CUSTOMER_SUB_ACCOUNT,
-    MENU, PDP,
+    LOGIN, MENU, PDP,
     SEARCH
 } from './Header.config';
 
@@ -358,7 +358,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        history.push({ pathname: appendWithStoreCode('/account/login') });
+        history.push({ pathname: appendWithStoreCode(`/${ LOGIN }`) });
     }
 
     onMyAccountOutsideClick() {

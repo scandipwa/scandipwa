@@ -1,9 +1,13 @@
 .LoginAccount {
-    &-DesktopContentWrapper {
-        display: flex;
-        justify-content: space-around;
+    &-ContentWrapper {
         min-height: calc(100vh - var(--header-total-height));
-        padding: 0 20px 50px;
+        padding: 28px 20px 50px;
+
+        @include desktop() {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 0;
+        }
 
         .MyAccountOverlay {
             &-Additional {
@@ -12,16 +16,39 @@
         }
 
         button {
-            margin-top: 20px;
+            margin-bottom: 7px;
+
+            @include desktop {
+                margin-top: 20px;
+            }
+        }
+
+        button,
+        input {
+            min-width: 250px;
+
+            @include before-desktop {
+                width: 100%;
+            }
         }
 
         > div {
-            margin: 0 10px;
+            flex: 1;
+            margin-top: 80px;
+
+            @include desktop {
+                margin: 0 10px;
+            }
         }
 
         hr {
             border: 1px solid var(--color-botticelli);
             margin-bottom: 20px;
+        }
+
+        h4 {
+            padding-bottom: 7px;
+            text-align: center;
         }
 
         p {

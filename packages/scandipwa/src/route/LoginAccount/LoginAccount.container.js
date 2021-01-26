@@ -12,6 +12,7 @@
 
 import { connect } from 'react-redux';
 
+import { CUSTOMER_ACCOUNT } from 'Component/Header/Header.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
@@ -38,13 +39,9 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     }
 
     componentDidMount() {
-        const {
-            device
-        } = this.props;
+        const { setHeaderState } = this.props;
 
-        if (device.isMobile) {
-            history.push({ pathname: appendWithStoreCode('/my-account') });
-        }
+        setHeaderState({ name: CUSTOMER_ACCOUNT, title: __('Sign in') });
     }
 
     render() {

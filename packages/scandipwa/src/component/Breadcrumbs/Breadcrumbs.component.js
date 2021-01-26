@@ -57,6 +57,7 @@ export class Breadcrumbs extends PureComponent {
         if (
             !areBreadcrumbsVisible
             || location.pathname === appendWithStoreCode('/')
+            || location.pathname === appendWithStoreCode('/account')
             || location.pathname === '/'
         ) {
             return null;

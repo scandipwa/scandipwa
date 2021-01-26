@@ -61,10 +61,10 @@ export class CreateAccountComponent extends MyAccountOverlay {
     }
 
     renderContent() {
-        const { isForgotPasswordVisible } = this.props;
+        const { device } = this.props;
 
-        if (isForgotPasswordVisible) {
-            return this.renderForgotPasswordWrapper();
+        if (device.isMobile) {
+            return this.renderCreateAccount();
         }
 
         return (
@@ -81,7 +81,7 @@ export class CreateAccountComponent extends MyAccountOverlay {
         } = this.props;
 
         return (
-            <div block="CreateAccount" elem="DesktopContentWrapper">
+            <div block="CreateAccount" elem="ContentWrapper">
                 <Loader isLoading={ isLoading } />
                 { this.renderContent() }
             </div>

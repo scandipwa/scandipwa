@@ -1,9 +1,13 @@
 .CreateAccount {
-    &-DesktopContentWrapper {
-        display: flex;
-        justify-content: space-around;
+    &-ContentWrapper {
         min-height: calc(100vh - var(--header-total-height));
-        padding: 0 20px 50px;
+        padding: 28px 20px 50px;
+
+        @include desktop() {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 0;
+        }
 
         .MyAccountOverlay {
             &-Additional {
@@ -16,7 +20,17 @@
         }
 
         > div {
+            flex: 1;
             margin: 0 10px;
+        }
+
+        button,
+        input {
+            min-width: 250px;
+
+            @include before-desktop {
+                width: 100%;
+            }
         }
 
         hr {

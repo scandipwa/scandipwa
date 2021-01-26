@@ -21,6 +21,12 @@ import './LoginAccount.style';
 /** @namespace Scandipwa/Route/LoginAccount/Component/LoginAccountComponent */
 export class LoginAccountComponent extends MyAccountOverlay {
     renderSignInWrapper() {
+        const { device } = this.props;
+
+        if (device.isMobile) {
+            return this.renderSignIn();
+        }
+
         return (
             <div block="LoginAccount" elem="SignInWrapper">
                 <h3>{ __('Registered Customers') }</h3>
@@ -32,7 +38,22 @@ export class LoginAccountComponent extends MyAccountOverlay {
     }
 
     renderCreateAccountWrapper() {
-        const { onCreateAccountClick } = this.props;
+        const { device, onCreateAccountClick } = this.props;
+
+        if (device.isMobile) {
+            return (
+                <div block="LoginAccount" elem="CreateAccountWrapper">
+                    <h4>{ __('Don`t have an account?') }</h4>
+                    <button
+                      block="Button"
+                      mods={ { isHollow: true } }
+                      onClick={ onCreateAccountClick }
+                    >
+                        { __('Create an Account') }
+                    </button>
+                </div>
+            );
+        }
 
         return (
             <div block="LoginAccount" elem="CreateAccountWrapper">
@@ -62,7 +83,7 @@ export class LoginAccountComponent extends MyAccountOverlay {
         } = this.props;
 
         return (
-            <div block="LoginAccount" elem="DesktopContentWrapper">
+            <div block="LoginAccount" elem="ContentWrapper">
                 <Loader isLoading={ isLoading } />
                 { this.renderContent() }
             </div>

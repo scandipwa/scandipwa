@@ -50,6 +50,12 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
     }
 
     renderForgotPasswordWrapper() {
+        const { device } = this.props;
+
+        if (device.isMobile) {
+            return this.renderForgotPassword();
+        }
+
         return (
             <div block="ForgotPassword" elem="ContainerWrapper">
                 <h3>{ __('Forgot Your Password?') }</h3>
@@ -63,6 +69,12 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
     }
 
     renderAdditionalContent() {
+        const { device } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
+
         return (
             <div block="ForgotPassword" elem="AdditionalContent">
                 { this.renderCreateAccountWrapper() }
@@ -77,7 +89,7 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
         } = this.props;
 
         return (
-            <div block="ForgotPassword" elem="DesktopContentWrapper">
+            <div block="ForgotPassword" elem="ContentWrapper">
                 <Loader isLoading={ isLoading } />
                 { this.renderForgotPasswordWrapper() }
                 { this.renderAdditionalContent() }

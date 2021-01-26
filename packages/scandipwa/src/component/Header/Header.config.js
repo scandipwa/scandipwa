@@ -34,3 +34,4 @@ export const MY_ACCOUNT = 'my-account';
 export const NO_MATCH = 'no-match';
 export const CONTACT_US = 'contact-us';
 export const PRODUCT_COMPARE = 'product-compare';
+export const LOGIN = 'account/login';
