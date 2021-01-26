@@ -59,7 +59,6 @@
         @include mobile {
             grid-template-columns: 100%;
             padding-top: 0;
-            overscroll-behavior-y: contain;
         }
 
         > .RelatedProducts {
