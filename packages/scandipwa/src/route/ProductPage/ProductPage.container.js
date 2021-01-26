@@ -21,6 +21,7 @@ import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import { updateProductQuantity } from 'Store/Product/Product.action';
 import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
@@ -57,7 +58,8 @@ export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product,
     navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    quantity: state.ProductReducer.quantity
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
@@ -78,7 +80,8 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateRecentlyViewedProducts: (products) => dispatch(updateRecentlyViewedProducts(products))
+    updateRecentlyViewedProducts: (products) => dispatch(updateRecentlyViewedProducts(products)),
+    setQuantity: (quantity) => dispatch(updateProductQuantity(quantity))
 });
 
 /** @namespace Route/ProductPage/Container */
@@ -120,13 +123,16 @@ export class ProductPageContainer extends PureComponent {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
-        updateRecentlyViewedProducts: PropTypes.func.isRequired
+        updateRecentlyViewedProducts: PropTypes.func.isRequired,
+        quantity: PropTypes.number,
+        setQuantity: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         location: { state: {} },
         productSKU: '',
-        metaTitle: undefined
+        metaTitle: undefined,
+        quantity: 1
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -264,6 +270,7 @@ export class ProductPageContainer extends PureComponent {
             this.updateBreadcrumbs();
             this.updateHeaderState();
             this.updateMeta();
+            this.resetProductQuantity();
         }
 
         if (device.isMobile) {
@@ -653,6 +660,13 @@ export class ProductPageContainer extends PureComponent {
     unFreezeScroll() {
         if (document.body.classList.contains('overscrollDisabled')) {
             document.body.classList.remove('overscrollDisabled');
+        }
+    }
+
+    resetProductQuantity() {
+        const { setQuantity, quantity } = this.props;
+        if (quantity !== 1) {
+            setQuantity(1);
         }
     }
 

@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { updateProductQuantity } from 'Store/Product/Product.action';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE
@@ -24,7 +25,13 @@ import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    quantity: state.ProductReducer.quantity
+});
+
+/** @namespace Component/ProductActions/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    setQuantity: (quantity) => dispatch(updateProductQuantity(quantity))
 });
 
 /** @namespace Component/ProductActions/Container */
@@ -316,9 +323,5 @@ export class ProductActionsContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/ProductActions/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductActionsContainer);

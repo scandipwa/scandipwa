@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
+import { updateProductQuantity } from 'Store/Product/Product.action';
 import { ProductType } from 'Type/ProductList';
 import {
     CONFIGURABLE,
@@ -23,11 +24,14 @@ import {
 import ProductAddToCart from './ProductAddToCart.component';
 
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = (dispatch) => ({
+    setQuantity: (quantity) => dispatch(updateProductQuantity(quantity))
+});
 
 export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    quantity: state.ProductReducer.quantity
 });
 
 export class ProductAddToCardContainer extends PureComponent {
@@ -38,7 +42,12 @@ export class ProductAddToCardContainer extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
-        getLink: PropTypes.func.isRequired
+        getLink: PropTypes.func.isRequired,
+        quantity: PropTypes.number
+    };
+
+    static defaultProps = {
+        quantity: 1
     };
 
     static getMinQuantity(props) {
@@ -88,17 +97,15 @@ export class ProductAddToCardContainer extends PureComponent {
     }
 
     state = {
-        quantity: 1,
         groupedProductQuantity: {}
     };
 
     containerFunctions = {
-        onProductValidationError: this.onProductValidationError.bind(this),
-        setQuantity: this.setQuantity.bind(this)
+        onProductValidationError: this.onProductValidationError.bind(this)
     };
 
-    static getDerivedStateFromProps(props, state) {
-        const { quantity } = state;
+    static getDerivedStateFromProps(props) {
+        const { quantity } = props;
         const minQty = ProductAddToCardContainer.getMinQuantity(props);
         const maxQty = ProductAddToCardContainer.getMaxQuantity(props);
 
@@ -144,10 +151,6 @@ export class ProductAddToCardContainer extends PureComponent {
         default:
             break;
         }
-    }
-
-    setQuantity(value) {
-        this.setState({ quantity: +value });
     }
 
     containerProps = () => ({
