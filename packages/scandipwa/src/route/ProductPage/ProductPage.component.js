@@ -17,7 +17,6 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
 import ProductAddToCard from 'Component/ProductAddToCart';
 import ProductAttributes from 'Component/ProductAttributes';
-import ProductBottomSheet from 'Component/ProductBottomSheet';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductGallery from 'Component/ProductGallery';

@@ -36,7 +36,8 @@ export class CategoryFilterOverlay extends PureComponent {
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
-        totalPages: PropTypes.number.isRequired
+        totalPages: PropTypes.number.isRequired,
+        isCategoryAnchor: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -178,10 +179,11 @@ export class CategoryFilterOverlay extends PureComponent {
             onHide,
             totalPages,
             isProductsLoading,
-            isContentFiltered
+            isContentFiltered,
+            isCategoryAnchor
         } = this.props;
 
-        if (!isProductsLoading && totalPages === 0 && !isContentFiltered) {
+        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || !isCategoryAnchor) {
             return (
                 <div block="CategoryFilterOverlay" />
             );

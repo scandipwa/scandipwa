@@ -92,6 +92,7 @@ export class CategoryQuery {
             'meta_description',
             'landing_page',
             'display_mode',
+            'is_anchor',
             this._getCmsBlockField(),
             this._getBreadcrumbsField()
         ];
