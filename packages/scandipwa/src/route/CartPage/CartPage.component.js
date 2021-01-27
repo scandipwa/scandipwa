@@ -324,7 +324,7 @@ export class CartPage extends PureComponent {
             }
         } = this.props;
 
-        if (!applied_rule_ids) {
+        if (!applied_rule_ids || !discount_amount) {
             return null;
         }
 
