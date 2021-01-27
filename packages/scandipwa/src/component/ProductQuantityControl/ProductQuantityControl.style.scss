@@ -77,37 +77,6 @@
                 }
             }
         }
-
-        // input {
-        //     @include mobile {
-        //         order: 2;
-        //     }
-        // }
-
-        // button {
-        //     @include mobile {
-        //         position: relative;
-        //         -webkit-order: 1;
-        //         order: 1;
-        //         width: 28px;
-        //         min-height: 2.8rem;
-        //         top: 0;
-        //         left: 0;
-        //         color: var(--cart-item-actions-color);
-        //         background: transparent;
-
-        //         &:first-of-type{
-        //             left: 0;
-        //             -webkit-order: 3;
-        //             order: 3;
-        //         }
-        //         &:last-of-type {
-        //             right: 0;
-        //             -webkit-order: 1;
-        //             order: 1;
-        //         }
-        //     }
-        // }
     }
 
     + .ProductAddToCard-AddToCart {
