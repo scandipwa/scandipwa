@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
-import Field from 'Component/Field';
 import ProductCompareButton from 'Component/ProductCompareButton';
+import ProductQuantityControl from 'Component/ProductQuantityControl/ProductQuantityControl.component';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
@@ -26,10 +26,7 @@ export class ProductAddToCard extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         device: DeviceType.isRequired,
-        minQuantity: PropTypes.number.isRequired,
-        maxQuantity: PropTypes.number.isRequired,
         quantity: PropTypes.number.isRequired,
-        setQuantity: PropTypes.func.isRequired,
         configurableVariantIndex: PropTypes.number,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         onProductValidationError: PropTypes.func.isRequired,
@@ -60,11 +57,9 @@ export class ProductAddToCard extends PureComponent {
 
     renderQuantityInput() {
         const {
-            quantity,
-            maxQuantity,
-            minQuantity,
-            setQuantity,
-            product: { type_id }
+            product: { type_id },
+            product,
+            configurableVariantIndex
         } = this.props;
 
         if (type_id === GROUPED) {
@@ -72,15 +67,9 @@ export class ProductAddToCard extends PureComponent {
         }
 
         return (
-            <Field
-              id="item_qty"
-              name="item_qty"
-              type="number"
-              value={ quantity }
-              max={ maxQuantity }
-              min={ minQuantity }
-              mix={ { block: 'ProductAddToCard', elem: 'Qty' } }
-              onChange={ setQuantity }
+            <ProductQuantityControl
+              product={ product }
+              configurableVariantIndex={ configurableVariantIndex }
             />
         );
     }

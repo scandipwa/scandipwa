@@ -23,6 +23,7 @@ import ProductBundleItems from 'Component/ProductBundleItems';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductPrice from 'Component/ProductPrice';
+import ProductQuantityControl from 'Component/ProductQuantityControl';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
@@ -96,6 +97,27 @@ export class ProductActions extends PureComponent {
         }
 
         return __('In stock');
+    }
+
+    renderQuantityControl() {
+        const {
+            product: { type_id },
+            product,
+            configurableVariantIndex
+        } = this.props;
+
+        if (type_id === GROUPED) {
+            return null;
+        }
+
+        return (
+            <div block="ProductActions" elem="QuantityWrapper">
+                <ProductQuantityControl
+                  product={ product }
+                  configurableVariantIndex={ configurableVariantIndex }
+                />
+            </div>
+        );
     }
 
     renderSkuAndStock() {
@@ -516,6 +538,7 @@ export class ProductActions extends PureComponent {
         return (
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
+                { this.renderQuantityControl() }
                 { this.renderShortDescription() }
                 { this.renderAddToCart() }
                 { this.renderReviews() }

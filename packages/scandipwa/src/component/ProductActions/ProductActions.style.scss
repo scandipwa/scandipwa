@@ -172,6 +172,17 @@
         padding: 0;
     }
 
+    &-QuantityWrapper {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 0 1.4rem;
+
+        @include desktop {
+            display: none;
+        }
+    }
+
     &-Sku::after {
         content: '•';
         margin: 0 5px;

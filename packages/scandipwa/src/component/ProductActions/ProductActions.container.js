@@ -20,7 +20,6 @@ import {
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
-import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -46,52 +45,6 @@ export class ProductActionsContainer extends PureComponent {
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         getLink: PropTypes.func.isRequired
     };
-
-    static getMinQuantity(props) {
-        const {
-            product: { stock_item: { min_sale_qty } = {}, variants } = {},
-            configurableVariantIndex
-        } = props;
-
-        if (!min_sale_qty) {
-            return 1;
-        }
-        if (!configurableVariantIndex && !variants) {
-            return min_sale_qty;
-        }
-
-        const { stock_item: { min_sale_qty: minVariantQty } = {} } = variants[configurableVariantIndex] || {};
-
-        return minVariantQty || min_sale_qty;
-    }
-
-    static getMaxQuantity(props) {
-        const {
-            product: {
-                stock_item: {
-                    max_sale_qty
-                } = {},
-                variants
-            } = {},
-            configurableVariantIndex
-        } = props;
-
-        if (!max_sale_qty) {
-            return DEFAULT_MAX_PRODUCTS;
-        }
-
-        if (configurableVariantIndex === -1 || !Object.keys(variants).length) {
-            return max_sale_qty;
-        }
-
-        const {
-            stock_item: {
-                max_sale_qty: maxVariantQty
-            } = {}
-        } = variants[configurableVariantIndex] || {};
-
-        return maxVariantQty || max_sale_qty;
-    }
 
     state = {
         groupedProductQuantity: {}
@@ -168,8 +121,6 @@ export class ProductActionsContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        minQuantity: ProductActionsContainer.getMinQuantity(this.props),
-        maxQuantity: ProductActionsContainer.getMaxQuantity(this.props),
         groupedProductQuantity: this._getGroupedProductQuantity(),
         productPrice: this.getProductPrice(),
         productName: this.getProductName(),

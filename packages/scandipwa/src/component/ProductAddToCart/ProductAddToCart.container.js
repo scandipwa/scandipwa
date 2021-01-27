@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import { updateProductQuantity } from 'Store/Product/Product.action';
 import { ProductType } from 'Type/ProductList';
 import {
@@ -50,52 +49,6 @@ export class ProductAddToCardContainer extends PureComponent {
         quantity: 1
     };
 
-    static getMinQuantity(props) {
-        const {
-            product: { stock_item: { min_sale_qty } = {}, variants } = {},
-            configurableVariantIndex
-        } = props;
-
-        if (!min_sale_qty) {
-            return 1;
-        }
-        if (!configurableVariantIndex && !variants) {
-            return min_sale_qty;
-        }
-
-        const { stock_item: { min_sale_qty: minVariantQty } = {} } = variants[configurableVariantIndex] || {};
-
-        return minVariantQty || min_sale_qty;
-    }
-
-    static getMaxQuantity(props) {
-        const {
-            product: {
-                stock_item: {
-                    max_sale_qty
-                } = {},
-                variants
-            } = {},
-            configurableVariantIndex
-        } = props;
-
-        if (!max_sale_qty) {
-            return DEFAULT_MAX_PRODUCTS;
-        }
-
-        if (configurableVariantIndex === -1 || !Object.keys(variants).length) {
-            return max_sale_qty;
-        }
-
-        const {
-            stock_item: {
-                max_sale_qty: maxVariantQty
-            } = {}
-        } = variants[configurableVariantIndex] || {};
-
-        return maxVariantQty || max_sale_qty;
-    }
-
     state = {
         groupedProductQuantity: {}
     };
@@ -104,20 +57,20 @@ export class ProductAddToCardContainer extends PureComponent {
         onProductValidationError: this.onProductValidationError.bind(this)
     };
 
-    static getDerivedStateFromProps(props) {
-        const { quantity } = props;
-        const minQty = ProductAddToCardContainer.getMinQuantity(props);
-        const maxQty = ProductAddToCardContainer.getMaxQuantity(props);
+    // static getDerivedStateFromProps(props) {
+    //     const { quantity } = props;
+    //     const minQty = ProductAddToCardContainer.getMinQuantity(props);
+    //     const maxQty = ProductAddToCardContainer.getMaxQuantity(props);
 
-        if (quantity < minQty) {
-            return { quantity: minQty };
-        }
-        if (quantity > maxQty) {
-            return { quantity: maxQty };
-        }
+    //     if (quantity < minQty) {
+    //         return { quantity: minQty };
+    //     }
+    //     if (quantity > maxQty) {
+    //         return { quantity: maxQty };
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     onConfigurableProductError = this.onProductError.bind(this, this.configurableOptionsRef);
 
@@ -154,8 +107,6 @@ export class ProductAddToCardContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        minQuantity: ProductAddToCardContainer.getMinQuantity(this.props),
-        maxQuantity: ProductAddToCardContainer.getMaxQuantity(this.props),
         groupedProductQuantity: this._getGroupedProductQuantity()
     });
 
