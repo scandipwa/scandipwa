@@ -63,7 +63,8 @@ export class ProductGallery extends PureComponent {
         sliderRef: PropTypes.object.isRequired,
         handleImageZoomPopupActiveChange: PropTypes.func.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        isImageZoomPopupActive: PropTypes.bool.isRequired
+        isImageZoomPopupActive: PropTypes.bool.isRequired,
+        currentSlideType: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -105,9 +106,13 @@ export class ProductGallery extends PureComponent {
     }
 
     handleSliderClick = () => {
-        const { handleImageZoomPopupActiveChange } = this.props;
+        const { handleImageZoomPopupActiveChange, currentSlideType } = this.props;
 
-        handleImageZoomPopupActiveChange(true);
+        if (currentSlideType() === 'external-video') {
+            handleImageZoomPopupActiveChange(false);
+        } else {
+            handleImageZoomPopupActiveChange(true);
+        }
     };
 
     updateSharedDestinationElement() {

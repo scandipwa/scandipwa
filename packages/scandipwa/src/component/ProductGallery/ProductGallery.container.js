@@ -53,7 +53,8 @@ export class ProductGalleryContainer extends PureComponent {
         onActiveImageChange: this.onActiveImageChange.bind(this),
         handleZoomChange: this.handleZoomChange.bind(this),
         disableZoom: this.disableZoom.bind(this),
-        handleImageZoomPopupActiveChange: this.handleImageZoomPopupActiveChange.bind(this)
+        handleImageZoomPopupActiveChange: this.handleImageZoomPopupActiveChange.bind(this),
+        currentSlideType: () => this.getCurrentSlideType()
     };
 
     __construct(props) {
@@ -94,6 +95,22 @@ export class ProductGalleryContainer extends PureComponent {
             activeImage,
             isZoomEnabled: false
         });
+    }
+
+    getCurrentSlideType() {
+        const { activeImage } = this.state;
+        const {
+            areDetailsLoaded,
+            product: {
+                media_gallery_entries: mediaGallery = []
+            }
+        } = this.props;
+
+        if (!areDetailsLoaded) {
+            return null;
+        }
+
+        return mediaGallery[activeImage].media_type;
     }
 
     getGalleryPictures() {
