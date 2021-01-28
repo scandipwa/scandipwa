@@ -80,8 +80,8 @@ export class MyAccountOrderPopup extends PureComponent {
 
         const {
             shipping_description,
-            shipping_amount,
-            shipping_address
+            shipping_address,
+            shipping_incl_tax
         } = shipping_info || {};
 
         if (!shipping_address) {
@@ -98,7 +98,7 @@ export class MyAccountOrderPopup extends PureComponent {
                     </dd>
                     <dt>{ __('Price: ') }</dt>
                     <dd>
-                        { formatPrice(shipping_amount, currency_code) }
+                        { formatPrice(shipping_incl_tax, currency_code) }
                     </dd>
                 </dl>
                 { this.renderShippingAddressTable() }
