@@ -11,6 +11,7 @@
 
 import { withRouter } from 'react-router-dom';
 
+import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import {
     MyAccountOverlay
@@ -42,7 +43,7 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
                 <hr />
                 <p>
                     { __('Creating an account has many benefits:') }
-                    { __('check out faster, keep more than one address, track orders and more.') }
+                    { __(' check out faster, keep more than one address, track orders and more.') }
                 </p>
                 <button block="Button" onClick={ onCreateAccountClick }>{ __('Create an Account') }</button>
             </div>
@@ -89,11 +90,17 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
         } = this.props;
 
         return (
-            <div block="ForgotPassword" elem="ContentWrapper">
-                <Loader isLoading={ isLoading } />
-                { this.renderForgotPasswordWrapper() }
-                { this.renderAdditionalContent() }
-            </div>
+            <ContentWrapper
+              mix={ {
+                  block: 'ForgotPassword'
+              } }
+            >
+                <div block="ForgotPassword" elem="InnerWrapper">
+                    <Loader isLoading={ isLoading } />
+                    { this.renderForgotPasswordWrapper() }
+                    { this.renderAdditionalContent() }
+                </div>
+            </ContentWrapper>
         );
     }
 }

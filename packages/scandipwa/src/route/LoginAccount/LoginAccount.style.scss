@@ -10,14 +10,23 @@
  */
 
 .LoginAccount {
-    &-ContentWrapper {
+    .ContentWrapper {
         min-height: calc(100vh - var(--header-total-height));
         padding: 28px 20px 50px;
 
         @include desktop() {
-            display: flex;
+            padding-top: 25px;
+        }
+    }
+
+    &-InnerWrapper {
+        @include desktop() {
+            display: grid;
             justify-content: space-around;
+            margin: 0 auto;
             padding-top: 0;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 100px;
         }
 
         .MyAccountOverlay {
@@ -36,9 +45,12 @@
 
         button,
         input {
-            min-width: 250px;
-
             @include before-desktop {
+                width: 100%;
+            }
+
+            @include desktop {
+                max-width: 350px;
                 width: 100%;
             }
         }
@@ -52,14 +64,14 @@
             }
         }
 
-        hr {
-            border: 1px solid var(--color-botticelli);
-            margin-bottom: 20px;
-        }
-
         h4 {
             padding-bottom: 7px;
             text-align: center;
+        }
+
+        hr {
+            border: 1px solid var(--color-botticelli);
+            margin-bottom: 20px;
         }
 
         p {
@@ -67,3 +79,4 @@
         }
     }
 }
+

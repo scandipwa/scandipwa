@@ -11,6 +11,7 @@
 
 import { withRouter } from 'react-router-dom';
 
+import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
 import {
     MyAccountOverlay
@@ -40,7 +41,7 @@ export class CreateAccountComponent extends MyAccountOverlay {
                 <hr />
                 <p>
                     { __('Creating an account has many benefits:') }
-                    { __('check out faster, keep more than one address, track orders and more.') }
+                    { __(' check out faster, keep more than one address, track orders and more.') }
                 </p>
                 { this.renderCreateAccount() }
             </div>
@@ -81,10 +82,16 @@ export class CreateAccountComponent extends MyAccountOverlay {
         } = this.props;
 
         return (
-            <div block="CreateAccount" elem="ContentWrapper">
-                <Loader isLoading={ isLoading } />
-                { this.renderContent() }
-            </div>
+            <ContentWrapper
+              mix={ {
+                  block: 'CreateAccount'
+              } }
+            >
+                <div block="CreateAccount" elem="InnerWrapper">
+                    <Loader isLoading={ isLoading } />
+                    { this.renderContent() }
+                </div>
+            </ContentWrapper>
         );
     }
 }

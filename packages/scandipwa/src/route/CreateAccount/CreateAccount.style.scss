@@ -1,23 +1,19 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 .CreateAccount {
-    &-ContentWrapper {
-        min-height: calc(100vh - var(--header-total-height));
+    .ContentWrapper {
         padding: 28px 20px 50px;
 
         @include desktop() {
-            display: flex;
+            padding-top: 25px;
+        }
+    }
+
+    &-InnerWrapper {
+        @include desktop() {
+            display: grid;
             justify-content: space-around;
-            padding-top: 0;
+            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 100px;
         }
 
         .MyAccountOverlay {
@@ -40,6 +36,11 @@
             min-width: 250px;
 
             @include before-desktop {
+                width: 100%;
+            }
+
+            @include desktop {
+                max-width: 300px;
                 width: 100%;
             }
         }
