@@ -38,7 +38,11 @@ export class MyAccountAddressForm extends FieldForm {
         const {
             countries,
             default_country,
-            address: { country_id, region: { region_id } = {} }
+            address: {
+                country_id,
+                region: { region_id } = {},
+                city = ''
+            }
         } = props;
 
         const countryId = country_id || default_country;
@@ -50,7 +54,8 @@ export class MyAccountAddressForm extends FieldForm {
         this.state = {
             countryId,
             availableRegions,
-            regionId
+            regionId,
+            city
         };
     }
 
@@ -97,6 +102,30 @@ export class MyAccountAddressForm extends FieldForm {
             countryId,
             availableRegions: available_regions || []
         });
+    };
+
+    onZipcodeChange = (e) => {
+        const { value } = e.currentTarget;
+        const { countryId } = this.state;
+
+        try {
+            fetch(`http://api.zippopotam.us/${countryId}/${value}`)
+                .then(
+                /** @namespace Sofacompany/Route/Checkout/Container/fetch/then */
+                    (response) => response.json()
+                )
+                .then(
+                    /** @namespace Sofacompany/Route/Checkout/Container/fetch/then/then */
+                    (data) => {
+                        if (data && Object.entries(data).length > 0) {
+                            this.setState({
+                                city: data.places[0].['place name']
+                            });
+                        }
+                    }
+                );
+        // eslint-disable-next-line no-empty
+        } catch (e) {}
     };
 
     getStreetFields(label, index) {
@@ -150,7 +179,7 @@ export class MyAccountAddressForm extends FieldForm {
     }
 
     get fieldMap() {
-        const { countryId } = this.state;
+        const { countryId, city } = this.state;
         const { countries, address } = this.props;
         const { default_billing, default_shipping } = address;
 
@@ -177,11 +206,12 @@ export class MyAccountAddressForm extends FieldForm {
             },
             telephone: {
                 label: __('Phone number'),
-                validation: ['notEmpty']
+                validation: ['notEmpty', 'telephone']
             },
             city: {
                 label: __('City'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                value: city
             },
             country_id: {
                 type: 'select',
@@ -194,7 +224,8 @@ export class MyAccountAddressForm extends FieldForm {
             ...this.getRegionFields(),
             postcode: {
                 label: __('Zip/Postal code'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                onBlur: this.onZipcodeChange
             },
             ...this.getAddressFields(),
             ...this.getVatField()
