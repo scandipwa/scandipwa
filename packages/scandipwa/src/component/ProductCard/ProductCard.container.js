@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
@@ -16,8 +17,9 @@ import { Subscribe } from 'unstated';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
+import history from 'Util/History';
 import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
-import { objectToUri } from 'Util/Url';
+import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 import { IN_STOCK } from './ProductCard.config';
@@ -29,7 +31,9 @@ export const CartDispatcher = import(
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    base_link_url: state.ConfigReducer.base_link_url || '',
+    product_use_categories: state.ConfigReducer.product_use_categories || false
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
@@ -44,7 +48,9 @@ export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        product_use_categories: PropTypes.bool.isRequired,
+        base_link_url: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -87,7 +93,14 @@ export class ProductCardContainer extends PureComponent {
     });
 
     _getLinkTo() {
-        const { product: { url }, product } = this.props;
+        const {
+            base_link_url,
+            product_use_categories,
+            product: { url, url_rewrites },
+            product
+        } = this.props;
+        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
+        const { location: { pathname } } = history;
 
         if (!url) {
             return undefined;
@@ -95,8 +108,14 @@ export class ProductCardContainer extends PureComponent {
 
         const { parameters } = this._getConfigurableParameters();
 
+        const productUrl = `${pathname.replace(storePrefix, '')}/${url.replace(storePrefix, '')}`;
+
+        // eslint-disable-next-line fp/no-let
+        let rewriteUrl = url_rewrites.filter((e) => (e.url.includes(productUrl) ? e.url : null));
+        rewriteUrl = (rewriteUrl && rewriteUrl[0] && appendWithStoreCode(rewriteUrl[0].url));
+
         return {
-            pathname: url,
+            pathname: product_use_categories ? rewriteUrl : url,
             state: { product },
             search: objectToUri(parameters)
         };
