@@ -2529,10 +2529,10 @@
   dependencies:
     "@scandipwa/scandipwa-dev-utils" "0.0.20"
 
-"@scandipwa/webpack-i18n-runtime@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-runtime/-/webpack-i18n-runtime-0.0.4.tgz#e7f6954d1062a6dd461150d0829d467061e3d34c"
-  integrity sha512-LrxBFkFvWVAknGWlq/ecooVOyZi1iCYktV6+y3TM8vT1FVl5boJfA2QC6q8r/5J+h8rdBDWluW529pKqoJvjsw==
+"@scandipwa/webpack-i18n-runtime@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-runtime/-/webpack-i18n-runtime-0.0.7.tgz#b2f465367e05fe69a8be327ed2c9908362149b37"
+  integrity sha512-jua9nKTxyaoVM/vybs4OB5TOeum702c/zlTMOXiQzOBRq9iyyEfoANNKLQVHobdAgkvNg15/DHrRkiVTEI7Org==
   dependencies:
     "@scandipwa/scandipwa-dev-utils" "0.0.20"
     "@scandipwa/webpack-after-emit-logger" "0.0.2"
