@@ -115,7 +115,7 @@ export class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationThen */
-            ({ asResetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            ({ s_resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
             () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
