@@ -70,6 +70,12 @@
         }
     }
 
+    &-Row {
+        strong {
+            display: inline-block;
+        }
+    }
+
     &-SubPrice {
         font-size: .7em;
         font-weight: 300;

@@ -77,7 +77,7 @@ export class CheckoutDeliveryOption extends PureComponent {
 
     renderPrice() {
         return (
-            <strong style={ { display: 'inline-block' } }>
+            <strong>
                 { ` - ${ this.getOptionPrice() }` }
                 { this.renderOptionSubPrice() }
             </strong>
