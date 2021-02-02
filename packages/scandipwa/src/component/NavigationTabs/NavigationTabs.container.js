@@ -11,12 +11,11 @@
 
 import { connect } from 'react-redux';
 
-import { CART, LOGIN, MY_ACCOUNT } from 'Component/Header/Header.config';
+import { CART, MY_ACCOUNT } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { isSignedIn as isSignedInWithToken } from 'Util/Auth';
 import browserHistory from 'Util/History';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -35,8 +34,7 @@ export const mapStateToProps = (state) => ({
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     device: state.ConfigReducer.device,
     cartTotals: state.CartReducer.cartTotals,
-    noMatch: state.NoMatchReducer.noMatch,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    noMatch: state.NoMatchReducer.noMatch
 });
 
 /** @namespace Component/NavigationTabs/Container/mapDispatchToProps */
@@ -180,12 +178,9 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     onMyAccountButtonClick() {
         const { pathname } = location;
 
-        if (isSignedInWithToken() && pathname !== appendWithStoreCode(`/${ MY_ACCOUNT }`)) {
-            browserHistory.push({ pathname: appendWithStoreCode(`/${ MY_ACCOUNT }`) });
-            return;
+        if (pathname !== appendWithStoreCode(`/${ MY_ACCOUNT }`)) {
+            browserHistory.push(appendWithStoreCode(`/${ MY_ACCOUNT }`));
         }
-
-        browserHistory.push({ pathname: appendWithStoreCode(`/${ LOGIN }`) });
     }
 
     preserveState(name, newName) {
