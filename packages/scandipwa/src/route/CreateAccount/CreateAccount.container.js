@@ -26,19 +26,8 @@ import CreateAccount from './CreateAccount.component';
 export class CreateAccountContainer extends MyAccountOverlayContainer {
     containerFunctions = {
         ...this.containerFunctions,
-        onLoginClick: this.onLoginClick.bind(this),
-        onCreateAccountAttempt: this.onCreateAccountAttempt.bind(this)
+        onLoginClick: this.onLoginClick.bind(this)
     };
-
-    onCreateAccountAttempt(_, invalidFields) {
-        const { showNotification, setLoadingState } = this.props;
-
-        if (invalidFields) {
-            showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
-        }
-
-        setLoadingState(!invalidFields);
-    }
 
     componentDidMount() {
         const { setHeaderState } = this.props;
