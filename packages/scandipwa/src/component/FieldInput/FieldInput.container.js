@@ -60,6 +60,8 @@ export class FieldInputContainer extends PureComponent {
             handleChange,
             onChangeCheckbox,
             onKeyEnterDown,
+            formRefMap,
+            validationStatus,
             /* eslint-enable react/prop-types */
 
             // Props to be transformed
