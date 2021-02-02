@@ -83,6 +83,7 @@ export class CreateAccountComponent extends MyAccountOverlay {
 
         return (
             <ContentWrapper
+              label="Create account page"
               mix={ {
                   block: 'CreateAccount'
               } }

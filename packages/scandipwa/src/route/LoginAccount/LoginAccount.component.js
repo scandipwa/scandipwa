@@ -88,6 +88,7 @@ export class LoginAccountComponent extends MyAccountOverlay {
               mix={ {
                   block: 'LoginAccount'
               } }
+              label="Login page"
             >
                 <div block="LoginAccount" elem="InnerWrapper">
                     <Loader isLoading={ isLoading } />

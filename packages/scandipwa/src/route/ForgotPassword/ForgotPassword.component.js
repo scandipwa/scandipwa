@@ -94,6 +94,7 @@ export class ForgotPasswordComponent extends MyAccountOverlay {
               mix={ {
                   block: 'ForgotPassword'
               } }
+              label="Forgot password page"
             >
                 <div block="ForgotPassword" elem="InnerWrapper">
                     <Loader isLoading={ isLoading } />
