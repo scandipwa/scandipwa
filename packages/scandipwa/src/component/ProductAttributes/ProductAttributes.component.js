@@ -15,14 +15,13 @@ import { Fragment, PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
-import { AttributeType, ProductType } from 'Type/ProductList';
+import { AttributeType } from 'Type/ProductList';
 
 import './ProductAttributes.style';
 
 /** @namespace Component/ProductAttributes/Component */
 export class ProductAttributes extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         attributesWithValues: AttributeType.isRequired
     };
@@ -73,13 +72,10 @@ export class ProductAttributes extends PureComponent {
 
     render() {
         const {
-            areDetailsLoaded,
-            product: {
-                description: { html } = {}
-            }
+            areDetailsLoaded
         } = this.props;
 
-        if (!html && areDetailsLoaded) {
+        if (!areDetailsLoaded) {
             return null;
         }
 

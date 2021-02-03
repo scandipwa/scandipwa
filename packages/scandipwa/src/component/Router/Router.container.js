@@ -109,6 +109,10 @@ export class RouterContainer extends PureComponent {
     __construct(props) {
         super.__construct(props);
 
+        this.state = ({
+            currentUrl: window.location.pathname
+        });
+
         this.initializeApplication();
         this.redirectFromPartialUrl();
         this.handleResize();
