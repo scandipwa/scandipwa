@@ -37,10 +37,11 @@ export class CategoryFilterOverlay extends PureComponent {
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,
-        isCategoryAnchor: PropTypes.bool.isRequired
+        isCategoryAnchor: PropTypes.bool
     };
 
     static defaultProps = {
+        isCategoryAnchor: true,
         isMatchingInfoFilter: false
     };
 

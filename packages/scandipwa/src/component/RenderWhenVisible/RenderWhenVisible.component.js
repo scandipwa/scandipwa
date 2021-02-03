@@ -10,6 +10,7 @@
  */
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+// TODO: remove "react-visibility-sensor" it is outdated and uses unsafe React methods
 import VisibilitySensor from 'react-visibility-sensor';
 
 import { ChildrenType } from 'Type/Common';
