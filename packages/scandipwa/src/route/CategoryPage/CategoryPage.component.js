@@ -56,7 +56,8 @@ export class CategoryPage extends PureComponent {
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        is_anchor: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -103,9 +104,9 @@ export class CategoryPage extends PureComponent {
     }
 
     renderFilterButton() {
-        const { isContentFiltered, totalPages } = this.props;
+        const { isContentFiltered, totalPages, category: { is_anchor } } = this.props;
 
-        if (!isContentFiltered && totalPages === 0) {
+        if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
             return null;
         }
 
@@ -127,6 +128,8 @@ export class CategoryPage extends PureComponent {
             isMatchingInfoFilter
         } = this.props;
 
+        const { category: { is_anchor } } = this.props;
+
         if (!this.displayProducts()) {
             return null;
         }
@@ -136,6 +139,7 @@ export class CategoryPage extends PureComponent {
               availableFilters={ filters }
               customFiltersValues={ selectedFilters }
               isMatchingInfoFilter={ isMatchingInfoFilter }
+              isCategoryAnchor={ is_anchor }
             />
         );
     }

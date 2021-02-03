@@ -1,14 +1,14 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
         "build": "scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/m2-theme": "^0.1.1",
+        "@scandipwa/m2-theme": "^0.1.2",
         "@scandipwa/scandipwa-scripts": "^2.2.0",
         "@scandipwa/service-worker": "^0.0.4",
         "@scandipwa/webpack-i18n-runtime": "^0.0.4",
