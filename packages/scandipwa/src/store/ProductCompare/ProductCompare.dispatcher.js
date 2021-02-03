@@ -19,15 +19,13 @@ import {
     setCompareList,
     toggleLoader
 } from 'Store/ProductCompare/ProductCompare.action';
-import BrowserDatabase from 'Util/BrowserDatabase';
+import { getGuestQuoteId } from 'Util/Cart';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
-
-export const GUEST_QUOTE_ID = 'guest_quote_id';
 
 /** @namespace Store/ProductCompare/Dispatcher */
 export class ProductCompareDispatcher {
@@ -131,7 +129,7 @@ export class ProductCompareDispatcher {
     }
 
     async _getGuestQuoteId(dispatch) {
-        const result = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const result = getGuestQuoteId();
 
         if (result) {
             return result;
