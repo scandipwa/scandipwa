@@ -166,7 +166,12 @@ export class ProductListPage extends PureComponent {
     renderPageItems() {
         const {
             items,
-            selectedFilters
+            selectedFilters,
+            mix: {
+                mods: {
+                    layout = 'grid'
+                } = {}
+            }
         } = this.props;
 
         return items.map((product, i) => (
@@ -175,6 +180,7 @@ export class ProductListPage extends PureComponent {
               // eslint-disable-next-line react/no-array-index-key
               key={ i }
               selectedFilters={ selectedFilters }
+              layout={ layout }
               { ...this.containerProps() }
             />
         ));

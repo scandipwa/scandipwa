@@ -71,11 +71,27 @@ export class CategoryPage extends PureComponent {
         search: ''
     };
 
+    state = {
+        layout: 'grid'
+    };
+
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
+
+    onGridButtonClick = this.onGridButtonClick.bind(this);
+
+    onListButtonClick = this.onListButtonClick.bind(this);
 
     onFilterButtonClick() {
         const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+    }
+
+    onGridButtonClick() {
+        this.setState({ layout: 'grid' });
+    }
+
+    onListButtonClick() {
+        this.setState({ layout: 'list' });
     }
 
     displayProducts() {
@@ -170,6 +186,27 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderLayoutButtons() {
+        const { layout } = this.state;
+
+        return (
+            <div block="CategoryPage" elem="LayoutButtons">
+                <button
+                  onClick={ this.onListButtonClick }
+                  mix={ { block: 'list', mods: { isActive: layout === 'list' } } }
+                >
+                    { __('Grid') }
+                </button>
+                <button
+                  onClick={ this.onGridButtonClick }
+                  mix={ { block: 'grid', mods: { isActive: layout === 'grid' } } }
+                >
+                    { __('List') }
+                </button>
+            </div>
+        );
+    }
+
     renderItemsCount(isVisibleOnMobile = false) {
         const { isMatchingListFilter, device } = this.props;
 
@@ -199,6 +236,8 @@ export class CategoryPage extends PureComponent {
             isMatchingInfoFilter
         } = this.props;
 
+        const { layout } = this.state;
+
         if (!this.displayProducts()) {
             return null;
         }
@@ -214,6 +253,7 @@ export class CategoryPage extends PureComponent {
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
+                  layout={ layout }
                 />
             </div>
         );
@@ -249,7 +289,10 @@ export class CategoryPage extends PureComponent {
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
-                { this.renderItemsCount() }
+                <div block="CategoryPage" elem="LayoutWrapper">
+                    { this.renderLayoutButtons() }
+                    { this.renderItemsCount() }
+                </div>
                 { this.renderCategorySort() }
                 { this.renderFilterButton() }
             </aside>
