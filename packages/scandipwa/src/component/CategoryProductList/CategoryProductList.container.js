@@ -47,6 +47,7 @@ export class CategoryProductListContainer extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
+        isCurrentCategoryLoaded: PropTypes.bool,
         filter: FilterInputType,
         requestProductList: PropTypes.func.isRequired
     };
@@ -54,6 +55,7 @@ export class CategoryProductListContainer extends PureComponent {
     static defaultProps = {
         isMatchingListFilter: false,
         isMatchingInfoFilter: false,
+        isCurrentCategoryLoaded: true,
         filter: {}
     };
 
@@ -65,7 +67,8 @@ export class CategoryProductListContainer extends PureComponent {
         const {
             filter,
             isLoading,
-            isMatchingListFilter
+            isMatchingListFilter,
+            isCurrentCategoryLoaded
         } = this.props;
 
         /**
@@ -73,6 +76,16 @@ export class CategoryProductListContainer extends PureComponent {
          * show the loading animation, it will soon change to proper category.
          */
         if (filter.categoryIds === -1) {
+            return true;
+        }
+
+        /**
+         * Do not request page, if category is not yet loaded
+         * without this command the products are requested twice:
+         * 1. Once with global default sorting
+         * 2. Once with category default sortingZ
+         */
+        if (!isCurrentCategoryLoaded) {
             return true;
         }
 
