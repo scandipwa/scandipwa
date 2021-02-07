@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import { setAddressesInFormObject } from 'Util/Address';
+import { getCityFromZipcode, setAddressesInFormObject } from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
@@ -108,24 +108,13 @@ export class MyAccountAddressForm extends FieldForm {
         const { value } = e.currentTarget;
         const { countryId } = this.state;
 
-        try {
-            fetch(`http://api.zippopotam.us/${countryId}/${value}`)
-                .then(
-                /** @namespace Sofacompany/Route/Checkout/Container/fetch/then */
-                    (response) => response.json()
-                )
-                .then(
-                    /** @namespace Sofacompany/Route/Checkout/Container/fetch/then/then */
-                    (data) => {
-                        if (data && Object.entries(data).length > 0) {
-                            this.setState({
-                                city: data.places[0].['place name']
-                            });
-                        }
-                    }
-                );
-        // eslint-disable-next-line no-empty
-        } catch (e) {}
+        const city = getCityFromZipcode(countryId, value);
+
+        if (city) {
+            this.setState({
+                city
+            });
+        }
     };
 
     getStreetFields(label, index) {

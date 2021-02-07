@@ -87,3 +87,13 @@ export const getFormFields = (fields, addressLinesQty) => {
 
     return setAddressesInFormObject(fields, addressLinesQty);
 };
+
+export const getCityFromZipcode = (countryId, value) => {
+    fetch(`http://api.zippopotam.us/${countryId}/${value}`)
+        .then(
+            (response) => response.json()
+        )
+        .then(
+            (data) => (data && Object.entries(data).length > 0 ? data.places[0].['place name'] : null)
+        );
+};
