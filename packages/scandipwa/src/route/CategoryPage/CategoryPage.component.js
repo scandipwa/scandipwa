@@ -53,17 +53,21 @@ export class CategoryPage extends PureComponent {
         filter: FilterInputType.isRequired,
         search: PropTypes.string,
         isContentFiltered: PropTypes.bool,
+        isCurrentCategoryLoaded: PropTypes.bool,
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        is_anchor: PropTypes.bool
     };
 
     static defaultProps = {
         isContentFiltered: true,
         isMatchingListFilter: false,
+        isCurrentCategoryLoaded: false,
         isMatchingInfoFilter: false,
         totalPages: 1,
+        is_anchor: true,
         search: ''
     };
 
@@ -103,9 +107,9 @@ export class CategoryPage extends PureComponent {
     }
 
     renderFilterButton() {
-        const { isContentFiltered, totalPages } = this.props;
+        const { isContentFiltered, totalPages, category: { is_anchor } } = this.props;
 
-        if (!isContentFiltered && totalPages === 0) {
+        if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
             return null;
         }
 
@@ -127,6 +131,8 @@ export class CategoryPage extends PureComponent {
             isMatchingInfoFilter
         } = this.props;
 
+        const { category: { is_anchor } } = this.props;
+
         if (!this.displayProducts()) {
             return null;
         }
@@ -136,6 +142,7 @@ export class CategoryPage extends PureComponent {
               availableFilters={ filters }
               customFiltersValues={ selectedFilters }
               isMatchingInfoFilter={ isMatchingInfoFilter }
+              isCategoryAnchor={ !!is_anchor }
             />
         );
     }
@@ -188,6 +195,7 @@ export class CategoryPage extends PureComponent {
             selectedSort,
             selectedFilters,
             isMatchingListFilter,
+            isCurrentCategoryLoaded,
             isMatchingInfoFilter
         } = this.props;
 
@@ -203,6 +211,7 @@ export class CategoryPage extends PureComponent {
                   search={ search }
                   sort={ selectedSort }
                   selectedFilters={ selectedFilters }
+                  isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                 />

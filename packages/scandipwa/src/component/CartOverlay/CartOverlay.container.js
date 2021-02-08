@@ -48,7 +48,7 @@ export const mapStateToProps = (state) => ({
     cartTotalSubPrice: getCartTotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
-    cartDisplaySettings: state.ConfigReducer.cartDisplaySettings
+    cartDisplaySettings: state.ConfigReducer.cartDisplayConfig
 });
 
 /** @namespace Component/CartOverlay/Container/mapDispatchToProps */

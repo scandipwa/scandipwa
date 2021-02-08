@@ -10,3 +10,4 @@
  */
 
 export * from './Cart';
+export * from './Token';
