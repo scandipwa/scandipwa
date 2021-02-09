@@ -46,8 +46,8 @@ export class BreadcrumbsDispatcher {
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithProduct(product, dispatch) {
-        const breadcrumbs = this._getProductBreadcrumbs(product);
+    updateWithProduct(product, prevCategoryId, dispatch) {
+        const breadcrumbs = this._getProductBreadcrumbs(product, prevCategoryId);
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
     }
@@ -118,15 +118,18 @@ export class BreadcrumbsDispatcher {
     /**
      * Get breadcrumbs for product
      * @param {Object} product Product breadcumbs items
+     * @param prevCategoryId
      * @return {Array<Object>} Breadcrumbs array
      * @memberof BreadcrumbsDispatcher
      */
-    _getProductBreadcrumbs(product) {
+    _getProductBreadcrumbs(product, prevCategoryId = null) {
         const { categories, url, name } = product;
 
         if (!categories || !categories.length) {
             return [];
         }
+
+        console.log(prevCategoryId);
 
         const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
             const { longestBreadcrumbsLength } = acc;
