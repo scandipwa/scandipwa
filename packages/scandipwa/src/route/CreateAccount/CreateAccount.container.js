@@ -36,14 +36,14 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
             name: CUSTOMER_SUB_ACCOUNT,
             title: 'Create account',
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`/${ LOGIN }`) });
+                history.push({ pathname: appendWithStoreCode(`${ LOGIN }`) });
                 this.handleSignIn(e);
             }
         });
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`/${ LOGIN }`));
+        history.replace(appendWithStoreCode(`${ LOGIN }`));
     }
 
     render() {

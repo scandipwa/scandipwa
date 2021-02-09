@@ -38,18 +38,18 @@ export class ForgotPasswordContainer extends MyAccountOverlayContainer {
             name: CUSTOMER_SUB_ACCOUNT,
             title: 'Forgot password',
             onBackClick: (e) => {
-                history.push({ pathname: appendWithStoreCode(`/${ LOGIN }`) });
+                history.push({ pathname: appendWithStoreCode(`${ LOGIN }`) });
                 this.handleSignIn(e);
             }
         });
     }
 
     onLoginClick() {
-        history.replace(appendWithStoreCode(`/${ LOGIN }`));
+        history.replace(appendWithStoreCode(`${ LOGIN }`));
     }
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`/${ REGISTER }`));
+        history.replace(appendWithStoreCode(`${ REGISTER }`));
     }
 
     render() {

@@ -31,7 +31,6 @@ export class LoginAccountComponent extends MyAccountOverlay {
         return (
             <div block="LoginAccount" elem="SignInWrapper">
                 <h3>{ __('Registered Customers') }</h3>
-                <hr />
                 <p>{ __('If you have an account, sign in with your email address.') }</p>
                 { this.renderSignIn() }
             </div>
@@ -59,7 +58,6 @@ export class LoginAccountComponent extends MyAccountOverlay {
         return (
             <div block="LoginAccount" elem="CreateAccountWrapper">
                 <h3>{ __('New Customers') }</h3>
-                <hr />
                 <p>
                     { __('Creating an account has many benefits:') }
                     { __(' check out faster, keep more than one address, track orders and more.') }

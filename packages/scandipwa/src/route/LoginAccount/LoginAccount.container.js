@@ -31,11 +31,11 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     };
 
     onCreateAccountClick() {
-        history.replace(appendWithStoreCode(`/${ REGISTER }`));
+        history.replace(appendWithStoreCode(`${ REGISTER }`));
     }
 
     handleForgotPassword() {
-        history.replace(appendWithStoreCode(`/${ FORGOT_PASSWORD }`));
+        history.replace(appendWithStoreCode(`${ FORGOT_PASSWORD }`));
     }
 
     componentDidMount() {
