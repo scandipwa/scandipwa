@@ -428,5 +428,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://40kskudemo.scandipwa.com/"
+    "proxy": "http://scandipwapmrev.indvp.com/"
 }

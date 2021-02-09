@@ -11,6 +11,7 @@
 
 export const TOGGLE_OVERLAY = 'TOGGLE_OVERLAY';
 export const HIDE_ACTIVE_OVERLAY = 'HIDE_ACTIVE_OVERLAY';
+export const HIDE_ACTIVE_POPUP = 'HIDE_ACTIVE_POPUP';
 
 /** @namespace Store/Overlay/Action/toggleOverlayByKey */
 export const toggleOverlayByKey = (overlayKey) => ({
@@ -21,4 +22,9 @@ export const toggleOverlayByKey = (overlayKey) => ({
 /** @namespace Store/Overlay/Action/hideActiveOverlay */
 export const hideActiveOverlay = () => ({
     type: HIDE_ACTIVE_OVERLAY
+});
+
+/** @namespace Store/Overlay/Action/hideActivePopup */
+export const hideActivePopup = () => ({
+    type: HIDE_ACTIVE_POPUP
 });

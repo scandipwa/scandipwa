@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { VIDEO_POPUP_ID } from 'Component/VideoPopup/VideoPopup.config';
+import { hideActivePopup } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { MediaItemType } from 'Type/ProductList';
 
@@ -21,7 +22,8 @@ import VideoThumbnail from './VideoThumbnail.component';
 
 /** @namespace Component/VideoThumbnail/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showPopup: (payload) => dispatch(showPopup(VIDEO_POPUP_ID, payload))
+    showPopup: (payload) => dispatch(showPopup(VIDEO_POPUP_ID, payload)),
+    hideActivePopup: () => dispatch(hideActivePopup())
 });
 
 /**
@@ -32,7 +34,8 @@ export class VideoThumbnailContainer extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
         showPopup: PropTypes.func.isRequired,
-        isVideoZoomed: PropTypes.bool.isRequired
+        isVideoZoomed: PropTypes.bool.isRequired,
+        hideActivePopup: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -54,13 +57,14 @@ export class VideoThumbnailContainer extends PureComponent {
                 } = {}
             } = {},
             showPopup,
-            isVideoZoomed
+            isVideoZoomed,
+            hideActivePopup
         } = this.props;
 
         event.preventDefault();
 
         if (isVideoZoomed) {
-            document.getElementsByClassName('Popup-CloseBtn')[0].click();
+            hideActivePopup();
         }
 
         setTimeout(() => {
@@ -83,7 +87,7 @@ export class VideoThumbnailContainer extends PureComponent {
     }
 }
 
-/** @namespace Component/VideoThumbnail/Container/mapStateToProps * @namespace Component/VideoThumbnail/Container
+/** @namespace Component/VideoThumbnail/Container/mapStateToProps
  */
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({});
