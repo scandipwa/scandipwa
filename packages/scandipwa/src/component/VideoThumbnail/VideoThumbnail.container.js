@@ -31,7 +31,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export class VideoThumbnailContainer extends PureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
-        showPopup: PropTypes.func.isRequired
+        showPopup: PropTypes.func.isRequired,
+        isVideoZoomed: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -51,14 +52,23 @@ export class VideoThumbnailContainer extends PureComponent {
                 video_content: {
                     video_title
                 } = {}
-            } = {}, showPopup
+            } = {},
+            showPopup,
+            isVideoZoomed
         } = this.props;
 
         event.preventDefault();
-        showPopup({
-            media,
-            title: video_title
-        });
+
+        if (isVideoZoomed) {
+            document.getElementsByClassName('Popup-CloseBtn')[0].click();
+        }
+
+        setTimeout(() => {
+            showPopup({
+                media,
+                title: video_title
+            });
+        }, 0);
     }
 
     render() {
