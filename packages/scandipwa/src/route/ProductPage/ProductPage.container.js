@@ -56,7 +56,8 @@ export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product,
     navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    noMatch: state.NoMatchReducer.noMatch
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */

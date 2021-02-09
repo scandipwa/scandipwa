@@ -23,6 +23,7 @@ import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import ProductTabs from 'Component/ProductTabs';
+import NoMatch from 'Route/NoMatch';
 import {
     PRODUCT_ATTRIBUTES,
     PRODUCT_INFORMATION,
@@ -33,8 +34,8 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
-/** @namespace Route/ProductPage/Component */
 
+/** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
@@ -51,7 +52,8 @@ export class ProductPage extends PureComponent {
         device: DeviceType.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
-        selectedBundlePriceExclTax: PropTypes.number.isRequired
+        selectedBundlePriceExclTax: PropTypes.number.isRequired,
+        noMatch: PropTypes.bool.isRequired
     };
 
     tabMap = {
@@ -263,6 +265,12 @@ export class ProductPage extends PureComponent {
     }
 
     render() {
+        const { noMatch } = this.props;
+
+        if (noMatch) {
+            return <NoMatch />;
+        }
+
         return (
             <main
               block="ProductPage"
