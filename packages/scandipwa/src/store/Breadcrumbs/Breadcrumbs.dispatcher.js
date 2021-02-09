@@ -42,7 +42,8 @@ export class BreadcrumbsDispatcher {
 
     /**
      * Set breadcrumbs for category
-     * @param {Array<Object>} category Category breadcumbs items
+     * @param product
+     * @param prevCategoryId
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
@@ -129,15 +130,18 @@ export class BreadcrumbsDispatcher {
             return [];
         }
 
-        console.log(prevCategoryId);
-
         const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
             const { longestBreadcrumbsLength } = acc;
             const { breadcrumbs } = category;
+            const { id } = category;
             const breadcrumbsLength = (breadcrumbs || []).length;
 
             if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) {
                 return acc;
+            }
+
+            if (id === prevCategoryId) {
+                return category;
             }
 
             if (longestBreadcrumbsLength === 0) {
