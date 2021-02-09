@@ -47,6 +47,17 @@ export class NoMatchHandler extends PureComponent {
         }
     }
 
+    componentWillUnmount() {
+        const {
+            noMatch,
+            updateNoMatch
+        } = this.props;
+
+        if (noMatch) {
+            updateNoMatch({ noMatch: false });
+        }
+    }
+
     /**
      * On browser route change
      * @return {void}

@@ -23,7 +23,7 @@ import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import ProductTabs from 'Component/ProductTabs';
-import NoMatch from 'Route/NoMatch';
+import NoMatchHandler from 'Route/NoMatchHandler';
 import {
     PRODUCT_ATTRIBUTES,
     PRODUCT_INFORMATION,
@@ -52,8 +52,7 @@ export class ProductPage extends PureComponent {
         device: DeviceType.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
-        selectedBundlePriceExclTax: PropTypes.number.isRequired,
-        noMatch: PropTypes.bool.isRequired
+        selectedBundlePriceExclTax: PropTypes.number.isRequired
     };
 
     tabMap = {
@@ -265,27 +264,23 @@ export class ProductPage extends PureComponent {
     }
 
     render() {
-        const { noMatch } = this.props;
-
-        if (noMatch) {
-            return <NoMatch />;
-        }
-
         return (
-            <main
-              block="ProductPage"
-              aria-label="Product page"
-              itemScope
-              itemType="http://schema.org/Product"
-            >
-                <ContentWrapper
-                  wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                  label={ __('Main product details') }
+            <NoMatchHandler>
+                <main
+                  block="ProductPage"
+                  aria-label="Product page"
+                  itemScope
+                  itemType="http://schema.org/Product"
                 >
-                    { this.renderProductPageContent() }
-                </ContentWrapper>
-                { this.renderAdditionalSections() }
-            </main>
+                    <ContentWrapper
+                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                      label={ __('Main product details') }
+                    >
+                        { this.renderProductPageContent() }
+                    </ContentWrapper>
+                    { this.renderAdditionalSections() }
+                </main>
+            </NoMatchHandler>
         );
     }
 }
