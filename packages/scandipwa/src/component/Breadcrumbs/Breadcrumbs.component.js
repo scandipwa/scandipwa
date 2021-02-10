@@ -46,10 +46,14 @@ export class Breadcrumbs extends PureComponent {
     }
 
     renderBreadcrumbList(breadcrumbs) {
-        return [this.renderBreadcrumb({ url: '/', name: __('Home') }, 0),
-            ...breadcrumbs.map((_, i) => this.renderBreadcrumb(
-                breadcrumbs[breadcrumbs.length - 1 - i], i
-            ))];
+        const breadcrumbsWithHome = [
+            ...breadcrumbs,
+            { url: '/', name: __('Home') }
+        ];
+
+        return breadcrumbsWithHome.map((_, i) => this.renderBreadcrumb(
+            breadcrumbsWithHome[breadcrumbsWithHome.length - 1 - i], i
+        ));
     }
 
     render() {
