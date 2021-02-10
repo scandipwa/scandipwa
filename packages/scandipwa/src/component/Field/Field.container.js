@@ -58,8 +58,11 @@ export class FieldContainer extends PureComponent {
         validation: PropTypes.arrayOf(PropTypes.string),
         message: PropTypes.string,
         id: PropTypes.string,
-        formRef: PropTypes.func,
-        formRefMap: PropTypes.node.isRequired
+        formRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ]),
+        formRefMap: PropTypes.object
     };
 
     static defaultProps = {
@@ -76,7 +79,8 @@ export class FieldContainer extends PureComponent {
         isControlled: false,
         validation: [],
         message: '',
-        id: ''
+        id: '',
+        formRefMap: {}
     };
 
     containerFunctions = {

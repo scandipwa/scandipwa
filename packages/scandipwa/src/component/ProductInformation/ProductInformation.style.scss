@@ -38,8 +38,7 @@
 
         @include after-mobile {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 4.8rem;
+            grid-template-columns: 1fr;
             justify-content: center;
             align-items: flex-start;
         }

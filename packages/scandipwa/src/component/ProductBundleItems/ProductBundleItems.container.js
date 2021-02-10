@@ -108,16 +108,14 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
 
     getItemsPrice = (item) => {
         const {
-            selectedDropdownOptions,
-            selectedCheckboxValues
+            selectedDropdownOptions = [],
+            selectedCheckboxValues = []
         } = this.state;
 
-        if (selectedCheckboxValues.length) {
-            return this.getOptionPrice(item, selectedCheckboxValues);
-        }
+        const values = [...selectedCheckboxValues, ...selectedDropdownOptions];
 
-        if (selectedDropdownOptions.length) {
-            return this.getOptionPrice(item, selectedDropdownOptions);
+        if (values.length) {
+            return this.getOptionPrice(item, values);
         }
 
         return { price: 0, priceExclTax: 0 };
