@@ -149,7 +149,8 @@ export class ProductListContainer extends PureComponent {
             requestProductList,
             requestProductListInfo,
             noAttributes,
-            noVariants
+            noVariants,
+            isWidget
         } = this.props;
 
         /**
@@ -192,7 +193,10 @@ export class ProductListContainer extends PureComponent {
         };
 
         requestProductList(options);
-        requestProductListInfo(infoOptions);
+
+        if (!isWidget) {
+            requestProductListInfo(infoOptions);
+        }
     };
 
     containerProps = () => ({
