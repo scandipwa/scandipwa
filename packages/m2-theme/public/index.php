@@ -4,7 +4,7 @@
     $icons = $this->getAppIconData();
 ?>
 <!DOCTYPE html>
-<html lang="<?= $this->getLocaleCode() ?>">
+<html lang="<?= $this->getLanguageCode() ?>">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
@@ -22,11 +22,20 @@
                 delete Object.prototype.__magic__;
             }());
 
+            // Locale
+            window.defaultLocale = `<?= $this->getLocaleCode() ?>`;
+
+            // Misc
             window.actionName = { type: `<?= $this->getAction(); ?>` };
             window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
+
+            // Multistore
             window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`);
             window.storeRegexText = `/(${window.storeList.join('|')})?`;
         </script>
+
+        <!-- Preload i18n chunk for the store -->
+        <link rel="preload" as="script" href="<?= $this->getLocaleChunkUrl() ?>">
 
         <!-- Icons -->
         <link rel="shortcut icon" href="/pub/media/favicon/favicon.png">

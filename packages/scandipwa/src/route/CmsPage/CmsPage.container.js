@@ -78,7 +78,8 @@ export class CmsPageContainer extends DataContainer {
 
     state = {
         page: {},
-        isLoading: true
+        isLoading: true,
+        isPageLoaded: false
     };
 
     __construct(props) {
@@ -183,7 +184,7 @@ export class CmsPageContainer extends DataContainer {
             });
         }
 
-        this.setState({ page, isLoading: false });
+        this.setState({ page, isLoading: false, isPageLoaded: true });
     };
 
     getRequestQueryParams() {
@@ -221,7 +222,8 @@ export class CmsPageContainer extends DataContainer {
 
         this.fetchData(
             [CmsPageQuery.getQuery(params)],
-            this.onPageLoad
+            this.onPageLoad,
+            () => this.setState({ isLoading: false })
         );
     }
 

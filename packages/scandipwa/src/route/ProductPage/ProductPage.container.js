@@ -87,6 +87,7 @@ export class ProductPageContainer extends PureComponent {
         parameters: {},
         productOptionsData: {},
         selectedBundlePrice: 0,
+        selectedBundlePriceExclTax: 0,
         currentProductSKU: ''
     };
 
@@ -94,7 +95,9 @@ export class ProductPageContainer extends PureComponent {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
         getLink: this.getLink.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
-        setBundlePrice: this.setBundlePrice.bind(this)
+        setBundlePrice: this.setBundlePrice.bind(this),
+        isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
+        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
 
     static propTypes = {
@@ -269,6 +272,18 @@ export class ProductPageContainer extends PureComponent {
         this._addToRecentlyViewedProducts();
     }
 
+    isProductInformationTabEmpty() {
+        const dataSource = this.getDataSource();
+
+        return !dataSource?.description?.html.length;
+    }
+
+    isProductAttributesTabEmpty() {
+        const dataSource = this.getDataSource();
+
+        return Object.keys(dataSource?.attributes || {}).length === 0;
+    }
+
     _addToRecentlyViewedProducts() {
         const {
             product,
@@ -332,6 +347,14 @@ export class ProductPageContainer extends PureComponent {
         }
     };
 
+    handleUrlChangeToTop() {
+        const { pathname } = location;
+        this.setState({
+            currentUrl: pathname
+        });
+        window.scrollTo(0, 0);
+    }
+
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
         const obj = {
@@ -340,6 +363,12 @@ export class ProductPageContainer extends PureComponent {
 
         if (key) {
             obj[key] = value;
+        }
+
+        const { currentUrl } = this.state;
+
+        if (currentUrl !== pathname) {
+            this.handleUrlChangeToTop();
         }
 
         const query = objectToUri(obj);
@@ -368,8 +397,12 @@ export class ProductPageContainer extends PureComponent {
         });
     }
 
-    setBundlePrice(price) {
-        this.setState({ selectedBundlePrice: price });
+    setBundlePrice(prices) {
+        const { price = 0, priceExclTax = 0 } = prices;
+        this.setState({
+            selectedBundlePrice: price,
+            selectedBundlePriceExclTax: priceExclTax
+        });
     }
 
     getSelectedCustomizableOptions(values, updateArray = false) {
@@ -411,7 +444,9 @@ export class ProductPageContainer extends PureComponent {
     containerProps = () => ({
         productOrVariant: this.getProductOrVariant(),
         dataSource: this.getDataSource(),
-        areDetailsLoaded: this.getAreDetailsLoaded()
+        areDetailsLoaded: this.getAreDetailsLoaded(),
+        isInformationTabEmpty: this.isProductInformationTabEmpty(),
+        isAttributesTabEmpty: this.isProductAttributesTabEmpty()
     });
 
     updateConfigurableVariant(key, value) {
@@ -465,12 +500,13 @@ export class ProductPageContainer extends PureComponent {
 
     getConfigurableVariantIndex(variants) {
         const { configurableVariantIndex, parameters } = this.state;
+        const hasParameters = !!Object.keys(parameters).length;
 
         if (configurableVariantIndex >= 0) {
             return configurableVariantIndex;
         }
 
-        if (variants) {
+        if (variants && hasParameters) {
             return getVariantIndex(variants, parameters);
         }
 

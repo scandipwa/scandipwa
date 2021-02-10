@@ -22,6 +22,14 @@
         }
     }
 
+    @include desktop {
+        &-Summary {
+            display: grid;
+            align-self: stretch;
+            grid-template-columns: 2fr 1fr;
+        }
+    }
+
     &-SummaryRating {
         font-size: 3rem;
     }

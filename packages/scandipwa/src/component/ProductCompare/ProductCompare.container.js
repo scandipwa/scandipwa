@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { ProductItemsType } from 'Type/ProductList';
 
 import ProductCompare from './ProductCompare.component';
+import { ATTR_MULTISELECT } from './ProductCompare.config';
 
 export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -90,10 +91,29 @@ export class ProductCompareContainer extends PureComponent {
             ...rest,
             attribute_code,
             attribute_values: products.map(({ attributes }) => {
-                const { attribute_value = null } = attributes[attribute_code] || {};
-                return attribute_value;
+                const {
+                    attribute_value = null,
+                    attribute_options = {},
+                    attribute_type
+                } = attributes[attribute_code] || {};
+
+                return attribute_type === ATTR_MULTISELECT
+                    ? this.getMultiSelectAttributeValue(attribute_value, attribute_options)
+                    : this.getAttributeValue(attribute_value, attribute_options);
             })
         }));
+    }
+
+    getAttributeValue(value, options) {
+        return options[value]?.label || value || null;
+    }
+
+    getMultiSelectAttributeValue(value, options) {
+        return value
+            .split(/,\s*/)
+            .map((v) => this.getAttributeValue(v, options))
+            .filter((v) => !!v)
+            .join(', ');
     }
 
     render() {

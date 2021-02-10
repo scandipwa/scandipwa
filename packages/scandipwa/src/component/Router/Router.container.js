@@ -35,6 +35,10 @@ export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Wishlist/Wishlist.dispatcher'
 );
+export const ProductCompareDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/ProductCompare/ProductCompare.dispatcher'
+);
 
 /** @namespace Component/Router/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -64,6 +68,9 @@ export const mapDispatchToProps = (dispatch) => ({
         );
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
+        );
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
         );
     }
 });
@@ -101,6 +108,10 @@ export class RouterContainer extends PureComponent {
 
     __construct(props) {
         super.__construct(props);
+
+        this.state = ({
+            currentUrl: window.location.pathname
+        });
 
         this.initializeApplication();
         this.redirectFromPartialUrl();

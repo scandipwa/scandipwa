@@ -23,7 +23,7 @@ export class NewsletterSubscriptionDispatcher {
         return fetchMutation(NewsletterSubscriptionQuery.getSubscribeToNewsletterMutation(email)).then(
             /** @namespace Store/NewsletterSubscription/Dispatcher/fetchMutationThen */
             () => {
-                dispatch(showNotification('success', __('You’ve successfully subscribed to our newsletter')));
+                dispatch(showNotification('success', __('A subscription confirmation email has been sent!')));
             },
             /** @namespace Store/NewsletterSubscription/Dispatcher/fetchMutationSuccess */
             (error) => dispatch(showNotification('error', error[0].message))

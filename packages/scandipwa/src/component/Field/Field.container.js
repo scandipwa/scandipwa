@@ -58,7 +58,11 @@ export class FieldContainer extends PureComponent {
         validation: PropTypes.arrayOf(PropTypes.string),
         message: PropTypes.string,
         id: PropTypes.string,
-        formRef: PropTypes.func
+        formRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ]),
+        formRefMap: PropTypes.object
     };
 
     static defaultProps = {
@@ -75,7 +79,8 @@ export class FieldContainer extends PureComponent {
         isControlled: false,
         validation: [],
         message: '',
-        id: ''
+        id: '',
+        formRefMap: {}
     };
 
     containerFunctions = {
@@ -159,7 +164,8 @@ export class FieldContainer extends PureComponent {
         const {
             validation,
             id,
-            formRef: refMap
+            formRef: refMap,
+            formRefMap
         } = this.props;
 
         if (!validation || !id || !refMap || !refMap.current) {
@@ -179,7 +185,7 @@ export class FieldContainer extends PureComponent {
             }
 
             const validationRules = validationConfig[rule];
-            const isValid = validationRules.validate(inputNode, refMap);
+            const isValid = validationRules.validate(inputNode, formRefMap);
             return !isValid;
         });
 

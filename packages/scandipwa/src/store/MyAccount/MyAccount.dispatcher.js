@@ -38,6 +38,11 @@ export const WishlistDispatcher = import(
     'Store/Wishlist/Wishlist.dispatcher'
 );
 
+export const ProductCompareDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/ProductCompare/ProductCompare.dispatcher'
+);
+
 export const CUSTOMER = 'customer';
 
 export const ONE_MONTH_IN_SECONDS = 2628000;
@@ -83,6 +88,9 @@ export class MyAccountDispatcher {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+        );
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         dispatch(updateCustomerDetails({}));
@@ -115,7 +123,7 @@ export class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationThen */
-            ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            ({ s_resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
             () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
@@ -190,6 +198,9 @@ export class MyAccountDispatcher {
         );
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+        );
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
         );
 
         await this.requestCustomerData(dispatch);

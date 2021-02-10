@@ -18,7 +18,6 @@ import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateShippingPrice } from 'Store/Cart/Cart.action';
-import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
 import { updateEmail, updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
@@ -29,6 +28,7 @@ import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
 import history from 'Util/History';
 import { debounce, fetchMutation, fetchQuery } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
@@ -258,7 +258,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getEstimateShippingCosts(
             address,
-            this._getGuestCartId()
+            getGuestQuoteId()
         )).then(
             /** @namespace Route/Checkout/Container/onShippingEstimationFieldsChangeFetchMutationThen */
             ({ estimateShippingCosts: shippingMethods }) => {
@@ -294,7 +294,7 @@ export class CheckoutContainer extends PureComponent {
 
         // For some reason not logged in user cart preserves qty in it
         if (!isSignedIn()) {
-            BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
+            deleteGuestQuoteId();
         }
 
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
@@ -322,15 +322,26 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    setShippingAddress = async () => {
+    setShippingAddress = async (isDefaultShipping = false) => {
         const { shippingAddress } = this.state;
         const { region, region_id, ...address } = shippingAddress;
 
         const mutation = MyAccountQuery.getCreateAddressMutation({
-            ...address, region: { region, region_id }
+            ...address,
+            region: { region, region_id },
+            default_shipping: isDefaultShipping
         });
 
-        await fetchMutation(mutation);
+        const data = await fetchMutation(mutation);
+
+        if (data?.createCustomerAddress) {
+            this.setState({
+                shippingAddress: {
+                    ...shippingAddress,
+                    id: data.createCustomerAddress.id
+                }
+            });
+        }
 
         return true;
     };
@@ -346,7 +357,7 @@ export class CheckoutContainer extends PureComponent {
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
-        const [{ message, debugMessage }] = error;
+        const { message, debugMessage } = error?.length ? error[0] : error;
 
         this.setState({
             isDeliveryOptionsLoading: false,
@@ -358,11 +369,9 @@ export class CheckoutContainer extends PureComponent {
         return false;
     };
 
-    _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
-
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
-            this._getGuestCartId()
+            getGuestQuoteId()
         )).then(
             /** @namespace Route/Checkout/Container/fetchQueryThen */
             ({ getPaymentMethods: paymentMethods }) => {
@@ -384,7 +393,7 @@ export class CheckoutContainer extends PureComponent {
     saveGuestEmail() {
         const { email } = this.state;
         const { updateEmail } = this.props;
-        const guestCartId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const guestCartId = getGuestQuoteId();
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
         updateEmail(email);
@@ -441,7 +450,7 @@ export class CheckoutContainer extends PureComponent {
         showSuccessNotification(__('Your account has been created successfully!'));
 
         if (!is_virtual) {
-            return this.setShippingAddress();
+            return this.setShippingAddress(true);
         }
 
         return true;
@@ -450,11 +459,13 @@ export class CheckoutContainer extends PureComponent {
     prepareAddressInformation(addressInformation) {
         const {
             shipping_address: {
+                id,
                 save_in_address_book,
                 ...shippingAddress
             } = {},
             billing_address: {
-                save_in_address_book: x,
+                id: dropId,
+                save_in_address_book: dropSaveInAddressBook,
                 ...billingAddress
             } = {},
             ...data
@@ -485,7 +496,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
             this.prepareAddressInformation(addressInformation),
-            this._getGuestCartId()
+            getGuestQuoteId()
         )).then(
             /** @namespace Route/Checkout/Container/saveAddressInformationFetchMutationThen */
             ({ saveAddressInformation: data }) => {
@@ -552,6 +563,7 @@ export class CheckoutContainer extends PureComponent {
         const { countries } = this.props;
 
         const {
+            id, // drop this
             country_id,
             region_code, // drop this
             region_id,
@@ -595,20 +607,31 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async saveBillingAddress(paymentInformation) {
-        const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
-        const { billing_address } = paymentInformation;
+        const guest_cart_id = !isSignedIn() ? getGuestQuoteId() : '';
+        const { billing_address, same_as_shipping } = paymentInformation;
+        const {
+            shippingAddress: {
+                id: shippingAddressId = null
+            } = {}
+        } = this.state;
+        const billingAddress = {
+            address: this.trimAddressMagentoStyle(billing_address)
+        };
+
+        if (same_as_shipping && shippingAddressId) {
+            billingAddress.customer_address_id = shippingAddressId;
+        }
 
         await fetchMutation(CheckoutQuery.getSetBillingAddressOnCart({
             guest_cart_id,
-            billing_address: {
-                address: this.trimAddressMagentoStyle(billing_address)
-            }
+            same_as_shipping,
+            billing_address: billingAddress
         }));
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
         const { paymentMethod: { code, additional_data } } = paymentInformation;
-        const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
+        const guest_cart_id = !isSignedIn() ? getGuestQuoteId() : '';
 
         try {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({

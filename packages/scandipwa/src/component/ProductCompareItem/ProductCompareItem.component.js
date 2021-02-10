@@ -36,22 +36,32 @@ export class ProductCompareItem extends PureComponent {
         getGroupedProductQuantity: PropTypes.func.isRequired,
         getProductOptionsData: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
-        imgUrl: PropTypes.string.isRequired
+        imgUrl: PropTypes.string.isRequired,
+        overrideAddToCartBtnBehavior: PropTypes.bool.isRequired,
+        linkTo: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.shape({})
+        ]),
+        overriddenAddToCartBtnHandler: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        linkTo: {}
     };
 
     renderProductImage() {
         const {
             product: {
                 id,
-                name,
-                url
+                name
             },
-            imgUrl
+            imgUrl,
+            linkTo
         } = this.props;
 
         return (
             <figure block="ProductCompareItem" elem="Figure">
-                <Link block="ProductCompareItem" elem="ImageLink" to={ url }>
+                <Link block="ProductCompareItem" elem="ImageLink" to={ linkTo }>
                     <Image
                       ratio="custom"
                       src={ imgUrl }
@@ -64,61 +74,20 @@ export class ProductCompareItem extends PureComponent {
     }
 
     renderTitle() {
-        const { product: { name, url } } = this.props;
+        const { product: { name }, linkTo } = this.props;
 
         return (
             <Link
               block="ProductCompareItem"
               elem="Title"
-              to={ url }
+              to={ linkTo }
             >
                 { name }
             </Link>
         );
     }
 
-    renderConfigurationOption = (option) => {
-        const {
-            attribute_code,
-            values: [
-                { label }
-            ]
-        } = option;
-
-        return (
-            <li
-              key={ attribute_code }
-              aria-label={ attribute_code }
-              block="ProductCompareItem"
-              elem="Option"
-            >
-                { label }
-            </li>
-        );
-    };
-
-    renderConfigurations() {
-        const {
-            product: { configurable_options } = {}
-        } = this.props;
-        const options = Object.values(configurable_options);
-
-        if (!options || !options.length) {
-            return <div block="ProductCompareItem" elem="Options" />;
-        }
-
-        return (
-            <ul
-              block="ProductCompareItem"
-              elem="Options"
-              mods={ { isLikeTable: true } }
-            >
-                { options.map(this.renderConfigurationOption) }
-            </ul>
-        );
-    }
-
-    renderAddToCartBtn() {
+    renderAddToCartBtnEnabled() {
         const {
             product,
             getGroupedProductQuantity,
@@ -135,6 +104,36 @@ export class ProductCompareItem extends PureComponent {
               mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
             />
         );
+    }
+
+    renderAddToCartBtnDisabled() {
+        const { linkTo, overriddenAddToCartBtnHandler } = this.props;
+        return (
+            <Link
+              to={ linkTo }
+              onClick={ overriddenAddToCartBtnHandler }
+              block="ProductCompareItem"
+              elem="AddToCartBtnWrapper"
+            >
+                <AddToCart
+                  product={ {} }
+                  groupedProductQuantity={ {} }
+                  productOptionsData={ {} }
+                  disableHandler
+                  mix={ { block: 'ProductCompareItem', elem: 'AddToCartBtn' } }
+                />
+            </Link>
+        );
+    }
+
+    renderAddToCartBtn() {
+        const { overrideAddToCartBtnBehavior } = this.props;
+
+        if (!overrideAddToCartBtnBehavior) {
+            return this.renderAddToCartBtnEnabled();
+        }
+
+        return this.renderAddToCartBtnDisabled();
     }
 
     renderPrice() {
@@ -155,7 +154,6 @@ export class ProductCompareItem extends PureComponent {
             <div block="ProductCompareItem" elem="Details">
                 { this.renderPrice() }
                 { this.renderTitle() }
-                { this.renderConfigurations() }
                 { this.renderAddToCartBtn() }
             </div>
         );

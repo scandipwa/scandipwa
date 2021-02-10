@@ -37,6 +37,10 @@
         flex-direction: column;
     }
 
+    .ProductCardRow {
+        min-width: fit-content;
+    }
+
     &-Row {
         display: flex;
         align-items: stretch;
@@ -54,7 +58,7 @@
         position: sticky;
         left: 0;
         background-color: $white;
-        z-index: 100;
+        z-index: 10;
 
         @include mobile {
             display: none;
@@ -77,6 +81,7 @@
 
     &-AttributeTable {
         margin-top: 2rem;
+        min-width: fit-content;
 
         @include mobile {
             flex: 1;

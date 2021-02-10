@@ -143,9 +143,15 @@ export class CartPage extends PureComponent {
         }
 
         return applied_taxes
-            .flatMap(({ rates }) => rates)
-            .map(({ percent, title }) => (
-                <div block="CartPage" elem="TaxRate">
+            .map(({ rates }) => rates)
+            .reduce((rates, rate) => rates.concat(rate), [])
+            .map(({ percent, title }, i) => (
+                <div
+                  block="CartPage"
+                  elem="TaxRate"
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={ i }
+                >
                     { `${title} (${percent}%)` }
                 </div>
             ));
@@ -323,7 +329,7 @@ export class CartPage extends PureComponent {
             }
         } = this.props;
 
-        if (!applied_rule_ids) {
+        if (!applied_rule_ids || !discount_amount) {
             return null;
         }
 

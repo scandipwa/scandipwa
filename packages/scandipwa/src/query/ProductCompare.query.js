@@ -56,6 +56,22 @@ export class ProductCompareQuery extends ProductListQuery {
         return field;
     }
 
+    getProductIds(guestCartId = null) {
+        const field = new Field('compareProducts')
+            .addField(this._getProductIdFields());
+
+        if (guestCartId) {
+            field.addArgument('guestCartId', 'String', guestCartId);
+        }
+
+        return field;
+    }
+
+    _getProductIdFields() {
+        return new Field('products')
+            .addField('id');
+    }
+
     _getQueryFields() {
         return [
             'count',
