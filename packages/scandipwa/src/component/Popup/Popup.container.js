@@ -32,7 +32,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/Popup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    hideActivePopup: () => dispatch(hideActivePopup()),
+    resetHideActivePopup: () => dispatch(hideActivePopup(false)),
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
 });

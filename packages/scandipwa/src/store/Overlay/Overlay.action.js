@@ -25,6 +25,7 @@ export const hideActiveOverlay = () => ({
 });
 
 /** @namespace Store/Overlay/Action/hideActivePopup */
-export const hideActivePopup = () => ({
-    type: HIDE_ACTIVE_POPUP
+export const hideActivePopup = (shouldPopupClose = true) => ({
+    type: HIDE_ACTIVE_POPUP,
+    payload: shouldPopupClose
 });

@@ -32,7 +32,7 @@ export const PopupReducer = (
     case HIDE_ACTIVE_OVERLAY:
         return { ...state, popupPayload: {} };
     case HIDE_ACTIVE_POPUP:
-        return { ...state, shouldPopupClose: true };
+        return { ...state, shouldPopupClose: payload };
     default:
         return state;
     }

@@ -40,11 +40,12 @@ export class Popup extends Overlay {
     }
 
     componentDidUpdate(prevProps) {
-        const { shouldPopupClose } = this.props;
+        const { shouldPopupClose, resetHideActivePopup } = this.props;
         const { shouldPopupClose: prevShouldPopupClose } = prevProps;
 
         if (shouldPopupClose && shouldPopupClose !== prevShouldPopupClose) {
             this.hidePopUp();
+            resetHideActivePopup();
         }
     }
 
