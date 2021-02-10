@@ -97,7 +97,7 @@ export class ProductCardContainer extends PureComponent {
 
         return {
             pathname: url,
-            state: { product },
+            state: { product, pageKey: product.id },
             search: objectToUri(parameters)
         };
     }
