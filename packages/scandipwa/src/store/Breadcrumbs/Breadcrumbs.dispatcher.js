@@ -116,36 +116,18 @@ export class BreadcrumbsDispatcher {
         ];
     }
 
-    /**
-     * Get breadcrumbs for product
-     *
-     * @param {Object} product Product breadcumbs items
-     * @param prevCategoryId
-     * @return {Array<Object>} Breadcrumbs array
-     * @memberof BreadcrumbsDispatcher
-     */
-    _getProductBreadcrumbs(product, prevCategoryId = null) {
-        const { categories, url, name } = product;
+    findCategoryById(categories, categoryId) {
+        return categories.find(({ id }) => id === categoryId);
+    }
 
-        if (!categories || !categories.length) {
-            return [];
-        }
-
+    findLongestBreadcrumbs(categories) {
         const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
             const { longestBreadcrumbsLength } = acc;
             const { breadcrumbs } = category;
-            const { id } = category;
             const breadcrumbsLength = (breadcrumbs || []).length;
 
             if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) {
                 return acc;
-            }
-
-            if (id === prevCategoryId) {
-                return {
-                    breadcrumbsCategory: category,
-                    longestBreadcrumbsLength: breadcrumbsLength
-                };
             }
 
             if (longestBreadcrumbsLength === 0) {
@@ -165,9 +147,30 @@ export class BreadcrumbsDispatcher {
             longestBreadcrumbsLength: 0
         });
 
+        return breadcrumbsCategory;
+    }
+
+    /**
+     * Get breadcrumbs for product
+     *
+     * @param {Object} product Product breadcumbs items
+     * @param prevCategoryId
+     * @return {Array<Object>} Breadcrumbs array
+     * @memberof BreadcrumbsDispatcher
+     */
+    _getProductBreadcrumbs(product, prevCategoryId = null) {
+        const { categories, url, name } = product;
+
+        if (!categories || !categories.length) {
+            return [];
+        }
+
         return [
             { url, name },
-            ...this._getCategoryBreadcrumbs(breadcrumbsCategory)
+            ...this._getCategoryBreadcrumbs(
+                this.findCategoryById(categories, prevCategoryId)
+                || this.findLongestBreadcrumbs(categories)
+            )
         ];
     }
 }
