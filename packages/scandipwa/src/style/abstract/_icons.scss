@@ -565,10 +565,10 @@
     }
 }
 
-@mixin compare-icon($background-color) {
+@mixin compare-icon($color) {
     width: 1px;
     height: 25px;
-    background-color: $background-color;
+    background-color: $color;
 
     &::before,
     &::after {
@@ -586,12 +586,12 @@
 
     &::before {
         left: -7px;
-        background-color: $background-color;
+        background-color: $color;
     }
 
     &::after {
         left: 3px;
-        border: 1px solid $background-color;
+        border: 1px solid $color;
         border-left: none;
     }
 }

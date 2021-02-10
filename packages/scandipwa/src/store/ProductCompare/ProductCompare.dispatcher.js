@@ -12,20 +12,20 @@
 import ProductCompareQuery from 'Query/ProductCompare.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import {
+    addComparedProductIds,
     clearComparedProducts,
     removeComparedProduct,
+    setComparedProductIds,
     setCompareList,
     toggleLoader
 } from 'Store/ProductCompare/ProductCompare.action';
-import BrowserDatabase from 'Util/BrowserDatabase';
+import { getGuestQuoteId } from 'Util/Cart';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
-
-export const GUEST_QUOTE_ID = 'guest_quote_id';
 
 /** @namespace Store/ProductCompare/Dispatcher */
 export class ProductCompareDispatcher {
@@ -58,6 +58,7 @@ export class ProductCompareDispatcher {
                 )
             );
 
+            dispatch(addComparedProductIds(productId));
             dispatch(showNotification('success', __('Product is added to the compare list')));
             return result;
         } catch (error) {
@@ -107,8 +108,28 @@ export class ProductCompareDispatcher {
         }
     }
 
+    async updateInitialProductCompareData(dispatch) {
+        const guestCartId = await this._getGuestQuoteId(dispatch);
+
+        try {
+            const {
+                compareProducts: {
+                    products = []
+                } = {}
+            } = await fetchQuery(
+                ProductCompareQuery.getProductIds(guestCartId)
+            );
+
+            const productIds = products.map(({ id }) => id);
+
+            dispatch(setComparedProductIds(productIds));
+        } catch (error) {
+            dispatch(showNotification('error', __('Unable to fetch compare product ids'), error));
+        }
+    }
+
     async _getGuestQuoteId(dispatch) {
-        const result = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const result = getGuestQuoteId();
 
         if (result) {
             return result;

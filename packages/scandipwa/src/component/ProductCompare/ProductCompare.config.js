@@ -9,5 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// eslint-disable-next-line import/prefer-default-export
 export const MAX_DISPLAY_ITEMS_BEFORE_OVERFLOW = 4;
+export const ATTR_MULTISELECT = 'multiselect';

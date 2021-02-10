@@ -36,8 +36,7 @@ export class UrlRewrites extends PureComponent {
     static propTypes = {
         isNotFound: PropTypes.bool,
         props: PropTypes.object,
-        type: PropTypes.string,
-        updateNoMatch: PropTypes.func.isRequired
+        type: PropTypes.string
     };
 
     static defaultProps = {
@@ -53,7 +52,7 @@ export class UrlRewrites extends PureComponent {
     }
 
     renderContent() {
-        const { props, type, updateNoMatch } = this.props;
+        const { props, type } = this.props;
 
         switch (type) {
         case TYPE_PRODUCT:
@@ -63,7 +62,6 @@ export class UrlRewrites extends PureComponent {
         case TYPE_CATEGORY:
             return <CategoryPage { ...props } />;
         case TYPE_NOTFOUND:
-            updateNoMatch({ noMatch: true });
             return <NoMatch { ...props } />;
         default:
             return this.renderDefaultPage();

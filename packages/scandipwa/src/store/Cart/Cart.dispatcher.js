@@ -13,7 +13,7 @@ import CartQuery from 'Query/Cart.query';
 import { updateTotals } from 'Store/Cart/Cart.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
-import BrowserDatabase from 'Util/BrowserDatabase';
+import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { getExtensionAttributes } from 'Util/Product';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 
@@ -22,8 +22,6 @@ export const LinkedProductsDispatcher = import(
     'Store/LinkedProducts/LinkedProducts.dispatcher'
 );
 
-export const GUEST_QUOTE_ID = 'guest_quote_id';
-
 /**
  * Product Cart Dispatcher
  * @class CartDispatcher
@@ -31,7 +29,7 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
  */
 export class CartDispatcher {
     updateInitialCartData(dispatch) {
-        const guestQuoteId = this._getGuestQuoteId();
+        const guestQuoteId = getGuestQuoteId();
 
         if (isSignedIn()) {
             // This is logged in customer, no need for quote id
@@ -46,7 +44,7 @@ export class CartDispatcher {
         return this._createEmptyCart(dispatch).then(
             /** @namespace Store/Cart/Dispatcher/updateInitialCartData_createEmptyCartThen */
             (data) => {
-                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                setGuestQuoteId(data);
                 this._updateCartData({}, dispatch);
                 return data;
             }
@@ -75,7 +73,7 @@ export class CartDispatcher {
             .then(
                 /** @namespace Store/Cart/Dispatcher/handle_syncCartWithBEError_createEmptyCartThen */
                 (data) => {
-                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                    setGuestQuoteId(data);
                     this._updateCartData({}, dispatch);
                 }
             );
@@ -84,7 +82,7 @@ export class CartDispatcher {
     _syncCartWithBE(dispatch) {
         // Need to get current cart from BE, update cart
         fetchQuery(CartQuery.getCartQuery(
-            !isSignedIn() && this._getGuestQuoteId()
+            !isSignedIn() && getGuestQuoteId()
         )).then(
             /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryThen */
             (result) => this.handle_syncCartWithBESuccess(dispatch, result),
@@ -103,7 +101,7 @@ export class CartDispatcher {
 
         return fetchMutation(CartQuery.getSaveCartItemMutation(
             { sku, item_id, quantity },
-            !isSignedIn() && this._getGuestQuoteId()
+            !isSignedIn() && getGuestQuoteId()
         )).then(
             /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationThen */
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
@@ -115,7 +113,7 @@ export class CartDispatcher {
                     return this._createEmptyCart(dispatch).then(
                         /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch_createEmptyCartThen */
                         (data) => {
-                            BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                            setGuestQuoteId(data);
                             this._updateCartData({}, dispatch);
                             return this.changeItemQty(dispatch, options, tries + 1);
                         }
@@ -129,7 +127,7 @@ export class CartDispatcher {
     }
 
     async addProductToCart(dispatch, options) {
-        const guestQuoteId = this._getGuestQuoteId();
+        const guestQuoteId = getGuestQuoteId();
         const {
             product,
             quantity,
@@ -168,7 +166,7 @@ export class CartDispatcher {
         if (this._canBeAdded(options)) {
             try {
                 const { saveCartItem: { cartData } } = await fetchMutation(CartQuery.getSaveCartItemMutation(
-                    productToAdd, !isSignedIn() && this._getGuestQuoteId()
+                    productToAdd, !isSignedIn() && getGuestQuoteId()
                 ));
 
                 return this._updateCartData(cartData, dispatch);
@@ -184,7 +182,7 @@ export class CartDispatcher {
     removeProductFromCart(dispatch, item_id) {
         return fetchMutation(CartQuery.getRemoveCartItemMutation(
             item_id,
-            !isSignedIn() && this._getGuestQuoteId()
+            !isSignedIn() && getGuestQuoteId()
         )).then(
             /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationThen */
             ({ removeCartItem: { cartData } }) => {
@@ -200,7 +198,7 @@ export class CartDispatcher {
     }
 
     async applyCouponToCart(dispatch, couponCode) {
-        const guestQuoteId = this._getGuestQuoteId();
+        const guestQuoteId = getGuestQuoteId();
 
         if (!guestQuoteId) {
             await this.createGuestEmptyCart(dispatch);
@@ -208,7 +206,7 @@ export class CartDispatcher {
 
         try {
             const { applyCoupon: { cartData } } = await fetchMutation(CartQuery.getApplyCouponMutation(
-                couponCode, !isSignedIn() && this._getGuestQuoteId()
+                couponCode, !isSignedIn() && getGuestQuoteId()
             ));
 
             this._updateCartData(cartData, dispatch);
@@ -220,7 +218,7 @@ export class CartDispatcher {
 
     removeCouponFromCart(dispatch) {
         return fetchMutation(CartQuery.getRemoveCouponMutation(
-            !isSignedIn() && this._getGuestQuoteId()
+            !isSignedIn() && getGuestQuoteId()
         )).then(
             /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationThen */
             ({ removeCoupon: { cartData } }) => {
@@ -270,10 +268,6 @@ export class CartDispatcher {
 
     _updateCartData(cartData, dispatch) {
         dispatch(updateTotals(cartData));
-    }
-
-    _getGuestQuoteId() {
-        return BrowserDatabase.getItem(GUEST_QUOTE_ID);
     }
 
     /**

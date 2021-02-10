@@ -310,7 +310,13 @@ export class ProductCard extends PureComponent {
         }
 
         return (
-            <ProductCompareButton productId={ id } />
+            <ProductCompareButton
+              productId={ id }
+              mix={ {
+                  block: 'ProductCompareButton',
+                  mods: { isGrey: true }
+              } }
+            />
         );
     }
 
