@@ -118,6 +118,7 @@ export class BreadcrumbsDispatcher {
 
     /**
      * Get breadcrumbs for product
+     *
      * @param {Object} product Product breadcumbs items
      * @param prevCategoryId
      * @return {Array<Object>} Breadcrumbs array
@@ -141,7 +142,10 @@ export class BreadcrumbsDispatcher {
             }
 
             if (id === prevCategoryId) {
-                return category;
+                return {
+                    breadcrumbsCategory: category,
+                    longestBreadcrumbsLength: breadcrumbsLength
+                };
             }
 
             if (longestBreadcrumbsLength === 0) {
