@@ -128,6 +128,7 @@ export class OrderQuery {
         return [
             'shipping_method',
             'shipping_description',
+            'shipping_incl_tax',
             'shipping_amount',
             'tracking_numbers',
             this._prepareOrderCustomerAddressInfo()
