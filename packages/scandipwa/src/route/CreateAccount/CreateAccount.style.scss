@@ -1,0 +1,52 @@
+.CreateAccount {
+    .ContentWrapper {
+        padding: 28px 20px 50px;
+
+        @include desktop() {
+            padding-top: 25px;
+        }
+    }
+
+    &-InnerWrapper {
+        @include desktop() {
+            display: grid;
+            justify-content: space-around;
+            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 100px;
+        }
+
+        .MyAccountOverlay {
+            &-Additional {
+                display: none;
+            }
+        }
+
+        button {
+            margin-top: 20px;
+        }
+
+        > div {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        button,
+        input {
+            min-width: 250px;
+
+            @include before-desktop {
+                width: 100%;
+            }
+
+            @include desktop {
+                max-width: 300px;
+                width: 100%;
+            }
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+    }
+}

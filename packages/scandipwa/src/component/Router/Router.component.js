@@ -55,6 +55,9 @@ export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkNa
 export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/WishlistSharedPage'));
 export const ContactPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "contact" */ 'Route/ContactPage'));
 export const ProductComparePage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ProductComparePage'));
+export const CreateAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/CreateAccount'));
+export const LoginAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/LoginAccount'));
+export const ForgotPasswordPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "compare" */ 'Route/ForgotPassword'));
 
 /** @namespace Component/Router/Component/withStoreRegex */
 export const withStoreRegex = (path) => window.storeRegexText.concat(path);
@@ -120,6 +123,18 @@ export class Router extends PureComponent {
         {
             component: <Route path={ withStoreRegex('/:account*/createPassword/') } render={ (props) => <PasswordChangePage { ...props } /> } />,
             position: 60
+        },
+        {
+            component: <Route path={ withStoreRegex('/:account*/create/') } render={ (props) => <CreateAccountPage { ...props } /> } />,
+            position: 61
+        },
+        {
+            component: <Route path={ withStoreRegex('/:account*/login/') } render={ (props) => <LoginAccountPage { ...props } /> } />,
+            position: 62
+        },
+        {
+            component: <Route path={ withStoreRegex('/:account*/forgotpassword/') } render={ (props) => <ForgotPasswordPage { ...props } /> } />,
+            position: 63
         },
         {
             component: <Route path={ withStoreRegex('/:account*/confirm') } render={ (props) => <ConfirmAccountPage { ...props } /> } />,
