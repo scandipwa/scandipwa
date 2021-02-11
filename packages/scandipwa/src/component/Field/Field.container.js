@@ -103,7 +103,7 @@ export class FieldContainer extends PureComponent {
             value,
             checked,
             validationMessage: '',
-            validationStatus: null
+            validationStatus: false
         };
     }
 
@@ -199,7 +199,7 @@ export class FieldContainer extends PureComponent {
 
         if (event.currentTarget.value.length <= 0) {
             this.setState({
-                validationStatus: null
+                validationStatus: false
             });
         }
 
