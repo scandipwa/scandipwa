@@ -47,7 +47,7 @@ export class PasswordChangePage extends PureComponent {
                 <Field
                   type="password"
                   label={ __('New password') }
-                  id="passwordReset"
+                  id="password"
                   name="password"
                   autocomplete="new-password"
                   validation={ ['notEmpty', 'password'] }
@@ -55,8 +55,8 @@ export class PasswordChangePage extends PureComponent {
                 <Field
                   type="password"
                   label={ __('Confirm password') }
-                  id="passwordResetConfirm"
-                  name="confirm_password"
+                  id="password_confirmation"
+                  name="password_confirmation"
                   autocomplete="new-password"
                   validation={ ['notEmpty', 'password', 'password_match'] }
                 />
