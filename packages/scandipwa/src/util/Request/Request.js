@@ -17,6 +17,20 @@ import { getCurrency } from 'Util/Currency';
 import { hash } from './Hash';
 
 export const GRAPHQL_URI = '/graphql';
+export const WINDOW_ID = 'WINDOW_ID';
+
+/** @namespace Util/Request/getWindowId */
+export const getWindowId = () => {
+    const result = sessionStorage.getItem(WINDOW_ID);
+
+    if (!result) {
+        const id = Date.now();
+        sessionStorage.setItem(WINDOW_ID, id);
+        return id;
+    }
+
+    return result;
+};
 
 /** @namespace Util/Request/getStoreCodePath */
 export const getStoreCodePath = () => {
@@ -81,7 +95,7 @@ export const getFetch = (uri, name) => fetch(uri,
         method: 'GET',
         headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
-            'Application-Model': name,
+            'Application-Model': `${ name }_${ getWindowId() }`,
             Accept: 'application/json'
         })
     });
@@ -218,8 +232,10 @@ export const executePost = (queryObject) => {
  */
 export const listenForBroadCast = (name) => new Promise((resolve) => {
     const { BroadcastChannel } = window;
+    const windowId = getWindowId();
+
     if (BroadcastChannel) {
-        const bc = new BroadcastChannel(name);
+        const bc = new BroadcastChannel(`${ name }_${ windowId }`);
         bc.onmessage = (update) => {
             const { data: { payload: body } } = update;
             resolve(checkForErrors(body));

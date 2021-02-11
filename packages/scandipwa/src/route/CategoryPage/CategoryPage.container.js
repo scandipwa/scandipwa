@@ -341,8 +341,20 @@ export class CategoryPageContainer extends PureComponent {
         return categoryIds === selectedCategoryIds;
     }
 
+    isCurrentCategoryLoaded() {
+        const {
+            categoryIds,
+            category: {
+                id
+            }
+        } = this.props;
+
+        return categoryIds === id;
+    }
+
     containerProps = () => ({
         filter: this.getFilter(),
+        isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
         isMatchingListFilter: this.getIsMatchingListFilter(),
         isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
         selectedSort: this.getSelectedSortFromUrl(),

@@ -9,8 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { GUEST_QUOTE_ID } from 'Store/Cart/Cart.dispatcher';
-import BrowserDatabase from 'Util/BrowserDatabase';
+import { getGuestQuoteId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
 /**
@@ -28,7 +27,7 @@ export class MyAccountQuery {
     getResetPasswordMutation(options) {
         const { token, password, password_confirmation } = options;
 
-        return new Field('resetPassword')
+        return new Field('s_resetPassword')
             .addArgument('token', 'String!', token)
             .addArgument('password', 'String!', password)
             .addArgument('password_confirmation', 'String!', password_confirmation)
@@ -43,7 +42,7 @@ export class MyAccountQuery {
      */
     getSignInMutation(options) {
         const { email, password } = options;
-        const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const guestQuoteId = getGuestQuoteId();
 
         return new Field('generateCustomerToken')
             .addArgument('email', 'String!', email)
