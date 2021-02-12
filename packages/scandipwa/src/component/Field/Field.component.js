@@ -72,7 +72,7 @@ export class Field extends PureComponent {
         label: '',
         value: null,
         message: '',
-        validationStatus: false
+        validationStatus: null
     };
 
     renderTextarea() {
