@@ -119,6 +119,18 @@ export class FieldContainer extends PureComponent {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ checked: currChecked });
         }
+
+        this.setValidationMessage(prevProps);
+    }
+
+    setValidationMessage(prevProps) {
+        const { message: prevMessage = {} } = prevProps;
+        const { message = {} } = this.props;
+        const { validationMessage = {} } = this.state;
+
+        if (message !== validationMessage && !prevMessage && message) {
+            this.setState({ validationMessage: message });
+        }
     }
 
     getInitialPropsValue() {
@@ -140,8 +152,7 @@ export class FieldContainer extends PureComponent {
 
     containerProps = () => {
         const {
-            checked: propsChecked,
-            message
+            checked: propsChecked
         } = this.props;
 
         const {
@@ -156,7 +167,7 @@ export class FieldContainer extends PureComponent {
             checked: type === CHECKBOX_TYPE ? propsChecked : checked,
             value,
             validationStatus,
-            message: validationMessage || message
+            message: validationMessage
         };
     };
 
