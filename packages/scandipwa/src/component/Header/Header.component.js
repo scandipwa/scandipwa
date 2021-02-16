@@ -319,7 +319,11 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <div block="Header" elem="CompareButtonWrapper">
+            <div
+              block="Header"
+              elem="CompareButtonWrapper"
+              key="compare"
+            >
                 <Link
                   to="compare"
                   key="compare"

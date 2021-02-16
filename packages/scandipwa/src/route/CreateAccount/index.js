@@ -9,5 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from './Cart';
-export * from './Token';
+export { default } from './CreateAccount.container';

@@ -17,6 +17,7 @@ import Loader from 'Component/Loader';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Popup from 'Component/Popup';
 import { orderType } from 'Type/Account';
+import { DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX } from 'Util/Cart';
 import { formatPrice } from 'Util/Price';
 
 import { ORDER_POPUP_ID } from './MyAccountOrderPopup.config';
@@ -28,7 +29,8 @@ export class MyAccountOrderPopup extends PureComponent {
     static propTypes = {
         order: orderType.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        currency_code: PropTypes.string.isRequired
+        currency_code: PropTypes.string.isRequired,
+        display_tax_in_shipping_amount: PropTypes.string.isRequired
     };
 
     renderBaseInfo() {
@@ -76,17 +78,22 @@ export class MyAccountOrderPopup extends PureComponent {
     }
 
     renderShipping() {
-        const { order: { shipping_info }, currency_code } = this.props;
+        const { order: { shipping_info }, currency_code, display_tax_in_shipping_amount } = this.props;
 
         const {
             shipping_description,
+            shipping_address,
             shipping_amount,
-            shipping_address
+            shipping_incl_tax
         } = shipping_info || {};
 
         if (!shipping_address) {
             return null;
         }
+
+        const amount = display_tax_in_shipping_amount === DISPLAY_CART_TAX_IN_SHIPPING_EXL_TAX
+            ? shipping_amount
+            : shipping_incl_tax;
 
         return (
             <div block="MyAccountOrderPopup" elem="ShippingWrapper">
@@ -98,7 +105,7 @@ export class MyAccountOrderPopup extends PureComponent {
                     </dd>
                     <dt>{ __('Price: ') }</dt>
                     <dd>
-                        { formatPrice(shipping_amount, currency_code) }
+                        { formatPrice(amount, currency_code) }
                     </dd>
                 </dl>
                 { this.renderShippingAddressTable() }

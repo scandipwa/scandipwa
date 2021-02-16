@@ -58,8 +58,11 @@ export class FieldContainer extends PureComponent {
         validation: PropTypes.arrayOf(PropTypes.string),
         message: PropTypes.string,
         id: PropTypes.string,
-        formRef: PropTypes.func,
-        formRefMap: PropTypes.node.isRequired
+        formRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ]),
+        formRefMap: PropTypes.object
     };
 
     static defaultProps = {
@@ -76,7 +79,8 @@ export class FieldContainer extends PureComponent {
         isControlled: false,
         validation: [],
         message: '',
-        id: ''
+        id: '',
+        formRefMap: {}
     };
 
     containerFunctions = {
@@ -115,6 +119,18 @@ export class FieldContainer extends PureComponent {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ checked: currChecked });
         }
+
+        this.setValidationMessage(prevProps);
+    }
+
+    setValidationMessage(prevProps) {
+        const { message: prevMessage = {} } = prevProps;
+        const { message = {} } = this.props;
+        const { validationMessage = {} } = this.state;
+
+        if (message !== validationMessage && !prevMessage && message) {
+            this.setState({ validationMessage: message });
+        }
     }
 
     getInitialPropsValue() {
@@ -136,8 +152,7 @@ export class FieldContainer extends PureComponent {
 
     containerProps = () => {
         const {
-            checked: propsChecked,
-            message
+            checked: propsChecked
         } = this.props;
 
         const {
@@ -152,7 +167,7 @@ export class FieldContainer extends PureComponent {
             checked: type === CHECKBOX_TYPE ? propsChecked : checked,
             value,
             validationStatus,
-            message: validationMessage || message
+            message: validationMessage
         };
     };
 
