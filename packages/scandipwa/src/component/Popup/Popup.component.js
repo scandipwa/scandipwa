@@ -39,6 +39,16 @@ export class Popup extends Overlay {
         document.addEventListener('keydown', this.handleKeyDown);
     }
 
+    componentDidUpdate(prevProps) {
+        const { shouldPopupClose, resetHideActivePopup } = this.props;
+        const { shouldPopupClose: prevShouldPopupClose } = prevProps;
+
+        if (shouldPopupClose && shouldPopupClose !== prevShouldPopupClose) {
+            this.hidePopUp();
+            resetHideActivePopup();
+        }
+    }
+
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
