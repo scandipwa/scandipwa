@@ -54,7 +54,7 @@ export class Field extends PureComponent {
             PropTypes.bool
         ]),
         validation: PropTypes.arrayOf(PropTypes.string).isRequired,
-        validationStatus: PropTypes.string,
+        validationStatus: PropTypes.bool,
         checked: PropTypes.oneOfType([
             PropTypes.bool,
             PropTypes.string
