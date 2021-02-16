@@ -58,7 +58,9 @@ export class CategoryPage extends PureComponent {
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
         device: DeviceType.isRequired,
-        is_anchor: PropTypes.bool
+        is_anchor: PropTypes.bool,
+        defaultPlpType: PropTypes.string,
+        plpTypes: PropTypes.arrayOf(PropTypes.string)
     };
 
     static defaultProps = {
@@ -68,18 +70,26 @@ export class CategoryPage extends PureComponent {
         isMatchingInfoFilter: false,
         totalPages: 1,
         is_anchor: true,
-        search: ''
+        search: '',
+        defaultPlpType: '',
+        plpTypes: []
     };
 
-    state = {
-        layout: 'grid'
-    };
+    state = {};
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
     onGridButtonClick = this.onGridButtonClick.bind(this);
 
     onListButtonClick = this.onListButtonClick.bind(this);
+
+    componentDidUpdate() {
+        const { layout } = this.state;
+
+        if (!layout) {
+            this.setDefaultPlpType();
+        }
+    }
 
     onFilterButtonClick() {
         const { toggleOverlayByKey } = this.props;
@@ -110,6 +120,12 @@ export class CategoryPage extends PureComponent {
         const { category: { display_mode } = {} } = this.props;
         return display_mode === DISPLAY_MODE_CMS_BLOCK
             || display_mode === DISPLAY_MODE_BOTH;
+    }
+
+    setDefaultPlpType() {
+        const { defaultPlpType } = this.props;
+
+        this.setState({ layout: defaultPlpType });
     }
 
     renderCategoryDetails() {
@@ -186,23 +202,39 @@ export class CategoryPage extends PureComponent {
         );
     }
 
-    renderLayoutButtons() {
+    renderLayoutButton = (type) => {
         const { layout } = this.state;
 
-        return (
-            <div block="CategoryPage" elem="LayoutButtons">
-                <button
-                  onClick={ this.onListButtonClick }
-                  mix={ { block: 'list', mods: { isActive: layout === 'list' } } }
-                >
-                    { __('Grid') }
-                </button>
+        switch (type) {
+        case 'grid':
+            return (
                 <button
                   onClick={ this.onGridButtonClick }
                   mix={ { block: 'grid', mods: { isActive: layout === 'grid' } } }
                 >
+                    { __('Grid') }
+                </button>
+            );
+        case 'list':
+            return (
+                <button
+                  onClick={ this.onListButtonClick }
+                  mix={ { block: 'list', mods: { isActive: layout === 'list' } } }
+                >
                     { __('List') }
                 </button>
+            );
+        default:
+            return false;
+        }
+    };
+
+    renderLayoutButtons() {
+        const { plpTypes } = this.props;
+
+        return (
+            <div block="CategoryPage" elem="LayoutButtons">
+                { plpTypes.map(this.renderLayoutButton) }
             </div>
         );
     }
