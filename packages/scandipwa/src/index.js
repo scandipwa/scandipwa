@@ -1,3 +1,4 @@
+/* eslint-disable simple-import-sort/sort */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,6 +9,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+import 'Store';
+
+/** ENTRY__HOOK */
 
 import 'Util/Polyfill';
 import 'Style/main';
