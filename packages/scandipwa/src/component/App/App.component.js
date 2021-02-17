@@ -16,7 +16,8 @@ import { Provider as UnstatedProvider } from 'unstated';
 import Router from 'Component/Router';
 import SharedTransition from 'Component/SharedTransition';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
-import configureStore from 'Store';
+import injectStaticReducers from 'Store';
+import getStore from 'Util/Store';
 
 /** @namespace Component/App/Component */
 export class App extends PureComponent {
@@ -27,6 +28,10 @@ export class App extends PureComponent {
 
     developmentFunctions = [
         this.enableHotReload.bind(this)
+    ];
+
+    commonFunctions = [
+        this.configureStore.bind(this)
     ];
 
     rootComponents = [
@@ -48,6 +53,7 @@ export class App extends PureComponent {
         super.__construct(props);
 
         this.configureAppBasedOnEnvironment();
+        this.configureApp();
     }
 
     componentDidCatch(err, info) {
@@ -57,9 +63,16 @@ export class App extends PureComponent {
         });
     }
 
+    configureStore() {
+        const store = getStore();
+        injectStaticReducers(store);
+
+        this.reduxStore = store;
+    }
+
     renderRedux(children) {
         return (
-            <Provider store={ configureStore() } key="redux">
+            <Provider store={ this.reduxStore } key="redux">
                 { children }
             </Provider>
         );
@@ -103,6 +116,10 @@ export class App extends PureComponent {
             : this.developmentFunctions;
 
         functionsToRun.forEach((func) => func());
+    }
+
+    configureApp() {
+        this.commonFunctions.forEach((func) => func());
     }
 
     handleErrorReset = () => {
