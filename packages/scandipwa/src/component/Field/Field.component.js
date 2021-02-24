@@ -8,8 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-/* eslint-disable jsx-a11y/control-has-associated-label, jsx-a11y/label-has-associated-control */
-// Disabled due bug in `renderCheckboxInput` function
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
@@ -144,18 +142,20 @@ export class Field extends PureComponent {
     renderCheckbox() {
         const {
             id,
-            onChangeCheckbox
+            onChangeCheckbox,
+            label
         } = this.props;
 
         return (
-            <>
+            <label htmlFor={ id }>
+                { label }
                 <FieldInput
                   { ...this.props }
                   type="checkbox"
                   onChange={ onChangeCheckbox }
                 />
-                <label htmlFor={ id } />
-            </>
+                <div block="input-control" />
+            </label>
         );
     }
 
@@ -173,7 +173,7 @@ export class Field extends PureComponent {
                   type="radio"
                   onChange={ onClick }
                 />
-                <label htmlFor={ id } />
+                <div block="input-control" />
                 { label }
             </label>
         );
@@ -207,10 +207,16 @@ export class Field extends PureComponent {
     }
 
     renderLabel() {
-        const { id, label, validation } = this.props;
+        const {
+            id,
+            label,
+            validation,
+            type
+        } = this.props;
         const isRequired = validation.includes('notEmpty');
+        const noRenderLabel = type === CHECKBOX_TYPE || type === RADIO_TYPE;
 
-        if (!label) {
+        if (!label || noRenderLabel) {
             return null;
         }
 
