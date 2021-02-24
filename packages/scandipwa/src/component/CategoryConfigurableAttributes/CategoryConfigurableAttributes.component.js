@@ -11,7 +11,7 @@
 
 import ExpandableContent from 'Component/ExpandableContent';
 import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
-import ProductAttributeValue from "Component/ProductAttributeValue/ProductAttributeValue.component";
+import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import { formatPrice } from 'Util/Price';

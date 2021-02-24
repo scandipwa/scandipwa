@@ -73,11 +73,10 @@ export class ProductAttributeValue extends PureComponent {
                     return optionValues;
                 }
 
-                let { label, count = 0 } = optionValues;
-                label += ` (${count})`;
+                const { label, count = 0 } = optionValues;
                 return {
                     ...optionValues,
-                    label
+                    label: `${label} (${count})`
                 };
             }
         }
