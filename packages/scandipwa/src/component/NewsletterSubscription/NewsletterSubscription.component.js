@@ -31,7 +31,8 @@ export class NewsletterSubscription extends FieldForm {
         const fields = {
             email: {
                 validation: ['notEmpty', 'email'],
-                placeholder: __('Enter your email address')
+                placeholder: __('Enter your email address'),
+                'aria-label': __('Email address')
             }
         };
 

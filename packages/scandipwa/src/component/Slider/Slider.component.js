@@ -402,6 +402,7 @@ export class Slider extends PureComponent {
               mods={ { type: 'single' } }
               // eslint-disable-next-line react/jsx-no-bind
               onClick={ () => this.changeActiveImage(i) }
+              aria-label={ __('Slide crumb') }
             >
                 <div
                   block="Slider"

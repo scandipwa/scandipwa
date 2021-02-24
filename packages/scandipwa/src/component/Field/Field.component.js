@@ -123,16 +123,19 @@ export class Field extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onChange={ (e) => handleChange(e.target.value, false) }
                   onKeyDown={ onKeyEnterDown }
+                  aria-label={ __('Value') }
                 />
                 <button
                   disabled={ +value === max }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value + 1) }
+                  aria-label={ __('Add') }
                 />
                 <button
                   disabled={ +value === min }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value - 1) }
+                  aria-label={ __('Subtract') }
                 />
             </>
         );

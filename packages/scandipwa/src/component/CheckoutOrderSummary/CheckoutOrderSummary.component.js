@@ -118,9 +118,9 @@ export class CheckoutOrderSummary extends PureComponent {
 
         return (
             <div block="CheckoutOrderSummary" elem="OrderItems">
-                <ul block="CheckoutOrderSummary" elem="CartItemList">
+                <div block="CheckoutOrderSummary" elem="CartItemList">
                     { items.map(this.renderItem) }
-                </ul>
+                </div>
             </div>
         );
     }
