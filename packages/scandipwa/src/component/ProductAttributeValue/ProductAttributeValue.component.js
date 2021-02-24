@@ -32,7 +32,8 @@ export class ProductAttributeValue extends PureComponent {
         isSelected: PropTypes.bool,
         isAvailable: PropTypes.bool,
         mix: MixType,
-        isFormattedAsText: PropTypes.bool
+        isFormattedAsText: PropTypes.bool,
+        showProductCount: PropTypes.bool
     };
 
     static defaultProps = {
@@ -41,7 +42,8 @@ export class ProductAttributeValue extends PureComponent {
         getLink: () => {},
         mix: {},
         isAvailable: true,
-        isFormattedAsText: false
+        isFormattedAsText: false,
+        showProductCount: false
     };
 
     clickHandler = this.clickHandler.bind(this);
@@ -57,12 +59,26 @@ export class ProductAttributeValue extends PureComponent {
     }
 
     getOptionLabel(value) {
-        const { attribute: { attribute_options } } = this.props;
+        const {
+            attribute: {
+                attribute_options
+            },
+            showProductCount
+        } = this.props;
 
         if (attribute_options) {
             const optionValues = attribute_options[value];
             if (optionValues) {
-                return optionValues;
+                if (!showProductCount) {
+                    return optionValues;
+                }
+
+                let { label, count = 0 } = optionValues;
+                label += ` (${count})`;
+                return {
+                    ...optionValues,
+                    label
+                };
             }
         }
 
