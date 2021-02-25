@@ -47,18 +47,18 @@ export class PasswordChangePage extends PureComponent {
                 <Field
                   type="password"
                   label={ __('New password') }
-                  id="passwordReset"
-                  name="passwordReset"
+                  id="password"
+                  name="password"
                   autocomplete="new-password"
                   validation={ ['notEmpty', 'password'] }
                 />
                 <Field
                   type="password"
                   label={ __('Confirm password') }
-                  id="passwordResetConfirm"
-                  name="passwordResetConfirm"
+                  id="password_confirmation"
+                  name="password_confirmation"
                   autocomplete="new-password"
-                  validation={ ['notEmpty', 'password'] }
+                  validation={ ['notEmpty', 'password', 'password_match'] }
                 />
                 <div block="MyAccount" elem="Buttons">
                     <button

@@ -49,7 +49,8 @@ export class ProductGallery extends PureComponent {
                 image: PropTypes.string,
                 isPlaceholder: PropTypes.bool,
                 alt: PropTypes.string,
-                type: PropTypes.string
+                type: PropTypes.string,
+                media_type: PropTypes.string
             })
         ).isRequired,
         productId: PropTypes.number,
@@ -105,7 +106,16 @@ export class ProductGallery extends PureComponent {
     }
 
     handleSliderClick = () => {
-        const { handleImageZoomPopupActiveChange } = this.props;
+        const {
+            handleImageZoomPopupActiveChange,
+            gallery,
+            activeImage
+        } = this.props;
+
+        const { media_type } = gallery[activeImage];
+        if (media_type === VIDEO_TYPE) {
+            return;
+        }
 
         handleImageZoomPopupActiveChange(true);
     };
@@ -130,10 +140,12 @@ export class ProductGallery extends PureComponent {
      * @private
      */
     renderVideo(media, index) {
+        const { isImageZoomPopupActive } = this.props;
         return (
             <VideoThumbnail
               key={ index }
               media={ media }
+              isVideoZoomed={ isImageZoomPopupActive }
             />
         );
     }
