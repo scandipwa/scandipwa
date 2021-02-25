@@ -364,12 +364,16 @@ export class Header extends NavigationAbstract {
             logo_width
         } = this.props;
 
+        // if no src defined from the backend, pass null in order to display placeholder
+        // and prevent unnecessary load of corrupted resource
+        const logoSrc = header_logo_src ? media(header_logo_src, LOGO_MEDIA) : null;
+
         CSS.setVariable(this.logoRef, 'header-logo-height', `${logo_height}px`);
         CSS.setVariable(this.logoRef, 'header-logo-width', `${logo_width}px`);
 
         return (
             <Logo
-              src={ media(header_logo_src, LOGO_MEDIA) }
+              src={ logoSrc }
               alt={ logo_alt }
               title={ logo_alt }
             />

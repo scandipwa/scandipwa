@@ -73,6 +73,7 @@ export class Footer extends PureComponent {
               to={ href }
               mods={ mods }
               key={ i }
+              aria-label={ title }
             >
                 { this.renderColumnItemContent(src, title) }
             </Link>

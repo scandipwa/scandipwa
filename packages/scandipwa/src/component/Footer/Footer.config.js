@@ -75,15 +75,18 @@ export const COLUMN_MAP = [
         items: [
             {
                 href: 'https://www.linkedin.com/company/scandipwa',
-                src: linkedinIcon
+                src: linkedinIcon,
+                title: 'LinkedIn'
             },
             {
                 href: 'https://www.facebook.com/ScandiPWA/',
-                src: facebookIcon
+                src: facebookIcon,
+                title: 'Facebook'
             },
             {
                 href: 'https://twitter.com/scandipwa',
-                src: twitterIcon
+                src: twitterIcon,
+                title: 'Twitter'
             }
         ]
     },
