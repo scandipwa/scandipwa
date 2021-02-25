@@ -12,7 +12,6 @@
  */
 
 export const KLARNA = 'klarna_kp';
-export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
 export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
