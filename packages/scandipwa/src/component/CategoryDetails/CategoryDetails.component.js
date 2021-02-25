@@ -44,12 +44,21 @@ export class CategoryDetails extends PureComponent {
             return null;
         }
 
+        if (!isCurrentCategoryLoaded) {
+            return this.renderCategoryNamePlaceholder();
+        }
+
         return (
             <h1 block="CategoryDetails" elem="Heading">
-                { /* eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-conditional */ }
-                { isCurrentCategoryLoaded
-                    ? <TextPlaceholder content={ name } />
-                    : <TextPlaceholder /> }
+                <TextPlaceholder content={ name } />
+            </h1>
+        );
+    }
+
+    renderCategoryNamePlaceholder() {
+        return (
+            <h1 block="CategoryDetails" elem="Heading">
+                <TextPlaceholder />
             </h1>
         );
     }
