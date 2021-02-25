@@ -52,10 +52,13 @@ export class Footer extends PureComponent {
             return title;
         }
 
+        const re = /^data:/i;
+        const imgSrc = re.test(src) ? src : media(src, '', false);
+
         return (
             <Image
               mix={ { block: 'Footer', elem: 'ColumnItemImage' } }
-              src={ media(src, '', false) }
+              src={ imgSrc }
             />
         );
     }
