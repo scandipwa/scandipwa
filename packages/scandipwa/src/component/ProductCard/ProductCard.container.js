@@ -110,12 +110,15 @@ export class ProductCardContainer extends PureComponent {
 
         const productUrl = `${pathname.replace(storePrefix, '')}/${url.replace(storePrefix, '')}`;
 
-        // eslint-disable-next-line fp/no-let
-        let rewriteUrl = url_rewrites.filter((e) => (e.url.includes(productUrl) ? e.url : null));
-        rewriteUrl = (rewriteUrl && rewriteUrl[0] && appendWithStoreCode(rewriteUrl[0].url));
+        // if 'Product Use Categories' is enabled then use the current window location to see if the product
+        // has any url_rewrite for that path. (if not then just use the default url)
+        const rewriteUrl = url_rewrites.filter((e) => (e.url.includes(productUrl) ? e.url : null));
+        const rewriteUrlPath = product_use_categories
+            ? (rewriteUrl && rewriteUrl[0] && appendWithStoreCode(rewriteUrl[0].url))
+            : url;
 
         return {
-            pathname: product_use_categories ? rewriteUrl : url,
+            pathname: rewriteUrlPath,
             state: { product },
             search: objectToUri(parameters)
         };
