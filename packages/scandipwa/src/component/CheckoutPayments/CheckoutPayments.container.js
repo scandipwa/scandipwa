@@ -13,16 +13,14 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.config';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import BraintreeDropIn from 'Util/Braintree';
 
 import CheckoutPayments from './CheckoutPayments.component';
-import { BRAINTREE, KLARNA } from './CheckoutPayments.config';
+import { KLARNA } from './CheckoutPayments.config';
 
 /** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -48,14 +46,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     containerFunctions = {
-        initBraintree: this.initBraintree.bind(this),
         selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
-    braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
-
     dataMap = {
-        [BRAINTREE]: this.getBraintreeData.bind(this),
         [KLARNA]: this.getKlarnaData.bind(this)
     };
 
@@ -83,20 +77,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
         return { asyncData: KlarnaContainer.authorize() };
     }
 
-    getBraintreeData() {
-        const {
-            totals: {
-                grand_total = 0
-            },
-            email,
-            address
-        } = this.props;
-
-        return {
-            asyncData: this.braintree.requestPaymentNonce(grand_total, email, address)
-        };
-    }
-
     collectAdditionalData = () => {
         const { selectedPaymentCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedPaymentCode];
@@ -106,10 +86,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
         return additionalDataGetter();
     };
-
-    initBraintree() {
-        return this.braintree.create();
-    }
 
     selectPaymentMethod({ code }) {
         const {

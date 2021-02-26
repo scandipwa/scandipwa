@@ -42,8 +42,9 @@ export class Form extends PureComponent {
         id: ''
     };
 
-    static updateChildrenRefs(props) {
+    static updateChildrenRefs(props, state = {}) {
         const { children: propsChildren } = props;
+        const { refMap: refMapState = {} } = state;
 
         const refMap = {};
 
@@ -51,12 +52,22 @@ export class Form extends PureComponent {
             propsChildren,
             (child) => {
                 const { props: { name } } = child;
+                const { message } = Object.keys(refMapState).length
+                    ? Form.validateField(child, refMapState)
+                    : {};
+
                 refMap[name] = createRef();
 
-                return cloneElement(child, {
+                const childProps = {
                     formRef: refMap[name],
                     formRefMap: refMap
-                });
+                };
+
+                if (message) {
+                    childProps.message = message;
+                }
+
+                return cloneElement(child, childProps);
             }
         );
 
@@ -155,7 +166,7 @@ export class Form extends PureComponent {
 
         return {
             ...Form.cloneAndValidateChildren(children, refMap),
-            ...Form.updateChildrenRefs(props)
+            ...Form.updateChildrenRefs(props, state)
         };
     }
 

@@ -124,6 +124,7 @@ export class ConfigQuery {
             'show_vat_number_on_storefront',
             'show_tax_vat_number',
             'product_use_categories',
+            'cookie_lifetime',
             this.getPriceDisplayTypeField()
         ];
     }

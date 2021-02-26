@@ -27,5 +27,6 @@
     },
     "workspaces": [
         "packages/*"
-    ]
+    ],
+    "proxy": "http://devf3.sofacompany.sdmdev.dk/"
 }

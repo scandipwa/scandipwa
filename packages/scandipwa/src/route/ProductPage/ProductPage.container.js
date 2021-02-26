@@ -347,6 +347,14 @@ export class ProductPageContainer extends PureComponent {
         }
     };
 
+    handleUrlChangeToTop() {
+        const { pathname } = location;
+        this.setState({
+            currentUrl: pathname
+        });
+        window.scrollTo(0, 0);
+    }
+
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
         const obj = {
@@ -355,6 +363,12 @@ export class ProductPageContainer extends PureComponent {
 
         if (key) {
             obj[key] = value;
+        }
+
+        const { currentUrl } = this.state;
+
+        if (currentUrl !== pathname) {
+            this.handleUrlChangeToTop();
         }
 
         const query = objectToUri(obj);

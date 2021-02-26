@@ -10,15 +10,21 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
-
-import { store } from '../../store';
+import getStore from 'Util/Store';
 
 export const AUTH_TOKEN = 'auth_token';
 
 export const ONE_HOUR = 3600;
 
 /** @namespace Util/Auth/setAuthorizationToken */
-export const setAuthorizationToken = (token) => BrowserDatabase.setItem(token, AUTH_TOKEN, ONE_HOUR);
+export const setAuthorizationToken = (token) => {
+    const state = getStore().getState();
+    const {
+        cookie_lifetime = ONE_HOUR
+    } = state.ConfigReducer;
+
+    BrowserDatabase.setItem(token, AUTH_TOKEN, cookie_lifetime);
+};
 
 /** @namespace Util/Auth/deleteAuthorizationToken */
 export const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);
@@ -35,12 +41,12 @@ export const isInitiallySignedIn = () => !!getAuthorizationToken();
 /** @namespace Util/Auth/isSignedIn */
 export const isSignedIn = () => {
     const _isSignedIn = !!getAuthorizationToken();
-    const state = store.getState();
+    const state = getStore().getState();
 
     if (!_isSignedIn && state.MyAccountReducer.isSignedIn) {
         const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');
         MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.logout(true, store.dispatch)
+            ({ default: dispatcher }) => dispatcher.logout(true, getStore().dispatch)
         );
     } else if (_isSignedIn && state.MyAccountReducer.isSignedIn) {
         refreshAuthorizationToken();

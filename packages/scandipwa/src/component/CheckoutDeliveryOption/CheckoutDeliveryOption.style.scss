@@ -70,12 +70,18 @@
         }
     }
 
+    &-Row {
+        strong {
+            display: inline-block;
+        }
+    }
+
     &-SubPrice {
         font-size: .7em;
         font-weight: 300;
         text-align: right;
         position: absolute;
-        right: 0;
+        left: 0;
         top: 1.5em;
         white-space: nowrap;
     }
