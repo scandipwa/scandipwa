@@ -260,12 +260,10 @@ export class CategoryPage extends PureComponent {
         return (
             <>
                 { this.renderFilterOverlay() }
-                <div>
                 { this.renderCategoryDetails() }
                 { this.renderCmsBlock() }
                 { this.renderMiscellaneous() }
                 { this.renderCategoryProductList() }
-                </div>
             </>
         );
     }
