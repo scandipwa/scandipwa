@@ -20,7 +20,7 @@ import { DeviceType } from 'Type/Device';
 /** @namespace Component/MyAccountDownloadable/Component */
 export class MyAccountDownloadableComponent extends PureComponent {
     static propTypes = {
-        items: downloadableType.isRequired,
+        items: PropTypes.arrayOf(downloadableType).isRequired,
         isLoading: PropTypes.bool.isRequired,
         device: DeviceType.isRequired
     };
@@ -87,7 +87,7 @@ export class MyAccountDownloadableComponent extends PureComponent {
 
         const orders = items.length
             ? items
-            : Array.from({ length: 10 }, (_, id) => ({ base_order_info: { id } }));
+            : Array.from({ length: 10 }, (_, id) => ({ id }));
 
         return orders.reduceRight(
             (acc, e) => [...acc, this.renderOrderRow(e)],
