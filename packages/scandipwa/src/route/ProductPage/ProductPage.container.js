@@ -69,8 +69,8 @@ export const mapDispatchToProps = (dispatch) => ({
         );
     },
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
+    updateBreadcrumbs: (breadcrumbs, prevCategoryId) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, prevCategoryId, dispatch)
     ),
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
@@ -561,8 +561,9 @@ export class ProductPageContainer extends PureComponent {
     }
 
     updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        updateBreadcrumbs(this.getDataSource());
+        const { updateBreadcrumbs, location } = this.props;
+        const { state: { prevCategoryId = null } = {} } = location;
+        updateBreadcrumbs(this.getDataSource(), prevCategoryId);
     }
 
     render() {

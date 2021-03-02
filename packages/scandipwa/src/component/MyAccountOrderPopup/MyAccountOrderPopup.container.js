@@ -31,7 +31,8 @@ export const OrderDispatcher = import(
 export const mapStateToProps = (state) => ({
     order: state.OrderReducer.order,
     payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
-    currency_code: state.ConfigReducer.default_display_currency_code
+    currency_code: state.ConfigReducer.default_display_currency_code,
+    display_tax_in_shipping_amount: state.ConfigReducer.cartDisplayConfig.display_tax_in_shipping_amount
 });
 
 /** @namespace Component/MyAccountOrderPopup/Container/mapDispatchToProps */

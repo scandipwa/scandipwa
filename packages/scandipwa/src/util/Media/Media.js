@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { getStore } from 'Store';
+import getStore from 'Util/Store';
 
 export const WYSIWYG_MEDIA = 'wysiwyg/';
 export const CATEGORY_MEDIA = 'catalog/category/';

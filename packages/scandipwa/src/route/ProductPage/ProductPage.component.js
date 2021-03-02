@@ -23,6 +23,7 @@ import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviews from 'Component/ProductReviews';
 import ProductTabs from 'Component/ProductTabs';
+import NoMatchHandler from 'Route/NoMatchHandler';
 import {
     PRODUCT_ATTRIBUTES,
     PRODUCT_INFORMATION,
@@ -33,8 +34,8 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
-/** @namespace Route/ProductPage/Component */
 
+/** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
@@ -264,20 +265,22 @@ export class ProductPage extends PureComponent {
 
     render() {
         return (
-            <main
-              block="ProductPage"
-              aria-label="Product page"
-              itemScope
-              itemType="http://schema.org/Product"
-            >
-                <ContentWrapper
-                  wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                  label={ __('Main product details') }
+            <NoMatchHandler>
+                <main
+                  block="ProductPage"
+                  aria-label="Product page"
+                  itemScope
+                  itemType="http://schema.org/Product"
                 >
-                    { this.renderProductPageContent() }
-                </ContentWrapper>
-                { this.renderAdditionalSections() }
-            </main>
+                    <ContentWrapper
+                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                      label={ __('Main product details') }
+                    >
+                        { this.renderProductPageContent() }
+                    </ContentWrapper>
+                    { this.renderAdditionalSections() }
+                </main>
+            </NoMatchHandler>
         );
     }
 }
