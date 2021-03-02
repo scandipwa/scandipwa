@@ -16,6 +16,7 @@ import { Subscribe } from 'unstated';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
+import history from 'Util/History';
 import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
 import { objectToUri } from 'Util/Url';
 
@@ -94,10 +95,11 @@ export class ProductCardContainer extends PureComponent {
         }
 
         const { parameters } = this._getConfigurableParameters();
+        const { state: { category = null } = {} } = history.location;
 
         return {
             pathname: url,
-            state: { product },
+            state: { product, prevCategoryId: category },
             search: objectToUri(parameters)
         };
     }

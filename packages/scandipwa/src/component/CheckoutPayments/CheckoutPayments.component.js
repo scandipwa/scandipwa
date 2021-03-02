@@ -13,16 +13,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Braintree from 'Component/Braintree';
 import CheckoutPayment from 'Component/CheckoutPayment';
 import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
 import { paymentMethodsType } from 'Type/Checkout';
 
-import {
-    BRAINTREE,
-    KLARNA
-} from './CheckoutPayments.config';
+import { KLARNA } from './CheckoutPayments.config';
 
 import './CheckoutPayments.style';
 
@@ -31,7 +27,6 @@ export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
-        initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.string.isRequired,
@@ -60,7 +55,6 @@ export class CheckoutPayments extends PureComponent {
     };
 
     paymentRenderMap = {
-        [BRAINTREE]: this.renderBrainTreePayment.bind(this),
         [KLARNA]: this.renderKlarnaPayment.bind(this)
     };
 
@@ -82,11 +76,6 @@ export class CheckoutPayments extends PureComponent {
                 showError(`${error} Please try again later`);
             }
         );
-    }
-
-    renderBrainTreePayment() {
-        const { initBraintree } = this.props;
-        return <Braintree init={ initBraintree } />;
     }
 
     renderKlarnaPayment() {

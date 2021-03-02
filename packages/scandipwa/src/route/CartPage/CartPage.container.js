@@ -127,7 +127,7 @@ export class CartPageContainer extends PureComponent {
             }
         }
 
-        if (items_qty !== prevItemsQty) {
+        if (items_qty !== prevItemsQty && prevItemsQty !== undefined) {
             const title = __('%s Item(s)', items_qty);
             changeHeaderState({
                 ...headerState,

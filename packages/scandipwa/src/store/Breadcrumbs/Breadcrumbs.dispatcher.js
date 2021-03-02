@@ -42,12 +42,13 @@ export class BreadcrumbsDispatcher {
 
     /**
      * Set breadcrumbs for category
-     * @param {Array<Object>} category Category breadcumbs items
+     * @param product
+     * @param prevCategoryId
      * @param {Function} dispatch
      * @memberof BreadcrumbsDispatcher
      */
-    updateWithProduct(product, dispatch) {
-        const breadcrumbs = this._getProductBreadcrumbs(product);
+    updateWithProduct(product, prevCategoryId, dispatch) {
+        const breadcrumbs = this._getProductBreadcrumbs(product, prevCategoryId);
         dispatch(toggleBreadcrumbs(true));
         dispatch(updateBreadcrumbs(breadcrumbs));
     }
@@ -115,19 +116,11 @@ export class BreadcrumbsDispatcher {
         ];
     }
 
-    /**
-     * Get breadcrumbs for product
-     * @param {Object} product Product breadcumbs items
-     * @return {Array<Object>} Breadcrumbs array
-     * @memberof BreadcrumbsDispatcher
-     */
-    _getProductBreadcrumbs(product) {
-        const { categories, url, name } = product;
+    findCategoryById(categories, categoryId) {
+        return categories.find(({ id }) => id === categoryId);
+    }
 
-        if (!categories || !categories.length) {
-            return [];
-        }
-
+    findLongestBreadcrumbs(categories) {
         const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
             const { longestBreadcrumbsLength } = acc;
             const { breadcrumbs } = category;
@@ -154,9 +147,30 @@ export class BreadcrumbsDispatcher {
             longestBreadcrumbsLength: 0
         });
 
+        return breadcrumbsCategory;
+    }
+
+    /**
+     * Get breadcrumbs for product
+     *
+     * @param {Object} product Product breadcumbs items
+     * @param prevCategoryId
+     * @return {Array<Object>} Breadcrumbs array
+     * @memberof BreadcrumbsDispatcher
+     */
+    _getProductBreadcrumbs(product, prevCategoryId = null) {
+        const { categories, url, name } = product;
+
+        if (!categories || !categories.length) {
+            return [];
+        }
+
         return [
             { url, name },
-            ...this._getCategoryBreadcrumbs(breadcrumbsCategory)
+            ...this._getCategoryBreadcrumbs(
+                this.findCategoryById(categories, prevCategoryId)
+                || this.findLongestBreadcrumbs(categories)
+            )
         ];
     }
 }
