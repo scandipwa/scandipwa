@@ -76,10 +76,21 @@ export const orderType = PropTypes.shape({
     shipping_info: PropTypes.object
 });
 
+export const downloadableType = PropTypes.shape({
+    id: PropTypes.number,
+    order_id: PropTypes.array,
+    status_label: PropTypes.string,
+    downloads: PropTypes.string,
+    download_url: PropTypes.string,
+    created_at: PropTypes.string,
+    title: PropTypes.string
+});
+
 export const ordersType = PropTypes.arrayOf(orderType);
 
 export const DASHBOARD = 'dashboard';
 export const MY_ORDERS = 'my-orders';
+export const MY_DOWNLOADABLE = 'my-downloadable';
 export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address-book';
 export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
