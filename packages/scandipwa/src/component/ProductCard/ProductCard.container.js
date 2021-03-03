@@ -172,7 +172,7 @@ export class ProductCardContainer extends PureComponent {
             return [];
         }
 
-        const { attribute_options } = Object.values(configurable_options)[0];
+        const { attribute_options = {} } = Object.values(configurable_options)[0];
 
         return Object.values(attribute_options).reduce(
             (acc, option) => {
