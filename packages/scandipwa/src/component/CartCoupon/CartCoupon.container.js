@@ -35,11 +35,13 @@ export class CartCouponContainer extends PureComponent {
     static propTypes = {
         couponCode: PropTypes.string,
         applyCouponToCart: PropTypes.func.isRequired,
-        removeCouponFromCart: PropTypes.func.isRequired
+        removeCouponFromCart: PropTypes.func.isRequired,
+        onCouponCodeUpdate: PropTypes.func
     };
 
     static defaultProps = {
-        couponCode: ''
+        couponCode: '',
+        onCouponCodeUpdate: () => {}
     };
 
     containerFunctions = {
@@ -50,23 +52,29 @@ export class CartCouponContainer extends PureComponent {
     state = { isLoading: false };
 
     handleApplyCouponToCart(couponCode) {
-        const { applyCouponToCart } = this.props;
+        const { applyCouponToCart, onCouponCodeUpdate } = this.props;
 
         this.setState({ isLoading: true });
 
         applyCouponToCart(couponCode).then(
             /** @namespace Component/CartCoupon/Container/applyCouponToCartThen */
+            () => onCouponCodeUpdate()
+        ).finally(
+            /** @namespace Component/CartCoupon/Container/applyCouponToCartFinally */
             () => this.setState({ isLoading: false })
         );
     }
 
     handleRemoveCouponFromCart() {
-        const { removeCouponFromCart } = this.props;
+        const { removeCouponFromCart, onCouponCodeUpdate } = this.props;
 
         this.setState({ isLoading: true });
 
         removeCouponFromCart().then(
             /** @namespace Component/CartCoupon/Container/removeCouponFromCartThen */
+            () => onCouponCodeUpdate()
+        ).finally(
+            /** @namespace Component/CartCoupon/Container/removeCouponFromCartFinally */
             () => this.setState({ isLoading: false })
         );
     }
