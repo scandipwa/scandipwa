@@ -224,10 +224,9 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     setSelectedDropdownValue(id, option) {
         const { selectedDropdownOptions } = this.state;
         const { value, quantity, option_id } = option;
-        console.log(id);
+
         if (!id) {
             const filteredOptions = selectedDropdownOptions.filter((item) => item.id !== option_id);
-            console.log(filteredOptions);
             this.setState({ selectedDropdownOptions: filteredOptions });
 
             return;
