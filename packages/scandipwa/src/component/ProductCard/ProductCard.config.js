@@ -11,6 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const OPTION_TYPE_IMAGE = '2';
 export const OPTION_TYPE_COLOR = '1';
 export const OPTION_TYPE_TEXT = '0';
 export const validOptionTypes = [OPTION_TYPE_TEXT, OPTION_TYPE_COLOR];

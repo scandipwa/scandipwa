@@ -26,7 +26,7 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE } from 'Util/Product';
 
-import { OPTION_TYPE_COLOR, validOptionTypes } from './ProductCard.config';
+import { OPTION_TYPE_COLOR, OPTION_TYPE_IMAGE } from './ProductCard.config';
 
 import './ProductCard.style';
 /**
@@ -206,7 +206,23 @@ export class ProductCard extends PureComponent {
         );
     }
 
-    renderVisualOption({ value, label, type }, i) {
+    renderImageVisualOption(label, value, i) {
+        return (
+          <img
+            key={ i }
+            block="ProductCard"
+            elem="Image"
+            src={ `/media/attribute/swatch/swatch_thumb/110x90${value}` }
+            alt={ label }
+          />
+        );
+    }
+
+    renderVisualOption = ({ label, value, type }, i) => {
+        if (type === OPTION_TYPE_IMAGE) {
+            return this.renderImageVisualOption(label, value, i);
+        }
+
         const isColor = type === OPTION_TYPE_COLOR;
 
         return (
@@ -221,7 +237,16 @@ export class ProductCard extends PureComponent {
                 { isColor ? '' : value }
             </span>
         );
-    }
+    };
+
+    renderVisualOptions = (options) => (
+        <div
+          block="ProductCard"
+          elem="ConfigurableOption"
+        >
+            { options.map(this.renderVisualOption) }
+        </div>
+    );
 
     renderVisualConfigurableOptions() {
         const {
@@ -235,17 +260,13 @@ export class ProductCard extends PureComponent {
             return <div block="ProductCard" elem="ConfigurableOptions" />;
         }
 
-        if (!validOptionTypes.includes(availableVisualOptions[0].type)) {
-            return <div block="ProductCard" elem="ConfigurableOptions" />;
-        }
-
         if (!siblingsHaveConfigurableOptions) {
             setSiblingsHaveConfigurableOptions();
         }
 
         return (
             <div block="ProductCard" elem="ConfigurableOptions">
-                { availableVisualOptions.map(this.renderVisualOption) }
+                { availableVisualOptions.map(this.renderVisualOptions) }
             </div>
         );
     }

@@ -172,10 +172,10 @@ export class ProductCardContainer extends PureComponent {
             return [];
         }
 
-        const { attribute_options } = Object.values(configurable_options)[0];
+        return Object.values(configurable_options).reduce((acc, option) => {
+            const { attribute_options = {} } = option;
 
-        return Object.values(attribute_options).reduce(
-            (acc, option) => {
+            const attributes = Object.values(attribute_options).reduce((acc, option) => {
                 const {
                     swatch_data,
                     label
@@ -188,9 +188,14 @@ export class ProductCardContainer extends PureComponent {
                 }
 
                 return acc;
-            },
-            []
-        );
+            }, []);
+
+            if (attributes.length !== 0) {
+                acc.push(attributes);
+            }
+
+            return acc;
+        }, []);
     }
 
     isConfigurableProductOutOfStock() {
