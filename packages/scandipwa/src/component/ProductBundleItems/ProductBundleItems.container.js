@@ -12,6 +12,12 @@
 
 import PropTypes from 'prop-types';
 
+import {
+    CHECKBOX_TYPE,
+    MULTI_TYPE,
+    RADIO_TYPE,
+    SELECT_TYPE
+} from 'Component/Field/Field.config';
 import ProductCustomizableOptionsContainer
     from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.container';
 import { ProductItemsType } from 'Type/ProductList';
@@ -23,7 +29,8 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     static propTypes = {
         ...ProductCustomizableOptionsContainer.propTypes,
         items: ProductItemsType,
-        setBundlePrice: PropTypes.func.isRequired
+        setBundlePrice: PropTypes.func.isRequired,
+        sku: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -41,10 +48,13 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         if (items) {
             this.stopLoading();
         }
+
+        this.setDefaultSelectedOptions();
     }
 
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         const { items } = this.props;
+        const { items: prevItems } = prevProps;
         const {
             selectedCheckboxValues,
             selectedDropdownOptions,
@@ -55,6 +65,10 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             selectedCheckboxValues: prevSelectedCheckboxValues,
             selectedDropdownOptions: prevSelectedDropdownOptions
         } = prevState;
+
+        if (items !== prevItems) {
+            this.resetDefaultSelectOptions();
+        }
 
         if (items && isLoading) {
             this.stopLoading();
@@ -135,6 +149,62 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             );
     }
 
+    resetDefaultSelectOptions() {
+        this.setState({
+            selectedCheckboxValues: [],
+            selectedDropdownOptions: []
+        }, () => this.setDefaultSelectedOptions());
+    }
+
+    setDefaultSelectedOptions() {
+        const { items } = this.props;
+
+        return items.reduce((acc, item) => {
+            const { type } = item;
+
+            switch (type) {
+            case SELECT_TYPE:
+            case RADIO_TYPE: // handle radio as select
+                this.setDefaultDropdownValue(item);
+                break;
+            case CHECKBOX_TYPE:
+            case MULTI_TYPE: // handle multi-select as checkbox
+                this.setDefaultCheckboxValue(item);
+                break;
+            default:
+                return acc;
+            }
+
+            return acc;
+        }, []);
+    }
+
+    setDefaultCheckboxValue(item) {
+        const { option_id, options } = item;
+
+        return options.reduce((acc, { is_default, id, quantity }) => {
+            if (is_default) {
+                const value = id.toString();
+                this.setSelectedCheckboxValues(option_id, { value, quantity });
+            }
+
+            return acc;
+        }, []);
+    }
+
+    setDefaultDropdownValue(item) {
+        const { option_id, options } = item;
+
+        return options.reduce((acc, { is_default, id, quantity }) => {
+            if (is_default) {
+                const value = id.toString();
+                this.setSelectedDropdownValue(option_id, { value, quantity });
+            }
+
+            return acc;
+        }, []);
+    }
+
     updateSelectedOptions() {
         const { getSelectedCustomizableOptions, setBundlePrice } = this.props;
         const { selectedDropdownOptions, selectedCheckboxValues } = this.state;
@@ -154,9 +224,10 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     setSelectedDropdownValue(id, option) {
         const { selectedDropdownOptions } = this.state;
         const { value, quantity, option_id } = option;
-
+        console.log(id);
         if (!id) {
             const filteredOptions = selectedDropdownOptions.filter((item) => item.id !== option_id);
+            console.log(filteredOptions);
             this.setState({ selectedDropdownOptions: filteredOptions });
 
             return;
