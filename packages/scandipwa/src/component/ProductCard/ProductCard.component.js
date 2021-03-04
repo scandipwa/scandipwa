@@ -243,15 +243,6 @@ export class ProductCard extends PureComponent {
         );
     };
 
-    renderVisualOptions = (options) => (
-        <div
-          block="ProductCard"
-          elem="ConfigurableOption"
-        >
-            { options.map(this.renderVisualOption) }
-        </div>
-    );
-
     renderVisualConfigurableOptions() {
         const {
             siblingsHaveConfigurableOptions,
