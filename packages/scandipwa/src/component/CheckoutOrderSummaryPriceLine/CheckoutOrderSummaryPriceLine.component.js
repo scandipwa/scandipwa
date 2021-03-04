@@ -18,7 +18,7 @@ import { formatPrice } from 'Util/Price';
 /** @namespace Component/CheckoutOrderSummaryPriceLine/Component */
 export class CheckoutOrderSummaryPriceLine extends PureComponent {
     static propTypes = {
-        price: PropTypes.number.isRequired,
+        price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         currency: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         mods: PropTypes.object,

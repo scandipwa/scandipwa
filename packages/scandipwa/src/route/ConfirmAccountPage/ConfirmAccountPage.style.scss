@@ -54,10 +54,15 @@
     }
 
     &-Form {
-        @include after-mobile {
+        @include desktop {
             display: flex;
             align-items: flex-end;
             justify-content: center;
+
+            .Field-Message {
+                position: absolute;
+                width: max-content;
+            }
         }
     }
 

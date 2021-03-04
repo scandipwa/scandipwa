@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router';
@@ -103,7 +104,17 @@ export class ConfirmAccountPageContainer extends PureComponent {
         confirmAccount({ ...options, password })
             .then(
                 /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThen */
-                () => signIn({ email, password })
+                (data) => {
+                    const { msgType } = data || {};
+
+                    if (msgType === ERROR_TYPE) {
+                        // error message is handled in the dispatcher
+                        // just abort the chain
+                        return Promise.reject();
+                    }
+
+                    return signIn({ email, password });
+                }
             )
             .then(
                 /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThenThen */
