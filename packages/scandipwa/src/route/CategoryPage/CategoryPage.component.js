@@ -97,11 +97,15 @@ export class CategoryPage extends PureComponent {
     }
 
     renderCategoryDetails() {
-        const { category } = this.props;
+        const {
+            category,
+            isCurrentCategoryLoaded
+        } = this.props;
 
         return (
             <CategoryDetails
               category={ category }
+              isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
             />
         );
     }
