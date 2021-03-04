@@ -197,7 +197,7 @@ export class Menu extends PureComponent {
         const { header_content: { header_cms } = {} } = window.contentConfiguration;
 
         if (header_cms) {
-            return <CmsBlock identifier={ header_cms } />;
+            return <CmsBlock identifier={ header_cms } blockType="header_cms" />;
         }
 
         return (
