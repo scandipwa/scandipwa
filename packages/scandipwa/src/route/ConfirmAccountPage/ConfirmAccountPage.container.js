@@ -136,10 +136,6 @@ export class ConfirmAccountPageContainer extends PureComponent {
             {
                 url: '/account/confirmAccount',
                 name: __('Confirm Account')
-            },
-            {
-                url: '/',
-                name: __('Home')
             }
         ];
 
