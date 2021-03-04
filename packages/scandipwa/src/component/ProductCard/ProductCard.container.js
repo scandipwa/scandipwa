@@ -172,10 +172,17 @@ export class ProductCardContainer extends PureComponent {
             return [];
         }
 
-        return Object.values(configurable_options).reduce((acc, option) => {
-            const { attribute_options = {} } = option;
+        // Find first option that has swatch_data in attribute_options property
+        const OptionWithSwatchData = Object.values(configurable_options).find((option) => {
+            const { attribute_options } = option;
 
-            const attributes = Object.values(attribute_options).reduce((acc, option) => {
+            return Object.values(attribute_options).find(({ swatch_data }) => swatch_data);
+        });
+
+        const { attribute_options = {} } = OptionWithSwatchData;
+
+        return Object.values(attribute_options).reduce(
+            (acc, option) => {
                 const {
                     swatch_data,
                     label
@@ -188,14 +195,9 @@ export class ProductCardContainer extends PureComponent {
                 }
 
                 return acc;
-            }, []);
-
-            if (attributes.length !== 0) {
-                acc.push(attributes);
-            }
-
-            return acc;
-        }, []);
+            },
+            []
+        );
     }
 
     isConfigurableProductOutOfStock() {

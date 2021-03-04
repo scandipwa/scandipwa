@@ -26,7 +26,11 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE } from 'Util/Product';
 
-import { OPTION_TYPE_COLOR, OPTION_TYPE_IMAGE } from './ProductCard.config';
+import {
+    OPTION_TYPE_COLOR,
+    OPTION_TYPE_IMAGE,
+    validOptionTypes
+} from './ProductCard.config';
 
 import './ProductCard.style';
 /**
@@ -260,13 +264,17 @@ export class ProductCard extends PureComponent {
             return <div block="ProductCard" elem="ConfigurableOptions" />;
         }
 
+        if (!validOptionTypes.includes(availableVisualOptions[0].type)) {
+            return <div block="ProductCard" elem="ConfigurableOptions" />;
+        }
+
         if (!siblingsHaveConfigurableOptions) {
             setSiblingsHaveConfigurableOptions();
         }
 
         return (
             <div block="ProductCard" elem="ConfigurableOptions">
-                { availableVisualOptions.map(this.renderVisualOptions) }
+                { availableVisualOptions.map(this.renderVisualOption) }
             </div>
         );
     }

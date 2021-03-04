@@ -46,6 +46,7 @@
     &-Content {
         padding: 10px 0 15px;
         display: flex;
+        flex-grow: 1;
         flex-direction: column;
     }
 
@@ -133,12 +134,6 @@
     }
 
     &-ConfigurableOptions {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-    }
-
-    &-ConfigurableOption {
         display: flex;
         justify-content: flex-start;
         align-items: center;
