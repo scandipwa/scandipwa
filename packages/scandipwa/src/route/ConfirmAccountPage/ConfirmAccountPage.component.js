@@ -58,14 +58,14 @@ export class ConfirmAccountPage extends PureComponent {
                 <Field
                   type="text"
                   label={ __('Email') }
-                  id="confirm-email"
+                  id="email"
                   name="email"
                   mix={ { block: 'ConfirmAccountPage', elem: 'EmailInput' } }
                 />
                 <Field
                   type="password"
                   label={ __('Password') }
-                  id="confirm-password"
+                  id="password"
                   name="password"
                   validation={ ['notEmpty', 'password'] }
                 />

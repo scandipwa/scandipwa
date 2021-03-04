@@ -138,6 +138,7 @@ export class CheckoutContainer extends PureComponent {
         onEmailChange: this.onEmailChange.bind(this),
         onCreateUserChange: this.onCreateUserChange.bind(this),
         onPasswordChange: this.onPasswordChange.bind(this),
+        onCouponCodeUpdate: this.onCouponCodeUpdate.bind(this),
         goBack: this.goBack.bind(this)
     };
 
@@ -170,7 +171,8 @@ export class CheckoutContainer extends PureComponent {
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
             email: '',
             isGuestEmailSaved: false,
-            isCreateUser: false
+            isCreateUser: false,
+            estimateAddress: {}
         };
 
         if (is_virtual) {
@@ -253,7 +255,8 @@ export class CheckoutContainer extends PureComponent {
 
         this.setState({
             isDeliveryOptionsLoading: true,
-            requestsSent: requestsSent + 1
+            requestsSent: requestsSent + 1,
+            estimateAddress: address
         });
 
         fetchMutation(CheckoutQuery.getEstimateShippingCosts(
@@ -272,6 +275,17 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    onCouponCodeUpdate() {
+        const { estimateAddress, checkoutStep } = this.state;
+
+        // update delivery methods on coupon change
+        // in order ot fetch new available delivery methods
+        // if any could be applied by coupon
+        if (checkoutStep === SHIPPING_STEP) {
+            this.onShippingEstimationFieldsChange(estimateAddress);
+        }
     }
 
     goBack() {
