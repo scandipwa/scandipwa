@@ -67,14 +67,16 @@
     },
     "browserslist": {
         "production": [
-            ">0.2%",
+            ">0.01%",
             "not dead",
-            "not op_mini all"
+            "not op_mini all",
+            "safari 10.1"
         ],
         "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
+            ">0.01%",
+            "not dead",
+            "not op_mini all",
+            "safari 10.1"
         ]
     },
     "eslintConfig": {
@@ -428,5 +430,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://scandipwapmrev.indvp.com/"
+    "proxy": "https://pr-2237.d25kd40decjpue.amplifyapp.com/"
 }
