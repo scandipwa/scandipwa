@@ -62,7 +62,8 @@
             "scandipwa/locale": "^2",
             "scandipwa/contact-graphql": "^1.0.0",
             "scandipwa/klarna-graphql": "^1.1.2",
-            "scandipwa/compare-graphql": "^1.0.5"
+            "scandipwa/compare-graphql": "^1.0.5",
+            "scandipwa/customer-downloadable-graphql": "1.0.0"
         }
     },
     "browserslist": {
