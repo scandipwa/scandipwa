@@ -30,9 +30,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         onShippingEstimationFieldsChange: () => {}
     };
 
-    onChange = debounce((key, value) => {
-        this.setState(() => ({ [key]: value }));
-    }, UPDATE_STATE_FREQUENCY);
+    onChange = (key, value) => this.setState(() => ({ [key]: value }));
 
     __construct(props) {
         super.__construct(props);
@@ -48,9 +46,16 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             city: '',
             postcode: ''
         };
+    }
 
+    componentDidMount() {
         this.estimateShipping();
     }
+
+    estimateShippingDebounced = debounce(
+        this.estimateShipping.bind(this),
+        UPDATE_STATE_FREQUENCY
+    );
 
     componentDidUpdate(_, prevState) {
         const {
@@ -76,7 +81,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             || region !== prevRegion
             || postcode !== prevpostcode
         ) {
-            this.estimateShipping();
+            this.estimateShippingDebounced();
         }
     }
 
