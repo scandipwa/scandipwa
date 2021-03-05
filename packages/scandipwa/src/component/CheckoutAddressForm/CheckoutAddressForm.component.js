@@ -160,7 +160,13 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
     }
 
     getRegionFields() {
+        const { regionDisplayAll } = this.props;
         const regionFieldData = super.getRegionFields();
+
+        if (!regionDisplayAll && !regionFieldData) {
+            return null;
+        }
+
         const { region_string } = regionFieldData;
 
         if (region_string) {

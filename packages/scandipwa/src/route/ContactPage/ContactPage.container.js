@@ -74,10 +74,6 @@ export class ContactPageContainer extends DataContainer {
             {
                 url: '/contact-us',
                 name: __('Contact Us')
-            },
-            {
-                url: '/',
-                name: __('Home')
             }
         ];
 

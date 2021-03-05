@@ -147,10 +147,6 @@ export class PasswordChangePageContainer extends PureComponent {
             {
                 url: '/createPassword',
                 name: __('Change password')
-            },
-            {
-                url: '/',
-                name: __('Home')
             }
         ];
 

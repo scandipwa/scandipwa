@@ -65,10 +65,6 @@ export class BreadcrumbsDispatcher {
                 {
                     url: '',
                     name: title
-                },
-                {
-                    url: '/',
-                    name: __('Home')
                 }
             ]
             : [];

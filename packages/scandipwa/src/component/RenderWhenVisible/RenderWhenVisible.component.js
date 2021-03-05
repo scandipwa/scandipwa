@@ -10,10 +10,10 @@
  */
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-// TODO: remove "react-visibility-sensor" it is outdated and uses unsafe React methods
-import VisibilitySensor from 'react-visibility-sensor';
+import { InView } from 'react-intersection-observer';
 
 import { ChildrenType } from 'Type/Common';
+import { isCrawler, isSSR } from 'Util/Browser';
 
 import './RenderWhenVisible.style';
 
@@ -52,12 +52,15 @@ export class RenderWhenVisible extends PureComponent {
         }
     };
 
-    shouldRender(isVisible) {
-        return isVisible || this.wasVisible;
+    shouldRender() {
+        const { wasVisible } = this.state;
+        return !wasVisible && !isSSR() && !isCrawler();
     }
 
     handleVisibilityToggle = (isVisible) => {
-        if (!this.wasVisible && isVisible) {
+        const { wasVisible } = this.state;
+
+        if (!wasVisible && isVisible) {
             this.setState({ wasVisible: true });
         }
     };
@@ -77,14 +80,9 @@ export class RenderWhenVisible extends PureComponent {
 
     renderVisibilitySensor() {
         return (
-            <VisibilitySensor
-              delayedCall
-              partialVisibility={ ['top', 'bottom'] }
-              minTopValue="1"
-              onChange={ this.handleVisibilityToggle }
-            >
+            <InView onChange={ this.handleVisibilityToggle }>
                 { this.renderFallback() }
-            </VisibilitySensor>
+            </InView>
         );
     }
 
@@ -95,9 +93,7 @@ export class RenderWhenVisible extends PureComponent {
     }
 
     renderContent() {
-        const { wasVisible } = this.state;
-
-        if (!wasVisible) {
+        if (this.shouldRender()) {
             return this.renderVisibilitySensor();
         }
 
