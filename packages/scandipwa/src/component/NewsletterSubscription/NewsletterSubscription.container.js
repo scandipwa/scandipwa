@@ -48,7 +48,7 @@ export class NewsletterSubscriptionContainer extends PureComponent {
 
     onFormSubmit(fields) {
         const { subscribeToNewsletter } = this.props;
-        const { email } = fields;
+        const { newsletterEmail: email } = fields;
 
         this.setState({ isLoading: true });
 

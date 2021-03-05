@@ -125,6 +125,7 @@ export class ConfigQuery {
             'show_tax_vat_number',
             'cookie_lifetime',
             'region_display_all',
+            'redirect_dashboard',
             this.getPriceDisplayTypeField()
         ];
     }

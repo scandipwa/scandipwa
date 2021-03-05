@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import { setAddressesInFormObject } from 'Util/Address';
+import { getCityFromZipcode, setAddressesInFormObject } from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
@@ -42,7 +42,8 @@ export class MyAccountAddressForm extends FieldForm {
             address: {
                 country_id,
                 region: { region_id } = {},
-                is_state_required
+                is_state_required,
+                city = ''
             }
         } = props;
 
@@ -56,7 +57,8 @@ export class MyAccountAddressForm extends FieldForm {
             countryId,
             availableRegions,
             regionId,
-            isStateRequired: is_state_required
+            isStateRequired: is_state_required,
+            city
         };
     }
 
@@ -112,6 +114,19 @@ export class MyAccountAddressForm extends FieldForm {
         });
     };
 
+    onZipcodeChange = (e) => {
+        const { value } = e.currentTarget;
+        const { countryId } = this.state;
+
+        const city = getCityFromZipcode(countryId, value);
+
+        if (city) {
+            this.setState({
+                city
+            });
+        }
+    };
+
     getStreetFields(label, index) {
         const { address: { street = [] } } = this.props;
 
@@ -163,7 +178,7 @@ export class MyAccountAddressForm extends FieldForm {
     }
 
     get fieldMap() {
-        const { countryId } = this.state;
+        const { countryId, city } = this.state;
         const { countries, address } = this.props;
         const { default_billing, default_shipping } = address;
 
@@ -190,11 +205,12 @@ export class MyAccountAddressForm extends FieldForm {
             },
             telephone: {
                 label: __('Phone number'),
-                validation: ['notEmpty']
+                validation: ['notEmpty', 'telephone']
             },
             city: {
                 label: __('City'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                value: city
             },
             country_id: {
                 type: 'select',
@@ -207,7 +223,8 @@ export class MyAccountAddressForm extends FieldForm {
             ...this.getRegionFields(),
             postcode: {
                 label: __('Zip/Postal code'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                onBlur: this.onZipcodeChange
             },
             ...this.getAddressFields(),
             ...this.getVatField()

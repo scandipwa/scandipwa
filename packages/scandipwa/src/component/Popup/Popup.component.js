@@ -47,6 +47,8 @@ export class Popup extends Overlay {
             this.hidePopUp();
             resetHideActivePopup();
         }
+
+        super.componentDidUpdate(prevProps);
     }
 
     componentWillUnmount() {
