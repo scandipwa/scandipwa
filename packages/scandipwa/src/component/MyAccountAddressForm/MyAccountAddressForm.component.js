@@ -110,7 +110,7 @@ export class MyAccountAddressForm extends FieldForm {
         this.setState({
             countryId,
             availableRegions: available_regions || [],
-            regionId: available_regions ? available_regions[0].id : null
+            regionId: available_regions ? available_regions[0].id : null,
             isStateRequired: is_state_required
         });
     };
