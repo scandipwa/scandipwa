@@ -18,6 +18,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
+import { GROUPED } from 'Util/Product';
 import { debounce } from 'Util/Request';
 
 import WishlistItem from './WishlistItem.component';
@@ -158,6 +159,41 @@ export class WishlistItemContainer extends PureComponent {
             );
     }
 
+    recalculatePrice() {
+        const {
+            product: {
+                type_id,
+                items
+            }
+        } = this.props;
+
+        if (type_id !== GROUPED || !items) {
+            return;
+        }
+
+        const { product: { price_range: { minimum_price } } } = this.props;
+
+        items.forEach((link) => {
+            const {
+                qty, product: {
+                    price_range: {
+                        minimum_price: link_minimum_price
+                    }
+                }
+            } = link;
+
+            // eslint-disable-next-line fp/no-let
+            let firstRun = true;
+            Object.keys(minimum_price).forEach((type) => {
+                if (link_minimum_price[type].value) {
+                    // eslint-disable-next-line max-len
+                    minimum_price[type].value = ((firstRun) ? 0 : minimum_price[type].value) + link_minimum_price[type].value * qty;
+                    firstRun = false;
+                }
+            });
+        });
+    }
+
     showNotification(...args) {
         const { showNotification } = this.props;
         this.setState({ isLoading: false });
@@ -186,6 +222,7 @@ export class WishlistItemContainer extends PureComponent {
 
     render() {
         const { isLoading } = this.state;
+        this.recalculatePrice();
 
         return (
             <SwipeToDelete

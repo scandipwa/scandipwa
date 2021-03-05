@@ -95,7 +95,10 @@ export class WishlistQuery {
 
     _getProductField() {
         return new Field('product')
-            .addFieldList(ProductListQuery._getProductInterfaceFields());
+            .addFieldList([
+                ...ProductListQuery._getProductInterfaceFields(),
+                ProductListQuery._getGroupedProductItems()
+            ]);
     }
 
     _getItemsField() {
