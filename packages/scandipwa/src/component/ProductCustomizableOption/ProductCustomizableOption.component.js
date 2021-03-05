@@ -27,11 +27,16 @@ export class ProductCustomizableOption extends PureComponent {
         getSelectedCheckboxValue: PropTypes.func.isRequired,
         renderOptionLabel: PropTypes.func.isRequired,
         updateTextFieldValue: PropTypes.func.isRequired,
+        textFieldValid: PropTypes.bool,
         setDropdownValue: PropTypes.func.isRequired,
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
         requiredSelected: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        textFieldValid: null
     };
 
     renderMap = {
@@ -181,7 +186,8 @@ export class ProductCustomizableOption extends PureComponent {
             },
             updateTextFieldValue,
             textValue,
-            optionType
+            optionType,
+            textFieldValid
         } = this.props;
         const { max_characters } = data;
         const fieldType = optionType === 'field' ? 'text' : 'textarea';
@@ -195,6 +201,7 @@ export class ProductCustomizableOption extends PureComponent {
                   maxLength={ max_characters > 0 ? max_characters : null }
                   value={ textValue }
                   onChange={ updateTextFieldValue }
+                  customValidationStatus={ textFieldValid }
                 />
                 { this.renderRequired(required) }
                 { this.renderMaxCharacters(max_characters) }
