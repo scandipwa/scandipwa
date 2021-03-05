@@ -24,7 +24,8 @@ export class MyAccountAddressForm extends FieldForm {
         default_country: PropTypes.string,
         onSave: PropTypes.func,
         addressLinesQty: PropTypes.number.isRequired,
-        showVatNumber: PropTypes.bool.isRequired
+        showVatNumber: PropTypes.bool.isRequired,
+        regionDisplayAll: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -41,6 +42,7 @@ export class MyAccountAddressForm extends FieldForm {
             address: {
                 country_id,
                 region: { region_id } = {},
+                is_state_required,
                 city = ''
             }
         } = props;
@@ -55,6 +57,7 @@ export class MyAccountAddressForm extends FieldForm {
             countryId,
             availableRegions,
             regionId,
+            isStateRequired: is_state_required,
             city
         };
     }
@@ -70,14 +73,19 @@ export class MyAccountAddressForm extends FieldForm {
     };
 
     getRegionFields() {
-        const { address: { region: { region } = {} } } = this.props;
-        const { availableRegions, regionId } = this.state;
+        const { address: { region: { region } = {} }, regionDisplayAll } = this.props;
+        const { availableRegions, regionId, isStateRequired } = this.state;
+
+        if (!regionDisplayAll && !isStateRequired) {
+            return null;
+        }
 
         if (!availableRegions || !availableRegions.length) {
             return {
                 region_string: {
                     label: __('State/Province'),
-                    value: region
+                    value: region,
+                    validation: isStateRequired ? ['notEmpty'] : []
                 }
             };
         }
@@ -88,7 +96,8 @@ export class MyAccountAddressForm extends FieldForm {
                 type: 'select',
                 selectOptions: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
                 onChange: (regionId) => this.setState({ regionId }),
-                value: regionId
+                value: regionId,
+                validation: isStateRequired ? ['notEmpty'] : []
             }
         };
     }
@@ -96,10 +105,11 @@ export class MyAccountAddressForm extends FieldForm {
     onCountryChange = (countryId) => {
         const { countries } = this.props;
         const country = countries.find(({ id }) => id === countryId);
-        const { available_regions } = country;
+        const { available_regions, is_state_required } = country;
 
         this.setState({
             countryId,
+            isStateRequired: is_state_required,
             availableRegions: available_regions || []
         });
     };
