@@ -15,7 +15,7 @@ import FormPortal from 'Component/FormPortal';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
 import { debounce } from 'Util/Request';
 
-import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
+import { REQUEST_SHIPPING_METHODS_FREQUENCY } from './CheckoutAddressForm.config';
 
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm {
@@ -54,7 +54,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     estimateShippingDebounced = debounce(
         this.estimateShipping.bind(this),
-        UPDATE_STATE_FREQUENCY
+        REQUEST_SHIPPING_METHODS_FREQUENCY
     );
 
     componentDidUpdate(_, prevState) {
