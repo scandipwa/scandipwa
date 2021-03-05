@@ -2424,10 +2424,10 @@
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
-"@scandipwa/scandipwa-extensibility@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-extensibility/-/scandipwa-extensibility-2.0.1.tgz#55eb74eb7410e71643712ca3d63067781912aad5"
-  integrity sha512-jIJ85El5XuacIvD04DhGZjwHRymuSJQrFvdiie6qnEtuF/367e8FdCde/E2QSHN+F39zif0sZ8b4WWDHbmGq0g==
+"@scandipwa/scandipwa-extensibility@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-extensibility/-/scandipwa-extensibility-2.0.2.tgz#73dff3a107480337097a83804f2781c48858898d"
+  integrity sha512-VG7DnQz1luN27xMo1NHOzI1H9Lt/bf1SlNxb1Vwlub0vqSd+onve+LWOspvfGkA1xlZurAJf+V+sVa78A3IBTA==
   dependencies:
     "@babel/plugin-transform-arrow-functions" "^7.10.4"
     "@babel/plugin-transform-async-to-generator" "^7.10.4"
@@ -2436,18 +2436,18 @@
     noop-loader "^1.0.0"
     null-loader "^4.0.1"
 
-"@scandipwa/scandipwa-scripts@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.2.4.tgz#a3f53893522732f9e43961268a2d3f77764acd9b"
-  integrity sha512-TcEE240YEpULenLX3cMgYYuxte/QbFsMs5TaML2ojFWnv/c6euOzTFEvTmB0MBDxlXaGy0WnvZDcLi7UN3wwbQ==
+"@scandipwa/scandipwa-scripts@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.2.5.tgz#307d7617e5b06fef3089f4d2a949721f8e608384"
+  integrity sha512-Ev+afbNWO9u8HHE22CSA66J6Fo7yArHvBHLxJE1Wr2NrMAbtFuaf857EymbxngjTdanmIt4B0IW6i2O7Rfy8aQ==
   dependencies:
     "@scandipwa/craco" "0.1.1"
     "@scandipwa/eslint-config" "0.1.12"
     "@scandipwa/scandipwa-dev-utils" "0.0.20"
-    "@scandipwa/scandipwa-extensibility" "2.0.1"
+    "@scandipwa/scandipwa-extensibility" "2.0.2"
     "@scandipwa/webpack-extension-import-loader" "0.0.16"
     "@scandipwa/webpack-fallback-plugin" "1.2.0"
-    "@scandipwa/webpack-i18n-plugin" "0.1.5"
+    "@scandipwa/webpack-i18n-plugin" "0.1.6"
     babel-plugin-module-resolver "^4.0.0"
     babel-plugin-transform-rebem-jsx "^0.3.3"
     chokidar "^3.4.2"
@@ -2488,10 +2488,10 @@
   resolved "https://registry.yarnpkg.com/@scandipwa/webpack-fallback-plugin/-/webpack-fallback-plugin-1.2.0.tgz#f0e1fcd19107c52b52a00984cfaafb77008171b0"
   integrity sha512-deWHU7JyhbAumkEH3u73Vkrn4ph4/IspPwXbb6JyUbPZ2M7QhcRoy914XxBMcrIuyGKAH6newgXf21I4jyOR6g==
 
-"@scandipwa/webpack-i18n-plugin@0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-plugin/-/webpack-i18n-plugin-0.1.5.tgz#879d1307129173f144e9228891f9a8c5e0102e41"
-  integrity sha512-tNQg/hAtOGWQp3ZC8dO6CrW9NeQRrEXUkNhPiYCGnl8SC1+hWXsee0A9C8bG+ZkMCFXO/yich8F5ynGDfmfUwQ==
+"@scandipwa/webpack-i18n-plugin@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-plugin/-/webpack-i18n-plugin-0.1.6.tgz#95556923a2441e2b8a99f2b9f431936b7222eabb"
+  integrity sha512-ntQQK0z5YjmjcgVO6NmVOi9FpUHzGkHqCoppPcWdh2vdGQ9RVxg8Ow5+X6c8TF1cTvfuSFb1+PH2kzftpNrDXw==
   dependencies:
     "@scandipwa/scandipwa-dev-utils" "0.0.20"
 

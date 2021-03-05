@@ -192,8 +192,7 @@ export class CartPageContainer extends PureComponent {
     _updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
-            { url: '/cart', name: __('Shopping cart') },
-            { url: '/', name: __('Home') }
+            { url: '/cart', name: __('Shopping cart') }
         ];
 
         updateBreadcrumbs(breadcrumbs);
