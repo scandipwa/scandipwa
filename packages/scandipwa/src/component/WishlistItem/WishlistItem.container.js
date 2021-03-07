@@ -142,7 +142,7 @@ export class WishlistItemContainer extends PureComponent {
             if (!configurableVariantIndex) {
                 history.push({ pathname: appendWithStoreCode(item.url) });
                 showNotification('info', __('Please select product options!'));
-                return;
+                return Promise.resolve();
             }
 
             item.configurableVariantIndex = configurableVariantIndex;
@@ -150,7 +150,7 @@ export class WishlistItemContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        addProductToCart({ product: item, quantity })
+        return addProductToCart({ product: item, quantity })
             .then(
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => this.removeItem(id),
