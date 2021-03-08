@@ -29,7 +29,7 @@
         "scandipwa/klarna-graphql" : "^1.1.2",
         "scandipwa/compare-graphql": "^1.0.5",
         "scandipwa/customer-downloadable-graphql": "^1.0.0",
-        "scandipwa/directory-graphql": "^1.0.0"
+        "scandipwa/directory-graphql": "^1.0.1"
     },
     "autoload": {
         "files": [
