@@ -108,7 +108,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
               isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
               onClick={ handleOptionClick }
               getLink={ getLink }
-              showProductCount={ show_product_count }
+              isProductCountVisible={ show_product_count }
             />
         );
     }

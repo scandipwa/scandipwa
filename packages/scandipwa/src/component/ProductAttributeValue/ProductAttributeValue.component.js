@@ -33,7 +33,7 @@ export class ProductAttributeValue extends PureComponent {
         isAvailable: PropTypes.bool,
         mix: MixType,
         isFormattedAsText: PropTypes.bool,
-        showProductCount: PropTypes.bool
+        isProductCountVisible: PropTypes.bool
     };
 
     static defaultProps = {
@@ -43,7 +43,7 @@ export class ProductAttributeValue extends PureComponent {
         mix: {},
         isAvailable: true,
         isFormattedAsText: false,
-        showProductCount: false
+        isProductCountVisible: false
     };
 
     clickHandler = this.clickHandler.bind(this);
@@ -63,13 +63,13 @@ export class ProductAttributeValue extends PureComponent {
             attribute: {
                 attribute_options
             },
-            showProductCount
+            isProductCountVisible
         } = this.props;
 
         if (attribute_options) {
             const optionValues = attribute_options[value];
             if (optionValues) {
-                if (!showProductCount) {
+                if (!isProductCountVisible) {
                     return optionValues;
                 }
 
