@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CheckoutRegisterFormContainer from 'Component/CheckoutRegisterForm/CheckoutRegisterForm.container';
 import Link from 'Component/Link';
 
 import './CheckoutSuccess.style';
@@ -19,7 +20,8 @@ import './CheckoutSuccess.style';
 /** @namespace Component/CheckoutSuccess/Component */
 export class CheckoutSuccess extends PureComponent {
     static propTypes = {
-        orderID: PropTypes.string.isRequired
+        orderID: PropTypes.string.isRequired,
+        setLoading: PropTypes.func.isRequired
     };
 
     renderButtons() {
@@ -36,6 +38,15 @@ export class CheckoutSuccess extends PureComponent {
         );
     }
 
+    renderRegistrationForm() {
+        const {
+            orderID,
+            setLoading
+        } = this.props;
+
+        return <CheckoutRegisterFormContainer orderID={ orderID } setLoadingState={ setLoading } />;
+    }
+
     render() {
         const { orderID } = this.props;
 
@@ -44,6 +55,7 @@ export class CheckoutSuccess extends PureComponent {
                 <h3>{ __('Your order # is: %s', orderID) }</h3>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
                 { this.renderButtons() }
+                { this.renderRegistrationForm() }
             </div>
         );
     }

@@ -216,11 +216,12 @@ export class Checkout extends PureComponent {
     }
 
     renderDetailsStep() {
-        const { orderID } = this.props;
+        const { orderID, setLoading } = this.props;
 
         return (
             <CheckoutSuccess
               orderID={ orderID }
+              setLoading={ setLoading }
             />
         );
     }

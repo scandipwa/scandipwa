@@ -26,6 +26,12 @@ export class OrderQuery {
         return this._getOrderByIdField(orderId);
     }
 
+    linkOrderMutation(orderId, customerId) {
+        return new Field('linkOrder')
+            .addArgument('order_id', 'String!', orderId)
+            .addArgument('customer_id', 'String!', customerId);
+    }
+
     _getOrderListFields(isList) {
         return [
             this._getOrderItemsField(isList)
