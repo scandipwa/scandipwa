@@ -162,7 +162,7 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
             email: emailValue,
             firstName: firstname,
             lastName: lastname
-        }
+        };
 
         return {
             ...this.props,
@@ -170,7 +170,7 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
             ...this.containerProps,
             ...this.containerFunctions,
             defaultValues
-        }
+        };
     }
 
     render() {
