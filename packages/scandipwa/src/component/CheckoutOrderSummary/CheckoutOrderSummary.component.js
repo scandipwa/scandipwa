@@ -16,7 +16,7 @@ import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
-import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
+import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { TotalsType } from 'Type/MiniCart';
 
 import './CheckoutOrderSummary.style';
@@ -37,7 +37,8 @@ export class CheckoutOrderSummary extends PureComponent {
         cartSubtotalSubPrice: PropTypes.number,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
-        cartTotalSubPrice: PropTypes.number
+        cartTotalSubPrice: PropTypes.number,
+        onCouponCodeUpdate: PropTypes.func
     };
 
     static defaultProps = {
@@ -49,7 +50,8 @@ export class CheckoutOrderSummary extends PureComponent {
         cartSubtotalSubPrice: null,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        onCouponCodeUpdate: () => {}
     };
 
     renderPriceLine(price, title, mods) {
@@ -292,13 +294,18 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderCoupon() {
-        const { couponCode } = this.props;
+        const { couponCode, onCouponCodeUpdate, checkoutStep } = this.props;
+
+        if (checkoutStep === SHIPPING_STEP) {
+            return null;
+        }
 
         return (
             <CartCoupon
               couponCode={ couponCode }
               mix={ { block: 'CheckoutOrderSummary', elem: 'Coupon' } }
               title={ __('Have a discount code?') }
+              onCouponCodeUpdate={ onCouponCodeUpdate }
             />
         );
     }

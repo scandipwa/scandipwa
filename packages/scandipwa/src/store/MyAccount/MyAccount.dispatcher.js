@@ -176,7 +176,12 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationThen */
             () => dispatch(showNotification('success', __('Your account is confirmed!'))),
             /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationError */
-            () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
+            (err) => {
+                const { message } = err[0] || err;
+                return dispatch(
+                    showNotification('error', message || __('Something went wrong! Please, try again!'))
+                );
+            }
         );
     }
 

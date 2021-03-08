@@ -41,10 +41,6 @@ export class NoMatch extends PureComponent {
             {
                 url: '',
                 name: __('Not Found')
-            },
-            {
-                url: '/',
-                name: __('Home')
             }
         ];
 

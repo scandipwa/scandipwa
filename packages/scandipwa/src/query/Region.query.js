@@ -25,6 +25,7 @@ export class RegionQuery {
     _getCountryFields() {
         return [
             'id',
+            'is_state_required',
             this._getAvailableRegionsField(),
             new Field('full_name_locale').setAlias('label')
         ];

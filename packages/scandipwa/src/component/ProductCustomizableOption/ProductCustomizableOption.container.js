@@ -28,7 +28,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     state = {
         textValue: '',
-        selectedDropdownValue: 0
+        selectedDropdownValue: 0,
+        textFieldValid: null
     };
 
     containerFunctions = {
@@ -111,10 +112,13 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     updateTextFieldValue(value) {
         const { option, setCustomizableOptionTextFieldValue } = this.props;
-        const { option_id } = option;
+        const { option_id, required } = option;
 
         setCustomizableOptionTextFieldValue(option_id, value);
-        this.setState({ fieldValue: value });
+        this.setState({
+            fieldValue: value,
+            textFieldValid: required ? value.length > 0 : true
+        });
     }
 
     setDropdownValue(value) {
