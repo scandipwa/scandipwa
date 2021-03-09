@@ -69,7 +69,7 @@
     },
     "browserslist": {
         "production": [
-            ">0.02%",
+            ">0.2%",
             "not dead",
             "not op_mini all"
         ],
@@ -430,5 +430,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://scandipwapmrev.indvp.com/"
+    "proxy": "https://40kskudemo.scandipwa.com/"
 }
