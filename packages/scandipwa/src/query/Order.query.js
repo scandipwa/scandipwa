@@ -183,6 +183,7 @@ export class OrderQuery {
             'created_at',
             'status_label',
             'grand_total',
+            'currency_code',
             ...(isList ? [] : ['sub_total'])
         ];
     }
