@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,8 +8,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { createBrowserHistory } from 'history';
+
+if (window.history) {
+    window.history.scrollRestoration = 'manual';
+}
 
 export const history = createBrowserHistory({ basename: '/' });
 export default history;
