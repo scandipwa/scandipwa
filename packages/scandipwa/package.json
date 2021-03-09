@@ -14,6 +14,7 @@
         "@scandipwa/webpack-i18n-runtime": "0.0.9",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
+        "intersection-observer": "^0.12.0",
         "prop-types": "^15.6.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
@@ -430,5 +431,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://40kskudemo.scandipwa.com/"
+    "proxy": "https://scandipwapmrev.indvp.com/"
 }
