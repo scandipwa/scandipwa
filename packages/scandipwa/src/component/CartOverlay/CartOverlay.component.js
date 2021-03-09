@@ -70,7 +70,7 @@ export class CartOverlay extends PureComponent {
         }
 
         return (
-            <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
+            <div block="CartOverlay" elem="Items" aria-label="List of items in cart">
                 { items.map((item) => (
                     <CartItem
                       key={ item.item_id }
@@ -79,7 +79,7 @@ export class CartOverlay extends PureComponent {
                       isEditing
                     />
                 )) }
-            </ul>
+            </div>
         );
     }
 

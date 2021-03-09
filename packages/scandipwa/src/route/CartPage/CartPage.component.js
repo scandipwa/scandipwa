@@ -64,7 +64,7 @@ export class CartPage extends PureComponent {
                     <span>{ __('qty') }</span>
                     <span>{ __('subtotal') }</span>
                 </p>
-                <ul block="CartPage" elem="Items" aria-label="List of items in cart">
+                <div block="CartPage" elem="Items" aria-label="List of items in cart">
                     { items.map((item) => (
                         <CartItem
                           key={ item.item_id }
@@ -75,7 +75,7 @@ export class CartPage extends PureComponent {
                           updateCrossSellsOnRemove
                         />
                     )) }
-                </ul>
+                </div>
             </>
         );
     }

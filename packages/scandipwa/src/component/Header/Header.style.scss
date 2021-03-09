@@ -365,6 +365,10 @@
                 justify-content: center;
             }
         }
+
+        &[aria-hidden="true"] {
+            display: none;
+        }
     }
 
     &-CompareButtonWrapper {
