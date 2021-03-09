@@ -392,6 +392,7 @@
             padding-right: .48rem;
             text-transform: uppercase;
             color: var(--header-color);
+            margin: auto;
 
             @include mobile {
                 padding-right: .56rem;
