@@ -69,16 +69,14 @@
     },
     "browserslist": {
         "production": [
-            ">0.01%",
+            ">0.02%",
             "not dead",
-            "not op_mini all",
-            "safari 10.1"
+            "not op_mini all"
         ],
         "development": [
-            ">0.01%",
-            "not dead",
-            "not op_mini all",
-            "safari 10.1"
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
         ]
     },
     "eslintConfig": {
