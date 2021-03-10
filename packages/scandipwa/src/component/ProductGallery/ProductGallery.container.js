@@ -107,26 +107,30 @@ export class ProductGalleryContainer extends PureComponent {
         } = this.props;
 
         if (mediaGallery.length) {
-            return Object.values(mediaGallery.reduce((acc, srcMedia) => {
+            // eslint-disable-next-line fp/no-let
+            let position = 0;
+            return mediaGallery.map((srcMedia) => {
                 const {
                     types,
-                    position,
                     disabled
                 } = srcMedia;
 
                 const canBeShown = !disabled;
+
                 if (!canBeShown) {
-                    return acc;
+                    return {
+                        ...srcMedia
+                    };
                 }
 
                 const isThumbnail = types.includes(THUMBNAIL_KEY);
-                const key = isThumbnail ? 0 : position + 1;
+                const key = isThumbnail ? 0 : position++;
 
                 return {
-                    ...acc,
-                    [key]: srcMedia
+                    ...srcMedia,
+                    position: key
                 };
-            }, {}));
+            });
         }
 
         if (!url) {

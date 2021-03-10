@@ -480,7 +480,6 @@ export class ProductListQuery {
             'id',
             'file',
             'label',
-            'position',
             'disabled',
             'media_type',
             'types',
