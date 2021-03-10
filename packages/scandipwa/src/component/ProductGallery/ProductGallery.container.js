@@ -101,7 +101,7 @@ export class ProductGalleryContainer extends PureComponent {
             areDetailsLoaded,
             product: {
                 media_gallery_entries: mediaGallery = [],
-                [THUMBNAIL_KEY]: { url } = {},
+                [IMAGE_TYPE || THUMBNAIL_KEY]: { url } = {},
                 name
             }
         } = this.props;
