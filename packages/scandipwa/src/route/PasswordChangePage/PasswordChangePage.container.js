@@ -25,10 +25,6 @@ import {
     STATUS_PASSWORD_UPDATED
 } from './PasswordChangePage.config';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
@@ -42,11 +38,6 @@ export const mapStateToProps = (state) => ({
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
-        );
-    },
     resetPassword(options) {
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
@@ -66,7 +57,6 @@ export const mapDispatchToProps = (dispatch) => ({
 export class PasswordChangePageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         passwordResetStatus: PropTypes.oneOfType([
             PropTypes.string,
@@ -112,7 +102,6 @@ export class PasswordChangePageContainer extends PureComponent {
 
     componentDidMount() {
         this.updateMeta();
-        this.updateBreadcrumbs();
     }
 
     containerProps = () => {
@@ -139,18 +128,6 @@ export class PasswordChangePageContainer extends PureComponent {
     updateMeta() {
         const { updateMeta } = this.props;
         updateMeta({ title: __('Password Change Page') });
-    }
-
-    updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        const breadcrumbs = [
-            {
-                url: '/createPassword',
-                name: __('Change password')
-            }
-        ];
-
-        updateBreadcrumbs(breadcrumbs);
     }
 
     render() {
