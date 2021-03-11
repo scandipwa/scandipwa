@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 
 import FormPortal from 'Component/FormPortal';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import { getCityAndRegionFromZipcode } from 'Util/Address';
 import { debounce } from 'Util/Request';
 
 import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
@@ -100,6 +101,30 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         });
     }
 
+    onZipcodeChange = (e) => {
+        const { value } = e.currentTarget;
+        const { countryId, availableRegions } = this.state;
+
+        getCityAndRegionFromZipcode(countryId, value).then(
+            ([city, regionCode]) => {
+                if (city) {
+                    this.setState({
+                        city
+                    });
+                }
+
+                if (availableRegions.length > 0 && regionCode) {
+                    const { id: regionId } = availableRegions
+                        .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
+
+                    if (regionId) {
+                        this.setState({ regionId });
+                    }
+                }
+            }
+        );
+    };
+
     get fieldMap() {
         // country_id, region, region_id, city - are used for shipping estimation
         const { shippingFields } = this.props;
@@ -115,12 +140,14 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
         fieldMap.city = {
             ...city,
-            onChange: (value) => this.onChange('city', value)
+            onChange: (value) => this.onChange('city', value),
+            value: this.state.city
         };
 
         fieldMap.postcode = {
             ...postcode,
-            onChange: (value) => this.onChange('postcode', value)
+            onChange: (value) => this.onChange('postcode', value),
+            onBlur: this.onZipcodeChange
         };
 
         // since object doesn't maintain the order of it's properties

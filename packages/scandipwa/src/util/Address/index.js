@@ -88,15 +88,22 @@ export const getFormFields = (fields, addressLinesQty) => {
     return setAddressesInFormObject(fields, addressLinesQty);
 };
 
-/** @namespace Util/Address/getCityFromZipcode */
-export const getCityFromZipcode = (countryId, value) => {
-    fetch(`http://api.zippopotam.us/${countryId}/${value}`)
-        /** @namespace Util/Address/getCityFromZipcode/response */
-        .then(
-            (response) => response.json()
+/** @namespace Util/Address/getCityAndRegionFromZipcode */
+export const getCityAndRegionFromZipcode = (countryId, value) => fetch(
+    `https://api.zippopotam.us/${countryId}/${value.split(' ')[0]}`
+)
+/** @namespace Util/Address/getCityAndRegionFromZipcode/response */
+    .then(
+        (response) => response.json()
+    )
+/** @namespace Util/Address/getCityAndRegionFromZipcode/then */
+    .then(
+        (data) => (
+            data && Object.entries(data).length > 0
+                ? [
+                    data.places[0]['place name'],
+                    data.places[0]['state abbreviation']
+                ]
+                : [null, null]
         )
-        /** @namespace Util/Address/getCityFromZipcode/then */
-        .then(
-            (data) => (data && Object.entries(data).length > 0 ? data.places[0].['place name'] : null)
-        );
-};
+    );
