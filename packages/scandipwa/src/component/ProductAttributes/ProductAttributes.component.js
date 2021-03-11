@@ -30,6 +30,7 @@ export class ProductAttributes extends PureComponent {
         const { attributesWithValues } = this.props;
 
         const groups = Object.entries(attributesWithValues).map(
+            // eslint-disable-next-line no-unused-vars
             ([attributeLabel, valueLabel]) => ({
                 attribute_group_id: valueLabel.attribute_group_id,
                 attribute_group_name: valueLabel.attribute_group_name,
@@ -39,18 +40,20 @@ export class ProductAttributes extends PureComponent {
 
         const uniqueGroups = groups.filter(
             (group, index, array) => (
-                index === array.findIndex(g => g.attribute_group_id === group.attribute_group_id)
+                index === array.findIndex((g) => g.attribute_group_id === group.attribute_group_id)
             )
         );
 
         return (
             uniqueGroups.map(
-                group => <Fragment key={group.attribute_group_id}>
+                (group) => (
+<Fragment key={ group.attribute_group_id }>
                     <dl block="ProductAttributes" elem="Group">
-                        {group.attribute_group_name}
+                        { group.attribute_group_name }
                     </dl>
-                    {this.renderAttributes(group.attribute_group_id)}
-                </Fragment>
+                    { this.renderAttributes(group.attribute_group_id) }
+</Fragment>
+                )
             )
         );
     }
@@ -77,9 +80,12 @@ export class ProductAttributes extends PureComponent {
             return null;
         }
 
-        const filteredAttributesWithValues = Object.entries(attributesWithValues).filter(([attributeLabel, valueLabel]) => valueLabel.attribute_group_id == attribute_group_id);
+        const filteredAttributesWithValues = Object.entries(attributesWithValues).filter(
+            // eslint-disable-next-line no-unused-vars
+            ([attributeLabel, valueLabel]) => valueLabel.attribute_group_id === attribute_group_id
+        );
 
-        if(!filteredAttributesWithValues.length) {
+        if (!filteredAttributesWithValues.length) {
             return null;
         }
 
