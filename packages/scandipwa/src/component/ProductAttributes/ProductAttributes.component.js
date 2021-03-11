@@ -26,6 +26,35 @@ export class ProductAttributes extends PureComponent {
         attributesWithValues: AttributeType.isRequired
     };
 
+    renderGroups() {
+        const { attributesWithValues } = this.props;
+
+        const groups = Object.entries(attributesWithValues).map(
+            ([attributeLabel, valueLabel]) => ({
+                attribute_group_id: valueLabel.attribute_group_id,
+                attribute_group_name: valueLabel.attribute_group_name,
+                attribute_group_code: valueLabel.attribute_group_code
+            })
+        );
+
+        const uniqueGroups = groups.filter(
+            (group, index, array) => (
+                index === array.findIndex(g => g.attribute_group_id === group.attribute_group_id)
+            )
+        );
+
+        return (
+            uniqueGroups.map(
+                group => <Fragment key={group.attribute_group_id}>
+                    <dl block="ProductAttributes" elem="Group">
+                        {group.attribute_group_name}
+                    </dl>
+                    {this.renderAttributes(group.attribute_group_id)}
+                </Fragment>
+            )
+        );
+    }
+
     renderAttribute = ([attributeLabel, valueLabel]) => (
         <Fragment key={ attributeLabel }>
             <dt block="ProductAttributes" elem="AttributeLabel">
@@ -41,16 +70,22 @@ export class ProductAttributes extends PureComponent {
         </Fragment>
     );
 
-    renderAttributes() {
+    renderAttributes(attribute_group_id) {
         const { attributesWithValues } = this.props;
 
         if (!Object.keys(attributesWithValues).length) {
             return null;
         }
 
+        const filteredAttributesWithValues = Object.entries(attributesWithValues).filter(([attributeLabel, valueLabel]) => valueLabel.attribute_group_id == attribute_group_id);
+
+        if(!filteredAttributesWithValues.length) {
+            return null;
+        }
+
         return (
             <dl block="ProductAttributes" elem="Attributes">
-                { Object.entries(attributesWithValues).map(this.renderAttribute) }
+                { filteredAttributesWithValues.map(this.renderAttribute) }
             </dl>
         );
     }
@@ -65,7 +100,7 @@ export class ProductAttributes extends PureComponent {
               heading={ heading }
               mix={ { block: 'ProductAttributes', elem: 'Content' } }
             >
-                { this.renderAttributes() }
+                { this.renderGroups() }
             </ExpandableContent>
         );
     }
