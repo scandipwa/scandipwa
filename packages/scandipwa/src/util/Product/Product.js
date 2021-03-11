@@ -120,6 +120,7 @@ export const getIndexedCustomOption = (option) => {
         dropdownValues,
         fieldValues,
         areaValues,
+        fileValues,
         ...otherFields
     } = option;
 
@@ -137,6 +138,10 @@ export const getIndexedCustomOption = (option) => {
 
     if (areaValues) {
         return { type: 'area', data: areaValues, ...otherFields };
+    }
+
+    if (fileValues) {
+        return { type: 'file', data: fileValues, ...otherFields };
     }
 
     // skip unsupported types

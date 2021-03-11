@@ -16,7 +16,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 
 import {
-    AREA_FIELD, CHECKBOX, DROPDOWN, TEXT_FIELD
+    AREA_FIELD, CHECKBOX, DROPDOWN, FILE, TEXT_FIELD
 } from './ProductCustomizableOption.config';
 
 /** @namespace Component/ProductCustomizableOption/Component */
@@ -27,11 +27,16 @@ export class ProductCustomizableOption extends PureComponent {
         getSelectedCheckboxValue: PropTypes.func.isRequired,
         renderOptionLabel: PropTypes.func.isRequired,
         updateTextFieldValue: PropTypes.func.isRequired,
+        processFileUpload: PropTypes.func,
         setDropdownValue: PropTypes.func.isRequired,
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
         requiredSelected: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        processFileUpload: () => {}
     };
 
     renderMap = {
@@ -49,6 +54,10 @@ export class ProductCustomizableOption extends PureComponent {
         },
         [AREA_FIELD]: {
             render: () => this.renderTextField(),
+            title: () => this.renderTextFieldTitle()
+        },
+        [FILE]: {
+            render: () => this.renderFileField(),
             title: () => this.renderTextFieldTitle()
         }
     };
@@ -199,6 +208,19 @@ export class ProductCustomizableOption extends PureComponent {
                 { this.renderRequired(required) }
                 { this.renderMaxCharacters(max_characters) }
             </>
+        );
+    }
+
+    renderFileField() {
+        const { optionType, processFileUpload } = this.props;
+
+        return (
+            <Field
+              id={ `customizable-options-${ optionType }` }
+              name={ `customizable-options-${ optionType }` }
+              type="file"
+              onChange={ processFileUpload }
+            />
         );
     }
 
