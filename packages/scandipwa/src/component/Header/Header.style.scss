@@ -37,6 +37,12 @@
     }
 }
 
+@supports not (height: env(safe-area-inset-top)) {
+    :root {
+        --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height));
+    }
+}
+
 @mixin button-invisible {
     opacity: 0;
     padding: 0;
@@ -108,12 +114,6 @@
                     --header-color: var(--primary-base-color);
                 }
             }
-
-            .Header-MinicartItemCount {
-                @include after-mobile {
-                    color: var(--primary-base-color);
-                }
-            }
         }
 
         &_menu,
@@ -140,6 +140,7 @@
                 @include desktop {
                     --header-color: var(--header-desktop-button-color);
                 }
+                margin: auto;
             }
         }
 
@@ -363,6 +364,10 @@
                 align-items: center;
                 justify-content: center;
             }
+        }
+
+        &[aria-hidden="true"] {
+            display: none;
         }
     }
 

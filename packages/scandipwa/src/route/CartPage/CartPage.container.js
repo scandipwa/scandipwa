@@ -111,7 +111,7 @@ export class CartPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             changeHeaderState,
-            totals: { items_qty },
+            totals: { items_qty = 0 },
             headerState,
             headerState: { name }
         } = this.props;
@@ -127,8 +127,8 @@ export class CartPageContainer extends PureComponent {
             }
         }
 
-        if (items_qty !== prevItemsQty) {
-            const title = `${ items_qty || '0' } Items`;
+        if (items_qty !== prevItemsQty && prevItemsQty !== undefined) {
+            const title = __('%s Item(s)', items_qty);
             changeHeaderState({
                 ...headerState,
                 title
@@ -192,8 +192,7 @@ export class CartPageContainer extends PureComponent {
     _updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
-            { url: '/cart', name: __('Shopping cart') },
-            { url: '/', name: __('Home') }
+            { url: '/cart', name: __('Shopping cart') }
         ];
 
         updateBreadcrumbs(breadcrumbs);

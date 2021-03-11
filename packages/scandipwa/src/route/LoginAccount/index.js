@@ -9,19 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.Braintree {
-    margin-top: 2.4rem;
-
-    @include mobile {
-        margin-top: 2.8rem;
-    }
-
-    &-Form {
-        min-height: 200px;
-        border-radius: 5px;
-    }
-
-    .braintree-placeholder {
-        display: none;
-    }
-}
+export { default } from './LoginAccount.container';

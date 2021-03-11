@@ -41,7 +41,8 @@ export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
     isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT,
-    isAuthTokenExpired: state.MyAccountReducer.isAuthTokenExpired
+    isAuthTokenExpired: state.MyAccountReducer.isAuthTokenExpired,
+    redirectToDashboard: state.ConfigReducer.redirect_dashboard
 });
 
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
@@ -69,7 +70,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         hideActiveOverlay: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
         isAuthTokenExpired: PropTypes.bool,
-        setIsAuthTokenExpired: PropTypes.func.isRequired
+        setIsAuthTokenExpired: PropTypes.func.isRequired,
+        redirectToDashboard: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -156,7 +158,8 @@ export class MyAccountOverlayContainer extends PureComponent {
             goToPreviousHeaderState,
             showNotification,
             isAuthTokenExpired,
-            setIsAuthTokenExpired
+            setIsAuthTokenExpired,
+            redirectToDashboard
         } = this.props;
 
         if (oldMyAccountState === newMyAccountState) {
@@ -180,7 +183,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             }
         }
 
-        if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN) {
+        if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN && redirectToDashboard) {
             history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
         }
     }

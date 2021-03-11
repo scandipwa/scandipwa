@@ -354,6 +354,7 @@ export class ProductListQuery {
 
     _getBreadcrumbFields() {
         return [
+            'category_id',
             'category_name',
             'category_level',
             'category_url',
@@ -368,6 +369,7 @@ export class ProductListQuery {
 
     _getCategoryFields() {
         return [
+            'id',
             'name',
             'url',
             this._getBreadcrumbsField()

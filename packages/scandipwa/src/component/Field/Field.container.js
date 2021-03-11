@@ -59,6 +59,7 @@ export class FieldContainer extends PureComponent {
         max: PropTypes.number,
         validation: PropTypes.arrayOf(PropTypes.string),
         message: PropTypes.string,
+        customValidationStatus: PropTypes.bool,
         id: PropTypes.string,
         formRef: PropTypes.oneOfType([
             PropTypes.func,
@@ -81,6 +82,7 @@ export class FieldContainer extends PureComponent {
         isControlled: false,
         validation: [],
         message: '',
+        customValidationStatus: null,
         id: '',
         formRefMap: {}
     };
@@ -121,6 +123,18 @@ export class FieldContainer extends PureComponent {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ checked: currChecked });
         }
+
+        this.setValidationMessage(prevProps);
+    }
+
+    setValidationMessage(prevProps) {
+        const { message: prevMessage = {} } = prevProps;
+        const { message = {} } = this.props;
+        const { validationMessage = {} } = this.state;
+
+        if (message !== validationMessage && !prevMessage && message) {
+            this.setState({ validationMessage: message });
+        }
     }
 
     getInitialPropsValue() {
@@ -143,7 +157,7 @@ export class FieldContainer extends PureComponent {
     containerProps = () => {
         const {
             checked: propsChecked,
-            message
+            customValidationStatus
         } = this.props;
 
         const {
@@ -158,8 +172,8 @@ export class FieldContainer extends PureComponent {
         return {
             checked: type === CHECKBOX_TYPE ? propsChecked : checked,
             value,
-            validationStatus,
-            message: validationMessage || message,
+            validationStatus: customValidationStatus ?? validationStatus,
+            message: validationMessage,
             filename
         };
     };
@@ -320,9 +334,11 @@ export class FieldContainer extends PureComponent {
     }
 
     render() {
+        const { customValidationStatus, ...otherProps } = this.props;
+
         return (
             <Field
-              { ...this.props }
+              { ...otherProps }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />
