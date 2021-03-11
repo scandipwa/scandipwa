@@ -326,8 +326,12 @@
         cursor: pointer;
         height: 180px;
         opacity: 0;
-        max-width: 200px;
+        max-width: 100%;
         z-index: 1;
+
+        @include after-mobile {
+            max-width: 200px;
+        }
 
         + label {
             align-items: center;
@@ -339,7 +343,11 @@
             height: 180px;
             position: absolute;
             top: 0;
-            width: 200px;
+            width: 100%;
+
+            @include after-mobile {
+                width: 200px;
+            }
 
             p {
                 font-size: 1.6rem;
