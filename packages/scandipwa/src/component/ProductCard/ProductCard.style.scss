@@ -153,6 +153,7 @@
     &-FigureReview {
         display: flex;
         justify-content: center;
+        flex-direction: column;
     }
 
     &-Reviews {
@@ -168,6 +169,8 @@
         background-color: var(--product-card-reviews-background);
         border-radius: 1rem;
         letter-spacing: normal;
+        left: 50%;
+        transform: translateX(-50%);
 
         @include mobile {
             --product-rating-size: 1.4rem;
@@ -335,6 +338,7 @@
 
         &-Icon {
             height: 23px;
+            margin: auto;
 
             &::before {
                 width: 5px;

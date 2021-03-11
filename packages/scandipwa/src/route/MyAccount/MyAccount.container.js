@@ -21,6 +21,7 @@ import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
     DASHBOARD,
+    MY_DOWNLOADABLE,
     MY_ORDERS,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION
@@ -113,6 +114,10 @@ export class MyAccountContainer extends PureComponent {
         [MY_ORDERS]: {
             url: '/my-orders',
             name: __('My orders')
+        },
+        [MY_DOWNLOADABLE]: {
+            url: '/my-downloadable',
+            name: __('My downloadable')
         },
         [MY_WISHLIST]: {
             url: '/my-wishlist',

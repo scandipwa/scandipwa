@@ -22,6 +22,11 @@ export class OrderQuery {
             .addFieldList(this._getOrderListFields(true));
     }
 
+    getDownloadableQuery() {
+        return new Field('customerDownloadableProducts')
+            .addField(this._getDownloadableField());
+    }
+
     getOrderByIdQuery(orderId) {
         return this._getOrderByIdField(orderId);
     }
@@ -178,6 +183,7 @@ export class OrderQuery {
             'created_at',
             'status_label',
             'grand_total',
+            'currency_code',
             ...(isList ? [] : ['sub_total'])
         ];
     }
@@ -235,6 +241,23 @@ export class OrderQuery {
                 this._prepareShippingInfo(),
                 this._getOrderProductsField()
             ] : [])
+        ];
+    }
+
+    _getDownloadableField() {
+        return new Field('items')
+            .addFieldList(this._getDownloadableFields());
+    }
+
+    _getDownloadableFields() {
+        return [
+            'order_increment_id',
+            'date',
+            'status',
+            'download_url',
+            'link_title',
+            'remaining_downloads',
+            'title'
         ];
     }
 }

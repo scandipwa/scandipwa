@@ -585,11 +585,9 @@ export class CategoryPageContainer extends PureComponent {
         if (plpType.match('-')) {
             const plpTypes = plpType.split('-');
 
-            this.setState({ defaultPlpType: plpTypes[0] });
-            this.setState({ plpTypes });
+            this.setState({ defaultPlpType: plpTypes[0], plpTypes });
         } else {
-            this.setState({ defaultPlpType: plpType });
-            this.setState({ plpTypes: [plpType] });
+            this.setState({ defaultPlpType: plpType, plpTypes: [plpType] });
         }
     }
 

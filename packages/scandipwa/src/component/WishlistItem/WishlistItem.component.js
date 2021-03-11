@@ -167,6 +167,13 @@ export class WishlistItem extends PureComponent {
 
         const wishedVariant = product.variants.find(({ sku }) => sku === product.wishlist.sku);
 
+        if (!wishedVariant) {
+            return {
+                ...product,
+                url
+            };
+        }
+
         return {
             ...wishedVariant,
             url

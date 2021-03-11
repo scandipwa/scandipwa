@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import facebookIcon from './images/facebook.png';
+import linkedinIcon from './images/linkedin.png';
+import twitterIcon from './images/twitter.png';
+
 export const RENDER_NEWSLETTER = 'render_newsletter';
 
 export const NEWSLETTER_COLUMN = {
@@ -71,15 +75,18 @@ export const COLUMN_MAP = [
         items: [
             {
                 href: 'https://www.linkedin.com/company/scandipwa',
-                src: 'assets/images/linkedin.png'
+                src: linkedinIcon,
+                title: 'LinkedIn'
             },
             {
                 href: 'https://www.facebook.com/ScandiPWA/',
-                src: 'assets/images/facebook.png'
+                src: facebookIcon,
+                title: 'Facebook'
             },
             {
                 href: 'https://twitter.com/scandipwa',
-                src: 'assets/images/twitter.png'
+                src: twitterIcon,
+                title: 'Twitter'
             }
         ]
     },
