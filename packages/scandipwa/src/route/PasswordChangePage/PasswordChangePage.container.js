@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
+import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Common';
@@ -38,6 +39,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
+    toggleBreadcrumbs: (visibility) => dispatch(toggleBreadcrumbs(visibility)),
     resetPassword(options) {
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
@@ -57,6 +59,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class PasswordChangePageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         passwordResetStatus: PropTypes.oneOfType([
             PropTypes.string,
@@ -102,6 +105,7 @@ export class PasswordChangePageContainer extends PureComponent {
 
     componentDidMount() {
         this.updateMeta();
+        this.toggleBreadcrumbs(false);
     }
 
     containerProps = () => {
@@ -128,6 +132,11 @@ export class PasswordChangePageContainer extends PureComponent {
     updateMeta() {
         const { updateMeta } = this.props;
         updateMeta({ title: __('Password Change Page') });
+    }
+
+    toggleBreadcrumbs(visibility) {
+        const { toggleBreadcrumbs } = this.props;
+        toggleBreadcrumbs(visibility);
     }
 
     render() {
