@@ -52,7 +52,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         } = this.state;
 
         const {
-            selectedLinks: prevSelectedLinks,
+            selectedLinks: prevSelectedLinks
         } = prevState;
 
         if (links && isLoading) {
@@ -78,23 +78,23 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     setSelectedCheckboxValues(option_id, option_value) {
         const { selectedLinks } = this.state;
 
-        option_id = parseInt(option_id);
+        const optionIdInt = parseInt(option_id);
 
         if (option_value) {
-            if (selectedLinks.some(({ link_id: id }) => option_id === id)) {
+            if (selectedLinks.some(({ link_id: id }) => optionIdInt === id)) {
                 return;
             }
             this.setState({
-                selectedLinks: [...selectedLinks, { link_id: option_id }]
+                selectedLinks: [...selectedLinks, { link_id: optionIdInt }]
             });
 
             return;
         }
 
-        if (selectedLinks.some(({ link_id: id }) => option_id === id)) {
+        if (selectedLinks.some(({ link_id: id }) => optionIdInt === id)) {
             this.setState({
                 selectedLinks: selectedLinks.filter(
-                    (link) => link.link_id !== option_id
+                    (link) => link.link_id !== optionIdInt
                 ) || []
             });
         }
@@ -103,9 +103,9 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     render() {
         return (
             <ProductDownloadableLinks
-                { ...this.props }
-                { ...this.state }
-                { ...this.containerFunctions }
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
             />
         );
     }

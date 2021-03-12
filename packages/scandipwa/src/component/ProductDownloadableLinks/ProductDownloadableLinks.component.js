@@ -21,7 +21,7 @@ export class ProductDownloadableLinks extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         links: PropTypes.array,
         title: PropTypes.string.isRequired,
-        setSelectedCheckboxValues: PropTypes.func.isRequired,
+        setSelectedCheckboxValues: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -41,13 +41,13 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <div>
                 <Field
-                    type='checkbox'
-                    label={ this.getLabel(link) }
-                    key={ id }
-                    id={ `link-${id}` }
-                    name={ `link-${id}` }
-                    value={ id }
-                    onChange={ setSelectedCheckboxValues }
+                  type='checkbox'
+                  label={ this.getLabel(link) }
+                  key={ id }
+                  id={ `link-${id}` }
+                  name={ `link-${id}` }
+                  value={ id }
+                  onChange={ setSelectedCheckboxValues }
                 />
                 <Link to={ sample_url } block="ProductDownloadableLinks" elem="SampleLink">
                     { __('Sample') }
@@ -86,8 +86,8 @@ export class ProductDownloadableLinks extends PureComponent {
 
         return (
             <div
-            block="ProductDownloadableLinks"
-            mods={ { isLoading, isPlaceholder: true } }
+              block="ProductDownloadableLinks"
+              mods={ { isLoading, isPlaceholder: true } }
             />
         );
     }

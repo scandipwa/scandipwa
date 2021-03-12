@@ -325,7 +325,7 @@ export class ProductListQuery {
             'links_purchased_separately',
             this._getDownloadableProductLink(),
             this._getDownloadableProductSample()
-        ]
+        ];
     }
 
     _getDownloadableProductLink() {

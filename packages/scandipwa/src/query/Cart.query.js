@@ -191,7 +191,7 @@ export class CartQuery {
         return new Field('downloadable_links')
             .addFieldList([
                 'id',
-                'label',
+                'label'
             ]);
     }
 
