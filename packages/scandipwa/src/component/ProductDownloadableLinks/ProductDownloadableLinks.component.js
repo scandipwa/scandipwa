@@ -41,7 +41,7 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <div>
                 <Field
-                  type='checkbox'
+                  type="checkbox"
                   label={ this.getLabel(link) }
                   key={ id }
                   id={ `link-${id}` }

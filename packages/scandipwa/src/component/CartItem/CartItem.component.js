@@ -209,7 +209,7 @@ export class CartItem extends PureComponent {
                 </div>
             </>
         );
-    }
+    };
 
     renderProductOption = (option) => {
         const { id } = option;

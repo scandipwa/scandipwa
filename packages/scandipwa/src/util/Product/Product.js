@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { 
-    BUNDLE, 
-    CONFIGURABLE, 
-    DOWNLOADABLE, 
-    SIMPLE 
+import {
+    BUNDLE,
+    CONFIGURABLE,
+    DOWNLOADABLE,
+    SIMPLE
 } from 'Util/Product';
 
 /**

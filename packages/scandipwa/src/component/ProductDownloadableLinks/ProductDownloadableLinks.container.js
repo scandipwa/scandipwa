@@ -78,7 +78,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     setSelectedCheckboxValues(option_id, option_value) {
         const { selectedLinks } = this.state;
 
-        const optionIdInt = parseInt(option_id);
+        const optionIdInt = parseInt(option_id, 10);
 
         if (option_value) {
             if (selectedLinks.some(({ link_id: id }) => optionIdInt === id)) {
