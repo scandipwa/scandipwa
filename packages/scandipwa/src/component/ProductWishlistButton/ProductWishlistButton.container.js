@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
-import { getExtensionAttributes } from 'Util/Product';
+import { CONFIGURABLE, getExtensionAttributes, GROUPED } from 'Util/Product';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
 import { ERROR_CONFIGURABLE_NOT_PROVIDED } from './ProductWishlistButton.config';
@@ -47,6 +47,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
         quantity: PropTypes.number,
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         product: ProductType.isRequired,
         isAddingWishlistItem: PropTypes.bool.isRequired,
         configurableVariantIndex: PropTypes.number,
@@ -121,7 +122,9 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         const { sku: variantSku, product_option } = product;
         if (add) {
-            return addProductToWishlist({ sku, product_option, quantity });
+            return addProductToWishlist({
+                sku, product_option, quantity
+            });
         }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
@@ -157,7 +160,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
     _getIsProductReady() {
         const { product: { type_id }, configurableVariantIndex } = this.props;
 
-        if (type_id === 'configurable' && configurableVariantIndex < 0) {
+        if (type_id === CONFIGURABLE && configurableVariantIndex < 0) {
             return false;
         }
 
@@ -168,10 +171,11 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const {
             product,
             product: { type_id },
-            configurableVariantIndex
+            configurableVariantIndex,
+            groupedProductQuantity
         } = this.props;
 
-        if (type_id === 'configurable') {
+        if (type_id === CONFIGURABLE) {
             if (configurableVariantIndex < 0) {
                 return ERROR_CONFIGURABLE_NOT_PROVIDED;
             }
@@ -180,6 +184,11 @@ export class ProductWishlistButtonContainer extends PureComponent {
             const variant = product.variants[configurableVariantIndex];
 
             return { ...variant, product_option: { extension_attributes } };
+        }
+
+        if (type_id === GROUPED) {
+            const extension_attributes = getExtensionAttributes({ ...product, groupedProductQuantity });
+            return { ...product, product_option: { extension_attributes } };
         }
 
         return product;

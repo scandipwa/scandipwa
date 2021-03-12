@@ -87,14 +87,17 @@ export class WishlistDispatcher {
 
     addItemToWishlist(dispatch, wishlistItem) {
         dispatch(updateIsLoading(true));
-        dispatch(showNotification('success', __('Product added to wish-list!')));
 
         return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(wishlistItem)).then(
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationThen */
-            () => this._syncWishlistWithBE(dispatch),
+            () => {
+                dispatch(showNotification('success', __('Product added to Wish list!')));
+                this._syncWishlistWithBE(dispatch);
+            },
+
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationError */
             (error) => {
-                dispatch(showNotification('error', __('Error updating wish list!')));
+                dispatch(showNotification('error', __('Error updating Wish list!')));
                 // eslint-disable-next-line no-console
                 console.log(error);
             }

@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { BUNDLE, CONFIGURABLE, SIMPLE } from 'Util/Product';
+import {
+    BUNDLE, CONFIGURABLE, GROUPED, SIMPLE
+} from 'Util/Product';
 
 /**
  * Checks whether every option is in attributes
@@ -241,7 +243,8 @@ export const getExtensionAttributes = (product) => {
         productOptions,
         productOptionsMulti,
         variants,
-        type_id
+        type_id,
+        groupedProductQuantity
     } = product;
 
     if (type_id === CONFIGURABLE) {
@@ -287,6 +290,13 @@ export const getExtensionAttributes = (product) => {
             customizable_options: productOptions || [],
             customizable_options_multi: productOptionsMulti || []
         };
+    }
+
+    if (type_id === GROUPED) {
+        const grouped_options = Object.entries(groupedProductQuantity)
+            .map(([product_id, quantity]) => ({ product_id: Number(product_id), quantity }));
+
+        return { grouped_options };
     }
 
     return {};

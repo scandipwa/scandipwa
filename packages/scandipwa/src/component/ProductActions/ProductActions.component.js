@@ -467,6 +467,7 @@ export class ProductActions extends PureComponent {
         const {
             product,
             quantity,
+            groupedProductQuantity,
             configurableVariantIndex,
             onProductValidationError
         } = this.props;
@@ -475,6 +476,7 @@ export class ProductActions extends PureComponent {
             <ProductWishlistButton
               product={ product }
               quantity={ quantity }
+              groupedProductQuantity={ groupedProductQuantity }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ onProductValidationError }
             />
