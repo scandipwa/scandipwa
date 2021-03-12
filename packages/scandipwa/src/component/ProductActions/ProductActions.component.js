@@ -268,9 +268,9 @@ export class ProductActions extends PureComponent {
                         </h4>
                     )
                 ) }
-                <h1 block="ProductActions" elem="Title" itemProp="name">
+                <h2 block="ProductActions" elem="Title" itemProp="name">
                     <TextPlaceholder content={ name } length="medium" />
-                </h1>
+                </h2>
             </section>
         );
     }
