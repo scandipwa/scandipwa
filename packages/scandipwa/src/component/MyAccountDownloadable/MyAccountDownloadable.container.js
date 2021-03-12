@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { OrderDispatcher } from 'Component/MyAccountMyOrders/MyAccountMyOrders.container';
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
@@ -29,7 +30,10 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountDownloadable/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message))
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    getOrderList: () => OrderDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
+    )
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */
@@ -37,7 +41,8 @@ export class MyAccountDownloadableContainer extends PureComponent {
     static propTypes = {
         device: DeviceType.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired
+        showSuccessNotification: PropTypes.func.isRequired,
+        getOrderList: PropTypes.func.isRequired
     };
 
     state = {
@@ -46,6 +51,9 @@ export class MyAccountDownloadableContainer extends PureComponent {
     };
 
     componentDidMount() {
+        const { getOrderList } = this.props;
+
+        getOrderList();
         this.requestDownloadable();
     }
 
