@@ -309,6 +309,45 @@ export class ProductListQuery {
         );
     }
 
+    /**
+     * A DownloadableProduct-specific field that queries the links and samples
+     * @returns {Field}
+     * @private
+     */
+    _getDownloadableProductFields() {
+        return new Fragment('DownloadableProduct')
+            .addFieldList(this._getDownloadableProductLinks());
+    }
+
+    _getDownloadableProductLinks() {
+        return [
+            'links_title',
+            'links_purchased_separately',
+            this._getDownloadableProductLink(),
+            this._getDownloadableProductSample()
+        ]
+    }
+
+    _getDownloadableProductLink() {
+        return new Field('downloadable_product_links')
+            .addFieldList([
+                'sample_url',
+                'sort_order',
+                'title',
+                'id',
+                'price'
+            ]);
+    }
+
+    _getDownloadableProductSample() {
+        return new Field('downloadable_product_samples')
+            .addFieldList([
+                'title',
+                'sort_order',
+                'sample_url'
+            ]);
+    }
+
     _getItemsField() {
         const { isSingleProduct } = this.options;
 
@@ -317,6 +356,7 @@ export class ProductListQuery {
 
         if (isSingleProduct) {
             items.addField(this._getGroupedProductItems());
+            items.addField(this._getDownloadableProductFields());
         }
 
         return items;

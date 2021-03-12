@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { BUNDLE, CONFIGURABLE, SIMPLE } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE, DOWNLOADABLE, SIMPLE } from 'Util/Product';
 
 /**
  * Checks whether every option is in attributes
@@ -240,6 +240,7 @@ export const getExtensionAttributes = (product) => {
         configurableVariantIndex,
         productOptions,
         productOptionsMulti,
+        downloadableLinks,
         variants,
         type_id
     } = product;
@@ -286,6 +287,12 @@ export const getExtensionAttributes = (product) => {
         return {
             customizable_options: productOptions || [],
             customizable_options_multi: productOptionsMulti || []
+        };
+    }
+
+    if (type_id === DOWNLOADABLE && downloadableLinks) {
+        return {
+            downloadable_product_links: downloadableLinks
         };
     }
 

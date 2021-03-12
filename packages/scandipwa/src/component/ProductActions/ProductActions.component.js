@@ -24,6 +24,7 @@ import ProductBundleItems from 'Component/ProductBundleItems';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
@@ -34,6 +35,7 @@ import { PriceType, ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
     CONFIGURABLE,
+    DOWNLOADABLE,
     GROUPED
 } from 'Util/Product';
 
@@ -62,6 +64,7 @@ export class ProductActions extends PureComponent {
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
+        setLinkedDownloadables: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
@@ -568,11 +571,53 @@ export class ProductActions extends PureComponent {
         );
     }
 
+    renderDownloadableProductSample() {
+        const {
+            product: { type_id }
+        } = this.props;
+
+        if (type_id !== DOWNLOADABLE) {
+            return null;
+        }
+
+        return (
+            <div block="ProductActions" elem="Samples">
+                { this.renderDownloadableProductSampleItems() }
+            </div>
+        );
+    }
+
+    renderDownloadableProductLinks() {
+        const {
+            product: { type_id, downloadable_product_links, links_title },
+            setLinkedDownloadables
+        } = this.props;
+
+        if (type_id !== DOWNLOADABLE) {
+            return null;
+        }
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'customizable_options' } }
+            >
+                <ProductDownloadableLinks
+                  links={ downloadable_product_links }
+                  setLinkedDownloadables={ setLinkedDownloadables }
+                  title={ links_title }
+                />
+            </section>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
+                { this.renderDownloadableProductSample() }
                 <div
                   block="ProductActions"
                   elem="AddToCartWrapper"
@@ -588,6 +633,7 @@ export class ProductActions extends PureComponent {
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
                 { this.renderCustomizableOptions() }
+                { this.renderDownloadableProductLinks() }
                 { this.renderBundleItems() }
                 { this.renderGroupedItems() }
                 { this.renderTierPrices() }

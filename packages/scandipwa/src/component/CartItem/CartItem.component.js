@@ -180,15 +180,23 @@ export class CartItem extends PureComponent {
         );
     };
 
-    renderProductOption = (option) => {
+    renderProductOptionContent = (option) => {
         const { label, values, id } = option;
 
+        if (!values) {
+            return (
+                <div
+                  block="CartItem"
+                  elem="ItemOptionLabel"
+                  key={ `label-${ id }` }
+                >
+                    { label }
+                </div>
+            );
+        }
+
         return (
-            <div
-              block="CartItem"
-              elem="ItemOption"
-              key={ id }
-            >
+            <>
                 <div
                   block="CartItem"
                   elem="ItemOptionLabel"
@@ -199,6 +207,20 @@ export class CartItem extends PureComponent {
                 <div block="CartItem" elem="ItemOptionValues">
                     { values.map(this.renderProductOptionValue) }
                 </div>
+            </>
+        );
+    }
+
+    renderProductOption = (option) => {
+        const { id } = option;
+
+        return (
+            <div
+              block="CartItem"
+              elem="ItemOption"
+              key={ id }
+            >
+                  { this.renderProductOptionContent(option) }
             </div>
         );
     };
@@ -283,7 +305,8 @@ export class CartItem extends PureComponent {
             isLikeTable,
             item: {
                 customizable_options,
-                bundle_options
+                bundle_options,
+                downloadable_links
             } = {}
         } = this.props;
 
@@ -300,6 +323,7 @@ export class CartItem extends PureComponent {
                     </div>
                     { this.renderProductOptions(customizable_options) }
                     { this.renderProductOptions(bundle_options) }
+                    { this.renderProductOptions(downloadable_links) }
                     { this.renderProductConfigurations() }
                     { this.renderQuantityChangeField(true) }
                     { this.renderProductPrice() }

@@ -212,6 +212,10 @@
         }
     }
 
+    &-Samples {
+        order: 5;
+    }
+
     &-AddToCart {
         @include before-desktop {
             flex-grow: 1;
