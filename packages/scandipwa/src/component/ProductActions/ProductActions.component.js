@@ -20,6 +20,7 @@ import AddToCart from 'Component/AddToCart';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
+import Link from 'Component/Link';
 import ProductBundleItems from 'Component/ProductBundleItems';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
@@ -569,6 +570,26 @@ export class ProductActions extends PureComponent {
                 <TierPrices product={ productOrVariant } />
             </div>
         );
+    }
+
+    renderDownloadableProductSampleItems() {
+        const {
+            product: { downloadable_product_samples }
+        } = this.props;
+
+        if (!downloadable_product_samples) {
+            return null;
+        }
+
+        return downloadable_product_samples.map((item) => {
+            const { title, sample_url } = item;
+
+            return (
+                <Link to={ sample_url } block="ProductActions" elem="SampleLink">
+                    { title }
+                </Link>
+            );
+        });
     }
 
     renderDownloadableProductSample() {
