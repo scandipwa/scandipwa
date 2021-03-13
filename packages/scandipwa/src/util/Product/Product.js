@@ -292,9 +292,9 @@ export const getExtensionAttributes = (product) => {
         };
     }
 
-    if (type_id === GROUPED) {
+    if (type_id === GROUPED && groupedProductQuantity) {
         const grouped_options = Object.entries(groupedProductQuantity)
-            .map(([product_id, quantity]) => ({ product_id: Number(product_id), quantity }));
+            .map(([product_id, quantity]) => ({ product_id: +product_id, quantity }));
 
         return { grouped_options };
     }
