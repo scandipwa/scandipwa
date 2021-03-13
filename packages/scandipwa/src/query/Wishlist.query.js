@@ -86,9 +86,24 @@ export class WishlistQuery {
         ];
     }
 
+    _getProductOptionsFields() {
+        return new Field('product_options')
+            .addField(this._getGroupedProductFields());
+    }
+
+    _getGroupedProductFields() {
+        return new Field('grouped_product_qty')
+            .addFieldList(this._getGroupedProductItemFields());
+    }
+
+    _getGroupedProductItemFields() {
+        return ['id', 'qty'];
+    }
+
     _getItemsFields() {
         return [
             ...this._getWishlistItemsFields(),
+            this._getProductOptionsFields(),
             this._getProductField()
         ];
     }
