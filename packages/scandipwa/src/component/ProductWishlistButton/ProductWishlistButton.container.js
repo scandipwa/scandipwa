@@ -47,7 +47,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
         quantity: PropTypes.number,
-        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
         product: ProductType.isRequired,
         isAddingWishlistItem: PropTypes.bool.isRequired,
         configurableVariantIndex: PropTypes.number,
@@ -61,7 +61,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
     static defaultProps = {
         quantity: 1,
         onProductValidationError: () => {},
-        configurableVariantIndex: -2
+        configurableVariantIndex: -2,
+        groupedProductQuantity: {}
     };
 
     state = {
