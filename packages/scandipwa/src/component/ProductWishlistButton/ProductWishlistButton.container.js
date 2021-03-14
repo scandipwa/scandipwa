@@ -123,9 +123,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         const { sku: variantSku, product_option } = product;
         if (add) {
-            return addProductToWishlist({
-                sku, product_option, quantity
-            });
+            return addProductToWishlist({ sku, product_option, quantity });
         }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
