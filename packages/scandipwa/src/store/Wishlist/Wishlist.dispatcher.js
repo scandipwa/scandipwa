@@ -52,6 +52,7 @@ export class WishlistDispatcher {
                             id,
                             sku,
                             product,
+                            product_options: { grouped_product_qty: groupedProductQuantity },
                             description,
                             qty: quantity
                         } = wishlistItem;
@@ -61,6 +62,7 @@ export class WishlistDispatcher {
                             [id]: {
                                 ...product,
                                 quantity,
+                                groupedProductQuantity,
                                 wishlist: {
                                     id,
                                     sku,

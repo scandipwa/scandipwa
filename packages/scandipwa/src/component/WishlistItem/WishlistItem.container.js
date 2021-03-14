@@ -93,34 +93,36 @@ export class WishlistItemContainer extends PureComponent {
         [GROUPED]: this.addGroupedProductToCart.bind(this)
     };
 
+    addSimpleProduct = this.addSimpleProductToCart.bind(this);
+
     addGroupedProductToCart() {
         const {
             product,
-            product: { items },
-            // groupedProductQuantity,
+            product: { items, groupedProductQuantity },
             addProductToCart
         } = this.props;
 
-        return Promise.all(items.map((item) => {
-            const { product: groupedProductItem } = item;
+        return Promise.all(
+            items.map((item) => {
+                const { product: groupedProductItem } = item;
 
-            const newProduct = {
-                ...groupedProductItem,
-                parent: product
-            };
+                const newProduct = {
+                    ...groupedProductItem,
+                    parent: product
+                };
 
-            // const quantity = groupedProductQuantity[groupedProductItem.id];
-            const quantity = 3;
+                const quantity = groupedProductQuantity.find((product) => product.id === groupedProductItem.id)?.qty;
 
-            if (!quantity) {
-                return Promise.resolve();
-            }
+                if (!quantity) {
+                    return Promise.resolve();
+                }
 
-            return addProductToCart({
-                product: newProduct,
-                quantity
-            });
-        }));
+                return addProductToCart({
+                    product: newProduct,
+                    quantity
+                });
+            })
+        );
     }
 
     addConfigurableProductToCart() {
@@ -199,7 +201,7 @@ export class WishlistItemContainer extends PureComponent {
             wishlist: { id }
         } = item;
 
-        const addToCartHandler = this.addToCartHandlerMap[type_id] || this.addSimpleProductToCart;
+        const addToCartHandler = this.addToCartHandlerMap[type_id] || this.addSimpleProduct;
 
         this.setState({ isLoading: true });
 
