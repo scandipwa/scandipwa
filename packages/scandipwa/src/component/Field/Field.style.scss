@@ -16,14 +16,6 @@
         margin-top: 1.4rem;
     }
 
-    label {
-        font-size: 1.26rem;
-
-        @include mobile {
-            font-size: 1.47rem;
-        }
-    }
-
     &-Label {
         font-weight: 700;
         padding-bottom: .36rem;
