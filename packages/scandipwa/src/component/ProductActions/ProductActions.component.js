@@ -381,6 +381,7 @@ export class ProductActions extends PureComponent {
             <>
                 { this.renderOfferCount() }
                 <meta itemProp="availability" content={ stockMeta } />
+                <meta itemProp="url" content={ metaLink } />
                 <a
                   block="ProductActions"
                   elem="Schema-Url"
