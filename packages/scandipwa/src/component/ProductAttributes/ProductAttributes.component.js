@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -48,9 +49,9 @@ export class ProductAttributes extends PureComponent {
             uniqueGroups.map(
                 (group) => (
 <Fragment key={ group.attribute_group_id }>
-                    <dl block="ProductAttributes" elem="Group">
+                    <p block="ProductAttributes" elem="Group">
                         { group.attribute_group_name }
-                    </dl>
+                    </p>
                     { this.renderAttributes(group.attribute_group_id) }
 </Fragment>
                 )
@@ -106,7 +107,9 @@ export class ProductAttributes extends PureComponent {
               heading={ heading }
               mix={ { block: 'ProductAttributes', elem: 'Content' } }
             >
-                { this.renderGroups() }
+                <div>
+                    { this.renderGroups() }
+                </div>
             </ExpandableContent>
         );
     }

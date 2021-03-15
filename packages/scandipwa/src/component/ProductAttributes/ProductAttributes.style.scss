@@ -63,9 +63,10 @@
     }
 
     &-Group {
-        font-size: 1.8rem;
-        font-weight: bold;
+        font-size: 1.4rem;
+        display: inline-block;
         margin-bottom: 1.4rem;
+        text-decoration: underline;
     }
 
     &-Description,
