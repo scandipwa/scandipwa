@@ -171,8 +171,6 @@
     }
 
     &-Title {
-        font-size: 2.4rem;
-        font-weight: bold;
         line-height: 3.6rem;
 
         @include mobile {
@@ -366,10 +364,10 @@
 
             &_name {
                 order: 1;
-                flex-basis: 100%;
-                flex-direction: column;
+                display: block;
                 text-align: left;
                 padding-bottom: 0;
+                padding-left: 0;
 
                 @include mobile {
                     display: none;

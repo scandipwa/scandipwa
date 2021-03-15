@@ -26,8 +26,8 @@ PropTypes.string = PropTypes.oneOfType([
 // let's register service-worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        const swUrl = `${ process.env.PUBLIC_URL }/service-worker.js`;
-        navigator.serviceWorker.register(swUrl);
+        const swUrl = '/service-worker.js';
+        navigator.serviceWorker.register(swUrl, { scope: '/' });
     });
 }
 

@@ -1,0 +1,23 @@
+:root {
+    --my-account-order-table-row-hover-background: var(--secondary-base-color);
+}
+
+.MyAccountOrderTableRow {
+    height: 36px;
+
+    td,
+    th {
+        @include mobile {
+            min-width: 0;
+        }
+    }
+
+    &:hover {
+        background-color: var(--my-account-order-table-row-hover-background);
+        cursor: pointer;
+    }
+
+    &-DownloadLink {
+        display: block;
+    }
+}

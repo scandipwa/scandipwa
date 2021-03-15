@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import MyAccountAddressBook from 'Component/MyAccountAddressBook';
 import MyAccountDashboard from 'Component/MyAccountDashboard';
+import MyAccountDownloadable from 'Component/MyAccountDownloadable';
 import MyAccountMyOrders from 'Component/MyAccountMyOrders';
 import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
 import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
@@ -24,6 +25,7 @@ import {
     activeTabType,
     ADDRESS_BOOK,
     DASHBOARD,
+    MY_DOWNLOADABLE,
     MY_ORDERS,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION,
@@ -49,7 +51,8 @@ export class MyAccount extends PureComponent {
         [MY_ORDERS]: MyAccountMyOrders,
         [MY_WISHLIST]: MyAccountMyWishlist,
         [ADDRESS_BOOK]: MyAccountAddressBook,
-        [NEWSLETTER_SUBSCRIPTION]: MyAccountNewsletterSubscription
+        [NEWSLETTER_SUBSCRIPTION]: MyAccountNewsletterSubscription,
+        [MY_DOWNLOADABLE]: MyAccountDownloadable
     };
 
     renderLoginOverlay() {
@@ -91,7 +94,7 @@ export class MyAccount extends PureComponent {
                   onSignOut={ onSignOut }
                 />
                 <div block="MyAccount" elem="TabContent">
-                    <h1 block="MyAccount" elem="Heading">{ name }</h1>
+                    <h2 block="MyAccount" elem="Heading">{ name }</h2>
                     <TabContent isEditingActive={ isEditingActive } />
                 </div>
             </ContentWrapper>

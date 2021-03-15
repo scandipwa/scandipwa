@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getStore } from 'Store';
+import getStore from 'Util/Store';
 
 // TODO: fix no LET
 

@@ -122,7 +122,7 @@ export class PasswordChangePageContainer extends PureComponent {
 
     onPasswordSuccess(fields) {
         const { resetPassword, location } = this.props;
-        const { passwordReset: password, passwordResetConfirm: password_confirmation } = fields;
+        const { password, password_confirmation } = fields;
         const token = getQueryParam('token', location);
 
         resetPassword({ token, password, password_confirmation });
@@ -147,10 +147,6 @@ export class PasswordChangePageContainer extends PureComponent {
             {
                 url: '/createPassword',
                 name: __('Change password')
-            },
-            {
-                url: '/',
-                name: __('Home')
             }
         ];
 

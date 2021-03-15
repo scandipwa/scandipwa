@@ -68,7 +68,8 @@ export class Checkout extends PureComponent {
         isGuestEmailSaved: PropTypes.bool.isRequired,
         goBack: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        onCouponCodeUpdate: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -140,9 +141,9 @@ export class Checkout extends PureComponent {
         const { title = '' } = this.stepMap[checkoutStep];
 
         return (
-            <h1 block="Checkout" elem="Title">
+            <h2 block="Checkout" elem="Title">
                 { title }
-            </h1>
+            </h2>
         );
     }
 
@@ -246,7 +247,8 @@ export class Checkout extends PureComponent {
             checkoutStep,
             paymentTotals,
             isMobile,
-            totals: { coupon_code }
+            totals: { coupon_code },
+            onCouponCodeUpdate
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
@@ -263,6 +265,7 @@ export class Checkout extends PureComponent {
               couponCode={ coupon_code }
               // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo(true) }
+              onCouponCodeUpdate={ onCouponCodeUpdate }
             />
         );
     }
@@ -281,10 +284,12 @@ export class Checkout extends PureComponent {
     renderCartCoupon() {
         const {
             totals: { coupon_code },
-            isMobile
+            isMobile,
+            onCouponCodeUpdate,
+            checkoutStep
         } = this.props;
 
-        if (isMobile) {
+        if (isMobile || checkoutStep === SHIPPING_STEP) {
             return null;
         }
 
@@ -293,7 +298,10 @@ export class Checkout extends PureComponent {
               heading={ __('Have a discount code?') }
               mix={ { block: 'Checkout', elem: 'Coupon' } }
             >
-                <CartCoupon couponCode={ coupon_code } />
+                <CartCoupon
+                  couponCode={ coupon_code }
+                  onCouponCodeUpdate={ onCouponCodeUpdate }
+                />
             </ExpandableContent>
         );
     }

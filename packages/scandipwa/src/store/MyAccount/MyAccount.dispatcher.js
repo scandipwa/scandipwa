@@ -123,7 +123,7 @@ export class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationThen */
-            ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            ({ s_resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
             () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
@@ -176,7 +176,12 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationThen */
             () => dispatch(showNotification('success', __('Your account is confirmed!'))),
             /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationError */
-            () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
+            (err) => {
+                const { message } = err[0] || err;
+                return dispatch(
+                    showNotification('error', message || __('Something went wrong! Please, try again!'))
+                );
+            }
         );
     }
 

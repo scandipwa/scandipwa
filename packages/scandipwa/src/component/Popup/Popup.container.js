@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { POPUP } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import { hideActiveOverlay, hideActivePopup } from 'Store/Overlay/Overlay.action';
 
 import Popup from './Popup.component';
 
@@ -24,6 +24,7 @@ import Popup from './Popup.component';
 export const mapStateToProps = (state) => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
+    shouldPopupClose: state.PopupReducer.shouldPopupClose,
     payload: state.PopupReducer.popupPayload,
     device: state.ConfigReducer.device
 });
@@ -31,6 +32,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/Popup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    resetHideActivePopup: () => dispatch(hideActivePopup(false)),
     changeHeaderState: (state) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state))
 });
@@ -47,7 +49,8 @@ export class PopupContainer extends PureComponent {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         onVisible: PropTypes.func,
-        onClose: PropTypes.func
+        onClose: PropTypes.func,
+        shouldPopupClose: PropTypes.bool.isRequired
     };
 
     static defaultProps = {

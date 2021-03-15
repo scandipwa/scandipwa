@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import { KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
@@ -161,17 +161,6 @@ export class CheckoutBillingContainer extends PureComponent {
         const { paymentMethod: code } = this.state;
 
         switch (code) {
-        case BRAINTREE:
-            const [{ nonce }] = asyncData;
-
-            return {
-                code,
-                additional_data: {
-                    payment_method_nonce: nonce,
-                    is_active_payment_token_enabler: false
-                }
-            };
-
         case KLARNA:
             const [{ authorization_token }] = asyncData;
 
