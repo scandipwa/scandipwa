@@ -917,6 +917,7 @@ export class ProductListQuery {
     _getAggregationsOptionsFields() {
         return [
             'label',
+            'count',
             new Field('value').setAlias('value_string'),
             this._getSwatchDataField()
         ];
