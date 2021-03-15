@@ -263,9 +263,12 @@ export class ProductActions extends PureComponent {
                 { showOnlyIfLoaded(
                     brand,
                     (
-                        <h4 block="ProductActions" elem="Brand" itemProp="brand">
-                            <TextPlaceholder content={ brand } />
-                        </h4>
+                        <>
+                            <meta itemProp="brand" content={ brand } />
+                            <h4 block="ProductActions" elem="Brand" itemProp="brand">
+                                <TextPlaceholder content={ brand } />
+                            </h4>
+                        </>
                     )
                 ) }
                 <h1 block="ProductActions" elem="Title" itemProp="name">
