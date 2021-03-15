@@ -74,8 +74,8 @@ export class ProductPage extends PureComponent {
         },
         [PRODUCT_REVIEWS]: {
             name: __('Reviews'),
-            // Return false since it always returns 'Add review' button
-            shouldTabRender: () => false,
+            // Return true since it always returns 'Add review' button
+            shouldTabRender: () => true,
             render: (key) => this.renderProductReviewsTab(key)
         }
     };
@@ -214,7 +214,7 @@ export class ProductPage extends PureComponent {
 
     renderProductTabItems() {
         return Object.values(this.tabMap).reduce((tabRenders, { shouldTabRender, render, name }) => {
-            if (!shouldTabRender()) {
+            if (shouldTabRender()) {
                 tabRenders.push(render(name));
             }
 
@@ -224,7 +224,7 @@ export class ProductPage extends PureComponent {
 
     getTabNames() {
         return Object.values(this.tabMap).reduce((tabNames, { shouldTabRender, name }) => {
-            if (!shouldTabRender()) {
+            if (shouldTabRender()) {
                 tabNames.push(name);
             }
 
