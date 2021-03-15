@@ -101,28 +101,25 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         });
     }
 
-    onZipcodeChange = (e) => {
+    onZipcodeChange = async (e) => {
         const { value } = e.currentTarget;
         const { countryId, availableRegions } = this.state;
 
-        getCityAndRegionFromZipcode(countryId, value).then(
-            ([city, regionCode]) => {
-                if (city) {
-                    this.setState({
-                        city
-                    });
-                }
+        const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
+        if (city) {
+            this.setState({
+                city
+            });
+        }
 
-                if (availableRegions.length > 0 && regionCode) {
-                    const { id: regionId } = availableRegions
-                        .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
+        if (availableRegions.length > 0 && regionCode) {
+            const { id: regionId } = availableRegions
+                .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
 
-                    if (regionId) {
-                        this.setState({ regionId });
-                    }
-                }
+            if (regionId) {
+                this.setState({ regionId });
             }
-        );
+        }
     };
 
     get fieldMap() {
