@@ -109,9 +109,9 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
                 setLoadingState(false);
 
                 const { createCustomer: { customer } } = data;
-                const { confirmation_required, id } = customer;
+                const { confirmation_required, email } = customer;
 
-                this.linkOrder(orderID, id);
+                this.linkOrder(email);
 
                 if (confirmation_required) {
                     this.setState({ registrationState: CHECKOUT_REGISTRATION_STATE_SUCCESS_EMAIL });
@@ -127,14 +127,14 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
         );
     }
 
-    linkOrder(orderId, customerId) {
+    linkOrder(customerEmail) {
         const {
             setLoadingState,
             showNotification
         } = this.props;
 
         setLoadingState(true);
-        const mutation = OrderQuery.linkOrderMutation(orderId, customerId);
+        const mutation = OrderQuery.linkOrderMutation(customerEmail);
 
         return fetchMutation(mutation).then(
             /** @namespace Component/CheckoutRegisterForm/Container/fetchMutation/then */
