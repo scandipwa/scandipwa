@@ -425,6 +425,19 @@ export class ProductActions extends PureComponent {
             offerCount
         } = this.props;
 
+        const {
+            minimum_price: {
+                final_price: {
+                    value: minFinalPrice = 0
+                } = {}
+            } = {},
+            maximum_price: {
+                final_price: {
+                    value: maxFinalPrice = 0
+                } = {}
+            } = {}
+        } = productPrice;
+
         return (
             <div
               block="ProductActions"
@@ -432,6 +445,10 @@ export class ProductActions extends PureComponent {
             >
                 { this.renderConfigurablePriceBadge() }
                 { this.renderSchema() }
+                <meta
+                  itemProp="highPrice"
+                  content={ (minFinalPrice === maxFinalPrice) ? minFinalPrice : maxFinalPrice }
+                />
                 <ProductPrice
                   isSchemaRequired
                   variantsCount={ offerCount }

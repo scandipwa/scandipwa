@@ -396,10 +396,16 @@ export class ProductListQuery {
             .addFieldList(this._getMinimalPriceFields());
     }
 
+    _getMaximalPriceField() {
+        return new Field('maximum_price')
+            .addFieldList(this._getMinimalPriceFields());
+    }
+
     _getPriceRangeFields() {
         // Using an array as potentially would want to add maximum price
         return [
-            this._getMinimalPriceField()
+            this._getMinimalPriceField(),
+            this._getMaximalPriceField()
         ];
     }
 
