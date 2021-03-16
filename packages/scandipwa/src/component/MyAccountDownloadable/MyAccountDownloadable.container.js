@@ -13,13 +13,17 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { OrderDispatcher } from 'Component/MyAccountMyOrders/MyAccountMyOrders.container';
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
 import { fetchQuery } from 'Util/Request';
 
 import MyAccountDownloadable from './MyAccountDownloadable.component';
+
+export const OrderDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Order/Order.dispatcher'
+);
 
 /** @namespace Component/MyAccountDownloadable/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
