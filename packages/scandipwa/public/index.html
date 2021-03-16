@@ -14,19 +14,13 @@
 
     <!-- Default content-configurations -->
     <script>
-        (function() {
-                if (typeof globalThis === 'object') return;
-                Object.prototype.__defineGetter__('__magic__', function() {
-                    return this;
-                });
-                __magic__.globalThis = __magic__;
-                delete Object.prototype.__magic__;
-            }());
-
         window.contentConfiguration = {};
         window.storeList = ['default'];
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
     </script>
+
+    <!-- Polyfill for missing globalThis in old browsers  -->
+    <script src="global-this-fix.js"></script>
 </head>
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
