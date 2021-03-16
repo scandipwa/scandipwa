@@ -91,7 +91,6 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
         const {
             setLoadingState,
             isLoading,
-            orderID,
             showNotification
         } = this.props;
 
