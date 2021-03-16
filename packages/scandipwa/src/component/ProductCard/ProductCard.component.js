@@ -101,8 +101,8 @@ export class ProductCard extends PureComponent {
     };
 
     productTypeRenderMap = {
-        [GROUPED]: 'Starting from',
-        [CONFIGURABLE]: 'As Low as'
+        [GROUPED]: __('Starting from'),
+        [CONFIGURABLE]: __('As Low as')
     };
 
     imageRef = createRef();
@@ -135,7 +135,7 @@ export class ProductCard extends PureComponent {
                   elem: 'PriceBadge'
               } }
             >
-                { __(label) }
+                { label }
             </p>
         );
     }
