@@ -322,6 +322,8 @@ export class ProductGallery extends PureComponent {
             sliderRef
         } = this.props;
 
+        const [{ thumbnail: { url } }] = gallery;
+
         const mods = {
             isImageZoomPopupActive,
             isZoomInCursor: !isImageZoomPopupActive
@@ -333,6 +335,7 @@ export class ProductGallery extends PureComponent {
               block="ProductGallery"
               elem="SliderWrapper"
             >
+                <meta itemProp="image" content={ url } />
                 <Slider
                   sliderRef={ sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider', mods } }
