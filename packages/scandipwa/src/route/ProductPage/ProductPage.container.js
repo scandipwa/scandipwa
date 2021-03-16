@@ -95,6 +95,7 @@ export class ProductPageContainer extends PureComponent {
         getLink: this.getLink.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
         setBundlePrice: this.setBundlePrice.bind(this),
+        setLinkedDownloadables: this.setLinkedDownloadables.bind(this),
         isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
@@ -362,6 +363,15 @@ export class ProductPageContainer extends PureComponent {
         this.setState({
             selectedBundlePrice: price,
             selectedBundlePriceExclTax: priceExclTax
+        });
+    }
+
+    setLinkedDownloadables(links) {
+        const { productOptionsData } = this.state;
+        this.setState({
+            productOptionsData: {
+                ...productOptionsData, downloadableLinks: links
+            }
         });
     }
 
