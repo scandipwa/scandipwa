@@ -28,7 +28,7 @@ export const updateGroupedProductPrice = (product) => {
 
     const { price_range: { minimum_price } } = product;
 
-    items.forEach((link) => {
+    items.forEach((item) => {
         const {
             qty,
             product: {
@@ -36,7 +36,7 @@ export const updateGroupedProductPrice = (product) => {
                     minimum_price: link_minimum_price
                 }
             }
-        } = link;
+        } = item;
 
         Object.keys(minimum_price).forEach((type, index) => {
             if (link_minimum_price[type].value) {
