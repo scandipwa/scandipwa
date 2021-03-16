@@ -323,29 +323,37 @@ export class ProductListQuery {
         return [
             'links_title',
             'links_purchased_separately',
-            this._getDownloadableProductLink(),
-            this._getDownloadableProductSample()
+            this._getDownloadableProductLinkField(),
+            this._getDownloadableProductSampleField()
         ];
     }
 
-    _getDownloadableProductLink() {
+    _getDownloadableProductLinkField() {
         return new Field('downloadable_product_links')
-            .addFieldList([
-                'sample_url',
-                'sort_order',
-                'title',
-                'id',
-                'price'
-            ]);
+            .addFieldList(this._getDownloadableProductLinkFields());
     }
 
-    _getDownloadableProductSample() {
+    _getDownloadableProductLinkFields() {
+        return [
+            'sample_url',
+            'sort_order',
+            'title',
+            'id',
+            'price'
+        ];
+    }
+
+    _getDownloadableProductSampleField() {
         return new Field('downloadable_product_samples')
-            .addFieldList([
-                'title',
-                'sort_order',
-                'sample_url'
-            ]);
+            .addFieldList(this._getDownloadableProductSampleFields());
+    }
+
+    _getDownloadableProductSampleFields() {
+        return [
+            'title',
+            'sort_order',
+            'sample_url'
+        ];
     }
 
     _getItemsField() {

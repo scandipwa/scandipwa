@@ -369,8 +369,9 @@ export class ProductPageContainer extends PureComponent {
     setLinkedDownloadables(links) {
         const { productOptionsData } = this.state;
         this.setState({
-            productOptionsData:
-                { ...productOptionsData, downloadableLinks: links }
+            productOptionsData: { 
+                ...productOptionsData, downloadableLinks: links 
+            }
         });
     }
 

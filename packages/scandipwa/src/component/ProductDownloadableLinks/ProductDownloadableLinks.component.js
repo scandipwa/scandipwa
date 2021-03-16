@@ -99,7 +99,11 @@ export class ProductDownloadableLinks extends PureComponent {
             return this.renderPlaceholder();
         }
 
-        return this.renderContent();
+        return (
+            <div block="ProductDownloadableLinks">
+                { this.renderContent() }
+            </div>
+        );
     }
 }
 

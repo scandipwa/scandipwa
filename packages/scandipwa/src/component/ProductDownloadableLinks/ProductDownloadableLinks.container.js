@@ -95,7 +95,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
             this.setState({
                 selectedLinks: selectedLinks.filter(
                     (link) => link.link_id !== optionIdInt
-                ) || []
+                )
             });
         }
     }
