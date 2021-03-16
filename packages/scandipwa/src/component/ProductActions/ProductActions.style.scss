@@ -165,11 +165,6 @@
         padding: 0;
     }
 
-    &-Sku::after {
-        content: '•';
-        margin: 0 5px;
-    }
-
     &-Title {
         font-size: 2.4rem;
         font-weight: bold;
@@ -362,6 +357,11 @@
                     font-size: 1.4rem;
                     display: none;
                 }
+
+                & > span:not(:last-child):after {
+                        content: '•';
+                        margin: 0 5px;
+                    }
             }
 
             &_name {

@@ -120,6 +120,7 @@ export class ConfigQuery {
             'demo_notice',
             'guest_checkout',
             'is_email_confirmation_required',
+            'display_product_stock_status',
             'base_link_url',
             'show_vat_number_on_storefront',
             'show_tax_vat_number',
