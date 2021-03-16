@@ -312,6 +312,20 @@ export class ProductGallery extends PureComponent {
         );
     }
 
+    getImageUrl() {
+        const {
+            gallery: [
+                {
+                    thumbnail: {
+                        url = ''
+                    } = {}
+                }
+            ] = []
+        } = this.props;
+
+        return url;
+    }
+
     renderSlider() {
         const {
             gallery,
@@ -321,8 +335,6 @@ export class ProductGallery extends PureComponent {
             isImageZoomPopupActive,
             sliderRef
         } = this.props;
-
-        const [{ thumbnail: { url } }] = gallery;
 
         const mods = {
             isImageZoomPopupActive,
@@ -335,7 +347,7 @@ export class ProductGallery extends PureComponent {
               block="ProductGallery"
               elem="SliderWrapper"
             >
-                <meta itemProp="image" content={ url } />
+                <meta itemProp="image" content={ this.getImageUrl() } />
                 <Slider
                   sliderRef={ sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider', mods } }
