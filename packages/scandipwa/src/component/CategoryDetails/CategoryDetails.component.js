@@ -49,17 +49,17 @@ export class CategoryDetails extends PureComponent {
         }
 
         return (
-            <h1 block="CategoryDetails" elem="Heading">
+            <h2 block="CategoryDetails" elem="Heading">
                 <TextPlaceholder content={ name } />
-            </h1>
+            </h2>
         );
     }
 
     renderCategoryNamePlaceholder() {
         return (
-            <h1 block="CategoryDetails" elem="Heading">
+            <h2 block="CategoryDetails" elem="Heading">
                 <TextPlaceholder />
-            </h1>
+            </h2>
         );
     }
 

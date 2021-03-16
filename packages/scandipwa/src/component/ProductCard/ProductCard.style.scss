@@ -144,7 +144,8 @@
         min-height: calc(var(--product-card-color-size) + 5px);
     }
 
-    &-Color {
+    &-Color,
+    &-Image {
         display: inline-block;
         width: var(--product-card-color-size);
         height: var(--product-card-color-size);

@@ -171,8 +171,6 @@
     }
 
     &-Title {
-        font-size: 2.4rem;
-        font-weight: bold;
         line-height: 3.6rem;
 
         @include mobile {
@@ -210,6 +208,10 @@
         .Field_type_number {
             max-width: 80px;
         }
+    }
+
+    &-Samples {
+        order: 5;
     }
 
     &-AddToCart {

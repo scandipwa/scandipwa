@@ -293,10 +293,8 @@ export class CheckoutContainer extends PureComponent {
 
         if (checkoutStep === BILLING_STEP) {
             this.setState({
-                isLoading: false,
-                checkoutStep: SHIPPING_STEP
+                isLoading: false
             });
-
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
         }
 
