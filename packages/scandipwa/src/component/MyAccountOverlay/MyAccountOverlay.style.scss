@@ -448,11 +448,9 @@
         }
 
         > label:last-of-type {
-            width: 1.32rem;
             height: 1.32rem;
 
             @include mobile {
-                width: 1.54rem;
                 height: 1.54rem;
             }
 
