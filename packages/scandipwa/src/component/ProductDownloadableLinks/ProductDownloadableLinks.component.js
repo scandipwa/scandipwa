@@ -15,10 +15,13 @@ import Field from 'Component/Field';
 import Link from 'Component/Link';
 import { formatPrice } from 'Util/Price';
 
+import './ProductDownloadableLinks.style.scss';
+
 /** @namespace Component/ProductDownloadableLinks/Component */
 export class ProductDownloadableLinks extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
+        isRequired: PropTypes.bool.isRequired,
         links: PropTypes.array,
         title: PropTypes.string.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired
@@ -30,43 +33,76 @@ export class ProductDownloadableLinks extends PureComponent {
 
     getLabel(link) {
         const { title, price } = link;
+        const { isRequired } = this.props;
 
-        return `${ title } (${ formatPrice(price) })`;
+        if (!isRequired) {
+            return title;
+        }
+
+        return `${ title } (+${ formatPrice(price) })`;
+    }
+
+    renderLabel(link) {
+        const { sample_url } = link;
+
+        if (!sample_url) {
+            return this.getLabel(link);
+        }
+
+        return (
+            <>
+                { this.getLabel(link) }
+                <Link to={ sample_url } block="ProductDownloadableLink" elem="SampleLink">
+                    { __('Sample') }
+                </Link>
+            </>
+        );
     }
 
     renderCheckBox(link) {
-        const { sample_url, id } = link;
-        const { setSelectedCheckboxValues } = this.props;
+        const { setSelectedCheckboxValues, isRequired } = this.props;
+        const { id } = link;
+
+        if (!isRequired) {
+            return null;
+        }
 
         return (
-            <div>
-                <Field
-                  type="checkbox"
-                  label={ this.getLabel(link) }
-                  key={ id }
-                  id={ `link-${id}` }
-                  name={ `link-${id}` }
-                  value={ id }
-                  onChange={ setSelectedCheckboxValues }
-                />
-                <Link to={ sample_url } block="ProductDownloadableLinks" elem="SampleLink">
-                    { __('Sample') }
-                </Link>
+            <Field
+              type="checkbox"
+              key={ id }
+              id={ `link-${ id }` }
+              name={ `link-${ id }` }
+              value={ id }
+              onChange={ setSelectedCheckboxValues }
+            />
+        );
+    }
+
+    renderLink(link) {
+        return (
+            <div block="ProductDownloadableLink">
+                { this.renderCheckBox(link) }
+                <span block="ProductDownloadableLink" elem="SampleLabel">
+                    { this.renderLabel(link) }
+                </span>
             </div>
         );
     }
 
-    renderCheckBoxes() {
+    renderLinks() {
         const { links } = this.props;
 
-        return links.map((link) => this.renderCheckBox(link));
+        return links.map((link) => this.renderLink(link));
     }
 
     renderTitle() {
-        const { title } = this.props;
+        const { title, isRequired } = this.props;
+
+        const elem = `Title${ isRequired ? '-Required' : '' }`;
 
         return (
-            <h3 block="ProductDownloadableLinks" elem="Title">
+            <h3 block="ProductDownloadableLinks" elem={ elem }>
                 { title }
             </h3>
         );
@@ -76,7 +112,7 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <>
             { this.renderTitle() }
-            { this.renderCheckBoxes() }
+            { this.renderLinks() }
             </>
         );
     }

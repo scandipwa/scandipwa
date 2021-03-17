@@ -322,6 +322,7 @@ export class ProductListQuery {
     _getDownloadableProductLinks() {
         return [
             'links_title',
+            'samples_title',
             'links_purchased_separately',
             this._getDownloadableProductLinkField(),
             this._getDownloadableProductSampleField()

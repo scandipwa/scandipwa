@@ -18,13 +18,16 @@ import ProductDownloadableLinks from './ProductDownloadableLinks.component';
 export class ProductDownloadableLinksContainer extends PureComponent {
     static propTypes = {
         title: PropTypes.string,
+        isRequired: PropTypes.bool,
         links: PropTypes.array,
-        setLinkedDownloadables: PropTypes.func.isRequired
+        setLinkedDownloadables: PropTypes.func.isRequired,
+        setLinkedDownloadablesPrice: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         title: '',
-        links: []
+        links: [],
+        isRequired: false
     };
 
     state = {
@@ -69,10 +72,26 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     }
 
     updateSelectedOptionsArray() {
-        const { setLinkedDownloadables } = this.props;
+        const { setLinkedDownloadables, setLinkedDownloadablesPrice } = this.props;
         const { selectedLinks } = this.state;
 
         setLinkedDownloadables(selectedLinks);
+
+        const price = this.getTotalPrice();
+        setLinkedDownloadablesPrice(price);
+    }
+
+    getTotalPrice() {
+        const { selectedLinks } = this.state;
+        const { links } = this.props;
+
+        return selectedLinks.reduce(
+            (base, { link_id }) => {
+                const link = links.find(({ id }) => id === link_id);
+                return base + link.price;
+            },
+            0
+        );
     }
 
     setSelectedCheckboxValues(option_id, option_value) {
