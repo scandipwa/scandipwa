@@ -16,9 +16,10 @@ import { PureComponent } from 'react';
 import CheckoutPayment from 'Component/CheckoutPayment';
 import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
+import { PurchaseOrder } from 'Component/PurchaseOrder/PurchaseOrder.component';
 import { paymentMethodsType } from 'Type/Checkout';
 
-import { KLARNA } from './CheckoutPayments.config';
+import { KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
 
 import './CheckoutPayments.style';
 
@@ -27,6 +28,7 @@ export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
+        onPurchaseOrderNumberChange: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.string.isRequired,
@@ -55,7 +57,8 @@ export class CheckoutPayments extends PureComponent {
     };
 
     paymentRenderMap = {
-        [KLARNA]: this.renderKlarnaPayment.bind(this)
+        [KLARNA]: this.renderKlarnaPayment.bind(this),
+        [PURCHASE_ORDER]: this.renderPurchaseOrderPayment.bind(this)
     };
 
     state = {
@@ -81,6 +84,11 @@ export class CheckoutPayments extends PureComponent {
     renderKlarnaPayment() {
         const { setOrderButtonEnableStatus } = this.props;
         return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
+    }
+
+    renderPurchaseOrderPayment() {
+        const { onPurchaseOrderNumberChange, setOrderButtonEnableStatus } = this.props;
+        return <PurchaseOrder { ...{ onPurchaseOrderNumberChange, setOrderButtonEnableStatus } } />;
     }
 
     renderNotSupported() {

@@ -20,7 +20,7 @@ import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 
 import CheckoutPayments from './CheckoutPayments.component';
-import { KLARNA } from './CheckoutPayments.config';
+import { KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
 
 /** @namespace Component/CheckoutPayments/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -46,11 +46,13 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     containerFunctions = {
-        selectPaymentMethod: this.selectPaymentMethod.bind(this)
+        selectPaymentMethod: this.selectPaymentMethod.bind(this),
+        onPurchaseOrderNumberChange: this.onPurchaseOrderNumberChange.bind(this)
     };
 
     dataMap = {
-        [KLARNA]: this.getKlarnaData.bind(this)
+        [KLARNA]: this.getKlarnaData.bind(this),
+        [PURCHASE_ORDER]: this.getPurchaseOrderData.bind(this)
     };
 
     __construct(props) {
@@ -58,7 +60,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
         const { paymentMethods } = props;
         const [{ code } = {}] = paymentMethods;
-        this.state = { selectedPaymentCode: code };
+        this.state = {
+            selectedPaymentCode: code,
+            purchaseOrderNumber: null
+        };
     }
 
     componentDidMount() {
@@ -75,6 +80,11 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
     getKlarnaData() {
         return { asyncData: KlarnaContainer.authorize() };
+    }
+
+    getPurchaseOrderData() {
+        const { purchaseOrderNumber } = this.state;
+        return { asyncData: { purchase_order_number: purchaseOrderNumber } };
     }
 
     collectAdditionalData = () => {
@@ -99,6 +109,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
         onPaymentMethodSelect(code);
         setOrderButtonEnableStatus(true);
+    }
+
+    onPurchaseOrderNumberChange(purchaseOrderNumber) {
+        this.setState({ purchaseOrderNumber });
     }
 
     render() {

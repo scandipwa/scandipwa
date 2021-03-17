@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import { KLARNA, PURCHASE_ORDER } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
@@ -82,6 +82,7 @@ export class CheckoutBillingContainer extends PureComponent {
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
+        onPurchaseOrderNumberChange: this.onPurchaseOrderNumberChange.bind(this),
         showPopup: this.showPopup.bind(this)
     };
 
@@ -96,7 +97,8 @@ export class CheckoutBillingContainer extends PureComponent {
             isSameAsShipping: this.isSameShippingAddress(customer),
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
-            paymentMethod
+            paymentMethod,
+            purchaseOrderNumber: null
         };
     }
 
@@ -119,7 +121,11 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     onPaymentMethodSelect(code) {
-        this.setState({ paymentMethod: code });
+        this.setState({ paymentMethod: code, purchaseOrderNumber: null });
+    }
+
+    onPurchaseOrderNumberChange(purchaseOrderNumber) {
+        this.setState({ purchaseOrderNumber });
     }
 
     onBillingSuccess(fields, asyncData) {
@@ -169,6 +175,14 @@ export class CheckoutBillingContainer extends PureComponent {
                 additional_data: {
                     authorization_token
                 }
+            };
+
+        case PURCHASE_ORDER:
+            const [{ purchase_order_number }] = asyncData;
+
+            return {
+                code,
+                purchase_order_number
             };
 
         default:
