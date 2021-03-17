@@ -70,12 +70,15 @@ export class ProductPriceContainer extends PureComponent {
                     } = {},
                     regular_price: {
                         value: regularPriceValue
+                    } = {},
+                    base_price: {
+                        value: basePriceValue
                     } = {}
                 } = {}
             } = {}
         } = this.props;
 
-        if (!minimalPriceValue || !regularPriceValue) {
+        if ((!minimalPriceValue || !regularPriceValue) && !basePriceValue) {
             return {};
         }
 
@@ -133,6 +136,12 @@ export class ProductPriceContainer extends PureComponent {
                     } = {},
                     regular_price_excl_tax: {
                         value: regularPriceExclTaxValue
+                    } = {},
+                    base_price: {
+                        value: basePriceValue
+                    } = {},
+                    base_price_excl_tax: {
+                        value: basePriceExclTaxValue
                     } = {}
                 } = {}
             } = {},
@@ -146,9 +155,11 @@ export class ProductPriceContainer extends PureComponent {
                 regularPriceExclTaxValue
             );
 
+            console.log(basePriceValue, basePriceExclTaxValue);
             return formatPrice(finalPrice, priceCurrency);
         }
 
+        console.log(basePriceValue, basePriceExclTaxValue);
         const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
 
         return formatPrice(finalPrice, priceCurrency);
