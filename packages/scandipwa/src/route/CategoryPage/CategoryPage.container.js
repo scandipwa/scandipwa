@@ -346,10 +346,11 @@ export class CategoryPageContainer extends PureComponent {
             categoryIds,
             category: {
                 id
-            }
+            },
+            isSearchPage
         } = this.props;
 
-        return categoryIds === id;
+        return isSearchPage || categoryIds === id;
     }
 
     containerProps = () => ({
