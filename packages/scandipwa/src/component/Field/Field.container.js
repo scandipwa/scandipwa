@@ -122,6 +122,7 @@ export class FieldContainer extends PureComponent {
             this.setState({ checked: currChecked });
         }
 
+        this.updateValidationStatus();
         this.setValidationMessage(prevProps);
     }
 
@@ -206,6 +207,15 @@ export class FieldContainer extends PureComponent {
         return validationConfig[rule] || {};
     }
 
+    updateValidationStatus() {
+        const validationRule = this.validateField();
+
+        this.setState({
+            validationStatus: !validationRule.validate,
+            validationMessage: validationRule.message
+        });
+    }
+
     onChange(event) {
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
@@ -217,12 +227,7 @@ export class FieldContainer extends PureComponent {
             });
         }
 
-        const validationRule = this.validateField();
-
-        this.setState({
-            validationStatus: !validationRule.validate,
-            validationMessage: validationRule.message
-        });
+        this.updateValidationStatus();
 
         return this.handleChange(event.target.value);
     }
