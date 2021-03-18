@@ -16,7 +16,6 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ProductTab from 'Component/ProductTab';
 import { isMobile } from 'Util/Mobile';
 
-// import { isMobile } from 'Util/Mobile';
 import './ProductTabs.style';
 
 /** @namespace Component/ProductTabs/Component */
@@ -90,7 +89,7 @@ export class ProductTabs extends PureComponent {
                 <ul block="ProductTabs">
                     { tabs.map(this.renderTab) }
                 </ul>
-                { isMobile ? this.renderAllTabs() : this.renderActiveTab() }
+                { isMobile.any() ? this.renderAllTabs() : this.renderActiveTab() }
             </>
         );
     }
