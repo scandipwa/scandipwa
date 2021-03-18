@@ -129,7 +129,9 @@ export class ProductPageContainer extends PureComponent {
             product: {
                 sku,
                 variants,
-                configurable_options
+                configurable_options,
+                options,
+                productOptionsData
             },
             location: { search }
         } = props;
@@ -166,10 +168,23 @@ export class ProductPageContainer extends PureComponent {
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
 
+        const newOptionsData = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        const prevOptions = productOptionsData?.requiredOptions || [];
+        const requiredOptions = [...prevOptions, ...newOptionsData];
+
         return {
             parameters,
             currentProductSKU,
-            configurableVariantIndex
+            configurableVariantIndex,
+            productOptionsData:
+                { ...productOptionsData, requiredOptions }
         };
     }
 
@@ -342,7 +357,6 @@ export class ProductPageContainer extends PureComponent {
         if (!options) {
             return [];
         }
-
         const requiredOptions = options.reduce((acc, { option_id, required }) => {
             if (required) {
                 acc.push(option_id);
