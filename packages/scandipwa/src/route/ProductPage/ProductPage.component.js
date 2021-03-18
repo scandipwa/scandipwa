@@ -212,31 +212,13 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    renderProductTabItems() {
-        return Object.values(this.tabMap).reduce((tabRenders, { shouldTabRender, render, name }) => {
-            if (shouldTabRender()) {
-                tabRenders.push(render(name));
-            }
-
-            return tabRenders;
-        }, []);
-    }
-
-    getTabNames() {
-        return Object.values(this.tabMap).reduce((tabNames, { shouldTabRender, name }) => {
-            if (shouldTabRender()) {
-                tabNames.push(name);
-            }
-
-            return tabNames;
-        }, []);
+    shouldTabsRender() {
+        return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
     }
 
     renderProductTabs() {
         return (
-            <ProductTabs tabNames={ this.getTabNames() }>
-                { this.renderProductTabItems() }
-            </ProductTabs>
+            <ProductTabs tabs={ this.shouldTabsRender() } />
         );
     }
 
