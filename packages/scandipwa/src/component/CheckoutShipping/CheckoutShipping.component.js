@@ -17,6 +17,7 @@ import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { addressType } from 'Type/Account';
 import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
@@ -32,7 +33,9 @@ export class CheckoutShipping extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         selectedShippingMethod: shippingMethodType,
         onAddressSelect: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        onStoreSelect: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        estimateAddress: addressType.isRequired
     };
 
     static defaultProps = {
@@ -82,13 +85,17 @@ export class CheckoutShipping extends PureComponent {
     renderDelivery() {
         const {
             shippingMethods,
-            onShippingMethodSelect
+            onShippingMethodSelect,
+            estimateAddress,
+            onStoreSelect
         } = this.props;
 
         return (
             <CheckoutDeliveryOptions
               shippingMethods={ shippingMethods }
               onShippingMethodSelect={ onShippingMethodSelect }
+              estimateAddress={ estimateAddress }
+              onStoreSelect={ onStoreSelect }
             />
         );
     }

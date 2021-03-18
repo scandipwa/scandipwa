@@ -166,6 +166,7 @@ export class CheckoutContainer extends PureComponent {
             paymentMethods: [],
             shippingMethods: [],
             shippingAddress: {},
+            selectedShippingMethod: '',
             checkoutStep: is_virtual ? BILLING_STEP : SHIPPING_STEP,
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
@@ -492,11 +493,12 @@ export class CheckoutContainer extends PureComponent {
 
     async saveAddressInformation(addressInformation) {
         const { updateShippingPrice } = this.props;
-        const { shipping_address } = addressInformation;
+        const { shipping_address, shipping_method_code } = addressInformation;
 
         this.setState({
             isLoading: true,
-            shippingAddress: shipping_address
+            shippingAddress: shipping_address,
+            selectedShippingMethod: shipping_method_code
         });
 
         if (!isSignedIn()) {

@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
+import StoreInPickUp from 'Component/StoreInPickUp';
+import { addressType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
 
 import './CheckoutDeliveryOptions.style';
@@ -22,7 +24,11 @@ export class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
-        selectedShippingMethodCode: PropTypes.string
+        onStoreSelect: PropTypes.func.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        setSelectedShippingMethodCode: PropTypes.func.isRequired,
+        selectedShippingMethodCode: PropTypes.string,
+        estimateAddress: addressType.isRequired
     };
 
     static defaultProps = {
@@ -86,6 +92,14 @@ export class CheckoutDeliveryOptions extends PureComponent {
     }
 
     render() {
+        const {
+            estimateAddress,
+            shippingMethods,
+            onStoreSelect,
+            onShippingMethodSelect,
+            setSelectedShippingMethodCode
+        } = this.props;
+
         return (
             <div block="CheckoutDeliveryOptions">
                 { this.renderHeading() }
@@ -93,6 +107,13 @@ export class CheckoutDeliveryOptions extends PureComponent {
                     { this.renderShippingMethods() }
                 </ul>
                 { this.renderSelectedShippingMethod() }
+                <StoreInPickUp
+                  estimateAddress={ estimateAddress }
+                  shippingMethods={ shippingMethods }
+                  onStoreSelect={ onStoreSelect }
+                  onShippingMethodSelect={ onShippingMethodSelect }
+                  setSelectedShippingMethodCode={ setSelectedShippingMethodCode }
+                />
             </div>
         );
     }
