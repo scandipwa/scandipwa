@@ -14,34 +14,32 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field/Field.container';
+import FormPortal from 'Component/FormPortal/FormPortal.component';
 
 /** @namespace Component/PurchaseOrder/Component */
 export class PurchaseOrder extends PureComponent {
     static propTypes = {
-        onPurchaseOrderNumberChange: PropTypes.func.isRequired,
-        setOrderButtonEnableStatus: PropTypes.func.isRequired
-    };
-
-    handlePurchaseOrderNumberChange = (enteredPurchaseOrderNumber) => {
-        const { setOrderButtonEnableStatus } = this.props;
-        setOrderButtonEnableStatus(!!enteredPurchaseOrderNumber);
+        id: PropTypes.string.isRequired
     };
 
     render() {
-        const { onPurchaseOrderNumberChange } = this.props;
+        const { id } = this.props;
 
         return (
-            <Field
-              type="text"
-              id="purchaseOrderNumber"
-              name="purchaseOrderNumber"
-              label={ __('Purchase Order Number') }
-              validation={ ['notEmpty'] }
-              placeholder={ __('Purchase Order Number') }
-              onChange={ onPurchaseOrderNumberChange }
-              mix={ { block: 'PurchaseOrderNumber', elem: 'Input' } }
-              aria-label={ __('Purchase Order Number') }
-            />
+            <FormPortal
+              id={ id }
+              name="PurchaseOrder"
+            >
+                <Field
+                  type="text"
+                  id="purchaseOrderNumber"
+                  name="purchaseOrderNumber"
+                  validation={ ['notEmpty'] }
+                  placeholder={ __('Purchase Order Number') }
+                  mix={ { block: 'PurchaseOrderNumber', elem: 'Input' } }
+                  aria-label={ __('Purchase Order Number') }
+                />
+            </FormPortal>
         );
     }
 }

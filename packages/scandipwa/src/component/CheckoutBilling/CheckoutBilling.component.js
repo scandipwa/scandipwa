@@ -40,7 +40,6 @@ export class CheckoutBilling extends PureComponent {
         termsAreEnabled: PropTypes.bool,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
-        onPurchaseOrderNumberChange: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
         onBillingError: PropTypes.func.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
@@ -239,7 +238,6 @@ export class CheckoutBilling extends PureComponent {
         const {
             paymentMethods,
             onPaymentMethodSelect,
-            onPurchaseOrderNumberChange,
             setLoading,
             setDetailsStep,
             shippingAddress
@@ -255,7 +253,6 @@ export class CheckoutBilling extends PureComponent {
               setDetailsStep={ setDetailsStep }
               paymentMethods={ paymentMethods }
               onPaymentMethodSelect={ onPaymentMethodSelect }
-              onPurchaseOrderNumberChange={ onPurchaseOrderNumberChange }
               setOrderButtonVisibility={ this.setOrderButtonVisibility }
               billingAddress={ shippingAddress }
               setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }

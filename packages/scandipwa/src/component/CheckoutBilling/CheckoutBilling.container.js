@@ -82,7 +82,6 @@ export class CheckoutBillingContainer extends PureComponent {
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
         onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
-        onPurchaseOrderNumberChange: this.onPurchaseOrderNumberChange.bind(this),
         showPopup: this.showPopup.bind(this)
     };
 
@@ -97,8 +96,7 @@ export class CheckoutBillingContainer extends PureComponent {
             isSameAsShipping: this.isSameShippingAddress(customer),
             selectedCustomerAddressId: 0,
             prevPaymentMethods: paymentMethods,
-            paymentMethod,
-            purchaseOrderNumber: null
+            paymentMethod
         };
     }
 
@@ -124,16 +122,12 @@ export class CheckoutBillingContainer extends PureComponent {
         this.setState({ paymentMethod: code, purchaseOrderNumber: null });
     }
 
-    onPurchaseOrderNumberChange(purchaseOrderNumber) {
-        this.setState({ purchaseOrderNumber });
-    }
-
     onBillingSuccess(fields, asyncData) {
         const { savePaymentInformation } = this.props;
         const { isSameAsShipping } = this.state;
 
         const address = this._getAddress(fields);
-        const paymentMethod = this._getPaymentData(asyncData);
+        const paymentMethod = this._getPaymentData(fields, asyncData);
 
         savePaymentInformation({
             billing_address: address,
@@ -163,7 +157,7 @@ export class CheckoutBillingContainer extends PureComponent {
         });
     }
 
-    _getPaymentData(asyncData) {
+    _getPaymentData(fields, asyncData) {
         const { paymentMethod: code } = this.state;
 
         switch (code) {
@@ -178,11 +172,11 @@ export class CheckoutBillingContainer extends PureComponent {
             };
 
         case PURCHASE_ORDER:
-            const [{ purchase_order_number }] = asyncData;
+            const { purchaseOrderNumber } = fields;
 
             return {
                 code,
-                purchase_order_number
+                purchase_order_number: purchaseOrderNumber
             };
 
         default:
