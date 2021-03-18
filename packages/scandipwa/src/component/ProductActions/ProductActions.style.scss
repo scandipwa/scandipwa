@@ -91,7 +91,6 @@
 
     &-ReviewLabel {
         display: inline-block;
-        font-weight: 600;
         margin-left: .6rem;
 
         @include mobile {
@@ -180,8 +179,6 @@
     }
 
     &-Brand {
-        font-size: 1.44rem;
-        font-weight: bold;
         text-transform: uppercase;
         color: var(--product-actions-option-border-color);
 
