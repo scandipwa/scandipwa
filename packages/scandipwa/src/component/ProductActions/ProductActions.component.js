@@ -182,7 +182,9 @@ export class ProductActions extends PureComponent {
 
     renderBundleItems() {
         const {
-            product: { items, type_id, price_range },
+            product: {
+                items, type_id, price_range, dynamic_price
+            },
             maxQuantity,
             getSelectedCustomizableOptions,
             productOptionsData,
@@ -206,6 +208,7 @@ export class ProductActions extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   price_range={ price_range }
+                  isDynamicPrice={ dynamic_price }
                 />
             </section>
         );
@@ -418,7 +421,8 @@ export class ProductActions extends PureComponent {
     renderPriceWithSchema() {
         const {
             productPrice,
-            offerCount
+            offerCount,
+            product
         } = this.props;
 
         return (
@@ -432,6 +436,7 @@ export class ProductActions extends PureComponent {
                   isSchemaRequired
                   variantsCount={ offerCount }
                   price={ productPrice }
+                  product={ product }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
             </div>

@@ -21,7 +21,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     static propTypes = {
         ...ProductCustomizableOptionContainer.propTypes,
         setCustomizableOptionTextFieldValue: PropTypes.func,
-        updateQuantity: PropTypes.func.isRequired
+        updateQuantity: PropTypes.func.isRequired,
+        isDynamicPrice: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -178,18 +179,23 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     }
 
     getDropdownOptions(values) {
-        const { price_range: { minimum_price: { discount: { percent_off } } } } = this.props;
+        const {
+            price_range: { minimum_price: { discount: { percent_off } } },
+            isDynamicPrice
+        } = this.props;
 
         return values.reduce((acc, {
             id,
             label,
             price_type,
             quantity,
+            price: fixedPriceValue,
             can_change_quantity,
-            product: { price_range: { minimum_price: { final_price: { value } } } }
+            product: { price_range: { minimum_price: { final_price: { value: finalPriceValue } } } }
         }) => {
+            const priceValue = isDynamicPrice ? finalPriceValue : fixedPriceValue;
             // eslint-disable-next-line no-magic-numbers
-            const finalPrice = value - (value * (percent_off / 100));
+            const finalPrice = priceValue - (priceValue * (percent_off / 100));
 
             const dropdownLabel = !can_change_quantity
                 ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`

@@ -284,9 +284,11 @@ export class ProductActionsContainer extends PureComponent {
                 price_range: {
                     minimum_price: {
                         regular_price: { currency },
+                        discount: discountData,
                         discount: { percent_off },
                         base_price,
-                        base_price_excl_tax
+                        base_final_price,
+                        base_final_price_excl_tax
                     }
                 }
             } = product;
@@ -306,8 +308,10 @@ export class ProductActionsContainer extends PureComponent {
                     regular_price: priceValue,
                     final_price_excl_tax: priceValueExclTax,
                     regular_price_excl_tax: priceValueExclTax,
+                    discount: discountData,
                     base_price,
-                    base_price_excl_tax
+                    base_final_price,
+                    base_final_price_excl_tax
                 }
             };
         }
