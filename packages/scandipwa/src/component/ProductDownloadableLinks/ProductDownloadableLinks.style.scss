@@ -4,8 +4,8 @@
 
     &-Title {
         margin-bottom: .1rem;
-        &-Required {
-            &:after{
+        &_isRequired {
+            &::after{
                 content: '*';
                 color: var(--primary-base-color);
                 padding: 0 .5rem;

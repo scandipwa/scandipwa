@@ -79,30 +79,26 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderLink(link) {
-        return (
-            <div block="ProductDownloadableLink">
-                { this.renderCheckBox(link) }
-                <span block="ProductDownloadableLink" elem="SampleLabel">
-                    { this.renderLabel(link) }
-                </span>
-            </div>
-        );
-    }
+    renderLink = (link) => (
+        <div block="ProductDownloadableLink">
+            { this.renderCheckBox(link) }
+            <span block="ProductDownloadableLink" elem="SampleLabel">
+                { this.renderLabel(link) }
+            </span>
+        </div>
+    );
 
     renderLinks() {
         const { links } = this.props;
 
-        return links.map((link) => this.renderLink(link));
+        return links.map(this.renderLink);
     }
 
     renderTitle() {
         const { title, isRequired } = this.props;
 
-        const elem = `Title${ isRequired ? '-Required' : '' }`;
-
         return (
-            <h3 block="ProductDownloadableLinks" elem={ elem }>
+            <h3 block="ProductDownloadableLinks" elem="Title" mods={ { isRequired } }>
                 { title }
             </h3>
         );
