@@ -66,6 +66,7 @@ export class ProductActions extends PureComponent {
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
         setLinkedDownloadables: PropTypes.func.isRequired,
+        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
@@ -606,16 +607,18 @@ export class ProductActions extends PureComponent {
             const { title, sample_url } = item;
 
             return (
-                <Link to={ sample_url } block="ProductActions" elem="SampleLink">
-                    { title }
-                </Link>
+                <dd block="ProductActions" elem="SamplesLink">
+                    <Link to={ sample_url }>
+                        { title }
+                    </Link>
+                </dd>
             );
         });
     }
 
     renderDownloadableProductSample() {
         const {
-            product: { type_id }
+            product: { type_id, samples_title }
         } = this.props;
 
         if (type_id !== DOWNLOADABLE) {
@@ -623,32 +626,42 @@ export class ProductActions extends PureComponent {
         }
 
         return (
-            <div block="ProductActions" elem="Samples">
+            <dl block="ProductActions" elem="Samples">
+                <dt block="ProductActions" elem="SamplesTitle">
+                    { samples_title }
+                </dt>
                 { this.renderDownloadableProductSampleItems() }
-            </div>
+            </dl>
         );
     }
 
     renderDownloadableProductLinks() {
         const {
-            product: { type_id, downloadable_product_links, links_title },
-            setLinkedDownloadables
+            setLinkedDownloadables,
+            setLinkedDownloadablesPrice,
+            product: {
+                type_id, downloadable_product_links, links_title, links_purchased_separately
+            }
         } = this.props;
 
         if (type_id !== DOWNLOADABLE) {
             return null;
         }
 
+        const isRequired = links_purchased_separately === 1;
+
         return (
             <section
               block="ProductActions"
-              elem="Section"
+              elem="SectionDownloadable"
               mods={ { type: 'customizable_options' } }
             >
                 <ProductDownloadableLinks
                   links={ downloadable_product_links }
                   setLinkedDownloadables={ setLinkedDownloadables }
+                  setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
                   title={ links_title }
+                  isRequired={ isRequired }
                 />
             </section>
         );
@@ -656,30 +669,32 @@ export class ProductActions extends PureComponent {
 
     render() {
         return (
-            <article block="ProductActions">
-                { this.renderPriceWithGlobalSchema() }
-                { this.renderShortDescription() }
-                { this.renderDownloadableProductSample() }
-                <div
-                  block="ProductActions"
-                  elem="AddToCartWrapper"
-                  mix={ { block: 'FixedElement', elem: 'Bottom' } }
-                >
-                    { this.renderQuantityInput() }
-                    { this.renderAddToCart() }
-                    { this.renderProductCompareButton() }
-                    { this.renderProductWishlistButton() }
-                </div>
-                { this.renderReviews() }
-                { this.renderNameAndBrand() }
-                { this.renderSkuAndStock() }
-                { this.renderConfigurableAttributes() }
-                { this.renderCustomizableOptions() }
+            <>
+                <article block="ProductActions">
+                    { this.renderPriceWithGlobalSchema() }
+                    { this.renderShortDescription() }
+                    { this.renderDownloadableProductSample() }
+                    <div
+                      block="ProductActions"
+                      elem="AddToCartWrapper"
+                      mix={ { block: 'FixedElement', elem: 'Bottom' } }
+                    >
+                        { this.renderQuantityInput() }
+                        { this.renderAddToCart() }
+                        { this.renderProductCompareButton() }
+                        { this.renderProductWishlistButton() }
+                    </div>
+                    { this.renderReviews() }
+                    { this.renderNameAndBrand() }
+                    { this.renderSkuAndStock() }
+                    { this.renderConfigurableAttributes() }
+                    { this.renderCustomizableOptions() }
+                    { this.renderBundleItems() }
+                    { this.renderGroupedItems() }
+                    { this.renderTierPrices() }
+                </article>
                 { this.renderDownloadableProductLinks() }
-                { this.renderBundleItems() }
-                { this.renderGroupedItems() }
-                { this.renderTierPrices() }
-            </article>
+            </>
         );
     }
 }

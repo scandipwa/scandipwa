@@ -171,7 +171,10 @@
     }
 
     &-Title {
+        font-size: 2.4rem;
         line-height: 3.6rem;
+        text-transform: none;
+        margin: 0;
 
         @include mobile {
             font-size: 2.8rem;
@@ -211,7 +214,19 @@
     }
 
     &-Samples {
-        order: 5;
+        order: 20;
+        border-top: 1px solid var(--expandable-content-divider-color);
+        padding: 2rem 1rem;
+        margin-top: 1rem;
+
+        &Title {
+            font-weight: bold;
+            margin-bottom: .5rem;
+        }
+
+        &Link {
+            padding: .5rem 0;
+        }
     }
 
     &-AddToCart {

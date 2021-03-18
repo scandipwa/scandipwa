@@ -47,8 +47,10 @@ export class ProductPage extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
         setLinkedDownloadables: PropTypes.func.isRequired,
+        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
+        selectedLinkPrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         device: DeviceType.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
@@ -118,7 +120,9 @@ export class ProductPage extends PureComponent {
             setBundlePrice,
             selectedBundlePrice,
             selectedBundlePriceExclTax,
-            setLinkedDownloadables
+            setLinkedDownloadables,
+            setLinkedDownloadablesPrice,
+            selectedLinkPrice
         } = this.props;
 
         return (
@@ -142,6 +146,8 @@ export class ProductPage extends PureComponent {
                   selectedBundlePrice={ selectedBundlePrice }
                   selectedBundlePriceExclTax={ selectedBundlePriceExclTax }
                   setLinkedDownloadables={ setLinkedDownloadables }
+                  setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
+                  selectedLinkPrice={ selectedLinkPrice }
                 />
             </>
         );
