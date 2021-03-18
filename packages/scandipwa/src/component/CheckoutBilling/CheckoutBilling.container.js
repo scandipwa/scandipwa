@@ -119,7 +119,7 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     onPaymentMethodSelect(code) {
-        this.setState({ paymentMethod: code, purchaseOrderNumber: null });
+        this.setState({ paymentMethod: code });
     }
 
     onBillingSuccess(fields, asyncData) {
