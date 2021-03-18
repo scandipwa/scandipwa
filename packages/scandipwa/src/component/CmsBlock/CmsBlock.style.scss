@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const SCROLL_DEBOUNCE_DELAY = 10;
-
-export const HEADER_CMS_BLOCK = 'header_cms';
+.CmsBlock {
+    &-Wrapper_type {
+        &_header_cms {
+            order: 3;
+        }
+    }
+}

@@ -267,9 +267,12 @@ export class ProductActions extends PureComponent {
                 { showOnlyIfLoaded(
                     brand,
                     (
-                        <h4 block="ProductActions" elem="Brand" itemProp="brand">
-                            <TextPlaceholder content={ brand } />
-                        </h4>
+                        <>
+                            <meta itemProp="brand" content={ brand } />
+                            <h4 block="ProductActions" elem="Brand" itemProp="brand">
+                                <TextPlaceholder content={ brand } />
+                            </h4>
+                        </>
                     )
                 ) }
                 <h2 block="ProductActions" elem="Title" itemProp="name">
@@ -382,6 +385,7 @@ export class ProductActions extends PureComponent {
             <>
                 { this.renderOfferCount() }
                 <meta itemProp="availability" content={ stockMeta } />
+                <meta itemProp="url" content={ metaLink } />
                 <a
                   block="ProductActions"
                   elem="Schema-Url"
@@ -425,6 +429,19 @@ export class ProductActions extends PureComponent {
             offerCount
         } = this.props;
 
+        const {
+            minimum_price: {
+                final_price: {
+                    value: minFinalPrice = 0
+                } = {}
+            } = {},
+            maximum_price: {
+                final_price: {
+                    value: maxFinalPrice = 0
+                } = {}
+            } = {}
+        } = productPrice;
+
         return (
             <div
               block="ProductActions"
@@ -432,6 +449,10 @@ export class ProductActions extends PureComponent {
             >
                 { this.renderConfigurablePriceBadge() }
                 { this.renderSchema() }
+                <meta
+                  itemProp="highPrice"
+                  content={ (minFinalPrice === maxFinalPrice) ? minFinalPrice : maxFinalPrice }
+                />
                 <ProductPrice
                   isSchemaRequired
                   variantsCount={ offerCount }

@@ -503,7 +503,7 @@ export class CategoryPageContainer extends PureComponent {
     updateMeta() {
         const { updateMetaFromCategory, category, history } = this.props;
         const meta_robots = history.location.search
-            ? 'nofollow, noindex'
+            ? ''
             : 'follow, index';
 
         updateMetaFromCategory({
