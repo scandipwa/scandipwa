@@ -20,6 +20,8 @@ import Popup from 'Component/Popup';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUp.config';
 
+import './StoreInPickUp.style';
+
 /** @namespace StoreinPickup/Component/StoreInPickUp/Component/StoreInPickUpComponent */
 export class StoreInPickUpComponent extends PureComponent {
     static propTypes = {
