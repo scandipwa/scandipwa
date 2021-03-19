@@ -28,5 +28,15 @@
             justify-content: space-between;
             margin-top: 0;
         }
+
+        > label {
+            align-items: center;
+            display: flex;
+            flex-direction: row-reverse;
+
+            .input-control {
+                margin: 0 12px 0 0;
+            }
+        }
     }
 }
