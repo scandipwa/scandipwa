@@ -193,9 +193,10 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             label,
             price_type,
             quantity,
-            can_change_quantity
+            can_change_quantity,
+            product
         }) => {
-            const value = values?.product?.price_rance?.minimum_price?.final_price?.value || 0;
+            const value = product?.price_range?.minimum_price?.final_price?.value || 0;
 
             // eslint-disable-next-line no-magic-numbers
             const finalPrice = value - (value * (percentOff / 100));
