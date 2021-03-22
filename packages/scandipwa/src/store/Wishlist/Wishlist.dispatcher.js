@@ -27,6 +27,10 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
+/**
+ * Get wishlist setting.
+ * @namespace /Store/Wishlist/Dispatcher/isWishlistEnabled
+ */
 export const isWishlistEnabled = () => {
     const state = getStore().getState();
     const {
