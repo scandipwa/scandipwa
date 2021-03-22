@@ -90,7 +90,8 @@ export class PasswordChangePageContainer extends PureComponent {
                 showNotification('info', __('Your password and confirmation password do not match.'));
                 break;
             default:
-                showNotification('error', __('Error! Something went wrong'));
+                showNotification('error', __('Minimum of different classes of characters in password is 3.'
+                + 'Classes of characters: Lower Case, Upper Case, Digits, Special Characters. '));
             }
         }
 
