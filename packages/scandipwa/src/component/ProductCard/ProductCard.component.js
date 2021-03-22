@@ -55,6 +55,7 @@ export class ProductCard extends PureComponent {
         isConfigurableProductOutOfStock: PropTypes.func.isRequired,
         isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
+        isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
         siblingsHaveBrands: PropTypes.bool,
         setSiblingsHaveBrands: PropTypes.func,
@@ -321,9 +322,9 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductCardWishlistButton() {
-        const { product, hideWishlistButton } = this.props;
+        const { product, hideWishlistButton, isWishlistEnabled } = this.props;
 
-        if (hideWishlistButton) {
+        if (hideWishlistButton || !isWishlistEnabled) {
             return null;
         }
 

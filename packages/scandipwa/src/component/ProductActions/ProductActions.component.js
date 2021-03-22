@@ -72,7 +72,8 @@ export class ProductActions extends PureComponent {
         offerType: PropTypes.string.isRequired,
         stockMeta: PropTypes.string.isRequired,
         metaLink: PropTypes.string.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -468,8 +469,13 @@ export class ProductActions extends PureComponent {
             product,
             quantity,
             configurableVariantIndex,
-            onProductValidationError
+            onProductValidationError,
+            isWishlistEnabled
         } = this.props;
+
+        if (!isWishlistEnabled) {
+            return null;
+        }
 
         return (
             <ProductWishlistButton

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
@@ -30,7 +31,8 @@ export const CartDispatcher = import(
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
@@ -45,7 +47,8 @@ export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
