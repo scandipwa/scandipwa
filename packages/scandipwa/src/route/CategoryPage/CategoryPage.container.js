@@ -70,7 +70,8 @@ export const mapStateToProps = (state) => ({
     selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    plpType: state.ConfigReducer.plp_list_mode
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -134,14 +135,16 @@ export class CategoryPageContainer extends PureComponent {
         isInfoLoading: PropTypes.bool.isRequired,
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
-        isSearchPage: PropTypes.bool
+        isSearchPage: PropTypes.bool,
+        plpType: PropTypes.string
     };
 
     static defaultProps = {
         categoryIds: -1,
         isSearchPage: false,
         currentArgs: {},
-        selectedInfoFilter: {}
+        selectedInfoFilter: {},
+        plpType: ''
     };
 
     state = {
@@ -197,6 +200,11 @@ export class CategoryPageContainer extends PureComponent {
          * Always update the history, ensure the history contains category
          */
         this.updateHistory();
+
+        /**
+         * Get default PLP type and type list
+         */
+        this.updatePlpType();
 
         /**
          * Make sure to update header state, if the category visited
@@ -360,7 +368,9 @@ export class CategoryPageContainer extends PureComponent {
         isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
         selectedSort: this.getSelectedSortFromUrl(),
         selectedFilters: this.getSelectedFiltersFromUrl(),
-        isContentFiltered: this.isContentFiltered()
+        isContentFiltered: this.isContentFiltered(),
+        defaultPlpType: this.getDefaultPlpType(),
+        plpTypes: this.getPlpTypes()
     });
 
     isContentFiltered() {
@@ -435,6 +445,18 @@ export class CategoryPageContainer extends PureComponent {
         const min = +getQueryParam('priceMin', location);
         const max = +getQueryParam('priceMax', location);
         return { min, max };
+    }
+
+    getDefaultPlpType() {
+        const { defaultPlpType } = this.state;
+
+        return defaultPlpType;
+    }
+
+    getPlpTypes() {
+        const { plpTypes } = this.state;
+
+        return plpTypes;
     }
 
     getFilter() {
@@ -556,6 +578,18 @@ export class CategoryPageContainer extends PureComponent {
             title,
             onBackClick
         });
+    }
+
+    updatePlpType() {
+        const { plpType } = this.props;
+
+        if (plpType.match('-')) {
+            const plpTypes = plpType.split('-');
+
+            this.setState({ defaultPlpType: plpTypes[0], plpTypes });
+        } else {
+            this.setState({ defaultPlpType: plpType, plpTypes: [plpType] });
+        }
     }
 
     requestCategory() {
