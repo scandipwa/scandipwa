@@ -96,6 +96,7 @@ export class MyAccountContainer extends PureComponent {
 
     static navigateToSelectedTab(props, state = {}) {
         const {
+            history,
             match: {
                 params: {
                     tab: historyActiveTab
@@ -109,6 +110,10 @@ export class MyAccountContainer extends PureComponent {
         const newActiveTab = TAB_MAP[historyActiveTab] && this.isTabEnabled(props, historyActiveTab)
             ? historyActiveTab
             : DASHBOARD;
+
+        if (historyActiveTab !== newActiveTab) {
+            history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }/${ newActiveTab }`));
+        }
 
         if (activeTab !== newActiveTab) {
             return { activeTab: newActiveTab };
@@ -184,19 +189,7 @@ export class MyAccountContainer extends PureComponent {
 
     tabsFilterEnabled() {
         return Object.fromEntries(Object.entries(TAB_MAP)
-            .filter(([k]) => this.isTabEnabled(k)));
-    }
-
-    isTabEnabled(tabName) {
-        const { isWishlistEnabled } = this.props;
-
-        switch (tabName) {
-        case MY_WISHLIST:
-            return isWishlistEnabled;
-
-        default:
-            return true;
-        }
+            .filter(([k]) => MyAccountContainer.isTabEnabled(this.props, k)));
     }
 
     onSignOut() {
