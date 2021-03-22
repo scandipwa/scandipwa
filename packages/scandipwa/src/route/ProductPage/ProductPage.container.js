@@ -139,7 +139,10 @@ export class ProductPageContainer extends PureComponent {
             location: { search }
         } = props;
 
-        const { currentProductSKU: prevSKU } = state;
+        const {
+            currentProductSKU: prevSKU,
+            productOptionsData: prevOptionData
+        } = state;
 
         const currentProductSKU = prevSKU === sku ? '' : prevSKU;
 
@@ -179,15 +182,16 @@ export class ProductPageContainer extends PureComponent {
             return acc;
         }, []);
 
-        const prevOptions = productOptionsData?.requiredOptions || [];
-        const requiredOptions = [...prevOptions, ...newOptionsData];
+        const prevRequiredOptions = productOptionsData?.requiredOptions || [];
+        const requiredOptions = [...prevRequiredOptions, ...newOptionsData];
 
         return {
             parameters,
             currentProductSKU,
             configurableVariantIndex,
-            productOptionsData:
-                { ...productOptionsData, requiredOptions }
+            productOptionsData: {
+                ...prevOptionData, ...productOptionsData, requiredOptions
+            }
         };
     }
 
