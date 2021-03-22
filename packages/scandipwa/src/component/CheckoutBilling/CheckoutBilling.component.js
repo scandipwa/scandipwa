@@ -46,6 +46,7 @@ export class CheckoutBilling extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         shippingAddress: addressType.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
@@ -53,7 +54,8 @@ export class CheckoutBilling extends PureComponent {
     };
 
     static defaultProps = {
-        termsAreEnabled: false
+        termsAreEnabled: false,
+        cartTotalSubPrice: null
     };
 
     componentDidMount() {
@@ -131,20 +133,40 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
+    renderOrderTotalExlTax() {
+        const {
+            cartTotalSubPrice,
+            totals: { quote_currency_code }
+        } = this.props;
+
+        if (!cartTotalSubPrice) {
+            return null;
+        }
+
+        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
+            </span>
+        );
+    }
+
     renderOrderTotal() {
         const { totals: { grand_total, quote_currency_code } } = this.props;
 
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
         return (
-            <div block="Checkout" elem="OrderTotal">
-                <span>
+            <dl block="Checkout" elem="OrderTotal">
+                <dt>
                     { __('Order total:') }
-                </span>
-                <span>
+                </dt>
+                <dd>
                     { orderTotal }
-                </span>
-            </div>
+                    { this.renderOrderTotalExlTax() }
+                </dd>
+            </dl>
         );
     }
 

@@ -17,6 +17,7 @@ import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
 import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { getCartTotalSubPrice } from 'Util/Cart';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
@@ -24,7 +25,8 @@ import CheckoutShipping from './CheckoutShipping.component';
 export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    cartTotalSubPrice: getCartTotalSubPrice(state)
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
