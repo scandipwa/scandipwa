@@ -48,6 +48,7 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     device: state.ConfigReducer.device,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
@@ -77,7 +78,8 @@ export class MyAccountContainer extends PureComponent {
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
         device: DeviceType.isRequired,
-        wishlistItems: PropTypes.object
+        wishlistItems: PropTypes.object,
+        isWishlistEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -122,7 +124,8 @@ export class MyAccountContainer extends PureComponent {
         [MY_WISHLIST]: {
             url: '/my-wishlist',
             name: __('My wishlist'),
-            headerTitle: () => this.getMyWishlistHeaderTitle()
+            headerTitle: () => this.getMyWishlistHeaderTitle(),
+            isDisabled: () => this.getIsWishlistDisabled()
         },
         [NEWSLETTER_SUBSCRIPTION]: {
             url: '/newsletter-subscription',
@@ -146,7 +149,7 @@ export class MyAccountContainer extends PureComponent {
         } = this.props;
 
         this.state = {
-            ...MyAccountContainer.navigateToSelectedTab(this.props),
+            // ...MyAccountContainer.navigateToSelectedTab(this.props),
             isEditingActive: false
         };
 
@@ -156,6 +159,7 @@ export class MyAccountContainer extends PureComponent {
 
         updateMeta({ title: __('My account') });
 
+        this.navigateToNewTab();
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();
@@ -194,6 +198,23 @@ export class MyAccountContainer extends PureComponent {
 
         return `${ length } ${ length === 1 ? __('item') : __('items') }`;
     };
+
+    isTabEnabled(tabName) {
+        const { isWishlistEnabled } = this.props;
+
+        switch (tabName) {
+        case MY_WISHLIST:
+            return isWishlistEnabled;
+
+        default:
+            return true;
+        }
+    }
+
+    tabsFilterEnabled() {
+        return Object.fromEntries(Object.entries(this.tabMap)
+            .filter(([k]) => this.isTabEnabled(k)));
+    }
 
     onSignOut() {
         const { toggleOverlayByKey } = this.props;
@@ -264,7 +285,7 @@ export class MyAccountContainer extends PureComponent {
 
     changeActiveTab(activeTab) {
         const { history } = this.props;
-        const { [activeTab]: { url } } = this.tabMap;
+        const { [activeTab]: { url } } = this.tabsFilterEnabled(this.tabMap);
 
         history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }${ url }`));
         this.changeHeaderState(activeTab);
@@ -273,12 +294,36 @@ export class MyAccountContainer extends PureComponent {
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const { activeTab } = this.state;
-        const { url, name } = this.tabMap[activeTab];
+        console.log('activeTab', activeTab);
+        const { url, name } = this.tabMap[activeTab] || this.tabMap[DASHBOARD];
 
         updateBreadcrumbs([
             { url: `${ MY_ACCOUNT_URL }${ url }`, name },
             { name: __('My Account'), url: `${ MY_ACCOUNT_URL }/${ DASHBOARD }` }
         ]);
+    }
+
+    navigateToNewTab() {
+        const {
+            updateBreadcrumbs,
+            history,
+            match: {
+                params: {
+                    tab: historyActiveTab
+                } = {}
+            } = {}
+        } = this.props;
+
+        const activeTab = this.tabMap[historyActiveTab] ? historyActiveTab : DASHBOARD;
+        history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }/${ activeTab }`));
+        this.setState({ activeTab });
+
+        const { name, url } = activeTab;
+        updateBreadcrumbs([
+            { url: `${ MY_ACCOUNT_URL }${ url }`, name },
+            { name: __('My Account'), url: `${ MY_ACCOUNT_URL }/${ DASHBOARD }` }
+        ]);
+        this.changeHeaderState(activeTab);
     }
 
     redirectIfNotSignedIn() {
@@ -311,7 +356,7 @@ export class MyAccountContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
-              tabMap={ this.tabMap }
+              tabMap={ this.tabsFilterEnabled(this.tabMap) }
             />
         );
     }
