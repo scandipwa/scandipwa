@@ -67,11 +67,12 @@ export class ProductBundleItem extends ProductCustomizableOption {
         const {
             id,
             label,
-            product: { price_range: { minimum_price: { final_price: { value } } } },
             price_type,
             quantity,
             is_default
         } = item;
+
+        const value = item?.product?.price_rance?.minimum_price?.final_price?.value || 0;
 
         // eslint-disable-next-line no-magic-numbers
         const finalPrice = value - (value * (percent_off / 100));
