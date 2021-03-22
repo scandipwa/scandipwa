@@ -87,6 +87,7 @@ export class ProductPageContainer extends PureComponent {
         productOptionsData: {},
         selectedBundlePrice: 0,
         selectedBundlePriceExclTax: 0,
+        selectedLinkPrice: 0,
         currentProductSKU: ''
     };
 
@@ -95,6 +96,8 @@ export class ProductPageContainer extends PureComponent {
         getLink: this.getLink.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
         setBundlePrice: this.setBundlePrice.bind(this),
+        setLinkedDownloadables: this.setLinkedDownloadables.bind(this),
+        setLinkedDownloadablesPrice: this.setLinkedDownloadablesPrice.bind(this),
         isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
@@ -371,11 +374,26 @@ export class ProductPageContainer extends PureComponent {
         });
     }
 
+    setLinkedDownloadablesPrice(price) {
+        this.setState({
+            selectedLinkPrice: price
+        });
+    }
+
     setBundlePrice(prices) {
         const { price = 0, priceExclTax = 0 } = prices;
         this.setState({
             selectedBundlePrice: price,
             selectedBundlePriceExclTax: priceExclTax
+        });
+    }
+
+    setLinkedDownloadables(links) {
+        const { productOptionsData } = this.state;
+        this.setState({
+            productOptionsData: {
+                ...productOptionsData, downloadableLinks: links
+            }
         });
     }
 

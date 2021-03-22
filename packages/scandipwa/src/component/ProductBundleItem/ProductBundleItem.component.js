@@ -64,6 +64,10 @@ export class ProductBundleItem extends ProductCustomizableOption {
             price_range: { minimum_price: { discount: { percent_off } } }
         } = this.props;
 
+        if (item.product === null) {
+            return null;
+        }
+
         const {
             id,
             label,

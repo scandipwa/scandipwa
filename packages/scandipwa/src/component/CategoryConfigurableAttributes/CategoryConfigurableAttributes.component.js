@@ -11,6 +11,7 @@
 
 import ExpandableContent from 'Component/ExpandableContent';
 import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
+import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import { formatPrice } from 'Util/Price';
@@ -85,6 +86,30 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
             >
                 { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
             </ExpandableContent>
+        );
+    }
+
+    renderConfigurableAttributeValue(attribute) {
+        const {
+            getIsConfigurableAttributeAvailable,
+            handleOptionClick,
+            getLink,
+            isSelected,
+            show_product_count
+        } = this.props;
+
+        const { attribute_value } = attribute;
+
+        return (
+            <ProductAttributeValue
+              key={ attribute_value }
+              attribute={ attribute }
+              isSelected={ isSelected(attribute) }
+              isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
+              onClick={ handleOptionClick }
+              getLink={ getLink }
+              isProductCountVisible={ show_product_count }
+            />
         );
     }
 
