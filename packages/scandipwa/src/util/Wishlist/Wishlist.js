@@ -46,5 +46,8 @@ export const updateGroupedProductPrice = (product) => {
         });
     });
 
+    // eslint-disable-next-line no-param-reassign
     product.groupedPriceUpdated = true;
-}
+};
+
+export default updateGroupedProductPrice;
