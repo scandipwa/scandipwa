@@ -19,6 +19,7 @@
 
     @include desktop {
         display: inline-block;
+        margin-right: 28px;
 
         .Field {
             margin: .5rem;
@@ -36,6 +37,7 @@
                 transition: transform 200ms ease-in-out;
                 transform: rotate(180deg);
                 will-change: transform;
+                right: -17px;
             }
 
             &[aria-expanded='true'] {
@@ -55,11 +57,12 @@
                 overflow-y: auto;
                 text-align: center;
                 margin-top: 1rem;
+                width: min-content;
             }
 
             &-Option {
-                padding: 0;
                 line-height: 2.8rem;
+                padding: 6px 12px;
                 font-size: 1.2rem;
             }
         }

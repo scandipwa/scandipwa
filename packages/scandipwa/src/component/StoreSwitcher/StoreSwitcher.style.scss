@@ -20,14 +20,12 @@
     }
 
     @include before-desktop {
-        --input-padding: 1.2rem;
         border-bottom: 1px solid var(--primary-divider-color);
         order: 1;
         margin-bottom: 1.2rem;
     }
 
     @include mobile {
-        --input-padding: 1.4rem;
         margin-bottom: 1.4rem;
     }
 

@@ -14,8 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { CATEGORY, PDP } from 'Component/Header/Header.config';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
+import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
@@ -70,8 +69,8 @@ export const mapDispatchToProps = (dispatch) => ({
         );
     },
     setBigOfflineNotice: (isBig) => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: (breadcrumbs) => BreadcrumbsDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, dispatch)
+    updateBreadcrumbs: (breadcrumbs, prevCategoryId) => BreadcrumbsDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.updateWithProduct(breadcrumbs, prevCategoryId, dispatch)
     ),
     updateMetaFromProduct: (product) => MetaDispatcher.then(
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
@@ -130,7 +129,9 @@ export class ProductPageContainer extends PureComponent {
             product: {
                 sku,
                 variants,
-                configurable_options
+                configurable_options,
+                options,
+                productOptionsData
             },
             location: { search }
         } = props;
@@ -167,10 +168,23 @@ export class ProductPageContainer extends PureComponent {
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
 
+        const newOptionsData = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        const prevOptions = productOptionsData?.requiredOptions || [];
+        const requiredOptions = [...prevOptions, ...newOptionsData];
+
         return {
             parameters,
             currentProductSKU,
-            configurableVariantIndex
+            configurableVariantIndex,
+            productOptionsData:
+                { ...productOptionsData, requiredOptions }
         };
     }
 
@@ -193,7 +207,10 @@ export class ProductPageContainer extends PureComponent {
         this.updateHeaderState();
         this.updateBreadcrumbs();
 
-        this.scrollTopIfPreviousPageWasPLP();
+        /**
+         * Scroll page top in order to display it from the start
+         */
+        this.scrollTop();
     }
 
     componentDidUpdate(prevProps) {
@@ -299,36 +316,8 @@ export class ProductPageContainer extends PureComponent {
         updateRecentlyViewedProducts(product);
     }
 
-    scrollTopIfPreviousPageWasPLP() {
-        const {
-            navigation: {
-                navigationStateHistory,
-                navigationStateHistory: { length }
-            }
-        } = this.props;
-
-        const minNavStackLength = 2;
-
-        // When first load is PDP
-        if (length <= minNavStackLength) {
-            return;
-        }
-
-        // Minus two, one so array keys match length, one for previous item.
-        const prevPageId = length - 2;
-        const { name: prevName } = navigationStateHistory[prevPageId];
-
-        // One before prev page
-        const beforePrevPageId = prevPageId - 1;
-        const { name: beforePrevName } = navigationStateHistory[beforePrevPageId];
-
-        /**
-         * For some reason on desktop going from PLP to PDP
-         * in navigation stack is added default name between
-         */
-        if (CATEGORY === prevName || (beforePrevName === CATEGORY && prevName === DEFAULT_STATE_NAME)) {
-            window.scrollTo(0, 0);
-        }
+    scrollTop() {
+        window.scrollTo(0, 0);
     }
 
     setOfflineNoticeSize = () => {
@@ -347,14 +336,6 @@ export class ProductPageContainer extends PureComponent {
         }
     };
 
-    handleUrlChangeToTop() {
-        const { pathname } = location;
-        this.setState({
-            currentUrl: pathname
-        });
-        window.scrollTo(0, 0);
-    }
-
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
         const obj = {
@@ -363,12 +344,6 @@ export class ProductPageContainer extends PureComponent {
 
         if (key) {
             obj[key] = value;
-        }
-
-        const { currentUrl } = this.state;
-
-        if (currentUrl !== pathname) {
-            this.handleUrlChangeToTop();
         }
 
         const query = objectToUri(obj);
@@ -382,7 +357,6 @@ export class ProductPageContainer extends PureComponent {
         if (!options) {
             return [];
         }
-
         const requiredOptions = options.reduce((acc, { option_id, required }) => {
             if (required) {
                 acc.push(option_id);
@@ -601,8 +575,9 @@ export class ProductPageContainer extends PureComponent {
     }
 
     updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        updateBreadcrumbs(this.getDataSource());
+        const { updateBreadcrumbs, location } = this.props;
+        const { state: { prevCategoryId = null } = {} } = location;
+        updateBreadcrumbs(this.getDataSource(), prevCategoryId);
     }
 
     render() {

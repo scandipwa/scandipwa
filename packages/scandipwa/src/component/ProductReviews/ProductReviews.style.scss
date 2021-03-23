@@ -24,9 +24,7 @@
 
     @include desktop {
         &-Summary {
-            display: grid;
             align-self: stretch;
-            grid-template-columns: 2fr 1fr;
         }
     }
 

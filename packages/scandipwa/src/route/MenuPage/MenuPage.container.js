@@ -55,6 +55,10 @@ export class MenuPageContainer extends PureComponent {
         });
     }
 
+    componentDidUpdate() {
+        this.redirectIfNotOnMobile();
+    }
+
     redirectIfNotOnMobile() {
         const { history, device } = this.props;
 

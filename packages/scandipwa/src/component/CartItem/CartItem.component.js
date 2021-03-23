@@ -434,11 +434,11 @@ export class CartItem extends PureComponent {
         const { isLoading, isEditing } = this.props;
 
         return (
-            <li block="CartItem" mods={ { isEditing } }>
+            <div block="CartItem" mods={ { isEditing } }>
                 <Loader isLoading={ isLoading } />
                 { this.renderWrapper() }
                 { this.renderActions() }
-            </li>
+            </div>
         );
     }
 }

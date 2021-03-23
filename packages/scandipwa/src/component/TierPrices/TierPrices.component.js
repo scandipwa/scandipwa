@@ -125,9 +125,9 @@ export class TierPrices extends PureComponent {
         }
 
         return (
-            <ul block="TierPrices">
+            <div block="TierPrices">
                 { this.renderTierPrice() }
-            </ul>
+            </div>
         );
     }
 }

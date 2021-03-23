@@ -47,16 +47,18 @@ export class CategoryProductListContainer extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
-        isCurrentCategoryLoaded: PropTypes.bool,
+        layout: PropTypes.string,
         filter: FilterInputType,
-        requestProductList: PropTypes.func.isRequired
+        requestProductList: PropTypes.func.isRequired,
+        isCurrentCategoryLoaded: PropTypes.bool
     };
 
     static defaultProps = {
         isMatchingListFilter: false,
         isMatchingInfoFilter: false,
-        isCurrentCategoryLoaded: true,
-        filter: {}
+        isCurrentCategoryLoaded: false,
+        filter: {},
+        layout: 'grid'
     };
 
     containerFunctions = {
@@ -107,6 +109,12 @@ export class CategoryProductListContainer extends PureComponent {
         return isMatchingListFilter && isMatchingInfoFilter; // if filter match - prevent request
     }
 
+    getLayout() {
+        const { layout } = this.props;
+
+        return layout;
+    }
+
     requestProductList(options) {
         const { requestProductList } = this.props;
         requestProductList(options);
@@ -115,7 +123,7 @@ export class CategoryProductListContainer extends PureComponent {
     containerProps = () => ({
         isLoading: this.getIsLoading(),
         isPreventRequest: this.getIsPreventRequest(),
-        mix: { block: 'CategoryProductList' }
+        mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } }
     });
 
     render() {
