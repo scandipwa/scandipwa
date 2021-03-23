@@ -26,7 +26,7 @@
         }
     }
 
-    &-Table {
+    &-Table:not(.MyDownloadable) {
         width: 100%;
         min-width: 100%;
         max-width: 100%;
@@ -34,9 +34,6 @@
 
     .MyDownloadable {
         @include mobile {
-            display: block;
-            overflow-x: scroll;
-            -webkit-overflow-scrolling:touch;
             white-space: nowrap;
         }
     }
@@ -46,5 +43,13 @@
         @include mobile {
             min-width: 0;
         }
+    }
+}
+
+.MyDownloadableOrders {
+    @include mobile {
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        width: calc(100vw - var(--my-account-wrapper-padding-mobile) * 2);
     }
 }
