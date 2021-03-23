@@ -318,6 +318,53 @@
         }
     }
 
+    [type='file'] {
+        border-style: dashed;
+        cursor: pointer;
+        height: 180px;
+        opacity: 0;
+        max-width: 100%;
+        z-index: 1;
+
+        @include after-mobile {
+            max-width: 200px;
+        }
+
+        + label {
+            align-items: center;
+            border: 2px dashed var(--input-border-color);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 180px;
+            position: absolute;
+            top: 0;
+            width: 100%;
+
+            @include after-mobile {
+                width: 200px;
+            }
+
+            p {
+                font-size: 1.6rem;
+                margin-bottom: 0;
+            }
+
+            span {
+                color: var(--primary-base-color);
+                font-size: 1.8rem;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
+            .Image {
+                margin-bottom: 10px;
+                text-align: center;
+            }
+        }
+    }
+
     &-Labels {
         span {
             letter-spacing: 1.05px;
