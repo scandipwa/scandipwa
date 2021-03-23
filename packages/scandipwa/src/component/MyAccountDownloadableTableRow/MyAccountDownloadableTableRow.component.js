@@ -93,7 +93,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
                         { link_title }
                     </a>
                 </td>
-                <td>{ status_label }</td>
+                <td block="MyAccountDownloadTableRow" elem="Status">{ status_label }</td>
                 <td>{ downloads }</td>
             </tr>
         );
