@@ -16,10 +16,10 @@ import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
-import { getExtensionAttributes } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE, getExtensionAttributes } from 'Util/Product';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
-import { ERROR_CONFIGURABLE_NOT_PROVIDED } from './ProductWishlistButton.config';
+import { ERROR_CONFIGURABLE_NOT_PROVIDED, REQUIRED_OPTIONS_NOT_SELECTED } from './ProductWishlistButton.config';
 
 export const WishlistDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -54,7 +54,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func,
-        removeProductFromWishlist: PropTypes.func.isRequired
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        productOptionsData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -112,7 +113,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
         }
 
         const product = this._getProductVariant();
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+
+        if ([ERROR_CONFIGURABLE_NOT_PROVIDED, REQUIRED_OPTIONS_NOT_SELECTED].includes(product)) {
             onProductValidationError(type_id);
             return showNotification('info', __('Please, select desirable option first!'));
         }
@@ -157,7 +159,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
     _getIsProductReady() {
         const { product: { type_id }, configurableVariantIndex } = this.props;
 
-        if (type_id === 'configurable' && configurableVariantIndex < 0) {
+        if (type_id === CONFIGURABLE && configurableVariantIndex < 0) {
             return false;
         }
 
@@ -168,10 +170,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const {
             product,
             product: { type_id },
-            configurableVariantIndex
+            configurableVariantIndex,
+            productOptionsData,
+            productOptionsData: { requiredOptions = [], productOptions = [] }
         } = this.props;
 
-        if (type_id === 'configurable') {
+        if (type_id === CONFIGURABLE) {
             if (configurableVariantIndex < 0) {
                 return ERROR_CONFIGURABLE_NOT_PROVIDED;
             }
@@ -180,6 +184,22 @@ export class ProductWishlistButtonContainer extends PureComponent {
             const variant = product.variants[configurableVariantIndex];
 
             return { ...variant, product_option: { extension_attributes } };
+        }
+
+        if (type_id === BUNDLE) {
+            const allRequiredOptionsSelected = requiredOptions.every((requiredOption) => (
+                productOptions.find((item) => {
+                    const { id } = item;
+                    return requiredOption === id;
+                })
+            ));
+
+            if (!allRequiredOptionsSelected) {
+                return REQUIRED_OPTIONS_NOT_SELECTED;
+            }
+
+            const extension_attributes = getExtensionAttributes({ ...product, ...productOptionsData });
+            return { ...product, product_option: { extension_attributes } };
         }
 
         return product;
