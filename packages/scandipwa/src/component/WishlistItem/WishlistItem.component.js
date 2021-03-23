@@ -67,7 +67,8 @@ export class WishlistItem extends PureComponent {
             <Field
               id="description"
               name="description"
-              type="text"
+              type="textarea"
+              rows={ 3 }
               value={ description }
               mix={ { block: 'WishlistItem', elem: 'CommentField', mods } }
               placeholder={ __('Add a comment') }
