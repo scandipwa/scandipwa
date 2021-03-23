@@ -305,7 +305,8 @@ export class ProductCard extends PureComponent {
                 review_summary: {
                     rating_summary
                 } = {}
-            }
+            },
+            layout
         } = this.props;
 
         if (!rating_summary) {
@@ -316,6 +317,7 @@ export class ProductCard extends PureComponent {
             <div
               block="ProductCard"
               elem="Reviews"
+              mods={ { layout } }
             >
                 <ProductReviewRating summary={ rating_summary || 0 } />
             </div>
