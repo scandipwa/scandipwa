@@ -21,7 +21,8 @@ import './MyAccountDownloadableTableRow.style';
 /** @namespace Component/MyAccountDownloadableTableRow/Component */
 export class MyAccountDownloadableTableRowComponent extends PureComponent {
     static propTypes = {
-        order: downloadableType.isRequired
+        order: downloadableType.isRequired,
+        onOrderIdClick: PropTypes.func.isRequired
     };
 
     renderOrderId() {
