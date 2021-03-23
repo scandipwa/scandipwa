@@ -15,7 +15,6 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import { downloadableType } from 'Type/Account';
-import { DeviceType } from 'Type/Device';
 
 import './MyAccountDownloadableTableRow.style';
 
@@ -23,8 +22,7 @@ import './MyAccountDownloadableTableRow.style';
 export class MyAccountDownloadableTableRowComponent extends PureComponent {
     static propTypes = {
         order: downloadableType.isRequired,
-        onOrderIdClick: PropTypes.func.isRequired,
-        device: DeviceType.isRequired
+        onOrderIdClick: PropTypes.func.isRequired
     };
 
     renderOrderId() {
@@ -70,24 +68,33 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
     render() {
         const {
             order: {
+                order_id,
                 downloads,
+                download_url,
                 created_at,
-                status_label
-            } = {},
-            device: { isMobile } = {}
+                title,
+                status_label = '',
+                link_title
+            } = {}
         } = this.props;
 
-        const remainingDownloads = isMobile
-            ? null
-            : <td>{ downloads }</td>;
-
         return (
-            <tr block="MyAccountDownloadTableRow">
-                <td>{ this.renderOrderId() }</td>
+            <tr block="MyAccountOrderTableRow">
+                <td>{ order_id }</td>
                 <td>{ created_at }</td>
-                <td>{ this.renderTitle() }</td>
-                <td block="MyAccountDownloadTableRow" elem="Status">{ status_label }</td>
-                { remainingDownloads }
+                <td>
+                    { title }
+                    <a
+                      href={ download_url }
+                      download
+                      block="MyAccountOrderTableRow"
+                      elem="DownloadLink"
+                    >
+                        { link_title }
+                    </a>
+                </td>
+                <td>{ status_label }</td>
+                <td>{ downloads }</td>
             </tr>
         );
     }
