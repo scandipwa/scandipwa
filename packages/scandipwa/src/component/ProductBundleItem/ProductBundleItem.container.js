@@ -178,7 +178,15 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     }
 
     getDropdownOptions(values) {
-        const { price_range: { minimum_price: { discount: { percent_off } } } } = this.props;
+        const {
+            price_range: {
+                minimum_price: {
+                    discount: {
+                        percent_off: percentOff = 0
+                    } = {}
+                } = {}
+            } = {}
+        } = this.props;
 
         return values.reduce((acc, {
             id,
@@ -186,10 +194,12 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             price_type,
             quantity,
             can_change_quantity,
-            product: { price_range: { minimum_price: { final_price: { value } } } }
+            product
         }) => {
+            const value = product?.price_range?.minimum_price?.final_price?.value || 0;
+
             // eslint-disable-next-line no-magic-numbers
-            const finalPrice = value - (value * (percent_off / 100));
+            const finalPrice = value - (value * (percentOff / 100));
 
             const dropdownLabel = !can_change_quantity
                 ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`

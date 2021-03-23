@@ -312,7 +312,7 @@ export class CartPage extends PureComponent {
               elem="Summary"
               mix={ { block: 'FixedElement', elem: 'Bottom' } }
             >
-                <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
+                <h3 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h3>
                 { this.renderTotalDetails() }
                 { this.renderTotal() }
                 { this.renderButtons() }

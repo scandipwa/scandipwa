@@ -1,0 +1,34 @@
+.ProductDownloadableLinks {
+    padding: 0 1rem;
+    margin-bottom: 3rem;
+
+    &-Title {
+        margin-bottom: .1rem;
+        &_isRequired {
+            &::after{
+                content: '*';
+                color: var(--primary-base-color);
+                padding: 0 .5rem;
+            }
+        }
+    }
+}
+
+.ProductDownloadableLink {
+    padding: 1.5rem 0 1rem;
+    border-bottom: 1px solid var(--expandable-content-divider-color);
+
+    .Field {
+        display: inline-block;
+        margin-right: 1rem;
+        margin-top: 0;
+    }
+
+    &-SampleLable {
+        font-weight: bold;
+    }
+
+    &-SampleLink {
+        float: right;
+    }
+}

@@ -14,49 +14,49 @@ import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableRow';
+import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import { downloadableType } from 'Type/Account';
-import { DeviceType } from 'Type/Device';
 
 /** @namespace Component/MyAccountDownloadable/Component */
 export class MyAccountDownloadableComponent extends PureComponent {
     static propTypes = {
         items: PropTypes.arrayOf(downloadableType).isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
 
-    renderNoOrders() {
-        const { device } = this.props;
-        /* eslint-disable-next-line no-magic-numbers */
-        const colSpan = device.isMobile ? 4 : 5;
+    renderPopup() {
+        return <MyAccountOrderPopup />;
+    }
 
+    renderNoOrders() {
         return (
             <tr block="MyAccountMyOrders" elem="NoOrders">
-                <td colSpan={ colSpan }>{ __('You have no orders.') }</td>
+                <td>{ __('You have no orders.') }</td>
             </tr>
         );
     }
 
     renderOrderHeadingRow() {
-        const { device: { isMobile } = {} } = this.props;
-        const remainingDownloads = isMobile
-            ? null
-            : <th>{ __('Remaining Downloads') }</th>;
-
         return (
             <tr>
                 <th>{ __('Order') }</th>
                 <th>{ __('Date') }</th>
                 <th>{ __('Title') }</th>
                 <th>{ __('Status') }</th>
-                { remainingDownloads }
+                <th>{ __('Remaining Downloads') }</th>
             </tr>
         );
     }
 
     renderTable() {
         return (
-            <table block="MyAccountMyOrders" elem="Table">
+            <table
+              block="MyAccountMyOrders"
+              elem="Table"
+              mix={ {
+                  block: 'MyDownloadable'
+              } }
+            >
                 <thead>
                     { this.renderOrderHeadingRow() }
                 </thead>
@@ -99,9 +99,15 @@ export class MyAccountDownloadableComponent extends PureComponent {
         const { isLoading } = this.props;
 
         return (
-            <div block="MyAccountMyOrders">
+            <div
+              block="MyAccountMyOrders"
+              mix={ {
+                  block: 'MyDownloadableOrders'
+              } }
+            >
                 <Loader isLoading={ isLoading } />
                 { this.renderTable() }
+                { this.renderPopup() }
             </div>
         );
     }

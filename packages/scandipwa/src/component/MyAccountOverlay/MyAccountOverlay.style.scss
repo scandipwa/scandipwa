@@ -429,14 +429,22 @@
         margin-bottom: 2.4rem;
         margin-top: 1.08rem;
 
+        + .input-control {
+            margin-left: .4rem;
+            margin-right: 1rem;
+        }
+
         @include mobile {
             margin-bottom: 2.8rem;
             margin-top: 1.26rem;
         }
 
         > label:first-of-type {
+            align-items: center;
             color: var(--checkbox-label-color);
             font-size: 12px;
+            display: inline-flex;
+            flex-direction: row-reverse;
             font-weight: 500;
             padding-bottom: 0;
             margin-left: 1.5rem;
@@ -444,7 +452,6 @@
 
         > label:last-of-type {
             height: 1.32rem;
-
             @include mobile {
                 height: 1.54rem;
             }

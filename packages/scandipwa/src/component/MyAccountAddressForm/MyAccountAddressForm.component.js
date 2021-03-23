@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import { getCityFromZipcode, setAddressesInFormObject } from 'Util/Address';
+import { getCityAndRegionFromZipcode, setAddressesInFormObject } from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
@@ -114,16 +114,24 @@ export class MyAccountAddressForm extends FieldForm {
         });
     };
 
-    onZipcodeChange = (e) => {
+    onZipcodeChange = async (e) => {
         const { value } = e.currentTarget;
-        const { countryId } = this.state;
+        const { countryId, availableRegions } = this.state;
 
-        const city = getCityFromZipcode(countryId, value);
-
+        const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
         if (city) {
             this.setState({
                 city
             });
+        }
+
+        if (availableRegions.length > 0 && regionCode) {
+            const { id: regionId } = availableRegions
+                .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
+
+            if (regionId) {
+                this.setState({ regionId });
+            }
         }
     };
 
