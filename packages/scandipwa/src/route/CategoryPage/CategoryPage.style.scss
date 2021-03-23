@@ -109,7 +109,7 @@
     &-Miscellaneous {
         z-index: 1;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         align-items: center;
         min-height: var(--category-page-miscellaneous-min-height);
         transform: translateY(0);
@@ -166,6 +166,10 @@
 
         p {
             margin-bottom: 0;
+        }
+
+        @include mobile {
+            display: none;
         }
     }
 
