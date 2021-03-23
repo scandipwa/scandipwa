@@ -436,15 +436,10 @@
 
         > label:first-of-type {
             color: var(--checkbox-label-color);
-            font-size: .96rem;
+            font-size: 12px;
             font-weight: 500;
             padding-bottom: 0;
-            margin-left: .96rem;
-
-            @include mobile {
-                font-size: 1.12rem;
-                margin-left: 1.12rem;
-            }
+            margin-left: 1.5rem;
         }
 
         > label:last-of-type {
