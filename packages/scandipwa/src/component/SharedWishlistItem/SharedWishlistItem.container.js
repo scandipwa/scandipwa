@@ -47,7 +47,7 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
             changeQuantity: this.changeQuantity,
             changeDescription: this.changeDescription,
             configurableVariantIndex: this._getConfigurableVariantIndex(),
-            parameters: this._getParameters(),
+            parameters: this.getAttributes(),
             isLoading
         };
     };
