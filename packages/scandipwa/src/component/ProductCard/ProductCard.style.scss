@@ -165,11 +165,11 @@
         border-radius: 1rem;
         letter-spacing: normal;
 
-            &_layout_grid {
-                left: 50%;
-                transform: translateX(-50%);
-                bottom: 0;
-            }
+        &_layout_grid {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+        }
 
         @include mobile {
             --product-rating-size: 1.4rem;
