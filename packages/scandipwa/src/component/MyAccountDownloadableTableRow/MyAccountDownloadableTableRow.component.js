@@ -12,15 +12,13 @@
 import { PureComponent } from 'react';
 
 import { downloadableType } from 'Type/Account';
-import { DeviceType } from 'Type/Device';
 
 import './MyAccountDownloadableTableRow.style';
 
 /** @namespace Component/MyAccountDownloadableTableRow/Component */
 export class MyAccountDownloadableTableRowComponent extends PureComponent {
     static propTypes = {
-        order: downloadableType.isRequired,
-        device: DeviceType.isRequired
+        order: downloadableType.isRequired
     };
 
     render() {
@@ -31,15 +29,10 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
                 download_url,
                 created_at,
                 title,
-                status,
+                status_label = '',
                 link_title
-            } = {},
-            device: { isMobile } = {}
+            } = {}
         } = this.props;
-
-        const remainingDownloads = isMobile
-            ? null
-            : <td>{ downloads }</td>;
 
         return (
             <tr block="MyAccountOrderTableRow">
@@ -56,8 +49,8 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
                         { link_title }
                     </a>
                 </td>
-                <td>{ status }</td>
-                { remainingDownloads }
+                <td>{ status_label }</td>
+                <td>{ downloads }</td>
             </tr>
         );
     }
