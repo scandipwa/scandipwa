@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableRow';
+import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import { downloadableType } from 'Type/Account';
 
 /** @namespace Component/MyAccountDownloadable/Component */
@@ -22,6 +23,10 @@ export class MyAccountDownloadableComponent extends PureComponent {
         items: PropTypes.arrayOf(downloadableType).isRequired,
         isLoading: PropTypes.bool.isRequired
     };
+
+    renderPopup() {
+        return <MyAccountOrderPopup />;
+    }
 
     renderNoOrders() {
         return (
@@ -91,6 +96,7 @@ export class MyAccountDownloadableComponent extends PureComponent {
             <div block="MyAccountMyOrders">
                 <Loader isLoading={ isLoading } />
                 { this.renderTable() }
+                { this.renderPopup() }
             </div>
         );
     }

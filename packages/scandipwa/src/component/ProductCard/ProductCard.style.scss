@@ -48,6 +48,50 @@
         display: flex;
         flex-grow: 1;
         flex-direction: column;
+
+        &_layout_list {
+            justify-content: space-between;
+            margin-left: 20px;
+            width: 100%;
+
+            .ProductCard {
+                &-ActionWrapper {
+                    align-items: center;
+                    display: flex;
+
+                    button {
+                        margin-right: 10px;
+                    }
+                }
+
+                &-ProductActions {
+                    flex-direction: row;
+                    position: static;
+
+                    > div {
+                        margin-bottom: 0;
+                    }
+
+                    .ProductCompareButton-Button {
+                        height: 42px;
+                        width: 42px;
+                    }
+                }
+
+                &-PriceWrapper {
+                    flex-grow: unset;
+                }
+
+                &-Reviews {
+                    position: static;
+                }
+
+                &-WishListButton {
+                    height: 42px;
+                    width: 42px;
+                }
+            }
+        }
     }
 
     &-Name,
@@ -144,7 +188,8 @@
         min-height: calc(var(--product-card-color-size) + 5px);
     }
 
-    &-Color {
+    &-Color,
+    &-Image {
         display: inline-block;
         width: var(--product-card-color-size);
         height: var(--product-card-color-size);
