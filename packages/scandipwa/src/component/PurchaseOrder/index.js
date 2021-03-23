@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,8 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const KLARNA = 'klarna_kp';
-export const CHECK_MONEY = 'checkmo';
-export const PAYPAL_EXPRESS = 'paypal_express';
-export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
-export const PURCHASE_ORDER = 'purchaseorder';
+export { default } from './PurchaseOrder.component';
