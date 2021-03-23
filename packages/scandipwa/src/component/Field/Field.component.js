@@ -148,13 +148,13 @@ export class Field extends PureComponent {
 
         return (
             <label htmlFor={ id }>
-                { label }
                 <FieldInput
                   { ...this.props }
                   type="checkbox"
                   onChange={ onChangeCheckbox }
                 />
                 <div block="input-control" />
+                { label }
             </label>
         );
     }
