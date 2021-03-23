@@ -50,7 +50,13 @@ export class MyAccountDownloadableComponent extends PureComponent {
 
     renderTable() {
         return (
-            <table block="MyAccountMyOrders" elem="Table">
+            <table
+              block="MyAccountMyOrders"
+              elem="Table"
+              mix={ {
+                  block: 'MyDownloadable'
+              } }
+            >
                 <thead>
                     { this.renderOrderHeadingRow() }
                 </thead>
@@ -93,7 +99,12 @@ export class MyAccountDownloadableComponent extends PureComponent {
         const { isLoading } = this.props;
 
         return (
-            <div block="MyAccountMyOrders">
+            <div
+              block="MyAccountMyOrders"
+              mix={ {
+                  block: 'MyDownloadableOrders'
+              } }
+            >
                 <Loader isLoading={ isLoading } />
                 { this.renderTable() }
                 { this.renderPopup() }
