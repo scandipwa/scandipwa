@@ -82,10 +82,6 @@
                     flex-grow: unset;
                 }
 
-                &-Reviews {
-                    position: static;
-                }
-
                 &-WishListButton {
                     height: 42px;
                     width: 42px;
@@ -165,12 +161,15 @@
         width: 105px;
         height: 25px;
         position: absolute;
-        bottom: 0;
         background-color: var(--product-card-reviews-background);
         border-radius: 1rem;
         letter-spacing: normal;
-        left: 50%;
-        transform: translateX(-50%);
+
+        &_layout_grid {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+        }
 
         @include mobile {
             --product-rating-size: 1.4rem;
