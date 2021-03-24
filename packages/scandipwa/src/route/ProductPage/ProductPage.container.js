@@ -87,6 +87,7 @@ export class ProductPageContainer extends PureComponent {
         productOptionsData: {},
         selectedBundlePrice: 0,
         selectedBundlePriceExclTax: 0,
+        selectedLinkPrice: 0,
         currentProductSKU: ''
     };
 
@@ -95,6 +96,8 @@ export class ProductPageContainer extends PureComponent {
         getLink: this.getLink.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
         setBundlePrice: this.setBundlePrice.bind(this),
+        setLinkedDownloadables: this.setLinkedDownloadables.bind(this),
+        setLinkedDownloadablesPrice: this.setLinkedDownloadablesPrice.bind(this),
         isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
@@ -136,7 +139,10 @@ export class ProductPageContainer extends PureComponent {
             location: { search }
         } = props;
 
-        const { currentProductSKU: prevSKU } = state;
+        const {
+            currentProductSKU: prevSKU,
+            productOptionsData: prevOptionData
+        } = state;
 
         const currentProductSKU = prevSKU === sku ? '' : prevSKU;
 
@@ -176,15 +182,16 @@ export class ProductPageContainer extends PureComponent {
             return acc;
         }, []);
 
-        const prevOptions = productOptionsData?.requiredOptions || [];
-        const requiredOptions = [...prevOptions, ...newOptionsData];
+        const prevRequiredOptions = productOptionsData?.requiredOptions || [];
+        const requiredOptions = [...prevRequiredOptions, ...newOptionsData];
 
         return {
             parameters,
             currentProductSKU,
             configurableVariantIndex,
-            productOptionsData:
-                { ...productOptionsData, requiredOptions }
+            productOptionsData: {
+                ...prevOptionData, ...productOptionsData, requiredOptions
+            }
         };
     }
 
@@ -371,11 +378,26 @@ export class ProductPageContainer extends PureComponent {
         });
     }
 
+    setLinkedDownloadablesPrice(price) {
+        this.setState({
+            selectedLinkPrice: price
+        });
+    }
+
     setBundlePrice(prices) {
         const { price = 0, priceExclTax = 0 } = prices;
         this.setState({
             selectedBundlePrice: price,
             selectedBundlePriceExclTax: priceExclTax
+        });
+    }
+
+    setLinkedDownloadables(links) {
+        const { productOptionsData } = this.state;
+        this.setState({
+            productOptionsData: {
+                ...productOptionsData, downloadableLinks: links
+            }
         });
     }
 

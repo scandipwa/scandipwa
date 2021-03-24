@@ -345,14 +345,14 @@ export class Header extends NavigationAbstract {
         const { navigationState: { title } } = this.props;
 
         return (
-            <h2
+            <h1
               key="title"
               block="Header"
               elem="Title"
               mods={ { isVisible } }
             >
                 { title }
-            </h2>
+            </h1>
         );
     }
 
