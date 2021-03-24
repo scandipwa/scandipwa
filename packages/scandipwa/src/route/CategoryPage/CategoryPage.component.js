@@ -236,15 +236,19 @@ export class CategoryPage extends PureComponent {
     renderLayoutButtons() {
         const { plpTypes } = this.props;
 
-        if (plpTypes.length === 2) {
-            return (
-                <div block="CategoryPage" elem="LayoutButtons">
-                    { plpTypes.map(this.renderLayoutButton) }
-                </div>
-            );
+        /*
+        * So far there is only two types of
+        * the Storefront list modes
+         */
+        if (plpTypes.length !== 2) {
+            return null;
         }
 
-        return null;
+        return (
+            <div block="CategoryPage" elem="LayoutButtons">
+                { plpTypes.map(this.renderLayoutButton) }
+            </div>
+        );
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
