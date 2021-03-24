@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
@@ -626,12 +627,17 @@ export class ProductActions extends PureComponent {
         }
 
         return (
-            <dl block="ProductActions" elem="Samples">
-                <dt block="ProductActions" elem="SamplesTitle">
-                    { samples_title }
-                </dt>
-                { this.renderDownloadableProductSampleItems() }
-            </dl>
+            <ExpandableContent
+              heading={ samples_title }
+              mix={ { block: 'ProductActions', elem: 'Samples' } }
+            >
+                <dl block="ProductActions" elem="Samples">
+                    <dt block="ProductActions" elem="SamplesTitle">
+                        { samples_title }
+                    </dt>
+                    { this.renderDownloadableProductSampleItems() }
+                </dl>
+            </ExpandableContent>
         );
     }
 
@@ -669,11 +675,11 @@ export class ProductActions extends PureComponent {
 
     render() {
         return (
-            <>
-                <article block="ProductActions">
+            <article block="ProductActions">
                     { this.renderPriceWithGlobalSchema() }
                     { this.renderShortDescription() }
                     { this.renderDownloadableProductSample() }
+                    { this.renderDownloadableProductLinks() }
                     <div
                       block="ProductActions"
                       elem="AddToCartWrapper"
@@ -692,9 +698,7 @@ export class ProductActions extends PureComponent {
                     { this.renderBundleItems() }
                     { this.renderGroupedItems() }
                     { this.renderTierPrices() }
-                </article>
-                { this.renderDownloadableProductLinks() }
-            </>
+            </article>
         );
     }
 }
