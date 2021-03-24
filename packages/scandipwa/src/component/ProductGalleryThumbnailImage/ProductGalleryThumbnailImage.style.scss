@@ -11,8 +11,8 @@
 
 .ProductGalleryThumbnailImage {
     @include after-mobile {
-        display: block;
-        height: 100%;
+        display: flex;
+        height: auto;
         width: 100%;
         padding: 5px 0;
     }
