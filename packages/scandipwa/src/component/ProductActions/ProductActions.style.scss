@@ -465,15 +465,15 @@
         }
     }
 
+    .Field_isValid input {
+        border-color: var(--product-qty-input-border-color);
+    }
+
     &-Qty {
         order: 23;
         margin-top: 0;
         display: inline-block;
         vertical-align: middle;
-
-        &.Field_isValid input {
-            border-color: var(--product-qty-input-border-color);
-        }
 
         + .ProductActions-AddToCart {
             @include desktop {
