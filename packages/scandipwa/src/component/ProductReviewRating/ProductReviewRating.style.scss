@@ -32,7 +32,8 @@
             linear-gradient(
                 90deg,
                 var(--product-rating-filled-background) var(--percentage),
-                var(--product-rating-background) var(--percentage)
+                var(--product-rating-background) var(--percentage),
+                #ffffff00 100%
             );
 
         -webkit-background-clip: text;
