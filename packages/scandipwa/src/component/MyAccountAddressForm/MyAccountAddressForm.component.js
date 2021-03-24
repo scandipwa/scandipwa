@@ -39,7 +39,7 @@ export class MyAccountAddressForm extends FieldForm {
         const {
             countries,
             default_country,
-            address: {
+            shippingFields: {
                 country_id,
                 region: { region_id } = {},
                 is_state_required,

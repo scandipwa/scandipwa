@@ -36,15 +36,22 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         super.__construct(props);
 
         const {
-            address: { region: { region = '' } = {} }
+            shippingFields: {
+                city = '',
+                region_id: regionId = null,
+                region_string: region = '',
+                country_id: countryId = '',
+                postcode = ''
+            }
         } = this.props;
 
-        // TODO: get from region data
         this.state = {
             ...this.state,
             region,
-            city: '',
-            postcode: ''
+            regionId,
+            city,
+            countryId,
+            postcode
         };
     }
 
