@@ -20,6 +20,11 @@ import { fetchQuery } from 'Util/Request';
 
 import MyAccountDownloadable from './MyAccountDownloadable.component';
 
+export const OrderDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Order/Order.dispatcher'
+);
+
 /** @namespace Component/MyAccountDownloadable/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     orderList: state.OrderReducer.orderList,
@@ -29,7 +34,10 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountDownloadable/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message))
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    getOrderList: () => OrderDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
+    )
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */
@@ -37,7 +45,8 @@ export class MyAccountDownloadableContainer extends PureComponent {
     static propTypes = {
         device: DeviceType.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired
+        showSuccessNotification: PropTypes.func.isRequired,
+        getOrderList: PropTypes.func.isRequired
     };
 
     state = {
@@ -46,6 +55,9 @@ export class MyAccountDownloadableContainer extends PureComponent {
     };
 
     componentDidMount() {
+        const { getOrderList } = this.props;
+
+        getOrderList();
         this.requestDownloadable();
     }
 

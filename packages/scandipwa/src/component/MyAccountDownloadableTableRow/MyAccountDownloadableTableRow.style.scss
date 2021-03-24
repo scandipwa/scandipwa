@@ -1,23 +1,32 @@
 :root {
     --my-account-order-table-row-hover-background: var(--secondary-base-color);
+    --link-color: var(--primary-base-color);
+    --link-hover: var(--primary-dark-color);
 }
 
-.MyAccountOrderTableRow {
+.MyAccountDownloadTableRow {
     height: 36px;
 
     td,
     th {
         @include mobile {
-            min-width: 0;
+            width: 100%;
         }
     }
 
-    &:hover {
-        background-color: var(--my-account-order-table-row-hover-background);
-        cursor: pointer;
+    &-Link {
+        display: block;
     }
 
-    &-DownloadLink {
-        display: block;
+    &-Status {
+        text-transform: capitalize;
+    }
+
+    &-OrderId {
+        color: var(--link-color);
+        &:hover {
+            cursor: pointer;
+            color: var(--link-hover);
+        }
     }
 }

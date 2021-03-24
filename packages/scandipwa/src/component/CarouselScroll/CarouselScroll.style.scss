@@ -10,12 +10,15 @@
     &-ContentWrapper {
         overflow: hidden;
         flex: 1;
+        display: flex;
     }
 
     &-Content {
-        height: 100%;
+        width: 100%;
         transform: translateY(var(--translateY));
         transition: transform var(--animation-speed);
         padding-right: 1px;
+        display: flex;
+        flex-direction: column;
     }
 }

@@ -36,14 +36,17 @@ export class CarouselScrollItem extends PureComponent {
         } = this.props;
 
         return (
-            <button
+            <div
+              role="button"
+              tabIndex={ 0 }
               block="CarouselScrollItem"
               mods={ { isActive } }
               ref={ itemRef }
               onClick={ onClick }
+              onKeyDown={ onClick }
             >
                 { children }
-            </button>
+            </div>
         );
     }
 }

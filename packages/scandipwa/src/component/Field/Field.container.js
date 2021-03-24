@@ -124,6 +124,7 @@ export class FieldContainer extends PureComponent {
             this.setState({ checked: currChecked });
         }
 
+        this.updateValidationStatus();
         this.setValidationMessage(prevProps);
     }
 
@@ -210,6 +211,15 @@ export class FieldContainer extends PureComponent {
         return validationConfig[rule] || {};
     }
 
+    updateValidationStatus() {
+        const validationRule = this.validateField();
+
+        this.setState({
+            validationStatus: !validationRule.validate,
+            validationMessage: validationRule.message
+        });
+    }
+
     onChange(event) {
         const { type } = this.props;
 
@@ -223,12 +233,7 @@ export class FieldContainer extends PureComponent {
             });
         }
 
-        const validationRule = this.validateField();
-
-        this.setState({
-            validationStatus: !validationRule.validate,
-            validationMessage: validationRule.message
-        });
+        this.updateValidationStatus();
 
         if (type === FILE_TYPE) {
             return this.handleChange(event.target.value, false, event.target.files[0]);
