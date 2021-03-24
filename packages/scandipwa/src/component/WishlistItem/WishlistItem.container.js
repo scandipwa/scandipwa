@@ -19,6 +19,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import history from 'Util/History';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -87,6 +88,111 @@ export class WishlistItemContainer extends PureComponent {
         updateWishlistItem({ item_id, description });
     }, UPDATE_WISHLIST_FREQUENCY);
 
+    addToCartHandlerMap = {
+        [CONFIGURABLE]: this.addConfigurableProductToCart.bind(this),
+        [GROUPED]: this.addGroupedProductToCart.bind(this),
+        [BUNDLE]: this.addBundleProductToCart.bind(this)
+    };
+
+    addSimpleProduct = this.addSimpleProductToCart.bind(this);
+
+    handleMissingOptions(item) {
+        const { showNotification } = this.props;
+
+        history.push({ pathname: appendWithStoreCode(item.url) });
+        showNotification('info', __('Please select product options!'));
+    }
+
+    addGroupedProductToCart() {
+        const {
+            product,
+            product: { items, groupedProductQuantity },
+            addProductToCart
+        } = this.props;
+
+        return Promise.all(
+            items.map((item) => {
+                const { product: groupedProductItem } = item;
+
+                const newProduct = {
+                    ...groupedProductItem,
+                    parent: product
+                };
+
+                const quantity = groupedProductQuantity.find((product) => product.id === groupedProductItem.id)?.qty;
+
+                if (!quantity) {
+                    return Promise.resolve();
+                }
+
+                return addProductToCart({
+                    product: newProduct,
+                    quantity
+                });
+            })
+        );
+    }
+
+    addConfigurableProductToCart() {
+        const { product: item, addProductToCart } = this.props;
+
+        const {
+            variants,
+            wishlist: {
+                sku, quantity
+            }
+        } = item;
+
+        const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
+
+        if (!configurableVariantIndex) {
+            this.handleMissingOptions(item);
+            return Promise.resolve();
+        }
+
+        item.configurableVariantIndex = configurableVariantIndex;
+
+        return addProductToCart({ product: item, quantity });
+    }
+
+    addBundleProductToCart() {
+        const {
+            product,
+            product: {
+                product_options: { bundle_product_options: productOptions },
+                items,
+                quantity
+            },
+            addProductToCart
+        } = this.props;
+
+        const requiredOptions = items.filter((option) => option.required);
+        const allRequiredOptionsSelected = requiredOptions.every(({ option_id }) => (
+            productOptions.find((item) => {
+                const { id } = item;
+                return option_id === id;
+            })
+        ));
+
+        if (!allRequiredOptionsSelected) {
+            this.handleMissingOptions(product);
+            return Promise.resolve();
+        }
+
+        return addProductToCart({
+            product,
+            quantity,
+            productOptionsData: { productOptions }
+        });
+    }
+
+    addSimpleProductToCart() {
+        const { product: item, addProductToCart } = this.props;
+        const { wishlist: { quantity } } = item;
+
+        return addProductToCart({ product: item, quantity });
+    }
+
     containerProps = () => {
         const { isLoading } = this.state;
 
@@ -126,31 +232,18 @@ export class WishlistItemContainer extends PureComponent {
     };
 
     addItemToCart() {
-        const { product: item, addProductToCart, showNotification } = this.props;
+        const { product: item, showNotification } = this.props;
 
         const {
             type_id,
-            variants,
-            wishlist: {
-                id, sku, quantity
-            }
+            wishlist: { id }
         } = item;
 
-        if (type_id === 'configurable') {
-            const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
-
-            if (!configurableVariantIndex) {
-                history.push({ pathname: appendWithStoreCode(item.url) });
-                showNotification('info', __('Please select product options!'));
-                return Promise.resolve();
-            }
-
-            item.configurableVariantIndex = configurableVariantIndex;
-        }
+        const addToCartHandler = this.addToCartHandlerMap[type_id] || this.addSimpleProduct;
 
         this.setState({ isLoading: true });
 
-        return addProductToCart({ product: item, quantity })
+        return addToCartHandler()
             .then(
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => this.removeItem(id),

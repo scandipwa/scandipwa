@@ -52,6 +52,7 @@ export class WishlistDispatcher {
                             id,
                             sku,
                             product,
+                            product_options,
                             description,
                             qty: quantity
                         } = wishlistItem;
@@ -61,6 +62,7 @@ export class WishlistDispatcher {
                             [id]: {
                                 ...product,
                                 quantity,
+                                product_options,
                                 wishlist: {
                                     id,
                                     sku,

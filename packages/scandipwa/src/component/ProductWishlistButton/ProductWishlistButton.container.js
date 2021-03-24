@@ -172,7 +172,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             product: { type_id },
             configurableVariantIndex,
             productOptionsData,
-            productOptionsData: { requiredOptions = [], productOptions = [] }
+            productOptionsData: { requiredOptions = [], productOptions = [] } = {}
         } = this.props;
 
         if (type_id === CONFIGURABLE) {

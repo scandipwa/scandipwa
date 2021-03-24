@@ -86,16 +86,31 @@ export class WishlistQuery {
         ];
     }
 
+    _getProductOptionsFields() {
+        return new Field('product_options')
+            .addField(this._getBundleProductFields());
+    }
+
+    _getBundleProductFields() {
+        return new Field('bundle_product_options')
+            .addFieldList(this._getBundleProductItemFields());
+    }
+
+    _getBundleProductItemFields() {
+        return ['id', 'quantity', 'value'];
+    }
+
     _getItemsFields() {
         return [
             ...this._getWishlistItemsFields(),
+            this._getProductOptionsFields(),
             this._getProductField()
         ];
     }
 
     _getProductField() {
         return new Field('product')
-            .addFieldList(ProductListQuery._getProductInterfaceFields());
+            .addFieldList(Array.from(ProductListQuery._getProductInterfaceFields()));
     }
 
     _getItemsField() {
