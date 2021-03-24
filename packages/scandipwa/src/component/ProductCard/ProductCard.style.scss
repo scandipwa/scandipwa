@@ -161,11 +161,11 @@
         width: 105px;
         height: 25px;
         position: absolute;
-        background-color: var(--product-card-reviews-background);
         border-radius: 1rem;
         letter-spacing: normal;
 
         &_layout_grid {
+            background-color: var(--product-card-reviews-background);
             left: 50%;
             transform: translateX(-50%);
             bottom: 0;
