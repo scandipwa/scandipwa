@@ -236,6 +236,10 @@ export class CategoryPage extends PureComponent {
     renderLayoutButtons() {
         const { plpTypes } = this.props;
 
+        if (plpTypes.length !== 2) {
+            return null;
+        }
+
         return (
             <div block="CategoryPage" elem="LayoutButtons">
                 { plpTypes.map(this.renderLayoutButton) }
