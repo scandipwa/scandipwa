@@ -17,25 +17,51 @@
     }
 
     &-Page {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-auto-rows: max-content;
-        grid-column-gap: 1.2rem;
+        &_layout {
+            &_grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-auto-rows: max-content;
+                grid-column-gap: 1.2rem;
 
-        @include tablet {
-            grid-template-columns: repeat(3, 1fr);
-        }
+                @include tablet {
+                    grid-template-columns: repeat(3, 1fr);
+                }
 
-        @include mobile {
-            grid-column-gap: 1.4rem;
-            // remove margin from top to other pages
-            grid-template-columns: 1fr 1fr;
-            border: 0;
-        }
+                @include mobile {
+                    grid-column-gap: 1.4rem;
+                    // remove margin from top to other pages
+                    grid-template-columns: 1fr 1fr;
+                    border: 0;
+                }
 
-        @include after-mobile {
-            grid-column: 2;
-            margin-top: 1.2rem;
+                @include after-mobile {
+                    grid-column: 2;
+                    margin-top: 1.2rem;
+                }
+
+                // remove margin from top to other pages
+                ~ .CategoryProductList-Page {
+                    @include after-mobile {
+                        margin-top: 0;
+                    }
+                }
+            }
+
+            &_list {
+                display: block;
+                max-width: 550px;
+
+                .ProductCard-Link {
+                    flex-direction: row;
+                    max-width: 100%;
+                    width: fit-content;
+
+                    .Image {
+                        width: 200px;
+                    }
+                }
+            }
         }
 
         // remove margin from top to other pages

@@ -16,6 +16,10 @@
 .MyAccountOrderTableRow {
     height: 36px;
 
+    &-DownloadLink {
+        display: block;
+    }
+
     td,
     th {
         @include mobile {
