@@ -27,21 +27,21 @@ export const getPriceRange = (product, price, priceWithoutTax) => {
         }
     } = product;
 
-    const priceCurrencyValue = { value: price, currency }
-    const priceCurrencyValueExclTax = { value: priceWithoutTax, currency }
-    const priceSection = price === -1 ? {} : {
+    const priceCurrencyValue = { value: price, currency };
+    const priceCurrencyValueExclTax = { value: priceWithoutTax, currency };
+    const priceSection = {
         final_price: priceCurrencyValue,
         regular_price: priceCurrencyValue,
         final_price_excl_tax: priceCurrencyValueExclTax,
         regular_price_excl_tax: priceCurrencyValueExclTax
-    }
+    };
 
     return {
         price_range: {
             minimum_price: priceSection,
             maximum_price: priceSection
         }
-    }
+    };
 };
 
 export default getPriceRange;

@@ -20,8 +20,8 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    GROUPED,
-    getExtensionAttributes
+    getExtensionAttributes,
+    GROUPED
 } from 'Util/Product';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
@@ -196,14 +196,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
                 groupedProductQuantity = {}
             } = this.props;
 
-            const grouped_product_options = Object.entries(groupedProductQuantity).map((option) => {
-                return {
-                    'option_id': option[0],
-                    'option_value': option[1]
-                };
-            });
+            const grouped_product_options = Object.entries(groupedProductQuantity).map((option) => ({
+                option_id: option[0],
+                option_value: option[1]
+            }));
 
-            return { ...product,  product_option: { extension_attributes: { grouped_product_options } } };
+            return { ...product, product_option: { extension_attributes: { grouped_product_options } } };
         }
 
         if (type_id === BUNDLE) {
@@ -214,7 +212,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             } = this.props;
 
             const extension_attributes = getExtensionAttributes({ ...product, productOptions });
-            return { ...product,  product_option: { extension_attributes } };
+            return { ...product, product_option: { extension_attributes } };
         }
 
         if (type_id === DOWNLOADABLE) {
@@ -225,7 +223,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             } = this.props;
 
             const extension_attributes = getExtensionAttributes({ ...product, downloadableLinks });
-            return { ...product,  product_option: { extension_attributes } };
+            return { ...product, product_option: { extension_attributes } };
         }
 
         return product;
