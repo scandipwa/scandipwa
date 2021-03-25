@@ -29,12 +29,11 @@ export class ProductAttributes extends PureComponent {
     renderGroups() {
         const { attributesWithValues } = this.props;
 
-        const groups = Object.entries(attributesWithValues).map(
-            // eslint-disable-next-line no-unused-vars
-            ([attributeLabel, valueLabel]) => ({
-                attribute_group_id: valueLabel.attribute_group_id,
-                attribute_group_name: valueLabel.attribute_group_name,
-                attribute_group_code: valueLabel.attribute_group_code
+        const groups = Object.values(attributesWithValues).map(
+            (attribute) => ({
+                attribute_group_id: attribute.attribute_group_id,
+                attribute_group_name: attribute.attribute_group_name,
+                attribute_group_code: attribute.attribute_group_code
             })
         );
 
@@ -58,15 +57,15 @@ export class ProductAttributes extends PureComponent {
         );
     }
 
-    renderAttribute = ([attributeLabel, valueLabel]) => (
-        <Fragment key={ attributeLabel }>
+    renderAttribute = (attribute) => (
+        <Fragment key={ attribute.attribute_label }>
             <dt block="ProductAttributes" elem="AttributeLabel">
-                { attributeLabel }
+                { attribute.attribute_label }
             </dt>
             <dd block="ProductAttributes" elem="ValueLabel">
                 <ProductAttributeValue
-                  key={ attributeLabel }
-                  attribute={ valueLabel }
+                  key={ attribute.attribute_label }
+                  attribute={ attribute }
                   isFormattedAsText
                 />
             </dd>
@@ -80,9 +79,8 @@ export class ProductAttributes extends PureComponent {
             return null;
         }
 
-        const filteredAttributesWithValues = Object.entries(attributesWithValues).filter(
-            // eslint-disable-next-line no-unused-vars
-            ([attributeLabel, valueLabel]) => valueLabel.attribute_group_id === attribute_group_id
+        const filteredAttributesWithValues = Object.values(attributesWithValues).filter(
+            (attribute) => attribute.attribute_group_id === attribute_group_id
         );
 
         if (!filteredAttributesWithValues.length) {
