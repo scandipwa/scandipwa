@@ -25,6 +25,7 @@ import {
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { isMobile } from 'Util/Mobile';
 import { debounce } from 'Util/Request';
 import {
     appendWithStoreCode,
@@ -585,12 +586,14 @@ export class CategoryPageContainer extends PureComponent {
     updatePlpType() {
         const { plpType } = this.props;
 
+        const defaultType = isMobile.any() ? 'grid' : plpType;
+
         if (plpType.match('-')) {
             const plpTypes = plpType.split('-');
 
-            this.setState({ defaultPlpType: plpTypes[0], plpTypes });
+            this.setState({ defaultPlpType: defaultType, plpTypes });
         } else {
-            this.setState({ defaultPlpType: plpType, plpTypes: [plpType] });
+            this.setState({ defaultPlpType: defaultType, plpTypes: [plpType] });
         }
     }
 
