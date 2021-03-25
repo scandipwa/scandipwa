@@ -465,8 +465,10 @@
         }
     }
 
-    .Field_isValid input {
-        border-color: var(--product-qty-input-border-color);
+    .Field_isValid {
+        input[type='number'] {
+            border-color: var(--product-qty-input-border-color);
+        }
     }
 
     &-Qty {
