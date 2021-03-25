@@ -218,7 +218,7 @@ export class WishlistItem extends PureComponent {
               block="WishlistItemOptions"
               elem="Title"
               // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => toggleOptionVisibility() } 
+              onClick={ () => toggleOptionVisibility() }
             >
                 { label }
             </div>
