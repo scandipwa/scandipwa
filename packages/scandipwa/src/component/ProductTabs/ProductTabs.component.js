@@ -38,7 +38,7 @@ export class ProductTabs extends PureComponent {
         const { defaultTab } = this.props;
 
         this.state = {
-            activeTab: defaultTab || 0
+            activeTab: defaultTab
         };
     }
 

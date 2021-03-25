@@ -298,7 +298,7 @@ export class ProductPageContainer extends PureComponent {
     isProductAttributesTabEmpty() {
         const dataSource = this.getDataSource();
 
-        return !!Object.keys(dataSource?.attributes || {}).length;
+        return Object.keys(dataSource?.attributes || {}).length !== 0;
     }
 
     _addToRecentlyViewedProducts() {
