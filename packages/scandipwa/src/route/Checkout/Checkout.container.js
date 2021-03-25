@@ -586,7 +586,8 @@ export class CheckoutContainer extends PureComponent {
         const newAddress = {
             ...restOfBillingAddress,
             country_code: country_id,
-            region
+            region,
+            region_id
         };
 
         /**
