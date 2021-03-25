@@ -19,17 +19,16 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
-    DASHBOARD,
-    MY_WISHLIST
+    ADDRESS_BOOK,
+    DASHBOARD, MY_DOWNLOADABLE, MY_ORDERS,
+    MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
-import {
-    MY_ACCOUNT_URL, TAB_MAP
-} from './MyAccount.config';
+import { MY_ACCOUNT_URL } from './MyAccount.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -82,6 +81,33 @@ export class MyAccountContainer extends PureComponent {
         wishlistItems: {}
     };
 
+    static tabMap = {
+        [DASHBOARD]: {
+            url: '/dashboard',
+            name: __('Dashboard')
+        },
+        [ADDRESS_BOOK]: {
+            url: '/address-book',
+            name: __('Address book')
+        },
+        [MY_ORDERS]: {
+            url: '/my-orders',
+            name: __('My orders')
+        },
+        [MY_DOWNLOADABLE]: {
+            url: '/my-downloadable',
+            name: __('My downloadable')
+        },
+        [MY_WISHLIST]: {
+            url: '/my-wishlist',
+            name: __('My wishlist')
+        },
+        [NEWSLETTER_SUBSCRIPTION]: {
+            url: '/newsletter-subscription',
+            name: __('Newsletter Subscription')
+        }
+    };
+
     static isTabEnabled(props, tabName) {
         const { isWishlistEnabled } = props;
 
@@ -107,7 +133,7 @@ export class MyAccountContainer extends PureComponent {
         const { activeTab } = state;
 
         // redirect to Dashboard, if user visited non-existent or disabled page
-        const newActiveTab = TAB_MAP[historyActiveTab] && this.isTabEnabled(props, historyActiveTab)
+        const newActiveTab = this.tabMap[historyActiveTab] && this.isTabEnabled(props, historyActiveTab)
             ? historyActiveTab
             : DASHBOARD;
 
@@ -188,7 +214,7 @@ export class MyAccountContainer extends PureComponent {
     };
 
     tabsFilterEnabled() {
-        return Object.fromEntries(Object.entries(TAB_MAP)
+        return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
             .filter(([k]) => MyAccountContainer.isTabEnabled(this.props, k)));
     }
 
@@ -260,7 +286,7 @@ export class MyAccountContainer extends PureComponent {
 
     changeActiveTab(activeTab) {
         const { history } = this.props;
-        const { [activeTab]: { url } } = this.tabsFilterEnabled(TAB_MAP);
+        const { [activeTab]: { url } } = this.tabsFilterEnabled(MyAccountContainer.tabMap);
 
         history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }${ url }`));
         this.changeHeaderState(activeTab);
@@ -269,7 +295,7 @@ export class MyAccountContainer extends PureComponent {
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const { activeTab } = this.state;
-        const { url, name } = TAB_MAP[activeTab];
+        const { url, name } = MyAccountContainer.tabMap[activeTab];
 
         updateBreadcrumbs([
             { url: `${ MY_ACCOUNT_URL }${ url }`, name },
@@ -307,7 +333,7 @@ export class MyAccountContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
-              tabMap={ this.tabsFilterEnabled(TAB_MAP) }
+              tabMap={ this.tabsFilterEnabled(MyAccountContainer.tabMap) }
             />
         );
     }
