@@ -41,7 +41,7 @@ export class MyAccountAddressForm extends FieldForm {
             default_country,
             shippingFields: {
                 country_id,
-                region: { region_id } = {},
+                region_id,
                 is_state_required,
                 city = ''
             }
@@ -104,15 +104,22 @@ export class MyAccountAddressForm extends FieldForm {
 
     onCountryChange = (countryId) => {
         const { countries } = this.props;
+        const { countryId: prevCountryId } = this.state;
         const country = countries.find(({ id }) => id === countryId);
         const { available_regions, is_state_required } = country;
 
         this.setState({
             countryId,
             availableRegions: available_regions || [],
-            regionId: available_regions ? available_regions[0].id : null,
             isStateRequired: is_state_required
         });
+
+        // avoid region reset when coming back to shipping step
+        if (prevCountryId && prevCountryId !== countryId) {
+            this.setState({
+                regionId: available_regions ? available_regions[0].id : null
+            });
+        }
     };
 
     onZipcodeChange = (e) => {
