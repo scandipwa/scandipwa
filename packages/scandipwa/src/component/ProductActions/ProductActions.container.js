@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -241,7 +242,7 @@ export class ProductActionsContainer extends PureComponent {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === 'OUT_OF_STOCK') {
+        if (stock_status === PRODUCT_OUT_OF_STOCK) {
             return 'https://schema.org/OutOfStock';
         }
 

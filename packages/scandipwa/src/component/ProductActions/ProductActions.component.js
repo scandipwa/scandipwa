@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
@@ -96,7 +97,7 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
-        const stockStatusLabel = stockStatus === 'OUT_OF_STOCK' ? __('Out of stock') : __('In stock');
+        const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
 
