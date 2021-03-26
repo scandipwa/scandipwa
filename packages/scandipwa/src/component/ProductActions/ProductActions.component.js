@@ -17,16 +17,15 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
-import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
-import Link from 'Component/Link';
 import ProductBundleItems from 'Component/ProductBundleItems';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductDownloadableLinks from 'Component/ProductDownloadableLinks';
+import ProductDownloadableSamples from 'Component/ProductDownloadableSamples';
 import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
@@ -595,49 +594,28 @@ export class ProductActions extends PureComponent {
         );
     }
 
-    renderDownloadableProductSampleItems() {
-        const {
-            product: { downloadable_product_samples }
-        } = this.props;
-
-        if (!downloadable_product_samples) {
-            return null;
-        }
-
-        return downloadable_product_samples.map((item) => {
-            const { title, sample_url } = item;
-
-            return (
-                <dd block="ProductActions" elem="SamplesLink">
-                    <Link to={ sample_url }>
-                        { title }
-                    </Link>
-                </dd>
-            );
-        });
-    }
-
     renderDownloadableProductSample() {
         const {
-            product: { type_id, samples_title }
+            product: {
+                type_id,
+                samples_title,
+                downloadable_product_samples
+            }
         } = this.props;
 
         if (type_id !== DOWNLOADABLE) {
             return null;
         }
 
+        if (!downloadable_product_samples) {
+            return null;
+        }
+
         return (
-            <ExpandableContent
-              heading={ samples_title }
-              mix={ { block: 'ProductActions', elem: 'Samples' } }
-            >
-                <dl block="ProductActions" elem="Samples">
-                    <dt block="ProductActions" elem="SamplesTitle">
-                        { samples_title }
-                    </dt>
-                    { this.renderDownloadableProductSampleItems() }
-                </dl>
-            </ExpandableContent>
+            <ProductDownloadableSamples
+              title={ samples_title }
+              samples={ downloadable_product_samples }
+            />
         );
     }
 

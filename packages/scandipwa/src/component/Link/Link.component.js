@@ -26,13 +26,15 @@ export class Link extends PureComponent {
         className: PropTypes.string,
         bemProps: PropTypes.shape({}),
         children: ChildrenType.isRequired,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        isOpenInNewTab: PropTypes.bool
     };
 
     static defaultProps = {
         bemProps: {},
         className: '',
-        onClick: () => {}
+        onClick: () => {},
+        isOpenInNewTab: false
     };
 
     scrollToElement = (e) => {
@@ -57,12 +59,84 @@ export class Link extends PureComponent {
         onClick(e);
     };
 
+    renderToHostLink() {
+        const {
+            isOpenInNewTab,
+            children,
+            to,
+            ...props
+        } = this.props;
+
+        if (isOpenInNewTab) {
+            return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            <a
+              { ...props }
+              onClick={ this.scrollToElement }
+              href={ to }
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+                { children }
+            </a>
+            );
+        }
+
+        return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            <a
+              { ...props }
+              onClick={ this.scrollToElement }
+              href={ to }
+            >
+                { children }
+            </a>
+        );
+    }
+
+    renderToOutsideLink = (classNameConverted) => {
+        const {
+            isOpenInNewTab,
+            children,
+            to,
+            bemProps,
+            ...props
+        } = this.props;
+
+        if (isOpenInNewTab) {
+            return (
+                <a
+                  { ...props }
+                  href={ to }
+                    // eslint-disable-next-line react/forbid-dom-props
+                  className={ classNameConverted }
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                    { children }
+                </a>
+            );
+        }
+
+        return (
+            <a
+              { ...props }
+              href={ to }
+                // eslint-disable-next-line react/forbid-dom-props
+              className={ classNameConverted }
+            >
+                { children }
+            </a>
+        );
+    }
+
     render() {
         const {
             className,
             bemProps,
             children,
             to,
+            isOpenInNewTab,
             ...props
         } = this.props;
 
@@ -75,31 +149,13 @@ export class Link extends PureComponent {
         }
 
         if (/^#/.test(to)) {
-            return (
-                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                <a
-                  { ...props }
-                  onClick={ this.scrollToElement }
-                  href={ to }
-                >
-                    { children }
-                </a>
-            );
+            return this.renderToHostLink();
         }
 
         const classNameConverted = `${ className } ${ stringify(bemProps)}`;
 
         if (/^https?:\/\//.test(to)) {
-            return (
-                <a
-                  { ...props }
-                  href={ to }
-                  // eslint-disable-next-line react/forbid-dom-props
-                  className={ classNameConverted }
-                >
-                    { children }
-                </a>
-            );
+            return this.renderToOutsideLink(classNameConverted);
         }
 
         return (

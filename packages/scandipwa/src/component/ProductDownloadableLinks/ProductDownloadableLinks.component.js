@@ -25,7 +25,8 @@ export class ProductDownloadableLinks extends PureComponent {
         isRequired: PropTypes.bool.isRequired,
         links: PropTypes.array,
         title: PropTypes.string.isRequired,
-        setSelectedCheckboxValues: PropTypes.func.isRequired
+        setSelectedCheckboxValues: PropTypes.func.isRequired,
+        isOpenInNewTab: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -44,6 +45,7 @@ export class ProductDownloadableLinks extends PureComponent {
     }
 
     renderLabel(link) {
+        const { isOpenInNewTab } = this.props;
         const { sample_url } = link;
 
         if (!sample_url) {
@@ -53,7 +55,12 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <>
                 { this.getLabel(link) }
-                <Link to={ sample_url } block="ProductDownloadableLink" elem="SampleLink">
+                <Link
+                  to={ sample_url }
+                  isOpenInNewTab={ isOpenInNewTab }
+                  block="ProductDownloadableLink"
+                  elem="SampleLink"
+                >
                     { __('Sample') }
                 </Link>
             </>
@@ -80,14 +87,18 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderLink = (link) => (
-        <div block="ProductDownloadableLink">
-            { this.renderCheckBox(link) }
-            <span block="ProductDownloadableLink" elem="SampleLabel">
-                { this.renderLabel(link) }
-            </span>
-        </div>
-    );
+    renderLink = (link) => {
+        const { id } = link;
+
+        return (
+            <div block="ProductDownloadableLink" key={ id }>
+                { this.renderCheckBox(link) }
+                <span block="ProductDownloadableLink" elem="SampleLabel">
+                    { this.renderLabel(link) }
+                </span>
+            </div>
+        );
+    };
 
     renderLinks() {
         const { links } = this.props;
