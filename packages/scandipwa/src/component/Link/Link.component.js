@@ -128,7 +128,7 @@ export class Link extends PureComponent {
                 { children }
             </a>
         );
-    }
+    };
 
     render() {
         const {
