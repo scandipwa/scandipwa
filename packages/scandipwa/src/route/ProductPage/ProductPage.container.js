@@ -55,7 +55,8 @@ export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product,
     navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    store: state.ConfigReducer.code
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
@@ -76,7 +77,7 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateRecentlyViewedProducts: (products) => dispatch(updateRecentlyViewedProducts(products))
+    updateRecentlyViewedProducts: (products, store) => dispatch(updateRecentlyViewedProducts(products, store))
 });
 
 /** @namespace Route/ProductPage/Container */
@@ -118,7 +119,8 @@ export class ProductPageContainer extends PureComponent {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
-        updateRecentlyViewedProducts: PropTypes.func.isRequired
+        updateRecentlyViewedProducts: PropTypes.func.isRequired,
+        store: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -312,7 +314,8 @@ export class ProductPageContainer extends PureComponent {
         const {
             product,
             product: { sku },
-            updateRecentlyViewedProducts
+            updateRecentlyViewedProducts,
+            store
         } = this.props;
 
         // necessary for skipping not loaded products
@@ -320,7 +323,7 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        updateRecentlyViewedProducts(product);
+        updateRecentlyViewedProducts(product, store);
     }
 
     scrollTop() {
