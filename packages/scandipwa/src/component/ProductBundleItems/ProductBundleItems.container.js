@@ -97,6 +97,10 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
 
                 options.forEach(({ id: optionId, product }) => {
                     if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
+                        if (product === null) {
+                            return;
+                        }
+
                         const {
                             price_range: {
                                 minimum_price: {

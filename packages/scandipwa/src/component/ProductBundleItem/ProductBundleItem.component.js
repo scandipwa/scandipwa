@@ -64,13 +64,25 @@ export class ProductBundleItem extends ProductCustomizableOption {
             price_range: { minimum_price: { discount: { percent_off } } }
         } = this.props;
 
+        if (!item.product) {
+            return null;
+        }
+
         const {
             id,
             label,
-            product: { price_range: { minimum_price: { final_price: { value } } } },
             price_type,
             quantity,
-            is_default
+            is_default,
+            product: {
+                price_range: {
+                    minimum_price: {
+                        final_price: {
+                            value = 0
+                        } = {}
+                    } = {}
+                } = {}
+            } = {}
         } = item;
 
         // eslint-disable-next-line no-magic-numbers

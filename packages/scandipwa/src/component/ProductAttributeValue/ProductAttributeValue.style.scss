@@ -30,8 +30,6 @@
     --button-padding: 0;
     --option-is-selected: 0;
 
-    margin-left: 0;
-
     &-Color,
     &-String,
     &-Image,
@@ -51,6 +49,7 @@
         padding: 0;
         border-radius: 50%;
         position: relative;
+        object-fit: cover;
     }
 
     &-Image-Overlay {
@@ -153,20 +152,20 @@
             color: var(--primary-base-color);
         }
 
-        label {
+        label,
+        .input-control {
             font-weight: 400;
             cursor: pointer;
             margin: 0;
+        }
 
-            &:last-child {
-                border-color: var(--option-border-color);
-            }
-
+        label {
             &:first-of-type {
-                padding-left: 1.2rem;
+                padding-left: 3rem;
                 padding-bottom: 0;
                 order: 1;
                 text-align: left;
+                line-height: 1.8;
 
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -176,17 +175,19 @@
                 -webkit-line-clamp: 3;
 
                 @include mobile {
-                    padding-left: 1.4rem;
+                    padding-left: 3.2rem;
                 }
 
-                ~ label {
+                .input-control {
+                    position: absolute;
+                    left: 0;
                     margin: 0;
                     min-width: 1.8rem;
-                    top: .36rem;
+                    vertical-align: top;
+                    border-color: var(--option-border-color);
 
                     @include mobile {
                         min-width: 2.1rem;
-                        top: .42rem;
                     }
                 }
             }
@@ -198,7 +199,9 @@
                 @include after-mobile {
                     border-color: var(--primary-base-color);
                 }
+            }
 
+            .input-control {
                 &::after {
                     @include after-mobile {
                         --checkmark-color: var(--secondary-dark-color);

@@ -16,7 +16,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 
 import {
-    AREA_FIELD, CHECKBOX, DROPDOWN, TEXT_FIELD
+    AREA_FIELD, CHECKBOX, DROPDOWN, FILE, TEXT_FIELD
 } from './ProductCustomizableOption.config';
 
 /** @namespace Component/ProductCustomizableOption/Component */
@@ -27,11 +27,18 @@ export class ProductCustomizableOption extends PureComponent {
         getSelectedCheckboxValue: PropTypes.func.isRequired,
         renderOptionLabel: PropTypes.func.isRequired,
         updateTextFieldValue: PropTypes.func.isRequired,
+        textFieldValid: PropTypes.bool,
+        processFileUpload: PropTypes.func,
         setDropdownValue: PropTypes.func.isRequired,
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
         requiredSelected: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        processFileUpload: () => {},
+        textFieldValid: null
     };
 
     renderMap = {
@@ -49,6 +56,10 @@ export class ProductCustomizableOption extends PureComponent {
         },
         [AREA_FIELD]: {
             render: () => this.renderTextField(),
+            title: () => this.renderTextFieldTitle()
+        },
+        [FILE]: {
+            render: () => this.renderFileField(),
             title: () => this.renderTextFieldTitle()
         }
     };
@@ -181,7 +192,8 @@ export class ProductCustomizableOption extends PureComponent {
             },
             updateTextFieldValue,
             textValue,
-            optionType
+            optionType,
+            textFieldValid
         } = this.props;
         const { max_characters } = data;
         const fieldType = optionType === 'field' ? 'text' : 'textarea';
@@ -195,10 +207,24 @@ export class ProductCustomizableOption extends PureComponent {
                   maxLength={ max_characters > 0 ? max_characters : null }
                   value={ textValue }
                   onChange={ updateTextFieldValue }
+                  customValidationStatus={ textFieldValid }
                 />
                 { this.renderRequired(required) }
                 { this.renderMaxCharacters(max_characters) }
             </>
+        );
+    }
+
+    renderFileField() {
+        const { optionType, processFileUpload } = this.props;
+
+        return (
+            <Field
+              id={ `customizable-options-${ optionType }` }
+              name={ `customizable-options-${ optionType }` }
+              type="file"
+              onChange={ processFileUpload }
+            />
         );
     }
 

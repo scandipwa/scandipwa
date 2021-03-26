@@ -180,15 +180,23 @@ export class CartItem extends PureComponent {
         );
     };
 
-    renderProductOption = (option) => {
+    renderProductOptionContent = (option) => {
         const { label, values, id } = option;
 
+        if (!values) {
+            return (
+                <div
+                  block="CartItem"
+                  elem="ItemOptionLabel"
+                  key={ `label-${ id }` }
+                >
+                    { label }
+                </div>
+            );
+        }
+
         return (
-            <div
-              block="CartItem"
-              elem="ItemOption"
-              key={ id }
-            >
+            <>
                 <div
                   block="CartItem"
                   elem="ItemOptionLabel"
@@ -199,6 +207,20 @@ export class CartItem extends PureComponent {
                 <div block="CartItem" elem="ItemOptionValues">
                     { values.map(this.renderProductOptionValue) }
                 </div>
+            </>
+        );
+    };
+
+    renderProductOption = (option) => {
+        const { id } = option;
+
+        return (
+            <div
+              block="CartItem"
+              elem="ItemOption"
+              key={ id }
+            >
+                  { this.renderProductOptionContent(option) }
             </div>
         );
     };
@@ -217,6 +239,35 @@ export class CartItem extends PureComponent {
               mods={ { isLikeTable } }
             >
                 { itemOptions.map(this.renderProductOption) }
+            </div>
+        );
+    }
+
+    renderProductLinks(itemOptions = []) {
+        const { isLikeTable } = this.props;
+
+        if (!itemOptions.length) {
+            return null;
+        }
+
+        return (
+            <div
+              block="CartItem"
+              elem="ItemLinksWrapper"
+            >
+                <span
+                  block="CartItem"
+                  elem="ItemLinks"
+                >
+                    { __('Links:') }
+                </span>
+                <div
+                  block="CartItem"
+                  elem="ItemOptionsWrapper"
+                  mods={ { isLikeTable } }
+                >
+                    { itemOptions.map(this.renderProductOption) }
+                </div>
             </div>
         );
     }
@@ -283,7 +334,8 @@ export class CartItem extends PureComponent {
             isLikeTable,
             item: {
                 customizable_options,
-                bundle_options
+                bundle_options,
+                downloadable_links
             } = {}
         } = this.props;
 
@@ -300,6 +352,7 @@ export class CartItem extends PureComponent {
                     </div>
                     { this.renderProductOptions(customizable_options) }
                     { this.renderProductOptions(bundle_options) }
+                    { this.renderProductLinks(downloadable_links) }
                     { this.renderProductConfigurations() }
                     { this.renderQuantityChangeField(true) }
                     { this.renderProductPrice() }
@@ -434,11 +487,11 @@ export class CartItem extends PureComponent {
         const { isLoading, isEditing } = this.props;
 
         return (
-            <li block="CartItem" mods={ { isEditing } }>
+            <div block="CartItem" mods={ { isEditing } }>
                 <Loader isLoading={ isLoading } />
                 { this.renderWrapper() }
                 { this.renderActions() }
-            </li>
+            </div>
         );
     }
 }

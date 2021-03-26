@@ -88,6 +88,7 @@ export class CartCoupon extends PureComponent {
                   placeholder={ __('Coupon Code') }
                   onChange={ this.handleCouponCodeChange }
                   mix={ { block: 'CartCoupon', elem: 'Input' } }
+                  aria-label={ __('Coupon Code') }
                 />
                 <button
                   block="CartCoupon"

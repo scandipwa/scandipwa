@@ -219,6 +219,7 @@ export class ProductListQuery {
             'type_id',
             'stock_status',
             this._getPriceRangeField(),
+            this._getProductImageField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
@@ -309,6 +310,54 @@ export class ProductListQuery {
         );
     }
 
+    /**
+     * A DownloadableProduct-specific field that queries the links and samples
+     * @returns {Field}
+     * @private
+     */
+    _getDownloadableProductFields() {
+        return new Fragment('DownloadableProduct')
+            .addFieldList(this._getDownloadableProductLinks());
+    }
+
+    _getDownloadableProductLinks() {
+        return [
+            'links_title',
+            'samples_title',
+            'links_purchased_separately',
+            this._getDownloadableProductLinkField(),
+            this._getDownloadableProductSampleField()
+        ];
+    }
+
+    _getDownloadableProductLinkField() {
+        return new Field('downloadable_product_links')
+            .addFieldList(this._getDownloadableProductLinkFields());
+    }
+
+    _getDownloadableProductLinkFields() {
+        return [
+            'sample_url',
+            'sort_order',
+            'title',
+            'id',
+            'price'
+        ];
+    }
+
+    _getDownloadableProductSampleField() {
+        return new Field('downloadable_product_samples')
+            .addFieldList(this._getDownloadableProductSampleFields());
+    }
+
+    _getDownloadableProductSampleFields() {
+        return [
+            'title',
+            'sort_order',
+            'sample_url'
+        ];
+    }
+
     _getItemsField() {
         const { isSingleProduct } = this.options;
 
@@ -317,6 +366,7 @@ export class ProductListQuery {
 
         if (isSingleProduct) {
             items.addField(this._getGroupedProductItems());
+            items.addField(this._getDownloadableProductFields());
         }
 
         return items;
@@ -354,6 +404,7 @@ export class ProductListQuery {
 
     _getBreadcrumbFields() {
         return [
+            'category_id',
             'category_name',
             'category_level',
             'category_url',
@@ -368,6 +419,7 @@ export class ProductListQuery {
 
     _getCategoryFields() {
         return [
+            'id',
             'name',
             'url',
             this._getBreadcrumbsField()
@@ -394,10 +446,16 @@ export class ProductListQuery {
             .addFieldList(this._getMinimalPriceFields());
     }
 
+    _getMaximalPriceField() {
+        return new Field('maximum_price')
+            .addFieldList(this._getMinimalPriceFields());
+    }
+
     _getPriceRangeFields() {
         // Using an array as potentially would want to add maximum price
         return [
-            this._getMinimalPriceField()
+            this._getMinimalPriceField(),
+            this._getMaximalPriceField()
         ];
     }
 
@@ -436,6 +494,11 @@ export class ProductListQuery {
     _getProductSmallField() {
         return new Field('small_image')
             .addFieldList(this._getProductSmallFields());
+    }
+
+    _getProductImageField() {
+        return new Field('image')
+            .addFieldList(this._getProductThumbnailFields());
     }
 
     _getAttributeOptionField() {
@@ -710,6 +773,17 @@ export class ProductListQuery {
         ];
     }
 
+    _getCustomizableFileValueField(alias) {
+        return new Field('value')
+            .addFieldList([
+                'price',
+                'price_type',
+                'sku',
+                'file_extension'
+            ])
+            .setAlias(alias);
+    }
+
     _getCustomizableAreaOption() {
         return new Fragment('CustomizableAreaOption')
             .addFieldList(this._getCustomizableTextFields('areaValues'));
@@ -718,6 +792,11 @@ export class ProductListQuery {
     _getCustomizableFieldOption() {
         return new Fragment('CustomizableFieldOption')
             .addFieldList(this._getCustomizableTextFields('fieldValues'));
+    }
+
+    _getCustomizableFileOption() {
+        return new Fragment('CustomizableFileOption')
+            .addFieldList([this._getCustomizableFileValueField('fileValues')]);
     }
 
     _getCustomizableSelectionValueFields() {
@@ -765,6 +844,7 @@ export class ProductListQuery {
             this._getCustomizableMultiOption(),
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
+            this._getCustomizableFileOption(),
             'title',
             'required',
             'sort_order',
@@ -915,6 +995,7 @@ export class ProductListQuery {
     _getAggregationsOptionsFields() {
         return [
             'label',
+            'count',
             new Field('value').setAlias('value_string'),
             this._getSwatchDataField()
         ];

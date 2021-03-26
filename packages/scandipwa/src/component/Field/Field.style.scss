@@ -16,14 +16,6 @@
         margin-top: 1.4rem;
     }
 
-    label {
-        font-size: 1.26rem;
-
-        @include mobile {
-            font-size: 1.47rem;
-        }
-    }
-
     &-Label {
         font-weight: 700;
         padding-bottom: .36rem;
@@ -160,19 +152,16 @@
                     @include mobile {
                         max-width: calc(100vw - 2.8rem - 45px);
                     }
-
-                    ~ label {
-                        margin-left: 1.2rem;
-
-                        @include mobile {
-                            margin-left: 1.4rem;
-                        }
-                    }
                 }
+            }
 
-                &:last-of-type {
-                    display: inline-block;
-                    vertical-align: middle;
+            .input-control {
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 1.2rem;
+
+                @include mobile {
+                    margin-left: 1.4rem;
                 }
             }
         }
@@ -186,7 +175,7 @@
         min-width: 0;
         min-height: 0;
 
-        + label {
+        + .input-control {
             @include mobile {
                 width: 2.1rem;
                 height: 2.1rem;
@@ -234,12 +223,12 @@
             }
         }
 
-        &:disabled + label {
+        &:disabled + .input-control {
             color: #b8b8b8;
             cursor: auto;
         }
 
-        &:checked + label {
+        &:checked + .input-control {
             background-color: var(--primary-base-color);
             border-color: var(--primary-base-color);
 
@@ -250,7 +239,7 @@
     }
 
     [type='checkbox'] {
-        + label {
+        + .input-control {
             &::after {
                 left: .3rem;
                 top: .72rem;
@@ -278,7 +267,7 @@
 
         &:checked {
             &:hover {
-                + label {
+                + .input-control {
                     @include after-mobile {
                         background-color: var(--primary-base-color);
                     }
@@ -288,7 +277,7 @@
     }
 
     [type='radio'] {
-        + label {
+        + .input-control {
             border-radius: 50%;
 
             &::after {
@@ -310,13 +299,60 @@
             }
         }
 
-        &:focus + label {
+        &:focus + .input-control {
             --box-color: var(--secondary-light-color);
 
             border-color: var(--primary-base-color);
 
             &::after {
                 --checkmark-color: #{$white};
+            }
+        }
+    }
+
+    [type='file'] {
+        border-style: dashed;
+        cursor: pointer;
+        height: 180px;
+        opacity: 0;
+        max-width: 100%;
+        z-index: 1;
+
+        @include after-mobile {
+            max-width: 200px;
+        }
+
+        + label {
+            align-items: center;
+            border: 2px dashed var(--input-border-color);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 180px;
+            position: absolute;
+            top: 0;
+            width: 100%;
+
+            @include after-mobile {
+                width: 200px;
+            }
+
+            p {
+                font-size: 1.6rem;
+                margin-bottom: 0;
+            }
+
+            span {
+                color: var(--primary-base-color);
+                font-size: 1.8rem;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
+            .Image {
+                margin-bottom: 10px;
+                text-align: center;
             }
         }
     }
