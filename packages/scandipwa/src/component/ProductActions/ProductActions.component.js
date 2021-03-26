@@ -603,11 +603,7 @@ export class ProductActions extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== DOWNLOADABLE) {
-            return null;
-        }
-
-        if (!downloadable_product_samples) {
+        if (type_id !== DOWNLOADABLE || !downloadable_product_samples) {
             return null;
         }
 
