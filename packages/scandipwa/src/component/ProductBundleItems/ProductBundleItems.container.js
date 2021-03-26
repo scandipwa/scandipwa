@@ -165,11 +165,11 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             switch (type) {
             case SELECT_TYPE:
             case RADIO_TYPE: // handle radio as select
-                this.setDefaultDropdownValue(item);
+                this.setDefaultValue(item, SELECT_TYPE);
                 break;
             case CHECKBOX_TYPE:
             case MULTI_TYPE: // handle multi-select as checkbox
-                this.setDefaultCheckboxValue(item);
+                this.setDefaultValue(item);
                 break;
             default:
                 return acc;
@@ -179,26 +179,19 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         }, []);
     }
 
-    setDefaultCheckboxValue(item) {
+    setDefaultValue(item, type) {
         const { option_id, options } = item;
 
         return options.reduce((acc, { is_default, id, quantity }) => {
             if (is_default) {
                 const value = id.toString();
+
+                if (type === SELECT_TYPE) {
+                    this.setSelectedDropdownValue(option_id, { value, quantity });
+                    return acc;
+                }
+
                 this.setSelectedCheckboxValues(option_id, { value, quantity });
-            }
-
-            return acc;
-        }, []);
-    }
-
-    setDefaultDropdownValue(item) {
-        const { option_id, options } = item;
-
-        return options.reduce((acc, { is_default, id, quantity }) => {
-            if (is_default) {
-                const value = id.toString();
-                this.setSelectedDropdownValue(option_id, { value, quantity });
             }
 
             return acc;
