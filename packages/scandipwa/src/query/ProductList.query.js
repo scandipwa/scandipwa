@@ -219,6 +219,7 @@ export class ProductListQuery {
             'type_id',
             'stock_status',
             this._getPriceRangeField(),
+            this._getProductImageField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
@@ -496,6 +497,11 @@ export class ProductListQuery {
     _getProductSmallField() {
         return new Field('small_image')
             .addFieldList(this._getProductSmallFields());
+    }
+
+    _getProductImageField() {
+        return new Field('image')
+            .addFieldList(this._getProductThumbnailFields());
     }
 
     _getAttributeOptionField() {
