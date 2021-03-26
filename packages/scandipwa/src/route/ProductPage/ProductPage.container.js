@@ -87,6 +87,7 @@ export class ProductPageContainer extends PureComponent {
         productOptionsData: {},
         selectedBundlePrice: 0,
         selectedBundlePriceExclTax: 0,
+        selectedLinkPrice: 0,
         currentProductSKU: ''
     };
 
@@ -95,6 +96,8 @@ export class ProductPageContainer extends PureComponent {
         getLink: this.getLink.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this),
         setBundlePrice: this.setBundlePrice.bind(this),
+        setLinkedDownloadables: this.setLinkedDownloadables.bind(this),
+        setLinkedDownloadablesPrice: this.setLinkedDownloadablesPrice.bind(this),
         isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
@@ -129,12 +132,17 @@ export class ProductPageContainer extends PureComponent {
             product: {
                 sku,
                 variants,
-                configurable_options
+                configurable_options,
+                options,
+                productOptionsData
             },
             location: { search }
         } = props;
 
-        const { currentProductSKU: prevSKU } = state;
+        const {
+            currentProductSKU: prevSKU,
+            productOptionsData: prevOptionData
+        } = state;
 
         const currentProductSKU = prevSKU === sku ? '' : prevSKU;
 
@@ -166,10 +174,24 @@ export class ProductPageContainer extends PureComponent {
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
 
+        const newOptionsData = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        const prevRequiredOptions = productOptionsData?.requiredOptions || [];
+        const requiredOptions = [...prevRequiredOptions, ...newOptionsData];
+
         return {
             parameters,
             currentProductSKU,
-            configurableVariantIndex
+            configurableVariantIndex,
+            productOptionsData: {
+                ...prevOptionData, ...productOptionsData, requiredOptions
+            }
         };
     }
 
@@ -342,7 +364,6 @@ export class ProductPageContainer extends PureComponent {
         if (!options) {
             return [];
         }
-
         const requiredOptions = options.reduce((acc, { option_id, required }) => {
             if (required) {
                 acc.push(option_id);
@@ -357,11 +378,26 @@ export class ProductPageContainer extends PureComponent {
         });
     }
 
+    setLinkedDownloadablesPrice(price) {
+        this.setState({
+            selectedLinkPrice: price
+        });
+    }
+
     setBundlePrice(prices) {
         const { price = 0, priceExclTax = 0 } = prices;
         this.setState({
             selectedBundlePrice: price,
             selectedBundlePriceExclTax: priceExclTax
+        });
+    }
+
+    setLinkedDownloadables(links) {
+        const { productOptionsData } = this.state;
+        this.setState({
+            productOptionsData: {
+                ...productOptionsData, downloadableLinks: links
+            }
         });
     }
 

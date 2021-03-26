@@ -10,9 +10,13 @@
  */
 
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import ProductCustomizableOptionContainer
-    from 'Component/ProductCustomizableOption/ProductCustomizableOption.container';
+import {
+    mapDispatchToProps,
+    mapStateToProps,
+    ProductCustomizableOptionContainer
+} from 'Component/ProductCustomizableOption/ProductCustomizableOption.container';
 
 import ProductBundleItem from './ProductBundleItem.component';
 
@@ -180,7 +184,13 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
 
     getDropdownOptions(values) {
         const {
-            price_range: { minimum_price: { discount: { percent_off } } },
+            price_range: {
+                minimum_price: {
+                    discount: {
+                        percent_off: percentOff = 0
+                    } = {}
+                } = {}
+            } = {},
             isDynamicPrice
         } = this.props;
 
@@ -191,11 +201,13 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             quantity,
             price: fixedPriceValue,
             can_change_quantity,
-            product: { price_range: { minimum_price: { final_price: { value: finalPriceValue } } } }
+            product
         }) => {
-            const priceValue = isDynamicPrice ? finalPriceValue : fixedPriceValue;
+            const finalPriceValue = product?.price_range?.minimum_price?.final_price?.value || 0;
+            const value = isDynamicPrice ? finalPriceValue : fixedPriceValue;
+
             // eslint-disable-next-line no-magic-numbers
-            const finalPrice = priceValue - (priceValue * (percent_off / 100));
+            const finalPrice = value - (value * (percentOff / 100));
 
             const dropdownLabel = !can_change_quantity
                 ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`
@@ -224,4 +236,4 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     }
 }
 
-export default ProductBundleItemContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductBundleItemContainer);

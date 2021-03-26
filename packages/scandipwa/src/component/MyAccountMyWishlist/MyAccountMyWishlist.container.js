@@ -42,6 +42,7 @@ export const mapDispatchToProps = (dispatch) => ({
     ),
     showPopup: (payload) => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     showNotification: (message) => dispatch(showNotification('success', message)),
+    showError: (message) => dispatch(showNotification('error', message)),
     removeSelectedFromWishlist: (options) => WishlistDispatcher.then(
         ({ default: dispatcher }) => dispatcher.removeItemsFromWishlist(dispatch, options)
     )
@@ -51,6 +52,7 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountMyWishlistContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
+        showError: PropTypes.func.isRequired,
         clearWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         moveWishlistToCart: PropTypes.func.isRequired,
@@ -92,7 +94,9 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
         return moveWishlistToCart().then(
             /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
-            () => this.showNotificationAndRemoveLoading('Wishlist moved to cart')
+            () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
+            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartCatch */
+            () => this.showErrorAndRemoveLoading('Failed to add all items to cart')
         );
     };
 
@@ -137,6 +141,12 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         const { showNotification } = this.props;
         this.setState({ isLoading: false });
         showNotification(message);
+    }
+
+    showErrorAndRemoveLoading(message) {
+        const { showError } = this.props;
+        this.setState({ isLoading: false });
+        showError(message);
     }
 
     render() {

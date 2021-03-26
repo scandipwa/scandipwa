@@ -8,6 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+/* eslint-disable react/jsx-no-bind */
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
@@ -15,16 +16,19 @@ import { PureComponent } from 'react';
 import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
+import Image from 'Component/Image';
 import { MixType } from 'Type/Common';
 
 import {
     CHECKBOX_TYPE,
+    FILE_TYPE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
     RADIO_TYPE,
     SELECT_TYPE,
     TEXTAREA_TYPE
 } from './Field.config';
+import upload from './icons/upload.svg';
 
 import './Field.style';
 
@@ -52,14 +56,18 @@ export class Field extends PureComponent {
             PropTypes.bool
         ]),
         validation: PropTypes.arrayOf(PropTypes.string).isRequired,
-        validationStatus: PropTypes.bool,
+        validationStatus: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string
+        ]),
         checked: PropTypes.oneOfType([
             PropTypes.bool,
             PropTypes.string
         ]),
         mix: MixType,
         min: PropTypes.number,
-        max: PropTypes.number
+        max: PropTypes.number,
+        filename: PropTypes.string
     };
 
     static defaultProps = {
@@ -70,7 +78,8 @@ export class Field extends PureComponent {
         label: '',
         value: null,
         message: '',
-        validationStatus: null
+        validationStatus: null,
+        filename: ''
     };
 
     renderTextarea() {
@@ -159,6 +168,21 @@ export class Field extends PureComponent {
         );
     }
 
+    renderFile() {
+        const { filename, id, onChange } = this.props;
+
+        return (
+            <>
+                <FieldInput
+                  { ...this.props }
+                  type="file"
+                  onChange={ (e) => onChange(e) }
+                />
+                { this.renderLabelForFile(id, filename) }
+            </>
+        );
+    }
+
     renderRadioButton() {
         const {
             id,
@@ -201,9 +225,29 @@ export class Field extends PureComponent {
             return this.renderTypePassword();
         case SELECT_TYPE:
             return this.renderSelectWithOptions();
+        case FILE_TYPE:
+            return this.renderFile();
         default:
             return this.renderTypeText();
         }
+    }
+
+    renderLabelForFile(id, filename = '') {
+        if (filename) {
+            return (
+                <label htmlFor={ id }>
+                    <p>{ filename }</p>
+                </label>
+            );
+        }
+
+        return (
+            <label htmlFor={ id }>
+                <Image src={ upload } alt="Upload icon" ratio="square" height="50px" />
+                <p>{ __('Drop files here or') }</p>
+                <span>{ __('Select files') }</span>
+            </label>
+        );
     }
 
     renderLabel() {

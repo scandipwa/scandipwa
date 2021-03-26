@@ -17,6 +17,7 @@ import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
     CONFIGURABLE,
+    DOWNLOADABLE,
     GROUPED
 } from 'Util/Product';
 
@@ -39,6 +40,7 @@ export class ProductActionsContainer extends PureComponent {
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
+        selectedLinkPrice: PropTypes.number.isRequired,
         getLink: PropTypes.func.isRequired
     };
 
@@ -269,10 +271,11 @@ export class ProductActionsContainer extends PureComponent {
     getProductPrice() {
         const {
             product,
-            product: { variants = [], type_id },
+            product: { variants = [], type_id, links_purchased_separately },
             configurableVariantIndex,
             selectedBundlePrice,
-            selectedBundlePriceExclTax
+            selectedBundlePriceExclTax,
+            selectedLinkPrice
         } = this.props;
 
         const {
@@ -280,10 +283,23 @@ export class ProductActionsContainer extends PureComponent {
         } = variants[configurableVariantIndex] || product;
 
         if (type_id === BUNDLE) {
-            const {
+            return this._getCustomPrice(selectedBundlePrice, selectedBundlePriceExclTax);
+        }
+
+        if (type_id === DOWNLOADABLE && links_purchased_separately) {
+            return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
+        }
+
+        return price_range;
+    }
+
+    _getCustomPrice(price, withoutTax, addBase = false) {
+        const {
+            product: {
                 price_range: {
                     minimum_price: {
-                        regular_price: { currency },
+                        regular_price: { currency, value },
+                        regular_price_excl_tax: { value: value_excl_tax },
                         discount: discountData,
                         discount: { percent_off },
                         base_price,
@@ -291,32 +307,33 @@ export class ProductActionsContainer extends PureComponent {
                         base_final_price_excl_tax
                     }
                 }
-            } = product;
+            }
+        } = this.props;
 
-            // eslint-disable-next-line no-magic-numbers
-            const discount = (1 - percent_off / 100);
+        // eslint-disable-next-line no-magic-numbers
+        const discount = (1 - percent_off / 100);
 
-            const finalBundlePrice = selectedBundlePrice * discount;
-            const finalBundlePriceExclTax = selectedBundlePriceExclTax * discount;
+        const basePrice = addBase ? value : 0;
+        const basePriceExclTax = addBase ? value_excl_tax : 0;
 
-            const priceValue = { value: finalBundlePrice, currency };
-            const priceValueExclTax = { value: finalBundlePriceExclTax, currency };
+        const finalPrice = (basePrice + price) * discount;
+        const finalPriceExclTax = (basePriceExclTax + withoutTax) * discount;
 
-            return {
-                minimum_price: {
-                    final_price: priceValue,
-                    regular_price: priceValue,
-                    final_price_excl_tax: priceValueExclTax,
-                    regular_price_excl_tax: priceValueExclTax,
-                    discount: discountData,
-                    base_price,
-                    base_final_price,
-                    base_final_price_excl_tax
-                }
-            };
-        }
+        const priceValue = { value: finalPrice, currency };
+        const priceValueExclTax = { value: finalPriceExclTax, currency };
 
-        return price_range;
+        return {
+            minimum_price: {
+                final_price: priceValue,
+                regular_price: priceValue,
+                final_price_excl_tax: priceValueExclTax,
+                regular_price_excl_tax: priceValueExclTax,
+                discount: discountData,
+                base_price,
+                base_final_price,
+                base_final_price_excl_tax
+            }
+        };
     }
 
     _getGroupedProductQuantity() {
