@@ -33,7 +33,8 @@ export class ProductCustomizableOption extends PureComponent {
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
-        requiredSelected: PropTypes.bool.isRequired
+        requiredSelected: PropTypes.bool.isRequired,
+        currencyCode: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -102,7 +103,7 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     renderOptionCheckboxValue = (item) => {
-        const { getSelectedCheckboxValue, renderOptionLabel } = this.props;
+        const { getSelectedCheckboxValue, renderOptionLabel, currencyCode } = this.props;
         const {
             option_type_id,
             title,
@@ -110,7 +111,7 @@ export class ProductCustomizableOption extends PureComponent {
             price_type
         } = item;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, price, currencyCode);
 
         return (
             <Field
@@ -237,6 +238,7 @@ export class ProductCustomizableOption extends PureComponent {
 
     renderTextFieldTitle() {
         const {
+            currencyCode,
             renderOptionLabel,
             option: {
                 title,
@@ -247,7 +249,7 @@ export class ProductCustomizableOption extends PureComponent {
             }
         } = this.props;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, price, currencyCode);
 
         return this.renderHeading(title, priceLabel);
     }

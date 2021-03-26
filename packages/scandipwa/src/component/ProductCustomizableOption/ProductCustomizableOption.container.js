@@ -25,11 +25,14 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    currencyCode: state.ConfigReducer.currencyData.current_currency_code
+});
 
 /** @namespace Component/ProductCustomizableOption/Container */
 export class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
+        currencyCode: PropTypes.string.isRequired,
         option: PropTypes.object.isRequired,
         productOptionsData: PropTypes.object.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
@@ -107,13 +110,12 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    renderOptionLabel(priceType, price) {
+    renderOptionLabel(priceType, price, currency) {
         switch (priceType) {
         case 'PERCENT':
             return `${ price }%`;
         default:
-            /* TODO: get currency code */
-            return formatPrice(price);
+            return formatPrice(price, currency);
         }
     }
 
@@ -149,6 +151,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     }
 
     getDropdownOptions(values) {
+        const { currencyCode } = this.props;
+
         return values.reduce((acc, {
             option_type_id, title, price, price_type
         }) => {
@@ -156,7 +160,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} + ${this.renderOptionLabel(price_type, price)}`
+                label: `${title} + ${this.renderOptionLabel(price_type, price, currencyCode)}`
             });
 
             return acc;
