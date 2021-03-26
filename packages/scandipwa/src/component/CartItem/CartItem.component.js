@@ -243,6 +243,35 @@ export class CartItem extends PureComponent {
         );
     }
 
+    renderProductLinks(itemOptions = []) {
+        const { isLikeTable } = this.props;
+
+        if (!itemOptions.length) {
+            return null;
+        }
+
+        return (
+            <div
+              block="CartItem"
+              elem="ItemLinksWrapper"
+            >
+                <span
+                  block="CartItem"
+                  elem="ItemLinks"
+                >
+                    { __('Links:') }
+                </span>
+                <div
+                  block="CartItem"
+                  elem="ItemOptionsWrapper"
+                  mods={ { isLikeTable } }
+                >
+                    { itemOptions.map(this.renderProductOption) }
+                </div>
+            </div>
+        );
+    }
+
     renderProductName() {
         const {
             item: {
@@ -323,7 +352,7 @@ export class CartItem extends PureComponent {
                     </div>
                     { this.renderProductOptions(customizable_options) }
                     { this.renderProductOptions(bundle_options) }
-                    { this.renderProductOptions(downloadable_links) }
+                    { this.renderProductLinks(downloadable_links) }
                     { this.renderProductConfigurations() }
                     { this.renderQuantityChangeField(true) }
                     { this.renderProductPrice() }
