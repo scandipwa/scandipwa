@@ -166,10 +166,10 @@
             .input-control {
                 display: inline-block;
                 vertical-align: middle;
-                margin-right: 1.2rem;
+                margin: 0 1.2rem;
 
                 @include mobile {
-                    margin-left: 1.4rem;
+                    margin: 0 1.4rem;
                 }
             }
         }

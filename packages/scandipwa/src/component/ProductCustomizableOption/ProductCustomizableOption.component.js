@@ -109,6 +109,7 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <Field
               type="checkbox"
+              checkboxPosition="left"
               label={ this.renderHeading(title, priceLabel) }
               key={ option_type_id }
               id={ `option-${ option_type_id }` }

@@ -57,6 +57,7 @@ export class Field extends PureComponent {
             PropTypes.bool,
             PropTypes.string
         ]),
+        checkboxPosition: PropTypes.string,
         mix: MixType,
         min: PropTypes.number,
         max: PropTypes.number
@@ -66,6 +67,7 @@ export class Field extends PureComponent {
         min: 1,
         max: 99,
         checked: false,
+        checkboxPosition: 'right',
         mix: {},
         label: '',
         value: null,
@@ -143,18 +145,33 @@ export class Field extends PureComponent {
         const {
             id,
             onChangeCheckbox,
+            checkboxPosition,
             label
         } = this.props;
 
+        if (checkboxPosition === 'left') {
+            return (
+                <label htmlFor={ id }>
+                    <FieldInput
+                      { ...this.props }
+                      type="checkbox"
+                      onChange={ onChangeCheckbox }
+                    />
+                    <div block="input-control" />
+                    { label }
+                </label>
+            );
+        }
+
         return (
             <label htmlFor={ id }>
+                { label }
                 <FieldInput
                   { ...this.props }
                   type="checkbox"
                   onChange={ onChangeCheckbox }
                 />
                 <div block="input-control" />
-                { label }
             </label>
         );
     }
