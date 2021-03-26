@@ -11,6 +11,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 import Link from 'Component/Link';
 import { formatPrice } from 'Util/Price';
@@ -125,16 +126,20 @@ export class ProductDownloadableLinks extends PureComponent {
     }
 
     render() {
-        const { isLoading } = this.props;
+        const { isLoading, title } = this.props;
 
         if (isLoading) {
             return this.renderPlaceholder();
         }
 
         return (
-            <div block="ProductDownloadableLinks">
+            <ExpandableContent
+              block="ProductDownloadableLinks"
+              heading={ title }
+              mix={ { block: 'ProductDownloadableLinks' } }
+            >
                 { this.renderContent() }
-            </div>
+            </ExpandableContent>
         );
     }
 }
