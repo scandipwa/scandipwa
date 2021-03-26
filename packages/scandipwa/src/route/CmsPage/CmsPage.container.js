@@ -103,6 +103,8 @@ export class CmsPageContainer extends DataContainer {
             isOnlyPlaceholder
         } = this.props;
 
+        window.scrollTo(0, 0);
+
         const { isLoading } = this.state;
 
         if (isOffline && isLoading) {

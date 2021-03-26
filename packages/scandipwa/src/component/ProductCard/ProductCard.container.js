@@ -174,7 +174,14 @@ export class ProductCardContainer extends PureComponent {
             return [];
         }
 
-        const { attribute_options } = Object.values(configurable_options)[0];
+        // Find first option that has swatch_data in attribute_options property
+        const optionWithSwatchData = Object.values(configurable_options).find((option) => {
+            const { attribute_options = {} } = option;
+
+            return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
+        });
+
+        const { attribute_options = {} } = optionWithSwatchData || {};
 
         return Object.values(attribute_options).reduce(
             (acc, option) => {

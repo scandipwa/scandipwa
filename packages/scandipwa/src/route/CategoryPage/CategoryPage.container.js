@@ -185,6 +185,8 @@ export class CategoryPageContainer extends PureComponent {
             }
         } = this.props;
 
+        window.scrollTo(0, 0);
+
         /**
          * Ensure transition PLP => homepage => PLP always having proper meta
          */
@@ -354,10 +356,11 @@ export class CategoryPageContainer extends PureComponent {
             categoryIds,
             category: {
                 id
-            }
+            },
+            isSearchPage
         } = this.props;
 
-        return categoryIds === id;
+        return isSearchPage || categoryIds === id;
     }
 
     containerProps = () => ({
@@ -525,7 +528,7 @@ export class CategoryPageContainer extends PureComponent {
     updateMeta() {
         const { updateMetaFromCategory, category, history } = this.props;
         const meta_robots = history.location.search
-            ? 'nofollow, noindex'
+            ? ''
             : 'follow, index';
 
         updateMetaFromCategory({

@@ -6,6 +6,8 @@
     border: solid 1px transparent;
     transition: border-color var(--animation-speed), filter var(--animation-speed);
     filter: opacity(.5);
+    flex: 1;
+    cursor: pointer;
 
     &_isActive {
         filter: opacity(1);

@@ -91,7 +91,6 @@
 
     &-ReviewLabel {
         display: inline-block;
-        font-weight: 600;
         margin-left: .6rem;
 
         @include mobile {
@@ -172,8 +171,9 @@
 
     &-Title {
         font-size: 2.4rem;
-        font-weight: bold;
         line-height: 3.6rem;
+        text-transform: none;
+        margin: 0;
 
         @include mobile {
             font-size: 2.8rem;
@@ -182,8 +182,6 @@
     }
 
     &-Brand {
-        font-size: 1.44rem;
-        font-weight: bold;
         text-transform: uppercase;
         color: var(--product-actions-option-border-color);
 
@@ -209,6 +207,23 @@
 
         .Field_type_number {
             max-width: 80px;
+        }
+    }
+
+    &-Samples {
+        order: 16;
+
+        &Title {
+            font-weight: bold;
+            margin-bottom: .5rem;
+
+            @include mobile {
+                display: none;
+            }
+        }
+
+        &Link {
+            padding: .5rem 0;
         }
     }
 
@@ -389,6 +404,10 @@
         }
     }
 
+    &-SectionDownloadable {
+        order: 17;
+    }
+
     &-SectionHeading {
         width: 100%;
         text-transform: uppercase;
@@ -437,6 +456,20 @@
 
         @include mobile {
             padding: 0 1.4rem;
+        }
+    }
+
+    &-ExpandableContent {
+        &Button {
+            @include after-mobile {
+                display: none;
+            }
+        }
+
+        &Content_isContentExpanded {
+            @include mobile {
+                padding: 0 1.4rem 1.4rem;
+            }
         }
     }
 

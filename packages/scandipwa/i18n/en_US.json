@@ -134,7 +134,6 @@
     "Get password link": null,
     "Create new account": null,
     "Confirm the email": null,
-    "Select currency": null,
     "Close": null,
     "You have no items in your shopping cart.": null,
     "Tax total:": null,
@@ -358,5 +357,6 @@
     "Show more": null,
     "Written by ": null,
     ", written at %s": null,
-    "Choose %s": null
+    "Choose %s": null,
+    "Purchase Order Number": null
 }

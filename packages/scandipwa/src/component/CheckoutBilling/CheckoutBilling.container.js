@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import { KLARNA, PURCHASE_ORDER } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
@@ -127,7 +127,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const { isSameAsShipping } = this.state;
 
         const address = this._getAddress(fields);
-        const paymentMethod = this._getPaymentData(asyncData);
+        const paymentMethod = this._getPaymentData(fields, asyncData);
 
         savePaymentInformation({
             billing_address: address,
@@ -157,7 +157,7 @@ export class CheckoutBillingContainer extends PureComponent {
         });
     }
 
-    _getPaymentData(asyncData) {
+    _getPaymentData(fields, asyncData) {
         const { paymentMethod: code } = this.state;
 
         switch (code) {
@@ -169,6 +169,14 @@ export class CheckoutBillingContainer extends PureComponent {
                 additional_data: {
                     authorization_token
                 }
+            };
+
+        case PURCHASE_ORDER:
+            const { purchaseOrderNumber } = fields;
+
+            return {
+                code,
+                purchase_order_number: purchaseOrderNumber
             };
 
         default:
