@@ -23,7 +23,7 @@ import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
 import { debounce } from 'Util/Request';
 
-import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
+import { HEADER_CMS_BLOCK, SCROLL_DEBOUNCE_DELAY } from './Menu.config';
 
 import './Menu.style';
 
@@ -197,7 +197,7 @@ export class Menu extends PureComponent {
         const { header_content: { header_cms } = {} } = window.contentConfiguration;
 
         if (header_cms) {
-            return <CmsBlock identifier={ header_cms } />;
+            return <CmsBlock identifier={ header_cms } blockType={ HEADER_CMS_BLOCK } />;
         }
 
         return (

@@ -8,6 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import 'intersection-observer';
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { InView } from 'react-intersection-observer';

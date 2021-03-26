@@ -293,10 +293,8 @@ export class CheckoutContainer extends PureComponent {
 
         if (checkoutStep === BILLING_STEP) {
             this.setState({
-                isLoading: false,
-                checkoutStep: SHIPPING_STEP
+                isLoading: false
             });
-
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
         }
 
@@ -644,7 +642,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
-        const { paymentMethod: { code, additional_data } } = paymentInformation;
+        const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
         const guest_cart_id = !isSignedIn() ? getGuestQuoteId() : '';
 
         try {
@@ -652,7 +650,8 @@ export class CheckoutContainer extends PureComponent {
                 guest_cart_id,
                 payment_method: {
                     code,
-                    [code]: additional_data
+                    [code]: additional_data,
+                    purchase_order_number
                 }
             }));
 
