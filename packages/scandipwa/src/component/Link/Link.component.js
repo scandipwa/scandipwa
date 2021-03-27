@@ -59,7 +59,7 @@ export class Link extends PureComponent {
         onClick(e);
     };
 
-    renderToHostLink() {
+    renderRelativePathLink() {
         const {
             isOpenInNewTab,
             children,
@@ -94,7 +94,7 @@ export class Link extends PureComponent {
         );
     }
 
-    renderToOutsideLink = (classNameConverted) => {
+    renderAbsolutePathLink = (classNameConverted) => {
         const {
             isOpenInNewTab,
             children,
@@ -149,13 +149,13 @@ export class Link extends PureComponent {
         }
 
         if (/^#/.test(to)) {
-            return this.renderToHostLink();
+            return this.renderRelativePathLink();
         }
 
         const classNameConverted = `${ className } ${ stringify(bemProps)}`;
 
         if (/^https?:\/\//.test(to)) {
-            return this.renderToOutsideLink(classNameConverted);
+            return this.renderAbsolutePathLink(classNameConverted);
         }
 
         return (
