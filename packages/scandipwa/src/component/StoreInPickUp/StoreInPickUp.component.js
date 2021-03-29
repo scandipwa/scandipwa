@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -15,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
-import Html from 'Component/Html';
 import Popup from 'Component/Popup';
+import StoreInPickUpStore from 'Component/StoreInPickUpStore/StoreInPickUpStore.component';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUp.config';
 
@@ -67,44 +65,17 @@ export class StoreInPickUpComponent extends PureComponent {
         );
     }
 
-    renderStore(store, selectStore) {
-        const {
-            city,
-            country,
-            description,
-            name,
-            phone,
-            pickup_location_code,
-            postcode,
-            region,
-            street
-        } = store;
+    renderStore = (store) => {
+        const { selectStore } = this.props;
+        const { pickup_location_code } = store;
 
         return (
-            <div block="StoreInPickUp" elem="Store" key={ pickup_location_code }>
-                <div block="StoreInPickUp" elem="StoreData">
-                    <h3>{ name }</h3>
-                    <p>{ street }</p>
-                    <p>{ `${city}, ${region} ${postcode}` }</p>
-                    <p>{ country }</p>
-                    <a href={ `tel:${phone}` }>{ phone }</a>
-                    <Html content={ description } />
-                </div>
-                <div block="StoreInPickUp" elem="StoreActions">
-                    <button
-                      block="Button"
-                      onClick={ () => selectStore(store) }
-                      type="button"
-                    >
-                        { __('Ship here') }
-                    </button>
-                </div>
-            </div>
+            <StoreInPickUpStore store={ store } selectStore={ selectStore } key={ pickup_location_code } />
         );
-    }
+    };
 
     renderResult() {
-        const { stores, selectStore } = this.props;
+        const { stores } = this.props;
 
         if (!stores.length) {
             return null;
@@ -112,7 +83,7 @@ export class StoreInPickUpComponent extends PureComponent {
 
         return (
             <div block="StoreInPickUp" elem="Results">
-                { stores.map((store) => this.renderStore(store, selectStore)) }
+                { stores.map(this.renderStore) }
             </div>
         );
     }

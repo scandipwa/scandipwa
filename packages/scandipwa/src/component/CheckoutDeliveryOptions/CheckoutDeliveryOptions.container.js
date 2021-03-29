@@ -45,6 +45,12 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             shippingMethod
         } = props;
 
+        /**
+         * Code bellow checking the first selected shipping method.
+         *
+         * In the case of PICK UP IN STORE, code will not select it, as we need customer to select it manually,
+         * to open popup and select actual store where order will be shipped.
+         */
         const result = shippingMethods.find(
             ({ method_code, carrier_code }) => (`${carrier_code}_${method_code}` === shippingMethod
             ) && method_code !== STORE_IN_PICK_UP_METHOD_CODE
@@ -142,11 +148,11 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
         if (method_code === STORE_IN_PICK_UP_METHOD_CODE) {
             showPopup(STORE_IN_PICK_UP_POPUP_ID);
-        } else {
-            this.setSelectedShippingMethodCode(method_code);
-            onShippingMethodSelect(shippingMethod);
-            onStoreSelect();
         }
+
+        this.setSelectedShippingMethodCode(method_code);
+        onShippingMethodSelect(shippingMethod);
+        onStoreSelect();
     }
 
     render() {
