@@ -442,21 +442,17 @@
         > label:first-of-type {
             align-items: center;
             color: var(--checkbox-label-color);
+            font-size: 1.2rem;
             display: inline-flex;
             flex-direction: row-reverse;
             font-weight: 500;
             padding-bottom: 0;
-            margin-left: .96rem;
-
-            @include mobile {
-                font-size: 1.12rem;
-                margin-left: 1.12rem;
-            }
+            margin-left: 1.5rem;
         }
 
         > label:last-of-type {
+            height: 1.32rem;
             @include mobile {
-                width: 1.54rem;
                 height: 1.54rem;
             }
 

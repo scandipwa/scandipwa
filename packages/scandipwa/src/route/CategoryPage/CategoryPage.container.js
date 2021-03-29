@@ -185,6 +185,8 @@ export class CategoryPageContainer extends PureComponent {
             }
         } = this.props;
 
+        window.scrollTo(0, 0);
+
         /**
          * Ensure transition PLP => homepage => PLP always having proper meta
          */

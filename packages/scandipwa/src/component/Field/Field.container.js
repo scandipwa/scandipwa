@@ -18,6 +18,7 @@ import Field from './Field.component';
 import {
     CHECKBOX_TYPE,
     ENTER_KEY_CODE,
+    FILE_TYPE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
     RADIO_TYPE,
@@ -46,7 +47,8 @@ export class FieldContainer extends PureComponent {
             PASSWORD_TYPE,
             RADIO_TYPE,
             CHECKBOX_TYPE,
-            SELECT_TYPE
+            SELECT_TYPE,
+            FILE_TYPE
         ]).isRequired,
         onChange: PropTypes.func,
         onFocus: PropTypes.func,
@@ -164,14 +166,16 @@ export class FieldContainer extends PureComponent {
             checked,
             value,
             validationStatus,
-            validationMessage
+            validationMessage,
+            filename
         } = this.state;
 
         return {
             checked: type === CHECKBOX_TYPE ? propsChecked : checked,
             value,
             validationStatus: customValidationStatus ?? validationStatus,
-            message: validationMessage
+            message: validationMessage,
+            filename
         };
     };
 
@@ -217,6 +221,8 @@ export class FieldContainer extends PureComponent {
     }
 
     onChange(event) {
+        const { type } = this.props;
+
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
         }
@@ -228,6 +234,10 @@ export class FieldContainer extends PureComponent {
         }
 
         this.updateValidationStatus();
+
+        if (type === FILE_TYPE) {
+            return this.handleChange(event.target.value, false, event.target.files[0]);
+        }
 
         return this.handleChange(event.target.value);
     }
@@ -285,7 +295,7 @@ export class FieldContainer extends PureComponent {
         }
     }
 
-    handleChange(value, shouldUpdate = true) {
+    handleChange(value, shouldUpdate = true, fileValue = false) {
         const {
             isControlled,
             onChange,
@@ -306,6 +316,17 @@ export class FieldContainer extends PureComponent {
             if (!isControlled) {
                 this.setState({ value });
             }
+            break;
+        case FILE_TYPE:
+            if (value) {
+                const result = onChange && onChange(fileValue);
+
+                this.setState({
+                    value: result ? value : '',
+                    filename: result ? value.substr(value.lastIndexOf('\\') + 1) : ''
+                });
+            }
+
             break;
         default:
             if (onChange) {

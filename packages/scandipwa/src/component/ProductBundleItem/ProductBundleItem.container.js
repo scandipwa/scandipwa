@@ -10,9 +10,13 @@
  */
 
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import ProductCustomizableOptionContainer
-    from 'Component/ProductCustomizableOption/ProductCustomizableOption.container';
+import {
+    mapDispatchToProps,
+    mapStateToProps,
+    ProductCustomizableOptionContainer
+} from 'Component/ProductCustomizableOption/ProductCustomizableOption.container';
 
 import ProductBundleItem from './ProductBundleItem.component';
 
@@ -228,4 +232,4 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     }
 }
 
-export default ProductBundleItemContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductBundleItemContainer);

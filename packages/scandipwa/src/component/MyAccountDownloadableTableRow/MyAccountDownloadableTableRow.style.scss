@@ -10,7 +10,7 @@
     td,
     th {
         @include mobile {
-            min-width: 0;
+            width: 100%;
         }
     }
 

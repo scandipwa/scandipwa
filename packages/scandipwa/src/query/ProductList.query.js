@@ -219,6 +219,7 @@ export class ProductListQuery {
             'type_id',
             'stock_status',
             this._getPriceRangeField(),
+            this._getProductImageField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
@@ -495,6 +496,11 @@ export class ProductListQuery {
             .addFieldList(this._getProductSmallFields());
     }
 
+    _getProductImageField() {
+        return new Field('image')
+            .addFieldList(this._getProductThumbnailFields());
+    }
+
     _getAttributeOptionField() {
         return [
             'label',
@@ -767,6 +773,17 @@ export class ProductListQuery {
         ];
     }
 
+    _getCustomizableFileValueField(alias) {
+        return new Field('value')
+            .addFieldList([
+                'price',
+                'price_type',
+                'sku',
+                'file_extension'
+            ])
+            .setAlias(alias);
+    }
+
     _getCustomizableAreaOption() {
         return new Fragment('CustomizableAreaOption')
             .addFieldList(this._getCustomizableTextFields('areaValues'));
@@ -775,6 +792,11 @@ export class ProductListQuery {
     _getCustomizableFieldOption() {
         return new Fragment('CustomizableFieldOption')
             .addFieldList(this._getCustomizableTextFields('fieldValues'));
+    }
+
+    _getCustomizableFileOption() {
+        return new Fragment('CustomizableFileOption')
+            .addFieldList([this._getCustomizableFileValueField('fileValues')]);
     }
 
     _getCustomizableSelectionValueFields() {
@@ -822,6 +844,7 @@ export class ProductListQuery {
             this._getCustomizableMultiOption(),
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
+            this._getCustomizableFileOption(),
             'title',
             'required',
             'sort_order',
