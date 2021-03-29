@@ -23,7 +23,8 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     static propTypes = {
         ...ProductCustomizableOptionsContainer.propTypes,
         items: ProductItemsType,
-        setBundlePrice: PropTypes.func.isRequired
+        setBundlePrice: PropTypes.func.isRequired,
+        isDynamicPrice: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
