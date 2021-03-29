@@ -25,7 +25,6 @@ import {
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { isMobile } from 'Util/Mobile';
 import { debounce } from 'Util/Request';
 import {
     appendWithStoreCode,
@@ -72,7 +71,8 @@ export const mapStateToProps = (state) => ({
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
     device: state.ConfigReducer.device,
-    plpType: state.ConfigReducer.plp_list_mode
+    plpType: state.ConfigReducer.plp_list_mode,
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -137,6 +137,7 @@ export class CategoryPageContainer extends PureComponent {
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isSearchPage: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
         plpType: PropTypes.string
     };
 
@@ -584,15 +585,15 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     updatePlpType() {
-        const { plpType } = this.props;
-
-        const defaultType = isMobile.any() ? 'grid' : plpType;
+        const { plpType, isMobile } = this.props;
 
         if (plpType.match('-')) {
             const plpTypes = plpType.split('-');
+            const defaultType = isMobile ? 'grid' : plpTypes[0];
 
             this.setState({ defaultPlpType: defaultType, plpTypes });
         } else {
+            const defaultType = isMobile ? 'grid' : plpType;
             this.setState({ defaultPlpType: defaultType, plpTypes: [plpType] });
         }
     }
