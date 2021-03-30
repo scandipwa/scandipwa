@@ -302,9 +302,9 @@ export class ProductActionsContainer extends PureComponent {
                         regular_price_excl_tax: { value: value_excl_tax },
                         discount: discountData,
                         discount: { percent_off },
-                        base_price,
-                        base_final_price,
-                        base_final_price_excl_tax
+                        default_price,
+                        default_final_price,
+                        default_final_price_excl_tax
                     }
                 }
             }
@@ -313,11 +313,11 @@ export class ProductActionsContainer extends PureComponent {
         // eslint-disable-next-line no-magic-numbers
         const discount = (1 - percent_off / 100);
 
-        const basePrice = addBase ? value : 0;
-        const basePriceExclTax = addBase ? value_excl_tax : 0;
+        const defaultPrice = addBase ? value : 0;
+        const defaultPriceExclTax = addBase ? value_excl_tax : 0;
 
-        const finalPrice = (basePrice + price) * discount;
-        const finalPriceExclTax = (basePriceExclTax + withoutTax) * discount;
+        const finalPrice = (defaultPrice + price) * discount;
+        const finalPriceExclTax = (defaultPriceExclTax + withoutTax) * discount;
 
         const priceValue = { value: finalPrice, currency };
         const priceValueExclTax = { value: finalPriceExclTax, currency };
@@ -329,9 +329,9 @@ export class ProductActionsContainer extends PureComponent {
                 final_price_excl_tax: priceValueExclTax,
                 regular_price_excl_tax: priceValueExclTax,
                 discount: discountData,
-                base_price,
-                base_final_price,
-                base_final_price_excl_tax
+                default_price,
+                default_final_price,
+                default_final_price_excl_tax
             }
         };
     }
