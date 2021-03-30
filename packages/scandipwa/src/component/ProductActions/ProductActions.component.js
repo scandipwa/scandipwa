@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
@@ -101,7 +102,7 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
-        if (stockStatus === 'OUT_OF_STOCK') {
+        if (stockStatus === PRODUCT_OUT_OF_STOCK) {
             return __('Out of stock');
         }
 

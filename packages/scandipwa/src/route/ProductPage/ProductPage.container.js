@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { PRODUCT_IN_STOCK, PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
@@ -490,6 +491,12 @@ export class ProductPageContainer extends PureComponent {
         const { variants } = dataSource;
         const currentVariantIndex = this.getConfigurableVariantIndex(variants);
         const variant = variants && variants[currentVariantIndex];
+
+        if (variants) {
+            dataSource.stock_status = variants.some((v) => v.stock_status === PRODUCT_IN_STOCK)
+                ? PRODUCT_IN_STOCK
+                : PRODUCT_OUT_OF_STOCK;
+        }
 
         return variant || dataSource;
     }
