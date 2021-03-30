@@ -12,6 +12,11 @@
 
 import PropTypes from 'prop-types';
 
+import {
+    ONE_HUNDRED_PERCENT,
+    PRICE_TYPE_FIXED,
+    PRICE_TYPE_PERCENT
+} from 'Component/ProductBundleItems/ProductBundleItems.config';
 import ProductCustomizableOptionsContainer
     from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.container';
 import { ProductItemsType } from 'Type/ProductList';
@@ -73,7 +78,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         this.setState({ isLoading: false });
     }
 
-    getOptionPrice(item, selectedValues) {
+    getOptionPrice(item, selectedValues, bundleDefaultPrices) {
         const { option_id } = item;
         let price = 0;
         let priceExclTax = 0;
@@ -82,27 +87,44 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             if (option_id === id) {
                 const { options } = item;
 
-                options.forEach(({ id: optionId, product }) => {
+                options.forEach(({
+                    id: optionId, product, price: optionPrice, price_type: priceType
+                }) => {
                     if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
                         if (product === null) {
                             return;
                         }
 
-                        const {
-                            price_range: {
-                                minimum_price: {
-                                    final_price: {
-                                        value: itemPrice = 0
-                                    } = {},
-                                    final_price_excl_tax: {
-                                        value: itemPriceExclTax = 0
+                        console.log('options.forEach:', priceType, optionPrice);
+
+                        if (priceType === PRICE_TYPE_FIXED) {
+                            price += optionPrice * quantity;
+                            priceExclTax += optionPrice * quantity;
+                        } else if (priceType === PRICE_TYPE_PERCENT) {
+                            const {
+                                base_final_price: { value: defaultFinalPrice } = 0,
+                                base_final_price_excl_tax: { value: defaultFinalPriceExclTax } = 0
+                            } = bundleDefaultPrices;
+
+                            price += (defaultFinalPrice * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
+                            priceExclTax += (defaultFinalPriceExclTax * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
+                        } else {
+                            const {
+                                price_range: {
+                                    minimum_price: {
+                                        final_price: {
+                                            value: itemPrice = 0
+                                        } = {},
+                                        final_price_excl_tax: {
+                                            value: itemPriceExclTax = 0
+                                        } = {}
                                     } = {}
                                 } = {}
-                            } = {}
-                        } = product;
+                            } = product;
 
-                        price += itemPrice * quantity;
-                        priceExclTax += itemPriceExclTax * quantity;
+                            price += itemPrice * quantity;
+                            priceExclTax += itemPriceExclTax * quantity;
+                        }
                     }
                 });
             }
@@ -117,27 +139,47 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             selectedCheckboxValues = []
         } = this.state;
 
+        const {
+            price_range: {
+                minimum_price: bundleDefaultPrices
+            }
+        } = this.props;
+
         const values = [...selectedCheckboxValues, ...selectedDropdownOptions];
 
         if (values.length) {
-            return this.getOptionPrice(item, values);
+            return this.getOptionPrice(item, values, bundleDefaultPrices);
         }
 
         return { price: 0, priceExclTax: 0 };
     };
 
     getTotalPrice() {
-        const { items } = this.props;
+        const {
+            items,
+            price_range: {
+                minimum_price: {
+                    base_price: { value: defaultPrice } = 0,
+                    base_final_price: { value: defaultFinalPrice } = 0,
+                    base_final_price_excl_tax: { value: defaultFinalPriceExclTax } = 0
+                }
 
-        return items
-            .map(this.getItemsPrice)
+            }
+        } = this.props;
+
+        const totalPrice = items
+            .map(this.getItemsPrice.bind(this))
             .reduce(
-                ({ price, priceExclTax }, item) => ({
+                ({ price, finalPrice, priceExclTax }, item) => ({
                     price: price + item.price,
+                    finalPrice: finalPrice + item.price,
                     priceExclTax: priceExclTax + item.priceExclTax
                 }),
-                { price: 0, priceExclTax: 0 }
+                { price: defaultPrice, finalPrice: defaultFinalPrice, priceExclTax: defaultFinalPriceExclTax }
             );
+
+        console.log(totalPrice);
+        return totalPrice;
     }
 
     updateSelectedOptions() {
