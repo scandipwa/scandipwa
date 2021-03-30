@@ -207,7 +207,7 @@ export class CheckoutContainer extends PureComponent {
 
         // if guest is not allowed to checkout with downloadable => redirect to login page
         if (!isSignedIn() && isGuestNotAllowDownloadable) {
-            this.checkIfDownloadableInCart();
+            this.handleRedirectIfDownloadableInCart();
         }
 
         updateMeta({ title: __('Checkout') });
@@ -310,12 +310,13 @@ export class CheckoutContainer extends PureComponent {
         history.goBack();
     }
 
-    checkIfDownloadableInCart() {
-        const { totals: { items } } = this.props;
+    handleRedirectIfDownloadableInCart() {
+        const { totals: { items }, showInfoNotification } = this.props;
 
         const isDownloadable = items.find(({ product }) => product.type_id === DOWNLOADABLE);
 
         if (isDownloadable) {
+            showInfoNotification(__('Please sign in or remove downloadable products from cart!'));
             history.push(appendWithStoreCode('/account/login'));
         }
     }
