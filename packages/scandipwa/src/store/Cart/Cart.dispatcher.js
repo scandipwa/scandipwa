@@ -141,7 +141,8 @@ export class CartDispatcher {
 
         const {
             productOptions,
-            productOptionsMulti
+            productOptionsMulti,
+            downloadableLinks
         } = productOptionsData || {};
 
         const productToAdd = {
@@ -153,7 +154,8 @@ export class CartDispatcher {
                     {
                         ...product,
                         productOptions,
-                        productOptionsMulti
+                        productOptionsMulti,
+                        downloadableLinks
                     }
                 )
             }

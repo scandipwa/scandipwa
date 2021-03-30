@@ -11,7 +11,6 @@
 
 :root {
     --newsletter-subscription-input-background: var(--input-background-color);
-    --newsletter-subscription-input-color: #{$black};
     --newsletter-subscription-placeholder-color: var(--secondary-dark-color);
     --newsletter-subscription-button-background: var(--link-color);
 }
@@ -44,8 +43,6 @@
 
                 input {
                     background-color: var(--newsletter-subscription-input-background);
-                    color: var(--newsletter-subscription-input-color);
-                    border: 1px solid transparent;
                     padding: 14px 12px;
 
                     &::placeholder {

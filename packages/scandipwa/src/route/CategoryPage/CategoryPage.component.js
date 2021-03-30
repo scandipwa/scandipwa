@@ -58,7 +58,9 @@ export class CategoryPage extends PureComponent {
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
         device: DeviceType.isRequired,
-        is_anchor: PropTypes.bool
+        is_anchor: PropTypes.bool,
+        defaultPlpType: PropTypes.string,
+        plpTypes: PropTypes.arrayOf(PropTypes.string)
     };
 
     static defaultProps = {
@@ -68,14 +70,38 @@ export class CategoryPage extends PureComponent {
         isMatchingInfoFilter: false,
         totalPages: 1,
         is_anchor: true,
-        search: ''
+        search: '',
+        defaultPlpType: '',
+        plpTypes: []
     };
 
+    state = {};
+
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
+
+    onGridButtonClick = this.onGridButtonClick.bind(this);
+
+    onListButtonClick = this.onListButtonClick.bind(this);
+
+    componentDidUpdate() {
+        const { layout } = this.state;
+
+        if (!layout) {
+            this.setDefaultPlpType();
+        }
+    }
 
     onFilterButtonClick() {
         const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
+    }
+
+    onGridButtonClick() {
+        this.setState({ layout: 'grid' });
+    }
+
+    onListButtonClick() {
+        this.setState({ layout: 'list' });
     }
 
     displayProducts() {
@@ -94,6 +120,12 @@ export class CategoryPage extends PureComponent {
         const { category: { display_mode } = {} } = this.props;
         return display_mode === DISPLAY_MODE_CMS_BLOCK
             || display_mode === DISPLAY_MODE_BOTH;
+    }
+
+    setDefaultPlpType() {
+        const { defaultPlpType } = this.props;
+
+        this.setState({ layout: defaultPlpType });
     }
 
     renderCategoryDetails() {
@@ -174,6 +206,51 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderLayoutButton = (type) => {
+        const { layout } = this.state;
+
+        switch (type) {
+        case 'grid':
+            return (
+                <button
+                  onClick={ this.onGridButtonClick }
+                  mix={ { block: 'grid', mods: { isActive: layout === 'grid' } } }
+                >
+                    { __('Grid') }
+                </button>
+            );
+        case 'list':
+            return (
+                <button
+                  onClick={ this.onListButtonClick }
+                  mix={ { block: 'list', mods: { isActive: layout === 'list' } } }
+                >
+                    { __('List') }
+                </button>
+            );
+        default:
+            return false;
+        }
+    };
+
+    renderLayoutButtons() {
+        const { plpTypes } = this.props;
+
+        /*
+        * So far there is only two types of
+        * the Storefront list modes
+         */
+        if (plpTypes.length !== 2) {
+            return null;
+        }
+
+        return (
+            <div block="CategoryPage" elem="LayoutButtons">
+                { plpTypes.map(this.renderLayoutButton) }
+            </div>
+        );
+    }
+
     renderItemsCount(isVisibleOnMobile = false) {
         const { isMatchingListFilter, device } = this.props;
 
@@ -203,6 +280,8 @@ export class CategoryPage extends PureComponent {
             isMatchingInfoFilter
         } = this.props;
 
+        const { layout } = this.state;
+
         if (!this.displayProducts()) {
             return null;
         }
@@ -218,6 +297,7 @@ export class CategoryPage extends PureComponent {
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
+                  layout={ layout }
                 />
             </div>
         );
@@ -253,7 +333,10 @@ export class CategoryPage extends PureComponent {
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
-                { this.renderItemsCount() }
+                <div block="CategoryPage" elem="LayoutWrapper">
+                    { this.renderLayoutButtons() }
+                    { this.renderItemsCount() }
+                </div>
                 { this.renderCategorySort() }
                 { this.renderFilterButton() }
             </aside>

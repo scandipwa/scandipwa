@@ -143,9 +143,9 @@ export class Checkout extends PureComponent {
         const { title = '' } = this.stepMap[checkoutStep];
 
         return (
-            <h1 block="Checkout" elem="Title">
+            <h2 block="Checkout" elem="Title">
                 { title }
-            </h1>
+            </h2>
         );
     }
 

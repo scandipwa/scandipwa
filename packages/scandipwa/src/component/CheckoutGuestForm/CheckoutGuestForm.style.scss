@@ -20,4 +20,22 @@
         width: 100%;
         margin-top: 2rem;
     }
+
+    .Field {
+        &_type {
+            &_checkbox {
+                label {
+                    align-items: flex-end;
+                    display: flex;
+                    flex-direction: row-reverse;
+                    justify-content: flex-end;
+
+                    .input-control {
+                        margin-left: 0;
+                        margin-right: 12px;
+                    }
+                }
+            }
+        }
+    }
 }

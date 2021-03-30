@@ -187,6 +187,18 @@ export class CartQuery {
             ]);
     }
 
+    _getDownloadableLinksField() {
+        return new Field('downloadable_links')
+            .addFieldList(this._getDownloadableLinksFields());
+    }
+
+    _getDownloadableLinksFields() {
+        return [
+            'id',
+            'label'
+        ];
+    }
+
     _getCartItemFields() {
         return [
             'qty',
@@ -200,6 +212,7 @@ export class CartQuery {
             'discount_amount',
             'discount_percent',
             this._getCustomizableOptionsFields(),
+            this._getDownloadableLinksField(),
             this._getBundleOptionsField(),
             this._getProductField()
         ];

@@ -150,6 +150,17 @@
         }
     }
 
+    &-ItemLinks {
+        &Wrapper {
+            display: flex;
+            gap: 1rem;
+        }
+
+        @include mobile {
+            margin-top: .7rem;
+        }
+    }
+
     &-Heading,
     &-SubHeading {
         font-size: 1.4rem;

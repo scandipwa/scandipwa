@@ -1,0 +1,66 @@
+.ProductDownloadableLinks {
+    &-Title {
+        margin-bottom: .1rem;
+
+        &_isRequired {
+            &::after{
+                content: '*';
+                color: var(--primary-base-color);
+                padding: 0 .5rem;
+            }
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-ExpandableContent {
+        &Content {
+            padding: 0;
+        }
+
+        @include after-mobile {
+            &Heading {
+                display: none;
+            }
+        }
+    }
+
+    @include after-mobile {
+        margin-bottom: 3rem;
+    }
+}
+
+.ProductDownloadableLink {
+    padding: 1.5rem 0 1rem;
+    border-bottom: 1px solid var(--expandable-content-divider-color);
+
+    .Field {
+        display: inline-block;
+        margin-right: 1rem;
+        margin-top: 0;
+    }
+
+    &-SampleLabel {
+        font-weight: bold;
+    }
+
+    &-SampleLink {
+        float: right;
+
+        @include mobile {
+            margin-right: 1.6rem;
+        }
+    }
+
+    @include mobile {
+        &:last-of-type {
+            border-bottom: none;
+        }
+
+        &:first-of-type {
+            padding-top: 1rem;
+        }
+    }
+}
