@@ -49,7 +49,6 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
 
     containerFunctions = {
         onCreateAccountSuccess: this.onCreateAccountSuccess.bind(this),
-        getRegistrationState: this.getRegistrationState.bind(this),
         setFormVisible: this.setRegistrationState.bind(this, CHECKOUT_REGISTRATION_STATE_FORM_VISIBLE)
     };
 
@@ -59,10 +58,6 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
 
     setRegistrationState(value) {
         this.setState({ registrationState: value });
-    }
-
-    getRegistrationState() {
-        return this.state.registrationState;
     }
 
     getCustomerData(fields) {
@@ -105,8 +100,6 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
         return fetchMutation(mutation).then(
             /** @namespace Component/CheckoutRegisterForm/Container/fetchMutation/then */
             (data) => {
-                setLoadingState(false);
-
                 const { createCustomer: { customer } } = data;
                 const { confirmation_required, email } = customer;
 
@@ -121,6 +114,10 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
             /** @namespace Component/CheckoutRegisterForm/Container/fetchMutation/then */
             (error) => {
                 showNotification('error', error[0].message);
+            }
+        ).finally(
+            /** @namespace Component/CheckoutRegisterForm/Container/fetchMutation/finally */
+            () => {
                 setLoadingState(false);
             }
         );
@@ -135,14 +132,14 @@ export class CheckoutRegisterFormContainer extends MyAccountCreateAccountContain
         setLoadingState(true);
         const mutation = OrderQuery.linkOrderMutation(customerEmail);
 
-        return fetchMutation(mutation).then(
-            /** @namespace Component/CheckoutRegisterForm/Container/fetchMutation/then */
-            () => {
-                setLoadingState(false);
-            },
-            /** @namespace Component/CheckoutRegisterForm/Container/fetchMutation/then */
+        return fetchMutation(mutation).catch(
+            /** @namespace Component/CheckoutRegisterForm/Container/fetchMutation/catch */
             (error) => {
                 showNotification('error', error[0].message);
+            }
+        ).finally(
+            /** @namespace Component/CheckoutRegisterForm/Container/fetchMutation/finally */
+            () => {
                 setLoadingState(false);
             }
         );

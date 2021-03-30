@@ -27,7 +27,7 @@ export class CheckoutRegisterFormComponent extends MyAccountCreateAccount {
     static propTypes = {
         ...MyAccountCreateAccount.propTypes,
         setFormVisible: PropTypes.func.isRequired,
-        getRegistrationState: PropTypes.func.isRequired
+        registrationState: PropTypes.string.isRequired
     };
 
     renderMap = {
@@ -65,10 +65,10 @@ export class CheckoutRegisterFormComponent extends MyAccountCreateAccount {
 
     render() {
         const {
-            getRegistrationState
+            registrationState
         } = this.props;
 
-        const renderer = this.renderMap[getRegistrationState()];
+        const renderer = this.renderMap[registrationState];
         if (!renderer) {
             return null;
         }
