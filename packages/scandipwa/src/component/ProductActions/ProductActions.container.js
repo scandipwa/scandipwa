@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -273,6 +274,7 @@ export class ProductActionsContainer extends PureComponent {
             product,
             product: { variants = [], type_id, links_purchased_separately },
             configurableVariantIndex,
+            selectedInitialBundlePrice,
             selectedBundlePrice,
             selectedBundlePriceExclTax,
             selectedLinkPrice
@@ -283,17 +285,17 @@ export class ProductActionsContainer extends PureComponent {
         } = variants[configurableVariantIndex] || product;
 
         if (type_id === BUNDLE) {
-            return this._getCustomPrice(selectedBundlePrice, selectedBundlePriceExclTax);
+            return this._getCustomPrice(selectedBundlePrice, selectedBundlePriceExclTax, selectedInitialBundlePrice, null);
         }
 
         if (type_id === DOWNLOADABLE && links_purchased_separately) {
-            return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
+            return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, selectedLinkPrice, true);
         }
 
         return price_range;
     }
 
-    _getCustomPrice(price, withoutTax, addBase = false) {
+    _getCustomPrice(price, withoutTax, initial, addBase = false) {
         const {
             product: {
                 price_range: {
@@ -301,10 +303,7 @@ export class ProductActionsContainer extends PureComponent {
                         regular_price: { currency, value },
                         regular_price_excl_tax: { value: value_excl_tax },
                         discount: discountData,
-                        discount: { percent_off },
-                        base_price,
-                        base_final_price,
-                        base_final_price_excl_tax
+                        discount: { percent_off }
                     }
                 }
             }
@@ -313,25 +312,33 @@ export class ProductActionsContainer extends PureComponent {
         // eslint-disable-next-line no-magic-numbers
         const discount = (1 - percent_off / 100);
 
+        const baseInitialPrice = addBase ? value : 0;
         const basePrice = addBase ? value : 0;
         const basePriceExclTax = addBase ? value_excl_tax : 0;
 
+        const initialPrice = (baseInitialPrice + initial) * discount;
         const finalPrice = (basePrice + price) * discount;
         const finalPriceExclTax = (basePriceExclTax + withoutTax) * discount;
 
+        const initialPriceValue = { value: initialPrice, currency };
         const priceValue = { value: finalPrice, currency };
         const priceValueExclTax = { value: finalPriceExclTax, currency };
 
+        console.log({
+            minimum_price: {
+                final_price: priceValue,
+                regular_price: initialPriceValue,
+                final_price_excl_tax: priceValueExclTax,
+                regular_price_excl_tax: priceValueExclTax,
+                discount: discountData
+            }});
         return {
             minimum_price: {
                 final_price: priceValue,
-                regular_price: priceValue,
+                regular_price: initialPriceValue,
                 final_price_excl_tax: priceValueExclTax,
                 regular_price_excl_tax: priceValueExclTax,
-                discount: discountData,
-                base_price,
-                base_final_price,
-                base_final_price_excl_tax
+                discount: discountData
             }
         };
     }

@@ -20,7 +20,6 @@ import {
     formatPrice,
     roundPrice
 } from 'Util/Price';
-import { BUNDLE } from 'Util/Product';
 
 import ProductPrice from './ProductPrice.component';
 import {
@@ -106,27 +105,17 @@ export class ProductPriceContainer extends PureComponent {
                     } = {},
                     regular_price_excl_tax: {
                         value: regularPriceExclTaxValue
-                    } = {},
-                    base_price: {
-                        value: basePriceValue
                     } = {}
                 } = {}
             } = {},
-            product: {
-                type_id: productType,
-                dynamic_price: isDynamicPrice
-            } = {},
             displayTaxInPrice
         } = this.props;
-
-        if (productType === BUNDLE && isDynamicPrice === false) {
-            return roundPrice(basePriceValue);
-        }
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
             return roundPrice(regularPriceExclTaxValue);
         }
 
+        console.log('regularPriceValue', regularPriceValue);
         return roundPrice(regularPriceValue);
     }
 
@@ -149,31 +138,11 @@ export class ProductPriceContainer extends PureComponent {
                     } = {},
                     regular_price_excl_tax: {
                         value: regularPriceExclTaxValue
-                    } = {},
-                    base_price: {
-                        value: basePriceValue
-                    } = {},
-                    base_final_price: {
-                        value: baseFinalPriceValue
                     } = {}
                 } = {}
             } = {},
-            displayTaxInPrice,
-            product: {
-                type_id: productType,
-                dynamic_price: isDynamicPrice
-            } = {}
+            displayTaxInPrice
         } = this.props;
-
-        if (productType === BUNDLE && isDynamicPrice === false) {
-            const finalPrice = calculateFinalPrice(
-                discountPercentage,
-                baseFinalPriceValue,
-                basePriceValue
-            );
-
-            return formatPrice(finalPrice, priceCurrency);
-        }
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
             const finalPrice = calculateFinalPrice(
@@ -203,24 +172,13 @@ export class ProductPriceContainer extends PureComponent {
                     } = {},
                     regular_price_excl_tax: {
                         value: regularPriceExclTaxValue
-                    } = {},
-                    base_final_price_excl_tax: {
-                        value: baseFinalPriceExclTaxValue
                     } = {}
                 } = {}
             } = {},
-            displayTaxInPrice,
-            product: {
-                type_id: productType,
-                dynamic_price: isDynamicPrice
-            } = {}
+            displayTaxInPrice
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH) {
-            if (productType === BUNDLE && isDynamicPrice === false) {
-                return formatPrice(baseFinalPriceExclTaxValue, priceCurrency);
-            }
-
             const finalPrice = calculateFinalPrice(
                 discountPercentage,
                 minimalPriceExclTaxValue,

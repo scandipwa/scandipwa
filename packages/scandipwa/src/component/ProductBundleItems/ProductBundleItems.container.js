@@ -78,10 +78,11 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         this.setState({ isLoading: false });
     }
 
-    getOptionPrice(item, selectedValues, bundleDefaultPrices) {
+    getOptionPrice(item, selectedValues, bundleDefaultPrices, isDynamicPrice) {
         const { option_id } = item;
         let price = 0;
         let priceExclTax = 0;
+        let initialPrice = 0;
 
         selectedValues.forEach(({ id, quantity, value }) => {
             if (option_id === id) {
@@ -95,42 +96,48 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
                             return;
                         }
 
-                        console.log('options.forEach:', priceType, optionPrice);
-
-                        if (priceType === PRICE_TYPE_FIXED) {
-                            price += optionPrice * quantity;
-                            priceExclTax += optionPrice * quantity;
-                        } else if (priceType === PRICE_TYPE_PERCENT) {
-                            const {
-                                base_final_price: { value: defaultFinalPrice } = 0,
-                                base_final_price_excl_tax: { value: defaultFinalPriceExclTax } = 0
-                            } = bundleDefaultPrices;
-
-                            price += (defaultFinalPrice * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
-                            priceExclTax += (defaultFinalPriceExclTax * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
-                        } else {
+                        if (isDynamicPrice) {
                             const {
                                 price_range: {
                                     minimum_price: {
-                                        final_price: {
+                                        regular_price: {
                                             value: itemPrice = 0
                                         } = {},
+                                        final_price: {
+                                            value: finalItemPrice = 0
+                                        } = {},
                                         final_price_excl_tax: {
-                                            value: itemPriceExclTax = 0
+                                            value: finalItemPriceExclTax = 0
                                         } = {}
                                     } = {}
                                 } = {}
                             } = product;
 
-                            price += itemPrice * quantity;
-                            priceExclTax += itemPriceExclTax * quantity;
+                            initialPrice += itemPrice * quantity;
+                            price += finalItemPrice * quantity;
+                            priceExclTax += finalItemPriceExclTax * quantity;
+                        } else if (priceType === PRICE_TYPE_FIXED) {
+                            initialPrice += optionPrice * quantity;
+                            price += optionPrice * quantity;
+                            priceExclTax += optionPrice * quantity;
+                        } else if (priceType === PRICE_TYPE_PERCENT) {
+                            const {
+                                base_price: { value: defaultPrice } = 0,
+                                base_final_price: { value: defaultFinalPrice } = 0,
+                                base_final_price_excl_tax: { value: defaultFinalPriceExclTax } = 0
+                            } = bundleDefaultPrices;
+
+                            initialPrice += (defaultPrice * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
+                            price += (defaultFinalPrice * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
+                            priceExclTax += (defaultFinalPriceExclTax * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
                         }
                     }
                 });
             }
         });
 
-        return { price, priceExclTax };
+        console.log({ price, priceExclTax, initialPrice });
+        return { price, priceExclTax, initialPrice };
     }
 
     getItemsPrice = (item) => {
@@ -142,43 +149,54 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         const {
             price_range: {
                 minimum_price: bundleDefaultPrices
-            }
+            },
+            isDynamicPrice
         } = this.props;
 
         const values = [...selectedCheckboxValues, ...selectedDropdownOptions];
 
         if (values.length) {
-            return this.getOptionPrice(item, values, bundleDefaultPrices);
+            return this.getOptionPrice(item, values, bundleDefaultPrices, isDynamicPrice);
         }
 
-        return { price: 0, priceExclTax: 0 };
+        return { price: 0, priceExclTax: 0, initialPrice: 0 };
     };
 
     getTotalPrice() {
-        const {
-            items,
-            price_range: {
-                minimum_price: {
-                    base_price: { value: defaultPrice } = 0,
-                    base_final_price: { value: defaultFinalPrice } = 0,
-                    base_final_price_excl_tax: { value: defaultFinalPriceExclTax } = 0
-                }
+        const { items, isDynamicPrice } = this.props;
+        let price = 0;
+        let finalPrice = 0;
+        let priceExclTax = 0;
 
-            }
-        } = this.props;
+        if (!isDynamicPrice) {
+            const {
+                price_range: {
+                    minimum_price: {
+                        base_price: { value: defaultPrice } = 0,
+                        base_final_price: { value: defaultFinalPrice } = 0,
+                        base_final_price_excl_tax: { value: defaultFinalPriceExclTax } = 0
+                    }
+
+                }
+            } = this.props;
+
+            price = defaultPrice;
+            finalPrice = defaultFinalPrice;
+            priceExclTax = defaultFinalPriceExclTax;
+        }
 
         const totalPrice = items
             .map(this.getItemsPrice.bind(this))
             .reduce(
                 ({ price, finalPrice, priceExclTax }, item) => ({
-                    price: price + item.price,
+                    price: price + item.initialPrice,
                     finalPrice: finalPrice + item.price,
                     priceExclTax: priceExclTax + item.priceExclTax
                 }),
-                { price: defaultPrice, finalPrice: defaultFinalPrice, priceExclTax: defaultFinalPriceExclTax }
+                { price, finalPrice, priceExclTax }
             );
 
-        console.log(totalPrice);
+        console.log('totalPrice', totalPrice);
         return totalPrice;
     }
 

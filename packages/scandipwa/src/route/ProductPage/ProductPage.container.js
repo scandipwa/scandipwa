@@ -85,6 +85,7 @@ export class ProductPageContainer extends PureComponent {
         configurableVariantIndex: -1,
         parameters: {},
         productOptionsData: {},
+        selectedInitialBundlePrice: 0,
         selectedBundlePrice: 0,
         selectedBundlePriceExclTax: 0,
         selectedLinkPrice: 0,
@@ -385,9 +386,10 @@ export class ProductPageContainer extends PureComponent {
     }
 
     setBundlePrice(prices) {
-        const { price = 0, priceExclTax = 0 } = prices;
+        const { price = 0, priceExclTax = 0, finalPrice = 0 } = prices;
         this.setState({
-            selectedBundlePrice: price,
+            selectedInitialBundlePrice: price,
+            selectedBundlePrice: finalPrice,
             selectedBundlePriceExclTax: priceExclTax
         });
     }
