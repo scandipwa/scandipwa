@@ -19,6 +19,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { addressType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
@@ -104,17 +105,31 @@ export class MyAccountAddressPopupContainer extends PureComponent {
     handleEditAddress(address) {
         const { payload: { address: { id } } } = this.props;
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
+
+        if (!isSignedIn()) {
+            return;
+        }
+
         fetchMutation(query).then(this.handleAfterAction, this.handleError);
     }
 
     handleDeleteAddress() {
         const { payload: { address: { id } } } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
+
         this.setState({ isLoading: true });
         const query = MyAccountQuery.getDeleteAddressMutation(id);
         fetchMutation(query).then(this.handleAfterAction, this.handleError);
     }
 
     handleCreateAddress(address) {
+        if (!isSignedIn()) {
+            return;
+        }
+
         const query = MyAccountQuery.getCreateAddressMutation(address);
         fetchMutation(query).then(this.handleAfterAction, this.handleError);
     }

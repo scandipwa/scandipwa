@@ -86,6 +86,10 @@ export class WishlistDispatcher {
     }
 
     addItemToWishlist(dispatch, wishlistItem) {
+        if (!isSignedIn()) {
+            return Promise.reject();
+        }
+
         dispatch(updateIsLoading(true));
         dispatch(showNotification('success', __('Product added to wish-list!')));
 
@@ -102,6 +106,10 @@ export class WishlistDispatcher {
     }
 
     updateWishlistItem(dispatch, options) {
+        if (!isSignedIn()) {
+            return Promise.reject();
+        }
+
         return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(options)).then(
             /** @namespace Store/Wishlist/Dispatcher/updateWishlistItemFetchMutationThen */
             () => dispatch(updateItemOptions(options))
@@ -109,6 +117,10 @@ export class WishlistDispatcher {
     }
 
     clearWishlist(dispatch) {
+        if (!isSignedIn()) {
+            return Promise.reject();
+        }
+
         return fetchMutation(WishlistQuery.getClearWishlist())
             .then(
                 /** @namespace Store/Wishlist/Dispatcher/clearWishlistFetchMutationThen */
@@ -121,6 +133,10 @@ export class WishlistDispatcher {
     }
 
     moveWishlistToCart(dispatch, sharingCode) {
+        if (!isSignedIn()) {
+            return Promise.reject();
+        }
+
         return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
             .then(
                 /** @namespace Store/Wishlist/Dispatcher/moveWishlistToCartFetchMutationThen */
@@ -134,8 +150,8 @@ export class WishlistDispatcher {
     }
 
     removeItemFromWishlist(dispatch, { item_id, noMessages }) {
-        if (!item_id) {
-            return null;
+        if (!item_id || !isSignedIn()) {
+            return Promise.reject();
         }
         dispatch(updateIsLoading(true));
 
@@ -162,8 +178,8 @@ export class WishlistDispatcher {
 
     // TODO: Need to make it in one request
     removeItemsFromWishlist(dispatch, itemIdMap) {
-        if (!itemIdMap.length) {
-            return null;
+        if (!itemIdMap.length || !isSignedIn()) {
+            return Promise.reject();
         }
 
         return itemIdMap.map((id) => (

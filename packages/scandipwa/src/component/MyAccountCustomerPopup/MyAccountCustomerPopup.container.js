@@ -20,6 +20,7 @@ import { goToPreviousNavigationState } from 'Store/Navigation/Navigation.action'
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
+import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
@@ -72,6 +73,10 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
             hideActiveOverlay,
             goToPreviousHeaderState
         } = this.props;
+
+        if (!isSignedIn()) {
+            return null;
+        }
 
         const mutation = MyAccountQuery.getUpdateInformationMutation(customer);
         this.setState({ isLoading: true });

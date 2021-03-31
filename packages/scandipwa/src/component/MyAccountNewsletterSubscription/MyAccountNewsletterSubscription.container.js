@@ -19,6 +19,7 @@ import { updateCustomerDetails } from 'Store/MyAccount/MyAccount.action';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { customerType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
@@ -65,6 +66,10 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     onCustomerSave(customer) {
         const { updateCustomer, showSuccessNotification } = this.props;
         const mutation = MyAccountQuery.getUpdateInformationMutation(customer);
+
+        if (!isSignedIn()) {
+            return null;
+        }
 
         this.setState({ isLoading: true });
 
