@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
+import { getSortedOptions } from 'Util/Product';
 
 import {
     AREA_FIELD, CHECKBOX, DROPDOWN, FILE, TEXT_FIELD
@@ -131,7 +132,7 @@ export class ProductCustomizableOption extends PureComponent {
             selectedDropdownValue,
             setDropdownValue
         } = this.props;
-        const dropdownOptions = getDropdownOptions(values);
+        const dropdownOptions = getDropdownOptions(getSortedOptions(values));
 
         return (
             <Field

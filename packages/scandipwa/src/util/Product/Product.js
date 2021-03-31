@@ -308,3 +308,6 @@ export const getExtensionAttributes = (product) => {
 
     return {};
 };
+
+/** @namespace Util/Product/getSortedOptions */
+export const getSortedOptions = (options) => options.sort((a, b) => (a.sort_order < b.sort_order ? -1 : 1));
