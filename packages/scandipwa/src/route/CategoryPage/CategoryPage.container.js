@@ -223,12 +223,16 @@ export class CategoryPageContainer extends PureComponent {
             this.updateHeaderState(true);
             this.updateBreadcrumbs(true);
         }
+
+        // Exclude categories from Category filter that are higher in hierarchy
+        this.excludeCurrentCategory();
     }
 
     componentDidUpdate(prevProps) {
         const {
             isOffline,
             categoryIds,
+            filters,
             category: {
                 id
             },
@@ -242,6 +246,7 @@ export class CategoryPageContainer extends PureComponent {
         } = this.state;
 
         const {
+            filters: prevFilters,
             categoryIds: prevCategoryIds,
             category: {
                 id: prevId
@@ -298,6 +303,80 @@ export class CategoryPageContainer extends PureComponent {
             && Object.keys(filter.customFilters).length !== Object.keys(prevFilter.customFilters).length
         ) {
             this.updateMeta();
+        }
+
+        // Exclude categories from Category filter that are higher in hierarchy
+        if (filters !== prevFilters) {
+            this.excludeCurrentCategory();
+        }
+    }
+
+    excludeCurrentCategory() {
+        const {
+            filters,
+            category
+        } = this.props;
+
+        if (filters !== undefined) {
+            if (filters.category_id !== undefined) {
+                if (filters.category_id.attribute_options !== undefined && category.breadcrumbs !== undefined) {
+                    // Obtain more general(previous) categories from breadcrumbs
+                    const breadcrumbsCategoryNames = (category.breadcrumbs !== null) ? category.breadcrumbs.reduce(
+                        (acc, k) => {
+                            acc.push(k.category_name);
+                            return acc;
+                        }, []
+                    ) : [];
+                    // Add current page to categories
+                    const currentCategories = [category.name] + breadcrumbsCategoryNames;
+
+                    // Match current categories to category numbers(ids)
+                    const excludeCategoriesIds = Object.keys(filters.category_id.attribute_options).reduce(
+                        (acc, k) => {
+                            acc.push(currentCategories.includes(
+                                filters.category_id.attribute_options[k].label
+                            ) ? filters.category_id.attribute_options[k].value_string
+                                : '');
+
+                            return acc;
+                        }, []
+                    );
+
+                    // Filter attribute_values so that array doesn't contain category ids that are excluded
+                    const filterAttributeValues = Object.keys(filters).reduce(
+                        (acc, key) => {
+                            if (key === 'category_id') {
+                                acc[key] = Object.keys(filters[key]).reduce(
+                                    (acc2, key2) => {
+                                        if (key2 === 'attribute_values') {
+                                            // eslint-disable-next-line no-param-reassign
+                                            acc2[key2] = Object.values(
+                                                filters[key][key2]
+                                            ).filter(
+                                                (v) => !excludeCategoriesIds.includes(v)
+                                            );
+
+                                            return acc2;
+                                        }
+
+                                        // eslint-disable-next-line no-param-reassign
+                                        acc2[key2] = filters[key][key2];
+                                        return acc2;
+                                    }, {}
+                                );
+
+                                return acc;
+                            }
+                            acc[key] = filters[key];
+
+                            return acc;
+                        },
+                        {}
+                    );
+
+                    this.setState({ filters: filterAttributeValues });
+                }
+            }
         }
     }
 
@@ -641,6 +720,7 @@ export class CategoryPageContainer extends PureComponent {
         return (
             <CategoryPage
               { ...this.props }
+              { ...this.state }
               pageSize={ pageSize }
               { ...this.containerFunctions }
               { ...this.containerProps() }

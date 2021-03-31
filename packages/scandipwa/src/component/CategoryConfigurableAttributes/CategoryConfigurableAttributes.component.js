@@ -67,26 +67,30 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         const {
             attribute_label,
             attribute_code,
-            attribute_options
+            attribute_options,
+            attribute_values
         } = option;
 
         const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
         const isSwatch = !!swatch_data;
+        if (attribute_values.length > 0) {
+            return (
+                <ExpandableContent
+                  key={ attribute_code }
+                  heading={ attribute_label }
+                  subHeading={ getSubHeading(option) }
+                  mix={ {
+                      block: 'ProductConfigurableAttributes',
+                      elem: 'Expandable'
+                  } }
+                  isContentExpanded={ isContentExpanded }
+                >
+                    { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
+                </ExpandableContent>
+            );
+        }
 
-        return (
-            <ExpandableContent
-              key={ attribute_code }
-              heading={ attribute_label }
-              subHeading={ getSubHeading(option) }
-              mix={ {
-                  block: 'ProductConfigurableAttributes',
-                  elem: 'Expandable'
-              } }
-              isContentExpanded={ isContentExpanded }
-            >
-                { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
-            </ExpandableContent>
-        );
+        return (null);
     }
 
     renderConfigurableAttributeValue(attribute) {
