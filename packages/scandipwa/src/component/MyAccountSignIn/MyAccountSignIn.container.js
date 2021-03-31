@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import { getErrorMessage } from 'Util/Request';
 
 import MyAccountSignIn from './MyAccountSignIn.component';
 
@@ -111,9 +112,9 @@ export class MyAccountSignInContainer extends PureComponent {
         try {
             await signIn(fields);
             onSignIn();
-        } catch ([{ message }]) {
+        } catch (error) {
             setLoadingState(false);
-            showNotification('error', message);
+            showNotification('error', getErrorMessage(error));
         }
     }
 

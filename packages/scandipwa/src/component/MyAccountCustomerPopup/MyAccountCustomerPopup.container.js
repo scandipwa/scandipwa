@@ -21,7 +21,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import MyAccountCustomerPopup from './MyAccountCustomerPopup.component';
@@ -36,7 +36,7 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });

@@ -19,7 +19,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { addressType } from 'Type/Account';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
 import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';
@@ -37,7 +37,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     updateCustomerDetails: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)

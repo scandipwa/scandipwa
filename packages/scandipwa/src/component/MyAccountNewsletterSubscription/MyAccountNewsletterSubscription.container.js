@@ -20,7 +20,7 @@ import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { customerType } from 'Type/Account';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
@@ -33,7 +33,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateCustomer: (customer) => dispatch(updateCustomerDetails(customer)),
-    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification('success', message))
 });
 

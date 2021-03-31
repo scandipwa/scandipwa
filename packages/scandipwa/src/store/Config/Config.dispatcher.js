@@ -45,7 +45,7 @@ export class ConfigDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching Config!', error));
+        dispatch(showNotification('error', __('Error fetching Config!'), error));
     }
 
     prepareRequest() {

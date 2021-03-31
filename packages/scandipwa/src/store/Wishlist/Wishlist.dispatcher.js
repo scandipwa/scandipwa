@@ -19,7 +19,7 @@ import {
     updateItemOptions
 } from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
-import { fetchMutation, fetchQuery } from 'Util/Request';
+import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -127,7 +127,7 @@ export class WishlistDispatcher {
                 () => {
                     dispatch(clearWishlist());
                     CartDispatcher.then(
-                        ({ default: dispatcher }) => dispatcher._syncCartWithBE(dispatch)
+                        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
                     );
                 }
             );
@@ -175,14 +175,14 @@ export class WishlistDispatcher {
                 },
                 /** @namespace Store/Wishlist/Dispatcher/removeItemsFromWishlistFetchMutationError */
                 (error) => {
-                    const [message] = error;
-
-                    dispatch(showNotification('error', message || __('Error updating wishlist!')));
-                    // eslint-disable-next-line no-console
-                    console.log(error);
+                    dispatch(showNotification('error', getErrorMessage(error, __('Error updating wishlist!'))));
                 }
             )
         ));
+    }
+
+    resetWishlist(dispatch) {
+        dispatch(clearWishlist());
     }
 }
 

@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
-import { updateCustomerIsAuthTokenExpired } from 'Store/MyAccount/MyAccount.action';
+import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
@@ -41,7 +41,6 @@ export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
     isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT,
-    isAuthTokenExpired: state.MyAccountReducer.isAuthTokenExpired,
     redirectToDashboard: state.ConfigReducer.redirect_dashboard
 });
 
@@ -51,8 +50,7 @@ export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    setIsAuthTokenExpired: (status) => dispatch(updateCustomerIsAuthTokenExpired(status))
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
@@ -69,14 +67,11 @@ export class MyAccountOverlayContainer extends PureComponent {
         isCheckout: PropTypes.bool,
         hideActiveOverlay: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
-        isAuthTokenExpired: PropTypes.bool,
-        setIsAuthTokenExpired: PropTypes.func.isRequired,
         redirectToDashboard: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         isCheckout: false,
-        isAuthTokenExpired: false,
         onSignIn: () => {},
         goToPreviousHeaderState: () => {}
     };
@@ -99,7 +94,6 @@ export class MyAccountOverlayContainer extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const {
-            isSignedIn,
             isPasswordForgotSend,
             showNotification,
             isOverlayVisible,
@@ -114,23 +108,24 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { location: { pathname, state: { isForgotPassword } = {} } } = history;
 
         const stateToBeUpdated = {};
+        const customerIsSignedIn = isSignedIn();
 
         if (!device.isMobile) {
-            if (!isOverlayVisible && !isSignedIn) {
+            if (!isOverlayVisible && !customerIsSignedIn) {
                 if (pathname !== '/forgot-password' && !isForgotPassword) {
                     stateToBeUpdated.state = STATE_SIGN_IN;
                 }
-            } else if (!isOverlayVisible && isSignedIn) {
+            } else if (!isOverlayVisible && customerIsSignedIn) {
                 stateToBeUpdated.state = STATE_LOGGED_IN;
             }
         }
 
-        if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
+        if (myAccountState !== STATE_LOGGED_IN && customerIsSignedIn) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.state = STATE_LOGGED_IN;
         }
 
-        if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
+        if (myAccountState === STATE_LOGGED_IN && !customerIsSignedIn) {
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
@@ -156,9 +151,6 @@ export class MyAccountOverlayContainer extends PureComponent {
             hideActiveOverlay,
             isCheckout,
             goToPreviousHeaderState,
-            showNotification,
-            isAuthTokenExpired,
-            setIsAuthTokenExpired,
             redirectToDashboard
         } = this.props;
 
@@ -167,20 +159,15 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (isSignedIn !== prevIsSignedIn) {
-            if (isAuthTokenExpired) {
-                setIsAuthTokenExpired(false);
-                showNotification('error', __('Your session is over, you are logged out!'));
-            } else if (isSignedIn) {
-                showNotification('success', __('You are successfully logged in!'));
-            } else {
-                showNotification('success', __('You are successfully logged out!'));
-            }
-
             hideActiveOverlay();
 
             if (isCheckout) {
                 goToPreviousHeaderState();
             }
+        }
+
+        if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(MY_ACCOUNT_URL)) {
+            history.push({ pathname: appendWithStoreCode('/') });
         }
 
         if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN && redirectToDashboard) {

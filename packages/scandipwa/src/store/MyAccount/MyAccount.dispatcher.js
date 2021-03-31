@@ -12,7 +12,6 @@
 import MyAccountQuery from 'Query/MyAccount.query';
 import {
     updateCustomerDetails,
-    updateCustomerIsAuthTokenExpired,
     updateCustomerPasswordForgotStatus,
     updateCustomerPasswordResetStatus,
     updateCustomerSignInStatus,
@@ -25,8 +24,9 @@ import {
     setAuthorizationToken
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { prepareQuery } from 'Util/Query';
-import { executePost, fetchMutation } from 'Util/Request';
+import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -68,32 +68,39 @@ export class MyAccountDispatcher {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
             /** @namespace Store/MyAccount/Dispatcher/requestCustomerDataExecutePostError */
-            (error) => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }
 
     logout(authTokenExpired = false, dispatch) {
         if (authTokenExpired) {
-            dispatch(updateCustomerIsAuthTokenExpired(true));
+            dispatch(showNotification('error', __('Your session is over, you are logged out!')));
         } else {
             deleteAuthorizationToken();
+            dispatch(showNotification('success', __('You are successfully logged out!')));
         }
+
+        deleteGuestQuoteId();
+        BrowserDatabase.deleteItem(ORDERS);
+        BrowserDatabase.deleteItem(CUSTOMER);
+
         dispatch(updateCustomerSignInStatus(false));
+        dispatch(updateCustomerDetails({}));
+
+        // After logout cart, wishlist and compared product list is always empty.
+        // There is no need to fetch it from the backend.
         CartDispatcher.then(
             ({ default: dispatcher }) => {
+                dispatcher.resetGuestCart(dispatch);
                 dispatcher.createGuestEmptyCart(dispatch);
-                dispatcher.updateInitialCartData(dispatch);
             }
         );
         WishlistDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
+            ({ default: dispatcher }) => dispatcher.resetWishlist(dispatch)
         );
         ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+            ({ default: dispatcher }) => dispatcher.resetComparedProducts(dispatch)
         );
-        BrowserDatabase.deleteItem(ORDERS);
-        BrowserDatabase.deleteItem(CUSTOMER);
-        dispatch(updateCustomerDetails({}));
     }
 
     /**
@@ -108,7 +115,7 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationThen */
             () => dispatch(updateCustomerPasswordForgotStatus()),
             /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationError */
-            (error) => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }
 
@@ -155,7 +162,7 @@ export class MyAccountDispatcher {
 
             /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationError */
             (error) => {
-                dispatch(showNotification('error', error[0].message));
+                dispatch(showNotification('error', getErrorMessage(error)));
                 Promise.reject();
                 dispatch(updateIsLoading(false));
 
@@ -176,12 +183,12 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationThen */
             () => dispatch(showNotification('success', __('Your account is confirmed!'))),
             /** @namespace Store/MyAccount/Dispatcher/confirmAccountFetchMutationError */
-            (err) => {
-                const { message } = err[0] || err;
-                return dispatch(
-                    showNotification('error', message || __('Something went wrong! Please, try again!'))
-                );
-            }
+            (error) => dispatch(
+                showNotification(
+                    'error',
+                    getErrorMessage(error, __('Something went wrong! Please, try again!'))
+                )
+            )
         );
     }
 
@@ -198,9 +205,21 @@ export class MyAccountDispatcher {
 
         setAuthorizationToken(token);
         dispatch(updateCustomerSignInStatus(true));
-        CartDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
-        );
+        dispatch(showNotification('success', __('You are successfully logged in!')));
+
+        const cartDispatcher = (await CartDispatcher).default;
+        const guestCartToken = getGuestQuoteId();
+        // if customer is authorized, `createEmptyCart` mutation returns customer cart token
+        const customerCartToken = await cartDispatcher.createGuestEmptyCart(dispatch);
+
+        if (guestCartToken) {
+            // merge guest cart id and customer cart id using magento capabilities
+            await cartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
+        }
+
+        setGuestQuoteId(customerCartToken);
+        cartDispatcher.updateInitialCartData(dispatch);
+
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
