@@ -115,7 +115,6 @@ export class ProductPriceContainer extends PureComponent {
             return roundPrice(regularPriceExclTaxValue);
         }
 
-        console.log('regularPriceValue', regularPriceValue);
         return roundPrice(regularPriceValue);
     }
 

@@ -14,5 +14,3 @@
 export const PRICE_TYPE_DYNAMIC = 'DYNAMIC';
 export const PRICE_TYPE_FIXED = 'FIXED';
 export const PRICE_TYPE_PERCENT = 'PERCENT';
-
-export const ONE_HUNDRED_PERCENT = 100;

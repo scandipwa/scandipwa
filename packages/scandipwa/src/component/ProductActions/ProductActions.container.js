@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -23,7 +22,7 @@ import {
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
-import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
+import { DEFAULT_MAX_PRODUCTS, ONE_HUNDRED_PERCENT } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -39,6 +38,7 @@ export class ProductActionsContainer extends PureComponent {
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        selectedInitialBundlePrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
@@ -285,7 +285,12 @@ export class ProductActionsContainer extends PureComponent {
         } = variants[configurableVariantIndex] || product;
 
         if (type_id === BUNDLE) {
-            return this._getCustomPrice(selectedBundlePrice, selectedBundlePriceExclTax, selectedInitialBundlePrice, null);
+            return this._getCustomPrice(
+                selectedBundlePrice,
+                selectedBundlePriceExclTax,
+                selectedInitialBundlePrice,
+                null
+            );
         }
 
         if (type_id === DOWNLOADABLE && links_purchased_separately) {
@@ -309,8 +314,14 @@ export class ProductActionsContainer extends PureComponent {
             }
         } = this.props;
 
-        // eslint-disable-next-line no-magic-numbers
-        const discount = (1 - percent_off / 100);
+        const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
+
+        const updatedDiscount = !percent_off && price !== initial
+            ? {
+                percent_off: (ONE_HUNDRED_PERCENT * (initial - price)) / initial,
+                amount_off: initial - price
+            }
+            : discountData;
 
         const baseInitialPrice = addBase ? value : 0;
         const basePrice = addBase ? value : 0;
@@ -324,21 +335,13 @@ export class ProductActionsContainer extends PureComponent {
         const priceValue = { value: finalPrice, currency };
         const priceValueExclTax = { value: finalPriceExclTax, currency };
 
-        console.log({
-            minimum_price: {
-                final_price: priceValue,
-                regular_price: initialPriceValue,
-                final_price_excl_tax: priceValueExclTax,
-                regular_price_excl_tax: priceValueExclTax,
-                discount: discountData
-            }});
         return {
             minimum_price: {
                 final_price: priceValue,
                 regular_price: initialPriceValue,
                 final_price_excl_tax: priceValueExclTax,
                 regular_price_excl_tax: priceValueExclTax,
-                discount: discountData
+                discount: updatedDiscount
             }
         };
     }

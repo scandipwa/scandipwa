@@ -13,7 +13,6 @@
 import PropTypes from 'prop-types';
 
 import {
-    ONE_HUNDRED_PERCENT,
     PRICE_TYPE_FIXED,
     PRICE_TYPE_PERCENT
 } from 'Component/ProductBundleItems/ProductBundleItems.config';
@@ -21,6 +20,7 @@ import ProductCustomizableOptionsContainer
     from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.container';
 import { ProductItemsType } from 'Type/ProductList';
 
+import { ONE_HUNDRED_PERCENT } from '../ProductActions/ProductActions.config';
 import ProductBundleItems from './ProductBundleItems.component';
 
 /** @namespace Component/ProductBundleItems/Container */
@@ -136,7 +136,6 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             }
         });
 
-        console.log({ price, priceExclTax, initialPrice });
         return { price, priceExclTax, initialPrice };
     }
 
@@ -196,7 +195,6 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
                 { price, finalPrice, priceExclTax }
             );
 
-        console.log('totalPrice', totalPrice);
         return totalPrice;
     }
 
