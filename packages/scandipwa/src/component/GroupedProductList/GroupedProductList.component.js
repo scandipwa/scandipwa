@@ -41,7 +41,7 @@ export class GroupedProductList extends PureComponent {
 
         return (
             <ul>
-                { items.map(({ product, product: { id }, qty }) => (
+                { items.map(({ product, product: { id } = {}, qty }) => (
                     <GroupedProductsItem
                       key={ id }
                       product={ product }
