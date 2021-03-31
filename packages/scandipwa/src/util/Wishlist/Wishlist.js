@@ -15,7 +15,7 @@
  * @namespace Util/Wishlist/getPriceRange
  */
 export const getPriceRange = (product, price, priceWithoutTax) => {
-    if (price === -1) {
+    if (!price) {
         return {};
     }
 
