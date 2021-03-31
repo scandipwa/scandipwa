@@ -62,7 +62,7 @@
 
     &-Required {
         color: var(--primary-error-color);
-        padding: 1rem 0 0rem 1.5rem;
+        padding: 1rem 0 0 1.5rem;
     }
 
     @include mobile {

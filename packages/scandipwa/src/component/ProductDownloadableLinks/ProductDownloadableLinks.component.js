@@ -40,7 +40,6 @@ export class ProductDownloadableLinks extends PureComponent {
 
         if (!isRequired) {
             return (
-
             <span block="ProductDownloadableLink" elem="SampleTitle">
                 { title }
             </span>
@@ -122,8 +121,8 @@ export class ProductDownloadableLinks extends PureComponent {
         const { links, isRequired } = this.props;
         return (
             <>
-            { links.map(this.renderLink) }
-            { this.renderRequired(isRequired) }
+                { links.map(this.renderLink) }
+                { this.renderRequired(isRequired) }
             </>
         );
     }
