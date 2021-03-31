@@ -316,7 +316,7 @@ export class ProductActionsContainer extends PureComponent {
 
         const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
 
-        const updatedDiscount = !percent_off && price !== initial
+        const finalDiscount = !percent_off && price !== initial
             ? {
                 percent_off: (ONE_HUNDRED_PERCENT * (initial - price)) / initial,
                 amount_off: initial - price
@@ -341,7 +341,7 @@ export class ProductActionsContainer extends PureComponent {
                 regular_price: initialPriceValue,
                 final_price_excl_tax: priceValueExclTax,
                 regular_price_excl_tax: priceValueExclTax,
-                discount: updatedDiscount
+                discount: finalDiscount
             }
         };
     }

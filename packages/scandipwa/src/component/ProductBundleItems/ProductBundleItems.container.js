@@ -78,6 +78,33 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         this.setState({ isLoading: false });
     }
 
+    getDynanicOptionPrice(product, quantity) {
+        const {
+            price_range: {
+                minimum_price: {
+                    regular_price: {
+                        value: itemPrice = 0
+                    } = {},
+                    final_price: {
+                        value: finalItemPrice = 0
+                    } = {},
+                    final_price_excl_tax: {
+                        value: finalItemPriceExclTax = 0
+                    } = {}
+                } = {}
+            } = {}
+        } = product;
+
+        const optionInitialPrice = itemPrice * quantity;
+        const optionPrice = finalItemPrice * quantity;
+        const optionPriceExclTax = finalItemPriceExclTax * quantity;
+        return {
+            optionPrice,
+            optionPriceExclTax,
+            optionInitialPrice
+        };
+    }
+
     getOptionPrice(item, selectedValues, bundleDefaultPrices, isDynamicPrice) {
         const { option_id } = item;
         let price = 0;
@@ -98,24 +125,14 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
 
                         if (isDynamicPrice) {
                             const {
-                                price_range: {
-                                    minimum_price: {
-                                        regular_price: {
-                                            value: itemPrice = 0
-                                        } = {},
-                                        final_price: {
-                                            value: finalItemPrice = 0
-                                        } = {},
-                                        final_price_excl_tax: {
-                                            value: finalItemPriceExclTax = 0
-                                        } = {}
-                                    } = {}
-                                } = {}
-                            } = product;
+                                optionPrice,
+                                optionPriceExclTax,
+                                optionInitialPrice
+                            } = this.getDynanicOptionPrice(product, quantity);
 
-                            initialPrice += itemPrice * quantity;
-                            price += finalItemPrice * quantity;
-                            priceExclTax += finalItemPriceExclTax * quantity;
+                            price += optionPrice;
+                            priceExclTax += optionPriceExclTax;
+                            initialPrice += optionInitialPrice;
                         } else if (priceType === PRICE_TYPE_FIXED) {
                             initialPrice += optionPrice * quantity;
                             price += optionPrice * quantity;
