@@ -921,19 +921,19 @@ export class ProductListQuery {
     }
 
     _getBaseFinalPriceExclTaxField() {
-        return new Field('base_final_price_excl_tax')
+        return new Field('default_final_price_excl_tax')
             .addField('currency')
             .addField('value');
     }
 
     _getBasePriceField() {
-        return new Field('base_price')
+        return new Field('default_price')
             .addField('currency')
             .addField('value');
     }
 
     _getBaseFinalPriceField() {
-        return new Field('base_final_price')
+        return new Field('default_final_price')
             .addField('currency')
             .addField('value');
     }

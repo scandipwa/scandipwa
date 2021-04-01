@@ -13,6 +13,7 @@
 import PropTypes from 'prop-types';
 
 import {
+    PRICE_TYPE_DYNAMIC,
     PRICE_TYPE_FIXED,
     PRICE_TYPE_PERCENT
 } from 'Component/ProductBundleItems/ProductBundleItems.config';
@@ -78,7 +79,13 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         this.setState({ isLoading: false });
     }
 
-    getDynanicOptionPrice(product, quantity) {
+    optionPriceMap = {
+        [PRICE_TYPE_DYNAMIC]: this.getDynamicOptionPrice.bind(this),
+        [PRICE_TYPE_FIXED]: this.getFixedOptionPrice.bind(this),
+        [PRICE_TYPE_PERCENT]: this.getPercentOptionPrice.bind(this)
+    };
+
+    getDynamicOptionPrice(product, quantity) {
         const {
             price_range: {
                 minimum_price: {
@@ -98,14 +105,36 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         const optionInitialPrice = itemPrice * quantity;
         const optionPrice = finalItemPrice * quantity;
         const optionPriceExclTax = finalItemPriceExclTax * quantity;
-        return {
-            optionPrice,
-            optionPriceExclTax,
-            optionInitialPrice
-        };
+        return { optionPrice, optionPriceExclTax, optionInitialPrice };
     }
 
-    getOptionPrice(item, selectedValues, bundleDefaultPrices, isDynamicPrice) {
+    getPercentOptionPrice(product, quantity, optionPricePercent) {
+        const {
+            price_range: {
+                minimum_price: {
+                    default_price: { value: defaultPrice } = {},
+                    default_final_price: { value: defaultFinalPrice } = {},
+                    default_final_price_excl_tax: { value: defaultFinalPriceExclTax } = {}
+                }
+            }
+        } = this.props;
+
+        const optionPriceMultiplier = optionPricePercent / ONE_HUNDRED_PERCENT;
+
+        const optionInitialPrice = defaultPrice * optionPriceMultiplier * quantity;
+        const optionPrice = (defaultFinalPrice * optionPriceMultiplier * quantity);
+        const optionPriceExclTax = (defaultFinalPriceExclTax * optionPriceMultiplier * quantity);
+        return { optionPrice, optionPriceExclTax, optionInitialPrice };
+    }
+
+    getFixedOptionPrice(product, quantity, optionPriceFixed) {
+        const optionInitialPrice = optionPriceFixed * quantity;
+        const optionPrice = optionPriceFixed * quantity;
+        const optionPriceExclTax = optionPriceFixed * quantity;
+        return { optionPrice, optionPriceExclTax, optionInitialPrice };
+    }
+
+    getOptionPrice(item, selectedValues, isDynamicPrice) {
         const { option_id } = item;
         let price = 0;
         let priceExclTax = 0;
@@ -116,37 +145,26 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
                 const { options } = item;
 
                 options.forEach(({
-                    id: optionId, product, price: optionPrice, price_type: priceType
+                    id: optionId, product, price: initialOptionPrice, price_type: priceType
                 }) => {
                     if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
                         if (product === null) {
                             return;
                         }
 
-                        if (isDynamicPrice) {
+                        const priceTypeOption = isDynamicPrice ? PRICE_TYPE_DYNAMIC : priceType;
+                        const calculationMethod = this.optionPriceMap[priceTypeOption];
+
+                        if (calculationMethod) {
                             const {
                                 optionPrice,
                                 optionPriceExclTax,
                                 optionInitialPrice
-                            } = this.getDynanicOptionPrice(product, quantity);
+                            } = calculationMethod(product, quantity, initialOptionPrice);
 
                             price += optionPrice;
                             priceExclTax += optionPriceExclTax;
                             initialPrice += optionInitialPrice;
-                        } else if (priceType === PRICE_TYPE_FIXED) {
-                            initialPrice += optionPrice * quantity;
-                            price += optionPrice * quantity;
-                            priceExclTax += optionPrice * quantity;
-                        } else if (priceType === PRICE_TYPE_PERCENT) {
-                            const {
-                                base_price: { value: defaultPrice } = 0,
-                                base_final_price: { value: defaultFinalPrice } = 0,
-                                base_final_price_excl_tax: { value: defaultFinalPriceExclTax } = 0
-                            } = bundleDefaultPrices;
-
-                            initialPrice += (defaultPrice * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
-                            price += (defaultFinalPrice * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
-                            priceExclTax += (defaultFinalPriceExclTax * optionPrice * quantity) / ONE_HUNDRED_PERCENT;
                         }
                     }
                 });
@@ -162,17 +180,12 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             selectedCheckboxValues = []
         } = this.state;
 
-        const {
-            price_range: {
-                minimum_price: bundleDefaultPrices
-            },
-            isDynamicPrice
-        } = this.props;
+        const { isDynamicPrice } = this.props;
 
         const values = [...selectedCheckboxValues, ...selectedDropdownOptions];
 
         if (values.length) {
-            return this.getOptionPrice(item, values, bundleDefaultPrices, isDynamicPrice);
+            return this.getOptionPrice(item, values, isDynamicPrice);
         }
 
         return { price: 0, priceExclTax: 0, initialPrice: 0 };
@@ -188,9 +201,9 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             const {
                 price_range: {
                     minimum_price: {
-                        base_price: { value: defaultPrice } = 0,
-                        base_final_price: { value: defaultFinalPrice } = 0,
-                        base_final_price_excl_tax: { value: defaultFinalPriceExclTax } = 0
+                        default_price: { value: defaultPrice } = {},
+                        default_final_price: { value: defaultFinalPrice } = {},
+                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax } = {}
                     }
 
                 }
@@ -201,7 +214,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             priceExclTax = defaultFinalPriceExclTax;
         }
 
-        const totalPrice = items
+        return items
             .map(this.getItemsPrice.bind(this))
             .reduce(
                 ({ price, finalPrice, priceExclTax }, item) => ({
@@ -211,8 +224,6 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
                 }),
                 { price, finalPrice, priceExclTax }
             );
-
-        return totalPrice;
     }
 
     updateSelectedOptions() {
