@@ -150,13 +150,14 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     getDropdownOptions(values) {
         return values.reduce((acc, {
-            option_type_id, title, price, price_type
+            option_type_id, title, price, price_type, sort_order
         }) => {
             acc.push({
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} + ${this.renderOptionLabel(price_type, price)}`
+                label: `${title} + ${this.renderOptionLabel(price_type, price)}`,
+                sort_order
             });
 
             return acc;

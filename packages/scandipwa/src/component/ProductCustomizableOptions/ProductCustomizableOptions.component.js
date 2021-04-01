@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ProductCustomizableOption from 'Component/ProductCustomizableOption';
-import { getSortedOptions } from 'Util/Product';
+import { sortBySortOrder } from 'Util/Product';
 
 import './ProductCustomizableOptions.style';
 
@@ -42,7 +42,7 @@ export class ProductCustomizableOptions extends PureComponent {
             setSelectedDropdownValue
         } = this.props;
 
-        return getSortedOptions(options).map((option, key) => (
+        return sortBySortOrder(options).map((option, key) => (
             <ProductCustomizableOption
               option={ option }
               /* eslint-disable-next-line react/no-array-index-key */

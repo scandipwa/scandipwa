@@ -309,5 +309,14 @@ export const getExtensionAttributes = (product) => {
     return {};
 };
 
-/** @namespace Util/Product/getSortedOptions */
-export const getSortedOptions = (options) => options.sort((a, b) => (a.sort_order < b.sort_order ? -1 : 1));
+/** @namespace Util/Product/sortBySortOrder */
+export const sortBySortOrder = (options) => options.sort((a, b) => (a.sort_order < b.sort_order ? -1 : 1));
+
+/** @namespace Util/Product/sortAlphabetically */
+export const sortAlphabetically = (options, key, caseSensitive = false) => options
+    .sort((a, b) => {
+        const textA = caseSensitive ? a[key] : a[key].toUpperCase();
+        const textB = caseSensitive ? b[key] : b[key].toUpperCase();
+        // eslint-disable-next-line no-nested-ternary
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });

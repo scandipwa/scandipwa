@@ -201,7 +201,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             quantity,
             price: fixedPriceValue,
             can_change_quantity,
-            product
+            product,
+            position
         }) => {
             const finalPriceValue = product?.price_range?.minimum_price?.final_price?.value || 0;
             const value = isDynamicPrice ? finalPriceValue : fixedPriceValue;
@@ -217,7 +218,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
                 id,
                 name: label,
                 value: id,
-                label: dropdownLabel
+                label: dropdownLabel,
+                sort_order: position
             });
 
             return acc;
