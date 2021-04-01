@@ -500,7 +500,9 @@ export class ProductActions extends PureComponent {
             product,
             quantity,
             configurableVariantIndex,
-            onProductValidationError
+            onProductValidationError,
+            productOptionsData,
+            groupedProductQuantity
         } = this.props;
 
         return (
@@ -509,6 +511,8 @@ export class ProductActions extends PureComponent {
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ onProductValidationError }
+              productOptionsData={ productOptionsData }
+              groupedProductQuantity={ groupedProductQuantity }
             />
         );
     }

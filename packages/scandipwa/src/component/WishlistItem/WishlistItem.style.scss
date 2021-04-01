@@ -222,4 +222,29 @@
         font-weight: 600;
         color: var(--whislist-swipe-to-delete-color);
     }
+
+    &Options {
+        margin-bottom: 2rem;
+        margin-top: -1rem;
+
+        &-Title {
+            margin-top: .5rem;
+            font-weight: bold;
+
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &Option {
+        font-size: 0.9em;
+        padding: .25rem;
+
+        &-Value {
+            padding-left: .5rem;
+            font-weight: bold;
+        }
+    }
 }
