@@ -288,8 +288,7 @@ export class ProductActionsContainer extends PureComponent {
             return this._getCustomPrice(
                 selectedBundlePrice,
                 selectedBundlePriceExclTax,
-                selectedInitialBundlePrice,
-                null
+                selectedInitialBundlePrice
             );
         }
 
