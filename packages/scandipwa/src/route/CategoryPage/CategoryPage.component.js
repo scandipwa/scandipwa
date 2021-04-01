@@ -17,6 +17,7 @@ import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
+import CategoryProductPerPage from 'Component/CategoryProductPerPage';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
@@ -303,6 +304,14 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderProductPerPage() {
+        const { layout } = this.state;
+
+        return (
+            <CategoryProductPerPage plpType={ layout } />
+        );
+    }
+
     renderCmsBlock() {
         const { category: { cms_block } } = this.props;
 
@@ -351,6 +360,7 @@ export class CategoryPage extends PureComponent {
                 { this.renderCmsBlock() }
                 { this.renderMiscellaneous() }
                 { this.renderCategoryProductList() }
+                { this.renderProductPerPage() }
             </>
         );
     }
