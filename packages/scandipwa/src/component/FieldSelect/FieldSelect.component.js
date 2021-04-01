@@ -90,6 +90,7 @@ export class FieldSelect extends PureComponent {
               name={ name }
               id={ id }
               disabled={ isDisabled }
+              tabIndex="0"
               value={ value || '' }
               onChange={ onChange }
               data-skip-value={ skipValue }
@@ -195,12 +196,12 @@ export class FieldSelect extends PureComponent {
 
         return (
             <ClickOutside onClick={ handleSelectExpandedExpand }>
-                { /* eslint-disable-next-line jsx-a11y/interactive-supports-focus */ }
                 <div
                   block="FieldSelect"
                   onClick={ handleSelectExpand }
                   onKeyPress={ handleSelectListKeyPress }
                   role="button"
+                  tabIndex="0"
                   aria-label="Select drop-down"
                   aria-expanded={ isExpanded }
                 >
