@@ -253,7 +253,7 @@ export class CartItemContainer extends PureComponent {
 
         return {
             pathname: url,
-            state: { product: stateProduct, pageKey: stateProduct.id },
+            state: { product: stateProduct, pageKey: url },
             search: objectToUri(parameters)
         };
     }
