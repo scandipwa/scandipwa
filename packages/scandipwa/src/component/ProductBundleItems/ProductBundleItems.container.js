@@ -135,43 +135,38 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     }
 
     getOptionPrice(item, selectedValues, isDynamicPrice) {
-        const { option_id } = item;
-        let price = 0;
-        let priceExclTax = 0;
-        let initialPrice = 0;
+        const { option_id, options } = item;
 
-        selectedValues.forEach(({ id, quantity, value }) => {
-            if (option_id === id) {
-                const { options } = item;
+        return selectedValues
+            .filter(({ id }) => id === option_id)
+            .reduce((acc, { quantity, value }) => {
+                const { price, priceExclTax, initialPrice } = acc;
 
-                options.forEach(({
+                const {
+                    optionPrice, optionPriceExclTax, optionInitialPrice
+                } = options.reduce((acc, {
                     id: optionId, product, price: initialOptionPrice, price_type: priceType
                 }) => {
                     if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
                         if (product === null) {
-                            return;
+                            return acc;
                         }
 
                         const priceTypeOption = isDynamicPrice ? PRICE_TYPE_DYNAMIC : priceType;
                         const calculationMethod = this.optionPriceMap[priceTypeOption];
 
-                        if (calculationMethod) {
-                            const {
-                                optionPrice,
-                                optionPriceExclTax,
-                                optionInitialPrice
-                            } = calculationMethod(product, quantity, initialOptionPrice);
-
-                            price += optionPrice;
-                            priceExclTax += optionPriceExclTax;
-                            initialPrice += optionInitialPrice;
-                        }
+                        return calculationMethod(product, quantity, initialOptionPrice);
                     }
-                });
-            }
-        });
 
-        return { price, priceExclTax, initialPrice };
+                    return acc;
+                }, { optionPrice: 0, optionPriceExclTax: 0, optionInitialPrice: 0 });
+
+                return {
+                    price: price + optionPrice,
+                    priceExclTax: priceExclTax + optionPriceExclTax,
+                    initialPrice: initialPrice + optionInitialPrice
+                };
+            }, { price: 0, priceExclTax: 0, initialPrice: 0 });
     }
 
     getItemsPrice = (item) => {
