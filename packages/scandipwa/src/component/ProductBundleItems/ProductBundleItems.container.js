@@ -1,4 +1,3 @@
-/* eslint-disable fp/no-let */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -188,26 +187,20 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
 
     getTotalPrice() {
         const { items, isDynamicPrice } = this.props;
-        let price = 0;
-        let finalPrice = 0;
-        let priceExclTax = 0;
 
-        if (!isDynamicPrice) {
-            const {
-                price_range: {
-                    minimum_price: {
-                        default_price: { value: defaultPrice } = {},
-                        default_final_price: { value: defaultFinalPrice } = {},
-                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax } = {}
-                    }
-
+        const {
+            price_range: {
+                minimum_price: {
+                    default_price: { value: defaultPrice } = {},
+                    default_final_price: { value: defaultFinalPrice } = {},
+                    default_final_price_excl_tax: { value: defaultFinalPriceExclTax } = {}
                 }
-            } = this.props;
+            }
+        } = this.props;
 
-            price = defaultPrice;
-            finalPrice = defaultFinalPrice;
-            priceExclTax = defaultFinalPriceExclTax;
-        }
+        const price = isDynamicPrice ? 0 : defaultPrice;
+        const finalPrice = isDynamicPrice ? 0 : defaultFinalPrice;
+        const priceExclTax = isDynamicPrice ? 0 : defaultFinalPriceExclTax;
 
         return items
             .map(this.getItemsPrice.bind(this))
