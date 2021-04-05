@@ -56,7 +56,7 @@ export class ProductAlertsContainer extends PureComponent {
             return showNotification('info', __('Please sign in to subscribe for notification'));
         }
 
-        const query = ProductAlertsQuery.getPriceDropSubscribeMutation(productId, type);
+        const query = ProductAlertsQuery.getProductAlertSubscribeMutation(productId, type);
 
         return fetchMutation(query).then(
             /** @namespace Component/ProductAlerts/Container/fetchMutation/then */
