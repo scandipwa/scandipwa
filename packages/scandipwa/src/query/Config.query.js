@@ -128,6 +128,8 @@ export class ConfigQuery {
             'layered_navigation_product_count_enabled',
             'region_display_all',
             'redirect_dashboard',
+            'product_alert_allow_price',
+            'product_alert_allow_stock',
             this.getPriceDisplayTypeField()
         ];
     }
