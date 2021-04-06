@@ -310,7 +310,10 @@ export const getExtensionAttributes = (product) => {
 };
 
 /** @namespace Util/Product/sortBySortOrder */
-export const sortBySortOrder = (options) => options.sort((a, b) => (a.sort_order < b.sort_order ? -1 : 1));
+export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(
+    // eslint-disable-next-line no-nested-ternary
+    (a, b) => (a[sortKey] < b[sortKey] ? -1 : (a[sortKey] > b[sortKey]) ? 1 : 0)
+);
 
 /** @namespace Util/Product/sortAlphabetically */
 export const sortAlphabetically = (options, key, caseSensitive = false) => options
