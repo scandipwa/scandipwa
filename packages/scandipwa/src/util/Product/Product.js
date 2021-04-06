@@ -308,3 +308,9 @@ export const getExtensionAttributes = (product) => {
 
     return {};
 };
+
+/** @namespace Util/Product/sortBySortOrder */
+export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(
+    // eslint-disable-next-line no-nested-ternary
+    (a, b) => (a[sortKey] < b[sortKey] ? -1 : (a[sortKey] > b[sortKey]) ? 1 : 0)
+);

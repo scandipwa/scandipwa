@@ -1003,6 +1003,7 @@ export class ProductListQuery {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
+            'position',
             this._getAggregationsOptionsField()
         ];
     }
