@@ -24,7 +24,12 @@ export class MyAccountCreateAccount extends PureComponent {
         onCreateAccountSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
-        vatNumberValidation: PropTypes.array.isRequired
+        vatNumberValidation: PropTypes.array.isRequired,
+        defaultValues: PropTypes.object
+    };
+
+    static defaultProps = {
+        defaultValues: {}
     };
 
     renderVatNumberField() {
@@ -46,6 +51,8 @@ export class MyAccountCreateAccount extends PureComponent {
     }
 
     renderCreateAccountPersonalInfoFields() {
+        const { defaultValues: { firstName = '', lastName = '' } } = this.props;
+
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Personal Information') }</legend>
@@ -54,6 +61,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('First Name') }
                   id="firstname"
                   name="firstname"
+                  value={ firstName }
                   autocomplete="given-name"
                   validation={ ['notEmpty'] }
                 />
@@ -62,6 +70,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('Last Name') }
                   id="lastname"
                   name="lastname"
+                  value={ lastName }
                   autocomplete="family-name"
                   validation={ ['notEmpty'] }
                 />
@@ -79,6 +88,8 @@ export class MyAccountCreateAccount extends PureComponent {
     }
 
     renderCreateAccountSignUpInfoFields() {
+        const { defaultValues: { email = '' } } = this.props;
+
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Sign-Up Information') }</legend>
@@ -87,6 +98,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('Email') }
                   id="email"
                   name="email"
+                  value={ email }
                   autocomplete="email"
                   validation={ ['notEmpty', 'email'] }
                 />

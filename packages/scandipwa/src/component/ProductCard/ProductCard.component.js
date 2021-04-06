@@ -25,7 +25,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import {
     OPTION_TYPE_COLOR,
@@ -107,6 +107,11 @@ export class ProductCard extends PureComponent {
         }
     };
 
+    productTypeRenderMap = {
+        [GROUPED]: __('Starting from'),
+        [CONFIGURABLE]: __('As Low as')
+    };
+
     imageRef = createRef();
 
     registerSharedElement = () => {
@@ -114,14 +119,15 @@ export class ProductCard extends PureComponent {
         registerSharedElement(this.imageRef);
     };
 
-    renderConfigurablePriceBadge() {
+    renderProductTypePriceBadge() {
         const {
             product: { type_id },
             siblingsHavePriceBadge,
             setSiblingsHavePriceBadge
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        const label = this.productTypeRenderMap[type_id];
+        if (!label) {
             return null;
         }
 
@@ -136,7 +142,7 @@ export class ProductCard extends PureComponent {
                   elem: 'PriceBadge'
               } }
             >
-                { __('As Low as') }
+                { label }
             </p>
         );
     }
@@ -180,7 +186,7 @@ export class ProductCard extends PureComponent {
         return (
             <div block="ProductCard" elem="PriceWrapper">
                 { this.renderTierPrice() }
-                { this.renderConfigurablePriceBadge() }
+                { this.renderProductTypePriceBadge() }
                 <ProductPrice
                   price={ price_range }
                   mix={ { block: 'ProductCard', elem: 'Price' } }

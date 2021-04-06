@@ -318,10 +318,6 @@
         max-width: 100%;
         z-index: 1;
 
-        @include after-mobile {
-            max-width: 200px;
-        }
-
         + label {
             align-items: center;
             border: 2px dashed var(--input-border-color);
@@ -333,10 +329,6 @@
             position: absolute;
             top: 0;
             width: 100%;
-
-            @include after-mobile {
-                width: 200px;
-            }
 
             p {
                 font-size: 1.6rem;
@@ -353,6 +345,11 @@
             .Image {
                 margin-bottom: 10px;
                 text-align: center;
+            }
+
+            + p {
+                margin-top: 5px;
+                margin-bottom: 0;
             }
         }
     }

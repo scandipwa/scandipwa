@@ -171,7 +171,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             setCustomizableOptionFileFieldValue,
             showNotification
         } = this.props;
-        const { type = '' } = values;
+        const { type = '', name } = values;
 
         if (file_extension && !file_extension.split(', ').some((fileType) => type.includes(fileType))) {
             showNotification('error', __('File type is incorrect'));
@@ -182,7 +182,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         const reader = new FileReader();
         // eslint-disable-next-line func-names
         reader.onloadend = function () {
-            setCustomizableOptionFileFieldValue(reader.result, option);
+            setCustomizableOptionFileFieldValue(reader.result, option, name);
         };
 
         reader.readAsDataURL(values);
