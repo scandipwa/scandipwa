@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 
 import Field from 'Component/Field';
+import { PRICE_TYPE_FIXED } from 'Component/ProductBundleItems/ProductBundleItems.config';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
 
 import {
@@ -74,6 +75,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
             price_type,
             quantity,
             is_default,
+            price,
             product: {
                 price_range: {
                     minimum_price: {
@@ -85,8 +87,9 @@ export class ProductBundleItem extends ProductCustomizableOption {
             } = {}
         } = item;
 
+        const priceValue = price_type === PRICE_TYPE_FIXED ? price : value;
         // eslint-disable-next-line no-magic-numbers
-        const finalPrice = value - (value * (percent_off / 100));
+        const finalPrice = priceValue - (priceValue * (percent_off / 100));
 
         const priceLabel = renderOptionLabel(price_type, finalPrice);
 
