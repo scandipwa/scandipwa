@@ -272,7 +272,9 @@ export class ProductActionsContainer extends PureComponent {
     getProductPrice() {
         const {
             product,
-            product: { variants = [], type_id, links_purchased_separately },
+            product: {
+                variants = [], type_id, links_purchased_separately, dynamicPrice
+            },
             configurableVariantIndex,
             selectedInitialBundlePrice,
             selectedBundlePrice,
@@ -288,7 +290,8 @@ export class ProductActionsContainer extends PureComponent {
             return this._getCustomPrice(
                 selectedBundlePrice,
                 selectedBundlePriceExclTax,
-                selectedInitialBundlePrice
+                selectedInitialBundlePrice,
+                !dynamicPrice
             );
         }
 
@@ -304,8 +307,9 @@ export class ProductActionsContainer extends PureComponent {
             product: {
                 price_range: {
                     minimum_price: {
-                        regular_price: { currency, value },
-                        regular_price_excl_tax: { value: value_excl_tax },
+                        default_price: { currency, value: defaultPrice },
+                        default_final_price: { value: defaultFinalPrice },
+                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
                         discount: discountData,
                         discount: { percent_off }
                     }
@@ -315,19 +319,21 @@ export class ProductActionsContainer extends PureComponent {
 
         const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
 
-        const finalDiscount = !percent_off && price !== initial
+        // Adjusting `discount` for bundle products for discount to be displayed on PDP
+        const finalDiscount = !percent_off && defaultPrice !== defaultFinalPrice
             ? {
-                percent_off: (ONE_HUNDRED_PERCENT * (initial - price)) / initial,
-                amount_off: initial - price
+                percent_off: (ONE_HUNDRED_PERCENT * (defaultPrice - defaultFinalPrice)) / defaultPrice,
+                amount_off: defaultPrice - defaultFinalPrice
             }
             : discountData;
 
-        const baseInitialPrice = addBase ? value : 0;
-        const basePrice = addBase ? value : 0;
-        const basePriceExclTax = addBase ? value_excl_tax : 0;
+        // Set initial price different from 0 for specific product types, i.e. downloadable, bundles with fixed price
+        const baseInitialPrice = addBase ? defaultPrice : 0;
+        const baseFinalPrice = addBase ? defaultFinalPrice : 0;
+        const basePriceExclTax = addBase ? defaultFinalPriceExclTax : 0;
 
         const initialPrice = (baseInitialPrice + initial) * discount;
-        const finalPrice = (basePrice + price) * discount;
+        const finalPrice = (baseFinalPrice + price) * discount;
         const finalPriceExclTax = (basePriceExclTax + withoutTax) * discount;
 
         const initialPriceValue = { value: initialPrice, currency };

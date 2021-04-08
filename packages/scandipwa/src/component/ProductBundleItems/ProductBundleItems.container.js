@@ -84,6 +84,13 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         [PRICE_TYPE_PERCENT]: this.getPercentOptionPrice.bind(this)
     };
 
+    /*
+        Calculate how much each option adds to total product price:
+        itemPrice - price of 1 option variant of selected option before discount
+        finalItemPrice - price of 1 option variant of selected option after discount
+        finalItemPriceExclTax - price of 1 option variant of selected option after discount excluding tax
+        To get resulting prices single item price is multiplied by selected quantity
+    */
     getDynamicOptionPrice(product, quantity) {
         const {
             price_range: {
@@ -107,6 +114,15 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         return { optionPrice, optionPriceExclTax, optionInitialPrice };
     }
 
+    /*
+        Calculate how much each option variant of type 'percent' adds to total product price.
+        Single option item price is calculated as percentage of default bundle price.
+        E.g. if, defaultFinalPrice is 90, and option variant price with type percent has value of 30,
+        price of 1 option variant is 90 * (1 - 30 / 100) = 63.
+        3 prices are calculated to get prices before discount (optionInitialPrice),
+        after discount (optionPrice) and after tax (optionPriceExclTax).
+        To get resulting prices single item price is multiplied by selected quantity.
+    */
     getPercentOptionPrice(product, quantity, optionPricePercent) {
         const {
             price_range: {
@@ -121,11 +137,15 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         const optionPriceMultiplier = optionPricePercent / ONE_HUNDRED_PERCENT;
 
         const optionInitialPrice = defaultPrice * optionPriceMultiplier * quantity;
-        const optionPrice = (defaultFinalPrice * optionPriceMultiplier * quantity);
-        const optionPriceExclTax = (defaultFinalPriceExclTax * optionPriceMultiplier * quantity);
+        const optionPrice = defaultFinalPrice * optionPriceMultiplier * quantity;
+        const optionPriceExclTax = defaultFinalPriceExclTax * optionPriceMultiplier * quantity;
         return { optionPrice, optionPriceExclTax, optionInitialPrice };
     }
 
+    /*
+        Calculate how much each option variant of type 'fixed' adds to total product price.
+        To get resulting prices single variant price is multiplied by selected quantity.
+    */
     getFixedOptionPrice(product, quantity, optionPriceFixed) {
         const optionInitialPrice = optionPriceFixed * quantity;
         const optionPrice = optionPriceFixed * quantity;
@@ -133,6 +153,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         return { optionPrice, optionPriceExclTax, optionInitialPrice };
     }
 
+    // Calculating selected option variant prices and summing them up.
     getOptionPrice(item, selectedValues, isDynamicPrice) {
         const { option_id, options } = item;
 
@@ -141,24 +162,24 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             .reduce((acc, { quantity, value }) => {
                 const { price, priceExclTax, initialPrice } = acc;
 
-                const {
-                    optionPrice, optionPriceExclTax, optionInitialPrice
-                } = options.reduce((acc, {
-                    id: optionId, product, price: initialOptionPrice, price_type: priceType
-                }) => {
-                    if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
-                        if (product === null) {
-                            return acc;
-                        }
+                const selectedOption = options.find(
+                    (option) => JSON.stringify(value) === JSON.stringify([option.id.toString()])
+                        && option.product !== null
+                );
 
-                        const priceTypeOption = isDynamicPrice ? PRICE_TYPE_DYNAMIC : priceType;
-                        const calculationMethod = this.optionPriceMap[priceTypeOption];
-
-                        return calculationMethod(product, quantity, initialOptionPrice);
-                    }
-
+                if (!selectedOption) {
                     return acc;
-                }, { optionPrice: 0, optionPriceExclTax: 0, optionInitialPrice: 0 });
+                }
+
+                const { price_type, product, price: selectedPrice } = selectedOption;
+                const priceTypeOption = isDynamicPrice ? PRICE_TYPE_DYNAMIC : price_type;
+                const calculationMethod = this.optionPriceMap[priceTypeOption];
+                const selectedOptionPrices = calculationMethod(product, quantity, selectedPrice);
+                const {
+                    optionPrice = 0,
+                    optionPriceExclTax = 0,
+                    optionInitialPrice = 0
+                } = selectedOptionPrices;
 
                 return {
                     price: price + optionPrice,
@@ -178,39 +199,25 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
 
         const values = [...selectedCheckboxValues, ...selectedDropdownOptions];
 
-        if (values.length) {
-            return this.getOptionPrice(item, values, isDynamicPrice);
+        if (!values.length) {
+            return { price: 0, priceExclTax: 0, initialPrice: 0 };
         }
 
-        return { price: 0, priceExclTax: 0, initialPrice: 0 };
+        return this.getOptionPrice(item, values, isDynamicPrice);
     };
 
     getTotalPrice() {
-        const { items, isDynamicPrice } = this.props;
-
-        const {
-            price_range: {
-                minimum_price: {
-                    default_price: { value: defaultPrice } = {},
-                    default_final_price: { value: defaultFinalPrice } = {},
-                    default_final_price_excl_tax: { value: defaultFinalPriceExclTax } = {}
-                }
-            }
-        } = this.props;
-
-        const price = isDynamicPrice ? 0 : defaultPrice;
-        const finalPrice = isDynamicPrice ? 0 : defaultFinalPrice;
-        const priceExclTax = isDynamicPrice ? 0 : defaultFinalPriceExclTax;
+        const { items } = this.props;
 
         return items
-            .map(this.getItemsPrice.bind(this))
+            .map(this.getItemsPrice)
             .reduce(
                 ({ price, finalPrice, priceExclTax }, item) => ({
                     price: price + item.initialPrice,
                     finalPrice: finalPrice + item.price,
                     priceExclTax: priceExclTax + item.priceExclTax
                 }),
-                { price, finalPrice, priceExclTax }
+                { price: 0, finalPrice: 0, priceExclTax: 0 }
             );
     }
 
