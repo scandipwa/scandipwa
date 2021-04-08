@@ -273,7 +273,7 @@ export class ProductActionsContainer extends PureComponent {
         const {
             product,
             product: {
-                variants = [], type_id, links_purchased_separately, dynamicPrice
+                variants = [], type_id, links_purchased_separately, dynamic_price
             },
             configurableVariantIndex,
             selectedInitialBundlePrice,
@@ -291,7 +291,7 @@ export class ProductActionsContainer extends PureComponent {
                 selectedBundlePrice,
                 selectedBundlePriceExclTax,
                 selectedInitialBundlePrice,
-                !dynamicPrice
+                !dynamic_price
             );
         }
 

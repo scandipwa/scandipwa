@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 
 import Field from 'Component/Field';
-import { PRICE_TYPE_FIXED } from 'Component/ProductBundleItems/ProductBundleItems.config';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
 
 import {
@@ -62,7 +61,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
         const {
             getSelectedCheckboxValue,
             renderOptionLabel,
-            price_range: { minimum_price: { discount: { percent_off } } }
+            isDynamicPrice
         } = this.props;
 
         if (!item.product) {
@@ -87,11 +86,9 @@ export class ProductBundleItem extends ProductCustomizableOption {
             } = {}
         } = item;
 
-        const priceValue = price_type === PRICE_TYPE_FIXED ? price : value;
-        // eslint-disable-next-line no-magic-numbers
-        const finalPrice = priceValue - (priceValue * (percent_off / 100));
+        const priceValue = isDynamicPrice ? value : price;
 
-        const priceLabel = renderOptionLabel(price_type, finalPrice);
+        const priceLabel = renderOptionLabel(price_type, priceValue);
 
         return (
             <div key={ id }>
