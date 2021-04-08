@@ -236,8 +236,15 @@ export class CategoryPageContainer extends PureComponent {
             },
             currentArgs: {
                 filter
-            } = {}
+            } = {},
+            isMobile
         } = this.props;
+
+        const { isMobile: prevMobile } = prevProps;
+
+        if (isMobile !== prevMobile) {
+            this.updatePlpType();
+        }
 
         const {
             breadcrumbsWereUpdated
