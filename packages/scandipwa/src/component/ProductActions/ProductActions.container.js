@@ -320,10 +320,12 @@ export class ProductActionsContainer extends PureComponent {
         const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
 
         // Adjusting `discount` for bundle products for discount to be displayed on PDP
+        const priceBeforeDiscount = addBase ? defaultPrice : initial;
+        const priceAfterDiscount = addBase ? defaultFinalPrice : price;
         const finalDiscount = !percent_off && defaultPrice !== defaultFinalPrice
             ? {
-                percent_off: (ONE_HUNDRED_PERCENT * (defaultPrice - defaultFinalPrice)) / defaultPrice,
-                amount_off: defaultPrice - defaultFinalPrice
+                percent_off: (ONE_HUNDRED_PERCENT * (priceBeforeDiscount - priceAfterDiscount)) / priceBeforeDiscount,
+                amount_off: priceBeforeDiscount - priceAfterDiscount
             }
             : discountData;
 
@@ -332,9 +334,9 @@ export class ProductActionsContainer extends PureComponent {
         const baseFinalPrice = addBase ? defaultFinalPrice : 0;
         const basePriceExclTax = addBase ? defaultFinalPriceExclTax : 0;
 
-        const initialPrice = (baseInitialPrice + initial) * discount;
-        const finalPrice = (baseFinalPrice + price) * discount;
-        const finalPriceExclTax = (basePriceExclTax + withoutTax) * discount;
+        const initialPrice = baseInitialPrice + initial;
+        const finalPrice = baseFinalPrice + price * discount;
+        const finalPriceExclTax = basePriceExclTax + withoutTax * discount;
 
         const initialPriceValue = { value: initialPrice, currency };
         const priceValue = { value: finalPrice, currency };
@@ -345,7 +347,7 @@ export class ProductActionsContainer extends PureComponent {
                 final_price: priceValue,
                 regular_price: initialPriceValue,
                 final_price_excl_tax: priceValueExclTax,
-                regular_price_excl_tax: priceValueExclTax,
+                regular_price_excl_tax: initialPriceValue,
                 discount: finalDiscount
             }
         };
