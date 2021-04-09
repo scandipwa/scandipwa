@@ -221,7 +221,13 @@ export class Checkout extends PureComponent {
 
     renderDetailsStep() {
         const {
-            orderID, isEmailAvailable, email, billingAddress: { firstname, lastname }
+            orderID,
+            isEmailAvailable,
+            email,
+            billingAddress: {
+                firstname,
+                lastname
+            }
         } = this.props;
 
         return (
