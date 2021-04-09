@@ -252,8 +252,11 @@ export class CartItemContainer extends PureComponent {
         const stateProduct = parent || product;
 
         return {
-            pathname: getSkuFromURL(url),
-            state: { product: stateProduct, pageKey: url },
+            pathname: url,
+            state: {
+                product: stateProduct,
+                pageKey: getSkuFromURL(url)
+            },
             search: objectToUri(parameters)
         };
     }
