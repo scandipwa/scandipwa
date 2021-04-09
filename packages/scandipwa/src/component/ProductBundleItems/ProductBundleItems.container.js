@@ -91,7 +91,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         finalItemPriceExclTax - price of 1 option variant of selected option after discount excluding tax
         To get resulting prices single item price is multiplied by selected quantity
     */
-    getDynamicOptionPrice(product, quantity) {
+    getDynamicOptionPrice(product, quantity, isDynamicPrice, discount) {
         const {
             price_range: {
                 minimum_price: {
@@ -109,8 +109,8 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         } = product;
 
         const optionInitialPrice = itemPrice * quantity;
-        const optionPrice = finalItemPrice * quantity;
-        const optionPriceExclTax = finalItemPriceExclTax * quantity;
+        const optionPrice = finalItemPrice * quantity * discount;
+        const optionPriceExclTax = finalItemPriceExclTax * quantity * discount;
         return { optionPrice, optionPriceExclTax, optionInitialPrice };
     }
 
@@ -146,15 +146,15 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         Calculate how much each option variant of type 'fixed' adds to total product price.
         To get resulting prices single variant price is multiplied by selected quantity.
     */
-    getFixedOptionPrice(product, quantity, optionPriceFixed) {
+    getFixedOptionPrice(product, quantity, optionPriceFixed, discount) {
         const optionInitialPrice = optionPriceFixed * quantity;
-        const optionPrice = optionPriceFixed * quantity;
-        const optionPriceExclTax = optionPriceFixed * quantity;
+        const optionPrice = optionPriceFixed * quantity * discount;
+        const optionPriceExclTax = optionPriceFixed * quantity * discount;
         return { optionPrice, optionPriceExclTax, optionInitialPrice };
     }
 
     // Calculating selected option variant prices and summing them up.
-    getOptionPrice(item, selectedValues, isDynamicPrice) {
+    getOptionPrice(item, selectedValues, isDynamicPrice, discount) {
         const { option_id, options } = item;
 
         return selectedValues
@@ -174,7 +174,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
                 const { price_type, product, price: selectedPrice } = selectedOption;
                 const priceTypeOption = isDynamicPrice ? PRICE_TYPE_DYNAMIC : price_type;
                 const calculationMethod = this.optionPriceMap[priceTypeOption];
-                const selectedOptionPrices = calculationMethod(product, quantity, selectedPrice);
+                const selectedOptionPrices = calculationMethod(product, quantity, selectedPrice, discount);
                 const {
                     optionPrice = 0,
                     optionPriceExclTax = 0,
@@ -195,15 +195,23 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             selectedCheckboxValues = []
         } = this.state;
 
-        const { isDynamicPrice } = this.props;
+        const {
+            isDynamicPrice,
+            price_range: {
+                minimum_price: {
+                    discount: { percent_off }
+                } = {}
+            } = {}
+        } = this.props;
 
+        const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
         const values = [...selectedCheckboxValues, ...selectedDropdownOptions];
 
         if (!values.length) {
             return { price: 0, priceExclTax: 0, initialPrice: 0 };
         }
 
-        return this.getOptionPrice(item, values, isDynamicPrice);
+        return this.getOptionPrice(item, values, isDynamicPrice, discount);
     };
 
     getTotalPrice() {

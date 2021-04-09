@@ -317,8 +317,6 @@ export class ProductActionsContainer extends PureComponent {
             }
         } = this.props;
 
-        const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
-
         // Adjusting `discount` for bundle products for discount to be displayed on PDP
         const priceBeforeDiscount = addBase ? defaultPrice : initial;
         const priceAfterDiscount = addBase ? defaultFinalPrice : price;
@@ -335,8 +333,8 @@ export class ProductActionsContainer extends PureComponent {
         const basePriceExclTax = addBase ? defaultFinalPriceExclTax : 0;
 
         const initialPrice = baseInitialPrice + initial;
-        const finalPrice = baseFinalPrice + price * discount;
-        const finalPriceExclTax = basePriceExclTax + withoutTax * discount;
+        const finalPrice = baseFinalPrice + price;
+        const finalPriceExclTax = basePriceExclTax + withoutTax;
 
         const initialPriceValue = { value: initialPrice, currency };
         const priceValue = { value: finalPrice, currency };

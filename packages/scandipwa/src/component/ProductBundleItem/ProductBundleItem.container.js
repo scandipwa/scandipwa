@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
+import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItems/ProductBundleItems.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
@@ -206,8 +208,9 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             const finalPriceValue = product?.price_range?.minimum_price?.final_price?.value || 0;
             const value = isDynamicPrice ? finalPriceValue : fixedPriceValue;
 
-            // eslint-disable-next-line no-magic-numbers
-            const finalPrice = value - (value * (percentOff / 100));
+            const finalPrice = price_type === PRICE_TYPE_PERCENT
+                ? value
+                : value - (value * (percentOff / ONE_HUNDRED_PERCENT));
 
             const dropdownLabel = !can_change_quantity
                 ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`
