@@ -18,7 +18,7 @@ import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
 import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
-import { objectToUri } from 'Util/Url';
+import { getSkuFromURL, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 import { IN_STOCK } from './ProductCard.config';
@@ -99,7 +99,11 @@ export class ProductCardContainer extends PureComponent {
 
         return {
             pathname: url,
-            state: { product, pageKey: url, prevCategoryId: category },
+            state: {
+                product,
+                pageKey: getSkuFromURL(url),
+                prevCategoryId: category
+            },
             search: objectToUri(parameters)
         };
     }

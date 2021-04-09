@@ -20,7 +20,7 @@ import { CartItemType } from 'Type/MiniCart';
 import { itemIsOutOfStock } from 'Util/Cart';
 import { CONFIGURABLE } from 'Util/Product';
 import { makeCancelable } from 'Util/Promise';
-import { objectToUri } from 'Util/Url';
+import { getSkuFromURL, objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
 
@@ -252,7 +252,7 @@ export class CartItemContainer extends PureComponent {
         const stateProduct = parent || product;
 
         return {
-            pathname: url,
+            pathname: getSkuFromURL(url),
             state: { product: stateProduct, pageKey: url },
             search: objectToUri(parameters)
         };
