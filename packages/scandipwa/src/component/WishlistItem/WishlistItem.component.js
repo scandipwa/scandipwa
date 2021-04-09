@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -31,7 +32,9 @@ export class WishlistItem extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         attributes: PropTypes.array.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired
+        handleSelectIdChange: PropTypes.func.isRequired,
+        toggleOptionVisibility: PropTypes.func.isRequired,
+        showOptions: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -180,6 +183,71 @@ export class WishlistItem extends PureComponent {
         };
     }
 
+    renderOption = (option) => {
+        const { label, value } = option;
+
+        return (
+            <div block="WishlistItemOption">
+                <span block="WishlistItemOption" elem="Label">
+                    { label }
+                    :
+                </span>
+                <span block="WishlistItemOption" elem="Value">
+                    { value }
+                </span>
+            </div>
+        );
+    };
+
+    renderOptionsList() {
+        const { product: { wishlist: { options } } } = this.props;
+
+        return (
+            <div block="WishlistItemOptions" elem="List">
+                { options.map(this.renderOption) }
+            </div>
+        );
+    }
+
+    renderOptionsTitle() {
+        const { showOptions, toggleOptionVisibility } = this.props;
+        const label = showOptions ? __('Hide Details') : __('Show Details');
+
+        return (
+            <div
+              block="WishlistItemOptions"
+              elem="Title"
+              // eslint-disable-next-line react/jsx-no-bind
+              onClick={ () => toggleOptionVisibility() }
+            >
+                { label }
+            </div>
+        );
+    }
+
+    renderOptions() {
+        const { showOptions, product: { wishlist: { options = [] } } } = this.props;
+
+        if (options.length === 0) {
+            return null;
+        }
+
+        if (showOptions) {
+            return (
+                <div block="WishlistItemOptions">
+                    { this.renderOptionsList() }
+                    { this.renderOptionsTitle() }
+                </div>
+            );
+        }
+
+        return (
+            <div block="WishlistItemOptions">
+                { this.renderOptionsTitle() }
+            </div>
+        );
+    }
+
     renderName() {
         const { product: { name } } = this.props;
 
@@ -290,6 +358,7 @@ export class WishlistItem extends PureComponent {
                     { this.renderRemove() }
                 </div>
                 <div block="WishlistItem" elem="Content">
+                    { this.renderOptions() }
                     <div block="WishlistItem" elem="RowWrapper">
                         { this.renderQuantityField() }
                         { this.renderPrice(productPrice) }

@@ -71,7 +71,8 @@ export const mapStateToProps = (state) => ({
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
     device: state.ConfigReducer.device,
-    plpType: state.ConfigReducer.plp_list_mode
+    plpType: state.ConfigReducer.plp_list_mode,
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -136,6 +137,7 @@ export class CategoryPageContainer extends PureComponent {
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isSearchPage: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
         plpType: PropTypes.string
     };
 
@@ -583,14 +585,16 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     updatePlpType() {
-        const { plpType } = this.props;
+        const { plpType, isMobile } = this.props;
 
         if (plpType.match('-')) {
             const plpTypes = plpType.split('-');
+            const defaultType = isMobile ? 'grid' : plpTypes[0];
 
-            this.setState({ defaultPlpType: plpTypes[0], plpTypes });
+            this.setState({ defaultPlpType: defaultType, plpTypes });
         } else {
-            this.setState({ defaultPlpType: plpType, plpTypes: [plpType] });
+            const defaultType = isMobile ? 'grid' : plpType;
+            this.setState({ defaultPlpType: defaultType, plpTypes: [plpType] });
         }
     }
 
