@@ -682,6 +682,13 @@ export class ProductListQuery {
             'price_type',
             'can_change_quantity',
             this._getProductField()
+            // new Field('price_details')
+            //     .addFieldList([
+            //         'regular_option_price',
+            //         'regular_option_price_excl_tax',
+            //         'final_option_price',
+            //         'final_option_price_excl_tax'
+            //     ])
         ];
     }
 
@@ -714,7 +721,19 @@ export class ProductListQuery {
             'dynamic_sku',
             'ship_bundle_items',
             'dynamic_weight',
-            this._getBundleItemsField()
+            this._getBundleItemsField(),
+            new Field('bundle_options')
+                .addFieldList([
+                    'option_id',
+                    new Field('selection_details')
+                        .addFieldList([
+                            'selection_id',
+                            'final_option_price',
+                            'final_option_price_excl_tax',
+                            'regular_option_price',
+                            'regular_option_price_excl_tax'
+                        ])
+                ])
         ];
     }
 
