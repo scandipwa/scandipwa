@@ -29,11 +29,8 @@ export class CategoryProductPerPageContainer extends PureComponent {
         defaultGridProductCount: PropTypes.string.isRequired,
         gridCountOptions: PropTypes.string.isRequired,
         listCountOptions: PropTypes.string.isRequired,
-        plpType: PropTypes.string.isRequired
-    };
-
-    state = {
-        currentValue: '12'
+        plpType: PropTypes.string.isRequired,
+        onPageSizeChange: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -59,7 +56,9 @@ export class CategoryProductPerPageContainer extends PureComponent {
     };
 
     handleChange(value) {
-        this.setState({ currentValue: value });
+        const { onPageSizeChange } = this.props;
+
+        onPageSizeChange(value);
     }
 
     createOptionsArray(options) {
@@ -79,9 +78,6 @@ export class CategoryProductPerPageContainer extends PureComponent {
     }
 
     render() {
-        const { currentValue } = this.state;
-        console.log('***', currentValue);
-
         return (
             <CategoryProductPerPage
               { ...this.containerFunctions }

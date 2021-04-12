@@ -71,7 +71,9 @@ export const mapStateToProps = (state) => ({
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
     device: state.ConfigReducer.device,
-    plpType: state.ConfigReducer.plp_list_mode
+    plpType: state.ConfigReducer.plp_list_mode,
+    defaultListProductCount: state.ConfigReducer.list_per_page,
+    defaultGridProductCount: state.ConfigReducer.grid_per_page
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -136,7 +138,9 @@ export class CategoryPageContainer extends PureComponent {
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isSearchPage: PropTypes.bool,
-        plpType: PropTypes.string
+        plpType: PropTypes.string,
+        defaultListProductCount: PropTypes.number,
+        defaultGridProductCount: PropTypes.number
     };
 
     static defaultProps = {
@@ -144,7 +148,9 @@ export class CategoryPageContainer extends PureComponent {
         isSearchPage: false,
         currentArgs: {},
         selectedInfoFilter: {},
-        plpType: ''
+        plpType: '',
+        defaultListProductCount: 10,
+        defaultGridProductCount: 12
     };
 
     state = {
@@ -158,7 +164,10 @@ export class CategoryPageContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onSortChange: this.onSortChange.bind(this)
+        onSortChange: this.onSortChange.bind(this),
+        onPageSizeChange: this.onPageSizeChange.bind(this),
+        onGridButtonClick: this.onGridButtonClick.bind(this),
+        onListButtonClick: this.onListButtonClick.bind(this)
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -206,7 +215,7 @@ export class CategoryPageContainer extends PureComponent {
         /**
          * Get default PLP type and type list
          */
-        this.updatePlpType();
+        this.updatePlpTypes();
 
         /**
          * Make sure to update header state, if the category visited
@@ -308,6 +317,22 @@ export class CategoryPageContainer extends PureComponent {
         this.updateMeta();
     }
 
+    onPageSizeChange(pageSize) {
+        this.setState({ pageSize });
+    }
+
+    onGridButtonClick() {
+        const { defaultGridProductCount } = this.props;
+
+        this.setState({ layout: 'grid', pageSize: defaultGridProductCount });
+    }
+
+    onListButtonClick() {
+        const { defaultListProductCount } = this.props;
+
+        this.setState({ layout: 'list', pageSize: defaultListProductCount });
+    }
+
     setOfflineNoticeSize = () => {
         const { setBigOfflineNotice, isInfoLoading } = this.props;
 
@@ -371,8 +396,9 @@ export class CategoryPageContainer extends PureComponent {
         selectedSort: this.getSelectedSortFromUrl(),
         selectedFilters: this.getSelectedFiltersFromUrl(),
         isContentFiltered: this.isContentFiltered(),
-        defaultPlpType: this.getDefaultPlpType(),
-        plpTypes: this.getPlpTypes()
+        plpTypes: this.getPlpTypes(),
+        layout: this.getLayout(),
+        pageSize: this.getPageSize()
     });
 
     isContentFiltered() {
@@ -449,16 +475,28 @@ export class CategoryPageContainer extends PureComponent {
         return { min, max };
     }
 
-    getDefaultPlpType() {
-        const { defaultPlpType } = this.state;
-
-        return defaultPlpType;
-    }
-
     getPlpTypes() {
         const { plpTypes } = this.state;
 
         return plpTypes;
+    }
+
+    getLayout() {
+        const { layout, defaultPlpType } = this.state;
+
+        return layout ?? defaultPlpType;
+    }
+
+    getPageSize() {
+        const { pageSize } = this.state;
+
+        return pageSize ?? this.getDefaultPageSize();
+    }
+
+    getDefaultPageSize() {
+        const { defaultListProductCount, defaultGridProductCount } = this.props;
+
+        return this.getLayout() === 'list' ? defaultListProductCount : defaultGridProductCount;
     }
 
     getFilter() {
@@ -582,7 +620,7 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    updatePlpType() {
+    updatePlpTypes() {
         const { plpType } = this.props;
 
         if (plpType.match('-')) {
@@ -636,12 +674,9 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     render() {
-        const { pageSize } = this.config;
-
         return (
             <CategoryPage
               { ...this.props }
-              pageSize={ pageSize }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

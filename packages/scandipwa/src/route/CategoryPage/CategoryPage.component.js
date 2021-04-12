@@ -60,8 +60,12 @@ export class CategoryPage extends PureComponent {
         totalPages: PropTypes.number,
         device: DeviceType.isRequired,
         is_anchor: PropTypes.bool,
-        defaultPlpType: PropTypes.string,
-        plpTypes: PropTypes.arrayOf(PropTypes.string)
+        plpTypes: PropTypes.arrayOf(PropTypes.string),
+        layout: PropTypes.string,
+        pageSize: PropTypes.number,
+        onPageSizeChange: PropTypes.func.isRequired,
+        onGridButtonClick: PropTypes.func.isRequired,
+        onListButtonClick: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -72,37 +76,18 @@ export class CategoryPage extends PureComponent {
         totalPages: 1,
         is_anchor: true,
         search: '',
-        defaultPlpType: '',
-        plpTypes: []
+        plpTypes: [],
+        layout: '',
+        pageSize: 24
     };
 
     state = {};
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
-    onGridButtonClick = this.onGridButtonClick.bind(this);
-
-    onListButtonClick = this.onListButtonClick.bind(this);
-
-    componentDidUpdate() {
-        const { layout } = this.state;
-
-        if (!layout) {
-            this.setDefaultPlpType();
-        }
-    }
-
     onFilterButtonClick() {
         const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
-    }
-
-    onGridButtonClick() {
-        this.setState({ layout: 'grid' });
-    }
-
-    onListButtonClick() {
-        this.setState({ layout: 'list' });
     }
 
     displayProducts() {
@@ -121,12 +106,6 @@ export class CategoryPage extends PureComponent {
         const { category: { display_mode } = {} } = this.props;
         return display_mode === DISPLAY_MODE_CMS_BLOCK
             || display_mode === DISPLAY_MODE_BOTH;
-    }
-
-    setDefaultPlpType() {
-        const { defaultPlpType } = this.props;
-
-        this.setState({ layout: defaultPlpType });
     }
 
     renderCategoryDetails() {
@@ -208,13 +187,13 @@ export class CategoryPage extends PureComponent {
     }
 
     renderLayoutButton = (type) => {
-        const { layout } = this.state;
+        const { layout, onGridButtonClick, onListButtonClick } = this.props;
 
         switch (type) {
         case 'grid':
             return (
                 <button
-                  onClick={ this.onGridButtonClick }
+                  onClick={ onGridButtonClick }
                   mix={ { block: 'grid', mods: { isActive: layout === 'grid' } } }
                 >
                     { __('Grid') }
@@ -223,7 +202,7 @@ export class CategoryPage extends PureComponent {
         case 'list':
             return (
                 <button
-                  onClick={ this.onListButtonClick }
+                  onClick={ onListButtonClick }
                   mix={ { block: 'list', mods: { isActive: layout === 'list' } } }
                 >
                     { __('List') }
@@ -278,10 +257,11 @@ export class CategoryPage extends PureComponent {
             selectedFilters,
             isMatchingListFilter,
             isCurrentCategoryLoaded,
-            isMatchingInfoFilter
+            isMatchingInfoFilter,
+            pageSize
         } = this.props;
 
-        const { layout } = this.state;
+        const { layout } = this.props;
 
         if (!this.displayProducts()) {
             return null;
@@ -299,16 +279,17 @@ export class CategoryPage extends PureComponent {
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
                   layout={ layout }
+                  pageSize={ pageSize }
                 />
             </div>
         );
     }
 
     renderProductPerPage() {
-        const { layout } = this.state;
+        const { layout, onPageSizeChange } = this.props;
 
         return (
-            <CategoryProductPerPage plpType={ layout } />
+            <CategoryProductPerPage plpType={ layout } onPageSizeChange={ onPageSizeChange } />
         );
     }
 
