@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,5 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const DEFAULT_MAX_PRODUCTS = 99;
-export const ONE_HUNDRED_PERCENT = 100;
+export * from './Wishlist';

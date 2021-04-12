@@ -37,7 +37,7 @@ export class TranslateOnCursorMove extends PureComponent {
 
         // TODO: need to think how to implement more dynamic way
         const innerHeight = this.ref.current.children[0].children[1].children[0].children[0]
-            .children[activeImageId].children[0].getBoundingClientRect().height;
+            ?.children[activeImageId].children[0].getBoundingClientRect().height;
         const { height: wrapperHeight, top } = this.ref.current.getBoundingClientRect();
 
         const pageY = wrapperPageY - top;

@@ -11,5 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const DEFAULT_MAX_PRODUCTS = 99;
-export const ONE_HUNDRED_PERCENT = 100;
+export const PRICE_TYPE_DYNAMIC = 'DYNAMIC';
+export const PRICE_TYPE_FIXED = 'FIXED';
+export const PRICE_TYPE_PERCENT = 'PERCENT';

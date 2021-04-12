@@ -72,6 +72,7 @@ export const mapStateToProps = (state) => ({
     totalPages: state.ProductListReducer.totalPages,
     device: state.ConfigReducer.device,
     plpType: state.ConfigReducer.plp_list_mode,
+    isMobile: state.ConfigReducer.device.isMobile,
     defaultListProductCount: state.ConfigReducer.list_per_page,
     defaultGridProductCount: state.ConfigReducer.grid_per_page
 });
@@ -138,6 +139,7 @@ export class CategoryPageContainer extends PureComponent {
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isSearchPage: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
         plpType: PropTypes.string,
         defaultListProductCount: PropTypes.number,
         defaultGridProductCount: PropTypes.number
@@ -621,14 +623,16 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     updatePlpTypes() {
-        const { plpType } = this.props;
+        const { plpType, isMobile } = this.props;
 
         if (plpType.match('-')) {
             const plpTypes = plpType.split('-');
+            const defaultType = isMobile ? 'grid' : plpTypes[0];
 
-            this.setState({ defaultPlpType: plpTypes[0], plpTypes });
+            this.setState({ defaultPlpType: defaultType, plpTypes });
         } else {
-            this.setState({ defaultPlpType: plpType, plpTypes: [plpType] });
+            const defaultType = isMobile ? 'grid' : plpType;
+            this.setState({ defaultPlpType: defaultType, plpTypes: [plpType] });
         }
     }
 
