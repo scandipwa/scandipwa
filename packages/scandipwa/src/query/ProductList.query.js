@@ -682,13 +682,6 @@ export class ProductListQuery {
             'price_type',
             'can_change_quantity',
             this._getProductField()
-            // new Field('price_details')
-            //     .addFieldList([
-            //         'regular_option_price',
-            //         'regular_option_price_excl_tax',
-            //         'final_option_price',
-            //         'final_option_price_excl_tax'
-            //     ])
         ];
     }
 
@@ -714,6 +707,29 @@ export class ProductListQuery {
             .addFieldList(this._getBundleItemsFields());
     }
 
+    _getBundlePriceOptionSelectionFields() {
+        return [
+            'selection_id',
+            'final_option_price',
+            'final_option_price_excl_tax',
+            'regular_option_price',
+            'regular_option_price_excl_tax'
+        ];
+    }
+
+    _getBundlePriceOptionFields() {
+        return [
+            'option_id',
+            new Field('selection_details')
+                .addFieldList(this._getBundlePriceOptionSelectionFields())
+        ];
+    }
+
+    _getBundlePriceOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundlePriceOptionFields());
+    }
+
     _getBundleProductFragmentFields() {
         return [
             'price_view',
@@ -722,18 +738,7 @@ export class ProductListQuery {
             'ship_bundle_items',
             'dynamic_weight',
             this._getBundleItemsField(),
-            new Field('bundle_options')
-                .addFieldList([
-                    'option_id',
-                    new Field('selection_details')
-                        .addFieldList([
-                            'selection_id',
-                            'final_option_price',
-                            'final_option_price_excl_tax',
-                            'regular_option_price',
-                            'regular_option_price_excl_tax'
-                        ])
-                ])
+            this._getBundlePriceOptionsField()
         ];
     }
 

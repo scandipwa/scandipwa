@@ -112,10 +112,6 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
 
         const values = [...selectedCheckboxValues, ...selectedDropdownOptions];
 
-        if (!values.length) {
-            return { price: 0, priceExclTax: 0, initialPrice: 0 };
-        }
-
         return this.getOptionPrice(item, values);
     };
 
