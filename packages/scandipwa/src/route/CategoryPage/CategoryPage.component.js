@@ -286,7 +286,11 @@ export class CategoryPage extends PureComponent {
     }
 
     renderProductPerPage() {
-        const { layout, onPageSizeChange } = this.props;
+        const { device, layout, onPageSizeChange } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
 
         return (
             <CategoryProductPerPage plpType={ layout } onPageSizeChange={ onPageSizeChange } />

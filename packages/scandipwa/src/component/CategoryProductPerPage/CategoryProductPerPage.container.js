@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,11 +8,14 @@ import PropTypes from 'prop-types';
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import CategoryProductPerPage from './CategoryProductPerPage.component';
 
+/** @namespace Component/CategoryProductPerPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     defaultListProductCount: state.ConfigReducer.list_per_page,
     defaultGridProductCount: state.ConfigReducer.grid_per_page,
@@ -21,8 +23,10 @@ export const mapStateToProps = (state) => ({
     listCountOptions: state.ConfigReducer.list_per_page_values
 });
 
+/** @namespace Component/CategoryProductPerPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
+/** @namespace Component/CategoryProductPerPage/Container */
 export class CategoryProductPerPageContainer extends PureComponent {
     static propTypes = {
         defaultListProductCount: PropTypes.string.isRequired,
@@ -61,7 +65,7 @@ export class CategoryProductPerPageContainer extends PureComponent {
         onPageSizeChange(value);
     }
 
-    createOptionsArray(options) {
+    createOptionsArray(options = '') {
         return options.split(',').reduce(
             (acc, option) => {
                 acc.push({

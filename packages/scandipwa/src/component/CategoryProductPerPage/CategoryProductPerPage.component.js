@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,13 +8,16 @@ import PropTypes from 'prop-types';
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field/Field.container';
 
 import './CategoryProductPerPage.style';
 
-export class CategoryProductPerPage extends PureComponent {
+/** @namespace Component/CategoryProductPerPage/Component */
+export class CategoryProductPerPageComponent extends PureComponent {
     static propTypes = {
         defaultListProductCount: PropTypes.string.isRequired,
         defaultGridProductCount: PropTypes.string.isRequired,
@@ -52,4 +54,4 @@ export class CategoryProductPerPage extends PureComponent {
     }
 }
 
-export default CategoryProductPerPage;
+export default CategoryProductPerPageComponent;
