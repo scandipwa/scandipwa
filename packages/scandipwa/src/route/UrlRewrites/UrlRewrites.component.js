@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import NoMatch from 'Route/NoMatch';
-import { getSkuFromURL } from 'Util/Url';
 
 import {
     TYPE_CATEGORY,
@@ -54,17 +53,11 @@ export class UrlRewrites extends PureComponent {
 
     renderContent() {
         const { props, type } = this.props;
-        const {
-            history: {
-                location: {
-                    pathname
-                } = {}
-            } = {}
-        } = props;
+        const { id } = props;
 
         switch (type) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...props } key={ getSkuFromURL(pathname) } />;
+            return <ProductPage { ...props } key={ id } />;
         case TYPE_CMS_PAGE:
             return <CmsPage { ...props } />;
         case TYPE_CATEGORY:

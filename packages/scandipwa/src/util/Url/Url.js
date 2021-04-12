@@ -238,8 +238,3 @@ export const objectToUri = (keyValueObject = {}) => {
 
     return paramString.length > 0 ? `?${paramString}` : '';
 };
-
-/**
- * Get product product SKU from URL.
- */
-export const getSkuFromURL = (uri) => uri.match(/.*\/(.+?)(\.\w+|)$/)[1];
