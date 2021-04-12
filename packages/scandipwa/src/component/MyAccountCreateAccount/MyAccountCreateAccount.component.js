@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { signInStateType } from 'Type/Account';
+import history from 'Util/History';
 
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
@@ -24,12 +25,7 @@ export class MyAccountCreateAccount extends PureComponent {
         onCreateAccountSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
-        vatNumberValidation: PropTypes.array.isRequired,
-        defaultValues: PropTypes.object
-    };
-
-    static defaultProps = {
-        defaultValues: {}
+        vatNumberValidation: PropTypes.array.isRequired
     };
 
     renderVatNumberField() {
@@ -51,7 +47,7 @@ export class MyAccountCreateAccount extends PureComponent {
     }
 
     renderCreateAccountPersonalInfoFields() {
-        const { defaultValues: { firstName = '', lastName = '' } } = this.props;
+        const { location: { state: { firstName = '', lastName = '' } = {} } } = history;
 
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
@@ -88,7 +84,7 @@ export class MyAccountCreateAccount extends PureComponent {
     }
 
     renderCreateAccountSignUpInfoFields() {
-        const { defaultValues: { email = '' } } = this.props;
+        const { location: { state: { email = '' } = {} } } = history;
 
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
