@@ -37,6 +37,7 @@ export class ProductActionsContainer extends PureComponent {
         productOrVariant: PropTypes.object.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
+        productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         selectedInitialBundlePrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
@@ -269,6 +270,83 @@ export class ProductActionsContainer extends PureComponent {
         return 0;
     }
 
+    getSelectedOptions() {
+        const {
+            productOptionsData: {
+                productOptionsMulti = []
+            } = {}
+        } = this.props;
+
+        return productOptionsMulti.map((productOption) => {
+            const { option_value } = productOption;
+
+            return parseInt(option_value, 10);
+        });
+    }
+
+    getCustomizablePrice() {
+        const {
+            product: {
+                options = [],
+                price_range: {
+                    minimum_price: {
+                        default_price: {
+                            currency,
+                            value: defaultPrice
+                        },
+                        regular_price_excl_tax: {
+                            value: regularPriceExclTax
+                        } = {}
+                    } = {}
+                } = {}
+            } = {}
+        } = this.props;
+
+        const customPrice = this._getCustomPrice(defaultPrice, regularPriceExclTax, defaultPrice, false);
+
+        const {
+            minimum_price: {
+                final_price: {
+                    value: finalCustomPrice = 0
+                } = {},
+                final_price_excl_tax: {
+                    value: finalCustomPriceExclTax = 0
+                } = {},
+                regular_price: {
+                    value: regularCustomPrice = 0
+                } = {},
+                regular_price_excl_tax: {
+                    value: regularCustomPriceExclTax = 0
+                } = {}
+            } = {}
+        } = customPrice;
+
+        const selectedArray = this.getSelectedOptions();
+        const prices = options.reduce((acc, { data }) => {
+            data.forEach(({ option_type_id, price }) => {
+                if (selectedArray.includes(option_type_id)) {
+                    acc.push(price);
+                }
+            });
+
+            return acc;
+        }, []);
+
+        const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
+
+        return {
+            minimum_price: {
+                final_price: {
+                    currency,
+                    value: selectedOptionsTotal + finalCustomPrice
+                },
+                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
+                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
+                regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
+            }
+        };
+    }
+
     getProductPrice() {
         const {
             product,
@@ -297,6 +375,10 @@ export class ProductActionsContainer extends PureComponent {
 
         if (type_id === DOWNLOADABLE && links_purchased_separately) {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, selectedLinkPrice, true);
+        }
+
+        if (product.options) {
+            return this.getCustomizablePrice();
         }
 
         return price_range;
