@@ -292,10 +292,10 @@ export class ProductActionsContainer extends PureComponent {
                     minimum_price: {
                         default_price: {
                             currency,
-                            value: defaultPrice
+                            value: defaultPrice = 0
                         },
                         regular_price_excl_tax: {
-                            value: regularPriceExclTax
+                            value: regularPriceExclTax = 0
                         } = {}
                     } = {}
                 } = {}
@@ -321,10 +321,10 @@ export class ProductActionsContainer extends PureComponent {
             } = {}
         } = customPrice;
 
-        const selectedArray = this.getSelectedOptions();
+        const selectedOptions = this.getSelectedOptions();
         const prices = options.reduce((acc, { data }) => {
             data.forEach(({ option_type_id, price }) => {
-                if (selectedArray.includes(option_type_id)) {
+                if (selectedOptions.includes(option_type_id)) {
                     acc.push(price);
                 }
             });
