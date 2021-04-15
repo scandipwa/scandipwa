@@ -116,6 +116,10 @@
         @include desktop {
             --option-margin: 0 12px 12px 0;
         }
+
+        .ExpandableContent {
+            margin: 15px 0;
+        }
     }
 
     &-Filter {

@@ -46,4 +46,10 @@
             animation: var(--placeholder-animation);
         }
     }
+
+    &-Counter {
+        display: inline-block;
+        font-size: 1.2rem;
+        letter-spacing: 0;
+    }
 }

@@ -44,6 +44,9 @@
 
     .FieldSelect {
         &::after {
+            height: 13px;
+            width: 13px;
+
             @include before-desktop {
                 left: 55px;
                 top: -22px;
@@ -51,11 +54,24 @@
         }
 
         &-Select {
+            background: none;
+            border: none;
+            color: var(--black);
+            padding: 0 40px 0 20px;
+
             @include before-desktop {
                 position: absolute;
                 top: -35px;
                 opacity: 0;
             }
+        }
+
+        &-Options {
+            border-color: transparent;
+        }
+
+        &-Option {
+            background-color: transparent;
         }
     }
 }

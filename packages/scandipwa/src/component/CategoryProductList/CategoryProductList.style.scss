@@ -60,6 +60,21 @@
                     .Image {
                         width: 200px;
                     }
+
+                    .ProductCompareButton {
+                        .Image {
+                            width: var(--compare-button-size);
+                        }
+                    }
+
+
+                    .ProductWishlistButton {
+                        .Image,
+                        &-Heart {
+                            height: var(--wishlist-heart-size);
+                            width: var(--wishlist-heart-size);
+                        }
+                    }
                 }
             }
         }

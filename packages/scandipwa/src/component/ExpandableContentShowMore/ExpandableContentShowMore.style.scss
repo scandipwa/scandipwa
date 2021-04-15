@@ -33,6 +33,10 @@
             text-decoration: unset;
         }
 
+        &:hover.Button {
+            padding: 0;
+        }
+
         &_state {
             &_isOpen {
                 &::after {

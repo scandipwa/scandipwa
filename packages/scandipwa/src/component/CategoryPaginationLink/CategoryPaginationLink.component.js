@@ -64,7 +64,7 @@ export class CategoryPaginationLink extends PureComponent {
               } }
               aria-label={ label }
               block="CategoryPaginationLink"
-              mods={ { isCurrent } }
+              mods={ { isCurrent, isArrow: typeof children !== 'string' } }
               aria-current={ isCurrent ? 'page' : 'false' }
               onClick={ this.getPage }
             >

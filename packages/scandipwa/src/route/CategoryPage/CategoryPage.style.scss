@@ -184,24 +184,24 @@
 
             &.list {
                 &:after {
-                    background-image: url(icons/list.svg);
+                    background-image: url('./../../style/icons/list.svg');
                 }
 
                 &_isActive {
                     &:after {
-                        background-image: url(icons/listFilled.svg);
+                        background-image: url('./../../style/icons/list-filled.svg');
                     }
                 }
             }
 
             &.grid {
                 &:after {
-                    background-image: url(icons/grid.svg);
+                    background-image: url('./../../style/icons/grid.svg');
                 }
 
                 &_isActive {
                     &:after {
-                        background-image: url(icons/gridFilled.svg);
+                        background-image: url('./../../style/icons/grid-filled.svg');
                     }
                 }
             }

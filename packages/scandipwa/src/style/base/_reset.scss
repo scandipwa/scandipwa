@@ -9,6 +9,88 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    // h1 desktop
+    --h1-font-size: var(--imported_h1_font_size, 3.6rem);
+    --h1-font-weight: var(--imported_h1_font_weight, 700);
+    --h1-color: var(--imported_h1_color, #{$black});
+    --h1-line-height: var(--imported_h1_line_height, 4rem);
+    --h1-text-transform: var(--imported_h1_text_transform, capitalize);
+    --h1-font-style: var(--imported_h1_font_style, normal);
+
+    // h1 mobile
+    --h1-font-weight-mobile: var(--imported_h1Mobile_font_weight, 700);
+    --h1-font-size-mobile: var(--imported_h1Mobile_font_size, 2.4rem);
+    --h1-color-mobile: var(--imported_h1Mobile_color, #{$black});
+    --h1-line-height-mobile: var(--imported_h1Mobile_line_height, 2.8rem);
+    --h1-text-transform-mobile: var(--imported_h1Mobile_text_transform, capitalize);
+    --h1-font-style-mobile: var(--imported_h1Mobile_font_style, normal);
+
+    // h2 desktop
+    --h2-font-size: var(--imported_h2_font_size, 2.4rem);
+    --h2-font-weight: var(--imported_h2_font_weight, 700);
+    --h2-color: var(--imported_h2_color, #{$black});
+    --h2-line-height: var(--imported_h2_line_height, 2.8rem);
+    --h2-text-transform: var(--imported_h2_text_transform, capitalize);
+    --h2-font-style: var(--imported_h2_font_style, normal);
+
+    // h2 mobile
+    --h2-font-size-mobile: var(--imported_h2Mobile_font_size, 1.8rem);
+    --h2-font-weight-mobile: var(--imported_h2Mobile_font_weight, 700);
+    --h2-color-mobile: var(--imported_h2Mobile_color, #{$black});
+    --h2-line-height-mobile: var(--imported_h2Mobile_line_height, 2.4rem);
+    --h2-text-transform-mobile: var(--imported_h2Mobile_text_transform, capitalize);
+    --h2-font-style-mobile: var(--imported_h2Mobile_font_style, normal);
+
+    // h3 desktop
+    --h3-font-size: var(--imported_h3_font_size, 1.8rem);
+    --h3-font-weight: var(--imported_h3_font_weight, 700);
+    --h3-color: var(--imported_h3_color, #{$black});
+    --h3-line-height: var(--imported_h3_line_height, 2.4rem);
+    --h3-text-transform: var(--imported_h3_text_transform, capitalize);
+    --h3-font-style: var(--imported_h3_font_style, normal);
+
+    // h3 mobile
+    --h3-font-size-mobile: var(--imported_h3Mobile_font_size, 1.6rem);
+    --h3-font-weight-mobile: var(--imported_h3Mobile_font_weight, 700);
+    --h3-color-mobile: var(--imported_h3Mobile_color, #{$black});
+    --h3-line-height-mobile: var(--imported_h3Mobile_line_height, 2.4rem);
+    --h3-text-transform-mobile: var(--imported_h3Mobile_text_transform, capitalize);
+    --h3-font-style-mobile: var(--imported_h3Mobile_font_style, normal);
+
+    // paragraph
+    --paragraph-font-size: var(--imported_paragraph_font_size, 1.4rem);
+    --paragraph-font-weight: var(--imported_paragraph_font_weight, 400);
+    --paragraph-color: var(--imported_paragraph_color, #{$black});
+    --paragraph-line-height: var(--imported_paragraph_line_height, 2rem);
+    --paragraph-text-transform: var(--imported_paragraph_text_transform, none);
+    --paragraph-font-style: var(--imported_paragraph_font_style, normal);
+
+    // paragraph mobile
+    --paragraph-font-size-mobile: var(--imported_paragraphMobile_font_size, 1.4rem);
+    --paragraph-font-weight-mobile: var(--imported_paragraphMobile_font_weight, 400);
+    --paragraph-color-mobile: var(--imported_paragraphMobile_color, #{$black});
+    --paragraph-line-height-mobile: var(--imported_paragraphMobile_line_height, 1.6rem);
+    --paragraph-text-transform-mobile: var(--imported_paragraphMobile_text_transform, none);
+    --paragraph-font-style-mobile: var(--imported_paragraphMobile_font_style, normal);
+
+    // caption
+    --caption-font-size: var(--imported_caption_font_size, 1.2rem);
+    --caption-font-weight: var(--imported_caption_font_weight, 400);
+    --caption-color: var(--imported_caption_color, #{$black});
+    --caption-line-height: var(--imported_caption_line_height, 2rem);
+    --caption-text-transform: var(--imported_caption_text_transform, none);
+    --caption-font-style: var(--imported_caption_font_style, normal);
+
+    // caption mobile
+    --caption-font-size-mobile: var(--imported_captionMobile_font_size, 1.2rem);
+    --caption-font-weight-mobile: var(--imported_captionMobile_font_weight, 400);
+    --caption-color-mobile: var(--imported_captionMobile_color, #{$black});
+    --caption-line-height-mobile: var(--imported_captionMobile_line_height, 1.6rem);
+    --caption-text-transform-mobile: var(--imported_captionMobile_text_transform, none);
+    --caption-font-style-mobile: var(--imported_captionMobile_font_style, normal);
+}
+
 * {
     position: relative;
     box-sizing: border-box;
@@ -99,12 +181,20 @@ a {
 }
 
 h1 {
-    font-size: 3rem;
-    font-weight: bold;
+    color: var(--h1-color);
+    font-size: var(--h1-font-size);
+    font-style: var(--h1-font-style);
+    font-weight: var(--h1-font-weight);
+    line-height: var(--h1-line-height);
+    text-transform: var(--h1-text-transform);
 
     @include mobile {
-
-        font-size: 2.8rem;
+        color: var(--h1-color-mobile);
+        font-size: var(--h1-font-size-mobile);
+        font-style: var(--h1-font-style-mobile);
+        font-weight: var(--h1-font-weight-mobile);
+        line-height: var(--h1-line-height-mobile);
+        text-transform: var(--h1-text-transform-mobile);
     }
 
     + h2,
@@ -119,16 +209,24 @@ h1 {
 }
 
 h2 {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 2.4rem;
+    color: var(--h2-color);
+    font-weight: var(--h2-font-weight);
+    font-size: var(--h2-font-size);
+    font-style: var(--h2-font-style);
+    line-height: var(--h2-line-height);
     margin-bottom: 1.8rem;
     margin-top: 2.16rem;
+    text-transform: var(--h2-text-transform);
 
     @include mobile {
-        font-size: 2.8rem;
+        color: var(--h2-color-mobile);
+        font-size: var(--h2-font-size-mobile);
+        font-style: var(--h2-font-style-mobile);
+        font-weight: var(--h2-font-weight-mobile);
+        line-height: var(--h2-line-height-mobile);
         margin-bottom: 2.1rem;
         margin-top: 2.52rem;
+        text-transform: var(--h2-text-transform-mobile);
     }
 
     + h3,
@@ -146,14 +244,24 @@ h2 {
 }
 
 h3 {
-    font-size: 1.8rem;
+    color: var(--h3-color);
+    font-size: var(--h3-font-size);
+    font-style: var(--h3-font-style);
+    font-weight: var(--h3-font-weight);
+    line-height: var(--h3-line-height);
     margin-top: 2.16rem;
     margin-bottom: 1.8rem;
+    text-transform: var(--h3-text-transform);
 
     @include mobile {
-        font-size: 2.1rem;
+        color: var(--h3-color-mobile);
+        font-size: var(--h3-font-size-mobile);
+        font-style: var(--h3-font-style-mobile);
+        font-weight: var(--h3-font-weight-mobile);
+        line-height: var(--h3-line-height-mobile);
         margin-top: 2.52rem;
         margin-bottom: 2.1rem;
+        text-transform: var(--h3-text-transform-mobile);
     }
 
     + h4 {
@@ -172,9 +280,22 @@ h3 {
 h4,
 p,
 li,
-dl,
-button {
-    font-size: 1.4rem;
+dl {
+    color: var(--paragraph-color);
+    font-size: var(--paragraph-font-size);
+    font-style: var(--paragraph-font-style);
+    font-weight: var(--paragraph-font-weight);
+    line-height: var(--paragraph-line-height);
+    text-transform: var(--paragraph-text-transform);
+
+    @include mobile {
+        color: var(--paragraphM-color-mobile);
+        font-size: var(--paragraphM-font-size-mobile);
+        font-style: var(--paragraph-font-style-mobile);
+        font-weight: var(--paragraphM-font-weight-mobile);
+        line-height: var(--paragraphM-line-height-mobile);
+        text-transform: var(--paragraphM-text-transform-mobile);
+    }
 }
 
 li {
@@ -197,10 +318,27 @@ li {
 
 p {
     margin-bottom: 1.44rem;
-    line-height: 1.8;
 
     @include mobile {
         margin-bottom: 1.68rem;
+    }
+
+    &.caption {
+        color: var(--caption-color);
+        font-size: var(--caption-font-size);
+        font-style: var(--caption-font-style);
+        font-weight: var(--caption-font-weight);
+        line-height: var(--caption-line-height);
+        text-transform: var(--caption-text-transform);
+
+        @include mobile {
+            color: var(--captionM-color-mobile);
+            font-size: var(--captionM-font-size-mobile);
+            font-style: var(--caption-font-style-mobile);
+            font-weight: var(--captionM-font-weight-mobile);
+            line-height: var(--captionM-line-height-mobile);
+            text-transform: var(--captionM-text-transform-mobile);
+        }
     }
 }
 
@@ -208,26 +346,12 @@ input,
 select {
     min-height: 2.4rem;
     min-width: 4.8rem;
-    font-size: 1.32rem;
+    font-size: 1.4rem;
 
     @include mobile {
         min-height: 2.8rem;
         min-width: 5.6rem;
-        font-size: 1.54rem;
         font-size: 1.6rem;
-    }
-}
-
-select {
-    border-radius: 0;
-    appearance: none;
-}
-
-button {
-    cursor: pointer;
-
-    @include mobile {
-        user-select: none;
     }
 }
 
@@ -256,8 +380,4 @@ details {
     @include mobile {
         touch-action: manipulation;
     }
-}
-
-input {
-    border-radius: 0;
 }

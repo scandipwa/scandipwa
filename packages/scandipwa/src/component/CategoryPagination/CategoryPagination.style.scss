@@ -28,20 +28,18 @@
     }
 
     &-Icon {
-        @include back-button;
-
         cursor: pointer;
-        margin: 0;
-        height: 35px;
         display: block;
-        width: 35px;
+        height: 20px;
+        margin: 0 auto;
+        width: 12px;
 
         &:hover,
         &:focus {
             --header-color: var(--color-pagination-link-active-text);
         }
 
-        &_isNext {
+        &:not(&_isNext) {
             transform: rotate(180deg);
         }
     }

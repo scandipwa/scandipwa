@@ -10,19 +10,23 @@
  */
 
 :root {
-    --input-type-number-width: 80px;
+    --dark-gray: #dddddd;
+    --karaka: #0a0903;
+    --input-type-number-width: 28px;
     --placeholder-gradient-color: #d9d9d9;
     --placeholder-image: linear-gradient(to right, #ebebeb 0, var(--placeholder-gradient-color) 15%, #ebebeb 30%);
     --placeholder-size: 1200px 100%;
     --placeholder-animation: placeholderAnimation 2s linear infinite;
     --primary-divider-color: #f0f0f0;
     --secondary-error-color: #fff;
-    --primary-error-color: #dc6d6d;
+    --primary-error-color: #d20b0b;
     --secondary-success-color: #fff;
-    --primary-success-color: #7fcd91;
-    --secondary-info-color: #79632e;
-    --primary-info-color: #ffd166;
+    --primary-success-color: #2fbf71;
+    --secondary-info-color: var(--karaka);
+    --primary-info-color: #ffec51;
     --body-content-color: $black;
+    --black: $black;
+
 
     // Declare imported primary colors to change the theme's colors
     --primary-base-color: var(--imported_primary_base_color, #{$default-primary-base-color});

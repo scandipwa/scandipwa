@@ -12,8 +12,8 @@
 $select-width: 160px !default;
 $select-height: 45px !default;
 $select-option-height: 36px !default;
-$select-arrow-height: 6px !default;
-$select-arrow-width: 6px !default;
+$select-arrow-height: 16px !default;
+$select-arrow-width: 16px !default;
 
 :root {
     --select-option-background: #fff;
@@ -24,11 +24,13 @@ $select-arrow-width: 6px !default;
     cursor: pointer;
 
     &::after {
+        background-image: url('./../../style/icons/chevron.svg');
+        background-size: cover;
         content: '';
         display: block;
         width: $select-arrow-width;
         height: $select-arrow-height;
-        transform: translateY(-2px) rotate(45deg);
+        transform: rotate(90deg);
         pointer-events: none;
 
         position: absolute;
@@ -36,10 +38,6 @@ $select-arrow-width: 6px !default;
         bottom: 0;
         top: 0;
         margin: auto;
-
-        border-style: solid;
-        border-color: #000;
-        border-width: 0 1px 1px 0;
     }
 
     &_isExpanded::after {
@@ -50,16 +48,19 @@ $select-arrow-width: 6px !default;
     }
 
     &-Select {
-        width: 100%;
+        font-weight: 600;
+        opacity: .5;
         min-width: 100%;
         padding-right: 40px;
+        width: 100%;
 
         @include desktop {
             pointer-events: none;
         }
 
         &_isExpanded {
-            border-color: var(--input-color);
+            border-color: var(--input-border-color-focus);
+            opacity: 1;
         }
     }
 

@@ -135,16 +135,7 @@ export class ProductCard extends PureComponent {
             setSiblingsHavePriceBadge();
         }
 
-        return (
-            <p
-              mix={ {
-                  block: 'ProductCard',
-                  elem: 'PriceBadge'
-              } }
-            >
-                { label }
-            </p>
-        );
+        return label;
     }
 
     renderEmptyProductPrice() {
@@ -186,10 +177,10 @@ export class ProductCard extends PureComponent {
         return (
             <div block="ProductCard" elem="PriceWrapper">
                 { this.renderTierPrice() }
-                { this.renderProductTypePriceBadge() }
                 <ProductPrice
                   price={ price_range }
                   mix={ { block: 'ProductCard', elem: 'Price' } }
+                  label={ this.renderProductTypePriceBadge() }
                 />
             </div>
         );
@@ -261,7 +252,7 @@ export class ProductCard extends PureComponent {
         } = this.props;
 
         if (device.isMobile || !availableVisualOptions.length) {
-            return <div block="ProductCard" elem="ConfigurableOptions" />;
+            return null;
         }
 
         if (!validOptionTypes.includes(availableVisualOptions[0].type)) {
@@ -309,7 +300,8 @@ export class ProductCard extends PureComponent {
         const {
             product: {
                 review_summary: {
-                    rating_summary
+                    rating_summary,
+                    review_count
                 } = {}
             },
             layout
@@ -325,7 +317,7 @@ export class ProductCard extends PureComponent {
               elem="Reviews"
               mods={ { layout } }
             >
-                <ProductReviewRating summary={ rating_summary || 0 } />
+                <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />
             </div>
         );
     }
@@ -471,7 +463,7 @@ export class ProductCard extends PureComponent {
 
         if (type_id !== 'simple') {
             return this.renderCardLinkWrapper(
-                <button block="Button">{ __('Add To Cart') }</button>
+                <button block="Button" mods={ { isAddToCart: true } }>{ __('Add To Cart') }</button>
             );
         }
 
@@ -501,13 +493,19 @@ export class ProductCard extends PureComponent {
                         <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
                         </figure>
-                        { this.renderReviews() }
                     </div>
                     <div block="ProductCard" elem="Content">
+                        { this.renderReviews() }
                         { this.renderAdditionalProductDetails() }
                         { this.renderMainDetails() }
                         { this.renderProductPrice() }
+                    </div>
+                    <div block="ProductCard" elem="VisibleOnHover">
                         { this.renderVisualConfigurableOptions() }
+                        <div block="ProductCard" elem="Footer">
+                            { this.renderAddToCart() }
+                            { this.renderProductActions() }
+                        </div>
                     </div>
                 </>
             ))
@@ -592,7 +590,6 @@ export class ProductCard extends PureComponent {
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderCardContent() }
-                { this.renderProductActions() }
                 <div block="ProductCard" elem="AdditionalContent">
                     { children }
                 </div>

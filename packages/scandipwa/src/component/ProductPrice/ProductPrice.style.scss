@@ -60,6 +60,14 @@
     &-SubPrice {
         display: block;
         font-weight: 500;
-        font-size: .5em;
+        font-size: 1.2rem;
+        margin-top: 4px;
+    }
+
+    &-PriceBadge {
+        font-size: 1.4rem;
+        font-weight: 400;
+        margin-right: .4rem;
+        white-space: nowrap;
     }
 }

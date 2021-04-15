@@ -33,7 +33,8 @@ export class ProductPrice extends PureComponent {
         formattedSubPrice: PropTypes.string,
         variantsCount: PropTypes.number,
         price: PriceType,
-        mix: MixType
+        mix: MixType,
+        label: PropTypes.string
     };
 
     static defaultProps = {
@@ -45,7 +46,8 @@ export class ProductPrice extends PureComponent {
         formattedSubPrice: null,
         variantsCount: 0,
         mix: {},
-        price: {}
+        price: {},
+        label: ''
     };
 
     renderPlaceholder() {
@@ -78,7 +80,8 @@ export class ProductPrice extends PureComponent {
     renderCurrentPrice() {
         const {
             discountPercentage,
-            formattedFinalPrice
+            formattedFinalPrice,
+            label
         } = this.props;
 
         const priceSchema = this.getCurrentPriceSchema();
@@ -94,6 +97,7 @@ export class ProductPrice extends PureComponent {
 
         return (
             <PriceSemanticElementName>
+                <span mix={ { block: 'ProductPrice', elem: 'PriceBadge' } }>{ label }</span>
                 <span { ...priceSchema }>{ formattedFinalPrice }</span>
             </PriceSemanticElementName>
         );

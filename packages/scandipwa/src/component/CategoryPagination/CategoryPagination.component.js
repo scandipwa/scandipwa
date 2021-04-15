@@ -14,7 +14,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
+import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import chevron from 'Style/icons/chevron.svg';
 
 import './CategoryPagination.style';
 
@@ -30,7 +32,8 @@ export class CategoryPagination extends PureComponent {
         paginationFrame: PropTypes.number,
         paginationFrameSkip: PropTypes.number,
         anchorTextPrevious: PropTypes.string,
-        anchorTextNext: PropTypes.string
+        anchorTextNext: PropTypes.string,
+        id: PropTypes.string
     };
 
     static defaultProps = {
@@ -38,7 +41,8 @@ export class CategoryPagination extends PureComponent {
         paginationFrame: 5,
         paginationFrameSkip: 4,
         anchorTextPrevious: '',
-        anchorTextNext: ''
+        anchorTextNext: '',
+        id: ''
     };
 
     renderPreviousPageLink() {
@@ -113,10 +117,10 @@ export class CategoryPagination extends PureComponent {
 
     renderPageIcon(isNext = false) {
         return (
-            <span
-              block="CategoryPagination"
-              elem="Icon"
-              mods={ { isNext } }
+            <Image
+              src={ chevron }
+              alt="Next Icon"
+              mix={ { block: 'CategoryPagination', elem: 'Icon', mods: { isNext } } }
             />
         );
     }
@@ -190,7 +194,7 @@ export class CategoryPagination extends PureComponent {
     }
 
     render() {
-        const { isLoading, totalPages } = this.props;
+        const { isLoading, totalPages, id } = this.props;
 
         if (totalPages === 1) { // do not show pagination, if there are less then one page
             return <ul block="CategoryPagination" />;
@@ -202,7 +206,7 @@ export class CategoryPagination extends PureComponent {
 
         return (
             <nav aria-label={ __('Product list navigation') }>
-                <ul block="CategoryPagination">
+                <ul block="CategoryPagination" id={ id }>
                     { this.renderPreviousPageLink() }
                     { this.renderPageLinks() }
                     { this.renderNextPageLink() }

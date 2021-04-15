@@ -26,14 +26,16 @@ export class ProductReviewRating extends PureComponent {
         summary: PropTypes.number,
         code: PropTypes.string,
         placeholder: PropTypes.bool,
-        mix: MixType
+        mix: MixType,
+        count: PropTypes.number
     };
 
     static defaultProps = {
         summary: 0,
         code: '',
         placeholder: false,
-        mix: {}
+        mix: {},
+        count: 0
     };
 
     reviewRating = createRef();
@@ -79,7 +81,8 @@ export class ProductReviewRating extends PureComponent {
             summary,
             code,
             placeholder,
-            mix
+            mix,
+            count
         } = this.props;
 
         const ariaText = this.getAriaText(summary, code);
@@ -95,7 +98,13 @@ export class ProductReviewRating extends PureComponent {
               ref={ this.reviewRating }
               aria-label={ ariaText }
               mix={ mix }
-            />
+            >
+                <span block="ProductReviewRating" elem="Counter">
+                    (
+                    { count }
+                    )
+                </span>
+            </div>
         );
     }
 }

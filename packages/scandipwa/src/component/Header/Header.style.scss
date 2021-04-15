@@ -378,7 +378,7 @@
     }
 
     &-CompareIcon {
-        @include compare-icon(var(--header-color));
+        @include compare-icon;
     }
 
     &-MyAccount {

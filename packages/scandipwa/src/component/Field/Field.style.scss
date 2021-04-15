@@ -9,14 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --checkbox-border-radius: var(--imported_checkboxes_border_radius, 0);
+    --checkbox-border-color: var(--imported_checkboxes_border_color, var(--primary-base-color));
+    --checkbox-width: var(--imported_checkboxes_width, 1.8rem);
+    --checkbox-height: var(--imported_checkboxes_height, 1.8rem);
+}
+
 .Field {
-    margin-top: 1.2rem;
+    margin-top: 2.4rem;
 
     @include mobile {
         margin-top: 1.4rem;
     }
 
     &-Label {
+        font-size: 1.4rem;
         font-weight: 700;
         padding-bottom: .36rem;
 
@@ -26,10 +34,11 @@
     }
 
     &-Message {
-        margin-bottom: -.1em;
-        font-size: 1.26rem;
-        font-weight: 600;
         color: var(--primary-error-color);
+        font-size: 1.2rem;
+        margin-bottom: -.1em;
+        margin-top: .6rem;
+        padding-left: 15px;
 
         @include mobile {
             font-size: 1.47rem;
@@ -59,7 +68,16 @@
     &_isValid {
         input,
         textarea {
-            border: 1px solid var(--primary-success-color);
+            font-weight: 700;
+            opacity: .5;
+
+            &:focus {
+                opacity: 1;
+            }
+
+            &::placeholder {
+                font-weight: 400;
+            }
         }
     }
 
@@ -67,16 +85,17 @@
         input,
         textarea {
             border: 1px solid var(--primary-error-color);
+            font-weight: 700;
+
+            &::placeholder {
+                font-weight: 400;
+            }
         }
     }
 
-    &::placeholder {
-        color: var(--field-note);
-        font-size: 1.08rem;
-
-        @include mobile {
-            font-size: 1.26rem;
-        }
+    input::placeholder {
+        color:  var(--input-color);
+        opacity: .5;
     }
 
     input:focus + .Field-Note {
@@ -165,10 +184,14 @@
                 }
             }
         }
+
+        &_number {
+            align-items: center;
+            display: inline-flex;
+        }
     }
 
-    [type='checkbox'],
-    [type='radio'] {
+    [type='checkbox'] {
         position: absolute;
         opacity: 0;
         padding: 0;
@@ -176,136 +199,82 @@
         min-height: 0;
 
         + .input-control {
-            @include mobile {
-                width: 2.1rem;
-                height: 2.1rem;
-            }
+            --box-color: #{$white};
 
-            --box-color: #{white};
-
-            display: inline-block;
-            position: relative;
-            cursor: pointer;
-            padding: 0;
-            width: 1.8rem;
-            height: 1.8rem;
             background-color: var(--box-color);
-            border: 1px solid var(--input-border-color);
-            transition-property: background-color, border-color;
+            border: 2px solid var(--input-border-color);
+            border-radius: var(--checkbox-border-radius);
+            cursor: pointer;
+            display: inline-block;
+            height: 2.1rem;
+            position: relative;
+            padding: 0;
             transition-duration: .25s;
+            transition-property: background-color, border-color;
             transition-timing-function: ease-in;
+            width: 2.1rem;
             will-change: background-color, border-color;
+
+            @include desktop {
+                width: var(--checkbox-width);
+                height: var(--checkbox-height);
+            }
 
             &::after {
                 --checkmark-color: transparent;
 
-                content: '';
-                position: absolute;
-                pointer-events: none;
                 background: var(--checkmark-color);
+                box-shadow:
+                        2px 0 0 var(--checkmark-color),
+                        4px 0 0 var(--checkmark-color),
+                        4px -2px 0 var(--checkmark-color),
+                        4px -4px 0 var(--checkmark-color),
+                        4px -6px 0 var(--checkmark-color),
+                        4px -8px 0 var(--checkmark-color);
+                content: '';
+                height: .2rem;
+                left: calc(50% - .5rem);
+                pointer-events: none;
+                position: absolute;
+                top: calc(50% - .1rem);
                 transition-duration: .25s;
+                transition-property: background-color, box-shadow;
                 transition-timing-function: ease-in;
-                transition-property: background-color;
-                will-change: background-color;
+                transform: rotate(45deg);
+                width: .2rem;
+                will-change: background-color, box-shadow;
             }
 
             &:hover {
                 @include after-mobile {
                     --box-color: var(--secondary-light-color);
-                    border-color: var(--primary-base-color);
-                }
 
-                &::after {
-                    @include after-mobile {
-                        --checkmark-color: var(--secondary-dark-color);
+                    border-color: var(--checkbox-border-color);
+
+                    &::after {
+                        @include after-mobile {
+                            --checkmark-color: var(--secondary-dark-color);
+                        }
                     }
                 }
             }
         }
 
         &:disabled + .input-control {
-            color: #b8b8b8;
+            color: var(--dark-gray);
             cursor: auto;
         }
 
-        &:checked + .input-control {
-            background-color: var(--primary-base-color);
-            border-color: var(--primary-base-color);
-
-            &::after {
-                --checkmark-color: #{$white};
-            }
-        }
-    }
-
-    [type='checkbox'] {
-        + .input-control {
-            &::after {
-                left: .3rem;
-                top: .72rem;
-                width: .24rem;
-                height: .24rem;
-                box-shadow:
-                    2px 0 0 var(--checkmark-color),
-                    4px 0 0 var(--checkmark-color),
-                    4px -2px 0 var(--checkmark-color),
-                    4px -4px 0 var(--checkmark-color),
-                    4px -6px 0 var(--checkmark-color),
-                    4px -8px 0 var(--checkmark-color);
-                transform: rotate(45deg);
-                transition-property: background-color, box-shadow;
-                will-change: background-color, box-shadow;
-
-                @include mobile {
-                    left: .35rem;
-                    top: .84rem;
-                    width: .28rem;
-                    height: .28rem;
-                }
-            }
-        }
-
         &:checked {
-            &:hover {
-                + .input-control {
-                    @include after-mobile {
-                        background-color: var(--primary-base-color);
-                    }
+            + .input-control {
+                border-color: var(--checkbox-border-color);
+
+                &::after {
+                    --checkmark-color: var(--primary-base-color);
+
+                    left: calc(50% - .5rem);
+                    top: calc(50% - .1rem);
                 }
-            }
-        }
-    }
-
-    [type='radio'] {
-        + .input-control {
-            border-radius: 50%;
-
-            &::after {
-                left: 0;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                margin: auto;
-                width: .6rem;
-                height: .6rem;
-                border-radius: 50%;
-                transition-property: background-color, box-shadow;
-                will-change: background-color, box-shadow;
-
-                @include mobile {
-                    width: .7rem;
-                    height: .7rem;
-                }
-            }
-        }
-
-        &:focus + .input-control {
-            --box-color: var(--secondary-light-color);
-
-            border-color: var(--primary-base-color);
-
-            &::after {
-                --checkmark-color: #{$white};
             }
         }
     }

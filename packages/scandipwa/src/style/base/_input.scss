@@ -10,11 +10,13 @@
  */
 
 :root {
-    --input-border-color: #e0e0e0;
-    --input-border-color-focus: #{$black};
-    --input-background-color: #fff;
-    --input-padding: 13px 20px;
-    --input-color: var(--primary-base-color);
+    --default-input-padding: 17px 20px 16px;
+    --input-background-color: var(--imported_input_background_color, #fff);
+    --input-border-color: var(--imported_input_border_color, #e0e0e0);
+    --input-border-color-focus: var(--primary-base-color);
+    --input-border-radius: var(--imported_input_border_radius, 2px);
+    --input-padding: var(--imported_input_padding, var(--default-input-padding));
+    --input-color: var(--imported_input_color, var(--karaka));
 }
 
 input,
@@ -22,6 +24,8 @@ textarea,
 select {
     border: 1px solid var(--input-border-color);
     background-color: var(--input-background-color);
+    border-radius: var(--input-border-radius);
+    color: var(--input-color);
     padding: var(--input-padding);
     appearance: none;
     caret-color: var(--primary-base-color);
@@ -53,10 +57,17 @@ textarea {
 }
 
 [type='number'] {
-    width: var(--input-type-number-width);
-    font-weight: 700;
-    padding-right: 0;
     -moz-appearance: textfield;
+
+    color: var(--black);
+    border: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    height: var(--input-type-number-width);
+    padding: 0;
+    order: 2;
+    text-align: center;
+    width: var(--input-type-number-width);
 
     &:focus {
         border: 1px solid var(--input-border-color);
@@ -69,36 +80,61 @@ textarea {
     }
 
     ~ button {
-        position: absolute;
-        right: 0;
-        padding: 0;
-        margin: 0;
-        width: 1.8rem;
-        font-size: 1.8rem;
+        background: transparent;
+        border: 2px solid var(--primary-base-color);
+        border-radius: var(--button-border-radius);
+        color: $black;
+        left: 0;
         line-height: 0;
-
-        @include mobile {
-            width: 2.1rem;
-            font-size: 2.1rem;
-        }
+        margin: 0;
+        order: 1;
+        padding: 22px;
+        position: relative;
+        top: 0;
 
         &:first-of-type {
-            @include plus-icon;
+            left: 0;
+            order: 3;
+
+            &::before {
+                @include plus-icon;
+            }
         }
 
         &:last-of-type {
-            @include minus-icon;
             bottom: 0;
+            right: 0;
+            order: 1;
+
+            &::before {
+                @include minus-icon;
+            }
         }
 
         &:first-of-type,
         &:last-of-type {
-            height: 50%;
+            &::before {
+                content: ' ';
+                position: absolute;
+                left: calc(50% - 12px);
+                top: calc(50% - 11px);
+            }
         }
 
         &:disabled {
             opacity: .2;
             cursor: not-allowed;
+        }
+
+        span {
+            @include mobile {
+                top: -2.2px;
+            }
+        }
+
+        @include mobile {
+            width: 18px;
+            height: 18px;
         }
     }
 }
