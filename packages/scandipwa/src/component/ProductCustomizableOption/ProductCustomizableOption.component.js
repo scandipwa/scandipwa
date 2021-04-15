@@ -253,10 +253,12 @@ export class ProductCustomizableOption extends PureComponent {
             renderOptionLabel,
             option: {
                 title,
-                data: {
-                    price_type,
-                    price
-                }
+                data: [
+                    {
+                        price_type = 'FIXED',
+                        price = 0
+                    } = {}
+                ] = []
             }
         } = this.props;
 

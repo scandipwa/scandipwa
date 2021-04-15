@@ -130,23 +130,28 @@ export const getIndexedCustomOption = (option) => {
     } = option;
 
     if (checkboxValues) {
-        return { type: 'checkbox', data: checkboxValues, ...otherFields };
+        const data = checkboxValues.length ? checkboxValues : [checkboxValues];
+        return { type: 'checkbox', data, ...otherFields };
     }
 
     if (dropdownValues) {
-        return { type: 'dropdown', data: dropdownValues, ...otherFields };
+        const data = dropdownValues.length ? dropdownValues : [dropdownValues];
+        return { type: 'dropdown', data, ...otherFields };
     }
 
     if (fieldValues) {
-        return { type: 'field', data: fieldValues, ...otherFields };
+        const data = fieldValues.length ? fieldValues : [fieldValues];
+        return { type: 'field', data, ...otherFields };
     }
 
     if (areaValues) {
-        return { type: 'area', data: areaValues, ...otherFields };
+        const data = areaValues.length ? areaValues : [areaValues];
+        return { type: 'area', data, ...otherFields };
     }
 
     if (fileValues) {
-        return { type: 'file', data: fileValues, ...otherFields };
+        const data = fileValues.length ? fileValues : [fileValues];
+        return { type: 'file', data, ...otherFields };
     }
 
     // skip unsupported types

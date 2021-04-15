@@ -322,16 +322,15 @@ export class ProductActionsContainer extends PureComponent {
         } = customPrice;
 
         const selectedOptions = this.getSelectedOptions();
-        const prices = options
-            .flatMap(({ data }) => data)
-            .reduce((acc, option) => {
-                const { option_type_id, price } = option;
+        const prices = options.reduce((acc, { data = [] }) => {
+            data.forEach(({ option_type_id, price }) => {
                 if (selectedOptions.includes(option_type_id)) {
-                    return [...acc, price];
+                    acc.push(price);
                 }
+            });
 
-                return acc;
-            }, []);
+            return acc;
+        }, []);
 
         const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
 
