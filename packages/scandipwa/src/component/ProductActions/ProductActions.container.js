@@ -289,11 +289,11 @@ export class ProductActionsContainer extends PureComponent {
                 options = [],
                 price_range: {
                     minimum_price: {
-                        default_price: {
-                            currency,
-                            value: defaultPrice = 0
-                        },
+                        regular_price: {
+                            value: regularPrice = 0
+                        } = {},
                         regular_price_excl_tax: {
+                            currency,
                             value: regularPriceExclTax = 0
                         } = {}
                     } = {}
@@ -301,7 +301,7 @@ export class ProductActionsContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        const customPrice = this._getCustomPrice(defaultPrice, regularPriceExclTax, defaultPrice, false);
+        const customPrice = this._getCustomPrice(regularPrice, regularPriceExclTax, false);
 
         const {
             minimum_price: {
