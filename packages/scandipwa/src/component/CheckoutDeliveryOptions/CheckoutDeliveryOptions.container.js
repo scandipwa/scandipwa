@@ -39,9 +39,11 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             shippingMethod
         } = props;
 
-        const result = shippingMethods.find(
+        const items = shippingMethods.filter(({ available }) => available);
+
+        const result = items.find(
             ({ method_code, carrier_code }) => `${carrier_code}_${method_code}` === shippingMethod
-        ) || shippingMethods[0] || {};
+        ) || items[0] || {};
 
         return result.method_code;
     }
