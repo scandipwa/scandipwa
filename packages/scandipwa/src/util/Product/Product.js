@@ -130,27 +130,27 @@ export const getIndexedCustomOption = (option) => {
     } = option;
 
     if (checkboxValues) {
-        const data = checkboxValues.length ? checkboxValues : [checkboxValues];
+        const data = Array.isArray(checkboxValues) ? checkboxValues : [checkboxValues];
         return { type: 'checkbox', data, ...otherFields };
     }
 
     if (dropdownValues) {
-        const data = dropdownValues.length ? dropdownValues : [dropdownValues];
+        const data = Array.isArray(dropdownValues) ? dropdownValues : [dropdownValues];
         return { type: 'dropdown', data, ...otherFields };
     }
 
     if (fieldValues) {
-        const data = fieldValues.length ? fieldValues : [fieldValues];
+        const data = Array.isArray(fieldValues) ? fieldValues : [fieldValues];
         return { type: 'field', data, ...otherFields };
     }
 
     if (areaValues) {
-        const data = areaValues.length ? areaValues : [areaValues];
+        const data = Array.isArray(areaValues) ? areaValues : [areaValues];
         return { type: 'area', data, ...otherFields };
     }
 
     if (fileValues) {
-        const data = fileValues.length ? fileValues : [fileValues];
+        const data = Array.isArray(fileValues) ? fileValues : [fileValues];
         return { type: 'file', data, ...otherFields };
     }
 
