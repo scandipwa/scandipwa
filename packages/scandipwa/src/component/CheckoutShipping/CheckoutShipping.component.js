@@ -32,11 +32,13 @@ export class CheckoutShipping extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         selectedShippingMethod: shippingMethodType,
         onAddressSelect: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        isSubmitted: PropTypes.bool
     };
 
     static defaultProps = {
-        selectedShippingMethod: null
+        selectedShippingMethod: null,
+        isSubmitted: false
     };
 
     renderOrderTotal() {
@@ -96,13 +98,15 @@ export class CheckoutShipping extends PureComponent {
     renderAddressBook() {
         const {
             onAddressSelect,
-            onShippingEstimationFieldsChange
+            onShippingEstimationFieldsChange,
+            isSubmitted
         } = this.props;
 
         return (
             <CheckoutAddressBook
               onAddressSelect={ onAddressSelect }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
+              isSubmitted={ isSubmitted }
             />
         );
     }

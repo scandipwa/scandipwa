@@ -57,7 +57,8 @@ export class CheckoutShippingContainer extends PureComponent {
 
         this.state = {
             selectedCustomerAddressId: 0,
-            selectedShippingMethod
+            selectedShippingMethod,
+            isSubmitted: false
         };
     }
 
@@ -71,6 +72,8 @@ export class CheckoutShippingContainer extends PureComponent {
 
     onShippingError() {
         // TODO: implement notification if some data in Form can not display error
+        const { isSubmitted } = this.state;
+        this.setState({ isSubmitted: !isSubmitted });
     }
 
     onShippingSuccess(fields) {
