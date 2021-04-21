@@ -171,6 +171,7 @@ export class CheckoutContainer extends PureComponent {
             paymentMethods: [],
             shippingMethods: [],
             shippingAddress: {},
+            billingAddress: {},
             checkoutStep: is_virtual ? BILLING_STEP : SHIPPING_STEP,
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
@@ -553,7 +554,8 @@ export class CheckoutContainer extends PureComponent {
             billing_address: {
                 firstname: billingFirstName,
                 lastname: billingLastName
-            }
+            },
+            billing_address: billingAddress
         } = paymentInformation;
 
         /**
@@ -569,7 +571,7 @@ export class CheckoutContainer extends PureComponent {
             });
         }
 
-        this.setState({ isLoading: true });
+        this.setState({ isLoading: true, billingAddress });
 
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
@@ -592,6 +594,7 @@ export class CheckoutContainer extends PureComponent {
             id, // drop this
             country_id,
             region_code, // drop this
+            purchaseOrderNumber, // drop this
             region_id,
             region,
             ...restOfBillingAddress

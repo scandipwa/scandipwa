@@ -547,7 +547,8 @@ export class ProductListQuery {
             'types',
             this._getVideoContentField(),
             this._getMediaThumbnailField(),
-            this._getMediaBaseField()
+            this._getMediaBaseField(),
+            this._getMediaLargeField()
         ];
     }
 
@@ -579,6 +580,10 @@ export class ProductListQuery {
 
     _getMediaBaseField() {
         return new Field('base').addField('url');
+    }
+
+    _getMediaLargeField() {
+        return new Field('large').addField('url');
     }
 
     _getMediaGalleryField() {

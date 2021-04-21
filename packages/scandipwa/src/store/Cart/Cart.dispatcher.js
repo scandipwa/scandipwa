@@ -108,7 +108,8 @@ export class CartDispatcher {
         const {
             product,
             quantity,
-            productOptionsData
+            productOptionsData,
+            buyRequest
         } = options;
 
         const {
@@ -127,6 +128,7 @@ export class CartDispatcher {
             product_type,
             quantity,
             product_option: {
+                buy_request: buyRequest,
                 extension_attributes: getExtensionAttributes(
                     {
                         ...product,

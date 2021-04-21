@@ -93,10 +93,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     updateSelectedOptionsArray() {
         const { getSelectedCustomizableOptions } = this.props;
         const { selectedCheckboxValues } = this.state;
-        const customizableOptions = [];
-
-        customizableOptions.push(...customizableOptions, ...selectedCheckboxValues);
-        getSelectedCustomizableOptions(customizableOptions, true);
+        getSelectedCustomizableOptions(selectedCheckboxValues, true);
     }
 
     updateSelectedOptions() {
@@ -136,10 +133,10 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         return this.setState({ textFieldValues: [...textFieldValues, textFieldValue] });
     }
 
-    setCustomizableOptionFileFieldValue(value, option) {
+    setCustomizableOptionFileFieldValue(value, option, filename) {
         const { option_id } = option;
 
-        return this.setState({ fileFieldValues: [{ option_id, option_value: value }] });
+        return this.setState({ fileFieldValues: [{ option_id, option_value: value, option_filename: filename }] });
     }
 
     setSelectedDropdownValue(value, option) {
