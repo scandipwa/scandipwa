@@ -44,7 +44,11 @@ export class ProductCompareDispatcher {
         } catch (error) {
             dispatch(toggleLoader(false));
             dispatch(showNotification('error', __('Unable to fetch compare list'), error));
+            
+            return false;
         }
+
+        return true;
     }
 
     async createCompareList(productId) {
@@ -71,7 +75,7 @@ export class ProductCompareDispatcher {
             addProductsToCompareList
         } = await fetchMutation(
             ProductCompareQuery.getAddProductsToCompareList(
-                    uid,
+                uid,
                 [productId]
             )
         );
@@ -83,7 +87,9 @@ export class ProductCompareDispatcher {
         const uid = getUid();
 
         try {
-            const result = (uid) ? await this.addToCompareList(uid, productId) : await this.createCompareList(productId);
+            const result = (uid) ?
+                await this.addToCompareList(uid, productId) :
+                await this.createCompareList(productId);
 
             dispatch(setCompareList(result));
             dispatch(showNotification('success', __('Product is added to the compare list')));
@@ -117,7 +123,6 @@ export class ProductCompareDispatcher {
 
             return removeProductsFromCompareList;
         } catch (error) {
-            console.log([error]);
             dispatch(showNotification('error', __('Unable to remove product from the compare list'), error));
 
             return false;
@@ -157,7 +162,7 @@ export class ProductCompareDispatcher {
                     result,
                     compare_list,
                     compare_list: {
-                        uid
+                        uid: newUid
                     }
                 }
             } = await fetchMutation(
@@ -165,14 +170,14 @@ export class ProductCompareDispatcher {
             );
 
             if (result) {
-                setUid(uid);
+                setUid(newUid);
                 dispatch(setCompareList(compare_list));
             }
 
             return result;
         } catch (error) {
             dispatch(toggleLoader(false));
-            
+
             return false;
         }
     }

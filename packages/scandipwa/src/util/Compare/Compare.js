@@ -42,4 +42,4 @@ export const getUid = () => {
  */
 export const removeUid = () => {
     window.sessionStorage.removeItem(COMPARE_UID);
-}
+};

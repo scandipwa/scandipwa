@@ -91,9 +91,9 @@ export class ProductCompareContainer extends PureComponent {
             attribute_id: code,
             attribute_code: code,
             attribute_label: label,
-            attribute_values: items.map(({ attributes }) => {
-               return attributes.find(attribute => attribute.code === code).value
-            })
+            attribute_values: items.map(
+                ({ attributes }) => attributes.find((attribute) => attribute.code === code).value
+            )
         }));
     }
 

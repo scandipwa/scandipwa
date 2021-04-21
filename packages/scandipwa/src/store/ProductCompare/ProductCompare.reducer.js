@@ -42,8 +42,8 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
     case SET_COMPARE_LIST: {
         const { item_count = 0, items = [], attributes = [] } = action;
 
-        const products = items.map(item => item.product);
-        const productIds = products.map(product => product.id);
+        const products = items.map((item) => item.product);
+        const productIds = products.map((product) => product.id);
 
         return {
             ...state,

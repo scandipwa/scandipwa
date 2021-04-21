@@ -20,13 +20,13 @@ import {
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
-import { clearComparedProducts } from "Store/ProductCompare/ProductCompare.action";
+import { clearComparedProducts } from 'Store/ProductCompare/ProductCompare.action';
 import {
     deleteAuthorizationToken,
     setAuthorizationToken
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { removeUid } from "Util/Compare";
+import { removeUid } from 'Util/Compare';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation } from 'Util/Request';
 

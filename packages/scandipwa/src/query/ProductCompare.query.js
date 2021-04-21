@@ -16,13 +16,13 @@ import { Field } from 'Util/Query';
 export class ProductCompareQuery extends ProductListQuery {
     getCreateEmptyCompareList() {
         return new Field('createCompareList')
-            .addArgument('input', 'CreateCompareListInput',{})
+            .addArgument('input', 'CreateCompareListInput', {})
             .addFieldList(this._getCompareListFields());
     }
 
     getCreateCompareList(products) {
         return new Field('createCompareList')
-            .addArgument('input', 'CreateCompareListInput',{ products })
+            .addArgument('input', 'CreateCompareListInput', { products })
             .addFieldList(this._getCompareListFields());
     }
 
@@ -40,21 +40,21 @@ export class ProductCompareQuery extends ProductListQuery {
 
     getRemoveProductsFromCompareList(uid, products) {
         return new Field('removeProductsFromCompareList')
-            .addArgument('input', 'RemoveProductsFromCompareListInput',  { uid, products })
+            .addArgument('input', 'RemoveProductsFromCompareListInput', { uid, products })
             .addFieldList(this._getCompareListFields());
     }
 
     getAssignCompareList(uid) {
         return new Field('assignCompareListToCustomer')
             .addArgument('uid', 'ID!', uid)
-            .addFieldList(this._getAssignFields())
+            .addFieldList(this._getAssignFields());
     }
 
     _getAssignFields() {
         return [
             'result',
             this._getAssignCompareListField()
-        ]
+        ];
     }
 
     _getAssignCompareListField() {
@@ -74,7 +74,7 @@ export class ProductCompareQuery extends ProductListQuery {
             'item_count',
             this._getCompareAttributeField(),
             this._getComparableItemField()
-        ]
+        ];
     }
 
     _getCompareAttributeField() {
@@ -105,7 +105,7 @@ export class ProductCompareQuery extends ProductListQuery {
         return [
             this._getProductField(),
             this._getComparableItemAttributeField()
-        ]
+        ];
     }
 
     _getProductField() {
