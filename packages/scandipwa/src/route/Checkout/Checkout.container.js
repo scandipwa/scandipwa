@@ -580,6 +580,7 @@ export class CheckoutContainer extends PureComponent {
             id, // drop this
             country_id,
             region_code, // drop this
+            purchaseOrderNumber, // drop this
             region_id,
             region,
             ...restOfBillingAddress
