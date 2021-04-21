@@ -322,7 +322,7 @@ export class ProductActionsContainer extends PureComponent {
         } = customPrice;
 
         const selectedOptions = this.getSelectedOptions();
-        const prices = options.reduce((acc, { data }) => {
+        const prices = options.reduce((acc, { data = [] }) => {
             data.forEach(({ option_type_id, price }) => {
                 if (selectedOptions.includes(option_type_id)) {
                     acc.push(price);
