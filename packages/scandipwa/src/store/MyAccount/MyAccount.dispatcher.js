@@ -20,11 +20,13 @@ import {
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
+import { clearComparedProducts } from "Store/ProductCompare/ProductCompare.action";
 import {
     deleteAuthorizationToken,
     setAuthorizationToken
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { removeUid } from "Util/Compare";
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation } from 'Util/Request';
 
@@ -88,11 +90,10 @@ export class MyAccountDispatcher {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
-        );
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
+        removeUid();
+        dispatch(clearComparedProducts());
         dispatch(updateCustomerDetails({}));
     }
 
@@ -205,7 +206,7 @@ export class MyAccountDispatcher {
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
         ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+            ({ default: dispatcher }) => dispatcher.assignCompareList(dispatch)
         );
 
         await this.requestCustomerData(dispatch);
