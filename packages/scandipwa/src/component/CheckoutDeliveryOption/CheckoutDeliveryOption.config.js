@@ -14,3 +14,6 @@
 export const DISPLAY_SHIPPING_PRICES_INCL_TAX = 'DISPLAY_SHIPPING_PRICES_INCL_TAX';
 export const DISPLAY_SHIPPING_PRICES_EXCL_TAX = 'DISPLAY_SHIPPING_PRICES_EXCL_TAX';
 export const DISPLAY_SHIPPING_PRICES_BOTH = 'DISPLAY_SHIPPING_PRICES_BOTH';
+
+// eslint-disable-next-line max-len
+export const DELIVERY_METHOD_UNAVAILABLE_MESSAGE = __('This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.');
