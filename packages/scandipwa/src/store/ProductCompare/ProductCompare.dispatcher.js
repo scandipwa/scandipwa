@@ -44,7 +44,7 @@ export class ProductCompareDispatcher {
         } catch (error) {
             dispatch(toggleLoader(false));
             dispatch(showNotification('error', __('Unable to fetch compare list'), error));
-            
+
             return false;
         }
 
@@ -87,9 +87,9 @@ export class ProductCompareDispatcher {
         const uid = getUid();
 
         try {
-            const result = (uid) ?
-                await this.addToCompareList(uid, productId) :
-                await this.createCompareList(productId);
+            const result = (uid)
+                ? await this.addToCompareList(uid, productId)
+                : await this.createCompareList(productId);
 
             dispatch(setCompareList(result));
             dispatch(showNotification('success', __('Product is added to the compare list')));
