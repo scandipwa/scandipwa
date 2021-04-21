@@ -22,7 +22,7 @@ import {
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
-import { DEFAULT_MAX_PRODUCTS, ONE_HUNDRED_PERCENT } from './ProductActions.config';
+import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -39,7 +39,6 @@ export class ProductActionsContainer extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        selectedInitialBundlePrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
@@ -290,11 +289,11 @@ export class ProductActionsContainer extends PureComponent {
                 options = [],
                 price_range: {
                     minimum_price: {
-                        default_price: {
-                            currency,
-                            value: defaultPrice = 0
-                        },
+                        regular_price: {
+                            value: regularPrice = 0
+                        } = {},
                         regular_price_excl_tax: {
+                            currency,
                             value: regularPriceExclTax = 0
                         } = {}
                     } = {}
@@ -302,7 +301,7 @@ export class ProductActionsContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        const customPrice = this._getCustomPrice(defaultPrice, regularPriceExclTax, defaultPrice, false);
+        const customPrice = this._getCustomPrice(regularPrice, regularPriceExclTax, false);
 
         const {
             minimum_price: {
@@ -350,11 +349,8 @@ export class ProductActionsContainer extends PureComponent {
     getProductPrice() {
         const {
             product,
-            product: {
-                variants = [], type_id, links_purchased_separately, dynamic_price
-            },
+            product: { variants = [], type_id, links_purchased_separately },
             configurableVariantIndex,
-            selectedInitialBundlePrice,
             selectedBundlePrice,
             selectedBundlePriceExclTax,
             selectedLinkPrice
@@ -365,16 +361,11 @@ export class ProductActionsContainer extends PureComponent {
         } = variants[configurableVariantIndex] || product;
 
         if (type_id === BUNDLE) {
-            return this._getCustomPrice(
-                selectedBundlePrice,
-                selectedBundlePriceExclTax,
-                selectedInitialBundlePrice,
-                !dynamic_price
-            );
+            return this._getCustomPrice(selectedBundlePrice, selectedBundlePriceExclTax);
         }
 
         if (type_id === DOWNLOADABLE && links_purchased_separately) {
-            return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, selectedLinkPrice, true);
+            return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
         if (product.options) {
@@ -384,53 +375,37 @@ export class ProductActionsContainer extends PureComponent {
         return price_range;
     }
 
-    _getCustomPrice(price, withoutTax, initial, addBase = false) {
+    _getCustomPrice(price, withoutTax, addBase = false) {
         const {
             product: {
                 price_range: {
                     minimum_price: {
-                        default_price: { currency, value: defaultPrice },
-                        default_final_price: { value: defaultFinalPrice },
-                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
-                        discount: discountData,
+                        regular_price: { currency, value },
+                        regular_price_excl_tax: { value: value_excl_tax },
                         discount: { percent_off }
                     }
                 }
             }
         } = this.props;
 
-        const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
+        // eslint-disable-next-line no-magic-numbers
+        const discount = (1 - percent_off / 100);
 
-        // Adjusting `discount` for bundle products for discount to be displayed on PDP
-        const priceBeforeDiscount = addBase ? defaultPrice : initial;
-        const priceAfterDiscount = addBase ? defaultFinalPrice : price;
-        const finalDiscount = !percent_off && defaultPrice !== defaultFinalPrice
-            ? {
-                percent_off: (ONE_HUNDRED_PERCENT * (priceBeforeDiscount - priceAfterDiscount)) / priceBeforeDiscount,
-                amount_off: priceBeforeDiscount - priceAfterDiscount
-            }
-            : discountData;
+        const basePrice = addBase ? value : 0;
+        const basePriceExclTax = addBase ? value_excl_tax : 0;
 
-        // Set initial price different from 0 for specific product types, i.e. downloadable, bundles with fixed price
-        const baseInitialPrice = addBase ? defaultPrice : 0;
-        const baseFinalPrice = addBase ? defaultFinalPrice : 0;
-        const basePriceExclTax = addBase ? defaultFinalPriceExclTax : 0;
+        const finalPrice = (basePrice + price) * discount;
+        const finalPriceExclTax = (basePriceExclTax + withoutTax) * discount;
 
-        const initialPrice = baseInitialPrice + initial;
-        const finalPrice = baseFinalPrice + price * discount;
-        const finalPriceExclTax = basePriceExclTax + withoutTax * discount;
-
-        const initialPriceValue = { value: initialPrice, currency };
         const priceValue = { value: finalPrice, currency };
         const priceValueExclTax = { value: finalPriceExclTax, currency };
 
         return {
             minimum_price: {
                 final_price: priceValue,
-                regular_price: initialPriceValue,
+                regular_price: priceValue,
                 final_price_excl_tax: priceValueExclTax,
-                regular_price_excl_tax: initialPriceValue,
-                discount: finalDiscount
+                regular_price_excl_tax: priceValueExclTax
             }
         };
     }
