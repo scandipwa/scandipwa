@@ -112,25 +112,7 @@ export class ProductGalleryContainer extends PureComponent {
         if (mediaGallery.length) {
             return mediaGallery
                 .filter(({ disabled }) => !disabled)
-                .sort((a, b) => {
-                    const aThumbnail = a.types.includes(THUMBNAIL_KEY);
-                    const bThumbnail = b.types.includes(THUMBNAIL_KEY);
-                    const sortResult = a.position - b.position;
-
-                    if (aThumbnail && bThumbnail) {
-                        return sortResult;
-                    }
-
-                    if (aThumbnail) {
-                        return -1;
-                    }
-
-                    if (bThumbnail) {
-                        return 1;
-                    }
-
-                    return sortResult;
-                });
+                .sort((a, b) => a.position - b.position);
         }
 
         if (!url) {
