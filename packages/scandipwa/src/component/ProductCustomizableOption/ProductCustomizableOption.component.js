@@ -221,9 +221,7 @@ export class ProductCustomizableOption extends PureComponent {
             processFileUpload,
             option: {
                 required,
-                data: {
-                    file_extension = ''
-                } = {}
+                data: [{ file_extension = '' }] = []
             } = {}
         } = this.props;
 
