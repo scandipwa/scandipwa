@@ -11,9 +11,5 @@
 
 import { createBrowserHistory } from 'history';
 
-if (window.history) {
-    window.history.scrollRestoration = 'manual';
-}
-
 export const history = createBrowserHistory({ basename: '/' });
 export default history;
