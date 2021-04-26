@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -27,7 +28,9 @@ import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    displayProductStockStatus: state.ConfigReducer.display_product_stock_status
+
 });
 
 /** @namespace Component/ProductActions/Container */
@@ -242,7 +245,7 @@ export class ProductActionsContainer extends PureComponent {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === 'OUT_OF_STOCK') {
+        if (stock_status === PRODUCT_OUT_OF_STOCK) {
             return 'https://schema.org/OutOfStock';
         }
 

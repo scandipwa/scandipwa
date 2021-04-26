@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
@@ -78,7 +79,8 @@ export class ProductActions extends PureComponent {
         offerType: PropTypes.string.isRequired,
         stockMeta: PropTypes.string.isRequired,
         metaLink: PropTypes.string.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        displayProductStockStatus: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -101,11 +103,8 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
-        if (stockStatus === 'OUT_OF_STOCK') {
-            return __('Out of stock');
-        }
-
-        return __('In stock');
+        const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
+        return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
 
     renderSkuAndStock() {
@@ -113,7 +112,8 @@ export class ProductActions extends PureComponent {
             product,
             product: { variants },
             configurableVariantIndex,
-            showOnlyIfLoaded
+            showOnlyIfLoaded,
+            displayProductStockStatus
         } = this.props;
 
         const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
@@ -139,9 +139,7 @@ export class ProductActions extends PureComponent {
                             <span block="ProductActions" elem="Sku" itemProp="sku">
                                 { `${ sku }` }
                             </span>
-                            <span block="ProductActions" elem="Stock">
-                                { this.renderStock(stock_status) }
-                            </span>
+                            { displayProductStockStatus && this.renderStock(stock_status) }
                         </>
                     ),
                     <TextPlaceholder />
