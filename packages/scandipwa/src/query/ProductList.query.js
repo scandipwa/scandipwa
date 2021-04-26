@@ -521,6 +521,9 @@ export class ProductListQuery {
             'attribute_code',
             'attribute_type',
             'attribute_label',
+            'attribute_group_id',
+            'attribute_group_code',
+            'attribute_group_name',
             ...(!isVariant
                 ? [
                     this._getAttributeOptionsField()
