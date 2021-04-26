@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,10 +10,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Link from 'Component/Link';
 import { downloadableType } from 'Type/Account';
-import { DeviceType } from 'Type/Device';
 
 import './MyAccountDownloadableTableRow.style';
 
@@ -20,8 +22,48 @@ import './MyAccountDownloadableTableRow.style';
 export class MyAccountDownloadableTableRowComponent extends PureComponent {
     static propTypes = {
         order: downloadableType.isRequired,
-        device: DeviceType.isRequired
+        onOrderIdClick: PropTypes.func.isRequired
     };
+
+    renderOrderId() {
+        const {
+            order: {
+                order_id
+            },
+            onOrderIdClick
+        } = this.props;
+
+        return (
+            <div onClick={ onOrderIdClick } block="MyAccountDownloadTableRow" elem="OrderId">
+                #
+                { order_id }
+            </div>
+        );
+    }
+
+    renderTitle() {
+        const {
+            order: {
+                download_url,
+                link_title,
+                title,
+                downloads
+            }
+        } = this.props;
+
+        if (!download_url || !downloads) {
+            return title;
+        }
+
+        return (
+            <>
+                { title }
+                <Link to={ download_url } block="MyAccountDownloadTableRow" elem="Link">
+                    { link_title }
+                </Link>
+            </>
+        );
+    }
 
     render() {
         const {
@@ -31,19 +73,14 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
                 download_url,
                 created_at,
                 title,
-                status,
+                status_label = '',
                 link_title
-            } = {},
-            device: { isMobile } = {}
+            } = {}
         } = this.props;
-
-        const remainingDownloads = isMobile
-            ? null
-            : <td>{ downloads }</td>;
 
         return (
             <tr block="MyAccountOrderTableRow">
-                <td>{ order_id }</td>
+                <td>{ order_id ? `#${order_id}` : '' }</td>
                 <td>{ created_at }</td>
                 <td>
                     { title }
@@ -56,8 +93,8 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
                         { link_title }
                     </a>
                 </td>
-                <td>{ status }</td>
-                { remainingDownloads }
+                <td block="MyAccountDownloadTableRow" elem="Status">{ status_label }</td>
+                <td>{ downloads }</td>
             </tr>
         );
     }

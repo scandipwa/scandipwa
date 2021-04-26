@@ -131,7 +131,8 @@ export class CartDispatcher {
         const {
             product,
             quantity,
-            productOptionsData
+            productOptionsData,
+            buyRequest
         } = options;
 
         const {
@@ -141,7 +142,8 @@ export class CartDispatcher {
 
         const {
             productOptions,
-            productOptionsMulti
+            productOptionsMulti,
+            downloadableLinks
         } = productOptionsData || {};
 
         const productToAdd = {
@@ -149,11 +151,13 @@ export class CartDispatcher {
             product_type,
             quantity,
             product_option: {
+                buy_request: buyRequest,
                 extension_attributes: getExtensionAttributes(
                     {
                         ...product,
                         productOptions,
-                        productOptionsMulti
+                        productOptionsMulti,
+                        downloadableLinks
                     }
                 )
             }

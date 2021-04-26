@@ -9,7 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { BUNDLE, CONFIGURABLE, SIMPLE } from 'Util/Product';
+import {
+    BUNDLE,
+    CONFIGURABLE,
+    DOWNLOADABLE,
+    SIMPLE
+} from 'Util/Product';
 
 /**
  * Checks whether every option is in attributes
@@ -120,23 +125,33 @@ export const getIndexedCustomOption = (option) => {
         dropdownValues,
         fieldValues,
         areaValues,
+        fileValues,
         ...otherFields
     } = option;
 
     if (checkboxValues) {
-        return { type: 'checkbox', data: checkboxValues, ...otherFields };
+        const data = Array.isArray(checkboxValues) ? checkboxValues : [checkboxValues];
+        return { type: 'checkbox', data, ...otherFields };
     }
 
     if (dropdownValues) {
-        return { type: 'dropdown', data: dropdownValues, ...otherFields };
+        const data = Array.isArray(dropdownValues) ? dropdownValues : [dropdownValues];
+        return { type: 'dropdown', data, ...otherFields };
     }
 
     if (fieldValues) {
-        return { type: 'field', data: fieldValues, ...otherFields };
+        const data = Array.isArray(fieldValues) ? fieldValues : [fieldValues];
+        return { type: 'field', data, ...otherFields };
     }
 
     if (areaValues) {
-        return { type: 'area', data: areaValues, ...otherFields };
+        const data = Array.isArray(areaValues) ? areaValues : [areaValues];
+        return { type: 'area', data, ...otherFields };
+    }
+
+    if (fileValues) {
+        const data = Array.isArray(fileValues) ? fileValues : [fileValues];
+        return { type: 'file', data, ...otherFields };
     }
 
     // skip unsupported types
@@ -240,6 +255,7 @@ export const getExtensionAttributes = (product) => {
         configurableVariantIndex,
         productOptions,
         productOptionsMulti,
+        downloadableLinks,
         variants,
         type_id
     } = product;
@@ -286,6 +302,12 @@ export const getExtensionAttributes = (product) => {
         return {
             customizable_options: productOptions || [],
             customizable_options_multi: productOptionsMulti || []
+        };
+    }
+
+    if (type_id === DOWNLOADABLE && downloadableLinks) {
+        return {
+            downloadable_product_links: downloadableLinks
         };
     }
 

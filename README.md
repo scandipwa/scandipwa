@@ -4,8 +4,8 @@ The next-generation front-end for Magento 2. Fast. Reliable. Extensible.
 
 ---
 
-- [Getting started](https://scandipwa.gitbook.io/docs-v2/) – create a new application and deploy it as Magento 2 theme or standalone storefront.
-- [Developer guide](https://scandipwa.gitbook.io/docs-v2/building-your-app/building-a-scandipwa-app) – learn how to develop ScandiPWA applications.
+- [Getting started](https://docs.scandipwa.com/) – create a new application and deploy it as Magento 2 theme or standalone storefront.
+- [Developer guide](https://docs.scandipwa.com/getting-started/where-to-start) – learn how to develop ScandiPWA applications.
 - [Deploy into Cloud](https://readymage.com/) - get production environment in 10 minutes
 
 ## Key features
@@ -30,11 +30,11 @@ Data-integrity and simple server setup. Changes from Magento 2 admin are reflect
 
 ### :building_construction: Extensible architecture 
 
-- [Theming mechanism](https://scandipwa.gitbook.io/create-scandipwa-app/themes/extensions-and-themes) 
-- [Application-wise plugins](https://scandipwa.gitbook.io/create-scandipwa-app/extensions/application-plugins)
-- [Build-configuration plugins](https://scandipwa.gitbook.io/create-scandipwa-app/extensions/build-configuration-plugins)
-- [Extension-based architecture](https://scandipwa.gitbook.io/create-scandipwa-app/extensions/extensions)
-- [Translations](https://scandipwa.gitbook.io/create-scandipwa-app/building-your-app/internationalization) and more features 
+- [Theming mechanism](https://docs.create-scandipwa-app.com/themes/extensions-and-themes) 
+- [Application-wise plugins](https://docs.create-scandipwa-app.com/extensions/application-plugins)
+- [Build-configuration plugins](https://docs.create-scandipwa-app.com/extensions/build-configuration-plugins)
+- [Extension-based architecture](https://docs.create-scandipwa-app.com/extensions/extensions)
+- [Translations](https://docs.create-scandipwa-app.com/building-your-app/internationalization) and more features 
 
 > Powered by [Create ScandiPWA App](https://github.com/scandipwa/create-scandipwa-app).
 
@@ -49,8 +49,8 @@ Data-integrity and simple server setup. Changes from Magento 2 admin are reflect
 Here are some awesome resources to start with!
 
 - :video_camera: [Video Tutorials](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww/videos)
-- :blue_book: [Create ScandiPWA App Documentation](https://scandipwa.gitbook.io/create-scandipwa-app/)
-- :orange_book: [ScandiPWA Documentation](https://scandipwa.gitbook.io/docs-v2)
+- :blue_book: [Create ScandiPWA App Documentation](https://docs.create-scandipwa-app.com/https://docs.scandipwa.com/)
+- :orange_book: [ScandiPWA Documentation](https://docs.scandipwa.com/)
 - :green_book: [ScandiPWA User Guide](https://manual.scandipwa.com/)
 
 **Still feeling lost?** Join our :busts_in_silhouette: [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask community directly! Alternatively, start a new :speech_balloon: [Discussion](https://github.com/scandipwa/scandipwa/discussions) on GitHub!

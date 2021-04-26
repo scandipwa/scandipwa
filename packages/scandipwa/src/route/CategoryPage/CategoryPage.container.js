@@ -70,7 +70,9 @@ export const mapStateToProps = (state) => ({
     selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    plpType: state.ConfigReducer.plp_list_mode,
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -134,14 +136,17 @@ export class CategoryPageContainer extends PureComponent {
         isInfoLoading: PropTypes.bool.isRequired,
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
-        isSearchPage: PropTypes.bool
+        isSearchPage: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
+        plpType: PropTypes.string
     };
 
     static defaultProps = {
         categoryIds: -1,
         isSearchPage: false,
         currentArgs: {},
-        selectedInfoFilter: {}
+        selectedInfoFilter: {},
+        plpType: ''
     };
 
     state = {
@@ -182,6 +187,8 @@ export class CategoryPageContainer extends PureComponent {
             }
         } = this.props;
 
+        window.scrollTo(0, 0);
+
         /**
          * Ensure transition PLP => homepage => PLP always having proper meta
          */
@@ -197,6 +204,11 @@ export class CategoryPageContainer extends PureComponent {
          * Always update the history, ensure the history contains category
          */
         this.updateHistory();
+
+        /**
+         * Get default PLP type and type list
+         */
+        this.updatePlpType();
 
         /**
          * Make sure to update header state, if the category visited
@@ -346,10 +358,11 @@ export class CategoryPageContainer extends PureComponent {
             categoryIds,
             category: {
                 id
-            }
+            },
+            isSearchPage
         } = this.props;
 
-        return categoryIds === id;
+        return isSearchPage || categoryIds === id;
     }
 
     containerProps = () => ({
@@ -359,7 +372,9 @@ export class CategoryPageContainer extends PureComponent {
         isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
         selectedSort: this.getSelectedSortFromUrl(),
         selectedFilters: this.getSelectedFiltersFromUrl(),
-        isContentFiltered: this.isContentFiltered()
+        isContentFiltered: this.isContentFiltered(),
+        defaultPlpType: this.getDefaultPlpType(),
+        plpTypes: this.getPlpTypes()
     });
 
     isContentFiltered() {
@@ -436,6 +451,18 @@ export class CategoryPageContainer extends PureComponent {
         return { min, max };
     }
 
+    getDefaultPlpType() {
+        const { defaultPlpType } = this.state;
+
+        return defaultPlpType;
+    }
+
+    getPlpTypes() {
+        const { plpTypes } = this.state;
+
+        return plpTypes;
+    }
+
     getFilter() {
         const { categoryIds } = this.props;
         const customFilters = this.getSelectedFiltersFromUrl();
@@ -503,7 +530,7 @@ export class CategoryPageContainer extends PureComponent {
     updateMeta() {
         const { updateMetaFromCategory, category, history } = this.props;
         const meta_robots = history.location.search
-            ? 'nofollow, noindex'
+            ? ''
             : 'follow, index';
 
         updateMetaFromCategory({
@@ -555,6 +582,20 @@ export class CategoryPageContainer extends PureComponent {
             title,
             onBackClick
         });
+    }
+
+    updatePlpType() {
+        const { plpType, isMobile } = this.props;
+
+        if (plpType.match('-')) {
+            const plpTypes = plpType.split('-');
+            const defaultType = isMobile ? 'grid' : plpTypes[0];
+
+            this.setState({ defaultPlpType: defaultType, plpTypes });
+        } else {
+            const defaultType = isMobile ? 'grid' : plpType;
+            this.setState({ defaultPlpType: defaultType, plpTypes: [plpType] });
+        }
     }
 
     requestCategory() {

@@ -16,14 +16,6 @@
         margin-top: 1.4rem;
     }
 
-    label {
-        font-size: 1.26rem;
-
-        @include mobile {
-            font-size: 1.47rem;
-        }
-    }
-
     &-Label {
         font-weight: 700;
         padding-bottom: .36rem;
@@ -314,6 +306,50 @@
 
             &::after {
                 --checkmark-color: #{$white};
+            }
+        }
+    }
+
+    [type='file'] {
+        border-style: dashed;
+        cursor: pointer;
+        height: 180px;
+        opacity: 0;
+        max-width: 100%;
+        z-index: 1;
+
+        + label {
+            align-items: center;
+            border: 2px dashed var(--input-border-color);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 180px;
+            position: absolute;
+            top: 0;
+            width: 100%;
+
+            p {
+                font-size: 1.6rem;
+                margin-bottom: 0;
+            }
+
+            span {
+                color: var(--primary-base-color);
+                font-size: 1.8rem;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
+            .Image {
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+            + p {
+                margin-top: 5px;
+                margin-bottom: 0;
             }
         }
     }

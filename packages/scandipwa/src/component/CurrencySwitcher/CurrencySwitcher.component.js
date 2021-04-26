@@ -62,7 +62,6 @@ export class CurrencySwitcher extends PureComponent {
                       id="CurrencySwitcherList"
                       name="CurrencySwitcherList"
                       type="select"
-                      placeholder={ __('Select currency') }
                       selectOptions={ availableCurrencies }
                       value={ this.getCurrencyValue() }
                       onChange={ handleCurrencySelect }

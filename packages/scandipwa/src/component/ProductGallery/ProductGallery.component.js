@@ -206,9 +206,13 @@ export class ProductGallery extends PureComponent {
         const { scrollEnabled } = this.state;
 
         if (!isMobile) {
-            const { base: { url: src } } = mediaData;
+            const {
+                base: { url: baseSrc } = {},
+                large: { url: largeSrc } = {}
+            } = mediaData;
 
             const style = isImageZoomPopupActive ? { height: 'auto' } : {};
+            const src = isImageZoomPopupActive ? largeSrc : baseSrc;
 
             return (
                 <Image
@@ -312,6 +316,20 @@ export class ProductGallery extends PureComponent {
         );
     }
 
+    getImageUrl() {
+        const {
+            gallery: [
+                {
+                    thumbnail: {
+                        url = ''
+                    } = {}
+                }
+            ] = []
+        } = this.props;
+
+        return url;
+    }
+
     renderSlider() {
         const {
             gallery,
@@ -333,6 +351,7 @@ export class ProductGallery extends PureComponent {
               block="ProductGallery"
               elem="SliderWrapper"
             >
+                <meta itemProp="image" content={ this.getImageUrl() } />
                 <Slider
                   sliderRef={ sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider', mods } }

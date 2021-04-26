@@ -94,7 +94,7 @@ export class MyAccount extends PureComponent {
                   onSignOut={ onSignOut }
                 />
                 <div block="MyAccount" elem="TabContent">
-                    <h1 block="MyAccount" elem="Heading">{ name }</h1>
+                    <h2 block="MyAccount" elem="Heading">{ name }</h2>
                     <TabContent isEditingActive={ isEditingActive } />
                 </div>
             </ContentWrapper>

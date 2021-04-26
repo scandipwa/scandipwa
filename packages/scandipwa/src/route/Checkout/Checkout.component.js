@@ -52,8 +52,11 @@ export class Checkout extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: addressType.isRequired,
+        billingAddress: addressType.isRequired,
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        isEmailAvailable: PropTypes.bool.isRequired,
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         paymentTotals: TotalsType,
@@ -141,9 +144,9 @@ export class Checkout extends PureComponent {
         const { title = '' } = this.stepMap[checkoutStep];
 
         return (
-            <h1 block="Checkout" elem="Title">
+            <h2 block="Checkout" elem="Title">
                 { title }
-            </h1>
+            </h2>
         );
     }
 
@@ -217,10 +220,22 @@ export class Checkout extends PureComponent {
     }
 
     renderDetailsStep() {
-        const { orderID } = this.props;
+        const {
+            orderID,
+            isEmailAvailable,
+            email,
+            billingAddress: {
+                firstname,
+                lastname
+            }
+        } = this.props;
 
         return (
             <CheckoutSuccess
+              email={ email }
+              firstName={ firstname }
+              lastName={ lastname }
+              isEmailAvailable={ isEmailAvailable }
               orderID={ orderID }
             />
         );

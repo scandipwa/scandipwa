@@ -68,7 +68,7 @@ export class Link extends PureComponent {
 
         if (!to) {
             return (
-                <div { ...props }>
+                <div { ...props } { ...bemProps }>
                     { children }
                 </div>
             );
@@ -79,6 +79,7 @@ export class Link extends PureComponent {
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                 <a
                   { ...props }
+                  { ...bemProps }
                   onClick={ this.scrollToElement }
                   href={ to }
                 >
