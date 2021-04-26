@@ -13,6 +13,7 @@
     --product-actions-option-border-color: #979797;
     --product-actions-selected-option-border-color: #f26323;
     --product-brand-heading-color: #adadad;
+    --product-qty-input-border-color: #e0e0e0;
 
     @include after-mobile {
         --product-actions-option-border-color: #adadad;
@@ -480,6 +481,12 @@
 
         &_isSelected {
             --product-actions-option-border-color: var(--product-actions-selected-option-border-color);
+        }
+    }
+
+    .Field_isValid {
+        input[type='number'] {
+            border-color: var(--product-qty-input-border-color);
         }
     }
 
