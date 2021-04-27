@@ -437,10 +437,7 @@ export class ProductListQuery {
             this._getFinalPriceField(),
             this._getFinalPriceExclTaxField(),
             this._getRegularPriceField(),
-            this._getRegularPriceExclTaxField(),
-            this._getBasePriceField(),
-            this._getBaseFinalPriceField(),
-            this._getBaseFinalPriceExclTaxField()
+            this._getRegularPriceExclTaxField()
         ];
     }
 
@@ -524,6 +521,9 @@ export class ProductListQuery {
             'attribute_code',
             'attribute_type',
             'attribute_label',
+            'attribute_group_id',
+            'attribute_group_code',
+            'attribute_group_name',
             ...(!isVariant
                 ? [
                     this._getAttributeOptionsField()
@@ -550,7 +550,8 @@ export class ProductListQuery {
             'types',
             this._getVideoContentField(),
             this._getMediaThumbnailField(),
-            this._getMediaBaseField()
+            this._getMediaBaseField(),
+            this._getMediaLargeField()
         ];
     }
 
@@ -582,6 +583,10 @@ export class ProductListQuery {
 
     _getMediaBaseField() {
         return new Field('base').addField('url');
+    }
+
+    _getMediaLargeField() {
+        return new Field('large').addField('url');
     }
 
     _getMediaGalleryField() {
@@ -916,24 +921,6 @@ export class ProductListQuery {
 
     _getRegularPriceExclTaxField() {
         return new Field('regular_price_excl_tax')
-            .addField('currency')
-            .addField('value');
-    }
-
-    _getBaseFinalPriceExclTaxField() {
-        return new Field('base_final_price_excl_tax')
-            .addField('currency')
-            .addField('value');
-    }
-
-    _getBasePriceField() {
-        return new Field('base_price')
-            .addField('currency')
-            .addField('value');
-    }
-
-    _getBaseFinalPriceField() {
-        return new Field('base_final_price')
             .addField('currency')
             .addField('value');
     }

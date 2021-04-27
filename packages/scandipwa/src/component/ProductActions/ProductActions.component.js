@@ -189,9 +189,7 @@ export class ProductActions extends PureComponent {
 
     renderBundleItems() {
         const {
-            product: {
-                items, type_id, price_range, dynamic_price
-            },
+            product: { items, type_id, price_range },
             maxQuantity,
             getSelectedCustomizableOptions,
             productOptionsData,
@@ -215,7 +213,6 @@ export class ProductActions extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   price_range={ price_range }
-                  isDynamicPrice={ dynamic_price }
                 />
             </section>
         );
@@ -432,8 +429,7 @@ export class ProductActions extends PureComponent {
     renderPriceWithSchema() {
         const {
             productPrice,
-            offerCount,
-            product
+            offerCount
         } = this.props;
 
         const {
@@ -464,7 +460,6 @@ export class ProductActions extends PureComponent {
                   isSchemaRequired
                   variantsCount={ offerCount }
                   price={ productPrice }
-                  product={ product }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
             </div>
@@ -501,7 +496,9 @@ export class ProductActions extends PureComponent {
             product,
             quantity,
             configurableVariantIndex,
-            onProductValidationError
+            onProductValidationError,
+            productOptionsData,
+            groupedProductQuantity
         } = this.props;
 
         return (
@@ -510,6 +507,8 @@ export class ProductActions extends PureComponent {
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ onProductValidationError }
+              productOptionsData={ productOptionsData }
+              groupedProductQuantity={ groupedProductQuantity }
             />
         );
     }
@@ -606,7 +605,7 @@ export class ProductActions extends PureComponent {
             product: { downloadable_product_samples }
         } = this.props;
 
-        if (!downloadable_product_samples) {
+        if (!downloadable_product_samples || !downloadable_product_samples.length) {
             return null;
         }
 
@@ -625,10 +624,10 @@ export class ProductActions extends PureComponent {
 
     renderDownloadableProductSample() {
         const {
-            product: { type_id, samples_title }
+            product: { type_id, samples_title, downloadable_product_samples }
         } = this.props;
 
-        if (type_id !== DOWNLOADABLE) {
+        if (type_id !== DOWNLOADABLE || !downloadable_product_samples || !downloadable_product_samples.length) {
             return null;
         }
 

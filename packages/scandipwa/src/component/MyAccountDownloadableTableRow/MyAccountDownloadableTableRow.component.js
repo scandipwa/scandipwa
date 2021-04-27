@@ -80,7 +80,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
 
         return (
             <tr block="MyAccountOrderTableRow">
-                <td>{ order_id }</td>
+                <td>{ order_id ? `#${order_id}` : '' }</td>
                 <td>{ created_at }</td>
                 <td>
                     { title }

@@ -26,7 +26,7 @@ export const getFormattedDate = (rawDate = '') => {
     const day = addLeadingZero(date.getDate());
     const month = addLeadingZero(date.getMonth() + 1);
 
-    return `${day}.${month}.${date.getFullYear()}`;
+    return `${date.getFullYear()}-${month}-${day}`;
 };
 
 /** @namespace Store/Order/Reducer/formatOrders */

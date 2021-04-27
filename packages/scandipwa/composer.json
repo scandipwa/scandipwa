@@ -14,14 +14,14 @@
         "scandipwa/persisted-query": "^3.0",
         "scandipwa/slider-graphql": "^2.0",
         "scandipwa/cms-graphql": "^1.4.2",
-        "scandipwa/catalog-graphql": "^3.1.10",
+        "scandipwa/catalog-graphql": "^3.1.14",
         "scandipwa/route717": "^2",
         "scandipwa/performance": "^1.4.3",
         "scandipwa/customer-graph-ql": "^3.0",
-        "scandipwa/quote-graphql": "^2.18.1",
-        "scandipwa/wishlist-graphql": "^2.0.2",
+        "scandipwa/quote-graphql": "^2.19.0",
+        "scandipwa/wishlist-graphql": "^2.0.6",
         "scandipwa/urlrewrite-graphql": "^1.3.5",
-        "scandipwa/store-graphql": "^1.2.0",
+        "scandipwa/store-graphql": "^1.2.1",
         "scandipwa/customization": "^1.5.2",
         "scandipwa/cache": "^1.1.1",
         "scandipwa/locale": "^2",
@@ -29,7 +29,8 @@
         "scandipwa/klarna-graphql" : "^1.1.2",
         "scandipwa/compare-graphql": "^1.0.5",
         "scandipwa/customer-downloadable-graphql": "^1.0.2",
-        "scandipwa/directory-graphql": "^1.0.1"
+        "scandipwa/directory-graphql": "^1.0.1",
+        "scandipwa/catalog-customer-graphql": "^1.0.0"
     },
     "autoload": {
         "files": [

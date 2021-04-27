@@ -67,7 +67,8 @@ export class Field extends PureComponent {
         mix: MixType,
         min: PropTypes.number,
         max: PropTypes.number,
-        filename: PropTypes.string
+        filename: PropTypes.string,
+        fileExtensions: PropTypes.string
     };
 
     static defaultProps = {
@@ -79,7 +80,8 @@ export class Field extends PureComponent {
         value: null,
         message: '',
         validationStatus: null,
-        filename: ''
+        filename: '',
+        fileExtensions: ''
     };
 
     renderTextarea() {
@@ -169,7 +171,12 @@ export class Field extends PureComponent {
     }
 
     renderFile() {
-        const { filename, id, onChange } = this.props;
+        const {
+            filename,
+            id,
+            onChange,
+            fileExtensions
+        } = this.props;
 
         return (
             <>
@@ -179,6 +186,10 @@ export class Field extends PureComponent {
                   onChange={ (e) => onChange(e) }
                 />
                 { this.renderLabelForFile(id, filename) }
+                <p>
+                    { __('Compatible file extensions to upload: ') }
+                    <b>{ fileExtensions }</b>
+                </p>
             </>
         );
     }

@@ -216,15 +216,26 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     renderFileField() {
-        const { optionType, processFileUpload } = this.props;
+        const {
+            optionType,
+            processFileUpload,
+            option: {
+                required,
+                data: [{ file_extension = '' }] = []
+            } = {}
+        } = this.props;
 
         return (
-            <Field
-              id={ `customizable-options-${ optionType }` }
-              name={ `customizable-options-${ optionType }` }
-              type="file"
-              onChange={ processFileUpload }
-            />
+            <>
+                <Field
+                  id={ `customizable-options-${ optionType }` }
+                  name={ `customizable-options-${ optionType }` }
+                  type="file"
+                  onChange={ processFileUpload }
+                  fileExtensions={ file_extension }
+                />
+                { this.renderRequired(required) }
+            </>
         );
     }
 
@@ -240,10 +251,12 @@ export class ProductCustomizableOption extends PureComponent {
             renderOptionLabel,
             option: {
                 title,
-                data: {
-                    price_type,
-                    price
-                }
+                data: [
+                    {
+                        price_type = 'FIXED',
+                        price = 0
+                    } = {}
+                ] = []
             }
         } = this.props;
 
