@@ -479,6 +479,24 @@ export class ProductCard extends PureComponent {
         );
     }
 
+    renderVisibleOnHover() {
+        const { device } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
+
+        return (
+            <>
+                { this.renderVisualConfigurableOptions() }
+                <div block="ProductCard" elem="Footer">
+                    { this.renderAddToCart() }
+                    { this.renderProductActions() }
+                </div>
+            </>
+        );
+    }
+
     renderCardContent() {
         const { renderContent } = this.props;
 
@@ -501,11 +519,7 @@ export class ProductCard extends PureComponent {
                         { this.renderProductPrice() }
                     </div>
                     <div block="ProductCard" elem="VisibleOnHover">
-                        { this.renderVisualConfigurableOptions() }
-                        <div block="ProductCard" elem="Footer">
-                            { this.renderAddToCart() }
-                            { this.renderProductActions() }
-                        </div>
+                        { this.renderVisibleOnHover() }
                     </div>
                 </>
             ))

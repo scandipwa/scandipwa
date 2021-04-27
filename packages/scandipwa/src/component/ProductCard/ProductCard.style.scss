@@ -29,7 +29,7 @@
 .ProductCard {
     height: fit-content;
     padding-left: 0;
-    min-width: fit-content;
+    min-width: 0;
     display: flex;
     align-items: stretch;
 
@@ -175,14 +175,8 @@
         --product-rating-size: 1.6rem;
         --product-rating-background: #ffff;
         width: 105px;
-        height: 25px;
         border-radius: 1rem;
         letter-spacing: normal;
-
-        &_layout_grid {
-            top: 7px;
-            right: 0;
-        }
 
         @include mobile {
             --product-rating-size: 1.4rem;
@@ -193,7 +187,7 @@
         }
 
         @include desktop {
-            position: absolute;
+            height: 25px;
         }
     }
 

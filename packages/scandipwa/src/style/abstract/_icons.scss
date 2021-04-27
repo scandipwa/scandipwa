@@ -208,36 +208,11 @@
 }
 
 @mixin home-icon {
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-    }
-
-    &::before {
-        border: var(--header-icon-stroke-width) solid var(--header-color);
-        border-top: 0;
-        border-radius: 1px;
-        width: calc(14px - var(--header-icon-stroke-width) * 2);
-        height: 10px;
-        top: 16px;
-        right: 0;
-        left: 0;
-        z-index: 1;
-        margin: auto;
-    }
-
-    &::after {
-        transform: rotate(45deg);
-        border-top: var(--header-icon-stroke-width) solid var(--header-color);
-        border-left: var(--header-icon-stroke-width) solid var(--header-color);
-        width: 13px;
-        height: 13px;
-        top: 12px;
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
+    background-image: var(--imported_icons_home, url('./../icons/home.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 24px;
+    width: 24px;
 }
 
 @mixin search-icon {

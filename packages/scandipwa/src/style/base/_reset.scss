@@ -289,12 +289,12 @@ dl {
     text-transform: var(--paragraph-text-transform);
 
     @include mobile {
-        color: var(--paragraphM-color-mobile);
-        font-size: var(--paragraphM-font-size-mobile);
+        color: var(--paragraph-color-mobile);
+        font-size: var(--paragraph-font-size-mobile);
         font-style: var(--paragraph-font-style-mobile);
-        font-weight: var(--paragraphM-font-weight-mobile);
-        line-height: var(--paragraphM-line-height-mobile);
-        text-transform: var(--paragraphM-text-transform-mobile);
+        font-weight: var(--paragraph-font-weight-mobile);
+        line-height: var(--paragraph-line-height-mobile);
+        text-transform: var(--paragraph-text-transform-mobile);
     }
 }
 
@@ -332,12 +332,12 @@ p {
         text-transform: var(--caption-text-transform);
 
         @include mobile {
-            color: var(--captionM-color-mobile);
-            font-size: var(--captionM-font-size-mobile);
+            color: var(--caption-color-mobile);
+            font-size: var(--caption-font-size-mobile);
             font-style: var(--caption-font-style-mobile);
-            font-weight: var(--captionM-font-weight-mobile);
-            line-height: var(--captionM-line-height-mobile);
-            text-transform: var(--captionM-text-transform-mobile);
+            font-weight: var(--caption-font-weight-mobile);
+            line-height: var(--caption-line-height-mobile);
+            text-transform: var(--caption-text-transform-mobile);
         }
     }
 }

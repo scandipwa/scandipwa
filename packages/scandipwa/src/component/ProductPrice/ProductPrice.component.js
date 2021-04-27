@@ -97,10 +97,18 @@ export class ProductPrice extends PureComponent {
 
         return (
             <PriceSemanticElementName>
-                <span mix={ { block: 'ProductPrice', elem: 'PriceBadge' } }>{ label }</span>
+                { this.renderPriceBadge(label) }
                 <span { ...priceSchema }>{ formattedFinalPrice }</span>
             </PriceSemanticElementName>
         );
+    }
+
+    renderPriceBadge(label) {
+        if (!label) {
+            return null;
+        }
+
+        return <span mix={ { block: 'ProductPrice', elem: 'PriceBadge' } }>{ label }</span>;
     }
 
     renderSubPrice() {

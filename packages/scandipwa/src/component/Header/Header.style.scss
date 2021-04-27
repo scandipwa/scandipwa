@@ -54,7 +54,8 @@
 @mixin button-visible {
     opacity: 1;
     padding: 7.5px;
-    width: 35px;
+    height: 25px;
+    width: 25px;
     pointer-events: all;
     overflow: visible;
 }
