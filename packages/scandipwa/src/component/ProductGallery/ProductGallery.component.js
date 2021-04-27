@@ -206,9 +206,13 @@ export class ProductGallery extends PureComponent {
         const { scrollEnabled } = this.state;
 
         if (!isMobile) {
-            const { base: { url: src } } = mediaData;
+            const {
+                base: { url: baseSrc } = {},
+                large: { url: largeSrc } = {}
+            } = mediaData;
 
             const style = isImageZoomPopupActive ? { height: 'auto' } : {};
+            const src = isImageZoomPopupActive ? largeSrc : baseSrc;
 
             return (
                 <Image

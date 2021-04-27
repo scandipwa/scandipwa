@@ -47,6 +47,7 @@
         opacity: 1;
         width: 100vw;
         height: 100vh;
+        top: 0;
 
         @include mobile {
             height: calc(100% - var(--header-total-height));

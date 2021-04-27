@@ -48,7 +48,8 @@ export class Breadcrumbs extends PureComponent {
     renderBreadcrumbList(breadcrumbs) {
         const breadcrumbsWithHome = [
             ...breadcrumbs,
-            { url: '/', name: __('Home') }
+            // Looks like a browser bug, temporary fixed with .toString()
+            { url: '/', name: __('Home').toString() }
         ];
 
         return breadcrumbsWithHome.map((_, i) => this.renderBreadcrumb(

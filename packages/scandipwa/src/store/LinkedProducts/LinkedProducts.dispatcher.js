@@ -123,7 +123,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         const linkedProducts = product_links.reduce((acc, link) => {
             const { linked_product_sku, link_type } = link;
 
-            if (indexedBySku[linked_product_sku]) {
+            if (indexedBySku[linked_product_sku] && acc[link_type]) {
                 acc[link_type].items.push(
                     indexedBySku[linked_product_sku]
                 );
@@ -135,7 +135,8 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         }, {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
-            crosssell: { total_count: 0, items: [] }
+            crosssell: { total_count: 0, items: [] },
+            associated: { total_count: 0, items: [] }
         });
 
         return linkedProducts;

@@ -299,7 +299,7 @@ export class ProductPageContainer extends PureComponent {
     isProductInformationTabEmpty() {
         const dataSource = this.getDataSource();
 
-        return !dataSource?.description?.html.length;
+        return dataSource?.description?.html?.length === 0;
     }
 
     isProductAttributesTabEmpty() {
