@@ -135,7 +135,8 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         }, {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
-            crosssell: { total_count: 0, items: [] }
+            crosssell: { total_count: 0, items: [] },
+            associated: { total_count: 0, items: [] }
         });
 
         return linkedProducts;
