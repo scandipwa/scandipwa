@@ -287,6 +287,11 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    renderNumericAttribute() {
+        const { attribute: { attribute_value } } = this.props;
+        return this.renderStringValue(parseFloat(attribute_value).toFixed(2));
+    }
+
     renderAttributeByType() {
         const { attribute: { attribute_type } } = this.props;
 
@@ -303,6 +308,8 @@ export class ProductAttributeValue extends PureComponent {
             return this.renderImageAttribute();
         case 'textarea':
             return this.renderTextAreaAttribute();
+        case 'weight':
+            return this.renderNumericAttribute();
         default:
             return this.renderPlaceholder();
         }
