@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
+import ResetAttributes from 'Component/ResetAttributes';
 import ResetButton from 'Component/ResetButton';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
@@ -97,6 +98,17 @@ export class CategoryFilterOverlay extends PureComponent {
         );
     }
 
+    renderResetAttributes() {
+        const { customFiltersValues, availableFilters, toggleCustomFilter } = this.props;
+        return (
+            <ResetAttributes
+              customFiltersValues={ customFiltersValues }
+              availableFilters={ availableFilters }
+              toggleCustomFilter={ toggleCustomFilter }
+            />
+        );
+    }
+
     renderHeading() {
         return (
             <h3 block="CategoryFilterOverlay" elem="Heading">
@@ -132,6 +144,7 @@ export class CategoryFilterOverlay extends PureComponent {
         return (
             <>
                 { this.renderHeading() }
+                { this.renderResetAttributes() }
                 { this.renderResetButton() }
                 { this.renderFilters() }
                 { this.renderSeeResults() }

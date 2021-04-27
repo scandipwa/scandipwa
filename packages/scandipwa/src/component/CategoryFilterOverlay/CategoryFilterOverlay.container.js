@@ -245,8 +245,14 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
         const filterValueIndex = newFilterArray.indexOf(value);
 
-        if (filterKey === 'price') { // for price filter, choose one
-            return [value];
+        if (filterKey === 'price') {
+            // for price filter, choose one only
+            // if price is already selected, remove
+            // if price is not selected, select
+            // if price is already selected and new other price is selected, replace
+            return 'price' in customFiltersValues && customFiltersValues.price.includes(value)
+                ? []
+                : [value];
         }
 
         if (filterValueIndex === -1) {

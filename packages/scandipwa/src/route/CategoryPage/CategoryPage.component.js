@@ -213,6 +213,7 @@ export class CategoryPage extends PureComponent {
         case 'grid':
             return (
                 <button
+                  key={ type }
                   onClick={ this.onGridButtonClick }
                   mix={ { block: 'grid', mods: { isActive: layout === 'grid' } } }
                 >
@@ -222,6 +223,7 @@ export class CategoryPage extends PureComponent {
         case 'list':
             return (
                 <button
+                  key={ type }
                   onClick={ this.onListButtonClick }
                   mix={ { block: 'list', mods: { isActive: layout === 'list' } } }
                 >
