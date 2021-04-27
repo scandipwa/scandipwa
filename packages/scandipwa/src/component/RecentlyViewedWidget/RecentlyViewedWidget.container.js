@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ItemsType } from 'Type/ProductList';
+
 import RecentlyViewedWidget from './RecentlyViewedWidget.component';
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapStateToProps */
@@ -28,7 +30,7 @@ export const mapDispatchToProps = (dispatch) => ({});
 /** @namespace Component/RecentlyViewedWidget/Container */
 export class RecentlyViewedWidgetContainer extends PureComponent {
     static propTypes = {
-        recentProducts: PropTypes.object.isRequired,
+        recentProducts: PropTypes.objectOf(ItemsType).isRequired,
         store: PropTypes.string.isRequired
     };
 
