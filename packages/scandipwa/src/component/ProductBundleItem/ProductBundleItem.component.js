@@ -59,6 +59,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
 
     renderOptionCheckboxValue = (item) => {
         const {
+            currencyCode,
             getSelectedCheckboxValue,
             renderOptionLabel,
             price_range: { minimum_price: { discount: { percent_off } } }
@@ -88,7 +89,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
         // eslint-disable-next-line no-magic-numbers
         const finalPrice = value - (value * (percent_off / 100));
 
-        const priceLabel = renderOptionLabel(price_type, finalPrice);
+        const priceLabel = renderOptionLabel(price_type, finalPrice, currencyCode);
 
         return (
             <div key={ id }>

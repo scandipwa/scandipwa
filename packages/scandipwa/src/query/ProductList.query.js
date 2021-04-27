@@ -763,6 +763,7 @@ export class ProductListQuery {
         return [
             'price',
             'price_type',
+            'currency',
             'sku',
             'max_characters'
         ];
@@ -786,6 +787,7 @@ export class ProductListQuery {
             .addFieldList([
                 'price',
                 'price_type',
+                'currency',
                 'sku',
                 'file_extension'
             ])
@@ -812,6 +814,7 @@ export class ProductListQuery {
             'option_type_id',
             'price',
             'price_type',
+            'currency',
             'sku',
             'title',
             'sort_order'

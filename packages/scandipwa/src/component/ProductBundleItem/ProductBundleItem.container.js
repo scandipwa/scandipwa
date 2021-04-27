@@ -183,6 +183,7 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
 
     getDropdownOptions(values) {
         const {
+            currencyCode,
             price_range: {
                 minimum_price: {
                     discount: {
@@ -206,8 +207,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             const finalPrice = value - (value * (percentOff / 100));
 
             const dropdownLabel = !can_change_quantity
-                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`
-                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`;
+                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`
+                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`;
 
             acc.push({
                 id,
