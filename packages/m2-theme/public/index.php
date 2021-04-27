@@ -48,7 +48,7 @@ $icons = $this->getAppIconData();
     <link rel="preload" as="script" href="<?= $this->getLocaleChunkUrl() ?>">
 
     <!-- Icons -->
-    <link rel="shortcut icon" href="/media/favicon/favicon.png">
+    <link rel="shortcut icon" href="/pub/media/favicon/favicon.png">
 
     <?php foreach ($icons['ios_startup'] as $icon) : ?>
         <?= sprintf('<link rel="apple-touch-startup-image" sizes="%s" href="%s">', $icon["sizes"], $icon["href"]); ?>
@@ -63,7 +63,7 @@ $icons = $this->getAppIconData();
     <?php endforeach; ?>
 
     <!-- Manifest -->
-    <link rel="manifest" href="/media/webmanifest/manifest.json">
+    <link rel="manifest" href="/pub/media/webmanifest/manifest.json">
     <style>
         <?php if ($colorConfig['enable_color_customization']['enable_custom_colors'] !== "0") : ?><?php $colorArray = $colorConfig['primary_colors'] + $colorConfig['secondary_colors']; ?> :root {
             <?php foreach ($colorArray as $code => $color) : ?><?php if (strpos($code, 'color') !== false) : ?><?= sprintf('--imported_%s: #%s;', $code, $color); ?><?php endif; ?><?php endforeach; ?>
