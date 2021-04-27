@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { orderType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 import { getIndexedProducts } from 'Util/Product';
 import { fetchQuery } from 'Util/Request';
 
@@ -102,6 +103,10 @@ export class MyAccountOrderPopupContainer extends PureComponent {
                 } = {}
             } = {}
         } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
 
         fetchQuery(OrderQuery.getOrderByIdQuery(id)).then(
             /** @namespace Component/MyAccountOrderPopup/Container/requestOrderDetailsFetchQueryThen */
