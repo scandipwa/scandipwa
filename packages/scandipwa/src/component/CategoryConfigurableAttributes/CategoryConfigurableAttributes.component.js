@@ -8,6 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { connect } from 'react-redux';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
@@ -15,6 +16,14 @@ import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttrib
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import { formatPrice } from 'Util/Price';
+
+/** @namespace Component/CategoryConfigurableAttributes/Component/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    childrenCategories: state.CategoryReducer.category.children
+});
+
+/** @namespace Component/CategoryConfigurableAttributes/Component/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
@@ -119,6 +128,15 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         switch (attribute_code) {
         case 'price':
             return this.renderPriceSwatch(option);
+        case 'category_id':
+            const childrenCategoryIds = this.props.childrenCategories.map((category) => category.id.toString());
+            const subCategoriesIds = option.attribute_values.filter((item) => childrenCategoryIds.includes(item));
+            if (subCategoriesIds.length) {
+                this.props.configurable_options.category_id.attribute_values = subCategoriesIds;
+                return this.renderDropdownOrSwatch(option);
+            }
+
+            return (null);
         default:
             return this.renderDropdownOrSwatch(option);
         }
@@ -149,4 +167,4 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
     }
 }
 
-export default CategoryConfigurableAttributes;
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryConfigurableAttributes);
