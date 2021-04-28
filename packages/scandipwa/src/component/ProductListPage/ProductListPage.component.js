@@ -14,7 +14,6 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import ProductCard from 'Component/ProductCard';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { MixType } from 'Type/Common';
 import { FilterType, ProductType } from 'Type/ProductList';
 
@@ -170,7 +169,7 @@ export class ProductListPage extends PureComponent {
             selectedFilters,
             mix: {
                 mods: {
-                    layout = GRID_LAYOUT
+                    layout = 'grid'
                 } = {}
             }
         } = this.props;

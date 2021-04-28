@@ -23,7 +23,6 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
-import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
@@ -91,7 +90,7 @@ export class ProductCard extends PureComponent {
         setSiblingsHaveTierPrice: () => null,
         siblingsHaveConfigurableOptions: false,
         setSiblingsHaveConfigurableOptions: () => null,
-        layout: GRID_LAYOUT
+        layout: 'grid'
     };
 
     contentObject = {
@@ -573,7 +572,7 @@ export class ProductCard extends PureComponent {
             siblingsHaveConfigurableOptions
         };
 
-        if (layout === LIST_LAYOUT) {
+        if (layout === 'list') {
             return (
                 <li
                   block="ProductCard"

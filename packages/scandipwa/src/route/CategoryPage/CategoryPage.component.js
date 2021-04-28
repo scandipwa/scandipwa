@@ -23,15 +23,11 @@ import Html from 'Component/Html';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
-import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
-    DISPLAY_MODE_PRODUCTS,
-    GRID_LAYOUT,
-    LAYOUT_KEY,
-    LIST_LAYOUT
+    DISPLAY_MODE_PRODUCTS
 } from './CategoryPage.config';
 
 import './CategoryPage.style';
@@ -79,9 +75,7 @@ export class CategoryPage extends PureComponent {
         plpTypes: []
     };
 
-    state = {
-        layout: BrowserDatabase.getItem(LAYOUT_KEY) || GRID_LAYOUT
-    };
+    state = {};
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
@@ -103,13 +97,11 @@ export class CategoryPage extends PureComponent {
     }
 
     onGridButtonClick() {
-        this.setState({ layout: GRID_LAYOUT });
-        BrowserDatabase.setItem(GRID_LAYOUT, LAYOUT_KEY);
+        this.setState({ layout: 'grid' });
     }
 
     onListButtonClick() {
-        this.setState({ layout: LIST_LAYOUT });
-        BrowserDatabase.setItem(LIST_LAYOUT, LAYOUT_KEY);
+        this.setState({ layout: 'list' });
     }
 
     displayProducts() {
@@ -218,22 +210,22 @@ export class CategoryPage extends PureComponent {
         const { layout } = this.state;
 
         switch (type) {
-        case GRID_LAYOUT:
+        case 'grid':
             return (
                 <button
                   key={ type }
                   onClick={ this.onGridButtonClick }
-                  mix={ { block: GRID_LAYOUT, mods: { isActive: layout === GRID_LAYOUT } } }
+                  mix={ { block: 'grid', mods: { isActive: layout === 'grid' } } }
                 >
                     { __('Grid') }
                 </button>
             );
-        case LIST_LAYOUT:
+        case 'list':
             return (
                 <button
                   key={ type }
                   onClick={ this.onListButtonClick }
-                  mix={ { block: LIST_LAYOUT, mods: { isActive: layout === LIST_LAYOUT } } }
+                  mix={ { block: 'list', mods: { isActive: layout === 'list' } } }
                 >
                     { __('List') }
                 </button>
