@@ -16,7 +16,8 @@
     --input-border-color-focus: var(--primary-base-color);
     --input-border-radius: var(--imported_input_border_radius, 2px);
     --input-padding: var(--imported_input_padding, var(--default-input-padding));
-    --input-color: var(--imported_input_color, var(--karaka));
+    --input-color: var(--imported_input_color, var(--color-karaka));
+    --input-type-number-width: 28px;
 }
 
 input,
@@ -59,7 +60,7 @@ textarea {
 [type='number'] {
     -moz-appearance: textfield;
 
-    color: var(--black);
+    color: var(--color-black);
     border: 0;
     font-size: 1.8rem;
     font-weight: 700;

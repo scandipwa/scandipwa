@@ -16,10 +16,10 @@
     --option-margin: 0;
     --option-size: 33px;
     --option-text-color: #{$black};
-    --option-border-color: var(--dark-gray);
+    --option-border-color: var(--color-dark-gray);
 
     @include mobile {
-        --option-border-color: var(--dark-gray);
+        --option-border-color: var(--color-dark-gray);
     }
 }
 
@@ -188,7 +188,7 @@
                     margin: 0;
                     min-width: 1.8rem;
                     vertical-align: top;
-                    border-color: var(--karaka);
+                    border-color: var(--color-karaka);
 
                     @include mobile {
                         min-width: 2.1rem;
