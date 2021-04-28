@@ -80,6 +80,7 @@ export class ProductActions extends PureComponent {
         stockMeta: PropTypes.string.isRequired,
         metaLink: PropTypes.string.isRequired,
         device: DeviceType.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired
     };
 
@@ -495,8 +496,13 @@ export class ProductActions extends PureComponent {
             configurableVariantIndex,
             onProductValidationError,
             productOptionsData,
-            groupedProductQuantity
+            groupedProductQuantity,
+            isWishlistEnabled
         } = this.props;
+
+        if (!isWishlistEnabled) {
+            return null;
+        }
 
         return (
             <ProductWishlistButton

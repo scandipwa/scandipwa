@@ -117,6 +117,7 @@ export class ConfigQuery {
             'anchor_text_for_next',
             'reviews_are_enabled',
             'reviews_allow_guest',
+            'wishlist_general_active',
             'demo_notice',
             'guest_checkout',
             'is_email_confirmation_required',

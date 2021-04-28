@@ -20,6 +20,7 @@ import {
 } from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import getStore from 'Util/Store';
 import { getPriceRange } from 'Util/Wishlist';
 
 export const CartDispatcher = import(
@@ -28,13 +29,26 @@ export const CartDispatcher = import(
 );
 
 /**
+ * Get wishlist setting.
+ * @namespace /Store/Wishlist/Dispatcher/isWishlistEnabled
+ */
+export const isWishlistEnabled = () => {
+    const state = getStore().getState();
+    const {
+        wishlist_general_active = false
+    } = state.ConfigReducer;
+
+    return wishlist_general_active;
+};
+
+/**
  * Product Wishlist Dispatcher
  * @class WishlistDispatcher
  * @namespace Store/Wishlist/Dispatcher
  */
 export class WishlistDispatcher {
     updateInitialWishlistData(dispatch) {
-        if (isSignedIn()) {
+        if (isSignedIn() && isWishlistEnabled()) {
             this._syncWishlistWithBE(dispatch);
         } else {
             dispatch(updateAllProductsInWishlist({}));

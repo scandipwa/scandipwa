@@ -29,8 +29,8 @@ import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
     device: state.ConfigReducer.device,
-    displayProductStockStatus: state.ConfigReducer.display_product_stock_status
-
+    displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductActions/Container */
@@ -45,7 +45,8 @@ export class ProductActionsContainer extends PureComponent {
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
-        getLink: PropTypes.func.isRequired
+        getLink: PropTypes.func.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired
     };
 
     static getMinQuantity(props) {
