@@ -88,7 +88,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
     containerProps = () => ({
         isDisabled: this.isDisabled(),
         isInWishlist: this.isInWishlist(),
-        isReady: this._getIsProductReady()
+        isReady: this._getIsProductReady(),
+        isSignedIn: isSignedIn()
     });
 
     containerFunctions = () => ({

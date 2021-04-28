@@ -61,7 +61,7 @@ export class SliderWidgetContainer extends DataContainer {
         this.fetchData(
             [SliderQuery.getQuery({ sliderId })],
             ({ slider }) => this.setState({ slider }),
-            (e) => showNotification('error', 'Error fetching Slider!', e)
+            (e) => showNotification('error', __('Error fetching Slider!'), e)
         );
     }
 

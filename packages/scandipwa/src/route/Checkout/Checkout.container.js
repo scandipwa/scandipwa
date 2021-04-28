@@ -30,7 +30,12 @@ import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
 import history from 'Util/History';
-import { debounce, fetchMutation, fetchQuery } from 'Util/Request';
+import {
+    debounce,
+    fetchMutation,
+    fetchQuery,
+    getErrorMessage
+} from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -253,6 +258,11 @@ export class CheckoutContainer extends PureComponent {
 
     onShippingEstimationFieldsChange(address) {
         const { requestsSent } = this.state;
+        const guestQuoteId = getGuestQuoteId();
+
+        if (!guestQuoteId) {
+            return;
+        }
 
         this.setState({
             isDeliveryOptionsLoading: true,
@@ -262,7 +272,7 @@ export class CheckoutContainer extends PureComponent {
 
         fetchMutation(CheckoutQuery.getEstimateShippingCosts(
             address,
-            getGuestQuoteId()
+            guestQuoteId
         )).then(
             /** @namespace Route/Checkout/Container/onShippingEstimationFieldsChangeFetchMutationThen */
             ({ estimateShippingCosts: shippingMethods }) => {
@@ -370,13 +380,12 @@ export class CheckoutContainer extends PureComponent {
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
-        const { message, debugMessage } = error?.length ? error[0] : error;
 
         this.setState({
             isDeliveryOptionsLoading: false,
             isLoading: false
         }, () => {
-            showErrorNotification(debugMessage || message);
+            showErrorNotification(getErrorMessage(error));
         });
 
         return false;
@@ -407,6 +416,11 @@ export class CheckoutContainer extends PureComponent {
         const { email } = this.state;
         const { updateEmail } = this.props;
         const guestCartId = getGuestQuoteId();
+
+        if (!guestCartId) {
+            return null;
+        }
+
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
         updateEmail(email);
@@ -580,6 +594,7 @@ export class CheckoutContainer extends PureComponent {
             id, // drop this
             country_id,
             region_code, // drop this
+            purchaseOrderNumber, // drop this
             region_id,
             region,
             ...restOfBillingAddress
@@ -621,7 +636,13 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async saveBillingAddress(paymentInformation) {
-        const guest_cart_id = !isSignedIn() ? getGuestQuoteId() : '';
+        const isCustomerSignedIn = isSignedIn();
+        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+
+        if (!isCustomerSignedIn && !getGuestQuoteId) {
+            return;
+        }
+
         const { billing_address, same_as_shipping } = paymentInformation;
         const {
             shippingAddress: {
@@ -645,7 +666,12 @@ export class CheckoutContainer extends PureComponent {
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
         const { paymentMethod: { code, additional_data, purchase_order_number } } = paymentInformation;
-        const guest_cart_id = !isSignedIn() ? getGuestQuoteId() : '';
+        const isCustomerSignedIn = isSignedIn();
+        const guest_cart_id = !isCustomerSignedIn ? getGuestQuoteId() : '';
+
+        if (!isCustomerSignedIn && !guest_cart_id) {
+            return;
+        }
 
         try {
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({

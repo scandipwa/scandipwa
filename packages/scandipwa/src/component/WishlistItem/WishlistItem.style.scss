@@ -163,12 +163,12 @@
     }
 
     &-CommentField {
-        input {
+        textarea {
             width: 100%;
         }
 
         &_isNotEditingActive {
-            input {
+            textarea {
                 padding: 0;
                 border: none;
             }

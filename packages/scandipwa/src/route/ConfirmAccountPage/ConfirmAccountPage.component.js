@@ -16,6 +16,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import Loader from 'Component/Loader';
+import { isSignedIn } from 'Util/Auth';
 
 import './ConfirmAccountPage.style';
 
@@ -24,14 +25,9 @@ export class ConfirmAccountPage extends PureComponent {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        isSignedIn: PropTypes.bool,
         onConfirmAttempt: PropTypes.func.isRequired,
         onConfirmSuccess: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
-        isSignedIn: false
     };
 
     renderForm() {
@@ -83,11 +79,10 @@ export class ConfirmAccountPage extends PureComponent {
     render() {
         const {
             redirect,
-            isLoading,
-            isSignedIn
+            isLoading
         } = this.props;
 
-        if (redirect || isSignedIn) {
+        if (redirect || isSignedIn()) {
             return <Redirect to="/my-account/dashboard" />;
         }
 

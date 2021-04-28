@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { PRODUCT_IN_STOCK, PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
@@ -55,7 +56,8 @@ export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product,
     navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    store: state.ConfigReducer.code
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
@@ -76,7 +78,7 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateRecentlyViewedProducts: (products) => dispatch(updateRecentlyViewedProducts(products))
+    updateRecentlyViewedProducts: (products, store) => dispatch(updateRecentlyViewedProducts(products, store))
 });
 
 /** @namespace Route/ProductPage/Container */
@@ -85,7 +87,6 @@ export class ProductPageContainer extends PureComponent {
         configurableVariantIndex: -1,
         parameters: {},
         productOptionsData: {},
-        selectedInitialBundlePrice: 0,
         selectedBundlePrice: 0,
         selectedBundlePriceExclTax: 0,
         selectedLinkPrice: 0,
@@ -119,7 +120,8 @@ export class ProductPageContainer extends PureComponent {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
-        updateRecentlyViewedProducts: PropTypes.func.isRequired
+        updateRecentlyViewedProducts: PropTypes.func.isRequired,
+        store: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -300,7 +302,7 @@ export class ProductPageContainer extends PureComponent {
     isProductInformationTabEmpty() {
         const dataSource = this.getDataSource();
 
-        return !dataSource?.description?.html.length;
+        return dataSource?.description?.html?.length === 0;
     }
 
     isProductAttributesTabEmpty() {
@@ -313,7 +315,8 @@ export class ProductPageContainer extends PureComponent {
         const {
             product,
             product: { sku },
-            updateRecentlyViewedProducts
+            updateRecentlyViewedProducts,
+            store
         } = this.props;
 
         // necessary for skipping not loaded products
@@ -321,7 +324,7 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        updateRecentlyViewedProducts(product);
+        updateRecentlyViewedProducts(product, store);
     }
 
     scrollTop() {
@@ -386,10 +389,9 @@ export class ProductPageContainer extends PureComponent {
     }
 
     setBundlePrice(prices) {
-        const { price = 0, priceExclTax = 0, finalPrice = 0 } = prices;
+        const { price = 0, priceExclTax = 0 } = prices;
         this.setState({
-            selectedInitialBundlePrice: price,
-            selectedBundlePrice: finalPrice,
+            selectedBundlePrice: price,
             selectedBundlePriceExclTax: priceExclTax
         });
     }
@@ -492,6 +494,12 @@ export class ProductPageContainer extends PureComponent {
         const { variants } = dataSource;
         const currentVariantIndex = this.getConfigurableVariantIndex(variants);
         const variant = variants && variants[currentVariantIndex];
+
+        if (variants) {
+            dataSource.stock_status = variants.some((v) => v.stock_status === PRODUCT_IN_STOCK)
+                ? PRODUCT_IN_STOCK
+                : PRODUCT_OUT_OF_STOCK;
+        }
 
         return variant || dataSource;
     }
