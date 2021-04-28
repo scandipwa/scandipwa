@@ -17,27 +17,20 @@
     }
 
     &-AttributeValue {
-      margin: 10px 0;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
     }
 
     &-AttributeText{
-        left: 20px;
+        left: 10px;
     }
 
     &-CloseIcon {
-        @include close-button;
+        background-image: url('./../../style/icons/close.svg');
+        background-position: center;
         cursor: pointer;
-
-        &::before,
-        &::after {
-            height: 16px;
-            left: 8px;
-            top: 2px;
-            width: 2px;
-
-            @include desktop {
-                height: 12px;
-            }
-        }
+        height: 16px;
+        width: 16px;
     }
 }
