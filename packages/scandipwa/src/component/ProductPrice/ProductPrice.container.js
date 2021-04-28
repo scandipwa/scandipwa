@@ -47,7 +47,8 @@ export class ProductPriceContainer extends PureComponent {
         isSchemaRequired: PropTypes.bool,
         price: PriceType,
         mix: MixType,
-        displayTaxInPrice: PropTypes.string
+        displayTaxInPrice: PropTypes.string,
+        product: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -70,12 +71,15 @@ export class ProductPriceContainer extends PureComponent {
                     } = {},
                     regular_price: {
                         value: regularPriceValue
+                    } = {},
+                    default_price: {
+                        value: defaultPriceValue
                     } = {}
                 } = {}
             } = {}
         } = this.props;
 
-        if (!minimalPriceValue || !regularPriceValue) {
+        if ((!minimalPriceValue || !regularPriceValue) && !defaultPriceValue) {
             return {};
         }
 

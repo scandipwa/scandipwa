@@ -144,14 +144,14 @@ export class UrlRewritesContainer extends PureComponent {
                 const product = history?.state?.state?.product;
 
                 if (product) {
-                    const { sku: historySKU } = product;
-                    return { productSKU: historySKU };
+                    const { sku: historySKU, id } = product;
+                    return { productSKU: historySKU, id };
                 }
 
                 return {};
             }
 
-            return { productSKU: sku };
+            return { productSKU: sku, id };
         case TYPE_CMS_PAGE:
             if (isLoading) {
                 return { isOnlyPlaceholder: true };

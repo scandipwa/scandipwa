@@ -22,7 +22,7 @@ import {
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
-import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
+import { DEFAULT_MAX_PRODUCTS, ONE_HUNDRED_PERCENT } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -37,7 +37,9 @@ export class ProductActionsContainer extends PureComponent {
         productOrVariant: PropTypes.object.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
+        productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        selectedInitialBundlePrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
@@ -268,11 +270,91 @@ export class ProductActionsContainer extends PureComponent {
         return 0;
     }
 
+    getSelectedOptions() {
+        const {
+            productOptionsData: {
+                productOptionsMulti = []
+            } = {}
+        } = this.props;
+
+        return productOptionsMulti.map((productOption) => {
+            const { option_value } = productOption;
+
+            return parseInt(option_value, 10);
+        });
+    }
+
+    getCustomizablePrice() {
+        const {
+            product: {
+                options = [],
+                price_range: {
+                    minimum_price: {
+                        default_price: {
+                            currency,
+                            value: defaultPrice = 0
+                        },
+                        regular_price_excl_tax: {
+                            value: regularPriceExclTax = 0
+                        } = {}
+                    } = {}
+                } = {}
+            } = {}
+        } = this.props;
+
+        const customPrice = this._getCustomPrice(defaultPrice, regularPriceExclTax, defaultPrice, false);
+
+        const {
+            minimum_price: {
+                final_price: {
+                    value: finalCustomPrice = 0
+                } = {},
+                final_price_excl_tax: {
+                    value: finalCustomPriceExclTax = 0
+                } = {},
+                regular_price: {
+                    value: regularCustomPrice = 0
+                } = {},
+                regular_price_excl_tax: {
+                    value: regularCustomPriceExclTax = 0
+                } = {}
+            } = {}
+        } = customPrice;
+
+        const selectedOptions = this.getSelectedOptions();
+        const prices = options.reduce((acc, { data }) => {
+            data.forEach(({ option_type_id, price }) => {
+                if (selectedOptions.includes(option_type_id)) {
+                    acc.push(price);
+                }
+            });
+
+            return acc;
+        }, []);
+
+        const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
+
+        return {
+            minimum_price: {
+                final_price: {
+                    currency,
+                    value: selectedOptionsTotal + finalCustomPrice
+                },
+                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
+                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
+                regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
+            }
+        };
+    }
+
     getProductPrice() {
         const {
             product,
-            product: { variants = [], type_id, links_purchased_separately },
+            product: {
+                variants = [], type_id, links_purchased_separately, dynamic_price
+            },
             configurableVariantIndex,
+            selectedInitialBundlePrice,
             selectedBundlePrice,
             selectedBundlePriceExclTax,
             selectedLinkPrice
@@ -283,47 +365,72 @@ export class ProductActionsContainer extends PureComponent {
         } = variants[configurableVariantIndex] || product;
 
         if (type_id === BUNDLE) {
-            return this._getCustomPrice(selectedBundlePrice, selectedBundlePriceExclTax);
+            return this._getCustomPrice(
+                selectedBundlePrice,
+                selectedBundlePriceExclTax,
+                selectedInitialBundlePrice,
+                !dynamic_price
+            );
         }
 
         if (type_id === DOWNLOADABLE && links_purchased_separately) {
-            return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
+            return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, selectedLinkPrice, true);
+        }
+
+        if (product.options) {
+            return this.getCustomizablePrice();
         }
 
         return price_range;
     }
 
-    _getCustomPrice(price, withoutTax, addBase = false) {
+    _getCustomPrice(price, withoutTax, initial, addBase = false) {
         const {
             product: {
                 price_range: {
                     minimum_price: {
-                        regular_price: { currency, value },
-                        regular_price_excl_tax: { value: value_excl_tax },
+                        default_price: { currency, value: defaultPrice },
+                        default_final_price: { value: defaultFinalPrice },
+                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
+                        discount: discountData,
                         discount: { percent_off }
                     }
                 }
             }
         } = this.props;
 
-        // eslint-disable-next-line no-magic-numbers
-        const discount = (1 - percent_off / 100);
+        const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
 
-        const basePrice = addBase ? value : 0;
-        const basePriceExclTax = addBase ? value_excl_tax : 0;
+        // Adjusting `discount` for bundle products for discount to be displayed on PDP
+        const priceBeforeDiscount = addBase ? defaultPrice : initial;
+        const priceAfterDiscount = addBase ? defaultFinalPrice : price;
+        const finalDiscount = !percent_off && defaultPrice !== defaultFinalPrice
+            ? {
+                percent_off: (ONE_HUNDRED_PERCENT * (priceBeforeDiscount - priceAfterDiscount)) / priceBeforeDiscount,
+                amount_off: priceBeforeDiscount - priceAfterDiscount
+            }
+            : discountData;
 
-        const finalPrice = (basePrice + price) * discount;
-        const finalPriceExclTax = (basePriceExclTax + withoutTax) * discount;
+        // Set initial price different from 0 for specific product types, i.e. downloadable, bundles with fixed price
+        const baseInitialPrice = addBase ? defaultPrice : 0;
+        const baseFinalPrice = addBase ? defaultFinalPrice : 0;
+        const basePriceExclTax = addBase ? defaultFinalPriceExclTax : 0;
 
+        const initialPrice = baseInitialPrice + initial;
+        const finalPrice = baseFinalPrice + price * discount;
+        const finalPriceExclTax = basePriceExclTax + withoutTax * discount;
+
+        const initialPriceValue = { value: initialPrice, currency };
         const priceValue = { value: finalPrice, currency };
         const priceValueExclTax = { value: finalPriceExclTax, currency };
 
         return {
             minimum_price: {
                 final_price: priceValue,
-                regular_price: priceValue,
+                regular_price: initialPriceValue,
                 final_price_excl_tax: priceValueExclTax,
-                regular_price_excl_tax: priceValueExclTax
+                regular_price_excl_tax: initialPriceValue,
+                discount: finalDiscount
             }
         };
     }

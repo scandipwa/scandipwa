@@ -437,7 +437,10 @@ export class ProductListQuery {
             this._getFinalPriceField(),
             this._getFinalPriceExclTaxField(),
             this._getRegularPriceField(),
-            this._getRegularPriceExclTaxField()
+            this._getRegularPriceExclTaxField(),
+            this._getDefaultPriceField(),
+            this._getDefaultFinalPriceField(),
+            this._getDefaultFinalPriceExclTaxField()
         ];
     }
 
@@ -547,7 +550,8 @@ export class ProductListQuery {
             'types',
             this._getVideoContentField(),
             this._getMediaThumbnailField(),
-            this._getMediaBaseField()
+            this._getMediaBaseField(),
+            this._getMediaLargeField()
         ];
     }
 
@@ -579,6 +583,10 @@ export class ProductListQuery {
 
     _getMediaBaseField() {
         return new Field('base').addField('url');
+    }
+
+    _getMediaLargeField() {
+        return new Field('large').addField('url');
     }
 
     _getMediaGalleryField() {
@@ -913,6 +921,24 @@ export class ProductListQuery {
 
     _getRegularPriceExclTaxField() {
         return new Field('regular_price_excl_tax')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultFinalPriceExclTaxField() {
+        return new Field('default_final_price_excl_tax')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultPriceField() {
+        return new Field('default_price')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultFinalPriceField() {
+        return new Field('default_final_price')
             .addField('currency')
             .addField('value');
     }

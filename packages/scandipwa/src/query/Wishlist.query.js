@@ -77,12 +77,28 @@ export class WishlistQuery {
         ];
     }
 
+    _getItemOptionsFields() {
+        return [
+            'label',
+            'value'
+        ];
+    }
+
+    _getItemOptionsField() {
+        return new Field('options')
+            .addFieldList(this._getItemOptionsFields());
+    }
+
     _getWishlistItemsFields() {
         return [
             'id',
             'sku',
             'qty',
-            'description'
+            'description',
+            'price',
+            'price_without_tax',
+            'buy_request',
+            this._getItemOptionsField()
         ];
     }
 

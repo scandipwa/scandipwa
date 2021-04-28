@@ -25,7 +25,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     static propTypes = {
         ...ProductCustomizableOptionContainer.propTypes,
         setCustomizableOptionTextFieldValue: PropTypes.func,
-        updateQuantity: PropTypes.func.isRequired
+        updateQuantity: PropTypes.func.isRequired,
+        isDynamicPrice: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -189,7 +190,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
                         percent_off: percentOff = 0
                     } = {}
                 } = {}
-            } = {}
+            } = {},
+            isDynamicPrice
         } = this.props;
 
         return values.reduce((acc, {
@@ -197,10 +199,12 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             label,
             price_type,
             quantity,
+            price: fixedPriceValue,
             can_change_quantity,
             product
         }) => {
-            const value = product?.price_range?.minimum_price?.final_price?.value || 0;
+            const finalPriceValue = product?.price_range?.minimum_price?.final_price?.value || 0;
+            const value = isDynamicPrice ? finalPriceValue : fixedPriceValue;
 
             // eslint-disable-next-line no-magic-numbers
             const finalPrice = value - (value * (percentOff / 100));

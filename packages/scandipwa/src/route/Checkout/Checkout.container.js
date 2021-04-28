@@ -166,6 +166,7 @@ export class CheckoutContainer extends PureComponent {
             paymentMethods: [],
             shippingMethods: [],
             shippingAddress: {},
+            billingAddress: {},
             selectedShippingMethod: '',
             checkoutStep: is_virtual ? BILLING_STEP : SHIPPING_STEP,
             orderID: '',
@@ -541,7 +542,8 @@ export class CheckoutContainer extends PureComponent {
             billing_address: {
                 firstname: billingFirstName,
                 lastname: billingLastName
-            }
+            },
+            billing_address: billingAddress
         } = paymentInformation;
 
         /**
@@ -557,7 +559,7 @@ export class CheckoutContainer extends PureComponent {
             });
         }
 
-        this.setState({ isLoading: true });
+        this.setState({ isLoading: true, billingAddress });
 
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
