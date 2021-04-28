@@ -14,10 +14,12 @@ export const UPDATE_RECENTLY_VIEWED_PRODUCTS = 'UPDATE_RECENTLY_VIEWED_PRODUCTS'
 /**
  * Update RecentlyViewed products list.
  * @param  {Object} product Product returned from fetch
+ * @param  {String} store code
  * @return {void}
  * @namespace Store/RecentlyViewedProducts/Action/updateRecentlyViewedProducts
  */
-export const updateRecentlyViewedProducts = (product) => ({
+export const updateRecentlyViewedProducts = (product, store) => ({
     type: UPDATE_RECENTLY_VIEWED_PRODUCTS,
-    product
+    product,
+    store
 });

@@ -9,14 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { ItemsType } from 'Type/ProductList';
 
 import RecentlyViewedWidget from './RecentlyViewedWidget.component';
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    products: state.RecentlyViewedProductsReducer.recentlyViewedProducts
+    recentProducts: state.RecentlyViewedProductsReducer.recentlyViewedProducts,
+    store: state.ConfigReducer.code
 });
 
 /** @namespace Component/Slider/Container/mapDispatchToProps */
@@ -25,6 +29,11 @@ export const mapDispatchToProps = (dispatch) => ({});
 
 /** @namespace Component/RecentlyViewedWidget/Container */
 export class RecentlyViewedWidgetContainer extends PureComponent {
+    static propTypes = {
+        recentProducts: PropTypes.objectOf(ItemsType).isRequired,
+        store: PropTypes.string.isRequired
+    };
+
     state = {
         siblingsHaveBrands: false,
         siblingsHavePriceBadge: false,
@@ -40,6 +49,13 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
             siblingsHaveConfigurableOptions
         } = this.state;
 
+        const {
+            store,
+            recentProducts
+        } = this.props;
+
+        const products = recentProducts[store] ?? [];
+
         return {
             productCardFunctions: {
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
@@ -52,7 +68,8 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
                 siblingsHavePriceBadge,
                 siblingsHaveTierPrice,
                 siblingsHaveConfigurableOptions
-            }
+            },
+            products
         };
     }
 
