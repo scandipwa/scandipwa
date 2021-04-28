@@ -32,7 +32,7 @@
     position: fixed;
     background-color: var(--popup-background);
     left: 0;
-    bottom: 0;
+    top: var(--header-total-height);
 
     display: flex;
     justify-content: center;
@@ -47,6 +47,7 @@
         opacity: 1;
         width: 100vw;
         height: 100vh;
+        top: 0;
 
         @include mobile {
             height: calc(100% - var(--header-total-height));

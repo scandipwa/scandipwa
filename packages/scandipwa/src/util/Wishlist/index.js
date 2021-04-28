@@ -9,7 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createBrowserHistory } from 'history';
-
-export const history = createBrowserHistory({ basename: '/' });
-export default history;
+export * from './Wishlist';

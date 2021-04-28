@@ -219,6 +219,7 @@ export class ProductListQuery {
             'type_id',
             'stock_status',
             this._getPriceRangeField(),
+            this._getProductImageField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
@@ -495,6 +496,11 @@ export class ProductListQuery {
             .addFieldList(this._getProductSmallFields());
     }
 
+    _getProductImageField() {
+        return new Field('image')
+            .addFieldList(this._getProductThumbnailFields());
+    }
+
     _getAttributeOptionField() {
         return [
             'label',
@@ -515,6 +521,9 @@ export class ProductListQuery {
             'attribute_code',
             'attribute_type',
             'attribute_label',
+            'attribute_group_id',
+            'attribute_group_code',
+            'attribute_group_name',
             ...(!isVariant
                 ? [
                     this._getAttributeOptionsField()
@@ -541,7 +550,8 @@ export class ProductListQuery {
             'types',
             this._getVideoContentField(),
             this._getMediaThumbnailField(),
-            this._getMediaBaseField()
+            this._getMediaBaseField(),
+            this._getMediaLargeField()
         ];
     }
 
@@ -573,6 +583,10 @@ export class ProductListQuery {
 
     _getMediaBaseField() {
         return new Field('base').addField('url');
+    }
+
+    _getMediaLargeField() {
+        return new Field('large').addField('url');
     }
 
     _getMediaGalleryField() {

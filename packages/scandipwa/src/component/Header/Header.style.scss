@@ -524,8 +524,6 @@
 
         @include mobile {
             text-transform: uppercase;
-            overflow: unset;
-            white-space: unset;
             font-size: 1.82rem;
             height: 2.1rem;
             line-height: 2.1rem;
@@ -534,7 +532,7 @@
         &_isVisible {
             @include before-desktop {
                 opacity: 1;
-                max-width: calc(100% - 180px);
+                max-width: calc(100% - 100px);
             }
         }
     }

@@ -16,7 +16,13 @@ import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
-import { getExtensionAttributes } from 'Util/Product';
+import {
+    BUNDLE,
+    CONFIGURABLE,
+    DOWNLOADABLE,
+    getExtensionAttributes,
+    GROUPED
+} from 'Util/Product';
 
 import ProductWishlistButton from './ProductWishlistButton.component';
 import { ERROR_CONFIGURABLE_NOT_PROVIDED } from './ProductWishlistButton.config';
@@ -54,13 +60,16 @@ export class ProductWishlistButtonContainer extends PureComponent {
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func,
-        removeProductFromWishlist: PropTypes.func.isRequired
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        productOptionsData: PropTypes.object,
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
     };
 
     static defaultProps = {
         quantity: 1,
         onProductValidationError: () => {},
-        configurableVariantIndex: -2
+        configurableVariantIndex: -2,
+        productOptionsData: {}
     };
 
     state = {
@@ -157,7 +166,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
     _getIsProductReady() {
         const { product: { type_id }, configurableVariantIndex } = this.props;
 
-        if (type_id === 'configurable' && configurableVariantIndex < 0) {
+        if (type_id === CONFIGURABLE && configurableVariantIndex < 0) {
             return false;
         }
 
@@ -171,7 +180,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             configurableVariantIndex
         } = this.props;
 
-        if (type_id === 'configurable') {
+        if (type_id === CONFIGURABLE) {
             if (configurableVariantIndex < 0) {
                 return ERROR_CONFIGURABLE_NOT_PROVIDED;
             }
@@ -180,6 +189,41 @@ export class ProductWishlistButtonContainer extends PureComponent {
             const variant = product.variants[configurableVariantIndex];
 
             return { ...variant, product_option: { extension_attributes } };
+        }
+
+        if (type_id === GROUPED) {
+            const {
+                groupedProductQuantity = {}
+            } = this.props;
+
+            const grouped_product_options = Object.entries(groupedProductQuantity).map((option) => ({
+                option_id: option[0],
+                option_value: option[1]
+            }));
+
+            return { ...product, product_option: { extension_attributes: { grouped_product_options } } };
+        }
+
+        if (type_id === BUNDLE) {
+            const {
+                productOptionsData: {
+                    productOptions
+                }
+            } = this.props;
+
+            const extension_attributes = getExtensionAttributes({ ...product, productOptions });
+            return { ...product, product_option: { extension_attributes } };
+        }
+
+        if (type_id === DOWNLOADABLE) {
+            const {
+                productOptionsData: {
+                    downloadableLinks
+                }
+            } = this.props;
+
+            const extension_attributes = getExtensionAttributes({ ...product, downloadableLinks });
+            return { ...product, product_option: { extension_attributes } };
         }
 
         return product;

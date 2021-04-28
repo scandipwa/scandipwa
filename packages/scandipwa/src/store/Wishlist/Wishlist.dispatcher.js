@@ -21,6 +21,7 @@ import {
 import { isSignedIn } from 'Util/Auth';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import getStore from 'Util/Store';
+import { getPriceRange } from 'Util/Wishlist';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -67,19 +68,28 @@ export class WishlistDispatcher {
                             sku,
                             product,
                             description,
+                            price,
+                            price_without_tax,
+                            buy_request,
+                            options,
                             qty: quantity
                         } = wishlistItem;
+
+                        const priceRange = getPriceRange(product, price, price_without_tax);
 
                         return {
                             ...prev,
                             [id]: {
                                 ...product,
+                                ...priceRange,
                                 quantity,
                                 wishlist: {
                                     id,
                                     sku,
                                     quantity,
-                                    description
+                                    description,
+                                    buy_request,
+                                    options
                                 }
                             }
                         };

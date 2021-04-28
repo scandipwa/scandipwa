@@ -17,6 +17,8 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
+import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
@@ -78,7 +80,8 @@ export class ProductActions extends PureComponent {
         stockMeta: PropTypes.string.isRequired,
         metaLink: PropTypes.string.isRequired,
         device: DeviceType.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        displayProductStockStatus: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -101,11 +104,8 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
-        if (stockStatus === 'OUT_OF_STOCK') {
-            return __('Out of stock');
-        }
-
-        return __('In stock');
+        const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
+        return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
 
     renderSkuAndStock() {
@@ -113,7 +113,8 @@ export class ProductActions extends PureComponent {
             product,
             product: { variants },
             configurableVariantIndex,
-            showOnlyIfLoaded
+            showOnlyIfLoaded,
+            displayProductStockStatus
         } = this.props;
 
         const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
@@ -139,9 +140,7 @@ export class ProductActions extends PureComponent {
                             <span block="ProductActions" elem="Sku" itemProp="sku">
                                 { `${ sku }` }
                             </span>
-                            <span block="ProductActions" elem="Stock">
-                                { this.renderStock(stock_status) }
-                            </span>
+                            { displayProductStockStatus && this.renderStock(stock_status) }
                         </>
                     ),
                     <TextPlaceholder />
@@ -496,6 +495,8 @@ export class ProductActions extends PureComponent {
             quantity,
             configurableVariantIndex,
             onProductValidationError,
+            productOptionsData,
+            groupedProductQuantity,
             isWishlistEnabled
         } = this.props;
 
@@ -509,6 +510,8 @@ export class ProductActions extends PureComponent {
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ onProductValidationError }
+              productOptionsData={ productOptionsData }
+              groupedProductQuantity={ groupedProductQuantity }
             />
         );
     }
@@ -605,7 +608,7 @@ export class ProductActions extends PureComponent {
             product: { downloadable_product_samples }
         } = this.props;
 
-        if (!downloadable_product_samples) {
+        if (!downloadable_product_samples || !downloadable_product_samples.length) {
             return null;
         }
 
@@ -624,20 +627,25 @@ export class ProductActions extends PureComponent {
 
     renderDownloadableProductSample() {
         const {
-            product: { type_id, samples_title }
+            product: { type_id, samples_title, downloadable_product_samples }
         } = this.props;
 
-        if (type_id !== DOWNLOADABLE) {
+        if (type_id !== DOWNLOADABLE || !downloadable_product_samples || !downloadable_product_samples.length) {
             return null;
         }
 
         return (
-            <dl block="ProductActions" elem="Samples">
-                <dt block="ProductActions" elem="SamplesTitle">
-                    { samples_title }
-                </dt>
-                { this.renderDownloadableProductSampleItems() }
-            </dl>
+            <ExpandableContent
+              heading={ samples_title }
+              mix={ { block: 'ProductActions', elem: 'Samples' } }
+            >
+                <dl block="ProductActions" elem="Samples">
+                    <dt block="ProductActions" elem="SamplesTitle">
+                        { samples_title }
+                    </dt>
+                    { this.renderDownloadableProductSampleItems() }
+                </dl>
+            </ExpandableContent>
         );
     }
 
@@ -675,11 +683,11 @@ export class ProductActions extends PureComponent {
 
     render() {
         return (
-            <>
-                <article block="ProductActions">
+            <article block="ProductActions">
                     { this.renderPriceWithGlobalSchema() }
                     { this.renderShortDescription() }
                     { this.renderDownloadableProductSample() }
+                    { this.renderDownloadableProductLinks() }
                     <div
                       block="ProductActions"
                       elem="AddToCartWrapper"
@@ -698,9 +706,7 @@ export class ProductActions extends PureComponent {
                     { this.renderBundleItems() }
                     { this.renderGroupedItems() }
                     { this.renderTierPrices() }
-                </article>
-                { this.renderDownloadableProductLinks() }
-            </>
+            </article>
         );
     }
 }

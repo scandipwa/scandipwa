@@ -11,6 +11,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 import Link from 'Component/Link';
 import { formatPrice } from 'Util/Price';
@@ -24,11 +25,13 @@ export class ProductDownloadableLinks extends PureComponent {
         isRequired: PropTypes.bool.isRequired,
         links: PropTypes.array,
         title: PropTypes.string.isRequired,
-        setSelectedCheckboxValues: PropTypes.func.isRequired
+        setSelectedCheckboxValues: PropTypes.func.isRequired,
+        selectedLinks: PropTypes.array
     };
 
     static defaultProps = {
-        links: []
+        links: [],
+        selectedLinks: []
     };
 
     getLabel(link) {
@@ -36,10 +39,19 @@ export class ProductDownloadableLinks extends PureComponent {
         const { isRequired } = this.props;
 
         if (!isRequired) {
-            return title;
+            return (
+            <span block="ProductDownloadableLink" elem="SampleTitle">
+                { title }
+            </span>
+            );
         }
 
-        return `${ title } (+${ formatPrice(price) })`;
+        return (
+            <span block="ProductDownloadableLink" elem="SampleTitle">
+                { title }
+                { `(+${ formatPrice(price) })` }
+            </span>
+        );
     }
 
     renderLabel(link) {
@@ -88,17 +100,38 @@ export class ProductDownloadableLinks extends PureComponent {
         </div>
     );
 
-    renderLinks() {
-        const { links } = this.props;
+    renderRequired(isRequired) {
+        const { selectedLinks } = this.props;
 
-        return links.map(this.renderLink);
+        if (isRequired !== true || selectedLinks.length > 0) {
+            return null;
+        }
+
+        return (
+            <div
+              block="ProductDownloadableLink"
+              elem="Required"
+            >
+                { __('This field is required!') }
+            </div>
+        );
+    }
+
+    renderLinks() {
+        const { links, isRequired } = this.props;
+        return (
+            <>
+                { links.map(this.renderLink) }
+                { this.renderRequired(isRequired) }
+            </>
+        );
     }
 
     renderTitle() {
-        const { title, isRequired } = this.props;
+        const { title } = this.props;
 
         return (
-            <h3 block="ProductDownloadableLinks" elem="Title" mods={ { isRequired } }>
+            <h3 block="ProductDownloadableLinks" elem="Title">
                 { title }
             </h3>
         );
@@ -125,16 +158,20 @@ export class ProductDownloadableLinks extends PureComponent {
     }
 
     render() {
-        const { isLoading } = this.props;
+        const { isLoading, title } = this.props;
 
         if (isLoading) {
             return this.renderPlaceholder();
         }
 
         return (
-            <div block="ProductDownloadableLinks">
+            <ExpandableContent
+              block="ProductDownloadableLinks"
+              heading={ title }
+              mix={ { block: 'ProductDownloadableLinks' } }
+            >
                 { this.renderContent() }
-            </div>
+            </ExpandableContent>
         );
     }
 }
