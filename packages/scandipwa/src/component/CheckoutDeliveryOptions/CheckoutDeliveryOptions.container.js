@@ -45,18 +45,20 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             shippingMethod
         } = props;
 
+        const items = shippingMethods.filter(({ available }) => available);
+
         /**
          * Code bellow checking the first selected shipping method.
          *
          * In the case of PICK UP IN STORE, code will not select it, as we need customer to select it manually,
          * to open popup and select actual store where order will be shipped.
          */
-        const result = shippingMethods.find(
+        const result = items.find(
             ({ method_code, carrier_code }) => (`${carrier_code}_${method_code}` === shippingMethod
             ) && method_code !== STORE_IN_PICK_UP_METHOD_CODE
         ) || (
-            shippingMethods[0] && shippingMethods[0].method_code !== STORE_IN_PICK_UP_METHOD_CODE
-                ? shippingMethods[0]
+            items[0] && items[0].method_code !== STORE_IN_PICK_UP_METHOD_CODE
+                ? items[0]
                 : {}
         );
 

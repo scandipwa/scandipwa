@@ -31,6 +31,7 @@ import {
     NEWSLETTER_SUBSCRIPTION,
     tabMapType
 } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 
 import './MyAccount.style';
 
@@ -42,7 +43,6 @@ export class MyAccount extends PureComponent {
         changeActiveTab: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         onSignOut: PropTypes.func.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired
     };
 
@@ -70,12 +70,11 @@ export class MyAccount extends PureComponent {
             activeTab,
             tabMap,
             changeActiveTab,
-            isSignedIn,
             onSignOut,
             isEditingActive
         } = this.props;
 
-        if (!isSignedIn) {
+        if (!isSignedIn()) {
             return this.renderLoginOverlay();
         }
 

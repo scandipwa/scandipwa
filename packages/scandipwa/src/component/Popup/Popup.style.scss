@@ -50,6 +50,7 @@
         top: 0;
 
         @include mobile {
+            top: var(--header-total-height);
             height: calc(100% - var(--header-total-height));
         }
     }

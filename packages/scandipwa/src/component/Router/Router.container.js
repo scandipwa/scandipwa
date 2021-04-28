@@ -60,14 +60,14 @@ export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
     updateConfigDevice: (device) => dispatch(updateConfigDevice(device)),
     init: () => {
+        ConfigDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.handleData(dispatch)
+        );
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
-        );
-        ConfigDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.handleData(dispatch)
         );
         ProductCompareDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)

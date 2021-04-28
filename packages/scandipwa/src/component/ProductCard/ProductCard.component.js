@@ -23,6 +23,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
@@ -60,6 +61,7 @@ export class ProductCard extends PureComponent {
         isConfigurableProductOutOfStock: PropTypes.func.isRequired,
         isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
+        isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
         siblingsHaveBrands: PropTypes.bool,
         setSiblingsHaveBrands: PropTypes.func,
@@ -89,7 +91,7 @@ export class ProductCard extends PureComponent {
         setSiblingsHaveTierPrice: () => null,
         siblingsHaveConfigurableOptions: false,
         setSiblingsHaveConfigurableOptions: () => null,
-        layout: 'grid'
+        layout: GRID_LAYOUT
     };
 
     contentObject = {
@@ -352,9 +354,9 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductCardWishlistButton() {
-        const { product, hideWishlistButton } = this.props;
+        const { product, hideWishlistButton, isWishlistEnabled } = this.props;
 
-        if (hideWishlistButton) {
+        if (hideWishlistButton || !isWishlistEnabled) {
             return null;
         }
 
@@ -571,7 +573,7 @@ export class ProductCard extends PureComponent {
             siblingsHaveConfigurableOptions
         };
 
-        if (layout === 'list') {
+        if (layout === LIST_LAYOUT) {
             return (
                 <li
                   block="ProductCard"

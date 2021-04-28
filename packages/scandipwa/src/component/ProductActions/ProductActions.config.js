@@ -12,4 +12,3 @@
  */
 
 export const DEFAULT_MAX_PRODUCTS = 99;
-export const ONE_HUNDRED_PERCENT = 100;
