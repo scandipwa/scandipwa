@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -596,11 +597,11 @@ export class CategoryPageContainer extends PureComponent {
 
         if (plpType.match('-')) {
             const plpTypes = plpType.split('-');
-            const defaultType = isMobile ? 'grid' : plpTypes[0];
+            const defaultType = isMobile ? GRID_LAYOUT : plpTypes[0];
 
             this.setState({ defaultPlpType: defaultType, plpTypes });
         } else {
-            const defaultType = isMobile ? 'grid' : plpType;
+            const defaultType = isMobile ? GRID_LAYOUT : plpType;
             this.setState({ defaultPlpType: defaultType, plpTypes: [plpType] });
         }
     }
