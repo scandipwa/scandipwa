@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DeviceType } from 'Type/Device';
+import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -60,6 +61,10 @@ export class NavigationAbstractContainer extends PureComponent {
 
     onRouteChanged(history) {
         const { device } = this.props;
+
+        // check if token is expired and logout
+        isSignedIn();
+
         if (!device.isMobile) {
             return this.handleDesktopRouteChange(history);
         }

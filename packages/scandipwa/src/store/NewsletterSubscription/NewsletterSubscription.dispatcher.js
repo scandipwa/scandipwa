@@ -11,7 +11,7 @@
 
 import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 /**
  * Product Cart Dispatcher
@@ -26,7 +26,7 @@ export class NewsletterSubscriptionDispatcher {
                 dispatch(showNotification('success', __('A subscription confirmation email has been sent!')));
             },
             /** @namespace Store/NewsletterSubscription/Dispatcher/fetchMutationSuccess */
-            (error) => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }
 }

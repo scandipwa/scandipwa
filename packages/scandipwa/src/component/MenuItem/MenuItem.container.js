@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import MenuItem from './MenuItem.component';
+import { HOVER_TIMEOUT } from './MenuItem.config';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
 // eslint-disable-next-line no-unused-vars
@@ -30,7 +31,8 @@ export class MenuItemContainer extends PureComponent {
     static propTypes = {
         closeMenu: PropTypes.func,
         onCategoryHover: PropTypes.func,
-        item: PropTypes.object.isRequired
+        item: PropTypes.object.isRequired,
+        activeMenuItemsStack: PropTypes.array.isRequired
     };
 
     static defaultProps = {
@@ -40,8 +42,11 @@ export class MenuItemContainer extends PureComponent {
 
     containerFunctions = {
         handleCategoryHover: this.handleCategoryHover.bind(this),
+        handleLinkLeave: this.handleLinkLeave.bind(this),
         onItemClick: this.onItemClick.bind(this)
     };
+
+    menuHoverTimeout = null;
 
     onItemClick() {
         const { closeMenu } = this.props;
@@ -50,9 +55,17 @@ export class MenuItemContainer extends PureComponent {
     }
 
     handleCategoryHover() {
-        const { onCategoryHover, item } = this.props;
+        const { onCategoryHover, item, activeMenuItemsStack } = this.props;
 
-        onCategoryHover(item);
+        const hoverTimeOut = activeMenuItemsStack.length === 0 ? HOVER_TIMEOUT : 0;
+
+        this.menuHoverTimeout = setTimeout(() => {
+            onCategoryHover(item);
+        }, hoverTimeOut);
+    }
+
+    handleLinkLeave() {
+        clearTimeout(this.menuHoverTimeout);
     }
 
     render() {
