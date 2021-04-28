@@ -20,7 +20,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = () => ({
-    recentlyViewedProducts: BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || []
+    recentlyViewedProducts: BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || {}
 });
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/recentlyViewedProductsReducer */
@@ -34,15 +34,23 @@ export const RecentlyViewedProductsReducer = (
             product,
             product: { sku: newSku }
         } = action;
-        const { recentlyViewedProducts } = state;
 
-        if (recentlyViewedProducts.length === MAX_NUMBER_OF_RECENT_PRODUCTS) {
-            recentlyViewedProducts.pop();
+        const { recentlyViewedProducts = {} } = state;
+        const { store } = action;
+        const storeProducts = recentlyViewedProducts[store] ?? [];
+
+        if (storeProducts.length === MAX_NUMBER_OF_RECENT_PRODUCTS) {
+            storeProducts.pop();
         }
 
         // Remove product from existing recentProducts to add it later in the beginning
-        const newRecentProducts = recentlyViewedProducts.filter(({ sku }) => (newSku !== sku));
-        newRecentProducts.unshift(product);
+        const newStoreRecentProducts = storeProducts.filter(({ sku }) => (newSku !== sku));
+        newStoreRecentProducts.unshift(product);
+
+        const newRecentProducts = {
+            ...recentlyViewedProducts,
+            [store]: newStoreRecentProducts
+        };
 
         BrowserDatabase.setItem(newRecentProducts, RECENTLY_VIEWED_PRODUCTS);
 

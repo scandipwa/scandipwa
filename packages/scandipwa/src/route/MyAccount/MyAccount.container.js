@@ -25,6 +25,7 @@ import {
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
+import { isSignedIn } from 'Util/Auth';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
@@ -41,7 +42,6 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Route/MyAccount/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn,
     device: state.ConfigReducer.device,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist
@@ -68,7 +68,6 @@ export class MyAccountContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
@@ -158,7 +157,6 @@ export class MyAccountContainer extends PureComponent {
         super.__construct(props);
 
         const {
-            isSignedIn,
             updateMeta,
             toggleOverlayByKey
         } = this.props;
@@ -168,7 +166,7 @@ export class MyAccountContainer extends PureComponent {
             isEditingActive: false
         };
 
-        if (!isSignedIn) {
+        if (!isSignedIn()) {
             toggleOverlayByKey(CUSTOMER_ACCOUNT);
         }
 
@@ -185,7 +183,7 @@ export class MyAccountContainer extends PureComponent {
 
     componentDidUpdate(prevProps, prevState) {
         const { wishlistItems: prevWishlistItems } = prevProps;
-        const { wishlistItems, isSignedIn } = this.props;
+        const { wishlistItems } = this.props;
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
@@ -200,7 +198,7 @@ export class MyAccountContainer extends PureComponent {
             this.changeHeaderState();
         }
 
-        if (!isSignedIn) {
+        if (!isSignedIn()) {
             this.changeHeaderState('default');
         }
     }
@@ -225,12 +223,9 @@ export class MyAccountContainer extends PureComponent {
     }
 
     onSignIn() {
-        const {
-            requestCustomerData,
-            isSignedIn
-        } = this.props;
+        const { requestCustomerData } = this.props;
 
-        if (isSignedIn) {
+        if (isSignedIn()) {
             requestCustomerData();
         }
 
@@ -305,13 +300,12 @@ export class MyAccountContainer extends PureComponent {
 
     redirectIfNotSignedIn() {
         const {
-            isSignedIn,
             history,
             location: { pathname },
             device
         } = this.props;
 
-        if (isSignedIn) { // do nothing for signed-in users
+        if (isSignedIn()) { // do nothing for signed-in users
             return;
         }
 

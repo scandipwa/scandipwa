@@ -38,7 +38,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching LinkedProducts!', error));
+        dispatch(showNotification('error', __('Error fetching LinkedProducts!'), error));
     }
 
     /**

@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
-import { fetchQuery } from 'Util/Request';
+import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 import MyAccountDownloadable from './MyAccountDownloadable.component';
 
@@ -110,8 +110,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
             }),
             /** @namespace Component/MyAccountDownloadable/Container/requestDownloadable/error */
             (err) => {
-                const { message = __('Something went wrong!') } = err;
-                showErrorNotification(message);
+                showErrorNotification(getErrorMessage(err));
                 this.setState({ isLoading: false });
             }
         );

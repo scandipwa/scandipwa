@@ -221,6 +221,7 @@ export class CategoryPage extends PureComponent {
         case GRID_LAYOUT:
             return (
                 <button
+                  key={ type }
                   onClick={ this.onGridButtonClick }
                   mix={ { block: GRID_LAYOUT, mods: { isActive: layout === GRID_LAYOUT } } }
                 >
@@ -230,6 +231,7 @@ export class CategoryPage extends PureComponent {
         case LIST_LAYOUT:
             return (
                 <button
+                  key={ type }
                   onClick={ this.onListButtonClick }
                   mix={ { block: LIST_LAYOUT, mods: { isActive: layout === LIST_LAYOUT } } }
                 >

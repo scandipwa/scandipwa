@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import WishlistQuery from 'Query/Wishlist.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 
@@ -48,7 +48,7 @@ export class ShareWishlistPopupContainer extends PureComponent {
                 hidePopup();
             },
             /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationCatch */
-            ([{ message }]) => showError(message)
+            (error) => showError(getErrorMessage(error))
         );
     };
 
