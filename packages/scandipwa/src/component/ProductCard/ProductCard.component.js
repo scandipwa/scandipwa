@@ -443,7 +443,6 @@ export class ProductCard extends PureComponent {
 
         return (
             <>
-                { /* { availableVisualOptions.map((options, i) => this.renderVisualConfigurableOptions(options, i)) } */ }
                 { this.renderConfigurableOptions() }
                 <div block="ProductCard" elem="Footer">
                     { this.renderAddToCart() }

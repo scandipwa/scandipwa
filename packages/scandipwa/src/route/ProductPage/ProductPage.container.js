@@ -24,7 +24,7 @@ import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
 import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
-import { getNewParameters, getVariantIndex } from 'Util/Product';
+import { getIsConfigurableParameterSelected, getNewParameters, getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -421,10 +421,6 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    getIsConfigurableParameterSelected(parameters, key, value) {
-        return Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
-    }
-
     containerProps = () => ({
         productOrVariant: this.getProductOrVariant(),
         dataSource: this.getDataSource(),
@@ -446,7 +442,7 @@ export class ProductPageContainer extends PureComponent {
     updateUrl(key, value, parameters) {
         const { location, history } = this.props;
 
-        const isParameterSelected = this.getIsConfigurableParameterSelected(parameters, key, value);
+        const isParameterSelected = getIsConfigurableParameterSelected(parameters, key, value);
 
         if (isParameterSelected) {
             updateQueryParamWithoutHistory(key, value, history, location);

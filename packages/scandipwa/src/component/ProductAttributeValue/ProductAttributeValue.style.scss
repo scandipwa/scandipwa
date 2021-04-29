@@ -14,7 +14,7 @@
     --option-check-mark-background: #{$black};
     --option-padding: 0 12px;
     --option-margin: 0;
-    --option-size: 33px;
+    --option-size: 32px;
     --option-text-color: #{$black};
     --option-border-color: var(--color-dark-gray);
 
@@ -69,7 +69,7 @@
     }
 
     &-Color {
-        --option-size: 33px;
+        --option-size: 32px;
 
         margin-bottom: 0;
     }
@@ -234,3 +234,4 @@
         pointer-events: none;
     }
 }
+
