@@ -75,7 +75,9 @@ export class ResetAttributesContainer extends PureComponent {
         const func = attribute_code === 'price' ? this.getFilterOptionsForPrice : this.getFilterOptionsDefault;
 
         return {
-            [attribute_label]: func(attrValue, Object.values(attribute_options)).map((o) => ({ ...o, attribute_code }))
+            [attribute_label]: func(attrValue, Object.values(attribute_options)).map(
+                (option) => ({ ...option, attribute_code })
+            )
         };
     };
 
