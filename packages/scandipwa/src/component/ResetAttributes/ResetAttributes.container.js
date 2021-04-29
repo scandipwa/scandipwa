@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { formatPrice } from 'Util/Price';
+import { getPriceFilterLabel } from 'Util/Category';
 
 import ResetAttributes from './ResetAttributes.component';
 
@@ -51,33 +51,20 @@ export class ResetAttributesContainer extends PureComponent {
         resetFilters: this.resetFilters
     });
 
-    getPriceFilterLabel(filterValue) {
+    getFilterOptionsForPrice = (options) => options.map((option) => {
         const { currency_code } = this.props;
-        const [from, to] = filterValue.split('_');
-        const priceFrom = formatPrice(from, currency_code);
-        const priceTo = formatPrice(to, currency_code);
 
-        if (from === '*') {
-            return __('Up to %s', priceTo);
-        }
+        const [from, to] = option.split('_');
+        const label = getPriceFilterLabel(from, to, currency_code);
 
-        if (to === '*') {
-            return __('From %s', priceFrom);
-        }
-
-        return __('From %s, to %s', priceFrom, priceTo);
-    }
-
-    getFilterOptionsForPrice = (options) => options.map((option) => ({
-        value_string: option,
-        label: this.getPriceFilterLabel(option)
-    }));
+        return { value_string: option, label };
+    });
 
     getFilterOptionsDefault = (values, options) => options.filter((option) => values.includes(option.value_string));
 
-    getResetData = (k, v) => {
+    getResetData = (attrCode, attrValue) => {
         const { availableFilters } = this.props;
-        const filterData = availableFilters[k];
+        const filterData = availableFilters[attrCode];
 
         if (!filterData) {
             return {};
@@ -88,14 +75,21 @@ export class ResetAttributesContainer extends PureComponent {
         const func = attribute_code === 'price' ? this.getFilterOptionsForPrice : this.getFilterOptionsDefault;
 
         return {
-            [attribute_label]: func(v, Object.values(attribute_options)).map((o) => ({ ...o, attribute_code }))
+            [attribute_label]: func(attrValue, Object.values(attribute_options)).map((o) => ({ ...o, attribute_code }))
         };
     };
 
     filterResetItems() {
         const { customFiltersValues } = this.props;
-        return Object.entries(customFiltersValues)
-            .reduce((prev, [k, v]) => ({ ...prev, ...this.getResetData(k, v) }), {});
+
+        return Object.entries(customFiltersValues).reduce(
+            (prev, [attrCode, attrValues]) => (
+                {
+                    ...prev,
+                    ...this.getResetData(attrCode, attrValues)
+                }
+            ), {}
+        );
     }
 
     render() {

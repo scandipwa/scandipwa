@@ -100,6 +100,7 @@ export class CategoryFilterOverlay extends PureComponent {
 
     renderResetAttributes() {
         const { customFiltersValues, availableFilters, toggleCustomFilter } = this.props;
+
         return (
             <ResetAttributes
               customFiltersValues={ customFiltersValues }

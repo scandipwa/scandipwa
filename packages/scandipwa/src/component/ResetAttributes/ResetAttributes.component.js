@@ -56,15 +56,17 @@ export class ResetAttributes extends PureComponent {
     }
 
     render() {
-        const { filtersData } = this.props;
+        const { filtersData = {} } = this.props;
 
-        if (filtersData === {}) {
+        if (!Object.keys(filtersData).length) {
             return null;
         }
 
         return (
             <div block="ResetAttributes">
-                { Object.entries(filtersData).map(([k, v]) => this.renderResetItem(k, v)) }
+                { Object.entries(filtersData).map(
+                    ([attrName, attrData]) => this.renderResetItem(attrName, attrData)
+                ) }
             </div>
         );
     }

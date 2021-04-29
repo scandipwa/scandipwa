@@ -27,10 +27,6 @@
     }
 
     &-CloseIcon {
-        background-image: url('./../../style/icons/close.svg');
-        background-position: center;
-        cursor: pointer;
-        height: 16px;
-        width: 16px;
+        @include close-button-svg
     }
 }
