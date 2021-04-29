@@ -357,8 +357,6 @@ export class CategoryPage extends PureComponent {
     render() {
         const hideProducts = !this.displayProducts();
 
-        console.log(Date.now());
-
         return (
             <main block="CategoryPage">
                 <ContentWrapper
