@@ -69,7 +69,6 @@
     }
 }
 
-// TODO: rename to 'close-button' after/if old css icon has been replaced everywhere
 @mixin close-button-svg {
     background-image: url('./../../style/icons/close.svg');
     background-position: center;
