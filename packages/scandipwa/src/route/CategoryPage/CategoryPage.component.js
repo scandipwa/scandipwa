@@ -62,6 +62,7 @@ export class CategoryPage extends PureComponent {
         device: DeviceType.isRequired,
         is_anchor: PropTypes.bool,
         defaultPlpType: PropTypes.string,
+        isMobile: PropTypes.bool.isRequired,
         plpTypes: PropTypes.arrayOf(PropTypes.string)
     };
 
@@ -85,9 +86,14 @@ export class CategoryPage extends PureComponent {
 
     onListButtonClick = this.onListButtonClick.bind(this);
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { layout } = this.state;
+        const { isMobile } = this.props;
+        const { isMobile: prevMobile } = prevProps;
 
+        if (prevMobile !== isMobile) {
+            this.setDefaultPlpType();
+        }
         if (!layout) {
             this.setDefaultPlpType();
         }
@@ -125,9 +131,10 @@ export class CategoryPage extends PureComponent {
     }
 
     setDefaultPlpType() {
-        const { defaultPlpType } = this.props;
+        const { defaultPlpType, isMobile } = this.props;
+        const defaultType = isMobile ? GRID_LAYOUT : defaultPlpType;
 
-        this.setState({ layout: defaultPlpType });
+        this.setState({ layout: defaultType });
     }
 
     renderCategoryDetails() {
