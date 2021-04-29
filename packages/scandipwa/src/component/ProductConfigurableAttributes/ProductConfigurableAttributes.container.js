@@ -17,9 +17,13 @@ import ProductConfigurableAttributes from './ProductConfigurableAttributes.compo
 /** @namespace Component/ProductConfigurableAttributes/Container */
 export class ProductConfigurableAttributesContainer extends PureComponent {
     static propTypes = {
-        getLink: PropTypes.func.isRequired,
+        getLink: PropTypes.func,
         parameters: PropTypes.shape({}).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        getLink: () => {}
     };
 
     containerFunctions = {

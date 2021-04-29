@@ -313,3 +313,18 @@ export const getExtensionAttributes = (product) => {
 
     return {};
 };
+
+/** @namespace Util/Product/getNewParameters */
+export const getNewParameters = (parameters, key, value) => {
+    // If value is already selected, than we remove the key to achieve deselection
+    if (this.getIsConfigurableParameterSelected(parameters, key, value)) {
+        const { [key]: oldValue, ...newParameters } = parameters;
+
+        return newParameters;
+    }
+
+    return {
+        ...parameters,
+        [key]: value.toString()
+    };
+};

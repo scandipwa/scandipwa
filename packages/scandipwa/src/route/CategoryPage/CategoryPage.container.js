@@ -138,7 +138,8 @@ export class CategoryPageContainer extends PureComponent {
         categoryIds: PropTypes.number,
         isSearchPage: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        plpType: PropTypes.string
+        plpType: PropTypes.string,
+        device: PropTypes.shape({}).isRequired
     };
 
     static defaultProps = {
