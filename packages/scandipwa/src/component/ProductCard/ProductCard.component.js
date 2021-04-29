@@ -429,6 +429,7 @@ export class ProductCard extends PureComponent {
               configurable_options={ this.getAttributesToShow() }
               updateConfigurableVariant={ updateConfigurableVariant }
               parameters={ parameters }
+              isExpandable={ false }
             />
         );
     }

@@ -34,7 +34,8 @@ export class ProductConfigurableAttributes extends PureComponent {
         handleOptionClick: PropTypes.func.isRequired,
         getSubHeading: PropTypes.func.isRequired,
         isSelected: PropTypes.func.isRequired,
-        getLink: PropTypes.func.isRequired
+        getLink: PropTypes.func.isRequired,
+        isExpandable: PropTypes.bool
     };
 
     static defaultProps = {
@@ -43,7 +44,8 @@ export class ProductConfigurableAttributes extends PureComponent {
         // eslint-disable-next-line no-magic-numbers
         numberOfPlaceholders: [6, 10, 7],
         isContentExpanded: false,
-        getIsConfigurableAttributeAvailable: () => true
+        getIsConfigurableAttributeAvailable: () => true,
+        isExpandable: true
     };
 
     renderConfigurableAttributeValue(attribute) {
@@ -136,7 +138,8 @@ export class ProductConfigurableAttributes extends PureComponent {
         const {
             configurable_options,
             isContentExpanded,
-            getSubHeading
+            getSubHeading,
+            isExpandable
         } = this.props;
 
         return Object.values(configurable_options).map((option) => {
@@ -148,6 +151,11 @@ export class ProductConfigurableAttributes extends PureComponent {
 
             const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
             const isSwatch = !!swatch_data;
+
+            // render content without heading and subheading
+            if (!isExpandable) {
+                return isSwatch ? this.renderSwatch(option) : this.renderDropdown(option);
+            }
 
             return (
                 <ExpandableContent
