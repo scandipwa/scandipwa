@@ -177,44 +177,6 @@ export class ProductCardContainer extends PureComponent {
         return product || {};
     }
 
-    // _reduceAttributeOptions(optionWithSwatchData) {
-    //     const { attribute_options = {} } = optionWithSwatchData || {};
-    //
-    //     return Object.values(attribute_options).reduce(
-    //         (acc, option) => {
-    //             const {
-    //                 swatch_data,
-    //                 label
-    //             } = option;
-    //
-    //             const { type, value } = swatch_data || {};
-    //
-    //             if (type && value) {
-    //                 acc.push({ value, label, type });
-    //             }
-    //
-    //             return acc;
-    //         },
-    //         []
-    //     );
-    // }
-
-    // _getAvailableVisualOptions() {
-    //     const { product: { configurable_options = {} } } = this.props;
-    //
-    //     if (Object.keys(configurable_options).length === 0) {
-    //         return [];
-    //     }
-    //
-    //     const optionsWithSwatchData = Object.values(configurable_options).filter((option) => {
-    //         const { attribute_options = {} } = option;
-    //
-    //         return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
-    //     });
-    //
-    //     return optionsWithSwatchData.map((option) => this._reduceAttributeOptions(option));
-    // }
-
     isConfigurableProductOutOfStock() {
         const { product: { variants } } = this.props;
 

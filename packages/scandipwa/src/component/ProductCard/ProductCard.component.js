@@ -94,7 +94,6 @@ export class ProductCard extends PureComponent {
         content: {
             review: this.renderReviews.bind(this),
             productPrice: this.renderProductPrice.bind(this),
-            // confOptions: this.renderVisualConfigurableOptions.bind(this),
             tierPrice: this.renderTierPrice.bind(this),
             mainDetails: this.renderMainDetails.bind(this),
             additionalProductDetails: this.renderAdditionalProductDetails.bind(this)
@@ -203,65 +202,6 @@ export class ProductCard extends PureComponent {
             />
         );
     }
-
-    // renderImageVisualOption(label, value, i) {
-    //     return (
-    //       <img
-    //         key={ i }
-    //         block="ProductCard"
-    //         elem="Image"
-    //         src={ `/media/attribute/swatch/swatch_thumb/110x90${value}` }
-    //         alt={ label }
-    //       />
-    //     );
-    // }
-
-    // renderVisualOption = ({ label, value, type }, i) => {
-    //     if (type === OPTION_TYPE_IMAGE) {
-    //         return this.renderImageVisualOption(label, value, i);
-    //     }
-    //
-    //     const isColor = type === OPTION_TYPE_COLOR;
-    //
-    //     return (
-    //         <span
-    //           block="ProductCard"
-    //           elem={ isColor ? 'Color' : 'String' }
-    //           key={ i }
-    //           style={ isColor ? { backgroundColor: value } : {} }
-    //           aria-label={ isColor ? label : '' }
-    //           title={ isColor ? '' : label }
-    //         >
-    //             { isColor ? '' : value }
-    //         </span>
-    //     );
-    // };
-
-    // renderVisualConfigurableOptions(availableVisualOptions, index) {
-    //     const {
-    //         siblingsHaveConfigurableOptions,
-    //         setSiblingsHaveConfigurableOptions,
-    //         device
-    //     } = this.props;
-    //
-    //     if (device.isMobile || !availableVisualOptions.length) {
-    //         return null;
-    //     }
-    //
-    //     if (!validOptionTypes.includes(availableVisualOptions[0].type)) {
-    //         return <div block="ProductCard" elem="ConfigurableOptions" />;
-    //     }
-    //
-    //     if (!siblingsHaveConfigurableOptions) {
-    //         setSiblingsHaveConfigurableOptions();
-    //     }
-    //
-    //     return (
-    //         <div block="ProductCard" elem="ConfigurableOptions" key={ index }>
-    //             { availableVisualOptions.map(this.renderVisualOption) }
-    //         </div>
-    //     );
-    // }
 
     renderPicture(mix = {}) {
         const { product: { id, name }, thumbnail } = this.props;
