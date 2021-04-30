@@ -81,7 +81,8 @@ export class ProductActions extends PureComponent {
         metaLink: PropTypes.string.isRequired,
         device: DeviceType.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
-        displayProductStockStatus: PropTypes.bool.isRequired
+        displayProductStockStatus: PropTypes.bool.isRequired,
+        setRefs: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -93,6 +94,14 @@ export class ProductActions extends PureComponent {
     configurableOptionsRef = createRef();
 
     groupedProductsRef = createRef();
+
+    componentDidMount() {
+        const { setRefs } = this.props;
+        setRefs({
+            configurableOptionsRef: this.configurableOptionsRef,
+            groupedProductsRef: this.groupedProductsRef
+        });
+    }
 
     componentDidUpdate(prevProps) {
         const { product: { id: prevId } } = prevProps;
@@ -389,7 +398,7 @@ export class ProductActions extends PureComponent {
                 <meta itemProp="url" content={ metaLink } />
                 <a
                   block="ProductActions"
-                  elem="Schema-Url"
+                  elem="SchemaUrl"
                   itemProp="url"
                   href={ metaLink }
                 >
@@ -681,31 +690,66 @@ export class ProductActions extends PureComponent {
         );
     }
 
+    renderAddToCartActionBlock() {
+        return (
+            <div
+              block="ProductActions"
+              elem="AddToCartWrapper"
+              mix={ { block: 'FixedElement', elem: 'Bottom' } }
+            >
+                { this.renderQuantityInput() }
+                { this.renderAddToCart() }
+                { this.renderProductCompareButton() }
+                { this.renderProductWishlistButton() }
+            </div>
+        );
+    }
+
+    renderDesktop() {
+        return (
+            <>
+                { this.renderNameAndBrand() }
+                { this.renderReviews() }
+                { this.renderSkuAndStock() }
+                { this.renderShortDescription() }
+                { this.renderConfigurableAttributes() }
+                { this.renderCustomizableOptions() }
+                { this.renderBundleItems() }
+                { this.renderGroupedItems() }
+                { this.renderDownloadableProductSample() }
+                { this.renderDownloadableProductLinks() }
+                { this.renderPriceWithGlobalSchema() }
+                { this.renderTierPrices() }
+                { this.renderAddToCartActionBlock() }
+            </>
+        );
+    }
+
+    renderMobile() {
+        return (
+            <>
+                { this.renderNameAndBrand() }
+                { this.renderReviews() }
+                { this.renderSkuAndStock() }
+                { this.renderShortDescription() }
+                { this.renderConfigurableAttributes() }
+                { this.renderCustomizableOptions() }
+                { this.renderBundleItems() }
+                { this.renderGroupedItems() }
+                { this.renderDownloadableProductSample() }
+                { this.renderDownloadableProductLinks() }
+                { this.renderPriceWithGlobalSchema() }
+                { this.renderTierPrices() }
+                { this.renderAddToCartActionBlock() }
+            </>
+        );
+    }
+
     render() {
+        const { device: { isMobile } = {} } = this.props;
         return (
             <article block="ProductActions">
-                    { this.renderPriceWithGlobalSchema() }
-                    { this.renderShortDescription() }
-                    { this.renderDownloadableProductSample() }
-                    { this.renderDownloadableProductLinks() }
-                    <div
-                      block="ProductActions"
-                      elem="AddToCartWrapper"
-                      mix={ { block: 'FixedElement', elem: 'Bottom' } }
-                    >
-                        { this.renderQuantityInput() }
-                        { this.renderAddToCart() }
-                        { this.renderProductCompareButton() }
-                        { this.renderProductWishlistButton() }
-                    </div>
-                    { this.renderReviews() }
-                    { this.renderNameAndBrand() }
-                    { this.renderSkuAndStock() }
-                    { this.renderConfigurableAttributes() }
-                    { this.renderCustomizableOptions() }
-                    { this.renderBundleItems() }
-                    { this.renderGroupedItems() }
-                    { this.renderTierPrices() }
+                { isMobile ? this.renderMobile() : this.renderDesktop() }
             </article>
         );
     }

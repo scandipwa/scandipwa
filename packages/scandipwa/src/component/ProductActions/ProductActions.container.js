@@ -33,6 +33,9 @@ export const mapStateToProps = (state) => ({
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
+/** @namespace Component/ProductActions/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/ProductActions/Container */
 export class ProductActionsContainer extends PureComponent {
     static propTypes = {
@@ -107,7 +110,8 @@ export class ProductActionsContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this),
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
+        setRefs: this.setRefs.bind(this)
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -125,9 +129,15 @@ export class ProductActionsContainer extends PureComponent {
         return null;
     }
 
-    onConfigurableProductError = this.onProductError.bind(this, this.configurableOptionsRef);
+    setRefs(refs) {
+        const {
+            configurableOptionsRef,
+            groupedProductsRef
+        } = refs;
 
-    onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
+        this.onConfigurableProductError = this.onProductError.bind(this, configurableOptionsRef);
+        this.onGroupedProductError = this.onProductError.bind(this, groupedProductsRef);
+    }
 
     onProductError(ref) {
         if (!ref) {
@@ -456,9 +466,5 @@ export class ProductActionsContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/ProductActions/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductActionsContainer);
