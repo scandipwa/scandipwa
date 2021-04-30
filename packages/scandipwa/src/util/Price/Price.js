@@ -38,3 +38,11 @@ export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg
  * @namespace Util/Price/roundPrice
  */
 export const roundPrice = (price) => parseFloat(price).toFixed(2);
+
+/** @namespace Util/Price/getLowestPriceTiersPrice */
+export const getLowestPriceTiersPrice = (price_tiers, currency) => {
+    const lowestValue = price_tiers
+        .reduce((acc, { final_price: { value } }) => (acc < value ? acc : value), price_tiers[0].final_price.value);
+
+    return formatPrice(lowestValue, currency);
+};

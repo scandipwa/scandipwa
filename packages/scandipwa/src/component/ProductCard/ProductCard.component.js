@@ -23,11 +23,12 @@ import ProductPrice from 'Component/ProductPrice';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import TierPrices from 'Component/TierPrices';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
+
+import { TIER_PRICES } from './ProductCard.config';
 
 import './ProductCard.style';
 /**
@@ -40,7 +41,6 @@ export class ProductCard extends PureComponent {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
         device: DeviceType.isRequired,
-        productOrVariant: ProductType.isRequired,
         thumbnail: PropTypes.string,
         getAttribute: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired,
@@ -57,8 +57,6 @@ export class ProductCard extends PureComponent {
         setSiblingsHaveBrands: PropTypes.func,
         siblingsHavePriceBadge: PropTypes.bool,
         setSiblingsHavePriceBadge: PropTypes.func,
-        siblingsHaveTierPrice: PropTypes.bool,
-        setSiblingsHaveTierPrice: PropTypes.func,
         siblingsHaveConfigurableOptions: PropTypes.bool,
         layout: PropTypes.string,
         updateConfigurableVariant: PropTypes.func.isRequired,
@@ -79,8 +77,6 @@ export class ProductCard extends PureComponent {
         setSiblingsHaveBrands: () => null,
         siblingsHavePriceBadge: false,
         setSiblingsHavePriceBadge: () => null,
-        siblingsHaveTierPrice: false,
-        setSiblingsHaveTierPrice: () => null,
         siblingsHaveConfigurableOptions: false,
         layout: GRID_LAYOUT,
         configurableVariantIndex: -1
@@ -94,7 +90,6 @@ export class ProductCard extends PureComponent {
         content: {
             review: this.renderReviews.bind(this),
             productPrice: this.renderProductPrice.bind(this),
-            tierPrice: this.renderTierPrice.bind(this),
             mainDetails: this.renderMainDetails.bind(this),
             additionalProductDetails: this.renderAdditionalProductDetails.bind(this)
         }
@@ -102,7 +97,8 @@ export class ProductCard extends PureComponent {
 
     productTypeRenderMap = {
         [GROUPED]: __('Starting from'),
-        [CONFIGURABLE]: __('As Low as')
+        [CONFIGURABLE]: __('As Low as'),
+        [TIER_PRICES]: __('As Low as')
     };
 
     imageRef = createRef();
@@ -114,12 +110,14 @@ export class ProductCard extends PureComponent {
 
     renderProductTypePriceBadge() {
         const {
-            product: { type_id },
+            product: { type_id, price_tiers = [] },
             siblingsHavePriceBadge,
             setSiblingsHavePriceBadge
         } = this.props;
 
-        const label = this.productTypeRenderMap[type_id];
+        const typeId = price_tiers.length ? TIER_PRICES : type_id;
+
+        const label = this.productTypeRenderMap[typeId];
         if (!label) {
             return null;
         }
@@ -143,7 +141,7 @@ export class ProductCard extends PureComponent {
 
     renderProductPrice() {
         const {
-            product: { price_range, type_id },
+            product: { price_range, price_tiers = [], type_id },
             isConfigurableProductOutOfStock,
             isBundleProductOutOfStock
         } = this.props;
@@ -169,37 +167,13 @@ export class ProductCard extends PureComponent {
 
         return (
             <div block="ProductCard" elem="PriceWrapper">
-                { this.renderTierPrice() }
                 <ProductPrice
                   price={ price_range }
+                  price_tiers={ price_tiers }
                   mix={ { block: 'ProductCard', elem: 'Price' } }
                   label={ this.renderProductTypePriceBadge() }
                 />
             </div>
-        );
-    }
-
-    renderTierPrice() {
-        const {
-            productOrVariant,
-            siblingsHaveTierPrice,
-            setSiblingsHaveTierPrice
-        } = this.props;
-        const { price_tiers } = productOrVariant;
-
-        if (!price_tiers || !price_tiers.length) {
-            return null;
-        }
-
-        if (!siblingsHaveTierPrice) {
-            setSiblingsHaveTierPrice();
-        }
-
-        return (
-            <TierPrices
-              product={ productOrVariant }
-              isLowestPrice
-            />
         );
     }
 
@@ -531,7 +505,6 @@ export class ProductCard extends PureComponent {
             isLoading,
             siblingsHaveBrands,
             siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
             siblingsHaveConfigurableOptions,
             layout
         } = this.props;
@@ -539,7 +512,6 @@ export class ProductCard extends PureComponent {
         const mods = {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
-            siblingsHaveTierPrice,
             siblingsHaveConfigurableOptions
         };
 

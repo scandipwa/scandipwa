@@ -17,7 +17,7 @@ import { MixType } from 'Type/Common';
 import { PriceType } from 'Type/ProductList';
 import {
     calculateFinalPrice,
-    formatPrice,
+    formatPrice, getLowestPriceTiersPrice,
     roundPrice
 } from 'Util/Price';
 
@@ -47,14 +47,16 @@ export class ProductPriceContainer extends PureComponent {
         isSchemaRequired: PropTypes.bool,
         price: PriceType,
         mix: MixType,
-        displayTaxInPrice: PropTypes.string
+        displayTaxInPrice: PropTypes.string,
+        price_tiers: PropTypes.array
     };
 
     static defaultProps = {
         isSchemaRequired: false,
         displayTaxInPrice: DISPLAY_PRODUCT_PRICES_IN_CATALOG_INCL_TAX,
         mix: {},
-        price: {}
+        price: {},
+        price_tiers: []
     };
 
     containerProps = () => {
@@ -97,7 +99,8 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     regular_price: {
-                        value: regularPriceValue
+                        value: regularPriceValue,
+                        currency: priceCurrency
                     } = {},
                     regular_price_excl_tax: {
                         value: regularPriceExclTaxValue
@@ -108,10 +111,10 @@ export class ProductPriceContainer extends PureComponent {
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
-            return roundPrice(regularPriceExclTaxValue);
+            return formatPrice(roundPrice(regularPriceExclTaxValue), priceCurrency);
         }
 
-        return roundPrice(regularPriceValue);
+        return formatPrice(roundPrice(regularPriceValue), priceCurrency);
     }
 
     getFormattedFinalPrice() {
@@ -136,8 +139,13 @@ export class ProductPriceContainer extends PureComponent {
                     } = {}
                 } = {}
             } = {},
+            price_tiers,
             displayTaxInPrice
         } = this.props;
+
+        if (price_tiers.length) {
+            return getLowestPriceTiersPrice(price_tiers, priceCurrency);
+        }
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
             const finalPrice = calculateFinalPrice(
