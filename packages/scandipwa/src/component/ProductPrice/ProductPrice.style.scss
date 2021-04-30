@@ -22,10 +22,6 @@
     vertical-align: middle;
     margin-bottom: 0;
 
-    &_hasDiscount {
-        color: var(--price-with-discount-color);
-    }
-
     @include mobile {
         font-size: 1.8rem;
     }
@@ -35,11 +31,11 @@
     }
 
     del {
-        font-size: .7em;
+        font-size: 14px;
         font-weight: 500;
         opacity: .5;
         display: inline-block;
-        margin-left: 12px;
+        margin-inline-end: 12px;
 
         @include mobile {
             margin-left: 4px;
@@ -60,7 +56,7 @@
     &-SubPrice {
         display: block;
         font-weight: 500;
-        font-size: 1.2rem;
+        font-size: 12px;
         margin-top: 4px;
     }
 
