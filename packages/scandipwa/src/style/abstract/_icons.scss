@@ -56,21 +56,13 @@
 }
 
 @mixin close-button {
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-        width: 1px;
-        height: 20px;
-        transform-origin: 50% 50%;
-        top: 7px;
-        transform: rotate(-45deg);
-        background-color: var(--header-color);
-    }
-
-    &::after {
-        transform: rotate(45deg);
-    }
+    background-image: var(--imported_icons_seatch, url('./../icons/close.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
 }
 
 @mixin close-button-svg {
@@ -82,32 +74,10 @@
 }
 
 @mixin back-button {
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-    }
+    @include chevron-icon;
 
-    &::before {
-        width: 18px;
-        height: 1px;
-        top: 17px;
-        right: 8px;
-        background-color: var(--header-color);
-    }
-
-    &::after {
-        width: 8px;
-        height: 8px;
-        top: 13px;
-        left: 10px;
-        transform: rotate(-45deg);
-
-        border: {
-            top: 1px solid var(--header-color);
-            left: 1px solid var(--header-color);
-        }
-    }
+    background-size: cover;
+    transform: rotate(180deg);
 }
 
 @mixin menu-button {
@@ -122,6 +92,7 @@
     background-image: var(--imported_icons_account, url('./../icons/user.svg'));
     background-size: contain;
     background-repeat: no-repeat;
+    cursor: pointer;
     height: 24px;
     width: 24px;
 }
@@ -130,6 +101,7 @@
     background-image: var(--imported_icons_cart, url('./../icons/bag.svg'));
     background-size: contain;
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 @mixin clear-search-button {
@@ -214,7 +186,7 @@
     background-image: url('./../icons/lock-white.svg');
     background-size: contain;
     background-repeat: no-repeat;
-    margin-right: 10px;
+    margin-inline-end: 10px;
     height: 24px;
     width: 24px;
 }
@@ -231,6 +203,7 @@
     background-image: var(--imported_icons_search, url('./../icons/search.svg'));
     background-repeat: no-repeat;
     background-size: contain;
+    cursor: pointer;
     height: 24px;
     width: 24px;
 }
@@ -273,6 +246,7 @@
     background-image: var(--imported_icons_minus, url('./../icons/minus.svg'));
     background-repeat: no-repeat;
     background-size: contain;
+    cursor: pointer;
     height: 24px;
     width: 24px;
 }
@@ -281,6 +255,7 @@
     background-image: var(--imported_icons_add, url('./../icons/add.svg'));
     background-repeat: no-repeat;
     background-size: contain;
+    cursor: pointer;
     height: 24px;
     width: 24px;
 }
@@ -397,6 +372,7 @@
     background-image: var(--imported_icons_compare, url('./../icons/compare.svg'));
     background-repeat: no-repeat;
     background-size: contain;
+    cursor: pointer;
     height: 24px;
     width: 24px;
 }
@@ -409,6 +385,22 @@
     &:hover {
         background-image: url('./../icons/heart-selected.svg');
     }
+}
+
+@mixin exclamation-icon {
+    background-image: var(--imported_icons_exclamation, url('./../icons/exclamation.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 24px;
+    width: 24px;
+}
+
+@mixin chevron-icon {
+    background-image: var(--imported_icons_chevron, url('./../icons/chevron.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 12px;
+    width: 12px;
 }
 
 @mixin star-icon-full {

@@ -299,11 +299,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onSearchOutsideClick() {
         const {
             goToPreviousNavigationState,
-            navigationState: { name },
-            device
+            navigationState: { name }
         } = this.props;
 
-        if (!device.isMobile && name === SEARCH) {
+        if (name === SEARCH) {
             this.hideSearchOverlay();
             goToPreviousNavigationState();
         }

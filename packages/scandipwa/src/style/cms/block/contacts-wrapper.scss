@@ -21,18 +21,18 @@
     }
 
     dt {
-        margin-right: 1.2rem;
+        margin-inline-end: 1.2rem;
 
         @include mobile {
-            margin-right: 1.4rem;
+            margin-inline-end: 1.4rem;
         }
     }
 
     dd {
-        margin-right: 2.4rem;
+        margin-inline-end: 2.4rem;
 
         @include mobile {
-            margin-right: 2.8rem;
+            margin-inline-end: 2.8rem;
         }
     }
 }
