@@ -421,7 +421,8 @@ export class ProductCard extends PureComponent {
     renderConfigurableOptions() {
         const {
             parameters,
-            updateConfigurableVariant
+            updateConfigurableVariant,
+            product: { variants }
         } = this.props;
 
         return (
@@ -429,6 +430,7 @@ export class ProductCard extends PureComponent {
               configurable_options={ this.getAttributesToShow() }
               updateConfigurableVariant={ updateConfigurableVariant }
               parameters={ parameters }
+              variants={ variants }
               isExpandable={ false }
             />
         );
