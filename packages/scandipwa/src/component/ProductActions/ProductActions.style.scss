@@ -371,7 +371,8 @@
 
                 @include mobile {
                     font-size: 1.4rem;
-                    display: none;
+                    order: -3;
+                    padding: .7rem 1.4rem;
                 }
 
                 & > span:not(:last-child):after {
