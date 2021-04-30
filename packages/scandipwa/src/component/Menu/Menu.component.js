@@ -144,6 +144,11 @@ export class Menu extends PureComponent {
                       onCategoryHover={ onCategoryHover }
                       closeMenu={ closeMenu }
                     />
+                    <figcaption
+                      block="Menu"
+                      elem="ExpandedState"
+                      mods={ { isExpanded: activeMenuItemsStack.includes(item_id) } }
+                    />
                     { this.renderSubLevel(item) }
                 </div>
             );
@@ -173,6 +178,7 @@ export class Menu extends PureComponent {
         const childrenArray = getSortedItems(Object.values(children));
         const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
+        console.log('***', activeMenuItemsStack);
 
         return (
             <div
@@ -292,8 +298,8 @@ export class Menu extends PureComponent {
 
         return (
             <>
-                { this.renderStoreSwitcher() }
                 { this.renderCurrencySwitcher() }
+                { this.renderStoreSwitcher() }
                 { this.renderComparePageLink() }
                 { this.renderPromotionCms() }
             </>
@@ -309,7 +315,7 @@ export class Menu extends PureComponent {
             device
         } = this.props;
 
-        const { children } = item;
+        const { children, item_id } = item;
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
 
@@ -330,6 +336,11 @@ export class Menu extends PureComponent {
                       itemMods={ itemMods }
                       onCategoryHover={ onCategoryHover }
                       closeMenu={ closeMenu }
+                    />
+                    <figcaption
+                      block="Menu"
+                      elem="ExpandedState"
+                      mods={ { isExpanded: activeMenuItemsStack.includes(item_id) } }
                     />
                     { this.renderSubLevel(item) }
                 </div>
@@ -379,6 +390,7 @@ export class Menu extends PureComponent {
         return (
             <>
                 <div block="Menu" elem="MainCategories">
+                    { this.renderAdditionalInformation(true) }
                     <ul
                       block="Menu"
                       elem="ItemList"
@@ -387,7 +399,6 @@ export class Menu extends PureComponent {
                     >
                         { childrenArray.map(this.renderFirstLevel) }
                     </ul>
-                    { this.renderAdditionalInformation(true) }
                 </div>
                 { this.renderSubMenuDesktop(children) }
             </>
@@ -421,7 +432,7 @@ export class Menu extends PureComponent {
         return (
             <h3 block="Menu" elem="CompareLinkWrapper">
                 <Link to="compare" block="Menu" elem="CompareLink">
-                    { __('Compare') }
+                    { __('Compare products') }
                 </Link>
             </h3>
         );
