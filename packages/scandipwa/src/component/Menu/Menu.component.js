@@ -178,7 +178,6 @@ export class Menu extends PureComponent {
         const childrenArray = getSortedItems(Object.values(children));
         const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
-        console.log('***', activeMenuItemsStack);
 
         return (
             <div
