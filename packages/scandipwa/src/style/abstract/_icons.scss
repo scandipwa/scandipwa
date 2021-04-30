@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --star-size: 24px;
+}
+
 @mixin clear-button {
     &::before,
     &::after {
@@ -397,4 +401,31 @@
     &:hover {
         background-image: url('./../icons/heart-selected.svg');
     }
+}
+
+@mixin star-icon-full {
+    background-image: var(--imported_icons_menu, url('./../icons/star-full.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: var(--primary-base-color);
+    height: var(--star-size);
+    width: var(--star-size);
+}
+
+@mixin star-icon-half {
+    background-image: var(--imported_icons_menu, url('./../icons/star-half.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: var(--primary-base-color);
+    height: var(--star-size);
+    width: var(--star-size);
+}
+
+@mixin star-icon-empty {
+    background-image: var(--imported_icons_menu, url('./../icons/star-empty.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: var(--primary-base-color);
+    height: var(--star-size);
+    width: var(--star-size);
 }
