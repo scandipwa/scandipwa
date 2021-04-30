@@ -36,7 +36,7 @@ export class TranslateOnCursorMove extends PureComponent {
         const paddingY = 90;
 
         // TODO: need to think how to implement more dynamic way
-        const innerHeight = this.ref.current.children[0].children[1].children[0].children[0]
+        const innerHeight = this.ref.current.children[0].children[1].children[1].children[0]
             ?.children[activeImageId].children[0].getBoundingClientRect().height;
         const { height: wrapperHeight, top } = this.ref.current.getBoundingClientRect();
 
