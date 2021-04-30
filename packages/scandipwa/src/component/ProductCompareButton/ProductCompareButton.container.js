@@ -61,12 +61,14 @@ export class ProductCompareButtonContainer extends PureComponent {
         return comparedProducts.indexOf(productId) !== -1;
     }
 
-    async handleClick() {
+    async handleClick(e) {
         const {
             productId,
             addProductToCompare,
             removeComparedProduct
         } = this.props;
+
+        e.preventDefault();
 
         this.setState({ isLoading: true });
 

@@ -18,7 +18,9 @@ import SharedTransitionContainer from 'Component/SharedTransition/SharedTransiti
 import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
-import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
+import {
+    CONFIGURABLE, getNewParameters, getVariantIndex, getVariantsIndexes
+} from 'Util/Product';
 import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
@@ -56,10 +58,16 @@ export class ProductCardContainer extends PureComponent {
         selectedFilters: {}
     };
 
+    state = {
+        parameters: {},
+        configurableVariantIndex: -1
+    };
+
     containerFunctions = {
         getAttribute: this.getAttribute.bind(this),
         isConfigurableProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
-        isBundleProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this)
+        isBundleProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
+        updateConfigurableVariant: this.updateConfigurableVariant.bind(this)
     };
 
     getAttribute(code) {
@@ -83,7 +91,6 @@ export class ProductCardContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        availableVisualOptions: this._getAvailableVisualOptions(),
         currentVariantIndex: this._getCurrentVariantIndex(),
         productOrVariant: this._getProductOrVariant(),
         thumbnail: this._getThumbnail(),
@@ -170,41 +177,6 @@ export class ProductCardContainer extends PureComponent {
         return product || {};
     }
 
-    _getAvailableVisualOptions() {
-        const { product: { configurable_options = {} } } = this.props;
-
-        if (Object.keys(configurable_options).length === 0) {
-            return [];
-        }
-
-        // Find first option that has swatch_data in attribute_options property
-        const optionWithSwatchData = Object.values(configurable_options).find((option) => {
-            const { attribute_options = {} } = option;
-
-            return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
-        });
-
-        const { attribute_options = {} } = optionWithSwatchData || {};
-
-        return Object.values(attribute_options).reduce(
-            (acc, option) => {
-                const {
-                    swatch_data,
-                    label
-                } = option;
-
-                const { type, value } = swatch_data || {};
-
-                if (type && value) {
-                    acc.push({ value, label, type });
-                }
-
-                return acc;
-            },
-            []
-        );
-    }
-
     isConfigurableProductOutOfStock() {
         const { product: { variants } } = this.props;
 
@@ -227,6 +199,29 @@ export class ProductCardContainer extends PureComponent {
         return optionsInStock.length === 0;
     }
 
+    updateConfigurableVariant(key, value) {
+        const { parameters: prevParameters } = this.state;
+
+        const parameters = getNewParameters(prevParameters, key, value);
+        this.setState({ parameters });
+
+        this.updateConfigurableVariantIndex(parameters);
+    }
+
+    updateConfigurableVariantIndex(parameters) {
+        const { product: { variants, configurable_options } } = this.props;
+        const { configurableVariantIndex } = this.state;
+
+        const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
+            ? getVariantIndex(variants, parameters)
+            // Not all parameters are selected yet, therefore variantIndex must be invalid
+            : -1;
+
+        if (configurableVariantIndex !== newIndex) {
+            this.setState({ configurableVariantIndex: newIndex });
+        }
+    }
+
     render() {
         return (
             <Subscribe to={ [SharedTransitionContainer] }>
@@ -235,6 +230,7 @@ export class ProductCardContainer extends PureComponent {
                       { ...{ ...this.props, registerSharedElement } }
                       { ...this.containerFunctions }
                       { ...this.containerProps() }
+                      { ...this.state }
                     />
                 ) }
             </Subscribe>

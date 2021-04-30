@@ -24,6 +24,7 @@
     --product-card-brand-line-height: 1.2em;
     --product-card-color-size: 32px;
     --product-card-background: var(--color-white);
+    --option-margin: 0 12px 12px 0;
 }
 
 .ProductCard {
@@ -38,11 +39,16 @@
             box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .1),
             0 6px 16px rgba(0, 0, 0, .1),
             0 9px 28px 8px rgba(0, 0, 0, .1);
-            z-index: 2;
+            z-index: 4;
 
             .ProductCard-VisibleOnHover {
                 background: var(--product-card-background);
+                width: inherit;
                 opacity: 1;
+                box-shadow: 0 3px 6px rgba(0, 0, 0, .1),
+                0 6px 16px rgba(0, 0, 0, .1),
+                0 9px 28px 8px rgba(0, 0, 0, .1);
+                z-index: -1;
             }
         }
     }
@@ -283,7 +289,7 @@
         }
 
         > * {
-            margin-right: 10px;
+            margin-right: 5px;
         }
     }
 
@@ -294,6 +300,8 @@
         flex-grow: 1;
         padding: 0 15px 10px;
         opacity: 0;
+        position: absolute;
+        top: 100%;
     }
 
     &_siblingsHaveBrands {

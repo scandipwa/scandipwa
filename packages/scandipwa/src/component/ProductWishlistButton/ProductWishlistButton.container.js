@@ -62,14 +62,15 @@ export class ProductWishlistButtonContainer extends PureComponent {
         onProductValidationError: PropTypes.func,
         removeProductFromWishlist: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object,
-        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number)
     };
 
     static defaultProps = {
         quantity: 1,
         onProductValidationError: () => {},
         configurableVariantIndex: -2,
-        productOptionsData: {}
+        productOptionsData: {},
+        groupedProductQuantity: {}
     };
 
     state = {

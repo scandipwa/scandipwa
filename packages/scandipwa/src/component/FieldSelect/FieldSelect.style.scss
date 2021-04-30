@@ -97,6 +97,7 @@ $select-arrow-width: 16px !default;
                 max-height: 200px;
                 border-color: var(--input-border-color);
                 overflow-y: auto;
+                background-color: #{$white};
             }
         }
     }

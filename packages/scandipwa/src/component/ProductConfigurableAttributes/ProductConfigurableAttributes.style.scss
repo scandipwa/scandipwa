@@ -23,6 +23,7 @@
     &-SwatchList,
     &-DropDownList {
         text-align: center;
+        margin-top: 5px;
 
         @include after-mobile {
             --option-size: 40px;
