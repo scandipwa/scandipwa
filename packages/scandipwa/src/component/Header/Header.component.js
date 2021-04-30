@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import { createRef, lazy, Suspense } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
-import CmsBlock from 'Component/CmsBlock';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
@@ -146,7 +145,8 @@ export class Header extends NavigationAbstract {
         },
         [MENU_SUBCATEGORY]: {
             back: true,
-            title: true
+            title: true,
+            search: true
         },
         [SEARCH]: {
             back: true,
@@ -202,10 +202,10 @@ export class Header extends NavigationAbstract {
         share: this.renderShareWishListButton.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
-        account: this.renderAccount.bind(this),
-        minicart: this.renderMinicart.bind(this),
-        compare: this.renderComparePageButton.bind(this),
         search: this.renderSearchField.bind(this),
+        account: this.renderAccount.bind(this),
+        compare: this.renderComparePageButton.bind(this),
+        minicart: this.renderMinicart.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this)
@@ -449,12 +449,6 @@ export class Header extends NavigationAbstract {
             >
                 <div
                   block="Header"
-                  elem="MyAccountTitle"
-                >
-                    { __('Account') }
-                </div>
-                <div
-                  block="Header"
                   elem="Button"
                   mods={ { isVisible, type: 'account' } }
                 />
@@ -547,12 +541,6 @@ export class Header extends NavigationAbstract {
               tabIndex="0"
               onClick={ onMinicartButtonClick }
             >
-                <span
-                  block="Header"
-                  elem="MinicartTitle"
-                >
-                    { __('Cart') }
-                </span>
                 <span
                   aria-label="Minicart"
                   block="Header"
@@ -665,30 +653,6 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderContacts() {
-        const { header_content: { contacts_cms } = {} } = window.contentConfiguration;
-
-        if (contacts_cms) {
-            return (
-                <CmsBlock identifier={ contacts_cms } />
-            );
-        }
-
-        // following strings are not translated, use CMS blocks to do it
-        return (
-            <dl block="contacts-wrapper">
-                <dt>{ __('Telephone:') }</dt>
-                <dd>
-                    <a href="tel:983829842">+0 (983) 829842</a>
-                </dd>
-                <dt>{ __('Mail:') }</dt>
-                <dd>
-                    <a href="mailto:info@scandipwa.com">info@scandipwa.com</a>
-                </dd>
-            </dl>
-        );
-    }
-
     renderTopMenu() {
         const { device } = this.props;
         if (device.isMobile) {
@@ -697,8 +661,20 @@ export class Header extends NavigationAbstract {
 
         return (
             <div block="Header" elem="TopMenu">
-                <div block="Header" elem="Contacts">
-                    { this.renderContacts() }
+                <div block="Header" elem="News">
+                    <div
+                      block="Header"
+                      elem="NewsIcon"
+                    />
+                    <span>{ __('Check new arrivals') }</span>
+                    <Link
+                      to="/"
+                      key="news"
+                      block="Header"
+                      elem="NewsButton"
+                    >
+                        { __('here!') }
+                    </Link>
                 </div>
                 <div block="Header" elem="Switcher">
                     <CurrencySwitcher />

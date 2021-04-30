@@ -71,9 +71,9 @@ export class MenuContainer extends DataContainer {
                 children: {
                     [itemId]: currentItem
                 }
-            } = acc;
+            } = acc || {};
 
-            const { title } = currentItem;
+            const { title } = currentItem || {};
 
             changeHeaderState({
                 name: MENU_SUBCATEGORY,
