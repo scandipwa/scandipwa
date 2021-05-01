@@ -127,7 +127,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
               value={ quantity }
               max={ maxQuantity }
               min={ 1 }
-              mix={ { block: 'ProductBundleItems', elem: 'Qty' } }
+              mix={ { block: 'ProductBundleItem', elem: 'Qty' } }
               onChange={ setDropdownItemQuantity }
             />
         );

@@ -20,24 +20,19 @@
 }
 
 .ProductReviewRating {
-    --percentage: 0%;
 
-    display: inline-block;
-    font-size: var(--product-rating-size);
-    letter-spacing: 2px;
-
-    &::before {
-        content: '★★★★★';
-        background:
-            linear-gradient(
-                90deg,
-                var(--product-rating-filled-background) var(--percentage),
-                var(--product-rating-background) var(--percentage)
-            );
-
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    &-StarFull {
+        @include star-icon-full;
     }
+
+    &-StarHalfFull {
+        @include star-icon-half;
+    }
+
+    &-StarEmpty {
+        @include star-icon-empty;
+    }
+
 
     &_isLoading {
         &::before {

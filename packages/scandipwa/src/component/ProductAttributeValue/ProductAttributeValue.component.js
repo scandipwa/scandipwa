@@ -195,7 +195,7 @@ export class ProductAttributeValue extends PureComponent {
 
         const style = {
             '--option-background-color': color,
-            '--option-border-color': isLight ? '#000' : color,
+            '--option-border-color': isLight ? '#dddddd' : color,
             '--option-check-mark-background': isLight ? '#000' : '#fff',
             // stylelint-disable-next-line value-keyword-case
             '--option-is-selected': isSelected ? 1 : 0
