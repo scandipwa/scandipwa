@@ -49,7 +49,9 @@ export class ResetAttributes extends PureComponent {
     renderResetItem(title, selectedOptions) {
         return (
             <>
-                <h4>{ title }</h4>
+                <h4 block="ResetAttributes" elem="Attribute">
+                    { title }
+                </h4>
                 { selectedOptions.map((o) => this.renderSelectedOption(o)) }
             </>
         );

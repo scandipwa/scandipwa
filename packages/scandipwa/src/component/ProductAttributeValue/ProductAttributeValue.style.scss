@@ -10,7 +10,7 @@
  */
 
 :root {
-    --option-background-color: tranparent;
+    --option-background-color: #{$white};
     --option-check-mark-background: #{$black};
     --option-size: 3.2rem;
     --option-text-color: #{$black}; // Move to root
@@ -129,6 +129,7 @@
         font-weight: 400;
         width: auto;
         text-align: center;
+        padding: 0 1rem;
 
         &_isSelected {
             --option-border-color: var(--primary-base-color);

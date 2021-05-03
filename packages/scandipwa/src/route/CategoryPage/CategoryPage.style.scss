@@ -115,12 +115,13 @@
 
     &-Miscellaneous {
         z-index: 1;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        justify-content: space-between;
         align-items: center;
         min-height: var(--category-page-miscellaneous-min-height);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
+        padding: 1rem 0 6rem 0;
 
         @include mobile {
             position: fixed;
@@ -183,7 +184,6 @@
 
     &-LayoutButtons {
         margin-bottom: 10px;
-        margin-right: 30px;
 
         button {
             color: transparent;

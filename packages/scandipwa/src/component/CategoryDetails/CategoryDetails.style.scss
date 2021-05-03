@@ -10,7 +10,7 @@
  */
 
 :root {
-    --category-details-background: var(--secondary-base-color);
+    --category-details-background:  #{$white};
 }
 
 .CategoryDetails {
@@ -29,13 +29,13 @@
 
     &-Picture {
         mix-blend-mode: multiply;
-        height: 100%;
+        height: 7.2rem;
         background: none;
     }
 
     &-Heading {
-        text-transform: uppercase;
         margin-bottom: .6rem;
+        margin-top: 0;
 
         @include mobile {
             margin-bottom: .7rem;
@@ -48,7 +48,6 @@
         justify-content: center;
         font-size: 1.4rem;
         font-weight: 300;
-        padding: 2.4rem;
 
         @include mobile {
             padding: 2.8rem;

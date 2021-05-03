@@ -343,11 +343,11 @@ export class CategoryPage extends PureComponent {
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
+                { this.renderItemsCount() }
                 <div block="CategoryPage" elem="LayoutWrapper">
                     { this.renderLayoutButtons() }
-                    { this.renderItemsCount() }
+                    { this.renderCategorySort() }
                 </div>
-                { this.renderCategorySort() }
                 { this.renderFilterButton() }
             </aside>
         );

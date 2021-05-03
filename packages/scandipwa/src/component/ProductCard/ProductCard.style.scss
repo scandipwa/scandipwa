@@ -145,7 +145,6 @@
 
         @include after-mobile {
             font-size: 1.2rem;
-            margin-bottom: 1.2rem;
         }
     }
 
@@ -234,7 +233,7 @@
     }
 
     &-Price {
-        margin-top: 1.2rem;
+        margin-top: 0.6rem;
 
         width: 100%;
         @include after-mobile {
@@ -283,11 +282,6 @@
         display: flex;
         justify-content: space-between;
         margin-top: 16px;
-
-        .Button_isAddToCart {
-            min-width: 12.4rem;
-            padding: 0;
-        }
 
         > * {
             margin-right: 5px;

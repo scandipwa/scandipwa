@@ -96,13 +96,11 @@ $select-arrow-width: 16px !default;
             @include desktop {
                 z-index: 5;
                 max-height: 200px;
+                border-color: #0a0a0a;
                 border-color: var(--input-border-color);
+                //border-width: 5px;
                 overflow-y: auto;
                 background-color: #{$white};
-                box-shadow:
-                        0 3px 6px rgba(0, 0, 0, .1),
-                        0 6px 16px rgba(0, 0, 0, .1),
-                        0 9px 28px 8px rgba(0, 0, 0, .1);
             }
         }
     }

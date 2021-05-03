@@ -29,4 +29,8 @@
     &-CloseIcon {
         @include close-button
     }
+
+    &-Attribute {
+        font-weight: bold;
+    }
 }

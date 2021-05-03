@@ -215,7 +215,13 @@ export class ProductCard extends PureComponent {
         } = this.props;
 
         if (!rating_summary) {
-            return null;
+            return (
+                <div
+                  block="ProductCard"
+                  elem="Reviews"
+                  mods={ { layout } }
+                />
+            );
         }
 
         return (
