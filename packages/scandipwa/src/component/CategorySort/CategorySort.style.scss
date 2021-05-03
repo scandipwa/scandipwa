@@ -64,6 +64,11 @@
                 top: -35px;
                 opacity: 0;
             }
+
+            &_isExpanded {
+                border: 1px solid var(--input-border-color);
+                border-bottom: 0;
+            }
         }
 
         //&-Options {
@@ -73,9 +78,5 @@
         //&-Option {
         //    background-color: transparent;
         //}
-
-        &[aria-expanded=true]{
-            border-color: pink;
-        }
     }
 }

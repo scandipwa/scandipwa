@@ -48,8 +48,6 @@ $select-arrow-width: 16px !default;
     }
 
     &-Select {
-        font-weight: 600;
-        opacity: .5;
         min-width: 100%;
         padding-right: 40px;
         width: 100%;
@@ -98,7 +96,6 @@ $select-arrow-width: 16px !default;
                 max-height: 200px;
                 border-color: #0a0a0a;
                 border-color: var(--input-border-color);
-                //border-width: 5px;
                 overflow-y: auto;
                 background-color: #{$white};
             }
