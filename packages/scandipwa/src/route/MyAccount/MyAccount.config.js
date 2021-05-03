@@ -12,3 +12,7 @@
  */
 
 export const MY_ACCOUNT_URL = '/my-account';
+
+export const FORGOT_PASSWORD_URL = '/forgot-password';
+export const CREATE_ACCOUNT_URL = '/create-account';
+export const CHANGE_PASSWORD_URL = '/change-password';
