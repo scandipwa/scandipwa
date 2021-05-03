@@ -224,8 +224,16 @@
     }
 
     &_isNotAvailable {
-        opacity: .25;
+        opacity: .5;
+        cursor: default;
         pointer-events: none;
+
+        .ProductAttributeValue-Color {
+            &::before {
+                @include not-available;
+                background-color: var(--option-check-mark-background);
+            }
+        }
     }
 }
 

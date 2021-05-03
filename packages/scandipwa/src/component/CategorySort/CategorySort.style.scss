@@ -73,5 +73,12 @@
         &-Option {
             background-color: transparent;
         }
+
+        &[aria-expanded=true]{
+            box-shadow:
+                    0 3px 6px rgba(0, 0, 0, .1),
+                    0 6px 16px rgba(0, 0, 0, .1),
+                    0 9px 28px 8px rgba(0, 0, 0, .1);
+        }
     }
 }

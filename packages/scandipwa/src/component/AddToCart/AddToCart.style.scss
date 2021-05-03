@@ -10,7 +10,8 @@
  */
 
 .AddToCart {
-    min-width: 14.4rem;
+    min-width: 12.4rem;
+    padding: 0;
     vertical-align: middle;
 
     @include mobile {

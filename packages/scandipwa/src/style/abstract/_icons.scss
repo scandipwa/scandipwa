@@ -65,12 +65,18 @@
     width: 16px;
 }
 
-@mixin close-button-svg {
-    background-image: url('./../../style/icons/close.svg');
-    background-position: center;
-    cursor: pointer;
-    height: 16px;
-    width: 16px;
+@mixin not-available {
+    content: '';
+    position: absolute;
+    width: 1.5px;
+    height: 32px;
+    transform-origin: 50% 50%;
+    left: 15px;
+    top: 1px;
+    transform: rotate(45deg);
+    box-shadow: none;
+    border-radius: 0;
+    opacity: 1;
 }
 
 @mixin back-button {
