@@ -118,7 +118,7 @@ export class CategoryProductListContainer extends PureComponent {
 
     requestProductList(options) {
         const { requestProductList } = this.props;
-        requestProductList(options);
+        requestProductList({ ...options, isPlp: true });
     }
 
     containerProps = () => ({
