@@ -115,13 +115,14 @@
 
         @include desktop {
             --option-margin: 0 12px 12px 0;
-        }
 
-        .ExpandableContent  {
-            padding: 1.5rem 0;
-        }
-        .ExpandableContent:not(:last-child)  {
-            border-bottom: 1px solid var(--input-border-color);
+            .ExpandableContent:not(:last-child)  {
+                border-bottom: 1px solid var(--input-border-color);
+            }
+
+            .ExpandableContent  {
+                padding: 1.5rem 0;
+            }
         }
     }
 
