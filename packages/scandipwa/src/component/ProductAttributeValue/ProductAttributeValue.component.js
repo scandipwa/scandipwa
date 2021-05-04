@@ -70,7 +70,8 @@ export class ProductAttributeValue extends PureComponent {
             const optionValues = attribute_options[value];
             if (optionValues) {
                 if (!isProductCountVisible) {
-                    return optionValues;
+                    const { label } = optionValues;
+                    return { ...optionValues, labelText: label };
                 }
 
                 const { label, count = 0 } = optionValues;
