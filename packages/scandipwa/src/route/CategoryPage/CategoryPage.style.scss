@@ -170,14 +170,14 @@
         p {
             margin-bottom: 0;
         }
-
-        @include mobile {
-            display: none;
-        }
     }
 
     &-LayoutButtons {
         margin-bottom: 10px;
+
+        @include mobile {
+            display: none;
+        }
 
         button {
             color: transparent;
