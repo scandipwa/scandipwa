@@ -23,13 +23,7 @@
             grid-column-gap: 4.8rem;
         }
 
-        @include narrow-desktop {
-            grid-template-columns: 220px auto;
-        }
-
-        @include wide-desktop {
-            grid-template-columns: 280px auto;
-        }
+        grid-template-columns: 23.6rem auto;
 
         @include mobile {
             padding: 0;

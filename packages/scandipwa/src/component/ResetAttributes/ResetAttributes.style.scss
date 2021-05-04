@@ -24,10 +24,13 @@
 
     &-AttributeText{
         left: 10px;
+        font-size: 1.4rem;
     }
 
     &-CloseIcon {
-        @include close-button
+        @include close-button;
+        height: var(--checkbox-height);
+        width: var(--checkbox-width);
     }
 
     &-Attribute {

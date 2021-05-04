@@ -57,12 +57,18 @@
             background: none;
             border: none;
             color: var(--color-black);
-            padding: 0 40px 0 20px;
+            padding: 13px 40px 13px 20px;
 
             @include before-desktop {
                 position: absolute;
                 top: -35px;
                 opacity: 0;
+            }
+
+            &_isExpanded {
+                border: 1px solid var(--input-border-color);
+                border-bottom: 0;
+                font-weight: 700;
             }
         }
 
@@ -73,9 +79,5 @@
         //&-Option {
         //    background-color: transparent;
         //}
-
-        &[aria-expanded=true]{
-            border-color: pink;
-        }
     }
 }

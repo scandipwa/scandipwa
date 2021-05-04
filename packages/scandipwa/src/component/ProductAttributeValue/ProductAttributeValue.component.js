@@ -77,7 +77,9 @@ export class ProductAttributeValue extends PureComponent {
                 const { label, count = 0 } = optionValues;
                 return {
                     ...optionValues,
-                    label: `${label} (${count})`
+                    label: `${label} (${count})`,
+                    labelText: label,
+                    count
                 };
             }
         }
@@ -120,23 +122,25 @@ export class ProductAttributeValue extends PureComponent {
     renderSelectAttribute() {
         const { attribute: { attribute_value, attribute_code } } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
-        const { label, swatch_data } = attributeOption;
+        const {
+            label, labelText, count, swatch_data
+        } = attributeOption;
 
         if (!swatch_data || STRING_ONLY_ATTRIBUTE_CODES.includes(attribute_code)) {
-            return this.renderStringValue(label || __('N/A'));
+            return this.renderStringValue(labelText || __('N/A'), null, count);
         }
 
         const { value, type } = swatch_data;
 
         switch (type) {
         case '0':
-            return this.renderStringValue(value, label);
+            return this.renderStringValue(value, labelText, count);
         case '1':
             return this.renderColorValue(value, label);
         case '2':
             return this.renderImageValue(value, label);
         default:
-            return this.renderStringValue(label || __('N/A'));
+            return this.renderStringValue(labelText || __('N/A'), labelText, count);
         }
     }
 
@@ -244,7 +248,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderDropdown(value) {
+    renderDropdown(value, subLabel) {
         const { isSelected } = this.props;
 
         return (
@@ -254,6 +258,7 @@ export class ProductAttributeValue extends PureComponent {
               type="checkbox"
               label={ value }
               value={ value }
+              subLabel={ subLabel }
               mix={ {
                   block: 'ProductAttributeValue',
                   elem: 'Text',
@@ -264,7 +269,7 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
-    renderStringValue(value, label) {
+    renderStringValue(value, label, count) {
         const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = label;
 
@@ -273,7 +278,7 @@ export class ProductAttributeValue extends PureComponent {
         }
 
         if (!isSwatch) {
-            return this.renderDropdown(value);
+            return this.renderDropdown(value, count);
         }
 
         return (
