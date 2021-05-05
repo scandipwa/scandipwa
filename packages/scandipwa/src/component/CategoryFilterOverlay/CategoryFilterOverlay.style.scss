@@ -32,6 +32,8 @@
         transition: transform 200ms ease-in-out;
         transform: translateY(100%);
         will-change: transform;
+        display: grid;
+        grid-template-rows: auto min-content;
     }
 
     &_isVisible {
@@ -111,6 +113,8 @@
 
         @include mobile {
             --option-margin: .7rem;
+            margin: 1.6rem;
+            overflow-y: scroll;
         }
 
         @include desktop {
@@ -137,14 +141,14 @@
     &-SeeResults,
     &-ResetButton {
         @include before-desktop {
-            position: sticky;
+            bottom: 0;
             padding: 1.2rem;
             width: 100%;
             left: 0;
         }
 
         @include mobile {
-            padding: 1.4rem;
+            padding: 1.6rem;
         }
     }
 

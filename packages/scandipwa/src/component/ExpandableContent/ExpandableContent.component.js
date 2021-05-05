@@ -21,7 +21,6 @@ export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-        subHeading: PropTypes.string,
         children: ChildrenType.isRequired,
         mix: MixType.isRequired,
         onClick: (props, propName, componentName) => {
@@ -37,7 +36,6 @@ export class ExpandableContent extends PureComponent {
     };
 
     static defaultProps = {
-        subHeading: '',
         heading: '',
         isContentExpanded: false,
         onClick: null
@@ -111,19 +109,21 @@ export class ExpandableContent extends PureComponent {
         const { isContentExpanded } = this.state;
         const {
             heading,
-            subHeading,
             mix
         } = this.props;
 
         return (
-            <button
+            <div
+              role="button"
+              tabIndex={ 0 }
               block="ExpandableContent"
               elem="Button"
               mods={ { isContentExpanded } }
               mix={ { ...mix, elem: 'ExpandableContentButton' } }
               onClick={ this.toggleExpand }
+              onKeyDown={ this.toggleExpand }
             >
-                <span
+                <div
                   block="ExpandableContent"
                   elem="Heading"
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
@@ -133,15 +133,13 @@ export class ExpandableContent extends PureComponent {
                     ) : (
                         heading
                     ) }
-                </span>
-                <span
+                </div>
+                <div
                   block="ExpandableContent"
-                  elem="SubHeading"
-                  mix={ { ...mix, elem: 'ExpandableContentSubHeading' } }
-                >
-                    { subHeading }
-                </span>
-            </button>
+                  elem="ToggleButton"
+                  mods={ { isContentExpanded } }
+                />
+            </div>
         );
     }
 

@@ -12,6 +12,7 @@
  :root {
      --expandable-content-color: #000;
      --expandable-content-divider-color: var(--primary-divider-color);
+     --toggle-button-size: 1.8rem;
  }
 
  @mixin expanded-content {
@@ -39,59 +40,28 @@
          }
      }
 
+     @include before-desktop {
+         &-ToggleButton {
+             @include plus-icon;
+             width: var(--toggle-button-size);
+             height: var(--toggle-button-size);
+
+             &_isContentExpanded {
+                 @include minus-icon;
+                 width: var(--toggle-button-size);
+                 height: var(--toggle-button-size);
+             }
+         }
+     }
+
      &-Button {
-         text-align: left;
          width: 100%;
-         will-change: border-color;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
 
          @include before-desktop {
-             min-height: var(--header-nav-height);
-             display: flex;
-             justify-content: center;
-             flex-direction: column;
-             padding: .6rem 1.2rem;
-         }
-
-         @include mobile {
-             padding: .7rem 1.4rem;
-         }
-
-         &::after,
-         &::before {
-             @include mobile {
-                 right: 2.1rem;
-             }
-
-             @include before-desktop {
-                 content: '';
-             }
-
-             position: absolute;
-             height: 7px;
-             width: 1px;
-             background-color: var(--expandable-content-color);
-             right: 1.8rem;
-             top: 0;
-             bottom: 0;
-             margin: auto;
-         }
-
-         &::before {
-             transform-origin: 50% 50%;
-             transform: scale(1);
-             transition: 200ms transform;
-             will-change: transform;
-         }
-
-         &::after {
-             transform-origin: 50% 50%;
-             transform: rotate(90deg);
-         }
-
-         &_isContentExpanded {
-             &::before {
-                 transform: scale(0);
-             }
+             padding: 1.4rem 0;
          }
      }
 
@@ -102,10 +72,9 @@
      }
 
      &-Heading {
-         font-size: 1.2rem;
+         font-size: 1.4rem;
          font-weight: 600;
          line-height: 1.4;
-         text-transform: uppercase;
          word-break: break-all;
 
          @include mobile {

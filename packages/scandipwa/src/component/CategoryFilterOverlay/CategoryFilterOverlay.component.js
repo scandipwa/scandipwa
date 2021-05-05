@@ -148,7 +148,6 @@ export class CategoryFilterOverlay extends PureComponent {
                 { this.renderResetAttributes() }
                 { this.renderResetButton() }
                 { this.renderFilters() }
-                { this.renderSeeResults() }
             </>
         );
     }
@@ -168,7 +167,12 @@ export class CategoryFilterOverlay extends PureComponent {
             return this.renderMinimalFilters();
         }
 
-        return this.renderDefaultFilters();
+        return (
+            <>
+                { this.renderDefaultFilters() }
+                { this.renderSeeResults() }
+            </>
+        );
     }
 
     renderLoader() {
@@ -212,10 +216,8 @@ export class CategoryFilterOverlay extends PureComponent {
               id={ CATEGORY_FILTER_OVERLAY_ID }
               isRenderInPortal={ false }
             >
-                <div>
-                    { this.renderContent() }
-                    { this.renderLoader() }
-                </div>
+                { this.renderContent() }
+                { this.renderLoader() }
             </Overlay>
         );
     }
