@@ -18,6 +18,11 @@
         margin-bottom: 20px;
     }
 
+    @include mobile {
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+
     &-AttributeValue {
         margin: 10px 0;
         display: flex;
