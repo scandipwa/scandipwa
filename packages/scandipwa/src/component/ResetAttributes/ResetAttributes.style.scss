@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 .ResetAttributes {
-    display: none;
+
+    @include before-desktop {
+        margin: 1.6rem 1.6rem 0 1.6rem;
+    }
 
     @include desktop {
-        display: block;
         margin-bottom: 20px;
     }
 

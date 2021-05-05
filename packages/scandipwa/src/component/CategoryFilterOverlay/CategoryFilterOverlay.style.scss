@@ -121,7 +121,7 @@
             --option-margin: 0 12px 12px 0;
 
             .ExpandableContent:not(:last-child)  {
-                border-bottom: 1px solid var(--input-border-color);
+                border-bottom: 1px solid var(--expandable-content-divider-color);
             }
 
             .ExpandableContent  {
@@ -169,14 +169,9 @@
     }
 
     &-ResetButton {
-        margin-bottom: 1.2rem;
 
-        @include mobile {
-            margin-bottom: 1.4rem;
-        }
-
-        @include before-desktop {
-            display: none;
+        @include desktop {
+            margin-bottom: 1.2rem;
         }
 
         .CategoryFilterOverlay-NoResults ~ & {

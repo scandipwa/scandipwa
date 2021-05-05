@@ -41,6 +41,10 @@
         width: var(--option-size);
     }
 
+    &-String {
+        padding: 0 1rem;
+    }
+
     &-Image {
         border-radius: 50%;
         object-fit: cover;
@@ -129,7 +133,6 @@
         font-weight: 400;
         width: auto;
         text-align: center;
-        padding: 0 1rem;
 
         &_isSelected {
             --option-border-color: var(--primary-base-color);
