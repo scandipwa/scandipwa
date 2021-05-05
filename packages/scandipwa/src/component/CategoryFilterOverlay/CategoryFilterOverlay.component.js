@@ -145,8 +145,10 @@ export class CategoryFilterOverlay extends PureComponent {
         return (
             <>
                 { this.renderHeading() }
-                { this.renderResetAttributes() }
-                { this.renderResetButton() }
+                <div block="CategoryFilterOverlay" elem="ResetSection">
+                    { this.renderResetAttributes() }
+                    { this.renderResetButton() }
+                </div>
                 { this.renderFilters() }
             </>
         );

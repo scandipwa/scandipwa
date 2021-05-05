@@ -33,7 +33,7 @@
         transform: translateY(100%);
         will-change: transform;
         display: grid;
-        grid-template-rows: auto min-content;
+        grid-template-rows: min-content auto min-content;
     }
 
     &_isVisible {
