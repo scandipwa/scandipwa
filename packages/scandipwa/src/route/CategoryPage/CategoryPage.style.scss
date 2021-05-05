@@ -62,49 +62,23 @@
     }
 
     &-Filter {
-        text-transform: uppercase;
         text-align: right;
         grid-column: 2;
         font-weight: 600;
         font-size: 1.6rem;
         min-height: 50px;
+        display: inline-flex;
+        align-items: center;
 
         @include desktop {
             display: none;
         }
+    }
 
-        &::before,
-        &::after {
-            content: '';
-            position: absolute;
-            left: calc(90% - 68px);
-            top: calc(50% - 5px);
-        }
-
-        &::before {
-            right: 70%;
-            width: 11px;
-            height: 8px;
-            background-color: var(--header-color);
-            clip-path:
-                polygon(
-                    5px 8px,
-                    11px 0,
-                    0 0,
-                    5px 8px,
-                    5px 6px,
-                    2px 1.5px,
-                    8.6px 1.5px,
-                    5px 6px
-                );
-        }
-
-        &::after {
-            height: 5px;
-            width: 1px;
-            background-color: var(--header-color);
-            transform: translate3d(5px, 6px, 0);
-        }
+    &-FilterIcon {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin-right: 1.5rem;
     }
 
     &-Miscellaneous {

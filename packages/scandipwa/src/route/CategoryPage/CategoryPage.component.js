@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -20,11 +21,13 @@ import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
+import Image from 'Component/Image/Image.container';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
+import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
@@ -163,7 +166,8 @@ export class CategoryPage extends PureComponent {
               elem="Filter"
               onClick={ this.onFilterButtonClick }
             >
-                { __('Filter') }
+                <Image src={ filterIcon } alt="filter" mix={ { block: 'CategoryPage', elem: 'FilterIcon' } } />
+                { __('Filters') }
             </button>
         );
     }

@@ -199,16 +199,6 @@
         }
     }
 
-    .ProductAttributeValue-Image-Overlay {
-        @include before-desktop {
-            margin: .6rem;
-        }
-
-        @include mobile {
-            margin: .7rem;
-        }
-    }
-
     .TextPlaceholder,
     .ProductConfigurableAttributes-Placeholder {
         opacity: 0;

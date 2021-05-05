@@ -44,12 +44,12 @@
 
     .FieldSelect {
         &::after {
-            height: 13px;
-            width: 13px;
+            height: 1.6rem;
+            width: 1.6rem;
 
             @include before-desktop {
-                left: 55px;
-                top: -22px;
+                left: 4.2rem;
+                top: -2.5rem;
             }
         }
 
