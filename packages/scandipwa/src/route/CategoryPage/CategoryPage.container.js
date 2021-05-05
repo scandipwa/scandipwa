@@ -131,7 +131,8 @@ export class CategoryPageContainer extends PureComponent {
             })
         }),
         selectedInfoFilter: PropTypes.shape({
-            categoryIds: PropTypes.number
+            categoryIds: PropTypes.number,
+            customFilters: PropTypes.objectOf(PropTypes.shape.array)
         }),
         isInfoLoading: PropTypes.bool.isRequired,
         isOffline: PropTypes.bool.isRequired,
@@ -361,6 +362,14 @@ export class CategoryPageContainer extends PureComponent {
         return categoryIds === selectedCategoryIds;
     }
 
+    getAppliedFiltersCount() {
+        const {
+            selectedInfoFilter: { customFilters = {} }
+        } = this.props;
+
+        return Object.values(customFilters).reduce((prev, next) => prev + next.length, 0);
+    }
+
     isCurrentCategoryLoaded() {
         const {
             categoryIds,
@@ -378,6 +387,7 @@ export class CategoryPageContainer extends PureComponent {
         isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
         isMatchingListFilter: this.getIsMatchingListFilter(),
         isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
+        appliedFiltersCount: this.getAppliedFiltersCount(),
         selectedSort: this.getSelectedSortFromUrl(),
         selectedFilters: this.getSelectedFiltersFromUrl(),
         isContentFiltered: this.isContentFiltered(),

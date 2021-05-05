@@ -34,21 +34,23 @@
     display: flex;
     align-items: stretch;
 
-    &:hover {
-        @include desktop {
-            box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .1),
-            0 6px 16px rgba(0, 0, 0, .1),
-            0 9px 28px 8px rgba(0, 0, 0, .1);
-            z-index: 4;
-
-            .ProductCard-VisibleOnHover {
-                background: var(--product-card-background);
-                width: inherit;
-                opacity: 1;
-                box-shadow: 0 3px 6px rgba(0, 0, 0, .1),
+    &_layout_grid {
+        &:hover {
+            @include desktop {
+                box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .1),
                 0 6px 16px rgba(0, 0, 0, .1),
                 0 9px 28px 8px rgba(0, 0, 0, .1);
-                z-index: -1;
+                z-index: 4;
+
+                .ProductCard-VisibleOnHover {
+                    background: var(--product-card-background);
+                    width: inherit;
+                    opacity: 1;
+                    box-shadow: 0 3px 6px rgba(0, 0, 0, .1),
+                    0 6px 16px rgba(0, 0, 0, .1),
+                    0 9px 28px 8px rgba(0, 0, 0, .1);
+                    z-index: -1;
+                }
             }
         }
     }
@@ -74,7 +76,8 @@
         &_layout_list {
             justify-content: space-between;
             margin-left: 20px;
-            width: 100%;
+            max-width: 50rem;
+
 
             .ProductCard {
                 &-ActionWrapper {

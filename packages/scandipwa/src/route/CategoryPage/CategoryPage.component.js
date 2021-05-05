@@ -67,7 +67,8 @@ export class CategoryPage extends PureComponent {
         device: DeviceType.isRequired,
         is_anchor: PropTypes.bool,
         defaultPlpType: PropTypes.string,
-        plpTypes: PropTypes.arrayOf(PropTypes.string)
+        plpTypes: PropTypes.arrayOf(PropTypes.string),
+        appliedFiltersCount: PropTypes.number
     };
 
     static defaultProps = {
@@ -79,7 +80,8 @@ export class CategoryPage extends PureComponent {
         is_anchor: true,
         search: '',
         defaultPlpType: '',
-        plpTypes: []
+        plpTypes: [],
+        appliedFiltersCount: 0
     };
 
     state = {
@@ -153,8 +155,24 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderFiltersCount() {
+        const { appliedFiltersCount } = this.props;
+
+        if (!appliedFiltersCount) {
+            return null;
+        }
+
+        return (
+            <span block="CategoryPage" elem="Subheading">
+                { ` (${appliedFiltersCount})` }
+            </span>
+        );
+    }
+
     renderFilterButton() {
-        const { isContentFiltered, totalPages, category: { is_anchor } } = this.props;
+        const {
+            isContentFiltered, totalPages, category: { is_anchor }
+        } = this.props;
 
         if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
             return null;
@@ -167,7 +185,8 @@ export class CategoryPage extends PureComponent {
               onClick={ this.onFilterButtonClick }
             >
                 <Image src={ filterIcon } alt="filter" mix={ { block: 'CategoryPage', elem: 'FilterIcon' } } />
-                { __('Filters') }
+                <span>{ __('Filters') }</span>
+                { this.renderFiltersCount() }
             </button>
         );
     }

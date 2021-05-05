@@ -483,14 +483,12 @@ export class ProductCard extends PureComponent {
                 ) }
                 <div block="ProductCard" elem="Content" mods={ { layout } }>
                     <div block="ProductCard" elem="MainInfo">
+                        { this.renderReviews() }
                         { this.renderAdditionalProductDetails() }
                         { this.renderMainDetails() }
-                        { this.renderReviews() }
                     </div>
                     <div block="ProductCard" elem="AttributeWrapper">
                         { this.renderProductPrice() }
-                        { /* { availableVisualOptions.map((options, i) => this.renderVisualConfigurableOptions(options, i)) } */ }
-                        { this.renderConfigurableOptions() }
                     </div>
                     <div block="ProductCard" elem="ActionWrapper">
                         { this.renderAddToCart() }
@@ -518,7 +516,8 @@ export class ProductCard extends PureComponent {
         const mods = {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
-            siblingsHaveConfigurableOptions
+            siblingsHaveConfigurableOptions,
+            layout
         };
 
         if (layout === LIST_LAYOUT) {
