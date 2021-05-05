@@ -64,7 +64,6 @@
     &-Filter {
         text-align: right;
         grid-column: 2;
-        font-weight: 600;
         font-size: 1.6rem;
         min-height: 50px;
         display: inline-flex;
@@ -82,6 +81,8 @@
     }
 
     &-Subheading {
+        font-weight: 600;
+        font-size: 1.4rem;
         white-space: pre;
     }
 

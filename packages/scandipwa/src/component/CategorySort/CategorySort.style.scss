@@ -20,11 +20,8 @@
         margin-top: 0;
 
         label:first-of-type {
-            @include before-desktop {
-                font-weight: 600;
-                font-size: 1.6rem;
-                padding-bottom: 3px;
-            }
+            font-size: 1.6rem;
+            font-weight: 400;
 
             @include desktop {
                 display: none;
