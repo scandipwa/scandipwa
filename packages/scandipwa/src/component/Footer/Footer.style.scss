@@ -69,10 +69,7 @@
         }
 
         @include tablet {
-            padding: {
-                left: 3rem;
-                right: 3rem;
-            };
+            padding-inline: 3rem;
         }
     }
 

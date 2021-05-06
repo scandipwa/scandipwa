@@ -41,10 +41,8 @@
             width: 1.5rem;
             transform: rotate(45deg);
             background-color: var(--overlay-desktop-border-color);
-            border: {
-                top: 0.1rem solid var(--overlay-desktop-border-color);
-                left: 0.1rem solid var(--overlay-desktop-border-color);
-            }
+            border-block-start: 0.1rem solid var(--overlay-desktop-border-color);
+            border-inline-start:  0.1rem solid var(--overlay-desktop-border-color);
         }
     }
 

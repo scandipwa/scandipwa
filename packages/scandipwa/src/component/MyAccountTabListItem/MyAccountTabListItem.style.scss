@@ -72,10 +72,8 @@
                 inset-inline-end: 1.4rem;
             }
 
-            border: {
-                inset-inline-end: var(--border-width) solid var(--my-account-tab-list-item-color);
-                top: var(--border-width) solid var(--my-account-tab-list-item-color);
-            }
+            border-block-start: var(--border-width) solid var(--my-account-tab-list-item-color);
+            border-inline-start: var(--border-width) solid var(--my-account-tab-list-item-color);
 
             @include after-mobile {
                 inset-inline-end: 2.4rem;

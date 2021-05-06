@@ -59,10 +59,8 @@
             width: 1.5rem;
             transform: rotate(45deg);
             background-color: var(--overlay-background);
-            border: {
-                top: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
-                left: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
-            }
+            border-block-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
+            border-inline-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
         }
     }
 
@@ -152,19 +150,11 @@
 
     &-Action form,
     &-Additional {
-        padding: {
-            top: 0;
-            left: 1.2rem;
-            right: 1.2rem;
-            bottom: 1.2rem;
-        };
+        padding: 0 1.2rem 1.2rem;
 
         @include mobile {
-            padding: {
-                left: 1.4rem;
-                inset-inline-end: 1.4rem;
-                bottom: 1.4rem;
-            }
+            padding-block-start: 1.4rem;
+            padding-inline: 1.4rem;
         }
     }
 
