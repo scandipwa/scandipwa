@@ -37,18 +37,18 @@
     &_layout_grid {
         &:hover {
             @include desktop {
-                box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .1),
-                0 6px 16px rgba(0, 0, 0, .1),
-                0 9px 28px 8px rgba(0, 0, 0, .1);
+                box-shadow: 0 0.3rem 0.6rem -4px rgba(0, 0, 0, .1),
+                0 0.6rem 16px rgba(0, 0, 0, .1),
+                0 0.9rem 28px 0.8rem rgba(0, 0, 0, .1);
                 z-index: 4;
 
                 .ProductCard-VisibleOnHover {
                     background: var(--product-card-background);
                     width: inherit;
                     opacity: 1;
-                    box-shadow: 0 3px 6px rgba(0, 0, 0, .1),
-                    0 6px 16px rgba(0, 0, 0, .1),
-                    0 9px 28px 8px rgba(0, 0, 0, .1);
+                    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, .1),
+                    0 0.6rem 16px rgba(0, 0, 0, .1),
+                    0 0.9rem 28px 0.8rem rgba(0, 0, 0, .1);
                     z-index: -1;
                 }
             }
@@ -122,7 +122,7 @@
     }
 
     &-Name {
-        margin: 5px 0;
+        margin: 0.5rem 0;
         line-height: var(--product-card-name-line-height);
         overflow: hidden;
         white-space: nowrap;
@@ -204,7 +204,7 @@
         justify-content: flex-start;
         align-items: center;
         flex-wrap: wrap;
-        min-height: calc(var(--product-card-color-size) + 5px);
+        min-height: calc(var(--product-card-color-size) + 0.5rem);
     }
 
     &-Color,
@@ -214,17 +214,17 @@
         height: var(--product-card-color-size);
         border-radius: 50%;
         overflow: hidden;
-        margin: 5px 7px 0 0;
-        border: 1px solid var(--product-card-color-border-color);
+        margin: 0.5rem 0.7rem 0 0;
+        border: 0.1rem solid var(--product-card-color-border-color);
     }
 
     &-String {
-        border: 1px solid var(--product-card-text-border-color);
+        border: 0.1rem solid var(--product-card-text-border-color);
         color: var(--product-card-text-border-color);
         display: inline-block;
         text-align: center;
-        padding: 0 6px;
-        margin: 5px 7px 0 0;
+        padding: 0 0.6rem;
+        margin: 0.5rem 0.7rem 0 0;
         line-height: 15px;
         min-width: 20px;
     }
@@ -287,7 +287,7 @@
         margin-top: 16px;
 
         > * {
-            margin-inline-end: 5px;
+            margin-inline-end: 0.5rem;
         }
     }
 

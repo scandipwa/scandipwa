@@ -20,7 +20,7 @@
     margin-bottom: 0;
     display: flex;
     align-items: center;
-    border-top: 1px solid var(--checkout-payment-border-color);
+    border-top: 0.1rem solid var(--checkout-payment-border-color);
 
     &::before {
         content: none;
@@ -28,7 +28,7 @@
 
     &:last-child {
         margin-bottom: 0;
-        border-bottom: 1px solid var(--checkout-payment-border-color);
+        border-bottom: 0.1rem solid var(--checkout-payment-border-color);
     }
 
     &-Button {
@@ -51,12 +51,12 @@
             top: 0;
             bottom: 0;
             margin: auto;
-            left: 8px;
+            left: 0.8rem;
             width: 12px;
-            height: 6px;
+            height: 0.6rem;
             transform: rotate(135deg) translateX(-5px);
-            border-right: 2px solid var(--check-mark-color);
-            border-top: 2px solid var(--check-mark-color);
+            border-right: 0.2rem solid var(--check-mark-color);
+            border-top: 0.2rem solid var(--check-mark-color);
         }
 
         &_isSelected {

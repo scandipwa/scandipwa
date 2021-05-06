@@ -18,7 +18,7 @@
 .NavigationTabs {
     --header-background: var(--navigation-tabs-background);
     --header-color: var(--navigation-tabs-color);
-    --header-icon-stroke-width: 2px;
+    --header-icon-stroke-width: 0.2rem;
 
     position: fixed;
     bottom: 0;
@@ -35,7 +35,7 @@
     }
 
     @include mobile {
-        border-top: 1px solid var(--primary-divider-color);
+        border-top: 0.1rem solid var(--primary-divider-color);
     }
 
     @include desktop {

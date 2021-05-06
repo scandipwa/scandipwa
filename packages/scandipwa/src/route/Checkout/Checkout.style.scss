@@ -36,7 +36,7 @@
 
     &-StickyButtonWrapper {
         @include before-desktop {
-            border-top: 1px solid var(--primary-divider-color);
+            border-top: 0.1rem solid var(--primary-divider-color);
             background-color: #fff;
             position: fixed;
             padding: 1.2rem 1.2rem calc(env(safe-area-inset-bottom) + 1.2rem);

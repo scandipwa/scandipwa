@@ -24,7 +24,7 @@
     justify-content: space-between;
     padding: 1.2rem 0 calc(env(safe-area-inset-bottom) + 1.2rem);
     background-color: var(--cookiepopup-bg);
-    border-top: 1px solid var(--cookiepopup-border);
+    border-top: 0.1rem solid var(--cookiepopup-border);
     z-index: 300;
 
     @include mobile {
@@ -58,7 +58,7 @@
 
     &-Link {
         display: inline;
-        margin-inline-start: 5px;
+        margin-inline-start: 0.5rem;
     }
 
     &-CTA {

@@ -18,7 +18,7 @@
     flex-wrap: wrap;
     margin: 0;
     padding: 0 0 1.2rem;
-    border-bottom: 1px solid var(--product-review-item-border);
+    border-bottom: 0.1rem solid var(--product-review-item-border);
     word-break: break-word;
 
     @include mobile {
@@ -27,7 +27,7 @@
 
     @include after-mobile {
         padding: 1.8rem 2.4rem;
-        border: 1px solid var(--product-review-item-border);
+        border: 0.1rem solid var(--product-review-item-border);
     }
 
     &:last-child {

@@ -14,7 +14,7 @@
 }
 
 .MyAccountTabListItem {
-    --border-width: 1px;
+    --border-width: 0.1rem;
     --text-shadow: none;
 
     padding-left: 0;
@@ -31,7 +31,7 @@
     &_isActive,
     &:hover {
         @include after-mobile {
-            --border-width: 2px;
+            --border-width: 0.2rem;
             --text-shadow:
                 -.02ex 0 var(--my-account-tab-list-item-color),
                 .02ex 0 var(--my-account-tab-list-item-color);
@@ -64,8 +64,8 @@
             top: 0;
             right: 1.2rem;
             bottom: 0;
-            width: 6px;
-            height: 6px;
+            width: 0.6rem;
+            height: 0.6rem;
             margin: auto;
             transform: rotate(45deg);
             @include mobile {

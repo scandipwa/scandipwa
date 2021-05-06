@@ -27,7 +27,7 @@
     &-Button {
         --check-mark-opacity: 0;
 
-        border: 2px solid var(--checkout-address-table-border);
+        border: 0.2rem solid var(--checkout-address-table-border);
         margin: 1.2rem 1.2rem 0 0;
         transition-property: border-color, background, border-color;
         transition-duration: 150ms;
@@ -48,8 +48,8 @@
         }
 
         &::before {
-            top: 6px;
-            right: 6px;
+            top: 0.6rem;
+            right: 0.6rem;
             width: 24px;
             height: 24px;
             border-radius: 50%;
@@ -60,10 +60,10 @@
             top: 12px;
             right: 11px;
             width: 12px;
-            height: 6px;
+            height: 0.6rem;
             transform: rotate(135deg);
-            border-right: 2px solid var(--check-mark-color);
-            border-top: 2px solid var(--check-mark-color);
+            border-right: 0.2rem solid var(--check-mark-color);
+            border-top: 0.2rem solid var(--check-mark-color);
         }
 
         &:not(&_isSelected):hover {

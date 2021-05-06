@@ -76,9 +76,9 @@
         &:not(.Swatch_type_color):not(.Swatch_type_cat) {
             @include desktop {
                 padding: 0 12px;
-                border: 1px solid var(--category-filter-overlay-desktop-color);
+                border: 0.1rem solid var(--category-filter-overlay-desktop-color);
                 color: var(--category-filter-overlay-desktop-color);
-                margin-inline-end: 6px;
+                margin-inline-end: 0.6rem;
             }
 
             &:hover {
@@ -94,7 +94,7 @@
                     content: '\2022';
 
                     margin-inline-end: 1.2rem;
-                    margin-inline-start: 2px;
+                    margin-inline-start: 0.2rem;
                 }
             }
         }
@@ -121,7 +121,7 @@
             --option-margin: 0 12px 12px 0;
 
             .ExpandableContent:not(:last-child)  {
-                border-bottom: 1px solid var(--expandable-content-divider-color);
+                border-bottom: 0.1rem solid var(--expandable-content-divider-color);
             }
 
             .ExpandableContent  {

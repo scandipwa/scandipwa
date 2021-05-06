@@ -39,7 +39,7 @@
     &-Empty {
         @include before-desktop {
             padding: 1.2rem;
-            border-bottom: 1px solid var(--expandable-content-divider-color);
+            border-bottom: 0.1rem solid var(--expandable-content-divider-color);
         }
 
         @include mobile {
@@ -55,7 +55,7 @@
             bottom: var(--navigation-tabs-height);
             left: 0;
             width: 100%;
-            border-top: 1px solid var(--primary-divider-color);
+            border-top: 0.1rem solid var(--primary-divider-color);
         }
 
         @include desktop {
@@ -153,13 +153,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid var(--cart-page-divider-background);
+            border: 0.1rem solid var(--cart-page-divider-background);
             padding: 2.4rem 1.2rem;
 
             @include before-desktop {
                 padding: 1.2rem;
                 border: 0;
-                border-bottom: 1px solid var(--primary-divider-color);
+                border-bottom: 0.1rem solid var(--primary-divider-color);
             }
 
             @include mobile {
@@ -181,7 +181,7 @@
         }
 
         strong {
-            margin: 0 5px;
+            margin: 0 0.5rem;
         }
     }
 
@@ -234,8 +234,8 @@
     }
 
     &-TotalDetails {
-        border-bottom: 1px solid var(--cart-page-divider-background);
-        border-top: 1px solid var(--cart-page-divider-background);
+        border-bottom: 0.1rem solid var(--cart-page-divider-background);
+        border-top: 0.1rem solid var(--cart-page-divider-background);
         padding: 1.8rem 0;
         grid-template-columns: 50% 50%;
         grid-row-gap: 1.8rem;
@@ -250,7 +250,7 @@
             padding: 1.2rem;
             margin-top: 0;
             border: 0;
-            border-bottom: 1px solid var(--primary-divider-color);
+            border-bottom: 0.1rem solid var(--primary-divider-color);
         }
 
         @include mobile {
@@ -285,7 +285,7 @@
     &-TableHead {
         display: grid;
         grid-template-columns: 3fr 1fr 1fr;
-        border-bottom: 1px solid var(--cart-page-divider-background);
+        border-bottom: 0.1rem solid var(--cart-page-divider-background);
         background-color: var(--cart-page-table-head-background);
         text-transform: uppercase;
         font-size: 1.2rem;
@@ -404,17 +404,17 @@
             @include tablet {
                 height: auto;
                 margin-inline-start: -12px;
-                margin-top: 5px;
+                margin-top: 0.5rem;
                 order: 1;
-                padding-top: 8px;
+                padding-top: 0.8rem;
 
                 &::before {
-                    top: 8px;
+                    top: 0.8rem;
                     left: 30px;
                 }
 
                 &::after {
-                    top: 4px;
+                    top: 0.4rem;
                     left: 32px;
                 }
             }
@@ -423,12 +423,12 @@
                 order: 0;
 
                 &::before {
-                    top: 8px;
+                    top: 0.8rem;
                     left: 15px;
                 }
 
                 &::after {
-                    top: 4px;
+                    top: 0.4rem;
                     left: 17px;
                 }
             }

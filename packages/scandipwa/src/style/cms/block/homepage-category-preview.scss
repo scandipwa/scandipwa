@@ -19,7 +19,7 @@
         grid-gap: 1.2rem;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        margin-top: 3px;
+        margin-top: 0.3rem;
     }
 
     &-Figure {
@@ -30,7 +30,7 @@
         }
 
         @include after-mobile {
-            margin-top: 5px;
+            margin-top: 0.5rem;
             height: 400px;
         }
 
@@ -61,7 +61,7 @@
         --button-border-width: 0;
 
         @include mobile {
-            --button-padding: 5px 0;
+            --button-padding: 0.5rem 0;
         }
 
         @include after-mobile {

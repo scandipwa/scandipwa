@@ -11,7 +11,7 @@
 
 .CheckoutOrderSummary {
     $divider-border-color: #e0e0e0;
-    $divider-border: solid 1px $divider-border-color;
+    $divider-border: solid 0.1rem $divider-border-color;
 
     &-Header {
         display: flex;
@@ -24,7 +24,7 @@
         font-size: 1.2rem;
         opacity: .5;
         text-transform: none;
-        top: 2px;
+        top: 0.2rem;
         font-weight: 300;
     }
 
@@ -73,7 +73,7 @@
     }
 
     &-CartItemDescription {
-        margin-top: 5px;
+        margin-top: 0.5rem;
 
         p {
             font-size: 1.32rem;

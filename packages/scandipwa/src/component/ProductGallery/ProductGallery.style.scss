@@ -56,7 +56,7 @@
         &::after {
             @include desktop {
                 content: '';
-                box-shadow: inset 0 0 0 3px #fff;
+                box-shadow: inset 0 0 0 0.3rem #fff;
                 width: 100%;
                 height: 100%;
                 top: 0;

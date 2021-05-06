@@ -13,7 +13,7 @@
     --checkbox-label-color: #0a0a0a;
     --my-account-input-label-color: rgba(10, 10, 10, .59);
     --my-account-overlay-width: 400px;
-    --my-account-overlay-border-width: 1px;
+    --my-account-overlay-border-width: 0.1rem;
 }
 
 .MyAccountOverlay {
@@ -333,7 +333,7 @@
                     button {
                         width: initial;
                         margin-top: 0;
-                        padding-left: 5px;
+                        padding-left: 0.5rem;
                         font-weight: 600;
                     }
 
@@ -381,7 +381,7 @@
             right: 27px;
             top: -13px;
             transform-origin: 50% 50%;
-            width: 1px;
+            width: 0.1rem;
             z-index: 1;
         }
 

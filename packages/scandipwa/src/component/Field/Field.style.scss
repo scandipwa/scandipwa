@@ -84,7 +84,7 @@
     &_hasError {
         input,
         textarea {
-            border: 1px solid var(--primary-error-color);
+            border: 0.1rem solid var(--primary-error-color);
             font-weight: 700;
 
             &::placeholder {
@@ -119,7 +119,7 @@
                     position: relative;
                     width: $size-mobile;
                     height: $size-mobile;
-                    border: solid 1px $border-color;
+                    border: solid 0.1rem $border-color;
 
                     @include after-mobile {
                         width: $size;
@@ -202,7 +202,7 @@
             --box-color: #{$white};
 
             background-color: var(--box-color);
-            border: 2px solid var(--input-border-color);
+            border: 0.2rem solid var(--input-border-color);
             border-radius: var(--checkbox-border-radius);
             cursor: pointer;
             display: inline-block;
@@ -225,12 +225,12 @@
 
                 background: var(--checkmark-color);
                 box-shadow:
-                        2px 0 0 var(--checkmark-color),
-                        4px 0 0 var(--checkmark-color),
-                        4px -2px 0 var(--checkmark-color),
-                        4px -4px 0 var(--checkmark-color),
-                        4px -6px 0 var(--checkmark-color),
-                        4px -8px 0 var(--checkmark-color);
+                        0.2rem 0 0 var(--checkmark-color),
+                        0.4rem 0 0 var(--checkmark-color),
+                        0.4rem -2px 0 var(--checkmark-color),
+                        0.4rem -4px 0 var(--checkmark-color),
+                        0.4rem -6px 0 var(--checkmark-color),
+                        0.4rem -8px 0 var(--checkmark-color);
                 content: '';
                 height: .2rem;
                 left: calc(50% - .5rem);
@@ -289,7 +289,7 @@
 
         + label {
             align-items: center;
-            border: 2px dashed var(--input-border-color);
+            border: 0.2rem dashed var(--input-border-color);
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -317,7 +317,7 @@
             }
 
             + p {
-                margin-top: 5px;
+                margin-top: 0.5rem;
                 margin-bottom: 0;
             }
         }
@@ -325,7 +325,7 @@
 
     &-Labels {
         span {
-            letter-spacing: 1.05px;
+            letter-spacing: .105rem;
         }
     }
 

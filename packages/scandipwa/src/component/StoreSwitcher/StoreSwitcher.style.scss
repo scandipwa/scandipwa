@@ -14,7 +14,7 @@
 }
 
 .StoreSwitcher {
-    border-bottom: 1px solid var(--primary-divider-color);
+    border-bottom: 0.1rem solid var(--primary-divider-color);
     margin: 0 16px;
 
     @include desktop {
@@ -68,7 +68,7 @@
 
     &-StoreList {
         background-color: var(--store-switcher-list-background);
-        border: 1px solid var(--input-border-color);
+        border: 0.1rem solid var(--input-border-color);
         display: none;
         right: -20px;
         position: absolute;

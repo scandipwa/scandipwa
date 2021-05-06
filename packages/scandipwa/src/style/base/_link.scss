@@ -11,7 +11,7 @@
 :root {
     --link-color: var(--imported_link_color, var(--primary-base-color));
     --link-hover: var(--imported_linkHover_color, var(--primary-dark-color));
-    --default-hover-link-underline: 2px solid var(--link-hover);
+    --default-hover-link-underline: 0.2rem solid var(--link-hover);
     --link-underline: var(--imported_link_border_bottom, none);
     --link-hover-underline: var(--imported_linkHover_border_bottom, var(--default-hover-link-underline));
 }
@@ -27,7 +27,7 @@ a {
         &:focus {
             color: var(--link-hover);
             border-bottom: var(--link-hover-underline);
-            padding-bottom: 3px;
+            padding-bottom: 0.3rem;
         }
     }
 }

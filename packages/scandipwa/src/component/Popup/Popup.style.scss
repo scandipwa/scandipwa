@@ -69,7 +69,7 @@
 
     &-Content {
         background-color: var(--popup-content-background);
-        border-radius: 5px;
+        border-radius: 0.5rem;
         padding: var(--popup-content-padding);
         min-width: var(--popup-min-width);
         max-width: calc(var(--content-wrapper-width) * .8);

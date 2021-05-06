@@ -12,15 +12,15 @@
     color: $white;
     text-shadow:
         -1px 0 var(--star-outline-color),
-        0 1px var(--star-outline-color),
-        1px 0 var(--star-outline-color),
+        0 0.1rem var(--star-outline-color),
+        0.1rem 0 var(--star-outline-color),
         0 -1px var(--star-outline-color);
 
     font-size: 4rem;
     line-height: 1;
     /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
     font-family: Times; // make sure ★ appears correctly
-    letter-spacing: 3px;
+    letter-spacing: 0.3rem;
 
     &::after {
         content: '★';

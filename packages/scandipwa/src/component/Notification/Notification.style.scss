@@ -29,11 +29,11 @@
 
     align-items: center;
     background: var(--notification-background);
-    border-radius: 2px;
+    border-radius: 0.2rem;
     color: var(--notification-color);
     display: inline-flex;
     height: var(--notification-height);
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
     max-width: 100vw;
     overflow: hidden;
     padding: 1.2rem;
@@ -64,7 +64,7 @@
         white-space: pre-wrap;
         background: white;
         color: black;
-        padding: 5px;
+        padding: 0.5rem;
         max-height: 150px;
         overflow: scroll;
     }
@@ -102,7 +102,7 @@
             margin: auto;
             content: ' ';
             height: 10px;
-            width: 2px;
+            width: 0.2rem;
             background-color: var(--notification-color);
         }
 
@@ -162,7 +162,7 @@
             opacity: 1;
             transform: translateY(0);
             max-height: 100px;
-            margin-bottom: 5px;
+            margin-bottom: 0.5rem;
 
             @include mobile {
                 margin-bottom: 20px;

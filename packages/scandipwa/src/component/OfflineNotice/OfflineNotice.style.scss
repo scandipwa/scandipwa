@@ -12,7 +12,7 @@
 :root {
     --diameter: 1;
     /* stylelint-disable-next-line length-zero-no-unit */
-    --offline-notice-height: 0px;
+    --offline-notice-height: 0.0rem;
     --offline-notice-display: none;
 }
 
@@ -73,14 +73,14 @@
     }
 
     &-Logo {
-        padding-left: calc(var(--diameter) * 1px);
-        padding-top: calc(var(--diameter) * 4px);
+        padding-left: calc(var(--diameter) * 0.1rem);
+        padding-top: calc(var(--diameter) * 0.4rem);
         padding-right: 25px;
         width: calc(20px * var(--diameter));
         height: calc(10px * var(--diameter));
 
         &_isBig {
-            padding-left: calc(var(--diameter) * 1px);
+            padding-left: calc(var(--diameter) * 0.1rem);
             padding-right: 0;
             padding-top: 0;
         }

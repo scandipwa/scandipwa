@@ -52,7 +52,7 @@
 
                 &_hasError {
                     input {
-                        border: 1px solid var(--primary-error-color);
+                        border: 0.1rem solid var(--primary-error-color);
                         border-right: 0;
                     }
                 }

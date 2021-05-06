@@ -30,7 +30,7 @@
         text-transform: none;
 
         &Wrapper {
-            border-bottom: 1px solid var(--primary-divider-color);
+            border-bottom: 0.1rem solid var(--primary-divider-color);
             padding: 17px 0 16px;
             margin: 0 16px;
 
@@ -109,7 +109,7 @@
 
     &-Link {
         font-weight: 400;
-        margin: 8px 16px 8px 0;
+        margin: 0.8rem 16px 0.8rem 0;
     }
 
     &-MainCategories {
@@ -149,7 +149,7 @@
             &_isVisible {
                 background: var(--color-gray);
                 display: block;
-                padding: 12px 0 12px 8px;
+                padding: 12px 0 12px 0.8rem;
             }
 
             @include desktop {

@@ -20,7 +20,7 @@
     background-color: var(--breadcrumbs-background);
 
     $crumb-padding: 20px;
-    $arrow-size: 4px;
+    $arrow-size: 0.4rem;
 
     @include before-desktop {
         --breadcrumbs-background: #fff;

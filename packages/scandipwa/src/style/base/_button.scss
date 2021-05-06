@@ -11,10 +11,10 @@
 
 :root {
     --default-button-padding: 17px 20px 16px;
-    --default-button-radius: 2px;
+    --default-button-radius: 0.2rem;
     --default-button-height: 48px;
     --default-text-decoration: none;
-    --button-border-width: 2px;
+    --button-border-width: 0.2rem;
     // Primary button
     --button-background: var(--imported_buttons_background_color, var(--primary-base-color));
     --button-border: var(--imported_buttons_border_color, var(--primary-base-color));

@@ -14,7 +14,7 @@
     --input-background-color: var(--imported_input_background_color, #fff);
     --input-border-color: var(--imported_input_border_color, #e0e0e0);
     --input-border-color-focus: var(--primary-base-color);
-    --input-border-radius: var(--imported_input_border_radius, 2px);
+    --input-border-radius: var(--imported_input_border_radius, 0.2rem);
     --input-padding: var(--imported_input_padding, var(--default-input-padding));
     --input-color: var(--imported_input_color, var(--color-karaka));
     --input-type-number-width: 28px;
@@ -23,7 +23,7 @@
 input,
 textarea,
 select {
-    border: 1px solid var(--input-border-color);
+    border: 0.1rem solid var(--input-border-color);
     background-color: var(--input-background-color);
     border-radius: var(--input-border-radius);
     color: var(--input-color);
@@ -32,7 +32,7 @@ select {
     caret-color: var(--primary-base-color);
 
     &:focus {
-        border: 1px solid var(--input-border-color-focus);
+        border: 0.1rem solid var(--input-border-color-focus);
     }
 
     &:not(:first-of-type) {
@@ -71,7 +71,7 @@ textarea {
     width: var(--input-type-number-width);
 
     &:focus {
-        border: 1px solid var(--input-border-color);
+        border: 0.1rem solid var(--input-border-color);
     }
 
     &::-webkit-inner-spin-button,
@@ -82,7 +82,7 @@ textarea {
 
     ~ button {
         background: transparent;
-        border: 2px solid var(--primary-base-color);
+        border: 0.2rem solid var(--primary-base-color);
         border-radius: var(--button-border-radius);
         color: $black;
         left: 0;
@@ -129,7 +129,7 @@ textarea {
 
         span {
             @include mobile {
-                top: -2.2px;
+                top: -.22rem;
             }
         }
 

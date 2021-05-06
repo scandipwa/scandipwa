@@ -20,7 +20,7 @@
 
     @include mobile {
         --product-compare-area-width: 100vw;
-        --product-compare-sidebar-width: 0px;
+        --product-compare-sidebar-width: 0.0rem;
         --product-compare-item-count: 1.5;
         --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
     }
@@ -88,7 +88,7 @@
             min-width: fit-content;
             width: 100%;
             background-color: var(--product-compare-attribute-table-background-color);
-            border-bottom: 1px solid transparent;
+            border-bottom: 0.1rem solid transparent;
         }
     }
 
@@ -117,7 +117,7 @@
     .ProductPriceRow {
         min-width: fit-content;
         width: 100%;
-        border-bottom: 1px solid var(--secondary-base-color);
+        border-bottom: 0.1rem solid var(--secondary-base-color);
         padding-bottom: 1rem;
         margin-bottom: 1rem;
 
@@ -135,7 +135,7 @@
 
     .ProductPrice {
         flex: 0 0 auto;
-        padding: 2px var(--product-compare-item-gap);
+        padding: 0.2rem var(--product-compare-item-gap);
         width: var(--product-compare-column-width);
 
         &:last-child {

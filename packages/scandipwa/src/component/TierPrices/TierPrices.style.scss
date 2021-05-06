@@ -6,7 +6,7 @@
         padding-left: 0;
 
         @include after-mobile {
-            padding-left: 5px;
+            padding-left: 0.5rem;
         }
 
         &:last-child {

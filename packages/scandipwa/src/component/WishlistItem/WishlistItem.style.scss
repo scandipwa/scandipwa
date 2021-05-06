@@ -17,7 +17,7 @@
 .WishlistItem {
     @include mobile {
         padding: 1.4rem var(--my-account-wrapper-padding-mobile);
-        border-top: 1px solid var(--wishlist-item-border-color);
+        border-top: 0.1rem solid var(--wishlist-item-border-color);
     }
 
     &:first-of-type {
@@ -49,10 +49,10 @@
         .ProductAttribute {
             font-size: 1rem;
             text-transform: uppercase;
-            border: 1px solid #adadad;
+            border: 0.1rem solid #adadad;
             color: #adadad;
-            padding: 3px 5px;
-            margin-inline-end: 5px;
+            padding: 0.3rem 0.5rem;
+            margin-inline-end: 0.5rem;
             display: inline-block;
         }
 
@@ -67,7 +67,7 @@
             }
     
             del {
-                margin-inline-start: 4px;
+                margin-inline-start: 0.4rem;
     
                 @include mobile {
                     order: -1;
@@ -91,8 +91,8 @@
 
     &-Remove {
         position: absolute;
-        right: 5px;
-        top: 5px;
+        right: 0.5rem;
+        top: 0.5rem;
         height: 30px;
         width: 30px;
 
@@ -100,7 +100,7 @@
 
         &::before,
         &::after {
-            top: 5px;
+            top: 0.5rem;
         }
     }
 
@@ -109,7 +109,7 @@
         margin-top: 0;
 
         @include mobile {
-            padding: 7px 12px 4px;
+            padding: 0.7rem 12px 0.4rem;
             font-size: 1.3rem;
             margin-inline-start: auto;
         }
@@ -191,7 +191,7 @@
     }
 
     &-AttributeWrapper {
-        margin: 5px 0 12px;
+        margin: 0.5rem 0 12px;
     }
 
     &-SelectWrapper {

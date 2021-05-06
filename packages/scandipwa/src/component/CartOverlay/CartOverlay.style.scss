@@ -19,7 +19,7 @@
 .CartOverlay {
     @include after-mobile {
         position: absolute;
-        top: calc(var(--header-nav-height) - 7px);
+        top: calc(var(--header-nav-height) - 0.7rem);
         right: 22px;
         padding: 0;
         width: var(--cart-overlay-width);
@@ -27,7 +27,7 @@
 
     &_isVisible {
         @include after-mobile {
-            border: 1px solid var(--overlay-desktop-border-color);
+            border: 0.1rem solid var(--overlay-desktop-border-color);
         }
     }
 
@@ -36,14 +36,14 @@
             content: '';
             position: absolute;
             top: -9px;
-            right: 9px;
+            right: 0.9rem;
             height: 15px;
             width: 15px;
             transform: rotate(45deg);
             background-color: var(--overlay-desktop-border-color);
             border: {
-                top: 1px solid var(--overlay-desktop-border-color);
-                left: 1px solid var(--overlay-desktop-border-color);
+                top: 0.1rem solid var(--overlay-desktop-border-color);
+                left: 0.1rem solid var(--overlay-desktop-border-color);
             }
         }
     }
@@ -121,8 +121,8 @@
 
         @include mobile {
             padding: 1.4rem;
-            border-bottom: 1px solid var(--cart-overlay-divider-background);
-            border-top: 1px solid var(--expandable-content-color);
+            border-bottom: 0.1rem solid var(--cart-overlay-divider-background);
+            border-top: 0.1rem solid var(--expandable-content-color);
         }
 
         @include after-mobile {
@@ -131,7 +131,7 @@
         }
 
         strong {
-            margin: 0 5px;
+            margin: 0 0.5rem;
         }
     }
 
@@ -174,7 +174,7 @@
         font-weight: bold;
 
         @include after-mobile {
-            border-bottom: 1px solid var(--cart-item-divider-color);
+            border-bottom: 0.1rem solid var(--cart-item-divider-color);
         }
     }
 

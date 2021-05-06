@@ -16,7 +16,7 @@
 
 .ProductCompareItem {
     display: flex;
-    border: 1px solid var(--secondary-base-color);
+    border: 0.1rem solid var(--secondary-base-color);
     padding: 1rem;
     position: relative;
     height: 100%;
@@ -25,7 +25,7 @@
     @include mobile {
         flex-direction: column;
         border: none;
-        border-right: 1px solid var(--product-compare-item-divider-color);
+        border-right: 0.1rem solid var(--product-compare-item-divider-color);
         padding-bottom: 0;
     }
 
