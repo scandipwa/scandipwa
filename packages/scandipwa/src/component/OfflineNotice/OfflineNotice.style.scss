@@ -31,7 +31,7 @@
     top: calc(var(--header-height) + var(--demo-notice-height));
     bottom: 0;
     right: 0;
-    left: 0;
+    inset-inline-start: 0;
 
     &_isBig {
         --line-color: var(--primary-info-color);
@@ -104,7 +104,7 @@
 
             &::before {
                 --fill-color: var(--line-color);
-                left: 0;
+                inset-inline-start: 0;
                 top: calc(-.2rem * var(--diameter));
                 width: calc(.8rem * var(--diameter));
                 height: calc(.8rem * var(--diameter));
@@ -112,7 +112,7 @@
 
             &::after {
                 border-radius: 50% 50% 50% 50%;
-                left: calc(.1rem * var(--diameter));
+                inset-inline-start: calc(.1rem * var(--diameter));
                 top: calc(-.1rem * var(--diameter));
                 width: calc(.6rem * var(--diameter));
                 height: calc(.6rem * var(--diameter));
@@ -130,14 +130,14 @@
             &::before {
                 width: calc(2.2rem * var(--diameter));
                 height: calc(.3rem * var(--diameter));
-                left: calc(-.1rem * var(--diameter));
+                inset-inline-start: calc(-.1rem * var(--diameter));
             }
 
             &::after {
                 --fill-color: var(--line-color);
                 width: calc(2rem * var(--diameter));
                 height: calc(.1rem * var(--diameter));
-                left: calc(-.1rem * var(--diameter));
+                inset-inline-start: calc(-.1rem * var(--diameter));
             }
         }
     }

@@ -18,7 +18,7 @@
         @include mobile {
             padding: 1.4rem;
             position: fixed;
-            left: 0;
+            inset-inline-start: 0;
             width: 100%;
             bottom: var(--navigation-tabs-height);
             border-top: 0.1rem solid var(--primary-divider-color);

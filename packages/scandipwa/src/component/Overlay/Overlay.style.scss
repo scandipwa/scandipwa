@@ -33,7 +33,7 @@
 
             position: fixed;
             top: var(--header-total-height);
-            left: 0;
+            inset-inline-start: 0;
             width: 100%;
             height: calc(100% - var(--header-total-height));
             padding-bottom: var(--navigation-tabs-height);

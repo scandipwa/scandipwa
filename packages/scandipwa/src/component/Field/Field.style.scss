@@ -233,7 +233,7 @@
                         0.4rem -.8rem 0 var(--checkmark-color);
                 content: '';
                 height: .2rem;
-                left: calc(50% - .5rem);
+                inset-inline-start: calc(50% - .5rem);
                 pointer-events: none;
                 position: absolute;
                 top: calc(50% - .1rem);
@@ -272,7 +272,7 @@
                 &::after {
                     --checkmark-color: var(--primary-base-color);
 
-                    left: calc(50% - .5rem);
+                    inset-inline-start: calc(50% - .5rem);
                     top: calc(50% - .1rem);
                 }
             }

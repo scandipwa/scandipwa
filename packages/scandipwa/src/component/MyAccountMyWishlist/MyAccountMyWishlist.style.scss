@@ -61,7 +61,7 @@
             background-color: var(--my-account-content-background);
             bottom: var(--navigation-tabs-height);
             display: block;
-            left: 0;
+            inset-inline-start: 0;
             padding: 1.4rem 1.4rem;
             position: fixed;
             width: 100%;

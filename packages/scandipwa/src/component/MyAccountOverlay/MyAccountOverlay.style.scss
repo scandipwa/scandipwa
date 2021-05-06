@@ -457,13 +457,13 @@
             }
 
             &::after {
-                left: .12rem;
+                inset-inline-start: .12rem;
                 top: .48rem;
                 width: .18rem;
                 height: .18rem;
 
                 @include mobile {
-                    left: .14rem;
+                    inset-inline-start: .14rem;
                     top: .56rem;
                     width: .21rem;
                     height: .21rem;
@@ -475,7 +475,7 @@
             position: relative;
             width: 2rem;
             height: 2rem;
-            left: 2rem;
+            inset-inline-start: 2rem;
         }
     }
 }

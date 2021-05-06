@@ -32,7 +32,7 @@
         width: 100%;
 
         @include desktop {
-            left: -2rem;
+            inset-inline-start: -2rem;
             padding: 0 2rem;
             position: absolute;
             width: calc(100% + 4rem);

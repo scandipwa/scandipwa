@@ -41,7 +41,7 @@
             position: fixed;
             padding: 1.2rem 1.2rem calc(env(safe-area-inset-bottom) + 1.2rem);
             bottom: 0;
-            left: 0;
+            inset-inline-start: 0;
             width: 100%;
             z-index: 85;
         }

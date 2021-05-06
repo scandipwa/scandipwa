@@ -22,7 +22,7 @@
 
     &::before {
         top: 1.2rem;
-        left: 1.2rem;
+        inset-inline-start: 1.2rem;
         width: 1rem;
         height: 1.4rem;
         transform: perspective(1rem) rotateX(-10deg);
@@ -36,7 +36,7 @@
     }
 
     &::after {
-        left: 1.4rem;
+        inset-inline-start: 1.4rem;
         top: 0.7rem;
         width: 0.6rem;
         height: 0.2rem;
@@ -71,7 +71,7 @@
     width: .15rem;
     height: 3.2rem;
     transform-origin: 50% 50%;
-    left: 1.5rem;
+    inset-inline-start: 1.5rem;
     top: 0.1rem;
     transform: rotate(45deg);
     box-shadow: none;
@@ -126,7 +126,7 @@
         height: 0.9rem;
         width: 0.1rem;
         top: 0.3rem;
-        left: 0.7rem;
+        inset-inline-start: 0.7rem;
         background-color: var(--header-background);
     }
 }
@@ -229,7 +229,7 @@
         border-top: 0.2rem solid $color-dodger-blue;
         display: block;
         height: 0.6rem;
-        left: 0.3rem;
+        inset-inline-start: 0.3rem;
         position: relative;
         top: -.9rem;
         transform: rotate(45deg);
@@ -241,7 +241,7 @@
         content: '';
         display: block;
         height: 1.6rem;
-        left: 0.6rem;
+        inset-inline-start: 0.6rem;
         position: relative;
         top: -1.6rem;
         width: 1.9rem;
@@ -353,7 +353,7 @@
         display: block;
         position: absolute;
         top: 50%;
-        left: 50%;
+        inset-inline-start: 50%;
         box-sizing: border-box;
         border: 0.1rem solid $white;
     }

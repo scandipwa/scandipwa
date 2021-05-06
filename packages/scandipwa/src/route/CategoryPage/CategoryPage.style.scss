@@ -99,7 +99,7 @@
         @include mobile {
             position: fixed;
             top: var(--header-total-height);
-            left: 0;
+            inset-inline-start: 0;
             width: 100%;
             z-index: 90;
             background: #fff;
@@ -190,7 +190,7 @@
                 background-size: cover;
                 content: '';
                 height: 2.5rem;
-                left: 0;
+                inset-inline-start: 0;
                 position: absolute;
                 width: 2.6rem;
             }

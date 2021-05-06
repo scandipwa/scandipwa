@@ -31,7 +31,7 @@
     z-index: 400;
     position: fixed;
     background-color: var(--popup-background);
-    left: 0;
+    inset-inline-start: 0;
     top: var(--header-total-height);
 
     display: flex;

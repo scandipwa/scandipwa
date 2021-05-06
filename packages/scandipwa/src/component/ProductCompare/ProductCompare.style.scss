@@ -56,7 +56,7 @@
         flex: 0 0 auto;
         width: var(--product-compare-sidebar-width);
         position: sticky;
-        left: 0;
+        inset-inline-start: 0;
         background-color: $white;
         z-index: 10;
 

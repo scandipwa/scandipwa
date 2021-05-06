@@ -13,7 +13,7 @@
     &-Figcaption {
         position: absolute;
         top: 50%;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
         transform: translateY(-50%);
     }
