@@ -189,7 +189,7 @@
         order: 4;
         display: block;
         max-width: 80%;
-        max-height: 50px;
+        max-height: 5rem;
         margin: 1.2rem auto;
 
         @include mobile {
@@ -201,7 +201,7 @@
         }
 
         @include tablet {
-            max-width: 330px;
+            max-width: 33rem;
             height: 55px;
         }
     }
@@ -410,7 +410,7 @@
 
                 &::before {
                     top: 0.8rem;
-                    left: 30px;
+                    left: 3rem;
                 }
 
                 &::after {

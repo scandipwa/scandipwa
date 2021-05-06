@@ -79,7 +79,7 @@
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);
         animation: var(--placeholder-animation);
-        margin: 0 0 10px;
+        margin: 0 0 1rem;
         padding-bottom: 30%;
 
         @include mobile {

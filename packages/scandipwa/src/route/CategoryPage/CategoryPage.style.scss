@@ -65,7 +65,7 @@
         text-align: right;
         grid-column: 2;
         font-size: 1.6rem;
-        min-height: 50px;
+        min-height: 5rem;
         display: inline-flex;
         align-items: center;
 
@@ -138,7 +138,7 @@
         }
 
         @include after-mobile {
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
         }
     }
 
@@ -152,7 +152,7 @@
     }
 
     &-LayoutButtons {
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
 
         @include mobile {
             display: none;
@@ -160,7 +160,7 @@
 
         button {
             color: transparent;
-            margin-inline-end: 10px;
+            margin-inline-end: 1rem;
 
             &.list {
                 &:after {

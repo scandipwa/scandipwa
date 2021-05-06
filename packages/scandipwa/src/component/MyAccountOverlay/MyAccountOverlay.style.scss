@@ -12,7 +12,7 @@
 :root {
     --checkbox-label-color: #0a0a0a;
     --my-account-input-label-color: rgba(10, 10, 10, .59);
-    --my-account-overlay-width: 400px;
+    --my-account-overlay-width: 40rem;
     --my-account-overlay-border-width: 0.1rem;
 }
 
@@ -30,8 +30,8 @@
 
     @include desktop {
         position: absolute;
-        top: calc(var(--header-nav-height) - 10px);
-        right: -40px;
+        top: calc(var(--header-nav-height) - 1rem);
+        right: -4rem;
         padding: 0;
         width: var(--my-account-overlay-width);
     }
@@ -231,7 +231,7 @@
                     }
                 }
                 @include desktop {
-                    width: 180px;
+                    width: 18rem;
                     padding: 0;
                 }
             }
@@ -268,7 +268,7 @@
         section {
             display: flex;
 
-            padding-top: 20px;
+            padding-top: 2rem;
 
             &:first-of-type {
                 padding-top: 0;
@@ -376,7 +376,7 @@
         &::after {
             background-color: var(--header-color);
             content: '';
-            height: 20px;
+            height: 2rem;
             position: absolute;
             right: 27px;
             top: -13px;
@@ -473,9 +473,9 @@
 
         input {
             position: relative;
-            width: 20px;
-            height: 20px;
-            left: 20px;
+            width: 2rem;
+            height: 2rem;
+            left: 2rem;
         }
     }
 }
