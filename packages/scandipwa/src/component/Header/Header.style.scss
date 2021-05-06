@@ -13,8 +13,8 @@
     --header-logo-width: 194px;
     --header-logo-height: 24px;
 
-    --header-height: 50px;
-    --header-nav-height: 50px;
+    --header-height: 5rem;
+    --header-nav-height: 5rem;
     --header-total-height:
         calc(
             var(--header-height)
@@ -24,8 +24,8 @@
         );
 
     @include after-mobile {
-        --header-nav-height: 60px;
-        --header-top-menu-height: 30px;
+        --header-nav-height: 6rem;
+        --header-top-menu-height: 3rem;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height) + var(--menu-total-height));
     }
 }
@@ -213,7 +213,7 @@
 
             bottom: 0.1rem;
             height: 16px;
-            margin-inline-end: 10px;
+            margin-inline-end: 1rem;
             width: 16px;
         }
     }

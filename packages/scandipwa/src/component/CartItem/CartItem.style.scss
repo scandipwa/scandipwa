@@ -81,14 +81,14 @@
         background: var(--cart-item-background);
 
         @include mobile {
-            grid-template-columns: 100px auto;
+            grid-template-columns: 10rem auto;
             grid-gap: 1.4rem;
             padding: 1.4rem;
-            min-height: 130px;
+            min-height: 13rem;
         }
 
         @include after-mobile {
-            grid-template-columns: 100px auto;
+            grid-template-columns: 10rem auto;
         }
     }
 
@@ -306,7 +306,7 @@
 
             position: absolute;
             right: 0;
-            height: 30px;
+            height: 3rem;
             max-width: 5%;
             padding-left: 0;
             flex-grow: 1;
@@ -366,7 +366,7 @@
     }
 
     &-QuantityText {
-        margin-inline-end: 10px;
+        margin-inline-end: 1rem;
 
         @include after-mobile {
             display: none;
