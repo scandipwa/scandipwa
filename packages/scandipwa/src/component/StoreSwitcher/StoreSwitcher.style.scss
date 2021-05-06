@@ -15,7 +15,7 @@
 
 .StoreSwitcher {
     border-bottom: 0.1rem solid var(--primary-divider-color);
-    margin: 0 16px;
+    margin: 0 1.6rem;
 
     @include desktop {
         border-bottom: none;
@@ -35,9 +35,9 @@
             }
 
             &::after {
-                height: 13px;
+                height: 1.3rem;
                 right: 0;
-                width: 13px;
+                width: 1.3rem;
             }
         }
     }
@@ -72,7 +72,7 @@
         display: none;
         right: -2rem;
         position: absolute;
-        top: 25px;
+        top: 2.5rem;
         z-index: 2;
 
         &_isOpen {

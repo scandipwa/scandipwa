@@ -22,9 +22,9 @@
     --product-card-name-line-height: 1.2em;
     --product-card-name-max-rows: 2;
     --product-card-brand-line-height: 1.2em;
-    --product-card-color-size: 32px;
+    --product-card-color-size: 3.2rem;
     --product-card-background: var(--color-white);
-    --option-margin: 0 12px 12px 0;
+    --option-margin: 0 1.2rem 1.2rem 0;
 }
 
 .ProductCard {
@@ -37,9 +37,9 @@
     &_layout_grid {
         &:hover {
             @include desktop {
-                box-shadow: 0 0.3rem 0.6rem -4px rgba(0, 0, 0, .1),
-                0 0.6rem 16px rgba(0, 0, 0, .1),
-                0 0.9rem 28px 0.8rem rgba(0, 0, 0, .1);
+                box-shadow: 0 0.3rem 0.6rem -.4rem rgba(0, 0, 0, .1),
+                0 0.6rem 1.6rem rgba(0, 0, 0, .1),
+                0 0.9rem 2.8rem 0.8rem rgba(0, 0, 0, .1);
                 z-index: 4;
 
                 .ProductCard-VisibleOnHover {
@@ -47,8 +47,8 @@
                     width: inherit;
                     opacity: 1;
                     box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, .1),
-                    0 0.6rem 16px rgba(0, 0, 0, .1),
-                    0 0.9rem 28px 0.8rem rgba(0, 0, 0, .1);
+                    0 0.6rem 1.6rem rgba(0, 0, 0, .1),
+                    0 0.9rem 2.8rem 0.8rem rgba(0, 0, 0, .1);
                     z-index: -1;
                 }
             }
@@ -69,7 +69,7 @@
 
     &-Content {
         background: var(--product-card-background);
-        padding: 1rem 15px;
+        padding: 1rem 1.5rem;
         display: flex;
         flex-direction: column;
 
@@ -195,7 +195,7 @@
         }
 
         @include desktop {
-            height: 25px;
+            height: 2.5rem;
         }
     }
 
@@ -225,7 +225,7 @@
         text-align: center;
         padding: 0 0.6rem;
         margin: 0.5rem 0.7rem 0 0;
-        line-height: 15px;
+        line-height: 1.5rem;
         min-width: 2rem;
     }
 
@@ -240,7 +240,7 @@
 
         width: 100%;
         @include after-mobile {
-            font-size: 24px;
+            font-size: 2.4rem;
         }
     }
 
@@ -284,7 +284,7 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-        margin-top: 16px;
+        margin-top: 1.6rem;
 
         > * {
             margin-inline-end: 0.5rem;
@@ -296,7 +296,7 @@
         flex-direction: column;
         justify-content: flex-end;
         flex-grow: 1;
-        padding: 0 15px 1rem;
+        padding: 0 1.5rem 1rem;
         opacity: 0;
         position: absolute;
         top: 100%;

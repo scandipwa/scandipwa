@@ -20,7 +20,7 @@
     margin-bottom: var(--header-nav-height);
 
     @include before-desktop {
-        padding-bottom: 113px;
+        padding-bottom: 11.3rem;
         margin-bottom: var(--navigation-tabs-height);
     }
 
@@ -96,7 +96,7 @@
         display: flex;
         justify-content: center;
         background-color: var(--primary-error-color, red);
-        font-size: 14px;
+        font-size: 1.4rem;
         font-weight: bold;
     }
 
@@ -168,7 +168,7 @@
         }
 
         &Image {
-            width: 46px;
+            width: 4.6rem;
             margin-inline-end: .6rem;
 
             @include mobile {
@@ -176,7 +176,7 @@
             }
 
             @include before-desktop {
-                width: 36px;
+                width: 3.6rem;
             }
         }
 
@@ -202,7 +202,7 @@
 
         @include tablet {
             max-width: 33rem;
-            height: 55px;
+            height: 5.5rem;
         }
     }
 
@@ -375,7 +375,7 @@
             max-width: 45%;
         }
 
-        @media (min-width: 1145px) {
+        @media (min-width: 114.5rem) {
             max-width: 50%;
         }
 
@@ -403,7 +403,7 @@
         .CartItem-Delete {
             @include tablet {
                 height: auto;
-                margin-inline-start: -12px;
+                margin-inline-start: -1.2rem;
                 margin-top: 0.5rem;
                 order: 1;
                 padding-top: 0.8rem;
@@ -415,7 +415,7 @@
 
                 &::after {
                     top: 0.4rem;
-                    left: 32px;
+                    left: 3.2rem;
                 }
             }
 
@@ -424,17 +424,17 @@
 
                 &::before {
                     top: 0.8rem;
-                    left: 15px;
+                    left: 1.5rem;
                 }
 
                 &::after {
                     top: 0.4rem;
-                    left: 17px;
+                    left: 1.7rem;
                 }
             }
 
             @include tablet-portrait {
-                margin-top: -7px;
+                margin-top: -.7rem;
             }
         }
 
@@ -451,7 +451,7 @@
             flex-wrap: wrap;
         }
 
-        @media (min-width: 1145px) {
+        @media (min-width: 114.5rem) {
             max-width: 50%;
         }
 

@@ -98,15 +98,15 @@
     &-CloseBtn {
         @include close-button;
 
-        width: 15px;
-        height: 15px;
+        width: 1.5rem;
+        height: 1.5rem;
         position: absolute;
         top: 1rem;
         right: 1rem;
 
         &::before,
         &::after {
-            top: -2px;
+            top: -.2rem;
         }
     }
 }

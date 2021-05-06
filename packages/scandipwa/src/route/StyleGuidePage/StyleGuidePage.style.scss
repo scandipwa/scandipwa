@@ -29,14 +29,14 @@
 
     &-Buttons {
         > div:first-of-type {
-            margin-bottom: 24px;
+            margin-bottom: 2.4rem;
         }
     }
 
     &-Icon {
-        margin-inline-end: 16px;
+        margin-inline-end: 1.6rem;
         padding-bottom: 2rem;
-        width: 16px;
+        width: 1.6rem;
     }
 
     &-Heading {
@@ -44,7 +44,7 @@
         color: var(--color-white);
         line-height: 3.6rem;
         margin-top: 4rem;
-        padding: 14px 2rem;
+        padding: 1.4rem 2rem;
         text-transform: capitalize;
     }
 
@@ -134,7 +134,7 @@
         &Mobile {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            max-width: 375px;
+            max-width: 37.5rem;
         }
 
         @include desktop {
@@ -145,12 +145,12 @@
     &-SubHeading {
         border-bottom: 0.1rem solid var(--placeholder-gradient-color);
         font-weight: 700;
-        margin: 4rem 0 24px;
+        margin: 4rem 0 2.4rem;
         padding-bottom: 0.8rem;
     }
 
     .Button {
-        margin-inline-end: 42px;
+        margin-inline-end: 4.2rem;
 
         &_isHovered {
             border-color: var(--button-hover-border);
@@ -184,7 +184,7 @@
     .CategoryConfigurableAttributes,
     .ProductConfigurableAttributes {
         display: flex;
-        --option-margin: 0 12px 12px 0;
+        --option-margin: 0 1.2rem 1.2rem 0;
 
         > * {
             margin-inline-end: 6rem;

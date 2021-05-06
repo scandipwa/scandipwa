@@ -33,6 +33,6 @@
         position: absolute;
         transform: translate(-50%, -50%) scale(var(--loader-scale));
         left: 50%;
-        top: calc(50% - (3px * var(--loader-scale)));
+        top: calc(50% - (.3rem * var(--loader-scale)));
     }
 }

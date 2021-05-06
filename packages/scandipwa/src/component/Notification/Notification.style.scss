@@ -10,7 +10,7 @@
  */
 
 :root {
-    --default-notification-height: 44px;
+    --default-notification-height: 4.4rem;
     --notification-info-color: var(--imported_notificationInfo_color, var(--secondary-info-color));
     --notification-info-background: var(--imported_notificationInfo_background_color, var(--primary-info-color));
     --notification-info-height: var(--imported_notificationInfo_height, var(--default-notification-height));
@@ -45,7 +45,7 @@
     }
 
     @include mobile {
-        padding: 12px 1.4rem;
+        padding: 1.2rem 1.4rem;
     }
 
     @include after-mobile {

@@ -24,7 +24,7 @@
 
 .input-range {
     margin: 3rem 1rem;
-    width: calc(100% - 18px);
+    width: calc(100% - 1.8rem);
 
     @include mobile {
         margin: 4rem 1rem;
@@ -39,7 +39,7 @@
     &__slider {
         background-color: white;
         margin-inline-start: -1rem;
-        margin-top: -12px;
+        margin-top: -1.2rem;
         width: 2rem;
         height: 2rem;
     }

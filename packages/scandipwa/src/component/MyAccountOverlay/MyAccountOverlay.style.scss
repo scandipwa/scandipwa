@@ -53,10 +53,10 @@
         @include desktop {
             content: '';
             position: absolute;
-            top: -9px;
-            right: 49px;
-            height: 15px;
-            width: 15px;
+            top: -.9rem;
+            right: 4.9rem;
+            height: 1.5rem;
+            width: 1.5rem;
             transform: rotate(45deg);
             background-color: var(--overlay-background);
             border: {
@@ -378,8 +378,8 @@
             content: '';
             height: 2rem;
             position: absolute;
-            right: 27px;
-            top: -13px;
+            right: 2.7rem;
+            top: -1.3rem;
             transform-origin: 50% 50%;
             width: 0.1rem;
             z-index: 1;
@@ -423,7 +423,7 @@
     &-Checkbox {
         display: flex;
         flex-direction: row-reverse;
-        right: 14px;
+        right: 1.4rem;
         justify-content: flex-end;
         align-items: center;
         margin-bottom: 2.4rem;

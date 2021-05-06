@@ -11,10 +11,10 @@
     transition: color 150ms ease-in;
     color: $white;
     text-shadow:
-        -1px 0 var(--star-outline-color),
+        -.1rem 0 var(--star-outline-color),
         0 0.1rem var(--star-outline-color),
         0.1rem 0 var(--star-outline-color),
-        0 -1px var(--star-outline-color);
+        0 -.1rem var(--star-outline-color);
 
     font-size: 4rem;
     line-height: 1;

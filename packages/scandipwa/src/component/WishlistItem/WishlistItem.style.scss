@@ -109,7 +109,7 @@
         margin-top: 0;
 
         @include mobile {
-            padding: 0.7rem 12px 0.4rem;
+            padding: 0.7rem 1.2rem 0.4rem;
             font-size: 1.3rem;
             margin-inline-start: auto;
         }
@@ -158,7 +158,7 @@
     }
 
     &-ImageWrapper {
-        margin-inline-end: 15px;
+        margin-inline-end: 1.5rem;
         width: 10rem;
     }
 
@@ -191,7 +191,7 @@
     }
 
     &-AttributeWrapper {
-        margin: 0.5rem 0 12px;
+        margin: 0.5rem 0 1.2rem;
     }
 
     &-SelectWrapper {

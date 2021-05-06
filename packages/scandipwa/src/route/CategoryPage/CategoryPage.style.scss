@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 :root {
-    --category-page-miscellaneous-min-height: 56px;
+    --category-page-miscellaneous-min-height: 5.6rem;
 }
 
 .CategoryPage {
@@ -42,7 +42,7 @@
 
     &-ProductListWrapper {
         @include before-desktop {
-            padding-top: 56px;
+            padding-top: 5.6rem;
         }
     }
 
@@ -189,10 +189,10 @@
             &:after {
                 background-size: cover;
                 content: '';
-                height: 25px;
+                height: 2.5rem;
                 left: 0;
                 position: absolute;
-                width: 26px;
+                width: 2.6rem;
             }
         }
     }

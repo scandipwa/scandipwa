@@ -12,10 +12,10 @@
 .LoginAccount {
     .ContentWrapper {
         min-height: calc(100vh - var(--header-total-height));
-        padding: 28px 2rem 5rem;
+        padding: 2.8rem 2rem 5rem;
 
         @include desktop() {
-            padding-top: 25px;
+            padding-top: 2.5rem;
         }
     }
 

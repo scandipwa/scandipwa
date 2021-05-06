@@ -21,7 +21,7 @@
     }
 
     @include before-desktop {
-        padding-bottom: calc(var(--navigation-tabs-height) + 113px);
+        padding-bottom: calc(var(--navigation-tabs-height) + 11.3rem);
         padding-top: 2rem;
     }
 

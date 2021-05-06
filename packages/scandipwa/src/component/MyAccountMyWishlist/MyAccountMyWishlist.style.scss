@@ -53,7 +53,7 @@
 
         @include after-mobile {
             position: absolute;
-            top: -55px;
+            top: -5.5rem;
             right: 0;
         }
 
@@ -108,7 +108,7 @@
 
         @include after-mobile {
             order: 1;
-            margin-inline-start: 15px;
+            margin-inline-start: 1.5rem;
         }
 
         &,
