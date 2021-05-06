@@ -20,7 +20,7 @@
     @include after-mobile {
         position: absolute;
         top: calc(var(--header-nav-height) - 0.7rem);
-        right: 22px;
+        right: 2.2rem;
         padding: 0;
         width: var(--cart-overlay-width);
     }
@@ -35,10 +35,10 @@
         @include after-mobile {
             content: '';
             position: absolute;
-            top: -9px;
+            top: -.9rem;
             right: 0.9rem;
-            height: 15px;
-            width: 15px;
+            height: 1.5rem;
+            width: 1.5rem;
             transform: rotate(45deg);
             background-color: var(--overlay-desktop-border-color);
             border: {
@@ -70,7 +70,7 @@
         display: flex;
         justify-content: center;
         background-color: var(--primary-error-color, red);
-        font-size: 14px;
+        font-size: 1.4rem;
         font-weight: bold;
     }
 

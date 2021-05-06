@@ -50,7 +50,7 @@
             border: 0;
             clip: rect(0 0 0 0);
             height: 0.1rem;
-            margin: -1px;
+            margin: -.1rem;
             overflow: hidden;
             padding: 0;
             position: absolute;
@@ -68,7 +68,7 @@
             }
 
             @include desktop {
-                grid-column-gap: 12px;
+                grid-column-gap: 1.2rem;
                 width: auto;
             }
         }
@@ -82,7 +82,7 @@
 
             @include desktop {
                 margin-bottom: 0;
-                width: 16px;
+                width: 1.6rem;
             }
         }
     }

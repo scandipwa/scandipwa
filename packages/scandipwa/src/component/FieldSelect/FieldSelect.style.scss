@@ -10,10 +10,10 @@
  */
 
 $select-width: 16rem !default;
-$select-height: 45px !default;
-$select-option-height: 36px !default;
-$select-arrow-height: 16px !default;
-$select-arrow-width: 16px !default;
+$select-height: 4.5rem !default;
+$select-option-height: 3.6rem !default;
+$select-arrow-height: 1.6rem !default;
+$select-arrow-width: 1.6rem !default;
 
 :root {
     --select-option-background: #fff;
@@ -43,7 +43,7 @@ $select-arrow-width: 16px !default;
     &_isExpanded::after {
         @include desktop {
             bottom: $select-arrow-height * 3/2;
-            transform: translateY(-2px) rotate(-135deg);
+            transform: translateY(-.2rem) rotate(-135deg);
         }
     }
 

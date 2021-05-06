@@ -25,12 +25,12 @@
     font-style: var(--pagination-font-style);
     display: block;
     line-height: var(--pagination-line-height);
-    margin-inline-end: 15px;
-    padding: 0.7rem 13px;
+    margin-inline-end: 1.5rem;
+    padding: 0.7rem 1.3rem;
     text-align: center;
 
     &_isArrow {
-        padding: 0.7rem 11px;
+        padding: 0.7rem 1.1rem;
     }
 
     &:hover,

@@ -38,7 +38,7 @@
         font-size: 1.2rem;
         margin-bottom: -.1em;
         margin-top: .6rem;
-        padding-left: 15px;
+        padding-left: 1.5rem;
 
         @include mobile {
             font-size: 1.47rem;
@@ -106,10 +106,10 @@
     &_style {
         &_inline {
             $size-mobile: 2rem;
-            $size: 28px;
+            $size: 2.8rem;
             $border-color: #000;
-            $input-width-mobile: 35px;
-            $input-width: 35px;
+            $input-width-mobile: 3.5rem;
+            $input-width: 3.5rem;
 
             &.Field {
                 display: flex;
@@ -165,11 +165,11 @@
             label {
                 &:first-of-type {
                     display: inline-block;
-                    max-width: calc(100vw - 2.4rem - 45px);
+                    max-width: calc(100vw - 2.4rem - 4.5rem);
                     vertical-align: middle;
 
                     @include mobile {
-                        max-width: calc(100vw - 2.8rem - 45px);
+                        max-width: calc(100vw - 2.8rem - 4.5rem);
                     }
                 }
             }
@@ -227,10 +227,10 @@
                 box-shadow:
                         0.2rem 0 0 var(--checkmark-color),
                         0.4rem 0 0 var(--checkmark-color),
-                        0.4rem -2px 0 var(--checkmark-color),
-                        0.4rem -4px 0 var(--checkmark-color),
-                        0.4rem -6px 0 var(--checkmark-color),
-                        0.4rem -8px 0 var(--checkmark-color);
+                        0.4rem -.2rem 0 var(--checkmark-color),
+                        0.4rem -.4rem 0 var(--checkmark-color),
+                        0.4rem -.6rem 0 var(--checkmark-color),
+                        0.4rem -.8rem 0 var(--checkmark-color);
                 content: '';
                 height: .2rem;
                 left: calc(50% - .5rem);

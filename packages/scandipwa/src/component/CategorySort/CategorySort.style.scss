@@ -54,11 +54,11 @@
             background: none;
             border: none;
             color: var(--color-black);
-            padding: 13px 4rem 13px 2rem;
+            padding: 1.3rem 4rem 1.3rem 2rem;
 
             @include before-desktop {
                 position: absolute;
-                top: -35px;
+                top: -3.5rem;
                 opacity: 0;
             }
 

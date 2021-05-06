@@ -263,7 +263,7 @@
                 width: 20%;
                 bottom: 0;
                 right: 20%;
-                top: -5px;
+                top: -.5rem;
                 margin: auto;
                 justify-content: center;
             }
@@ -312,18 +312,18 @@
             flex-grow: 1;
 
             &::before {
-                height: 15px;
+                height: 1.5rem;
                 top: 0;
             }
 
             &::after {
-                height: 15px;
+                height: 1.5rem;
                 top: 0;
             }
         }
 
-        height: 35px;
-        padding-left: 35px;
+        height: 3.5rem;
+        padding-left: 3.5rem;
         font-size: 1.4rem;
         color: var(--cart-item-actions-color);
     }
@@ -344,8 +344,8 @@
 
         input {
             @include mobile {
-                width: 24px;
-                min-width: 24px;
+                width: 2.4rem;
+                min-width: 2.4rem;
             }
         }
     }

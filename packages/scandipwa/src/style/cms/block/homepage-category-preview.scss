@@ -57,7 +57,7 @@
         --button-hover-background: var(--homepage-button-color);
         --button-hover-color: var(--homepage-button-background);
         --button-hover-border: transparent;
-        --button-padding: 13px 4rem;
+        --button-padding: 1.3rem 4rem;
         --button-border-width: 0;
 
         @include mobile {
@@ -73,7 +73,7 @@
         }
 
         &_isPlaceholder {
-            padding-bottom: 31px;
+            padding-bottom: 3.1rem;
         }
     }
 

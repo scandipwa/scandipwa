@@ -11,7 +11,7 @@
 
 .CategoryProductList {
     @include after-mobile {
-        top: -56px;
+        top: -5.6rem;
         grid-column: 2;
         padding-bottom: 2.4rem;
     }

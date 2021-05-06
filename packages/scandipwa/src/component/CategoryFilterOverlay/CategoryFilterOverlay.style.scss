@@ -75,7 +75,7 @@
 
         &:not(.Swatch_type_color):not(.Swatch_type_cat) {
             @include desktop {
-                padding: 0 12px;
+                padding: 0 1.2rem;
                 border: 0.1rem solid var(--category-filter-overlay-desktop-color);
                 color: var(--category-filter-overlay-desktop-color);
                 margin-inline-end: 0.6rem;
@@ -118,7 +118,7 @@
         }
 
         @include desktop {
-            --option-margin: 0 12px 12px 0;
+            --option-margin: 0 1.2rem 1.2rem 0;
 
             .ExpandableContent:not(:last-child)  {
                 border-bottom: 0.1rem solid var(--expandable-content-divider-color);

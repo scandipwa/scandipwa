@@ -21,10 +21,10 @@
     }
 
     &::before {
-        top: 12px;
-        left: 12px;
+        top: 1.2rem;
+        left: 1.2rem;
         width: 1rem;
-        height: 14px;
+        height: 1.4rem;
         transform: perspective(1rem) rotateX(-10deg);
         border: {
             left: 0.1rem solid var(--header-color);
@@ -36,15 +36,15 @@
     }
 
     &::after {
-        left: 14px;
+        left: 1.4rem;
         top: 0.7rem;
         width: 0.6rem;
         height: 0.2rem;
         box-shadow:
-            0.6rem 0.2rem 0 -1px var(--header-color),
-            -6px 0.2rem 0 -1px var(--header-color),
-            -2px 0.2rem 0 -1px var(--header-color),
-            0.2rem 0.2rem 0 -1px var(--header-color);
+            0.6rem 0.2rem 0 -.1rem var(--header-color),
+            -.6rem 0.2rem 0 -.1rem var(--header-color),
+            -.2rem 0.2rem 0 -.1rem var(--header-color),
+            0.2rem 0.2rem 0 -.1rem var(--header-color);
         border: {
             left: 0.1rem solid var(--header-color);
             right: 0.1rem solid var(--header-color);
@@ -61,17 +61,17 @@
     background-size: contain;
     background-position: center;
     cursor: pointer;
-    height: 16px;
-    width: 16px;
+    height: 1.6rem;
+    width: 1.6rem;
 }
 
 @mixin not-available {
     content: '';
     position: absolute;
     width: .15rem;
-    height: 32px;
+    height: 3.2rem;
     transform-origin: 50% 50%;
-    left: 15px;
+    left: 1.5rem;
     top: 0.1rem;
     transform: rotate(45deg);
     box-shadow: none;
@@ -90,8 +90,8 @@
     background-image: var(--imported_icons_menu, url('./../icons/menu.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin account-button {
@@ -99,8 +99,8 @@
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin minicart-button {
@@ -116,8 +116,8 @@
     border-radius: 50%;
     background-color: var(--search-clear-background);
 
-    height: 15px;
-    width: 15px;
+    height: 1.5rem;
+    width: 1.5rem;
     position: absolute;
     right: 2.4rem;
 
@@ -151,7 +151,7 @@
         background-color: var(--header-background);
         box-shadow: 0 0 0 0.2rem var(--header-background);
         width: 0.4rem;
-        height: 16px;
+        height: 1.6rem;
         border-top-left-radius: 0.5rem;
         border-top-right-radius: 0.5rem;
         border: {
@@ -165,24 +165,24 @@
         background-color: var(--header-color);
         width: 0.6rem;
         top: 0.4rem;
-        height: 23px;
+        height: 2.3rem;
         clip-path:
             polygon(
-                0.3rem 23px,
-                .65rem 17px,
-                0.3rem 17px,
+                0.3rem 2.3rem,
+                .65rem 1.7rem,
+                0.3rem 1.7rem,
                 0.3rem .45rem,
                 0 .45rem,
                 0 .35rem,
                 0.5rem .35rem,
                 0.5rem .45rem,
                 0.3rem .45rem,
-                0.3rem 17px,
-                -.05rem 17px,
-                0.3rem 23px,
+                0.3rem 1.7rem,
+                -.05rem 1.7rem,
+                0.3rem 2.3rem,
                 0.3rem 2.15rem,
-                0.1rem 18px,
-                0.5rem 18px,
+                0.1rem 1.8rem,
+                0.5rem 1.8rem,
                 0.3rem 2.15rem,
             );
     }
@@ -193,16 +193,16 @@
     background-size: contain;
     background-repeat: no-repeat;
     margin-inline-end: 1rem;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin home-icon {
     background-image: var(--imported_icons_home, url('./../icons/home.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin search-icon {
@@ -210,18 +210,18 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin ios-share {
     $color-dodger-blue: #3b9cfe;
 
     border: 0.2rem solid $color-dodger-blue;
-    bottom: -3px;
-    height: 18px;
+    bottom: -.3rem;
+    height: 1.8rem;
     margin: 0 0.4rem;
-    width: 18px;
+    width: 1.8rem;
 
     &::before {
         content: '';
@@ -231,7 +231,7 @@
         height: 0.6rem;
         left: 0.3rem;
         position: relative;
-        top: -9px;
+        top: -.9rem;
         transform: rotate(45deg);
         width: 0.6rem;
     }
@@ -240,11 +240,11 @@
         border-left: 0.2rem solid $color-dodger-blue;
         content: '';
         display: block;
-        height: 16px;
+        height: 1.6rem;
         left: 0.6rem;
         position: relative;
-        top: -16px;
-        width: 19px;
+        top: -1.6rem;
+        width: 1.9rem;
     }
 }
 
@@ -253,8 +253,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin plus-icon {
@@ -262,8 +262,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin ios-plus {
@@ -288,9 +288,9 @@
 
     background-image: linear-gradient(to right, var(--header-color) 15%, var(--header-background) 0);
     background-repeat: repeat-x;
-    background-size: 12px $share-button-stroke-width;
+    background-size: 1.2rem $share-button-stroke-width;
     border-radius: 0.1rem;
-    padding: calc(6px - #{$share-button-stroke-width}) calc(8px - #{$share-button-stroke-width});
+    padding: calc(.6rem - #{$share-button-stroke-width}) calc(.8rem - #{$share-button-stroke-width});
 
     border: {
         bottom: $share-button-stroke-width solid var(--header-color);
@@ -300,8 +300,8 @@
 
     @include desktop {
         background-image: linear-gradient(to right, var(--header-color) 20%, var(--my-account-content-background) 0);
-        background-size: 15px $share-button-stroke-width;
-        padding: calc(11px - #{$share-button-stroke-width});
+        background-size: 1.5rem $share-button-stroke-width;
+        padding: calc(1.1rem - #{$share-button-stroke-width});
     }
 
     &::before,
@@ -314,13 +314,13 @@
         background-color: var(--header-color);
         height: 1rem;
         left: 0.6rem;
-        top: -4px;
+        top: -.4rem;
         width: $share-button-stroke-width;
 
         @include desktop {
-            height: 13px;
+            height: 1.3rem;
             left: 0.8rem;
-            top: -6px;
+            top: -.6rem;
             width: 0.2rem;
         }
     }
@@ -328,7 +328,7 @@
     &::after {
         height: 0.4rem;
         left: 0.4rem;
-        top: -4px;
+        top: -.4rem;
         transform: rotate(45deg);
         width: 0.4rem;
 
@@ -340,7 +340,7 @@
         @include desktop {
             height: 0.6rem;
             left: 0.5rem;
-            top: -7px;
+            top: -.7rem;
             width: 0.6rem;
         }
     }
@@ -359,14 +359,14 @@
     }
 
     &::before {
-        width: 18px;
-        height: 14px;
+        width: 1.8rem;
+        height: 1.4rem;
         transform: translate(-50%, -50%);
     }
 
     &::after {
-        width: 12px;
-        height: 12px;
+        width: 1.2rem;
+        height: 1.2rem;
         transform: rotate(45deg) translate(calc(-50% - 0.4rem), calc(-50% - 0.4rem));
         transform-origin: top left;
         border-top-color: transparent;
@@ -379,8 +379,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin heart-icon {
@@ -397,16 +397,16 @@
     background-image: var(--imported_icons_exclamation, url('./../icons/exclamation.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin chevron-icon {
     background-image: var(--imported_icons_chevron, url('./../icons/chevron.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 12px;
-    width: 12px;
+    height: 1.2rem;
+    width: 1.2rem;
 }
 
 @mixin star-icon-full {

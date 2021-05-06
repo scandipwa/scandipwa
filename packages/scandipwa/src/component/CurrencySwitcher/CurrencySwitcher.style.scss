@@ -11,7 +11,7 @@
 
 .CurrencySwitcher {
     border-bottom: 0.1rem solid var(--primary-divider-color);
-    margin: 0 16px;
+    margin: 0 1.6rem;
 
     .Field {
         margin-top: 0;
@@ -27,9 +27,9 @@
             }
 
             &::after {
-                height: 13px;
+                height: 1.3rem;
                 right: 0;
-                width: 13px;
+                width: 1.3rem;
             }
         }
     }
@@ -38,7 +38,7 @@
         border-bottom: none;
 
         .Field {
-            margin-inline-end: 44px;
+            margin-inline-end: 4.4rem;
         }
 
         .FieldSelect {
@@ -67,7 +67,7 @@
 
             &-Option {
                 line-height: 2.8rem;
-                padding: 0.6rem 12px;
+                padding: 0.6rem 1.2rem;
                 font-size: 1.2rem;
             }
         }

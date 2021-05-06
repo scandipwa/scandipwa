@@ -10,14 +10,14 @@
  */
 
 :root {
-    --default-input-padding: 17px 20px 16px;
+    --default-input-padding: 1.7rem 2rem 1.6rem;
     --input-background-color: var(--imported_input_background_color, #fff);
     --input-border-color: var(--imported_input_border_color, #e0e0e0);
     --input-border-color-focus: var(--primary-base-color);
     --input-border-radius: var(--imported_input_border_radius, 0.2rem);
     --input-padding: var(--imported_input_padding, var(--default-input-padding));
     --input-color: var(--imported_input_color, var(--color-karaka));
-    --input-type-number-width: 28px;
+    --input-type-number-width: 2.8rem;
 }
 
 input,
@@ -44,7 +44,7 @@ select {
     }
 
     &:-webkit-autofill {
-        box-shadow: 0 0 0 30px var(--input-background-color) inset !important;
+        box-shadow: 0 0 0 3rem var(--input-background-color) inset !important;
         background-color: var(--input-background-color) !important;
     }
 }
@@ -89,7 +89,7 @@ textarea {
         line-height: 0;
         margin: 0;
         order: 1;
-        padding: 22px;
+        padding: 2.2rem;
         position: relative;
         top: 0;
 
@@ -117,8 +117,8 @@ textarea {
             &::before {
                 content: ' ';
                 position: absolute;
-                left: calc(50% - 12px);
-                top: calc(50% - 11px);
+                left: calc(50% - 1.2rem);
+                top: calc(50% - 1.1rem);
             }
         }
 
@@ -134,8 +134,8 @@ textarea {
         }
 
         @include mobile {
-            width: 18px;
-            height: 18px;
+            width: 1.8rem;
+            height: 1.8rem;
         }
     }
 }
