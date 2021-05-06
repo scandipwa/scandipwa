@@ -64,7 +64,7 @@
 
     &-Item {
         @include desktop {
-            margin-right: 1.2rem;
+            margin-inline-end: 1.2rem;
         }
 
         &_isSelected {
@@ -78,7 +78,7 @@
                 padding: 0 12px;
                 border: 1px solid var(--category-filter-overlay-desktop-color);
                 color: var(--category-filter-overlay-desktop-color);
-                margin-right: 6px;
+                margin-inline-end: 6px;
             }
 
             &:hover {
@@ -93,8 +93,8 @@
                 @include desktop {
                     content: '\2022';
 
-                    margin-right: 1.2rem;
-                    margin-left: 2px;
+                    margin-inline-end: 1.2rem;
+                    margin-inline-start: 2px;
                 }
             }
         }

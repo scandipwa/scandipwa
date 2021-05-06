@@ -160,10 +160,10 @@
 
 //     &-ReviewLabel {
 //         display: inline-block;
-//         margin-left: .6rem;
+//         margin-inline-start: .6rem;
 
 //         @include mobile {
-//             margin-left: .7rem;
+//             margin-inline-start: .7rem;
 //         }
 
 //         span {
@@ -322,7 +322,7 @@
 
 //         @include desktop {
 //             order: 22;
-//             margin-right: 1.2rem;
+//             margin-inline-end: 1.2rem;
 //         }
 //     }
 
@@ -342,7 +342,7 @@
 //         }
 
 //         > * {
-//             margin-right: 1.2rem;
+//             margin-inline-end: 1.2rem;
 //             margin-top: 1.2rem;
 
 //             @include mobile {
@@ -490,10 +490,10 @@
 
 //         &_type {
 //             &_related {
-//                 margin-left: 1.2rem;
+//                 margin-inline-start: 1.2rem;
 
 //                 @include mobile {
-//                     margin-left: 1.4rem;
+//                     margin-inline-start: 1.4rem;
 //                 }
 //             }
 
@@ -564,7 +564,7 @@
 
 //         + .ProductActions-AddToCart {
 //             @include desktop {
-//                 margin-left: 10px;
+//                 margin-inline-start: 10px;
 //             }
 //         }
 

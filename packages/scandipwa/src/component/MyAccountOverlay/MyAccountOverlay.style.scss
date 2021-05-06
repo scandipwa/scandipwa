@@ -430,8 +430,8 @@
         margin-top: 1.08rem;
 
         + .input-control {
-            margin-left: .4rem;
-            margin-right: 1rem;
+            margin-inline-start: .4rem;
+            margin-inline-end: 1rem;
         }
 
         @include mobile {
@@ -447,7 +447,7 @@
             flex-direction: row-reverse;
             font-weight: 500;
             padding-bottom: 0;
-            margin-left: 1.5rem;
+            margin-inline-start: 1.5rem;
         }
 
         > label:last-of-type {

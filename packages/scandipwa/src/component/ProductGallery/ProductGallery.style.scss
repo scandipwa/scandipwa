@@ -16,18 +16,18 @@
     }
 
     &-Additional {
-        $margin-right: 1.8rem;
+        $margin-inline-end: 1.8rem;
 
         width: 150px;
-        margin-right: $margin-right;
+        margin-inline-end: $margin-inline-end;
 
         @include mobile {
-            margin-right: 2.1rem;
+            margin-inline-end: 2.1rem;
         }
 
         @include desktop {
             height: 48rem;
-            margin: auto $margin-right auto 0;
+            margin: auto $margin-inline-end auto 0;
         }
 
         @include before-desktop {

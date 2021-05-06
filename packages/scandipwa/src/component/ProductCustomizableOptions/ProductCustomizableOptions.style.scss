@@ -33,16 +33,16 @@
                     order: 1;
 
                     .input-control {
-                        margin-left: 0;
+                        margin-inline-start: 0;
                     }
                 }
 
                 .Field-Label {
-                    margin-left: 1.2rem;
+                    margin-inline-start: 1.2rem;
                     order: 2;
 
                     @include mobile {
-                        margin-left: 1.4rem;
+                        margin-inline-start: 1.4rem;
                     }
                 }
             }

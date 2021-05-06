@@ -11,7 +11,7 @@
 
 .CategorySort {
     @include desktop {
-        margin-left: auto;
+        margin-inline-start: auto;
         min-width: 18rem;
         grid-column: 2;
     }

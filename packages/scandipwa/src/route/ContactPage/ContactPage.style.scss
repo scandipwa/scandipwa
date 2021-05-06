@@ -20,10 +20,10 @@
         flex: 1;
 
         &_isContent {
-            margin-right: 1.8rem;
+            margin-inline-end: 1.8rem;
 
             @include mobile {
-                margin-right: 0;
+                margin-inline-end: 0;
             }
         }
     }

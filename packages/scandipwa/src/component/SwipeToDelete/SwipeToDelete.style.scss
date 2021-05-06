@@ -33,7 +33,7 @@
 
     &-RightSideContent {
         height: 100%;
-        margin-left: calc(100% - var(--right-side-content-width));
+        margin-inline-start: calc(100% - var(--right-side-content-width));
         display: flex;
         justify-content: center;
         align-items: center;
@@ -41,7 +41,7 @@
         transition: margin-left var(--right-side-content-animation-speed) ease-out;
 
         &_isAheadRemoveItemThreshold {
-            margin-left: 0;
+            margin-inline-start: 0;
         }
     }
 }

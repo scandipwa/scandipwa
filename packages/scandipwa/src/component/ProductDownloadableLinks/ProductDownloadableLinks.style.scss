@@ -44,7 +44,7 @@
 
     .Field {
         display: inline-block;
-        margin-right: 1rem;
+        margin-inline-end: 1rem;
         margin-top: 0;
     }
 
@@ -56,7 +56,7 @@
         float: right;
 
         @include mobile {
-            margin-right: 1.6rem;
+            margin-inline-end: 1.6rem;
         }
     }
 

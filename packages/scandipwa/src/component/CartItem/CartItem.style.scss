@@ -132,21 +132,21 @@
     &-ItemOption {
         display: flex;
         margin-bottom: .6rem;
-        margin-right: .6rem;
+        margin-inline-end: .6rem;
 
         @include mobile {
             margin-bottom: .7rem;
-            margin-right: .7rem;
+            margin-inline-end: .7rem;
         }
     }
 
     &-ItemOptionLabel {
         align-self: center;
         font-weight: bold;
-        margin-right: .6rem;
+        margin-inline-end: .6rem;
 
         @include mobile {
-            margin-right: .7rem;
+            margin-inline-end: .7rem;
         }
     }
 
@@ -366,7 +366,7 @@
     }
 
     &-QuantityText {
-        margin-right: 10px;
+        margin-inline-end: 10px;
 
         @include after-mobile {
             display: none;

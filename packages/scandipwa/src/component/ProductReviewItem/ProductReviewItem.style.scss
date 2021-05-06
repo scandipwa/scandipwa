@@ -90,11 +90,11 @@
 
     &-ReviewContent {
         flex: 1 0 0;
-        margin-left: 4.8rem;
+        margin-inline-start: 4.8rem;
 
         @include mobile {
             flex: 0 0 auto;
-            margin-left: 0;
+            margin-inline-start: 0;
             width: 100%;
         }
 

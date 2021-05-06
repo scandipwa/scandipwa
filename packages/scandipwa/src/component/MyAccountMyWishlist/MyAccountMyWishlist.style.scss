@@ -84,7 +84,7 @@
 
     &-Button {
         @include after-mobile {
-            margin-right: 1rem;
+            margin-inline-end: 1rem;
         }
 
         @include mobile {
@@ -108,7 +108,7 @@
 
         @include after-mobile {
             order: 1;
-            margin-left: 15px;
+            margin-inline-start: 15px;
         }
 
         &,

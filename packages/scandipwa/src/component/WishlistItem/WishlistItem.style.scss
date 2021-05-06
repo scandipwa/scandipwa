@@ -52,7 +52,7 @@
             border: 1px solid #adadad;
             color: #adadad;
             padding: 3px 5px;
-            margin-right: 5px;
+            margin-inline-end: 5px;
             display: inline-block;
         }
 
@@ -67,11 +67,11 @@
             }
     
             del {
-                margin-left: 4px;
+                margin-inline-start: 4px;
     
                 @include mobile {
                     order: -1;
-                    margin-left: 0;
+                    margin-inline-start: 0;
                 }
             }
         }
@@ -111,7 +111,7 @@
         @include mobile {
             padding: 7px 12px 4px;
             font-size: 1.3rem;
-            margin-left: auto;
+            margin-inline-start: auto;
         }
 
         @include after-mobile {
@@ -137,7 +137,7 @@
     }
 
     &-QuantityText {
-        margin-right: 10px;
+        margin-inline-end: 10px;
     }
 
     &-Price {
@@ -158,7 +158,7 @@
     }
 
     &-ImageWrapper {
-        margin-right: 15px;
+        margin-inline-end: 15px;
         width: 100px;
     }
 

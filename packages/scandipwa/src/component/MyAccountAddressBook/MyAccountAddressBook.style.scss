@@ -27,11 +27,11 @@
     }
 
     button + button {
-        margin-left: 1.2rem;
+        margin-inline-start: 1.2rem;
 
         @include mobile {
             margin-top: 1.4rem;
-            margin-left: 0;
+            margin-inline-start: 0;
         }
     }
 }

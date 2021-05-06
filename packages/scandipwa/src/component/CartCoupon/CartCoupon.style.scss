@@ -49,11 +49,11 @@
     }
 
     &-Button {
-        margin-left: 2.4rem;
+        margin-inline-start: 2.4rem;
 
         @include before-desktop {
             width: 100%;
-            margin-left: 0;
+            margin-inline-start: 0;
             margin-top: 1.2rem;
         }
 
@@ -63,7 +63,7 @@
 
         @include tablet-portrait {
             width: 100%;
-            margin-left: 0;
+            margin-inline-start: 0;
             margin-top: 1rem;
         }
     }

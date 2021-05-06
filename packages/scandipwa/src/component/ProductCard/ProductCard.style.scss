@@ -75,7 +75,7 @@
 
         &_layout_list {
             justify-content: space-between;
-            margin-left: 20px;
+            margin-inline-start: 20px;
             max-width: 50rem;
 
 
@@ -85,7 +85,7 @@
                     display: flex;
 
                     button {
-                        margin-right: 10px;
+                        margin-inline-end: 10px;
                     }
                 }
 
@@ -270,7 +270,7 @@
         display: flex;
 
         .ProductWishlistButton {
-            margin-right: 10px;
+            margin-inline-end: 10px;
         }
     }
 
@@ -287,7 +287,7 @@
         margin-top: 16px;
 
         > * {
-            margin-right: 5px;
+            margin-inline-end: 5px;
         }
     }
 

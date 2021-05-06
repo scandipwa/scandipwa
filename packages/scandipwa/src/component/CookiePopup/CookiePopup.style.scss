@@ -58,7 +58,7 @@
 
     &-Link {
         display: inline;
-        margin-left: 5px;
+        margin-inline-start: 5px;
     }
 
     &-CTA {
@@ -69,7 +69,7 @@
         }
 
         @include after-mobile {
-            margin-left: 2.4rem;
+            margin-inline-start: 2.4rem;
         }
     }
 }
