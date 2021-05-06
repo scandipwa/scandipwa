@@ -60,6 +60,7 @@
 
     &-SearchIcon {
         @include search-icon;
+        @include rtl-icon;
 
         content: ' ';
         position: absolute;

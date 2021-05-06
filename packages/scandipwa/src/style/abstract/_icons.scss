@@ -438,3 +438,9 @@
     width: var(--star-size);
     filter: var(--primary-base-filter);
 }
+
+@mixin rtl-icon {
+    [dir="rtl"] & {
+        transform: scaleX(-1);
+    }
+}

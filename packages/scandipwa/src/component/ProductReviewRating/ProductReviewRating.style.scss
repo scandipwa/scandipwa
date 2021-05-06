@@ -27,10 +27,7 @@
 
     &-StarHalfFull {
         @include star-icon-half;
-
-        [dir="rtl"] & {
-            transform: scaleX(-1);
-        }
+        @include rtl-icon;
     }
 
     &-StarEmpty {

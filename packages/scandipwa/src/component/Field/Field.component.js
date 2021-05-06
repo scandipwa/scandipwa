@@ -161,7 +161,7 @@ export class Field extends PureComponent {
         } = this.props;
 
         return (
-            <label htmlFor={ id }>
+            <label htmlFor={ id } block="Field" elem="CheckboxLabel">
                 { label }
                 { subLabel && (
                     <span block="Field" elem="SubLabel">
