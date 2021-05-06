@@ -10,7 +10,7 @@
  */
 
 :root {
-    --navigation-tabs-height: calc(50px + env(safe-area-inset-bottom));
+    --navigation-tabs-height: calc(5rem + env(safe-area-inset-bottom));
     --navigation-tabs-background: var(--secondary-light-color);
     --navigation-tabs-color: var(--secondary-dark-color);
 }

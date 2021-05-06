@@ -45,7 +45,7 @@
             &::after {
                 @include chevron-icon;
 
-                right: -20px;
+                right: -2rem;
             }
 
             &[aria-expanded='true'] {

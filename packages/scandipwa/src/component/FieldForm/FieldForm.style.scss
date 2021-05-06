@@ -12,7 +12,7 @@
 .FieldForm {
     label {
         @include after-mobile {
-            min-width: calc(100% - 30px);
+            min-width: calc(100% - 3rem);
         }
     }
 

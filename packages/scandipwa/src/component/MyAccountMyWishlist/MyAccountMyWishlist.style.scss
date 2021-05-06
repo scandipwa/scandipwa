@@ -22,7 +22,7 @@
         grid-auto-rows: max-content;
         grid-column-gap: 2.4rem;
 
-        @media (min-width: 1370px) {
+        @media (min-width: 137rem) {
             grid-template-columns: repeat(4, 1fr);
         }
 
@@ -71,7 +71,7 @@
     &-ActionBarActionWrapper {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
     }
 
     &-NoProductsButton {

@@ -11,7 +11,7 @@
 
  :root {
     --whislist-swipe-to-delete-color: #fff;
-    --whislist-qty-button-size: 20px;
+    --whislist-qty-button-size: 2rem;
 }
 
 .WishlistItem {
@@ -85,7 +85,7 @@
         @include mobile {
             display: flex;
             flex: 1;
-            min-height: 130px;
+            min-height: 13rem;
         }
     }
 
@@ -93,8 +93,8 @@
         position: absolute;
         right: 0.5rem;
         top: 0.5rem;
-        height: 30px;
-        width: 30px;
+        height: 3rem;
+        width: 3rem;
 
         @include close-button;
 
@@ -115,7 +115,7 @@
         }
 
         @include after-mobile {
-            margin-top: 10px;
+            margin-top: 1rem;
         }
 
         &_isEditingActive {
@@ -137,7 +137,7 @@
     }
 
     &-QuantityText {
-        margin-inline-end: 10px;
+        margin-inline-end: 1rem;
     }
 
     &-Price {
@@ -159,7 +159,7 @@
 
     &-ImageWrapper {
         margin-inline-end: 15px;
-        width: 100px;
+        width: 10rem;
     }
 
     &-CommentField {
@@ -182,11 +182,11 @@
         justify-content: space-between;
 
         @include mobile {
-            padding-top: 10px;
+            padding-top: 1rem;
         }
 
         @include after-mobile {
-            margin-top: 10px;
+            margin-top: 1rem;
         }
     }
 
@@ -205,7 +205,7 @@
         justify-content: center;
 
         &_isEditingActive {
-            width: calc(50px - 1.4rem);
+            width: calc(5rem - 1.4rem);
             padding-right: 1.4rem;
             display: flex;
         }

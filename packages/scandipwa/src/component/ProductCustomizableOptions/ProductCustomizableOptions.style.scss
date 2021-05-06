@@ -17,7 +17,7 @@
 .ProductCustomizableOptions {
     &-Content {
         @include after-mobile{
-            max-width: 400px;
+            max-width: 40rem;
         }
 
         .Field {
@@ -108,6 +108,6 @@
         animation: var(--placeholder-animation);
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);
-        max-width: 270px;
+        max-width: 27rem;
     }
 }

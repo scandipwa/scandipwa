@@ -10,8 +10,8 @@
  */
 
 :root {
-    --search-bar-max-width: 450px;
-    --search-bar-width: 270px;
+    --search-bar-max-width: 45rem;
+    --search-bar-width: 27rem;
     --search-clear-background: var(--secondary-base-color);
     --search-field-background: var(--secondary-base-color);
     --search-field-border-color: var(--primary-divider-color);
@@ -28,7 +28,7 @@
 
     @include desktop {
         display: block;
-        max-width: 600px;
+        max-width: 60rem;
     }
 
     &_isVisible {

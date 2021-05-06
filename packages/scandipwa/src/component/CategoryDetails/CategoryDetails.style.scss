@@ -15,13 +15,13 @@
 
 .CategoryDetails {
     display: grid;
-    grid-template-columns: auto minmax(100px, 18rem);
+    grid-template-columns: auto minmax(10rem, 18rem);
     grid-gap: 1.2rem;
     background-color: var(--category-details-background);
     margin-bottom: 1.2rem;
 
     @include mobile {
-        grid-template-columns: auto minmax(100px, 21rem);
+        grid-template-columns: auto minmax(10rem, 21rem);
         grid-gap: 1.4rem;
         margin-bottom: 1.4rem;
         display: none;

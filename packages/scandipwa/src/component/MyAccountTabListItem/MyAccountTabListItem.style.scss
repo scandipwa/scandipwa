@@ -45,7 +45,7 @@
     }
 
     &-Button {
-        padding: 10px 0;
+        padding: 1rem 0;
         min-width: 100%;
         min-height: 38px;
         text-align: left;
@@ -54,8 +54,8 @@
         font-size: 1.4rem;
 
         @include after-mobile {
-            padding: 10px 2.4rem;
-            min-width: 250px;
+            padding: 1rem 2.4rem;
+            min-width: 25rem;
         }
 
         &::after {

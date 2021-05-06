@@ -10,7 +10,7 @@
  */
 
 :root {
-    --menu-item-height: 20px;
+    --menu-item-height: 2rem;
     --menu-total-height: 66px;
 }
 
@@ -26,7 +26,7 @@
         color: var(--color-black);
         font-size: 1.4rem;
         font-weight: 400;
-        padding-inline-start: 30px;
+        padding-inline-start: 3rem;
         text-transform: none;
 
         &Wrapper {

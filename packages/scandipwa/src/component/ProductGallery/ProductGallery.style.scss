@@ -18,7 +18,7 @@
     &-Additional {
         $margin-inline-end: 1.8rem;
 
-        width: 150px;
+        width: 15rem;
         margin-inline-end: $margin-inline-end;
 
         @include mobile {
@@ -46,11 +46,11 @@
     }
 
     &-Slider {
-        min-height: 480px;
+        min-height: 48rem;
         height: var(--slider-height);
 
         @include mobile {
-            min-height: 420px;
+            min-height: 42rem;
         }
 
         &::after {

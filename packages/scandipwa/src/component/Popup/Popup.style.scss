@@ -20,7 +20,7 @@
     --popup-content-padding: 1.2rem;
 
     @include after-mobile {
-        --popup-min-width: 490px;
+        --popup-min-width: 49rem;
         --popup-content-padding: 2.4rem;
     }
 }
@@ -85,8 +85,8 @@
     & &-CloseBtn {
         @include close-button;
 
-        height: 40px;
-        width: 40px;
+        height: 4rem;
+        width: 4rem;
         position: absolute;
         top: -4px;
         right: -1rem;

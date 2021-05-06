@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-$select-width: 160px !default;
+$select-width: 16rem !default;
 $select-height: 45px !default;
 $select-option-height: 36px !default;
 $select-arrow-height: 16px !default;
@@ -34,7 +34,7 @@ $select-arrow-width: 16px !default;
         pointer-events: none;
 
         position: absolute;
-        right: 20px;
+        right: 2rem;
         bottom: 0;
         top: 0;
         margin: auto;
@@ -49,7 +49,7 @@ $select-arrow-width: 16px !default;
 
     &-Select {
         min-width: 100%;
-        padding-right: 40px;
+        padding-right: 4rem;
         width: 100%;
 
         @include desktop {
@@ -93,7 +93,7 @@ $select-arrow-width: 16px !default;
         &_isExpanded {
             @include desktop {
                 z-index: 5;
-                max-height: 200px;
+                max-height: 20rem;
                 border-color: #0a0a0a;
                 border-color: var(--input-border-color);
                 overflow-y: auto;

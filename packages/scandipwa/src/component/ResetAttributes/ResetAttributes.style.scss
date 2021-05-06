@@ -15,22 +15,22 @@
     }
 
     @include desktop {
-        margin-bottom: 20px;
+        margin-bottom: 2rem;
     }
 
     @include mobile {
-        max-height: 200px;
+        max-height: 20rem;
         overflow-y: scroll;
     }
 
     &-AttributeValue {
-        margin: 10px 0;
+        margin: 1rem 0;
         display: flex;
         align-items: center;
     }
 
     &-AttributeText{
-        left: 10px;
+        left: 1rem;
         font-size: 1.4rem;
     }
 

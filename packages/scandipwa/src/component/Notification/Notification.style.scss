@@ -49,14 +49,14 @@
     }
 
     @include after-mobile {
-        max-width: 550px;
-        margin-bottom: 20px;
+        max-width: 55rem;
+        margin-bottom: 2rem;
     }
 
     &-Text {
         margin-top: 0;
         font-weight: bold;
-        margin-inline-end: 40px;
+        margin-inline-end: 4rem;
         margin-bottom: 0;
     }
 
@@ -65,7 +65,7 @@
         background: white;
         color: black;
         padding: 0.5rem;
-        max-height: 150px;
+        max-height: 15rem;
         overflow: scroll;
     }
 
@@ -77,9 +77,9 @@
         position: absolute;
         right: 0;
         top: 0;
-        padding: 10px;
-        width: 30px;
-        height: 30px;
+        padding: 1rem;
+        width: 3rem;
+        height: 3rem;
         opacity: 1;
 
         @include mobile {
@@ -101,7 +101,7 @@
             left: 0;
             margin: auto;
             content: ' ';
-            height: 10px;
+            height: 1rem;
             width: 0.2rem;
             background-color: var(--notification-color);
         }
@@ -148,7 +148,7 @@
     @keyframes fadeInLeft {
         from {
             opacity: 0;
-            transform: translateY(-300px);
+            transform: translateY(-30rem);
         }
 
         to {
@@ -161,17 +161,17 @@
         from {
             opacity: 1;
             transform: translateY(0);
-            max-height: 100px;
+            max-height: 10rem;
             margin-bottom: 0.5rem;
 
             @include mobile {
-                margin-bottom: 20px;
+                margin-bottom: 2rem;
             }
         }
 
         to {
             opacity: 0;
-            transform: translateY(-300px);
+            transform: translateY(-30rem);
             max-height: 0;
             padding: 0;
             margin: 0;

@@ -11,10 +11,10 @@
 
 :root {
     --product-compare-area-width: var(--content-wrapper-width);
-    --product-compare-sidebar-width: 200px;
+    --product-compare-sidebar-width: 20rem;
     --product-compare-item-count: 3.2;
     --product-compare-item-gap: 1rem;
-    --product-compare-column-width: calc(350px + var(--product-compare-item-gap) * 2);
+    --product-compare-column-width: calc(35rem + var(--product-compare-item-gap) * 2);
     --product-compare-border-color: var(--secondary-dark-color);
     --product-compare-attribute-table-background-color: var(--secondary-base-color);
 

@@ -76,8 +76,8 @@
         padding-left: calc(var(--diameter) * 0.1rem);
         padding-top: calc(var(--diameter) * 0.4rem);
         padding-right: 25px;
-        width: calc(20px * var(--diameter));
-        height: calc(10px * var(--diameter));
+        width: calc(2rem * var(--diameter));
+        height: calc(1rem * var(--diameter));
 
         &_isBig {
             padding-left: calc(var(--diameter) * 0.1rem);
@@ -99,7 +99,7 @@
             &::before,
             &::after {
                 border-radius: 50% 50% 50% 50%;
-                box-shadow: calc(3px * var(--diameter)) calc(-3px * var(--diameter)) 0 0 var(--fill-color), calc(10px * var(--diameter)) 0 0 0 var(--fill-color), calc(7px * var(--diameter)) calc(-3px * var(--diameter)) 0 calc(-1px * var(--diameter)) var(--fill-color), calc(3px * var(--diameter)) 0 0 0 var(--fill-color), calc(5px * var(--diameter)) 0 0 0 var(--fill-color), calc(8px * var(--diameter)) 0 0 0 var(--fill-color);
+                box-shadow: calc(3px * var(--diameter)) calc(-3px * var(--diameter)) 0 0 var(--fill-color), calc(1rem * var(--diameter)) 0 0 0 var(--fill-color), calc(7px * var(--diameter)) calc(-3px * var(--diameter)) 0 calc(-1px * var(--diameter)) var(--fill-color), calc(3px * var(--diameter)) 0 0 0 var(--fill-color), calc(5px * var(--diameter)) 0 0 0 var(--fill-color), calc(8px * var(--diameter)) 0 0 0 var(--fill-color);
             }
 
             &::before {
@@ -135,7 +135,7 @@
 
             &::after {
                 --fill-color: var(--line-color);
-                width: calc(20px * var(--diameter));
+                width: calc(2rem * var(--diameter));
                 height: calc(1px * var(--diameter));
                 left: calc(-1px * var(--diameter));
             }

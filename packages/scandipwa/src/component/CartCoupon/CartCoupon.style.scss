@@ -26,7 +26,7 @@
         display: inline-block;
 
         input {
-            width: 200px;
+            width: 20rem;
 
             @include before-desktop {
                 width: 100%;
@@ -72,6 +72,6 @@
         font-size: 1.4rem;
         font-weight: normal;
         text-transform: uppercase;
-        margin: 0 0 20px;
+        margin: 0 0 2rem;
     }
 }

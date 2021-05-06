@@ -55,7 +55,7 @@
 
             content: ' ';
             position: absolute;
-            right: -20px;
+            right: -2rem;
             transform: rotate(90deg);
         }
 
@@ -70,7 +70,7 @@
         background-color: var(--store-switcher-list-background);
         border: 0.1rem solid var(--input-border-color);
         display: none;
-        right: -20px;
+        right: -2rem;
         position: absolute;
         top: 25px;
         z-index: 2;
