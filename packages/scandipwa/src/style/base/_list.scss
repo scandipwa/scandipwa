@@ -26,7 +26,7 @@ li {
 
     &::before {
         position: absolute;
-        left: 1em;
+        inset-inline-start: 1em;
         top: .07em;
         padding-inline-end: 1.1225em;
 

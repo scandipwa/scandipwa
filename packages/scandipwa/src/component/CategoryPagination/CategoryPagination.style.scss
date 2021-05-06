@@ -46,7 +46,7 @@
 
     &-ListItem {
         margin-bottom: 0;
-        padding-left: 0;
+        padding-inline-start: 0;
         min-width: 3.5rem;
         display: block;
 
@@ -56,7 +56,7 @@
 
         &:first-child {
             @include mobile {
-                padding-left: 0;
+                padding-inline-start: 0;
             }
         }
 

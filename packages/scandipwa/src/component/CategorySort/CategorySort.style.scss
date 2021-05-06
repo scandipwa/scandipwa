@@ -45,7 +45,7 @@
             width: 1.6rem;
 
             @include before-desktop {
-                left: 4.2rem;
+                inset-inline-start: 4.2rem;
                 top: -2.5rem;
             }
         }

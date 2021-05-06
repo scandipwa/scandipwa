@@ -175,11 +175,11 @@
         &_state {
             &_createAccount {
                 h4 {
-                    padding-right: 1.2rem;
+                    padding-inline-end: 1.2rem;
                     display: inline;
 
                     @include mobile {
-                        padding-right: 1.4rem;
+                        padding-inline-end: 1.4rem;
                     }
                 }
 
@@ -289,17 +289,17 @@
 
                 h4 {
                     margin: 0;
-                    padding-right: 0;
+                    padding-inline-end: 0;
                 }
 
                 button {
                     width: initial;
                     height: initial;
                     margin: 0;
-                    padding-left: .48rem;
+                    padding-inline-start: .48rem;
 
                     @include mobile {
-                        padding-left: .56rem;
+                        padding-inline-start: .56rem;
                     }
                 }
             }
@@ -316,11 +316,11 @@
 
             &_forgotPassword {
                 padding-top: 3.36rem;
-                padding-left: 2.52rem;
+                padding-inline-start: 2.52rem;
 
                 @include mobile {
                     padding-top: 3.92rem;
-                    padding-left: 2.94rem;
+                    padding-inline-start: 2.94rem;
                 }
 
                 @include before-desktop {
@@ -333,7 +333,7 @@
                     button {
                         width: initial;
                         margin-top: 0;
-                        padding-left: 0.5rem;
+                        padding-inline-start: 0.5rem;
                         font-weight: 600;
                     }
 

@@ -49,7 +49,7 @@ $select-arrow-width: 1.6rem !default;
 
     &-Select {
         min-width: 100%;
-        padding-right: 4rem;
+        padding-inline-end: 4rem;
         width: 100%;
 
         @include desktop {
@@ -110,12 +110,12 @@ $select-arrow-width: 1.6rem !default;
         will-change: max-height;
         max-height: $select-option-height;
         line-height: 3.6rem;
-        padding-left: 1.8rem;
+        padding-inline-start: 1.8rem;
         background: var(--select-option-background);
 
         @include mobile {
             line-height: 4.2rem;
-            padding-left: 2.1rem;
+            padding-inline-start: 2.1rem;
         }
 
         &::before {

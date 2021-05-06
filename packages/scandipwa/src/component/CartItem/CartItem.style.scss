@@ -41,7 +41,7 @@
 
     &-Option,
     & {
-        padding-left: 0;
+        padding-inline-start: 0;
         margin-bottom: 0;
 
         &::before {
@@ -308,7 +308,7 @@
             right: 0;
             height: 3rem;
             max-width: 5%;
-            padding-left: 0;
+            padding-inline-start: 0;
             flex-grow: 1;
 
             &::before {
@@ -323,7 +323,7 @@
         }
 
         height: 3.5rem;
-        padding-left: 3.5rem;
+        padding-inline-start: 3.5rem;
         font-size: 1.4rem;
         color: var(--cart-item-actions-color);
     }

@@ -85,7 +85,7 @@ textarea {
         border: 0.2rem solid var(--primary-base-color);
         border-radius: var(--button-border-radius);
         color: $black;
-        left: 0;
+        inset-inline-start: 0;
         line-height: 0;
         margin: 0;
         order: 1;
@@ -94,7 +94,7 @@ textarea {
         top: 0;
 
         &:first-of-type {
-            left: 0;
+            inset-inline-start: 0;
             order: 3;
 
             &::before {
@@ -117,7 +117,7 @@ textarea {
             &::before {
                 content: ' ';
                 position: absolute;
-                left: calc(50% - 1.2rem);
+                inset-inline-start: calc(50% - 1.2rem);
                 top: calc(50% - 1.1rem);
             }
         }

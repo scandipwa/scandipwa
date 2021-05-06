@@ -17,7 +17,7 @@
         width: 100%;
         transform: translateY(var(--translateY));
         transition: transform var(--animation-speed);
-        padding-right: 0.1rem;
+        padding-inline-end: 0.1rem;
         display: flex;
         flex-direction: column;
     }

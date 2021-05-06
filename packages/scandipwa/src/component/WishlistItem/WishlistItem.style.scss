@@ -206,7 +206,7 @@
 
         &_isEditingActive {
             width: calc(5rem - 1.4rem);
-            padding-right: 1.4rem;
+            padding-inline-end: 1.4rem;
             display: flex;
         }
     }
@@ -243,7 +243,7 @@
         padding: .25rem;
 
         &-Value {
-            padding-left: .5rem;
+            padding-inline-start: .5rem;
             font-weight: bold;
         }
     }

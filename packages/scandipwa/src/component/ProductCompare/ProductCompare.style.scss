@@ -71,7 +71,7 @@
         padding: 0 var(--product-compare-item-gap);
 
         &:last-child {
-            padding-right: 0;
+            padding-inline-end: 0;
         }
 
         @include mobile {
@@ -105,7 +105,7 @@
             @include clear-button;
 
             height: 3.5rem;
-            padding-left: 3.5rem;
+            padding-inline-start: 3.5rem;
             text-transform: uppercase;
         }
 
@@ -139,7 +139,7 @@
         width: var(--product-compare-column-width);
 
         &:last-child {
-            padding-right: 0;
+            padding-inline-end: 0;
         }
 
         @include mobile {

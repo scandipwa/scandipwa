@@ -124,8 +124,8 @@
 
         > * {
             @include mobile {
-                padding-left: 1.4rem;
-                padding-right: 1.4rem;
+                padding-inline-start: 1.4rem;
+                padding-inline-end: 1.4rem;
             }
         }
     }
@@ -133,8 +133,8 @@
     &-CMS {
         @include mobile {
             margin-top: calc(var(--header-total-height) + var(--category-page-miscellaneous-min-height));
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
         }
 
         @include after-mobile {

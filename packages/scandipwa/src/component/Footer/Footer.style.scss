@@ -83,7 +83,7 @@
             }
 
             @include after-mobile {
-                padding-right: 2rem;
+                padding-inline-end: 2rem;
                 max-width: calc(100% / #{ $column-count - 1 });
             }
         }
@@ -141,7 +141,7 @@
 
         .Footer-Column_isNewsletter {
             @include desktop {
-                padding-left: 10rem;
+                padding-inline-start: 10rem;
             }
         }
     }

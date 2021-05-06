@@ -63,7 +63,7 @@
         flex: 1;
         display: block;
         width: 100%;
-        padding-right: 1.9rem;
+        padding-inline-end: 1.9rem;
         margin: 0 0 1rem 0;
         font-size: 1.4rem;
         line-height: 1.4;
@@ -90,8 +90,8 @@
         @include mobile {
             min-width: 100%;
             white-space: nowrap;
-            padding-left: 0;
-            padding-right: 0;
+            padding-inline-start: 0;
+            padding-inline-end: 0;
         }
     }
 

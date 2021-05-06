@@ -73,15 +73,15 @@
     }
 
     &-Logo {
-        padding-left: calc(var(--diameter) * 0.1rem);
+        padding-inline-start: calc(var(--diameter) * 0.1rem);
         padding-top: calc(var(--diameter) * 0.4rem);
-        padding-right: 2.5rem;
+        padding-inline-end: 2.5rem;
         width: calc(2rem * var(--diameter));
         height: calc(1rem * var(--diameter));
 
         &_isBig {
-            padding-left: calc(var(--diameter) * 0.1rem);
-            padding-right: 0;
+            padding-inline-start: calc(var(--diameter) * 0.1rem);
+            padding-inline-end: 0;
             padding-top: 0;
         }
 

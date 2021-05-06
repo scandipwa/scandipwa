@@ -144,7 +144,7 @@
             bottom: 0;
             padding: 1.2rem;
             width: 100%;
-            left: 0;
+            inset-inline-start: 0;
         }
 
         @include mobile {
@@ -182,7 +182,7 @@
     }
 
     li {
-        padding-left: 0;
+        padding-inline-start: 0;
 
         &::before {
             content: none;

@@ -30,7 +30,7 @@
         height: 2.828rem;
         transform: scaleY(.5774) rotate(-45deg);
         background-color: inherit;
-        left: .08579rem;
+        inset-inline-start: .08579rem;
         box-sizing: border-box;
     }
 
@@ -49,7 +49,7 @@
     span {
         position: absolute;
         top: 0;
-        left: 0;
+        inset-inline-start: 0;
         right: 0;
         bottom: 0;
         margin: auto;

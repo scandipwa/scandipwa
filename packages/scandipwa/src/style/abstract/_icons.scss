@@ -313,13 +313,13 @@
     &::before {
         background-color: var(--header-color);
         height: 1rem;
-        left: 0.6rem;
+        inset-inline-start: 0.6rem;
         top: -.4rem;
         width: $share-button-stroke-width;
 
         @include desktop {
             height: 1.3rem;
-            left: 0.8rem;
+            inset-inline-start: 0.8rem;
             top: -.6rem;
             width: 0.2rem;
         }
@@ -327,7 +327,7 @@
 
     &::after {
         height: 0.4rem;
-        left: 0.4rem;
+        inset-inline-start: 0.4rem;
         top: -.4rem;
         transform: rotate(45deg);
         width: 0.4rem;
@@ -339,7 +339,7 @@
 
         @include desktop {
             height: 0.6rem;
-            left: 0.5rem;
+            inset-inline-start: 0.5rem;
             top: -.7rem;
             width: 0.6rem;
         }
