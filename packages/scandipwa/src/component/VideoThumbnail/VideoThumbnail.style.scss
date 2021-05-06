@@ -43,7 +43,7 @@
         width: 0;
         height: 0;
         border-top: 3rem solid transparent;
-        border-left: 6rem solid var(--video-play-icon-fill);
+        border-inline-start: 6rem solid var(--video-play-icon-fill);
         border-bottom: 3rem solid transparent;
         transform: var(--video-play-icon-transform);
         transition: transform 150ms ease-in;

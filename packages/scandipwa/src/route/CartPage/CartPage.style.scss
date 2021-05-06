@@ -223,7 +223,7 @@
         }
 
         dd {
-            text-align: right;
+            text-align: end;
 
             span {
                 display: block;
@@ -264,7 +264,7 @@
         }
 
         dd {
-            text-align: right;
+            text-align: end;
 
             span {
                 display: block;
@@ -308,7 +308,7 @@
             text-align: center;
 
             &:last-of-type {
-                text-align: right;
+                text-align: end;
             }
 
             &:nth-child(2) {
@@ -318,7 +318,7 @@
             }
 
             &:first-of-type {
-                text-align: left;
+                text-align: start;
             }
         }
     }

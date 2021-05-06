@@ -21,7 +21,7 @@
         width: 100%;
         padding-inline-end: 4rem;
         display: block;
-        text-align: left;
+        text-align: start;
 
         @include desktop {
             line-height: calc(var(--option-size) - 1.2rem);
@@ -34,7 +34,7 @@
             height: 0.7rem;
             width: 0.7rem;
             transform: rotate(45deg);
-            border-right: 0.1rem solid var(--option-border-color);
+            border-inline-end: 0.1rem solid var(--option-border-color);
             border-top: 0.1rem solid var(--option-border-color);
             inset-inline-end: 1.2rem;
             top: 0;

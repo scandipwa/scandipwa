@@ -81,7 +81,7 @@
         font-weight: 300;
 
         @include mobile {
-            text-align: left;
+            text-align: start;
             width: 100%;
         }
     }

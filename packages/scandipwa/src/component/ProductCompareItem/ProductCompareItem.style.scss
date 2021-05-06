@@ -25,7 +25,7 @@
     @include mobile {
         flex-direction: column;
         border: none;
-        border-right: 0.1rem solid var(--product-compare-item-divider-color);
+        border-inline-end: 0.1rem solid var(--product-compare-item-divider-color);
         padding-bottom: 0;
     }
 

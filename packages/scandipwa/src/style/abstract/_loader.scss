@@ -15,8 +15,8 @@
     height: 2.309rem;
     background-color: #fff;
     margin: 1.155rem 0;
-    border-left: solid 0.5rem var(--primary-base-color);
-    border-right: solid 0.5rem var(--primary-base-color);
+    border-inline-start: solid 0.5rem var(--primary-base-color);
+    border-inline-end: solid 0.5rem var(--primary-base-color);
     box-sizing: border-box;
     animation: rotate 2s linear infinite;
     transform-origin: 50% 50%;
@@ -37,13 +37,13 @@
     &::before {
         top: -1.41421rem;
         border-top: solid .70711rem var(--primary-base-color);
-        border-right: solid .70711rem var(--primary-base-color);
+        border-inline-end: solid .70711rem var(--primary-base-color);
     }
 
     &::after {
         bottom: -1.41421rem;
         border-bottom: solid .70711rem var(--primary-base-color);
-        border-left: solid .70711rem var(--primary-base-color);
+        border-inline-start: solid .70711rem var(--primary-base-color);
     }
 
     span {

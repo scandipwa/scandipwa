@@ -57,7 +57,7 @@
         }
 
         h3 {
-            text-align: left;
+            text-align: start;
         }
     }
 
@@ -172,7 +172,7 @@
     }
 
     &-Text {
-        text-align: right;
+        text-align: end;
 
         span {
             display: block;

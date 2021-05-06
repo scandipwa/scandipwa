@@ -26,7 +26,7 @@ table {
     td,
     th {
         padding: 1rem;
-        text-align: left;
+        text-align: start;
         min-width: 12rem;
 
         @include mobile {

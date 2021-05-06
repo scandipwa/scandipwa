@@ -195,7 +195,7 @@
 
     &-Price {
         flex-grow: 1;
-        text-align: right;
+        text-align: end;
         margin-bottom: 0;
 
         @include after-mobile {

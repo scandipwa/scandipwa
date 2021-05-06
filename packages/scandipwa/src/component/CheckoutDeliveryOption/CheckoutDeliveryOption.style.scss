@@ -36,7 +36,7 @@
 
         width: 100%;
         padding: 1.2rem 3.6rem 1.2rem;
-        text-align: left;
+        text-align: start;
 
         @include mobile {
             padding: 1.4rem 4.2rem 1.4rem;
@@ -55,7 +55,7 @@
             width: 1.2rem;
             height: 0.6rem;
             transform: rotate(135deg) translateX(-.5rem);
-            border-right: 0.2rem solid var(--check-mark-color);
+            border-inline-end: 0.2rem solid var(--check-mark-color);
             border-top: 0.2rem solid var(--check-mark-color);
         }
 
@@ -83,7 +83,7 @@
     &-SubPrice {
         font-size: .7em;
         font-weight: 300;
-        text-align: right;
+        text-align: end;
         position: absolute;
         inset-inline-start: 0;
         top: 1.5em;
