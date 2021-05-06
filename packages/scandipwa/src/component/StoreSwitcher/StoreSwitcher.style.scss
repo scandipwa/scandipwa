@@ -36,7 +36,7 @@
 
             &::after {
                 height: 1.3rem;
-                right: 0;
+                inset-inline-end: 0;
                 width: 1.3rem;
             }
         }
@@ -55,7 +55,7 @@
 
             content: ' ';
             position: absolute;
-            right: -2rem;
+            inset-inline-end: -2rem;
             transform: rotate(90deg);
         }
 
@@ -70,7 +70,7 @@
         background-color: var(--store-switcher-list-background);
         border: 0.1rem solid var(--input-border-color);
         display: none;
-        right: -2rem;
+        inset-inline-end: -2rem;
         position: absolute;
         top: 2.5rem;
         z-index: 2;

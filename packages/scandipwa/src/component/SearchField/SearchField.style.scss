@@ -49,7 +49,7 @@
         content: ' ';
         position: absolute;
         height: 2.4rem;
-        right: 1.5rem;
+        inset-inline-end: 1.5rem;
         top: calc(50% - 1.2rem);
         width: 2.4rem;
     }
@@ -63,7 +63,7 @@
 
         content: ' ';
         position: absolute;
-        right: 1.5rem;
+        inset-inline-end: 1.5rem;
         top: calc(50% - 1.2rem);
     }
 }

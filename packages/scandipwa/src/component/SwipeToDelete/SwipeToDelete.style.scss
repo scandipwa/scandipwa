@@ -24,7 +24,7 @@
         background-color: var(--swipe-to-delete-bg-color);
         position: absolute;
         top: 0;
-        right: 0;
+        inset-inline-end: 0;
         height: 100%;
         width: calc(-1 * var(--translateX));
         transition: width var(--animation-speed) ease-out;

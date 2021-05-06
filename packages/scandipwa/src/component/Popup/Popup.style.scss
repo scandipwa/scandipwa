@@ -89,7 +89,7 @@
         width: 4rem;
         position: absolute;
         top: -.4rem;
-        right: -1rem;
+        inset-inline-end: -1rem;
         z-index: 5;
 
         @include mobile {

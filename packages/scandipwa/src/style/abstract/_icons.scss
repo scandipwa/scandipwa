@@ -119,7 +119,7 @@
     height: 1.5rem;
     width: 1.5rem;
     position: absolute;
-    right: 2.4rem;
+    inset-inline-end: 2.4rem;
 
     &::before,
     &::after {
@@ -144,7 +144,7 @@
         transform-origin: 0 0;
         transform: rotate(45deg);
         top: 0.4rem;
-        right: 0.2rem;
+        inset-inline-end: 0.2rem;
     }
 
     &::before {

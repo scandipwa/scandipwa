@@ -215,7 +215,7 @@
                 top: 0;
                 bottom: 0;
                 margin: auto;
-                right: 0;
+                inset-inline-end: 0;
                 height: max-content;
             }
 
@@ -253,7 +253,7 @@
         @include after-mobile {
             position: absolute;
             bottom: 1.2rem;
-            right: 0;
+            inset-inline-end: 0;
             width: calc(100% - 11.3rem);
             height: 3.6rem;
         }
@@ -262,7 +262,7 @@
             @include after-mobile {
                 width: 20%;
                 bottom: 0;
-                right: 20%;
+                inset-inline-end: 20%;
                 top: -.5rem;
                 margin: auto;
                 justify-content: center;
@@ -305,7 +305,7 @@
             @include close-button;
 
             position: absolute;
-            right: 0;
+            inset-inline-end: 0;
             height: 3rem;
             max-width: 5%;
             padding-inline-start: 0;

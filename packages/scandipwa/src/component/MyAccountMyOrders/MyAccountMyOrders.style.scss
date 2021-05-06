@@ -22,7 +22,7 @@
         @include after-mobile {
             position: absolute;
             top: -5.5rem;
-            right: 0;
+            inset-inline-end: 0;
         }
     }
 

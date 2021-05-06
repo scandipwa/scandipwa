@@ -62,23 +62,23 @@
             content: '';
             position: absolute;
             top: 0;
-            right: 1.2rem;
+            inset-inline-end: 1.2rem;
             bottom: 0;
             width: 0.6rem;
             height: 0.6rem;
             margin: auto;
             transform: rotate(45deg);
             @include mobile {
-                right: 1.4rem;
+                inset-inline-end: 1.4rem;
             }
 
             border: {
-                right: var(--border-width) solid var(--my-account-tab-list-item-color);
+                inset-inline-end: var(--border-width) solid var(--my-account-tab-list-item-color);
                 top: var(--border-width) solid var(--my-account-tab-list-item-color);
             }
 
             @include after-mobile {
-                right: 2.4rem;
+                inset-inline-end: 2.4rem;
             }
         }
     }

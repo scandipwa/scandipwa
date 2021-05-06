@@ -75,7 +75,7 @@
         appearance: none;
         background: none;
         position: absolute;
-        right: 0;
+        inset-inline-end: 0;
         top: 0;
         padding: 1rem;
         width: 3rem;
@@ -85,7 +85,7 @@
         @include mobile {
             margin: auto;
             bottom: 0;
-            right: 1.4rem;
+            inset-inline-end: 1.4rem;
         }
 
         &:focus {
@@ -97,7 +97,7 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            right: 0;
+            inset-inline-end: 0;
             inset-inline-start: 0;
             margin: auto;
             content: ' ';

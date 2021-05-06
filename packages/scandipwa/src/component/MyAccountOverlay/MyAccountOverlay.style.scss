@@ -21,7 +21,7 @@
 
     justify-self: flex-end;
     grid-column: 3;
-    right: 0;
+    inset-inline-end: 0;
     padding-top: 1.2rem;
 
     @include mobile {
@@ -31,7 +31,7 @@
     @include desktop {
         position: absolute;
         top: calc(var(--header-nav-height) - 1rem);
-        right: -4rem;
+        inset-inline-end: -4rem;
         padding: 0;
         width: var(--my-account-overlay-width);
     }
@@ -54,7 +54,7 @@
             content: '';
             position: absolute;
             top: -.9rem;
-            right: 4.9rem;
+            inset-inline-end: 4.9rem;
             height: 1.5rem;
             width: 1.5rem;
             transform: rotate(45deg);
@@ -162,7 +162,7 @@
         @include mobile {
             padding: {
                 left: 1.4rem;
-                right: 1.4rem;
+                inset-inline-end: 1.4rem;
                 bottom: 1.4rem;
             }
         }
@@ -378,7 +378,7 @@
             content: '';
             height: 2rem;
             position: absolute;
-            right: 2.7rem;
+            inset-inline-end: 2.7rem;
             top: -1.3rem;
             transform-origin: 50% 50%;
             width: 0.1rem;
@@ -423,7 +423,7 @@
     &-Checkbox {
         display: flex;
         flex-direction: row-reverse;
-        right: 1.4rem;
+        inset-inline-end: 1.4rem;
         justify-content: flex-end;
         align-items: center;
         margin-bottom: 2.4rem;

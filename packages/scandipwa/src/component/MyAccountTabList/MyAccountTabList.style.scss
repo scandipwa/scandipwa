@@ -40,10 +40,10 @@
 
         &::before,
         &::after {
-            right: 2.4rem;
+            inset-inline-end: 2.4rem;
 
             @include mobile {
-                right: 2.8rem;
+                inset-inline-end: 2.8rem;
             }
         }
     }

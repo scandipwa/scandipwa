@@ -20,7 +20,7 @@
     @include after-mobile {
         position: absolute;
         top: calc(var(--header-nav-height) - 0.7rem);
-        right: 2.2rem;
+        inset-inline-end: 2.2rem;
         padding: 0;
         width: var(--cart-overlay-width);
     }
@@ -36,7 +36,7 @@
             content: '';
             position: absolute;
             top: -.9rem;
-            right: 0.9rem;
+            inset-inline-end: 0.9rem;
             height: 1.5rem;
             width: 1.5rem;
             transform: rotate(45deg);

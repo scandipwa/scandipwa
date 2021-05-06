@@ -28,7 +28,7 @@
 
             &::after {
                 height: 1.3rem;
-                right: 0;
+                inset-inline-end: 0;
                 width: 1.3rem;
             }
         }
@@ -45,7 +45,7 @@
             &::after {
                 @include chevron-icon;
 
-                right: -2rem;
+                inset-inline-end: -2rem;
             }
 
             &[aria-expanded='true'] {

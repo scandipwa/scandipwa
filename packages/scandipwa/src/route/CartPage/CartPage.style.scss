@@ -392,7 +392,7 @@
 
         @include tablet-portrait {
             width: 100%;
-            right: 0;
+            inset-inline-end: 0;
             margin: initial;
             position: relative;
             display: flex;
