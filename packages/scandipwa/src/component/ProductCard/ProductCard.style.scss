@@ -69,13 +69,13 @@
 
     &-Content {
         background: var(--product-card-background);
-        padding: 10px 15px;
+        padding: 1rem 15px;
         display: flex;
         flex-direction: column;
 
         &_layout_list {
             justify-content: space-between;
-            margin-inline-start: 20px;
+            margin-inline-start: 2rem;
             max-width: 50rem;
 
 
@@ -85,7 +85,7 @@
                     display: flex;
 
                     button {
-                        margin-inline-end: 10px;
+                        margin-inline-end: 1rem;
                     }
                 }
 
@@ -166,7 +166,7 @@
         position: absolute;
         text-align: center;
         width: 100%;
-        height: 20px;
+        height: 2rem;
         bottom: 0;
         margin: auto;
         top: 0;
@@ -189,7 +189,7 @@
         @include mobile {
             --product-rating-size: 1.4rem;
 
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
             width: 100%;
             border-radius: 0;
         }
@@ -226,7 +226,7 @@
         padding: 0 0.6rem;
         margin: 0.5rem 0.7rem 0 0;
         line-height: 15px;
-        min-width: 20px;
+        min-width: 2rem;
     }
 
     &-PriceWrapper {
@@ -270,7 +270,7 @@
         display: flex;
 
         .ProductWishlistButton {
-            margin-inline-end: 10px;
+            margin-inline-end: 1rem;
         }
     }
 
@@ -296,7 +296,7 @@
         flex-direction: column;
         justify-content: flex-end;
         flex-grow: 1;
-        padding: 0 15px 10px;
+        padding: 0 15px 1rem;
         opacity: 0;
         position: absolute;
         top: 100%;
@@ -311,13 +311,13 @@
     &_siblingsHaveTierPrice,
     &_siblingsHavePriceBadge {
         .ProductCard-PriceWrapper {
-            min-height: 40px;
+            min-height: 4rem;
         }
     }
 
     &_siblingsHaveConfigurableOptions {
         .ProductCard-ConfigurableOptions {
-            min-height: 20px;
+            min-height: 2rem;
         }
     }
 }

@@ -10,12 +10,12 @@
  */
 
 .Breadcrumb {
-    $crumb-padding: 20px;
+    $crumb-padding: 2rem;
     $arrow-size: 0.4rem;
 
     display: inline-block;
     font-size: 1.2rem;
-    line-height: 20px;
+    line-height: 2rem;
     padding: 0 $crumb-padding 0 0;
 
     @include mobile {
