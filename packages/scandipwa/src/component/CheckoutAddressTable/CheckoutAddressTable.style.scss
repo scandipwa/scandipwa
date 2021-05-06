@@ -28,14 +28,16 @@
         --check-mark-opacity: 0;
 
         border: 0.2rem solid var(--checkout-address-table-border);
-        margin: 1.2rem 1.2rem 0 0;
+        margin-block: 1.2rem 0;
+        margin-inline: 0 1.2rem;
         transition-property: border-color, background, border-color;
         transition-duration: 150ms;
         transition-timing-function: ease-in;
         width: 100%;
 
         @include mobile {
-            margin: 1.4rem 1.4rem 0 0;
+            margin-block: 1.4rem 0;
+            margin-inline: 0 1.4rem;
         }
 
         &::before,

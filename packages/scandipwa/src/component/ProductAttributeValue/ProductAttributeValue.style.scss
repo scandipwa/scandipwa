@@ -36,7 +36,8 @@
         border-width: .1rem;
         color: var(--option-text-color);
         display: inline-block;
-        margin: 0 1.2rem 1.2rem 0;
+        margin-block: 0 1.2rem;
+        margin-inline: 0 1.2rem;
         min-height: var(--option-size);
         width: var(--option-size);
     }

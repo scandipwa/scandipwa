@@ -53,7 +53,7 @@
     }
 
     &-SampleLink {
-        float: right;
+        float: end;
 
         @include mobile {
             margin-inline-end: 1.6rem;

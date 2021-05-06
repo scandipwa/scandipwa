@@ -126,7 +126,8 @@
         @include share-button;
 
         height: 0;
-        margin: 1.4rem 2rem 0 0;
+        margin-block: 1.4rem 0;
+        margin-inline: 0 2rem;
 
         &[disabled] {
             @include button-disabled();

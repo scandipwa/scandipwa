@@ -109,16 +109,19 @@
     }
 
     &-Attributes {
-        --option-margin: .6rem;
+        --option-margin-block: .6rem;
+        --option-margin-inline: .6rem;
 
         @include mobile {
-            --option-margin: .7rem;
+            --option-margin-block: .7rem;
+            --option-margin-inline: .7rem;
             margin: 1.6rem;
             overflow-y: scroll;
         }
 
         @include desktop {
-            --option-margin: 0 1.2rem 1.2rem 0;
+            --option-margin-block: 0 1.2rem;
+            --option-margin-inline: 0 1.2rem;
 
             .ExpandableContent:not(:last-child)  {
                 border-bottom: 0.1rem solid var(--expandable-content-divider-color);

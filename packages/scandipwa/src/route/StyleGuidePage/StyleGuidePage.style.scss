@@ -184,7 +184,8 @@
     .CategoryConfigurableAttributes,
     .ProductConfigurableAttributes {
         display: flex;
-        --option-margin: 0 1.2rem 1.2rem 0;
+        --option-margin-block: 0 1.2rem;
+        --option-margin-inline: 0 1.2rem;
 
         > * {
             margin-inline-end: 6rem;

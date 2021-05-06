@@ -24,7 +24,8 @@
     --product-card-brand-line-height: 1.2em;
     --product-card-color-size: 3.2rem;
     --product-card-background: var(--color-white);
-    --option-margin: 0 1.2rem 1.2rem 0;
+    --option-margin-block: 0 1.2rem;
+    --option-margin-inline: 0 1.2rem;
 }
 
 .ProductCard {

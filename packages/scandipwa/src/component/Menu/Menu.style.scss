@@ -109,7 +109,8 @@
 
     &-Link {
         font-weight: 400;
-        margin: 0.8rem 1.6rem 0.8rem 0;
+        margin-block: 0.8rem;
+        margin-inline: 0 1.6rem;
     }
 
     &-MainCategories {

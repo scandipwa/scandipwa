@@ -80,10 +80,12 @@
         }
 
         .ProductReviewRating {
-            margin: 0 0 .24rem 1.2rem;
+            margin-block: 0 .24rem;
+            margin-inline: 1.2rem 0;
 
             @include mobile {
-                margin: 0 0 .28rem 1.4rem;
+                margin-block: 0 .28rem;
+                margin-inline: 1.4rem 0;
             }
         }
     }

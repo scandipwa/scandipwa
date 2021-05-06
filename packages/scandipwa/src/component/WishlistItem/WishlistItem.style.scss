@@ -144,7 +144,7 @@
         display: inline-block;
 
         @include after-mobile {
-            float: right;
+            float: end;
             text-align: end;
         }
     }

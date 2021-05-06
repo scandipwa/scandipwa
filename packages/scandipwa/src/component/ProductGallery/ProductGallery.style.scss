@@ -27,7 +27,8 @@
 
         @include desktop {
             height: 48rem;
-            margin: auto $margin-inline-end auto 0;
+            margin-block: auto;
+            margin-inline: 0 $margin-inline-end;
         }
 
         @include before-desktop {

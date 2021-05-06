@@ -55,7 +55,8 @@
         background-size: var(--placeholder-size);
         height: var(--option-size);
         width: var(--option-size);
-        margin: var(--option-margin);
+        margin-block: var(--option-margin-block);
+        margin-inside: var(--option-margin-inline);
     }
 }
 
