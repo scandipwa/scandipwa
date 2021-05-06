@@ -167,7 +167,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(MY_ACCOUNT_URL)) {
-            history.push({ pathname: appendWithStoreCode('/') });
+            history.push({ pathname: appendWithStoreCode('/account/login') });
         }
 
         if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN && redirectToDashboard) {
