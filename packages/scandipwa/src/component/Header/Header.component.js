@@ -420,7 +420,14 @@ export class Header extends NavigationAbstract {
 
         // This is here to prevent the popup-suspense from rendering
         if (!showMyAccountLogin) {
-            return null;
+            return (
+                <Suspense fallback={ null }>
+                    <MyAccountOverlay
+                      onSignIn={ onSignIn }
+                      isCheckout={ isCheckout }
+                    />
+                </Suspense>
+            );
         }
 
         return (
