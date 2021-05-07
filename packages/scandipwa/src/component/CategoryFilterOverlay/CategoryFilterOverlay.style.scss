@@ -60,6 +60,10 @@
         @include before-desktop {
             display: none;
         }
+
+        &_isContentFiltered {
+            display: none;
+        }
     }
 
     &-Item {

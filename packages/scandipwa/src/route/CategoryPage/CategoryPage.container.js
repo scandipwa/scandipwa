@@ -25,6 +25,7 @@ import {
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { getFiltersCount } from 'Util/Category';
 import { debounce } from 'Util/Request';
 import {
     appendWithStoreCode,
@@ -367,7 +368,7 @@ export class CategoryPageContainer extends PureComponent {
             selectedInfoFilter: { customFilters = {} }
         } = this.props;
 
-        return Object.values(customFilters).reduce((prev, next) => prev + next.length, 0);
+        return getFiltersCount(customFilters);
     }
 
     isCurrentCategoryLoaded() {

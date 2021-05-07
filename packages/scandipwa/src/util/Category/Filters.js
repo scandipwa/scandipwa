@@ -12,7 +12,6 @@
 import { formatPrice } from 'Util/Price';
 
 /** @namespace Util/Category/Filters/getPriceFilterLabel */
-// eslint-disable-next-line import/prefer-default-export
 export const getPriceFilterLabel = (from, to, currencyCode) => {
     const priceFrom = formatPrice(from, currencyCode);
     const priceTo = formatPrice(to, currencyCode);
@@ -27,3 +26,6 @@ export const getPriceFilterLabel = (from, to, currencyCode) => {
 
     return __('From %s, to %s', priceFrom, priceTo);
 };
+
+/** @namespace Util/Category/Filters/getFiltersCount */
+export const getFiltersCount = (filters) => Object.values(filters).reduce((prev, next) => prev + next.length, 0);

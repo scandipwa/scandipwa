@@ -388,8 +388,6 @@ export class ProductCard extends PureComponent {
             requiredOptions
         };
 
-        console.log('productOptionsData', productOptionsData);
-
         if (type_id !== 'simple' && type_id !== 'configurable') {
             return this.renderCardLinkWrapper(
                 <button block="Button AddToCart" mods={ { layout } }>

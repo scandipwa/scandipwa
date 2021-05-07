@@ -111,8 +111,10 @@ export class CategoryFilterOverlay extends PureComponent {
     }
 
     renderHeading() {
+        const { isContentFiltered } = this.props;
+
         return (
-            <h3 block="CategoryFilterOverlay" elem="Heading">
+            <h3 block="CategoryFilterOverlay" elem="Heading" mods={ { isContentFiltered } }>
                 { __('Shopping Options') }
             </h3>
         );
