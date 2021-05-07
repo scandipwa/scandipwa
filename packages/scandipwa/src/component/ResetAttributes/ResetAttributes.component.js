@@ -13,6 +13,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { getFiltersCount } from 'Util/Category';
+
 import './ResetAttributes.style';
 
 /** @namespace Component/ResetButton/Component */
@@ -57,6 +59,24 @@ export class ResetAttributes extends PureComponent {
         );
     }
 
+    renderDesktopTitle() {
+        return (
+            <h3 block="ResetAttributes" elem="Title">
+                { __('Now shopping by:') }
+            </h3>
+        );
+    }
+
+    renderMobileTitle() {
+        const { filtersData = {} } = this.props;
+
+        return (
+            <div block="ResetAttributes" elem="MobileTitle">
+                { getFiltersCount(filtersData) + __(' filters selected') }
+            </div>
+        );
+    }
+
     render() {
         const { filtersData = {} } = this.props;
 
@@ -65,11 +85,15 @@ export class ResetAttributes extends PureComponent {
         }
 
         return (
-            <div block="ResetAttributes">
-                { Object.entries(filtersData).map(
-                    ([attrName, attrData]) => this.renderResetItem(attrName, attrData)
-                ) }
-            </div>
+            <>
+                { this.renderDesktopTitle() }
+                { this.renderMobileTitle() }
+                <div block="ResetAttributes">
+                    { Object.entries(filtersData).map(
+                        ([attrName, attrData]) => this.renderResetItem(attrName, attrData)
+                    ) }
+                </div>
+            </>
         );
     }
 }

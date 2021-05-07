@@ -43,4 +43,26 @@
     &-Attribute {
         font-weight: bold;
     }
+
+    &-Title {
+        @include before-desktop {
+            display: none;
+        }
+
+        @include desktop {
+            margin-block-start: 0;
+            text-transform: none;
+        }
+    }
+
+    &-MobileTitle {
+        @include before-desktop {
+            padding-inline-start: 1.6rem;
+            font-weight: 700;
+        }
+
+        @include desktop {
+            display: none;
+        }
+    }
 }
