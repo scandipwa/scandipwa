@@ -29,7 +29,8 @@ import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
     DISPLAY_MODE_PRODUCTS,
-    GRID_LAYOUT, LAYOUT_KEY,
+    GRID_LAYOUT,
+    LAYOUT_KEY,
     LIST_LAYOUT
 } from './CategoryPage.config';
 
