@@ -51,7 +51,8 @@
 
         @include before-desktop {
             order: 1;
-            padding: .36rem 1.2rem 1.2rem 0;
+            padding-block: .36rem 1.2rem;
+            padding-inline: 0 1.2rem;
             text-align: center;
             grid-column: span 2;
         }
@@ -94,7 +95,7 @@
         min-height: var(--category-page-miscellaneous-min-height);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
-        padding: 1rem 0 6rem 0;
+        padding: 1rem 0 6rem;
 
         @include mobile {
             position: fixed;

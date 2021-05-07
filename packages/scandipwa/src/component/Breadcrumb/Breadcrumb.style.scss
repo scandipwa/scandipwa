@@ -16,7 +16,7 @@
     display: inline-block;
     font-size: 1.2rem;
     line-height: 2rem;
-    padding: 0 $crumb-padding 0 0;
+    padding-inline-end: $crumb-padding;
 
     @include mobile {
         font-size: 1.4rem;

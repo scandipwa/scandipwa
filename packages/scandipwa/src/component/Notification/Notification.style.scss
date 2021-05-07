@@ -117,11 +117,11 @@
 
     &_is {
         &_opening {
-            animation: fadeInLeft var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
+            animation: fadeInStart var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
         }
 
         &_closing {
-            animation: fadeOutLeft var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
+            animation: fadeOutStart var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
         }
     }
 
@@ -145,7 +145,7 @@
         }
     }
 
-    @keyframes fadeInLeft {
+    @keyframes fadeInStart {
         from {
             opacity: 0;
             transform: translateY(-30rem);
@@ -157,7 +157,7 @@
         }
     }
 
-    @keyframes fadeOutLeft {
+    @keyframes fadeOutStart {
         from {
             opacity: 1;
             transform: translateY(0);

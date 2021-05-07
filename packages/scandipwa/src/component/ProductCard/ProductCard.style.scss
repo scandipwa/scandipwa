@@ -215,7 +215,8 @@
         height: var(--product-card-color-size);
         border-radius: 50%;
         overflow: hidden;
-        margin: 0.5rem 0.7rem 0 0;
+        margin-block-start: 0.5rem;
+        margin-inline-end: 0.7rem;
         border: 0.1rem solid var(--product-card-color-border-color);
     }
 

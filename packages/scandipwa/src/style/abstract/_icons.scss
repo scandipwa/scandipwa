@@ -319,10 +319,8 @@
         transform: rotate(45deg);
         width: 0.4rem;
 
-        border: {
-            left: $share-button-stroke-width solid var(--header-color);
-            top: $share-button-stroke-width solid var(--header-color);
-        }
+        border-block-start: $share-button-stroke-width solid var(--header-color);
+        border-inline-start: $share-button-stroke-width solid var(--header-color);
 
         @include desktop {
             height: 0.6rem;
@@ -357,7 +355,7 @@
         transform: rotate(45deg) translate(calc(-50% - 0.4rem), calc(-50% - 0.4rem));
         transform-origin: top left;
         border-top-color: transparent;
-        border-left-color: transparent;
+        border-inline-start-color: transparent;
     }
 }
 
