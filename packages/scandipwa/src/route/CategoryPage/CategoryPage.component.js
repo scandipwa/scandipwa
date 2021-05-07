@@ -23,12 +23,14 @@ import Html from 'Component/Html';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
     DISPLAY_MODE_PRODUCTS,
     GRID_LAYOUT,
+    LAYOUT_KEY,
     LIST_LAYOUT
 } from './CategoryPage.config';
 
@@ -89,6 +91,20 @@ export class CategoryPage extends PureComponent {
             defaultPlpType,
             selectedLayoutType
         } = props;
+
+        /*
+        * Use stored plpType from the BrowserDatabase
+        * if there is one
+        */
+        const storedPlpType = BrowserDatabase.getItem(LAYOUT_KEY) || selectedLayoutType;
+
+        if (storedPlpType) {
+            const activeLayoutType = isMobile
+                ? GRID_LAYOUT
+                : storedPlpType || defaultPlpType;
+
+            return { activeLayoutType };
+        }
 
         const activeLayoutType = isMobile
             ? GRID_LAYOUT
