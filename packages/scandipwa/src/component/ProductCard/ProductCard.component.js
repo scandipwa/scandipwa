@@ -365,12 +365,38 @@ export class ProductCard extends PureComponent {
     renderAddToCart() {
         const {
             product,
-            configurableVariantIndex
+            product: {
+                type_id,
+                options = []
+            },
+            configurableVariantIndex,
+            layout
         } = this.props;
 
         const quantity = 1;
         const groupedProductQuantity = {};
-        const productOptionsData = {};
+
+        const requiredOptions = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        const productOptionsData = {
+            requiredOptions
+        };
+
+        console.log('productOptionsData', productOptionsData);
+
+        if (type_id !== 'simple' && type_id !== 'configurable') {
+            return this.renderCardLinkWrapper(
+                <button block="Button AddToCart" mods={ { layout } }>
+                    { __('Add To Cart') }
+                </button>
+            );
+        }
 
         return (
             <AddToCart
@@ -380,6 +406,7 @@ export class ProductCard extends PureComponent {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
+              layout={ layout }
             />
         );
     }
@@ -489,6 +516,7 @@ export class ProductCard extends PureComponent {
                     </div>
                     <div block="ProductCard" elem="AttributeWrapper">
                         { this.renderProductPrice() }
+                        { this.renderConfigurableOptions() }
                     </div>
                     <div block="ProductCard" elem="ActionWrapper">
                         { this.renderAddToCart() }

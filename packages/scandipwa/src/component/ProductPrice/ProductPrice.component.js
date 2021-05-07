@@ -137,12 +137,13 @@ export class ProductPrice extends PureComponent {
             discountPercentage,
             isSchemaRequired,
             variantsCount,
-            price_tiers
+            price_tiers,
+            label
         } = this.props;
 
         const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
 
-        if (discountPercentage === 0 || price_tiers.length) {
+        if (discountPercentage === 0 || price_tiers.length || label) {
             return null;
         }
 
