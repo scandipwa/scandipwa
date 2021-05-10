@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
-import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import { GRID_LAYOUT, LAYOUT_KEY, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -26,6 +26,7 @@ import {
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import { debounce } from 'Util/Request';
 import {
     appendWithStoreCode,
@@ -331,10 +332,12 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     onGridButtonClick() {
+        BrowserDatabase.setItem(GRID_LAYOUT, LAYOUT_KEY);
         this.setState({ selectedLayoutType: GRID_LAYOUT });
     }
 
     onListButtonClick() {
+        BrowserDatabase.setItem(LIST_LAYOUT, LAYOUT_KEY);
         this.setState({ selectedLayoutType: LIST_LAYOUT });
     }
 
