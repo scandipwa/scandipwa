@@ -16,9 +16,6 @@ import { connect } from 'react-redux';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import {
-    CHANGE_PASSWORD_URL,
-    CREATE_ACCOUNT_URL,
-    FORGOT_PASSWORD_URL,
     MY_ACCOUNT_URL
 } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
@@ -90,12 +87,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         setSignInState: this.setSignInState.bind(this),
         setLoadingState: this.setLoadingState.bind(this)
     };
-
-    whiteList = [
-        FORGOT_PASSWORD_URL,
-        CHANGE_PASSWORD_URL,
-        CREATE_ACCOUNT_URL
-    ];
 
     __construct(props) {
         super.__construct(props);
@@ -177,19 +168,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             }
         }
 
-        /*
-        * Prevent unauthorized page access for
-        * signed-out users
-         */
-        const isInWhiteList = this.whiteList.reduce((result, url) => {
-            if (pathname.includes(url)) {
-                return true;
-            }
-
-            return result;
-        }, false);
-
-        if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(MY_ACCOUNT_URL) && !isInWhiteList) {
+        if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(MY_ACCOUNT_URL)) {
             history.push({ pathname: appendWithStoreCode('/') });
         }
 
