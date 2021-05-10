@@ -5,10 +5,12 @@
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
-        "build": "scandipwa-scripts build"
+        "build": "scandipwa-scripts build",
+        "postinstall": "scandipwa-scripts link",
+        "postupdate": "scandipwa-scripts link"
     },
     "dependencies": {
-        "@scandipwa/m2-theme": "^0.1.4",
+        "@scandipwa/m2-theme": "file:../m2-theme",
         "@scandipwa/scandipwa-scripts": "^2.3.6",
         "@scandipwa/service-worker": "^0.0.4",
         "@scandipwa/webpack-i18n-runtime": "0.0.9",
@@ -29,6 +31,7 @@
         "react-zoom-pan-pinch": "^1.6.1",
         "rebem-classname": "^0.4.0",
         "redux": "^4.0.5",
+        "rtl-support": "file:packages/rtl-support",
         "unstated": "^2.1.1"
     },
     "scandipwa": {
@@ -40,7 +43,8 @@
         "extensions": {
             "@scandipwa/m2-theme": true,
             "@scandipwa/webpack-i18n-runtime": true,
-            "@scandipwa/service-worker": true
+            "@scandipwa/service-worker": true,
+            "rtl-support": true
         },
         "composer": {
             "magento/framework": "*",
