@@ -20,8 +20,10 @@ import {
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import {
     deleteAuthorizationToken,
+    isSignedIn,
     setAuthorizationToken
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -229,15 +231,16 @@ export class MyAccountDispatcher {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
+
         ProductCompareDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
         );
 
-        dispatch(updateCustomerSignInStatus(true));
-        dispatch(updateIsLoading(false));
-        dispatch(showNotification('success', __('You are successfully logged in!')));
-
         await this.requestCustomerData(dispatch);
+
+        dispatch(updateCustomerSignInStatus(true));
+        dispatch(hideActiveOverlay());
+        dispatch(showNotification('success', __('You are successfully logged in!')));
 
         return true;
     }
@@ -255,6 +258,18 @@ export class MyAccountDispatcher {
         if (doRedirect) {
             history.push({ pathname: '/account/login' });
         }
+    }
+
+    handleCustomerDataOnInit(dispatch) {
+        if (isSignedIn()) {
+            return;
+        }
+
+        BrowserDatabase.deleteItem(ORDERS);
+        BrowserDatabase.deleteItem(CUSTOMER);
+        CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)
+        );
     }
 }
 

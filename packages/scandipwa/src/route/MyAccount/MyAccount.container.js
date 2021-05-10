@@ -44,7 +44,8 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
-    wishlistItems: state.WishlistReducer.productsInWishlist
+    wishlistItems: state.WishlistReducer.productsInWishlist,
+    isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -73,7 +74,8 @@ export class MyAccountContainer extends PureComponent {
         history: HistoryType.isRequired,
         device: DeviceType.isRequired,
         wishlistItems: PropTypes.object,
-        isWishlistEnabled: PropTypes.bool.isRequired
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -182,12 +184,22 @@ export class MyAccountContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { wishlistItems: prevWishlistItems } = prevProps;
-        const { wishlistItems } = this.props;
+        const {
+            wishlistItems: prevWishlistItems,
+            isSignedIn: prevIsSignedIn
+        } = prevProps;
+        const {
+            wishlistItems,
+            isSignedIn: currIsSignedIn
+        } = this.props;
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
         this.redirectIfNotSignedIn();
+
+        if (prevIsSignedIn !== currIsSignedIn) {
+            this.changeHeaderState();
+        }
 
         if (prevActiveTab !== activeTab) {
             this.updateBreadcrumbs();
@@ -272,7 +284,6 @@ export class MyAccountContainer extends PureComponent {
 
         if (activeTab !== MY_WISHLIST) {
             this.changeDefaultHeaderState();
-
             return;
         }
 
