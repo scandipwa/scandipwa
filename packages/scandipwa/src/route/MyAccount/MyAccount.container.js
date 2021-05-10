@@ -26,6 +26,7 @@ import {
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
@@ -232,6 +233,7 @@ export class MyAccountContainer extends PureComponent {
         const { toggleOverlayByKey } = this.props;
         this.setState({ activeTab: DASHBOARD });
         toggleOverlayByKey(CUSTOMER_ACCOUNT);
+        history.push(appendWithStoreCode('/'));
     }
 
     onSignIn() {

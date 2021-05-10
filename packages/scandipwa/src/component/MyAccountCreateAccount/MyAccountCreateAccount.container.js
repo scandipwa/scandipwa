@@ -28,7 +28,7 @@ export const MyAccountDispatcher = import(
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isLoading: state.MyAccountReducer.isLoading,
-    showTaxVatNumber: state.ConfigReducer.show_tax_vat_number
+    showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */

@@ -172,9 +172,9 @@ export class MyAccountDispatcher {
 
             /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationError */
             (error) => {
+                dispatch(updateIsLoading(false));
                 dispatch(showNotification('error', getErrorMessage(error)));
                 Promise.reject();
-                dispatch(updateIsLoading(false));
 
                 return false;
             }
@@ -239,6 +239,7 @@ export class MyAccountDispatcher {
         await this.requestCustomerData(dispatch);
 
         dispatch(updateCustomerSignInStatus(true));
+        dispatch(updateIsLoading(false));
         dispatch(hideActiveOverlay());
         dispatch(showNotification('success', __('You are successfully logged in!')));
 
