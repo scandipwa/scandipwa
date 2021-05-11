@@ -113,9 +113,10 @@ export class MyAccountSignInContainer extends PureComponent {
             await signIn(fields);
             onSignIn();
         } catch (error) {
-            setLoadingState(false);
             showNotification('error', getErrorMessage(error));
         }
+
+        setLoadingState(false);
     }
 
     onSignInAttempt() {

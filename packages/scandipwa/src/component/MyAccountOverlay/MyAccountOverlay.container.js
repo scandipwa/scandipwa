@@ -16,6 +16,8 @@ import { connect } from 'react-redux';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header/Header.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
 import {
+    ACCOUNT_LOGIN_URL,
+    ACCOUNT_URL,
     MY_ACCOUNT_URL
 } from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
@@ -43,7 +45,8 @@ export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
     isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT,
-    redirectToDashboard: state.ConfigReducer.redirect_dashboard
+    redirectToDashboard: state.ConfigReducer.redirect_dashboard,
+    isLoading: state.MyAccountReducer.isLoading
 });
 
 /** @namespace Component/MyAccountOverlay/Container/mapDispatchToProps */
@@ -69,11 +72,13 @@ export class MyAccountOverlayContainer extends PureComponent {
         isCheckout: PropTypes.bool,
         hideActiveOverlay: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
-        redirectToDashboard: PropTypes.bool.isRequired
+        redirectToDashboard: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
         isCheckout: false,
+        isLoading: false,
         onSignIn: () => {},
         goToPreviousHeaderState: () => {}
     };
@@ -169,12 +174,24 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         if (newMyAccountState !== STATE_LOGGED_IN && pathname.includes(MY_ACCOUNT_URL)) {
-            history.push({ pathname: appendWithStoreCode('/') });
+            history.push({ pathname: appendWithStoreCode(ACCOUNT_LOGIN_URL) });
         }
 
-        if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN && redirectToDashboard) {
-            history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
+        if (newMyAccountState === STATE_LOGGED_IN) {
+            if (pathname.includes(ACCOUNT_URL)) {
+                history.push({ pathname: appendWithStoreCode('/') });
+            } else if (!pathname.includes(CHECKOUT_URL) && redirectToDashboard) {
+                history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
+            }
         }
+    }
+
+    containerProps() {
+        const { props, state } = this;
+
+        return {
+            isLoading: props.isLoading || state.isLoading
+        };
     }
 
     setSignInState(state) {
@@ -291,6 +308,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             <MyAccountOverlay
               { ...this.props }
               { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

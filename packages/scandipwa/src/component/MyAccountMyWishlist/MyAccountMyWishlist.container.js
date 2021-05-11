@@ -17,6 +17,7 @@ import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishl
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
 
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
@@ -90,6 +91,10 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     addAllToCart = () => {
         const { moveWishlistToCart } = this.props;
 
+        if (!isSignedIn()) {
+            return null;
+        }
+
         this.setState({ isLoading: true });
 
         return moveWishlistToCart().then(
@@ -103,6 +108,10 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     removeAll = () => {
         const { clearWishlist } = this.props;
 
+        if (!isSignedIn()) {
+            return null;
+        }
+
         this.setState({ isLoading: true });
 
         return clearWishlist().then(
@@ -114,6 +123,10 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     removeSelectedFromWishlist = (selectedIdMap) => {
         const { removeSelectedFromWishlist } = this.props;
         const { loadingItemsMap: prevLoadingItemsMap } = this.state;
+
+        if (!isSignedIn()) {
+            return null;
+        }
 
         const loadingItemsMap = { ...prevLoadingItemsMap };
 
