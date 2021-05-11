@@ -46,7 +46,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ formatPrice(subPrice, currency) }` }
+                { __('Excl. tax: %s', formatPrice(subPrice, currency)) }
             </span>
         );
     }

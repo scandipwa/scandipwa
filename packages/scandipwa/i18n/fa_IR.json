@@ -64,7 +64,7 @@
     "subtotal": "جمع جز",
     "Have a discount code?": "کد تخفیف دارید؟",
     "Subtotal:": "جمع جزء",
-    "Excl. tax:": "بدون مالیات:",
+    "Excl. tax: %s": "بدون مالیات:",
     "Tax:": "مالیات:",
     "Order total details": "جزئیات کل سفارش",
     "Order total:": "جمع سفارش:",

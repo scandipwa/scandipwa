@@ -35,23 +35,21 @@
     display: flex;
     align-items: stretch;
 
-    &_layout_grid {
-        &:hover {
-            @include desktop {
-                box-shadow: 0 0.3rem 0.6rem -.4rem rgba(0, 0, 0, .1),
+    &:hover {
+        @include desktop {
+            box-shadow: 0 0.3rem 0.6rem -.4rem rgba(0, 0, 0, .1),
+            0 0.6rem 1.6rem rgba(0, 0, 0, .1),
+            0 0.9rem 2.8rem 0.8rem rgba(0, 0, 0, .1);
+            z-index: 4;
+
+            .ProductCard-VisibleOnHover {
+                background: var(--product-card-background);
+                width: inherit;
+                opacity: 1;
+                box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, .1),
                 0 0.6rem 1.6rem rgba(0, 0, 0, .1),
                 0 0.9rem 2.8rem 0.8rem rgba(0, 0, 0, .1);
-                z-index: 4;
-
-                .ProductCard-VisibleOnHover {
-                    background: var(--product-card-background);
-                    width: inherit;
-                    opacity: 1;
-                    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, .1),
-                    0 0.6rem 1.6rem rgba(0, 0, 0, .1),
-                    0 0.9rem 2.8rem 0.8rem rgba(0, 0, 0, .1);
-                    z-index: -1;
-                }
+                z-index: -1;
             }
         }
     }

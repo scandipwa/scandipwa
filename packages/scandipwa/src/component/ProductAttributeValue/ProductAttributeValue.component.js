@@ -33,7 +33,8 @@ export class ProductAttributeValue extends PureComponent {
         isAvailable: PropTypes.bool,
         mix: MixType,
         isFormattedAsText: PropTypes.bool,
-        isProductCountVisible: PropTypes.bool
+        isProductCountVisible: PropTypes.bool,
+        showProductAttributeAsLink: PropTypes.bool
     };
 
     static defaultProps = {
@@ -43,7 +44,8 @@ export class ProductAttributeValue extends PureComponent {
         mix: {},
         isAvailable: true,
         isFormattedAsText: false,
-        isProductCountVisible: false
+        isProductCountVisible: false,
+        showProductAttributeAsLink: true
     };
 
     clickHandler = this.clickHandler.bind(this);
@@ -321,7 +323,8 @@ export class ProductAttributeValue extends PureComponent {
             isAvailable,
             attribute: { attribute_code, attribute_value },
             mix,
-            isFormattedAsText
+            isFormattedAsText,
+            showProductAttributeAsLink
         } = this.props;
 
         if (attribute_code && !attribute_value) {
@@ -340,6 +343,23 @@ export class ProductAttributeValue extends PureComponent {
                 >
                     { this.renderAttributeByType() }
                 </div>
+            );
+        }
+
+        if (!showProductAttributeAsLink) {
+            return (
+                <span
+                  block="ProductAttributeValue"
+                  mods={ { isNotAvailable } }
+                  onClick={ this.clickHandler }
+                  onKeyDown={ this.clickHandler }
+                  role="link"
+                  tabIndex="-1"
+                  aria-hidden={ isNotAvailable }
+                  mix={ mix }
+                >
+                { this.renderAttributeByType() }
+                </span>
             );
         }
 

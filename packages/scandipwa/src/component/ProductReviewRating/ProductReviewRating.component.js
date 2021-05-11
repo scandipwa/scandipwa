@@ -83,17 +83,15 @@ export class ProductReviewRating extends PureComponent {
 
     getStarCounts() {
         const { summary } = this.props;
-        // eslint-disable-next-line no-magic-numbers
         const percentRounded = Math.round(summary / STARS_GRANULARITY_PERCENT) * STARS_GRANULARITY_PERCENT;
         const fullCount = Math.floor(percentRounded / ONE_STAR_SHARE);
         const halfFullCount = percentRounded % ONE_STAR_SHARE === STARS_GRANULARITY_PERCENT ? 1 : 0;
         const emptyCount = STARS_COUNT - fullCount - halfFullCount;
-        console.log(summary, fullCount, halfFullCount, emptyCount);
         return [fullCount, halfFullCount, emptyCount];
     }
 
     renderStar(count, type) {
-        return Array.from(Array(count), () => <span block="ProductReviewRating" elem={ type } />);
+        return Array.from(Array(count), (_, i) => <span key={ i } block="ProductReviewRating" elem={ type } />);
     }
 
     render() {
@@ -125,9 +123,7 @@ export class ProductReviewRating extends PureComponent {
                 { this.renderStar(halfFullCount, 'StarHalfFull') }
                 { this.renderStar(emptyCount, 'StarEmpty') }
                 <span block="ProductReviewRating" elem="Counter">
-                    (
                     { count }
-                    )
                 </span>
             </div>
         );
