@@ -57,8 +57,7 @@ export class CheckoutDeliveryOption extends PureComponent {
 
         return (
             <span block="CheckoutDeliveryOption" elem="SubPrice">
-                { __('Excl. tax: ') }
-                { formatPrice(optionSubPrice, currency) }
+                { __('Excl. tax: %s', formatPrice(optionSubPrice, currency)) }
             </span>
         );
     }

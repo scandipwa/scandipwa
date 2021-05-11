@@ -123,7 +123,7 @@ export class CartPage extends PureComponent {
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartSubtotalSubPrice) }` }
+                { __('Excl. tax: %s', this.renderPriceLine(cartSubtotalSubPrice)) }
             </span>
         );
     }
@@ -193,7 +193,7 @@ export class CartPage extends PureComponent {
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartShippingSubPrice) }` }
+                { __('Excl. tax: %s', this.renderPriceLine(cartShippingSubPrice)) }
             </span>
         );
     }
@@ -243,7 +243,7 @@ export class CartPage extends PureComponent {
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartTotalSubPrice) }` }
+                { __('Excl. tax: %s', this.renderPriceLine(cartTotalSubPrice)) }
             </span>
         );
     }

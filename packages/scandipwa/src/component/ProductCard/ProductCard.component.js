@@ -324,7 +324,7 @@ export class ProductCard extends PureComponent {
     renderMainDetails() {
         const { product: { name } } = this.props;
 
-        return this.renderCardLinkWrapper(
+        return (
             <p
               block="ProductCard"
               elem="Name"
@@ -389,7 +389,7 @@ export class ProductCard extends PureComponent {
         };
 
         if (type_id !== 'simple' && type_id !== 'configurable') {
-            return this.renderCardLinkWrapper(
+            return (
                 <button block="Button AddToCart" mods={ { layout } }>
                     { __('Add To Cart') }
                 </button>
@@ -437,6 +437,7 @@ export class ProductCard extends PureComponent {
               parameters={ parameters }
               variants={ variants }
               isExpandable={ false }
+              showProductAttributeAsLink={ false }
             />
         );
     }
@@ -497,15 +498,13 @@ export class ProductCard extends PureComponent {
             return renderContent(this.contentObject);
         }
 
-        return (
+        return this.renderCardLinkWrapper((
             <div block="ProductCard" elem="Link">
-                { this.renderCardLinkWrapper(
-                    <div block="ProductCard" elem="FigureReview">
-                        <figure block="ProductCard" elem="Figure">
-                            { this.renderPicture() }
-                        </figure>
-                    </div>
-                ) }
+                <div block="ProductCard" elem="FigureReview">
+                    <figure block="ProductCard" elem="Figure">
+                        { this.renderPicture() }
+                    </figure>
+                </div>
                 <div block="ProductCard" elem="Content" mods={ { layout } }>
                     <div block="ProductCard" elem="MainInfo">
                         { this.renderReviews() }
@@ -525,7 +524,7 @@ export class ProductCard extends PureComponent {
                     </div>
                 </div>
             </div>
-        );
+        ));
     }
 
     render() {

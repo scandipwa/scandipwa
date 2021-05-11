@@ -100,7 +100,7 @@ export class CartOverlay extends PureComponent {
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartTotalSubPrice) }` }
+                { __('Excl. tax: %s', this.renderPriceLine(cartTotalSubPrice)) }
             </span>
         );
     }
@@ -158,7 +158,7 @@ export class CartOverlay extends PureComponent {
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ this.renderPriceLine(cartShippingSubPrice) }` }
+                { __('Excl. tax: %s', this.renderPriceLine(cartShippingSubPrice)) }
             </span>
         );
     }

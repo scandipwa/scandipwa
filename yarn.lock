@@ -13048,6 +13048,7 @@ rsvp@^4.8.4:
 "rtl-support@file:packages/scandipwa/packages/rtl-support":
   version "0.0.0"
   dependencies:
+    postcss-dir-pseudo-class "^5.0.0"
     postcss-logical "^4.0.2"
 
 run-async@^2.2.0:

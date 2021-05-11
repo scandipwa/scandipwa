@@ -63,7 +63,7 @@
     "subtotal": null,
     "Have a discount code?": null,
     "Subtotal:": null,
-    "Excl. tax:": null,
+    "Excl. tax: %s": null,
     "Tax:": null,
     "Order total details": null,
     "Order total:": null,
