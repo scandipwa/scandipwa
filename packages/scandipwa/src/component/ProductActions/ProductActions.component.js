@@ -63,7 +63,6 @@ export class ProductActions extends PureComponent {
         setQuantity: PropTypes.func.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
@@ -164,8 +163,7 @@ export class ProductActions extends PureComponent {
             updateConfigurableVariant,
             parameters,
             areDetailsLoaded,
-            product: { configurable_options, type_id },
-            getIsConfigurableAttributeAvailable
+            product: { configurable_options, type_id, variants }
         } = this.props;
 
         if (type_id !== 'configurable') {
@@ -185,9 +183,9 @@ export class ProductActions extends PureComponent {
                   isReady={ areDetailsLoaded }
                   getLink={ getLink }
                   parameters={ parameters }
+                  variants={ variants }
                   updateConfigurableVariant={ updateConfigurableVariant }
                   configurable_options={ configurable_options }
-                  getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
                   isContentExpanded
                 />
             </div>

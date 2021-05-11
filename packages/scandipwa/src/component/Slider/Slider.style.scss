@@ -54,10 +54,10 @@
         position: absolute;
         margin: auto;
         display: grid;
-        grid-gap: 10px;
+        grid-gap: 1rem;
 
         width: 100%;
-        grid-template-columns: repeat(auto-fit, 7px);
+        grid-template-columns: repeat(auto-fit, 0.7rem);
         justify-content: center;
         bottom: 1.2rem;
 
@@ -67,11 +67,11 @@
     }
 
     &-Crumb {
-        width: 7px;
-        height: 7px;
+        width: 0.7rem;
+        height: 0.7rem;
         border-radius: 50%;
         background-color: var(--slider-crumb-background);
-        border: 1px solid var(--slider-crumb-color);
+        border: 0.1rem solid var(--slider-crumb-color);
         transition: background-color 300ms;
 
         &_isActive {

@@ -11,16 +11,16 @@
 
 :root {
     --product-compare-area-width: var(--content-wrapper-width);
-    --product-compare-sidebar-width: 200px;
+    --product-compare-sidebar-width: 20rem;
     --product-compare-item-count: 3.2;
     --product-compare-item-gap: 1rem;
-    --product-compare-column-width: calc(350px + var(--product-compare-item-gap) * 2);
+    --product-compare-column-width: calc(35rem + var(--product-compare-item-gap) * 2);
     --product-compare-border-color: var(--secondary-dark-color);
     --product-compare-attribute-table-background-color: var(--secondary-base-color);
 
     @include mobile {
         --product-compare-area-width: 100vw;
-        --product-compare-sidebar-width: 0px;
+        --product-compare-sidebar-width: 0.0rem;
         --product-compare-item-count: 1.5;
         --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 1.2rem * 2) / var(--product-compare-item-count));
     }
@@ -56,7 +56,7 @@
         flex: 0 0 auto;
         width: var(--product-compare-sidebar-width);
         position: sticky;
-        left: 0;
+        inset-inline-start: 0;
         background-color: $white;
         z-index: 10;
 
@@ -71,7 +71,7 @@
         padding: 0 var(--product-compare-item-gap);
 
         &:last-child {
-            padding-right: 0;
+            padding-inline-end: 0;
         }
 
         @include mobile {
@@ -88,7 +88,7 @@
             min-width: fit-content;
             width: 100%;
             background-color: var(--product-compare-attribute-table-background-color);
-            border-bottom: 1px solid transparent;
+            border-bottom: 0.1rem solid transparent;
         }
     }
 
@@ -104,8 +104,8 @@
         button {
             @include clear-button;
 
-            height: 35px;
-            padding-left: 35px;
+            height: 3.5rem;
+            padding-inline-start: 3.5rem;
             text-transform: uppercase;
         }
 
@@ -117,7 +117,7 @@
     .ProductPriceRow {
         min-width: fit-content;
         width: 100%;
-        border-bottom: 1px solid var(--secondary-base-color);
+        border-bottom: 0.1rem solid var(--secondary-base-color);
         padding-bottom: 1rem;
         margin-bottom: 1rem;
 
@@ -135,11 +135,11 @@
 
     .ProductPrice {
         flex: 0 0 auto;
-        padding: 2px var(--product-compare-item-gap);
+        padding: 0.2rem var(--product-compare-item-gap);
         width: var(--product-compare-column-width);
 
         &:last-child {
-            padding-right: 0;
+            padding-inline-end: 0;
         }
 
         @include mobile {

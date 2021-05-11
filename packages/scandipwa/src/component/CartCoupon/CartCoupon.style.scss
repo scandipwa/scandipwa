@@ -26,7 +26,7 @@
         display: inline-block;
 
         input {
-            width: 200px;
+            width: 20rem;
 
             @include before-desktop {
                 width: 100%;
@@ -49,11 +49,11 @@
     }
 
     &-Button {
-        margin-left: 2.4rem;
+        margin-inline-start: 2.4rem;
 
         @include before-desktop {
             width: 100%;
-            margin-left: 0;
+            margin-inline-start: 0;
             margin-top: 1.2rem;
         }
 
@@ -63,7 +63,7 @@
 
         @include tablet-portrait {
             width: 100%;
-            margin-left: 0;
+            margin-inline-start: 0;
             margin-top: 1rem;
         }
     }
@@ -72,6 +72,6 @@
         font-size: 1.4rem;
         font-weight: normal;
         text-transform: uppercase;
-        margin: 0 0 20px;
+        margin: 0 0 2rem;
     }
 }

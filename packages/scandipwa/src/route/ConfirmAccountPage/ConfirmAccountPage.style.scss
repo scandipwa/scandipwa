@@ -10,7 +10,7 @@
  */
 
 .ConfirmAccountPage {
-    --content-wrapper-width: 600px;
+    --content-wrapper-width: 60rem;
 
     &-Wrapper {
         @include before-desktop {
@@ -31,7 +31,7 @@
         }
 
         @include after-mobile {
-            margin-left: 1.2rem;
+            margin-inline-start: 1.2rem;
         }
     }
 

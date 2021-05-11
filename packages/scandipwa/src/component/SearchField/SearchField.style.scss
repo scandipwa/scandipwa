@@ -10,8 +10,8 @@
  */
 
 :root {
-    --search-bar-max-width: 450px;
-    --search-bar-width: 270px;
+    --search-bar-max-width: 45rem;
+    --search-bar-width: 27rem;
     --search-clear-background: var(--secondary-base-color);
     --search-field-background: var(--secondary-base-color);
     --search-field-border-color: var(--primary-divider-color);
@@ -22,13 +22,13 @@
 
 .SearchField {
     display: none;
-    margin: 8px auto;
+    margin: 0.8rem auto;
     max-width: 100%;
     width: 100%;
 
     @include desktop {
         display: block;
-        max-width: 600px;
+        max-width: 60rem;
     }
 
     &_isVisible {
@@ -48,10 +48,10 @@
 
         content: ' ';
         position: absolute;
-        height: 24px;
-        right: 15px;
-        top: calc(50% - 12px);
-        width: 24px;
+        height: 2.4rem;
+        inset-inline-end: 1.5rem;
+        top: calc(50% - 1.2rem);
+        width: 2.4rem;
     }
 
     &-Input {
@@ -60,11 +60,12 @@
 
     &-SearchIcon {
         @include search-icon;
+        @include rtl-icon;
 
         content: ' ';
         position: absolute;
-        right: 15px;
-        top: calc(50% - 12px);
+        inset-inline-end: 1.5rem;
+        top: calc(50% - 1.2rem);
     }
 }
 
@@ -91,7 +92,7 @@
 //
 //    &-Wrapper {
 //        @include desktop {
-//            margin-right: 1.2rem;
+//            margin-inline-end: 1.2rem;
 //        }
 //    }
 //

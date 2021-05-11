@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-$select-width: 160px !default;
-$select-height: 45px !default;
-$select-option-height: 36px !default;
-$select-arrow-height: 16px !default;
-$select-arrow-width: 16px !default;
+$select-width: 16rem !default;
+$select-height: 4.5rem !default;
+$select-option-height: 3.6rem !default;
+$select-arrow-height: 1.6rem !default;
+$select-arrow-width: 1.6rem !default;
 
 :root {
     --select-option-background: #fff;
@@ -34,7 +34,7 @@ $select-arrow-width: 16px !default;
         pointer-events: none;
 
         position: absolute;
-        right: 20px;
+        inset-inline-end: 2rem;
         bottom: 0;
         top: 0;
         margin: auto;
@@ -43,15 +43,13 @@ $select-arrow-width: 16px !default;
     &_isExpanded::after {
         @include desktop {
             bottom: $select-arrow-height * 3/2;
-            transform: translateY(-2px) rotate(-135deg);
+            transform: translateY(-.2rem) rotate(-135deg);
         }
     }
 
     &-Select {
-        font-weight: 600;
-        opacity: .5;
         min-width: 100%;
-        padding-right: 40px;
+        padding-inline-end: 4rem;
         width: 100%;
 
         @include desktop {
@@ -68,9 +66,9 @@ $select-arrow-width: 16px !default;
         position: absolute;
         width: 100%;
         top: 100%;
-        left: 0;
+        inset-inline-start: 0;
         z-index: 40;
-        border-width: 0 1px 1px;
+        border-width: 0 0.1rem 0.1rem;
         border-style: solid;
         border-color: transparent;
 
@@ -94,9 +92,12 @@ $select-arrow-width: 16px !default;
 
         &_isExpanded {
             @include desktop {
-                max-height: 200px;
+                z-index: 5;
+                max-height: 20rem;
+                border-color: #0a0a0a;
                 border-color: var(--input-border-color);
                 overflow-y: auto;
+                background-color: #{$white};
             }
         }
     }
@@ -109,12 +110,12 @@ $select-arrow-width: 16px !default;
         will-change: max-height;
         max-height: $select-option-height;
         line-height: 3.6rem;
-        padding-left: 1.8rem;
+        padding-inline-start: 1.8rem;
         background: var(--select-option-background);
 
         @include mobile {
             line-height: 4.2rem;
-            padding-left: 2.1rem;
+            padding-inline-start: 2.1rem;
         }
 
         &::before {

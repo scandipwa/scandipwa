@@ -3,7 +3,7 @@
     height: var(--carousel-item-height);
     width: 100%;
     scroll-snap-align: start;
-    border: solid 1px transparent;
+    border: solid 0.1rem transparent;
     transition: border-color var(--animation-speed), filter var(--animation-speed);
     filter: opacity(.5);
     flex: 1;

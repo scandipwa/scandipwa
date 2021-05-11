@@ -10,7 +10,7 @@
  */
 
 :root {
-    --default-notification-height: 44px;
+    --default-notification-height: 4.4rem;
     --notification-info-color: var(--imported_notificationInfo_color, var(--secondary-info-color));
     --notification-info-background: var(--imported_notificationInfo_background_color, var(--primary-info-color));
     --notification-info-height: var(--imported_notificationInfo_height, var(--default-notification-height));
@@ -29,11 +29,11 @@
 
     align-items: center;
     background: var(--notification-background);
-    border-radius: 2px;
+    border-radius: 0.2rem;
     color: var(--notification-color);
     display: inline-flex;
     height: var(--notification-height);
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
     max-width: 100vw;
     overflow: hidden;
     padding: 1.2rem;
@@ -45,18 +45,18 @@
     }
 
     @include mobile {
-        padding: 12px 1.4rem;
+        padding: 1.2rem 1.4rem;
     }
 
     @include after-mobile {
-        max-width: 550px;
-        margin-bottom: 20px;
+        max-width: 55rem;
+        margin-bottom: 2rem;
     }
 
     &-Text {
         margin-top: 0;
         font-weight: bold;
-        margin-right: 40px;
+        margin-inline-end: 4rem;
         margin-bottom: 0;
     }
 
@@ -64,8 +64,8 @@
         white-space: pre-wrap;
         background: white;
         color: black;
-        padding: 5px;
-        max-height: 150px;
+        padding: 0.5rem;
+        max-height: 15rem;
         overflow: scroll;
     }
 
@@ -75,17 +75,17 @@
         appearance: none;
         background: none;
         position: absolute;
-        right: 0;
+        inset-inline-end: 0;
         top: 0;
-        padding: 10px;
-        width: 30px;
-        height: 30px;
+        padding: 1rem;
+        width: 3rem;
+        height: 3rem;
         opacity: 1;
 
         @include mobile {
             margin: auto;
             bottom: 0;
-            right: 1.4rem;
+            inset-inline-end: 1.4rem;
         }
 
         &:focus {
@@ -97,12 +97,12 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            right: 0;
-            left: 0;
+            inset-inline-end: 0;
+            inset-inline-start: 0;
             margin: auto;
             content: ' ';
-            height: 10px;
-            width: 2px;
+            height: 1rem;
+            width: 0.2rem;
             background-color: var(--notification-color);
         }
 
@@ -117,11 +117,11 @@
 
     &_is {
         &_opening {
-            animation: fadeInLeft var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
+            animation: fadeInStart var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
         }
 
         &_closing {
-            animation: fadeOutLeft var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
+            animation: fadeOutStart var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
         }
     }
 
@@ -145,10 +145,10 @@
         }
     }
 
-    @keyframes fadeInLeft {
+    @keyframes fadeInStart {
         from {
             opacity: 0;
-            transform: translateY(-300px);
+            transform: translateY(-30rem);
         }
 
         to {
@@ -157,21 +157,21 @@
         }
     }
 
-    @keyframes fadeOutLeft {
+    @keyframes fadeOutStart {
         from {
             opacity: 1;
             transform: translateY(0);
-            max-height: 100px;
-            margin-bottom: 5px;
+            max-height: 10rem;
+            margin-bottom: 0.5rem;
 
             @include mobile {
-                margin-bottom: 20px;
+                margin-bottom: 2rem;
             }
         }
 
         to {
             opacity: 0;
-            transform: translateY(-300px);
+            transform: translateY(-30rem);
             max-height: 0;
             padding: 0;
             margin: 0;

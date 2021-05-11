@@ -40,11 +40,11 @@
 
 .ProductDownloadableLink {
     padding: 1.5rem 0 1rem;
-    border-bottom: 1px solid var(--expandable-content-divider-color);
+    border-bottom: 0.1rem solid var(--expandable-content-divider-color);
 
     .Field {
         display: inline-block;
-        margin-right: 1rem;
+        margin-inline-end: 1rem;
         margin-top: 0;
     }
 
@@ -53,16 +53,17 @@
     }
 
     &-SampleLink {
-        float: right;
+        float: end;
 
         @include mobile {
-            margin-right: 1.6rem;
+            margin-inline-end: 1.6rem;
         }
     }
 
     &-Required {
         color: var(--primary-error-color);
-        padding: 1rem 0 0 1.5rem;
+        padding-block-start: 1rem;
+        padding-inline-start: 1.5rem;
     }
 
     @include mobile {

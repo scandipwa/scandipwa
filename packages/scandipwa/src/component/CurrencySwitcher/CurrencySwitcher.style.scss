@@ -10,8 +10,8 @@
  */
 
 .CurrencySwitcher {
-    border-bottom: 1px solid var(--primary-divider-color);
-    margin: 0 16px;
+    border-bottom: 0.1rem solid var(--primary-divider-color);
+    margin: 0 1.6rem;
 
     .Field {
         margin-top: 0;
@@ -27,9 +27,9 @@
             }
 
             &::after {
-                height: 13px;
-                right: 0;
-                width: 13px;
+                height: 1.3rem;
+                inset-inline-end: 0;
+                width: 1.3rem;
             }
         }
     }
@@ -38,14 +38,14 @@
         border-bottom: none;
 
         .Field {
-            margin-inline-end: 44px;
+            margin-inline-end: 4.4rem;
         }
 
         .FieldSelect {
             &::after {
                 @include chevron-icon;
 
-                right: -20px;
+                inset-inline-end: -2rem;
             }
 
             &[aria-expanded='true'] {
@@ -67,7 +67,7 @@
 
             &-Option {
                 line-height: 2.8rem;
-                padding: 6px 12px;
+                padding: 0.6rem 1.2rem;
                 font-size: 1.2rem;
             }
         }

@@ -309,7 +309,7 @@ export class AddToCartContainer extends PureComponent {
         this.addSimpleProductToCart();
     }
 
-    buttonClick() {
+    buttonClick(e) {
         const {
             product: { type_id } = {},
             onProductValidationError,
@@ -324,6 +324,8 @@ export class AddToCartContainer extends PureComponent {
             onProductValidationError(type_id);
             return;
         }
+
+        e.preventDefault();
 
         this.setState({ isLoading: true }, () => this.addProductToCart());
     }

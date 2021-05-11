@@ -100,7 +100,7 @@
     vertical-align: baseline;
     font-family: inherit;
     outline: 0;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .004);
+    text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, .004);
     // backface-visibility: hidden;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -301,7 +301,7 @@ dl {
 li {
     list-style-type: none;
     list-style-position: inside;
-    margin-bottom: 6px;
+    margin-bottom: 0.6rem;
 
     ol & {
         counter-increment: list;
@@ -312,7 +312,7 @@ li {
     }
 
     &:last-child {
-        margin-bottom: 20px;
+        margin-bottom: 2rem;
     }
 }
 
@@ -364,7 +364,7 @@ textarea {
 }
 
 mark {
-    margin-inline-end: 5px;
+    margin-inline-end: 0.5rem;
 }
 
 iframe {

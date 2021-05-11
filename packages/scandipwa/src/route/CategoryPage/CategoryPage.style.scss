@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 :root {
-    --category-page-miscellaneous-min-height: 56px;
+    --category-page-miscellaneous-min-height: 5.6rem;
 }
 
 .CategoryPage {
@@ -20,9 +20,10 @@
         }
 
         @include desktop {
-            grid-template-columns: 280px auto;
             grid-column-gap: 4.8rem;
         }
+
+        grid-template-columns: 23.6rem auto;
 
         @include mobile {
             padding: 0;
@@ -41,7 +42,7 @@
 
     &-ProductListWrapper {
         @include before-desktop {
-            padding-top: 56px;
+            padding-top: 5.6rem;
         }
     }
 
@@ -50,7 +51,8 @@
 
         @include before-desktop {
             order: 1;
-            padding: .36rem 1.2rem 1.2rem 0;
+            padding-block: .36rem 1.2rem;
+            padding-inline: 0 1.2rem;
             text-align: center;
             grid-column: span 2;
         }
@@ -61,68 +63,48 @@
     }
 
     &-Filter {
-        text-transform: uppercase;
-        text-align: right;
+        text-align: end;
         grid-column: 2;
-        font-weight: 600;
         font-size: 1.6rem;
-        min-height: 50px;
+        min-height: 5rem;
+        display: inline-flex;
+        align-items: center;
 
         @include desktop {
             display: none;
         }
+    }
 
-        &::before,
-        &::after {
-            content: '';
-            position: absolute;
-            left: calc(90% - 68px);
-            top: calc(50% - 5px);
-        }
+    &-FilterIcon {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin-inline-end: 1.5rem;
+    }
 
-        &::before {
-            right: 70%;
-            width: 11px;
-            height: 8px;
-            background-color: var(--header-color);
-            clip-path:
-                polygon(
-                    5px 8px,
-                    11px 0,
-                    0 0,
-                    5px 8px,
-                    5px 6px,
-                    2px 1.5px,
-                    8.6px 1.5px,
-                    5px 6px
-                );
-        }
-
-        &::after {
-            height: 5px;
-            width: 1px;
-            background-color: var(--header-color);
-            transform: translate3d(5px, 6px, 0);
-        }
+    &-Subheading {
+        font-weight: 600;
+        font-size: 1.4rem;
+        white-space: pre;
     }
 
     &-Miscellaneous {
         z-index: 1;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        justify-content: space-between;
         align-items: center;
         min-height: var(--category-page-miscellaneous-min-height);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
+        padding: 1rem 0 6rem;
 
         @include mobile {
             position: fixed;
             top: var(--header-total-height);
-            left: 0;
+            inset-inline-start: 0;
             width: 100%;
             z-index: 90;
             background: #fff;
-            border-bottom: 1px solid var(--primary-divider-color);
+            border-bottom: 0.1rem solid var(--primary-divider-color);
             grid-template-columns: repeat(2, 1fr);
         }
 
@@ -143,8 +125,8 @@
 
         > * {
             @include mobile {
-                padding-left: 1.4rem;
-                padding-right: 1.4rem;
+                padding-inline-start: 1.4rem;
+                padding-inline-end: 1.4rem;
             }
         }
     }
@@ -152,12 +134,12 @@
     &-CMS {
         @include mobile {
             margin-top: calc(var(--header-total-height) + var(--category-page-miscellaneous-min-height));
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
         }
 
         @include after-mobile {
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
         }
     }
 
@@ -168,23 +150,23 @@
         p {
             margin-bottom: 0;
         }
+    }
+
+    &-LayoutButtons {
+        margin-bottom: 1rem;
 
         @include mobile {
             display: none;
         }
-    }
-
-    &-LayoutButtons {
-        margin-bottom: 10px;
-        margin-right: 30px;
 
         button {
             color: transparent;
-            margin-right: 10px;
+            margin-inline-end: 1rem;
 
             &.list {
                 &:after {
                     background-image: url('./../../style/icons/list.svg');
+                    @include rtl-icon;
                 }
 
                 &_isActive {
@@ -209,10 +191,10 @@
             &:after {
                 background-size: cover;
                 content: '';
-                height: 25px;
-                left: 0;
+                height: 2.5rem;
+                inset-inline-start: 0;
                 position: absolute;
-                width: 26px;
+                width: 2.6rem;
             }
         }
     }

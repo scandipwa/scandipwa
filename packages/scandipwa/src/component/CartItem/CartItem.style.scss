@@ -24,7 +24,7 @@
 .CartItem {
     --header-color: var(--cart-item-actions-color);
 
-    border-bottom: 1px solid var(--cart-item-divider-color);
+    border-bottom: 0.1rem solid var(--cart-item-divider-color);
 
     &-OutOfStock {
         font-weight: bold;
@@ -41,7 +41,7 @@
 
     &-Option,
     & {
-        padding-left: 0;
+        padding-inline-start: 0;
         margin-bottom: 0;
 
         &::before {
@@ -81,14 +81,14 @@
         background: var(--cart-item-background);
 
         @include mobile {
-            grid-template-columns: 100px auto;
+            grid-template-columns: 10rem auto;
             grid-gap: 1.4rem;
             padding: 1.4rem;
-            min-height: 130px;
+            min-height: 13rem;
         }
 
         @include after-mobile {
-            grid-template-columns: 100px auto;
+            grid-template-columns: 10rem auto;
         }
     }
 
@@ -111,10 +111,11 @@
     &-Option {
         font-size: 1rem;
         text-transform: uppercase;
-        border: 1px solid var(--cart-item-option-color);
+        border: 0.1rem solid var(--cart-item-option-color);
         color: var(--cart-item-option-color);
-        padding: 3px 5px 0;
-        margin: 5px 7px 0 0;
+        padding: 0.3rem 0.5rem 0;
+        margin-block: 0.5rem 0;
+        margin-inline: 0 0.7rem;
     }
 
     &-ItemOptionsWrapper {
@@ -132,21 +133,21 @@
     &-ItemOption {
         display: flex;
         margin-bottom: .6rem;
-        margin-right: .6rem;
+        margin-inline-end: .6rem;
 
         @include mobile {
             margin-bottom: .7rem;
-            margin-right: .7rem;
+            margin-inline-end: .7rem;
         }
     }
 
     &-ItemOptionLabel {
         align-self: center;
         font-weight: bold;
-        margin-right: .6rem;
+        margin-inline-end: .6rem;
 
         @include mobile {
-            margin-right: .7rem;
+            margin-inline-end: .7rem;
         }
     }
 
@@ -195,7 +196,7 @@
 
     &-Price {
         flex-grow: 1;
-        text-align: right;
+        text-align: end;
         margin-bottom: 0;
 
         @include after-mobile {
@@ -215,7 +216,7 @@
                 top: 0;
                 bottom: 0;
                 margin: auto;
-                right: 0;
+                inset-inline-end: 0;
                 height: max-content;
             }
 
@@ -227,7 +228,7 @@
         }
 
         @include mobile {
-            text-align: left;
+            text-align: start;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -253,7 +254,7 @@
         @include after-mobile {
             position: absolute;
             bottom: 1.2rem;
-            right: 0;
+            inset-inline-end: 0;
             width: calc(100% - 11.3rem);
             height: 3.6rem;
         }
@@ -262,14 +263,14 @@
             @include after-mobile {
                 width: 20%;
                 bottom: 0;
-                right: 20%;
-                top: -5px;
+                inset-inline-end: 20%;
+                top: -.5rem;
                 margin: auto;
                 justify-content: center;
             }
 
             > * {
-                margin: 0 5px;
+                margin: 0 0.5rem;
 
                 @include tablet-portrait {
                     margin: unset;
@@ -298,32 +299,32 @@
         }
 
         @include after-mobile {
-            top: 1px;
+            top: 0.1rem;
         }
 
         @include mobile {
             @include close-button;
 
             position: absolute;
-            right: 0;
-            height: 30px;
+            inset-inline-end: 0;
+            height: 3rem;
             max-width: 5%;
-            padding-left: 0;
+            padding-inline-start: 0;
             flex-grow: 1;
 
             &::before {
-                height: 15px;
+                height: 1.5rem;
                 top: 0;
             }
 
             &::after {
-                height: 15px;
+                height: 1.5rem;
                 top: 0;
             }
         }
 
-        height: 35px;
-        padding-left: 35px;
+        height: 3.5rem;
+        padding-inline-start: 3.5rem;
         font-size: 1.4rem;
         color: var(--cart-item-actions-color);
     }
@@ -344,8 +345,8 @@
 
         input {
             @include mobile {
-                width: 24px;
-                min-width: 24px;
+                width: 2.4rem;
+                min-width: 2.4rem;
             }
         }
     }
@@ -366,7 +367,7 @@
     }
 
     &-QuantityText {
-        margin-right: 10px;
+        margin-inline-end: 1rem;
 
         @include after-mobile {
             display: none;

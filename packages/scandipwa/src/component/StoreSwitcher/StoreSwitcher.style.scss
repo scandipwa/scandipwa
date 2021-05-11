@@ -14,8 +14,8 @@
 }
 
 .StoreSwitcher {
-    border-bottom: 1px solid var(--primary-divider-color);
-    margin: 0 16px;
+    border-bottom: 0.1rem solid var(--primary-divider-color);
+    margin: 0 1.6rem;
 
     @include desktop {
         border-bottom: none;
@@ -35,9 +35,9 @@
             }
 
             &::after {
-                height: 13px;
-                right: 0;
-                width: 13px;
+                height: 1.3rem;
+                inset-inline-end: 0;
+                width: 1.3rem;
             }
         }
     }
@@ -55,7 +55,7 @@
 
             content: ' ';
             position: absolute;
-            right: -20px;
+            inset-inline-end: -2rem;
             transform: rotate(90deg);
         }
 
@@ -68,11 +68,11 @@
 
     &-StoreList {
         background-color: var(--store-switcher-list-background);
-        border: 1px solid var(--input-border-color);
+        border: 0.1rem solid var(--input-border-color);
         display: none;
-        right: -20px;
+        inset-inline-end: -2rem;
         position: absolute;
-        top: 25px;
+        top: 2.5rem;
         z-index: 2;
 
         &_isOpen {

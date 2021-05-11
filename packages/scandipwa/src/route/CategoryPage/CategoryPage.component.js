@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -20,11 +21,13 @@ import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
+import Image from 'Component/Image/Image.container';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
+import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
@@ -64,7 +67,8 @@ export class CategoryPage extends PureComponent {
         device: DeviceType.isRequired,
         is_anchor: PropTypes.bool,
         defaultPlpType: PropTypes.string,
-        plpTypes: PropTypes.arrayOf(PropTypes.string)
+        plpTypes: PropTypes.arrayOf(PropTypes.string),
+        appliedFiltersCount: PropTypes.number
     };
 
     static defaultProps = {
@@ -76,7 +80,8 @@ export class CategoryPage extends PureComponent {
         is_anchor: true,
         search: '',
         defaultPlpType: '',
-        plpTypes: []
+        plpTypes: [],
+        appliedFiltersCount: 0
     };
 
     state = {
@@ -150,8 +155,24 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderFiltersCount() {
+        const { appliedFiltersCount } = this.props;
+
+        if (!appliedFiltersCount) {
+            return null;
+        }
+
+        return (
+            <span block="CategoryPage" elem="Subheading">
+                { ` (${appliedFiltersCount})` }
+            </span>
+        );
+    }
+
     renderFilterButton() {
-        const { isContentFiltered, totalPages, category: { is_anchor } } = this.props;
+        const {
+            isContentFiltered, totalPages, category: { is_anchor }
+        } = this.props;
 
         if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
             return null;
@@ -163,7 +184,9 @@ export class CategoryPage extends PureComponent {
               elem="Filter"
               onClick={ this.onFilterButtonClick }
             >
-                { __('Filter') }
+                <Image src={ filterIcon } alt="filter" mix={ { block: 'CategoryPage', elem: 'FilterIcon' } } />
+                <span>{ __('Filters') }</span>
+                { this.renderFiltersCount() }
             </button>
         );
     }
@@ -343,11 +366,11 @@ export class CategoryPage extends PureComponent {
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
+                { this.renderItemsCount() }
                 <div block="CategoryPage" elem="LayoutWrapper">
                     { this.renderLayoutButtons() }
-                    { this.renderItemsCount() }
+                    { this.renderCategorySort() }
                 </div>
-                { this.renderCategorySort() }
                 { this.renderFilterButton() }
             </aside>
         );

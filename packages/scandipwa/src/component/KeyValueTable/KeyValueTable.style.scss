@@ -10,11 +10,11 @@
  */
 
 .KeyValueTable {
-    margin: 0 0 1.2rem 0;
+    margin: 0 0 1.2rem;
     min-width: 100%;
 
     @include mobile {
-        margin: 0 0 1.4rem 0;
+        margin: 0 0 1.4rem;
     }
 
     &-Heading {
@@ -23,13 +23,13 @@
 
     &-Item {
         &-Name {
-            border-top: 1px solid rgba(10, 10, 10, .5);
+            border-top: 0.1rem solid rgba(10, 10, 10, .5);
         }
     }
 
     &-Totals {
         &-Separated {
-            border-top: 1px solid rgba(10, 10, 10, .5);
+            border-top: 0.1rem solid rgba(10, 10, 10, .5);
         }
     }
 

@@ -22,7 +22,7 @@
         grid-auto-rows: max-content;
         grid-column-gap: 2.4rem;
 
-        @media (min-width: 1370px) {
+        @media (min-width: 137rem) {
             grid-template-columns: repeat(4, 1fr);
         }
 
@@ -53,15 +53,15 @@
 
         @include after-mobile {
             position: absolute;
-            top: -55px;
-            right: 0;
+            top: -5.5rem;
+            inset-inline-end: 0;
         }
 
         @include mobile {
             background-color: var(--my-account-content-background);
             bottom: var(--navigation-tabs-height);
             display: block;
-            left: 0;
+            inset-inline-start: 0;
             padding: 1.4rem 1.4rem;
             position: fixed;
             width: 100%;
@@ -71,7 +71,7 @@
     &-ActionBarActionWrapper {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
     }
 
     &-NoProductsButton {
@@ -84,7 +84,7 @@
 
     &-Button {
         @include after-mobile {
-            margin-right: 1rem;
+            margin-inline-end: 1rem;
         }
 
         @include mobile {
@@ -108,7 +108,7 @@
 
         @include after-mobile {
             order: 1;
-            margin-left: 15px;
+            margin-inline-start: 1.5rem;
         }
 
         &,
@@ -126,7 +126,8 @@
         @include share-button;
 
         height: 0;
-        margin: 1.4rem 2rem 0 0;
+        margin-block: 1.4rem 0;
+        margin-inline: 0 2rem;
 
         &[disabled] {
             @include button-disabled();

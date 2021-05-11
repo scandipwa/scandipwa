@@ -13,21 +13,21 @@
     --cart-overlay-totals-background: var(--secondary-base-color);
     --cart-overlay-divider-background: #d8d8d8;
     --cart-overlay-promo-background: #fff;
-    --cart-overlay-width: 400px;
+    --cart-overlay-width: 40rem;
 }
 
 .CartOverlay {
     @include after-mobile {
         position: absolute;
-        top: calc(var(--header-nav-height) - 7px);
-        right: 22px;
+        top: calc(var(--header-nav-height) - 0.7rem);
+        inset-inline-end: 2.2rem;
         padding: 0;
         width: var(--cart-overlay-width);
     }
 
     &_isVisible {
         @include after-mobile {
-            border: 1px solid var(--overlay-desktop-border-color);
+            border: 0.1rem solid var(--overlay-desktop-border-color);
         }
     }
 
@@ -35,16 +35,14 @@
         @include after-mobile {
             content: '';
             position: absolute;
-            top: -9px;
-            right: 9px;
-            height: 15px;
-            width: 15px;
+            top: -.9rem;
+            inset-inline-end: 0.9rem;
+            height: 1.5rem;
+            width: 1.5rem;
             transform: rotate(45deg);
             background-color: var(--overlay-desktop-border-color);
-            border: {
-                top: 1px solid var(--overlay-desktop-border-color);
-                left: 1px solid var(--overlay-desktop-border-color);
-            }
+            border-block-start: 0.1rem solid var(--overlay-desktop-border-color);
+            border-inline-start:  0.1rem solid var(--overlay-desktop-border-color);
         }
     }
 
@@ -70,19 +68,19 @@
         display: flex;
         justify-content: center;
         background-color: var(--primary-error-color, red);
-        font-size: 14px;
+        font-size: 1.4rem;
         font-weight: bold;
     }
 
     &-CheckoutButton {
-        margin-left: 1.2rem;
+        margin-inline-start: 1.2rem;
 
         span {
             @include lock-button;
         }
 
         @include mobile {
-            margin-left: 1.4rem;
+            margin-inline-start: 1.4rem;
             width: 100%;
             display: block;
             text-align: center;
@@ -121,8 +119,8 @@
 
         @include mobile {
             padding: 1.4rem;
-            border-bottom: 1px solid var(--cart-overlay-divider-background);
-            border-top: 1px solid var(--expandable-content-color);
+            border-bottom: 0.1rem solid var(--cart-overlay-divider-background);
+            border-top: 0.1rem solid var(--expandable-content-color);
         }
 
         @include after-mobile {
@@ -131,7 +129,7 @@
         }
 
         strong {
-            margin: 0 5px;
+            margin: 0 0.5rem;
         }
     }
 
@@ -160,7 +158,7 @@
         }
 
         dd {
-            text-align: right;
+            text-align: end;
 
             span {
                 display: block;
@@ -174,7 +172,7 @@
         font-weight: bold;
 
         @include after-mobile {
-            border-bottom: 1px solid var(--cart-item-divider-color);
+            border-bottom: 0.1rem solid var(--cart-item-divider-color);
         }
     }
 

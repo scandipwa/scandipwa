@@ -337,7 +337,6 @@ export class ProductList extends PureComponent {
               mods={ { isLoading } }
               mix={ mix }
             >
-                { this.renderPagination() }
                 { this.renderTitle() }
                 { this.renderLoadButton() }
                 { this.renderPages() }

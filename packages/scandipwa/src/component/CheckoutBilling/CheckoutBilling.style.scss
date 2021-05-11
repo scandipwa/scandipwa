@@ -38,10 +38,10 @@
 
         &-Checkbox {
             margin: 0;
-            margin-left: 1.2rem;
+            margin-inline-start: 1.2rem;
 
             @include mobile {
-                margin-left: 1.4rem;
+                margin-inline-start: 1.4rem;
             }
         }
     }

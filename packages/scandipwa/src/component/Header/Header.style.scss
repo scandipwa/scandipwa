@@ -10,10 +10,11 @@
  */
 
 :root {
-    --header-logo-width: 194px;
-    --header-logo-height: 24px;
+    --header-logo-width: 19.4rem;
+    --header-logo-height: 2.4rem;
 
-    --header-nav-height: 50px;
+    --header-height: 5rem;
+    --header-nav-height: 5rem;
     --header-total-height:
         calc(
             var(--header-height)
@@ -23,8 +24,8 @@
         );
 
     @include after-mobile {
-        --header-nav-height: 60px;
-        --header-top-menu-height: 30px;
+        --header-nav-height: 6rem;
+        --header-top-menu-height: 3rem;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height) + var(--menu-total-height));
     }
 }
@@ -39,8 +40,8 @@
 
 @mixin button-visible {
     opacity: 1;
-    height: 25px;
-    width: 25px;
+    height: 2.5rem;
+    width: 2.5rem;
     pointer-events: all;
     overflow: visible;
 }
@@ -59,12 +60,12 @@
     height: fit-content;
     display: flex;
     flex-direction: column;
-    padding: calc(var(--demo-notice-height) + 15px) 16px 0;
+    padding: calc(var(--demo-notice-height) + 1.5rem) 1.6rem 0;
     width: 100%;
     z-index: 100;
 
     @include desktop {
-        padding: var(--demo-notice-height) 32px 0;
+        padding: var(--demo-notice-height) 3.2rem 0;
         position: fixed;
         top: 0;
     }
@@ -104,8 +105,8 @@
 
                             @include visible-on-mobile;
 
-                            bottom: 3px;
-                            margin-inline-end: 15px;
+                            bottom: 0.3rem;
+                            margin-inline-end: 1.5rem;
                         }
                     }
                 }
@@ -131,7 +132,7 @@
                 @include button-visible;
 
                 @include desktop {
-                    margin-inline-start: 35px;
+                    margin-inline-start: 3.5rem;
                 }
             }
 
@@ -159,7 +160,7 @@
         @include compare-icon;
 
         @include desktop {
-            margin-inline-start: 35px;
+            margin-inline-start: 3.5rem;
         }
     }
 
@@ -177,13 +178,13 @@
         &ItemCount {
             background: var(--primary-base-color);
             border-radius: 50%;
-            bottom: -5px;
+            bottom: -.5rem;
             color: var(--color-white);
-            height: 17px;
-            padding: 2px;
+            height: 1.7rem;
+            padding: 0.2rem;
             position: absolute;
-            right: -5px;
-            width: 17px;
+            inset-inline-end: -.5rem;
+            width: 1.7rem;
         }
     }
 
@@ -204,16 +205,16 @@
 
         &Button {
             font-size: 1.2rem;
-            margin-inline-start: 5px;
+            margin-inline-start: 0.5rem;
         }
 
         &Icon {
             @include exclamation-icon;
 
-            bottom: 1px;
-            height: 16px;
-            margin-inline-end: 10px;
-            width: 16px;
+            bottom: 0.1rem;
+            height: 1.6rem;
+            margin-inline-end: 1rem;
+            width: 1.6rem;
         }
     }
 

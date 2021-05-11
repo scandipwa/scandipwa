@@ -34,7 +34,8 @@ export class ProductPrice extends PureComponent {
         variantsCount: PropTypes.number,
         price: PriceType,
         mix: MixType,
-        label: PropTypes.string
+        label: PropTypes.string,
+        price_tiers: PropTypes.array
     };
 
     static defaultProps = {
@@ -47,7 +48,8 @@ export class ProductPrice extends PureComponent {
         variantsCount: 0,
         mix: {},
         price: {},
-        label: ''
+        label: '',
+        price_tiers: []
     };
 
     renderPlaceholder() {
@@ -134,12 +136,14 @@ export class ProductPrice extends PureComponent {
             roundedRegularPrice,
             discountPercentage,
             isSchemaRequired,
-            variantsCount
+            variantsCount,
+            price_tiers,
+            label
         } = this.props;
 
         const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
 
-        if (discountPercentage === 0) {
+        if (discountPercentage === 0 || price_tiers.length || label) {
             return null;
         }
 
@@ -192,8 +196,8 @@ export class ProductPrice extends PureComponent {
               mix={ mix }
               aria-label={ `Product price: ${formattedFinalPrice}` }
             >
-                { this.renderCurrentPrice() }
                 { this.renderOldPrice() }
+                { this.renderCurrentPrice() }
                 { this.renderSubPrice() }
                 { this.renderSchema() }
             </p>

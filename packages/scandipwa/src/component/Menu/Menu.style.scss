@@ -10,8 +10,8 @@
  */
 
 :root {
-    --menu-item-height: 20px;
-    --menu-total-height: 66px;
+    --menu-item-height: 2rem;
+    --menu-total-height: 6.6rem;
 }
 
 @mixin subcategory-visible {
@@ -26,13 +26,13 @@
         color: var(--color-black);
         font-size: 1.4rem;
         font-weight: 400;
-        padding-inline-start: 30px;
+        padding-inline-start: 3rem;
         text-transform: none;
 
         &Wrapper {
-            border-bottom: 1px solid var(--primary-divider-color);
-            padding: 17px 0 16px;
-            margin: 0 16px;
+            border-bottom: 0.1rem solid var(--primary-divider-color);
+            padding: 1.7rem 0 1.6rem;
+            margin: 0 1.6rem;
 
             &::before {
                 @include compare-icon;
@@ -49,14 +49,14 @@
         &_isExpanded {
             @include minus-icon;
 
-            width: 13px;
+            width: 1.3rem;
         }
 
         filter: brightness(.2) sepia(1) hue-rotate(180deg) saturate(5);
         position: absolute;
-        right: 16px;
+        inset-inline-end: 1.6rem;
         top: 0;
-        width: 13px;
+        width: 1.3rem;
 
         @include desktop {
             display: none;
@@ -65,7 +65,7 @@
 
     &-Item {
         min-height: var(--menu-item-height);
-        margin: 16px 0;
+        margin: 1.6rem 0;
         padding-inline-start: 0;
 
         @include desktop {
@@ -78,7 +78,7 @@
 
         &Caption {
             color: var(--color-black);
-            padding-inline-start: 16px;
+            padding-inline-start: 1.6rem;
 
             &:hover {
                 color: var(--link-hover);
@@ -86,12 +86,12 @@
 
             &_type {
                 &_main {
-                    margin: 0 0 16px;
+                    margin: 0 0 1.6rem;
                     text-transform: uppercase;
                 }
 
                 &_subcategory {
-                    margin-top: 16px;
+                    margin-top: 1.6rem;
                 }
             }
         }
@@ -109,7 +109,8 @@
 
     &-Link {
         font-weight: 400;
-        margin: 8px 16px 8px 0;
+        margin-block: 0.8rem;
+        margin-inline: 0 1.6rem;
     }
 
     &-MainCategories {
@@ -126,7 +127,7 @@
 
     &-MenuWrapper {
         @include desktop {
-            margin-top: 26px;
+            margin-top: 2.6rem;
         }
     }
 
@@ -149,7 +150,8 @@
             &_isVisible {
                 background: var(--color-gray);
                 display: block;
-                padding: 12px 0 12px 8px;
+                padding-block: 1.2rem;
+                padding-inline-start: 0.8rem;
             }
 
             @include desktop {

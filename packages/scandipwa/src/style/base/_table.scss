@@ -20,13 +20,13 @@ table {
     }
 
     thead tr {
-        border-bottom: 1px solid var(--secondary-dark-color);
+        border-bottom: 0.1rem solid var(--secondary-dark-color);
     }
 
     td,
     th {
-        padding: 10px;
-        text-align: left;
+        padding: 1rem;
+        text-align: start;
         min-width: 12rem;
 
         @include mobile {

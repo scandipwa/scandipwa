@@ -18,17 +18,17 @@
     display: flex;
     width: 100vw;
     position: fixed;
-    left: 0;
+    inset-inline-start: 0;
     bottom: 0;
     align-items: center;
     justify-content: space-between;
     padding: 1.2rem 0 calc(env(safe-area-inset-bottom) + 1.2rem);
     background-color: var(--cookiepopup-bg);
-    border-top: 1px solid var(--cookiepopup-border);
+    border-top: 0.1rem solid var(--cookiepopup-border);
     z-index: 300;
 
     @include mobile {
-        margin-bottom: 51px;
+        margin-bottom: 5.1rem;
         padding: 1.4rem 0 calc(env(safe-area-inset-bottom) + 1.4rem);
         z-index: 90;
         transform: translateY(0);
@@ -49,7 +49,7 @@
 
     &-Content {
         font-size: 1.5rem;
-        max-width: 500px;
+        max-width: 50rem;
 
         @include mobile {
             padding-bottom: 1.4rem;
@@ -58,7 +58,7 @@
 
     &-Link {
         display: inline;
-        margin-left: 5px;
+        margin-inline-start: 0.5rem;
     }
 
     &-CTA {
@@ -69,7 +69,7 @@
         }
 
         @include after-mobile {
-            margin-left: 2.4rem;
+            margin-inline-start: 2.4rem;
         }
     }
 }

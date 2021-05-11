@@ -239,7 +239,8 @@ export class ProductListQuery {
             fields.push(
                 'url',
                 this._getReviewCountField(),
-                this._getRatingSummaryField()
+                this._getRatingSummaryField(),
+                this._getCustomizableProductFragment()
             );
 
             // if variants are not needed

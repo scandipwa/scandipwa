@@ -9,152 +9,107 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// :root {
-//     --expandable-content-color: #000;
-//     --expandable-content-divider-color: var(--primary-divider-color);
-// }
+ :root {
+     --expandable-content-color: #000;
+     --expandable-content-divider-color: var(--primary-divider-color);
+     --toggle-button-size: 1.8rem;
+ }
 
-// @mixin expanded-content {
-//     padding: 1.2rem;
-//     opacity: 1;
-//     max-height: 100%;
+ @mixin expanded-content {
+     opacity: 1;
+     max-height: 100%;
+ }
 
-//     @include mobile {
-//         padding: 1.4rem;
-//     }
-// }
+ .ExpandableContent {
+     @include before-desktop {
+         border-top: 0.1rem solid var(--expandable-content-divider-color);
+     }
 
-// .xExpandableContent {
-//     @include before-desktop {
-//         border-top: 1px solid var(--expandable-content-divider-color);
-//     }
+     &:last-of-type {
+         @include before-desktop {
+             border-bottom: 0.1rem solid var(--expandable-content-divider-color);
+         }
+     }
 
-//     &:first-of-type {
-//         border-top: 0;
-//     }
+     @include before-desktop {
+         &-ToggleButton {
+             @include plus-icon;
+             width: var(--toggle-button-size);
+             height: var(--toggle-button-size);
 
-//     &:last-of-type {
-//         @include before-desktop {
-//             border-bottom: 1px solid var(--expandable-content-divider-color);
-//         }
-//     }
+             &_isContentExpanded {
+                 @include minus-icon;
+                 width: var(--toggle-button-size);
+                 height: var(--toggle-button-size);
+             }
+         }
+     }
 
-//     &-Button {
-//         text-align: left;
-//         width: 100%;
-//         will-change: border-color;
+     &-Button {
+         width: 100%;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
 
-//         @include before-desktop {
-//             min-height: var(--header-nav-height);
-//             display: flex;
-//             justify-content: center;
-//             flex-direction: column;
-//             padding: .6rem 1.2rem;
-//         }
+         @include before-desktop {
+             padding: 1.4rem 0;
+         }
+     }
 
-//         @include mobile {
-//             padding: .7rem 1.4rem;
-//         }
+     &-Heading,
+     &-SubHeading {
+         display: block;
+         color: var(--expandable-content-color);
+     }
 
-//         &::after,
-//         &::before {
-//             @include mobile {
-//                 right: 2.1rem;
-//             }
+     &-Heading {
+         font-size: 1.4rem;
+         font-weight: 600;
+         line-height: 1.4;
+         word-break: break-all;
 
-//             @include before-desktop {
-//                 content: '';
-//             }
+         @include mobile {
+             font-size: 1.4rem;
+         }
 
-//             position: absolute;
-//             height: 7px;
-//             width: 1px;
-//             background-color: var(--expandable-content-color);
-//             right: 1.8rem;
-//             top: 0;
-//             bottom: 0;
-//             margin: auto;
-//         }
+         @include desktop {
+             cursor: auto;
+             font-size: 1.4rem;
+             font-weight: bold;
+             text-transform: none;
+         }
+     }
 
-//         &::before {
-//             transform-origin: 50% 50%;
-//             transform: scale(1);
-//             transition: 200ms transform;
-//             will-change: transform;
-//         }
+     &-SubHeading {
+         font-weight: 300;
+         font-size: .96rem;
+         line-height: 1.1;
 
-//         &::after {
-//             transform-origin: 50% 50%;
-//             transform: rotate(90deg);
-//         }
+         @include mobile {
+             font-size: 1.12rem;
+         }
+     }
 
-//         &_isContentExpanded {
-//             &::before {
-//                 transform: scale(0);
-//             }
-//         }
-//     }
+     &-Content {
+         // Disabled as it prevents z-index use inside
+         // will-change: max-height, padding, opacity;
+         transition-property: opacity;
+         transition-duration: 200ms;
 
-//     &-Heading,
-//     &-SubHeading {
-//         display: block;
-//         color: var(--expandable-content-color);
-//     }
+         @include before-desktop {
+             max-height: 0;
+             overflow: hidden;
+             opacity: 0;
+         }
 
-//     &-Heading {
-//         font-size: 1.2rem;
-//         font-weight: 600;
-//         line-height: 1.4;
-//         text-transform: uppercase;
-//         word-break: break-all;
+         @include desktop {
+             margin-top: 1.2rem;
+         }
 
-//         @include mobile {
-//             font-size: 1.4rem;
-//         }
-
-//         @include desktop {
-//             cursor: auto;
-//             font-size: 1.4rem;
-//             font-weight: bold;
-//             text-transform: none;
-//         }
-//     }
-
-//     &-SubHeading {
-//         font-weight: 300;
-//         font-size: .96rem;
-//         line-height: 1.1;
-
-//         @include mobile {
-//             font-size: 1.12rem;
-//         }
-//     }
-
-//     &-Content {
-//         // Disabled as it prevents z-index use inside
-//         // will-change: max-height, padding, opacity;
-//         transition-property: opacity;
-//         transition-duration: 200ms;
-
-//         @include before-desktop {
-//             padding: 0 1.2rem;
-//             max-height: 0;
-//             overflow: hidden;
-//             opacity: 0;
-//         }
-
-//         @include mobile {
-//             padding: 0 1.4rem;
-//         }
-
-//         @include desktop {
-//             margin-top: 1.2rem;
-//         }
-
-//         &_isContentExpanded {
-//             @include before-desktop {
-//                 @include expanded-content;
-//             }
-//         }
-//     }
-// }
+         &_isContentExpanded {
+             @include before-desktop {
+                 @include expanded-content;
+             }
+         }
+     }
+ }

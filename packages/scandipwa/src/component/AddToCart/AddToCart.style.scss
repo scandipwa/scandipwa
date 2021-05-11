@@ -13,8 +13,22 @@
     min-width: 14.4rem;
     vertical-align: middle;
 
+    @include wide-desktop {
+        min-width: 12.4rem;
+        padding: 0;
+
+        &:hover {
+            min-width: 12.4rem;
+            padding: 0 !important;
+        }
+    }
+
     @include mobile {
         min-width: 16.8rem;
+    }
+
+    &_layout_list {
+        width: 22.2rem;
     }
 
     span {
@@ -28,7 +42,7 @@
 
         &:last-child {
             width: 100%;
-            left: 0;
+            inset-inline-start: 0;
             opacity: 0;
             position: absolute;
             transform: translateY(0);

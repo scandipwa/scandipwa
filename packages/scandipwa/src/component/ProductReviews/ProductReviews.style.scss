@@ -51,7 +51,7 @@
 
     & &-Button {
         position: absolute;
-        right: 0;
+        inset-inline-end: 0;
         top: 0;
         bottom: 0;
         height: max-content;
@@ -71,11 +71,11 @@
 
     &-SummaryDetails {
         display: inline-block;
-        margin-left: 1.2rem;
+        margin-inline-start: 1.2rem;
         font-size: 2rem;
 
         @include mobile {
-            margin-left: 1.4rem;
+            margin-inline-start: 1.4rem;
         }
 
         span {

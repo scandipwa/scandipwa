@@ -20,7 +20,7 @@
     margin-bottom: 0;
     display: flex;
     align-items: center;
-    border-top: 1px solid var(--checkout-delivery-option-border-color);
+    border-top: 0.1rem solid var(--checkout-delivery-option-border-color);
 
     &::before {
         content: none;
@@ -28,7 +28,7 @@
 
     &:last-child {
         margin-bottom: 0;
-        border-bottom: 1px solid var(--checkout-delivery-option-border-color);
+        border-bottom: 0.1rem solid var(--checkout-delivery-option-border-color);
     }
 
     &-Button {
@@ -36,7 +36,7 @@
 
         width: 100%;
         padding: 1.2rem 3.6rem 1.2rem;
-        text-align: left;
+        text-align: start;
 
         @include mobile {
             padding: 1.4rem 4.2rem 1.4rem;
@@ -51,12 +51,12 @@
             top: 0;
             bottom: 0;
             margin: auto;
-            left: 8px;
-            width: 12px;
-            height: 6px;
-            transform: rotate(135deg) translateX(-5px);
-            border-right: 2px solid var(--check-mark-color);
-            border-top: 2px solid var(--check-mark-color);
+            inset-inline-start: 0.8rem;
+            width: 1.2rem;
+            height: 0.6rem;
+            transform: rotate(135deg) translateX(-.5rem);
+            border-inline-end: 0.2rem solid var(--check-mark-color);
+            border-top: 0.2rem solid var(--check-mark-color);
         }
 
         &_isSelected {
@@ -83,9 +83,9 @@
     &-SubPrice {
         font-size: .7em;
         font-weight: 300;
-        text-align: right;
+        text-align: end;
         position: absolute;
-        left: 0;
+        inset-inline-start: 0;
         top: 1.5em;
         white-space: nowrap;
     }

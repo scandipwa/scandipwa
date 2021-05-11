@@ -2,22 +2,22 @@
     $transform: translate(-50%, -50%);
     $transform-hover: $transform scale(1.2);
 
-    height: 40px;
+    height: 4rem;
     z-index: 1;
     transition: opacity 200ms;
 
     &::before {
         content: '';
         position: absolute;
-        left: 50%;
+        inset-inline-start: 50%;
         top: 50%;
         transform: $transform rotate(135deg);
         transition: transform 200ms;
         display: block;
-        height: 15px;
-        width: 15px;
+        height: 1.5rem;
+        width: 1.5rem;
         border-style: solid;
-        border-width: 0 0 2px 2px;
+        border-width: 0 0 0.2rem 0.2rem;
     }
 
     &:hover {

@@ -10,7 +10,7 @@
  */
 
 :root {
-    --option-background-color: tranparent;
+    --option-background-color: #{$white};
     --option-check-mark-background: #{$black};
     --option-size: 3.2rem;
     --option-text-color: #{$black}; // Move to root
@@ -36,9 +36,14 @@
         border-width: .1rem;
         color: var(--option-text-color);
         display: inline-block;
+        margin-block: 0 1.2rem;
         margin-inline: 0 1.2rem;
         min-height: var(--option-size);
         width: var(--option-size);
+    }
+
+    &-String {
+        padding: 0 1rem;
     }
 
     &-Image {
@@ -55,10 +60,11 @@
         inset-inline-start: 0;
         margin: 0;
         position: absolute;
+    }
 
-        @include mobile {
-            margin-inline-start: .7rem;
-        }
+    &-Color {
+        box-shadow: inset 0 0 0 0.1rem #979797;
+        box-shadow: inset 0 0 0 0.1rem var(--option-border-color);
     }
 
     &-Color,
@@ -219,7 +225,16 @@
     }
 
     &_isNotAvailable {
-        opacity: .25;
+        opacity: .5;
+        cursor: default;
         pointer-events: none;
+
+        .ProductAttributeValue-Color {
+            &::before {
+                @include not-available;
+                background-color: var(--option-check-mark-background);
+            }
+        }
     }
 }
+

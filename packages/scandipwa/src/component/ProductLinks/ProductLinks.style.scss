@@ -1,7 +1,7 @@
 .ProductLinks {
     @include mobile {
         margin-top: 1.4rem;
-        border-bottom: 1px solid var(--primary-divider-color);
+        border-bottom: 0.1rem solid var(--primary-divider-color);
     }
 
     @include desktop {

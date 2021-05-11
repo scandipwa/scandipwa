@@ -12,10 +12,10 @@
 .LoginAccount {
     .ContentWrapper {
         min-height: calc(100vh - var(--header-total-height));
-        padding: 28px 20px 50px;
+        padding: 2.8rem 2rem 5rem;
 
         @include desktop() {
-            padding-top: 25px;
+            padding-top: 2.5rem;
         }
     }
 
@@ -26,7 +26,7 @@
             margin: 0 auto;
             padding-top: 0;
             grid-template-columns: 1fr 1fr;
-            grid-gap: 100px;
+            grid-gap: 10rem;
         }
 
         .MyAccountOverlay {
@@ -36,10 +36,10 @@
         }
 
         button {
-            margin-bottom: 7px;
+            margin-bottom: 0.7rem;
 
             @include desktop {
-                margin-top: 20px;
+                margin-top: 2rem;
             }
         }
 
@@ -50,27 +50,27 @@
             }
 
             @include desktop {
-                max-width: 350px;
+                max-width: 35rem;
                 width: 100%;
             }
         }
 
         > div {
             flex: 1;
-            margin-top: 80px;
+            margin-top: 8rem;
 
             @include desktop {
-                margin: 0 10px;
+                margin: 0 1rem;
             }
         }
 
         h4 {
-            padding-bottom: 7px;
+            padding-bottom: 0.7rem;
             text-align: center;
         }
 
         p {
-            margin-bottom: 20px;
+            margin-bottom: 2rem;
         }
     }
 }

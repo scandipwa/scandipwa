@@ -1,6 +1,5 @@
 {
     "Something went wrong!": null,
-    "Internal server error. Can not add to cart.": null,
     "Coupon was applied!": null,
     "Coupon was removed!": null,
     "Product added to wish-list!": null,
@@ -309,7 +308,7 @@
     "Up to %s": null,
     "From %s": null,
     "From %s, to %s": null,
-    "Reset": null,
+    "Reset all": null,
     "Old product price": null,
     "Error initializing Klarna payment method.": null,
     "Pay later": null,

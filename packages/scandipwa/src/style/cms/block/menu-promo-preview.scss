@@ -13,7 +13,7 @@
     &-Promotion {
         @include desktop {
             display: flex;
-            padding: 0 1.2rem 40px;
+            padding: 0 1.2rem 4rem;
         }
     }
 
@@ -27,7 +27,7 @@
 
         @include desktop {
             font-size: 1.3rem;
-            margin: 0 3.6rem 0 0;
+            margin-inline: 0 3.6rem;
         }
     }
 
@@ -49,12 +49,12 @@
         h3 {
             border: 0;
             clip: rect(0 0 0 0);
-            height: 1px;
-            margin: -1px;
+            height: 0.1rem;
+            margin: -.1rem;
             overflow: hidden;
             padding: 0;
             position: absolute;
-            width: 1px;
+            width: 0.1rem;
         }
 
         ul {
@@ -68,7 +68,7 @@
             }
 
             @include desktop {
-                grid-column-gap: 12px;
+                grid-column-gap: 1.2rem;
                 width: auto;
             }
         }
@@ -82,7 +82,7 @@
 
             @include desktop {
                 margin-bottom: 0;
-                width: 16px;
+                width: 1.6rem;
             }
         }
     }

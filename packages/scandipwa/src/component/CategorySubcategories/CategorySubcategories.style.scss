@@ -11,7 +11,7 @@
 
 .CategorySubcategories {
     &-Label {
-        --option-padding: 0 8px;
+        --option-padding: 0 0.8rem;
 
         line-height: var(--option-size);
         height: var(--option-size);
@@ -19,9 +19,9 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         width: 100%;
-        padding-right: 40px;
+        padding-inline-end: 4rem;
         display: block;
-        text-align: left;
+        text-align: start;
 
         @include desktop {
             line-height: calc(var(--option-size) - 1.2rem);
@@ -31,12 +31,12 @@
         &::after {
             content: '';
             position: absolute;
-            height: 7px;
-            width: 7px;
+            height: 0.7rem;
+            width: 0.7rem;
             transform: rotate(45deg);
-            border-right: 1px solid var(--option-border-color);
-            border-top: 1px solid var(--option-border-color);
-            right: 12px;
+            border-inline-end: 0.1rem solid var(--option-border-color);
+            border-top: 0.1rem solid var(--option-border-color);
+            inset-inline-end: 1.2rem;
             top: 0;
             bottom: 0;
             margin: auto;

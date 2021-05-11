@@ -11,7 +11,7 @@
 
 .CheckoutOrderSummary {
     $divider-border-color: #e0e0e0;
-    $divider-border: solid 1px $divider-border-color;
+    $divider-border: solid 0.1rem $divider-border-color;
 
     &-Header {
         display: flex;
@@ -24,7 +24,7 @@
         font-size: 1.2rem;
         opacity: .5;
         text-transform: none;
-        top: 2px;
+        top: 0.2rem;
         font-weight: 300;
     }
 
@@ -57,7 +57,7 @@
         }
 
         h3 {
-            text-align: left;
+            text-align: start;
         }
     }
 
@@ -73,7 +73,7 @@
     }
 
     &-CartItemDescription {
-        margin-top: 5px;
+        margin-top: 0.5rem;
 
         p {
             font-size: 1.32rem;
@@ -123,7 +123,7 @@
         p {
             margin: 0;
             padding: 0;
-            text-align: left;
+            text-align: start;
         }
     }
 
@@ -138,7 +138,7 @@
 
     &-Coupon {
         @include mobile {
-            padding: 10px 1.4rem;
+            padding: 1rem 1.4rem;
             border-bottom: $divider-border;
             margin: 0 -1.4rem;
             width: auto;
@@ -146,7 +146,7 @@
     }
 
     &-CmsBlock {
-        padding: 10px 0;
+        padding: 1rem 0;
         border-bottom: $divider-border;
     }
 
@@ -172,7 +172,7 @@
     }
 
     &-Text {
-        text-align: right;
+        text-align: end;
 
         span {
             display: block;

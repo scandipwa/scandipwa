@@ -36,7 +36,7 @@
     }
 
     &-Info {
-        margin-bottom: 5px;
+        margin-bottom: 0.5rem;
     }
 
     button + button {
@@ -47,7 +47,7 @@
         }
 
         @include after-mobile {
-            margin-left: 1.2rem;
+            margin-inline-start: 1.2rem;
         }
     }
 }

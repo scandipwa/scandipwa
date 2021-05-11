@@ -18,19 +18,19 @@
 }
 
 .CategoryPaginationLink {
-    border: 1px solid var(--color-dark-gray);
-    border-radius: 2px;
+    border: 0.1rem solid var(--color-dark-gray);
+    border-radius: 0.2rem;
     color: var(--color-pagination-link-text);
     font-size: var(--pagination-font-size);
     font-style: var(--pagination-font-style);
     display: block;
     line-height: var(--pagination-line-height);
-    margin-right: 30px;
-    padding: 7px 13px;
+    margin-inline-end: 1.5rem;
+    padding: 0.7rem 1.3rem;
     text-align: center;
 
     &_isArrow {
-        padding: 7px 11px;
+        padding: 0.7rem 1.1rem;
     }
 
     &:hover,

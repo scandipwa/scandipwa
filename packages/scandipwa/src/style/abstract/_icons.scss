@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --star-size: 1.8rem;
+}
+
 @mixin clear-button {
     &::before,
     &::after {
@@ -17,37 +21,31 @@
     }
 
     &::before {
-        top: 12px;
-        left: 12px;
-        width: 10px;
-        height: 14px;
-        transform: perspective(10px) rotateX(-10deg);
-        border: {
-            left: 1px solid var(--header-color);
-            right: 1px solid var(--header-color);
-            bottom: 1px solid var(--header-color);
-            bottom-left-radius: 3px;
-            bottom-right-radius: 3px;
-        }
+        top: 1.2rem;
+        inset-inline-start: 1.2rem;
+        width: 1rem;
+        height: 1.4rem;
+        transform: perspective(1rem) rotateX(-10deg);
+        border-inline: 0.1rem solid var(--header-color);
+        border-block-end: 0.1rem solid var(--header-color);
+        border-end-start-radius: 0.3rem;
+        border-end-end-radius: 0.3rem;
     }
 
     &::after {
-        left: 14px;
-        top: 7px;
-        width: 6px;
-        height: 2px;
+        inset-inline-start: 1.4rem;
+        top: 0.7rem;
+        width: 0.6rem;
+        height: 0.2rem;
         box-shadow:
-            6px 2px 0 -1px var(--header-color),
-            -6px 2px 0 -1px var(--header-color),
-            -2px 2px 0 -1px var(--header-color),
-            2px 2px 0 -1px var(--header-color);
-        border: {
-            left: 1px solid var(--header-color);
-            right: 1px solid var(--header-color);
-            top: 1px solid var(--header-color);
-            top-left-radius: 2px;
-            top-right-radius: 2px;
-        };
+            0.6rem 0.2rem 0 -.1rem var(--header-color),
+            -.6rem 0.2rem 0 -.1rem var(--header-color),
+            -.2rem 0.2rem 0 -.1rem var(--header-color),
+            0.2rem 0.2rem 0 -.1rem var(--header-color);
+        border-inline: 0.1rem solid var(--header-color);
+        border-block-start: 0.1rem solid var(--header-color);
+        border-start-start-radius: 0.2rem;
+        border-start-end-radius: 0.2rem;
     }
 }
 
@@ -57,8 +55,22 @@
     background-size: contain;
     background-position: center;
     cursor: pointer;
-    height: 16px;
-    width: 16px;
+    height: 1.6rem;
+    width: 1.6rem;
+}
+
+@mixin not-available {
+    content: '';
+    position: absolute;
+    width: .15rem;
+    height: 3.2rem;
+    transform-origin: 50% 50%;
+    inset-inline-start: 1.5rem;
+    top: 0.1rem;
+    transform: rotate(45deg);
+    box-shadow: none;
+    border-radius: 0;
+    opacity: 1;
 }
 
 @mixin back-button {
@@ -72,8 +84,8 @@
     background-image: var(--imported_icons_menu, url('./../icons/menu.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin account-button {
@@ -81,8 +93,8 @@
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin minicart-button {
@@ -98,17 +110,17 @@
     border-radius: 50%;
     background-color: var(--search-clear-background);
 
-    height: 15px;
-    width: 15px;
+    height: 1.5rem;
+    width: 1.5rem;
     position: absolute;
-    right: 2.4rem;
+    inset-inline-end: 2.4rem;
 
     &::before,
     &::after {
-        height: 9px;
-        width: 1px;
-        top: 3px;
-        left: 7px;
+        height: 0.9rem;
+        width: 0.1rem;
+        top: 0.3rem;
+        inset-inline-start: 0.7rem;
         background-color: var(--header-background);
     }
 }
@@ -116,8 +128,8 @@
 @mixin edit-button {
     // border-radius: 10px; <- Wait chrome until bug will be fixed
     box-shadow:
-        inset 0 0 0 8px var(--header-background),
-        inset 0 0 0 9px var(--header-color);
+        inset 0 0 0 0.8rem var(--header-background),
+        inset 0 0 0 0.9rem var(--header-color);
 
     &::before,
     &::after {
@@ -125,47 +137,44 @@
         position: absolute;
         transform-origin: 0 0;
         transform: rotate(45deg);
-        top: 4px;
-        right: 2px;
+        top: 0.4rem;
+        inset-inline-end: 0.2rem;
     }
 
     &::before {
         background-color: var(--header-background);
-        box-shadow: 0 0 0 2px var(--header-background);
-        width: 4px;
-        height: 16px;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        border: {
-            top: 1px solid var(--header-color);
-            left: 1px solid var(--header-color);
-            right: 1px solid var(--header-color);
-        }
+        box-shadow: 0 0 0 0.2rem var(--header-background);
+        width: 0.4rem;
+        height: 1.6rem;
+        border-start-start-radius: 0.5rem;
+        border-start-end-radius: 0.5rem;
+        border-inline: 0.1rem solid var(--header-color);
+        border-block-start: 0.1rem solid var(--header-color);
     }
 
     &::after {
         background-color: var(--header-color);
-        width: 6px;
-        top: 4px;
-        height: 23px;
+        width: 0.6rem;
+        top: 0.4rem;
+        height: 2.3rem;
         clip-path:
             polygon(
-                3px 23px,
-                6.5px 17px,
-                3px 17px,
-                3px 4.5px,
-                0 4.5px,
-                0 3.5px,
-                5px 3.5px,
-                5px 4.5px,
-                3px 4.5px,
-                3px 17px,
-                -.5px 17px,
-                3px 23px,
-                3px 21.5px,
-                1px 18px,
-                5px 18px,
-                3px 21.5px,
+                0.3rem 2.3rem,
+                .65rem 1.7rem,
+                0.3rem 1.7rem,
+                0.3rem .45rem,
+                0 .45rem,
+                0 .35rem,
+                0.5rem .35rem,
+                0.5rem .45rem,
+                0.3rem .45rem,
+                0.3rem 1.7rem,
+                -.05rem 1.7rem,
+                0.3rem 2.3rem,
+                0.3rem 2.15rem,
+                0.1rem 1.8rem,
+                0.5rem 1.8rem,
+                0.3rem 2.15rem,
             );
     }
 }
@@ -174,17 +183,17 @@
     background-image: url('./../icons/lock-white.svg');
     background-size: contain;
     background-repeat: no-repeat;
-    margin-inline-end: 10px;
-    height: 24px;
-    width: 24px;
+    margin-inline-end: 1rem;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin home-icon {
     background-image: var(--imported_icons_home, url('./../icons/home.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin search-icon {
@@ -192,41 +201,41 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin ios-share {
     $color-dodger-blue: #3b9cfe;
 
-    border: 2px solid $color-dodger-blue;
-    bottom: -3px;
-    height: 18px;
-    margin: 0 4px;
-    width: 18px;
+    border: 0.2rem solid $color-dodger-blue;
+    bottom: -.3rem;
+    height: 1.8rem;
+    margin: 0 0.4rem;
+    width: 1.8rem;
 
     &::before {
         content: '';
-        border-left: 2px solid $color-dodger-blue;
-        border-top: 2px solid $color-dodger-blue;
+        border-inline-start: 0.2rem solid $color-dodger-blue;
+        border-top: 0.2rem solid $color-dodger-blue;
         display: block;
-        height: 6px;
-        left: 3px;
+        height: 0.6rem;
+        inset-inline-start: 0.3rem;
         position: relative;
-        top: -9px;
+        top: -.9rem;
         transform: rotate(45deg);
-        width: 6px;
+        width: 0.6rem;
     }
 
     &::after {
-        border-left: 2px solid $color-dodger-blue;
+        border-inline-start: 0.2rem solid $color-dodger-blue;
         content: '';
         display: block;
-        height: 16px;
-        left: 6px;
+        height: 1.6rem;
+        inset-inline-start: 0.6rem;
         position: relative;
-        top: -16px;
-        width: 19px;
+        top: -1.6rem;
+        width: 1.9rem;
     }
 }
 
@@ -235,8 +244,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin plus-icon {
@@ -244,8 +253,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin ios-plus {
@@ -258,11 +267,11 @@
 
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 53% 1px, 1px 50%;
-    border-radius: 5px;
-    height: 20px;
-    margin: 0 4px;
-    width: 20px;
+    background-size: 53% 0.1rem, 0.1rem 50%;
+    border-radius: 0.5rem;
+    height: 2rem;
+    margin: 0 0.4rem;
+    width: 2rem;
 }
 
 @mixin share-button {
@@ -270,20 +279,16 @@
 
     background-image: linear-gradient(to right, var(--header-color) 15%, var(--header-background) 0);
     background-repeat: repeat-x;
-    background-size: 12px $share-button-stroke-width;
-    border-radius: 1px;
-    padding: calc(6px - #{$share-button-stroke-width}) calc(8px - #{$share-button-stroke-width});
-
-    border: {
-        bottom: $share-button-stroke-width solid var(--header-color);
-        left: $share-button-stroke-width solid var(--header-color);
-        right: $share-button-stroke-width solid var(--header-color);
-    }
+    background-size: 1.2rem $share-button-stroke-width;
+    border-radius: 0.1rem;
+    padding: calc(.6rem - #{$share-button-stroke-width}) calc(.8rem - #{$share-button-stroke-width});
+    border-block-end: $share-button-stroke-width solid var(--header-color);
+    border-inline: $share-button-stroke-width solid var(--header-color);
 
     @include desktop {
         background-image: linear-gradient(to right, var(--header-color) 20%, var(--my-account-content-background) 0);
-        background-size: 15px $share-button-stroke-width;
-        padding: calc(11px - #{$share-button-stroke-width});
+        background-size: 1.5rem $share-button-stroke-width;
+        padding: calc(1.1rem - #{$share-button-stroke-width});
     }
 
     &::before,
@@ -294,36 +299,34 @@
 
     &::before {
         background-color: var(--header-color);
-        height: 10px;
-        left: 6px;
-        top: -4px;
+        height: 1rem;
+        inset-inline-start: 0.6rem;
+        top: -.4rem;
         width: $share-button-stroke-width;
 
         @include desktop {
-            height: 13px;
-            left: 8px;
-            top: -6px;
-            width: 2px;
+            height: 1.3rem;
+            inset-inline-start: 0.8rem;
+            top: -.6rem;
+            width: 0.2rem;
         }
     }
 
     &::after {
-        height: 4px;
-        left: 4px;
-        top: -4px;
+        height: 0.4rem;
+        inset-inline-start: 0.4rem;
+        top: -.4rem;
         transform: rotate(45deg);
-        width: 4px;
+        width: 0.4rem;
 
-        border: {
-            left: $share-button-stroke-width solid var(--header-color);
-            top: $share-button-stroke-width solid var(--header-color);
-        }
+        border-block-start: $share-button-stroke-width solid var(--header-color);
+        border-inline-start: $share-button-stroke-width solid var(--header-color);
 
         @include desktop {
-            height: 6px;
-            left: 5px;
-            top: -7px;
-            width: 6px;
+            height: 0.6rem;
+            inset-inline-start: 0.5rem;
+            top: -.7rem;
+            width: 0.6rem;
         }
     }
 }
@@ -335,24 +338,24 @@
         display: block;
         position: absolute;
         top: 50%;
-        left: 50%;
+        inset-inline-start: 50%;
         box-sizing: border-box;
-        border: 1px solid $white;
+        border: 0.1rem solid $white;
     }
 
     &::before {
-        width: 18px;
-        height: 14px;
+        width: 1.8rem;
+        height: 1.4rem;
         transform: translate(-50%, -50%);
     }
 
     &::after {
-        width: 12px;
-        height: 12px;
-        transform: rotate(45deg) translate(calc(-50% - 4px), calc(-50% - 4px));
+        width: 1.2rem;
+        height: 1.2rem;
+        transform: rotate(45deg) translate(calc(-50% - 0.4rem), calc(-50% - 0.4rem));
         transform-origin: top left;
         border-top-color: transparent;
-        border-left-color: transparent;
+        border-inline-start-color: transparent;
     }
 }
 
@@ -361,8 +364,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin heart-icon {
@@ -379,14 +382,50 @@
     background-image: var(--imported_icons_exclamation, url('./../icons/exclamation.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 }
 
 @mixin chevron-icon {
     background-image: var(--imported_icons_chevron, url('./../icons/chevron.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 12px;
-    width: 12px;
+    height: 1.2rem;
+    width: 1.2rem;
+}
+
+@mixin star-icon-full {
+    background-image: var(--imported_icons_menu, url('./../icons/star-full.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: var(--star-size);
+    width: var(--star-size);
+    filter: var(--primary-base-filter);
+}
+
+@mixin star-icon-half {
+    background-image: var(--imported_icons_menu, url('./../icons/star-half.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: var(--star-size);
+    width: var(--star-size);
+    filter: var(--primary-base-filter);
+}
+
+@mixin star-icon-empty {
+    background-image: var(--imported_icons_menu, url('./../icons/star-empty.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: var(--star-size);
+    width: var(--star-size);
+    filter: var(--primary-base-filter);
+}
+
+@mixin rtl-icon {
+    [dir="rtl"] & {
+        transform: scaleX(-1);
+    }
 }

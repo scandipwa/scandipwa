@@ -12,9 +12,9 @@
 .NotificationList {
     position: fixed;
     z-index: 300;
-    top: calc(var(--header-height) + var(--breadcrumbs-height) + 20px);
-    right: 30px;
-    max-width: 550px;
+    top: calc(var(--header-height) + var(--breadcrumbs-height) + 2rem);
+    inset-inline-end: 3rem;
+    max-width: 55rem;
     list-style: none;
 
     @include after-mobile {
@@ -30,6 +30,6 @@
         position: sticky;
         width: 100%;
         top: var(--header-total-height);
-        right: 0;
+        inset-inline-end: 0;
     }
 }

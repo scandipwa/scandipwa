@@ -12,8 +12,8 @@
 :root {
     --checkbox-label-color: #0a0a0a;
     --my-account-input-label-color: rgba(10, 10, 10, .59);
-    --my-account-overlay-width: 400px;
-    --my-account-overlay-border-width: 1px;
+    --my-account-overlay-width: 40rem;
+    --my-account-overlay-border-width: 0.1rem;
 }
 
 .MyAccountOverlay {
@@ -21,7 +21,7 @@
 
     justify-self: flex-end;
     grid-column: 3;
-    right: 0;
+    inset-inline-end: 0;
     padding-top: 1.2rem;
 
     @include mobile {
@@ -30,8 +30,8 @@
 
     @include desktop {
         position: absolute;
-        top: calc(var(--header-nav-height) - 10px);
-        right: -40px;
+        top: calc(var(--header-nav-height) - 1rem);
+        inset-inline-end: -4rem;
         padding: 0;
         width: var(--my-account-overlay-width);
     }
@@ -53,16 +53,14 @@
         @include desktop {
             content: '';
             position: absolute;
-            top: -9px;
-            right: 49px;
-            height: 15px;
-            width: 15px;
+            top: -.9rem;
+            inset-inline-end: 4.9rem;
+            height: 1.5rem;
+            width: 1.5rem;
             transform: rotate(45deg);
             background-color: var(--overlay-background);
-            border: {
-                top: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
-                left: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
-            }
+            border-block-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
+            border-inline-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
         }
     }
 
@@ -123,7 +121,7 @@
         a,
         button {
             width: 100%;
-            text-align: left;
+            text-align: start;
             padding: 1.2rem 2.4rem;
             font-size: 1.44rem;
 
@@ -152,19 +150,11 @@
 
     &-Action form,
     &-Additional {
-        padding: {
-            top: 0;
-            left: 1.2rem;
-            right: 1.2rem;
-            bottom: 1.2rem;
-        };
+        padding: 0 1.2rem 1.2rem;
 
         @include mobile {
-            padding: {
-                left: 1.4rem;
-                right: 1.4rem;
-                bottom: 1.4rem;
-            }
+            padding-block-start: 1.4rem;
+            padding-inline: 1.4rem;
         }
     }
 
@@ -175,11 +165,11 @@
         &_state {
             &_createAccount {
                 h4 {
-                    padding-right: 1.2rem;
+                    padding-inline-end: 1.2rem;
                     display: inline;
 
                     @include mobile {
-                        padding-right: 1.4rem;
+                        padding-inline-end: 1.4rem;
                     }
                 }
 
@@ -231,7 +221,7 @@
                     }
                 }
                 @include desktop {
-                    width: 180px;
+                    width: 18rem;
                     padding: 0;
                 }
             }
@@ -268,7 +258,7 @@
         section {
             display: flex;
 
-            padding-top: 20px;
+            padding-top: 2rem;
 
             &:first-of-type {
                 padding-top: 0;
@@ -289,17 +279,17 @@
 
                 h4 {
                     margin: 0;
-                    padding-right: 0;
+                    padding-inline-end: 0;
                 }
 
                 button {
                     width: initial;
                     height: initial;
                     margin: 0;
-                    padding-left: .48rem;
+                    padding-inline-start: .48rem;
 
                     @include mobile {
-                        padding-left: .56rem;
+                        padding-inline-start: .56rem;
                     }
                 }
             }
@@ -316,11 +306,11 @@
 
             &_forgotPassword {
                 padding-top: 3.36rem;
-                padding-left: 2.52rem;
+                padding-inline-start: 2.52rem;
 
                 @include mobile {
                     padding-top: 3.92rem;
-                    padding-left: 2.94rem;
+                    padding-inline-start: 2.94rem;
                 }
 
                 @include before-desktop {
@@ -333,7 +323,7 @@
                     button {
                         width: initial;
                         margin-top: 0;
-                        padding-left: 5px;
+                        padding-inline-start: 0.5rem;
                         font-weight: 600;
                     }
 
@@ -376,12 +366,12 @@
         &::after {
             background-color: var(--header-color);
             content: '';
-            height: 20px;
+            height: 2rem;
             position: absolute;
-            right: 27px;
-            top: -13px;
+            inset-inline-end: 2.7rem;
+            top: -1.3rem;
             transform-origin: 50% 50%;
-            width: 1px;
+            width: 0.1rem;
             z-index: 1;
         }
 
@@ -423,15 +413,15 @@
     &-Checkbox {
         display: flex;
         flex-direction: row-reverse;
-        right: 14px;
+        inset-inline-end: 1.4rem;
         justify-content: flex-end;
         align-items: center;
         margin-bottom: 2.4rem;
         margin-top: 1.08rem;
 
         + .input-control {
-            margin-left: .4rem;
-            margin-right: 1rem;
+            margin-inline-start: .4rem;
+            margin-inline-end: 1rem;
         }
 
         @include mobile {
@@ -447,7 +437,7 @@
             flex-direction: row-reverse;
             font-weight: 500;
             padding-bottom: 0;
-            margin-left: 1.5rem;
+            margin-inline-start: 1.5rem;
         }
 
         > label:last-of-type {
@@ -457,13 +447,13 @@
             }
 
             &::after {
-                left: .12rem;
+                inset-inline-start: .12rem;
                 top: .48rem;
                 width: .18rem;
                 height: .18rem;
 
                 @include mobile {
-                    left: .14rem;
+                    inset-inline-start: .14rem;
                     top: .56rem;
                     width: .21rem;
                     height: .21rem;
@@ -473,9 +463,9 @@
 
         input {
             position: relative;
-            width: 20px;
-            height: 20px;
-            left: 20px;
+            width: 2rem;
+            height: 2rem;
+            inset-inline-start: 2rem;
         }
     }
 }

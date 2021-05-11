@@ -20,7 +20,7 @@
     }
 
     @include mobile {
-        padding-bottom: 75px;
+        padding-bottom: 7.5rem;
     }
 
     &-Wrapper {
@@ -52,6 +52,6 @@
     &-ProductCompareButtonWrapper {
         position: absolute;
         top: 0;
-        right: 1.4rem;
+        inset-inline-end: 1.4rem;
     }
 }

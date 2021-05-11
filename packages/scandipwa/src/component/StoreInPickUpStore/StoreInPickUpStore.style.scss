@@ -1,7 +1,7 @@
 .StoreInPickUpStore {
     &-Store {
         align-items: center;
-        border-bottom: 1px solid $black;
+        border-bottom: 0.1rem solid $black;
         display: flex;
         justify-content: space-between;
 
@@ -10,7 +10,7 @@
         }
 
         &Data {
-            padding: 20px 0;
+            padding: 2rem 0;
 
             > * {
                 font-size: 1.4rem;

@@ -11,13 +11,13 @@
 
  :root {
     --whislist-swipe-to-delete-color: #fff;
-    --whislist-qty-button-size: 20px;
+    --whislist-qty-button-size: 2rem;
 }
 
 .WishlistItem {
     @include mobile {
         padding: 1.4rem var(--my-account-wrapper-padding-mobile);
-        border-top: 1px solid var(--wishlist-item-border-color);
+        border-top: 0.1rem solid var(--wishlist-item-border-color);
     }
 
     &:first-of-type {
@@ -49,10 +49,10 @@
         .ProductAttribute {
             font-size: 1rem;
             text-transform: uppercase;
-            border: 1px solid #adadad;
+            border: 0.1rem solid #adadad;
             color: #adadad;
-            padding: 3px 5px;
-            margin-right: 5px;
+            padding: 0.3rem 0.5rem;
+            margin-inline-end: 0.5rem;
             display: inline-block;
         }
 
@@ -67,11 +67,11 @@
             }
     
             del {
-                margin-left: 4px;
+                margin-inline-start: 0.4rem;
     
                 @include mobile {
                     order: -1;
-                    margin-left: 0;
+                    margin-inline-start: 0;
                 }
             }
         }
@@ -85,22 +85,22 @@
         @include mobile {
             display: flex;
             flex: 1;
-            min-height: 130px;
+            min-height: 13rem;
         }
     }
 
     &-Remove {
         position: absolute;
-        right: 5px;
-        top: 5px;
-        height: 30px;
-        width: 30px;
+        inset-inline-end: 0.5rem;
+        top: 0.5rem;
+        height: 3rem;
+        width: 3rem;
 
         @include close-button;
 
         &::before,
         &::after {
-            top: 5px;
+            top: 0.5rem;
         }
     }
 
@@ -109,13 +109,13 @@
         margin-top: 0;
 
         @include mobile {
-            padding: 7px 12px 4px;
+            padding: 0.7rem 1.2rem 0.4rem;
             font-size: 1.3rem;
-            margin-left: auto;
+            margin-inline-start: auto;
         }
 
         @include after-mobile {
-            margin-top: 10px;
+            margin-top: 1rem;
         }
 
         &_isEditingActive {
@@ -137,15 +137,15 @@
     }
 
     &-QuantityText {
-        margin-right: 10px;
+        margin-inline-end: 1rem;
     }
 
     &-Price {
         display: inline-block;
 
         @include after-mobile {
-            float: right;
-            text-align: right;
+            float: end;
+            text-align: end;
         }
     }
 
@@ -158,8 +158,8 @@
     }
 
     &-ImageWrapper {
-        margin-right: 15px;
-        width: 100px;
+        margin-inline-end: 1.5rem;
+        width: 10rem;
     }
 
     &-CommentField {
@@ -182,16 +182,16 @@
         justify-content: space-between;
 
         @include mobile {
-            padding-top: 10px;
+            padding-top: 1rem;
         }
 
         @include after-mobile {
-            margin-top: 10px;
+            margin-top: 1rem;
         }
     }
 
     &-AttributeWrapper {
-        margin: 5px 0 12px;
+        margin: 0.5rem 0 1.2rem;
     }
 
     &-SelectWrapper {
@@ -205,8 +205,8 @@
         justify-content: center;
 
         &_isEditingActive {
-            width: calc(50px - 1.4rem);
-            padding-right: 1.4rem;
+            width: calc(5rem - 1.4rem);
+            padding-inline-end: 1.4rem;
             display: flex;
         }
     }
@@ -243,7 +243,7 @@
         padding: .25rem;
 
         &-Value {
-            padding-left: .5rem;
+            padding-inline-start: .5rem;
             font-weight: bold;
         }
     }

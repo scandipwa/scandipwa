@@ -10,18 +10,18 @@
  */
 
 :root {
-    --category-details-background: var(--secondary-base-color);
+    --category-details-background:  #{$white};
 }
 
 .CategoryDetails {
     display: grid;
-    grid-template-columns: auto minmax(100px, 18rem);
+    grid-template-columns: auto minmax(10rem, 18rem);
     grid-gap: 1.2rem;
     background-color: var(--category-details-background);
     margin-bottom: 1.2rem;
 
     @include mobile {
-        grid-template-columns: auto minmax(100px, 21rem);
+        grid-template-columns: auto minmax(10rem, 21rem);
         grid-gap: 1.4rem;
         margin-bottom: 1.4rem;
         display: none;
@@ -29,13 +29,13 @@
 
     &-Picture {
         mix-blend-mode: multiply;
-        height: 100%;
+        height: 7.2rem;
         background: none;
     }
 
     &-Heading {
-        text-transform: uppercase;
         margin-bottom: .6rem;
+        margin-top: 0;
 
         @include mobile {
             margin-bottom: .7rem;
@@ -48,7 +48,6 @@
         justify-content: center;
         font-size: 1.4rem;
         font-weight: 300;
-        padding: 2.4rem;
 
         @include mobile {
             padding: 2.8rem;

@@ -22,10 +22,7 @@
         grid-column-gap: 1.4rem;
         grid-template-columns: 1fr 1fr;
         border: 0;
-        padding: {
-            left: 1rem;
-            right: 1rem;
-        }
+        padding-inline: 1rem;
     }
 
     @include after-mobile {
@@ -42,7 +39,7 @@
         pointer-events: none;
         top: -100vh;
         position: absolute;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
 
         &::before {

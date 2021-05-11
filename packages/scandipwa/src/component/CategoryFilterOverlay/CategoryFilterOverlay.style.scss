@@ -32,6 +32,8 @@
         transition: transform 200ms ease-in-out;
         transform: translateY(100%);
         will-change: transform;
+        display: grid;
+        grid-template-rows: min-content auto min-content;
     }
 
     &_isVisible {
@@ -47,7 +49,7 @@
         }
 
         @include desktop {
-            padding: 0 0 1.2rem 0;
+            padding: 0 0 1.2rem;
         }
     }
 
@@ -58,11 +60,15 @@
         @include before-desktop {
             display: none;
         }
+
+        &_isContentFiltered {
+            display: none;
+        }
     }
 
     &-Item {
         @include desktop {
-            margin-right: 1.2rem;
+            margin-inline-end: 1.2rem;
         }
 
         &_isSelected {
@@ -73,10 +79,10 @@
 
         &:not(.Swatch_type_color):not(.Swatch_type_cat) {
             @include desktop {
-                padding: 0 12px;
-                border: 1px solid var(--category-filter-overlay-desktop-color);
+                padding: 0 1.2rem;
+                border: 0.1rem solid var(--category-filter-overlay-desktop-color);
                 color: var(--category-filter-overlay-desktop-color);
-                margin-right: 6px;
+                margin-inline-end: 0.6rem;
             }
 
             &:hover {
@@ -91,8 +97,8 @@
                 @include desktop {
                     content: '\2022';
 
-                    margin-right: 1.2rem;
-                    margin-left: 2px;
+                    margin-inline-end: 1.2rem;
+                    margin-inline-start: 0.2rem;
                 }
             }
         }
@@ -107,18 +113,27 @@
     }
 
     &-Attributes {
-        --option-margin: .6rem;
+        --option-margin-block: .6rem;
+        --option-margin-inline: .6rem;
 
         @include mobile {
-            --option-margin: .7rem;
+            --option-margin-block: .7rem;
+            --option-margin-inline: .7rem;
+            margin: 1.6rem;
+            overflow-y: scroll;
         }
 
         @include desktop {
-            --option-margin: 0 12px 12px 0;
-        }
+            --option-margin-block: 0 1.2rem;
+            --option-margin-inline: 0 1.2rem;
 
-        .ExpandableContent {
-            margin: 15px 0;
+            .ExpandableContent:not(:last-child)  {
+                border-bottom: 0.1rem solid var(--expandable-content-divider-color);
+            }
+
+            .ExpandableContent  {
+                padding: 1.5rem 0;
+            }
         }
     }
 
@@ -133,14 +148,14 @@
     &-SeeResults,
     &-ResetButton {
         @include before-desktop {
-            position: sticky;
+            bottom: 0;
             padding: 1.2rem;
             width: 100%;
-            left: 0;
+            inset-inline-start: 0;
         }
 
         @include mobile {
-            padding: 1.4rem;
+            padding: 1.6rem;
         }
     }
 
@@ -161,14 +176,9 @@
     }
 
     &-ResetButton {
-        margin-bottom: 1.2rem;
 
-        @include mobile {
-            margin-bottom: 1.4rem;
-        }
-
-        @include before-desktop {
-            display: none;
+        @include desktop {
+            margin-bottom: 1.2rem;
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
@@ -179,7 +189,7 @@
     }
 
     li {
-        padding-left: 0;
+        padding-inline-start: 0;
 
         &::before {
             content: none;
@@ -193,16 +203,6 @@
             @include mobile {
                 margin-bottom: .84rem;
             }
-        }
-    }
-
-    .ProductAttributeValue-Image-Overlay {
-        @include before-desktop {
-            margin: .6rem;
-        }
-
-        @include mobile {
-            margin: .7rem;
         }
     }
 

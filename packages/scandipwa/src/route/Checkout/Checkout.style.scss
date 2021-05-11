@@ -10,7 +10,7 @@
  */
 
 :root {
-    --checkout-max-width: 1100px;
+    --checkout-max-width: 110rem;
 }
 
 .Checkout {
@@ -21,7 +21,7 @@
     }
 
     @include before-desktop {
-        padding-bottom: calc(var(--navigation-tabs-height) + 113px);
+        padding-bottom: calc(var(--navigation-tabs-height) + 11.3rem);
         padding-top: 2rem;
     }
 
@@ -36,12 +36,12 @@
 
     &-StickyButtonWrapper {
         @include before-desktop {
-            border-top: 1px solid var(--primary-divider-color);
+            border-top: 0.1rem solid var(--primary-divider-color);
             background-color: #fff;
             position: fixed;
             padding: 1.2rem 1.2rem calc(env(safe-area-inset-bottom) + 1.2rem);
             bottom: 0;
-            left: 0;
+            inset-inline-start: 0;
             width: 100%;
             z-index: 85;
         }
@@ -63,7 +63,7 @@
 
         @include after-mobile {
             display: grid;
-            grid-template-columns: repeat(2, minmax(calc(50% - 1.2rem), 470px));
+            grid-template-columns: repeat(2, minmax(calc(50% - 1.2rem), 47rem));
             grid-gap: 2.4rem;
         }
     }
@@ -91,7 +91,7 @@
 
     &-Coupon {
         @include desktop {
-            margin-top: 30px;
+            margin-top: 3rem;
         }
     }
 

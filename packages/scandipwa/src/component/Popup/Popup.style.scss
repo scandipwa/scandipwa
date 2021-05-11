@@ -20,7 +20,7 @@
     --popup-content-padding: 1.2rem;
 
     @include after-mobile {
-        --popup-min-width: 490px;
+        --popup-min-width: 49rem;
         --popup-content-padding: 2.4rem;
     }
 }
@@ -31,7 +31,7 @@
     z-index: 400;
     position: fixed;
     background-color: var(--popup-background);
-    left: 0;
+    inset-inline-start: 0;
     top: var(--header-total-height);
 
     display: flex;
@@ -69,7 +69,7 @@
 
     &-Content {
         background-color: var(--popup-content-background);
-        border-radius: 5px;
+        border-radius: 0.5rem;
         padding: var(--popup-content-padding);
         min-width: var(--popup-min-width);
         max-width: calc(var(--content-wrapper-width) * .8);
@@ -85,15 +85,15 @@
     & &-CloseBtn {
         @include close-button;
 
-        height: 40px;
-        width: 40px;
+        height: 4rem;
+        width: 4rem;
         position: absolute;
-        top: -4px;
-        right: -1rem;
+        top: -.4rem;
+        inset-inline-end: -1rem;
         z-index: 5;
 
         @include mobile {
-            top: 25px;
+            top: 2.5rem;
         }
     }
 

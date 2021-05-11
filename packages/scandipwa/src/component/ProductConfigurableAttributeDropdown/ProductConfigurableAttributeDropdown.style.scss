@@ -8,6 +8,7 @@
     }
 
     @include mobile {
-        margin: var(--option-margin);
+        margin-block: var(--option-margin-block);
+        margin-inline: var(--option-margin-inline);
     }
 }

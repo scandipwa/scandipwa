@@ -10,7 +10,7 @@
  */
 
 :root {
-    --breadcrumbs-height: 40px;
+    --breadcrumbs-height: 4rem;
     --breadcrumbs-background: var(--secondary-base-color);
     --breadcrumbs-active-color: #888;
     --breadcrumbs-color: #404040;
@@ -19,8 +19,8 @@
 .Breadcrumbs {
     background-color: var(--breadcrumbs-background);
 
-    $crumb-padding: 20px;
-    $arrow-size: 4px;
+    $crumb-padding: 2rem;
+    $arrow-size: 0.4rem;
 
     @include before-desktop {
         --breadcrumbs-background: #fff;
@@ -30,6 +30,6 @@
 
     &-List {
         list-style: none;
-        padding: 10px 0;
+        padding: 1rem 0;
     }
 }

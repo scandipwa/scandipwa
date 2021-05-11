@@ -21,8 +21,8 @@
     &-Button {
         @include after-mobile {
             position: absolute;
-            top: -55px;
-            right: 0;
+            top: -5.5rem;
+            inset-inline-end: 0;
         }
     }
 

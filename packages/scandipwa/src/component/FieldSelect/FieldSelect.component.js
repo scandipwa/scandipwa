@@ -198,11 +198,12 @@ export class FieldSelect extends PureComponent {
             <ClickOutside onClick={ handleSelectExpandedExpand }>
                 <div
                   block="FieldSelect"
+                  mix={ { isExpanded } }
                   onClick={ handleSelectExpand }
                   onKeyPress={ handleSelectListKeyPress }
                   role="button"
                   tabIndex="0"
-                  aria-label="Select drop-down"
+                  aria-label="Select dropdown"
                   aria-expanded={ isExpanded }
                 >
                     { this.renderNativeSelect() }

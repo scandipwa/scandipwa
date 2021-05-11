@@ -11,7 +11,7 @@
 
 .CategoryProductList {
     @include after-mobile {
-        top: -56px;
+        top: -5.6rem;
         grid-column: 2;
         padding-bottom: 2.4rem;
     }
@@ -20,12 +20,20 @@
         &_layout {
             &_grid {
                 display: grid;
-                grid-template-columns: repeat(4, 1fr);
                 grid-auto-rows: max-content;
                 grid-column-gap: 1.2rem;
 
-                @include tablet {
+                @include narrow-desktop {
                     grid-template-columns: repeat(3, 1fr);
+                }
+
+                @include wide-desktop {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+
+
+                @include tablet {
+                    grid-template-columns: repeat(2, 1fr);
                 }
 
                 @include mobile {
@@ -50,7 +58,7 @@
 
             &_list {
                 display: block;
-                max-width: 550px;
+                max-width: 60rem;
 
                 .ProductCard-Link {
                     flex-direction: row;
@@ -58,7 +66,7 @@
                     width: fit-content;
 
                     .Image {
-                        width: 200px;
+                        width: 20rem;
                     }
 
                     .ProductCompareButton {

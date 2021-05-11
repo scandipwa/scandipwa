@@ -12,14 +12,16 @@
 blockquote {
     line-height: 1.6;
     margin-bottom: 1.2rem;
-    padding: .6rem 1.5rem 0 1.44rem;
-    border-left: 1px solid var(--secondary-dark-color);
+    padding-block-start: .6rem;
+    padding-inline-start: 1.44rem;
+    border-inline-start: 0.1rem solid var(--secondary-dark-color);
     color: var(--secondary-dark-color);
     font-size: 1.2rem;
 
     @include mobile {
         margin-bottom: 1.4rem;
-        padding: .7rem 1.75rem 0 1.68rem;
+        padding-block-start: .7rem;
+        padding-inline: 1.68rem 1.75rem;
         font-size: 1.4rem;
     }
 }

@@ -21,17 +21,17 @@
     &-Button {
         @include after-mobile {
             position: absolute;
-            top: -55px;
-            right: 0;
+            top: -5.5rem;
+            inset-inline-end: 0;
         }
     }
 
     button + button {
-        margin-left: 1.2rem;
+        margin-inline-start: 1.2rem;
 
         @include mobile {
             margin-top: 1.4rem;
-            margin-left: 0;
+            margin-inline-start: 0;
         }
     }
 }

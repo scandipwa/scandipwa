@@ -17,8 +17,8 @@
     background-color: rgba(255, 255, 255, .6);
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     bottom: 0;
     z-index: 75;
     margin: auto;
@@ -32,7 +32,7 @@
     &-Scale {
         position: absolute;
         transform: translate(-50%, -50%) scale(var(--loader-scale));
-        left: 50%;
-        top: calc(50% - (3px * var(--loader-scale)));
+        inset-inline-start: 50%;
+        top: calc(50% - (.3rem * var(--loader-scale)));
     }
 }

@@ -19,7 +19,7 @@
         grid-gap: 1.2rem;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        margin-top: 3px;
+        margin-top: 0.3rem;
     }
 
     &-Figure {
@@ -30,8 +30,8 @@
         }
 
         @include after-mobile {
-            margin-top: 5px;
-            height: 400px;
+            margin-top: 0.5rem;
+            height: 40rem;
         }
 
         .Image {
@@ -57,23 +57,23 @@
         --button-hover-background: var(--homepage-button-color);
         --button-hover-color: var(--homepage-button-background);
         --button-hover-border: transparent;
-        --button-padding: 13px 40px;
+        --button-padding: 1.3rem 4rem;
         --button-border-width: 0;
 
         @include mobile {
-            --button-padding: 5px 0;
+            --button-padding: 0.5rem 0;
         }
 
         @include after-mobile {
             position: absolute;
             top: 50%;
-            left: 50%;
+            inset-inline-start: 50%;
             transform: translate(-50%, 0);
             text-align: center;
         }
 
         &_isPlaceholder {
-            padding-bottom: 31px;
+            padding-bottom: 3.1rem;
         }
     }
 
@@ -81,7 +81,7 @@
         font-weight: 300;
 
         @include mobile {
-            text-align: left;
+            text-align: start;
             width: 100%;
         }
     }

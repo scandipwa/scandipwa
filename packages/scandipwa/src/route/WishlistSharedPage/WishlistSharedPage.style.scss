@@ -39,8 +39,8 @@
 
         @include after-mobile {
             position: absolute;
-            top: -3px;
-            right: 0;
+            top: -.3rem;
+            inset-inline-end: 0;
         }
 
         @include mobile {

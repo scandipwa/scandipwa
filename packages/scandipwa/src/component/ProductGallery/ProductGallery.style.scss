@@ -16,18 +16,19 @@
     }
 
     &-Additional {
-        $margin-right: 1.8rem;
+        $margin-inline-end: 1.8rem;
 
-        width: 150px;
-        margin-right: $margin-right;
+        width: 15rem;
+        margin-inline-end: $margin-inline-end;
 
         @include mobile {
-            margin-right: 2.1rem;
+            margin-inline-end: 2.1rem;
         }
 
         @include desktop {
             height: 48rem;
-            margin: auto $margin-right auto 0;
+            margin-block: auto;
+            margin-inline: 0 $margin-inline-end;
         }
 
         @include before-desktop {
@@ -46,21 +47,21 @@
     }
 
     &-Slider {
-        min-height: 480px;
+        min-height: 48rem;
         height: var(--slider-height);
 
         @include mobile {
-            min-height: 420px;
+            min-height: 42rem;
         }
 
         &::after {
             @include desktop {
                 content: '';
-                box-shadow: inset 0 0 0 3px #fff;
+                box-shadow: inset 0 0 0 0.3rem #fff;
                 width: 100%;
                 height: 100%;
                 top: 0;
-                left: 0;
+                inset-inline-start: 0;
                 position: absolute;
                 pointer-events: none;
             }

@@ -23,25 +23,18 @@
     font-size: 1.4rem;
     line-height: 2rem;
 
-    &-Expandable {
-        margin-block-start: 2.4rem;
+    &-SwatchList,
+    &-DropDownList {
+        text-align: center;
+        margin-top: 0.5rem;
     }
 
     &-ExpandableContentButton {
-        margin-block-end: 1.2rem;
         text-align: start;
     }
 
     &-ExpandableContentHeading {
-        font-weight: bold;
-    }
-
-    &-ExpandableContentSubHeading {
-        display: block;
-        font-size: .96rem;
-        font-weight: 300;
-        line-height: 1.1;
-        text-transform: capitalize;
+        font-weight: 700;
     }
 
     &-SwatchList {
@@ -49,6 +42,7 @@
         flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
+        padding-inline: 0.3rem;
     }
 
     &-DropDownList {
@@ -61,7 +55,8 @@
         background-size: var(--placeholder-size);
         height: var(--option-size);
         width: var(--option-size);
-        margin: var(--option-margin);
+        margin-block: var(--option-margin-block);
+        margin-inside: var(--option-margin-inline);
     }
 }
 
