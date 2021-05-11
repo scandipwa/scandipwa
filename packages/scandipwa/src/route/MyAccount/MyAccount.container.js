@@ -286,6 +286,7 @@ export class MyAccountContainer extends PureComponent {
 
         if (activeTab !== MY_WISHLIST) {
             this.changeDefaultHeaderState();
+
             return;
         }
 

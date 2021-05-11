@@ -66,6 +66,7 @@ export class LoginAccountContainer extends MyAccountOverlayContainer {
     componentDidUpdate(prevProps, prevState) {
         if (isSignedIn()) {
             history.push(appendWithStoreCode('/'));
+
             return;
         }
 
