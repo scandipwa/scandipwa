@@ -18,7 +18,7 @@
 .CheckoutDeliveryOption {
     padding: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     border-block-start: 0.1rem solid var(--checkout-delivery-option-border-color);
 
     &:first-child {
@@ -40,6 +40,7 @@
         padding: 1.2rem 3.6rem 1.2rem;
         text-align: start;
         padding-inline-end: 0;
+        display: flex;
 
         @include mobile {
             padding: 1.4rem 4.2rem 1.4rem;
@@ -60,16 +61,6 @@
             transform: rotate(135deg) translateX(-.5rem);
             border-inline-end: 0.2rem solid var(--check-mark-color);
             border-top: 0.2rem solid var(--check-mark-color);
-        }
-
-        &_isSelected {
-            --check-mark-opacity: 1;
-            --check-mark-color: var(--checkout-delivery-option-check-mark-color);
-        }
-
-        &:not(&_isSelected):hover {
-            --check-mark-opacity: 1;
-            --check-mark-color: var(--checkout-delivery-option-check-mark-hover-color);
         }
 
         &_isDisabled {
@@ -96,5 +87,9 @@
 
     &-Message {
         color: var(--primary-error-color);
+    }
+
+    .Field_type_checkbox {
+        margin-block-start: 1.2rem;
     }
 }

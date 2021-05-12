@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Field from 'Component/Field/Field.container';
 import { shippingMethodType } from 'Type/Checkout';
 import { formatPrice } from 'Util/Price';
 
@@ -145,24 +146,31 @@ export class CheckoutDeliveryOption extends PureComponent {
 
     render() {
         const {
-            isSelected,
-            onOptionClick,
             option: {
+                carrier_title,
                 available
-            } = {}
+            } = {},
+            onOptionClick,
+            isSelected
         } = this.props;
 
         return (
             <li block="CheckoutDeliveryOption">
-                <button
+                    <Field
+                      type="checkbox"
+                      id={ `option-${ carrier_title }` }
+                      name={ `option-${ carrier_title }` }
+                      checked={ isSelected }
+                      isDisabled={ !available }
+                      onClick={ onOptionClick }
+                    />
+                <div
                   block="CheckoutDeliveryOption"
-                  mods={ { isSelected, isDisabled: !available } }
+                  mods={ { isDisabled: !available } }
                   elem="Button"
-                  onClick={ onOptionClick }
-                  type="button"
                 >
                     { this.renderRow() }
-                </button>
+                </div>
             </li>
         );
     }
