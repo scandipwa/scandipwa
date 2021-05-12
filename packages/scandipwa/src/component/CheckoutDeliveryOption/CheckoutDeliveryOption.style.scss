@@ -17,10 +17,13 @@
 
 .CheckoutDeliveryOption {
     padding: 0;
-    margin-bottom: 0;
     display: flex;
     align-items: center;
-    border-top: 0.1rem solid var(--checkout-delivery-option-border-color);
+    border-block-start: 0.1rem solid var(--checkout-delivery-option-border-color);
+
+    &:first-child {
+        border-block-start: 0;
+    }
 
     &::before {
         content: none;
@@ -28,7 +31,6 @@
 
     &:last-child {
         margin-bottom: 0;
-        border-bottom: 0.1rem solid var(--checkout-delivery-option-border-color);
     }
 
     &-Button {
@@ -37,6 +39,7 @@
         width: 100%;
         padding: 1.2rem 3.6rem 1.2rem;
         text-align: start;
+        padding-inline-end: 0;
 
         @include mobile {
             padding: 1.4rem 4.2rem 1.4rem;
@@ -77,6 +80,7 @@
     &-Row {
         strong {
             display: inline-block;
+            white-space: pre;
         }
     }
 

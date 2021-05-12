@@ -281,7 +281,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    // TODO remove this section from code if not required on billing step
+    // TODO REDESIGN: remove this section from code if not required on billing step
     renderTotals() {
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">

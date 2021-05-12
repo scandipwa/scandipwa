@@ -45,6 +45,7 @@ export class CheckoutDeliveryOption extends PureComponent {
         return formatPrice(optionPrice, currency);
     }
 
+    // TODO REDESIGN: remove from code if not required on billing step
     renderOptionSubPrice() {
         const {
             currency,
@@ -76,7 +77,6 @@ export class CheckoutDeliveryOption extends PureComponent {
         return (
             <strong>
                 { ` - ${ this.getOptionPrice() }` }
-                { this.renderOptionSubPrice() }
             </strong>
         );
     }

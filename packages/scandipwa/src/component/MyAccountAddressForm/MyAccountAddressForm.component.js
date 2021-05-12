@@ -83,7 +83,7 @@ export class MyAccountAddressForm extends FieldForm {
         if (!availableRegions || !availableRegions.length) {
             return {
                 region_string: {
-                    label: __('State/Province'),
+                    label: __('State / Province'),
                     value: region,
                     validation: isStateRequired ? ['notEmpty'] : []
                 }
@@ -92,7 +92,7 @@ export class MyAccountAddressForm extends FieldForm {
 
         return {
             region_id: {
-                label: __('State/Province'),
+                label: __('State / Province'),
                 type: 'select',
                 selectOptions: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
                 onChange: (regionId) => this.setState({ regionId }),
@@ -233,7 +233,7 @@ export class MyAccountAddressForm extends FieldForm {
             },
             ...this.getRegionFields(),
             postcode: {
-                label: __('Zip/Postal code'),
+                label: __('Zip / Postal code'),
                 validation: ['notEmpty'],
                 onBlur: this.onZipcodeChange,
                 placeholder: __('Your zip / postal code')

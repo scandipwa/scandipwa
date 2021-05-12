@@ -43,7 +43,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
     renderHeading() {
         return (
             <h2 block="Checkout" elem="Heading">
-                { __('Select shipping method') }
+                { __('Shipping method') }
             </h2>
         );
     }
