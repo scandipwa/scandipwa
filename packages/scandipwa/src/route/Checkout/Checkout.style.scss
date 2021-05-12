@@ -59,12 +59,12 @@
     }
 
     &-Wrapper {
-        max-width: var(--checkout-max-width);
+        margin: 3.2rem;
 
         @include after-mobile {
             display: grid;
-            grid-template-columns: repeat(2, minmax(calc(50% - 1.2rem), 47rem));
-            grid-gap: 2.4rem;
+            grid-template-columns: 5fr 3fr;
+            grid-gap: 7%;
         }
     }
 
@@ -79,14 +79,49 @@
         }
     }
 
-    &-Title {
-        text-transform: capitalize;
-        margin: 2.4rem 0;
+    &-Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-block: 1rem;
+    }
 
-        @include mobile {
-            margin: 2.8rem 0;
-            display: none;
+    &-StepBarTotal {
+        background-color: var(--secondary-base-color);
+        width: 100%;
+        height: 0.4rem;
+        border-radius: 0.2rem;
+    }
+
+    &-StepBarActive {
+        position: relative;
+        top: -0.4rem;
+        background-color: var(--primary-base-color);
+        width: 50%;
+        height: 0.4rem;
+        border-radius: 0.2rem;
+        z-index: 2;
+
+        &_isSecond {
+            inset-inline-start: 50%;
         }
+    }
+
+    &-Title {
+        font-size: 3.6rem;
+        font-weight: bold;
+    }
+
+    &-SelectedStep {
+        font-size: 3.6rem;
+    }
+
+    &-StepsBorder {
+        font-size: 2.6rem;
+    }
+
+    &-TotalSteps {
+        font-size: 2rem;
     }
 
     &-Coupon {

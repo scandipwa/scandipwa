@@ -132,6 +132,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             city,
             postcode,
             vat_id,
+            telephone,
             ...fieldMap
         } = super.fieldMap;
 
@@ -153,6 +154,9 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         if (vat_id) {
             fieldMap.vat_id = vat_id;
         }
+
+        // Make phone the last field
+        fieldMap.telephone = telephone;
 
         // Preserve values from global state
         Object.entries(fieldMap).forEach(([key]) => {

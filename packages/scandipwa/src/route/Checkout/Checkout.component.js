@@ -83,14 +83,16 @@ export class Checkout extends PureComponent {
 
     stepMap = {
         [SHIPPING_STEP]: {
-            title: __('Shipping step'),
+            number: 1,
+            title: __('Personal information'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
             areTotalsVisible: true,
             renderCartCoupon: this.renderCartCoupon.bind(this)
         },
         [BILLING_STEP]: {
-            title: __('Billing step'),
+            number: 2,
+            title: __('Payment details'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
             areTotalsVisible: true,
@@ -103,6 +105,8 @@ export class Checkout extends PureComponent {
             areTotalsVisible: false
         }
     };
+
+    stepsCount = 2;
 
     componentDidMount() {
         const { checkoutStep, history } = this.props;
@@ -143,12 +147,21 @@ export class Checkout extends PureComponent {
 
     renderTitle() {
         const { checkoutStep } = this.props;
-        const { title = '' } = this.stepMap[checkoutStep];
+        const { title = '', number } = this.stepMap[checkoutStep];
 
         return (
-            <h2 block="Checkout" elem="Title">
-                { title }
-            </h2>
+            <>
+            <div block="Checkout" elem="Header">
+                <div block="Checkout" elem="Title">{ title }</div>
+                <div block="Checkout" elem="Step">
+                    <span block="Checkout" elem="SelectedStep">{ number }</span>
+                    <span block="Checkout" elem="StepsBorder">/</span>
+                    <span block="Checkout" elem="TotalSteps">{ this.stepsCount }</span>
+                </div>
+            </div>
+                <div block="Checkout" elem="StepBarTotal" />
+                <div block="Checkout" elem="StepBarActive" mods={ { isSecond: number === 2 } } />
+            </>
         );
     }
 

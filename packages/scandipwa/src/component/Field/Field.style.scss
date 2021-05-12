@@ -70,22 +70,6 @@
         }
     }
 
-    &_isValid {
-        input,
-        textarea {
-            font-weight: 700;
-            opacity: .5;
-
-            &:focus {
-                opacity: 1;
-            }
-
-            &::placeholder {
-                font-weight: 400;
-            }
-        }
-    }
-
     &_hasError {
         input,
         textarea {
