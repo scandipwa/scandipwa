@@ -167,7 +167,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         const customer = BrowserDatabase.getItem(CUSTOMER) || null;
 
-        if (!isSignedIn && customer != null && !isOverlayVisible) {
+        if (!isSignedIn && customer && !isOverlayVisible) {
             showNotification('error', __('Your session is over, you are logged out!'));
             logout();
         }
