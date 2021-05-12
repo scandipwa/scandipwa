@@ -83,7 +83,7 @@ export class MyAccountAddressForm extends FieldForm {
         if (!availableRegions || !availableRegions.length) {
             return {
                 region_string: {
-                    label: __('State/Province'),
+                    label: __('State / Province'),
                     value: region,
                     validation: isStateRequired ? ['notEmpty'] : []
                 }
@@ -92,7 +92,7 @@ export class MyAccountAddressForm extends FieldForm {
 
         return {
             region_id: {
-                label: __('State/Province'),
+                label: __('State / Province'),
                 type: 'select',
                 selectOptions: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
                 onChange: (regionId) => this.setState({ regionId }),
@@ -135,11 +135,12 @@ export class MyAccountAddressForm extends FieldForm {
         }
     };
 
-    getStreetFields(label, index) {
+    getStreetFields(label, placeholder, index) {
         const { address: { street = [] } } = this.props;
 
         return {
             label,
+            placeholder,
             value: street[index],
             validation: index === 0 ? ['notEmpty'] : []
         };
@@ -153,6 +154,7 @@ export class MyAccountAddressForm extends FieldForm {
             return {
                 street: this.getStreetFields(
                     __('Street address'),
+                    __('Your street address'),
                     0
                 )
             };
@@ -164,6 +166,7 @@ export class MyAccountAddressForm extends FieldForm {
         for (let i = 0; i < addressLinesQty; i++) {
             streets[`street${i}`] = this.getStreetFields(
                 __('Street address line %s', i + 1),
+                __('Your street address line %s', i + 1),
                 i
             );
         }
@@ -205,20 +208,20 @@ export class MyAccountAddressForm extends FieldForm {
             },
             firstname: {
                 label: __('First name'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                placeholder: __('Your first name')
             },
             lastname: {
                 label: __('Last name'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                placeholder: __('Your last name')
             },
-            telephone: {
-                label: __('Phone number'),
-                validation: ['notEmpty', 'telephone']
-            },
+            ...this.getAddressFields(),
             city: {
                 label: __('City'),
                 validation: ['notEmpty'],
-                value: city
+                value: city,
+                placeholder: __('Your city')
             },
             country_id: {
                 type: 'select',
@@ -230,12 +233,17 @@ export class MyAccountAddressForm extends FieldForm {
             },
             ...this.getRegionFields(),
             postcode: {
-                label: __('Zip/Postal code'),
+                label: __('Zip / Postal code'),
                 validation: ['notEmpty'],
-                onBlur: this.onZipcodeChange
+                onBlur: this.onZipcodeChange,
+                placeholder: __('Your zip / postal code')
             },
-            ...this.getAddressFields(),
-            ...this.getVatField()
+            ...this.getVatField(),
+            telephone: {
+                label: __('Phone number'),
+                validation: ['notEmpty', 'telephone'],
+                placeholder: __('Your phone number')
+            }
             // Will be back with B2B update
             // company: {
             //     label: __('Company')

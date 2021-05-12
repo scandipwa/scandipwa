@@ -23,6 +23,8 @@ import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
 
+import './CheckoutShipping.style';
+
 /** @namespace Component/CheckoutShipping/Component */
 export class CheckoutShipping extends PureComponent {
     static propTypes = {
@@ -81,6 +83,7 @@ export class CheckoutShipping extends PureComponent {
                       || (method_code === STORE_IN_PICK_UP_METHOD_CODE && !Object.keys(selectedStoreAddress).length) }
                   mix={ { block: 'CheckoutShipping', elem: 'Button' } }
                 >
+                    <span />
                     { __('Proceed to billing') }
                 </button>
             </div>

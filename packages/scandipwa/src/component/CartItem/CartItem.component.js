@@ -39,7 +39,6 @@ export class CartItem extends PureComponent {
         minSaleQuantity: PropTypes.number.isRequired,
         maxSaleQuantity: PropTypes.number.isRequired,
         handleChangeQuantity: PropTypes.func.isRequired,
-        getCurrentProduct: PropTypes.func.isRequired,
         linkTo: PropTypes.oneOfType([
             PropTypes.shape({
                 pathname: PropTypes.string,
@@ -48,10 +47,9 @@ export class CartItem extends PureComponent {
             PropTypes.string
         ]).isRequired,
         thumbnail: PropTypes.string.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        getProductVariant: PropTypes.func.isRequired,
         isProductInStock: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        optionsLabels: PropTypes.array.isRequired
     };
 
     static defaultProps = {
@@ -59,73 +57,16 @@ export class CartItem extends PureComponent {
         isLikeTable: false
     };
 
-    renderProductConfigurationOption = ([key, attribute]) => {
-        const {
-            item: {
-                product: {
-                    configurable_options
-                }
-            }
-        } = this.props;
-
-        const { attribute_code, attribute_value } = attribute;
-
-        if (!Object.keys(configurable_options).includes(key) || attribute_value === null) {
-            return null;
-        }
-
-        const {
-            [attribute_code]: { // configurable option attribute
-                attribute_options: {
-                    [attribute_value]: { // attribute option value label
-                        label
-                    }
-                }
-            }
-        } = configurable_options;
-
-        return (
-            <li
-              key={ attribute_code }
-              aria-label={ attribute_code }
-              block="CartItem"
-              elem="Option"
-            >
-                { label }
-            </li>
-        );
-    };
-
     renderProductConfigurations() {
-        const {
-            item: {
-                product: {
-                    configurable_options,
-                    variants
-                }
-            },
-            isLikeTable,
-            getCurrentProduct
-        } = this.props;
-
-        if (!variants || !configurable_options) {
-            return null;
-        }
-
-        const { attributes = [] } = getCurrentProduct() || {};
-
-        if (!Object.entries(attributes).length) {
-            return null;
-        }
+        const { optionsLabels } = this.props;
 
         return (
-            <ul
+            <div
               block="CartItem"
               elem="Options"
-              mods={ { isLikeTable } }
             >
-                { Object.entries(attributes).map(this.renderProductConfigurationOption) }
-            </ul>
+                { optionsLabels.join(', ') }
+            </div>
         );
     }
 

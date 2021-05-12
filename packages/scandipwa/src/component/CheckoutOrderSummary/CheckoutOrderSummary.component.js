@@ -136,8 +136,10 @@ export class CheckoutOrderSummary extends PureComponent {
               elem="Header"
               mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
             >
-                <span>{ __('Order Summary') }</span>
-                <p block="CheckoutOrderSummary" elem="ItemsInCart">{ __('%s Item(s) In Cart', items_qty) }</p>
+                <span>{ __('Summary') }</span>
+                <p block="CheckoutOrderSummary" elem="ItemsInCart">
+                    { items_qty === 1 ? __('1 item') : __('%s items', items_qty) }
+                </p>
             </h3>
         );
     }
@@ -279,6 +281,7 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
+    // TODO REDESIGN: remove this section from code if not required on billing step
     renderTotals() {
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
@@ -348,7 +351,6 @@ export class CheckoutOrderSummary extends PureComponent {
             <>
                 { this.renderHeading() }
                 { this.renderItems() }
-                { this.renderTotals() }
             </>
         );
     }

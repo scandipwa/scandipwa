@@ -24,9 +24,8 @@
     }
 
     &-Label {
-        font-size: 1.4rem;
-        font-weight: 700;
-        padding-bottom: .36rem;
+        font-size: 1.2rem;
+        padding-bottom: .8rem;
 
         @include mobile {
             padding-bottom: .42rem;
@@ -70,31 +69,10 @@
         }
     }
 
-    &_isValid {
-        input,
-        textarea {
-            font-weight: 700;
-            opacity: .5;
-
-            &:focus {
-                opacity: 1;
-            }
-
-            &::placeholder {
-                font-weight: 400;
-            }
-        }
-    }
-
     &_hasError {
         input,
         textarea {
             border: 0.1rem solid var(--primary-error-color);
-            font-weight: 700;
-
-            &::placeholder {
-                font-weight: 400;
-            }
         }
     }
 
