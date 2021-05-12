@@ -122,7 +122,8 @@ export class CartItemContainer extends PureComponent {
         thumbnail: this._getProductThumbnail(),
         minSaleQuantity: this.getMinQuantity(),
         maxSaleQuantity: this.getMaxQuantity(),
-        isProductInStock: this.productIsInStock()
+        isProductInStock: this.productIsInStock(),
+        optionsLabels: this.getConfigurableOptionsLabels()
     });
 
     /**
@@ -262,6 +263,52 @@ export class CartItemContainer extends PureComponent {
         const product = this.getCurrentProduct();
         const { thumbnail: { url: thumbnail } = {} } = product;
         return thumbnail || '';
+    }
+
+    getConfigurationOptionLabel = ([key, attribute]) => {
+        const {
+            item: {
+                product: {
+                    configurable_options
+                }
+            }
+        } = this.props;
+
+        const { attribute_code, attribute_value } = attribute;
+
+        if (!Object.keys(configurable_options).includes(key) || attribute_value === null) {
+            return null;
+        }
+
+        const {
+            [attribute_code]: { // configurable option attribute
+                attribute_options: {
+                    [attribute_value]: { // attribute option value label
+                        label
+                    }
+                }
+            }
+        } = configurable_options;
+
+        return label;
+    };
+
+    getConfigurableOptionsLabels() {
+        const {
+            item: {
+                product: {
+                    configurable_options,
+                    variants
+                }
+            }
+        } = this.props;
+
+        if (!variants || !configurable_options) {
+            return [];
+        }
+
+        const { attributes = [] } = this.getCurrentProduct() || {};
+        return Object.entries(attributes).map(this.getConfigurationOptionLabel).filter((label) => label);
     }
 
     renderRightSideContent = () => {
