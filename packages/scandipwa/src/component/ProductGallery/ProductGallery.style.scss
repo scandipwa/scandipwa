@@ -9,36 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+// util class, is applied on <html> on fullscreen image
+.overscrollPrevented {
+    overscroll-behavior: contain;
+}
+
 .ProductGallery {
-    @include desktop {
-        display: flex;
-        height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: var(--slider-height);
+    min-height: 48rem;
+
+    @include mobile {
+        min-height: 42rem;
     }
 
     &-Additional {
-        $margin-inline-end: 1.8rem;
-
-        width: 15rem;
-        margin-inline-end: $margin-inline-end;
+        flex: 0 0 auto;
 
         @include mobile {
-            margin-inline-end: 2.1rem;
-        }
-
-        @include desktop {
-            height: 48rem;
-            margin-block: auto;
-            margin-inline: 0 $margin-inline-end;
-        }
-
-        @include before-desktop {
             display: none;
-        }
-
-        &_isImageZoomPopupActive {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
     }
 
@@ -47,34 +37,14 @@
     }
 
     &-Slider {
-        min-height: 48rem;
-        height: var(--slider-height);
-
-        @include mobile {
-            min-height: 42rem;
-        }
-
-        &::after {
-            @include desktop {
-                content: '';
-                box-shadow: inset 0 0 0 0.3rem #fff;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                inset-inline-start: 0;
-                position: absolute;
-                pointer-events: none;
-            }
-        }
+        height: 100%;
 
         &_isImageZoomPopupActive {
             cursor: pointer;
         }
 
         &_isZoomInCursor {
-            @include after-mobile {
-                cursor: zoom-in;
-            }
+            cursor: zoom-in;
         }
     }
 
@@ -90,8 +60,20 @@
             transform: translateY(var(--translateYOnCursorMove));
         }
     }
-}
 
-.overscrollPrevented {
-    overscroll-behavior: contain;
+    .CarouselScroll-Content {
+        flex-direction: row;
+    }
+
+    .CarouselScrollItem {
+        width: 5.7rem;
+        height: 3.8rem;
+        flex: 0 0 auto;
+        border-color: var(--option-border-color);
+        border-radius: .2rem;
+
+        & + .CarouselScrollItem {
+            margin-inline-start: 1.8rem;
+        }
+    }
 }

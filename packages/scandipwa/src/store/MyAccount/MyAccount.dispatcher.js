@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { CHECKOUT, MY_ACCOUNT } from 'Component/Header/Header.config';
 import MyAccountQuery from 'Query/MyAccount.query';
 import {
     updateCustomerDetails,
@@ -19,12 +20,15 @@ import {
 } from 'Store/MyAccount/MyAccount.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ORDERS } from 'Store/Order/Order.reducer';
+import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import {
     deleteAuthorizationToken,
+    isSignedIn,
     setAuthorizationToken
 } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
+import history from 'Util/History';
 import { prepareQuery } from 'Util/Query';
 import { executePost, fetchMutation, getErrorMessage } from 'Util/Request';
 
@@ -53,6 +57,11 @@ export const ONE_MONTH_IN_SECONDS = 2628000;
  * @namespace Store/MyAccount/Dispatcher
  */
 export class MyAccountDispatcher {
+    forceLogoutRedirectPages = [
+        CHECKOUT,
+        MY_ACCOUNT
+    ];
+
     requestCustomerData(dispatch) {
         const query = MyAccountQuery.getCustomerQuery();
 
@@ -75,6 +84,7 @@ export class MyAccountDispatcher {
     logout(authTokenExpired = false, dispatch) {
         if (authTokenExpired) {
             dispatch(showNotification('error', __('Your session is over, you are logged out!')));
+            this.handleForceRedirectToLoginPage();
         } else {
             deleteAuthorizationToken();
             dispatch(showNotification('success', __('You are successfully logged out!')));
@@ -162,9 +172,9 @@ export class MyAccountDispatcher {
 
             /** @namespace Store/MyAccount/Dispatcher/createAccountFetchMutationError */
             (error) => {
+                dispatch(updateIsLoading(false));
                 dispatch(showNotification('error', getErrorMessage(error)));
                 Promise.reject();
-                dispatch(updateIsLoading(false));
 
                 return false;
             }
@@ -204,15 +214,13 @@ export class MyAccountDispatcher {
         const { generateCustomerToken: { token } } = result;
 
         setAuthorizationToken(token);
-        dispatch(updateCustomerSignInStatus(true));
-        dispatch(showNotification('success', __('You are successfully logged in!')));
 
         const cartDispatcher = (await CartDispatcher).default;
         const guestCartToken = getGuestQuoteId();
         // if customer is authorized, `createEmptyCart` mutation returns customer cart token
         const customerCartToken = await cartDispatcher.createGuestEmptyCart(dispatch);
 
-        if (guestCartToken) {
+        if (guestCartToken && guestCartToken !== customerCartToken) {
             // merge guest cart id and customer cart id using magento capabilities
             await cartDispatcher.mergeCarts(guestCartToken, customerCartToken, dispatch);
         }
@@ -223,14 +231,46 @@ export class MyAccountDispatcher {
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
+
         ProductCompareDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
         );
 
         await this.requestCustomerData(dispatch);
+
+        dispatch(updateCustomerSignInStatus(true));
         dispatch(updateIsLoading(false));
+        dispatch(hideActiveOverlay());
+        dispatch(showNotification('success', __('You are successfully logged in!')));
 
         return true;
+    }
+
+    handleForceRedirectToLoginPage() {
+        const { location: { pathname = '' } = {} } = history;
+        const doRedirect = this.forceLogoutRedirectPages.reduce((result, urlPart) => {
+            if (pathname.includes(urlPart)) {
+                return true;
+            }
+
+            return result;
+        }, false);
+
+        if (doRedirect) {
+            history.push({ pathname: '/account/login' });
+        }
+    }
+
+    handleCustomerDataOnInit(dispatch) {
+        if (isSignedIn()) {
+            return;
+        }
+
+        BrowserDatabase.deleteItem(ORDERS);
+        BrowserDatabase.deleteItem(CUSTOMER);
+        CartDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)
+        );
     }
 }
 

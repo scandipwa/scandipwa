@@ -11,13 +11,13 @@
 
 .GroupedProductsItem {
     display: grid;
-    padding: 0;
-    margin-bottom: 1.2rem;
+    padding-inline-start: 0;
+    margin-block-end: 1.2rem;
     grid-template-columns: 7.2rem 3fr 1fr;
     grid-gap: 1.2rem;
 
     @include mobile {
-        margin-bottom: 1.4rem;
+        margin-block-end: 1.4rem;
         grid-template-columns: 8.4rem 3fr 1fr;
         grid-gap: 1.4rem;
     }
@@ -27,17 +27,17 @@
     }
 
     &:last-child {
-        margin-bottom: 0;
+        margin-block-end: 0;
     }
 
     &-Image {
         &::after {
             content: '';
             position: absolute;
-            top: 0;
+            inset-block-start: 0;
             inset-inline-end: 0;
             inset-inline-start: 0;
-            bottom: 0;
+            inset-block-end: 0;
             background-color: var(--product-card-picture-mask-color);
             mix-blend-mode: multiply;
             pointer-events: none;
@@ -49,25 +49,25 @@
         flex-direction: column;
         justify-content: space-between;
         flex-wrap: wrap;
-        padding-top: 1.2rem;
-        padding-bottom: 1.2rem;
+        padding-block-start: 1.2rem;
+        padding-block-end: 1.2rem;
         overflow: hidden;
 
         @include mobile {
-            padding-top: 1.4rem;
-            padding-bottom: 1.4rem;
+            padding-block-start: 1.4rem;
+            padding-block-end: 1.4rem;
         }
 
         p {
-            margin-bottom: 1.2rem;
-            margin-top: 0;
+            margin-block-end: 1.2rem;
+            margin-block-start: 0;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
             max-width: 90%;
 
             @include mobile {
-                margin-bottom: 1.4rem;
+                margin-block-end: 1.4rem;
             }
         }
     }
