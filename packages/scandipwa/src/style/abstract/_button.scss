@@ -92,6 +92,10 @@
         }
     }
 
+    &_isWithoutBorder {
+        border: 0;
+    }
+
     &_likeLink {
         --button-border: transparent;
         --button-background: transparent;

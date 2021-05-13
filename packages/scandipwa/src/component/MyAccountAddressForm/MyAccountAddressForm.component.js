@@ -267,6 +267,7 @@ export class MyAccountAddressForm extends FieldForm {
               type="submit"
               block="Button"
               mix={ { block: 'MyAccount', elem: 'Button' } }
+              mods={ { isHollow: true } }
             >
                 { __('Save address') }
             </button>

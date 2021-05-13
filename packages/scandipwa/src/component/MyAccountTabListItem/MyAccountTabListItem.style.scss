@@ -18,20 +18,26 @@
     --text-shadow: none;
 
     padding-inline-start: 0;
-    margin-bottom: 0;
+    margin-block-end: 0;
 
     &::before {
         content: none;
     }
 
     &:last-child {
-        margin-bottom: 0;
+        margin-block-end: 0;
+
+        button {
+            &::after {
+                content: none;
+            }
+        }
     }
 
     &_isActive,
     &:hover {
         @include after-mobile {
-            --border-width: 0.2rem;
+            --border-width: .2rem;
             --text-shadow:
                 -.02ex 0 var(--my-account-tab-list-item-color),
                 .02ex 0 var(--my-account-tab-list-item-color);
@@ -64,10 +70,11 @@
             top: 0;
             inset-inline-end: 1.2rem;
             bottom: 0;
-            width: 0.6rem;
-            height: 0.6rem;
+            width: .6rem;
+            height: .6rem;
             margin: auto;
-            transform: rotate(45deg);
+            transform: rotate(135deg);
+
             @include mobile {
                 inset-inline-end: 1.4rem;
             }

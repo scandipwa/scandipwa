@@ -12,10 +12,7 @@
 :root {
     --my-account-content-background: #{$white};
     --my-account-wrapper-padding-mobile: 1.4rem;
-
-    @include after-mobile {
-        --my-account-background: var(--secondary-base-color);
-    }
+    --my-account-content-border: .1rem solid rgba(10, 9, 3, 0.16);
 }
 
 .MyAccount {
@@ -46,6 +43,7 @@
         }
 
         @include after-mobile {
+            border: var(--my-account-content-border);
             grid-row: span 2;
             padding: 2.4rem;
         }

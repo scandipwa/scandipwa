@@ -49,22 +49,8 @@ export class WishlistItem extends PureComponent {
     renderDescription() {
         const {
             product: { wishlist: { description } },
-            changeDescription,
-            isMobile
+            changeDescription
         } = this.props;
-        const { isEditingActive } = this.props;
-
-        if (!description && !isEditingActive && isMobile) {
-            return null;
-        }
-
-        const isDisabled = isMobile && !isEditingActive;
-        const mods = isMobile
-            ? {
-                isNotEditingActive: !isEditingActive,
-                isEmpty: !description
-            }
-            : {};
 
         return (
             <Field
@@ -73,9 +59,8 @@ export class WishlistItem extends PureComponent {
               type="textarea"
               rows={ 3 }
               value={ description }
-              mix={ { block: 'WishlistItem', elem: 'CommentField', mods } }
+              mix={ { block: 'WishlistItem', elem: 'CommentField' } }
               placeholder={ __('Add a comment') }
-              isDisabled={ isDisabled }
               onChange={ changeDescription }
             />
         );
@@ -141,6 +126,10 @@ export class WishlistItem extends PureComponent {
               mix={ { block: 'WishlistItem', elem: 'AddToCart', mods } }
               onClick={ addToCart }
             >
+                <span
+                  block="WishlistItem"
+                  elem="MinicartIcon"
+                />
                 { __('Add to cart') }
             </button>
         );
@@ -306,28 +295,33 @@ export class WishlistItem extends PureComponent {
         const { isEditingActive } = this.props;
 
         return (
-            <>
-                <div block="WishlistItem" elem="SelectWrapper">
+            <div block="WishlistItem" elem="SelectWrapper">
                     { this.renderSelectCheckbox() }
                     <div block="WishlistItem" elem="ContentWrapper" mods={ { isEditingActive } }>
-                        { renderCardLinkWrapper((
-                            <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
-                                { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
-                            </figure>
-                        ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
+                        <div block="WishlistItem" elem="FigureWrapper">
+                            { renderCardLinkWrapper((
+                                <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
+                                    { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
+                                </figure>
+                            ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
+                            <div block="WishlistItem" elem="InformationWrapper">
+                                { this.renderName() }
+                                { this.renderAttributes() }
+                                <div block="WishlistItem" elem="RowWrapper">
+                                    { this.renderQuantityFieldInput() }
+                                    { this.renderPrice(productPrice) }
+                                </div>
+                            </div>
+                        </div>
                         <div block="WishlistItem" elem="Content">
-                            { this.renderName() }
-                            { this.renderAttributes() }
-                            { this.renderQuantityField() }
-                            <div block="WishlistItem" elem="RowWrapper">
-                                { this.renderPrice(productPrice) }
-                                { this.renderAddToCartButton() }
+                            { this.renderDescription() }
+                            <div block="WishlistItem" elem="ActionWrapper">
+                            { this.renderAddToCartButton() }
+                            <span block="WishlistItem" elem="EditIcon" />
                             </div>
                         </div>
                     </div>
-                </div>
-                { this.renderDescription() }
-            </>
+            </div>
         );
     }
 
@@ -344,6 +338,7 @@ export class WishlistItem extends PureComponent {
             return this.renderContentMobile(renderMethods);
         }
 
+        // TODO: implement edit functionality
         return (
             <>
                 <div block="WishlistItem" elem="FigureWrapper">
@@ -361,11 +356,14 @@ export class WishlistItem extends PureComponent {
                 <div block="WishlistItem" elem="Content">
                     { this.renderOptions() }
                     <div block="WishlistItem" elem="RowWrapper">
-                        { this.renderQuantityField() }
                         { this.renderPrice(productPrice) }
+                        { this.renderQuantityFieldInput() }
                     </div>
                     { this.renderDescription() }
-                    { this.renderAddToCartButton() }
+                    <div block="WishlistItem" elem="ActionWrapper">
+                        { this.renderAddToCartButton() }
+                        <span block="WishlistItem" elem="EditIcon" />
+                    </div>
                 </div>
             </>
         );

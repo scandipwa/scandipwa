@@ -17,8 +17,9 @@
 
 .MyAccountTabList {
     @include after-mobile {
-        padding: 1.2rem 0;
         background-color: var(--my-account-tab-list-background);
+        border: var(--my-account-content-border);
+        padding: 1.2rem 0;
     }
 
     &-ExpandableContentContent {

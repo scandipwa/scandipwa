@@ -22,12 +22,12 @@
 
  .ExpandableContent {
      @include before-desktop {
-         border-top: 0.1rem solid var(--expandable-content-divider-color);
+         border-top: .1rem solid var(--expandable-content-divider-color);
      }
 
      &:last-of-type {
          @include before-desktop {
-             border-bottom: 0.1rem solid var(--expandable-content-divider-color);
+             border-bottom: .1rem solid var(--expandable-content-divider-color);
          }
      }
 
@@ -52,7 +52,7 @@
          align-items: center;
 
          @include before-desktop {
-             padding: 1.4rem 0;
+             padding: 1.4rem 1.2rem;
          }
      }
 
@@ -112,4 +112,14 @@
              }
          }
      }
+
+     @include mobile {
+        &_isWithoutBorder {
+            border: 0;
+
+            &:last-of-type {
+                border: 0;
+            }
+        }
+    }
  }

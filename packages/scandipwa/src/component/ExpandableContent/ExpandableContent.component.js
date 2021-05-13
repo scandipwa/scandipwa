@@ -23,6 +23,7 @@ export class ExpandableContent extends PureComponent {
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         children: ChildrenType.isRequired,
         mix: MixType.isRequired,
+        mods: PropTypes.object,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
             if (propValue === null) {
@@ -38,7 +39,8 @@ export class ExpandableContent extends PureComponent {
     static defaultProps = {
         heading: '',
         isContentExpanded: false,
-        onClick: null
+        onClick: null,
+        mods: {}
     };
 
     expandableContentRef = createRef();
@@ -160,11 +162,12 @@ export class ExpandableContent extends PureComponent {
     }
 
     render() {
-        const { mix } = this.props;
+        const { mix, mods } = this.props;
         return (
             <article
               block="ExpandableContent"
               mix={ mix }
+              mods={ mods }
               ref={ this.expandableContentRef }
             >
                 { this.renderButton() }

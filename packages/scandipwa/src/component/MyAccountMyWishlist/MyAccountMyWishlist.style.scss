@@ -84,12 +84,29 @@
 
     &-Button {
         @include after-mobile {
-            margin-inline-end: 1rem;
+            margin-inline-end: 3rem;
+            margin-inline-start: 3rem;
         }
 
         @include mobile {
             width: 100%;
         }
+    }
+
+    &-MinicartIcon {
+        @include minicart-button;
+        filter: invert(100%);
+        height: 2rem;
+        margin-inline-end: 1.4rem;
+        width: 1.8rem;
+    }
+
+    &-ShareIcon {
+        @include share-icon;
+        filter: var(--primary-base-filter);
+        height: 2rem;
+        margin-inline-end: 1.4rem;
+        width: 1.8rem;
     }
 
     &-ClearRemoveItemsButton {
@@ -123,8 +140,6 @@
     }
 
     &-ShareWishlistButton {
-        @include share-button;
-
         height: 0;
         margin-block: 1.4rem 0;
         margin-inline: 0 2rem;

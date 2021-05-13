@@ -274,63 +274,6 @@
     width: 2rem;
 }
 
-@mixin share-button {
-    $share-button-stroke-width: var(--header-icon-stroke-width);
-
-    background-image: linear-gradient(to right, var(--header-color) 15%, var(--header-background) 0);
-    background-repeat: repeat-x;
-    background-size: 1.2rem $share-button-stroke-width;
-    border-radius: 0.1rem;
-    padding: calc(.6rem - #{$share-button-stroke-width}) calc(.8rem - #{$share-button-stroke-width});
-    border-block-end: $share-button-stroke-width solid var(--header-color);
-    border-inline: $share-button-stroke-width solid var(--header-color);
-
-    @include desktop {
-        background-image: linear-gradient(to right, var(--header-color) 20%, var(--my-account-content-background) 0);
-        background-size: 1.5rem $share-button-stroke-width;
-        padding: calc(1.1rem - #{$share-button-stroke-width});
-    }
-
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-    }
-
-    &::before {
-        background-color: var(--header-color);
-        height: 1rem;
-        inset-inline-start: 0.6rem;
-        top: -.4rem;
-        width: $share-button-stroke-width;
-
-        @include desktop {
-            height: 1.3rem;
-            inset-inline-start: 0.8rem;
-            top: -.6rem;
-            width: 0.2rem;
-        }
-    }
-
-    &::after {
-        height: 0.4rem;
-        inset-inline-start: 0.4rem;
-        top: -.4rem;
-        transform: rotate(45deg);
-        width: 0.4rem;
-
-        border-block-start: $share-button-stroke-width solid var(--header-color);
-        border-inline-start: $share-button-stroke-width solid var(--header-color);
-
-        @include desktop {
-            height: 0.6rem;
-            inset-inline-start: 0.5rem;
-            top: -.7rem;
-            width: 0.6rem;
-        }
-    }
-}
-
 @mixin email-icon {
     &::before,
     &::after {
@@ -422,6 +365,20 @@
     height: var(--star-size);
     width: var(--star-size);
     filter: var(--primary-base-filter);
+}
+
+@mixin share-icon {
+    background-image: var(--imported_icons_share, url('./../icons/share.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+@mixin  edit-icon {
+    background-image: var(--imported_icons_share, url('./../icons/edit.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
 }
 
 @mixin rtl-icon {

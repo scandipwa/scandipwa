@@ -54,6 +54,12 @@ export class MyAccountMyOrders extends PureComponent {
     }
 
     renderTable() {
+        const { device } = this.props;
+
+        if (device.isMobile && !device.isTable) {
+            return this.renderMobileTable();
+        }
+
         return (
             <table block="MyAccountMyOrders" elem="Table">
                 <thead>
@@ -64,6 +70,10 @@ export class MyAccountMyOrders extends PureComponent {
                 </tbody>
             </table>
         );
+    }
+
+    renderMobileTable() {
+        return this.renderOrderRows();
     }
 
     renderOrderRow = (order) => {

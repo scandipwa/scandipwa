@@ -58,9 +58,9 @@ export class MyAccountAddressBook extends PureComponent {
 
         return (
             <button
-              block="MyAccountAddressBook"
-              elem="Button"
-              mix={ { block: 'Button' } }
+              block="Button"
+              mix={ { block: 'MyAccountAddressBook', elem: 'Button' } }
+              mods={ { isHollow: true } }
               onClick={ showCreateNewPopup }
             >
                 { __('Add new address') }
