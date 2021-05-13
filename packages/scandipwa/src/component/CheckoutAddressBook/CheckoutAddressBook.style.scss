@@ -18,21 +18,19 @@
     }
 
     &-Wrapper {
-        display: flex;
-        flex-wrap: wrap;
-    }
 
-    &-CustomAddressWrapper {
-        margin: 2.4rem 0;
-
-        @include mobile {
-
-            margin: 1.4rem 0;
+        @include wide-desktop {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-column-gap: 4rem;
         }
     }
 
+    &-CustomAddressWrapper {
+        margin: 1.4rem 0;
+    }
+
     & &-Button {
-        display: block;
 
         @include before-desktop {
             width: 100%;
