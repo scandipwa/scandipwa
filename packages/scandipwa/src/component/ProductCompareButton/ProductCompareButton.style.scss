@@ -34,11 +34,10 @@
 
     &-Icon {
         @include compare-icon;
-    }
 
-    @include desktop {
         &:hover {
-            --button-color: var(--button-hover-color);
+            filter: var(--primary-base-filter);
         }
     }
+
 }

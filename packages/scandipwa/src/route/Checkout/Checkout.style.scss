@@ -60,6 +60,7 @@
 
     &-Wrapper {
         margin: auto;
+        padding-inline: 32px;
 
         @include after-mobile {
             display: grid;

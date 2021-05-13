@@ -317,7 +317,7 @@
     background-size: contain;
 
     &:hover {
-        background-image: url('./../icons/heart-selected.svg');
+        filter: var(--primary-base-filter);
     }
 }
 
