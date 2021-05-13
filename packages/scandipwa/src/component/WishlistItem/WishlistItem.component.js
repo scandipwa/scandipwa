@@ -27,6 +27,7 @@ export class WishlistItem extends PureComponent {
         product: ProductType.isRequired,
         changeDescription: PropTypes.func,
         removeItem: PropTypes.func,
+        redirectToProductPage: PropTypes.func,
         isLoading: PropTypes.bool,
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
@@ -42,6 +43,7 @@ export class WishlistItem extends PureComponent {
         changeQuantity: () => {},
         changeDescription: () => {},
         removeItem: () => {},
+        redirectToProductPage: () => {},
         isLoading: false,
         isRemoving: false
     };
@@ -326,6 +328,8 @@ export class WishlistItem extends PureComponent {
     }
 
     renderContent = (renderMethods) => {
+        const { redirectToProductPage } = this.props;
+
         const {
             content: { productPrice },
             pictureBlock: { picture: renderPicture },
@@ -338,7 +342,6 @@ export class WishlistItem extends PureComponent {
             return this.renderContentMobile(renderMethods);
         }
 
-        // TODO: implement edit functionality
         return (
             <>
                 <div block="WishlistItem" elem="FigureWrapper">
@@ -362,7 +365,11 @@ export class WishlistItem extends PureComponent {
                     { this.renderDescription() }
                     <div block="WishlistItem" elem="ActionWrapper">
                         { this.renderAddToCartButton() }
-                        <span block="WishlistItem" elem="EditIcon" />
+                        <span
+                          block="WishlistItem"
+                          elem="EditIcon"
+                          onClick={ redirectToProductPage }
+                        />
                     </div>
                 </div>
             </>
