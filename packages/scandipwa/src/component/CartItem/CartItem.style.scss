@@ -35,6 +35,13 @@
         margin-bottom: .5rem;
     }
 
+    &-Quantity {
+
+        &_isEditing {
+            display: none;
+        }
+    }
+
     &-Link {
         color: inherit;
         font-weight: 400;
@@ -60,6 +67,7 @@
 
     &-Content {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         min-width: 0;
 
@@ -147,7 +155,8 @@
     }
 
     &-HeadingWrapper {
-        max-width: 65%;
+        display: flex;
+        justify-content: space-between;
     }
 
     &-Heading,

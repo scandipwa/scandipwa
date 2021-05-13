@@ -288,15 +288,18 @@ export class CartItem extends PureComponent {
                 >
                     { this.renderOutOfStockMessage() }
                     <div block="CartItem" elem="HeadingWrapper">
+                    <div>
                         { this.renderProductName() }
                         { this.renderProductConfigurations() }
-                        { this.renderDeleteButton(true) }
                     </div>
-                    { this.renderProductOptions(customizable_options) }
-                    { this.renderProductOptions(bundle_options) }
-                    { this.renderProductLinks(downloadable_links) }
-                    { this.renderQuantityChangeField(true) }
-                    { this.renderProductPrice() }
+                        { this.renderDeleteButton(true) }
+                        { this.renderProductOptions(customizable_options) }
+                        { this.renderProductOptions(bundle_options) }
+                        { this.renderProductLinks(downloadable_links) }
+                        { this.renderQuantityChangeField(true) }
+                        { this.renderProductPrice() }
+                    </div>
+                    { this.renderQuantity() }
                 </figcaption>
         );
     }
@@ -422,6 +425,20 @@ export class CartItem extends PureComponent {
         }
 
         return this.renderImageElement();
+    }
+
+    renderQuantity() {
+        const { item: { qty }, isEditing } = this.props;
+
+        return (
+            <p
+              block="CartItem"
+              elem="Quantity"
+              mods={ { isEditing } }
+            >
+                { __('Quantity: %s', qty) }
+            </p>
+        );
     }
 
     render() {
