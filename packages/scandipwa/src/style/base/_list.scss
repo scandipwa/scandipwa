@@ -20,10 +20,6 @@ ol {
 li {
     padding-inline-start: 0.3rem;
 
-    @include mobile {
-        padding-inline-start: 4.55rem;
-    }
-
     &::before {
         position: absolute;
         inset-inline-start: 1em;

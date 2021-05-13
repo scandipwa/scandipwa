@@ -43,10 +43,6 @@
         padding-inline-end: 0;
         display: flex;
 
-        @include mobile {
-            padding: 1.4rem 4.2rem 1.4rem;
-        }
-
         &::after {
             content: '';
             position: absolute;

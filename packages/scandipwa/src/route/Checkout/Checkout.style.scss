@@ -73,6 +73,12 @@
         }
     }
 
+    &-ProgressSection {
+        @include before-desktop {
+            display: none;
+        }
+    }
+
     &-Heading {
         text-transform: none;
         font-size: 1.8rem;

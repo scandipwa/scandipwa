@@ -161,11 +161,6 @@
             .input-control {
                 display: inline-block;
                 vertical-align: middle;
-                margin-inline-start: 1.2rem;
-
-                @include mobile {
-                    margin-inline-start: 1.4rem;
-                }
             }
         }
 
