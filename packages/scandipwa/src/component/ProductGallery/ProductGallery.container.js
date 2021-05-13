@@ -117,15 +117,15 @@ export class ProductGalleryContainer extends PureComponent {
                     const bBASE = b.types.includes(IMAGE_TYPE);
                     const sortResult = a.position - b.position;
 
-                    if (aThumbnail && bThumbnail) {
+                    if (aBASE && bBASE) {
                         return sortResult;
                     }
 
-                    if (aThumbnail) {
+                    if (aBASE) {
                         return -1;
                     }
 
-                    if (bThumbnail) {
+                    if (bBASE) {
                         return 1;
                     }
 
