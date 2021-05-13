@@ -288,10 +288,10 @@ export class CartItem extends PureComponent {
                 >
                     { this.renderOutOfStockMessage() }
                     <div block="CartItem" elem="HeadingWrapper">
-                    <div>
-                        { this.renderProductName() }
-                        { this.renderProductConfigurations() }
-                    </div>
+                        <div block="CartItem" elem="Title">
+                            { this.renderProductName() }
+                            { this.renderProductConfigurations() }
+                        </div>
                         { this.renderDeleteButton(true) }
                         { this.renderProductOptions(customizable_options) }
                         { this.renderProductOptions(bundle_options) }
