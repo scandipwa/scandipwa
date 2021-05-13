@@ -146,8 +146,16 @@ export class Checkout extends PureComponent {
     }
 
     renderTitle() {
-        const { checkoutStep } = this.props;
+        const { checkoutStep, totals: { is_virtual } } = this.props;
         const { title = '', number } = this.stepMap[checkoutStep];
+
+        if (is_virtual) {
+            return (
+                <div block="Checkout" elem="Header">
+                    <div block="Checkout" elem="Title">{ title }</div>
+                </div>
+            );
+        }
 
         return (
             <>
