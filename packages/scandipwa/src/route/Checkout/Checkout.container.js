@@ -74,7 +74,10 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
     ),
     resetGuestCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)
+        ({ default: dispatcher }) => {
+            dispatcher.resetGuestCart(dispatch);
+            dispatcher.createGuestEmptyCart(dispatch);
+        }
     ),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
@@ -316,14 +319,9 @@ export class CheckoutContainer extends PureComponent {
     setDetailsStep(orderID) {
         const { resetCart, resetGuestCart, setNavigationState } = this.props;
 
-        // For some reason not logged in user cart preserves qty in it
-        if (!isSignedIn()) {
-            deleteGuestQuoteId();
-        }
-
+        deleteGuestQuoteId();
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
-        // For guest we can just update cart without creating new quote id
         if (isSignedIn()) {
             resetCart();
         } else {

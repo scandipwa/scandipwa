@@ -13,7 +13,6 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
-import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
 import { FilterInputType } from 'Type/ProductList';
 
@@ -59,7 +58,7 @@ export class CategoryProductListContainer extends PureComponent {
         isMatchingInfoFilter: false,
         isCurrentCategoryLoaded: false,
         filter: {},
-        layout: GRID_LAYOUT
+        layout: 'grid'
     };
 
     containerFunctions = {

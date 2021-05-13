@@ -477,7 +477,7 @@ export class ProductPageContainer extends PureComponent {
         const currentVariantIndex = this.getConfigurableVariantIndex(variants);
         const variant = variants && variants[currentVariantIndex];
 
-        if (variants) {
+        if (variants?.length > 0) {
             dataSource.stock_status = variants.some((v) => v.stock_status === PRODUCT_IN_STOCK)
                 ? PRODUCT_IN_STOCK
                 : PRODUCT_OUT_OF_STOCK;

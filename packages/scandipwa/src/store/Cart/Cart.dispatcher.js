@@ -31,9 +31,11 @@ export class CartDispatcher {
     async updateInitialCartData(dispatch) {
         // Need to get current cart from BE, update cart
         try {
+            // ! Get quote token first (local or from the backend) just to make sure it exists
+            const quoteId = await this._getGuestQuoteId(dispatch);
             const { cartData = {} } = await fetchQuery(
                 CartQuery.getCartQuery(
-                    !isSignedIn() && await this._getGuestQuoteId(dispatch)
+                    !isSignedIn() && quoteId
                 )
             );
 
