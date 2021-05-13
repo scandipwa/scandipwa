@@ -156,12 +156,12 @@ export class MyAccountMyWishlist extends PureComponent {
         return (
             <button
               block="Button"
-              mods={ { likeLink: true } }
+              mods={ { isHollow: true, isWithoutBorder: true } }
               mix={ { block: 'MyAccountMyWishlist', elem: 'ClearWishlistButton' } }
               onClick={ removeAll }
               disabled={ isActionsDisabled }
             >
-                { __('Clear') }
+                { __('Clear All') }
             </button>
         );
     }
@@ -183,6 +183,10 @@ export class MyAccountMyWishlist extends PureComponent {
               onClick={ addAllToCart }
               disabled={ isDisabled }
             >
+                <span
+                  block="MyAccountMyWishlist"
+                  elem="MinicartIcon"
+                />
               { __('Add All to Cart') }
             </button>
         );
@@ -205,6 +209,10 @@ export class MyAccountMyWishlist extends PureComponent {
               onClick={ shareWishlist }
               disabled={ disabled }
             >
+                <span
+                  block="MyAccountMyWishlist"
+                  elem="ShareIcon"
+                />
                 { __('Share') }
             </button>
         );
@@ -268,8 +276,8 @@ export class MyAccountMyWishlist extends PureComponent {
 
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
-                { this.renderAddAllToCart() }
                 { this.renderShareWishlistButton() }
+                { this.renderAddAllToCart() }
                 { this.renderClearWishlist() }
             </div>
         );

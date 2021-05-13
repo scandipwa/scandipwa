@@ -47,13 +47,13 @@ export class MyAccountAddressBookContainer extends PureComponent {
             return '';
         }
         if (default_billing && default_shipping) {
-            return __(' - default shipping, billing address');
+            return __(' (default shipping, billing address)');
         }
         if (default_billing) {
-            return __(' - default billing address');
+            return __(' (default billing address)');
         }
 
-        return __(' - default shipping address');
+        return __(' (default shipping address)');
     }
 
     showCreateNewPopup() {

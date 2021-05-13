@@ -23,4 +23,17 @@
             width: 100%;
         }
     }
+
+
+    .Field {
+        &-CheckboxLabel {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+
+            .input-control {
+                margin-inline-end: 1.1rem;
+                margin-inline-start: 0;
+            }
+        }
+    }
 }

@@ -20,6 +20,16 @@
         border-top: 0.1rem solid var(--wishlist-item-border-color);
     }
 
+    &-ActionWrapper {
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    &-InformationWrapper {
+        width: 100%;
+    }
+
     &:first-of-type {
         @include mobile {
             border-top: none;
@@ -38,7 +48,6 @@
         flex-direction: column;
 
         @include desktop {
-            padding: 1.2rem 0;
             margin-bottom: 0;
 
             &:last-child {
@@ -59,16 +68,16 @@
         .ProductCard-Name {
             white-space: inherit;
         }
-    
+
         .ProductPrice_hasDiscount {
             @include mobile {
                 display: flex;
                 flex-direction: column;
             }
-    
+
             del {
                 margin-inline-start: 0.4rem;
-    
+
                 @include mobile {
                     order: -1;
                     margin-inline-start: 0;
@@ -78,25 +87,27 @@
     }
 
     &-FigureWrapper {
-        flex: 1;
+        padding: .9rem .9rem;
+
+        @include mobile {
+            display: flex;
+        }
     }
 
     &-ContentWrapper {
         @include mobile {
-            display: flex;
-            flex: 1;
+            width: 100%;
             min-height: 13rem;
         }
     }
 
     &-Remove {
+        @include close-button;
         position: absolute;
-        inset-inline-end: 0.5rem;
-        top: 0.5rem;
+        inset-inline-end: .5rem;
+        top: 2rem;
         height: 3rem;
         width: 3rem;
-
-        @include close-button;
 
         &::before,
         &::after {
@@ -105,17 +116,17 @@
     }
 
     &-AddToCart {
-        display: inline-block;
+        display: flex;
         margin-top: 0;
 
         @include mobile {
             padding: 0.7rem 1.2rem 0.4rem;
             font-size: 1.3rem;
-            margin-inline-start: auto;
+            margin-inline-end: 2rem;
         }
 
         @include after-mobile {
-            margin-top: 1rem;
+            margin-inline-end: 2rem;
         }
 
         &_isEditingActive {
@@ -123,21 +134,31 @@
         }
 
         &.Button {
-            width: auto;
-
             @include after-mobile {
                 width: 100%;
             }
         }
     }
 
-    &-QuantityWrapper {
-        display: flex;
-        align-items: center;
-    }
+    &-Quantity {
+        &Text {
+            margin-inline-end: 1rem;
+        }
 
-    &-QuantityText {
-        margin-inline-end: 1rem;
+        &Input {
+            button {
+                padding: 1.5rem;
+            }
+
+            input {
+                padding-top: .1rem;
+            }
+        }
+
+        &Wrapper {
+            display: flex;
+            align-items: center;
+        }
     }
 
     &-Price {
@@ -145,11 +166,14 @@
 
         @include after-mobile {
             float: end;
+            margin-block-end: 1.6rem;
             text-align: end;
         }
     }
 
     &-Content {
+        padding: 0 .9rem .9rem;
+
         @include mobile {
             flex: 1;
             display: flex;
@@ -165,6 +189,7 @@
     &-CommentField {
         textarea {
             width: 100%;
+            max-height: 4.8rem;
         }
 
         &_isNotEditingActive {
@@ -178,7 +203,6 @@
     &-RowWrapper {
         margin-top: auto;
         display: flex;
-        align-items: flex-end;
         justify-content: space-between;
 
         @include mobile {
@@ -186,12 +210,34 @@
         }
 
         @include after-mobile {
+            align-items: flex-start;
+            flex-direction: column;
             margin-top: 1rem;
         }
     }
 
     &-AttributeWrapper {
         margin: 0.5rem 0 1.2rem;
+    }
+
+    &-EditIcon {
+        @include edit-icon;
+        display: inline-block;
+        height: 2rem;
+        width: 2rem;
+        margin-inline-end: 1rem;
+    }
+
+    &-MinicartIcon {
+        @include minicart-button;
+        filter: var(--primary-base-filter);
+        height: 2rem;
+        margin-inline-end: 1.4rem;
+        width: 1.8rem;
+
+        @include after-mobile {
+            filter: invert(100%);
+        }
     }
 
     &-SelectWrapper {

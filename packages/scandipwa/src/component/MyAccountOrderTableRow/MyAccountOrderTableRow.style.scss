@@ -31,4 +31,17 @@
         background-color: var(--my-account-order-table-row-hover-background);
         cursor: pointer;
     }
+
+    @include mobile {
+        height: max-content;
+        width: 100%;
+
+        tr {
+            border-bottom: var(--table-body-border);
+        }
+
+        table {
+            width: 100%;
+        }
+    }
 }

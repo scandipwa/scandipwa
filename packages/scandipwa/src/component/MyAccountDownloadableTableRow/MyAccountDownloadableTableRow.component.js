@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import { downloadableType } from 'Type/Account';
+import { DeviceType } from 'Type/Device';
 
 import './MyAccountDownloadableTableRow.style';
 
@@ -22,7 +23,8 @@ import './MyAccountDownloadableTableRow.style';
 export class MyAccountDownloadableTableRowComponent extends PureComponent {
     static propTypes = {
         order: downloadableType.isRequired,
-        onOrderIdClick: PropTypes.func.isRequired
+        onOrderIdClick: PropTypes.func.isRequired,
+        device: DeviceType.isRequired
     };
 
     renderOrderId() {
@@ -65,7 +67,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
         );
     }
 
-    render() {
+    renderMobileView() {
         const {
             order: {
                 order_id,
@@ -77,6 +79,62 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
                 link_title
             } = {}
         } = this.props;
+
+        return (
+            <table block="MyAccountOrderTableRow">
+                <tbody>
+                    <tr>
+                        <th>{ __('Order') }</th>
+                        <td>{ order_id ? `#${order_id}` : '' }</td>
+                    </tr>
+                    <tr>
+                        <th>{ __('Date') }</th>
+                        <td>{ created_at }</td>
+                    </tr>
+                    <tr>
+                        <th>{ __('Title') }</th>
+                        <td>
+                            { title }
+                            <a
+                              href={ download_url }
+                              download
+                              block="MyAccountOrderTableRow"
+                              elem="DownloadLink"
+                            >
+                                { link_title }
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{ __('Status') }</th>
+                        <td block="MyAccountDownloadTableRow" elem="Status">{ status_label }</td>
+                    </tr>
+                    <tr>
+                        <th>{ __('Remaining Downloads') }</th>
+                        <td>{ downloads }</td>
+                    </tr>
+                </tbody>
+            </table>
+        );
+    }
+
+    render() {
+        const {
+            order: {
+                order_id,
+                downloads,
+                download_url,
+                created_at,
+                title,
+                status_label = '',
+                link_title
+            } = {},
+            device
+        } = this.props;
+
+        if (device.isMobile) {
+            return this.renderMobileView();
+        }
 
         return (
             <tr block="MyAccountOrderTableRow">
