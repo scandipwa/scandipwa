@@ -440,7 +440,7 @@
     "Error fetching Category!": null,
     "This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.": null,
     "Error fetching URL-rewrites!": null,
-    "Excl. tax:": null,
+    "Excl. tax: %s": null,
     "Estimated Shipping:": null,
     "Discount: ": null,
     "Discount/Coupon ": null,

@@ -133,7 +133,7 @@ export class CategoryPageContainer extends PureComponent {
         }),
         selectedInfoFilter: PropTypes.shape({
             categoryIds: PropTypes.number,
-            customFilters: PropTypes.objectOf(PropTypes.shape.array)
+            customFilters: PropTypes.objectOf(PropTypes.array)
         }),
         isInfoLoading: PropTypes.bool.isRequired,
         isOffline: PropTypes.bool.isRequired,

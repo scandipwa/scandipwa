@@ -35,7 +35,8 @@ export class ProductConfigurableAttributes extends PureComponent {
         getSubHeading: PropTypes.func.isRequired,
         isSelected: PropTypes.func.isRequired,
         getLink: PropTypes.func.isRequired,
-        isExpandable: PropTypes.bool
+        isExpandable: PropTypes.bool,
+        showProductAttributeAsLink: PropTypes.bool
     };
 
     static defaultProps = {
@@ -45,7 +46,8 @@ export class ProductConfigurableAttributes extends PureComponent {
         numberOfPlaceholders: [6, 10, 7],
         isContentExpanded: false,
         getIsConfigurableAttributeAvailable: () => true,
-        isExpandable: true
+        isExpandable: true,
+        showProductAttributeAsLink: true
     };
 
     renderConfigurableAttributeValue(attribute) {
@@ -53,7 +55,8 @@ export class ProductConfigurableAttributes extends PureComponent {
             getIsConfigurableAttributeAvailable,
             handleOptionClick,
             getLink,
-            isSelected
+            isSelected,
+            showProductAttributeAsLink
         } = this.props;
 
         const { attribute_value } = attribute;
@@ -66,17 +69,19 @@ export class ProductConfigurableAttributes extends PureComponent {
               isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
               onClick={ handleOptionClick }
               getLink={ getLink }
+              showProductAttributeAsLink={ showProductAttributeAsLink }
             />
         );
     }
 
     renderSwatch(option) {
-        const { attribute_values } = option;
+        const { attribute_values, attribute_code } = option;
 
         return (
             <div
               block="ProductConfigurableAttributes"
               elem="SwatchList"
+              key={ attribute_code }
             >
                 { attribute_values.map((attribute_value) => (
                     this.renderConfigurableAttributeValue({ ...option, attribute_value })

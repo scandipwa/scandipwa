@@ -10,17 +10,17 @@
  */
 
 :root {
-    --table-secondary-color: var(--secondary-light-color);
+    --table-body-border: .1rem solid rgba(10, 9, 3, 0.16);
 }
 
 table {
-    tr:nth-child(even),
-    thead tr {
-        background-color: var(--table-secondary-color);
+    thead th {
+        background-color: var(--secondary-light-color);
+        border-radius: .2rem;
     }
 
-    thead tr {
-        border-bottom: 0.1rem solid var(--secondary-dark-color);
+    tbody tr:not(:last-child) {
+        border-bottom: var(--table-body-border) ;
     }
 
     td,

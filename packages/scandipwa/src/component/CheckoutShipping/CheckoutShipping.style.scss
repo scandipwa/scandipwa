@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.CheckoutDeliveryOptions {
-    margin-bottom: 2.4rem;
-    width: 50%;
+.Checkout {
+  &-StickyButtonWrapper {
+    margin-inline-start: 1.2rem;
 
-    @include mobile {
-        margin-bottom: 2.8rem;
+    span {
+      @include lock-button;
     }
+  }
 }

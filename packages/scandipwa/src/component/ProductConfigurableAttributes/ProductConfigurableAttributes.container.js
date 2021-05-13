@@ -21,12 +21,14 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         parameters: PropTypes.shape({}).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
+        showProductAttributeAsLink: PropTypes.bool,
         variants: PropTypes.array
     };
 
     static defaultProps = {
         getLink: () => {},
         isExpandable: true,
+        showProductAttributeAsLink: true,
         variants: null
     };
 

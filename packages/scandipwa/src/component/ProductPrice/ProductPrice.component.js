@@ -126,7 +126,7 @@ export class ProductPrice extends PureComponent {
               block="ProductPrice"
               elem="SubPrice"
             >
-                { `${ __('Excl. tax:') } ${ formattedSubPrice }` }
+                { __('Excl. tax: %s', formattedSubPrice) }
             </span>
         );
     }
