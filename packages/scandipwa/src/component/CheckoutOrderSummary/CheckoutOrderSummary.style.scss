@@ -12,20 +12,21 @@
 .CheckoutOrderSummary {
     $divider-border-color: #e0e0e0;
     $divider-border: solid 0.1rem $divider-border-color;
+    border: 0.1rem solid var(--secondary-base-color);
+    border-radius: 0.2rem;
+    padding: 2.4rem 1.6rem;
 
     &-Header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0;
+        font-size: 2.4rem;
+        font-weight: 700;
     }
 
     &-ItemsInCart {
-        font-size: 1.2rem;
-        opacity: .5;
+        font-size: 1.4rem;
         text-transform: none;
         top: 0.2rem;
-        font-weight: 300;
+        font-weight: 400;
+        margin-block: 2rem 1.6rem;
     }
 
     &-SummaryItem {
@@ -154,11 +155,11 @@
         margin-top: 0;
         font-weight: bold;
         line-height: 1;
-        font-size: 1.4rem;
+        font-size: 1.8rem;
 
         &-SubPrice {
             display: block;
-            font-size: .7em;
+            font-size: 1.2rem;
             font-weight: 300;
         }
     }

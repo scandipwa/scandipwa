@@ -63,14 +63,18 @@
 
         @include after-mobile {
             display: grid;
-            grid-template-columns: 5fr 3fr;
+            grid-template-columns: repeat(2, 1fr);
             grid-gap: 7%;
+        }
+
+        @include wide-desktop {
+            grid-template-columns: 5fr 3fr;
         }
     }
 
     &-Heading {
         text-transform: none;
-        font-size: 2rem;
+        font-size: 1.8rem;
         margin: 0 0 1.2rem;
 
         @include mobile {

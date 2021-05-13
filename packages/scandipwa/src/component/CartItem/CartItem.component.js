@@ -289,12 +289,12 @@ export class CartItem extends PureComponent {
                     { this.renderOutOfStockMessage() }
                     <div block="CartItem" elem="HeadingWrapper">
                         { this.renderProductName() }
+                        { this.renderProductConfigurations() }
                         { this.renderDeleteButton(true) }
                     </div>
                     { this.renderProductOptions(customizable_options) }
                     { this.renderProductOptions(bundle_options) }
                     { this.renderProductLinks(downloadable_links) }
-                    { this.renderProductConfigurations() }
                     { this.renderQuantityChangeField(true) }
                     { this.renderProductPrice() }
                 </figcaption>

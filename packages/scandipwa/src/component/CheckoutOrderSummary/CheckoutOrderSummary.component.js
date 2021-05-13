@@ -131,16 +131,16 @@ export class CheckoutOrderSummary extends PureComponent {
         const { totals: { items_qty } } = this.props;
 
         return (
-            <h3
+            <div
               block="CheckoutOrderSummary"
               elem="Header"
               mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
             >
                 <span>{ __('Summary') }</span>
-                <p block="CheckoutOrderSummary" elem="ItemsInCart">
+                <div block="CheckoutOrderSummary" elem="ItemsInCart">
                     { items_qty === 1 ? __('1 item') : __('%s items', items_qty) }
-                </p>
-            </h3>
+                </div>
+            </div>
         );
     }
 
