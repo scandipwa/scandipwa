@@ -26,7 +26,8 @@ import {
     PASSWORD_TYPE,
     RADIO_TYPE,
     SELECT_TYPE,
-    TEXTAREA_TYPE
+    TEXTAREA_TYPE,
+    EMAIL_TYPE
 } from './Field.config';
 import upload from './icons/upload.svg';
 
@@ -103,6 +104,15 @@ export class Field extends PureComponent {
               type="text"
             />
         );
+    }
+
+    renderTypeEmail() {
+        return (
+            <FieldInput
+              { ...this.props }
+              type="email"
+            />
+        )    
     }
 
     renderTypePassword() {
@@ -236,6 +246,8 @@ export class Field extends PureComponent {
             return this.renderTypePassword();
         case SELECT_TYPE:
             return this.renderSelectWithOptions();
+        case EMAIL_TYPE:
+            return this.renderTypeEmail();
         case FILE_TYPE:
             return this.renderFile();
         default:
