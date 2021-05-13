@@ -37,14 +37,11 @@
         --check-mark-opacity: 0;
 
         width: 100%;
-        padding: 1.2rem 3.6rem 1.2rem;
+        padding-block: 1.7rem;
+        padding-inline: 1.6rem;
         text-align: start;
         padding-inline-end: 0;
         display: flex;
-
-        @include mobile {
-            padding: 1.4rem 4.2rem 1.4rem;
-        }
 
         &::after {
             content: '';
@@ -90,6 +87,6 @@
     }
 
     .Field_type_checkbox {
-        margin-block-start: 1.2rem;
+        margin-block-start: 1.7rem;
     }
 }

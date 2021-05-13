@@ -10,26 +10,21 @@
  */
 
 :root {
-    --checkout-address-table-border: var(--secondary-base-color);
+    --checkout-address-table-border: transparent;
     --checkout-address-table-hover-border: var(--secondary-base-color);
     --checkout-address-table-check-mark-hover-color: var(--secondary-dark-color);
     --checkout-address-selected-color: var(--primary-base-color);
-    --checkout-address-table-check-mark-selected-color: var(--checkout-address-table-border);
+    --checkout-address-table-check-mark-selected-color: var(--secondary-base-color);
 }
 
 .CheckoutAddressTable {
     width: 100%;
 
-    &:first-child &-Button {
-        margin-top: 0;
-    }
-
     &-Button {
         --check-mark-opacity: 0;
 
         border: 0.2rem solid var(--checkout-address-table-border);
-        margin-block: 1.2rem 0;
-        margin-inline: 0 1.2rem;
+        border-radius: 2px;
         transition-property: border-color, background, border-color;
         transition-duration: 150ms;
         transition-timing-function: ease-in;
@@ -38,6 +33,10 @@
         @include mobile {
             margin-block: 1.4rem 0;
             margin-inline: 0 1.4rem;
+        }
+
+        @include desktop {
+            margin-bottom: 2rem;
         }
 
         &::before,

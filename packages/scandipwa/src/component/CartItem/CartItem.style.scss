@@ -26,9 +26,20 @@
 
     border-bottom: 0.1rem solid var(--cart-item-divider-color);
 
+    &:last-of-type {
+        border-bottom: 0;
+    }
+
     &-OutOfStock {
         font-weight: bold;
         margin-bottom: .5rem;
+    }
+
+    &-Quantity {
+
+        &_isEditing {
+            display: none;
+        }
     }
 
     &-Link {
@@ -56,8 +67,9 @@
 
     &-Content {
         display: flex;
-        flex-wrap: wrap;
         flex-direction: column;
+        justify-content: space-between;
+        min-width: 0;
 
         .CartItem_isEditing &:not(.CartItem-Content_isLikeTable) {
             @include after-mobile {
@@ -82,14 +94,14 @@
         background: var(--cart-item-background);
 
         @include mobile {
-            grid-template-columns: 10rem auto;
+            grid-template-columns: 9.6rem auto;
             grid-gap: 1.4rem;
             padding: 1.4rem;
             min-height: 13rem;
         }
 
         @include after-mobile {
-            grid-template-columns: 10rem auto;
+            grid-template-columns: 9.6rem auto;
         }
     }
 
@@ -142,6 +154,15 @@
         }
     }
 
+    &-HeadingWrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &-Title {
+        width: 65%;
+    }
+
     &-Heading,
     &-SubHeading {
         font-size: 1.4rem;
@@ -159,6 +180,10 @@
 
     &-Heading {
         color: var(--cart-item-heading-color);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        //max-width: 100%;
     }
 
     &-SubHeading {
@@ -175,17 +200,7 @@
     }
 
     &-Price {
-        flex-grow: 1;
         text-align: end;
-        margin-bottom: 0;
-
-        @include after-mobile {
-            font-size: 1.6rem;
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
-            flex-direction: column;
-        }
 
         &_isLikeTable {
             top: 0;
@@ -352,12 +367,6 @@
         @include after-mobile {
             display: none;
         }
-    }
-
-    &-HeadingWrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
     }
 
     .ProductPrice-SubPrice {

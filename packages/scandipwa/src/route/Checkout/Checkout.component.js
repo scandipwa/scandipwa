@@ -146,22 +146,30 @@ export class Checkout extends PureComponent {
     }
 
     renderTitle() {
-        const { checkoutStep } = this.props;
+        const { checkoutStep, totals: { is_virtual } } = this.props;
         const { title = '', number } = this.stepMap[checkoutStep];
 
-        return (
-            <>
-            <div block="Checkout" elem="Header">
-                <div block="Checkout" elem="Title">{ title }</div>
-                <div block="Checkout" elem="Step">
-                    <span block="Checkout" elem="SelectedStep">{ number }</span>
-                    <span block="Checkout" elem="StepsBorder">/</span>
-                    <span block="Checkout" elem="TotalSteps">{ this.stepsCount }</span>
+        if (is_virtual) {
+            return (
+                <div block="Checkout" elem="Header">
+                    <div block="Checkout" elem="Title">{ title }</div>
                 </div>
-            </div>
+            );
+        }
+
+        return (
+            <div block="Checkout" elem="ProgressSection">
+                <div block="Checkout" elem="Header">
+                    <div block="Checkout" elem="Title">{ title }</div>
+                    <div block="Checkout" elem="Step">
+                        <span block="Checkout" elem="SelectedStep">{ number }</span>
+                        <span block="Checkout" elem="StepsBorder">/</span>
+                        <span block="Checkout" elem="TotalSteps">{ this.stepsCount }</span>
+                    </div>
+                </div>
                 <div block="Checkout" elem="StepBarTotal" />
                 <div block="Checkout" elem="StepBarActive" mods={ { isSecond: number === 2 } } />
-            </>
+            </div>
         );
     }
 

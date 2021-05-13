@@ -12,6 +12,7 @@
 :root {
     --checkbox-border-radius: var(--imported_checkboxes_border_radius, 0);
     --checkbox-border-color: var(--imported_checkboxes_border_color, var(--primary-base-color));
+    --checkbox-border-color-active: var(--imported_checkboxes_border_color, var(--primary-base-color));
     --checkbox-width: var(--imported_checkboxes_width, 1.8rem);
     --checkbox-height: var(--imported_checkboxes_height, 1.8rem);
 }
@@ -160,11 +161,6 @@
             .input-control {
                 display: inline-block;
                 vertical-align: middle;
-                margin-inline-start: 1.2rem;
-
-                @include mobile {
-                    margin-inline-start: 1.4rem;
-                }
             }
         }
 
@@ -185,7 +181,7 @@
             --box-color: #{$white};
 
             background-color: var(--box-color);
-            border: 0.2rem solid var(--input-border-color);
+            border: 0.2rem solid var(--input-color);
             border-radius: var(--checkbox-border-radius);
             cursor: pointer;
             display: inline-block;
@@ -232,7 +228,7 @@
                 @include after-mobile {
                     --box-color: var(--secondary-light-color);
 
-                    border-color: var(--checkbox-border-color);
+                    border-color: var(--checkbox-border-color-active);
 
                     &::after {
                         @include after-mobile {
@@ -250,7 +246,7 @@
 
         &:checked {
             + .input-control {
-                border-color: var(--checkbox-border-color);
+                border-color: var(--checkbox-border-color-active);
 
                 &::after {
                     --checkmark-color: var(--primary-base-color);
