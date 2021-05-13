@@ -109,6 +109,10 @@
             animation: shake 820ms .5ms cubic-bezier(.36, .07, .19, .97) both;
         }
     }
+
+    &-GroupedItems {
+        margin-block-start: 2.4rem;
+    }
 }
 
 // .xProductActions {

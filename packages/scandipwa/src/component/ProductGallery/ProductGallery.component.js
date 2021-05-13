@@ -337,7 +337,8 @@ export class ProductGallery extends PureComponent {
             isZoomEnabled,
             onActiveImageChange,
             isImageZoomPopupActive,
-            sliderRef
+            sliderRef,
+            isMobile
         } = this.props;
 
         const mods = {
@@ -355,7 +356,8 @@ export class ProductGallery extends PureComponent {
                 <Slider
                   sliderRef={ sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider', mods } }
-                  showCrumbs
+                  showCrumbs={ isMobile }
+                  showArrows={ !isMobile }
                   activeImage={ activeImage }
                   onActiveImageChange={ onActiveImageChange }
                   isInteractionDisabled={ isZoomEnabled }
@@ -372,8 +374,8 @@ export class ProductGallery extends PureComponent {
     render() {
         return (
             <div block="ProductGallery">
-                { this.renderAdditionalPictures() }
                 { this.renderSlider() }
+                { this.renderAdditionalPictures() }
                 <VideoPopup />
             </div>
         );

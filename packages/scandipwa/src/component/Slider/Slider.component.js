@@ -35,6 +35,7 @@ import './Slider.style';
 export class Slider extends PureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
+        showArrows: PropTypes.bool,
         activeImage: PropTypes.number,
         onActiveImageChange: PropTypes.func,
         mix: MixType,
@@ -55,6 +56,7 @@ export class Slider extends PureComponent {
         activeImage: 0,
         onActiveImageChange: () => {},
         showCrumbs: false,
+        showArrows: false,
         isInteractionDisabled: false,
         mix: {},
         onClick: null,
@@ -79,6 +81,10 @@ export class Slider extends PureComponent {
     handleDragEnd = this.handleInteraction.bind(this, this.handleDragEnd);
 
     renderCrumb = this.renderCrumb.bind(this);
+
+    goNext = this.goNext.bind(this);
+
+    goPrev = this.goPrev.bind(this);
 
     __construct(props) {
         super.__construct(props);
@@ -135,17 +141,28 @@ export class Slider extends PureComponent {
         const { activeImage } = this.props;
 
         if (activeImage !== prevActiveImage && this.getIsSlider()) {
-            const newTranslate = -activeImage * this.getSlideWidth();
+            const newTranslate = -activeImage * this.getSlideWidth() * this.getDir();
 
             this.setAnimationSpeedStyle(Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION));
             this.setTranlateXStyle(newTranslate);
         }
     }
 
+    getDir() {
+        const { isVertical } = this.props;
+        const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+
+        if (!isVertical && isRtl) {
+            return -1;
+        }
+
+        return 1;
+    }
+
     addWindowResizeWatcher() {
         window.addEventListener('resize', () => {
             const { activeImage } = this.props;
-            const newTranslate = -activeImage * this.getSlideWidth();
+            const newTranslate = -activeImage * this.getSlideWidth() * this.getDir();
 
             this.setTranlateXStyle(newTranslate);
 
@@ -180,14 +197,18 @@ export class Slider extends PureComponent {
             CSS.setVariable(sliderRef, 'slider-height', sliderHeight);
         }
 
-        const newTranslate = -activeImage * this.getSlideWidth();
+        const newTranslate = -activeImage * this.getSlideWidth() * this.getDir();
         this.setTranlateXStyle(newTranslate);
     }
 
     setTranlateXStyle(translate) {
         const { isVertical } = this.props;
 
-        CSS.setVariable(this.draggableRef, isVertical ? 'translateY' : 'translateX', `${ translate }px`);
+        CSS.setVariable(
+            this.draggableRef,
+            isVertical ? 'translateY' : 'translateX',
+            `${ translate }px`
+        );
     }
 
     setAnimationSpeedStyle(animationDuration = ANIMATION_DURATION) {
@@ -277,33 +298,34 @@ export class Slider extends PureComponent {
 
         const fullSliderSize = this.getFullSliderWidth();
 
+        const dir = this.getDir();
         const activeSlidePosition = translate / slideSize;
         const activeSlidePercent = Math.abs(activeSlidePosition % 1);
-        const isSlideBack = translate > lastTranslate;
+        const isSlideBack = dir === 1 ? translate > lastTranslate : translate < lastTranslate;
 
         if (!translate) {
             return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
         }
 
-        if (translate >= 0) {
+        if ((dir === 1 && translate >= 0) || (dir === -1 && translate < 0)) {
             onActiveImageChange(0);
             return 0;
         }
 
-        if (translate < -fullSliderSize) {
-            const activeSlide = Math.round(fullSliderSize / -slideSize);
+        if ((dir === 1 && translate < -fullSliderSize) || (dir === -1 && translate > fullSliderSize)) {
+            const activeSlide = Math.round(fullSliderSize / (-slideSize * dir));
             onActiveImageChange(-activeSlide);
             return activeSlide;
         }
 
         if (isSlideBack && activeSlidePercent < 1 - ACTIVE_SLIDE_PERCENT) {
-            const activeSlide = Math.ceil(activeSlidePosition);
+            const activeSlide = Math[dir === 1 ? 'ceil' : 'floor'](activeSlidePosition);
             onActiveImageChange(-activeSlide);
             return activeSlide;
         }
 
         if (!isSlideBack && activeSlidePercent > ACTIVE_SLIDE_PERCENT) {
-            const activeSlide = Math.floor(activeSlidePosition);
+            const activeSlide = Math[dir === 1 ? 'floor' : 'ceil'](activeSlidePosition);
             onActiveImageChange(-activeSlide);
             return activeSlide;
         }
@@ -320,12 +342,14 @@ export class Slider extends PureComponent {
     handleDrag(state) {
         const { isVertical } = this.props;
         const { translateX, translateY } = state;
-
         const translate = isVertical ? translateY : translateX;
-
         const fullSliderSize = this.getFullSliderWidth();
+        const dir = this.getDir();
+        const canDrag = dir === 1
+            ? translate < 0 && translate > -fullSliderSize
+            : translate > 0 && translate < fullSliderSize;
 
-        if (translate < 0 && translate > -fullSliderSize) {
+        if (canDrag) {
             this.setTranlateXStyle(translate);
         }
     }
@@ -375,9 +399,27 @@ export class Slider extends PureComponent {
         onActiveImageChange(activeImage);
     }
 
+    goPrev() {
+        const { activeImage } = this.props;
+
+        if (activeImage > 0) {
+            this.changeActiveImage(activeImage - 1);
+        }
+    }
+
+    goNext() {
+        const { activeImage, children } = this.props;
+        const nextImage = activeImage + 1;
+
+        if (nextImage < children.length) {
+            this.changeActiveImage(nextImage);
+        }
+    }
+
     renderCrumbs() {
-        const { children } = this.props;
-        if (children.length <= 1) {
+        const { children, showCrumbs } = this.props;
+
+        if (!showCrumbs || children.length <= 1) {
             return null;
         }
 
@@ -413,8 +455,38 @@ export class Slider extends PureComponent {
         );
     }
 
+    renderArrows() {
+        const { showArrows, activeImage, children } = this.props;
+        const nextIsDisabled = activeImage + 1 === children.length;
+        const prevIsDisabled = activeImage === 0;
+
+        if (!showArrows) {
+            return null;
+        }
+
+        return (
+            <>
+                <button
+                  block="Slider"
+                  elem="Arrow"
+                  mods={ { isPrev: true, isDisabled: prevIsDisabled } }
+                  aria-label={ __('Previous') }
+                  onClick={ this.goPrev }
+                />
+                <button
+                  block="Slider"
+                  elem="Arrow"
+                  mods={ { isNext: true, isDisabled: nextIsDisabled } }
+                  aria-label={ __('Next') }
+                  onClick={ this.goNext }
+                />
+            </>
+        );
+    }
+
     renderSliderContent() {
         const { activeImage, children, isVertical } = this.props;
+        const dir = this.getDir();
 
         if (!this.getIsSlider()) {
             return children;
@@ -428,7 +500,7 @@ export class Slider extends PureComponent {
               onDragEnd={ this.handleDragEnd }
               onDrag={ this.handleDrag }
               onClick={ this.handleClick }
-              shiftX={ -activeImage * this.getSlideWidth() }
+              shiftX={ -activeImage * this.getSlideWidth() * dir }
               shiftY={ -activeImage * this.getSlideWidth() }
             >
                 { children }
@@ -437,10 +509,7 @@ export class Slider extends PureComponent {
     }
 
     render() {
-        const {
-            showCrumbs,
-            mix
-        } = this.props;
+        const { mix } = this.props;
 
         return (
             <div
@@ -449,7 +518,8 @@ export class Slider extends PureComponent {
               ref={ this.getSliderRef() }
             >
                 { this.renderSliderContent() }
-                { showCrumbs && this.renderCrumbs() }
+                { this.renderArrows() }
+                { this.renderCrumbs() }
             </div>
         );
     }
