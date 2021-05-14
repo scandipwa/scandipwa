@@ -57,7 +57,10 @@ export class NewsletterSubscriptionContainer extends PureComponent {
 
     onFormSubmit(fields) {
         const {
-            subscribeToNewsletter, allowGuestSubscribe, isSignedIn, showErrorNotification
+            subscribeToNewsletter,
+            allowGuestSubscribe,
+            isSignedIn,
+            showErrorNotification
         } = this.props;
         const { newsletterEmail: email } = fields;
 
