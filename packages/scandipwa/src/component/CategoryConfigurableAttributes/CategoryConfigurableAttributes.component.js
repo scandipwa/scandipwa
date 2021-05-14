@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { connect } from 'react-redux';
 
 import ExpandableContent from 'Component/ExpandableContent';
 import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
