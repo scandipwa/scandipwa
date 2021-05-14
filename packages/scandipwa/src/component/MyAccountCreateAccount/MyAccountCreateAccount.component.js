@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { signInStateType } from 'Type/Account';
+import history from 'Util/History';
 
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
@@ -46,6 +47,8 @@ export class MyAccountCreateAccount extends PureComponent {
     }
 
     renderCreateAccountPersonalInfoFields() {
+        const { location: { state: { firstName = '', lastName = '' } = {} } } = history;
+
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Personal Information') }</legend>
@@ -54,6 +57,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('First Name') }
                   id="firstname"
                   name="firstname"
+                  value={ firstName }
                   autocomplete="given-name"
                   validation={ ['notEmpty'] }
                 />
@@ -62,6 +66,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('Last Name') }
                   id="lastname"
                   name="lastname"
+                  value={ lastName }
                   autocomplete="family-name"
                   validation={ ['notEmpty'] }
                 />
@@ -79,6 +84,8 @@ export class MyAccountCreateAccount extends PureComponent {
     }
 
     renderCreateAccountSignUpInfoFields() {
+        const { location: { state: { email = '' } = {} } } = history;
+
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Sign-Up Information') }</legend>
@@ -87,6 +94,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('Email') }
                   id="email"
                   name="email"
+                  value={ email }
                   autocomplete="email"
                   validation={ ['notEmpty', 'email'] }
                 />

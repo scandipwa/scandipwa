@@ -128,6 +128,10 @@ export class ProductCompareDispatcher {
         }
     }
 
+    resetComparedProducts(dispatch) {
+        dispatch(clearComparedProducts());
+    }
+
     async _getGuestQuoteId(dispatch) {
         const result = getGuestQuoteId();
 

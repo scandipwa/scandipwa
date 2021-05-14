@@ -23,7 +23,7 @@ export const MyAccountDispatcher = import(
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(null, dispatch)
+        ({ default: dispatcher }) => dispatcher.logout(false, dispatch)
     )
 });
 

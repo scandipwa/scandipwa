@@ -11,7 +11,7 @@
 
 import ContactFormQuery from 'Query/ContactForm.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 import { updateContactForm } from './ContactForm.action';
 
@@ -40,7 +40,7 @@ export class ContactFormDispatcher {
                 },
                 /** @namespace Store/ContactForm/Dispatcher/fetchMutationError */
                 (error) => {
-                    dispatch(showNotification('error', error[0].message));
+                    dispatch(showNotification('error', getErrorMessage(error)));
                     dispatch(updateContactForm({
                         isLoading: false
                     }));

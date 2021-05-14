@@ -19,12 +19,27 @@ import {
     updateItemOptions
 } from 'Store/Wishlist/Wishlist.action';
 import { isSignedIn } from 'Util/Auth';
-import { fetchMutation, fetchQuery } from 'Util/Request';
+import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
+import getStore from 'Util/Store';
+import { getPriceRange } from 'Util/Wishlist';
 
 export const CartDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/Cart/Cart.dispatcher'
 );
+
+/**
+ * Get wishlist setting.
+ * @namespace /Store/Wishlist/Dispatcher/isWishlistEnabled
+ */
+export const isWishlistEnabled = () => {
+    const state = getStore().getState();
+    const {
+        wishlist_general_active = false
+    } = state.ConfigReducer;
+
+    return wishlist_general_active;
+};
 
 /**
  * Product Wishlist Dispatcher
@@ -33,7 +48,7 @@ export const CartDispatcher = import(
  */
 export class WishlistDispatcher {
     updateInitialWishlistData(dispatch) {
-        if (isSignedIn()) {
+        if (isSignedIn() && isWishlistEnabled()) {
             this._syncWishlistWithBE(dispatch);
         } else {
             dispatch(updateAllProductsInWishlist({}));
@@ -53,19 +68,28 @@ export class WishlistDispatcher {
                             sku,
                             product,
                             description,
+                            price,
+                            price_without_tax,
+                            buy_request,
+                            options,
                             qty: quantity
                         } = wishlistItem;
+
+                        const priceRange = getPriceRange(product, price, price_without_tax);
 
                         return {
                             ...prev,
                             [id]: {
                                 ...product,
+                                ...priceRange,
                                 quantity,
                                 wishlist: {
                                     id,
                                     sku,
                                     quantity,
-                                    description
+                                    description,
+                                    buy_request,
+                                    options
                                 }
                             }
                         };
@@ -86,6 +110,10 @@ export class WishlistDispatcher {
     }
 
     addItemToWishlist(dispatch, wishlistItem) {
+        if (!isSignedIn()) {
+            return Promise.reject();
+        }
+
         dispatch(updateIsLoading(true));
         dispatch(showNotification('success', __('Product added to wish-list!')));
 
@@ -102,6 +130,10 @@ export class WishlistDispatcher {
     }
 
     updateWishlistItem(dispatch, options) {
+        if (!isSignedIn()) {
+            return Promise.reject();
+        }
+
         return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(options)).then(
             /** @namespace Store/Wishlist/Dispatcher/updateWishlistItemFetchMutationThen */
             () => dispatch(updateItemOptions(options))
@@ -109,6 +141,10 @@ export class WishlistDispatcher {
     }
 
     clearWishlist(dispatch) {
+        if (!isSignedIn()) {
+            return Promise.reject();
+        }
+
         return fetchMutation(WishlistQuery.getClearWishlist())
             .then(
                 /** @namespace Store/Wishlist/Dispatcher/clearWishlistFetchMutationThen */
@@ -121,21 +157,25 @@ export class WishlistDispatcher {
     }
 
     moveWishlistToCart(dispatch, sharingCode) {
+        if (!isSignedIn()) {
+            return Promise.reject();
+        }
+
         return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
             .then(
                 /** @namespace Store/Wishlist/Dispatcher/moveWishlistToCartFetchMutationThen */
                 () => {
                     dispatch(clearWishlist());
                     CartDispatcher.then(
-                        ({ default: dispatcher }) => dispatcher._syncCartWithBE(dispatch)
+                        ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
                     );
                 }
             );
     }
 
     removeItemFromWishlist(dispatch, { item_id, noMessages }) {
-        if (!item_id) {
-            return null;
+        if (!item_id || !isSignedIn()) {
+            return Promise.reject();
         }
         dispatch(updateIsLoading(true));
 
@@ -162,8 +202,8 @@ export class WishlistDispatcher {
 
     // TODO: Need to make it in one request
     removeItemsFromWishlist(dispatch, itemIdMap) {
-        if (!itemIdMap.length) {
-            return null;
+        if (!itemIdMap.length || !isSignedIn()) {
+            return Promise.reject();
         }
 
         return itemIdMap.map((id) => (
@@ -175,14 +215,14 @@ export class WishlistDispatcher {
                 },
                 /** @namespace Store/Wishlist/Dispatcher/removeItemsFromWishlistFetchMutationError */
                 (error) => {
-                    const [message] = error;
-
-                    dispatch(showNotification('error', message || __('Error updating wishlist!')));
-                    // eslint-disable-next-line no-console
-                    console.log(error);
+                    dispatch(showNotification('error', getErrorMessage(error, __('Error updating wishlist!'))));
                 }
             )
         ));
+    }
+
+    resetWishlist(dispatch) {
+        dispatch(clearWishlist());
     }
 }
 

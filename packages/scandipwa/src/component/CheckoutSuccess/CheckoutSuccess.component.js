@@ -12,14 +12,20 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { REGISTER } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './CheckoutSuccess.style';
 
 /** @namespace Component/CheckoutSuccess/Component */
 export class CheckoutSuccess extends PureComponent {
     static propTypes = {
-        orderID: PropTypes.string.isRequired
+        orderID: PropTypes.string.isRequired,
+        isEmailAvailable: PropTypes.bool.isRequired,
+        email: PropTypes.string.isRequired,
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired
     };
 
     renderButtons() {
@@ -36,6 +42,43 @@ export class CheckoutSuccess extends PureComponent {
         );
     }
 
+    renderCreateAccountButton() {
+        const {
+            isEmailAvailable,
+            email,
+            firstName,
+            lastName
+        } = this.props;
+
+        if (!isEmailAvailable) {
+            return null;
+        }
+
+        return (
+            <div block="CheckoutRegistrationLink">
+                <p>
+                    { __('You can track your order status by creating an account.') }
+                </p>
+                <p>
+                    { `${__('Email address')}: ${email}` }
+                </p>
+                <Link
+                  to={ {
+                      pathname: appendWithStoreCode(`${ REGISTER }`),
+                      state: {
+                          firstName,
+                          lastName,
+                          email
+                      }
+                  } }
+                  block="Button"
+                >
+                    { __('Create account') }
+                </Link>
+            </div>
+        );
+    }
+
     render() {
         const { orderID } = this.props;
 
@@ -44,6 +87,7 @@ export class CheckoutSuccess extends PureComponent {
                 <h3>{ __('Your order # is: %s', orderID) }</h3>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
                 { this.renderButtons() }
+                { this.renderCreateAccountButton() }
             </div>
         );
     }

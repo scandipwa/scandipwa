@@ -69,7 +69,7 @@ export class NewProducts extends PureComponent {
         const { products } = this.props;
         return (
             <section block="NewProducts" ref={ this.newProductsRef }>
-                <h3>{ __('New Products') }</h3>
+                <h2>{ __('New Products') }</h2>
                 <ul block="NewProducts" elem="Products">
                     { products.map(this.renderProductCard) }
                 </ul>

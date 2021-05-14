@@ -34,7 +34,7 @@ export class BrowserDatabase {
                 return null;
             }
 
-            return data || entryObject;
+            return data;
         } catch {
             return null;
         }

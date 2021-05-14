@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -27,7 +28,9 @@ import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductActions/Container */
@@ -37,11 +40,13 @@ export class ProductActionsContainer extends PureComponent {
         productOrVariant: PropTypes.object.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
+        productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
-        getLink: PropTypes.func.isRequired
+        getLink: PropTypes.func.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired
     };
 
     static getMinQuantity(props) {
@@ -241,7 +246,7 @@ export class ProductActionsContainer extends PureComponent {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === 'OUT_OF_STOCK') {
+        if (stock_status === PRODUCT_OUT_OF_STOCK) {
             return 'https://schema.org/OutOfStock';
         }
 
@@ -268,6 +273,83 @@ export class ProductActionsContainer extends PureComponent {
         return 0;
     }
 
+    getSelectedOptions() {
+        const {
+            productOptionsData: {
+                productOptionsMulti = []
+            } = {}
+        } = this.props;
+
+        return productOptionsMulti.map((productOption) => {
+            const { option_value } = productOption;
+
+            return parseInt(option_value, 10);
+        });
+    }
+
+    getCustomizablePrice() {
+        const {
+            product: {
+                options = [],
+                price_range: {
+                    minimum_price: {
+                        regular_price: {
+                            value: regularPrice = 0
+                        } = {},
+                        regular_price_excl_tax: {
+                            currency,
+                            value: regularPriceExclTax = 0
+                        } = {}
+                    } = {}
+                } = {}
+            } = {}
+        } = this.props;
+
+        const customPrice = this._getCustomPrice(regularPrice, regularPriceExclTax, false);
+
+        const {
+            minimum_price: {
+                final_price: {
+                    value: finalCustomPrice = 0
+                } = {},
+                final_price_excl_tax: {
+                    value: finalCustomPriceExclTax = 0
+                } = {},
+                regular_price: {
+                    value: regularCustomPrice = 0
+                } = {},
+                regular_price_excl_tax: {
+                    value: regularCustomPriceExclTax = 0
+                } = {}
+            } = {}
+        } = customPrice;
+
+        const selectedOptions = this.getSelectedOptions();
+        const prices = options.reduce((acc, { data = [] }) => {
+            data.forEach(({ option_type_id, price }) => {
+                if (selectedOptions.includes(option_type_id)) {
+                    acc.push(price);
+                }
+            });
+
+            return acc;
+        }, []);
+
+        const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
+
+        return {
+            minimum_price: {
+                final_price: {
+                    currency,
+                    value: selectedOptionsTotal + finalCustomPrice
+                },
+                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
+                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
+                regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
+            }
+        };
+    }
+
     getProductPrice() {
         const {
             product,
@@ -288,6 +370,10 @@ export class ProductActionsContainer extends PureComponent {
 
         if (type_id === DOWNLOADABLE && links_purchased_separately) {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
+        }
+
+        if (product.options) {
+            return this.getCustomizablePrice();
         }
 
         return price_range;

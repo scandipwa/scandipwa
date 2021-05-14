@@ -81,7 +81,6 @@
     "Coupon was removed!": "優惠券代碼無效",
     "Create Password": "創建密碼",
     "Create an account": "創建一個帳戶",
-    "Create free account and keep track of your orders": "創建免費帳戶並跟踪您的訂單",
     "Create new account": "建立新帳戶",
     "Created at:": "建立於:",
     "Created at: ": "訂單建立時間:",
@@ -352,5 +351,5 @@
     "Mail:": null,
     "Create account": "創建帳號",
     "Forgot password": "忘記密碼了嗎",
-    "Remove out of stock products from cart": null
+    "Remove out of stock products from cart": "從購物車中刪除缺貨的產品"
 }
