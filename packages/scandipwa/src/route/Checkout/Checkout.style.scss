@@ -61,9 +61,9 @@
 
     &-Wrapper {
         margin: auto;
-        padding-inline: 32px;
 
         @include after-mobile {
+            padding-inline: 32px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-gap: 7%;
