@@ -19,7 +19,8 @@ import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.com
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     currency_code: state.ConfigReducer.currencyData.current_currency_code,
-    show_product_count: state.ConfigReducer.layered_navigation_product_count_enabled
+    show_product_count: state.ConfigReducer.layered_navigation_product_count_enabled,
+    childrenCategories: state.CategoryReducer.category.children
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container */
