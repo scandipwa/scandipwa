@@ -11,8 +11,18 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import ProductDownloadableLinks from './ProductDownloadableLinks.component';
+
+/** @namespace Component/ProductDownloadableLinks/Container/mapStateToProps */
+export const mapStateToProps = (state) => ({
+    isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window
+});
+
+/** @namespace Component/ProductDownloadableLinks/Container/mapDispatchToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = (dispatch) => ({});
 
 /** @namespace Component/ProductDownloadableLinks/Container */
 export class ProductDownloadableLinksContainer extends PureComponent {
@@ -130,4 +140,4 @@ export class ProductDownloadableLinksContainer extends PureComponent {
     }
 }
 
-export default ProductDownloadableLinksContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDownloadableLinksContainer);

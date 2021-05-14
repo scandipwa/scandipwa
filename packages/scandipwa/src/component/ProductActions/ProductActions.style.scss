@@ -206,23 +206,6 @@
         }
     }
 
-    &-Samples {
-        order: 16;
-
-        &Title {
-            font-weight: bold;
-            margin-bottom: .5rem;
-
-            @include mobile {
-                display: none;
-            }
-        }
-
-        &Link {
-            padding: .5rem 0;
-        }
-    }
-
     &-AddToCart {
         @include before-desktop {
             flex-grow: 1;
@@ -457,20 +440,6 @@
 
         @include mobile {
             padding: 0 1.4rem;
-        }
-    }
-
-    &-ExpandableContent {
-        &Button {
-            @include after-mobile {
-                display: none;
-            }
-        }
-
-        &Content_isContentExpanded {
-            @include mobile {
-                padding: 0 1.4rem 1.4rem;
-            }
         }
     }
 
