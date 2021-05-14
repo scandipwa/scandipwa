@@ -346,6 +346,8 @@ export class ProductGallery extends PureComponent {
             isZoomInCursor: !isImageZoomPopupActive
         };
 
+        const isMoreThanOnePhoto = gallery.length > 1;
+
         return (
             <div
               ref={ this.imageRef }
@@ -356,8 +358,8 @@ export class ProductGallery extends PureComponent {
                 <Slider
                   sliderRef={ sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider', mods } }
-                  showCrumbs={ isMobile }
-                  showArrows={ !isMobile }
+                  showCrumbs={ isMobile && isMoreThanOnePhoto }
+                  showArrows={ !isMobile && isMoreThanOnePhoto }
                   activeImage={ activeImage }
                   onActiveImageChange={ onActiveImageChange }
                   isInteractionDisabled={ isZoomEnabled }
