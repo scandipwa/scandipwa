@@ -1,4 +1,3 @@
-/* eslint-disable fp/no-let */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -123,15 +122,11 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         return items
             .map(this.getItemsPrice)
             .reduce(
-                ({ price, finalPrice, priceExclTax }, item) => {
-                    console.log('item', item);
-
-                    return {
-                        price: price + item.initialPrice,
-                        finalPrice: finalPrice + item.price,
-                        priceExclTax: priceExclTax + item.priceExclTax
-                    };
-                },
+                ({ price, finalPrice, priceExclTax }, item) => ({
+                    price: price + item.initialPrice,
+                    finalPrice: finalPrice + item.price,
+                    priceExclTax: priceExclTax + item.priceExclTax
+                }),
                 { price: 0, finalPrice: 0, priceExclTax: 0 }
             );
     }
@@ -141,7 +136,6 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         const { selectedDropdownOptions, selectedCheckboxValues } = this.state;
         const bundleOptions = [];
         const bundlePrices = this.getTotalPrice();
-        console.log('bundlePrices', bundlePrices);
 
         bundleOptions.push(
             ...bundleOptions,
