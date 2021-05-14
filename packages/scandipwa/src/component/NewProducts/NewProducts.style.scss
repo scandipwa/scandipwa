@@ -18,7 +18,7 @@
         display: grid;
         grid-template-columns: repeat(var(--new-products-per-page-count), 1fr);
         grid-auto-rows: max-content;
-        grid-column-gap: 1.2rem;
+        grid-column-gap: 12px;
 
         @include tablet {
             --new-products-per-page-count: calc(var(--new-products-per-page-count) - 2);
@@ -26,7 +26,7 @@
         }
 
         @include mobile {
-            grid-column-gap: 1.4rem;
+            grid-column-gap: 14px;
             grid-template-columns: 1fr 1fr;
             border: 0;
         }

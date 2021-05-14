@@ -52,33 +52,33 @@
     }
 
     &-Crumbs {
-        height: 1.6rem;
+        height: 16px;
         position: absolute;
         margin: auto;
         display: grid;
-        grid-gap: 1.6rem;
+        grid-gap: 16px;
 
         width: 100%;
-        grid-template-columns: repeat(auto-fit, 1.6rem);
+        grid-template-columns: repeat(auto-fit, 16px);
         justify-content: center;
-        inset-block-end: 1.2rem;
+        inset-block-end: 12px;
 
         @include mobile {
-            inset-block-end: 1.4rem;
+            inset-block-end: 14px;
         }
     }
 
     &-Crumb {
-        width: .8rem;
-        height: .8rem;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         background-color: var(--primary-base-color);
         will-change: width, height;
         transition: width 300ms, height 300ms;
 
         &_isActive {
-            width: 1.6rem;
-            height: 1.6rem;
+            width: 16px;
+            height: 16px;
         }
     }
 
@@ -88,8 +88,8 @@
         cursor: pointer;
         position: absolute;
         inset-block-start: 50%;
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 35px;
+        height: 35px;
 
         &_isPrev {
             inset-inline-start: 0;

@@ -10,15 +10,15 @@
  */
 
 .CheckoutGuestForm {
-    margin: 2.4rem 0;
+    margin: 24px 0;
 
     @include mobile {
-        margin: 2.8rem 0;
+        margin: 28px 0;
     }
 
     .Button {
         width: 100%;
-        margin-top: 2rem;
+        margin-top: 20px;
     }
 
     .Field {
@@ -32,7 +32,7 @@
 
                     .input-control {
                         margin-inline-start: 0;
-                        margin-inline-end: 1.2rem;
+                        margin-inline-end: 12px;
                     }
                 }
             }

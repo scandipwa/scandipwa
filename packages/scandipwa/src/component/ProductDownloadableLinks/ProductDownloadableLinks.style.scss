@@ -1,12 +1,12 @@
 .ProductDownloadableLinks {
     &-Title {
-        margin-bottom: .1rem;
+        margin-bottom: 1px;
 
         &_isRequired {
             &::after{
                 content: '*';
                 color: var(--primary-base-color);
-                padding: 0 .5rem;
+                padding: 0 5px;
             }
         }
 
@@ -28,23 +28,23 @@
 
         &Content_isContentExpanded {
             @include mobile {
-                padding: 0 1.4rem 1.4rem;
+                padding: 0 14px 14px;
             }
         }
     }
 
     @include after-mobile {
-        margin-bottom: 3rem;
+        margin-bottom: 30px;
     }
 }
 
 .ProductDownloadableLink {
-    padding: 1.5rem 0 1rem;
-    border-bottom: 0.1rem solid var(--expandable-content-divider-color);
+    padding: 15px 0 10px;
+    border-bottom: 1px solid var(--expandable-content-divider-color);
 
     .Field {
         display: inline-block;
-        margin-inline-end: 1rem;
+        margin-inline-end: 10px;
         margin-top: 0;
     }
 
@@ -56,14 +56,14 @@
         float: end;
 
         @include mobile {
-            margin-inline-end: 1.6rem;
+            margin-inline-end: 16px;
         }
     }
 
     &-Required {
         color: var(--primary-error-color);
-        padding-block-start: 1rem;
-        padding-inline-start: 1.5rem;
+        padding-block-start: 10px;
+        padding-inline-start: 15px;
     }
 
     @include mobile {
@@ -72,7 +72,7 @@
         }
 
         &:first-of-type {
-            padding-top: 1rem;
+            padding-top: 10px;
         }
     }
 }

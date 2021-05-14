@@ -15,30 +15,30 @@
 
 .CategoryDetails {
     display: grid;
-    grid-template-columns: auto minmax(10rem, 18rem);
-    grid-gap: 1.2rem;
+    grid-template-columns: auto minmax(100px, 180px);
+    grid-gap: 12px;
     background-color: var(--category-details-background);
-    margin-bottom: 1.2rem;
+    margin-bottom: 12px;
 
     @include mobile {
-        grid-template-columns: auto minmax(10rem, 21rem);
-        grid-gap: 1.4rem;
-        margin-bottom: 1.4rem;
+        grid-template-columns: auto minmax(100px, 210px);
+        grid-gap: 14px;
+        margin-bottom: 14px;
         display: none;
     }
 
     &-Picture {
         mix-blend-mode: multiply;
-        height: 7.2rem;
+        height: 72px;
         background: none;
     }
 
     &-Heading {
-        margin-bottom: .6rem;
+        margin-bottom: 6px;
         margin-top: 0;
 
         @include mobile {
-            margin-bottom: .7rem;
+            margin-bottom: 7px;
         }
     }
 
@@ -46,11 +46,11 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: 300;
 
         @include mobile {
-            padding: 2.8rem;
+            padding: 28px;
         }
     }
 }

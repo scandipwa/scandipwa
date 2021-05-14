@@ -1,18 +1,18 @@
 .ContactPage {
     &-Heading {
-        height: 3.6rem;
-        margin-top: 2.4rem;
-        margin-bottom: 1.8rem;
-        font-size: 2.4rem;
+        height: 36px;
+        margin-top: 24px;
+        margin-bottom: 18px;
+        font-size: 24px;
     }
 
     &-ColumnWrapper {
         display: flex;
-        margin-bottom: 2.4rem;
+        margin-bottom: 24px;
 
         @include mobile {
             display: block;
-            padding: 1.2rem 0;
+            padding: 12px 0;
         }
     }
 
@@ -20,7 +20,7 @@
         flex: 1;
 
         &_isContent {
-            margin-inline-end: 1.8rem;
+            margin-inline-end: 18px;
 
             @include mobile {
                 margin-inline-end: 0;

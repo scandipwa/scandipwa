@@ -20,7 +20,7 @@
         .SearchOverlay {
             &-Results {
                 display: block;
-                padding: 1.6rem;
+                padding: 16px;
             }
         }
     }
@@ -32,13 +32,13 @@
         width: 100%;
 
         @include desktop {
-            inset-inline-start: -2rem;
-            padding: 0 2rem;
+            inset-inline-start: -20px;
+            padding: 0 20px;
             position: absolute;
-            width: calc(100% + 4rem);
+            width: calc(100% + 40px);
 
             ul {
-                max-height: 40rem;
+                max-height: 400px;
                 overflow-y: scroll;
             }
         }

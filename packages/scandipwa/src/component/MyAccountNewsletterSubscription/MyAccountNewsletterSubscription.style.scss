@@ -17,7 +17,7 @@
     &-Button {
         @include after-mobile {
             position: absolute;
-            top: -5.5rem;
+            top: -55px;
             inset-inline-end: 0;
         }
     }
@@ -36,7 +36,7 @@
 
             .input-control {
                 margin-block: 0;
-                margin-inline: 0 1.2rem;
+                margin-inline: 0 12px;
             }
         }
     }

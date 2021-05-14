@@ -15,18 +15,18 @@
 //     --product-configurable-attributes-content-padding: 0;
 
 //     @include mobile {
-//         --product-configurable-attributes-content-padding: .7rem .7rem 2.1rem;
+//         --product-configurable-attributes-content-padding: 7px 7px 21px;
 //     }
 // }
 
 .ProductConfigurableAttributes {
-    font-size: 1.4rem;
-    line-height: 2rem;
+    font-size: 14px;
+    line-height: 20px;
 
     &-SwatchList,
     &-DropDownList {
         text-align: center;
-        margin-top: 0.5rem;
+        margin-top: 5px;
     }
 
     &-ExpandableContentButton {
@@ -42,7 +42,7 @@
         flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
-        padding-inline: 0.3rem;
+        padding-inline: 3px;
     }
 
     &-DropDownList {
@@ -100,7 +100,7 @@
 //             overflow-anchor: none;
 
 //             @include after-mobile {
-//                 margin-bottom: 1.2rem;
+//                 margin-bottom: 12px;
 //             }
 
 //             &_isContentExpanded {
@@ -115,10 +115,10 @@
 //         font-size: 1.2em;
 //         font-weight: 700;
 //         line-height: 1;
-//         margin: 0 0 1.2rem;
+//         margin: 0 0 12px;
 
 //         @include mobile {
-//             margin: 0 0 1.4rem;
+//             margin: 0 0 14px;
 //             display: none;
 //         }
 //     }

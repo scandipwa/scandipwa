@@ -19,7 +19,7 @@
     padding: 0;
     display: flex;
     align-items: flex-start;
-    border-block-start: 0.1rem solid var(--checkout-delivery-option-border-color);
+    border-block-start: 1px solid var(--checkout-delivery-option-border-color);
 
     &:first-child {
         border-block-start: 0;
@@ -37,8 +37,8 @@
         --check-mark-opacity: 0;
 
         width: 100%;
-        padding-block: 1.7rem;
-        padding-inline: 1.6rem;
+        padding-block: 17px;
+        padding-inline: 16px;
         text-align: start;
         padding-inline-end: 0;
         display: flex;
@@ -52,12 +52,12 @@
             top: 0;
             bottom: 0;
             margin: auto;
-            inset-inline-start: 0.8rem;
-            width: 1.2rem;
-            height: 0.6rem;
-            transform: rotate(135deg) translateX(-.5rem);
-            border-inline-end: 0.2rem solid var(--check-mark-color);
-            border-top: 0.2rem solid var(--check-mark-color);
+            inset-inline-start: 8px;
+            width: 12px;
+            height: 6px;
+            transform: rotate(135deg) translateX(-5px);
+            border-inline-end: 2px solid var(--check-mark-color);
+            border-top: 2px solid var(--check-mark-color);
         }
 
         &_isDisabled {
@@ -87,6 +87,6 @@
     }
 
     .Field_type_checkbox {
-        margin-block-start: 1.7rem;
+        margin-block-start: 17px;
     }
 }

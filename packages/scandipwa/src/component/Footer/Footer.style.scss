@@ -11,8 +11,8 @@
 
 :root {
     --footer-height: calc(var(--footer-content-height) + var(--footer-copyright-height));
-    --footer-content-height: 32rem;
-    --footer-copyright-height: 5rem;
+    --footer-content-height: 320px;
+    --footer-copyright-height: 50px;
 }
 
 .Footer {
@@ -27,19 +27,19 @@
     }
 
     &-CopyrightContent {
-        padding: 1rem 0;
+        padding: 10px 0;
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: var(--footer-copyright-height);
 
         @include after-mobile {
-            padding: 1.5rem 0;
+            padding: 15px 0;
         }
     }
 
     &-Copyright {
-        font-size: 1.5rem;
+        font-size: 15px;
         text-align: center;
 
         a {
@@ -55,7 +55,7 @@
     &-Columns {
         display: flex;
         height: 100%;
-        padding: 2.5rem 4rem;
+        padding: 25px 40px;
         justify-content: space-between;
 
         @include mobile {
@@ -65,22 +65,22 @@
         }
 
         @include after-mobile {
-            padding: 6rem 7rem;
+            padding: 60px 70px;
         }
 
         @include tablet {
-            padding-inline: 3rem;
+            padding-inline: 30px;
         }
     }
 
     &-Column {
         &:not(:last-of-type) {
             @include mobile {
-                margin-bottom: 3rem;
+                margin-bottom: 30px;
             }
 
             @include after-mobile {
-                padding-inline-end: 2rem;
+                padding-inline-end: 20px;
                 max-width: calc(100% / #{ $column-count - 1 });
             }
         }
@@ -88,11 +88,11 @@
 
     &-ColumnTitle {
         text-transform: uppercase;
-        margin: 0 0 1.5rem;
-        font-size: 2rem;
+        margin: 0 0 15px;
+        font-size: 20px;
 
         @include after-mobile {
-            margin: 0 0 2rem;
+            margin: 0 0 20px;
         }
     }
 
@@ -111,18 +111,18 @@
 
     &-ColumnItem {
         color: inherit;
-        margin-bottom: 1.2rem;
-        font-size: 1.6rem;
+        margin-bottom: 12px;
+        font-size: 16px;
 
         &:last-of-type {
             margin: 0;
         }
 
         &_type_image {
-            width: 2.5rem;
+            width: 25px;
 
             &:not(:last-of-type) {
-                margin-inline-end: 2rem;
+                margin-inline-end: 20px;
             }
         }
     }
@@ -138,7 +138,7 @@
 
         .Footer-Column_isNewsletter {
             @include desktop {
-                padding-inline-start: 10rem;
+                padding-inline-start: 100px;
             }
         }
     }

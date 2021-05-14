@@ -20,7 +20,7 @@
     cursor: pointer;
     display: inline-flex;
     color: var(--button-color);
-    font-size: 1.4rem;
+    font-size: 14px;
     font-weight: 700;
     justify-content: center;
     height: var(--button-height);
@@ -34,7 +34,7 @@
     will-change: background-color, color, border;
 
     @include mobile {
-        font-size: 1.54rem;
+        font-size: 15px;
         user-select: none;
     }
 

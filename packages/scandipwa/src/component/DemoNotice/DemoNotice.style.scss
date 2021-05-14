@@ -11,7 +11,7 @@
 
 :root {
     /* stylelint-disable-next-line length-zero-no-unit */
-    --demo-notice-height: 0.0rem;
+    --demo-notice-height: 0.0px;
 }
 
 .DemoNotice {
@@ -20,7 +20,7 @@
     background-color: var(--primary-base-color);
     color: $white;
     display: flex;
-    font-size: 1.4rem;
+    font-size: 14px;
     font-weight: bold;
     height: var(--demo-notice-height);
     justify-content: center;
@@ -30,6 +30,6 @@
     z-index: 110;
 
     @at-root .isDemoVisible {
-        --demo-notice-height: 4.8rem;
+        --demo-notice-height: 48px;
     }
 }

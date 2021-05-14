@@ -12,7 +12,7 @@
 .CategoryPagination {
     display: flex;
     justify-content: center;
-    min-height: 5.6rem;
+    min-height: 56px;
     margin: auto;
     align-items: center;
     z-index: 2;
@@ -30,9 +30,9 @@
     &-Icon {
         cursor: pointer;
         display: block;
-        height: 2rem;
+        height: 20px;
         margin: 0 auto;
-        width: 1.2rem;
+        width: 12px;
 
         &:hover,
         &:focus {
@@ -47,7 +47,7 @@
     &-ListItem {
         margin-bottom: 0;
         padding-inline-start: 0;
-        min-width: 3.5rem;
+        min-width: 35px;
         display: block;
 
         &::before {

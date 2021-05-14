@@ -12,7 +12,7 @@
 .FieldForm {
     label {
         @include after-mobile {
-            min-width: calc(100% - 3rem);
+            min-width: calc(100% - 30px);
         }
     }
 
@@ -30,10 +30,10 @@
     }
 
     &-Fields {
-        margin-bottom: 1.2rem;
+        margin-bottom: 12px;
 
         @include mobile {
-            margin-bottom: 1.4rem;
+            margin-bottom: 14px;
         }
     }
 }

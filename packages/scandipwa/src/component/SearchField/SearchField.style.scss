@@ -10,8 +10,8 @@
  */
 
 :root {
-    --search-bar-max-width: 45rem;
-    --search-bar-width: 27rem;
+    --search-bar-max-width: 450px;
+    --search-bar-width: 270px;
     --search-clear-background: var(--secondary-base-color);
     --search-field-background: var(--secondary-base-color);
     --search-field-border-color: var(--primary-divider-color);
@@ -22,13 +22,13 @@
 
 .SearchField {
     display: none;
-    margin: 0.8rem auto;
+    margin: 8px auto;
     max-width: 100%;
     width: 100%;
 
     @include desktop {
         display: block;
-        max-width: 60rem;
+        max-width: 600px;
     }
 
     &_isVisible {
@@ -48,10 +48,10 @@
 
         content: ' ';
         position: absolute;
-        height: 2.4rem;
-        inset-inline-end: 1.5rem;
-        top: calc(50% - 1.2rem);
-        width: 2.4rem;
+        height: 24px;
+        inset-inline-end: 15px;
+        top: calc(50% - 12px);
+        width: 24px;
     }
 
     &-Input {
@@ -64,8 +64,8 @@
 
         content: ' ';
         position: absolute;
-        inset-inline-end: 1.5rem;
-        top: calc(50% - 1.2rem);
+        inset-inline-end: 15px;
+        top: calc(50% - 12px);
     }
 }
 
@@ -92,7 +92,7 @@
 //
 //    &-Wrapper {
 //        @include desktop {
-//            margin-inline-end: 1.2rem;
+//            margin-inline-end: 12px;
 //        }
 //    }
 //
@@ -103,7 +103,7 @@
 //        border-color: transparent;
 //        border-radius: 15px;
 //        border-width: 1px;
-//        font-size: 1.6rem;
+//        font-size: 16px;
 //        max-width: 0;
 //        min-width: 0;
 //        opacity: 1;
@@ -123,11 +123,11 @@
 //            border: 0;
 //            border-bottom: 1px solid var(--search-input-desktop-border-color);
 //            border-radius: 0;
-//            font-size: 1.4rem;
-//            margin: 4.8rem 3.6rem 0 0;
+//            font-size: 14px;
+//            margin: 48px 36px 0 0;
 //            max-width: 100%;
-//            padding-left: 3.6rem;
-//            width: calc(100% - 7.2rem);
+//            padding-left: 36px;
+//            width: calc(100% - 72px);
 //            padding-bottom: 7px;
 //        }
 //
@@ -143,7 +143,7 @@
 //    }
 //
 //    &-Placeholder {
-//        font-size: 1.6rem;
+//        font-size: 16px;
 //        height: min-content;
 //        left: calc(50% - 5px);
 //        padding-left: 20px;
@@ -240,13 +240,13 @@
 //
 //    &-SearchInnerWrapper {
 //        .SearchField-SearchIcon {
-//            left: 4.2rem;
+//            left: 42px;
 //            position: absolute;
-//            top: 4.8rem;
+//            top: 48px;
 //
 //            @include mobile {
-//                left: 4.9rem;
-//                top: 5.6rem;
+//                left: 49px;
+//                top: 56px;
 //            }
 //        }
 //    }

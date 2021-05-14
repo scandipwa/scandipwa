@@ -10,15 +10,15 @@
  */
 
 :root {
-    --content-wrapper-width: 140rem;
+    --content-wrapper-width: 1400px;
 }
 
 .ContentWrapper {
     max-width: var(--content-wrapper-width);
-    padding-inline: 1.2rem;
+    padding-inline: 12px;
     margin-inline: auto;
 
     @include mobile {
-        padding-inline: 1.4rem;
+        padding-inline: 14px;
     }
 }

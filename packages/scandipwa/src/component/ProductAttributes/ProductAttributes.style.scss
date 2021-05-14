@@ -15,11 +15,11 @@
 // }
 
 .ProductAttributes {
-    font-size: 1.4rem;
-    line-height: 2rem;
+    font-size: 14px;
+    line-height: 20px;
 
     &-Wrapper {
-        padding-block-end: 3.2rem;
+        padding-block-end: 32px;
     }
 
     &-ExpandableContentButton {
@@ -32,14 +32,14 @@
         &_isContentExpanded {
             @include mobile {
                 padding-block: 0;
-                padding-inline: 1.4rem;
+                padding-inline: 14px;
             }
         }
 
         @include desktop {
             // display: grid;
             // grid-template-columns: 1fr 1fr;
-            // grid-gap: 4.8rem;
+            // grid-gap: 48px;
             // justify-content: center;
             // align-items: flex-start;
             width: 50%;
@@ -47,26 +47,26 @@
     }
 
     &-Placeholder {
-        margin-block-start: 2.4rem;
+        margin-block-start: 24px;
 
         @include mobile {
-            margin-block-start: 2.8rem;
+            margin-block-start: 28px;
         }
 
         span {
             display: block;
-            margin-block-end: 1.2rem;
+            margin-block-end: 12px;
 
             @include mobile {
-                margin-block-end: 1.4rem;
+                margin-block-end: 14px;
             }
         }
     }
 
     &-Group {
-        border-bottom: .1rem solid var(--secondary-base-color);
+        border-bottom: 1px solid var(--secondary-base-color);
         margin: 0;
-        padding-block: 3.2rem 1.6rem;
+        padding-block: 32px 16px;
         text-decoration: underline;
     }
 
@@ -84,20 +84,20 @@
 
     &-ValueLabel,
     &-AttributeLabel {
-        border-block-end: .1rem solid var(--secondary-base-color);
+        border-block-end: 1px solid var(--secondary-base-color);
         flex: 0 0 50%;
         overflow: hidden;
-        padding-block: 1.6rem;
+        padding-block: 16px;
         text-overflow: ellipsis;
     }
 
     // &-ValueLabel {
-    //     padding-inline-start: .6rem;
-    //     margin-block-end: 1.2rem;
+    //     padding-inline-start: 6px;
+    //     margin-block-end: 12px;
 
     //     @include mobile {
-    //         padding-inline-start: .7rem;
-    //         margin-block-end: 1.4rem;
+    //         padding-inline-start: 7px;
+    //         margin-block-end: 14px;
     //     }
     // }
 
@@ -112,13 +112,13 @@
     &-Image {
         padding-bottom: 40%;
         mix-blend-mode: multiply;
-        margin-inline-end: 12rem;
-        min-width: 36rem;
+        margin-inline-end: 120px;
+        min-width: 360px;
         background: none;
 
         @include mobile {
-            margin-inline-end: 14rem;
-            min-width: 42rem;
+            margin-inline-end: 140px;
+            min-width: 420px;
             display: none;
         }
     }

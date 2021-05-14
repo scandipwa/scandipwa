@@ -10,13 +10,13 @@
  */
 
 :root {
-    --table-body-border: .1rem solid rgba(10, 9, 3, 0.16);
+    --table-body-border: 1px solid rgba(10, 9, 3, 0.16);
 }
 
 table {
     thead th {
         background-color: var(--color-gray);
-        border-radius: .2rem;
+        border-radius: 2px;
     }
 
     tbody tr:not(:last-child) {
@@ -25,12 +25,12 @@ table {
 
     td,
     th {
-        padding: 1rem;
+        padding: 10px;
         text-align: start;
-        min-width: 12rem;
+        min-width: 120px;
 
         @include mobile {
-            min-width: 14rem;
+            min-width: 140px;
         }
     }
 }

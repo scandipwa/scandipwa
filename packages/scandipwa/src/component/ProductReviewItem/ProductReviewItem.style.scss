@@ -17,17 +17,17 @@
     display: flex;
     flex-wrap: wrap;
     margin: 0;
-    padding: 0 0 1.2rem;
-    border-bottom: 0.1rem solid var(--product-review-item-border);
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--product-review-item-border);
     word-break: break-word;
 
     @include mobile {
-        padding: 0 0 1.4rem;
+        padding: 0 0 14px;
     }
 
     @include after-mobile {
-        padding: 1.8rem 2.4rem;
-        border: 0.1rem solid var(--product-review-item-border);
+        padding: 18px 24px;
+        border: 1px solid var(--product-review-item-border);
     }
 
     &:last-child {
@@ -45,10 +45,10 @@
 
     &-ReviewTitle {
         width: 100%;
-        margin-bottom: 1.2rem;
+        margin-bottom: 12px;
 
         @include mobile {
-            margin-bottom: 1.4rem;
+            margin-bottom: 14px;
         }
     }
 
@@ -56,11 +56,11 @@
         line-height: 1;
 
         @include desktop {
-            min-width: 18rem;
+            min-width: 180px;
         }
 
         @include mobile {
-            margin-bottom: 1.4rem;
+            margin-bottom: 14px;
             width: 100%;
         }
     }
@@ -69,10 +69,10 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-        margin-bottom: .6rem;
+        margin-bottom: 6px;
 
         @include mobile {
-            margin-bottom: .7rem;
+            margin-bottom: 7px;
         }
 
         &:last-of-type {
@@ -80,19 +80,19 @@
         }
 
         .ProductReviewRating {
-            margin-block: 0 .24rem;
-            margin-inline: 1.2rem 0;
+            margin-block: 0 2px;
+            margin-inline: 12px 0;
 
             @include mobile {
-                margin-block: 0 .28rem;
-                margin-inline: 1.4rem 0;
+                margin-block: 0 3px;
+                margin-inline: 14px 0;
             }
         }
     }
 
     &-ReviewContent {
         flex: 1 0 0;
-        margin-inline-start: 4.8rem;
+        margin-inline-start: 48px;
 
         @include mobile {
             flex: 0 0 auto;
@@ -106,12 +106,12 @@
     }
 
     &-ReviewAuthor {
-        margin-top: .6rem;
-        font-size: .96rem;
+        margin-top: 6px;
+        font-size: 10px;
 
         @include mobile {
-            margin-top: .7rem;
-            font-size: 1.12rem;
+            margin-top: 7px;
+            font-size: 11px;
         }
     }
 
@@ -119,15 +119,15 @@
         margin-bottom: 0;
 
         @include mobile {
-            margin-bottom: 1.4rem;
+            margin-bottom: 14px;
         }
 
         .TextPlaceholder {
-            margin-top: .6rem;
+            margin-top: 6px;
             line-height: 1.1;
 
             @include mobile {
-                margin-top: .7rem;
+                margin-top: 7px;
             }
 
             &::after {

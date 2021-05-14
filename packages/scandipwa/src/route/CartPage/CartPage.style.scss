@@ -20,15 +20,15 @@
     margin-bottom: var(--header-nav-height);
 
     @include before-desktop {
-        padding-bottom: 11.3rem;
+        padding-bottom: 113px;
         margin-bottom: var(--navigation-tabs-height);
     }
 
     &-Wrapper {
         @include desktop {
             display: grid;
-            grid-template-columns: 1fr 36rem;
-            grid-column-gap: 4.8rem;
+            grid-template-columns: 1fr 360px;
+            grid-column-gap: 48px;
         }
 
         @include before-desktop {
@@ -38,12 +38,12 @@
 
     &-Empty {
         @include before-desktop {
-            padding: 1.2rem;
-            border-bottom: 0.1rem solid var(--expandable-content-divider-color);
+            padding: 12px;
+            border-bottom: 1px solid var(--expandable-content-divider-color);
         }
 
         @include mobile {
-            padding: 1.4rem;
+            padding: 14px;
         }
     }
 
@@ -55,23 +55,23 @@
             bottom: var(--navigation-tabs-height);
             inset-inline-start: 0;
             width: 100%;
-            border-top: 0.1rem solid var(--primary-divider-color);
+            border-top: 1px solid var(--primary-divider-color);
         }
 
         @include desktop {
-            padding: 2.4rem;
+            padding: 24px;
         }
     }
 
     &-SummaryHeading {
         text-align: center;
         text-transform: uppercase;
-        margin-bottom: 1.2rem;
+        margin-bottom: 12px;
         margin-top: 0;
 
         @include mobile {
-            font-size: 2.1rem;
-            margin-bottom: 1.4rem;
+            font-size: 21px;
+            margin-bottom: 14px;
         }
 
         @include before-desktop {
@@ -80,23 +80,23 @@
     }
 
     &-CheckoutButtons {
-        padding: 1.2rem 0;
+        padding: 12px 0;
 
         @include before-desktop {
-            padding: 1.2rem;
+            padding: 12px;
         }
 
         @include mobile {
-            padding: 1.4rem;
+            padding: 14px;
         }
     }
 
     &-OutOfStockProductsWarning {
-        padding: 1rem;
+        padding: 10px;
         display: flex;
         justify-content: center;
         background-color: var(--primary-error-color, red);
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: bold;
     }
 
@@ -106,7 +106,7 @@
         text-align: center;
 
         @include desktop {
-            margin-top: 2.4rem;
+            margin-top: 24px;
         }
 
         span {
@@ -120,11 +120,11 @@
         text-transform: uppercase;
         text-align: center;
         margin-inline-start: 0;
-        margin-top: 1.8rem;
+        margin-top: 18px;
 
         @include mobile {
-            font-size: 1.54rem;
-            margin-top: 2.1rem;
+            font-size: 14px;
+            margin-top: 21px;
         }
 
         @include before-desktop {
@@ -134,7 +134,7 @@
 
     &-Promo,
     &-Total {
-        min-height: 4.8rem;
+        min-height: 48px;
 
         @include before-desktop {
             min-height: 0;
@@ -146,42 +146,42 @@
         background: var(--cart-page-promo-background);
 
         @include desktop {
-            margin-top: 2.4rem;
+            margin-top: 24px;
         }
 
         &Block {
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 0.1rem solid var(--cart-page-divider-background);
-            padding: 2.4rem 1.2rem;
+            border: 1px solid var(--cart-page-divider-background);
+            padding: 24px 12px;
 
             @include before-desktop {
-                padding: 1.2rem;
+                padding: 12px;
                 border: 0;
-                border-bottom: 0.1rem solid var(--primary-divider-color);
+                border-bottom: 1px solid var(--primary-divider-color);
             }
 
             @include mobile {
-                padding: 1.4rem;
+                padding: 14px;
             }
         }
 
         &Image {
-            width: 4.6rem;
-            margin-inline-end: .6rem;
+            width: 46px;
+            margin-inline-end: 6px;
 
             @include mobile {
-                margin-inline-end: .7rem;
+                margin-inline-end: 7px;
             }
 
             @include before-desktop {
-                width: 3.6rem;
+                width: 36px;
             }
         }
 
         strong {
-            margin: 0 0.5rem;
+            margin: 0 5px;
         }
     }
 
@@ -189,11 +189,11 @@
         order: 4;
         display: block;
         max-width: 80%;
-        max-height: 5rem;
-        margin: 1.2rem auto;
+        max-height: 50px;
+        margin: 12px auto;
 
         @include mobile {
-            margin: 1.4rem auto;
+            margin: 14px auto;
         }
 
         @include before-desktop {
@@ -201,8 +201,8 @@
         }
 
         @include tablet {
-            max-width: 33rem;
-            height: 5.5rem;
+            max-width: 330px;
+            height: 55px;
         }
     }
 
@@ -210,16 +210,16 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 1.8rem;
+        font-size: 18px;
         font-weight: bold;
-        padding: 1.2rem 0;
+        padding: 12px 0;
 
         @include before-desktop {
-            padding: 1.2rem 1.2rem 0;
+            padding: 12px 12px 0;
         }
 
         @include mobile {
-            padding: 1.4rem 1.4rem  0;
+            padding: 14px 14px  0;
         }
 
         dd {
@@ -234,28 +234,28 @@
     }
 
     &-TotalDetails {
-        border-bottom: 0.1rem solid var(--cart-page-divider-background);
-        border-top: 0.1rem solid var(--cart-page-divider-background);
-        padding: 1.8rem 0;
+        border-bottom: 1px solid var(--cart-page-divider-background);
+        border-top: 1px solid var(--cart-page-divider-background);
+        padding: 18px 0;
         grid-template-columns: 50% 50%;
-        grid-row-gap: 1.8rem;
+        grid-row-gap: 18px;
         justify-content: space-between;
         align-items: center;
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: bold;
-        margin-top: 1.8rem;
+        margin-top: 18px;
         display: none;
 
         @include before-desktop {
-            padding: 1.2rem;
+            padding: 12px;
             margin-top: 0;
             border: 0;
-            border-bottom: 0.1rem solid var(--primary-divider-color);
+            border-bottom: 1px solid var(--primary-divider-color);
         }
 
         @include mobile {
-            padding: 1.4rem;
-            grid-row-gap: 2.1rem;
+            padding: 14px;
+            grid-row-gap: 21px;
         }
 
         @include desktop {
@@ -285,16 +285,16 @@
     &-TableHead {
         display: grid;
         grid-template-columns: 3fr 1fr 1fr;
-        border-bottom: 0.1rem solid var(--cart-page-divider-background);
+        border-bottom: 1px solid var(--cart-page-divider-background);
         background-color: var(--cart-page-table-head-background);
         text-transform: uppercase;
-        font-size: 1.2rem;
+        font-size: 12px;
         font-weight: 600;
-        padding: 1.08rem 1.2rem;
+        padding: 11px 12px;
         margin-bottom: 0;
 
         @include mobile {
-            padding: 1.26rem 1.4rem;
+            padding: 13px 14px;
         }
 
         @include before-desktop {
@@ -325,18 +325,18 @@
 
     &-Discount {
         @include desktop {
-            margin-top: 2.4rem;
+            margin-top: 24px;
         }
     }
 
     &-Static {
         @include before-desktop {
             overflow: scroll;
-            max-height: calc(100% - 14.4rem);
+            max-height: calc(100% - 144px);
         }
 
         @include before-desktop {
-            max-height: calc(100% - 16.8rem);
+            max-height: calc(100% - 168px);
         }
     }
 
@@ -344,25 +344,25 @@
         @include desktop {
             display: flex;
             flex-direction: column;
-            margin-top: 7.8rem;
+            margin-top: 78px;
         }
 
         @include tablet {
-            margin-top: 2.4rem;
+            margin-top: 24px;
         }
     }
 
     &-Heading {
-        height: 3.6rem;
-        margin-top: 2.4rem;
-        margin-bottom: 1.8rem;
-        font-size: 2.4rem;
+        height: 36px;
+        margin-top: 24px;
+        margin-bottom: 18px;
+        font-size: 24px;
 
         @include mobile {
-            height: 4.2rem;
-            margin-top: 2.8rem;
-            margin-bottom: 2.1rem;
-            font-size: 2.8rem;
+            height: 42px;
+            margin-top: 28px;
+            margin-bottom: 21px;
+            font-size: 28px;
         }
 
         @include before-desktop {
@@ -375,12 +375,12 @@
             max-width: 45%;
         }
 
-        @media (min-width: 114.5rem) {
+        @media (min-width: 1145px) {
             max-width: 50%;
         }
 
         @include tablet-portrait {
-            margin-top: -1.5rem;
+            margin-top: -15px;
             max-width: unset;
         }
     }
@@ -397,25 +397,25 @@
             position: relative;
             display: flex;
             justify-content: space-between;
-            margin-top: -2rem;
+            margin-top: -20px;
         }
 
         .CartItem-Delete {
             @include tablet {
                 height: auto;
-                margin-inline-start: -1.2rem;
-                margin-top: 0.5rem;
+                margin-inline-start: -12px;
+                margin-top: 5px;
                 order: 1;
-                padding-top: 0.8rem;
+                padding-top: 8px;
 
                 &::before {
-                    top: 0.8rem;
-                    inset-inline-start: 3rem;
+                    top: 8px;
+                    inset-inline-start: 30px;
                 }
 
                 &::after {
-                    top: 0.4rem;
-                    inset-inline-start: 3.2rem;
+                    top: 4px;
+                    inset-inline-start: 32px;
                 }
             }
 
@@ -423,24 +423,24 @@
                 order: 0;
 
                 &::before {
-                    top: 0.8rem;
-                    inset-inline-start: 1.5rem;
+                    top: 8px;
+                    inset-inline-start: 15px;
                 }
 
                 &::after {
-                    top: 0.4rem;
-                    inset-inline-start: 1.7rem;
+                    top: 4px;
+                    inset-inline-start: 17px;
                 }
             }
 
             @include tablet-portrait {
-                margin-top: -.7rem;
+                margin-top: -7px;
             }
         }
 
         > .CartItem-Qty {
             @include tablet-portrait {
-                margin-inline-start: 8rem;
+                margin-inline-start: 80px;
             }
         }
     }
@@ -451,7 +451,7 @@
             flex-wrap: wrap;
         }
 
-        @media (min-width: 114.5rem) {
+        @media (min-width: 1145px) {
             max-width: 50%;
         }
 

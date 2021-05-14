@@ -11,9 +11,9 @@
 
 .CategoryProductList {
     @include after-mobile {
-        top: -5.6rem;
+        top: -56px;
         grid-column: 2;
-        padding-bottom: 2.4rem;
+        padding-bottom: 24px;
     }
 
     &-Page {
@@ -21,7 +21,7 @@
             &_grid {
                 display: grid;
                 grid-auto-rows: max-content;
-                grid-column-gap: 1.2rem;
+                grid-column-gap: 12px;
 
                 @include narrow-desktop {
                     grid-template-columns: repeat(3, 1fr);
@@ -37,7 +37,7 @@
                 }
 
                 @include mobile {
-                    grid-column-gap: 1.4rem;
+                    grid-column-gap: 14px;
                     // remove margin from top to other pages
                     grid-template-columns: 1fr 1fr;
                     border: 0;
@@ -45,7 +45,7 @@
 
                 @include after-mobile {
                     grid-column: 2;
-                    margin-top: 1.2rem;
+                    margin-top: 12px;
                 }
 
                 // remove margin from top to other pages
@@ -58,7 +58,7 @@
 
             &_list {
                 display: block;
-                max-width: 60rem;
+                max-width: 600px;
 
                 .ProductCard-Link {
                     flex-direction: row;
@@ -66,7 +66,7 @@
                     width: fit-content;
 
                     .Image {
-                        width: 20rem;
+                        width: 200px;
                     }
 
                     .ProductCompareButton {
@@ -96,19 +96,19 @@
     }
 
     &-ProductsMissing {
-        padding: 1.2rem;
+        padding: 12px;
         text-align: center;
 
         @include mobile {
-            padding: 1.4rem;
+            padding: 14px;
         }
     }
 
     &-More {
-        min-height: 3.6rem;
+        min-height: 36px;
 
         @include mobile {
-            min-height: 4.2rem;
+            min-height: 42px;
         }
     }
 
@@ -116,12 +116,12 @@
         background-color: var(--category-product-list-load-button-background);
         cursor: pointer;
         font-size: 13pt;
-        margin-bottom: 1.2rem;
+        margin-bottom: 12px;
         padding: 1em 0;
         text-align: center;
 
         @include mobile {
-            margin-bottom: 1.4rem;
+            margin-bottom: 14px;
         }
     }
 }
