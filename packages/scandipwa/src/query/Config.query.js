@@ -131,6 +131,9 @@ export class ConfigQuery {
             'layered_navigation_product_count_enabled',
             'region_display_all',
             'redirect_dashboard',
+            'newsletter_general_active',
+            'newsletter_subscription_allow_guest_subscribe',
+            'newsletter_subscription_confirm',
             this.getPriceDisplayTypeField()
         ];
     }
