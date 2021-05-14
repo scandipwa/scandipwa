@@ -47,6 +47,7 @@
         }
 
         @include mobile {
+            bottom: var(--navigation-tabs-height);
             background-color: var(--secondary-base-color);
             padding: 14px 14px calc(env(safe-area-inset-bottom) + 14px);
         }
