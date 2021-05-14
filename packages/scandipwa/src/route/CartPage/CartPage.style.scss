@@ -22,6 +22,7 @@
     @include before-desktop {
         padding-bottom: 113px;
         margin-bottom: var(--navigation-tabs-height);
+        padding-inline: 14px;
     }
 
     &-Wrapper {
@@ -102,6 +103,7 @@
 
     &-CheckoutButton {
         width: 100%;
+        height: 100%;
         display: block;
         text-align: center;
 

@@ -24,7 +24,7 @@
 .CartItem {
     --header-color: var(--cart-item-actions-color);
 
-    border-bottom: 1px solid var(--cart-item-divider-color);
+    border-bottom: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
         font-weight: bold;
@@ -221,6 +221,7 @@
         will-change: max-height, opacity, padding;
         transition-property: padding, max-height;
         transition-duration: 200ms;
+        border-block-end: 1px solid var(--primary-divider-color);
 
         @include after-mobile {
             position: absolute;
@@ -256,26 +257,19 @@
             max-height: 60px;
             pointer-events: all;
         }
-
-        &::before {
-            top: 0;
-            z-index: 1;
-            border-color: var(--cart-item-action-border) transparent transparent transparent;
-        }
     }
 
     &-Delete {
-        @include desktop {
-            @include clear-button;
-        }
+        @include close-button;
+        background-size: auto;
+        width: 12px;
+        z-index: 5;
 
         @include after-mobile {
             top: 1px;
         }
 
         @include mobile {
-            @include close-button;
-            background-size: cover;
 
             position: absolute;
             inset-inline-end: 0;
@@ -317,8 +311,8 @@
 
         input {
             @include mobile {
-                width: 24px;
-                min-width: 24px;
+                width: 36px;
+                min-width: 36px;
                 background-color: transparent;
             }
         }

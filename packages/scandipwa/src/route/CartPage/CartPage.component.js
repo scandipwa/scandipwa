@@ -285,7 +285,7 @@ export class CartPage extends PureComponent {
               onClick={ onCheckoutButtonClick }
             >
                 <span />
-                { __('Secure checkout') }
+                { __('Proceed to checkout') }
             </button>
         );
     }
