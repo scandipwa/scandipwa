@@ -106,62 +106,20 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderProductOptionValue = (optionValue, i, array) => {
-        const { label, value } = optionValue;
-        const isNextAvailable = Boolean(array[i + 1]);
-
-        return (
-            <span
-              block="CartItem"
-              elem="ItemOptionValue"
-              key={ label }
-            >
-                { label || value }{ isNextAvailable && ', ' }
-            </span>
-        );
-    };
-
-    renderProductOptionContent = (option) => {
+    renderProductOption = (option) => {
         const { label, values, id } = option;
 
-        if (!values) {
-            return (
-                <div
-                  block="CartItem"
-                  elem="ItemOptionLabel"
-                  key={ `label-${ id }` }
-                >
-                    { label }
-                </div>
-            );
-        }
-
-        return (
-            <>
-                <div
-                  block="CartItem"
-                  elem="ItemOptionLabel"
-                  key={ `label-${ id }` }
-                >
-                    { `${ label }:` }
-                </div>
-                <div block="CartItem" elem="ItemOptionValues">
-                    { values.map(this.renderProductOptionValue) }
-                </div>
-            </>
-        );
-    };
-
-    renderProductOption = (option) => {
-        const { id } = option;
+        const labelText = values
+            ? __('%s: %s', label, values.map(({ label, value }) => label || value).join(', '))
+            : label;
 
         return (
             <div
               block="CartItem"
-              elem="ItemOption"
+              elem="Option"
               key={ id }
             >
-                  { this.renderProductOptionContent(option) }
+                { labelText }
             </div>
         );
     };
@@ -176,7 +134,7 @@ export class CartItem extends PureComponent {
         return (
             <div
               block="CartItem"
-              elem="ItemOptionsWrapper"
+              elem="Options"
               mods={ { isLikeTable } }
             >
                 { itemOptions.map(this.renderProductOption) }
@@ -291,10 +249,10 @@ export class CartItem extends PureComponent {
                         <div block="CartItem" elem="Title">
                             { this.renderProductName() }
                             { this.renderProductConfigurations() }
+                            { this.renderProductOptions(customizable_options) }
+                            { this.renderProductOptions(bundle_options) }
                         </div>
                         { this.renderDeleteButton(true) }
-                        { this.renderProductOptions(customizable_options) }
-                        { this.renderProductOptions(bundle_options) }
                         { this.renderProductLinks(downloadable_links) }
                         { this.renderQuantityChangeField(true) }
                         { this.renderProductPrice() }

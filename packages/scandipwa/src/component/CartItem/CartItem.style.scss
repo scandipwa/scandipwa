@@ -40,6 +40,10 @@
         &_isEditing {
             display: none;
         }
+
+        @include before-desktop {
+            display: none;
+        }
     }
 
     &-Link {
@@ -94,7 +98,7 @@
         background: var(--cart-item-background);
 
         @include mobile {
-            grid-template-columns: 96px auto;
+            grid-template-columns: 64px auto;
             grid-gap: 14px;
             padding: 14px;
             min-height: 130px;
@@ -110,38 +114,38 @@
         font-size: 12px;
     }
 
-    &-ItemOptionsWrapper {
-        @include mobile {
-            margin-top: 7px;
-        }
-
-        &_isLikeTable {
-            @include desktop {
-                max-width: 45%;
-            }
-        }
-    }
-
-    &-ItemOption {
-        display: flex;
-        margin-bottom: 6px;
-        margin-inline-end: 6px;
-
-        @include mobile {
-            margin-bottom: 7px;
-            margin-inline-end: 7px;
-        }
-    }
-
-    &-ItemOptionLabel {
-        align-self: center;
-        font-weight: bold;
-        margin-inline-end: 6px;
-
-        @include mobile {
-            margin-inline-end: 7px;
-        }
-    }
+    //&-ItemOptionsWrapper {
+    //    @include mobile {
+    //        margin-top: 7px;
+    //    }
+    //
+    //    &_isLikeTable {
+    //        @include desktop {
+    //            max-width: 45%;
+    //        }
+    //    }
+    //}
+    //
+    //&-ItemOption {
+    //    display: flex;
+    //    margin-bottom: 6px;
+    //    margin-inline-end: 6px;
+    //
+    //    @include mobile {
+    //        margin-bottom: 7px;
+    //        margin-inline-end: 7px;
+    //    }
+    //}
+    //
+    //&-ItemOptionLabel {
+    //    align-self: center;
+    //    font-weight: bold;
+    //    margin-inline-end: 6px;
+    //
+    //    @include mobile {
+    //        margin-inline-end: 7px;
+    //    }
+    //}
 
     &-ItemLinks {
         &Wrapper {

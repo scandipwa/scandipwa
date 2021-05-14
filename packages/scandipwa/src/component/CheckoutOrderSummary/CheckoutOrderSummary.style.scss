@@ -12,8 +12,12 @@
 .CheckoutOrderSummary {
     $divider-border-color: #e0e0e0;
     $divider-border: solid 1px $divider-border-color;
-    border: 1px solid var(--secondary-base-color);
-    border-radius: 2px;
+
+    @include after-mobile {
+        border: 1px solid var(--secondary-base-color);
+        border-radius: 2px;
+    }
+
     padding: 24px 16px;
 
     &-Header {
@@ -66,11 +70,6 @@
         list-style: none;
         margin: 0;
         padding: 0;
-
-        @include mobile {
-            --cart-item-background: var(--secondary-base-color);
-            --cart-item-divider-color: $divider-border-color;
-        }
     }
 
     &-CartItemDescription {
@@ -134,7 +133,11 @@
 
     &-ExpandableContent {
         margin: 0 -14px;
-        background-color: var(--secondary-base-color);
+        border-block-start: none;
+
+        &Button {
+            padding-inline: 0;
+        }
     }
 
     &-Coupon {
