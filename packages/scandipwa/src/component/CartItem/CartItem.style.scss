@@ -173,6 +173,10 @@
         @include mobile {
             height: 100%;
         }
+
+        img {
+            object-position: top;
+        }
     }
 
     &-Price {
