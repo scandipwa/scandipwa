@@ -221,7 +221,10 @@
         will-change: max-height, opacity, padding;
         transition-property: padding, max-height;
         transition-duration: 200ms;
-        border-block-end: 1px solid var(--primary-divider-color);
+
+        @include before-desktop {
+            border-block-end: 1px solid var(--primary-divider-color);
+        }
 
         @include after-mobile {
             position: absolute;
@@ -336,7 +339,7 @@
     }
 
     .ProductPrice-SubPrice {
-        font-size: .6em;
-        font-weight: 300;
+        font-size: 12px;
+        font-weight: 400;
     }
 }

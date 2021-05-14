@@ -105,7 +105,7 @@ export class CartPage extends PureComponent {
 
         return (
             <>
-                <dt>{ __('Subtotal:') }</dt>
+                <dt>{ __('Subtotal') }</dt>
                 <dd>
                     { this.renderPriceLine(cartSubtotal) }
                     { this.renderSubTotalExlTax() }
