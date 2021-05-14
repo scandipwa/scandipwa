@@ -11,7 +11,7 @@
 
 import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 export const NOT_ACTIVE = 'NOT_ACTIVE';
 
@@ -33,7 +33,7 @@ export class NewsletterSubscriptionDispatcher {
                 return dispatch(showNotification('success', message));
             },
             /** @namespace Store/NewsletterSubscription/Dispatcher/fetchMutationSuccess */
-            (error) => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }
 }

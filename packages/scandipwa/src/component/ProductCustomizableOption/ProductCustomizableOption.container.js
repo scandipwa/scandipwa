@@ -107,13 +107,12 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    renderOptionLabel(priceType, price) {
+    renderOptionLabel(priceType, price, currency) {
         switch (priceType) {
         case 'PERCENT':
             return `${ price }%`;
         default:
-            /* TODO: get currency code */
-            return formatPrice(price);
+            return formatPrice(price, currency);
         }
     }
 
@@ -150,13 +149,13 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     getDropdownOptions(values) {
         return values.reduce((acc, {
-            option_type_id, title, price, price_type
+            option_type_id, title, price, price_type, currency
         }) => {
             acc.push({
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} + ${this.renderOptionLabel(price_type, price)}`
+                label: `${title} + ${this.renderOptionLabel(price_type, price, currency)}`
             });
 
             return acc;
@@ -170,7 +169,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             setCustomizableOptionFileFieldValue,
             showNotification
         } = this.props;
-        const { type = '' } = values;
+        const { type = '', name } = values;
 
         if (file_extension && !file_extension.split(', ').some((fileType) => type.includes(fileType))) {
             showNotification('error', __('File type is incorrect'));
@@ -181,7 +180,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         const reader = new FileReader();
         // eslint-disable-next-line func-names
         reader.onloadend = function () {
-            setCustomizableOptionFileFieldValue(reader.result, option);
+            setCustomizableOptionFileFieldValue(reader.result, option, name);
         };
 
         reader.readAsDataURL(values);

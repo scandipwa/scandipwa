@@ -15,7 +15,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import { getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { getExtensionAttributes } from 'Util/Product';
-import { fetchMutation, fetchQuery } from 'Util/Request';
+import { fetchMutation, fetchQuery, getErrorMessage } from 'Util/Request';
 
 export const LinkedProductsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -28,110 +28,88 @@ export const LinkedProductsDispatcher = import(
  * @namespace Store/Cart/Dispatcher
  */
 export class CartDispatcher {
-    updateInitialCartData(dispatch) {
-        const guestQuoteId = getGuestQuoteId();
+    async updateInitialCartData(dispatch) {
+        // Need to get current cart from BE, update cart
+        try {
+            const { cartData = {} } = await fetchQuery(
+                CartQuery.getCartQuery(
+                    !isSignedIn() && await this._getGuestQuoteId(dispatch)
+                )
+            );
 
-        if (isSignedIn()) {
-            // This is logged in customer, no need for quote id
-            this._syncCartWithBE(dispatch);
-        } else if (guestQuoteId) {
-            // This is guest
-            this._syncCartWithBE(dispatch, guestQuoteId);
+            return this._updateCartData(cartData, dispatch);
+        } catch (error) {
+            return this.createGuestEmptyCart(dispatch);
         }
     }
 
-    createGuestEmptyCart(dispatch) {
-        return this._createEmptyCart(dispatch).then(
-            /** @namespace Store/Cart/Dispatcher/updateInitialCartData_createEmptyCartThen */
-            (data) => {
-                setGuestQuoteId(data);
-                this._updateCartData({}, dispatch);
-                return data;
-            }
-        );
+    async createGuestEmptyCart(dispatch) {
+        try {
+            const {
+                createEmptyCart: quoteId = ''
+            } = await fetchMutation(CartQuery.getCreateEmptyCartMutation());
+
+            setGuestQuoteId(quoteId);
+            this._updateCartData({}, dispatch);
+            return quoteId;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+            return null;
+        }
+    }
+
+    async mergeCarts(sourceCartId, destinationCartId, dispatch) {
+        try {
+            const {
+                mergeCarts: {
+                    id = ''
+                } = {}
+            } = await fetchMutation(
+                CartQuery.getMergeCartQuery(sourceCartId, destinationCartId)
+            );
+
+            return id;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+            return null;
+        }
     }
 
     resetGuestCart(dispatch) {
         return this._updateCartData({}, dispatch);
     }
 
-    _createEmptyCart(dispatch) {
-        return fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
-            /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationThen */
-            ({ createEmptyCart }) => createEmptyCart,
-            /** @namespace Store/Cart/Dispatcher/_createEmptyCartFetchMutationCatch */
-            (error) => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    handle_syncCartWithBESuccess(dispatch, { cartData }) {
-        this._updateCartData(cartData, dispatch);
-    }
-
-    handle_syncCartWithBEError(dispatch) {
-        return this._createEmptyCart(dispatch)
-            .then(
-                /** @namespace Store/Cart/Dispatcher/handle_syncCartWithBEError_createEmptyCartThen */
-                (data) => {
-                    setGuestQuoteId(data);
-                    this._updateCartData({}, dispatch);
-                }
-            );
-    }
-
-    _syncCartWithBE(dispatch) {
-        // Need to get current cart from BE, update cart
-        fetchQuery(CartQuery.getCartQuery(
-            !isSignedIn() && getGuestQuoteId()
-        )).then(
-            /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryThen */
-            (result) => this.handle_syncCartWithBESuccess(dispatch, result),
-            /** @namespace Store/Cart/Dispatcher/_syncCartWithBEFetchQueryError */
-            (error) => this.handle_syncCartWithBEError(dispatch, error)
-        );
-    }
-
-    changeItemQty(dispatch, options, tries = 0) {
+    async changeItemQty(dispatch, options) {
         const { item_id, quantity, sku } = options;
 
-        if (tries > 2) {
-            dispatch(showNotification('error', __('Internal server error. Can not add to cart.')));
-            return Promise.reject();
-        }
+        try {
+            const isCustomerSignedIn = isSignedIn();
+            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
 
-        return fetchMutation(CartQuery.getSaveCartItemMutation(
-            { sku, item_id, quantity },
-            !isSignedIn() && getGuestQuoteId()
-        )).then(
-            /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationThen */
-            ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch */
-            (error) => {
-                const [{ debugMessage = '' }] = error || [{}];
-
-                if (debugMessage.match('No such entity with cartId ')) {
-                    return this._createEmptyCart(dispatch).then(
-                        /** @namespace Store/Cart/Dispatcher/changeItemQtyFetchMutationCatch_createEmptyCartThen */
-                        (data) => {
-                            setGuestQuoteId(data);
-                            this._updateCartData({}, dispatch);
-                            return this.changeItemQty(dispatch, options, tries + 1);
-                        }
-                    );
-                }
-
-                dispatch(showNotification('error', error[0].message));
+            if (!isCustomerSignedIn && !guestQuoteId) {
                 return Promise.reject();
             }
-        );
+
+            const { saveCartItem: { cartData = {} } = {} } = await fetchMutation(
+                CartQuery.getSaveCartItemMutation(
+                    { sku, item_id, quantity },
+                    guestQuoteId
+                )
+            );
+
+            return this._updateCartData(cartData, dispatch);
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+            return Promise.reject();
+        }
     }
 
     async addProductToCart(dispatch, options) {
-        const guestQuoteId = getGuestQuoteId();
         const {
             product,
             quantity,
-            productOptionsData
+            productOptionsData,
+            buyRequest
         } = options;
 
         const {
@@ -150,6 +128,7 @@ export class CartDispatcher {
             product_type,
             quantity,
             product_option: {
+                buy_request: buyRequest,
                 extension_attributes: getExtensionAttributes(
                     {
                         ...product,
@@ -161,19 +140,22 @@ export class CartDispatcher {
             }
         };
 
-        if (!guestQuoteId) {
-            await this.createGuestEmptyCart(dispatch);
-        }
-
         if (this._canBeAdded(options)) {
             try {
-                const { saveCartItem: { cartData } } = await fetchMutation(CartQuery.getSaveCartItemMutation(
-                    productToAdd, !isSignedIn() && getGuestQuoteId()
-                ));
+                const isCustomerSignedIn = isSignedIn();
+                const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+
+                if (!isCustomerSignedIn && !guestQuoteId) {
+                    return Promise.reject();
+                }
+
+                const { saveCartItem: { cartData = {} } = {} } = await fetchMutation(
+                    CartQuery.getSaveCartItemMutation(productToAdd, guestQuoteId)
+                );
 
                 return this._updateCartData(cartData, dispatch);
-            } catch ([{ message }]) {
-                dispatch(showNotification('error', message));
+            } catch (error) {
+                dispatch(showNotification('error', getErrorMessage(error)));
                 return Promise.reject();
             }
         }
@@ -181,55 +163,65 @@ export class CartDispatcher {
         return Promise.reject();
     }
 
-    removeProductFromCart(dispatch, item_id) {
-        return fetchMutation(CartQuery.getRemoveCartItemMutation(
-            item_id,
-            !isSignedIn() && getGuestQuoteId()
-        )).then(
-            /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationThen */
-            ({ removeCartItem: { cartData } }) => {
-                this._updateCartData(cartData, dispatch);
-                return cartData;
-            },
-            /** @namespace Store/Cart/Dispatcher/removeProductFromCartFetchMutationError */
-            (error) => {
-                dispatch(showNotification('error', error[0].message));
+    async removeProductFromCart(dispatch, item_id) {
+        try {
+            const isCustomerSignedIn = isSignedIn();
+            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+
+            if (!isCustomerSignedIn && !guestQuoteId) {
                 return null;
             }
-        );
+
+            const { removeCartItem: { cartData = {} } = {} } = await fetchMutation(
+                CartQuery.getRemoveCartItemMutation(item_id, guestQuoteId)
+            );
+
+            this._updateCartData(cartData, dispatch);
+            return cartData;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+            return null;
+        }
     }
 
     async applyCouponToCart(dispatch, couponCode) {
-        const guestQuoteId = getGuestQuoteId();
-
-        if (!guestQuoteId) {
-            await this.createGuestEmptyCart(dispatch);
-        }
-
         try {
-            const { applyCoupon: { cartData } } = await fetchMutation(CartQuery.getApplyCouponMutation(
-                couponCode, !isSignedIn() && getGuestQuoteId()
-            ));
+            const isCustomerSignedIn = isSignedIn();
+            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+
+            if (!isCustomerSignedIn && !guestQuoteId) {
+                return;
+            }
+
+            const { applyCoupon: { cartData = {} } = {} } = await fetchMutation(
+                CartQuery.getApplyCouponMutation(couponCode, guestQuoteId)
+            );
 
             this._updateCartData(cartData, dispatch);
             dispatch(showNotification('success', __('Coupon was applied!')));
         } catch (error) {
-            dispatch(showNotification('error', error[0].message));
+            dispatch(showNotification('error', getErrorMessage(error)));
         }
     }
 
-    removeCouponFromCart(dispatch) {
-        return fetchMutation(CartQuery.getRemoveCouponMutation(
-            !isSignedIn() && getGuestQuoteId()
-        )).then(
-            /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationThen */
-            ({ removeCoupon: { cartData } }) => {
-                this._updateCartData(cartData, dispatch);
-                dispatch(showNotification('success', __('Coupon was removed!')));
-            },
-            /** @namespace Store/Cart/Dispatcher/removeCouponFromCartFetchMutationError */
-            (error) => dispatch(showNotification('error', error[0].message))
-        );
+    async removeCouponFromCart(dispatch) {
+        try {
+            const isCustomerSignedIn = isSignedIn();
+            const guestQuoteId = !isCustomerSignedIn && getGuestQuoteId();
+
+            if (!isCustomerSignedIn && !guestQuoteId) {
+                return;
+            }
+
+            const { removeCoupon: { cartData = {} } = {} } = await fetchMutation(
+                CartQuery.getRemoveCouponMutation(guestQuoteId)
+            );
+
+            this._updateCartData(cartData, dispatch);
+            dispatch(showNotification('success', __('Coupon was removed!')));
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+        }
     }
 
     updateCrossSellProducts(items, dispatch) {
@@ -299,6 +291,21 @@ export class CartDispatcher {
         }
 
         return true;
+    }
+
+    /**
+     * Get quote id. If quote id is missing, fetch it from the BE.
+     * @param Dispatch dispatch
+     * @return string quote id
+     */
+    _getGuestQuoteId(dispatch) {
+        const guestQuoteId = getGuestQuoteId();
+
+        if (guestQuoteId) {
+            return guestQuoteId;
+        }
+
+        return this.createGuestEmptyCart(dispatch);
     }
 }
 

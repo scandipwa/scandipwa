@@ -23,9 +23,10 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import {
     OPTION_TYPE_COLOR,
@@ -60,6 +61,7 @@ export class ProductCard extends PureComponent {
         isConfigurableProductOutOfStock: PropTypes.func.isRequired,
         isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
+        isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
         siblingsHaveBrands: PropTypes.bool,
         setSiblingsHaveBrands: PropTypes.func,
@@ -89,7 +91,7 @@ export class ProductCard extends PureComponent {
         setSiblingsHaveTierPrice: () => null,
         siblingsHaveConfigurableOptions: false,
         setSiblingsHaveConfigurableOptions: () => null,
-        layout: 'grid'
+        layout: GRID_LAYOUT
     };
 
     contentObject = {
@@ -107,6 +109,11 @@ export class ProductCard extends PureComponent {
         }
     };
 
+    productTypeRenderMap = {
+        [GROUPED]: __('Starting from'),
+        [CONFIGURABLE]: __('As Low as')
+    };
+
     imageRef = createRef();
 
     registerSharedElement = () => {
@@ -114,14 +121,15 @@ export class ProductCard extends PureComponent {
         registerSharedElement(this.imageRef);
     };
 
-    renderConfigurablePriceBadge() {
+    renderProductTypePriceBadge() {
         const {
             product: { type_id },
             siblingsHavePriceBadge,
             setSiblingsHavePriceBadge
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        const label = this.productTypeRenderMap[type_id];
+        if (!label) {
             return null;
         }
 
@@ -136,7 +144,7 @@ export class ProductCard extends PureComponent {
                   elem: 'PriceBadge'
               } }
             >
-                { __('As Low as') }
+                { label }
             </p>
         );
     }
@@ -180,7 +188,7 @@ export class ProductCard extends PureComponent {
         return (
             <div block="ProductCard" elem="PriceWrapper">
                 { this.renderTierPrice() }
-                { this.renderConfigurablePriceBadge() }
+                { this.renderProductTypePriceBadge() }
                 <ProductPrice
                   price={ price_range }
                   mix={ { block: 'ProductCard', elem: 'Price' } }
@@ -346,9 +354,9 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductCardWishlistButton() {
-        const { product, hideWishlistButton } = this.props;
+        const { product, hideWishlistButton, isWishlistEnabled } = this.props;
 
-        if (hideWishlistButton) {
+        if (hideWishlistButton || !isWishlistEnabled) {
             return null;
         }
 
@@ -565,7 +573,7 @@ export class ProductCard extends PureComponent {
             siblingsHaveConfigurableOptions
         };
 
-        if (layout === 'list') {
+        if (layout === LIST_LAYOUT) {
             return (
                 <li
                   block="ProductCard"

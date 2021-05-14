@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -71,7 +72,8 @@ export const mapStateToProps = (state) => ({
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
     device: state.ConfigReducer.device,
-    plpType: state.ConfigReducer.plp_list_mode
+    plpType: state.ConfigReducer.plp_list_mode,
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/CategoryPage/Container/mapDispatchToProps */
@@ -136,6 +138,7 @@ export class CategoryPageContainer extends PureComponent {
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isSearchPage: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
         plpType: PropTypes.string
     };
 
@@ -149,7 +152,8 @@ export class CategoryPageContainer extends PureComponent {
 
     state = {
         currentCategoryIds: -1,
-        breadcrumbsWereUpdated: false
+        breadcrumbsWereUpdated: false,
+        selectedLayoutType: null
     };
 
     config = {
@@ -158,23 +162,53 @@ export class CategoryPageContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onSortChange: this.onSortChange.bind(this)
+        onSortChange: this.onSortChange.bind(this),
+        onGridButtonClick: this.onGridButtonClick.bind(this),
+        onListButtonClick: this.onListButtonClick.bind(this)
     };
 
     static getDerivedStateFromProps(props, state) {
-        const { currentCategoryIds } = state;
-        const { category: { id } } = props;
+        const {
+            currentCategoryIds,
+            defaultPlpType,
+            plpTypes
+        } = state;
+
+        const {
+            category: { id },
+            plpType,
+            isMobile
+        } = props;
+
+        const update = {};
+
+        /**
+         * Determine default plpType and the other ones
+         */
+        if (!defaultPlpType || !plpTypes) {
+            if (plpType.match('-')) {
+                const plpTypes = plpType.split('-');
+                const defaultType = isMobile ? GRID_LAYOUT : plpTypes[0];
+
+                Object.assign(update, { defaultPlpType: defaultType, plpTypes });
+            } else {
+                const defaultType = isMobile ? GRID_LAYOUT : plpType;
+                Object.assign(update, { defaultPlpType: defaultType, plpTypes: [plpType] });
+            }
+        }
 
         /**
          * If the category we expect to load is loaded - reset it
          */
         if (currentCategoryIds === id) {
-            return {
-                currentCategoryIds: -1
-            };
+            Object.assign(update, { currentCategoryIds: -1 });
         }
 
-        return null;
+        if (!Object.keys(update).length) {
+            return null;
+        }
+
+        return update;
     }
 
     componentDidMount() {
@@ -202,11 +236,6 @@ export class CategoryPageContainer extends PureComponent {
          * Always update the history, ensure the history contains category
          */
         this.updateHistory();
-
-        /**
-         * Get default PLP type and type list
-         */
-        this.updatePlpType();
 
         /**
          * Make sure to update header state, if the category visited
@@ -299,6 +328,14 @@ export class CategoryPageContainer extends PureComponent {
         ) {
             this.updateMeta();
         }
+    }
+
+    onGridButtonClick() {
+        this.setState({ selectedLayoutType: GRID_LAYOUT });
+    }
+
+    onListButtonClick() {
+        this.setState({ selectedLayoutType: LIST_LAYOUT });
     }
 
     onSortChange(sortDirection, sortKey) {
@@ -582,18 +619,6 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    updatePlpType() {
-        const { plpType } = this.props;
-
-        if (plpType.match('-')) {
-            const plpTypes = plpType.split('-');
-
-            this.setState({ defaultPlpType: plpTypes[0], plpTypes });
-        } else {
-            this.setState({ defaultPlpType: plpType, plpTypes: [plpType] });
-        }
-    }
-
     requestCategory() {
         const {
             categoryIds,
@@ -637,11 +662,19 @@ export class CategoryPageContainer extends PureComponent {
 
     render() {
         const { pageSize } = this.config;
+        const {
+            defaultPlpType,
+            selectedLayoutType,
+            activeLayoutType
+        } = this.state;
 
         return (
             <CategoryPage
               { ...this.props }
               pageSize={ pageSize }
+              defaultPlpType={ defaultPlpType }
+              selectedLayoutType={ selectedLayoutType }
+              activeLayoutType={ activeLayoutType }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

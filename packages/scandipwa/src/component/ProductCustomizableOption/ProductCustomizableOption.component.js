@@ -107,10 +107,11 @@ export class ProductCustomizableOption extends PureComponent {
             option_type_id,
             title,
             price,
-            price_type
+            price_type,
+            currency
         } = item;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, price, currency);
 
         return (
             <Field
@@ -195,7 +196,7 @@ export class ProductCustomizableOption extends PureComponent {
             optionType,
             textFieldValid
         } = this.props;
-        const { max_characters } = data;
+        const [{ max_characters = 0 }] = data;
         const fieldType = optionType === 'field' ? 'text' : 'textarea';
 
         return (
@@ -216,15 +217,26 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     renderFileField() {
-        const { optionType, processFileUpload } = this.props;
+        const {
+            optionType,
+            processFileUpload,
+            option: {
+                required,
+                data: [{ file_extension = '' }] = []
+            } = {}
+        } = this.props;
 
         return (
-            <Field
-              id={ `customizable-options-${ optionType }` }
-              name={ `customizable-options-${ optionType }` }
-              type="file"
-              onChange={ processFileUpload }
-            />
+            <>
+                <Field
+                  id={ `customizable-options-${ optionType }` }
+                  name={ `customizable-options-${ optionType }` }
+                  type="file"
+                  onChange={ processFileUpload }
+                  fileExtensions={ file_extension }
+                />
+                { this.renderRequired(required) }
+            </>
         );
     }
 
@@ -240,14 +252,17 @@ export class ProductCustomizableOption extends PureComponent {
             renderOptionLabel,
             option: {
                 title,
-                data: {
-                    price_type,
-                    price
-                }
+                data: [
+                    {
+                        price_type = 'FIXED',
+                        price = 0,
+                        currency
+                    } = {}
+                ] = []
             }
         } = this.props;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, price, currency);
 
         return this.renderHeading(title, priceLabel);
     }

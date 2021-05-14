@@ -17,3 +17,6 @@ export const DISPLAY_MODE_PRODUCTS = 'PRODUCTS';
 export const DISPLAY_MODE_CMS_BLOCK = 'PAGE';
 
 export const DISPLAY_MODE_BOTH = 'PRODUCTS_AND_PAGE';
+
+export const GRID_LAYOUT = 'grid';
+export const LIST_LAYOUT = 'list';
