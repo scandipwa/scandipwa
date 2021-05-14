@@ -61,7 +61,7 @@ export class CartPage extends PureComponent {
             <>
                 <p block="CartPage" elem="TableHead" aria-hidden>
                     <span>{ __('item') }</span>
-                    <span>{ __('qty') }</span>
+                    <span>{ __('quantity') }</span>
                     <span>{ __('subtotal') }</span>
                 </p>
                 <div block="CartPage" elem="Items" aria-label="List of items in cart">
@@ -397,7 +397,7 @@ export class CartPage extends PureComponent {
     renderHeading() {
         return (
             <h1 block="CartPage" elem="Heading">
-                { __('Shopping cart') }
+                { __('Cart') }
             </h1>
         );
     }

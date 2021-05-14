@@ -26,10 +26,6 @@
 
     border-bottom: 1px solid var(--cart-item-divider-color);
 
-    &:last-of-type {
-        border-bottom: 0;
-    }
-
     &-OutOfStock {
         font-weight: bold;
         margin-bottom: 5px;
@@ -114,38 +110,11 @@
         font-size: 12px;
     }
 
-    //&-ItemOptionsWrapper {
-    //    @include mobile {
-    //        margin-top: 7px;
-    //    }
-    //
-    //    &_isLikeTable {
-    //        @include desktop {
-    //            max-width: 45%;
-    //        }
-    //    }
-    //}
-    //
-    //&-ItemOption {
-    //    display: flex;
-    //    margin-bottom: 6px;
-    //    margin-inline-end: 6px;
-    //
-    //    @include mobile {
-    //        margin-bottom: 7px;
-    //        margin-inline-end: 7px;
-    //    }
-    //}
-    //
-    //&-ItemOptionLabel {
-    //    align-self: center;
-    //    font-weight: bold;
-    //    margin-inline-end: 6px;
-    //
-    //    @include mobile {
-    //        margin-inline-end: 7px;
-    //    }
-    //}
+    &-Option {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
     &-ItemLinks {
         &Wrapper {
@@ -159,12 +128,14 @@
     }
 
     &-HeadingWrapper {
+        height: 100%;
         display: flex;
         justify-content: space-between;
     }
 
     &-Title {
         width: 65%;
+        overflow: hidden;
     }
 
     &-Heading,
@@ -231,7 +202,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            align-items: flex-start;
+            align-items: flex-end;
         }
     }
 
@@ -303,6 +274,7 @@
 
         @include mobile {
             @include close-button;
+            background-size: cover;
 
             position: absolute;
             inset-inline-end: 0;
@@ -346,6 +318,7 @@
             @include mobile {
                 width: 24px;
                 min-width: 24px;
+                background-color: transparent;
             }
         }
     }
@@ -361,15 +334,9 @@
         align-items: center;
 
         @include mobile {
-            margin-bottom: 7px;
-        }
-    }
-
-    &-QuantityText {
-        margin-inline-end: 10px;
-
-        @include after-mobile {
-            display: none;
+            position: absolute;
+            left: 0;
+            bottom: 0;
         }
     }
 

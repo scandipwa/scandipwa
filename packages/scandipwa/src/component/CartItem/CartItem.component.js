@@ -286,7 +286,6 @@ export class CartItem extends PureComponent {
 
         return (
             <div block="CartItem" elem="QuantityWrapper">
-                <span block="CartItem" elem="QuantityText">{ __('Qty:') }</span>
                 <Field
                   id="item_qty"
                   name="item_qty"

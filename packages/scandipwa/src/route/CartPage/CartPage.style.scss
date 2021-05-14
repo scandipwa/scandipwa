@@ -287,10 +287,10 @@
         grid-template-columns: 3fr 1fr 1fr;
         border-bottom: 1px solid var(--cart-page-divider-background);
         background-color: var(--cart-page-table-head-background);
-        text-transform: uppercase;
-        font-size: 12px;
+        text-transform: capitalize;
+        font-size: 14px;
         font-weight: 600;
-        padding: 11px 12px;
+        padding: 14px 16px;
         margin-bottom: 0;
 
         @include mobile {
