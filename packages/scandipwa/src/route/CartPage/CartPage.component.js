@@ -61,7 +61,7 @@ export class CartPage extends PureComponent {
             <>
                 <p block="CartPage" elem="TableHead" aria-hidden>
                     <span>{ __('item') }</span>
-                    <span>{ __('qty') }</span>
+                    <span>{ __('quantity') }</span>
                     <span>{ __('subtotal') }</span>
                 </p>
                 <div block="CartPage" elem="Items" aria-label="List of items in cart">
@@ -89,6 +89,7 @@ export class CartPage extends PureComponent {
             <ExpandableContent
               heading={ __('Have a discount code?') }
               mix={ { block: 'CartPage', elem: 'Discount' } }
+              isArrow
             >
                 <CartCoupon couponCode={ coupon_code } />
             </ExpandableContent>
@@ -105,7 +106,7 @@ export class CartPage extends PureComponent {
 
         return (
             <>
-                <dt>{ __('Subtotal:') }</dt>
+                <dt>{ __('Subtotal') }</dt>
                 <dd>
                     { this.renderPriceLine(cartSubtotal) }
                     { this.renderSubTotalExlTax() }
@@ -285,7 +286,7 @@ export class CartPage extends PureComponent {
               onClick={ onCheckoutButtonClick }
             >
                 <span />
-                { __('Secure checkout') }
+                { __('Proceed to checkout') }
             </button>
         );
     }
@@ -397,7 +398,7 @@ export class CartPage extends PureComponent {
     renderHeading() {
         return (
             <h1 block="CartPage" elem="Heading">
-                { __('Shopping cart') }
+                { __('Cart') }
             </h1>
         );
     }

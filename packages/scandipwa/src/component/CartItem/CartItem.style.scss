@@ -24,11 +24,7 @@
 .CartItem {
     --header-color: var(--cart-item-actions-color);
 
-    border-bottom: 1px solid var(--cart-item-divider-color);
-
-    &:last-of-type {
-        border-bottom: 0;
-    }
+    border-bottom: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
         font-weight: bold;
@@ -38,6 +34,10 @@
     &-Quantity {
 
         &_isEditing {
+            display: none;
+        }
+
+        @include before-desktop {
             display: none;
         }
     }
@@ -62,6 +62,7 @@
 
         &:last-child {
             margin-bottom: 0;
+            border-bottom: 0;
         }
     }
 
@@ -94,7 +95,7 @@
         background: var(--cart-item-background);
 
         @include mobile {
-            grid-template-columns: 96px auto;
+            grid-template-columns: 64px auto;
             grid-gap: 14px;
             padding: 14px;
             min-height: 130px;
@@ -110,37 +111,10 @@
         font-size: 12px;
     }
 
-    &-ItemOptionsWrapper {
-        @include mobile {
-            margin-top: 7px;
-        }
-
-        &_isLikeTable {
-            @include desktop {
-                max-width: 45%;
-            }
-        }
-    }
-
-    &-ItemOption {
-        display: flex;
-        margin-bottom: 6px;
-        margin-inline-end: 6px;
-
-        @include mobile {
-            margin-bottom: 7px;
-            margin-inline-end: 7px;
-        }
-    }
-
-    &-ItemOptionLabel {
-        align-self: center;
-        font-weight: bold;
-        margin-inline-end: 6px;
-
-        @include mobile {
-            margin-inline-end: 7px;
-        }
+    &-Option {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &-ItemLinks {
@@ -155,12 +129,14 @@
     }
 
     &-HeadingWrapper {
+        height: 100%;
         display: flex;
         justify-content: space-between;
     }
 
     &-Title {
         width: 65%;
+        overflow: hidden;
     }
 
     &-Heading,
@@ -197,6 +173,10 @@
         @include mobile {
             height: 100%;
         }
+
+        img {
+            object-position: top;
+        }
     }
 
     &-Price {
@@ -227,7 +207,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            align-items: flex-start;
+            align-items: flex-end;
         }
     }
 
@@ -245,6 +225,10 @@
         will-change: max-height, opacity, padding;
         transition-property: padding, max-height;
         transition-duration: 200ms;
+
+        @include before-desktop {
+            border-block-end: 1px solid var(--primary-divider-color);
+        }
 
         @include after-mobile {
             position: absolute;
@@ -280,25 +264,19 @@
             max-height: 60px;
             pointer-events: all;
         }
-
-        &::before {
-            top: 0;
-            z-index: 1;
-            border-color: var(--cart-item-action-border) transparent transparent transparent;
-        }
     }
 
     &-Delete {
-        @include desktop {
-            @include clear-button;
-        }
+        @include close-button;
+        background-size: auto;
+        width: 12px;
+        z-index: 5;
 
         @include after-mobile {
             top: 1px;
         }
 
         @include mobile {
-            @include close-button;
 
             position: absolute;
             inset-inline-end: 0;
@@ -340,8 +318,9 @@
 
         input {
             @include mobile {
-                width: 24px;
-                min-width: 24px;
+                width: 36px;
+                min-width: 36px;
+                background-color: transparent;
             }
         }
     }
@@ -357,20 +336,14 @@
         align-items: center;
 
         @include mobile {
-            margin-bottom: 7px;
-        }
-    }
-
-    &-QuantityText {
-        margin-inline-end: 10px;
-
-        @include after-mobile {
-            display: none;
+            position: absolute;
+            left: 0;
+            bottom: 0;
         }
     }
 
     .ProductPrice-SubPrice {
-        font-size: .6em;
-        font-weight: 300;
+        font-size: 12px;
+        font-weight: 400;
     }
 }

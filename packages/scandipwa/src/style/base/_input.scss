@@ -93,6 +93,10 @@ textarea {
         position: relative;
         top: 0;
 
+        @include mobile {
+            padding: 16px;
+        }
+
         &:first-of-type {
             inset-inline-start: 0;
             order: 3;

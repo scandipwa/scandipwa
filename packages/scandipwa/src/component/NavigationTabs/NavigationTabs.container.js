@@ -61,7 +61,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     routeMap = {
         '/account': { name: ACCOUNT_TAB },
         '/my-account': { name: ACCOUNT_TAB },
-        '/checkout': { name: CHECKOUT_TAB, isHidden: true },
+        '/checkout': { name: CHECKOUT_TAB },
         '/cart': { name: CART_TAB },
         '/': { name: HOME_TAB }
     };

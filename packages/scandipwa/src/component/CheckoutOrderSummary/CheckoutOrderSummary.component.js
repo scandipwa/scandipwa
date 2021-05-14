@@ -329,7 +329,7 @@ export class CheckoutOrderSummary extends PureComponent {
     renderExpandableContent() {
         return (
             <ExpandableContent
-              heading={ __('Order summary') }
+              heading={ __('Summary') }
               mix={ { block: 'CheckoutOrderSummary', elem: 'ExpandableContent' } }
             >
                 { this.renderItems() }
