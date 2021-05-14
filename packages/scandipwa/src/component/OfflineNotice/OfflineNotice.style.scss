@@ -12,7 +12,7 @@
 :root {
     --diameter: 1;
     /* stylelint-disable-next-line length-zero-no-unit */
-    --offline-notice-height: 0.0rem;
+    --offline-notice-height: 0.0px;
     --offline-notice-display: none;
 }
 
@@ -40,47 +40,47 @@
 
         flex-direction: column;
         text-align: center;
-        padding: 1.2rem;
+        padding: 12px;
 
         @include mobile {
             --diameter: 10;
-            padding: 1.4rem;
+            padding: 14px;
         }
     }
 
     &-Text {
         &-Title {
-            font-size: 3.6rem;
+            font-size: 36px;
 
             @include mobile {
 
-                font-size: 2.8rem;
+                font-size: 28px;
             }
         }
 
         &-Description {
-            max-width: 36rem;
+            max-width: 360px;
             margin: 0 auto;
-            font-size: 1.8rem;
+            font-size: 18px;
 
             @include mobile {
 
-                max-width: 28rem;
+                max-width: 280px;
                 margin: 0 auto;
-                font-size: 1.4rem;
+                font-size: 14px;
             }
         }
     }
 
     &-Logo {
-        padding-inline-start: calc(var(--diameter) * 0.1rem);
-        padding-top: calc(var(--diameter) * 0.4rem);
-        padding-inline-end: 2.5rem;
-        width: calc(2rem * var(--diameter));
-        height: calc(1rem * var(--diameter));
+        padding-inline-start: calc(var(--diameter) * 1px);
+        padding-top: calc(var(--diameter) * 4px);
+        padding-inline-end: 25px;
+        width: calc(20px * var(--diameter));
+        height: calc(10px * var(--diameter));
 
         &_isBig {
-            padding-inline-start: calc(var(--diameter) * 0.1rem);
+            padding-inline-start: calc(var(--diameter) * 1px);
             padding-inline-end: 0;
             padding-top: 0;
         }
@@ -99,23 +99,23 @@
             &::before,
             &::after {
                 border-radius: 50% 50% 50% 50%;
-                box-shadow: calc(.3rem * var(--diameter)) calc(-.3rem * var(--diameter)) 0 0 var(--fill-color), calc(1rem * var(--diameter)) 0 0 0 var(--fill-color), calc(.7rem * var(--diameter)) calc(-.3rem * var(--diameter)) 0 calc(-.1rem * var(--diameter)) var(--fill-color), calc(.3rem * var(--diameter)) 0 0 0 var(--fill-color), calc(.5rem * var(--diameter)) 0 0 0 var(--fill-color), calc(.8rem * var(--diameter)) 0 0 0 var(--fill-color);
+                box-shadow: calc(3px * var(--diameter)) calc(-3px * var(--diameter)) 0 0 var(--fill-color), calc(1px * var(--diameter)) 0 0 0 var(--fill-color), calc(7px * var(--diameter)) calc(-3px * var(--diameter)) 0 calc(-1px * var(--diameter)) var(--fill-color), calc(3px * var(--diameter)) 0 0 0 var(--fill-color), calc(5px * var(--diameter)) 0 0 0 var(--fill-color), calc(8px * var(--diameter)) 0 0 0 var(--fill-color);
             }
 
             &::before {
                 --fill-color: var(--line-color);
                 inset-inline-start: 0;
-                top: calc(-.2rem * var(--diameter));
-                width: calc(.8rem * var(--diameter));
-                height: calc(.8rem * var(--diameter));
+                top: calc(-2px * var(--diameter));
+                width: calc(8px * var(--diameter));
+                height: calc(8px * var(--diameter));
             }
 
             &::after {
                 border-radius: 50% 50% 50% 50%;
-                inset-inline-start: calc(.1rem * var(--diameter));
-                top: calc(-.1rem * var(--diameter));
-                width: calc(.6rem * var(--diameter));
-                height: calc(.6rem * var(--diameter));
+                inset-inline-start: calc(1px * var(--diameter));
+                top: calc(-1px * var(--diameter));
+                width: calc(6px * var(--diameter));
+                height: calc(6px * var(--diameter));
             }
         }
 
@@ -128,16 +128,16 @@
             }
 
             &::before {
-                width: calc(2.2rem * var(--diameter));
-                height: calc(.3rem * var(--diameter));
-                inset-inline-start: calc(-.1rem * var(--diameter));
+                width: calc(22px * var(--diameter));
+                height: calc(3px * var(--diameter));
+                inset-inline-start: calc(-1px * var(--diameter));
             }
 
             &::after {
                 --fill-color: var(--line-color);
-                width: calc(2rem * var(--diameter));
-                height: calc(.1rem * var(--diameter));
-                inset-inline-start: calc(-.1rem * var(--diameter));
+                width: calc(20px * var(--diameter));
+                height: calc(1px * var(--diameter));
+                inset-inline-start: calc(-1px * var(--diameter));
             }
         }
     }

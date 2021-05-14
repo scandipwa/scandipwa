@@ -1,9 +1,9 @@
 .CreateAccount {
     .ContentWrapper {
-        padding: 2.8rem 2rem 5rem;
+        padding: 28px 20px 50px;
 
         @include desktop() {
-            padding-top: 2.5rem;
+            padding-top: 25px;
         }
     }
 
@@ -13,7 +13,7 @@
             justify-content: space-around;
             margin: 0 auto;
             grid-template-columns: 1fr 1fr;
-            grid-gap: 10rem;
+            grid-gap: 100px;
         }
 
         .MyAccountOverlay {
@@ -23,30 +23,30 @@
         }
 
         button {
-            margin-top: 2rem;
+            margin-top: 20px;
         }
 
         > div {
             flex: 1;
-            margin: 0 1rem;
+            margin: 0 10px;
         }
 
         button,
         input {
-            min-width: 25rem;
+            min-width: 250px;
 
             @include before-desktop {
                 width: 100%;
             }
 
             @include desktop {
-                max-width: 30rem;
+                max-width: 300px;
                 width: 100%;
             }
         }
 
         p {
-            margin-bottom: 2rem;
+            margin-bottom: 20px;
         }
     }
 

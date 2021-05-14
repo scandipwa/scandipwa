@@ -10,8 +10,8 @@
  */
 
 :root {
-    --menu-item-height: 2rem;
-    --menu-total-height: 6.6rem;
+    --menu-item-height: 20px;
+    --menu-total-height: 66px;
 }
 
 @mixin subcategory-visible {
@@ -24,15 +24,15 @@
 .Menu {
     &-CompareLink {
         color: var(--color-black);
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: 400;
-        padding-inline-start: 3rem;
+        padding-inline-start: 30px;
         text-transform: none;
 
         &Wrapper {
-            border-bottom: 0.1rem solid var(--primary-divider-color);
-            padding: 1.7rem 0 1.6rem;
-            margin: 0 1.6rem;
+            border-bottom: 1px solid var(--primary-divider-color);
+            padding: 17px 0 16px;
+            margin: 0 16px;
 
             &::before {
                 @include compare-icon;
@@ -49,14 +49,14 @@
         &_isExpanded {
             @include minus-icon;
 
-            width: 1.3rem;
+            width: 13px;
         }
 
         filter: brightness(.2) sepia(1) hue-rotate(180deg) saturate(5);
         position: absolute;
-        inset-inline-end: 1.6rem;
+        inset-inline-end: 16px;
         top: 0;
-        width: 1.3rem;
+        width: 13px;
 
         @include desktop {
             display: none;
@@ -65,7 +65,7 @@
 
     &-Item {
         min-height: var(--menu-item-height);
-        margin: 1.6rem 0;
+        margin: 16px 0;
         padding-inline-start: 0;
 
         @include desktop {
@@ -78,7 +78,7 @@
 
         &Caption {
             color: var(--color-black);
-            padding-inline-start: 1.6rem;
+            padding-inline-start: 16px;
 
             &:hover {
                 color: var(--link-hover);
@@ -86,12 +86,12 @@
 
             &_type {
                 &_main {
-                    margin: 0 0 1.6rem;
+                    margin: 0 0 16px;
                     text-transform: uppercase;
                 }
 
                 &_subcategory {
-                    margin-top: 1.6rem;
+                    margin-top: 16px;
                 }
             }
         }
@@ -109,8 +109,8 @@
 
     &-Link {
         font-weight: 400;
-        margin-block: 0.8rem;
-        margin-inline: 0 1.6rem;
+        margin-block: 8px;
+        margin-inline: 0 16px;
     }
 
     &-MainCategories {
@@ -127,7 +127,7 @@
 
     &-MenuWrapper {
         @include desktop {
-            margin-top: 2.6rem;
+            margin-top: 26px;
         }
     }
 
@@ -150,8 +150,8 @@
             &_isVisible {
                 background: var(--color-gray);
                 display: block;
-                padding-block: 1.2rem;
-                padding-inline-start: 0.8rem;
+                padding-block: 12px;
+                padding-inline-start: 8px;
             }
 
             @include desktop {

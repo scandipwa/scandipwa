@@ -11,8 +11,8 @@
 
 :root {
     --my-account-content-background: #{$white};
-    --my-account-wrapper-padding-mobile: 1.4rem;
-    --my-account-content-border: .1rem solid rgba(10, 9, 3, 0.16);
+    --my-account-wrapper-padding-mobile: 14px;
+    --my-account-content-border: 1px solid rgba(10, 9, 3, 0.16);
 }
 
 .MyAccount {
@@ -22,13 +22,13 @@
         display: grid;
         grid-template-columns: auto 1fr;
         grid-template-rows: auto 1fr;
-        grid-column-gap: 2.4rem;
+        grid-column-gap: 24px;
         grid-row-gap: 0;
-        padding-top: 1.2rem;
-        padding-bottom: 1.2rem;
+        padding-top: 12px;
+        padding-bottom: 12px;
 
         @include mobile {
-            grid-column-gap: 2.8rem;
+            grid-column-gap: 28px;
             padding: 0;
             grid-template-columns: 1fr;
         }
@@ -36,7 +36,7 @@
 
     &-TabContent {
         background: var(--my-account-content-background);
-        padding: 1.2rem;
+        padding: 12px;
 
         @include mobile {
             padding: var(--my-account-wrapper-padding-mobile);
@@ -45,16 +45,16 @@
         @include after-mobile {
             border: var(--my-account-content-border);
             grid-row: span 2;
-            padding: 2.4rem;
+            padding: 24px;
         }
     }
 
     &-Heading {
         text-transform: none;
-        margin: 0 0 2.4rem;
+        margin: 0 0 24px;
 
         @include mobile {
-            margin: 0 0 2.8rem;
+            margin: 0 0 28px;
             display: none;
         }
     }

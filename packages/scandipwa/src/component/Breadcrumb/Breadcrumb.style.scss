@@ -10,16 +10,16 @@
  */
 
 .Breadcrumb {
-    $crumb-padding: 2rem;
-    $arrow-size: 0.4rem;
+    $crumb-padding: 20px;
+    $arrow-size: 4px;
 
     display: inline-block;
-    font-size: 1.2rem;
-    line-height: 2rem;
+    font-size: 12px;
+    line-height: 20px;
     padding-inline-end: $crumb-padding;
 
     @include mobile {
-        font-size: 1.4rem;
+        font-size: 14px;
     }
 
     &:not(:last-child) {
@@ -35,8 +35,8 @@
             margin-inline-start: $crumb-padding - 4;
             border-color: currentColor;
             border-style: solid;
-            border-width: 0 0 0.1rem 0.1rem;
-            top: -.1rem;
+            border-width: 0 0 1px 1px;
+            top: -1px;
         }
     }
 

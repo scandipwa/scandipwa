@@ -23,7 +23,7 @@
     margin-bottom: 0;
 
     @include mobile {
-        font-size: 1.8rem;
+        font-size: 18px;
     }
 
     ins {
@@ -33,11 +33,11 @@
     }
 
     del {
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: 500;
         opacity: .5;
         display: inline-block;
-        margin-inline-end: 1.2rem;
+        margin-inline-end: 12px;
     }
 
     &-HighPrice {
@@ -53,14 +53,14 @@
     &-SubPrice {
         display: block;
         font-weight: 500;
-        font-size: 1rem;
-        margin-top: 0.4rem;
+        font-size: 10px;
+        margin-top: 4px;
     }
 
     &-PriceBadge {
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: 400;
-        margin-inline-end: .4rem;
+        margin-inline-end: 4px;
         white-space: nowrap;
     }
 }

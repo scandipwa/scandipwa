@@ -14,8 +14,8 @@
 }
 
 .StoreSwitcher {
-    border-bottom: 0.1rem solid var(--primary-divider-color);
-    margin: 0 1.6rem;
+    border-bottom: 1px solid var(--primary-divider-color);
+    margin: 0 16px;
 
     @include desktop {
         border-bottom: none;
@@ -28,16 +28,16 @@
         &Select {
             &-Select {
                 border: none;
-                font-size: 1.4rem;
+                font-size: 14px;
                 font-weight: 400;
                 opacity: 1;
                 padding-inline-start: 0;
             }
 
             &::after {
-                height: 1.3rem;
+                height: 13px;
                 inset-inline-end: 0;
-                width: 1.3rem;
+                width: 13px;
             }
         }
     }
@@ -47,7 +47,7 @@
         cursor: pointer;
 
         @include desktop {
-            font-size: 1.2rem;
+            font-size: 12px;
         }
 
         &::after {
@@ -55,7 +55,7 @@
 
             content: ' ';
             position: absolute;
-            inset-inline-end: -2rem;
+            inset-inline-end: -20px;
             transform: rotate(90deg);
         }
 
@@ -68,11 +68,11 @@
 
     &-StoreList {
         background-color: var(--store-switcher-list-background);
-        border: 0.1rem solid var(--input-border-color);
+        border: 1px solid var(--input-border-color);
         display: none;
-        inset-inline-end: -2rem;
+        inset-inline-end: -20px;
         position: absolute;
-        top: 2.5rem;
+        top: 25px;
         z-index: 2;
 
         &_isOpen {

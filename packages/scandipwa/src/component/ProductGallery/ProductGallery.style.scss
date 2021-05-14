@@ -18,10 +18,10 @@
     display: flex;
     flex-direction: column;
     height: var(--slider-height);
-    min-height: 48rem;
+    min-height: 480px;
 
     @include mobile {
-        min-height: 42rem;
+        min-height: 420px;
     }
 
     &-Additional {
@@ -66,14 +66,14 @@
     }
 
     .CarouselScrollItem {
-        width: 5.7rem;
-        height: 3.8rem;
+        width: 57px;
+        height: 38px;
         flex: 0 0 auto;
         border-color: var(--option-border-color);
-        border-radius: .2rem;
+        border-radius: 2px;
 
         & + .CarouselScrollItem {
-            margin-inline-start: 1.8rem;
+            margin-inline-start: 18px;
         }
     }
 }

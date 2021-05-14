@@ -1,7 +1,7 @@
 .ProductLinks {
     @include mobile {
-        margin-top: 1.4rem;
-        border-bottom: 0.1rem solid var(--primary-divider-color);
+        margin-top: 14px;
+        border-bottom: 1px solid var(--primary-divider-color);
     }
 
     @include desktop {
@@ -15,16 +15,16 @@
 
     &-List {
         display: grid;
-        grid-gap: 1.2rem;
+        grid-gap: 12px;
         grid-template-columns: 1fr 1fr;
 
         @include mobile {
-            grid-gap: 1.4rem;
+            grid-gap: 14px;
         }
 
         @include after-mobile {
             grid-template-columns: repeat(6, 1fr);
-            grid-gap: 3.6rem;
+            grid-gap: 36px;
             justify-content: center;
         }
 
@@ -39,12 +39,12 @@
         line-height: 1;
 
         @include mobile {
-            padding: .42rem 0 1.82rem;
+            padding: 4px 0 18px;
         }
 
         @include after-mobile {
             // text-align: center;
-            padding: 1.2rem 0 3.6rem;
+            padding: 12px 0 36px;
             font-weight: bold;
         }
     }

@@ -9,25 +9,25 @@
     --button-hover-background: var(--homepage-button-color);
     --button-hover-color: var(--homepage-button-background);
     --button-hover-border: transparent;
-    --button-padding: 1.3rem 4rem;
+    --button-padding: 13px 40px;
     --button-border-width: 0;
 
     background: var(--install-prompt-android-background);
-    padding: 1.2rem;
-    margin: 1.2rem;
+    padding: 12px;
+    margin: 12px;
 
     @include mobile {
-        padding: 1.4rem;
-        margin: 1.4rem;
+        padding: 14px;
+        margin: 14px;
     }
 
     &-Content {
-        font-size: 1.5rem;
+        font-size: 15px;
         text-align: center;
-        padding: 2.4rem 0 1.2rem;
+        padding: 24px 0 12px;
 
         @include mobile {
-            padding: 2.8rem 0 1.4rem;
+            padding: 28px 0 14px;
         }
     }
 
@@ -38,12 +38,12 @@
         z-index: 10;
         top: 0;
         inset-inline-end: 0;
-        width: 3.96rem;
-        height: 3.96rem;
+        width: 40px;
+        height: 40px;
 
         &::before,
         &::after {
-            top: 1.2rem;
+            top: 12px;
         }
     }
 

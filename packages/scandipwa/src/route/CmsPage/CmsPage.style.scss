@@ -11,33 +11,35 @@
 
 .CmsPage {
     &_isBreadcrumbsHidden {
-        margin-top: calc(var(--header-total-height) + 1.2rem);
+        margin-top: calc(var(--header-total-height) + 12px);
 
         @include mobile {
-            margin-top: calc(var(--header-total-height) + 1.4rem);
+            margin-top: calc(var(--header-total-height) + 14px);
         }
     }
 
     &-Content {
         ul,
         ol {
-            margin-top: 1rem;
+            margin-top: 10px;
         }
     }
 
     &-Wrapper {
         grid-template-columns: auto;
         max-width: var(--content-wrapper-width);
-        padding-inline: 1.2rem;
-        margin: calc(var(--header-total-height) + 1.2rem) auto var(--header-nav-height);
+        padding-inline: 12px;
+        margin: calc(var(--header-total-height) + 12px) auto var(--header-nav-height);
+        margin-left: auto;
+        margin-right: auto;
 
         @include mobile {
-            padding-inline: 1.4rem;
-            margin-top: calc(var(--header-total-height) + 1.4rem);
+            padding-inline: 14px;
+            margin-top: calc(var(--header-total-height) + 14px);
         }
 
         @include after-mobile {
-            margin-top: 2.4rem;
+            margin-top: 24px;
         }
 
         &_page_width {
@@ -49,10 +51,10 @@
     }
 
     &-Heading {
-        margin-bottom: 1.8rem;
+        margin-bottom: 18px;
 
         @include mobile {
-            margin-bottom: 2.1rem;
+            margin-bottom: 21px;
             display: none;
         }
     }
@@ -61,7 +63,7 @@
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);
         animation: var(--placeholder-animation);
-        margin: 0 0 1rem;
+        margin: 0 0 10px;
         padding-bottom: 30%;
 
         @include mobile {
@@ -78,18 +80,18 @@
     }
 
     .TextPlaceholder {
-        margin-bottom: 2.16rem;
+        margin-bottom: 22px;
         display: block;
 
         @include mobile {
-            margin-bottom: 2.52rem;
+            margin-bottom: 25px;
         }
     }
 
     h2,
     h3 {
         @include mobile {
-            font-size: 1.4rem;
+            font-size: 14px;
         }
     }
 }

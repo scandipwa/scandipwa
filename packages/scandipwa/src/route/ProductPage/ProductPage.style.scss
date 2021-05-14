@@ -11,7 +11,7 @@
 
 .ProductPage {
     @include after-mobile {
-        padding-top: 1.2rem;
+        padding-top: 12px;
     }
 
     @include tablet {
@@ -20,19 +20,19 @@
     }
 
     @include mobile {
-        padding-bottom: 7.5rem;
+        padding-bottom: 75px;
     }
 
     &-Wrapper {
         display: grid;
         grid-template-columns: 6fr 4fr;
-        grid-column-gap: 2.4rem;
+        grid-column-gap: 24px;
         grid-template-rows: min-content min-content;
-        padding-top: 2.4rem;
+        padding-top: 24px;
 
         @include after-mobile {
-            grid-column-gap: 4.8rem;
-            padding-bottom: 7.2rem;
+            grid-column-gap: 48px;
+            padding-bottom: 72px;
         }
 
         @include mobile {
@@ -52,6 +52,6 @@
     &-ProductCompareButtonWrapper {
         position: absolute;
         top: 0;
-        inset-inline-end: 1.4rem;
+        inset-inline-end: 14px;
     }
 }

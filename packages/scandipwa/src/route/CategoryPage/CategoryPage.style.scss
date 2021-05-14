@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 :root {
-    --category-page-miscellaneous-min-height: 5.6rem;
+    --category-page-miscellaneous-min-height: 56px;
 }
 
 .CategoryPage {
     &-Wrapper {
         @include after-mobile {
             display: grid;
-            padding-top: 2.4rem;
+            padding-top: 24px;
         }
 
         @include desktop {
-            grid-column-gap: 4.8rem;
+            grid-column-gap: 48px;
         }
 
-        grid-template-columns: 23.6rem auto;
+        grid-template-columns: 236px auto;
 
         @include mobile {
             padding: 0;
@@ -42,7 +42,7 @@
 
     &-ProductListWrapper {
         @include before-desktop {
-            padding-top: 5.6rem;
+            padding-top: 56px;
         }
     }
 
@@ -51,22 +51,22 @@
 
         @include before-desktop {
             order: 1;
-            padding-block: .36rem 1.2rem;
-            padding-inline: 0 1.2rem;
+            padding-block: 4px 12px;
+            padding-inline: 0 12px;
             text-align: center;
             grid-column: span 2;
         }
 
         @include mobile {
-            padding: 1.4rem;
+            padding: 14px;
         }
     }
 
     &-Filter {
         text-align: end;
         grid-column: 2;
-        font-size: 1.6rem;
-        min-height: 5rem;
+        font-size: 16px;
+        min-height: 50px;
         display: inline-flex;
         align-items: center;
 
@@ -76,14 +76,14 @@
     }
 
     &-FilterIcon {
-        width: 1.8rem;
-        height: 1.8rem;
-        margin-inline-end: 1.5rem;
+        width: 18px;
+        height: 18px;
+        margin-inline-end: 15px;
     }
 
     &-Subheading {
         font-weight: 600;
-        font-size: 1.4rem;
+        font-size: 14px;
         white-space: pre;
     }
 
@@ -95,7 +95,7 @@
         min-height: var(--category-page-miscellaneous-min-height);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
-        padding: 1rem 0 6rem;
+        padding: 10px 0 60px;
 
         @include mobile {
             position: fixed;
@@ -104,7 +104,7 @@
             width: 100%;
             z-index: 90;
             background: #fff;
-            border-bottom: 0.1rem solid var(--primary-divider-color);
+            border-bottom: 1px solid var(--primary-divider-color);
             grid-template-columns: repeat(2, 1fr);
         }
 
@@ -125,8 +125,8 @@
 
         > * {
             @include mobile {
-                padding-inline-start: 1.4rem;
-                padding-inline-end: 1.4rem;
+                padding-inline-start: 14px;
+                padding-inline-end: 14px;
             }
         }
     }
@@ -134,12 +134,12 @@
     &-CMS {
         @include mobile {
             margin-top: calc(var(--header-total-height) + var(--category-page-miscellaneous-min-height));
-            padding-inline-start: 1rem;
-            padding-inline-end: 1rem;
+            padding-inline-start: 10px;
+            padding-inline-end: 10px;
         }
 
         @include after-mobile {
-            margin-bottom: 1rem;
+            margin-bottom: 10px;
         }
     }
 
@@ -153,7 +153,7 @@
     }
 
     &-LayoutButtons {
-        margin-bottom: 1rem;
+        margin-bottom: 10px;
 
         @include mobile {
             display: none;
@@ -161,7 +161,7 @@
 
         button {
             color: transparent;
-            margin-inline-end: 1rem;
+            margin-inline-end: 10px;
 
             &.list {
                 &:after {
@@ -191,10 +191,10 @@
             &:after {
                 background-size: cover;
                 content: '';
-                height: 2.5rem;
+                height: 25px;
                 inset-inline-start: 0;
                 position: absolute;
-                width: 2.6rem;
+                width: 26px;
             }
         }
     }

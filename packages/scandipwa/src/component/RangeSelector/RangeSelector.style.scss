@@ -23,11 +23,11 @@
 }
 
 .input-range {
-    margin: 3rem 1rem;
-    width: calc(100% - 1.8rem);
+    margin: 30px 10px;
+    width: calc(100% - 18px);
 
     @include mobile {
-        margin: 4rem 1rem;
+        margin: 40px 10px;
     }
 
     &__slider,
@@ -38,24 +38,24 @@
 
     &__slider {
         background-color: white;
-        margin-inline-start: -1rem;
-        margin-top: -1.2rem;
-        width: 2rem;
-        height: 2rem;
+        margin-inline-start: 1px;
+        margin-top: -12px;
+        width: 20px;
+        height: 20px;
     }
 
     &__track {
-        height: 0.4rem;
+        height: 4px;
     }
 
     &__label {
         &--value {
-            top: -2.2rem;
+            top: -22px;
         }
 
         &--min,
         &--max {
-            bottom: -1.6rem;
+            bottom: -16px;
         }
     }
 }

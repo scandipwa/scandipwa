@@ -12,10 +12,10 @@
 :root {
     --product-rating-background: #979797;
     --product-rating-filled-background: var(--primary-base-color);
-    --product-rating-size: 1.8rem;
+    --product-rating-size: 18px;
 
     @include mobile {
-        --product-rating-size: 2.1rem;
+        --product-rating-size: 21px;
     }
 }
 
@@ -45,7 +45,7 @@
 
     &-Counter {
         display: inline-block;
-        font-size: 1.2rem;
+        font-size: 12px;
         letter-spacing: 0;
     }
 }

@@ -10,20 +10,20 @@
  */
 
 :root {
-    --default-input-padding: 1.5rem 2rem 1.4rem;
+    --default-input-padding: 15px 20px 14px;
     --input-background-color: var(--imported_input_background_color, #fff);
     --input-border-color: var(--imported_input_border_color, #e0e0e0);
     --input-border-color-focus: var(--primary-base-color);
-    --input-border-radius: var(--imported_input_border_radius, 0.2rem);
+    --input-border-radius: var(--imported_input_border_radius, 2px);
     --input-padding: var(--imported_input_padding, var(--default-input-padding));
     --input-color: var(--imported_input_color, var(--color-karaka));
-    --input-type-number-width: 2.8rem;
+    --input-type-number-width: 28px;
 }
 
 input,
 textarea,
 select {
-    border: 0.1rem solid var(--input-border-color);
+    border: 1px solid var(--input-border-color);
     background-color: var(--input-background-color);
     border-radius: var(--input-border-radius);
     color: var(--input-color);
@@ -32,28 +32,28 @@ select {
     caret-color: var(--primary-base-color);
 
     &:focus {
-        border: 0.1rem solid var(--input-border-color-focus);
+        border: 1px solid var(--input-border-color-focus);
     }
 
     &:not(:first-of-type) {
-        margin-top: 1.2rem;
+        margin-top: 12px;
 
         @include mobile {
-            margin-top: 1.4rem;
+            margin-top: 14px;
         }
     }
 
     &:-webkit-autofill {
-        box-shadow: 0 0 0 3rem var(--input-background-color) inset !important;
+        box-shadow: 0 0 0 30px var(--input-background-color) inset !important;
         background-color: var(--input-background-color) !important;
     }
 }
 
 textarea {
-    width: 30rem;
+    width: 300px;
 
     @include mobile {
-        width: 35rem;
+        width: 350px;
     }
 }
 
@@ -62,7 +62,7 @@ textarea {
 
     color: var(--color-black);
     border: 0;
-    font-size: 1.8rem;
+    font-size: 18px;
     font-weight: 700;
     height: var(--input-type-number-width);
     padding: 0;
@@ -71,7 +71,7 @@ textarea {
     width: var(--input-type-number-width);
 
     &:focus {
-        border: 0.1rem solid var(--input-border-color);
+        border: 1px solid var(--input-border-color);
     }
 
     &::-webkit-inner-spin-button,
@@ -82,14 +82,14 @@ textarea {
 
     ~ button {
         background: transparent;
-        border: 0.2rem solid var(--primary-base-color);
+        border: 2px solid var(--primary-base-color);
         border-radius: var(--button-border-radius);
         color: $black;
         inset-inline-start: 0;
         line-height: 0;
         margin: 0;
         order: 1;
-        padding: 2.2rem;
+        padding: 22px;
         position: relative;
         top: 0;
 
@@ -117,8 +117,8 @@ textarea {
             &::before {
                 content: ' ';
                 position: absolute;
-                inset-inline-start: calc(50% - 1.2rem);
-                top: calc(50% - 1.1rem);
+                inset-inline-start: calc(50% - 12px);
+                top: calc(50% - 11px);
             }
         }
 
@@ -129,13 +129,13 @@ textarea {
 
         span {
             @include mobile {
-                top: -.22rem;
+                top: -2px;
             }
         }
 
         @include mobile {
-            width: 1.8rem;
-            height: 1.8rem;
+            width: 18px;
+            height: 18px;
         }
     }
 }

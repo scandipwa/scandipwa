@@ -12,7 +12,7 @@
  :root {
      --expandable-content-color: #000;
      --expandable-content-divider-color: var(--primary-divider-color);
-     --toggle-button-size: 1.8rem;
+     --toggle-button-size: 18px;
  }
 
  @mixin expanded-content {
@@ -22,12 +22,12 @@
 
  .ExpandableContent {
      @include before-desktop {
-         border-top: .1rem solid var(--expandable-content-divider-color);
+         border-top: 1px solid var(--expandable-content-divider-color);
      }
 
      &:last-of-type {
          @include before-desktop {
-             border-bottom: .1rem solid var(--expandable-content-divider-color);
+             border-bottom: 1px solid var(--expandable-content-divider-color);
          }
      }
 
@@ -52,7 +52,7 @@
          align-items: center;
 
          @include before-desktop {
-             padding: 1.4rem 1.2rem;
+             padding: 14px 12px;
          }
      }
 
@@ -63,18 +63,18 @@
      }
 
      &-Heading {
-         font-size: 1.4rem;
+         font-size: 14px;
          font-weight: 600;
          line-height: 1.4;
          word-break: break-all;
 
          @include mobile {
-             font-size: 1.4rem;
+             font-size: 14px;
          }
 
          @include desktop {
              cursor: auto;
-             font-size: 1.4rem;
+             font-size: 14px;
              font-weight: bold;
              text-transform: none;
          }
@@ -82,11 +82,11 @@
 
      &-SubHeading {
          font-weight: 300;
-         font-size: .96rem;
+         font-size: 10px;
          line-height: 1.1;
 
          @include mobile {
-             font-size: 1.12rem;
+             font-size: 11px;
          }
      }
 
@@ -103,7 +103,7 @@
          }
 
          @include desktop {
-             margin-top: 1.2rem;
+             margin-top: 12px;
          }
 
          &_isContentExpanded {

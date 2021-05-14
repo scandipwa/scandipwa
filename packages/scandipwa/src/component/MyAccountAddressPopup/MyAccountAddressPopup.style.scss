@@ -11,10 +11,10 @@
 
 .MyAccountAddressPopup {
     &-Address {
-        margin: 1.2rem 0;
+        margin: 12px 0;
 
         @include mobile {
-            margin: 1.4rem 0;
+            margin: 14px 0;
         }
     }
 
@@ -31,7 +31,7 @@
             justify-content: flex-end;
 
             .input-control {
-                margin-inline-end: 1.1rem;
+                margin-inline-end: 11px;
                 margin-inline-start: 0;
             }
         }

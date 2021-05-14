@@ -16,8 +16,8 @@
 }
 
 .NewsletterSubscription {
-    min-width: 23rem;
-    padding: 0 1rem;
+    min-width: 230px;
+    padding: 0 10px;
 
     @include desktop {
         padding: 0;
@@ -43,7 +43,7 @@
 
                 input {
                     background-color: var(--newsletter-subscription-input-background);
-                    padding: 1.4rem 1.2rem;
+                    padding: 14px 12px;
 
                     &::placeholder {
                         color: var(--newsletter-subscription-placeholder-color);
@@ -52,7 +52,7 @@
 
                 &_hasError {
                     input {
-                        border: 0.1rem solid var(--primary-error-color);
+                        border: 1px solid var(--primary-error-color);
                         border-inline-end: 0;
                     }
                 }
@@ -64,7 +64,7 @@
         }
 
         &-Button {
-            width: 4.4rem;
+            width: 44px;
             background-color: var(--newsletter-subscription-button-background);
             border-color: var(--newsletter-subscription-button-background);
 
@@ -80,7 +80,7 @@
 
     .Form {
         &_isInvalid {
-            margin-bottom: 1.8rem;
+            margin-bottom: 18px;
         }
     }
 }

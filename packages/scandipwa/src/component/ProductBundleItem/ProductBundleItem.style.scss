@@ -11,13 +11,13 @@
 
 .ProductBundleItem {
     &-Wrapper {
-        margin-block-start: 2.4rem;
+        margin-block-start: 24px;
     }
 
     &-Title {
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: bold;
-        line-height: 2rem;
+        line-height: 20px;
     }
 
     // &-Heading {
@@ -37,7 +37,7 @@
 
     &-Qty.Field {
         margin-block: 0;
-        margin-inline-start: 2rem;
+        margin-inline-start: 20px;
 
         .ProductBundleItem-Qty {
             opacity: 1;

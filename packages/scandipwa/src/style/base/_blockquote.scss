@@ -11,17 +11,17 @@
 
 blockquote {
     line-height: 1.6;
-    margin-bottom: 1.2rem;
-    padding-block-start: .6rem;
-    padding-inline-start: 1.44rem;
-    border-inline-start: 0.1rem solid var(--secondary-dark-color);
+    margin-bottom: 12px;
+    padding-block-start: 6px;
+    padding-inline-start: 14px;
+    border-inline-start: 1px solid var(--secondary-dark-color);
     color: var(--secondary-dark-color);
-    font-size: 1.2rem;
+    font-size: 12px;
 
     @include mobile {
-        margin-bottom: 1.4rem;
-        padding-block-start: .7rem;
-        padding-inline: 1.68rem 1.75rem;
-        font-size: 1.4rem;
+        margin-bottom: 14px;
+        padding-block-start: 7px;
+        padding-inline: 17px 17.5px;
+        font-size: 14px;
     }
 }

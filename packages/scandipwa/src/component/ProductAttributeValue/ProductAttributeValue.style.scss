@@ -12,7 +12,7 @@
 :root {
     --option-background-color: #{$white};
     --option-check-mark-background: #{$black};
-    --option-size: 3.2rem;
+    --option-size: 32px;
     --option-text-color: #{$black}; // Move to root
     --option-border-color: var(--color-dark-gray);
 
@@ -33,17 +33,17 @@
     &-Text {
         background-color: var(--option-background-color);
         border-color: var(--option-border-color);
-        border-width: .1rem;
+        border-width: 1px;
         color: var(--option-text-color);
         display: inline-block;
-        margin-block: 0 1.2rem;
-        margin-inline: 0 1.2rem;
+        margin-block: 0 12px;
+        margin-inline: 0 12px;
         min-height: var(--option-size);
         width: var(--option-size);
     }
 
     &-String {
-        padding: 0 1rem;
+        padding: 0 10px;
     }
 
     &-Image {
@@ -63,8 +63,8 @@
     }
 
     &-Color {
-        box-shadow: inset 0 0 0 0.1rem #979797;
-        box-shadow: inset 0 0 0 0.1rem var(--option-border-color);
+        box-shadow: inset 0 0 0 1px #979797;
+        box-shadow: inset 0 0 0 1px var(--option-border-color);
     }
 
     &-Color,
@@ -86,13 +86,13 @@
         }
 
         &::before {
-            height: calc(var(--option-size) + .6rem);
-            width: calc(var(--option-size) + .6rem);
+            height: calc(var(--option-size) + 6px);
+            width: calc(var(--option-size) + 6px);
 
             border-radius: inherit;
-            box-shadow: inset 0 0 0 .1rem var(--primary-base-color);
-            inset-inline-start: -.3rem;
-            inset-block-start: -.3rem;
+            box-shadow: inset 0 0 0 1px var(--primary-base-color);
+            inset-inline-start: -3px;
+            inset-block-start: -3px;
         }
 
         &::after {
@@ -107,8 +107,8 @@
                 transform: scale(-1, 1) rotate(45deg);
             }
 
-            border-inline-start: .2rem solid var(--option-check-mark-background);
-            border-block-end: .2rem solid var(--option-check-mark-background);
+            border-inline-start: 2px solid var(--option-check-mark-background);
+            border-block-end: 2px solid var(--option-check-mark-background);
         }
 
         &:hover {
@@ -125,7 +125,7 @@
     &-Text {
         border-style: solid;
         border-radius: var(--button-border-radius);
-        line-height: calc(var(--option-size) - .2rem);
+        line-height: calc(var(--option-size) - 2px);
         min-width: var(--option-size);
         font-weight: 400;
         width: auto;
@@ -159,7 +159,7 @@
 
         label {
             &:first-of-type {
-                padding-inline-start: 3rem;
+                padding-inline-start: 30px;
                 padding-block-end: 0;
                 order: 1;
                 text-align: start;
@@ -173,19 +173,19 @@
                 -webkit-line-clamp: 3;
 
                 @include mobile {
-                    padding-inline-start: 3.2rem;
+                    padding-inline-start: 32px;
                 }
 
                 .input-control {
                     position: absolute;
                     inset-inline-start: 0;
                     margin: 0;
-                    min-width: 1.8rem;
+                    min-width: 18px;
                     vertical-align: top;
                     border-color: var(--color-karaka);
 
                     @include mobile {
-                        min-width: 2.1rem;
+                        min-width: 21px;
                     }
                 }
             }
@@ -209,7 +209,7 @@
         }
 
         @include desktop {
-            padding-block: .6rem;
+            padding-block: 6px;
             padding-inline: 0;
         }
     }

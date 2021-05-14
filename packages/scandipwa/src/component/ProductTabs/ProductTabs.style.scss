@@ -11,7 +11,7 @@
 
 .ProductTabs {
     display: none;
-    border-bottom: 0.1rem solid var(--expandable-content-divider-color);
+    border-bottom: 1px solid var(--expandable-content-divider-color);
 
     @include desktop {
         display: flex;

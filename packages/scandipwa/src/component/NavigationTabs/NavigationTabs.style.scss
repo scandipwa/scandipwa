@@ -10,7 +10,7 @@
  */
 
 :root {
-    --navigation-tabs-height: calc(5rem + env(safe-area-inset-bottom));
+    --navigation-tabs-height: calc(50px + env(safe-area-inset-bottom));
     --navigation-tabs-background: var(--secondary-light-color);
     --navigation-tabs-color: var(--secondary-dark-color);
 }
@@ -18,7 +18,7 @@
 .NavigationTabs {
     --header-background: var(--navigation-tabs-background);
     --header-color: var(--navigation-tabs-color);
-    --header-icon-stroke-width: 0.2rem;
+    --header-icon-stroke-width: 2px;
 
     position: fixed;
     bottom: 0;
@@ -35,7 +35,7 @@
     }
 
     @include mobile {
-        border-top: 0.1rem solid var(--primary-divider-color);
+        border-top: 1px solid var(--primary-divider-color);
     }
 
     @include desktop {
@@ -55,13 +55,13 @@
         display: flex;
         align-items: center;
         justify-content: space-around;
-        padding: 0 1.2rem;
+        padding: 0 12px;
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;
 
         @include mobile {
-            padding: 0 1.4rem;
+            padding: 0 14px;
         }
     }
 

@@ -10,7 +10,7 @@
  */
 
 :root {
-    --default-notification-height: 4.4rem;
+    --default-notification-height: 44px;
     --notification-info-color: var(--imported_notificationInfo_color, var(--secondary-info-color));
     --notification-info-background: var(--imported_notificationInfo_background_color, var(--primary-info-color));
     --notification-info-height: var(--imported_notificationInfo_height, var(--default-notification-height));
@@ -29,14 +29,14 @@
 
     align-items: center;
     background: var(--notification-background);
-    border-radius: 0.2rem;
+    border-radius: 2px;
     color: var(--notification-color);
     display: inline-flex;
     height: var(--notification-height);
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
     max-width: 100vw;
     overflow: hidden;
-    padding: 1.2rem;
+    padding: 12px;
     position: relative;
     top: 0;
 
@@ -45,18 +45,18 @@
     }
 
     @include mobile {
-        padding: 1.2rem 1.4rem;
+        padding: 12px 14px;
     }
 
     @include after-mobile {
-        max-width: 55rem;
-        margin-bottom: 2rem;
+        max-width: 550px;
+        margin-bottom: 20px;
     }
 
     &-Text {
         margin-top: 0;
         font-weight: bold;
-        margin-inline-end: 4rem;
+        margin-inline-end: 40px;
         margin-bottom: 0;
     }
 
@@ -64,8 +64,8 @@
         white-space: pre-wrap;
         background: white;
         color: black;
-        padding: 0.5rem;
-        max-height: 15rem;
+        padding: 5px;
+        max-height: 150px;
         overflow: scroll;
     }
 
@@ -77,15 +77,15 @@
         position: absolute;
         inset-inline-end: 0;
         top: 0;
-        padding: 1rem;
-        width: 3rem;
-        height: 3rem;
+        padding: 10px;
+        width: 30px;
+        height: 30px;
         opacity: 1;
 
         @include mobile {
             margin: auto;
             bottom: 0;
-            inset-inline-end: 1.4rem;
+            inset-inline-end: 14px;
         }
 
         &:focus {
@@ -101,8 +101,8 @@
             inset-inline-start: 0;
             margin: auto;
             content: ' ';
-            height: 1rem;
-            width: 0.2rem;
+            height: 10px;
+            width: 2px;
             background-color: var(--notification-color);
         }
 
@@ -148,7 +148,7 @@
     @keyframes fadeInStart {
         from {
             opacity: 0;
-            transform: translateY(-30rem);
+            transform: translateY(-300px);
         }
 
         to {
@@ -161,17 +161,17 @@
         from {
             opacity: 1;
             transform: translateY(0);
-            max-height: 10rem;
-            margin-bottom: 0.5rem;
+            max-height: 100px;
+            margin-bottom: 5px;
 
             @include mobile {
-                margin-bottom: 2rem;
+                margin-bottom: 20px;
             }
         }
 
         to {
             opacity: 0;
-            transform: translateY(-30rem);
+            transform: translateY(-300px);
             max-height: 0;
             padding: 0;
             margin: 0;

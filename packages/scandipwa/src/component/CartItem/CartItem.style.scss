@@ -24,7 +24,7 @@
 .CartItem {
     --header-color: var(--cart-item-actions-color);
 
-    border-bottom: 0.1rem solid var(--cart-item-divider-color);
+    border-bottom: 1px solid var(--cart-item-divider-color);
 
     &:last-of-type {
         border-bottom: 0;
@@ -32,7 +32,7 @@
 
     &-OutOfStock {
         font-weight: bold;
-        margin-bottom: .5rem;
+        margin-bottom: 5px;
     }
 
     &-Quantity {
@@ -73,14 +73,14 @@
 
         .CartItem_isEditing &:not(.CartItem-Content_isLikeTable) {
             @include after-mobile {
-                padding-bottom: 4.8rem;
+                padding-bottom: 48px;
             }
         }
 
         &_isLikeTable {
             @include after-mobile {
                 padding-bottom: 0;
-                min-height: 6rem;
+                min-height: 60px;
                 align-self: center;
             }
         }
@@ -88,31 +88,31 @@
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 7.2rem auto;
-        grid-gap: 1.2rem;
-        padding: 1.2rem;
+        grid-template-columns: 72px auto;
+        grid-gap: 12px;
+        padding: 12px;
         background: var(--cart-item-background);
 
         @include mobile {
-            grid-template-columns: 9.6rem auto;
-            grid-gap: 1.4rem;
-            padding: 1.4rem;
-            min-height: 13rem;
+            grid-template-columns: 96px auto;
+            grid-gap: 14px;
+            padding: 14px;
+            min-height: 130px;
         }
 
         @include after-mobile {
-            grid-template-columns: 9.6rem auto;
+            grid-template-columns: 96px auto;
         }
     }
 
     &-Options {
         color: var(--secondary-dark-color);
-        font-size: 1.2rem;
+        font-size: 12px;
     }
 
     &-ItemOptionsWrapper {
         @include mobile {
-            margin-top: .7rem;
+            margin-top: 7px;
         }
 
         &_isLikeTable {
@@ -124,33 +124,33 @@
 
     &-ItemOption {
         display: flex;
-        margin-bottom: .6rem;
-        margin-inline-end: .6rem;
+        margin-bottom: 6px;
+        margin-inline-end: 6px;
 
         @include mobile {
-            margin-bottom: .7rem;
-            margin-inline-end: .7rem;
+            margin-bottom: 7px;
+            margin-inline-end: 7px;
         }
     }
 
     &-ItemOptionLabel {
         align-self: center;
         font-weight: bold;
-        margin-inline-end: .6rem;
+        margin-inline-end: 6px;
 
         @include mobile {
-            margin-inline-end: .7rem;
+            margin-inline-end: 7px;
         }
     }
 
     &-ItemLinks {
         &Wrapper {
             display: flex;
-            gap: 1rem;
+            gap: 10px;
         }
 
         @include mobile {
-            margin-top: .7rem;
+            margin-top: 7px;
         }
     }
 
@@ -165,16 +165,16 @@
 
     &-Heading,
     &-SubHeading {
-        font-size: 1.4rem;
+        font-size: 14px;
         line-height: 1.2;
         flex-grow: 2;
         width: 100%;
-        margin-bottom: .6rem;
+        margin-bottom: 6px;
 
         @include mobile {
             max-width: 95%;
-            margin-bottom: .2rem;
-            margin-top: .2rem;
+            margin-bottom: 2px;
+            margin-top: 2px;
         }
     }
 
@@ -206,7 +206,7 @@
             top: 0;
 
             @include after-mobile {
-                width: 24rem;
+                width: 240px;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -233,7 +233,7 @@
 
     &-Actions {
         opacity: 0;
-        padding: 0 1.2rem;
+        padding: 0 12px;
         max-height: 0;
         pointer-events: none;
 
@@ -248,10 +248,10 @@
 
         @include after-mobile {
             position: absolute;
-            bottom: 1.2rem;
+            bottom: 12px;
             inset-inline-end: 0;
-            width: calc(100% - 11.3rem);
-            height: 3.6rem;
+            width: calc(100% - 113px);
+            height: 36px;
         }
 
         &_isLikeTable {
@@ -259,13 +259,13 @@
                 width: 20%;
                 bottom: 0;
                 inset-inline-end: 20%;
-                top: -.5rem;
+                top: -5px;
                 margin: auto;
                 justify-content: center;
             }
 
             > * {
-                margin: 0 0.5rem;
+                margin: 0 5px;
 
                 @include tablet-portrait {
                     margin: unset;
@@ -275,9 +275,9 @@
 
         &_isEditing {
             transition-property: padding, max-height, opacity;
-            padding: .6rem 1.2rem;
+            padding: 6px 12px;
             opacity: 1;
-            max-height: 6rem;
+            max-height: 60px;
             pointer-events: all;
         }
 
@@ -294,7 +294,7 @@
         }
 
         @include after-mobile {
-            top: 0.1rem;
+            top: 1px;
         }
 
         @include mobile {
@@ -302,25 +302,25 @@
 
             position: absolute;
             inset-inline-end: 0;
-            height: 3rem;
+            height: 30px;
             max-width: 5%;
             padding-inline-start: 0;
             flex-grow: 1;
 
             &::before {
-                height: 1.5rem;
+                height: 15px;
                 top: 0;
             }
 
             &::after {
-                height: 1.5rem;
+                height: 15px;
                 top: 0;
             }
         }
 
-        height: 3.5rem;
-        padding-inline-start: 3.5rem;
-        font-size: 1.4rem;
+        height: 35px;
+        padding-inline-start: 35px;
+        font-size: 14px;
         color: var(--cart-item-actions-color);
     }
 
@@ -340,8 +340,8 @@
 
         input {
             @include mobile {
-                width: 2.4rem;
-                min-width: 2.4rem;
+                width: 24px;
+                min-width: 24px;
             }
         }
     }
@@ -357,12 +357,12 @@
         align-items: center;
 
         @include mobile {
-            margin-bottom: .7rem;
+            margin-bottom: 7px;
         }
     }
 
     &-QuantityText {
-        margin-inline-end: 1rem;
+        margin-inline-end: 10px;
 
         @include after-mobile {
             display: none;

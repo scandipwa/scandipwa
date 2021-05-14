@@ -20,27 +20,27 @@
     --button-hover-background: var(--homepage-button-color);
     --button-hover-color: var(--homepage-button-background);
     --button-hover-border: transparent;
-    --button-padding: 1.3rem 4rem;
+    --button-padding: 13px 40px;
     --button-border-width: 0;
 
     h1 {
-        font-size: 6.2rem;
+        font-size: 62px;
         text-transform: uppercase;
         color: var(--homepage-slider-color);
-        margin-bottom: 3rem;
+        margin-bottom: 30px;
 
         @include mobile {
 
-            font-size: 3rem;
-            margin-bottom: 1.4rem;
+            font-size: 30px;
+            margin-bottom: 14px;
         }
     }
 
     .Slider-Crumbs {
-        bottom: 2.4rem;
+        bottom: 24px;
 
         @include mobile {
-            bottom: 2.8rem;
+            bottom: 28px;
         }
     }
 
@@ -48,7 +48,7 @@
         text-align: center;
 
         @include desktop {
-            padding-top: 6rem;
+            padding-top: 60px;
         }
     }
 }

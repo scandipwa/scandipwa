@@ -17,7 +17,7 @@
 .ProductCustomizableOptions {
     &-Content {
         @include after-mobile{
-            max-width: 40rem;
+            max-width: 400px;
         }
 
         .Field {
@@ -38,11 +38,11 @@
                 }
 
                 .Field-Label {
-                    margin-inline-start: 1.2rem;
+                    margin-inline-start: 12px;
                     order: 2;
 
                     @include mobile {
-                        margin-inline-start: 1.4rem;
+                        margin-inline-start: 14px;
                     }
                 }
             }
@@ -51,31 +51,31 @@
 
     &-Required {
         color: var(--customizable-options-required-text-color);
-        margin-top: .6rem;
+        margin-top: 6px;
 
         @include mobile {
-            margin-top: .7rem;
+            margin-top: 7px;
         }
     }
 
     &-Information {
         color: var(--customizable-options-additional-information-color);
-        font-size: 1.1rem;
-        margin-top: .6rem;
+        font-size: 11px;
+        margin-top: 6px;
 
         @include mobile {
-            margin-top: .7rem;
+            margin-top: 7px;
         }
     }
 
     &-ExpandableContentContent {
         &_isContentExpanded {
             @include before-desktop {
-                padding: 0 1.2rem 1.2rem;
+                padding: 0 12px 12px;
             }
 
             @include mobile {
-                padding: 0 1.4rem 1.4rem;
+                padding: 0 14px 14px;
             }
 
             .Field {
@@ -108,6 +108,6 @@
         animation: var(--placeholder-animation);
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);
-        max-width: 27rem;
+        max-width: 270px;
     }
 }

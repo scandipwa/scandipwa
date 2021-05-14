@@ -13,23 +13,23 @@
     --checkbox-border-radius: var(--imported_checkboxes_border_radius, 0);
     --checkbox-border-color: var(--imported_checkboxes_border_color, var(--primary-base-color));
     --checkbox-border-color-active: var(--imported_checkboxes_border_color, var(--primary-base-color));
-    --checkbox-width: var(--imported_checkboxes_width, 1.8rem);
-    --checkbox-height: var(--imported_checkboxes_height, 1.8rem);
+    --checkbox-width: var(--imported_checkboxes_width, 18px);
+    --checkbox-height: var(--imported_checkboxes_height, 18px);
 }
 
 .Field {
-    margin-top: 2.4rem;
+    margin-top: 24px;
 
     @include mobile {
-        margin-top: 1.4rem;
+        margin-top: 14px;
     }
 
     &-Label {
-        font-size: 1.2rem;
-        padding-bottom: .8rem;
+        font-size: 12px;
+        padding-bottom: 8px;
 
         @include mobile {
-            padding-bottom: .42rem;
+            padding-bottom: 4px;
         }
     }
 
@@ -40,19 +40,19 @@
 
     &-Message {
         color: var(--primary-error-color);
-        font-size: 1.2rem;
+        font-size: 12px;
         margin-bottom: -.1em;
-        margin-top: .6rem;
-        padding-inline-start: 1.5rem;
+        margin-top: 6px;
+        padding-inline-start: 15px;
 
         @include mobile {
-            font-size: 1.47rem;
+            font-size: 15px;
         }
     }
 
     &-Note {
-        margin-bottom: .24rem;
-        font-size: 1.2rem;
+        margin-bottom: 2px;
+        font-size: 12px;
         font-weight: 600;
         color: var(--field-note);
         opacity: 0;
@@ -61,8 +61,8 @@
         will-change: height, opacity;
 
         @include mobile {
-            margin-bottom: .28rem;
-            font-size: 1.4rem;
+            margin-bottom: 3px;
+            font-size: 14px;
         }
 
         &::before {
@@ -73,7 +73,7 @@
     &_hasError {
         input,
         textarea {
-            border: 0.1rem solid var(--primary-error-color);
+            border: 1px solid var(--primary-error-color);
         }
     }
 
@@ -89,11 +89,11 @@
 
     &_style {
         &_inline {
-            $size-mobile: 2rem;
-            $size: 2.8rem;
+            $size-mobile: 20px;
+            $size: 28px;
             $border-color: #000;
-            $input-width-mobile: 3.5rem;
-            $input-width: 3.5rem;
+            $input-width-mobile: 35px;
+            $input-width: 35px;
 
             &.Field {
                 display: flex;
@@ -103,7 +103,7 @@
                     position: relative;
                     width: $size-mobile;
                     height: $size-mobile;
-                    border: solid 0.1rem $border-color;
+                    border: solid 1px $border-color;
 
                     @include after-mobile {
                         width: $size;
@@ -126,7 +126,7 @@
                 text-align: center;
 
                 @include mobile {
-                    font-size: 1.4rem;
+                    font-size: 14px;
                 }
 
                 @include after-mobile {
@@ -149,11 +149,11 @@
             label {
                 &:first-of-type {
                     display: inline-block;
-                    max-width: calc(100vw - 2.4rem - 4.5rem);
+                    max-width: calc(100vw - 24px - 45px);
                     vertical-align: middle;
 
                     @include mobile {
-                        max-width: calc(100vw - 2.8rem - 4.5rem);
+                        max-width: calc(100vw - 28px - 45px);
                     }
                 }
             }
@@ -181,17 +181,17 @@
             --box-color: #{$white};
 
             background-color: var(--box-color);
-            border: 0.2rem solid var(--input-color);
+            border: 2px solid var(--input-color);
             border-radius: var(--checkbox-border-radius);
             cursor: pointer;
             display: inline-block;
-            height: 2.1rem;
+            height: 21px;
             position: relative;
             padding: 0;
             transition-duration: .25s;
             transition-property: background-color, border-color;
             transition-timing-function: ease-in;
-            width: 2.1rem;
+            width: 21px;
             will-change: background-color, border-color;
 
             @include desktop {
@@ -204,23 +204,23 @@
 
                 background: var(--checkmark-color);
                 box-shadow:
-                        0.2rem 0 0 var(--checkmark-color),
-                        0.4rem 0 0 var(--checkmark-color),
-                        0.4rem -.2rem 0 var(--checkmark-color),
-                        0.4rem -.4rem 0 var(--checkmark-color),
-                        0.4rem -.6rem 0 var(--checkmark-color),
-                        0.4rem -.8rem 0 var(--checkmark-color);
+                        2px 0 0 var(--checkmark-color),
+                        4px 0 0 var(--checkmark-color),
+                        4px -2px 0 var(--checkmark-color),
+                        4px -4px 0 var(--checkmark-color),
+                        4px -6px 0 var(--checkmark-color),
+                        4px -8px 0 var(--checkmark-color);
                 content: '';
-                height: .2rem;
-                inset-inline-start: calc(50% - .5rem);
+                height: 2px;
+                inset-inline-start: calc(50% - 5px);
                 pointer-events: none;
                 position: absolute;
-                top: calc(50% - .1rem);
+                top: calc(50% - 1px);
                 transition-duration: .25s;
                 transition-property: background-color, box-shadow;
                 transition-timing-function: ease-in;
                 transform: rotate(45deg);
-                width: .2rem;
+                width: 2px;
                 will-change: background-color, box-shadow;
             }
 
@@ -251,8 +251,8 @@
                 &::after {
                     --checkmark-color: var(--primary-base-color);
 
-                    inset-inline-start: calc(50% - .5rem);
-                    top: calc(50% - .1rem);
+                    inset-inline-start: calc(50% - 5px);
+                    top: calc(50% - 1px);
                 }
             }
         }
@@ -261,42 +261,42 @@
     [type='file'] {
         border-style: dashed;
         cursor: pointer;
-        height: 18rem;
+        height: 180px;
         opacity: 0;
         max-width: 100%;
         z-index: 1;
 
         + label {
             align-items: center;
-            border: 0.2rem dashed var(--input-border-color);
+            border: 2px dashed var(--input-border-color);
             cursor: pointer;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: 18rem;
+            height: 180px;
             position: absolute;
             top: 0;
             width: 100%;
 
             p {
-                font-size: 1.6rem;
+                font-size: 16px;
                 margin-bottom: 0;
             }
 
             span {
                 color: var(--primary-base-color);
-                font-size: 1.8rem;
+                font-size: 18px;
                 font-weight: 700;
                 text-transform: uppercase;
             }
 
             .Image {
-                margin-bottom: 1rem;
+                margin-bottom: 10px;
                 text-align: center;
             }
 
             + p {
-                margin-top: 0.5rem;
+                margin-top: 5px;
                 margin-bottom: 0;
             }
         }
@@ -304,13 +304,13 @@
 
     &-Labels {
         span {
-            letter-spacing: .105rem;
+            letter-spacing: 1px;
         }
     }
 
     &-SubLabel {
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: 12px;
         white-space: break-spaces;
     }
 }

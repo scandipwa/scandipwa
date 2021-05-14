@@ -2,7 +2,7 @@
     $transform: translate(-50%, -50%);
     $transform-hover: $transform scale(1.2);
 
-    height: 4rem;
+    height: 40px;
     z-index: 1;
     transition: opacity 200ms;
 
@@ -14,10 +14,10 @@
         transform: $transform rotate(135deg);
         transition: transform 200ms;
         display: block;
-        height: 1.5rem;
-        width: 1.5rem;
+        height: 15px;
+        width: 15px;
         border-style: solid;
-        border-width: 0 0 0.2rem 0.2rem;
+        border-width: 0 0 2px 2px;
     }
 
     &:hover {

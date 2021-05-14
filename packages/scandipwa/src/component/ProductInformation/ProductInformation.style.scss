@@ -15,14 +15,14 @@
 // }
 
 .ProductInformation {
-    font-size: 1.4rem;
-    line-height: 2rem;
+    font-size: 14px;
+    line-height: 20px;
 
     &-Wrapper {
         padding: 0;
 
         @include desktop {
-            padding-block: 3.2rem;
+            padding-block: 32px;
         }
     }
 
@@ -35,7 +35,7 @@
     // &-ExpandableContentContent {
     //     &_isContentExpanded {
     //         @include mobile {
-    //             padding: 0 1.4rem 1.4rem;
+    //             padding: 0 14px 14px;
     //         }
     //     }
 
@@ -48,18 +48,18 @@
     // }
 
     &-Placeholder {
-        margin-block-start: 2.4rem;
+        margin-block-start: 24px;
 
         @include mobile {
-            margin-block-start: 2.8rem;
+            margin-block-start: 28px;
         }
 
         span {
             display: block;
-            margin-block-end: 1.2rem;
+            margin-block-end: 12px;
 
             @include mobile {
-                margin-block-end: 1.4rem;
+                margin-block-end: 14px;
             }
         }
     }
@@ -74,7 +74,7 @@
     //     flex-wrap: wrap;
 
     //     @include mobile {
-    //         margin-top: 2.8rem;
+    //         margin-top: 28px;
     //     }
     // }
 
@@ -86,12 +86,12 @@
     // }
 
     // &-ValueLabel {
-    //     padding-left: .6rem;
-    //     margin-bottom: 1.2rem;
+    //     padding-left: 6px;
+    //     margin-bottom: 12px;
 
     //     @include mobile {
-    //         padding-left: .7rem;
-    //         margin-bottom: 1.4rem;
+    //         padding-left: 7px;
+    //         margin-bottom: 14px;
     //     }
     // }
 
@@ -106,13 +106,13 @@
     // &-Image {
     //     padding-bottom: 40%;
     //     mix-blend-mode: multiply;
-    //     margin-inline-end: 12rem;
-    //     min-width: 36rem;
+    //     margin-inline-end: 120px;
+    //     min-width: 360px;
     //     background: none;
 
     //     @include mobile {
-    //         margin-inline-end: 14rem;
-    //         min-width: 42rem;
+    //         margin-inline-end: 140px;
+    //         min-width: 420px;
     //         display: none;
     //     }
     // }

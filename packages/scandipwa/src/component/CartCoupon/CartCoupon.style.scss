@@ -26,7 +26,7 @@
         display: inline-block;
 
         input {
-            width: 20rem;
+            width: 200px;
 
             @include before-desktop {
                 width: 100%;
@@ -49,29 +49,29 @@
     }
 
     &-Button {
-        margin-inline-start: 2.4rem;
+        margin-inline-start: 24px;
 
         @include before-desktop {
             width: 100%;
             margin-inline-start: 0;
-            margin-top: 1.2rem;
+            margin-top: 12px;
         }
 
         @include mobile {
-            margin-top: 1.4rem;
+            margin-top: 14px;
         }
 
         @include tablet-portrait {
             width: 100%;
             margin-inline-start: 0;
-            margin-top: 1rem;
+            margin-top: 10px;
         }
     }
 
     &-Title {
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: normal;
         text-transform: uppercase;
-        margin: 0 0 2rem;
+        margin: 0 0 20px;
     }
 }

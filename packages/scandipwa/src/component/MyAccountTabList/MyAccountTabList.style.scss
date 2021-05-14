@@ -19,7 +19,7 @@
     @include after-mobile {
         background-color: var(--my-account-tab-list-background);
         border: var(--my-account-content-border);
-        padding: 1.2rem 0;
+        padding: 12px 0;
     }
 
     &-ExpandableContentContent {
@@ -29,7 +29,7 @@
 
         &_isContentExpanded {
             @include mobile {
-                padding: 0 1.4rem 1.4rem;
+                padding: 0 14px 14px;
             }
         }
     }
@@ -41,10 +41,10 @@
 
         &::before,
         &::after {
-            inset-inline-end: 2.4rem;
+            inset-inline-end: 24px;
 
             @include mobile {
-                inset-inline-end: 2.8rem;
+                inset-inline-end: 28px;
             }
         }
     }

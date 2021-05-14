@@ -42,14 +42,14 @@
 
     &-NoResults {
         margin: 0;
-        padding: 1.2rem 1.2rem 0;
+        padding: 12px 12px 0;
 
         @include mobile {
-            padding: 1.4rem 1.4rem 0;
+            padding: 14px 14px 0;
         }
 
         @include desktop {
-            padding: 0 0 1.2rem;
+            padding: 0 0 12px;
         }
     }
 
@@ -68,7 +68,7 @@
 
     &-Item {
         @include desktop {
-            margin-inline-end: 1.2rem;
+            margin-inline-end: 12px;
         }
 
         &_isSelected {
@@ -79,10 +79,10 @@
 
         &:not(.Swatch_type_color):not(.Swatch_type_cat) {
             @include desktop {
-                padding: 0 1.2rem;
-                border: 0.1rem solid var(--category-filter-overlay-desktop-color);
+                padding: 0 12px;
+                border: 1px solid var(--category-filter-overlay-desktop-color);
                 color: var(--category-filter-overlay-desktop-color);
-                margin-inline-end: 0.6rem;
+                margin-inline-end: 6px;
             }
 
             &:hover {
@@ -97,42 +97,42 @@
                 @include desktop {
                     content: '\2022';
 
-                    margin-inline-end: 1.2rem;
-                    margin-inline-start: 0.2rem;
+                    margin-inline-end: 12px;
+                    margin-inline-start: 2px;
                 }
             }
         }
     }
 
     &-Placeholder {
-        padding: 1.2rem;
+        padding: 12px;
 
         @include mobile {
-            padding: 1.4rem;
+            padding: 14px;
         }
     }
 
     &-Attributes {
-        --option-margin-block: .6rem;
-        --option-margin-inline: .6rem;
+        --option-margin-block: 6px;
+        --option-margin-inline: 6px;
 
         @include mobile {
-            --option-margin-block: .7rem;
-            --option-margin-inline: .7rem;
-            margin: 1.6rem;
+            --option-margin-block: 7px;
+            --option-margin-inline: 7px;
+            margin: 16px;
             overflow-y: scroll;
         }
 
         @include desktop {
-            --option-margin-block: 0 1.2rem;
-            --option-margin-inline: 0 1.2rem;
+            --option-margin-block: 0 12px;
+            --option-margin-inline: 0 12px;
 
             .ExpandableContent:not(:last-child)  {
-                border-bottom: 0.1rem solid var(--expandable-content-divider-color);
+                border-bottom: 1px solid var(--expandable-content-divider-color);
             }
 
             .ExpandableContent  {
-                padding: 1.5rem 0;
+                padding: 15px 0;
             }
         }
     }
@@ -141,7 +141,7 @@
         order: 50;
 
         @include desktop {
-            margin-bottom: 1.2rem;
+            margin-bottom: 12px;
         }
     }
 
@@ -149,13 +149,13 @@
     &-ResetButton {
         @include before-desktop {
             bottom: 0;
-            padding: 1.2rem;
+            padding: 12px;
             width: 100%;
             inset-inline-start: 0;
         }
 
         @include mobile {
-            padding: 1.6rem;
+            padding: 16px;
         }
     }
 
@@ -178,7 +178,7 @@
     &-ResetButton {
 
         @include desktop {
-            margin-bottom: 1.2rem;
+            margin-bottom: 12px;
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
@@ -197,11 +197,11 @@
 
         &:last-child {
             @include before-desktop {
-                margin-bottom: .72rem;
+                margin-bottom: 7.2px;
             }
 
             @include mobile {
-                margin-bottom: .84rem;
+                margin-bottom: 8.4px;
             }
         }
     }

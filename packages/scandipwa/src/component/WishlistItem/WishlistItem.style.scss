@@ -11,17 +11,17 @@
 
  :root {
     --whislist-swipe-to-delete-color: #fff;
-    --whislist-qty-button-size: 2rem;
+    --whislist-qty-button-size: 20px;
 }
 
 .WishlistItem {
     @include mobile {
-        padding: 1.4rem var(--my-account-wrapper-padding-mobile);
-        border-top: 0.1rem solid var(--wishlist-item-border-color);
+        padding: 14px var(--my-account-wrapper-padding-mobile);
+        border-top: 1px solid var(--wishlist-item-border-color);
     }
 
     &-ActionWrapper {
-        margin-top: 1rem;
+        margin-top: 10px;
         display: flex;
         align-items: center;
     }
@@ -56,12 +56,12 @@
         }
 
         .ProductAttribute {
-            font-size: 1rem;
+            font-size: 10px;
             text-transform: uppercase;
-            border: 0.1rem solid #adadad;
+            border: 1px solid #adadad;
             color: #adadad;
-            padding: 0.3rem 0.5rem;
-            margin-inline-end: 0.5rem;
+            padding: 3px 5px;
+            margin-inline-end: 5px;
             display: inline-block;
         }
 
@@ -76,7 +76,7 @@
             }
 
             del {
-                margin-inline-start: 0.4rem;
+                margin-inline-start: 4px;
 
                 @include mobile {
                     order: -1;
@@ -87,7 +87,7 @@
     }
 
     &-FigureWrapper {
-        padding: .9rem .9rem;
+        padding: 9px 9px;
 
         @include mobile {
             display: flex;
@@ -97,21 +97,21 @@
     &-ContentWrapper {
         @include mobile {
             width: 100%;
-            min-height: 13rem;
+            min-height: 130px;
         }
     }
 
     &-Remove {
         @include close-button;
         position: absolute;
-        inset-inline-end: .5rem;
-        top: 2rem;
-        height: 3rem;
-        width: 3rem;
+        inset-inline-end: 5px;
+        top: 20px;
+        height: 30px;
+        width: 30px;
 
         &::before,
         &::after {
-            top: 0.5rem;
+            top: 5px;
         }
     }
 
@@ -120,13 +120,13 @@
         margin-top: 0;
 
         @include mobile {
-            padding: 0.7rem 1.2rem 0.4rem;
-            font-size: 1.3rem;
-            margin-inline-end: 2rem;
+            padding: 7px 12px 4px;
+            font-size: 13px;
+            margin-inline-end: 20px;
         }
 
         @include after-mobile {
-            margin-inline-end: 2rem;
+            margin-inline-end: 20px;
         }
 
         &_isEditingActive {
@@ -142,16 +142,16 @@
 
     &-Quantity {
         &Text {
-            margin-inline-end: 1rem;
+            margin-inline-end: 10px;
         }
 
         &Input {
             button {
-                padding: 1.5rem;
+                padding: 15px;
             }
 
             input {
-                padding-top: .1rem;
+                padding-top: 1px;
             }
         }
 
@@ -166,13 +166,13 @@
 
         @include after-mobile {
             float: end;
-            margin-block-end: 1.6rem;
+            margin-block-end: 16px;
             text-align: end;
         }
     }
 
     &-Content {
-        padding: 0 .9rem .9rem;
+        padding: 0 9px 9px;
 
         @include mobile {
             flex: 1;
@@ -182,14 +182,14 @@
     }
 
     &-ImageWrapper {
-        margin-inline-end: 1.5rem;
-        width: 10rem;
+        margin-inline-end: 15px;
+        width: 100px;
     }
 
     &-CommentField {
         textarea {
             width: 100%;
-            max-height: 4.8rem;
+            max-height: 48px;
         }
 
         &_isNotEditingActive {
@@ -206,34 +206,34 @@
         justify-content: space-between;
 
         @include mobile {
-            padding-top: 1rem;
+            padding-top: 10px;
         }
 
         @include after-mobile {
             align-items: flex-start;
             flex-direction: column;
-            margin-top: 1rem;
+            margin-top: 10px;
         }
     }
 
     &-AttributeWrapper {
-        margin: 0.5rem 0 1.2rem;
+        margin: 5px 0 12px;
     }
 
     &-EditIcon {
         @include edit-icon;
         display: inline-block;
-        height: 2rem;
-        width: 2rem;
-        margin-inline-end: 1rem;
+        height: 20px;
+        width: 20px;
+        margin-inline-end: 10px;
     }
 
     &-MinicartIcon {
         @include minicart-button;
         filter: var(--primary-base-filter);
-        height: 2rem;
-        margin-inline-end: 1.4rem;
-        width: 1.8rem;
+        height: 20px;
+        margin-inline-end: 14px;
+        width: 18px;
 
         @include after-mobile {
             filter: invert(100%);
@@ -251,8 +251,8 @@
         justify-content: center;
 
         &_isEditingActive {
-            width: calc(5rem - 1.4rem);
-            padding-inline-end: 1.4rem;
+            width: calc(50px - 14px);
+            padding-inline-end: 14px;
             display: flex;
         }
     }
@@ -270,11 +270,11 @@
     }
 
     &Options {
-        margin-bottom: 2rem;
-        margin-top: -1rem;
+        margin-bottom: 20px;
+        margin-top: 1px;
 
         &-Title {
-            margin-top: .5rem;
+            margin-top: 5px;
             font-weight: bold;
 
             &:hover {
@@ -286,10 +286,10 @@
 
     &Option {
         font-size: 0.9em;
-        padding: .25rem;
+        padding: 2px;
 
         &-Value {
-            padding-inline-start: .5rem;
+            padding-inline-start: 5px;
             font-weight: bold;
         }
     }

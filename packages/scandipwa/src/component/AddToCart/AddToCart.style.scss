@@ -10,25 +10,25 @@
  */
 
 .AddToCart {
-    min-width: 14.4rem;
+    min-width: 144px;
     vertical-align: middle;
 
     @include wide-desktop {
-        min-width: 12.4rem;
+        min-width: 124px;
         padding: 0;
 
         &:hover {
-            min-width: 12.4rem;
+            min-width: 124px;
             padding: 0 !important;
         }
     }
 
     @include mobile {
-        min-width: 16.8rem;
+        min-width: 168px;
     }
 
     &_layout_list {
-        width: 22.2rem;
+        width: 222px;
     }
 
     span {
@@ -50,7 +50,7 @@
     }
 
     &_isPlaceholder {
-        height: 4.8rem;
+        height: 48px;
         display: inline-block;
         padding: var(--button-padding);
         background-image: var(--placeholder-image);
@@ -59,7 +59,7 @@
         will-change: background-position;
 
         @include mobile {
-            height: 5.6rem;
+            height: 56px;
         }
     }
 

@@ -20,9 +20,9 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: max-content;
-        grid-column-gap: 2.4rem;
+        grid-column-gap: 24px;
 
-        @media (min-width: 137rem) {
+        @media (min-width: 17px) {
             grid-template-columns: repeat(4, 1fr);
         }
 
@@ -31,7 +31,7 @@
         }
 
         @include mobile {
-            grid-column-gap: 2.8rem;
+            grid-column-gap: 28px;
             grid-template-columns: 1fr;
             border: 0;
             margin: 0 calc(-1 * var(--my-account-wrapper-padding-mobile));
@@ -48,12 +48,12 @@
 
     &-ActionBar {
         display: flex;
-        padding: 0 0 1.2rem;
+        padding: 0 0 12px;
         justify-content: flex-end;
 
         @include after-mobile {
             position: absolute;
-            top: -5.5rem;
+            top: -55px;
             inset-inline-end: 0;
         }
 
@@ -62,7 +62,7 @@
             bottom: var(--navigation-tabs-height);
             display: block;
             inset-inline-start: 0;
-            padding: 1.4rem 1.4rem;
+            padding: 14px 14px;
             position: fixed;
             width: 100%;
         }
@@ -71,21 +71,21 @@
     &-ActionBarActionWrapper {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 1rem;
+        margin-bottom: 10px;
     }
 
     &-NoProductsButton {
-        margin-top: 1.2rem;
+        margin-top: 12px;
 
         @include mobile {
-            margin-top: 1.4rem;
+            margin-top: 14px;
         }
     }
 
     &-Button {
         @include after-mobile {
-            margin-inline-end: 3rem;
-            margin-inline-start: 3rem;
+            margin-inline-end: 30px;
+            margin-inline-start: 30px;
         }
 
         @include mobile {
@@ -96,17 +96,17 @@
     &-MinicartIcon {
         @include minicart-button;
         filter: invert(100%);
-        height: 2rem;
-        margin-inline-end: 1.4rem;
-        width: 1.8rem;
+        height: 20px;
+        margin-inline-end: 14px;
+        width: 18px;
     }
 
     &-ShareIcon {
         @include share-icon;
         filter: var(--primary-base-filter);
-        height: 2rem;
-        margin-inline-end: 1.4rem;
-        width: 1.8rem;
+        height: 20px;
+        margin-inline-end: 14px;
+        width: 18px;
     }
 
     &-ClearRemoveItemsButton {
@@ -125,7 +125,7 @@
 
         @include after-mobile {
             order: 1;
-            margin-inline-start: 1.5rem;
+            margin-inline-start: 15px;
         }
 
         &,
@@ -141,8 +141,8 @@
 
     &-ShareWishlistButton {
         height: 0;
-        margin-block: 1.4rem 0;
-        margin-inline: 0 2rem;
+        margin-block: 14px 0;
+        margin-inline: 0 20px;
 
         &[disabled] {
             @include button-disabled();

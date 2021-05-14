@@ -12,7 +12,7 @@
 .CategorySort {
     @include desktop {
         margin-inline-start: auto;
-        min-width: 18rem;
+        min-width: 180px;
         grid-column: 2;
     }
 
@@ -20,7 +20,7 @@
         margin-top: 0;
 
         label:first-of-type {
-            font-size: 1.6rem;
+            font-size: 16px;
             font-weight: 400;
 
             @include desktop {
@@ -41,12 +41,12 @@
 
     .FieldSelect {
         &::after {
-            height: 1.6rem;
-            width: 1.6rem;
+            height: 16px;
+            width: 16px;
 
             @include before-desktop {
-                inset-inline-start: 4.2rem;
-                top: -2.5rem;
+                inset-inline-start: 42px;
+                top: -25px;
             }
         }
 
@@ -54,17 +54,17 @@
             background: none;
             border: none;
             color: var(--color-black);
-            padding-block: 1.3rem;
-            padding-inline: 2rem 4rem;
+            padding-block: 13px;
+            padding-inline: 20px 40px;
 
             @include before-desktop {
                 position: absolute;
-                top: -3.5rem;
+                top: -35px;
                 opacity: 0;
             }
 
             &_isExpanded {
-                border: 0.1rem solid var(--input-border-color);
+                border: 1px solid var(--input-border-color);
                 border-bottom: 0;
                 font-weight: 700;
             }

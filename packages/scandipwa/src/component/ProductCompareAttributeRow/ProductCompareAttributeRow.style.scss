@@ -11,12 +11,12 @@
 
 .ProductCompareAttributeRow {
     display: flex;
-    margin-top: 1rem;
-    font-size: 1.4rem;
+    margin-top: 10px;
+    font-size: 14px;
 
     @include mobile {
         display: block;
-        margin: 1rem 0;
+        margin: 10px 0;
     }
 
     &-Title {
@@ -27,7 +27,7 @@
         font-weight: 700;
 
         @include mobile {
-            padding: 1rem;
+            padding: 10px;
             white-space: nowrap;
         }
 

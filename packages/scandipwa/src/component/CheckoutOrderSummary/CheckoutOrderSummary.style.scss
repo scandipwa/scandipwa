@@ -11,32 +11,32 @@
 
 .CheckoutOrderSummary {
     $divider-border-color: #e0e0e0;
-    $divider-border: solid 0.1rem $divider-border-color;
-    border: 0.1rem solid var(--secondary-base-color);
-    border-radius: 0.2rem;
-    padding: 2.4rem 1.6rem;
+    $divider-border: solid 1px $divider-border-color;
+    border: 1px solid var(--secondary-base-color);
+    border-radius: 2px;
+    padding: 24px 16px;
 
     &-Header {
-        font-size: 2.4rem;
+        font-size: 24px;
         font-weight: 700;
     }
 
     &-ItemsInCart {
-        font-size: 1.4rem;
+        font-size: 14px;
         text-transform: none;
-        top: 0.2rem;
+        top: 2px;
         font-weight: 400;
-        margin-block: 2rem 1.6rem;
+        margin-block: 20px 16px;
     }
 
     &-SummaryItem {
         justify-content: space-between;
         display: flex;
-        padding: 1.2rem 0;
+        padding: 12px 0;
         margin-bottom: 0;
 
         @include mobile {
-            padding: 1.4rem 0;
+            padding: 14px 0;
         }
 
         &:last-child {
@@ -74,29 +74,29 @@
     }
 
     &-CartItemDescription {
-        margin-top: 0.5rem;
+        margin-top: 5px;
 
         p {
-            font-size: 1.32rem;
+            font-size: 13px;
             line-height: 1.5;
 
             @include mobile {
-                font-size: 1.54rem;
+                font-size: 15px;
             }
         }
     }
 
     &-CartItem {
         display: grid;
-        grid-template-columns: 9.6rem auto auto;
-        grid-column-gap: .6rem;
-        margin: 0 0 .6rem;
+        grid-template-columns: 96px auto auto;
+        grid-column-gap: 6px;
+        margin: 0 0 6px;
         padding: 0;
 
         @include mobile {
-            grid-template-columns: 11.2rem auto auto;
-            grid-column-gap: .7rem;
-            margin: 0 0 .7rem;
+            grid-template-columns: 112px auto auto;
+            grid-column-gap: 7px;
+            margin: 0 0 7px;
         }
 
         &::before {
@@ -111,12 +111,12 @@
     }
 
     &-Thumbnail {
-        width: 9.6rem;
-        height: 9.6rem;
+        width: 96px;
+        height: 96px;
 
         @include mobile {
-            width: 11.2rem;
-            height: 11.2rem;
+            width: 112px;
+            height: 112px;
         }
     }
 
@@ -133,21 +133,21 @@
     }
 
     &-ExpandableContent {
-        margin: 0 -1.4rem;
+        margin: 0 -14px;
         background-color: var(--secondary-base-color);
     }
 
     &-Coupon {
         @include mobile {
-            padding: 1rem 1.4rem;
+            padding: 10px 14px;
             border-bottom: $divider-border;
-            margin: 0 -1.4rem;
+            margin: 0 -14px;
             width: auto;
         }
     }
 
     &-CmsBlock {
-        padding: 1rem 0;
+        padding: 10px 0;
         border-bottom: $divider-border;
     }
 
@@ -155,20 +155,20 @@
         margin-top: 0;
         font-weight: bold;
         line-height: 1;
-        font-size: 1.8rem;
+        font-size: 18px;
 
         &-SubPrice {
             display: block;
-            font-size: 1.2rem;
+            font-size: 12px;
             font-weight: 300;
         }
     }
 
     .CartItem-Wrapper {
-        padding: 1.2rem 0;
+        padding: 12px 0;
 
         @include mobile {
-            padding: 1.4rem 0;
+            padding: 14px 0;
         }
     }
 

@@ -11,27 +11,27 @@
 .ResetAttributes {
 
     @include before-desktop {
-        margin: 1.6rem 1.6rem 0;
+        margin: 16px 16px 0;
     }
 
     @include desktop {
-        margin-bottom: 2rem;
+        margin-bottom: 20px;
     }
 
     @include mobile {
-        max-height: 20rem;
+        max-height: 200px;
         overflow-y: scroll;
     }
 
     &-AttributeValue {
-        margin: 1rem 0;
+        margin: 10px 0;
         display: flex;
         align-items: center;
     }
 
     &-AttributeText{
-        inset-inline-start: 1rem;
-        font-size: 1.4rem;
+        inset-inline-start: 10px;
+        font-size: 14px;
     }
 
     &-CloseIcon {
@@ -57,7 +57,7 @@
 
     &-MobileTitle {
         @include before-desktop {
-            padding-inline-start: 1.6rem;
+            padding-inline-start: 16px;
             font-weight: 700;
         }
 
