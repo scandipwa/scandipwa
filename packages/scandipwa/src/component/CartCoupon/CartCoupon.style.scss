@@ -26,7 +26,7 @@
         display: inline-block;
 
         input {
-            width: 200px;
+            width: 296px;
 
             @include before-desktop {
                 width: 100%;
@@ -50,6 +50,8 @@
 
     &-Button {
         margin-inline-start: 24px;
+
+        @include button;
 
         @include before-desktop {
             width: 100%;
