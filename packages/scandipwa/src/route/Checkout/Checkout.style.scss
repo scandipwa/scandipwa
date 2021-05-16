@@ -39,17 +39,12 @@
             border-top: 1px solid var(--primary-divider-color);
             background-color: #fff;
             position: fixed;
-            padding: 12px 12px calc(env(safe-area-inset-bottom) + 12px);
-            bottom: 0;
             inset-inline-start: 0;
             width: 100%;
             z-index: 85;
-        }
-
-        @include mobile {
             bottom: var(--navigation-tabs-height);
             background-color: var(--color-white);
-            padding: 14px 14px calc(env(safe-area-inset-bottom) + 14px);
+            padding: 16px 16px calc(env(safe-area-inset-bottom) + 16px);
         }
 
         .Button {
@@ -61,8 +56,9 @@
 
     &-Wrapper {
         margin: auto;
+        padding: 0 16px;
 
-        @include after-mobile {
+        @include desktop {
             padding-inline: 32px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -155,6 +151,7 @@
 
     .Checkout-ExpandableContentContent {
         margin-top: 0;
+        padding: 0 16px;
     }
 
      .CheckoutOrderSummary-ButtonWrapper {

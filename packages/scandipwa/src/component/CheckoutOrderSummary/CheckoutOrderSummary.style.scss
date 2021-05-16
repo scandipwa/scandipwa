@@ -22,6 +22,10 @@
     &-Header {
         font-size: 24px;
         font-weight: 700;
+
+        @include mobile {
+            display: none;
+        }
     }
 
     &-ItemsInCart {
@@ -142,7 +146,6 @@
     }
 
     &-ExpandableContent {
-        margin: 0 -14px;
         border-block-start: none;
 
         &Button {
@@ -211,7 +214,7 @@
             position: fixed;
             width: 100%;
             left: 0;
-            padding: 0 14px 14px 14px;
+            padding: 0 16px 16px 16px;
             bottom: var(--navigation-tabs-height);
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);

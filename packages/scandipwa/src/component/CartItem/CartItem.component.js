@@ -144,9 +144,18 @@ export class CartItem extends PureComponent {
                     { this.renderImage() }
                     { this.renderTitle() }
                 </div>
-                <div block="CartItem" elem="ProductActions">
-                        { this.renderQuantityChangeField() }
-                        { this.renderDeleteButton() }
+                <div
+                  block="CartItem"
+                  elem="ProductActions"
+                  /* eslint-disable-next-line react/jsx-no-bind */
+                  onClick={ (e) => e.preventDefault() }
+                  /* eslint-disable-next-line react/jsx-no-bind */
+                  onKeyDown={ (e) => e.preventDefault() }
+                  role="button"
+                  tabIndex="-1"
+                >
+                    { this.renderQuantityChangeField() }
+                    { this.renderDeleteButton() }
                 </div>
                 { this.renderProductPrice() }
             </div>

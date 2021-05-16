@@ -30,12 +30,12 @@ export class CartPage extends PureComponent {
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
-        isMobile: PropTypes.bool.isRequired,
-        onCouponCodeUpdate: PropTypes.func.isRequired
+        onCouponCodeUpdate: PropTypes.func
     };
 
     static defaultProps = {
-        hasOutOfStockProductsInCart: false
+        hasOutOfStockProductsInCart: false,
+        onCouponCodeUpdate: () => {}
     };
 
     renderCartItems() {
@@ -86,17 +86,6 @@ export class CartPage extends PureComponent {
         );
     }
 
-    renderTotalDetails(isMobile = false) {
-        return (
-            <dl
-              block="CartPage"
-              elem="TotalDetails"
-              aria-label={ __('Order total details') }
-              mods={ { isMobile } }
-            />
-        );
-    }
-
     renderSecureCheckoutButton() {
         const { onCheckoutButtonClick, hasOutOfStockProductsInCart } = this.props;
 
@@ -123,21 +112,15 @@ export class CartPage extends PureComponent {
         );
     }
 
-    renderSummary(showOnMobile = false) {
+    renderSummary() {
         const {
             totals,
-            isMobile,
             onCouponCodeUpdate
         } = this.props;
-
-        if ((showOnMobile && !isMobile) || (!showOnMobile && isMobile)) {
-            return null;
-        }
 
         return (
             <CheckoutOrderSummary
               totals={ totals }
-              isExpandable={ isMobile }
                 // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo(true) }
               onCouponCodeUpdate={ onCouponCodeUpdate }
@@ -156,7 +139,6 @@ export class CartPage extends PureComponent {
               mix={ { block: 'FixedElement', elem: 'Bottom' } }
             >
                 { this.renderSummary() }
-                { /* { this.renderSecureCheckoutButton() } */ }
             </article>
         );
     }

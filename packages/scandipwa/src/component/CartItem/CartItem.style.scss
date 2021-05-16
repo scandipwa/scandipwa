@@ -23,19 +23,11 @@
 
 .CartItem {
     --header-color: var(--cart-item-actions-color);
-
     border-bottom: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
         font-weight: bold;
         margin-bottom: 5px;
-    }
-
-    &-Quantity {
-
-        @include before-desktop {
-            display: none;
-        }
     }
 
     &-Link {
@@ -55,13 +47,13 @@
         min-width: 0;
 
         .CartItem_isEditing &:not(.CartItem-Content_isLikeTable) {
-            @include after-mobile {
+            @include desktop {
                 padding-bottom: 48px;
             }
         }
 
         &_isLikeTable {
-            @include after-mobile {
+            @include desktop {
                 padding-bottom: 0;
                 min-height: 60px;
                 align-self: center;
@@ -81,22 +73,25 @@
         @include mobile {
             grid-template-columns: 64px auto;
             grid-gap: 14px;
-            padding: 14px;
+            padding: 14px 0;
             min-height: 130px;
         }
 
-        @include after-mobile {
-            grid-template-columns: 3fr 2fr 1fr;
+        @include desktop {
+            grid-template-columns: minmax(100px, 3fr) 2fr 1fr;
         }
 
         &_isSummary {
             grid-template-columns: 96px auto;
+
+            & .CartItem-ProductInfo {
+                justify-content: space-between;
+            }
         }
 
         &_isCart {
-
             & .CartItem-Title {
-                @include after-mobile {
+                @include desktop {
                     padding-inline-start: 20px;
                 }
             }
@@ -106,7 +101,7 @@
     &-ProductInfo {
         display: flex;
 
-        @include before-desktop {
+        @include mobile {
             align-items: flex-start;
             justify-content: space-between;
         }
@@ -126,18 +121,10 @@
     &-ItemLinks {
         &Wrapper {
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            color: var(--secondary-dark-color);
+            font-size: 12px;
         }
-
-        @include mobile {
-            margin-top: 7px;
-        }
-    }
-
-    &-HeadingWrapper {
-        height: 100%;
-        display: flex;
-        justify-content: space-between;
     }
 
     &-Title {
@@ -208,7 +195,7 @@
         display: flex;
         align-items: center;
 
-        @include before-desktop {
+        @include mobile {
             justify-content: space-between;
         }
     }
@@ -222,16 +209,19 @@
 
     &-Delete {
         @include close-button;
+
         background-size: auto;
         width: 12px;
         z-index: 5;
+        height: 35px;
+        font-size: 14px;
+        color: var(--cart-item-actions-color);
 
-        @include after-mobile {
+        @include desktop {
             padding-inline-start: 35px;
         }
 
         @include mobile {
-
             height: 30px;
             max-width: 5%;
 
@@ -245,10 +235,6 @@
                 top: 0;
             }
         }
-
-        height: 35px;
-        font-size: 14px;
-        color: var(--cart-item-actions-color);
     }
 
     &-DeleteButtonText {
