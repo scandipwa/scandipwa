@@ -17,6 +17,7 @@ import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { ChildrenType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 
 import './CheckoutOrderSummary.style';
@@ -28,7 +29,7 @@ import './CheckoutOrderSummary.style';
 export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
-        checkoutStep: PropTypes.string.isRequired,
+        checkoutStep: PropTypes.string,
         couponCode: PropTypes.string,
         renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
@@ -37,7 +38,8 @@ export class CheckoutOrderSummary extends PureComponent {
         cartShippingSubPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number,
         onCouponCodeUpdate: PropTypes.func,
-        showItems: PropTypes.bool
+        showItems: PropTypes.bool,
+        children: ChildrenType
     };
 
     static defaultProps = {
@@ -49,7 +51,9 @@ export class CheckoutOrderSummary extends PureComponent {
         cartShippingSubPrice: null,
         cartTotalSubPrice: null,
         onCouponCodeUpdate: () => {},
-        showItems: true
+        showItems: true,
+        children: [],
+        checkoutStep: null
     };
 
     renderPriceLine(price, title, mods) {
@@ -285,6 +289,7 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderTotals() {
+        const { children } = this.props;
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
@@ -292,7 +297,10 @@ export class CheckoutOrderSummary extends PureComponent {
                     { this.renderTax() }
                     { this.renderDiscount() }
                     { this.renderShipping() }
-                    { this.renderOrderTotal() }
+                    <div block="CheckoutOrderSummary" elem="ButtonWrapper">
+                        { this.renderOrderTotal() }
+                        { children }
+                    </div>
                 </ul>
             </div>
         );

@@ -148,7 +148,8 @@ export class CheckoutContainer extends PureComponent {
         onCreateUserChange: this.onCreateUserChange.bind(this),
         onPasswordChange: this.onPasswordChange.bind(this),
         onCouponCodeUpdate: this.onCouponCodeUpdate.bind(this),
-        goBack: this.goBack.bind(this)
+        goBack: this.goBack.bind(this),
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
     checkEmailAvailability = debounce((email) => {
@@ -259,6 +260,10 @@ export class CheckoutContainer extends PureComponent {
 
     onPasswordChange(password) {
         this.setState({ password });
+    }
+
+    onShippingMethodSelect(selectedShippingMethod) {
+        this.setState({ selectedShippingMethod });
     }
 
     onShippingEstimationFieldsChange(address) {

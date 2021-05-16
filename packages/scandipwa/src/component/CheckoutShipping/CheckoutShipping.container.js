@@ -28,7 +28,8 @@ import CheckoutShipping from './CheckoutShipping.component';
 export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    onShippingMethodSelect: PropTypes.func.isRequired
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
@@ -43,7 +44,8 @@ export class CheckoutShippingContainer extends PureComponent {
         shippingMethods: shippingMethodsType.isRequired,
         customer: customerType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
-        updateShippingFields: PropTypes.func.isRequired
+        updateShippingFields: PropTypes.func.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired
     };
 
     containerFunctions = {
@@ -105,7 +107,10 @@ export class CheckoutShippingContainer extends PureComponent {
     }
 
     onShippingMethodSelect(method) {
+        const { onShippingMethodSelect } = this.props;
+
         this.setState({ selectedShippingMethod: method });
+        onShippingMethodSelect(method);
     }
 
     onShippingError() {

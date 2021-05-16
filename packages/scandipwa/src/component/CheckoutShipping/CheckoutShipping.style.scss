@@ -20,6 +20,10 @@
       @include desktop {
         width: 294px;
       }
+
+      @include mobile {
+        width: 100%;
+      }
     }
   }
 

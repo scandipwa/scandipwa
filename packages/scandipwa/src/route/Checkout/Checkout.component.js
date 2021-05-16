@@ -75,7 +75,8 @@ export class Checkout extends PureComponent {
         totals: TotalsType.isRequired,
         isMobile: PropTypes.bool.isRequired,
         onCouponCodeUpdate: PropTypes.func.isRequired,
-        cartTotalSubPrice: PropTypes.number.isRequired
+        cartTotalSubPrice: PropTypes.number.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -211,7 +212,8 @@ export class Checkout extends PureComponent {
             onEmailChange,
             isCreateUser,
             estimateAddress,
-            cartTotalSubPrice
+            cartTotalSubPrice,
+            onShippingMethodSelect
         } = this.props;
 
         return (
@@ -221,6 +223,7 @@ export class Checkout extends PureComponent {
               cartTotalSubPrice={ cartTotalSubPrice }
               saveAddressInformation={ saveAddressInformation }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
+              onShippingMethodSelect={ onShippingMethodSelect }
               onPasswordChange={ onPasswordChange }
               onCreateUserChange={ onCreateUserChange }
               onEmailChange={ onEmailChange }

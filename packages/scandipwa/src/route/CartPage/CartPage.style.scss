@@ -88,11 +88,6 @@
             margin-top: 24px;
         }
 
-        @include mobile {
-            position: fixed;
-            bottom: var(--navigation-tabs-height);
-        }
-
         span {
             @include lock-button;
         }
@@ -431,6 +426,10 @@
 
     &-ExpandableContentContent {
         margin-top: 0;
+    }
+
+    .ExpandableContent-Button {
+        padding-inline-start: 0;
     }
 
     &-TaxRate {

@@ -16,9 +16,8 @@
     @include after-mobile {
         border: 1px solid var(--secondary-base-color);
         border-radius: 2px;
+        padding: 24px 16px 0;
     }
-
-    padding: 24px 16px 0;
 
     &-Header {
         font-size: 24px;
@@ -56,8 +55,9 @@
         }
 
         &_isTotal {
-            border-block-start: 1px solid var(--primary-divider-color);
+
             font-size: 16px;
+            padding-inline-start: 0;
 
             & p {
                 font-size: 16px;
@@ -203,5 +203,19 @@
     &-AppendedContent {
         flex-basis: 100%;
         font-size: 12px;
+    }
+
+    &-ButtonWrapper {
+        @include mobile {
+            height: 123px;
+            position: fixed;
+            width: 100%;
+            left: 0;
+            padding: 0 14px 14px 14px;
+            bottom: var(--navigation-tabs-height);
+            background-color: var(--color-white);
+            border-block-start: 1px solid var(--primary-divider-color);
+            z-index: 80;
+        }
     }
 }

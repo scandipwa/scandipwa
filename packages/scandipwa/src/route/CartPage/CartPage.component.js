@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -22,7 +21,6 @@ import ExpandableContent from 'Component/ExpandableContent';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { TotalsType } from 'Type/MiniCart';
-import { formatPrice } from 'Util/Price';
 
 import './CartPage.style';
 
@@ -32,21 +30,12 @@ export class CartPage extends PureComponent {
         totals: TotalsType.isRequired,
         onCheckoutButtonClick: PropTypes.func.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
-        cartSubtotal: PropTypes.number,
-        cartSubtotalSubPrice: PropTypes.number,
-        cartTotalSubPrice: PropTypes.number,
-        cartShippingPrice: PropTypes.number,
-        cartShippingSubPrice: PropTypes.number,
-        cartDisplayConfig: PropTypes.object.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        onCouponCodeUpdate: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        hasOutOfStockProductsInCart: false,
-        cartSubtotal: 0,
-        cartSubtotalSubPrice: null,
-        cartTotalSubPrice: null,
-        cartShippingPrice: 0,
-        cartShippingSubPrice: null
+        hasOutOfStockProductsInCart: false
     };
 
     renderCartItems() {
@@ -120,15 +109,17 @@ export class CartPage extends PureComponent {
         }
 
         return (
-            <button
-              block="CartPage"
-              elem="CheckoutButton"
-              mix={ { block: 'Button' } }
-              onClick={ onCheckoutButtonClick }
-            >
-                <span />
-                { __('Proceed to checkout') }
-            </button>
+            <div block="CartPage" elem="CheckoutButtonWrapper">
+                <button
+                  block="CartPage"
+                  elem="CheckoutButton"
+                  mix={ { block: 'Button' } }
+                  onClick={ onCheckoutButtonClick }
+                >
+                    <span />
+                    { __('Proceed to checkout') }
+                </button>
+            </div>
         );
     }
 
@@ -151,7 +142,9 @@ export class CartPage extends PureComponent {
               renderCmsBlock={ () => this.renderPromo(true) }
               onCouponCodeUpdate={ onCouponCodeUpdate }
               showItems={ false }
-            />
+            >
+                { this.renderSecureCheckoutButton() }
+            </CheckoutOrderSummary>
         );
     }
 
@@ -163,7 +156,7 @@ export class CartPage extends PureComponent {
               mix={ { block: 'FixedElement', elem: 'Bottom' } }
             >
                 { this.renderSummary() }
-                { this.renderSecureCheckoutButton() }
+                { /* { this.renderSecureCheckoutButton() } */ }
             </article>
         );
     }
