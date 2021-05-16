@@ -235,7 +235,7 @@ export class CartPage extends PureComponent {
         );
     }
 
-    renderOrderTotalExlTax() {
+    renderOrderTotalExclTax() {
         const { cartTotalSubPrice } = this.props;
 
         if (!cartTotalSubPrice) {
@@ -258,10 +258,10 @@ export class CartPage extends PureComponent {
 
         return (
             <dl block="CartPage" elem="Total" aria-label="Complete order total">
-                <dt>{ __('Order total:') }</dt>
+                <dt>{ __('Order total') }</dt>
                 <dd>
                     { this.renderPriceLine(grand_total) }
-                    { this.renderOrderTotalExlTax() }
+                    { this.renderOrderTotalExclTax() }
                 </dd>
             </dl>
         );

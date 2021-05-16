@@ -28,7 +28,7 @@ import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
+import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
 import history from 'Util/History';
 import {
     debounce,
@@ -60,6 +60,7 @@ export const CheckoutDispatcher = import(
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
+    cartTotalSubPrice: getCartTotalSubPrice(state),
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
     countries: state.ConfigReducer.countries,

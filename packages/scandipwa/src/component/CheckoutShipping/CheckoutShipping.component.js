@@ -39,13 +39,33 @@ export class CheckoutShipping extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         estimateAddress: addressType.isRequired,
-        selectedStoreAddress: addressType
+        selectedStoreAddress: addressType,
+        cartTotalSubPrice: PropTypes.number.isRequired
     };
 
     static defaultProps = {
         selectedShippingMethod: null,
         selectedStoreAddress: {}
     };
+
+    renderOrderTotalExclTax() {
+        const { cartTotalSubPrice } = this.props;
+
+        if (!cartTotalSubPrice) {
+            return null;
+        }
+
+        return (
+            <span block="Checkout" elem="SubPrice">
+                { __('Excl. tax: %s', this.renderPriceLine(cartTotalSubPrice)) }
+            </span>
+        );
+    }
+
+    renderPriceLine(price) {
+        const { totals: { quote_currency_code } } = this.props;
+        return formatPrice(price, quote_currency_code);
+    }
 
     renderOrderTotal() {
         const {
@@ -58,14 +78,13 @@ export class CheckoutShipping extends PureComponent {
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
         return (
-            <div block="Checkout" elem="OrderTotal">
-                <span>
-                    { __('Order total:') }
-                </span>
-                <span>
+            <dl block="Checkout" elem="OrderTotal">
+                <dt>{ __('Order total') }</dt>
+                <dd block="Checkout" elem="TotalValue">
                     { orderTotal }
-                </span>
-            </div>
+                    { this.renderOrderTotalExclTax() }
+                </dd>
+            </dl>
         );
     }
 

@@ -48,7 +48,7 @@
 
         @include mobile {
             bottom: var(--navigation-tabs-height);
-            background-color: var(--secondary-base-color);
+            background-color: var(--color-white);
             padding: 14px 14px calc(env(safe-area-inset-bottom) + 14px);
         }
 
@@ -144,8 +144,7 @@
     &-OrderTotal {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
         padding-bottom: 14px;
 

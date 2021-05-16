@@ -74,7 +74,8 @@ export class Checkout extends PureComponent {
         goBack: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        onCouponCodeUpdate: PropTypes.func.isRequired
+        onCouponCodeUpdate: PropTypes.func.isRequired,
+        cartTotalSubPrice: PropTypes.number.isRequired
     };
 
     static defaultProps = {
@@ -209,13 +210,15 @@ export class Checkout extends PureComponent {
             onCreateUserChange,
             onEmailChange,
             isCreateUser,
-            estimateAddress
+            estimateAddress,
+            cartTotalSubPrice
         } = this.props;
 
         return (
             <CheckoutShipping
               isLoading={ isDeliveryOptionsLoading }
               shippingMethods={ shippingMethods }
+              cartTotalSubPrice={ cartTotalSubPrice }
               saveAddressInformation={ saveAddressInformation }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
               onPasswordChange={ onPasswordChange }
@@ -293,7 +296,8 @@ export class Checkout extends PureComponent {
             paymentTotals,
             isMobile,
             totals: { coupon_code },
-            onCouponCodeUpdate
+            onCouponCodeUpdate,
+            cartTotalSubPrice
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
@@ -306,6 +310,7 @@ export class Checkout extends PureComponent {
               checkoutStep={ checkoutStep }
               totals={ checkoutTotals }
               paymentTotals={ paymentTotals }
+              cartTotalSubPrice={ cartTotalSubPrice }
               isExpandable={ isMobile }
               couponCode={ coupon_code }
               // eslint-disable-next-line react/jsx-no-bind

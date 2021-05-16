@@ -71,31 +71,97 @@ export class CartItem extends PureComponent {
     }
 
     renderWrapperContent() {
+        const { device, isEditing } = this.props;
+
+        if (device.isMobile) {
+            return this.renderMobileContent();
+        }
+
+        return isEditing ? this.renderDesktopContent() : this.renderDesktopSummary();
+    }
+
+    renderDesktopSummary() {
         return (
-            <figure block="CartItem" elem="Wrapper">
+            <div block="CartItem" elem="Wrapper" mods={ { isSummary: true } }>
                 { this.renderImage() }
-                { this.renderContent() }
-            </figure>
+                <div block="CartItem" elem="CartItemRows">
+                    <div block="CartItem" elem="ProductInfo">
+                        { this.renderTitle() }
+                        { this.renderProductPrice() }
+                    </div>
+                    <div block="CartItem" elem="ProductActions">
+                        { this.renderQuantity() }
+                    </div>
+                </div>
+            </div>
         );
     }
 
-    renderWrapper() {
+    renderTitle() {
+        const {
+            item: {
+                customizable_options,
+                bundle_options,
+                downloadable_links
+            } = {}
+        } = this.props;
+
+        return (
+            <div block="CartItem" elem="Title">
+                { this.renderProductName() }
+                { this.renderOutOfStockMessage() }
+                { this.renderProductConfigurations() }
+                { this.renderProductOptions(customizable_options) }
+                { this.renderProductOptions(bundle_options) }
+                { this.renderProductLinks(downloadable_links) }
+            </div>
+        );
+    }
+
+    renderMobileContent() {
+        return (
+            <div block="CartItem" elem="Wrapper">
+                { this.renderImage() }
+                <div block="CartItem" elem="CartItemRows">
+                    <div block="CartItem" elem="ProductInfo">
+                        { this.renderTitle() }
+                        { this.renderDeleteButton() }
+                    </div>
+                    <div block="CartItem" elem="ProductActions">
+                        { this.renderQuantityChangeField() }
+                        { this.renderProductPrice() }
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderDesktopContent() {
+        // TODO find out where out of stock should be
+        return (
+            <div block="CartItem" elem="Wrapper" mods={ { isCart: true } }>
+                <div block="CartItem" elem="ProductInfo">
+                    { this.renderImage() }
+                    { this.renderTitle() }
+                </div>
+                <div block="CartItem" elem="ProductActions">
+                        { this.renderQuantityChangeField() }
+                        { this.renderDeleteButton() }
+                </div>
+                { this.renderProductPrice() }
+            </div>
+        );
+    }
+
+    renderContent() {
         const { linkTo, isProductInStock, device } = this.props;
 
-        // TODO: implement shared-transition here?
-
-        if (!isProductInStock || Object.keys(linkTo).length === 0) {
+        if (!isProductInStock || Object.keys(linkTo).length === 0 || device.isMobile) {
             // If product is out of stock, or link is not set
             return (
                 <span block="CartItem" elem="Link">
                     { this.renderWrapperContent() }
                 </span>
-            );
-        }
-
-        if (device.isMobile) {
-            return (
-                this.renderWrapperContent()
             );
         }
 
@@ -228,59 +294,16 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderContent() {
-        const {
-            isLikeTable,
-            item: {
-                customizable_options,
-                bundle_options,
-                downloadable_links
-            } = {}
-        } = this.props;
-
-        return (
-                <figcaption
-                  block="CartItem"
-                  elem="Content"
-                  mods={ { isLikeTable } }
-                >
-                    { this.renderOutOfStockMessage() }
-                    <div block="CartItem" elem="HeadingWrapper">
-                        <div block="CartItem" elem="Title">
-                            { this.renderProductName() }
-                            { this.renderProductConfigurations() }
-                            { this.renderProductOptions(customizable_options) }
-                            { this.renderProductOptions(bundle_options) }
-                        </div>
-                        { this.renderDeleteButton(true) }
-                        { this.renderProductLinks(downloadable_links) }
-                        { this.renderQuantityChangeField(true) }
-                        { this.renderProductPrice() }
-                    </div>
-                    { this.renderQuantity() }
-                </figcaption>
-        );
-    }
-
-    renderQuantityChangeField(isVisibleOnMobile = false) {
+    renderQuantityChangeField() {
         const {
             item: { qty },
             minSaleQuantity,
             maxSaleQuantity,
             handleChangeQuantity,
-            isProductInStock,
-            device
+            isProductInStock
         } = this.props;
 
         if (!isProductInStock) {
-            return null;
-        }
-
-        if (!isVisibleOnMobile && device.isMobile) {
-            return null;
-        }
-
-        if (isVisibleOnMobile && !device.isMobile) {
             return null;
         }
 
@@ -301,34 +324,8 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderActions() {
-        const {
-            isEditing,
-            isLikeTable
-        } = this.props;
-
-        return (
-            <div
-              block="CartItem"
-              elem="Actions"
-              mods={ { isEditing, isLikeTable } }
-            >
-                { this.renderDeleteButton() }
-                { this.renderQuantityChangeField() }
-            </div>
-        );
-    }
-
-    renderDeleteButton(isVisibleOnMobile = false) {
-        const { handleRemoveItem, device } = this.props;
-
-        if (!isVisibleOnMobile && device.isMobile) {
-            return null;
-        }
-
-        if (isVisibleOnMobile && !device.isMobile) {
-            return null;
-        }
+    renderDeleteButton() {
+        const { handleRemoveItem } = this.props;
 
         return (
             <button
@@ -385,13 +382,12 @@ export class CartItem extends PureComponent {
     }
 
     renderQuantity() {
-        const { item: { qty }, isEditing } = this.props;
+        const { item: { qty } } = this.props;
 
         return (
             <p
               block="CartItem"
               elem="Quantity"
-              mods={ { isEditing } }
             >
                 { __('Quantity: %s', qty) }
             </p>
@@ -404,8 +400,7 @@ export class CartItem extends PureComponent {
         return (
             <div block="CartItem" mods={ { isEditing } }>
                 <Loader isLoading={ isLoading } />
-                { this.renderWrapper() }
-                { this.renderActions() }
+                { this.renderContent() }
             </div>
         );
     }

@@ -140,6 +140,10 @@
         }
     }
 
+    &-ExpandableContentHeading {
+        font-size: 18px;
+    }
+
     &-Coupon {
         @include mobile {
             padding: 10px 14px;

@@ -281,7 +281,6 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    // TODO REDESIGN: remove this section from code if not required on billing step
     renderTotals() {
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
@@ -316,12 +315,18 @@ export class CheckoutOrderSummary extends PureComponent {
     renderCmsBlock() {
         const { renderCmsBlock } = this.props;
 
+        const content = renderCmsBlock();
+
+        if (!content) {
+            return null;
+        }
+
         return (
             <div
               block="CheckoutOrderSummary"
               elem="CmsBlock"
             >
-                { renderCmsBlock() }
+                { content }
             </div>
         );
     }
@@ -351,6 +356,7 @@ export class CheckoutOrderSummary extends PureComponent {
             <>
                 { this.renderHeading() }
                 { this.renderItems() }
+                { this.renderTotals() }
             </>
         );
     }

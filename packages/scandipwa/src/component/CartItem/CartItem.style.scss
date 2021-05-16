@@ -33,10 +33,6 @@
 
     &-Quantity {
 
-        &_isEditing {
-            display: none;
-        }
-
         @include before-desktop {
             display: none;
         }
@@ -45,24 +41,10 @@
     &-Link {
         color: inherit;
         font-weight: 400;
+        align-self: start;
 
         &:hover {
             text-decoration: none;
-        }
-    }
-
-    &-Option,
-    & {
-        padding-inline-start: 0;
-        margin-bottom: 0;
-
-        &::before {
-            content: none;
-        }
-
-        &:last-child {
-            margin-bottom: 0;
-            border-bottom: 0;
         }
     }
 
@@ -91,8 +73,10 @@
         display: grid;
         grid-template-columns: 72px auto;
         grid-gap: 12px;
+        height: 130px;
         padding: 12px;
         background: var(--cart-item-background);
+        align-items: center;
 
         @include mobile {
             grid-template-columns: 64px auto;
@@ -102,7 +86,29 @@
         }
 
         @include after-mobile {
+            grid-template-columns: 3fr 2fr 1fr;
+        }
+
+        &_isSummary {
             grid-template-columns: 96px auto;
+        }
+
+        &_isCart {
+
+            & .CartItem-Title {
+                @include after-mobile {
+                    padding-inline-start: 20px;
+                }
+            }
+        }
+    }
+
+    &-ProductInfo {
+        display: flex;
+
+        @include before-desktop {
+            align-items: flex-start;
+            justify-content: space-between;
         }
     }
 
@@ -135,6 +141,9 @@
     }
 
     &-Title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         width: 65%;
         overflow: hidden;
     }
@@ -143,7 +152,6 @@
     &-SubHeading {
         font-size: 14px;
         line-height: 1.2;
-        flex-grow: 2;
         width: 100%;
         margin-bottom: 6px;
 
@@ -159,7 +167,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        //max-width: 100%;
     }
 
     &-SubHeading {
@@ -167,15 +174,16 @@
     }
 
     &-Picture {
-        align-self: center;
-        padding-bottom: 130%;
-
-        @include mobile {
-            height: 100%;
-        }
+        width: 96px;
+        height: 96px;
 
         img {
             object-position: top;
+        }
+
+        @include mobile {
+            width: 64px;
+            height: 64px;
         }
     }
 
@@ -196,59 +204,20 @@
         }
     }
 
-    &-Actions {
-        opacity: 0;
-        padding: 0 12px;
-        max-height: 0;
-        pointer-events: none;
-
+    &-ProductActions {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        flex-direction: row-reverse;
-
-        will-change: max-height, opacity, padding;
-        transition-property: padding, max-height;
-        transition-duration: 200ms;
 
         @include before-desktop {
-            border-block-end: 1px solid var(--primary-divider-color);
+            justify-content: space-between;
         }
+    }
 
-        @include after-mobile {
-            position: absolute;
-            bottom: 12px;
-            inset-inline-end: 0;
-            width: calc(100% - 113px);
-            height: 36px;
-        }
-
-        &_isLikeTable {
-            @include after-mobile {
-                width: 20%;
-                bottom: 0;
-                inset-inline-end: 20%;
-                top: -5px;
-                margin: auto;
-                justify-content: center;
-            }
-
-            > * {
-                margin: 0 5px;
-
-                @include tablet-portrait {
-                    margin: unset;
-                }
-            }
-        }
-
-        &_isEditing {
-            transition-property: padding, max-height, opacity;
-            padding: 6px 12px;
-            opacity: 1;
-            max-height: 60px;
-            pointer-events: all;
-        }
+    &-CartItemRows {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     &-Delete {
@@ -258,17 +227,13 @@
         z-index: 5;
 
         @include after-mobile {
-            top: 1px;
+            padding-inline-start: 35px;
         }
 
         @include mobile {
 
-            position: absolute;
-            inset-inline-end: 0;
             height: 30px;
             max-width: 5%;
-            padding-inline-start: 0;
-            flex-grow: 1;
 
             &::before {
                 height: 15px;
@@ -282,7 +247,6 @@
         }
 
         height: 35px;
-        padding-inline-start: 35px;
         font-size: 14px;
         color: var(--cart-item-actions-color);
     }
@@ -299,13 +263,20 @@
 
         @include mobile {
             align-items: center;
+            font-size: 14px;
         }
 
         input {
             @include mobile {
-                width: 36px;
-                min-width: 36px;
+                width: 32px;
+                min-width: 32px;
                 background-color: transparent;
+            }
+        }
+
+        button {
+            @include mobile {
+                padding: 14px;
             }
         }
     }
@@ -314,17 +285,6 @@
         height: 100%;
         font-weight: 600;
         color: var(--cart-swipe-to-delete-color);
-    }
-
-    &-QuantityWrapper {
-        display: flex;
-        align-items: center;
-
-        @include mobile {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-        }
     }
 
     .ProductPrice-SubPrice {

@@ -49,17 +49,14 @@
     }
 
     &-Button {
+        width: 102px;
         margin-inline-start: 24px;
 
         @include button;
 
-        @include before-desktop {
+        @include mobile {
             width: 100%;
             margin-inline-start: 0;
-            margin-top: 12px;
-        }
-
-        @include mobile {
             margin-top: 14px;
         }
 
