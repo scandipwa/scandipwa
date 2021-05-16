@@ -49,16 +49,12 @@
     &-ItemsCount {
         padding: 0;
 
-        @include before-desktop {
+        @include mobile {
             order: 1;
             padding-block: 4px 12px;
-            padding-inline: 0 12px;
             text-align: center;
             grid-column: span 2;
-        }
-
-        @include mobile {
-            padding: 14px;
+            padding-inline: 14px;
         }
     }
 

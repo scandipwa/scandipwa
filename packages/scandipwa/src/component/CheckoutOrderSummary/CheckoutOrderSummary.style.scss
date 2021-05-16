@@ -18,7 +18,7 @@
         border-radius: 2px;
     }
 
-    padding: 24px 16px;
+    padding: 24px 16px 0;
 
     &-Header {
         font-size: 24px;
@@ -53,6 +53,16 @@
 
         &_withAppendedContent {
             flex-wrap: wrap;
+        }
+
+        &_isTotal {
+            border-block-start: 1px solid var(--primary-divider-color);
+            font-size: 16px;
+
+            & p {
+                font-size: 16px;
+                font-weight: 700;
+            }
         }
     }
 
@@ -181,15 +191,17 @@
 
     &-Text {
         text-align: end;
+        margin-bottom: 0;
 
         span {
             display: block;
-            font-size: .7em;
-            font-weight: 300;
+            font-size: 12px;
+            font-weight: 400;
         }
     }
 
     &-AppendedContent {
         flex-basis: 100%;
+        font-size: 12px;
     }
 }

@@ -20,7 +20,7 @@
         margin-top: var(--header-total-height);
     }
 
-    @include before-desktop {
+    @include mobile {
         padding-bottom: calc(var(--navigation-tabs-height) + 113px);
         padding-top: 20px;
     }
@@ -35,7 +35,7 @@
     }
 
     &-StickyButtonWrapper {
-        @include before-desktop {
+        @include mobile {
             border-top: 1px solid var(--primary-divider-color);
             background-color: #fff;
             position: fixed;
@@ -75,7 +75,7 @@
     }
 
     &-ProgressSection {
-        @include before-desktop {
+        @include mobile {
             display: none;
         }
     }

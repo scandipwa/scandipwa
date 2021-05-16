@@ -29,6 +29,7 @@
             display: grid;
             grid-template-columns: 1fr 360px;
             grid-column-gap: 48px;
+            padding-inline: 32px;
         }
 
         @include before-desktop {
@@ -51,31 +52,10 @@
         background: var(--color-white);
 
         @include before-desktop {
-            position: fixed;
             bottom: var(--navigation-tabs-height);
             inset-inline-start: 0;
             width: 100%;
             border-top: 1px solid var(--primary-divider-color);
-        }
-
-        @include desktop {
-            padding: 24px;
-        }
-    }
-
-    &-SummaryHeading {
-        text-align: center;
-        text-transform: uppercase;
-        margin-bottom: 12px;
-        margin-top: 0;
-
-        @include mobile {
-            font-size: 21px;
-            margin-bottom: 14px;
-        }
-
-        @include before-desktop {
-            display: none;
         }
     }
 
@@ -108,26 +88,13 @@
             margin-top: 24px;
         }
 
+        @include mobile {
+            position: fixed;
+            bottom: var(--navigation-tabs-height);
+        }
+
         span {
             @include lock-button;
-        }
-    }
-
-    &-ContinueShopping {
-        display: block;
-        color: inherit;
-        text-transform: uppercase;
-        text-align: center;
-        margin-inline-start: 0;
-        margin-top: 18px;
-
-        @include mobile {
-            font-size: 14px;
-            margin-top: 21px;
-        }
-
-        @include before-desktop {
-            display: none;
         }
     }
 

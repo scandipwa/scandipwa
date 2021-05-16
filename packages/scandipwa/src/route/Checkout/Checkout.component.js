@@ -295,9 +295,7 @@ export class Checkout extends PureComponent {
             checkoutStep,
             paymentTotals,
             isMobile,
-            totals: { coupon_code },
-            onCouponCodeUpdate,
-            cartTotalSubPrice
+            onCouponCodeUpdate
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
@@ -310,12 +308,11 @@ export class Checkout extends PureComponent {
               checkoutStep={ checkoutStep }
               totals={ checkoutTotals }
               paymentTotals={ paymentTotals }
-              cartTotalSubPrice={ cartTotalSubPrice }
               isExpandable={ isMobile }
-              couponCode={ coupon_code }
               // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo(true) }
               onCouponCodeUpdate={ onCouponCodeUpdate }
+              showItems
             />
         );
     }
