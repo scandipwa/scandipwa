@@ -37,7 +37,6 @@
     &-StickyButtonWrapper {
         @include mobile {
             border-top: 1px solid var(--primary-divider-color);
-            background-color: #fff;
             position: fixed;
             inset-inline-start: 0;
             width: 100%;
