@@ -167,7 +167,7 @@
 
                 &_isActive {
                     &:after {
-                        background-image: url('./../../style/icons/list-filled.svg');
+                        filter: var(--primary-base-filter);
                     }
                 }
             }
@@ -179,7 +179,7 @@
 
                 &_isActive {
                     &:after {
-                        background-image: url('./../../style/icons/grid-filled.svg');
+                        filter: var(--primary-base-filter);
                     }
                 }
             }
