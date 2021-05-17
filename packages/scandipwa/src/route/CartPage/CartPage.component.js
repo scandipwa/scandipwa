@@ -204,7 +204,6 @@ export class CartPage extends PureComponent {
                         { this.renderHeading() }
                         { this.renderCartItems() }
                         { this.renderDiscountCode() }
-                        { /* { this.renderCrossSellProducts() } */ }
                     </div>
                     <div block="CartPage" elem="Floating">
                         { this.renderPromo() }
