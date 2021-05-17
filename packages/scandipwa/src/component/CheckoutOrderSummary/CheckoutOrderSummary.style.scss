@@ -63,6 +63,10 @@
             font-size: 16px;
             padding-inline-start: 0;
 
+            @include desktop {
+                border-block-start: 1px solid var(--primary-divider-color);
+            }
+
             & p {
                 font-size: 16px;
                 font-weight: 700;

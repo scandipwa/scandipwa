@@ -34,6 +34,7 @@ export class CartItem extends PureComponent {
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,
         isEditing: PropTypes.bool,
+        isCartOverlay: PropTypes.bool,
         isLikeTable: PropTypes.bool,
         handleRemoveItem: PropTypes.func.isRequired,
         minSaleQuantity: PropTypes.number.isRequired,
@@ -54,7 +55,8 @@ export class CartItem extends PureComponent {
 
     static defaultProps = {
         isEditing: false,
-        isLikeTable: false
+        isLikeTable: false,
+        isCartOverlay: false
     };
 
     renderProductConfigurations() {
@@ -71,9 +73,9 @@ export class CartItem extends PureComponent {
     }
 
     renderWrapperContent() {
-        const { device, isEditing } = this.props;
+        const { device, isEditing, isCartOverlay } = this.props;
 
-        if (device.isMobile) {
+        if (device.isMobile || isCartOverlay) {
             return this.renderMobileContent();
         }
 
@@ -119,15 +121,17 @@ export class CartItem extends PureComponent {
     }
 
     renderMobileContent() {
+        // "isMobile" modifier is required to render mobile content in some additional cases
+        // where screen width exceeds 810px (e.g. CartOverlay)
         return (
-            <div block="CartItem" elem="Wrapper">
+            <div block="CartItem" elem="Wrapper" mods={ { isMobile: true } }>
                 { this.renderImage() }
                 <div block="CartItem" elem="CartItemRows">
-                    <div block="CartItem" elem="ProductInfo">
+                    <div block="CartItem" elem="ProductInfo" mods={ { isMobile: true } }>
                         { this.renderTitle() }
-                        { this.renderDeleteButton() }
+                        { this.renderDeleteButton(true) }
                     </div>
-                    <div block="CartItem" elem="ProductActions">
+                    <div block="CartItem" elem="ProductActions" mods={ { isMobile: true } }>
                         { this.renderQuantityChangeField() }
                         { this.renderProductPrice() }
                     </div>
@@ -309,7 +313,8 @@ export class CartItem extends PureComponent {
             minSaleQuantity,
             maxSaleQuantity,
             handleChangeQuantity,
-            isProductInStock
+            isProductInStock,
+            isCartOverlay
         } = this.props;
 
         if (!isProductInStock) {
@@ -317,7 +322,7 @@ export class CartItem extends PureComponent {
         }
 
         return (
-            <div block="CartItem" elem="QuantityWrapper">
+            <div block="CartItem" elem="QuantityWrapper" mods={ { isCartOverlay } }>
                 <Field
                   id="item_qty"
                   name="item_qty"
@@ -333,7 +338,7 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderDeleteButton() {
+    renderDeleteButton(isMobile = false) {
         const { handleRemoveItem } = this.props;
 
         return (
@@ -342,10 +347,13 @@ export class CartItem extends PureComponent {
               id="RemoveItem"
               name="RemoveItem"
               elem="Delete"
+              mods={ { isMobile } }
               aria-label="Remove item from cart"
               onClick={ handleRemoveItem }
             >
-                <span block="CartItem" elem="DeleteButtonText">{ __('Delete') }</span>
+                <span block="CartItem" elem="DeleteButtonText" mods={ { isMobile } }>
+                    { __('Delete') }
+                </span>
             </button>
         );
     }

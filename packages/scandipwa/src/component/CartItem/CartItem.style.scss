@@ -63,22 +63,18 @@
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 72px auto;
         grid-gap: 12px;
         height: 130px;
         padding: 12px;
         background: var(--cart-item-background);
         align-items: center;
+        grid-template-columns: minmax(100px, 3fr) 2fr 1fr;
 
-        @include mobile {
+        &_isMobile {
             grid-template-columns: 64px auto;
             grid-gap: 14px;
             padding: 14px 0;
             min-height: 130px;
-        }
-
-        @include desktop {
-            grid-template-columns: minmax(100px, 3fr) 2fr 1fr;
         }
 
         &_isSummary {
@@ -101,7 +97,7 @@
     &-ProductInfo {
         display: flex;
 
-        @include mobile {
+        &_isMobile {
             align-items: flex-start;
             justify-content: space-between;
         }
@@ -195,7 +191,7 @@
         display: flex;
         align-items: center;
 
-        @include mobile {
+        &_isMobile {
             justify-content: space-between;
         }
     }
@@ -216,29 +212,16 @@
         height: 35px;
         font-size: 14px;
         color: var(--cart-item-actions-color);
+        padding-inline-start: 35px;
 
-        @include desktop {
-            padding-inline-start: 35px;
-        }
-
-        @include mobile {
-            height: 30px;
-            max-width: 5%;
-
-            &::before {
-                height: 15px;
-                top: 0;
-            }
-
-            &::after {
-                height: 15px;
-                top: 0;
-            }
+        &_isMobile {
+            height: 12px;
+            padding-inline-start: 0;
         }
     }
 
     &-DeleteButtonText {
-        @include mobile {
+        &_isMobile {
             display: none;
         }
     }
@@ -276,5 +259,20 @@
     .ProductPrice-SubPrice {
         font-size: 12px;
         font-weight: 400;
+    }
+
+    .CartItem-QuantityWrapper_isCartOverlay {
+        & button {
+            padding: 14px;
+        }
+
+        .CartItem-Qty {
+            font-size: 14px;
+
+            input {
+                width: 32px;
+                min-width: 32px;
+            }
+        }
     }
 }
