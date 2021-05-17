@@ -91,7 +91,7 @@ export class Checkout extends PureComponent {
         },
         [BILLING_STEP]: {
             number: 2,
-            title: __('Payment details'),
+            title: __('Payment'),
             mobileTitle: __('Billing step'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),

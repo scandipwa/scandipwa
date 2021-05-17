@@ -123,7 +123,7 @@ export class ProductReviewRating extends PureComponent {
                 { this.renderStar(halfFullCount, 'StarHalfFull') }
                 { this.renderStar(emptyCount, 'StarEmpty') }
                 <span block="ProductReviewRating" elem="Counter">
-                    { count }
+                    { `(${count})` }
                 </span>
             </div>
         );
