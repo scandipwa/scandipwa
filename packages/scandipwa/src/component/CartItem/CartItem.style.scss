@@ -10,20 +10,11 @@
  */
 
 :root {
-    --cart-item-heading-color: #000;
     --cart-item-subheading-color: #888;
-    --cart-item-option-color: #adadad;
-    --cart-item-background: #fff;
-    --cart-item-actions-background: var(--secondary-base-color);
-    --cart-item-actions-color: #000;
-    --cart-item-divider-color: var(--expandable-content-divider-color);
-    --cart-item-action-border: var(--cart-item-divider-color);
-    --cart-swipe-to-delete-color: #fff;
 }
 
 .CartItem {
-    --header-color: var(--cart-item-actions-color);
-
+    --header-color: var(--color-black);
     border-bottom: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
@@ -31,39 +22,18 @@
         margin-bottom: 5px;
     }
 
-    &-Quantity {
-
-        &_isEditing {
-            display: none;
-        }
-
-        @include before-desktop {
-            display: none;
-        }
-    }
-
     &-Link {
         color: inherit;
         font-weight: 400;
+        align-self: start;
 
         &:hover {
             text-decoration: none;
         }
     }
 
-    &-Option,
-    & {
-        padding-inline-start: 0;
-        margin-bottom: 0;
-
-        &::before {
-            content: none;
-        }
-
-        &:last-child {
-            margin-bottom: 0;
-            border-bottom: 0;
-        }
+    &_isCartOverlay:last-of-type {
+        border-bottom: none;
     }
 
     &-Content {
@@ -71,38 +41,47 @@
         flex-direction: column;
         justify-content: space-between;
         min-width: 0;
-
-        .CartItem_isEditing &:not(.CartItem-Content_isLikeTable) {
-            @include after-mobile {
-                padding-bottom: 48px;
-            }
-        }
-
-        &_isLikeTable {
-            @include after-mobile {
-                padding-bottom: 0;
-                min-height: 60px;
-                align-self: center;
-            }
-        }
     }
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 72px auto;
         grid-gap: 12px;
+        height: 130px;
         padding: 12px;
-        background: var(--cart-item-background);
+        background: var(--color-white);
+        align-items: center;
+        grid-template-columns: minmax(100px, 3fr) 2fr 1fr;
 
-        @include mobile {
+        &_isMobileLayout {
             grid-template-columns: 64px auto;
             grid-gap: 14px;
-            padding: 14px;
+            padding: 14px 0;
             min-height: 130px;
         }
 
-        @include after-mobile {
+        &_isSummary {
             grid-template-columns: 96px auto;
+
+            & .CartItem-ProductInfo {
+                justify-content: space-between;
+            }
+        }
+
+        &_isCart {
+            & .CartItem-Title {
+                @include desktop {
+                    padding-inline-start: 20px;
+                }
+            }
+        }
+    }
+
+    &-ProductInfo {
+        display: flex;
+
+        &_isMobileLayout {
+            align-items: flex-start;
+            justify-content: space-between;
         }
     }
 
@@ -120,30 +99,28 @@
     &-ItemLinks {
         &Wrapper {
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            color: var(--secondary-dark-color);
+            font-size: 12px;
         }
-
-        @include mobile {
-            margin-top: 7px;
-        }
-    }
-
-    &-HeadingWrapper {
-        height: 100%;
-        display: flex;
-        justify-content: space-between;
     }
 
     &-Title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         width: 65%;
         overflow: hidden;
+
+        &_isMobileLayout {
+            width: 90%;
+        }
     }
 
     &-Heading,
     &-SubHeading {
         font-size: 14px;
         line-height: 1.2;
-        flex-grow: 2;
         width: 100%;
         margin-bottom: 6px;
 
@@ -155,11 +132,10 @@
     }
 
     &-Heading {
-        color: var(--cart-item-heading-color);
+        color: var(--color-black);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        //max-width: 100%;
     }
 
     &-SubHeading {
@@ -167,143 +143,78 @@
     }
 
     &-Picture {
-        align-self: center;
-        padding-bottom: 130%;
-
-        @include mobile {
-            height: 100%;
-        }
+        width: 96px;
+        height: 96px;
+        align-self: flex-start;
 
         img {
             object-position: top;
+        }
+
+        &_isMobileLayout {
+            width: 64px;
+            height: 64px;
         }
     }
 
     &-Price {
         text-align: end;
+        font-size: 18px;
 
-        &_isLikeTable {
-            top: 0;
-
-            @include after-mobile {
-                width: 240px;
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                margin: auto;
-                inset-inline-end: 0;
-                height: max-content;
-            }
-
-            &:last-of-type {
-                @include after-mobile {
-                    margin: auto;
-                }
-            }
-        }
-
-        @include mobile {
+        &_isMobileLayout {
             text-align: start;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: flex-end;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        &_isCartOverlay data {
+            font-size: 14px;
         }
     }
 
-    &-Actions {
-        opacity: 0;
-        padding: 0 12px;
-        max-height: 0;
-        pointer-events: none;
-
+    &-ProductActions {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        flex-direction: row-reverse;
 
-        will-change: max-height, opacity, padding;
-        transition-property: padding, max-height;
-        transition-duration: 200ms;
-
-        @include before-desktop {
-            border-block-end: 1px solid var(--primary-divider-color);
+        &_isMobileLayout {
+            justify-content: space-between;
         }
+    }
 
-        @include after-mobile {
-            position: absolute;
-            bottom: 12px;
-            inset-inline-end: 0;
-            width: calc(100% - 113px);
-            height: 36px;
-        }
-
-        &_isLikeTable {
-            @include after-mobile {
-                width: 20%;
-                bottom: 0;
-                inset-inline-end: 20%;
-                top: -5px;
-                margin: auto;
-                justify-content: center;
-            }
-
-            > * {
-                margin: 0 5px;
-
-                @include tablet-portrait {
-                    margin: unset;
-                }
-            }
-        }
-
-        &_isEditing {
-            transition-property: padding, max-height, opacity;
-            padding: 6px 12px;
-            opacity: 1;
-            max-height: 60px;
-            pointer-events: all;
-        }
+    &-CartItemRows {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     &-Delete {
         @include close-button;
+
         background-size: auto;
         width: 12px;
         z-index: 5;
-
-        @include after-mobile {
-            top: 1px;
-        }
-
-        @include mobile {
-
-            position: absolute;
-            inset-inline-end: 0;
-            height: 30px;
-            max-width: 5%;
-            padding-inline-start: 0;
-            flex-grow: 1;
-
-            &::before {
-                height: 15px;
-                top: 0;
-            }
-
-            &::after {
-                height: 15px;
-                top: 0;
-            }
-        }
-
         height: 35px;
-        padding-inline-start: 35px;
         font-size: 14px;
-        color: var(--cart-item-actions-color);
+        color: var(--color-black);
+        padding-inline-start: 35px;
+
+        &_isMobileLayout {
+            height: 12px;
+            padding-inline-start: 0;
+        }
     }
 
     &-DeleteButtonText {
-        @include mobile {
+        &_isMobileLayout {
+            display: none;
+        }
+
+        @include tablet{
             display: none;
         }
     }
@@ -314,13 +225,20 @@
 
         @include mobile {
             align-items: center;
+            font-size: 14px;
         }
 
         input {
             @include mobile {
-                width: 36px;
-                min-width: 36px;
+                width: 32px;
+                min-width: 32px;
                 background-color: transparent;
+            }
+        }
+
+        button {
+            @include mobile {
+                padding: 14px;
             }
         }
     }
@@ -328,22 +246,26 @@
     &-SwipeToDeleteRightSide {
         height: 100%;
         font-weight: 600;
-        color: var(--cart-swipe-to-delete-color);
-    }
-
-    &-QuantityWrapper {
-        display: flex;
-        align-items: center;
-
-        @include mobile {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-        }
+        color: var(--color-white);
     }
 
     .ProductPrice-SubPrice {
         font-size: 12px;
         font-weight: 400;
+    }
+
+    .CartItem-QuantityWrapper_isCartOverlay {
+        & button {
+            padding: 14px;
+        }
+
+        .CartItem-Qty {
+            font-size: 14px;
+
+            input {
+                width: 32px;
+                min-width: 32px;
+            }
+        }
     }
 }

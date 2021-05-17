@@ -27,10 +27,6 @@
     &-Label {
         font-size: 12px;
         padding-bottom: 8px;
-
-        @include mobile {
-            padding-bottom: 4px;
-        }
     }
 
     &-CheckboxLabel {

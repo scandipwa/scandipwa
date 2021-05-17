@@ -20,7 +20,7 @@
         margin-top: var(--header-total-height);
     }
 
-    @include before-desktop {
+    @include mobile {
         padding-bottom: calc(var(--navigation-tabs-height) + 113px);
         padding-top: 20px;
     }
@@ -35,21 +35,15 @@
     }
 
     &-StickyButtonWrapper {
-        @include before-desktop {
+        @include mobile {
             border-top: 1px solid var(--primary-divider-color);
-            background-color: #fff;
             position: fixed;
-            padding: 12px 12px calc(env(safe-area-inset-bottom) + 12px);
-            bottom: 0;
             inset-inline-start: 0;
             width: 100%;
             z-index: 85;
-        }
-
-        @include mobile {
             bottom: var(--navigation-tabs-height);
-            background-color: var(--secondary-base-color);
-            padding: 14px 14px calc(env(safe-area-inset-bottom) + 14px);
+            background-color: var(--color-white);
+            padding: 16px 16px calc(env(safe-area-inset-bottom) + 16px);
         }
 
         .Button {
@@ -61,8 +55,9 @@
 
     &-Wrapper {
         margin: auto;
+        padding: 0 16px;
 
-        @include after-mobile {
+        @include desktop {
             padding-inline: 32px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -75,7 +70,7 @@
     }
 
     &-ProgressSection {
-        @include before-desktop {
+        @include mobile {
             display: none;
         }
     }
@@ -144,8 +139,7 @@
     &-OrderTotal {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
         padding-bottom: 14px;
 
@@ -156,5 +150,12 @@
 
     .Checkout-ExpandableContentContent {
         margin-top: 0;
+        padding: 0 16px;
     }
+
+     .CheckoutOrderSummary-ButtonWrapper {
+         @include mobile {
+             display: none;
+         }
+     }
 }
