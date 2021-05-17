@@ -24,7 +24,7 @@ export const getPriceFilterLabel = (from, to, currencyCode) => {
         return __('From %s', priceFrom);
     }
 
-    return __('From %s, to %s', priceFrom, priceTo);
+    return __('From %s to %s', priceFrom, priceTo);
 };
 
 /** @namespace Util/Category/Filters/getFiltersCount */

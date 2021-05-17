@@ -147,7 +147,6 @@ export class CheckoutContainer extends PureComponent {
         onEmailChange: this.onEmailChange.bind(this),
         onCreateUserChange: this.onCreateUserChange.bind(this),
         onPasswordChange: this.onPasswordChange.bind(this),
-        onCouponCodeUpdate: this.onCouponCodeUpdate.bind(this),
         goBack: this.goBack.bind(this),
         onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
@@ -296,17 +295,6 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
-    }
-
-    onCouponCodeUpdate() {
-        const { estimateAddress, checkoutStep } = this.state;
-
-        // update delivery methods on coupon change
-        // in order ot fetch new available delivery methods
-        // if any could be applied by coupon
-        if (checkoutStep === SHIPPING_STEP) {
-            this.onShippingEstimationFieldsChange(estimateAddress);
-        }
     }
 
     goBack() {

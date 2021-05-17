@@ -125,7 +125,7 @@
     }
 
     &-Items {
-        padding-inline: 14px;
+        padding-inline: 16px;
         max-height: 40vh;
         overflow-y: scroll;
     }
@@ -138,7 +138,6 @@
     &-Tax {
         display: flex;
         justify-content: space-between;
-        align-items: center;
         padding: 12px 12px 6px;
 
         background: var(--cart-overlay-totals-background);
