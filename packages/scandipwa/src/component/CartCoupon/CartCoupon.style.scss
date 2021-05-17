@@ -29,8 +29,12 @@
         input {
             width: 296px;
 
-            @include before-desktop {
+            @include mobile {
                 width: 100%;
+            }
+
+            @include tablet {
+                width: 230px;
             }
 
             @include tablet-portrait {

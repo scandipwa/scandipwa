@@ -10,19 +10,11 @@
  */
 
 :root {
-    --cart-item-heading-color: #000;
     --cart-item-subheading-color: #888;
-    --cart-item-option-color: #adadad;
-    --cart-item-background: #fff;
-    --cart-item-actions-background: var(--secondary-base-color);
-    --cart-item-actions-color: #000;
-    --cart-item-divider-color: var(--expandable-content-divider-color);
-    --cart-item-action-border: var(--cart-item-divider-color);
-    --cart-swipe-to-delete-color: #fff;
 }
 
 .CartItem {
-    --header-color: var(--cart-item-actions-color);
+    --header-color: var(--color-black);
     border-bottom: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
@@ -40,25 +32,15 @@
         }
     }
 
+    &_isCartOverlay:last-of-type {
+        border-bottom: none;
+    }
+
     &-Content {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         min-width: 0;
-
-        .CartItem_isEditing &:not(.CartItem-Content_isLikeTable) {
-            @include desktop {
-                padding-bottom: 48px;
-            }
-        }
-
-        &_isLikeTable {
-            @include desktop {
-                padding-bottom: 0;
-                min-height: 60px;
-                align-self: center;
-            }
-        }
     }
 
     &-Wrapper {
@@ -66,11 +48,11 @@
         grid-gap: 12px;
         height: 130px;
         padding: 12px;
-        background: var(--cart-item-background);
+        background: var(--color-white);
         align-items: center;
         grid-template-columns: minmax(100px, 3fr) 2fr 1fr;
 
-        &_isMobile {
+        &_isMobileLayout {
             grid-template-columns: 64px auto;
             grid-gap: 14px;
             padding: 14px 0;
@@ -97,7 +79,7 @@
     &-ProductInfo {
         display: flex;
 
-        &_isMobile {
+        &_isMobileLayout {
             align-items: flex-start;
             justify-content: space-between;
         }
@@ -129,6 +111,10 @@
         justify-content: center;
         width: 65%;
         overflow: hidden;
+
+        &_isMobileLayout {
+            width: 90%;
+        }
     }
 
     &-Heading,
@@ -146,7 +132,7 @@
     }
 
     &-Heading {
-        color: var(--cart-item-heading-color);
+        color: var(--color-black);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -159,12 +145,13 @@
     &-Picture {
         width: 96px;
         height: 96px;
+        align-self: flex-start;
 
         img {
             object-position: top;
         }
 
-        @include mobile {
+        &_isMobileLayout {
             width: 64px;
             height: 64px;
         }
@@ -174,16 +161,18 @@
         text-align: end;
         font-size: 18px;
 
-        &_isLikeTable {
-            top: 0;
-        }
-
-        @include mobile {
+        &_isMobileLayout {
             text-align: start;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: flex-end;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        &_isCartOverlay data {
+            font-size: 14px;
         }
     }
 
@@ -191,7 +180,7 @@
         display: flex;
         align-items: center;
 
-        &_isMobile {
+        &_isMobileLayout {
             justify-content: space-between;
         }
     }
@@ -211,17 +200,21 @@
         z-index: 5;
         height: 35px;
         font-size: 14px;
-        color: var(--cart-item-actions-color);
+        color: var(--color-black);
         padding-inline-start: 35px;
 
-        &_isMobile {
+        &_isMobileLayout {
             height: 12px;
             padding-inline-start: 0;
         }
     }
 
     &-DeleteButtonText {
-        &_isMobile {
+        &_isMobileLayout {
+            display: none;
+        }
+
+        @include tablet{
             display: none;
         }
     }
@@ -253,7 +246,7 @@
     &-SwipeToDeleteRightSide {
         height: 100%;
         font-weight: 600;
-        color: var(--cart-swipe-to-delete-color);
+        color: var(--color-white);
     }
 
     .ProductPrice-SubPrice {

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -35,7 +34,6 @@ export class CartItem extends PureComponent {
         currency_code: PropTypes.string.isRequired,
         isEditing: PropTypes.bool,
         isCartOverlay: PropTypes.bool,
-        isLikeTable: PropTypes.bool,
         handleRemoveItem: PropTypes.func.isRequired,
         minSaleQuantity: PropTypes.number.isRequired,
         maxSaleQuantity: PropTypes.number.isRequired,
@@ -50,13 +48,14 @@ export class CartItem extends PureComponent {
         thumbnail: PropTypes.string.isRequired,
         isProductInStock: PropTypes.bool.isRequired,
         device: DeviceType.isRequired,
-        optionsLabels: PropTypes.array.isRequired
+        optionsLabels: PropTypes.array.isRequired,
+        isMobileLayout: PropTypes.bool
     };
 
     static defaultProps = {
         isEditing: false,
-        isLikeTable: false,
-        isCartOverlay: false
+        isCartOverlay: false,
+        isMobileLayout: false
     };
 
     renderProductConfigurations() {
@@ -73,9 +72,9 @@ export class CartItem extends PureComponent {
     }
 
     renderWrapperContent() {
-        const { device, isEditing, isCartOverlay } = this.props;
+        const { isEditing, isMobileLayout } = this.props;
 
-        if (device.isMobile || isCartOverlay) {
+        if (isMobileLayout) {
             return this.renderMobileContent();
         }
 
@@ -100,6 +99,8 @@ export class CartItem extends PureComponent {
     }
 
     renderTitle() {
+        const { isMobileLayout } = this.props;
+
         const {
             item: {
                 customizable_options,
@@ -109,7 +110,7 @@ export class CartItem extends PureComponent {
         } = this.props;
 
         return (
-            <div block="CartItem" elem="Title">
+            <div block="CartItem" elem="Title" mods={ { isMobileLayout } }>
                 { this.renderProductName() }
                 { this.renderOutOfStockMessage() }
                 { this.renderProductConfigurations() }
@@ -121,17 +122,17 @@ export class CartItem extends PureComponent {
     }
 
     renderMobileContent() {
-        // "isMobile" modifier is required to render mobile content in some additional cases
-        // where screen width exceeds 810px (e.g. CartOverlay)
+        const { isMobileLayout } = this.props;
+
         return (
-            <div block="CartItem" elem="Wrapper" mods={ { isMobile: true } }>
+            <div block="CartItem" elem="Wrapper" mods={ { isMobileLayout } }>
                 { this.renderImage() }
                 <div block="CartItem" elem="CartItemRows">
-                    <div block="CartItem" elem="ProductInfo" mods={ { isMobile: true } }>
+                    <div block="CartItem" elem="ProductInfo" mods={ { isMobileLayout } }>
                         { this.renderTitle() }
-                        { this.renderDeleteButton(true) }
+                        { this.renderDeleteButton() }
                     </div>
-                    <div block="CartItem" elem="ProductActions" mods={ { isMobile: true } }>
+                    <div block="CartItem" elem="ProductActions" mods={ { isMobileLayout } }>
                         { this.renderQuantityChangeField() }
                         { this.renderProductPrice() }
                     </div>
@@ -141,7 +142,6 @@ export class CartItem extends PureComponent {
     }
 
     renderDesktopContent() {
-        // TODO find out where out of stock should be
         return (
             <div block="CartItem" elem="Wrapper" mods={ { isCart: true } }>
                 <div block="CartItem" elem="ProductInfo">
@@ -151,12 +151,6 @@ export class CartItem extends PureComponent {
                 <div
                   block="CartItem"
                   elem="ProductActions"
-                  /* eslint-disable-next-line react/jsx-no-bind */
-                  onClick={ (e) => e.preventDefault() }
-                  /* eslint-disable-next-line react/jsx-no-bind */
-                  onKeyDown={ (e) => e.preventDefault() }
-                  role="button"
-                  tabIndex="-1"
                 >
                     { this.renderQuantityChangeField() }
                     { this.renderDeleteButton() }
@@ -204,8 +198,6 @@ export class CartItem extends PureComponent {
     };
 
     renderProductOptions(itemOptions = []) {
-        const { isLikeTable } = this.props;
-
         if (!itemOptions.length) {
             return null;
         }
@@ -214,7 +206,6 @@ export class CartItem extends PureComponent {
             <div
               block="CartItem"
               elem="Options"
-              mods={ { isLikeTable } }
             >
                 { itemOptions.map(this.renderProductOption) }
             </div>
@@ -222,8 +213,6 @@ export class CartItem extends PureComponent {
     }
 
     renderProductLinks(itemOptions = []) {
-        const { isLikeTable } = this.props;
-
         if (!itemOptions.length) {
             return null;
         }
@@ -242,7 +231,6 @@ export class CartItem extends PureComponent {
                 <div
                   block="CartItem"
                   elem="ItemOptionsWrapper"
-                  mods={ { isLikeTable } }
                 >
                     { itemOptions.map(this.renderProductOption) }
                 </div>
@@ -271,12 +259,13 @@ export class CartItem extends PureComponent {
 
     renderProductPrice() {
         const {
-            isLikeTable,
             currency_code,
             item: {
                 row_total,
                 row_total_incl_tax
-            }
+            },
+            isCartOverlay,
+            isMobileLayout
         } = this.props;
 
         return (
@@ -287,7 +276,7 @@ export class CartItem extends PureComponent {
               mix={ {
                   block: 'CartItem',
                   elem: 'Price',
-                  mods: { isLikeTable }
+                  mods: { isCartOverlay, isMobileLayout }
               } }
             />
         );
@@ -307,6 +296,10 @@ export class CartItem extends PureComponent {
         );
     }
 
+    quantityClickHandler(e) {
+        e.preventDefault();
+    }
+
     renderQuantityChangeField() {
         const {
             item: { qty },
@@ -322,7 +315,15 @@ export class CartItem extends PureComponent {
         }
 
         return (
-            <div block="CartItem" elem="QuantityWrapper" mods={ { isCartOverlay } }>
+            <div
+              block="CartItem"
+              elem="QuantityWrapper"
+              mods={ { isCartOverlay } }
+              onClick={ this.quantityClickHandler }
+              onKeyDown={ this.quantityClickHandler }
+              role="button"
+              tabIndex="-1"
+            >
                 <Field
                   id="item_qty"
                   name="item_qty"
@@ -338,8 +339,8 @@ export class CartItem extends PureComponent {
         );
     }
 
-    renderDeleteButton(isMobile = false) {
-        const { handleRemoveItem } = this.props;
+    renderDeleteButton() {
+        const { handleRemoveItem, isMobileLayout } = this.props;
 
         return (
             <button
@@ -347,11 +348,11 @@ export class CartItem extends PureComponent {
               id="RemoveItem"
               name="RemoveItem"
               elem="Delete"
-              mods={ { isMobile } }
+              mods={ { isMobileLayout } }
               aria-label="Remove item from cart"
               onClick={ handleRemoveItem }
             >
-                <span block="CartItem" elem="DeleteButtonText" mods={ { isMobile } }>
+                <span block="CartItem" elem="DeleteButtonText" mods={ { isMobileLayout } }>
                     { __('Delete') }
                 </span>
             </button>
@@ -359,7 +360,14 @@ export class CartItem extends PureComponent {
     }
 
     renderImageElement() {
-        const { item: { product: { name } }, thumbnail, isProductInStock } = this.props;
+        const {
+            item: {
+                product: { name }
+            },
+            thumbnail,
+            isProductInStock,
+            isMobileLayout
+        } = this.props;
         const isNotAvailable = !isProductInStock;
         return (
             <>
@@ -369,7 +377,7 @@ export class CartItem extends PureComponent {
                   block: 'CartItem',
                   elem: 'Picture',
                   mods: {
-                      isNotAvailable
+                      isNotAvailable, isMobileLayout
                   }
               } }
               ratio="custom"
@@ -412,10 +420,10 @@ export class CartItem extends PureComponent {
     }
 
     render() {
-        const { isLoading, isEditing } = this.props;
+        const { isLoading, isEditing, isCartOverlay } = this.props;
 
         return (
-            <div block="CartItem" mods={ { isEditing } }>
+            <div block="CartItem" mods={ { isEditing, isCartOverlay } }>
                 <Loader isLoading={ isLoading } />
                 { this.renderContent() }
             </div>

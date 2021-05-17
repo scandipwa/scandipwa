@@ -40,11 +40,8 @@
     }
 
     &-Empty {
-        padding: 12px;
-
-        @include mobile {
-            padding: 14px;
-        }
+        padding: 16px;
+        text-align: center;
     }
 
     &-Actions {
