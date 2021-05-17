@@ -1,4 +1,6 @@
 .ProductLinks {
+    width: 100%;
+
     @include mobile {
         margin-top: 14px;
         border-bottom: 1px solid var(--primary-divider-color);
@@ -24,7 +26,7 @@
 
         @include after-mobile {
             grid-template-columns: repeat(6, 1fr);
-            grid-gap: 36px;
+            grid-gap: 24px;
             justify-content: center;
         }
 
@@ -34,8 +36,6 @@
     }
 
     &-Title {
-        text-transform: uppercase;
-        font-weight: 600;
         line-height: 1;
 
         @include mobile {
@@ -43,7 +43,6 @@
         }
 
         @include after-mobile {
-            // text-align: center;
             padding: 12px 0 36px;
             font-weight: bold;
         }

@@ -71,8 +71,12 @@ export class CartPage extends PureComponent {
 
     renderDiscountCode() {
         const {
-            totals: { coupon_code }
+            totals: { coupon_code, items }
         } = this.props;
+
+        if (!items || items.length < 1) {
+            return null;
+        }
 
         return (
             <ExpandableContent
@@ -200,13 +204,14 @@ export class CartPage extends PureComponent {
                         { this.renderHeading() }
                         { this.renderCartItems() }
                         { this.renderDiscountCode() }
-                        { this.renderCrossSellProducts() }
+                        { /* { this.renderCrossSellProducts() } */ }
                     </div>
                     <div block="CartPage" elem="Floating">
                         { this.renderPromo() }
                         { this.renderTotals() }
                     </div>
                 </ContentWrapper>
+                { this.renderCrossSellProducts() }
             </main>
         );
     }

@@ -215,4 +215,28 @@
     .ExpandableContent-Button {
         padding-inline: 0;
     }
+
+    .ProductLinks-Wrapper {
+
+        padding-inline: 0;
+
+        @include desktop {
+            padding-inline: 32px;
+        }
+    }
+
+    .ProductLinks-List {
+        grid-column-gap: 16px;
+        z-index: 10;
+
+        .ProductCard-ProductActions {
+            display: none;
+        }
+
+        .AddToCart {
+            width: 100%;
+            margin-inline-end: 0;
+        }
+
+    }
 }
