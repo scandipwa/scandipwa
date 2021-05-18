@@ -51,6 +51,7 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
             <CreateAccount
               { ...this.props }
               { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

@@ -13,9 +13,13 @@ import { connect } from 'react-redux';
 
 import { CART, MY_ACCOUNT } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import {
+    ACCOUNT_LOGIN_URL
+} from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { isSignedIn } from 'Util/Auth';
 import browserHistory from 'Util/History';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -55,6 +59,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     scrollPosition = 0;
 
     routeMap = {
+        '/account': { name: ACCOUNT_TAB },
         '/my-account': { name: ACCOUNT_TAB },
         '/checkout': { name: CHECKOUT_TAB, isHidden: true },
         '/cart': { name: CART_TAB },
@@ -177,9 +182,10 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     onMyAccountButtonClick() {
         const { pathname } = location;
+        const url = appendWithStoreCode(isSignedIn() ? `/${ MY_ACCOUNT }` : ACCOUNT_LOGIN_URL);
 
-        if (pathname !== appendWithStoreCode(`/${ MY_ACCOUNT }`)) {
-            browserHistory.push(appendWithStoreCode(`/${ MY_ACCOUNT }`));
+        if (pathname !== url) {
+            browserHistory.push(url);
         }
     }
 

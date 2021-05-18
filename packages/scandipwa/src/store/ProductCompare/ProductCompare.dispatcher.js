@@ -204,9 +204,12 @@ export class ProductCompareDispatcher {
         } catch (error) {
             dispatch(toggleLoader(false));
             dispatch(showNotification('error', __('Unable to clear product compare list'), error));
-
             return false;
         }
+    }
+
+    resetComparedProducts(dispatch) {
+        dispatch(clearComparedProducts());
     }
 }
 

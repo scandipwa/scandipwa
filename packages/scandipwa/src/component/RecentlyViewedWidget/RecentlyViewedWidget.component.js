@@ -71,7 +71,7 @@ export class RecentlyViewedWidget extends PureComponent {
             <div
               block="RecentlyViewedWidget"
             >
-                <h3>{ __('Recently Viewed Products') }</h3>
+                <h2>{ __('Recently Viewed Products') }</h2>
                 { this.renderProducts(products) }
             </div>
         );
