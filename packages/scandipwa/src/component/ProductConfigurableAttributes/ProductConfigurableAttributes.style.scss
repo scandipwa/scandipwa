@@ -26,7 +26,7 @@
     &-SwatchList,
     &-DropDownList {
         text-align: center;
-        margin-top: 5px;
+        margin-top: 17px;
     }
 
     &-ExpandableContentButton {
@@ -43,6 +43,7 @@
         justify-content: flex-start;
         align-items: center;
         padding-inline: 3px;
+        gap: 12px;
     }
 
     &-DropDownList {
