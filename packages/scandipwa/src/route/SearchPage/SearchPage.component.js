@@ -19,7 +19,7 @@ export class SearchPage extends CategoryPage {
         const { search } = this.props;
 
         return (
-            <h2
+            <h1
               block="CategoryDetails"
               elem="Heading"
               mix={ {
@@ -29,7 +29,7 @@ export class SearchPage extends CategoryPage {
             >
                 { __('Search results for: ') }
                 <span>{ search }</span>
-            </h2>
+            </h1>
         );
     }
 

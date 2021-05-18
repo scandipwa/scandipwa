@@ -56,6 +56,7 @@
     &-Heading {
         text-transform: none;
         margin-top: 0;
+        margin-block-end: 0;
 
         @include before-desktop {
             display: none;
@@ -132,7 +133,7 @@
             }
 
             .ExpandableContent  {
-                padding: 15px 0;
+                padding: 24px 0;
             }
         }
     }
