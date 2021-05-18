@@ -19,7 +19,7 @@ import Html from 'Component/Html';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 
-import { BOOLEAN_NO, BOOLEAN_YES, STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
+import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
 
 import './ProductAttributeValue.style';
 
@@ -58,10 +58,13 @@ export class ProductAttributeValue extends PureComponent {
         return ((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186;
     }
 
+    _getBooleanLabel = (label) => (+label ? ('Yes') : ('No'));
+
     getOptionLabel(value) {
         const {
             attribute: {
-                attribute_options
+                attribute_options,
+                is_boolean
             },
             isProductCountVisible
         } = this.props;
@@ -74,9 +77,10 @@ export class ProductAttributeValue extends PureComponent {
                 }
 
                 const { label, count = 0 } = optionValues;
+                const adjustedLabel = is_boolean ? this._getBooleanLabel(label) : label;
                 return {
                     ...optionValues,
-                    label: `${label} (${count})`
+                    label: `${adjustedLabel} (${count})`
                 };
             }
         }
@@ -266,11 +270,10 @@ export class ProductAttributeValue extends PureComponent {
     renderStringValue(value, label) {
         const { isFormattedAsText, isSelected } = this.props;
 
-        const translatedLabel = [BOOLEAN_YES, BOOLEAN_NO].includes(label) ? __(label) : label;
-        const isSwatch = translatedLabel;
+        const isSwatch = label;
 
         if (isFormattedAsText) {
-            return translatedLabel || value || __('N/A');
+            return label || value || __('N/A');
         }
 
         if (!isSwatch) {
@@ -282,7 +285,7 @@ export class ProductAttributeValue extends PureComponent {
               block="ProductAttributeValue"
               elem="String"
               mods={ { isSelected } }
-              title={ translatedLabel }
+              title={ label }
             >
                 { value }
             </span>

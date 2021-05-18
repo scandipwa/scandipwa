@@ -12,5 +12,3 @@
  */
 
 export const STRING_ONLY_ATTRIBUTE_CODES = ['category_id'];
-export const BOOLEAN_YES = 'Yes';
-export const BOOLEAN_NO = 'No';
