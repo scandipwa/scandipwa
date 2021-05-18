@@ -121,10 +121,11 @@ export class ProductCompareItemContainer extends PureComponent {
     }
 
     getLinkTo() {
-        const { product: { url } } = this.props;
+        const { product: { url }, product } = this.props;
 
         return {
-            pathname: url
+            pathname: url,
+            state: { product }
         };
     }
 

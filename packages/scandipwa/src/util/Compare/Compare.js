@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import BrowserDatabase from 'Util/BrowserDatabase';
+
 /**
  *
  * @type {string}
@@ -17,12 +19,18 @@ export const COMPARE_UID = 'compare_uid';
 
 /**
  *
+ * @type {Number}
+ */
+export const ONE_DAY = 60 * 60 * 24;
+
+/**
+ *
  * @param {String} uid
  * @returns {void}
  * @namespace Util/Compare/setUid
  */
 export const setUid = (uid) => {
-    window.sessionStorage.setItem(COMPARE_UID, uid);
+    BrowserDatabase.setItem(uid, COMPARE_UID, ONE_DAY);
 };
 
 /**
@@ -31,7 +39,7 @@ export const setUid = (uid) => {
  * @namespace Util/Compare/getUid
  */
 export const getUid = () => {
-    const uid = window.sessionStorage.getItem(COMPARE_UID);
+    const uid = BrowserDatabase.getItem(COMPARE_UID);
 
     return (typeof uid === 'string') ? uid : false;
 };
@@ -41,5 +49,5 @@ export const getUid = () => {
  * @namespace Util/Compare/removeUid
  */
 export const removeUid = () => {
-    window.sessionStorage.removeItem(COMPARE_UID);
-};
+    BrowserDatabase.deleteItem(COMPARE_UID);
+}
