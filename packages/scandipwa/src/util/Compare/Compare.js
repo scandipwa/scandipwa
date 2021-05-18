@@ -21,7 +21,7 @@ export const COMPARE_UID = 'compare_uid';
  *
  * @type {Number}
  */
-export const ONE_DAY = 60 * 60 * 24;
+export const ONE_DAY = 86400;
 
 /**
  *
@@ -50,4 +50,4 @@ export const getUid = () => {
  */
 export const removeUid = () => {
     BrowserDatabase.deleteItem(COMPARE_UID);
-}
+};
