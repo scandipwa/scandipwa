@@ -78,6 +78,7 @@ export class ProductAttributeValue extends PureComponent {
 
                 const { label, count = 0 } = optionValues;
                 const adjustedLabel = is_boolean ? this._getBooleanLabel(label) : label;
+
                 return {
                     ...optionValues,
                     label: `${adjustedLabel} (${count})`
