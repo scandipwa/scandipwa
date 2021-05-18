@@ -21,13 +21,13 @@ import { MixType } from 'Type/Common';
 
 import {
     CHECKBOX_TYPE,
+    EMAIL_TYPE,
     FILE_TYPE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
     RADIO_TYPE,
     SELECT_TYPE,
-    TEXTAREA_TYPE,
-    EMAIL_TYPE
+    TEXTAREA_TYPE
 } from './Field.config';
 import upload from './icons/upload.svg';
 
