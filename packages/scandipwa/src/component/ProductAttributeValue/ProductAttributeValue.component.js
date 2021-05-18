@@ -58,7 +58,7 @@ export class ProductAttributeValue extends PureComponent {
         return ((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186;
     }
 
-    _getBooleanLabel = (label) => (+label ? ('Yes') : ('No'));
+    _getBooleanLabel = (label) => (+label ? __('Yes') : __('No'));
 
     getOptionLabel(value) {
         const {
