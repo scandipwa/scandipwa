@@ -437,7 +437,10 @@ export class ProductListQuery {
             this._getFinalPriceField(),
             this._getFinalPriceExclTaxField(),
             this._getRegularPriceField(),
-            this._getRegularPriceExclTaxField()
+            this._getRegularPriceExclTaxField(),
+            this._getDefaultPriceField(),
+            this._getDefaultFinalPriceField(),
+            this._getDefaultFinalPriceExclTaxField()
         ];
     }
 
@@ -707,6 +710,29 @@ export class ProductListQuery {
             .addFieldList(this._getBundleItemsFields());
     }
 
+    _getBundlePriceOptionSelectionFields() {
+        return [
+            'selection_id',
+            'final_option_price',
+            'final_option_price_excl_tax',
+            'regular_option_price',
+            'regular_option_price_excl_tax'
+        ];
+    }
+
+    _getBundlePriceOptionFields() {
+        return [
+            'option_id',
+            new Field('selection_details')
+                .addFieldList(this._getBundlePriceOptionSelectionFields())
+        ];
+    }
+
+    _getBundlePriceOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundlePriceOptionFields());
+    }
+
     _getBundleProductFragmentFields() {
         return [
             'price_view',
@@ -714,7 +740,8 @@ export class ProductListQuery {
             'dynamic_sku',
             'ship_bundle_items',
             'dynamic_weight',
-            this._getBundleItemsField()
+            this._getBundleItemsField(),
+            this._getBundlePriceOptionsField()
         ];
     }
 
@@ -924,6 +951,24 @@ export class ProductListQuery {
 
     _getRegularPriceExclTaxField() {
         return new Field('regular_price_excl_tax')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultFinalPriceExclTaxField() {
+        return new Field('default_final_price_excl_tax')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultPriceField() {
+        return new Field('default_price')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultFinalPriceField() {
+        return new Field('default_final_price')
             .addField('currency')
             .addField('value');
     }

@@ -55,7 +55,8 @@ export class ProductPage extends PureComponent {
         device: DeviceType.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
-        selectedBundlePriceExclTax: PropTypes.number.isRequired
+        selectedBundlePriceExclTax: PropTypes.number.isRequired,
+        selectedInitialBundlePrice: PropTypes.number.isRequired
     };
 
     tabMap = {
@@ -119,6 +120,7 @@ export class ProductPage extends PureComponent {
             productOptionsData,
             setBundlePrice,
             selectedBundlePrice,
+            selectedInitialBundlePrice,
             selectedBundlePriceExclTax,
             setLinkedDownloadables,
             setLinkedDownloadablesPrice,
@@ -144,6 +146,7 @@ export class ProductPage extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   selectedBundlePrice={ selectedBundlePrice }
+                  selectedInitialBundlePrice={ selectedInitialBundlePrice }
                   selectedBundlePriceExclTax={ selectedBundlePriceExclTax }
                   setLinkedDownloadables={ setLinkedDownloadables }
                   setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
