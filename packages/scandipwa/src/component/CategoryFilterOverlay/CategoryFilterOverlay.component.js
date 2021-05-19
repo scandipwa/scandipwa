@@ -220,8 +220,10 @@ export class CategoryFilterOverlay extends PureComponent {
               id={ CATEGORY_FILTER_OVERLAY_ID }
               isRenderInPortal={ false }
             >
-                { this.renderContent() }
-                { this.renderLoader() }
+                <div>
+                    { this.renderContent() }
+                    { this.renderLoader() }
+                </div>
             </Overlay>
         );
     }
