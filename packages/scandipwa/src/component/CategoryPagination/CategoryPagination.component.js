@@ -48,10 +48,17 @@ export class CategoryPagination extends PureComponent {
     renderPreviousPageLink() {
         const {
             anchorTextPrevious,
-            currentPage
+            currentPage,
+            paginationFrame,
+            totalPages
         } = this.props;
 
-        if (currentPage <= 1) {
+        /*
+        1. hide 'Previous' button if current page is the first page
+        2. hide 'Previous' button if total number of pages doesn't exceed total number of pages to display
+        (i.e. all pages are already shown)
+         */
+        if (currentPage <= 1 || totalPages <= paginationFrame + 1) {
             return (
                 <li block="CategoryPagination" elem="ListItem" />
             );
@@ -129,10 +136,16 @@ export class CategoryPagination extends PureComponent {
         const {
             anchorTextNext,
             currentPage,
-            totalPages
+            totalPages,
+            paginationFrame
         } = this.props;
 
-        if (currentPage > totalPages - 1) {
+        /*
+        1. hide 'Next' button if current page is the last page
+        2. hide 'Next' button if total number of pages doesn't exceed total number of pages to display
+        (i.e. all pages are already shown)
+         */
+        if (currentPage > totalPages - 1 || totalPages <= paginationFrame + 1) {
             return (
                 <li block="CategoryPagination" elem="ListItem" />
             );

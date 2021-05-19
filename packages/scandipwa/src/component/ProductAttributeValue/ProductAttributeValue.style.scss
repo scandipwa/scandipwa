@@ -36,8 +36,6 @@
         border-width: 1px;
         color: var(--option-text-color);
         display: inline-block;
-        margin-block: 0 12px;
-        margin-inline: 0 12px;
         min-height: var(--option-size);
         width: var(--option-size);
     }
@@ -163,7 +161,6 @@
                 padding-block-end: 0;
                 order: 1;
                 text-align: start;
-                line-height: 1.8;
 
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -209,7 +206,7 @@
         }
 
         @include desktop {
-            padding-block: 6px;
+            padding-block-end: 6px;
             padding-inline: 0;
         }
     }

@@ -10,8 +10,9 @@
  */
 
 .CartCoupon {
-    @include before-desktop {
+    @include mobile {
         width: 100%;
+        padding: 5px 0;
     }
 
     @include tablet-portrait {
@@ -26,10 +27,14 @@
         display: inline-block;
 
         input {
-            width: 200px;
+            width: 296px;
 
-            @include before-desktop {
+            @include mobile {
                 width: 100%;
+            }
+
+            @include tablet {
+                width: 230px;
             }
 
             @include tablet-portrait {
@@ -51,13 +56,11 @@
     &-Button {
         margin-inline-start: 24px;
 
-        @include before-desktop {
-            width: 100%;
-            margin-inline-start: 0;
-            margin-top: 12px;
-        }
+        @include button;
 
         @include mobile {
+            width: 100%;
+            margin-inline-start: 0;
             margin-top: 14px;
         }
 

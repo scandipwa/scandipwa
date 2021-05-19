@@ -36,6 +36,7 @@ export class ExpandableContentShowMore extends PureComponent {
         const { showElemCount, children: { length } } = this.props;
 
         this.expandableRef = createRef();
+        this.expandableContentHeight = 'auto';
 
         this.state = {
             isOpen: length > showElemCount,
@@ -47,11 +48,24 @@ export class ExpandableContentShowMore extends PureComponent {
         const { isOpen } = this.state;
 
         if (isOpen) {
+            if (this.expandableRef.current) {
+                this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            }
             this.setState({ isOpen: false });
         }
     }
 
     componentDidUpdate(prevProps) {
+        const { children: { length: prevChildrenLength } } = prevProps;
+        const { children: { length: currentChildrenLength } } = this.props;
+
+        if (prevChildrenLength !== currentChildrenLength) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ isOpen: true }, () => {
+                this.expandableRef.current.style.height = 'auto';
+            });
+        }
+
         const { isExpanding } = this.state;
 
         if (isExpanding) {
@@ -82,7 +96,11 @@ export class ExpandableContentShowMore extends PureComponent {
             return;
         }
 
+        this.expandableContentHeight = 'auto';
         this.setState({ isOpen: true }, () => {
+            if (this.expandableRef.current) {
+                this.expandableContentHeight = this.expandableRef.current.getBoundingClientRect().height;
+            }
             this.setState({ isOpen: false });
         });
     }
@@ -124,12 +142,18 @@ export class ExpandableContentShowMore extends PureComponent {
         const { children, showElemCount } = this.props;
 
         const child = (isOpen || isExpanding) ? children.slice(showElemCount) : null;
+        const style = {
+            height: isOpen ? this.expandableContentHeight : 0
+        };
+
+        console.log(style);
 
         return (
             <div
               ref={ this.expandableRef }
               block="ExpandableContentShowMore"
               elem="ExpandableChildren"
+              style={ style }
             >
                 { child }
             </div>

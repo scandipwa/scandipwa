@@ -85,20 +85,20 @@ export class CartCoupon extends PureComponent {
                   id="couponCode"
                   name="couponCode"
                   value={ enteredCouponCode }
-                  placeholder={ __('Coupon Code') }
+                  placeholder={ __('Your discount code') }
                   onChange={ this.handleCouponCodeChange }
                   mix={ { block: 'CartCoupon', elem: 'Input' } }
-                  aria-label={ __('Coupon Code') }
+                  aria-label={ __('Your discount code') }
                 />
                 <button
                   block="CartCoupon"
                   elem="Button"
                   type="button"
-                  mix={ { block: 'Button' } }
+                  mods={ { isHollow: true } }
                   disabled={ !enteredCouponCode }
                   onClick={ this.handleApplyCoupon }
                 >
-                    { __('Apply Coupon') }
+                    { __('Submit') }
                 </button>
             </>
         );

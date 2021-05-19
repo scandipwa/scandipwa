@@ -23,7 +23,7 @@
     margin-bottom: 0;
 
     @include mobile {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     ins {
@@ -52,8 +52,8 @@
 
     &-SubPrice {
         display: block;
-        font-weight: 500;
-        font-size: 10px;
+        font-weight: 400;
+        font-size: 12px;
         margin-top: 4px;
     }
 

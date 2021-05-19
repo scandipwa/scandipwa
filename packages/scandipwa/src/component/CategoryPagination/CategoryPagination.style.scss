@@ -13,7 +13,8 @@
     display: flex;
     justify-content: center;
     min-height: 56px;
-    margin: auto;
+    margin-inline: auto;
+    margin-block-start: 40px;
     align-items: center;
     z-index: 2;
     width: min-content;
