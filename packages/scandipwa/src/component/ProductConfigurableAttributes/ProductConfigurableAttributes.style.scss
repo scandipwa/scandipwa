@@ -9,16 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// :root {
-//     --product-configurable-attributes-direction: flex-start;
-//     --product-configurable-attributes-margin: 0;
-//     --product-configurable-attributes-content-padding: 0;
-
-//     @include mobile {
-//         --product-configurable-attributes-content-padding: 7px 7px 21px;
-//     }
-// }
-
 .ProductConfigurableAttributes {
     font-size: 14px;
     line-height: 20px;
@@ -26,7 +16,8 @@
     &-SwatchList,
     &-DropDownList {
         text-align: center;
-        margin-top: 17px;
+        margin-top: 2px;
+        margin-bottom: 12px;
     }
 
     &-ExpandableContentButton {
@@ -43,7 +34,6 @@
         justify-content: flex-start;
         align-items: center;
         padding-inline: 3px;
-        gap: 12px;
     }
 
     &-DropDownList {
@@ -60,76 +50,3 @@
         margin-inside: var(--option-margin-inline);
     }
 }
-
-// .xProductConfigurableAttributes {
-//     &-SwatchList,
-//     &-DropDownList {
-//         text-align: center;
-
-//         @include after-mobile {
-//             --option-size: 40px;
-//         }
-//     }
-
-//     &-SwatchList {
-//         display: flex;
-//         flex-wrap: wrap;
-//         justify-content: var(--product-configurable-attributes-direction);
-//         align-items: center;
-//     }
-
-//     &-DropDownList {
-//         width: 100%;
-//     }
-
-//     &-Expandable {
-//         margin: var(--product-configurable-attributes-margin);
-//     }
-
-//     &-ExpandableContent {
-//         &Button {
-//             @include after-mobile {
-//                 min-height: 30px;
-//             }
-//         }
-
-//         &SubHeading {
-//             text-transform: capitalize;
-//         }
-
-//         &Content {
-//             overflow-anchor: none;
-
-//             @include after-mobile {
-//                 margin-bottom: 12px;
-//             }
-
-//             &_isContentExpanded {
-//                 @include mobile {
-//                     padding: var(--product-configurable-attributes-content-padding);
-//                 }
-//             }
-//         }
-//     }
-
-//     &-SectionHeading {
-//         font-size: 1.2em;
-//         font-weight: 700;
-//         line-height: 1;
-//         margin: 0 0 12px;
-
-//         @include mobile {
-//             margin: 0 0 14px;
-//             display: none;
-//         }
-//     }
-
-//     &-Placeholder {
-//         animation: var(--placeholder-animation);
-//         background-image: var(--placeholder-image);
-//         background-size: var(--placeholder-size);
-//         height: var(--option-size);
-//         width: var(--option-size);
-//         margin: var(--option-margin);
-//     }
-// }

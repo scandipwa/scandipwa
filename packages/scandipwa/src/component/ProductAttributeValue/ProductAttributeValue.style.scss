@@ -38,10 +38,12 @@
         display: inline-block;
         min-height: var(--option-size);
         width: var(--option-size);
+        margin-right: 12px;
     }
 
     &-String {
         padding: 0 10px;
+        margin-bottom: 6px;
     }
 
     &-Image {
@@ -146,7 +148,6 @@
         border: 0;
         align-items: baseline;
         margin: 0;
-        line-height: 1.4;
 
         label,
         .input-control {
@@ -177,13 +178,10 @@
                     position: absolute;
                     inset-inline-start: 0;
                     margin: 0;
-                    min-width: 18px;
+                    width: 18px;
+                    height: 18px;
                     vertical-align: top;
                     border-color: var(--color-karaka);
-
-                    @include mobile {
-                        min-width: 21px;
-                    }
                 }
             }
         }
