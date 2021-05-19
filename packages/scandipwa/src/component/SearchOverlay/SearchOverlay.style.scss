@@ -32,10 +32,9 @@
         width: 100%;
 
         @include desktop {
-            inset-inline-start: -20px;
-            padding: 0 20px;
+            padding: 20px 0 10px 20px;
             position: absolute;
-            width: calc(100% + 40px);
+            width: 100%;
 
             ul {
                 max-height: 400px;
