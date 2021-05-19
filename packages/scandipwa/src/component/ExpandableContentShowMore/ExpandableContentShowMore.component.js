@@ -146,8 +146,6 @@ export class ExpandableContentShowMore extends PureComponent {
             height: isOpen ? this.expandableContentHeight : 0
         };
 
-        console.log(style);
-
         return (
             <div
               ref={ this.expandableRef }
