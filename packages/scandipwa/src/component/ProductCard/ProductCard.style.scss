@@ -68,7 +68,8 @@
 
     &-Content {
         background: var(--product-card-background);
-        padding: 10px 15px;
+        padding-block: 10px 16px;
+        padding-inline: 15px;
         display: flex;
         flex-direction: column;
 
@@ -285,7 +286,6 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-        margin-top: 16px;
 
         > * {
             margin-inline-end: 5px;

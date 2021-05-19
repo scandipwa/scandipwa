@@ -11,6 +11,7 @@
 
 :root {
     --star-size: 18px;
+    --radiobutton-size: 14px;
 }
 
 @mixin clear-button {
@@ -333,8 +334,26 @@
     background-image: var(--imported_icons_chevron, url('./../icons/chevron.svg'));
     background-repeat: no-repeat;
     background-size: contain;
-    height: 12px;
-    width: 12px;
+    height: var(--radiobutton-size);
+    width: var(--radiobutton-size);
+}
+
+@mixin radiobutton {
+    background-image: var(--imported_icons_chevron, url('./../icons/radiobutton.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: var(--radiobutton-size);
+    width: var(--radiobutton-size);
+}
+
+
+@mixin radiobutton-full {
+    background-image: var(--imported_icons_chevron, url('./../icons/radiobutton_full.svg'));
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: var(--radiobutton-size);
+    width: var(--radiobutton-size);
+    filter: var(--primary-base-filter);
 }
 
 @mixin star-icon-full {
@@ -374,7 +393,7 @@
     cursor: pointer;
 }
 
-@mixin  edit-icon {
+@mixin edit-icon {
     background-image: var(--imported_icons_share, url('./../icons/edit.svg'));
     background-repeat: no-repeat;
     background-size: contain;

@@ -71,6 +71,7 @@ export class KeyValueTable extends PureComponent {
                   colSpan={ 2 }
                 >
                     { title }
+                    <span />
                 </th>
             </tr>
         );

@@ -33,7 +33,8 @@
         flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
-        padding-inline: 3px;
+        padding-inline-start: 3px;
+        padding-block-start: 3px;
     }
 
     &-DropDownList {

@@ -32,8 +32,12 @@
         transition: transform 200ms ease-in-out;
         transform: translateY(100%);
         will-change: transform;
-        display: grid;
-        grid-template-rows: min-content auto min-content;
+
+        &-Wrapper {
+            display: grid;
+            grid-template-rows: min-content auto min-content;
+            height: 100%;
+        }
     }
 
     &_isVisible {

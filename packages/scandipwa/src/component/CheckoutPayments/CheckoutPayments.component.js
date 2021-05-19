@@ -132,7 +132,7 @@ export class CheckoutPayments extends PureComponent {
     renderHeading() {
         return (
             <h2 block="Checkout" elem="Heading">
-                { __('Select payment method') }
+                { __('Payment method') }
             </h2>
         );
     }
