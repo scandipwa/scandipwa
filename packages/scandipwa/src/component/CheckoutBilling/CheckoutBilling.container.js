@@ -24,6 +24,7 @@ import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { getCartTotalSubPrice } from 'Util/Cart';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -33,7 +34,8 @@ export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements,
-    addressLinesQty: state.ConfigReducer.address_lines_quantity
+    addressLinesQty: state.ConfigReducer.address_lines_quantity,
+    cartTotalSubPrice: getCartTotalSubPrice(state)
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
