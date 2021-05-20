@@ -10,8 +10,8 @@
  */
 
 .Breadcrumb {
-    $crumb-padding: 20px;
-    $arrow-size: 4px;
+    $crumb-padding: 12px;
+    $arrow-size: 6px;
 
     display: inline-block;
     font-size: 12px;
@@ -26,17 +26,18 @@
         margin: 0;
 
         &::after {
-            content: '';
-            position: relative;
-            display: inline-block;
-            height: $arrow-size;
-            width: $arrow-size;
-            transform: rotate(-135deg);
-            margin-inline-start: $crumb-padding - 4;
             border-color: currentColor;
             border-style: solid;
-            border-width: 0 0 1px 1px;
+            border-width: 0 0 2px 2px;
+            color: var(--breadcrumbs-color);
+            content: '';
+            display: inline-block;
+            height: $arrow-size;
+            margin-inline-start: $crumb-padding;
+            position: relative;
             top: -1px;
+            transform: rotate(-135deg);
+            width: $arrow-size;
         }
     }
 

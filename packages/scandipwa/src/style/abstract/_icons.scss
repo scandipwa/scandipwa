@@ -12,6 +12,7 @@
 :root {
     --star-size: 18px;
     --radiobutton-size: 14px;
+    --icon-clear-color: #{$black};
 }
 
 @mixin clear-button {
@@ -27,8 +28,8 @@
         width: 10px;
         height: 14px;
         transform: perspective(10px) rotateX(-10deg);
-        border-inline: 1px solid var(--header-color);
-        border-block-end: 1px solid var(--header-color);
+        border-inline: 1px solid var(--icon-clear-color);
+        border-block-end: 1px solid var(--icon-clear-color);
         border-end-start-radius: 3px;
         border-end-end-radius: 3px;
     }
@@ -39,12 +40,12 @@
         width: 6px;
         height: 2px;
         box-shadow:
-            6px 2px 0 -1px var(--header-color),
-            -6px 2px 0 -1px var(--header-color),
-            -2px 2px 0 -1px var(--header-color),
-            2px 2px 0 -1px var(--header-color);
-        border-inline: 1px solid var(--header-color);
-        border-block-start: 1px solid var(--header-color);
+            6px 2px 0 -1px var(--icon-clear-color),
+            -6px 2px 0 -1px var(--icon-clear-color),
+            -2px 2px 0 -1px var(--icon-clear-color),
+            2px 2px 0 -1px var(--icon-clear-color);
+        border-inline: 1px solid var(--icon-clear-color);
+        border-block-start: 1px solid var(--icon-clear-color);
         border-start-start-radius: 2px;
         border-start-end-radius: 2px;
     }

@@ -294,7 +294,10 @@ export class WishlistItem extends PureComponent {
         pictureBlock: { picture: renderPicture },
         renderCardLinkWrapper
     }) {
-        const { isEditingActive } = this.props;
+        const {
+            isEditingActive,
+            redirectToProductPage
+        } = this.props;
 
         return (
             <div block="WishlistItem" elem="SelectWrapper">
@@ -319,7 +322,11 @@ export class WishlistItem extends PureComponent {
                             { this.renderDescription() }
                             <div block="WishlistItem" elem="ActionWrapper">
                             { this.renderAddToCartButton() }
-                            <span block="WishlistItem" elem="EditIcon" />
+                            <span
+                              block="WishlistItem"
+                              elem="EditIcon"
+                              onClick={ redirectToProductPage }
+                            />
                             </div>
                         </div>
                     </div>
