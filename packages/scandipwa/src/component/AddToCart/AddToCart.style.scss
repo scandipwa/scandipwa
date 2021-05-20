@@ -10,15 +10,14 @@
  */
 
 .AddToCart {
-    min-width: 144px;
+    width: 100%;
+    padding: 0;
     vertical-align: middle;
 
     @include wide-desktop {
-        min-width: 124px;
         padding: 0;
 
         &:hover {
-            min-width: 124px;
             padding: 0 !important;
         }
     }
