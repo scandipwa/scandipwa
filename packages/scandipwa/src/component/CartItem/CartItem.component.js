@@ -122,10 +122,10 @@ export class CartItem extends PureComponent {
     }
 
     renderMobileContent() {
-        const { isMobileLayout } = this.props;
+        const { isMobileLayout, isProductInStock } = this.props;
 
         return (
-            <div block="CartItem" elem="Wrapper" mods={ { isMobileLayout } }>
+            <div block="CartItem" elem="Wrapper" mods={ { isMobileLayout, isProductOutOfStock: !isProductInStock } }>
                 { this.renderImage() }
                 <div block="CartItem" elem="CartItemRows">
                     <div block="CartItem" elem="ProductInfo" mods={ { isMobileLayout } }>
