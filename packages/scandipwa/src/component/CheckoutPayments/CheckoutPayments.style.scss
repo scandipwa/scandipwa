@@ -15,4 +15,10 @@
     @include mobile {
         margin-bottom: 28px;
     }
+
+    @include desktop {
+        &-Methods {
+            width: 50%;
+        }
+    }
 }

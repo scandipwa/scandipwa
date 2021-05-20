@@ -12,11 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { ChildrenType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 
@@ -30,27 +29,23 @@ export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         checkoutStep: PropTypes.string,
-        couponCode: PropTypes.string,
         renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
         cartDisplayConfig: PropTypes.object.isRequired,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number,
-        onCouponCodeUpdate: PropTypes.func,
         showItems: PropTypes.bool,
         children: ChildrenType
     };
 
     static defaultProps = {
         totals: {},
-        couponCode: '',
         renderCmsBlock: () => {},
         isExpandable: false,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
         cartTotalSubPrice: null,
-        onCouponCodeUpdate: () => {},
         showItems: true,
         children: [],
         checkoutStep: null
@@ -310,23 +305,6 @@ export class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    renderCoupon() {
-        const { couponCode, onCouponCodeUpdate, checkoutStep } = this.props;
-
-        if (checkoutStep === SHIPPING_STEP) {
-            return null;
-        }
-
-        return (
-            <CartCoupon
-              couponCode={ couponCode }
-              mix={ { block: 'CheckoutOrderSummary', elem: 'Coupon' } }
-              title={ __('Have a discount code?') }
-              onCouponCodeUpdate={ onCouponCodeUpdate }
-            />
-        );
-    }
-
     renderCmsBlock() {
         const { renderCmsBlock } = this.props;
 
@@ -354,7 +332,6 @@ export class CheckoutOrderSummary extends PureComponent {
             >
                 { this.renderItems() }
                 { this.renderCmsBlock() }
-                { this.renderCoupon() }
                 { this.renderTotals() }
             </ExpandableContent>
         );

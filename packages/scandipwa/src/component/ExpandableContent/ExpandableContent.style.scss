@@ -65,7 +65,7 @@
          align-items: center;
 
          @include before-desktop {
-             padding: 14px 12px;
+             padding-block: 14px;
          }
      }
 

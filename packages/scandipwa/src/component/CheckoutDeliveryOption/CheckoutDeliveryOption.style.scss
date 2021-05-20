@@ -16,7 +16,8 @@
 }
 
 .CheckoutDeliveryOption {
-    padding: 0;
+    padding-block: 19px;
+    margin-bottom: 0;
     display: flex;
     align-items: flex-start;
     border-block-start: 1px solid var(--checkout-delivery-option-border-color);
@@ -35,30 +36,10 @@
 
     &-Button {
         --check-mark-opacity: 0;
-
+        font-size: 14px;
         width: 100%;
-        padding-block: 17px;
-        padding-inline: 16px;
         text-align: start;
-        padding-inline-end: 0;
         display: flex;
-
-        &::after {
-            content: '';
-            position: absolute;
-            z-index: 1;
-            opacity: var(--check-mark-opacity);
-            transition: opacity 150ms ease-in;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            inset-inline-start: 8px;
-            width: 12px;
-            height: 6px;
-            transform: rotate(135deg) translateX(-5px);
-            border-inline-end: 2px solid var(--check-mark-color);
-            border-top: 2px solid var(--check-mark-color);
-        }
 
         &_isDisabled {
             pointer-events: none;
@@ -87,6 +68,7 @@
     }
 
     .Field_type_checkbox {
-        margin-block-start: 17px;
+        margin-block-start: 0;
+        padding-inline-end: 11px;
     }
 }

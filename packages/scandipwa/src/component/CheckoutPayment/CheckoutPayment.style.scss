@@ -16,57 +16,37 @@
 }
 
 .CheckoutPayment {
-    padding: 0;
+    padding-block: 19px;
+    padding-inline-start: 0;
     margin-bottom: 0;
-    display: flex;
-    align-items: center;
     border-top: 1px solid var(--checkout-payment-border-color);
+
+    @include tablet {
+        width: 100%;
+    }
 
     &::before {
         content: none;
     }
 
+    &:first-child {
+        border-top: 0;
+    }
+
     &:last-child {
-        margin-bottom: 0;
-        border-bottom: 1px solid var(--checkout-payment-border-color);
+        margin-block-end: 0;
     }
 
     &-Button {
         --check-mark-opacity: 0;
-
         width: 100%;
-        padding: 12px 36px 12px;
-        text-align: start;
+        display: flex;
+        align-items: flex-start;
+        font-size: 14px;
+    }
 
-        @include mobile {
-            padding: 14px 42px 14px;
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            z-index: 1;
-            opacity: var(--check-mark-opacity);
-            transition: opacity 150ms ease-in;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            inset-inline-start: 8px;
-            width: 12px;
-            height: 6px;
-            transform: rotate(135deg) translateX(-5px);
-            border-inline-end: 2px solid var(--check-mark-color);
-            border-top: 2px solid var(--check-mark-color);
-        }
-
-        &_isSelected {
-            --check-mark-opacity: 1;
-            --check-mark-color: var(--checkout-payment-check-mark-color);
-        }
-
-        &:not(&_isSelected):hover {
-            --check-mark-opacity: 1;
-            --check-mark-color: var(--checkout-payment-check-mark-hover-color);
-        }
+    .Field_type_checkbox {
+        margin-block-start: 0;
+        padding-inline-end: 11px;
     }
 }
