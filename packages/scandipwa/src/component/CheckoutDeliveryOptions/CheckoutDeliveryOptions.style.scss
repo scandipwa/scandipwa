@@ -12,10 +12,6 @@
 .CheckoutDeliveryOptions {
     margin-bottom: 24px;
 
-    @include wide-desktop {
-        width: 50%;
-    }
-
     @include mobile {
         margin-bottom: 28px;
     }

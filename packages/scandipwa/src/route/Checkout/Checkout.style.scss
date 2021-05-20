@@ -21,7 +21,7 @@
     }
 
     @include mobile {
-        padding-bottom: calc(var(--navigation-tabs-height) + 113px);
+        padding-bottom: calc(var(--navigation-tabs-height) + 60px);
         padding-top: 20px;
     }
 
@@ -78,10 +78,6 @@
     &-Heading {
         text-transform: none;
         margin-block: 40px 12px;
-
-        @include mobile {
-            margin: 0 0 14px;
-        }
     }
 
     &-Header {

@@ -39,11 +39,6 @@
         font-size: 12px;
         margin-bottom: -.1em;
         margin-top: 6px;
-        padding-inline-start: 15px;
-
-        @include mobile {
-            font-size: 15px;
-        }
     }
 
     &-Note {

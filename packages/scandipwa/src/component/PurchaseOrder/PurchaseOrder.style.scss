@@ -11,4 +11,8 @@
 
 .PurchaseOrderNumber-Input {
     min-width: 250px;
+
+    @include mobile {
+        width: 100%;
+    }
 }
