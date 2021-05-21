@@ -277,14 +277,30 @@ export class ProductActionsContainer extends PureComponent {
     getSelectedOptions() {
         const {
             productOptionsData: {
-                productOptionsMulti = []
+                productOptionsMulti = [],
+                productOptions = []
             } = {}
         } = this.props;
 
-        return productOptionsMulti.map((productOption) => {
+        return [...productOptionsMulti, ...productOptions].map((productOption) => {
             const { option_value } = productOption;
 
             return parseInt(option_value, 10);
+        });
+    }
+
+    getSelectedOptionsMulti() {
+        const {
+            productOptionsData: {
+                productOptionsMulti = [],
+                productOptions = []
+            } = {}
+        } = this.props;
+
+        return [...productOptionsMulti, ...productOptions].map((productOption) => {
+            const { option_id } = productOption;
+
+            return parseInt(option_id, 10);
         });
     }
 
@@ -326,7 +342,22 @@ export class ProductActionsContainer extends PureComponent {
         } = customPrice;
 
         const selectedOptions = this.getSelectedOptions();
-        const prices = options.reduce((acc, { data = [] }) => {
+        const selectedOptionsMulti = this.getSelectedOptionsMulti();
+
+        const prices = options.reduce((acc, { data = [], option_id, type }) => {
+            /*
+            * Such types contain a single item within data
+            * as those are looked up on the option_id
+            */
+            const types = ['area', 'field', 'file'];
+            if (types.includes(type)) {
+                if (selectedOptionsMulti.includes(option_id)) {
+                    acc.push(data[0].price);
+                }
+
+                return acc;
+            }
+
             data.forEach(({ option_type_id, price }) => {
                 if (selectedOptions.includes(option_type_id)) {
                     acc.push(price);
