@@ -161,12 +161,14 @@ export class ProductPriceContainer extends PureComponent {
         const {
             price: {
                 minimum_price: {
+                    final_price: {
+                        currency: priceCurrency
+                    },
                     discount: {
                         percent_off: discountPercentage
                     } = {},
                     final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue,
-                        currency: priceCurrency
+                        value: minimalPriceExclTaxValue
                     } = {},
                     regular_price_excl_tax: {
                         value: regularPriceExclTaxValue
