@@ -325,6 +325,7 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
+        // push into localstorage only preview of product (image, name and etc)
         const {
             canonical_url,
             categories,

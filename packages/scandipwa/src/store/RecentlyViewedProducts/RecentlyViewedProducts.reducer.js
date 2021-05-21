@@ -73,19 +73,20 @@ export const RecentlyViewedProductsReducer = (
         const indexedProducts = getIndexedProducts(products);
         const recentProductsFromStorage = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
 
+        // Sort products same as it is localstorage recentlyViewedProducts
         const sortedRecentProducts = recentProductsFromStorage[storeCode].reduce((acc, { sku }) => {
             const sortedProduct = indexedProducts.find((item) => item.sku === sku);
             return [...acc, sortedProduct];
         }, []);
 
-        const newRecentProducts1 = {
+        const updatedRecentViewedProducts = {
             ...recent,
             [storeCode]: sortedRecentProducts
         };
 
         return {
             ...state,
-            recentlyViewedProducts: newRecentProducts1,
+            recentlyViewedProducts: updatedRecentViewedProducts,
             shouldBeUpdated: false
         };
     default:
