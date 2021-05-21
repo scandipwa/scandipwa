@@ -27,6 +27,7 @@ import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
+import { formatPrice, roundPrice } from 'Util/Price';
 
 import {
     OPTION_TYPE_COLOR,
@@ -139,12 +140,97 @@ export class ProductCard extends PureComponent {
 
         return (
             <p
-              mix={ {
-                  block: 'ProductCard',
-                  elem: 'PriceBadge'
-              } }
+                mix={ {
+                    block: 'ProductCard',
+                    elem: 'PriceBadge'
+                } }
             >
                 { label }
+            </p>
+        );
+    }
+
+    renderBundlePriceBadge(bounds) {
+        const {
+            product: { type_id, price_view }
+        } = this.props;
+
+        if (type_id !== BUNDLE) {
+            return null;
+        }
+
+        // eslint-disable-next-line
+        let bundleBadgeLabel;
+
+        if (bounds === 'bottom') {
+            bundleBadgeLabel = 'From';
+
+            if (price_view !== 'PRICE_RANGE') {
+                bundleBadgeLabel = 'As low as';
+            }
+        }
+
+        if (bounds === 'top') {
+            bundleBadgeLabel = 'To';
+        }
+
+        return (
+            <p
+                mix={ {
+                    block: 'ProductCard',
+                    elem: 'PriceBadge'
+                } }
+            >
+                { __(bundleBadgeLabel) }
+            </p>
+        );
+    }
+
+    renderOldMaxBundlePrice() {
+        const {
+            product: { price_range }
+        } = this.props;
+
+        const oldMaxBundlePrice = `${ price_range.maximum_price.regular_price.value }`;
+        const finalMaxBundlePrice = `${ price_range.maximum_price.final_price.value }`;
+
+        if (finalMaxBundlePrice === oldMaxBundlePrice) {
+            return null;
+        }
+
+        return (
+            <del
+                block="ProductPrice"
+                elem="HighPrice"
+                aria-label={ __('Old product price') }
+            >
+                { roundPrice(`${ oldMaxBundlePrice }`) }
+            </del>
+        );
+    }
+
+    renderMaxBundlePrice() {
+        const {
+            product: { price_range }
+        } = this.props;
+
+        const oldMaxBundlePrice = `${ price_range.maximum_price.regular_price.value }`;
+        const finalMaxBundlePrice = `${ price_range.maximum_price.final_price.value }`;
+
+        return (
+            <p
+                aria-label={ __(`'Maximal product price: ${ finalMaxBundlePrice }'`) }
+                className="ProductPrice"
+                mods={ { hasDiscount: finalMaxBundlePrice !== oldMaxBundlePrice } }
+                block="ProductCard"
+                elem="Price"
+            >
+                <ins>
+                   <span>
+                        { formatPrice(`${ finalMaxBundlePrice }`) }
+                   </span>
+                </ins>
+                { this.renderOldMaxBundlePrice() }
             </p>
         );
     }
@@ -152,16 +238,21 @@ export class ProductCard extends PureComponent {
     renderEmptyProductPrice() {
         return (
             <div
-              block="ProductCard"
-              elem="PriceWrapper"
-              mods={ { isEmpty: true } }
+                block="ProductCard"
+                elem="PriceWrapper"
+                mods={ { isEmpty: true } }
             />
         );
     }
 
     renderProductPrice() {
         const {
-            product: { price_range, type_id },
+            product: {
+                price_range,
+                type_id,
+                price_view,
+                dynamic_price
+            },
             isConfigurableProductOutOfStock,
             isBundleProductOutOfStock
         } = this.props;
@@ -171,18 +262,46 @@ export class ProductCard extends PureComponent {
         }
 
         switch (type_id) {
-        case CONFIGURABLE:
-            if (isConfigurableProductOutOfStock()) {
-                return this.renderEmptyProductPrice();
+            case CONFIGURABLE:
+                if (isConfigurableProductOutOfStock()) {
+                    return this.renderEmptyProductPrice();
+                }
+                break;
+            case BUNDLE:
+                if (isBundleProductOutOfStock()) {
+                    return this.renderEmptyProductPrice();
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (type_id === BUNDLE) {
+            if (price_view === 'PRICE_RANGE' && dynamic_price) {
+                return (
+                    <div block="ProductCard" elem="PriceWrapper">
+                        { this.renderBundlePriceBadge('bottom') }
+                        <ProductPrice
+                            price={ price_range }
+                            mix={ { block: 'ProductCard', elem: 'Price' } }
+                        />
+                        { this.renderBundlePriceBadge('top') }
+                        { this.renderMaxBundlePrice() }
+                    </div>
+                );
             }
-            break;
-        case BUNDLE:
-            if (isBundleProductOutOfStock()) {
-                return this.renderEmptyProductPrice();
+
+            if (price_view === 'AS_LOW_AS') {
+                return (
+                    <div block="ProductCard" elem="PriceWrapper">
+                        { this.renderBundlePriceBadge('bottom') }
+                        <ProductPrice
+                            price={ price_range }
+                            mix={ { block: 'ProductCard', elem: 'Price' } }
+                        />
+                    </div>
+                );
             }
-            break;
-        default:
-            break;
         }
 
         return (
@@ -190,8 +309,8 @@ export class ProductCard extends PureComponent {
                 { this.renderTierPrice() }
                 { this.renderProductTypePriceBadge() }
                 <ProductPrice
-                  price={ price_range }
-                  mix={ { block: 'ProductCard', elem: 'Price' } }
+                    price={ price_range }
+                    mix={ { block: 'ProductCard', elem: 'Price' } }
                 />
             </div>
         );
@@ -215,21 +334,21 @@ export class ProductCard extends PureComponent {
 
         return (
             <TierPrices
-              product={ productOrVariant }
-              isLowestPrice
+                product={ productOrVariant }
+                isLowestPrice
             />
         );
     }
 
     renderImageVisualOption(label, value, i) {
         return (
-          <img
-            key={ i }
-            block="ProductCard"
-            elem="Image"
-            src={ `/media/attribute/swatch/swatch_thumb/110x90${value}` }
-            alt={ label }
-          />
+            <img
+                key={ i }
+                block="ProductCard"
+                elem="Image"
+                src={ `/media/attribute/swatch/swatch_thumb/110x90${value}` }
+                alt={ label }
+            />
         );
     }
 
@@ -242,12 +361,12 @@ export class ProductCard extends PureComponent {
 
         return (
             <span
-              block="ProductCard"
-              elem={ isColor ? 'Color' : 'String' }
-              key={ i }
-              style={ isColor ? { backgroundColor: value } : {} }
-              aria-label={ isColor ? label : '' }
-              title={ isColor ? '' : label }
+                block="ProductCard"
+                elem={ isColor ? 'Color' : 'String' }
+                key={ i }
+                style={ isColor ? { backgroundColor: value } : {} }
+                aria-label={ isColor ? label : '' }
+                title={ isColor ? '' : label }
             >
                 { isColor ? '' : value }
             </span>
@@ -286,12 +405,12 @@ export class ProductCard extends PureComponent {
 
         this.sharedComponent = (
             <Image
-              imageRef={ this.imageRef }
-              src={ thumbnail }
-              alt={ name }
-              ratio="custom"
-              mix={ { block: 'ProductCard', elem: 'Picture', mix } }
-              isPlaceholder={ !id }
+                imageRef={ this.imageRef }
+                src={ thumbnail }
+                alt={ name }
+                ratio="custom"
+                mix={ { block: 'ProductCard', elem: 'Picture', mix } }
+                isPlaceholder={ !id }
             />
         );
 
@@ -299,9 +418,9 @@ export class ProductCard extends PureComponent {
             <>
                 { this.sharedComponent }
                 <img
-                  style={ { display: 'none' } }
-                  alt={ name }
-                  src={ thumbnail }
+                    style={ { display: 'none' } }
+                    alt={ name }
+                    src={ thumbnail }
                 />
             </>
         );
@@ -323,9 +442,9 @@ export class ProductCard extends PureComponent {
 
         return (
             <div
-              block="ProductCard"
-              elem="Reviews"
-              mods={ { layout } }
+                block="ProductCard"
+                elem="Reviews"
+                mods={ { layout } }
             >
                 <ProductReviewRating summary={ rating_summary || 0 } />
             </div>
@@ -344,11 +463,11 @@ export class ProductCard extends PureComponent {
 
         return (
             <ProductCompareButton
-              productId={ id }
-              mix={ {
-                  block: 'ProductCompareButton',
-                  mods: { isGrey: true }
-              } }
+                productId={ id }
+                mix={ {
+                    block: 'ProductCompareButton',
+                    mods: { isGrey: true }
+                } }
             />
         );
     }
@@ -362,8 +481,8 @@ export class ProductCard extends PureComponent {
 
         return (
             <ProductWishlistButton
-              product={ product }
-              mix={ { block: 'ProductCard', elem: 'WishListButton' } }
+                product={ product }
+                mix={ { block: 'ProductCard', elem: 'WishListButton' } }
             />
         );
     }
@@ -400,12 +519,12 @@ export class ProductCard extends PureComponent {
 
         return (
             <ProductAttributeValue
-              attribute={ brand }
-              isFormattedAsText
-              mix={ {
-                  block: 'ProductCard',
-                  elem: 'BrandAttributeValue'
-              } }
+                attribute={ brand }
+                isFormattedAsText
+                mix={ {
+                    block: 'ProductCard',
+                    elem: 'BrandAttributeValue'
+                } }
             />
         );
     }
@@ -423,9 +542,9 @@ export class ProductCard extends PureComponent {
 
         return this.renderCardLinkWrapper(
             <p
-              block="ProductCard"
-              elem="Name"
-              mods={ { isLoaded: !!name } }
+                block="ProductCard"
+                elem="Name"
+                mods={ { isLoaded: !!name } }
             >
                 <TextPlaceholder content={ name } length="medium" />
             </p>
@@ -438,8 +557,8 @@ export class ProductCard extends PureComponent {
         if (!url) {
             return (
                 <div
-                  block="ProductCard"
-                  elem="Link"
+                    block="ProductCard"
+                    elem="Link"
                 >
                     { children }
                 </div>
@@ -448,13 +567,13 @@ export class ProductCard extends PureComponent {
 
         return (
             <Link
-              block="ProductCard"
-              elem="Link"
-              to={ linkTo }
-              onClick={ this.registerSharedElement }
-              mix={ mix }
+                block="ProductCard"
+                elem="Link"
+                to={ linkTo }
+                onClick={ this.registerSharedElement }
+                mix={ mix }
             >
-              { children }
+                { children }
             </Link>
         );
     }
@@ -479,12 +598,12 @@ export class ProductCard extends PureComponent {
 
         return (
             <AddToCart
-              product={ product }
-              configurableVariantIndex={ configurableVariantIndex }
-              mix={ { block: 'ProductActions', elem: 'AddToCart' } }
-              quantity={ quantity }
-              groupedProductQuantity={ groupedProductQuantity }
-              productOptionsData={ productOptionsData }
+                product={ product }
+                configurableVariantIndex={ configurableVariantIndex }
+                mix={ { block: 'ProductActions', elem: 'AddToCart' } }
+                quantity={ quantity }
+                groupedProductQuantity={ groupedProductQuantity }
+                productOptionsData={ productOptionsData }
             />
         );
     }
@@ -576,9 +695,9 @@ export class ProductCard extends PureComponent {
         if (layout === LIST_LAYOUT) {
             return (
                 <li
-                  block="ProductCard"
-                  mods={ mods }
-                  mix={ mix }
+                    block="ProductCard"
+                    mods={ mods }
+                    mix={ mix }
                 >
                     <Loader isLoading={ isLoading } />
                     { this.renderCardListContent() }
@@ -588,9 +707,9 @@ export class ProductCard extends PureComponent {
 
         return (
             <li
-              block="ProductCard"
-              mods={ mods }
-              mix={ mix }
+                block="ProductCard"
+                mods={ mods }
+                mix={ mix }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderCardContent() }
