@@ -9,15 +9,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
+
 import ExpandableContent from 'Component/ExpandableContent';
 import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
+import { CategoryFragment } from 'Type/Category';
 import { formatPrice } from 'Util/Price';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
+    static propTypes = {
+        childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment))
+    };
+
+    renderSubCategories(option) {
+        const optionWithSubcategories = option;
+        const { childrenCategories } = this.props;
+        const { attribute_values } = option;
+        const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
+        const subCategoriesIds = attribute_values.filter((item) => childrenCategoryIds.includes(item));
+        optionWithSubcategories.attribute_values = subCategoriesIds;
+        if (subCategoriesIds.length) {
+            return this.renderDropdownOrSwatch(optionWithSubcategories);
+        }
+
+        return null;
+    }
+
     getPriceLabel(option) {
         const { currency_code } = this.props;
         const { label } = option;
@@ -120,16 +141,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         case 'price':
             return this.renderPriceSwatch(option);
         case 'category_id':
-            const { childrenCategories } = this.props;
-            const { attribute_values } = option;
-            const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
-            const subCategoriesIds = attribute_values.filter((item) => childrenCategoryIds.includes(item));
-            if (subCategoriesIds.length) {
-                this.props.configurable_options.category_id.attribute_values = subCategoriesIds;
-                return this.renderDropdownOrSwatch(option);
-            }
-
-            return null;
+            return this.renderSubCategories(option);
         default:
             return this.renderDropdownOrSwatch(option);
         }
