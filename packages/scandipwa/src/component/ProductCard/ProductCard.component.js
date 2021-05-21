@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -221,6 +220,7 @@ export class ProductCard extends PureComponent {
         return (
             <p
               aria-label={ __(`'Maximal product price: ${ finalMaxBundlePrice }'`) }
+                // eslint-disable-next-line react/forbid-component-props
               className="ProductPrice"
               mods={ { hasDiscount: finalMaxBundlePrice !== oldMaxBundlePrice } }
               block="ProductCard"
