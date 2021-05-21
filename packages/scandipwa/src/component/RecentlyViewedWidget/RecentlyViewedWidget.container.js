@@ -56,9 +56,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
             store
         } = this.props;
 
-        console.log(recentProducts);
-
-        if (shouldBeUpdated) {
+        if (shouldBeUpdated && Object.entries(recentProducts).length !== 0) {
             updateRecentViewedProductsInfo({ recentProducts, store });
         }
     }

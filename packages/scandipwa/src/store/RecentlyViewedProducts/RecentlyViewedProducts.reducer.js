@@ -18,6 +18,7 @@ import {
     UPDATE_RECENTLY_VIEWED_PRODUCTS
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedProducts } from 'Util/Product';
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = () => ({
@@ -64,16 +65,22 @@ export const RecentlyViewedProductsReducer = (
 
     case UPDATE_RECENTLY_VIEWED_PRODUCTS:
         const {
-            products
+            products,
+            storeCode
         } = action;
         const { recentlyViewedProducts: recent = {} } = state;
 
-        console.log(products);
+        const indexedProducts = getIndexedProducts(products);
+        const recentProductsFromStorage = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
+
+        const sortedRecentProducts = recentProductsFromStorage[storeCode].reduce((acc, { sku }) => {
+            const sortedProduct = indexedProducts.find((item) => item.sku === sku);
+            return [...acc, sortedProduct];
+        }, []);
 
         const newRecentProducts1 = {
             ...recent,
-            // eslint-disable-next-line quote-props
-            'default': products
+            [storeCode]: sortedRecentProducts
         };
 
         return {

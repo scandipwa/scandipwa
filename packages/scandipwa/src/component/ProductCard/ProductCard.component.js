@@ -71,7 +71,8 @@ export class ProductCard extends PureComponent {
         setSiblingsHaveTierPrice: PropTypes.func,
         siblingsHaveConfigurableOptions: PropTypes.bool,
         setSiblingsHaveConfigurableOptions: PropTypes.func,
-        layout: PropTypes.string
+        layout: PropTypes.string,
+        isPreview: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -259,8 +260,13 @@ export class ProductCard extends PureComponent {
             siblingsHaveConfigurableOptions,
             setSiblingsHaveConfigurableOptions,
             availableVisualOptions,
-            device
+            device,
+            isPreview
         } = this.props;
+
+        if (isPreview) {
+            return <TextPlaceholder />;
+        }
 
         if (device.isMobile || !availableVisualOptions.length) {
             return <div block="ProductCard" elem="ConfigurableOptions" />;
@@ -419,7 +425,19 @@ export class ProductCard extends PureComponent {
     }
 
     renderMainDetails() {
-        const { product: { name } } = this.props;
+        const { product: { name }, layout } = this.props;
+
+        if (layout === GRID_LAYOUT) {
+            return (
+            <p
+              block="ProductCard"
+              elem="Name"
+              mods={ { isLoaded: !!name } }
+            >
+                <TextPlaceholder content={ name } length="medium" />
+            </p>
+            );
+        }
 
         return this.renderCardLinkWrapper(
             <p

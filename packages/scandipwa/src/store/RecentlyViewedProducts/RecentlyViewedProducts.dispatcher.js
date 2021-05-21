@@ -15,21 +15,26 @@ import {
     updateRecentlyViewedProducts
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { QueryDispatcher } from 'Util/Request';
+import getStore from 'Util/Store';
 
 /**
- * Product List Info Dispatcher
- * @class ProductListInfoDispatcher
+ * RecentlyViewedProducts Dispatcher
+ * @class RecentlyViewedProductsDispatcher
  * @extends QueryDispatcher
- * @namespace Store/ProductListInfo/Dispatcher
+ * @namespace Store/RecentlyViewedProducts/Dispatcher
  */
 export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
     __construct() {
         super.__construct('recentlyViewedProducts');
     }
 
-    onSuccess({ products }, dispatch) {
-        const { items = {} } = products;
-        dispatch(updateRecentlyViewedProducts(items));
+    onSuccess({ products: { items } }, dispatch) {
+        const state = getStore().getState();
+        const {
+            code: storeCode
+        } = state.ConfigReducer;
+
+        dispatch(updateRecentlyViewedProducts(items, storeCode));
     }
 
     onError(error, dispatch) {
@@ -38,7 +43,7 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
 
     /**
      * Prepare recentlyViewedProducts query
-     * @return {Query} ProductList query
+     * @return {Query} RecentlyViewedProducts query
      * @memberof recentlyViewedProductsDispatcher
      * @param recentlyViewedProducts
      */

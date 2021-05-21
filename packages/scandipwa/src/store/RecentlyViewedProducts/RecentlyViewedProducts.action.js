@@ -31,7 +31,8 @@ export const addRecentlyViewedProduct = (product, store) => ({
  * @return {void}
  * @namespace Store/RecentlyViewedProducts/Action/updateRecentlyViewedProducts
  */
-export const updateRecentlyViewedProducts = (products) => ({
+export const updateRecentlyViewedProducts = (products, storeCode) => ({
     type: UPDATE_RECENTLY_VIEWED_PRODUCTS,
-    products
+    products,
+    storeCode
 });

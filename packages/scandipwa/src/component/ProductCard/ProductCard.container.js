@@ -48,12 +48,14 @@ export class ProductCardContainer extends PureComponent {
         product: ProductType,
         selectedFilters: FilterType,
         device: DeviceType.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isPreview: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
-        selectedFilters: {}
+        selectedFilters: {},
+        isPreview: false
     };
 
     containerFunctions = {
@@ -206,9 +208,9 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants } } = this.props;
+        const { product: { variants }, isPreview } = this.props;
 
-        if (!variants) {
+        if (isPreview) {
             return true;
         }
 
