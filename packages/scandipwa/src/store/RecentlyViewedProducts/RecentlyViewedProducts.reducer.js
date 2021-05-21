@@ -14,13 +14,15 @@ import {
     RECENTLY_VIEWED_PRODUCTS
 } from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import {
+    ADD_RECENTLY_VIEWED_PRODUCT,
     UPDATE_RECENTLY_VIEWED_PRODUCTS
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = () => ({
-    recentlyViewedProducts: BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || {}
+    recentlyViewedProducts: BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || {},
+    shouldBeUpdated: true
 });
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/recentlyViewedProductsReducer */
@@ -29,7 +31,7 @@ export const RecentlyViewedProductsReducer = (
     action
 ) => {
     switch (action.type) {
-    case UPDATE_RECENTLY_VIEWED_PRODUCTS:
+    case ADD_RECENTLY_VIEWED_PRODUCT:
         const {
             product,
             product: { sku: newSku }
@@ -54,8 +56,31 @@ export const RecentlyViewedProductsReducer = (
 
         BrowserDatabase.setItem(newRecentProducts, RECENTLY_VIEWED_PRODUCTS);
 
-        return { ...state, recentlyViewedProducts: newRecentProducts };
+        return {
+            ...state,
+            recentlyViewedProducts: newRecentProducts,
+            shouldBeUpdated: true
+        };
 
+    case UPDATE_RECENTLY_VIEWED_PRODUCTS:
+        const {
+            products
+        } = action;
+        const { recentlyViewedProducts: recent = {} } = state;
+
+        console.log(products);
+
+        const newRecentProducts1 = {
+            ...recent,
+            // eslint-disable-next-line quote-props
+            'default': products
+        };
+
+        return {
+            ...state,
+            recentlyViewedProducts: newRecentProducts1,
+            shouldBeUpdated: false
+        };
     default:
         return state;
     }

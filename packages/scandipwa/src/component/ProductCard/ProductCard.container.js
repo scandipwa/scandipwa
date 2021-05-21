@@ -208,6 +208,10 @@ export class ProductCardContainer extends PureComponent {
     isConfigurableProductOutOfStock() {
         const { product: { variants } } = this.props;
 
+        if (!variants) {
+            return true;
+        }
+
         const variantsInStock = variants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
 
         return variantsInStock.length === 0;
