@@ -74,6 +74,12 @@
                 }
             }
         }
+
+        &_isProductOutOfStock {
+            .CartItem-ProductActions_isMobileLayout {
+                align-self: flex-end;
+            }
+        }
     }
 
     &-ProductInfo {

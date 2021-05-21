@@ -34,16 +34,17 @@
         box-sizing: border-box;
     }
 
+    // ltr + rtl adjusted, don't replace 'left' and 'right' here
     &::before {
         top: -14.1421px;
         border-top: solid 7.0711px var(--primary-base-color);
-        border-inline-end: solid 7.0711px var(--primary-base-color);
+        border-right: solid 7.0711px var(--primary-base-color);
     }
 
     &::after {
         bottom: -14.1421px;
         border-bottom: solid 7.0711px var(--primary-base-color);
-        border-inline-start: solid 7.0711px var(--primary-base-color);
+        border-left: solid 7.0711px var(--primary-base-color);
     }
 
     span {

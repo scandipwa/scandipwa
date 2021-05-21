@@ -203,7 +203,8 @@
                         4px -8px 0 var(--checkmark-color);
                 content: '';
                 height: 2px;
-                inset-inline-start: calc(50% - 5px);
+                // required for ltr + rtl support, don't change to 'inset-inline-start'
+                left: calc(50% - 5px);
                 pointer-events: none;
                 position: absolute;
                 top: calc(50% - 1px);
@@ -242,7 +243,8 @@
                 &::after {
                     --checkmark-color: var(--primary-base-color);
 
-                    inset-inline-start: calc(50% - 5px);
+                    // required for ltr + rtl support, don't change to 'inset-inline-start'
+                    left: calc(50% - 5px);
                     top: calc(50% - 1px);
                 }
             }
