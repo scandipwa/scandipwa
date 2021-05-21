@@ -38,6 +38,10 @@
             top: -1px;
             transform: rotate(-135deg);
             width: $arrow-size;
+
+            [dir="rtl"] & {
+                transform: rotate(45deg);
+            }
         }
     }
 

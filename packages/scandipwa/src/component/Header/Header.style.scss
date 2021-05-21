@@ -140,6 +140,10 @@
 
                 height: 18px;
                 width: 20px;
+
+                [dir="rtl"] & {
+                    transform: none;
+                }
             }
         }
     }
@@ -196,6 +200,10 @@
             position: absolute;
             inset-inline-end: -5px;
             width: 17px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
         }
     }
 
