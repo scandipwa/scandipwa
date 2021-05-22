@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
+import { BUNDLE, GROUPED } from 'Util/Product';
 
 import './WishlistItem.style';
 
@@ -32,9 +33,7 @@ export class WishlistItem extends PureComponent {
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         attributes: PropTypes.array.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired,
-        toggleOptionVisibility: PropTypes.func.isRequired,
-        showOptions: PropTypes.bool.isRequired
+        handleSelectIdChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -210,41 +209,19 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderOptionsTitle() {
-        const { showOptions, toggleOptionVisibility } = this.props;
-        const label = showOptions ? __('Hide Details') : __('Show Details');
-
-        return (
-            <div
-              block="WishlistItemOptions"
-              elem="Title"
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => toggleOptionVisibility() }
-            >
-                { label }
-            </div>
-        );
-    }
-
     renderOptions() {
-        const { showOptions, product: { wishlist: { options = [] } } } = this.props;
+        const { product: { wishlist: { options = [] }, type_id } } = this.props;
 
-        if (options.length === 0) {
+        if (
+            options.length === 0
+            || (type_id !== BUNDLE && type_id !== GROUPED)
+        ) {
             return null;
-        }
-
-        if (showOptions) {
-            return (
-                <div block="WishlistItemOptions">
-                    { this.renderOptionsList() }
-                    { this.renderOptionsTitle() }
-                </div>
-            );
         }
 
         return (
             <div block="WishlistItemOptions">
-                { this.renderOptionsTitle() }
+                { this.renderOptionsList() }
             </div>
         );
     }
