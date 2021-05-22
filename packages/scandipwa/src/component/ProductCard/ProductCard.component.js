@@ -425,21 +425,21 @@ export class ProductCard extends PureComponent {
     }
 
     renderMainDetails() {
-        const { product: { name }, layout } = this.props;
+        const { layout } = this.props;
 
         if (layout === GRID_LAYOUT) {
-            return (
-            <p
-              block="ProductCard"
-              elem="Name"
-              mods={ { isLoaded: !!name } }
-            >
-                <TextPlaceholder content={ name } length="medium" />
-            </p>
-            );
+            return this.renderProductName();
         }
 
         return this.renderCardLinkWrapper(
+            this.renderProductName()
+        );
+    }
+
+    renderProductName() {
+        const { product: { name } } = this.props;
+
+        return (
             <p
               block="ProductCard"
               elem="Name"
