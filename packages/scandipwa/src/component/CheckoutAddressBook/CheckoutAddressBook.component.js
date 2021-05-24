@@ -103,11 +103,14 @@ export class CheckoutAddressBook extends PureComponent {
 
     renderHeading() {
         const { isBilling } = this.props;
-        const addressName = isBilling ? __('Select billing address') : __('Shipping address');
+
+        if (isBilling) {
+            return null;
+        }
 
         return (
             <h2 block="Checkout" elem="Heading">
-                { addressName }
+                { __('Shipping address') }
             </h2>
         );
     }

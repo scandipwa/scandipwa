@@ -30,6 +30,24 @@
         transition-timing-function: ease-in;
         width: 100%;
 
+        .KeyValueTable-Heading {
+            span {
+                float: right;
+                display: inline-block;
+                @include radiobutton;
+                top: 3px;
+            }
+        }
+
+        &:not(&_isSelected):hover,
+        &_isSelected {
+            .KeyValueTable-Heading {
+                span {
+                    @include radiobutton-full;
+                }
+            }
+        }
+
         @include mobile {
             margin-block: 14px 0;
             margin-inline: 0 14px;
@@ -37,34 +55,6 @@
 
         @include desktop {
             margin-bottom: 20px;
-        }
-
-        &::before,
-        &::after {
-            content: '';
-            opacity: var(--check-mark-opacity);
-            position: absolute;
-            z-index: 1;
-            transition: opacity 150ms ease-in;
-        }
-
-        &::before {
-            top: 6px;
-            inset-inline-end: 6px;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--checkout-address-table-border);
-        }
-
-        &::after {
-            top: 12px;
-            inset-inline-end: 11px;
-            width: 12px;
-            height: 6px;
-            transform: rotate(135deg);
-            border-inline-end: 2px solid var(--check-mark-color);
-            border-top: 2px solid var(--check-mark-color);
         }
 
         &:not(&_isSelected):hover {

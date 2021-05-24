@@ -12,13 +12,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CartCoupon from 'Component/CartCoupon';
 import CartItem from 'Component/CartItem';
 import CheckoutOrderSummaryPriceLine from 'Component/CheckoutOrderSummaryPriceLine';
 import ExpandableContent from 'Component/ExpandableContent';
-import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
+import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { ChildrenType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
+import { getItemsCountLabel } from 'Util/Cart';
 
 import './CheckoutOrderSummary.style';
 
@@ -30,27 +30,23 @@ export class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         checkoutStep: PropTypes.string,
-        couponCode: PropTypes.string,
         renderCmsBlock: PropTypes.func,
         isExpandable: PropTypes.bool,
         cartDisplayConfig: PropTypes.object.isRequired,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number,
-        onCouponCodeUpdate: PropTypes.func,
         showItems: PropTypes.bool,
         children: ChildrenType
     };
 
     static defaultProps = {
         totals: {},
-        couponCode: '',
         renderCmsBlock: () => {},
         isExpandable: false,
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
         cartTotalSubPrice: null,
-        onCouponCodeUpdate: () => {},
         showItems: true,
         children: [],
         checkoutStep: null
@@ -127,7 +123,7 @@ export class CheckoutOrderSummary extends PureComponent {
         return (
             <>
             <div block="CheckoutOrderSummary" elem="ItemsInCart">
-                { items_qty === 1 ? __('1 item') : __('%s items', items_qty) }
+                { getItemsCountLabel(items_qty) }
             </div>
             <div block="CheckoutOrderSummary" elem="OrderItems">
                 <div block="CheckoutOrderSummary" elem="CartItemList">
@@ -293,7 +289,8 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderTotals() {
-        const { children } = this.props;
+        const { children, totals: { items = [] } } = this.props;
+
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
@@ -301,29 +298,12 @@ export class CheckoutOrderSummary extends PureComponent {
                     { this.renderTax() }
                     { this.renderDiscount() }
                     { this.renderShipping() }
-                    <div block="CheckoutOrderSummary" elem="ButtonWrapper">
+                    <div block="CheckoutOrderSummary" elem="ButtonWrapper" mods={ { isEmpty: items.length < 1 } }>
                         { this.renderOrderTotal() }
                         { children }
                     </div>
                 </ul>
             </div>
-        );
-    }
-
-    renderCoupon() {
-        const { couponCode, onCouponCodeUpdate, checkoutStep } = this.props;
-
-        if (checkoutStep === SHIPPING_STEP) {
-            return null;
-        }
-
-        return (
-            <CartCoupon
-              couponCode={ couponCode }
-              mix={ { block: 'CheckoutOrderSummary', elem: 'Coupon' } }
-              title={ __('Have a discount code?') }
-              onCouponCodeUpdate={ onCouponCodeUpdate }
-            />
         );
     }
 
@@ -354,7 +334,6 @@ export class CheckoutOrderSummary extends PureComponent {
             >
                 { this.renderItems() }
                 { this.renderCmsBlock() }
-                { this.renderCoupon() }
                 { this.renderTotals() }
             </ExpandableContent>
         );

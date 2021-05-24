@@ -60,10 +60,12 @@ export class ExpandableContentShowMore extends PureComponent {
         const { children: { length: currentChildrenLength } } = this.props;
 
         if (prevChildrenLength !== currentChildrenLength) {
+            if (this.expandableRef.current) {
             // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ isOpen: true }, () => {
-                this.expandableRef.current.style.height = 'auto';
-            });
+                this.setState({ isOpen: true }, () => {
+                    this.expandableRef.current.style.height = 'auto';
+                });
+            }
         }
 
         const { isExpanding } = this.state;
@@ -145,8 +147,6 @@ export class ExpandableContentShowMore extends PureComponent {
         const style = {
             height: isOpen ? this.expandableContentHeight : 0
         };
-
-        console.log(style);
 
         return (
             <div

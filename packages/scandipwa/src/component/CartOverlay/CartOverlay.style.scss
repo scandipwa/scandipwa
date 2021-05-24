@@ -58,8 +58,9 @@
         display: flex;
         justify-content: center;
         background-color: var(--primary-error-color, red);
+        color: var(--color-white);
         font-size: 14px;
-        font-weight: bold;
+        font-weight: 600;
     }
 
     &-CheckoutButton {
@@ -91,6 +92,7 @@
     &-Promo,
     &-Total {
         min-height: 48px;
+        font-weight: 600;
 
         @include mobile {
             min-height: 56px;

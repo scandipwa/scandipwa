@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Field from 'Component/Field/Field.container';
 import { paymentMethodType } from 'Type/Checkout';
 
 import './CheckoutPayment.style';
@@ -49,9 +50,15 @@ export class CheckoutPayment extends PureComponent {
                   block="CheckoutPayment"
                   mods={ { isSelected } }
                   elem="Button"
-                  onClick={ this.onClick }
                   type="button"
+                  onClick={ this.onClick }
                 >
+                    <Field
+                      type="checkbox"
+                      id={ `option-${ title }` }
+                      name={ `option-${ title }` }
+                      checked={ isSelected }
+                    />
                     { title }
                 </button>
             </li>

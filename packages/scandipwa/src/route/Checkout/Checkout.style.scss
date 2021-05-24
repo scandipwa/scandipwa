@@ -21,7 +21,7 @@
     }
 
     @include mobile {
-        padding-bottom: calc(var(--navigation-tabs-height) + 113px);
+        padding-bottom: calc(var(--navigation-tabs-height) + 60px);
         padding-top: 20px;
     }
 
@@ -41,7 +41,7 @@
             inset-inline-start: 0;
             width: 100%;
             z-index: 85;
-            bottom: var(--navigation-tabs-height);
+            bottom: var(--header-total-height);
             background-color: var(--color-white);
             padding: 16px 16px calc(env(safe-area-inset-bottom) + 16px);
         }
@@ -77,12 +77,7 @@
 
     &-Heading {
         text-transform: none;
-        font-size: 18px;
-        margin: 0 0 12px;
-
-        @include mobile {
-            margin: 0 0 14px;
-        }
+        margin-block: 40px 12px;
     }
 
     &-Header {

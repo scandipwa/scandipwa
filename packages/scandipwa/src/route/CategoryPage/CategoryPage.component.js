@@ -336,7 +336,7 @@ export class CategoryPage extends PureComponent {
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
-                  layout={ activeLayoutType }
+                  layout={ activeLayoutType || GRID_LAYOUT }
                 />
             </div>
         );

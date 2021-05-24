@@ -162,6 +162,10 @@
 
                 width: 18px;
                 height: 20px;
+              
+                [dir="rtl"] & {
+                    transform: none;
+                }
             }
 
             &_close {
@@ -254,6 +258,10 @@
             position: absolute;
             top: 2px;
             width: 17px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
         }
     }
 
