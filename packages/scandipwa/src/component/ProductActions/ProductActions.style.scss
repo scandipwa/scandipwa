@@ -330,32 +330,32 @@
 //         }
 //     }
 
-//     &-AdditionalButtons {
-//         order: 25;
-//         margin: 24px 0 12px;
-//         flex-basis: 100%;
-
-//         @include mobile {
-
-//             border-top: 1px solid var(--expandable-content-divider-color);
-//             margin: 0 0 14px;
-//         }
-
-//         &:first-child {
-//             margin-top: 0;
-//         }
-
-//         > * {
-//             margin-inline-end: 12px;
-//             margin-top: 12px;
-
-//             @include mobile {
-//                 margin: 14px 14px 0;
-//                 width: calc(100% - 28px);
-//                 text-align: center;
-//             }
-//         }
-//     }
+//&-AdditionalButtons {
+//    order: 25;
+//    margin: 2.4rem 0 1.2rem;
+//    flex-basis: 100%;
+//
+//    @include mobile {
+//
+//        border-top: 1px solid var(--expandable-content-divider-color);
+//        margin: 0 0 1.4rem;
+//    }
+//
+//    &:first-child {
+//        margin-top: 0;
+//    }
+//
+//    > * {
+//        margin-right: 1.2rem;
+//        margin-top: 1.2rem;
+//
+//        @include mobile {
+//            margin: 1.4rem 1.4rem 0;
+//            width: calc(100% - 2.8rem);
+//            text-align: center;
+//        }
+//    }
+//}
 
 //     &-AttributesWrapper {
 //         transform: translate3d(0, 0, 0);

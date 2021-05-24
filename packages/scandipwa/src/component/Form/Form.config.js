@@ -23,7 +23,7 @@ export const validateEmails = ({ value }) => value.split(',').every((email) => v
 export const validatePassword = ({ value }) => value.length >= MIN_PASSWORD_LENGTH;
 
 /** @namespace Component/Form/Config/validateTelephone */
-export const validateTelephone = ({ value }) => value.length > 0 && value.match(/^\+(?:[0-9-] ?){6,14}[0-9]$/);
+export const validateTelephone = ({ value }) => value.length > 0 && value.match(/^\+?(?:[0-9-] ?){6,14}[0-9]$/);
 
 /** @namespace Component/Form/Config/isNotEmpty */
 export const isNotEmpty = ({ value }) => value.trim().length > 0;
