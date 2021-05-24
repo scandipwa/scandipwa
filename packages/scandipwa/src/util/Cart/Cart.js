@@ -267,3 +267,6 @@ export const getCartTotalSubPrice = (state) => {
 
     return null;
 };
+
+/** @namespace Util/Cart/getItemsCountLabel */
+export const getItemsCountLabel = (items_qty) => (items_qty === 1 ? __('1 item') : __('%s items', items_qty || 0));
