@@ -41,7 +41,7 @@
             inset-inline-start: 0;
             width: 100%;
             z-index: 85;
-            bottom: var(--navigation-tabs-height);
+            bottom: var(--header-total-height);
             background-color: var(--color-white);
             padding: 16px 16px calc(env(safe-area-inset-bottom) + 16px);
         }

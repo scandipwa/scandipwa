@@ -19,8 +19,7 @@
     margin-bottom: var(--header-nav-height);
 
     @include mobile {
-        padding-bottom: 113px;
-        margin-bottom: var(--navigation-tabs-height);
+        margin-bottom: calc(var(--header-nav-height) + var(--footer-totals-height));
         padding-inline: 16px;
     }
 
@@ -41,6 +40,7 @@
         @include mobile {
             padding: 14px;
             border-bottom: 1px solid var(--expandable-content-divider-color);
+            text-align: center;
         }
     }
 
