@@ -200,7 +200,7 @@ export class CartPageContainer extends PureComponent {
 
     _changeHeaderState() {
         const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = __('%s Item(s)', items_qty || 0);
+        const title = items_qty === 1 ? __('1 item') : __('%s items', items_qty || 0);
 
         changeHeaderState({
             name: CART,

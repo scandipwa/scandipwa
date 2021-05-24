@@ -162,12 +162,14 @@ export class Field extends PureComponent {
 
         return (
             <label htmlFor={ id } block="Field" elem="CheckboxLabel">
-                { label }
-                { subLabel && (
-                    <span block="Field" elem="SubLabel">
-                    { ` (${subLabel})` }
-                    </span>
-                ) }
+                <span>
+                    { label }
+                    { subLabel && (
+                        <strong block="Field" elem="SubLabel">
+                        { ` (${subLabel})` }
+                        </strong>
+                    ) }
+                </span>
                 <FieldInput
                   { ...this.props }
                   type="checkbox"

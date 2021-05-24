@@ -22,10 +22,6 @@
         grid-auto-rows: max-content;
         grid-column-gap: 12px;
 
-        @include tablet {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
         @include mobile {
             grid-column-gap: 14px;
             grid-template-columns: 1fr 1fr;

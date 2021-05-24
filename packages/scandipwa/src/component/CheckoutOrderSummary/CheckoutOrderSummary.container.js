@@ -15,7 +15,6 @@ import {
     getCartShippingPrice,
     getCartShippingSubPrice,
     getCartSubtotal,
-    getCartSubtotalSubPrice,
     getCartTotalSubPrice
 } from 'Util/Cart';
 
@@ -25,7 +24,6 @@ import CheckoutOrderSummary from './CheckoutOrderSummary.component';
 export const mapStateToProps = (state) => ({
     cartDisplayConfig: state.ConfigReducer.cartDisplayConfig,
     cartSubtotal: getCartSubtotal(state),
-    cartSubtotalSubPrice: getCartSubtotalSubPrice(state),
     cartShippingPrice: getCartShippingPrice(state),
     cartShippingSubPrice: getCartShippingSubPrice(state),
     cartTotalSubPrice: getCartTotalSubPrice(state)

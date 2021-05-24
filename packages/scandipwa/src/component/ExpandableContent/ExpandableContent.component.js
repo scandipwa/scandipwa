@@ -20,6 +20,7 @@ import './ExpandableContent.style';
 export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
+        isArrow: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         children: ChildrenType.isRequired,
         mix: MixType.isRequired,
@@ -39,6 +40,7 @@ export class ExpandableContent extends PureComponent {
     static defaultProps = {
         heading: '',
         isContentExpanded: false,
+        isArrow: false,
         onClick: null,
         mods: {}
     };
@@ -111,7 +113,8 @@ export class ExpandableContent extends PureComponent {
         const { isContentExpanded } = this.state;
         const {
             heading,
-            mix
+            mix,
+            isArrow
         } = this.props;
 
         return (
@@ -138,7 +141,7 @@ export class ExpandableContent extends PureComponent {
                 </div>
                 <div
                   block="ExpandableContent"
-                  elem="ToggleButton"
+                  elem={ isArrow ? 'ToggleArrow' : 'ToggleButton' }
                   mods={ { isContentExpanded } }
                 />
             </div>

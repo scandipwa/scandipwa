@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { DeviceType } from 'Type/Device';
 import { CartItemType } from 'Type/MiniCart';
 import { itemIsOutOfStock } from 'Util/Cart';
 import { CONFIGURABLE } from 'Util/Product';
@@ -60,11 +61,14 @@ export class CartItemContainer extends PureComponent {
         changeItemQty: PropTypes.func.isRequired,
         removeProduct: PropTypes.func.isRequired,
         updateCrossSellProducts: PropTypes.func.isRequired,
-        updateCrossSellsOnRemove: PropTypes.bool
+        updateCrossSellsOnRemove: PropTypes.bool,
+        device: DeviceType.isRequired,
+        isCartOverlay: PropTypes.bool
     };
 
     static defaultProps = {
-        updateCrossSellsOnRemove: false
+        updateCrossSellsOnRemove: false,
+        isCartOverlay: false
     };
 
     state = { isLoading: false };
@@ -123,7 +127,8 @@ export class CartItemContainer extends PureComponent {
         minSaleQuantity: this.getMinQuantity(),
         maxSaleQuantity: this.getMaxQuantity(),
         isProductInStock: this.productIsInStock(),
-        optionsLabels: this.getConfigurableOptionsLabels()
+        optionsLabels: this.getConfigurableOptionsLabels(),
+        isMobileLayout: this.getIsMobileLayout()
     });
 
     /**
@@ -141,10 +146,19 @@ export class CartItemContainer extends PureComponent {
     /**
      * @return {void}
      */
-    handleRemoveItem() {
+    handleRemoveItem(e) {
+        e.preventDefault();
+
         this.setState({ isLoading: true }, () => {
             this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
         });
+    }
+
+    getIsMobileLayout() {
+        // "isMobileLayout" check is required to render mobile content in some additional cases
+        // where screen width exceeds 810px (e.g. CartOverlay)
+        const { device, isCartOverlay } = this.props;
+        return device.isMobile || isCartOverlay;
     }
 
     async removeProductAndUpdateCrossSell() {
