@@ -349,10 +349,15 @@ export class ProductActionsContainer extends PureComponent {
             * Such types contain a single item within data
             * as those are looked up on the option_id
             */
-            const types = ['area', 'field', 'file'];
-            if (types.includes(type)) {
+            if (['area', 'field', 'file'].includes(type)) {
                 if (selectedOptionsMulti.includes(option_id)) {
-                    if (data[0].price_type === 'PERCENT') {
+                    /*
+                    * Since such types only have a single value
+                    * we can get the price_type directly
+                    */
+                    const [{ price_type }] = data;
+
+                    if (price_type === 'PERCENT') {
                         const price = (data[0].price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
                         acc.push(price);
                     } else {
