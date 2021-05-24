@@ -25,6 +25,7 @@
     @include desktop {
         &-Summary {
             align-self: stretch;
+            display: flex;
         }
     }
 
@@ -58,7 +59,6 @@
         inset-inline-end: 0;
         top: 0;
         bottom: 0;
-        height: max-content;
         margin: auto;
 
         @include before-desktop {
@@ -76,16 +76,15 @@
     &-SummaryDetails {
         display: inline-block;
         margin-inline-start: 12px;
-        font-size: 20px;
+        margin-block: auto;
+        font-size: 24px;
+        font-weight: 700;
 
         @include mobile {
             margin-inline-start: 14px;
         }
 
         span {
-            font-size: 16px;
-            font-weight: normal;
-
             &::before {
                 content: ' / ';
             }

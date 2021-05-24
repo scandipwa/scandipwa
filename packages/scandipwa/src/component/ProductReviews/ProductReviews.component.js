@@ -56,7 +56,7 @@ export class ProductReviews extends PureComponent {
             <button
               block="ProductReviews"
               elem="Button"
-              mix={ { block: 'Button' } }
+              mix={ { block: 'Button', mods: { isHollow: true } } }
               onClick={ showPopup }
             >
                 { __('Write a new review') }

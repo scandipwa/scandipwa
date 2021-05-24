@@ -362,6 +362,7 @@ export class ProductActions extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
+              isWithIcon
             />
         );
     }

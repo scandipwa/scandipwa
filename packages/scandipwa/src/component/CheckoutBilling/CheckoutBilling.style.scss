@@ -20,18 +20,6 @@
         display: inline-block;
         font-size: 14px;
         margin-top: 10px;
-
-        + .CheckoutAddressBook {
-            margin-top: 0;
-        }
-
-        .input-control {
-            position: absolute!important;
-        }
-
-        span {
-            padding-inline-start: 28px;
-        }
     }
 
     &-TermsAndConditions {
@@ -48,7 +36,6 @@
 
         &-Checkbox {
             margin-block: 0;
-            margin-inline-end: 12px;
 
             @include mobile {
                 margin-inline-end: 14px;

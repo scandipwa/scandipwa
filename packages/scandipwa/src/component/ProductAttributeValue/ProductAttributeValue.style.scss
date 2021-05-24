@@ -159,7 +159,6 @@
 
         label {
             &:first-of-type {
-                padding-inline-start: 30px;
                 padding-block-end: 0;
                 order: 1;
                 text-align: start;
@@ -176,7 +175,6 @@
                 }
 
                 .input-control {
-                    position: absolute;
                     inset-inline-start: 0;
                     margin: 0;
                     width: 18px;

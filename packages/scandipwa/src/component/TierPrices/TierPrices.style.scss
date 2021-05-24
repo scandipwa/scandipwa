@@ -1,13 +1,10 @@
 .TierPrices {
     width: 100%;
+    margin-block-start: 15px;
 
     &-Item {
         font-size: 15px;
         padding-inline-start: 0;
-
-        @include after-mobile {
-            padding-inline-start: 5px;
-        }
 
         &:last-child {
             margin-bottom: 12px;

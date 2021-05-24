@@ -98,6 +98,15 @@
         align-items: center;
         display: flex;
         margin-block-start: 24px;
+
+        .ProductActions-AddToCart {
+            margin-inline: 32px 16px;
+        }
+
+        .ProductCompareButton,
+        .ProductWishlistButton {
+            margin-inline: 16px;
+        }
     }
 
     &-Qty {
@@ -112,6 +121,14 @@
 
     &-GroupedItems {
         margin-block-start: 24px;
+    }
+
+    &-Reviews {
+        margin-bottom: 10px;
+    }
+
+    &-Price {
+       font-size: 24px;
     }
 }
 

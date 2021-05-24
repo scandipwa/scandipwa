@@ -10,7 +10,7 @@
  */
 
 :root {
-    --product-review-item-border: var(--secondary-dark-color);
+    --product-review-item-border: #d8d8d8;
 }
 
 .ProductReviewItem {
@@ -18,15 +18,15 @@
     flex-wrap: wrap;
     margin: 0;
     padding: 0 0 12px;
-    border-bottom: 1px solid var(--product-review-item-border);
     word-break: break-word;
 
     @include mobile {
         padding: 0 0 14px;
+        border-bottom: 1px solid var(--product-review-item-border);
     }
 
-    @include after-mobile {
-        padding: 18px 24px;
+    @include desktop {
+        padding: 24px!important;
         border: 1px solid var(--product-review-item-border);
     }
 
@@ -46,6 +46,7 @@
     &-ReviewTitle {
         width: 100%;
         margin-bottom: 12px;
+        font-weight: 700;
 
         @include mobile {
             margin-bottom: 14px;
@@ -69,7 +70,7 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 6px;
+        margin-bottom: 16px;
 
         @include mobile {
             margin-bottom: 7px;
@@ -92,7 +93,7 @@
 
     &-ReviewContent {
         flex: 1 0 0;
-        margin-inline-start: 48px;
+        margin-inline-end: 48px;
 
         @include mobile {
             flex: 0 0 auto;
@@ -106,17 +107,13 @@
     }
 
     &-ReviewAuthor {
-        margin-top: 6px;
-        font-size: 10px;
-
-        @include mobile {
-            margin-top: 7px;
-            font-size: 11px;
-        }
+        margin-block: 15px 0;
+        font-size: 12px;
     }
 
     &-ReviewDetails {
         margin-bottom: 0;
+        text-align: justify;
 
         @include mobile {
             margin-bottom: 14px;
@@ -134,5 +131,13 @@
                 display: block;
             }
         }
+    }
+
+    .ProductReviewRating-Counter {
+        display: none;
+    }
+
+    &-RatingItem {
+        margin-block: auto;
     }
 }

@@ -64,10 +64,10 @@
     }
 
     &-Group {
-        border-bottom: 1px solid var(--secondary-base-color);
         margin: 0;
         padding-block: 32px 16px;
-        text-decoration: underline;
+        font-size: 18px;
+        font-weight: 700;
     }
 
     // &-Description,
@@ -89,6 +89,10 @@
         overflow: hidden;
         padding-block: 16px;
         text-overflow: ellipsis;
+
+        &:last-of-type {
+            border: none;
+        }
     }
 
     // &-ValueLabel {

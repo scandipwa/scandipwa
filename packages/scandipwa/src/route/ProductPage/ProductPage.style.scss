@@ -25,7 +25,7 @@
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 6fr 4fr;
+        grid-template-columns: repeat(2, 1fr);
         grid-column-gap: 24px;
         grid-template-rows: min-content min-content;
         padding-top: 24px;

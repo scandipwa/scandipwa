@@ -11,7 +11,6 @@
 
 .Breadcrumb {
     $crumb-padding: 12px;
-    $arrow-size: 6px;
 
     display: inline-block;
     font-size: 12px;
@@ -25,23 +24,15 @@
     &:not(:last-child) {
         margin: 0;
 
-        &::after {
-            border-color: currentColor;
-            border-style: solid;
-            border-width: 0 0 2px 2px;
-            color: var(--breadcrumbs-color);
-            content: '';
+        .Breadcrumb-Arrow {
+            @include chevron-icon;
+            @include rtl-icon;
+            filter: invert(57%) sepia(0%) saturate(1%) hue-rotate(105deg) brightness(93%) contrast(90%);
             display: inline-block;
-            height: $arrow-size;
             margin-inline-start: $crumb-padding;
-            position: relative;
-            top: -1px;
-            transform: rotate(-135deg);
-            width: $arrow-size;
-
-            [dir="rtl"] & {
-                transform: rotate(45deg);
-            }
+            width: 12px;
+            height: 12px;
+            bottom: -2px;
         }
     }
 
@@ -60,5 +51,7 @@
         text-transform: capitalize;
         color: var(--breadcrumbs-color);
         display: inline-block;
+        font-weight: 400;
+        font-size: 12px;
     }
 }

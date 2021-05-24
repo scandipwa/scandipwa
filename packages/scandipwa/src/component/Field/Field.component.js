@@ -162,6 +162,12 @@ export class Field extends PureComponent {
 
         return (
             <label htmlFor={ id } block="Field" elem="CheckboxLabel">
+                <FieldInput
+                  { ...this.props }
+                  type="checkbox"
+                  onChange={ onChangeCheckbox }
+                />
+                <div block="input-control" />
                 <span>
                     { label }
                     { subLabel && (
@@ -170,12 +176,6 @@ export class Field extends PureComponent {
                         </strong>
                     ) }
                 </span>
-                <FieldInput
-                  { ...this.props }
-                  type="checkbox"
-                  onChange={ onChangeCheckbox }
-                />
-                <div block="input-control" />
             </label>
         );
     }
