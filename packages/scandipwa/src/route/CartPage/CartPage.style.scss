@@ -69,7 +69,10 @@
         justify-content: center;
         background-color: var(--primary-error-color, red);
         font-size: 14px;
-        font-weight: bold;
+        font-weight: 600;
+        color: var(--color-white);
+        left: -16px;
+        width: calc(100% + 32px);
     }
 
     &-CheckoutButton {
@@ -210,10 +213,6 @@
 
     &-ExpandableContentContent {
         margin-top: 0;
-    }
-
-    .ExpandableContent-Button {
-        padding-inline: 0;
     }
 
     .ProductLinks-Wrapper {

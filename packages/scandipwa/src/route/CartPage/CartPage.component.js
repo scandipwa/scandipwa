@@ -95,7 +95,7 @@ export class CartPage extends PureComponent {
         if (hasOutOfStockProductsInCart) {
             return (
                 <div block="CartPage" elem="OutOfStockProductsWarning">
-                    { __('Remove out of stock products from cart') }
+                    { __('Please, remove out of stock products from cart') }
                 </div>
             );
         }

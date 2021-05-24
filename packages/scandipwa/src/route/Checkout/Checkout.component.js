@@ -149,7 +149,7 @@ export class Checkout extends PureComponent {
         const { checkoutStep, totals: { is_virtual } } = this.props;
         const { title = '', number } = this.stepMap[checkoutStep];
 
-        if (is_virtual) {
+        if (is_virtual || !number) {
             return (
                 <div block="Checkout" elem="Header">
                     <div block="Checkout" elem="Title">{ title }</div>

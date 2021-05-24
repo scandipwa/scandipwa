@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.CheckoutDeliveryOptions {
-    margin-bottom: 24px;
+.PurchaseOrderNumber-Input {
+    min-width: 250px;
 
     @include mobile {
-        margin-bottom: 28px;
+        width: 100%;
     }
 }

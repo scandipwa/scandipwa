@@ -106,20 +106,6 @@ export class CheckoutBilling extends PureComponent {
               block="CheckoutBilling"
               elem="TermsAndConditions"
             >
-                <label
-                  block="CheckoutBilling"
-                  elem="TACLabel"
-                  htmlFor="termsAndConditions"
-                >
-                    { checkbox_text }
-                    <button
-                      block="CheckoutBilling"
-                      elem="TACLink"
-                      onClick={ this.handleShowPopup }
-                    >
-                        { __('read more') }
-                    </button>
-                </label>
                 <Field
                   id="termsAndConditions"
                   name="termsAndConditions"
@@ -129,6 +115,20 @@ export class CheckoutBilling extends PureComponent {
                   checked={ isTermsAndConditionsAccepted }
                   onChange={ this.setTACAccepted }
                 />
+                <label
+                  block="CheckoutBilling"
+                  elem="TACLabel"
+                  htmlFor="termsAndConditions"
+                >
+                    { `${checkbox_text } - ` }
+                    <button
+                      block="CheckoutBilling"
+                      elem="TACLink"
+                      onClick={ this.handleShowPopup }
+                    >
+                        { __('read more') }
+                    </button>
+                </label>
             </div>
         );
     }
@@ -229,9 +229,18 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
+    renderHeading() {
+        return (
+            <h2 block="Checkout" elem="Heading">
+                { __('Billing address') }
+            </h2>
+        );
+    }
+
     renderAddresses() {
         return (
             <>
+                { this.renderHeading() }
                 { this.renderSameAsShippingCheckbox() }
                 { this.renderAddressBook() }
             </>

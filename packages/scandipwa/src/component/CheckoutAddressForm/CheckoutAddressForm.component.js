@@ -148,15 +148,15 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             onBlur: this.onZipcodeChange
         };
 
+        // Make phone the last field
+        fieldMap.telephone = telephone;
+
         // since object doesn't maintain the order of it's properties
         // and last modified property goes to the end of the property list,
         // move vat_id after postcode
         if (vat_id) {
             fieldMap.vat_id = vat_id;
         }
-
-        // Make phone the last field
-        fieldMap.telephone = telephone;
 
         // Preserve values from global state
         Object.entries(fieldMap).forEach(([key]) => {

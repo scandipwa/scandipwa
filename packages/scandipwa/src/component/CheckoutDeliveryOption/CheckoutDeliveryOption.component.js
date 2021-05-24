@@ -156,21 +156,22 @@ export class CheckoutDeliveryOption extends PureComponent {
 
         return (
             <li block="CheckoutDeliveryOption">
+                <button
+                  block="CheckoutDeliveryOption"
+                  mods={ { isDisabled: !available } }
+                  elem="Button"
+                  type="button"
+                  onClick={ onOptionClick }
+                >
                     <Field
                       type="checkbox"
                       id={ `option-${ carrier_title }` }
                       name={ `option-${ carrier_title }` }
                       checked={ isSelected }
                       isDisabled={ !available }
-                      onClick={ onOptionClick }
                     />
-                <div
-                  block="CheckoutDeliveryOption"
-                  mods={ { isDisabled: !available } }
-                  elem="Button"
-                >
                     { this.renderRow() }
-                </div>
+                </button>
             </li>
         );
     }

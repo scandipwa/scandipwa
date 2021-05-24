@@ -13,8 +13,8 @@
     --header-logo-width: 194px;
     --header-logo-height: 24px;
 
-    --header-height: 50px;
-    --header-nav-height: 50px;
+    --header-height: 70px;
+    --header-nav-height: 70px;
     --header-total-height:
         calc(
             var(--header-height)
@@ -25,17 +25,18 @@
 
     @include after-mobile {
         --header-nav-height: 60px;
-        --header-top-menu-height: 30px;
+        --header-top-menu-height: 32px;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height) + var(--menu-total-height));
     }
 }
 
 @mixin button-invisible {
+    margin: 0;
     opacity: 0;
-    padding: 0;
-    width: 0;
-    pointer-events: none;
     overflow: hidden;
+    padding: 0;
+    pointer-events: none;
+    width: 0;
 }
 
 @mixin button-visible {
@@ -54,21 +55,23 @@
     }
 }
 
+@mixin logo-visible {
+    opacity: 1;
+    max-width: 100%;
+}
+
 .Header {
     align-items: center;
     background: var(--color-white);
     height: fit-content;
     display: flex;
     flex-direction: column;
-    padding: calc(var(--demo-notice-height) + 15px) 16px 0;
+    padding-top: env(safe-area-inset-top, 0);
     width: 100%;
+    position: fixed;
     z-index: 100;
-
-    @include desktop {
-        padding: var(--demo-notice-height) 32px 0;
-        position: fixed;
-        top: 0;
-    }
+    border-bottom: 1px solid var(--primary-divider-color);
+    top: var(--demo-notice-height);
 
     > * {
         max-width: var(--content-wrapper-width);
@@ -79,61 +82,35 @@
         &_menu,
         &_menu_subcategory,
         &_search {
-            .Header {
-                &-LogoWrapper {
-                    display: none;
-
-                    @include desktop {
-                        display: block;
-                    }
-                }
-
-                &-Title {
-                    display: none;
-                }
-            }
+            border-bottom: none;
         }
 
         &_category {
             position: fixed;
-
-            .Header {
-                &-Button {
-                    &_type {
-                        &_back {
-                            @include back-button;
-
-                            @include visible-on-mobile;
-
-                            bottom: 3px;
-                            margin-inline-end: 15px;
-                        }
-                    }
-                }
-
-                &-LogoWrapper {
-                    display: none;
-
-                    @include desktop {
-                        display: block;
-                    }
-                }
-            }
         }
     }
 
     &-Button {
         @include button-invisible;
 
+        &_isVisible {
+            @include before-desktop {
+                @include button-visible;
+            }
+        }
+
         &_type {
             &_menu,
-            &_account,
             &_minicart {
                 @include button-visible;
 
                 @include desktop {
                     margin-inline-start: 35px;
                 }
+            }
+
+            &_account {
+                @include button-visible;
             }
 
             &_account {
@@ -152,21 +129,59 @@
 
             &_minicart {
                 @include minicart-button;
+
+                @include after-mobile {
+                    margin-inline-start: 35px;
+                }
+            }
+
+            &_back {
+                @include back-button;
+
+                height: 18px;
+                width: 20px;
+
+                [dir="rtl"] & {
+                    transform: none;
+                }
             }
         }
     }
 
+    &-MinicartButtonWrapper {
+        cursor: pointer;
+    }
+
+    &-CompareButtonWrapper {
+        margin-inline-start: 35px;
+    }
+
     &-CompareIcon {
         @include compare-icon;
-
-        @include desktop {
-            margin-inline-start: 35px;
-        }
     }
 
     &-LogoWrapper {
+        bottom: 0;
         height: var(--header-logo-height);
+        left: 0;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        right: 0;
+        top: 0;
         width: var(--header-logo-width);
+
+        @include mobile {
+            margin: auto;
+        }
+
+        @include desktop {
+            @include logo-visible;
+        }
+
+        &_isVisible {
+            @include logo-visible;
+        }
     }
 
     &-Minicart {
@@ -185,6 +200,10 @@
             position: absolute;
             inset-inline-end: -5px;
             width: 17px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
         }
     }
 
@@ -192,7 +211,7 @@
         align-items: center;
         display: flex;
         height: var(--header-nav-height);
-        justify-content: center;
+        padding: 0 14px;
 
         @include desktop {
             justify-content: unset;
@@ -219,21 +238,45 @@
     }
 
     &-Title {
-        max-width: 100%;
+        bottom: 0;
+        color: var(--header-color);
+        left: 0;
+        margin: auto;
+        max-width: 0;
+        opacity: 0;
         overflow: hidden;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        text-align: center;
         text-overflow: ellipsis;
+        top: 3px;
+        transition-duration: 200ms;
+        transition-property: opacity;
         white-space: nowrap;
+        width: 100%;
+        line-height: 28px;
+        height: 28px;
 
-        @include desktop {
-            opacity: 0;
-            max-width: 0;
+        &_isVisible {
+            @include before-desktop {
+                opacity: 1;
+                max-width: calc(100% - 80px);
+            }
         }
     }
 
-    &-TopMenu {
+    &-TopMenu,
+    &-Nav {
         display: flex;
+        margin: auto;
+        max-width: var(--content-wrapper-width);
+    }
+
+    &-TopMenu {
         justify-content: space-between;
         height: var(--header-top-menu-height);
+        padding: 16px 34px 0 14px;
     }
 
     &-Switcher {
@@ -244,6 +287,6 @@
     &-Wrapper {
         display: flex;
         justify-content: center;
-        margin-bottom: var(--header-total-height);
+        margin-block-end: var(--header-total-height);
     }
 }
