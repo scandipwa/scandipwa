@@ -216,7 +216,6 @@ export const getBundleOptions = (options, items) => {
         ...item,
         options: item.options.map((option) => {
             const selection = bundleOptions.find((o) => o.selection_id === option.id) || {};
-
             const {
                 regular_option_price: regularOptionPrice = 0,
                 regular_option_price_excl_tax: regularOptionPriceExclTax = 0,
