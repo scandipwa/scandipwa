@@ -208,6 +208,32 @@ export const getIndexedReviews = (reviews) => {
     }, []);
 };
 
+/** @namespace Util/Product/getBundleOptions */
+export const getBundleOptions = (options, items) => {
+    const bundleOptions = options.reduce((prev, next) => [...prev, ...next.selection_details], []);
+
+    return items.map((item) => ({
+        ...item,
+        options: item.options.map((option) => {
+            const selection = bundleOptions.find((o) => o.selection_id === option.id);
+            const {
+                regular_option_price: regularOptionPrice,
+                regular_option_price_excl_tax: regularOptionPriceExclTax,
+                final_option_price: finalOptionPrice,
+                final_option_price_excl_tax: finalOptionPriceExclTax
+            } = selection;
+
+            return {
+                ...option,
+                regularOptionPrice,
+                regularOptionPriceExclTax,
+                finalOptionPrice,
+                finalOptionPriceExclTax
+            };
+        })
+    }));
+};
+
 /** @namespace Util/Product/getIndexedProduct */
 export const getIndexedProduct = (product) => {
     const {
@@ -217,13 +243,15 @@ export const getIndexedProduct = (product) => {
         options: initialOptions = [],
         rating_summary,
         review_count,
-        reviews: initialReviews
+        reviews: initialReviews,
+        items = [],
+        bundle_options = []
     } = product;
 
     const attributes = getIndexedAttributes(initialAttributes || []);
     const reviews = getIndexedReviews(initialReviews);
 
-    return {
+    const updatedProduct = {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
         variants: getIndexedVariants(initialVariants),
@@ -236,6 +264,12 @@ export const getIndexedProduct = (product) => {
             review_count
         }
     };
+
+    if (bundle_options) {
+        updatedProduct.items = getBundleOptions(bundle_options, items);
+    }
+
+    return updatedProduct;
 };
 
 /** @namespace Util/Product/getIndexedProducts */

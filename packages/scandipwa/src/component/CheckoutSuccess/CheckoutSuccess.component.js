@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import { REGISTER } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
+import { isSignedIn } from 'Util/Auth';
 import { appendWithStoreCode } from 'Util/Url';
 
 import './CheckoutSuccess.style';
@@ -50,7 +51,7 @@ export class CheckoutSuccess extends PureComponent {
             lastName
         } = this.props;
 
-        if (!isEmailAvailable) {
+        if (!isEmailAvailable || isSignedIn()) {
             return null;
         }
 

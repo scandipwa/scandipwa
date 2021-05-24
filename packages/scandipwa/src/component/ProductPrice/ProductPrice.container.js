@@ -72,12 +72,15 @@ export class ProductPriceContainer extends PureComponent {
                     } = {},
                     regular_price: {
                         value: regularPriceValue
+                    } = {},
+                    default_price: {
+                        value: defaultPriceValue
                     } = {}
                 } = {}
             } = {}
         } = this.props;
 
-        if (!minimalPriceValue || !regularPriceValue) {
+        if ((!minimalPriceValue || !regularPriceValue) && !defaultPriceValue) {
             return {};
         }
 

@@ -100,6 +100,7 @@ export class ConfigQuery {
             'default_title',
             'default_description',
             'default_country',
+            'downloadable_links_target_new_window',
             'secure_base_media_url',
             // 'paypal_sandbox_flag',
             // 'paypal_client_id',
@@ -130,6 +131,9 @@ export class ConfigQuery {
             'layered_navigation_product_count_enabled',
             'region_display_all',
             'redirect_dashboard',
+            'newsletter_general_active',
+            'newsletter_subscription_allow_guest_subscribe',
+            'newsletter_subscription_confirm',
             this.getPriceDisplayTypeField()
         ];
     }
