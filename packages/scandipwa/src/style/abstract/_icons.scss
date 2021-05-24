@@ -16,6 +16,8 @@
 }
 
 @mixin clear-button {
+    cursor: pointer;
+
     &::before,
     &::after {
         content: '';

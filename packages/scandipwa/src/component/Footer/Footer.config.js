@@ -17,6 +17,7 @@ export const RENDER_NEWSLETTER = 'render_newsletter';
 
 export const NEWSLETTER_COLUMN = {
     title: __('Newsletter'),
+    columnActiveKey: 'newsletterActive',
     items: [
         {
             render: RENDER_NEWSLETTER

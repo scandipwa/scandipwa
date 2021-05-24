@@ -38,7 +38,7 @@ export class Breadcrumbs extends PureComponent {
             <Breadcrumb
               name={ name }
               url={ url }
-              index={ i }
+              index={ i + 1 }
               key={ i }
               isDisabled={ isDisabled }
             />

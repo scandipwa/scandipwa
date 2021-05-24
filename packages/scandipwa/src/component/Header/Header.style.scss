@@ -37,6 +37,7 @@
     padding: 0;
     pointer-events: none;
     width: 0;
+    height: 0;
 }
 
 @mixin button-visible {
@@ -45,6 +46,8 @@
     width: 25px;
     pointer-events: all;
     overflow: visible;
+    padding: 7.5px;
+    cursor: pointer;
 }
 
 @mixin visible-on-mobile {
@@ -78,6 +81,23 @@
         width: 100%;
     }
 
+    &_menu,
+    &_menu_subcategory {
+        .Header-Button_type {
+            &_close {
+                @include desktop {
+                    @include button-visible;
+                }
+            }
+
+            &_menu {
+                @include desktop {
+                    @include button-invisible;
+                }
+            }
+        }
+    }
+
     &_name {
         &_menu,
         &_menu_subcategory,
@@ -99,6 +119,11 @@
             }
         }
 
+        &_isDisabled {
+            pointer-events: none;
+            opacity: .1;
+        }
+
         &_type {
             &_menu,
             &_minicart {
@@ -111,9 +136,6 @@
 
             &_account {
                 @include button-visible;
-            }
-
-            &_account {
                 @include account-button;
             }
 
@@ -138,12 +160,48 @@
             &_back {
                 @include back-button;
 
-                height: 18px;
-                width: 20px;
-
+                width: 18px;
+                height: 20px;
+              
                 [dir="rtl"] & {
                     transform: none;
                 }
+            }
+
+            &_close {
+                @include close-button;
+
+                width: 27px;
+                height: 27px;
+            }
+
+            &_clear {
+                display: flex;
+
+                @include clear-button;
+
+                &::after {
+                    top: 2px;
+                    inset-inline-start: 9px;
+                }
+
+                &::before {
+                    top: 7px;
+                    inset-inline-start: 7px;
+                }
+            }
+        }
+
+        &[aria-hidden="true"] {
+            display: none;
+        }
+
+        &_edit {
+            text-transform: uppercase;
+
+            &.Header-Button_isVisible {
+                width: 70px;
+                opacity: .5;
             }
         }
     }
@@ -198,7 +256,7 @@
             height: 17px;
             padding: 2px;
             position: absolute;
-            inset-inline-end: -5px;
+            top: 2px;
             width: 17px;
             display: flex;
             justify-content: center;
@@ -282,6 +340,42 @@
     &-Switcher {
         align-items: center;
         display: flex;
+    }
+
+    &_isCheckout {
+        .Header {
+            &-Button_type_account {
+                display: block;
+            }
+
+            &-Button_type_close,
+            &-Button_type_back {
+                @include after-mobile {
+                    display: none;
+                }
+            }
+
+            &-MyAccount {
+                @include after-mobile {
+                    margin-inline-start: auto;
+                }
+
+                @include before-desktop {
+                    position: absolute;
+                    right: 10px;
+                    width: auto;
+                }
+            }
+        }
+
+        .MyAccountOverlay {
+            @include before-desktop {
+                top: var(--header-total-height);
+                height: calc(100vh - var(--header-total-height));
+                position: fixed;
+                width: 100vw;
+            }
+        }
     }
 
     &-Wrapper {
