@@ -18,6 +18,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { ChildrenType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
+import { getItemsCountLabel } from 'Util/Cart';
 
 import './CheckoutOrderSummary.style';
 
@@ -122,7 +123,7 @@ export class CheckoutOrderSummary extends PureComponent {
         return (
             <>
             <div block="CheckoutOrderSummary" elem="ItemsInCart">
-                { items_qty === 1 ? __('1 item') : __('%s items', items_qty) }
+                { getItemsCountLabel(items_qty) }
             </div>
             <div block="CheckoutOrderSummary" elem="OrderItems">
                 <div block="CheckoutOrderSummary" elem="CartItemList">
@@ -288,7 +289,8 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderTotals() {
-        const { children } = this.props;
+        const { children, totals: { items = [] } } = this.props;
+
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
@@ -296,7 +298,7 @@ export class CheckoutOrderSummary extends PureComponent {
                     { this.renderTax() }
                     { this.renderDiscount() }
                     { this.renderShipping() }
-                    <div block="CheckoutOrderSummary" elem="ButtonWrapper">
+                    <div block="CheckoutOrderSummary" elem="ButtonWrapper" mods={ { isEmpty: items.length < 1 } }>
                         { this.renderOrderTotal() }
                         { children }
                     </div>

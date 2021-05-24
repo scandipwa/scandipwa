@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --footer-totals-height: 123px;
+}
+
 .CheckoutOrderSummary {
     $divider-border-color: #e0e0e0;
     $divider-border: solid 1px $divider-border-color;
@@ -220,15 +224,19 @@
 
     &-ButtonWrapper {
         @include mobile {
-            height: 123px;
+            height: var(--footer-totals-height);
             position: fixed;
             width: 100%;
             left: 0;
             padding: 0 16px 16px 16px;
-            bottom: var(--navigation-tabs-height);
+            bottom: var(--header-total-height);
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
             z-index: 80;
+        }
+
+        &_isEmpty {
+            display: none;
         }
     }
 }
