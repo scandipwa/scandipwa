@@ -288,7 +288,8 @@ export class CheckoutOrderSummary extends PureComponent {
     }
 
     renderTotals() {
-        const { children } = this.props;
+        const { children, totals: { items = [] } } = this.props;
+
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
@@ -296,7 +297,7 @@ export class CheckoutOrderSummary extends PureComponent {
                     { this.renderTax() }
                     { this.renderDiscount() }
                     { this.renderShipping() }
-                    <div block="CheckoutOrderSummary" elem="ButtonWrapper">
+                    <div block="CheckoutOrderSummary" elem="ButtonWrapper" mods={ { isEmpty: items.length < 1 } }>
                         { this.renderOrderTotal() }
                         { children }
                     </div>
