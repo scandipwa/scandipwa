@@ -352,7 +352,12 @@ export class ProductActionsContainer extends PureComponent {
             const types = ['area', 'field', 'file'];
             if (types.includes(type)) {
                 if (selectedOptionsMulti.includes(option_id)) {
-                    acc.push(data[0].price);
+                    if (data[0].price_type === 'PERCENT') {
+                        const price = (data[0].price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
+                        acc.push(price);
+                    } else {
+                        acc.push(data[0].price);
+                    }
                 }
 
                 return acc;
