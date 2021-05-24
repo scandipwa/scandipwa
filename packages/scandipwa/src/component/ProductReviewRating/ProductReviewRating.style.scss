@@ -21,6 +21,7 @@
 
 .ProductReviewRating {
     display: flex;
+    align-items: flex-end;
 
     &-StarFull {
         @include star-icon-full;
@@ -48,5 +49,6 @@
         display: inline-block;
         font-size: 12px;
         letter-spacing: 0;
+        font-weight: 700;
     }
 }

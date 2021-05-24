@@ -552,19 +552,12 @@ export class ProductActions extends PureComponent {
             return null;
         }
 
-        const ONE_FIFTH_OF_A_HUNDRED = 20;
-        const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
-
         return (
             <div
               block="ProductActions"
               elem="Reviews"
             >
-                <ProductReviewRating summary={ rating_summary || 0 } />
-                <p block="ProductActions" elem="ReviewLabel">
-                    { rating }
-                    <span>{ __('%s reviews', review_count) }</span>
-                </p>
+                <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />
             </div>
         );
     }

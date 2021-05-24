@@ -29,7 +29,11 @@
     }
 
     &-SummaryRating {
-        font-size: 30px;
+        --star-size: 27px;
+
+        .ProductReviewRating-Counter {
+            display: none;
+        }
     }
 
     &-ExpandableContentHeading,
