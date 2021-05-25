@@ -33,6 +33,7 @@ export class ProductPrice extends PureComponent {
         formattedSubPrice: PropTypes.string,
         variantsCount: PropTypes.number,
         price: PriceType,
+        formattedDefaultFinalPriceExclTax: PropTypes.number,
         mix: MixType
     };
 
@@ -44,6 +45,7 @@ export class ProductPrice extends PureComponent {
         formattedFinalPrice: '0',
         formattedSubPrice: null,
         variantsCount: 0,
+        formattedDefaultFinalPriceExclTax: 0,
         mix: {},
         price: {}
     };
@@ -119,8 +121,8 @@ export class ProductPrice extends PureComponent {
 
     renderOldPrice() {
         const {
-            roundedRegularPrice,
             discountPercentage,
+            formattedDefaultFinalPriceExclTax,
             isSchemaRequired,
             variantsCount
         } = this.props;
@@ -138,7 +140,7 @@ export class ProductPrice extends PureComponent {
               aria-label={ __('Old product price') }
               { ...schema }
             >
-                { roundedRegularPrice }
+                { formattedDefaultFinalPriceExclTax }
             </del>
         );
     }

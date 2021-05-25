@@ -73,6 +73,9 @@ export class ProductPriceContainer extends PureComponent {
                     } = {},
                     default_price: {
                         value: defaultPriceValue
+                    } = {},
+                    default_final_price_excl_tax: {
+                        value: defaultFinalPriceExclTax = 0
                     } = {}
                 } = {}
             } = {}
@@ -85,10 +88,12 @@ export class ProductPriceContainer extends PureComponent {
         const roundedRegularPrice = this.getRoundedRegularPrice();
         const formattedFinalPrice = this.getFormattedFinalPrice();
         const formattedSubPrice = this.getFormattedSubPrice();
+        const formattedDefaultFinalPriceExclTax = formatPrice(defaultFinalPriceExclTax, priceCurrency);
 
         return {
             roundedRegularPrice,
             priceCurrency,
+            formattedDefaultFinalPriceExclTax,
             discountPercentage,
             formattedFinalPrice,
             formattedSubPrice

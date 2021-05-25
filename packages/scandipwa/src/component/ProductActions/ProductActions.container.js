@@ -316,6 +316,12 @@ export class ProductActionsContainer extends PureComponent {
                         regular_price_excl_tax: {
                             currency,
                             value: regularPriceExclTax = 0
+                        } = {},
+                        default_final_price_excl_tax: {
+                            value: defaultFinalPriceExclTax = 0
+                        } = {},
+                        discount: {
+                            percent_off = 0
                         } = {}
                     } = {}
                 } = {}
@@ -383,13 +389,14 @@ export class ProductActionsContainer extends PureComponent {
         }, []);
 
         const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
-
         return {
             minimum_price: {
                 final_price: {
                     currency,
                     value: selectedOptionsTotal + finalCustomPrice
                 },
+                discount: { percent_off },
+                default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
                 regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
                 final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
                 regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
