@@ -441,12 +441,12 @@ export class ProductActionsContainer extends PureComponent {
             product: {
                 price_range: {
                     minimum_price: {
-                        regular_price: { currency, value },
-                        regular_price_excl_tax: { value: value_excl_tax },
-                        discount: { percent_off }
-                    }
-                }
-            }
+                        regular_price: { currency = '', value = 0 } = {},
+                        regular_price_excl_tax: { value: value_excl_tax = 0 } = {},
+                        discount: { percent_off = 0 } = {}
+                    } = {}
+                } = {}
+            } = {}
         } = this.props;
 
         const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
