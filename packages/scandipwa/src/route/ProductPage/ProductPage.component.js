@@ -17,7 +17,6 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
 import ProductAttributes from 'Component/ProductAttributes';
-import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductGallery from 'Component/ProductGallery';
 import ProductInformation from 'Component/ProductInformation';
@@ -87,29 +86,6 @@ export class ProductPage extends PureComponent {
         }
     };
 
-    renderProductCompareButton() {
-        const {
-            dataSource: { id } = {},
-            device: { isMobile } = {}
-        } = this.props;
-
-        if (!isMobile) {
-            return null;
-        }
-
-        return (
-            <div block="ProductPage" elem="ProductCompareButtonWrapper">
-                <ProductCompareButton
-                  productId={ id }
-                  mix={ {
-                      block: 'ProductCompareButton',
-                      mods: { isGrey: true }
-                  } }
-                />
-            </div>
-        );
-    }
-
     renderProductPageContent() {
         const {
             configurableVariantIndex,
@@ -136,7 +112,6 @@ export class ProductPage extends PureComponent {
                   product={ productOrVariant }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                { this.renderProductCompareButton() }
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }

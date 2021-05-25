@@ -21,5 +21,13 @@
         @include mobile {
             padding: 0;
         }
+
+        .ExpandableContent-Heading {
+            text-transform: uppercase;
+        }
+
+        .ExpandableContent {
+            border-block-end: 0;
+        }
     }
 }

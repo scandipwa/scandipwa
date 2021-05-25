@@ -123,9 +123,9 @@ export class ProductActions extends PureComponent {
     }
 
     renderReviewButton() {
-        const { areReviewsEnabled } = this.props;
+        const { areReviewsEnabled, device: { isMobile } } = this.props;
 
-        if (!areReviewsEnabled) {
+        if (!areReviewsEnabled || isMobile) {
             return null;
         }
 
@@ -165,11 +165,8 @@ export class ProductActions extends PureComponent {
                     sku,
                     (
                         <>
-                            <span block="ProductActions" elem="Sku">
-                                SKU:
-                            </span>
                             <span block="ProductActions" elem="Sku" itemProp="sku">
-                                { `${ sku }` }
+                                { __('SKU: %s', sku) }
                             </span>
                             { this.renderStock(stock_status) }
                         </>
@@ -318,10 +315,10 @@ export class ProductActions extends PureComponent {
             product: { options },
             getSelectedCustomizableOptions,
             productOptionsData,
-            device
+            device: { isMobile }
         } = this.props;
 
-        if (device.isMobile) {
+        if (isMobile) {
             return null;
         }
 
@@ -540,11 +537,10 @@ export class ProductActions extends PureComponent {
 
     renderProductCompareButton() {
         const {
-            product: { id } = {},
-            device: { isMobile } = {}
+            product: { id } = {}
         } = this.props;
 
-        if (!id || isMobile) {
+        if (!id) {
             return null;
         }
 
@@ -681,7 +677,6 @@ export class ProductActions extends PureComponent {
             <div
               block="ProductActions"
               elem="AddToCartWrapper"
-              mix={ { block: 'FixedElement', elem: 'Bottom' } }
             >
                 { this.renderQuantityInput() }
                 { this.renderAddToCart() }
@@ -689,6 +684,18 @@ export class ProductActions extends PureComponent {
                     { this.renderProductCompareButton() }
                     { this.renderProductWishlistButton() }
                 </div>
+            </div>
+        );
+    }
+
+    renderAddToCartMobile() {
+        return (
+            <div
+              block="ProductActions"
+              elem="AddToCartFixed"
+            >
+                { this.renderAddToCart() }
+                { this.renderProductWishlistButton() }
             </div>
         );
     }
@@ -716,9 +723,16 @@ export class ProductActions extends PureComponent {
     renderMobile() {
         return (
             <>
+                { this.renderTierPrices() }
+                <div block="ProductActions" elem="ActionsWrapper">
+                    { this.renderPriceWithGlobalSchema() }
+                    { this.renderSkuAndStock() }
+                </div>
+                <div block="ProductActions" elem="ActionsWrapper">
+                    { this.renderReviews() }
+                    { this.renderProductCompareButton() }
+                </div>
                 { this.renderNameAndBrand() }
-                { this.renderReviewSection() }
-                { this.renderSkuAndStock() }
                 { this.renderShortDescription() }
                 { this.renderConfigurableAttributes() }
                 { this.renderCustomizableOptions() }
@@ -726,9 +740,7 @@ export class ProductActions extends PureComponent {
                 { this.renderGroupedItems() }
                 { this.renderDownloadableProductSample() }
                 { this.renderDownloadableProductLinks() }
-                { this.renderPriceWithGlobalSchema() }
-                { this.renderTierPrices() }
-                { this.renderAddToCartActionBlock() }
+                { this.renderAddToCartMobile() }
             </>
         );
     }

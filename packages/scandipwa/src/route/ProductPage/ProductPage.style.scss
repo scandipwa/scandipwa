@@ -21,6 +21,7 @@
 
     @include mobile {
         padding-bottom: 75px;
+        margin-inline: 16px;
     }
 
     &-Wrapper {
@@ -47,11 +48,5 @@
                 display: block;
             }
         }
-    }
-
-    &-ProductCompareButtonWrapper {
-        position: absolute;
-        top: 0;
-        inset-inline-end: 14px;
     }
 }

@@ -53,10 +53,17 @@
     }
 
     &-Title {
-        font-weight: bold;
-        font-size: 36px;
-        line-height: 40px;
-        margin-block: 8px;
+
+        @include desktop {
+            font-size: 36px;
+            line-height: 40px;
+            margin-block: 8px;
+        }
+
+        @include mobile {
+            font-weight: 400;
+            font-size: 14px;
+        }
     }
 
     &-ShortDescription {
@@ -67,8 +74,15 @@
 
     &-Stock {
         font-weight: bold;
-        margin-inline-end: 24px;
         order: 0;
+
+        @include desktop {
+            margin-inline-end: 24px;
+        }
+
+        @include mobile {
+            margin-block-end: 10px;
+        }
     }
 
     &-Sku {
@@ -89,6 +103,11 @@
     &-Section {
         &_type_sku {
             display: flex;
+
+            @include mobile {
+                align-items: flex-end;
+                flex-direction: column;
+            }
         }
     }
 
@@ -98,11 +117,38 @@
     }
 
     &-PriceWrapper {
-        margin-block-start: 24px;
+
+        @include desktop {
+            margin-block-start: 24px;
+        }
     }
 
     &-ActionButtons {
         display: flex;
+    }
+
+    &-ActionsWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-block: 18px;
+    }
+
+    &-AddToCartFixed {
+        position: fixed;
+        bottom: var(--header-nav-height);
+        z-index: 5;
+        background-color: var(--color-white);
+        width: 100%;
+        display: flex;
+        padding: 12px 16px;
+        border-block-start: 1px solid var(--primary-divider-color);
+        left: 0;
+
+        .ProductWishlistButton {
+            margin-inline: 18px 4px;
+            margin-block: auto;
+        }
     }
 
     &-AddToCartWrapper {
@@ -122,7 +168,6 @@
         .ProductCompareButton,
         .ProductWishlistButton {
             margin-inline: 16px;
-
         }
 
         @include tablet {

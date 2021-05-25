@@ -26,6 +26,10 @@
         }
     }
 
+    &-Content {
+        border-block-start: 0;
+    }
+
     // &-ExpandableContentButton {
     //     @include after-mobile {
     //         display: none;
