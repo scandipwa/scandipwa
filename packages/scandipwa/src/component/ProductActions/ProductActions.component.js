@@ -38,7 +38,7 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    GROUPED
+    GROUPED, showNewReviewPopup
 } from 'Util/Product';
 
 import './ProductActions.style';
@@ -80,7 +80,8 @@ export class ProductActions extends PureComponent {
         device: DeviceType.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         displayProductStockStatus: PropTypes.bool.isRequired,
-        setRefs: PropTypes.func.isRequired
+        setRefs: PropTypes.func.isRequired,
+        areReviewsEnabled: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -111,8 +112,32 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
+        const { displayProductStockStatus } = this.props;
+
+        if (!displayProductStockStatus) {
+            return null;
+        }
+
         const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
+    }
+
+    renderReviewButton() {
+        const { areReviewsEnabled } = this.props;
+
+        if (!areReviewsEnabled) {
+            return null;
+        }
+
+        return (
+            <button
+              block="ProductActions"
+              elem="Review"
+              onClick={ showNewReviewPopup }
+            >
+                { __('Write a review') }
+            </button>
+        );
     }
 
     renderSkuAndStock() {
@@ -120,8 +145,7 @@ export class ProductActions extends PureComponent {
             product,
             product: { variants },
             configurableVariantIndex,
-            showOnlyIfLoaded,
-            displayProductStockStatus
+            showOnlyIfLoaded
         } = this.props;
 
         const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
@@ -147,7 +171,7 @@ export class ProductActions extends PureComponent {
                             <span block="ProductActions" elem="Sku" itemProp="sku">
                                 { `${ sku }` }
                             </span>
-                            { displayProductStockStatus && this.renderStock(stock_status) }
+                            { this.renderStock(stock_status) }
                         </>
                     ),
                     <TextPlaceholder />
@@ -406,7 +430,7 @@ export class ProductActions extends PureComponent {
         );
     }
 
-    renderConfigurablePriceBadge() {
+    getConfigurablePriceBadge() {
         const {
             configurableVariantIndex,
             product: { type_id }
@@ -419,16 +443,7 @@ export class ProductActions extends PureComponent {
             return null;
         }
 
-        return (
-            <p
-              mix={ {
-                  block: 'ProductActions',
-                  elem: 'ConfigurablePriceBadge'
-              } }
-            >
-                { __('As Low as') }
-            </p>
-        );
+        return __('As Low as');
     }
 
     renderPriceWithSchema() {
@@ -455,7 +470,6 @@ export class ProductActions extends PureComponent {
               block="ProductActions"
               elem="PriceWrapper"
             >
-                { this.renderConfigurablePriceBadge() }
                 { this.renderSchema() }
                 <meta
                   itemProp="highPrice"
@@ -466,6 +480,7 @@ export class ProductActions extends PureComponent {
                   variantsCount={ offerCount }
                   price={ productPrice }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
+                  label={ this.getConfigurablePriceBadge() }
                 />
             </div>
         );
@@ -538,6 +553,18 @@ export class ProductActions extends PureComponent {
         );
     }
 
+    renderReviewSection() {
+        return (
+            <div
+              block="ProductActions"
+              elem="Reviews"
+            >
+                { this.renderReviews() }
+                { this.renderReviewButton() }
+            </div>
+        );
+    }
+
     renderReviews() {
         const {
             product: {
@@ -552,14 +579,7 @@ export class ProductActions extends PureComponent {
             return null;
         }
 
-        return (
-            <div
-              block="ProductActions"
-              elem="Reviews"
-            >
-                <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />
-            </div>
-        );
+        return <ProductReviewRating summary={ rating_summary || 0 } count={ review_count } />;
     }
 
     renderGroupedItems() {
@@ -665,8 +685,10 @@ export class ProductActions extends PureComponent {
             >
                 { this.renderQuantityInput() }
                 { this.renderAddToCart() }
-                { this.renderProductCompareButton() }
-                { this.renderProductWishlistButton() }
+                <div block="ProductActions" elem="ActionButtons">
+                    { this.renderProductCompareButton() }
+                    { this.renderProductWishlistButton() }
+                </div>
             </div>
         );
     }
@@ -675,7 +697,7 @@ export class ProductActions extends PureComponent {
         return (
             <>
                 { this.renderNameAndBrand() }
-                { this.renderReviews() }
+                { this.renderReviewSection() }
                 { this.renderSkuAndStock() }
                 { this.renderShortDescription() }
                 { this.renderConfigurableAttributes() }
@@ -695,7 +717,7 @@ export class ProductActions extends PureComponent {
         return (
             <>
                 { this.renderNameAndBrand() }
-                { this.renderReviews() }
+                { this.renderReviewSection() }
                 { this.renderSkuAndStock() }
                 { this.renderShortDescription() }
                 { this.renderConfigurableAttributes() }

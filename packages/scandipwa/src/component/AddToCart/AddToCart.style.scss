@@ -14,12 +14,12 @@
     padding: 0;
     vertical-align: middle;
 
-    @include wide-desktop {
-        padding: 0;
+    &:hover {
+        padding: 0!important;
+    }
 
-        &:hover {
-            padding: 0 !important;
-        }
+    &:focus {
+        padding: 0!important;
     }
 
     @include mobile {

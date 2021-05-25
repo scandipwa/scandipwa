@@ -79,6 +79,13 @@
         }
     }
 
+    &-Review {
+        order: 2;
+        font-weight: 700;
+        color: var(--primary-base-color);
+        cursor: pointer;
+    }
+
     &-Section {
         &_type_sku {
             display: flex;
@@ -94,23 +101,39 @@
         margin-block-start: 24px;
     }
 
+    &-ActionButtons {
+        display: flex;
+    }
+
     &-AddToCartWrapper {
         align-items: center;
         display: flex;
         margin-block-start: 24px;
 
         .ProductActions-AddToCart {
-            margin-inline: 32px 16px;
+            margin-inline-end: 16px;
+
+            @include tablet {
+                order: 10;
+                margin-block-start: 24px;
+            }
         }
 
         .ProductCompareButton,
         .ProductWishlistButton {
             margin-inline: 16px;
+
+        }
+
+        @include tablet {
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
     }
 
-    &-Qty {
-        margin: 0;
+    &-Qty.Field {
+        margin-block: 0;
+        margin-inline-end: 32px;
     }
 
     &-AttributesWrapper {
@@ -125,10 +148,19 @@
 
     &-Reviews {
         margin-bottom: 10px;
+        display: flex;
+
+        .ProductReviewRating {
+            margin-inline-end: 24px;
+        }
     }
 
     &-Price {
        font-size: 24px;
+    }
+
+    .ProductConfigurableAttributes-Expandable {
+        margin-block-start: 24px;
     }
 }
 

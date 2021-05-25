@@ -28,7 +28,6 @@
             display: grid;
             grid-template-columns: 1fr 360px;
             grid-column-gap: 48px;
-            padding-inline: 32px;
         }
 
         @include mobile {

@@ -91,8 +91,8 @@ export class ProductPrice extends PureComponent {
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
-        // force unequal comparatment - unsure of resulting type
-        // eslint-disable-next-line eqeqeq
+        // force unequal comparison - unsure of resulting type
+        // eslint-disable-next-line
         if (formattedFinalPrice == 0) {
             return null;
         }

@@ -14,13 +14,10 @@ import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
-import Popup from 'Component/Popup';
-import ProductReviewForm from 'Component/ProductReviewForm';
 import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
-
-import { REVIEW_POPUP_ID } from './ProductReviews.config';
+import { showNewReviewPopup } from 'Util/Product';
 
 import './ProductReviews.style';
 
@@ -28,7 +25,6 @@ import './ProductReviews.style';
 export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        showPopup: PropTypes.func.isRequired,
         areDetailsLoaded: PropTypes.bool
     };
 
@@ -36,30 +32,15 @@ export class ProductReviews extends PureComponent {
         areDetailsLoaded: false
     };
 
-    renderPopup() {
-        const { product } = this.props;
-
-        return (
-            <Popup
-              id={ REVIEW_POPUP_ID }
-              mix={ { block: 'ProductReviews', elem: 'Popup' } }
-            >
-                <ProductReviewForm product={ product } />
-            </Popup>
-        );
-    }
-
     renderButton() {
-        const { showPopup } = this.props;
-
         return (
             <button
               block="ProductReviews"
               elem="Button"
               mix={ { block: 'Button', mods: { isHollow: true } } }
-              onClick={ showPopup }
+              onClick={ showNewReviewPopup }
             >
-                { __('Write a new review') }
+                { __('Write a review') }
             </button>
         );
     }
@@ -182,7 +163,6 @@ export class ProductReviews extends PureComponent {
                 >
                     { this.renderSummary() }
                     { this.renderList() }
-                    { this.renderPopup() }
                 </ExpandableContent>
             </ContentWrapper>
         );

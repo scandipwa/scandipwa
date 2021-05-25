@@ -58,7 +58,6 @@
         padding: 0 16px;
 
         @include desktop {
-            padding-inline: 32px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-gap: 7%;

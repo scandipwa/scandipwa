@@ -101,6 +101,12 @@
             width: 100%;
         }
 
+        @include tablet {
+            flex: auto;
+            order: 15;
+            margin-block-start: 18px;
+        }
+
         .TextPlaceholder {
             display: block;
         }

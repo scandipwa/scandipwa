@@ -9,12 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
+import { isSignedIn } from 'Util/Auth';
 import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
     SIMPLE
 } from 'Util/Product';
+import getStore from 'Util/Store';
 
 /**
  * Checks whether every option is in attributes
@@ -215,12 +220,12 @@ export const getBundleOptions = (options, items) => {
     return items.map((item) => ({
         ...item,
         options: item.options.map((option) => {
-            const selection = bundleOptions.find((o) => o.selection_id === option.id);
+            const selection = bundleOptions.find((o) => o.selection_id === option.id) || {};
             const {
-                regular_option_price: regularOptionPrice,
-                regular_option_price_excl_tax: regularOptionPriceExclTax,
-                final_option_price: finalOptionPrice,
-                final_option_price_excl_tax: finalOptionPriceExclTax
+                regular_option_price: regularOptionPrice = 0,
+                regular_option_price_excl_tax: regularOptionPriceExclTax = 0,
+                final_option_price: finalOptionPrice = 0,
+                final_option_price_excl_tax: finalOptionPriceExclTax = 0
             } = selection;
 
             return {
@@ -265,7 +270,7 @@ export const getIndexedProduct = (product) => {
         }
     };
 
-    if (bundle_options) {
+    if (bundle_options.length) {
         updatedProduct.items = getBundleOptions(bundle_options, items);
     }
 
@@ -365,4 +370,23 @@ export const getNewParameters = (parameters, key, value) => {
         ...parameters,
         [key]: value.toString()
     };
+};
+
+/** @namespace Util/Product/showNewReviewPopup */
+export const showNewReviewPopup = () => {
+    const store = getStore();
+    const {
+        ConfigReducer: {
+            reviews_allow_guest: isGuestEnabled
+        } = {}
+    } = store.getState();
+    const { dispatch } = store;
+
+    // if not logged in and guest reviews are not enabled
+    if (!isSignedIn() && !isGuestEnabled) {
+        dispatch(showNotification('info', __('You must login or register to review products.')));
+        return;
+    }
+
+    dispatch(showPopup(REVIEW_POPUP_ID, { title: __('Write a review') }));
 };
