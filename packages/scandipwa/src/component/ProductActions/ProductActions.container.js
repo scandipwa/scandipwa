@@ -368,9 +368,14 @@ export class ProductActionsContainer extends PureComponent {
                 return acc;
             }
 
-            data.forEach(({ option_type_id, price }) => {
+            data.forEach(({ option_type_id, price, price_type }) => {
                 if (selectedOptions.includes(option_type_id)) {
-                    acc.push(price);
+                    if (price_type === 'PERCENT') {
+                        const finalPrice = (price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
+                        acc.push(finalPrice);
+                    } else {
+                        acc.push(price);
+                    }
                 }
             });
 
