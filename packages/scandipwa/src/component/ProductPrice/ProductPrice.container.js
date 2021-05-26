@@ -62,17 +62,17 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     discount: {
-                        percent_off: discountPercentage
+                        percent_off: discountPercentage = 0
                     } = {},
                     final_price: {
-                        value: minimalPriceValue,
-                        currency: priceCurrency
+                        value: minimalPriceValue = 0,
+                        currency: priceCurrency = ''
                     } = {},
                     regular_price: {
-                        value: regularPriceValue
+                        value: regularPriceValue = 0
                     } = {},
                     default_price: {
-                        value: defaultPriceValue
+                        value: defaultPriceValue = 0
                     } = {},
                     default_final_price_excl_tax: {
                         value: defaultFinalPriceExclTax = 0
@@ -93,6 +93,7 @@ export class ProductPriceContainer extends PureComponent {
         return {
             roundedRegularPrice,
             priceCurrency,
+            defaultFinalPriceExclTax,
             formattedDefaultFinalPriceExclTax,
             discountPercentage,
             formattedFinalPrice,
@@ -105,10 +106,10 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     regular_price: {
-                        value: regularPriceValue
+                        value: regularPriceValue = 0
                     } = {},
                     regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue
+                        value: regularPriceExclTaxValue = 0
                     } = {}
                 } = {}
             } = {},
@@ -127,20 +128,20 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     discount: {
-                        percent_off: discountPercentage
+                        percent_off: discountPercentage = 0
                     } = {},
                     final_price: {
-                        value: minimalPriceValue,
-                        currency: priceCurrency
+                        value: minimalPriceValue = 0,
+                        currency: priceCurrency = ''
                     } = {},
                     final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue
+                        value: minimalPriceExclTaxValue = 0
                     } = {},
                     regular_price: {
-                        value: regularPriceValue
+                        value: regularPriceValue = 0
                     } = {},
                     regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue
+                        value: regularPriceExclTaxValue = 0
                     } = {}
                 } = {}
             } = {},
@@ -167,20 +168,20 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     final_price: {
-                        currency: priceCurrency
+                        currency: priceCurrency = ''
                     },
                     discount: {
-                        percent_off: discountPercentage
+                        percent_off: discountPercentage = 0
                     } = {},
                     final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue
+                        value: minimalPriceExclTaxValue = 0
                     } = {},
                     regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue
+                        value: regularPriceExclTaxValue = 0
                     } = {}
                 } = {}
             } = {},
-            displayTaxInPrice
+            displayTaxInPrice = ''
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH) {

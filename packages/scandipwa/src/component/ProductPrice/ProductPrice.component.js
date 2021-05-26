@@ -31,6 +31,7 @@ export class ProductPrice extends PureComponent {
         discountPercentage: PropTypes.number,
         formattedFinalPrice: PropTypes.string,
         formattedSubPrice: PropTypes.string,
+        defaultFinalPriceExclTax: PropTypes.number,
         variantsCount: PropTypes.number,
         price: PriceType,
         formattedDefaultFinalPriceExclTax: PropTypes.number,
@@ -41,6 +42,7 @@ export class ProductPrice extends PureComponent {
         isSchemaRequired: false,
         roundedRegularPrice: '0',
         priceCurrency: 'USD',
+        defaultFinalPriceExclTax: 0,
         discountPercentage: 0,
         formattedFinalPrice: '0',
         formattedSubPrice: null,
@@ -123,13 +125,14 @@ export class ProductPrice extends PureComponent {
         const {
             discountPercentage,
             formattedDefaultFinalPriceExclTax,
+            defaultFinalPriceExclTax,
             isSchemaRequired,
             variantsCount
         } = this.props;
 
         const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
 
-        if (discountPercentage === 0) {
+        if (discountPercentage === 0 || defaultFinalPriceExclTax === 0) {
             return null;
         }
 
