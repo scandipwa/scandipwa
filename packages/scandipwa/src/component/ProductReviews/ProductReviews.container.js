@@ -20,7 +20,8 @@ import ProductReviews from './ProductReviews.component';
 /** @namespace Component/ProductReviews/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     isEnabled: state.ConfigReducer.reviews_are_enabled,
-    isGuestEnabled: state.ConfigReducer.reviews_allow_guest
+    isGuestEnabled: state.ConfigReducer.reviews_allow_guest,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/ProductReviews/Container/mapDispatchToProps */

@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { Fragment, PureComponent } from 'react';
 
-import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { AttributeType } from 'Type/ProductList';
@@ -96,7 +95,7 @@ export class ProductAttributes extends PureComponent {
 
     renderContent() {
         const { areDetailsLoaded } = this.props;
-        const heading = areDetailsLoaded ? __('Product attributes') : '';
+        const heading = areDetailsLoaded ? __('Details') : '';
 
         return (
             <ExpandableContent
@@ -120,15 +119,7 @@ export class ProductAttributes extends PureComponent {
             return null;
         }
 
-        return (
-            <ContentWrapper
-              label="Product attributes"
-              mix={ { block: 'ProductAttributes' } }
-              wrapperMix={ { block: 'ProductAttributes', elem: 'Wrapper' } }
-            >
-                { this.renderContent() }
-            </ContentWrapper>
-        );
+        return this.renderContent();
     }
 }
 

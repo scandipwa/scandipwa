@@ -170,10 +170,6 @@
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 3;
 
-                @include mobile {
-                    padding-inline-start: 32px;
-                }
-
                 .input-control {
                     inset-inline-start: 0;
                     margin: 0;

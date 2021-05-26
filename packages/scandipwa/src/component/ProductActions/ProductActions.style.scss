@@ -50,6 +50,7 @@
     &-Brand {
         font-weight: bold;
         opacity: .48;
+        font-size: 12px;
     }
 
     &-Title {
@@ -63,6 +64,7 @@
         @include mobile {
             font-weight: 400;
             font-size: 14px;
+            margin-top: 8px;
         }
     }
 
@@ -81,7 +83,7 @@
         }
 
         @include mobile {
-            margin-block-end: 10px;
+            margin-block: 15px 10px;
         }
     }
 
@@ -101,6 +103,11 @@
     }
 
     &-Section {
+
+        @include mobile {
+            margin-block-end: 18px;
+        }
+
         &_type_sku {
             display: flex;
 
@@ -132,6 +139,20 @@
         justify-content: space-between;
         align-items: center;
         margin-block: 18px;
+
+        .ProductCompareButton {
+            margin-left: auto;
+        }
+
+        &_isWithoutPriceTotal .ProductActions-Section_type_sku {
+            @include mobile {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                align-items: center;
+            }
+        }
     }
 
     &-AddToCartFixed {
@@ -182,6 +203,10 @@
     }
 
     &-AttributesWrapper {
+        @include mobile {
+            margin-block-end: 16px;
+        }
+
         &.animate {
             animation: shake 820ms .5ms cubic-bezier(.36, .07, .19, .97) both;
         }

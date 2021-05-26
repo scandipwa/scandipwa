@@ -46,9 +46,12 @@
         font-size: 36px;
         font-weight: 700;
         margin: 0;
+        line-height: 48px;
 
         @include mobile {
             font-size: 42px;
+            line-height: 64px;
+
         }
     }
 

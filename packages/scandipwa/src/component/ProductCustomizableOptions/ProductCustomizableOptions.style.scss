@@ -15,6 +15,16 @@
 }
 
 .ProductCustomizableOptions {
+    &-Wrapper {
+        @include desktop {
+            margin-block-start: 15px;
+        }
+
+        @include mobile {
+            margin-block-end: 15px;
+        }
+    }
+
     &-Content {
         @include after-mobile{
             max-width: 400px;
@@ -98,6 +108,7 @@
 
     &-Heading {
         font-weight: normal;
+        font-size: 14px;
 
         &Bold {
             font-weight: bold;

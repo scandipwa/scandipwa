@@ -19,7 +19,10 @@
     line-height: 20px;
 
     &-Wrapper {
-        padding-block-end: 32px;
+
+        @include desktop {
+            padding-block-end: 32px;
+        }
     }
 
     &-ExpandableContentButton {
@@ -32,7 +35,6 @@
         &_isContentExpanded {
             @include mobile {
                 padding-block: 0;
-                padding-inline: 14px;
             }
         }
 
@@ -89,6 +91,7 @@
         overflow: hidden;
         padding-block: 16px;
         text-overflow: ellipsis;
+        height: 100%;
 
         &:last-of-type {
             border: none;

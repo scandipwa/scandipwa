@@ -16,6 +16,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductReviewList from 'Component/ProductReviewList';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { showNewReviewPopup } from 'Util/Product';
 
@@ -25,7 +26,8 @@ import './ProductReviews.style';
 export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool
+        areDetailsLoaded: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -46,6 +48,16 @@ export class ProductReviews extends PureComponent {
     }
 
     renderNoRating() {
+        const { device: { isMobile } } = this.props;
+
+        if (isMobile) {
+            return (
+                <p>
+                    { __('There are no reviews yet! Click button below to submit one!') }
+                </p>
+            );
+        }
+
         return (
             <p>
                 { __('There are no reviews yet! Click button on the right to submit one!') }
@@ -138,18 +150,9 @@ export class ProductReviews extends PureComponent {
     }
 
     render() {
-        const {
-            product,
-            areDetailsLoaded
-        } = this.props;
+        const { areDetailsLoaded } = this.props;
 
-        const {
-            review_summary: { review_count } = {}
-        } = product;
-
-        const heading = areDetailsLoaded
-            ? __('Product reviews (%s)', review_count || '0')
-            : '';
+        const heading = areDetailsLoaded ? __('Reviews') : '';
 
         return (
             <ContentWrapper

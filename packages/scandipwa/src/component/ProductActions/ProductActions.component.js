@@ -721,10 +721,13 @@ export class ProductActions extends PureComponent {
     }
 
     renderMobile() {
+        const { product: { type_id } } = this.props;
+        const isWithoutPriceTotal = type_id === GROUPED;
+
         return (
             <>
                 { this.renderTierPrices() }
-                <div block="ProductActions" elem="ActionsWrapper">
+                <div block="ProductActions" elem="ActionsWrapper" mods={ { isWithoutPriceTotal } }>
                     { this.renderPriceWithGlobalSchema() }
                     { this.renderSkuAndStock() }
                 </div>
@@ -733,7 +736,6 @@ export class ProductActions extends PureComponent {
                     { this.renderProductCompareButton() }
                 </div>
                 { this.renderNameAndBrand() }
-                { this.renderShortDescription() }
                 { this.renderConfigurableAttributes() }
                 { this.renderCustomizableOptions() }
                 { this.renderBundleItems() }

@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 
 import {
@@ -268,12 +267,7 @@ export class ProductCustomizableOption extends PureComponent {
     }
 
     render() {
-        const {
-            option: {
-                option_id
-            },
-            optionType
-        } = this.props;
+        const { optionType } = this.props;
 
         const optionRenderMap = this.renderMap[optionType];
 
@@ -284,14 +278,10 @@ export class ProductCustomizableOption extends PureComponent {
         const { render, title } = optionRenderMap;
 
         return (
-            <ExpandableContent
-              heading={ title() }
-              mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
-              key={ option_id }
-              isContentExpanded
-            >
+            <div block="ProductCustomizableOptions" elem="Wrapper">
+                { title() }
                 { render() }
-            </ExpandableContent>
+            </div>
         );
     }
 }

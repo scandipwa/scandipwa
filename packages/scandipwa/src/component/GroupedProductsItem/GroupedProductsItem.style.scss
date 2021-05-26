@@ -78,4 +78,12 @@
     &-Quantity .Field {
         margin: 0;
     }
+
+    &-Quantity {
+        input {
+            @include mobile {
+                min-width: 36px;
+            }
+        }
+    }
 }

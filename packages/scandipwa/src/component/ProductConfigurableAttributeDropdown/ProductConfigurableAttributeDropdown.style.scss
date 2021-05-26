@@ -1,4 +1,6 @@
 .ProductConfigurableAttributeDropdown {
+    margin-block-start: 16px;
+
     @include desktop {
         width: 45%;
     }

@@ -22,11 +22,10 @@
         }
     }
 
-    @include desktop {
-        &-Summary {
-            align-self: stretch;
-            display: flex;
-        }
+    &-Summary {
+        align-self: stretch;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     &-SummaryRating {
@@ -61,15 +60,11 @@
         bottom: 0;
         margin: auto;
 
-        @include before-desktop {
+        @include mobile {
             position: relative;
             height: auto;
             width: 100%;
-            margin-top: 12px;
-        }
-
-        @include mobile {
-            margin-top: 14px;
+            margin-top: 18px;
         }
     }
 

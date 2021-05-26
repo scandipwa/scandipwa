@@ -20,12 +20,10 @@
         margin-bottom: 12px;
     }
 
-    &-ExpandableContentButton {
-        text-align: start;
-    }
-
-    &-ExpandableContentHeading {
+    &-Title {
         font-weight: 700;
+        margin-block: 24px 12px;
+
     }
 
     &-SwatchList {

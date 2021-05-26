@@ -45,7 +45,7 @@ export class ProductInformation extends PureComponent {
 
     renderContent() {
         const { areDetailsLoaded } = this.props;
-        const heading = areDetailsLoaded ? __('Product information') : '';
+        const heading = areDetailsLoaded ? __('About') : '';
 
         return (
             <ExpandableContent
