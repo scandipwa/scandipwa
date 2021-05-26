@@ -80,7 +80,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
 
                 this.setState({ isLoading: false }, () => {
                     updateCustomer(customer);
-                    showSuccessNotification(__('Subscription settings successfully updated'));
+                    showSuccessNotification(__('A subscription confirmation email has been sent!'));
                 });
             },
             this.onError
