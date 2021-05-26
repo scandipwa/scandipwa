@@ -230,7 +230,7 @@ export const getBundleOptions = (options, items) => {
 
     return items.map((item) => ({
         ...item,
-        options: item.options.map((option) => {
+        options: item?.options?.map((option) => {
             const selection = bundleOptions.find((o) => o.selection_id === option.id) || {};
             const {
                 regular_option_price: regularOptionPrice = 0,
