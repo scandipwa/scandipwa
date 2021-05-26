@@ -53,7 +53,13 @@ textarea {
     width: 300px;
 
     @include mobile {
-        width: 350px;
+        width: 100%;
+    }
+}
+
+[type='text'] {
+    @include mobile {
+        width: 100%;
     }
 }
 
