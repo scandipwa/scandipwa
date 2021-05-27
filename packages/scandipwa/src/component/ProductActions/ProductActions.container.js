@@ -323,8 +323,8 @@ export class ProductActionsContainer extends PureComponent {
                     currency,
                     value: selectedOptionsTotal + finalCustomPrice
                 },
-                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
-                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
+                regular_price: { value: selectedOptionsTotal + regularCustomPrice },
+                final_price_excl_tax: { value: selectedOptionsTotal + finalCustomPriceExclTax },
                 regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
             }
         };
@@ -362,7 +362,7 @@ export class ProductActionsContainer extends PureComponent {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
-        if (product.options) {
+        if (product.options?.length > 0) {
             return this.getCustomizablePrice();
         }
 
