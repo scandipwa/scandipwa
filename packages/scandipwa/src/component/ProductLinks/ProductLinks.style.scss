@@ -3,7 +3,6 @@
 
     @include mobile {
         margin-top: 14px;
-        border-bottom: 1px solid var(--primary-divider-color);
     }
 
     @include desktop {
@@ -11,8 +10,11 @@
     }
 
     &-Wrapper {
-        padding-bottom: 0;
-        padding-top: 0;
+        padding-block: 0;
+
+        @include mobile {
+            padding-inline: 0;
+        }
     }
 
     &-List {
