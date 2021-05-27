@@ -367,7 +367,7 @@ export class ProductActionsContainer extends PureComponent {
                         const price = (data[0].price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
                         acc.push(price);
                     } else {
-                        acc.push(data[0].price);
+                        acc.push(this._getDiscountedOptionsPrice(data[0].price));
                     }
                 }
 
@@ -380,7 +380,7 @@ export class ProductActionsContainer extends PureComponent {
                         const finalPrice = (price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
                         acc.push(finalPrice);
                     } else {
-                        acc.push(price);
+                        acc.push(this._getDiscountedOptionsPrice(price));
                     }
                 }
             });
@@ -402,6 +402,26 @@ export class ProductActionsContainer extends PureComponent {
                 regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
             }
         };
+    }
+
+    _getDiscountedOptionsPrice(price) {
+        const {
+            product: {
+                price_range: {
+                    minimum_price: {
+                        discount: {
+                            percent_off = 0
+                        } = {}
+                    } = {}
+                } = {}
+            } = {}
+        } = this.props;
+
+        if (percent_off === 0) {
+            return price;
+        }
+
+        return price - (price * percent_off) / ONE_HUNDRED_PERCENT;
     }
 
     getProductPrice() {
