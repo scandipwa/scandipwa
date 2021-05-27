@@ -49,18 +49,17 @@
 
     &-ExpandedState {
         @include plus-icon;
+        width: 18px;
+        height: 18px;
 
         &_isExpanded {
             @include minus-icon;
-
-            width: 13px;
         }
 
         filter: brightness(.2) sepia(1) hue-rotate(180deg) saturate(5);
         position: absolute;
         inset-inline-end: 16px;
         top: 0;
-        width: 13px;
 
         @include desktop {
             display: none;
@@ -82,7 +81,6 @@
 
         &Caption {
             color: var(--color-black);
-            padding: 0 8px;
 
             &:hover {
                 color: var(--link-hover);
@@ -90,11 +88,16 @@
 
             &_type {
                 &_main {
-                    margin: 0 0 16px;
+                    @include desktop {
+                        margin: 0 0 16px;
+                    }
+
                     text-transform: uppercase;
+                    font-weight: 700;
                 }
 
                 &_subcategory {
+                    padding: 0 8px;
                     margin-block-start: 16px;
                 }
             }
@@ -108,10 +111,16 @@
                     display: block;
                 }
             }
+
+            @include mobile {
+                margin-inline: 16px;
+            }
         }
 
         &:not(:first-of-type) {
-            margin-inline-start: 20px;
+            @include desktop {
+                margin-inline-start: 20px;
+            }
         }
     }
 
@@ -140,10 +149,6 @@
     }
 
     &-Sub {
-        &CatLink {
-            font-weight: 700;
-        }
-
         &ItemWrapper {
             > .Menu-Link {
                 @include desktop {

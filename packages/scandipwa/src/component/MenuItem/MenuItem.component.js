@@ -13,10 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Image from 'Component/Image';
 import Link from 'Component/Link';
-import { DeviceType } from 'Type/Device';
-import media from 'Util/Media';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {
@@ -27,8 +24,7 @@ export class MenuItem extends PureComponent {
         handleCategoryHover: PropTypes.func.isRequired,
         handleLinkLeave: PropTypes.func.isRequired,
         isLink: PropTypes.bool,
-        onItemClick: PropTypes.func,
-        device: DeviceType.isRequired
+        onItemClick: PropTypes.func
     };
 
     static defaultProps = {
@@ -37,61 +33,17 @@ export class MenuItem extends PureComponent {
         onItemClick: () => {}
     };
 
-    renderItemContentImage(icon, itemMods) {
-        const { device } = this.props;
-        const { isBanner, isLogo, type } = itemMods;
-
-        if (!icon
-            || (!device.isMobile && !isBanner && !isLogo)
-            || (type === 'subcategory')
-        ) {
-            return null;
-        }
+    renderItemContent(item, itemMods) {
+        const { title } = item;
 
         return (
-            <Image
-              mix={ { block: 'Menu', elem: 'Image', mods: itemMods } }
-              src={ icon && media(icon) }
-              ratio="custom"
-            />
-        );
-    }
-
-    renderItemContentTitle(isBanner, title) {
-        if (isBanner) {
-            return (
-                <button
-                  block="Menu"
-                  elem="Button"
-                  mix={ { block: 'Button' } }
-                >
-                    { title }
-                </button>
-            );
-        }
-
-        return title;
-    }
-
-    renderItemContent(item, itemMods = {}) {
-        const { title, icon } = item;
-        const { isBanner } = itemMods;
-
-        return (
-            <figure
+            <figcaption
               block="Menu"
-              elem="ItemFigure"
+              elem="ItemCaption"
               mods={ itemMods }
             >
-                { this.renderItemContentImage(icon, itemMods) }
-                <figcaption
-                  block="Menu"
-                  elem="ItemCaption"
-                  mods={ itemMods }
-                >
-                    { this.renderItemContentTitle(isBanner, title) }
-                </figcaption>
-            </figure>
+                { title }
+            </figcaption>
         );
     }
 
