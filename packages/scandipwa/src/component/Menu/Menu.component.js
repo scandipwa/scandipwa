@@ -51,17 +51,14 @@ export class Menu extends PureComponent {
     }
 
     renderDesktopSubLevelItems(item, mods) {
-        const { item_id, item_class } = item;
+        const { item_id } = item;
         const { closeMenu, activeMenuItemsStack } = this.props;
-
-        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
-        const itemMods = { ...mods, isHideOnDesktop };
 
         return (
             <MenuItem
               activeMenuItemsStack={ activeMenuItemsStack }
               item={ item }
-              itemMods={ itemMods }
+              itemMods={ mods }
               closeMenu={ closeMenu }
               isLink
               key={ item_id }
@@ -78,10 +75,8 @@ export class Menu extends PureComponent {
             return null;
         }
 
-        const isBanner = item_class === 'Menu-ItemFigure_type_banner';
         const isLogo = item_class === 'Menu-ItemFigure_type_logo';
         const mods = {
-            isBanner: !!isBanner,
             isLogo: !!isLogo
         };
 
@@ -94,7 +89,7 @@ export class Menu extends PureComponent {
                 <div
                   block="Menu"
                   elem="ItemList"
-                  mods={ { ...mods } }
+                  mods={ mods }
                 >
                     { childrenArray.map((item) => this.renderDesktopSubLevelItems(item, mods)) }
                 </div>
@@ -111,18 +106,7 @@ export class Menu extends PureComponent {
             device
         } = this.props;
 
-        const {
-            item_id,
-            children,
-            item_class
-        } = item;
-
-        const isBanner = item_class === 'Menu-ItemFigure_type_banner';
-        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
-        const mods = {
-            isBanner: !!isBanner,
-            isHideOnDesktop: !!isHideOnDesktop
-        };
+        const { item_id, children } = item;
 
         const childrenArray = Object.values(children);
         const subcategoryMods = { type: 'subcategory' };
@@ -140,7 +124,7 @@ export class Menu extends PureComponent {
                     <MenuItem
                       activeMenuItemsStack={ activeMenuItemsStack }
                       item={ item }
-                      itemMods={ subcategoryMods }
+                      itemMods={ { ...subcategoryMods, isSecondLevel: true } }
                       onCategoryHover={ onCategoryHover }
                       closeMenu={ closeMenu }
                     />
@@ -159,7 +143,6 @@ export class Menu extends PureComponent {
               block="Menu"
               elem="SubItemWrapper"
               key={ item_id }
-              mods={ mods }
             >
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
@@ -332,14 +315,10 @@ export class Menu extends PureComponent {
                     <MenuItem
                       activeMenuItemsStack={ activeMenuItemsStack }
                       item={ item }
-                      itemMods={ itemMods }
+                      itemMods={ { ...itemMods, isExpanded: activeMenuItemsStack.includes(item_id) } }
                       onCategoryHover={ onCategoryHover }
                       closeMenu={ closeMenu }
-                    />
-                    <figcaption
-                      block="Menu"
-                      elem="ExpandedState"
-                      mods={ { isExpanded: activeMenuItemsStack.includes(item_id) } }
+                      isExpandable
                     />
                     { this.renderSubLevel(item) }
                 </div>
@@ -359,16 +338,13 @@ export class Menu extends PureComponent {
     }
 
     renderFirstLevel = (item) => {
-        const { item_id, item_class } = item;
-
-        const isHideOnDesktop = item_class === 'Menu-ItemFigure_type_hideOnDesktop';
+        const { item_id } = item;
 
         return (
             <li
               block="Menu"
               elem="Item"
               key={ item_id }
-              mods={ { isHideOnDesktop } }
             >
                 { this.renderFirstLevelItems(item) }
             </li>

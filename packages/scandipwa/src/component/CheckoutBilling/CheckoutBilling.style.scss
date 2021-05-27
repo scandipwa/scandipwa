@@ -10,7 +10,7 @@
  */
 
 .CheckoutBilling {
-    margin-top: 24px;
+    margin-block-start: 24px;
 
     &-Button {
         width: 294px;
@@ -19,36 +19,23 @@
     &-Checkbox {
         display: inline-block;
         font-size: 14px;
-        margin-top: 10px;
-
-        + .CheckoutAddressBook {
-            margin-top: 0;
-        }
-
-        .input-control {
-            position: absolute!important;
-        }
-
-        span {
-            padding-inline-start: 28px;
-        }
+        margin-block-start: 10px;
     }
 
     &-TermsAndConditions {
         font-size: 14px;
         margin: 0;
-        margin-bottom: 24px;
+        margin-block-end: 24px;
         display: flex;
         align-items: center;
 
         @include mobile {
             font-size: 15px;
-            margin-bottom: 28px;
+            margin-block-end: 28px;
         }
 
         &-Checkbox {
             margin-block: 0;
-            margin-inline-end: 12px;
 
             @include mobile {
                 margin-inline-end: 14px;

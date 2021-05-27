@@ -19,7 +19,10 @@
     line-height: 20px;
 
     &-Wrapper {
-        padding-block-end: 32px;
+
+        @include desktop {
+            padding-block-end: 32px;
+        }
     }
 
     &-ExpandableContentButton {
@@ -32,7 +35,6 @@
         &_isContentExpanded {
             @include mobile {
                 padding-block: 0;
-                padding-inline: 14px;
             }
         }
 
@@ -64,10 +66,10 @@
     }
 
     &-Group {
-        border-bottom: 1px solid var(--secondary-base-color);
         margin: 0;
         padding-block: 32px 16px;
-        text-decoration: underline;
+        font-size: 18px;
+        font-weight: 700;
     }
 
     // &-Description,
@@ -89,6 +91,11 @@
         overflow: hidden;
         padding-block: 16px;
         text-overflow: ellipsis;
+        height: 100%;
+
+        &:last-of-type {
+            border: none;
+        }
     }
 
     // &-ValueLabel {
@@ -110,7 +117,7 @@
     }
 
     &-Image {
-        padding-bottom: 40%;
+        padding-block-end: 40%;
         mix-blend-mode: multiply;
         margin-inline-end: 120px;
         min-width: 360px;

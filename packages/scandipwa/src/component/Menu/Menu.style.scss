@@ -30,7 +30,7 @@
         text-transform: none;
 
         &Wrapper {
-            border-bottom: 1px solid var(--primary-divider-color);
+            border-block-end: 1px solid var(--primary-divider-color);
             padding: 17px 0 16px;
             margin: 0 16px;
 
@@ -40,23 +40,30 @@
                 content: ' ';
                 position: absolute;
             }
+
+            @include mobile {
+                padding: 13px 0;
+            }
         }
     }
 
     &-ExpandedState {
+        --plus-minus-icon-size: 18px;
         @include plus-icon;
+        display: inline-block;
+        float: right;
+
+        &:dir(rtl) {
+            float: left;
+        }
 
         &_isExpanded {
             @include minus-icon;
-
-            width: 13px;
         }
 
         filter: brightness(.2) sepia(1) hue-rotate(180deg) saturate(5);
         position: absolute;
-        inset-inline-end: 16px;
-        top: 0;
-        width: 13px;
+        inset-inline-end: 0;
 
         @include desktop {
             display: none;
@@ -64,7 +71,6 @@
     }
 
     &-Item {
-        margin: 16px 0;
         padding-inline-start: 0;
 
         @include desktop {
@@ -78,20 +84,39 @@
 
         &Caption {
             color: var(--color-black);
-            padding: 0 8px;
 
             &:hover {
                 color: var(--link-hover);
             }
 
+            @include mobile {
+                margin-inline: 16px;
+            }
+
+            @include mobile {
+                padding-block: 16px;
+            }
+
             &_type {
                 &_main {
-                    margin: 0 0 16px;
+                    @include desktop {
+                        margin: 0 0 16px;
+                    }
+
                     text-transform: uppercase;
+                    font-weight: 700;
                 }
 
                 &_subcategory {
-                    margin-block-start: 16px;
+                    display: inline-block;
+
+                    @include mobile {
+                        font-weight: 700;
+                    }
+
+                    @include desktop {
+                        margin-block-start: 16px;
+                    }
                 }
             }
         }
@@ -107,11 +132,17 @@
         }
 
         &:not(:first-of-type) {
-            margin-inline-start: 20px;
+            @include desktop {
+                margin-inline-start: 20px;
+            }
         }
     }
 
     &-Link {
+        @include mobile {
+            display: contents;
+        }
+
         font-weight: 400;
         margin-block: 8px;
         margin-inline: 0 16px;
@@ -136,10 +167,6 @@
     }
 
     &-Sub {
-        &CatLink {
-            font-weight: 700;
-        }
-
         &ItemWrapper {
             > .Menu-Link {
                 @include desktop {
@@ -154,8 +181,7 @@
             &_isVisible {
                 background: var(--color-gray);
                 display: block;
-                padding-block: 12px;
-                padding-inline-start: 8px;
+                padding-inline: 16px;
             }
 
             @include desktop {
@@ -165,7 +191,11 @@
             }
 
             .Menu-SubMenu & {
-                padding-bottom: 0;
+                padding-block-end: 0;
+            }
+
+            .Menu-ItemCaption {
+                padding-block: 8px;
             }
 
             > .Menu-ItemList {

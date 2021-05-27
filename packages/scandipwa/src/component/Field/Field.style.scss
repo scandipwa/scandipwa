@@ -18,15 +18,15 @@
 }
 
 .Field {
-    margin-top: 24px;
+    margin-block-start: 24px;
 
     @include mobile {
-        margin-top: 14px;
+        margin-block-start: 14px;
     }
 
     &-Label {
         font-size: 12px;
-        padding-bottom: 8px;
+        padding-block-end: 8px;
     }
 
     &-CheckboxLabel {
@@ -37,12 +37,12 @@
     &-Message {
         color: var(--primary-error-color);
         font-size: 12px;
-        margin-bottom: -.1em;
-        margin-top: 6px;
+        margin-block-end: -.1em;
+        margin-block-start: 6px;
     }
 
     &-Note {
-        margin-bottom: 2px;
+        margin-block-end: 2px;
         font-size: 12px;
         font-weight: 600;
         color: var(--field-note);
@@ -52,7 +52,7 @@
         will-change: height, opacity;
 
         @include mobile {
-            margin-bottom: 3px;
+            margin-block-end: 3px;
             font-size: 14px;
         }
 
@@ -159,6 +159,15 @@
             align-items: center;
             display: inline-flex;
         }
+
+        &_text {
+            &.Field_isValid {
+                input,
+                textarea {
+                    border: 1px solid var(--primary-success-color);
+                }
+            }
+        }
     }
 
     [type='checkbox'] {
@@ -184,6 +193,7 @@
             transition-timing-function: ease-in;
             width: 21px;
             will-change: background-color, border-color;
+            margin-inline-end: 11px;
 
             @include desktop {
                 width: var(--checkbox-width);
@@ -273,7 +283,7 @@
 
             p {
                 font-size: 16px;
-                margin-bottom: 0;
+                margin-block-end: 0;
             }
 
             span {
@@ -284,13 +294,13 @@
             }
 
             .Image {
-                margin-bottom: 10px;
+                margin-block-end: 10px;
                 text-align: center;
             }
 
             + p {
-                margin-top: 5px;
-                margin-bottom: 0;
+                margin-block-start: 5px;
+                margin-block-end: 0;
             }
         }
     }

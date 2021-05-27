@@ -28,7 +28,7 @@
 
 .ProductCompare {
     overflow: auto;
-    padding-bottom: 15px;
+    padding-block-end: 15px;
 
     @include mobile {
         padding: 0;
@@ -44,11 +44,11 @@
     &-Row {
         display: flex;
         align-items: stretch;
-        margin-top: 20px;
+        margin-block-start: 20px;
 
         @include mobile {
             flex: 0 0 auto;
-            margin-top: 0;
+            margin-block-start: 0;
         }
     }
 
@@ -80,7 +80,7 @@
     }
 
     &-AttributeTable {
-        margin-top: 20px;
+        margin-block-start: 20px;
         min-width: fit-content;
 
         @include mobile {
@@ -88,12 +88,12 @@
             min-width: fit-content;
             width: 100%;
             background-color: var(--product-compare-attribute-table-background-color);
-            border-bottom: 1px solid transparent;
+            border-block-end: 1px solid transparent;
         }
     }
 
     &-Empty {
-        margin-top: 20px;
+        margin-block-start: 20px;
         font-size: 15px;
     }
 
@@ -117,9 +117,9 @@
     .ProductPriceRow {
         min-width: fit-content;
         width: 100%;
-        border-bottom: 1px solid var(--secondary-base-color);
-        padding-bottom: 10px;
-        margin-bottom: 10px;
+        border-block-end: 1px solid var(--secondary-base-color);
+        padding-block-end: 10px;
+        margin-block-end: 10px;
 
         @include mobile {
             display: none;

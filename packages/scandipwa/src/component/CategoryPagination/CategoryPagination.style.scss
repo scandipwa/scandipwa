@@ -24,7 +24,7 @@
     }
 
     @include mobile {
-        padding-bottom: 0;
+        padding-block-end: 0;
         display: none;
     }
 
@@ -46,7 +46,7 @@
     }
 
     &-ListItem {
-        margin-bottom: 0;
+        margin-block-end: 0;
         padding-inline-start: 0;
         min-width: 35px;
         display: block;
@@ -62,7 +62,7 @@
         }
 
         &:last-child {
-            margin-bottom: 0;
+            margin-block-end: 0;
         }
     }
 }

@@ -30,7 +30,8 @@ export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
     device: state.ConfigReducer.device,
     displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
-    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
+    areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
 });
 
 /** @namespace Component/ProductActions/Container/mapDispatchToProps */
@@ -322,8 +323,8 @@ export class ProductActionsContainer extends PureComponent {
                     currency,
                     value: selectedOptionsTotal + finalCustomPrice
                 },
-                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
-                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
+                regular_price: { value: selectedOptionsTotal + regularCustomPrice },
+                final_price_excl_tax: { value: selectedOptionsTotal + finalCustomPriceExclTax },
                 regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
             }
         };
@@ -361,7 +362,7 @@ export class ProductActionsContainer extends PureComponent {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
-        if (product.options) {
+        if (product.options?.length > 0) {
             return this.getCustomizablePrice();
         }
 

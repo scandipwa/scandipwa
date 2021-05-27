@@ -14,7 +14,7 @@
 }
 
 .MyAccountMyWishlist {
-    --myaccount-wihslist-products-margin-bottom: 0;
+    --myaccount-wihslist-products-margin-block-end: 0;
 
     &-Products {
         display: grid;
@@ -42,7 +42,7 @@
         }
 
         @include before-desktop {
-            margin-bottom: var(--myaccount-wihslist-products-margin-bottom);
+            margin-block-end: var(--myaccount-wihslist-products-margin-bottom);
         }
     }
 
@@ -71,14 +71,14 @@
     &-ActionBarActionWrapper {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 10px;
+        margin-block-end: 10px;
     }
 
     &-NoProductsButton {
-        margin-top: 12px;
+        margin-block-start: 12px;
 
         @include mobile {
-            margin-top: 14px;
+            margin-block-start: 14px;
         }
     }
 

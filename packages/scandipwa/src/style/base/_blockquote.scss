@@ -11,7 +11,7 @@
 
 blockquote {
     line-height: 1.6;
-    margin-bottom: 12px;
+    margin-block-end: 12px;
     padding-block-start: 6px;
     padding-inline-start: 14px;
     border-inline-start: 1px solid var(--secondary-dark-color);
@@ -19,7 +19,7 @@ blockquote {
     font-size: 12px;
 
     @include mobile {
-        margin-bottom: 14px;
+        margin-block-end: 14px;
         padding-block-start: 7px;
         padding-inline: 17px 17.5px;
         font-size: 14px;

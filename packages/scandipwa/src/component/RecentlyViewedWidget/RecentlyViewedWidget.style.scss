@@ -17,7 +17,7 @@
     @include after-mobile {
         grid-column: 2;
         min-height: auto;
-        padding-bottom: 20px;
+        padding-block-end: 20px;
     }
 
     &-Page {
@@ -58,7 +58,7 @@
         background-color: var(--category-product-list-load-button-background);
         cursor: pointer;
         font-size: 13pt;
-        margin-bottom: 10px;
+        margin-block-end: 10px;
         padding: 1em 0;
         text-align: center;
     }

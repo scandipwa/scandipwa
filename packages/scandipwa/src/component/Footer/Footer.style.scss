@@ -19,7 +19,7 @@
     $column-count: 4;
 
     @include mobile {
-        margin-bottom: var(--navigation-tabs-height);
+        margin-block-end: var(--navigation-tabs-height);
     }
 
     &-CopyrightContentWrapper {
@@ -76,7 +76,7 @@
     &-Column {
         &:not(:last-of-type) {
             @include mobile {
-                margin-bottom: 30px;
+                margin-block-end: 30px;
             }
 
             @include after-mobile {
@@ -111,7 +111,7 @@
 
     &-ColumnItem {
         color: inherit;
-        margin-bottom: 12px;
+        margin-block-end: 12px;
         font-size: 16px;
 
         &:last-of-type {

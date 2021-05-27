@@ -22,10 +22,10 @@
     justify-self: flex-end;
     grid-column: 3;
     inset-inline-end: 0;
-    padding-top: 12px;
+    padding-block-start: 12px;
 
     @include mobile {
-        padding-top: 14px;
+        padding-block-start: 14px;
     }
 
     @include desktop {
@@ -38,7 +38,7 @@
 
     @include before-desktop {
         height: auto;
-        padding-bottom: 0;
+        padding-block-end: 0;
         top: 0;
         position: relative;
     }
@@ -190,11 +190,11 @@
                 }
 
                 @include before-desktop {
-                    padding-top: 12px;
+                    padding-block-start: 12px;
                 }
 
                 @include mobile {
-                    padding-top: 14px;
+                    padding-block-start: 14px;
                 }
             }
 
@@ -249,28 +249,28 @@
     }
 
     &-Additional {
-        padding-top: 66px;
+        padding-block-start: 66px;
 
         @include mobile {
-            padding-top: 77px;
+            padding-block-start: 77px;
         }
 
         section {
             display: flex;
 
-            padding-top: 20px;
+            padding-block-start: 20px;
 
             &:first-of-type {
-                padding-top: 0;
+                padding-block-start: 0;
             }
         }
 
         &_state {
             &_createAccount {
-                padding-top: 24px;
+                padding-block-start: 24px;
 
                 @include mobile {
-                    padding-top: 28px;
+                    padding-block-start: 28px;
                 }
 
                 @include before-desktop {
@@ -301,15 +301,15 @@
             }
 
             &_confirmEmail {
-                padding-top: 0;
+                padding-block-start: 0;
             }
 
             &_forgotPassword {
-                padding-top: 34px;
+                padding-block-start: 34px;
                 padding-inline-start: 25px;
 
                 @include mobile {
-                    padding-top: 39px;
+                    padding-block-start: 39px;
                     padding-inline-start: 29px;
                 }
 
@@ -333,24 +333,24 @@
                     }
 
                     &:last-of-type {
-                        padding-top: 1px;
+                        padding-block-start: 1px;
                     }
                 }
             }
 
             &_forgotPasswordSuccess {
-                padding-top: 0;
+                padding-block-start: 0;
 
                 h4 {
                     font-size: 12px;
                     line-height: 1.5;
-                    padding-bottom: 17px;
+                    padding-block-end: 17px;
                     font-weight: normal;
                     letter-spacing: normal;
 
                     @include mobile {
                         font-size: 14px;
-                        padding-bottom: 20px;
+                        padding-block-end: 20px;
                     }
                 }
             }
@@ -432,7 +432,7 @@
             display: inline-flex;
             flex-direction: row-reverse;
             font-weight: 500;
-            padding-bottom: 0;
+            padding-block-end: 0;
             margin-inline-start: 15px;
         }
 

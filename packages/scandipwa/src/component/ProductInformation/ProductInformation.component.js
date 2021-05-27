@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductInformation.style';
@@ -30,7 +31,9 @@ export class ProductInformation extends PureComponent {
         const { product: { description: { html } = {} } } = this.props;
 
         if (!html) {
-            return null;
+            return (
+                <TextPlaceholder length="long" />
+            );
         }
 
         const cleanDescription = html.replace(/<\/?[^>]+(>|$)/g, '');
@@ -45,7 +48,7 @@ export class ProductInformation extends PureComponent {
 
     renderContent() {
         const { areDetailsLoaded } = this.props;
-        const heading = areDetailsLoaded ? __('Product information') : '';
+        const heading = areDetailsLoaded ? __('About') : '';
 
         return (
             <ExpandableContent

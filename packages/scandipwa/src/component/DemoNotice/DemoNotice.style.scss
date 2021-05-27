@@ -15,7 +15,7 @@
 }
 
 .DemoNotice {
-    padding-top: env(safe-area-inset-top);
+    padding-block-start: env(safe-area-inset-top);
     align-items: center;
     background-color: var(--primary-base-color);
     color: $white;

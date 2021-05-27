@@ -47,7 +47,7 @@ export class ProductReviewItem extends PureComponent {
               itemScope
               itemProp="reviewRating"
             >
-                <p itemProp="name">{ rating_code }</p>
+                <p itemProp="name" block="ProductReviewItem" elem="RatingItem">{ rating_code }</p>
                 <meta itemProp="ratingValue" content={ percent } />
                 <meta itemProp="worstRating" content={ 0 } />
                 <meta itemProp="bestRating" content={ 100 } />
@@ -92,14 +92,14 @@ export class ProductReviewItem extends PureComponent {
                 <h4 block="ProductReviewItem" elem="ReviewTitle" itemProp="name">
                     { title }
                 </h4>
-                <div block="ProductReviewItem" elem="RatingSummary">
-                    { rating_votes.map(this.renderReviewListItemRating) }
-                </div>
                 <div block="ProductReviewItem" elem="ReviewContent">
                     <p block="ProductReviewItem" elem="ReviewDetails" itemProp="reviewBody">
                         { detail }
                     </p>
                     { this.renderAuthor(reviewItem) }
+                </div>
+                <div block="ProductReviewItem" elem="RatingSummary">
+                    { rating_votes.map(this.renderReviewListItemRating) }
                 </div>
             </li>
         );

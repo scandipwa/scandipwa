@@ -27,12 +27,12 @@
         font-size: 62px;
         text-transform: uppercase;
         color: var(--homepage-slider-color);
-        margin-bottom: 30px;
+        margin-block-end: 30px;
 
         @include mobile {
 
             font-size: 30px;
-            margin-bottom: 14px;
+            margin-block-end: 14px;
         }
     }
 
@@ -48,7 +48,7 @@
         text-align: center;
 
         @include desktop {
-            padding-top: 60px;
+            padding-block-start: 60px;
         }
     }
 }

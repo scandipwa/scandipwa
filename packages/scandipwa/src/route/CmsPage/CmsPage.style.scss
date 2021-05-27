@@ -11,17 +11,17 @@
 
 .CmsPage {
     &_isBreadcrumbsHidden {
-        margin-top: calc(var(--header-total-height) + 12px);
+        margin-block-start: calc(var(--header-total-height) + 12px);
 
         @include mobile {
-            margin-top: calc(var(--header-total-height) + 14px);
+            margin-block-start: calc(var(--header-total-height) + 14px);
         }
     }
 
     &-Content {
         ul,
         ol {
-            margin-top: 10px;
+            margin-block-start: 10px;
         }
     }
 
@@ -30,16 +30,15 @@
         max-width: var(--content-wrapper-width);
         padding-inline: 12px;
         margin: calc(var(--header-total-height) + 12px) auto var(--header-nav-height);
-        margin-left: auto;
-        margin-right: auto;
+        margin-inline: auto;
 
         @include mobile {
             padding-inline: 14px;
-            margin-top: calc(var(--header-total-height) + 14px);
+            margin-block-start: calc(var(--header-total-height) + 14px);
         }
 
         @include after-mobile {
-            margin-top: 24px;
+            margin-block-start: 24px;
         }
 
         &_page_width {
@@ -51,10 +50,10 @@
     }
 
     &-Heading {
-        margin-bottom: 18px;
+        margin-block-end: 18px;
 
         @include mobile {
-            margin-bottom: 21px;
+            margin-block-end: 21px;
             display: none;
         }
     }
@@ -64,27 +63,27 @@
         background-size: var(--placeholder-size);
         animation: var(--placeholder-animation);
         margin: 0 0 10px;
-        padding-bottom: 30%;
+        padding-block-end: 30%;
 
         @include mobile {
-            padding-bottom: 60%;
+            padding-block-end: 60%;
         }
 
         &:first-child {
-            padding-bottom: 40%;
+            padding-block-end: 40%;
 
             @include mobile {
-                padding-bottom: 100%;
+                padding-block-end: 100%;
             }
         }
     }
 
     .TextPlaceholder {
-        margin-bottom: 22px;
+        margin-block-end: 22px;
         display: block;
 
         @include mobile {
-            margin-bottom: 25px;
+            margin-block-end: 25px;
         }
     }
 

@@ -12,7 +12,7 @@
 .ProductListWidget {
     @include after-mobile {
         grid-column: 2;
-        padding-bottom: 24px;
+        padding-block-end: 24px;
         min-height: auto;
     }
 

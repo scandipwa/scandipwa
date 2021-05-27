@@ -16,9 +16,9 @@
     text-align: center;
     background: var(--secondary-base-color);
     min-height: 100vh;
-    margin-top: 0;
+    margin-block-start: 0;
     padding: 12px;
-    margin-bottom: 0;
+    margin-block-end: 0;
 
     @include mobile {
         padding: 14px;
@@ -27,7 +27,7 @@
     &-Debug {
         text-align: start;
         white-space: pre-line;
-        margin-top: 48px;
+        margin-block-start: 48px;
         font-family: 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback';
         background-color: $black;
         color: $white;
@@ -36,7 +36,7 @@
         max-width: calc(100vw - 24px);
 
         @include mobile {
-            margin-top: 56px;
+            margin-block-start: 56px;
             padding: 14px;
             max-width: calc(100vw - 28px);
         }

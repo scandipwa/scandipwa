@@ -33,7 +33,7 @@
     color: var(--notification-color);
     display: inline-flex;
     height: var(--notification-height);
-    margin-bottom: 5px;
+    margin-block-end: 5px;
     max-width: 100vw;
     overflow: hidden;
     padding: 12px;
@@ -50,14 +50,14 @@
 
     @include after-mobile {
         max-width: 550px;
-        margin-bottom: 20px;
+        margin-block-end: 20px;
     }
 
     &-Text {
-        margin-top: 0;
+        margin-block-start: 0;
         font-weight: bold;
         margin-inline-end: 40px;
-        margin-bottom: 0;
+        margin-block-end: 0;
     }
 
     &-Debug {
@@ -162,10 +162,10 @@
             opacity: 1;
             transform: translateY(0);
             max-height: 100px;
-            margin-bottom: 5px;
+            margin-block-end: 5px;
 
             @include mobile {
-                margin-bottom: 20px;
+                margin-block-end: 20px;
             }
         }
 

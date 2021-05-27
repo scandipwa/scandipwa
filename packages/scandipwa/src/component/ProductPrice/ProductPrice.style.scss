@@ -20,7 +20,7 @@
     font-weight: 700;
     line-height: 1;
     vertical-align: middle;
-    margin-bottom: 0;
+    margin-block-end: 0;
 
     @include mobile {
         font-size: 16px;
@@ -54,7 +54,7 @@
         display: block;
         font-weight: 400;
         font-size: 12px;
-        margin-top: 4px;
+        margin-block-start: 4px;
     }
 
     &-PriceBadge {

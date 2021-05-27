@@ -22,20 +22,20 @@
 
     &-ActiveLink {
         color: var(--link-hover);
-        border-bottom: 2px solid var(--link-hover);
+        border-block-end: 2px solid var(--link-hover);
         margin-inline-start: 20px;
-        padding-bottom: 3px;
+        padding-block-end: 3px;
     }
 
     &-Buttons {
         > div:first-of-type {
-            margin-bottom: 24px;
+            margin-block-end: 24px;
         }
     }
 
     &-Icon {
         margin-inline-end: 16px;
-        padding-bottom: 20px;
+        padding-block-end: 20px;
         width: 16px;
     }
 
@@ -43,7 +43,7 @@
         background: radial-gradient(100% 4385% at 84% 0%, var(--emperor) 0%, var(--mine-shaft) 100%);
         color: var(--color-white);
         line-height: 36px;
-        margin-top: 40px;
+        margin-block-start: 40px;
         padding: 14px 20px;
         text-transform: capitalize;
     }
@@ -63,17 +63,17 @@
     }
 
     &-Icons {
-        margin-top: 30px;
+        margin-block-start: 30px;
 
         .Image {
             margin-inline-end: 10px;
             max-width: 20px;
-            padding-bottom: 20px;
+            padding-block-end: 20px;
         }
 
         > div {
             &:not(.Image) {
-                margin-bottom: 20px;
+                margin-block-end: 20px;
             }
 
             .Image {
@@ -93,13 +93,13 @@
             height: 20px;
             margin: 0 10px;
             max-width: 20px;
-            padding-bottom: 0;
+            padding-block-end: 0;
         }
     }
 
     &-MenuAndLinks {
         > div:first-of-type {
-            margin-bottom: 20px;
+            margin-block-end: 20px;
 
             .Menu {
                 &-ItemCaption {
@@ -143,10 +143,10 @@
     }
 
     &-SubHeading {
-        border-bottom: 1px solid var(--placeholder-gradient-color);
+        border-block-end: 1px solid var(--placeholder-gradient-color);
         font-weight: 700;
         margin: 40px 0 24px;
-        padding-bottom: 8px;
+        padding-block-end: 8px;
     }
 
     .Button {

@@ -14,15 +14,15 @@
 }
 
 .Checkout {
-    padding-bottom: var(--header-nav-height);
+    padding-block-end: var(--header-nav-height);
 
     @include desktop {
-        margin-top: var(--header-total-height);
+        margin-block-start: var(--header-total-height);
     }
 
     @include mobile {
-        padding-bottom: calc(var(--navigation-tabs-height) + 60px);
-        padding-top: 20px;
+        padding-block-end: calc(var(--navigation-tabs-height) + 60px);
+        padding-block-start: 20px;
     }
 
     &::before {
@@ -36,7 +36,7 @@
 
     &-StickyButtonWrapper {
         @include mobile {
-            border-top: 1px solid var(--primary-divider-color);
+            border-block-start: 1px solid var(--primary-divider-color);
             position: fixed;
             inset-inline-start: 0;
             width: 100%;
@@ -58,7 +58,6 @@
         padding: 0 16px;
 
         @include desktop {
-            padding-inline: 32px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-gap: 7%;
@@ -127,7 +126,7 @@
 
     &-Coupon {
         @include desktop {
-            margin-top: 30px;
+            margin-block-start: 30px;
         }
     }
 
@@ -136,7 +135,7 @@
         justify-content: space-between;
         font-size: 16px;
         font-weight: bold;
-        padding-bottom: 14px;
+        padding-block-end: 14px;
 
         @include after-mobile {
             display: none;
@@ -144,7 +143,7 @@
     }
 
     .Checkout-ExpandableContentContent {
-        margin-top: 0;
+        margin-block-start: 0;
         padding: 0 16px;
     }
 

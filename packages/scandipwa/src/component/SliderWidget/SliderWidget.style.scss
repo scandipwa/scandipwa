@@ -20,10 +20,10 @@
 
     &-FigureImage {
         display: block;
-        padding-bottom: 40%;
+        padding-block-end: 40%;
 
         @include mobile {
-            padding-bottom: 100%;
+            padding-block-end: 100%;
         }
 
         img {

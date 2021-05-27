@@ -15,11 +15,11 @@
 
 .CartItem {
     --header-color: var(--color-black);
-    border-bottom: 1px solid var(--primary-divider-color);
+    border-block-end: 1px solid var(--primary-divider-color);
 
     &-OutOfStock {
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-block-end: 5px;
     }
 
     &-Link {
@@ -33,7 +33,7 @@
     }
 
     &_isCartOverlay:last-of-type {
-        border-bottom: none;
+        border-block-end: none;
     }
 
     &-Content {
@@ -128,12 +128,12 @@
         font-size: 14px;
         line-height: 1.2;
         width: 100%;
-        margin-bottom: 6px;
+        margin-block-end: 6px;
 
         @include mobile {
             max-width: 95%;
-            margin-bottom: 2px;
-            margin-top: 2px;
+            margin-block-end: 2px;
+            margin-block-start: 2px;
         }
     }
 
@@ -227,7 +227,7 @@
     }
 
     & &-Qty { // hack to obtain required specificity
-        margin-top: 0;
+        margin-block-start: 0;
         display: flex;
 
         @include mobile {

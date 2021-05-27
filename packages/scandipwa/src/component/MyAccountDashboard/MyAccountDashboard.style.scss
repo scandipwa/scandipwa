@@ -36,14 +36,14 @@
     }
 
     &-Info {
-        margin-bottom: 5px;
+        margin-block-end: 5px;
     }
 
     button + button {
-        margin-top: 12px;
+        margin-block-start: 12px;
 
         @include mobile {
-            margin-top: 14px;
+            margin-block-start: 14px;
         }
 
         @include after-mobile {

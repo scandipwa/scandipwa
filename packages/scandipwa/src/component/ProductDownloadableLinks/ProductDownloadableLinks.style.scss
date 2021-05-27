@@ -11,7 +11,8 @@
 
 .ProductDownloadableLinks {
     &-Title {
-        margin-bottom: 1px;
+        margin-block-end: 1px;
+        font-weight: 700;
 
         &_isRequired {
             &::after{
@@ -42,21 +43,25 @@
                 padding: 0 14px 14px;
             }
         }
+
+        &Heading {
+            text-transform: uppercase;
+        }
     }
 
     @include after-mobile {
-        margin-bottom: 30px;
+        margin-block-end: 30px;
     }
 }
 
 .ProductDownloadableLink {
     padding: 15px 0 10px;
-    border-bottom: 1px solid var(--expandable-content-divider-color);
+    border-block-end: 1px solid var(--expandable-content-divider-color);
 
     .Field {
         display: inline-block;
         margin-inline-end: 10px;
-        margin-top: 0;
+        margin-block-start: 0;
     }
 
     &-SampleTitle {
@@ -79,11 +84,11 @@
 
     @include mobile {
         &:last-of-type {
-            border-bottom: none;
+            border-block-end: none;
         }
 
         &:first-of-type {
-            padding-top: 10px;
+            padding-block-start: 10px;
         }
     }
 }

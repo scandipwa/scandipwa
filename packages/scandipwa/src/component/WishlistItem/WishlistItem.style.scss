@@ -17,11 +17,11 @@
 .WishlistItem {
     @include mobile {
         padding: 14px var(--my-account-wrapper-padding-mobile);
-        border-top: 1px solid var(--wishlist-item-border-color);
+        border-block-start: 1px solid var(--wishlist-item-border-color);
     }
 
     &-ActionWrapper {
-        margin-top: 10px;
+        margin-block-start: 10px;
         display: flex;
         align-items: center;
     }
@@ -32,14 +32,14 @@
 
     &:first-of-type {
         @include mobile {
-            border-top: none;
-            padding-top: 0;
+            border-block-start: none;
+            padding-block-start: 0;
         }
     }
 
     &:last-of-type {
         @include mobile {
-            margin-bottom: 0;
+            margin-block-end: 0;
         }
     }
 
@@ -48,10 +48,10 @@
         flex-direction: column;
 
         @include desktop {
-            margin-bottom: 0;
+            margin-block-end: 0;
 
             &:last-child {
-                margin-bottom: 0;
+                margin-block-end: 0;
             }
         }
 
@@ -117,7 +117,7 @@
 
     &-AddToCart {
         display: flex;
-        margin-top: 0;
+        margin-block-start: 0;
 
         @include mobile {
             padding: 7px 12px 4px;
@@ -151,7 +151,7 @@
             }
 
             input {
-                padding-top: 1px;
+                padding-block-start: 1px;
             }
         }
 
@@ -201,18 +201,18 @@
     }
 
     &-RowWrapper {
-        margin-top: auto;
+        margin-block-start: auto;
         display: flex;
         justify-content: space-between;
 
         @include mobile {
-            padding-top: 10px;
+            padding-block-start: 10px;
         }
 
         @include after-mobile {
             align-items: flex-start;
             flex-direction: column;
-            margin-top: 10px;
+            margin-block-start: 10px;
         }
     }
 
@@ -270,11 +270,11 @@
     }
 
     &Options {
-        margin-bottom: 20px;
-        margin-top: 1px;
+        margin-block-end: 20px;
+        margin-block-start: 1px;
 
         &-Title {
-            margin-top: 5px;
+            margin-block-start: 5px;
             font-weight: bold;
 
             &:hover {

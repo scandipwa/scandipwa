@@ -69,11 +69,11 @@
     height: fit-content;
     display: flex;
     flex-direction: column;
-    padding-top: env(safe-area-inset-top, 0);
+    padding-block-start: env(safe-area-inset-top, 0);
     width: 100%;
     position: fixed;
     z-index: 100;
-    border-bottom: 1px solid var(--primary-divider-color);
+    border-block-end: 1px solid var(--primary-divider-color);
     top: var(--demo-notice-height);
 
     > * {
@@ -102,7 +102,7 @@
         &_menu,
         &_menu_subcategory,
         &_search {
-            border-bottom: none;
+            border-block-end: none;
         }
 
         &_category {

@@ -10,10 +10,10 @@
  */
 
 .CheckoutPayments {
-    margin-bottom: 24px;
+    margin-block-end: 24px;
 
     @include mobile {
-        margin-bottom: 28px;
+        margin-block-end: 28px;
     }
 
     @include desktop {

@@ -3,7 +3,7 @@
         padding: 28px 20px 50px;
 
         @include desktop() {
-            padding-top: 25px;
+            padding-block-start: 25px;
         }
     }
 
@@ -23,7 +23,7 @@
         }
 
         button {
-            margin-top: 20px;
+            margin-block-start: 20px;
         }
 
         > div {
@@ -46,7 +46,7 @@
         }
 
         p {
-            margin-bottom: 20px;
+            margin-block-end: 20px;
         }
     }
 

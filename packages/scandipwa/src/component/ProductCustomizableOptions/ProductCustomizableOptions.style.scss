@@ -15,56 +15,64 @@
 }
 
 .ProductCustomizableOptions {
-    &-Content {
-        @include after-mobile{
-            max-width: 400px;
+    &-Wrapper {
+        margin-block-start: 24px;
+
+        @include mobile {
+            margin-block-end: 15px;
         }
+    }
+
+    &-Content {
+        margin-block-start: 17px;
 
         .Field {
+            margin-block-start: 12px;
+
             input,
             textarea {
                 width: 100%;
             }
 
-            &_type_checkbox {
-                display: flex;
-
-                label {
-                    order: 1;
-
-                    .input-control {
-                        margin-inline-start: 0;
-                    }
-                }
-
-                .Field-Label {
-                    margin-inline-start: 12px;
-                    order: 2;
-
-                    @include mobile {
-                        margin-inline-start: 14px;
-                    }
-                }
-            }
+            //&_type_checkbox {
+            //    display: flex;
+            //
+            //    label {
+            //        order: 1;
+            //
+            //        .input-control {
+            //            margin-inline-start: 0;
+            //        }
+            //    }
+            //
+            //    .Field-Label {
+            //        margin-inline-start: 12px;
+            //        order: 2;
+            //
+            //        @include mobile {
+            //            margin-inline-start: 14px;
+            //        }
+            //    }
+            //}
         }
     }
 
     &-Required {
         color: var(--customizable-options-required-text-color);
-        margin-top: 6px;
+        margin-block-start: 6px;
 
         @include mobile {
-            margin-top: 7px;
+            margin-block-start: 7px;
         }
     }
 
     &-Information {
         color: var(--customizable-options-additional-information-color);
         font-size: 11px;
-        margin-top: 6px;
+        margin-block-start: 6px;
 
         @include mobile {
-            margin-top: 7px;
+            margin-block-start: 7px;
         }
     }
 
@@ -80,7 +88,7 @@
 
             .Field {
                 &:first-child {
-                    margin-top: 0;
+                    margin-block-start: 0;
                 }
             }
         }
@@ -97,9 +105,15 @@
     }
 
     &-Heading {
-        font-weight: normal;
+        font-size: 14px;
 
         &Bold {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        &Price {
+            font-size: 12px;
             font-weight: bold;
         }
     }

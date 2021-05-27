@@ -58,7 +58,7 @@
     &-Heading {
         text-decoration: none;
         font-weight: 400;
-        margin-top: 0;
+        margin-block-start: 0;
     }
 
     &-Header {
@@ -106,7 +106,7 @@
 
 .scrollDisabled {
     position: fixed;
-    margin-top: 0;
+    margin-block-start: 0;
     width: 100%;
     overflow-y: scroll;
 }

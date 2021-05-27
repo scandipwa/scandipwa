@@ -15,7 +15,7 @@
         padding: 28px 20px 50px;
 
         @include desktop() {
-            padding-top: 25px;
+            padding-block-start: 25px;
         }
     }
 
@@ -24,7 +24,7 @@
             display: grid;
             justify-content: space-around;
             margin: 0 auto;
-            padding-top: 0;
+            padding-block-start: 0;
             grid-template-columns: 1fr 1fr;
             grid-gap: 100px;
         }
@@ -36,10 +36,10 @@
         }
 
         button {
-            margin-bottom: 7px;
+            margin-block-end: 7px;
 
             @include desktop {
-                margin-top: 20px;
+                margin-block-start: 20px;
             }
         }
 
@@ -57,7 +57,7 @@
 
         > div {
             flex: 1;
-            margin-top: 80px;
+            margin-block-start: 80px;
 
             @include desktop {
                 margin: 0 10px;
@@ -65,12 +65,12 @@
         }
 
         h4 {
-            padding-bottom: 7px;
+            padding-block-end: 7px;
             text-align: center;
         }
 
         p {
-            margin-bottom: 20px;
+            margin-block-end: 20px;
         }
     }
 

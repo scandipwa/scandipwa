@@ -39,12 +39,12 @@
         display: inline-block;
         min-height: var(--option-size);
         width: var(--option-size);
-        margin-right: 12px;
+        margin-inline-end: 12px;
     }
 
     &-String {
         padding: 0 10px;
-        margin-bottom: 6px;
+        margin-block-end: 6px;
     }
 
     &-Image {
@@ -159,7 +159,6 @@
 
         label {
             &:first-of-type {
-                padding-inline-start: 30px;
                 padding-block-end: 0;
                 order: 1;
                 text-align: start;
@@ -171,12 +170,7 @@
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 3;
 
-                @include mobile {
-                    padding-inline-start: 32px;
-                }
-
                 .input-control {
-                    position: absolute;
                     inset-inline-start: 0;
                     margin: 0;
                     width: 18px;

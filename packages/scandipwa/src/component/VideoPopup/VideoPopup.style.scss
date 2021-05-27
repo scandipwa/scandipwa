@@ -25,7 +25,7 @@
         @include after-mobile {
             width: calc(100vw - 130px);
             height: 0;
-            padding-top: 56.3%; // 16x9 proportion
+            padding-block-start: 56.3%; // 16x9 proportion
             max-width: calc((100vh - 300px) / .563);
         }
     }

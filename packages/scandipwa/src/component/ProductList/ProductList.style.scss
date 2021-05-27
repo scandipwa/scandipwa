@@ -16,7 +16,7 @@
 .ProductList {
     @include after-mobile {
         grid-column: 2;
-        padding-bottom: 24px;
+        padding-block-end: 24px;
     }
 
     &-ProductsMissing {
@@ -40,12 +40,12 @@
         background-color: var(--category-product-list-load-button-background);
         cursor: pointer;
         font-size: 13pt;
-        margin-bottom: 12px;
+        margin-block-end: 12px;
         padding: 1em 0;
         text-align: center;
 
         @include mobile {
-            margin-bottom: 14px;
+            margin-block-end: 14px;
         }
     }
 }

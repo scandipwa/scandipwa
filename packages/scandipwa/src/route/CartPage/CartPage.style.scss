@@ -16,10 +16,10 @@
 }
 
 .CartPage {
-    margin-bottom: var(--header-nav-height);
+    margin-block-end: var(--header-nav-height);
 
     @include mobile {
-        margin-bottom: calc(var(--header-nav-height) + var(--footer-totals-height));
+        margin-block-end: calc(var(--header-nav-height) + var(--footer-totals-height));
         padding-inline: 16px;
     }
 
@@ -28,7 +28,6 @@
             display: grid;
             grid-template-columns: 1fr 360px;
             grid-column-gap: 48px;
-            padding-inline: 32px;
         }
 
         @include mobile {
@@ -39,7 +38,7 @@
     &-Empty {
         @include mobile {
             padding: 14px;
-            border-bottom: 1px solid var(--expandable-content-divider-color);
+            border-block-end: 1px solid var(--expandable-content-divider-color);
             text-align: center;
         }
     }
@@ -51,7 +50,7 @@
             bottom: var(--navigation-tabs-height);
             inset-inline-start: 0;
             width: 100%;
-            border-top: 1px solid var(--primary-divider-color);
+            border-block-start: 1px solid var(--primary-divider-color);
         }
     }
 
@@ -102,7 +101,7 @@
         background: var(--cart-page-promo-background);
 
         @include desktop {
-            margin-top: 24px;
+            margin-block-start: 24px;
         }
 
         &Block {
@@ -115,7 +114,7 @@
             @include mobile {
                 padding: 14px;
                 border: 0;
-                border-bottom: 1px solid var(--primary-divider-color);
+                border-block-end: 1px solid var(--primary-divider-color);
             }
         }
 
@@ -165,7 +164,7 @@
         font-size: 14px;
         font-weight: 600;
         padding: 14px 16px;
-        margin-bottom: 0;
+        margin-block-end: 0;
 
         @include mobile {
             display: none;
@@ -181,10 +180,10 @@
     }
 
     &-Discount {
-        border-top: 0;
+        border-block-start: 0;
 
         @include desktop {
-            margin-top: 24px;
+            margin-block-start: 24px;
         }
     }
 
@@ -192,18 +191,18 @@
         @include desktop {
             display: flex;
             flex-direction: column;
-            margin-top: 78px;
+            margin-block-start: 78px;
         }
 
         @include tablet {
-            margin-top: 24px;
+            margin-block-start: 24px;
         }
     }
 
     &-Heading {
         height: 36px;
-        margin-top: 24px;
-        margin-bottom: 18px;
+        margin-block-start: 24px;
+        margin-block-end: 18px;
         font-size: 24px;
 
         @include mobile {
@@ -212,7 +211,7 @@
     }
 
     &-ExpandableContentContent {
-        margin-top: 0;
+        margin-block-start: 0;
     }
 
     .ProductLinks-Wrapper {

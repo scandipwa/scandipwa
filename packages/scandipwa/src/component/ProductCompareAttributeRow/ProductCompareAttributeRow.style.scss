@@ -11,7 +11,7 @@
 
 .ProductCompareAttributeRow {
     display: flex;
-    margin-top: 10px;
+    margin-block-start: 10px;
     font-size: 14px;
 
     @include mobile {

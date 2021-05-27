@@ -14,12 +14,12 @@
     padding: 0;
     vertical-align: middle;
 
-    @include wide-desktop {
-        padding: 0;
+    &:hover {
+        padding: 0!important;
+    }
 
-        &:hover {
-            padding: 0 !important;
-        }
+    &:focus {
+        padding: 0!important;
     }
 
     @include mobile {
@@ -40,10 +40,7 @@
         transition-duration: .25s;
 
         &:last-child {
-            width: 100%;
             inset-inline-start: 0;
-            opacity: 0;
-            position: absolute;
             transform: translateY(0);
         }
     }
@@ -82,5 +79,12 @@
                 }
             }
         }
+    }
+
+    &-Icon {
+        margin-inline-end: 16px;
+        padding-block-end: 20px;
+        width: 20px;
+        filter: brightness(0) invert(1);
     }
 }

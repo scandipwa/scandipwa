@@ -30,7 +30,7 @@
 
     &-Content {
         @include mobile {
-            margin-top: 28px;
+            margin-block-start: 28px;
         }
     }
 
@@ -48,29 +48,29 @@
 
         &:first-child {
             @include mobile {
-                margin-top: 0;
+                margin-block-start: 0;
             }
         }
     }
 
     &-Legend {
-        border-bottom: 0;
-        padding-bottom: 4px;
+        border-block-end: 0;
+        padding-block-end: 4px;
         font-weight: 700;
         font-size: 13px;
 
         @include mobile {
-            padding-bottom: 4px;
+            padding-block-end: 4px;
             font-size: 15px;
         }
     }
 
     & &-Button {
-        margin-top: 12px;
+        margin-block-start: 12px;
 
         @include mobile {
 
-            margin-top: 28px;
+            margin-block-start: 28px;
             width: 100%;
         }
     }

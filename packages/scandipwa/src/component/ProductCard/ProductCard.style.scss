@@ -59,10 +59,10 @@
     }
 
     &:last-child {
-        margin-bottom: 7px;
+        margin-block-end: 7px;
 
         @include mobile {
-            margin-bottom: 8px;
+            margin-block-end: 8px;
         }
     }
 
@@ -94,7 +94,7 @@
                     position: static;
 
                     > div {
-                        margin-bottom: 0;
+                        margin-block-end: 0;
                     }
 
                     .ProductCompareButton-Button {
@@ -137,7 +137,7 @@
 
     &-Brand {
         font-weight: 300;
-        margin-bottom: 4px;
+        margin-block-end: 4px;
         opacity: .5;
         overflow: hidden;
         white-space: nowrap;
@@ -159,7 +159,7 @@
     }
 
     &-Picture {
-        padding-bottom: 120%;
+        padding-block-end: 120%;
     }
 
     &-PictureMissing {
@@ -190,7 +190,7 @@
         @include mobile {
             --product-rating-size: 14px;
 
-            margin-bottom: 10px;
+            margin-block-end: 10px;
             width: 100%;
             border-radius: 0;
         }
@@ -238,7 +238,7 @@
     }
 
     &-Price {
-        margin-top: 6px;
+        margin-block-start: 6px;
         width: 100%;
 
         @include after-mobile {
@@ -249,7 +249,7 @@
     &-PriceBadge {
         color: var(--secondary-dark-color);
         font-size: 10px;
-        margin-bottom: 0;
+        margin-block-end: 0;
     }
 
     &-Figure {

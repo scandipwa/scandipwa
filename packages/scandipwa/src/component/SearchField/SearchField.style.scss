@@ -122,14 +122,14 @@
 //        @include desktop {
 //            background-color: transparent;
 //            border: 0;
-//            border-bottom: 1px solid var(--search-input-desktop-border-color);
+//            border-block-end: 1px solid var(--search-input-desktop-border-color);
 //            border-radius: 0;
 //            font-size: 14px;
 //            margin: 48px 36px 0 0;
 //            max-width: 100%;
 //            padding-left: 36px;
 //            width: calc(100% - 72px);
-//            padding-bottom: 7px;
+//            padding-block-end: 7px;
 //        }
 //
 //        &:focus,
@@ -138,7 +138,7 @@
 //
 //            @include desktop {
 //                border: 0;
-//                border-bottom: 1px solid var(--search-input-desktop-border-color);
+//                border-block-end: 1px solid var(--search-input-desktop-border-color);
 //            }
 //        }
 //    }

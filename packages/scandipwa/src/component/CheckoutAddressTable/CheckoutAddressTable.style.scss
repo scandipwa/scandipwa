@@ -54,7 +54,7 @@
         }
 
         @include desktop {
-            margin-bottom: 20px;
+            margin-block-end: 20px;
         }
 
         &:not(&_isSelected):hover {

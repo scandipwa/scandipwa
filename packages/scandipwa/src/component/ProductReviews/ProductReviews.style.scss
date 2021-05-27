@@ -22,14 +22,18 @@
         }
     }
 
-    @include desktop {
-        &-Summary {
-            align-self: stretch;
-        }
+    &-Summary {
+        align-self: stretch;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     &-SummaryRating {
-        font-size: 30px;
+        --star-size: 27px;
+
+        .ProductReviewRating-Counter {
+            display: none;
+        }
     }
 
     &-ExpandableContentHeading,
@@ -41,11 +45,11 @@
 
     &-ExpandableContentContent {
         @include desktop {
-            margin-top: 0;
+            margin-block-start: 0;
         }
 
         &_isContentExpanded {
-            padding-top: 0;
+            padding-block-start: 0;
         }
     }
 
@@ -54,34 +58,28 @@
         inset-inline-end: 0;
         top: 0;
         bottom: 0;
-        height: max-content;
         margin: auto;
 
-        @include before-desktop {
+        @include mobile {
             position: relative;
             height: auto;
             width: 100%;
-            margin-top: 12px;
-        }
-
-        @include mobile {
-            margin-top: 14px;
+            margin-block-start: 18px;
         }
     }
 
     &-SummaryDetails {
         display: inline-block;
         margin-inline-start: 12px;
-        font-size: 20px;
+        margin-block: auto;
+        font-size: 24px;
+        font-weight: 700;
 
         @include mobile {
             margin-inline-start: 14px;
         }
 
         span {
-            font-size: 16px;
-            font-weight: normal;
-
             &::before {
                 content: ' / ';
             }

@@ -1,19 +1,16 @@
 .TierPrices {
     width: 100%;
+    margin-block-start: 15px;
 
     &-Item {
         font-size: 15px;
         padding-inline-start: 0;
 
-        @include after-mobile {
-            padding-inline-start: 5px;
-        }
-
         &:last-child {
-            margin-bottom: 12px;
+            margin-block-end: 12px;
 
             @include mobile {
-                margin-bottom: 14px;
+                margin-block-end: 14px;
             }
         }
 
@@ -24,7 +21,7 @@
         &_isLowest {
             color: var(--secondary-dark-color);
             font-size: 10px;
-            margin-bottom: 0;
+            margin-block-end: 0;
             line-height: 1.8;
         }
     }
