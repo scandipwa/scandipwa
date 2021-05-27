@@ -92,7 +92,7 @@ export class ProductCustomizableOption extends PureComponent {
                 </span>
                 <span
                   block="ProductCustomizableOptions"
-                  elem="HeadingBold"
+                  elem="HeadingPrice"
                 >
                     { titleBold }
                 </span>
@@ -243,7 +243,11 @@ export class ProductCustomizableOption extends PureComponent {
         const { option } = this.props;
         const { title } = option;
 
-        return title;
+        return (
+            <span block="ProductCustomizableOptions" elem="HeadingBold">
+                { title }
+            </span>
+        );
     }
 
     renderTextFieldTitle() {
@@ -280,7 +284,9 @@ export class ProductCustomizableOption extends PureComponent {
         return (
             <div block="ProductCustomizableOptions" elem="Wrapper">
                 { title() }
-                { render() }
+                <div block="ProductCustomizableOptions" elem="Content">
+                    { render() }
+                </div>
             </div>
         );
     }

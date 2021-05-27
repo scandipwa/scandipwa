@@ -12,13 +12,12 @@
 :root {
     --customizable-options-additional-information-color: #2c2c2c;
     --customizable-options-required-text-color: #dc6d6d;
+    --customizable-options-field-margin-top: 12px;
 }
 
 .ProductCustomizableOptions {
     &-Wrapper {
-        @include desktop {
-            margin-block-start: 15px;
-        }
+        margin-block-start: 24px;
 
         @include mobile {
             margin-block-end: 15px;
@@ -26,36 +25,36 @@
     }
 
     &-Content {
-        @include after-mobile{
-            max-width: 400px;
-        }
+        margin-top: 17px;
 
         .Field {
+            margin-top: 12px;
+
             input,
             textarea {
                 width: 100%;
             }
 
-            &_type_checkbox {
-                display: flex;
-
-                label {
-                    order: 1;
-
-                    .input-control {
-                        margin-inline-start: 0;
-                    }
-                }
-
-                .Field-Label {
-                    margin-inline-start: 12px;
-                    order: 2;
-
-                    @include mobile {
-                        margin-inline-start: 14px;
-                    }
-                }
-            }
+            //&_type_checkbox {
+            //    display: flex;
+            //
+            //    label {
+            //        order: 1;
+            //
+            //        .input-control {
+            //            margin-inline-start: 0;
+            //        }
+            //    }
+            //
+            //    .Field-Label {
+            //        margin-inline-start: 12px;
+            //        order: 2;
+            //
+            //        @include mobile {
+            //            margin-inline-start: 14px;
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -107,10 +106,14 @@
     }
 
     &-Heading {
-        font-weight: normal;
         font-size: 14px;
 
         &Bold {
+            font-weight: bold;
+        }
+
+        &Price {
+            font-size: 12px;
             font-weight: bold;
         }
     }
