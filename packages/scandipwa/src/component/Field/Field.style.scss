@@ -159,6 +159,15 @@
             align-items: center;
             display: inline-flex;
         }
+
+        &_text {
+            &.Field_isValid {
+                input,
+                textarea {
+                    border: 1px solid var(--primary-success-color);
+                }
+            }
+        }
     }
 
     [type='checkbox'] {
