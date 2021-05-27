@@ -34,16 +34,16 @@
     &-Social {
         display: flex;
         justify-content: center;
-        margin-top: 30px;
+        margin-block-start: 30px;
 
         @include mobile {
-            margin-top: 35px;
+            margin-block-start: 35px;
         }
 
         @include desktop {
             align-items: center;
             margin-inline-start: 72px;
-            margin-top: 0;
+            margin-block-start: 0;
         }
 
         h3 {
@@ -81,7 +81,7 @@
             }
 
             @include desktop {
-                margin-bottom: 0;
+                margin-block-end: 0;
                 width: 16px;
             }
         }

@@ -221,7 +221,7 @@
     &::before {
         content: '';
         border-inline-start: 2px solid $color-dodger-blue;
-        border-top: 2px solid $color-dodger-blue;
+        border-block-start: 2px solid $color-dodger-blue;
         display: block;
         height: 6px;
         inset-inline-start: 3px;

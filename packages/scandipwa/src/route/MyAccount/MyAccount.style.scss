@@ -24,8 +24,8 @@
         grid-template-rows: auto 1fr;
         grid-column-gap: 24px;
         grid-row-gap: 0;
-        padding-top: 12px;
-        padding-bottom: 12px;
+        padding-block-start: 12px;
+        padding-block-end: 12px;
 
         @include mobile {
             grid-column-gap: 28px;

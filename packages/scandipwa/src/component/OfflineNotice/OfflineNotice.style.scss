@@ -74,7 +74,7 @@
 
     &-Logo {
         padding-inline-start: calc(var(--diameter) * 1px);
-        padding-top: calc(var(--diameter) * 4px);
+        padding-block-start: calc(var(--diameter) * 4px);
         padding-inline-end: 25px;
         width: calc(20px * var(--diameter));
         height: calc(10px * var(--diameter));
@@ -82,7 +82,7 @@
         &_isBig {
             padding-inline-start: calc(var(--diameter) * 1px);
             padding-inline-end: 0;
-            padding-top: 0;
+            padding-block-start: 0;
         }
 
         &-Cloud,

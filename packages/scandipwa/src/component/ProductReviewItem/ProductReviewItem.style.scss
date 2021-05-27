@@ -22,7 +22,7 @@
     border: 1px solid var(--product-review-item-border);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-block-end: 0;
     }
 
     &::before {
@@ -31,11 +31,11 @@
 
     &-ReviewTitle {
         width: 100%;
-        margin-bottom: 12px;
+        margin-block-end: 12px;
         font-weight: 700;
 
         @include mobile {
-            margin-bottom: 14px;
+            margin-block-end: 14px;
         }
     }
 
@@ -47,7 +47,7 @@
         }
 
         @include mobile {
-            margin-bottom: 14px;
+            margin-block-end: 14px;
             width: 100%;
         }
     }
@@ -56,14 +56,14 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 16px;
+        margin-block-end: 16px;
 
         @include mobile {
-            margin-bottom: 7px;
+            margin-block-end: 7px;
         }
 
         &:last-of-type {
-            margin-bottom: 0;
+            margin-block-end: 0;
         }
 
         .ProductReviewRating {
@@ -107,19 +107,19 @@
     }
 
     &-ReviewDetails {
-        margin-bottom: 0;
+        margin-block-end: 0;
         text-align: justify;
 
         @include mobile {
-            margin-bottom: 14px;
+            margin-block-end: 14px;
         }
 
         .TextPlaceholder {
-            margin-top: 6px;
+            margin-block-start: 6px;
             line-height: 1.1;
 
             @include mobile {
-                margin-top: 7px;
+                margin-block-start: 7px;
             }
 
             &::after {

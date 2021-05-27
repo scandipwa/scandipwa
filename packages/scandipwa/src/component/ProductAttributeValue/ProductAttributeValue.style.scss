@@ -39,12 +39,12 @@
         display: inline-block;
         min-height: var(--option-size);
         width: var(--option-size);
-        margin-right: 12px;
+        margin-block-end: 12px;
     }
 
     &-String {
         padding: 0 10px;
-        margin-bottom: 6px;
+        margin-block-end: 6px;
     }
 
     &-Image {

@@ -11,7 +11,7 @@
 
 .ProductTabs {
     display: none;
-    border-bottom: 1px solid var(--secondary-base-color);
+    border-block-end: 1px solid var(--secondary-base-color);
 
     @include desktop {
         display: flex;

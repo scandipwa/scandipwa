@@ -83,7 +83,7 @@
     //     flex-wrap: wrap;
 
     //     @include mobile {
-    //         margin-top: 28px;
+    //         margin-block-start: 28px;
     //     }
     // }
 
@@ -96,11 +96,11 @@
 
     // &-ValueLabel {
     //     padding-left: 6px;
-    //     margin-bottom: 12px;
+    //     margin-block-end: 12px;
 
     //     @include mobile {
     //         padding-left: 7px;
-    //         margin-bottom: 14px;
+    //         margin-block-end: 14px;
     //     }
     // }
 
@@ -113,7 +113,7 @@
     // }
 
     // &-Image {
-    //     padding-bottom: 40%;
+    //     padding-block-end: 40%;
     //     mix-blend-mode: multiply;
     //     margin-inline-end: 120px;
     //     min-width: 360px;

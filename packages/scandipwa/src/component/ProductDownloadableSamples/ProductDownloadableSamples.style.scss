@@ -16,7 +16,7 @@
 
     &-Title {
         font-weight: bold;
-        margin-bottom: .5rem;
+        margin-block-end: .5rem;
 
         @include mobile {
             display: none;

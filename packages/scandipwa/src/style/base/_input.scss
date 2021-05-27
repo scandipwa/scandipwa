@@ -36,10 +36,10 @@ select {
     }
 
     &:not(:first-of-type) {
-        margin-top: 12px;
+        margin-block-start: 12px;
 
         @include mobile {
-            margin-top: 14px;
+            margin-block-start: 14px;
         }
     }
 

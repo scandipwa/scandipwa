@@ -18,8 +18,8 @@
 .CheckoutPayment {
     padding-block: 19px;
     padding-inline-start: 0;
-    margin-bottom: 0;
-    border-top: 1px solid var(--checkout-payment-border-color);
+    margin-block-end: 0;
+    border-block-start: 1px solid var(--checkout-payment-border-color);
 
     @include tablet {
         width: 100%;
@@ -30,7 +30,7 @@
     }
 
     &:first-child {
-        border-top: 0;
+        border-block-start: 0;
     }
 
     &:last-child {

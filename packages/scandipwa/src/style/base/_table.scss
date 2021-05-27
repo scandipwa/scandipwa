@@ -20,7 +20,7 @@ table {
     }
 
     tbody tr:not(:last-child) {
-        border-bottom: var(--table-body-border) ;
+        border-block-end: var(--table-body-border) ;
     }
 
     td,

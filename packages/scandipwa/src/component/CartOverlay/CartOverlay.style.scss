@@ -111,8 +111,8 @@
 
         @include mobile {
             padding: 14px;
-            border-bottom: 1px solid var(--cart-overlay-divider-background);
-            border-top: 1px solid var(--expandable-content-color);
+            border-block-end: 1px solid var(--cart-overlay-divider-background);
+            border-block-start: 1px solid var(--expandable-content-color);
         }
 
         @include desktop {

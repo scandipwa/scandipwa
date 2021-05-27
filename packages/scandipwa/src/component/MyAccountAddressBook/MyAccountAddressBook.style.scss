@@ -30,7 +30,7 @@
         margin-inline-start: 12px;
 
         @include mobile {
-            margin-top: 14px;
+            margin-block-start: 14px;
             margin-inline-start: 0;
         }
     }

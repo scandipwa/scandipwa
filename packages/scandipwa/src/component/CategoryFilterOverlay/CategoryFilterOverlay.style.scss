@@ -59,7 +59,7 @@
 
     &-Heading {
         text-transform: none;
-        margin-top: 0;
+        margin-block-start: 0;
         margin-block-end: 0;
 
         @include before-desktop {
@@ -133,7 +133,7 @@
             --option-margin-inline: 0 12px;
 
             .ExpandableContent:not(:last-child)  {
-                border-bottom: 1px solid var(--expandable-content-divider-color);
+                border-block-end: 1px solid var(--expandable-content-divider-color);
             }
 
             .ExpandableContent  {
@@ -146,7 +146,7 @@
         order: 50;
 
         @include desktop {
-            margin-bottom: 12px;
+            margin-block-end: 12px;
         }
     }
 
@@ -183,7 +183,7 @@
     &-ResetButton {
 
         @include desktop {
-            margin-bottom: 12px;
+            margin-block-end: 12px;
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
@@ -202,11 +202,11 @@
 
         &:last-child {
             @include before-desktop {
-                margin-bottom: 7.2px;
+                margin-block-end: 7.2px;
             }
 
             @include mobile {
-                margin-bottom: 8.4px;
+                margin-block-end: 8.4px;
             }
         }
     }

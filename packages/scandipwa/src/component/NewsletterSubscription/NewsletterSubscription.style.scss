@@ -35,7 +35,7 @@
 
             .Field {
                 width: 100%;
-                margin-top: 0;
+                margin-block-start: 0;
 
                 &-Message {
                     position: absolute;
@@ -60,7 +60,7 @@
         }
 
         &-Fields {
-            margin-bottom: 0;
+            margin-block-end: 0;
         }
 
         &-Button {
@@ -80,7 +80,7 @@
 
     .Form {
         &_isInvalid {
-            margin-bottom: 18px;
+            margin-block-end: 18px;
         }
     }
 }

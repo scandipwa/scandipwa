@@ -13,10 +13,10 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 24px;
-    margin-top: 24px;
+    margin-block-start: 24px;
 
     @include mobile {
-        margin-top: 28px;
+        margin-block-start: 28px;
         grid-template-columns: 1fr;
         grid-gap: 14px;
     }
@@ -25,11 +25,11 @@
         text-align: center;
         font-weight: 700;
         font-size: 24px;
-        margin-top: 36px;
+        margin-block-start: 36px;
 
         @include mobile {
             font-size: 28px;
-            margin-top: 42px;
+            margin-block-start: 42px;
         }
     }
 }

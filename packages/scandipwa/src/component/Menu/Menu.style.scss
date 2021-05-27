@@ -30,7 +30,7 @@
         text-transform: none;
 
         &Wrapper {
-            border-bottom: 1px solid var(--primary-divider-color);
+            border-block-end: 1px solid var(--primary-divider-color);
             padding: 17px 0 16px;
             margin: 0 16px;
 
@@ -165,7 +165,7 @@
             }
 
             .Menu-SubMenu & {
-                padding-bottom: 0;
+                padding-block-end: 0;
             }
 
             > .Menu-ItemList {

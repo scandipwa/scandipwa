@@ -22,12 +22,12 @@
 
  .ExpandableContent {
      @include before-desktop {
-         border-top: 1px solid var(--expandable-content-divider-color);
+         border-block-start: 1px solid var(--expandable-content-divider-color);
      }
 
      &:last-of-type {
          @include before-desktop {
-             border-bottom: 1px solid var(--expandable-content-divider-color);
+             border-block-end: 1px solid var(--expandable-content-divider-color);
          }
      }
 
@@ -116,7 +116,7 @@
          }
 
          @include desktop {
-             margin-top: 12px;
+             margin-block-start: 12px;
          }
 
          &_isContentExpanded {

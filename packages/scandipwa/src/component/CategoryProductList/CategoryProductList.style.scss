@@ -13,7 +13,7 @@
     @include after-mobile {
         top: -56px;
         grid-column: 2;
-        padding-bottom: 24px;
+        padding-block-end: 24px;
     }
 
     &-Page {
@@ -44,13 +44,13 @@
 
                 @include after-mobile {
                     grid-column: 2;
-                    margin-top: 12px;
+                    margin-block-start: 12px;
                 }
 
                 // remove margin from top to other pages
                 ~ .CategoryProductList-Page {
                     @include after-mobile {
-                        margin-top: 0;
+                        margin-block-start: 0;
                     }
                 }
             }
@@ -89,7 +89,7 @@
         // remove margin from top to other pages
         ~ .CategoryProductList-Page {
             @include after-mobile {
-                margin-top: 0;
+                margin-block-start: 0;
             }
         }
     }
@@ -115,12 +115,12 @@
         background-color: var(--category-product-list-load-button-background);
         cursor: pointer;
         font-size: 13pt;
-        margin-bottom: 12px;
+        margin-block-end: 12px;
         padding: 1em 0;
         text-align: center;
 
         @include mobile {
-            margin-bottom: 14px;
+            margin-block-end: 14px;
         }
     }
 }

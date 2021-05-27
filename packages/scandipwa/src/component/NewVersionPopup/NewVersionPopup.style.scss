@@ -20,11 +20,11 @@
         font-size: 20px;
         text-decoration: none;
         font-weight: 400;
-        margin-top: 0;
-        margin-bottom: 12px;
+        margin-block-start: 0;
+        margin-block-end: 12px;
 
         @include mobile {
-            margin-bottom: 14px;
+            margin-block-end: 14px;
         }
 
         @include after-mobile {
@@ -33,10 +33,10 @@
     }
 
     &-Buttons {
-        margin-top: 12px;
+        margin-block-start: 12px;
 
         @include mobile {
-            margin-top: 14px;
+            margin-block-start: 14px;
         }
 
         @include desktop {
@@ -56,7 +56,7 @@
 
         @include mobile {
             width: 100%;
-            margin-top: 5px;
+            margin-block-start: 5px;
         }
     }
 
@@ -72,10 +72,10 @@
         }
 
         &-Heading {
-            margin-bottom: 12px;
+            margin-block-end: 12px;
 
             @include mobile {
-                margin-bottom: 14px;
+                margin-block-end: 14px;
             }
         }
     }

@@ -12,24 +12,24 @@
 .MyAccountOrderPopup {
     &-Address,
     &-Products {
-        margin-bottom: 12px;
+        margin-block-end: 12px;
 
         @include after-mobile {
-            margin-top: 24px;
+            margin-block-start: 24px;
         }
 
         @include mobile {
-            margin-bottom: 28px;
+            margin-block-end: 28px;
         }
     }
 
     &-Products {
         width: 100%;
-        margin-top: 12px;
+        margin-block-start: 12px;
         table-layout: initial;
 
         @include mobile {
-            margin-top: 14px;
+            margin-block-start: 14px;
         }
 
         td,
@@ -78,14 +78,14 @@
 
     dl {
         display: grid;
-        margin-top: 12px;
+        margin-block-start: 12px;
         grid-template-columns: 1fr 1fr;
         grid-gap: 6px;
 
         @include mobile {
-            margin-top: 14px;
+            margin-block-start: 14px;
             grid-gap: 7px;
-            margin-bottom: 28px;
+            margin-block-end: 28px;
         }
     }
 

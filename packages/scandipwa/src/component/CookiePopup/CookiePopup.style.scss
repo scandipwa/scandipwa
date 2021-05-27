@@ -24,11 +24,11 @@
     justify-content: space-between;
     padding: 12px 0 calc(env(safe-area-inset-bottom) + 12px);
     background-color: var(--cookiepopup-bg);
-    border-top: 1px solid var(--cookiepopup-border);
+    border-block-start: 1px solid var(--cookiepopup-border);
     z-index: 300;
 
     @include mobile {
-        margin-bottom: 51px;
+        margin-block-end: 51px;
         padding: 14px 0 calc(env(safe-area-inset-bottom) + 14px);
         z-index: 90;
         transform: translateY(0);
@@ -51,7 +51,7 @@
         font-size: 15px;
 
         @include mobile {
-            padding-bottom: 14px;
+            padding-block-end: 14px;
         }
     }
 

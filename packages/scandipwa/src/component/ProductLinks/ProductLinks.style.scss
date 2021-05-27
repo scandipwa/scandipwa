@@ -2,7 +2,7 @@
     width: 100%;
 
     @include mobile {
-        margin-top: 14px;
+        margin-block-start: 14px;
     }
 
     @include desktop {

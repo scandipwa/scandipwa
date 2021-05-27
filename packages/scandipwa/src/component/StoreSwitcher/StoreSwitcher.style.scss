@@ -14,10 +14,10 @@
 }
 
 .StoreSwitcher {
-    border-bottom: 1px solid var(--primary-divider-color);
+    border-block-end: 1px solid var(--primary-divider-color);
 
     @include desktop {
-        border-bottom: none;
+        border-block-end: none;
         margin: 0;
     }
 

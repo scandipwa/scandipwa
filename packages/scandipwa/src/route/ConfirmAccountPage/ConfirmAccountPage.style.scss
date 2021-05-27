@@ -14,19 +14,19 @@
 
     &-Wrapper {
         @include before-desktop {
-            padding-top: 6px;
+            padding-block-start: 6px;
         }
 
         @include mobile {
-            padding-top: 7px;
+            padding-block-start: 7px;
         }
     }
 
     &-Button {
-        margin-top: 12px;
+        margin-block-start: 12px;
 
         @include mobile {
-            margin-top: 14px;
+            margin-block-start: 14px;
             width: 100%;
         }
 
@@ -41,14 +41,14 @@
 
     &-Heading {
         font-size: 24px;
-        margin-bottom: 12px;
-        margin-top: 24px;
+        margin-block-end: 12px;
+        margin-block-start: 24px;
         text-align: center;
 
         @include mobile {
             font-size: 28px;
-            margin-bottom: 14px;
-            margin-top: 28px;
+            margin-block-end: 14px;
+            margin-block-start: 28px;
             display: none;
         }
     }

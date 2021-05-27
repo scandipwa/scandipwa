@@ -23,15 +23,15 @@
 
     &_ratio {
         &_16x9 {
-            padding-bottom: 56.25%;
+            padding-block-end: 56.25%;
         }
 
         &_4x3 {
-            padding-bottom: 75%;
+            padding-block-end: 75%;
         }
 
         &_square {
-            padding-bottom: 100%;
+            padding-block-end: 100%;
         }
     }
 

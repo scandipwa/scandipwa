@@ -45,11 +45,11 @@
 
     &-ExpandableContentContent {
         @include desktop {
-            margin-top: 0;
+            margin-block-start: 0;
         }
 
         &_isContentExpanded {
-            padding-top: 0;
+            padding-block-start: 0;
         }
     }
 
@@ -64,7 +64,7 @@
             position: relative;
             height: auto;
             width: 100%;
-            margin-top: 18px;
+            margin-block-start: 18px;
         }
     }
 

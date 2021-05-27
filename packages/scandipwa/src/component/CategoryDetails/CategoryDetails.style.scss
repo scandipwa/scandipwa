@@ -18,12 +18,12 @@
     grid-template-columns: auto minmax(100px, 180px);
     grid-gap: 12px;
     background-color: var(--category-details-background);
-    margin-bottom: 12px;
+    margin-block-end: 12px;
 
     @include mobile {
         grid-template-columns: auto minmax(100px, 210px);
         grid-gap: 14px;
-        margin-bottom: 14px;
+        margin-block-end: 14px;
         display: none;
     }
 
@@ -34,11 +34,11 @@
     }
 
     &-Heading {
-        margin-bottom: 6px;
-        margin-top: 0;
+        margin-block-end: 6px;
+        margin-block-start: 0;
 
         @include mobile {
-            margin-bottom: 7px;
+            margin-block-end: 7px;
         }
     }
 

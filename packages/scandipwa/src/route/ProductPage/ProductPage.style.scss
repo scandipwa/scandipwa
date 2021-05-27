@@ -11,16 +11,16 @@
 
 .ProductPage {
     @include after-mobile {
-        padding-top: 12px;
+        padding-block-start: 12px;
     }
 
     @include tablet {
-        padding-top: 0;
-        margin-top: 0;
+        padding-block-start: 0;
+        margin-block-start: 0;
     }
 
     @include mobile {
-        padding-bottom: 133px;
+        padding-block-end: 133px;
         margin-inline: 16px;
     }
 
@@ -29,11 +29,11 @@
         grid-template-columns: repeat(2, 1fr);
         grid-column-gap: 24px;
         grid-template-rows: min-content min-content;
-        padding-top: 24px;
+        padding-block-start: 24px;
 
         @include after-mobile {
             grid-column-gap: 48px;
-            padding-bottom: 72px;
+            padding-block-end: 72px;
         }
 
         @include mobile {
