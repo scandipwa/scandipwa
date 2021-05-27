@@ -48,9 +48,14 @@
     }
 
     &-ExpandedState {
+        --plus-minus-icon-size: 18px;
         @include plus-icon;
-        width: 18px;
-        height: 18px;
+        display: inline-block;
+        float: right;
+
+        &:dir(rtl) {
+            float: left;
+        }
 
         &_isExpanded {
             @include minus-icon;
@@ -58,8 +63,7 @@
 
         filter: brightness(.2) sepia(1) hue-rotate(180deg) saturate(5);
         position: absolute;
-        inset-inline-end: 16px;
-        top: 0;
+        inset-inline-end: 0;
 
         @include desktop {
             display: none;
@@ -67,7 +71,6 @@
     }
 
     &-Item {
-        margin: 16px 0;
         padding-inline-start: 0;
 
         @include desktop {
@@ -86,6 +89,14 @@
                 color: var(--link-hover);
             }
 
+            @include mobile {
+                margin-inline: 16px;
+            }
+
+            @include mobile {
+                padding-block: 16px;
+            }
+
             &_type {
                 &_main {
                     @include desktop {
@@ -97,8 +108,15 @@
                 }
 
                 &_subcategory {
-                    padding: 0 8px;
-                    margin-block-start: 16px;
+                    display: inline-block;
+
+                    @include mobile {
+                        font-weight: 700;
+                    }
+
+                    @include desktop {
+                        margin-block-start: 16px;
+                    }
                 }
             }
         }
@@ -111,10 +129,6 @@
                     display: block;
                 }
             }
-
-            @include mobile {
-                margin-inline: 16px;
-            }
         }
 
         &:not(:first-of-type) {
@@ -125,6 +139,10 @@
     }
 
     &-Link {
+        @include mobile {
+            display: contents;
+        }
+
         font-weight: 400;
         margin-block: 8px;
         margin-inline: 0 16px;
@@ -163,8 +181,7 @@
             &_isVisible {
                 background: var(--color-gray);
                 display: block;
-                padding-block: 12px;
-                padding-inline-start: 8px;
+                padding-inline: 16px;
             }
 
             @include desktop {
@@ -175,6 +192,10 @@
 
             .Menu-SubMenu & {
                 padding-block-end: 0;
+            }
+
+            .Menu-ItemCaption {
+                padding-block: 8px;
             }
 
             > .Menu-ItemList {

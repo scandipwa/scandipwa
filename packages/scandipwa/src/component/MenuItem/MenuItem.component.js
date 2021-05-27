@@ -24,14 +24,32 @@ export class MenuItem extends PureComponent {
         handleCategoryHover: PropTypes.func.isRequired,
         handleLinkLeave: PropTypes.func.isRequired,
         isLink: PropTypes.bool,
-        onItemClick: PropTypes.func
+        onItemClick: PropTypes.func,
+        isExpandable: PropTypes.bool
     };
 
     static defaultProps = {
         itemMods: {},
         isLink: false,
-        onItemClick: () => {}
+        onItemClick: () => {},
+        isExpandable: false
     };
+
+    renderExpandButton() {
+        const { isExpandable, itemMods } = this.props;
+
+        if (!isExpandable) {
+            return null;
+        }
+
+        return (
+            <figcaption
+              block="Menu"
+              elem="ExpandedState"
+              mods={ itemMods }
+            />
+        );
+    }
 
     renderItemContent(item, itemMods) {
         const { title } = item;
@@ -43,6 +61,7 @@ export class MenuItem extends PureComponent {
               mods={ itemMods }
             >
                 { title }
+                { this.renderExpandButton() }
             </figcaption>
         );
     }

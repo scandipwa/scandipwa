@@ -89,7 +89,7 @@ export class Menu extends PureComponent {
                 <div
                   block="Menu"
                   elem="ItemList"
-                  mods={ { ...mods } }
+                  mods={ mods }
                 >
                     { childrenArray.map((item) => this.renderDesktopSubLevelItems(item, mods)) }
                 </div>
@@ -124,7 +124,7 @@ export class Menu extends PureComponent {
                     <MenuItem
                       activeMenuItemsStack={ activeMenuItemsStack }
                       item={ item }
-                      itemMods={ subcategoryMods }
+                      itemMods={ { ...subcategoryMods, isSecondLevel: true } }
                       onCategoryHover={ onCategoryHover }
                       closeMenu={ closeMenu }
                     />
@@ -143,7 +143,6 @@ export class Menu extends PureComponent {
               block="Menu"
               elem="SubItemWrapper"
               key={ item_id }
-              // mods={ mods }
             >
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
@@ -316,14 +315,10 @@ export class Menu extends PureComponent {
                     <MenuItem
                       activeMenuItemsStack={ activeMenuItemsStack }
                       item={ item }
-                      itemMods={ itemMods }
+                      itemMods={ { ...itemMods, isExpanded: activeMenuItemsStack.includes(item_id) } }
                       onCategoryHover={ onCategoryHover }
                       closeMenu={ closeMenu }
-                    />
-                    <figcaption
-                      block="Menu"
-                      elem="ExpandedState"
-                      mods={ { isExpanded: activeMenuItemsStack.includes(item_id) } }
+                      isExpandable
                     />
                     { this.renderSubLevel(item) }
                 </div>
@@ -350,7 +345,6 @@ export class Menu extends PureComponent {
               block="Menu"
               elem="Item"
               key={ item_id }
-              // mods={ { isHideOnDesktop } }
             >
                 { this.renderFirstLevelItems(item) }
             </li>
