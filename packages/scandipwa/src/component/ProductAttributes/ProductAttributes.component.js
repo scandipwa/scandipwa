@@ -45,12 +45,12 @@ export class ProductAttributes extends PureComponent {
         return (
             uniqueGroups.map(
                 (group) => (
-<Fragment key={ group.attribute_group_id }>
-                    <p block="ProductAttributes" elem="Group">
-                        { group.attribute_group_name }
-                    </p>
-                    { this.renderAttributes(group.attribute_group_id) }
-</Fragment>
+                    <Fragment key={ group.attribute_group_id }>
+                        <p block="ProductAttributes" elem="Group">
+                            { group.attribute_group_name }
+                        </p>
+                        { this.renderAttributes(group.attribute_group_id) }
+                    </Fragment>
                 )
             )
         );

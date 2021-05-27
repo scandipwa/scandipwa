@@ -232,6 +232,10 @@
     .ProductConfigurableAttributes-Expandable {
         margin-block-start: 24px;
     }
+
+    .ExpandableContent:first-of-type {
+        border-block-start: 0;
+    }
 }
 
 // .xProductActions {

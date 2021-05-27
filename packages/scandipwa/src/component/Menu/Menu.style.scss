@@ -40,6 +40,10 @@
                 content: ' ';
                 position: absolute;
             }
+
+            @include mobile {
+                padding: 13px 0;
+            }
         }
     }
 

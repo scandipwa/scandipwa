@@ -12,7 +12,6 @@
 :root {
     --customizable-options-additional-information-color: #2c2c2c;
     --customizable-options-required-text-color: #dc6d6d;
-    --customizable-options-field-margin-block-start: 12px;
 }
 
 .ProductCustomizableOptions {
@@ -109,6 +108,7 @@
         font-size: 14px;
 
         &Bold {
+            font-size: 14px;
             font-weight: bold;
         }
 
