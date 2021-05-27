@@ -17,6 +17,8 @@ import Form from 'Component/Form';
 import { signInStateType } from 'Type/Account';
 import history from 'Util/History';
 
+import './MyAccountCreateAccount.style.scss';
+
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
     static propTypes = {
@@ -96,7 +98,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
-                <legend>{ __('Sign-Up Information') }</legend>
+                <legend block="MyAccountOverlayLegend">{ __('Sign-Up Information') }</legend>
                 <Field
                   type="text"
                   label={ __('Email') }
