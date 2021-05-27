@@ -656,19 +656,13 @@ export class ProductActions extends PureComponent {
         const isRequired = links_purchased_separately === 1;
 
         return (
-            <section
-              block="ProductActions"
-              elem="SectionDownloadable"
-              mods={ { type: 'customizable_options' } }
-            >
-                <ProductDownloadableLinks
-                  links={ downloadable_product_links }
-                  setLinkedDownloadables={ setLinkedDownloadables }
-                  setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
-                  title={ links_title }
-                  isRequired={ isRequired }
-                />
-            </section>
+            <ProductDownloadableLinks
+              links={ downloadable_product_links }
+              setLinkedDownloadables={ setLinkedDownloadables }
+              setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
+              title={ links_title }
+              isRequired={ isRequired }
+            />
         );
     }
 

@@ -12,6 +12,7 @@
 .ProductDownloadableLinks {
     &-Title {
         margin-block-end: 1px;
+        font-weight: 700;
 
         &_isRequired {
             &::after{
@@ -41,6 +42,10 @@
             @include mobile {
                 padding: 0 14px 14px;
             }
+        }
+
+        &Heading {
+            text-transform: uppercase;
         }
     }
 

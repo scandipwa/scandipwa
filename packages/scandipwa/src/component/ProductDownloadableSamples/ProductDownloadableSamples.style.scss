@@ -29,6 +29,7 @@
 
 
     &-ExpandableContent {
+
         &Button {
             @include after-mobile {
                 display: none;
@@ -39,6 +40,10 @@
             @include mobile {
                 padding: 0 1.4rem 1.4rem;
             }
+        }
+
+        &Heading {
+            text-transform: uppercase;
         }
     }
 }

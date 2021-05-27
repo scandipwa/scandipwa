@@ -142,9 +142,9 @@ export class ProductDownloadableLinks extends PureComponent {
         const { title } = this.props;
 
         return (
-            <h3 block="ProductDownloadableLinks" elem="Title">
+            <p block="ProductDownloadableLinks" elem="Title">
                 { title }
-            </h3>
+            </p>
         );
     }
 
