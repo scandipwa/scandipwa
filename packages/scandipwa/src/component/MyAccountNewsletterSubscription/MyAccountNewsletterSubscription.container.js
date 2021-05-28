@@ -28,7 +28,8 @@ import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.c
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    newsletterConfirmStatus: state.ConfigReducer.newsletter_subscription_confirm
 });
 
 /** @namespace Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps */
@@ -44,7 +45,8 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         customer: customerType.isRequired,
         updateCustomer: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired
+        showSuccessNotification: PropTypes.func.isRequired,
+        newsletterConfirmStatus: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -55,6 +57,25 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         isLoading: false
     };
 
+    showSubscriptionUpdateNotification(customer, wasSubscribed) {
+        const {
+            showSuccessNotification,
+            newsletterConfirmStatus
+        } = this.props;
+
+        const { is_subscribed = false } = customer;
+
+        if (!is_subscribed && wasSubscribed) {
+            showSuccessNotification(__('We have removed your newsletter subscription.'));
+        } else if (is_subscribed && !newsletterConfirmStatus) {
+            showSuccessNotification(__('We have saved your subscription'));
+        } else if (is_subscribed && newsletterConfirmStatus) {
+            showSuccessNotification(__('A subscription confirmation email has been sent!'));
+        } else {
+            showSuccessNotification(__('We have updated your subscription.'));
+        }
+    }
+
     onError = () => {
         const { showErrorNotification } = this.props;
 
@@ -64,7 +85,13 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     };
 
     onCustomerSave(customer) {
-        const { updateCustomer, showSuccessNotification } = this.props;
+        const {
+            updateCustomer,
+            customer: {
+                is_subscribed: wasSubscribed
+            }
+        } = this.props;
+
         const mutation = MyAccountQuery.getUpdateInformationMutation(customer);
 
         if (!isSignedIn()) {
@@ -80,7 +107,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
 
                 this.setState({ isLoading: false }, () => {
                     updateCustomer(customer);
-                    showSuccessNotification(__('A subscription confirmation email has been sent!'));
+                    this.showSubscriptionUpdateNotification(customer, wasSubscribed);
                 });
             },
             this.onError
