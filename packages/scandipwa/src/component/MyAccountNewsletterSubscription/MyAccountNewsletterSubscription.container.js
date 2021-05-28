@@ -67,7 +67,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
             showSuccessNotification(__('We have removed your newsletter subscription.'));
         } else if (isSubscribed && !newsletterConfirmStatus && !wasSubscribed) {
             showSuccessNotification(__('We have saved your subscription'));
-        } else if (isSubscribed && newsletterConfirmStatus) {
+        } else if (!isSubscribed && newsletterConfirmStatus) {
             showSuccessNotification(__('A subscription confirmation email has been sent!'));
         } else {
             showSuccessNotification(__('We have updated your subscription.'));
@@ -97,12 +97,12 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         }
 
         this.setState({ isLoading: true });
-        const { is_subscribed } = customer;
 
         return fetchMutation(mutation).then(
             /** @namespace Component/MyAccountNewsletterSubscription/Container/fetchMutationThen */
             ({ updateCustomer: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
+                const { is_subscribed } = customer;
 
                 this.setState({ isLoading: false }, () => {
                     updateCustomer(customer);
