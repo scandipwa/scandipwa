@@ -57,19 +57,17 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         isLoading: false
     };
 
-    showSubscriptionUpdateNotification(customer, wasSubscribed) {
+    showSubscriptionUpdateNotification(isSubscribed, wasSubscribed) {
         const {
             showSuccessNotification,
             newsletterConfirmStatus
         } = this.props;
 
-        const { is_subscribed = false } = customer;
-
-        if (!is_subscribed && wasSubscribed) {
+        if (!isSubscribed && wasSubscribed) {
             showSuccessNotification(__('We have removed your newsletter subscription.'));
-        } else if (is_subscribed && !newsletterConfirmStatus) {
+        } else if (isSubscribed && !newsletterConfirmStatus && !wasSubscribed) {
             showSuccessNotification(__('We have saved your subscription'));
-        } else if (is_subscribed && newsletterConfirmStatus) {
+        } else if (isSubscribed && newsletterConfirmStatus) {
             showSuccessNotification(__('A subscription confirmation email has been sent!'));
         } else {
             showSuccessNotification(__('We have updated your subscription.'));
@@ -99,6 +97,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         }
 
         this.setState({ isLoading: true });
+        const { is_subscribed } = customer;
 
         return fetchMutation(mutation).then(
             /** @namespace Component/MyAccountNewsletterSubscription/Container/fetchMutationThen */
@@ -107,7 +106,7 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
 
                 this.setState({ isLoading: false }, () => {
                     updateCustomer(customer);
-                    this.showSubscriptionUpdateNotification(customer, wasSubscribed);
+                    this.showSubscriptionUpdateNotification(is_subscribed, wasSubscribed);
                 });
             },
             this.onError
