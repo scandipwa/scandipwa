@@ -13,11 +13,10 @@
     --header-logo-width: 194px;
     --header-logo-height: 24px;
 
-    --header-height: 70px;
     --header-nav-height: 70px;
     --header-total-height:
         calc(
-            var(--header-height)
+            var(--header-nav-height)
             + var(--offline-notice-height)
             + var(--demo-notice-height)
             + env(safe-area-inset-top)
@@ -251,17 +250,18 @@
         &ItemCount {
             background: var(--primary-base-color);
             border-radius: 50%;
-            bottom: -5px;
             color: var(--color-white);
             height: 17px;
             padding: 2px;
             position: absolute;
-            top: 2px;
+            inset-block-start: -7px;
+            inset-inline-end: -11px;
             width: 17px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 12px;
+            font-size: 80%;
+            font-weight: 700;
         }
     }
 

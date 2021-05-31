@@ -59,7 +59,7 @@
 
         @include mobile {
             background-color: var(--my-account-content-background);
-            bottom: var(--navigation-tabs-height);
+            bottom: var(--footer-nav-height);
             display: block;
             inset-inline-start: 0;
             padding: 14px 14px;

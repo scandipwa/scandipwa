@@ -90,7 +90,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         const query = this.prepareRequest(product_links);
         const data = await fetchQuery(query);
         const { crosssell } = this._processResponse(data, product_links);
-        const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS);
+        const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS) || {};
 
         Object.assign(linkedProducts, {
             crosssell,
