@@ -13,7 +13,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CmsBlock from 'Component/CmsBlock';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
@@ -23,7 +22,7 @@ import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
 import { debounce } from 'Util/Request';
 
-import { HEADER_CMS_BLOCK, SCROLL_DEBOUNCE_DELAY } from './Menu.config';
+import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
 
 import './Menu.style';
 
@@ -172,48 +171,6 @@ export class Menu extends PureComponent {
                   mods={ { ...subcategoryMods } }
                 >
                     { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
-                </div>
-            </div>
-        );
-    }
-
-    renderPromotionCms() {
-        const { closeMenu, activeMenuItemsStack } = this.props;
-        const { header_content: { header_cms } = {} } = window.contentConfiguration;
-
-        // show cms block on desktop only when menu is active + always on mobile
-        if (activeMenuItemsStack.length === 0) {
-            return null;
-        }
-
-        if (header_cms) {
-            return <CmsBlock identifier={ header_cms } blockType={ HEADER_CMS_BLOCK } />;
-        }
-
-        return (
-            <div block="Menu" elem="Promotion">
-                <h3 block="Menu" elem="PageLink">
-                    <Link
-                      to="/about-us"
-                      onClick={ closeMenu }
-                      block="Menu"
-                      elem="Link"
-                    >
-                        { __('ABOUT US') }
-                    </Link>
-                </h3>
-                <h3 block="Menu" elem="PageLink">
-                    <Link
-                      to="/about-us"
-                      onClick={ closeMenu }
-                      block="Menu"
-                      elem="Link"
-                    >
-                        { __('CONTACTS') }
-                    </Link>
-                </h3>
-                <div block="Menu" elem="Social">
-                    <CmsBlock identifier="social-links" />
                 </div>
             </div>
         );
@@ -377,7 +334,6 @@ export class Menu extends PureComponent {
                     </ul>
                 </div>
                 { this.renderSubMenuDesktop(children) }
-                { this.renderPromotionCms() }
             </>
         );
     }

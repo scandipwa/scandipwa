@@ -118,6 +118,7 @@
 
                     @include desktop {
                         margin-block-start: 16px;
+                        margin-block-end: 20px;
                         display: inline-block;
                     }
                 }
@@ -130,6 +131,12 @@
 
                 .Menu-SubMenu & {
                     display: block;
+                }
+            }
+
+            &_type_subcategory {
+                @include mobile {
+                    padding-block: 8px;
                 }
             }
         }
@@ -166,6 +173,12 @@
     &-MenuWrapper {
         @include desktop {
             margin-block-start: 18px;
+        }
+    }
+
+    &-SubCategories {
+        @include desktop {
+            padding-inline-start: 16px;
         }
     }
 
