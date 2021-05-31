@@ -13,7 +13,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CmsBlock from 'Component/CmsBlock';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
@@ -23,7 +22,7 @@ import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
 import { debounce } from 'Util/Request';
 
-import { HEADER_CMS_BLOCK, SCROLL_DEBOUNCE_DELAY } from './Menu.config';
+import { SCROLL_DEBOUNCE_DELAY } from './Menu.config';
 
 import './Menu.style';
 
@@ -97,7 +96,7 @@ export class Menu extends PureComponent {
         );
     }
 
-    renderSubLevelItems = (item) => {
+    renderSubLevelItems = (item, isSecondLevel) => {
         const {
             handleSubcategoryClick,
             activeMenuItemsStack,
@@ -109,7 +108,7 @@ export class Menu extends PureComponent {
         const { item_id, children } = item;
 
         const childrenArray = Object.values(children);
-        const subcategoryMods = { type: 'subcategory' };
+        const subcategoryMods = { type: 'subcategory', isSecondLevel };
 
         if (childrenArray.length && device.isMobile) {
             return (
@@ -124,14 +123,10 @@ export class Menu extends PureComponent {
                     <MenuItem
                       activeMenuItemsStack={ activeMenuItemsStack }
                       item={ item }
-                      itemMods={ { ...subcategoryMods, isSecondLevel: true } }
+                      itemMods={ { ...subcategoryMods, isExpanded: activeMenuItemsStack.includes(item_id) } }
                       onCategoryHover={ onCategoryHover }
                       closeMenu={ closeMenu }
-                    />
-                    <figcaption
-                      block="Menu"
-                      elem="ExpandedState"
-                      mods={ { isExpanded: activeMenuItemsStack.includes(item_id) } }
+                      isExpandable
                     />
                     { this.renderSubLevel(item) }
                 </div>
@@ -147,6 +142,7 @@ export class Menu extends PureComponent {
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
                   item={ item }
+                  itemMods={ subcategoryMods }
                   closeMenu={ closeMenu }
                   isLink
                 />
@@ -155,7 +151,7 @@ export class Menu extends PureComponent {
         );
     };
 
-    renderSubLevel(category) {
+    renderSubLevel(category, isSecondLevel = false) {
         const { activeMenuItemsStack } = this.props;
         const { item_id, children } = category;
         const childrenArray = getSortedItems(Object.values(children));
@@ -174,44 +170,7 @@ export class Menu extends PureComponent {
                   elem="ItemList"
                   mods={ { ...subcategoryMods } }
                 >
-                    { childrenArray.map(this.renderSubLevelItems) }
-                </div>
-            </div>
-        );
-    }
-
-    renderPromotionCms() {
-        const { closeMenu } = this.props;
-        const { header_content: { header_cms } = {} } = window.contentConfiguration;
-
-        if (header_cms) {
-            return <CmsBlock identifier={ header_cms } blockType={ HEADER_CMS_BLOCK } />;
-        }
-
-        return (
-            <div block="Menu" elem="Promotion">
-                <h3 block="Menu" elem="PageLink">
-                    <Link
-                      to="/about-us"
-                      onClick={ closeMenu }
-                      block="Menu"
-                      elem="Link"
-                    >
-                        { __('ABOUT US') }
-                    </Link>
-                </h3>
-                <h3 block="Menu" elem="PageLink">
-                    <Link
-                      to="/about-us"
-                      onClick={ closeMenu }
-                      block="Menu"
-                      elem="Link"
-                    >
-                        { __('CONTACTS') }
-                    </Link>
-                </h3>
-                <div block="Menu" elem="Social">
-                    <CmsBlock identifier="social-links" />
+                    { childrenArray.map((item) => this.renderSubLevelItems(item, isSecondLevel)) }
                 </div>
             </div>
         );
@@ -283,7 +242,6 @@ export class Menu extends PureComponent {
                 { this.renderCurrencySwitcher() }
                 { this.renderStoreSwitcher() }
                 { this.renderComparePageLink() }
-                { this.renderPromotionCms() }
             </>
         );
     }
@@ -320,7 +278,7 @@ export class Menu extends PureComponent {
                       closeMenu={ closeMenu }
                       isExpandable
                     />
-                    { this.renderSubLevel(item) }
+                    { this.renderSubLevel(item, true) }
                 </div>
             );
         }

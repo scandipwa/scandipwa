@@ -97,6 +97,10 @@
                 padding-block: 16px;
             }
 
+            &_isSecondLevel {
+                font-weight: 700;
+            }
+
             &_type {
                 &_main {
                     @include desktop {
@@ -108,14 +112,14 @@
                 }
 
                 &_subcategory {
-                    display: inline-block;
-
                     @include mobile {
-                        font-weight: 700;
+                        margin-inline-end: 0;
                     }
 
                     @include desktop {
                         margin-block-start: 16px;
+                        margin-block-end: 20px;
+                        display: inline-block;
                     }
                 }
             }
@@ -127,6 +131,12 @@
 
                 .Menu-SubMenu & {
                     display: block;
+                }
+            }
+
+            &_type_subcategory {
+                @include mobile {
+                    padding-block: 8px;
                 }
             }
         }
@@ -166,6 +176,12 @@
         }
     }
 
+    &-SubCategories {
+        @include desktop {
+            padding-inline-start: 16px;
+        }
+    }
+
     &-Sub {
         &ItemWrapper {
             > .Menu-Link {
@@ -195,7 +211,9 @@
             }
 
             .Menu-ItemCaption {
-                padding-block: 8px;
+                @include mobile {
+                    padding-block: 8px;
+                }
             }
 
             > .Menu-ItemList {
