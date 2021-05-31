@@ -69,13 +69,11 @@ export class WishlistItemContainer extends PureComponent {
 
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
-        removeItem: this.removeItem.bind(this, false, true),
-        toggleOptionVisibility: this.toggleOptionVisibility.bind(this)
+        removeItem: this.removeItem.bind(this, false, true)
     };
 
     state = {
-        isLoading: false,
-        showOptions: false
+        isLoading: false
     };
 
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
@@ -127,11 +125,6 @@ export class WishlistItemContainer extends PureComponent {
             return acc;
         }, []) : [];
     };
-
-    toggleOptionVisibility() {
-        const { showOptions } = this.state;
-        this.setState({ showOptions: !showOptions });
-    }
 
     addItemToCart() {
         const { product: item, addProductToCart, showNotification } = this.props;
