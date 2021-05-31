@@ -13,10 +13,11 @@
     --header-logo-width: 194px;
     --header-logo-height: 24px;
 
+    --header-height: 70px;
     --header-nav-height: 70px;
     --header-total-height:
         calc(
-            var(--header-nav-height)
+            var(--header-height)
             + var(--offline-notice-height)
             + var(--demo-notice-height)
             + env(safe-area-inset-top)
