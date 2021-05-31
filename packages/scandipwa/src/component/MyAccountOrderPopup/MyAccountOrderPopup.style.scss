@@ -10,9 +10,11 @@
  */
 
 .MyAccountOrderPopup {
+    font-size: 14px;
+
     &-Address,
     &-Products {
-        margin-block-end: 12px;
+        margin-block-end: 14px;
 
         @include after-mobile {
             margin-block-start: 24px;

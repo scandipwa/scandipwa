@@ -255,14 +255,22 @@
             height: 17px;
             padding: 2px;
             position: absolute;
-            inset-block-start: -7px;
-            inset-inline-end: -11px;
             width: 17px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 80%;
             font-weight: 700;
+
+            @include mobile {
+                inset-block-start: -7px;
+                inset-inline-end: -11px;
+            }
+
+            @include desktop {
+                inset-block-start: -22px;
+                inset-inline-end: -16px;
+            }
         }
     }
 

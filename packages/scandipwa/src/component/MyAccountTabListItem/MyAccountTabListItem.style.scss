@@ -58,33 +58,21 @@
         text-shadow: var(--text-shadow);
         letter-spacing: .03ex;
         font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
         @include after-mobile {
             padding: 10px 24px;
             min-width: 250px;
         }
 
-        &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            inset-inline-end: 12px;
-            bottom: 0;
-            width: 6px;
-            height: 6px;
-            margin: auto;
-            transform: rotate(135deg);
-
-            @include mobile {
-                inset-inline-end: 14px;
-            }
-
-            border-block-start: var(--border-width) solid var(--my-account-tab-list-item-color);
-            border-inline-start: var(--border-width) solid var(--my-account-tab-list-item-color);
-
-            @include after-mobile {
-                inset-inline-end: 24px;
-            }
+        span {
+            @include chevron-icon;
+            width: 14px;
+            height: 14px;
+            display: inline-block;
         }
     }
 }
