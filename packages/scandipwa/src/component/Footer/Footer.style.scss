@@ -11,7 +11,7 @@
 
 :root {
     --footer-height: calc(var(--footer-content-height) + var(--footer-copyright-height));
-    --footer-content-height: 320px;
+    --footer-content-height: 220px;
     --footer-copyright-height: 50px;
     --footer-nav-height: 48px;
 }
@@ -24,7 +24,7 @@
     }
 
     &-CopyrightContentWrapper {
-        background-color: var(--secondary-dark-color);
+        background-color: var(--secondary-base-color);
     }
 
     &-CopyrightContent {
@@ -35,16 +35,20 @@
         min-height: var(--footer-copyright-height);
 
         @include after-mobile {
-            padding: 15px 0;
+            padding-block-end: 48px;
         }
     }
 
     &-Copyright {
-        font-size: 15px;
+        font-size: 12px;
         text-align: center;
+        color: var(--secondary-dark-color);
+        padding-inline: 16px;
 
         a {
             color: inherit;
+            font-weight: 400;
+            font-size: 12px;
         }
     }
 
@@ -56,17 +60,18 @@
     &-Columns {
         display: flex;
         height: 100%;
-        padding: 25px 40px;
         justify-content: space-between;
 
         @include mobile {
             flex-direction: column;
             align-items: center;
             text-align: center;
+            padding: 25px 16px;
         }
 
-        @include after-mobile {
-            padding: 80px 32px;
+        @include desktop {
+            padding-inline: 32px;
+            padding-block-start: 80px;
         }
 
         @include tablet {
@@ -75,12 +80,16 @@
     }
 
     &-Column {
+        @include mobile {
+            width: 100%;
+        }
+
         &:not(:last-of-type) {
             @include mobile {
                 margin-block-end: 30px;
             }
 
-            @include after-mobile {
+            @include desktop {
                 padding-inline-end: 20px;
                 max-width: calc(100% / #{ $column-count - 1 });
             }
@@ -119,8 +128,21 @@
             margin: 0;
         }
 
+        &Image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 16px!important;
+                left: auto!important;
+            }
+        }
+
         &_type_image {
-            width: 25px;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--secondary-dark-color);
 
             &:not(:last-of-type) {
                 margin-inline-end: 20px;
