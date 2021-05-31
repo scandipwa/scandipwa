@@ -14,6 +14,7 @@
     --footer-content-height: 220px;
     --footer-copyright-height: 50px;
     --footer-nav-height: 48px;
+    --footer-total-height: calc(env(safe-area-inset-bottom) + 48px);
 }
 
 .Footer {
