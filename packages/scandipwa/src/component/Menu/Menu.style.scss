@@ -97,6 +97,10 @@
                 padding-block: 16px;
             }
 
+            &_isSecondLevel {
+                font-weight: 700;
+            }
+
             &_type {
                 &_main {
                     @include desktop {
@@ -108,14 +112,13 @@
                 }
 
                 &_subcategory {
-                    display: inline-block;
-
                     @include mobile {
-                        font-weight: 700;
+                        margin-inline-end: 0;
                     }
 
                     @include desktop {
                         margin-block-start: 16px;
+                        display: inline-block;
                     }
                 }
             }
@@ -195,7 +198,9 @@
             }
 
             .Menu-ItemCaption {
-                padding-block: 8px;
+                @include mobile {
+                    padding-block: 8px;
+                }
             }
 
             > .Menu-ItemList {
