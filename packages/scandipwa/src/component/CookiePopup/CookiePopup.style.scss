@@ -19,6 +19,7 @@
     display: flex;
     opacity: 0.9;
     align-items: center;
+    width: fit-content;
 
     @include desktop {
         inset-inline-start: 50%;
@@ -57,6 +58,7 @@
         font-weight: 700;
         font-size: 14px;
         cursor: pointer;
+        white-space: nowrap;
 
         @include desktop {
             margin-inline-start: 41px;
