@@ -61,7 +61,9 @@ export class ProductCard extends PureComponent {
         layout: PropTypes.string,
         updateConfigurableVariant: PropTypes.func.isRequired,
         configurableVariantIndex: PropTypes.number,
-        parameters: PropTypes.shape({}).isRequired
+        parameters: PropTypes.shape({}).isRequired,
+        setSiblingsHaveConfigurableOptions: PropTypes.func,
+        isPreview: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -324,7 +326,11 @@ export class ProductCard extends PureComponent {
     }
 
     renderMainDetails() {
-        const { product: { name } } = this.props;
+        const { layout } = this.props;
+
+        if (layout === GRID_LAYOUT) {
+            return this.renderProductName();
+        }
 
         return (
             <p

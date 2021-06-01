@@ -256,14 +256,30 @@ export class ProductActionsContainer extends PureComponent {
     getSelectedOptions() {
         const {
             productOptionsData: {
-                productOptionsMulti = []
+                productOptionsMulti = [],
+                productOptions = []
             } = {}
         } = this.props;
 
-        return productOptionsMulti.map((productOption) => {
+        return [...productOptionsMulti, ...productOptions].map((productOption) => {
             const { option_value } = productOption;
 
             return parseInt(option_value, 10);
+        });
+    }
+
+    getSelectedOptionsMulti() {
+        const {
+            productOptionsData: {
+                productOptionsMulti = [],
+                productOptions = []
+            } = {}
+        } = this.props;
+
+        return [...productOptionsMulti, ...productOptions].map((productOption) => {
+            const { option_id } = productOption;
+
+            return parseInt(option_id, 10);
         });
     }
 
@@ -279,6 +295,12 @@ export class ProductActionsContainer extends PureComponent {
                         regular_price_excl_tax: {
                             currency,
                             value: regularPriceExclTax = 0
+                        } = {},
+                        default_final_price_excl_tax: {
+                            value: defaultFinalPriceExclTax = 0
+                        } = {},
+                        discount: {
+                            percent_off = 0
                         } = {}
                     } = {}
                 } = {}
@@ -305,10 +327,40 @@ export class ProductActionsContainer extends PureComponent {
         } = customPrice;
 
         const selectedOptions = this.getSelectedOptions();
-        const prices = options.reduce((acc, { data = [] }) => {
-            data.forEach(({ option_type_id, price }) => {
+        const selectedOptionsMulti = this.getSelectedOptionsMulti();
+
+        const prices = options.reduce((acc, { data = [], option_id, type }) => {
+            /*
+            * Such types contain a single item within data
+            * as those are looked up on the option_id
+            */
+            if (['area', 'field', 'file'].includes(type)) {
+                if (selectedOptionsMulti.includes(option_id)) {
+                    /*
+                    * Since such types only have a single value
+                    * we can get the price_type directly
+                    */
+                    const [{ price_type }] = data;
+
+                    if (price_type === 'PERCENT') {
+                        const price = (data[0].price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
+                        acc.push(price);
+                    } else {
+                        acc.push(data[0].price);
+                    }
+                }
+
+                return acc;
+            }
+
+            data.forEach(({ option_type_id, price, price_type }) => {
                 if (selectedOptions.includes(option_type_id)) {
-                    acc.push(price);
+                    if (price_type === 'PERCENT') {
+                        const finalPrice = (price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
+                        acc.push(finalPrice);
+                    } else {
+                        acc.push(price);
+                    }
                 }
             });
 
@@ -316,15 +368,16 @@ export class ProductActionsContainer extends PureComponent {
         }, []);
 
         const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
-
         return {
             minimum_price: {
                 final_price: {
                     currency,
                     value: selectedOptionsTotal + finalCustomPrice
                 },
+                discount: { percent_off },
+                default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
                 regular_price: { value: selectedOptionsTotal + regularCustomPrice },
-                final_price_excl_tax: { value: selectedOptionsTotal + finalCustomPriceExclTax },
+                final_price_excl_tax: { value: selectedOptionsTotal + finalCustomPriceExclTax},
                 regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
             }
         };
@@ -374,12 +427,12 @@ export class ProductActionsContainer extends PureComponent {
             product: {
                 price_range: {
                     minimum_price: {
-                        regular_price: { currency, value },
-                        regular_price_excl_tax: { value: value_excl_tax },
-                        discount: { percent_off }
-                    }
-                }
-            }
+                        regular_price: { currency = '', value = 0 } = {},
+                        regular_price_excl_tax: { value: value_excl_tax = 0 } = {},
+                        discount: { percent_off = 0 } = {}
+                    } = {}
+                } = {}
+            } = {}
         } = this.props;
 
         const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
