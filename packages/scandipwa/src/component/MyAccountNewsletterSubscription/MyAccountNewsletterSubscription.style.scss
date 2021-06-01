@@ -10,12 +10,14 @@
  */
 
 .MyAccountNewsletterSubscription {
-    @include after-mobile {
+    font-size: 14px;
+
+    @include desktop {
         display: inline-block;
     }
 
     &-Button {
-        @include after-mobile {
+        @include desktop {
             position: absolute;
             top: -55px;
             inset-inline-end: 0;

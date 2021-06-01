@@ -44,7 +44,7 @@
             height: 16px;
             width: 16px;
 
-            @include before-desktop {
+            @include mobile {
                 inset-inline-start: 42px;
                 top: -32px;
             }
@@ -57,7 +57,7 @@
             padding-block: 13px;
             padding-inline: 20px 40px;
 
-            @include before-desktop {
+            @include mobile {
                 position: absolute;
                 top: -35px;
                 opacity: 0;

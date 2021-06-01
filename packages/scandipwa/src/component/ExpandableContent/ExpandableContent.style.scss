@@ -21,17 +21,13 @@
  }
 
  .ExpandableContent {
-     @include before-desktop {
+     @include mobile {
          border-block-start: 1px solid var(--expandable-content-divider-color);
-     }
 
-     &:last-of-type {
-         @include before-desktop {
+         &:last-of-type {
              border-block-end: 1px solid var(--expandable-content-divider-color);
          }
-     }
 
-     @include before-desktop {
          &-ToggleButton {
              @include plus-icon;
              width: var(--toggle-button-size);
@@ -64,7 +60,7 @@
          justify-content: space-between;
          align-items: center;
 
-         @include before-desktop {
+         @include mobile {
              padding-block: 14px;
          }
      }
@@ -109,7 +105,7 @@
          transition-property: opacity;
          transition-duration: 200ms;
 
-         @include before-desktop {
+         @include mobile {
              max-height: 0;
              overflow: hidden;
              opacity: 0;
@@ -120,7 +116,7 @@
          }
 
          &_isContentExpanded {
-             @include before-desktop {
+             @include mobile {
                  @include expanded-content;
              }
          }

@@ -41,7 +41,7 @@
     }
 
     &-ProductListWrapper {
-        @include before-desktop {
+        @include mobile {
             padding-block-start: 56px;
         }
     }

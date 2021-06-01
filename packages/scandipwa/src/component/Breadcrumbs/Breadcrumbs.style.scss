@@ -19,9 +19,8 @@
     $crumb-padding: 11px;
     $arrow-size: 4px;
 
-    @include before-desktop {
+    @include mobile {
         --breadcrumbs-background: #fff;
-
         display: none;
     }
 

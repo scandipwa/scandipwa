@@ -15,14 +15,6 @@
     }
 }
 
-// should be removed in future releases
-// kept as legacy support
-@mixin before-desktop {
-    @include mobile {
-        @content;
-    }
-}
-
 @mixin narrow-desktop {
     @media (min-width: 1024px){
         @content;

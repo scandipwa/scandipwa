@@ -114,7 +114,7 @@
         @include button-invisible;
 
         &_isVisible {
-            @include before-desktop {
+            @include mobile {
                 @include button-visible;
             }
         }
@@ -326,7 +326,7 @@
         height: 28px;
 
         &_isVisible {
-            @include before-desktop {
+            @include mobile {
                 opacity: 1;
                 max-width: calc(100% - 80px);
             }
@@ -369,7 +369,7 @@
                     margin-inline-start: auto;
                 }
 
-                @include before-desktop {
+                @include mobile {
                     position: absolute;
                     right: 10px;
                     width: auto;
@@ -378,7 +378,7 @@
         }
 
         .MyAccountOverlay {
-            @include before-desktop {
+            @include mobile {
                 top: var(--header-total-height);
                 height: calc(100vh - var(--header-total-height));
                 position: fixed;

@@ -16,7 +16,8 @@
 
 .WishlistItem {
     @include mobile {
-        padding: 14px var(--my-account-wrapper-padding-mobile);
+        padding-block: 14px;
+        margin-inline: var(--my-account-wrapper-margin-mobile);;
         border-block-start: 1px solid var(--wishlist-item-border-color);
     }
 
@@ -28,6 +29,9 @@
 
     &-InformationWrapper {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     &Options-List, &Option {
@@ -69,6 +73,18 @@
             white-space: inherit;
         }
 
+        .ProductCard-Price {
+            @include mobile {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+
+                span {
+                    display: inline-block;
+                }
+            }
+        }
+
         .ProductPrice_hasDiscount {
             @include mobile {
                 display: flex;
@@ -87,7 +103,7 @@
     }
 
     &-FigureWrapper {
-        padding: 9px 9px;
+        padding-block: 9px;
 
         @include mobile {
             display: flex;
@@ -108,6 +124,12 @@
         inset-block-start: 4px;
         height: 30px;
         width: 30px;
+
+        @include mobile {
+            inset-block-start: -4px;
+            inset-inline-end: -4px;
+            width: 24px!important;
+        }
     }
 
     &-AddToCart {
@@ -185,19 +207,18 @@
     &-CommentField {
         margin-block-start: 8px;
 
+        @include mobile {
+            margin-block-end: 8px;
+        }
+
         input {
             width: 100%;
         }
     }
 
     &-RowWrapper {
-        margin-block-start: auto;
         display: flex;
         justify-content: space-between;
-
-        @include mobile {
-            padding-block-start: 10px;
-        }
 
         @include after-mobile {
             align-items: flex-start;

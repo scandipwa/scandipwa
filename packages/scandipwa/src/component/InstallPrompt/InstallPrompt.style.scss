@@ -2,7 +2,7 @@
     // prevent margin merging
     border-block-start: 1px solid transparent;
 
-    @include before-desktop {
+    @include mobile {
         + .CmsPage {
             margin-block-start: 0;
 

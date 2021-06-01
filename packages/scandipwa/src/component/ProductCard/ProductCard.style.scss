@@ -238,10 +238,10 @@
     }
 
     &-Price {
-        margin-block-start: 6px;
         width: 100%;
 
-        @include after-mobile {
+        @include desktop {
+            margin-block-start: 6px;
             font-size: 24px;
         }
     }

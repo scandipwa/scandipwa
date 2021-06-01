@@ -43,14 +43,14 @@
             grid-column-gap: 28px;
             grid-template-columns: 1fr;
             border: 0;
-            margin: 0 calc(-1 * var(--my-account-wrapper-padding-mobile));
+            margin: 0 calc(-1 * var(--my-account-wrapper-margin-mobile));
         }
 
         @include after-mobile {
             grid-column: 2;
         }
 
-        @include before-desktop {
+        @include mobile {
             margin-block-end: var(--myaccount-wihslist-products-margin-bottom);
         }
     }
@@ -78,6 +78,7 @@
             padding: 14px 14px;
             position: fixed;
             width: 100%;
+            border-block-start: 1px solid var(--primary-divider-color);
         }
 
         @include tablet {

@@ -42,7 +42,7 @@
             }
         }
 
-        @include before-desktop {
+        @include mobile {
             width: 100%;
             margin-block-start: 0;
         }
