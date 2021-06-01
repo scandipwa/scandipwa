@@ -148,8 +148,6 @@ export class ProductCard extends PureComponent {
             isBundleProductOutOfStock
         } = this.props;
 
-        console.log(name);
-
         if (!price_range) {
             return <TextPlaceholder />;
         }
