@@ -429,7 +429,8 @@ export class ProductCard extends PureComponent {
         const {
             parameters,
             updateConfigurableVariant,
-            product: { variants }
+            product: { variants },
+            isLoading
         } = this.props;
 
         return (
@@ -439,6 +440,7 @@ export class ProductCard extends PureComponent {
               parameters={ parameters }
               variants={ variants }
               isExpandable={ false }
+              isReady={ !isLoading }
               showProductAttributeAsLink={ false }
             />
         );

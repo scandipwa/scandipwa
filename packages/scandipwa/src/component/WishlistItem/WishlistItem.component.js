@@ -209,16 +209,6 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    // renderOptions() {
-    //     const { product: { wishlist: { options = [] } } } = this.props;
-    //
-    //     return (
-    //             <div block="WishlistItemOptions">
-    //                 { this.renderOptionsList() }
-    //             </div>
-    //     );
-    // }
-
     renderName() {
         const { product: { name } } = this.props;
 
