@@ -192,7 +192,7 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isBundleProductOutOfStock() {
-        const { product: { items } } = this.props;
+        const { product: { items = [] } } = this.props;
 
         if (items.length === 0) {
             return true;

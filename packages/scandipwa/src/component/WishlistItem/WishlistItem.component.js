@@ -33,8 +33,7 @@ export class WishlistItem extends PureComponent {
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired,
-        attributes: PropTypes.array.isRequired
+        handleSelectIdChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -208,7 +207,6 @@ export class WishlistItem extends PureComponent {
                 { options.map(({ value }) => value).join(', ') }
             </div>
         );
-    }
     }
 
     renderName() {

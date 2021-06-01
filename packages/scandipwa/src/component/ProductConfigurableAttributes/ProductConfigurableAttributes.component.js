@@ -14,6 +14,10 @@ import { PureComponent } from 'react';
 
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
+import {
+    BIG_PLACEHOLDER_CONFIG,
+    SMALL_PLACEHOLDER_CONFIG
+} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
 
@@ -39,8 +43,7 @@ export class ProductConfigurableAttributes extends PureComponent {
     static defaultProps = {
         isReady: true,
         mix: {},
-        // eslint-disable-next-line no-magic-numbers
-        numberOfPlaceholders: [6, 10, 7],
+        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG,
         getIsConfigurableAttributeAvailable: () => true,
         isExpandable: true,
         showProductAttributeAsLink: true
@@ -104,9 +107,10 @@ export class ProductConfigurableAttributes extends PureComponent {
     }
 
     renderPlaceholders() {
-        const { numberOfPlaceholders } = this.props;
+        const { numberOfPlaceholders, isExpandable } = this.props;
+        const numberOfPlaceholdersToRender = isExpandable ? numberOfPlaceholders : SMALL_PLACEHOLDER_CONFIG;
 
-        return numberOfPlaceholders.map((length, i) => (
+        return numberOfPlaceholdersToRender.map((length, i) => (
                 <div
                   // eslint-disable-next-line react/no-array-index-key
                   key={ i }
