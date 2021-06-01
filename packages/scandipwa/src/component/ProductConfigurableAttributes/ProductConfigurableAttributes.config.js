@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,8 +10,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const CHECKBOX = 'checkbox';
-export const DROPDOWN = 'dropdown';
-export const TEXT_FIELD = 'field';
-export const AREA_FIELD = 'area';
-export const FILE = 'file';
+export const BIG_PLACEHOLDER_CONFIG = [6, 10, 7];
+export const SMALL_PLACEHOLDER_CONFIG = [5];

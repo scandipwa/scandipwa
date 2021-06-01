@@ -21,7 +21,7 @@ import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
+import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { getIsConfigurableParameterSelected, getNewParameters, getVariantIndex } from 'Util/Product';
@@ -78,7 +78,7 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateRecentlyViewedProducts: (products, store) => dispatch(updateRecentlyViewedProducts(products, store))
+    addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store))
 });
 
 /** @namespace Route/ProductPage/Container */
@@ -121,7 +121,7 @@ export class ProductPageContainer extends PureComponent {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
-        updateRecentlyViewedProducts: PropTypes.func.isRequired,
+        addRecentlyViewedProduct: PropTypes.func.isRequired,
         store: PropTypes.string.isRequired
     };
 
@@ -316,7 +316,7 @@ export class ProductPageContainer extends PureComponent {
         const {
             product,
             product: { sku },
-            updateRecentlyViewedProducts,
+            addRecentlyViewedProduct,
             store
         } = this.props;
 
@@ -325,7 +325,25 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        updateRecentlyViewedProducts(product, store);
+        // push into localstorage only preview of product (image, name and etc)
+        const {
+            canonical_url,
+            categories,
+            configurable_options,
+            description,
+            items,
+            meta_description,
+            meta_keyword,
+            meta_title,
+            options,
+            product_links,
+            reviews,
+            short_description,
+            variants,
+            ...productPreview
+        } = product;
+
+        addRecentlyViewedProduct(productPreview, store);
     }
 
     scrollTop() {

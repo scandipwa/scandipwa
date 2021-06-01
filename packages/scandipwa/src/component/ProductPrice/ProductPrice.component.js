@@ -31,21 +31,25 @@ export class ProductPrice extends PureComponent {
         discountPercentage: PropTypes.number,
         formattedFinalPrice: PropTypes.string,
         formattedSubPrice: PropTypes.string,
+        defaultFinalPriceExclTax: PropTypes.number,
         variantsCount: PropTypes.number,
         price: PriceType,
-        mix: MixType,
         label: PropTypes.string,
-        price_tiers: PropTypes.array
+        price_tiers: PropTypes.array,
+        formattedDefaultFinalPriceExclTax: PropTypes.number,
+        mix: MixType
     };
 
     static defaultProps = {
         isSchemaRequired: false,
         roundedRegularPrice: '0',
         priceCurrency: 'USD',
+        defaultFinalPriceExclTax: 0,
         discountPercentage: 0,
         formattedFinalPrice: '0',
         formattedSubPrice: null,
         variantsCount: 0,
+        formattedDefaultFinalPriceExclTax: 0,
         mix: {},
         price: {},
         label: '',
@@ -133,8 +137,8 @@ export class ProductPrice extends PureComponent {
 
     renderOldPrice() {
         const {
-            roundedRegularPrice,
             discountPercentage,
+            formattedDefaultFinalPriceExclTax,
             isSchemaRequired,
             variantsCount,
             price_tiers,
@@ -154,7 +158,7 @@ export class ProductPrice extends PureComponent {
               aria-label={ __('Old product price') }
               { ...schema }
             >
-                { roundedRegularPrice }
+                { formattedDefaultFinalPriceExclTax }
             </del>
         );
     }
