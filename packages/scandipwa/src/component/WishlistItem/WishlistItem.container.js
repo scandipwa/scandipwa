@@ -159,18 +159,12 @@ export class WishlistItemContainer extends PureComponent {
 
         return addProductToCart({ product: item, quantity, buyRequest: buy_request })
             .then(
-                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThen */
-                () => showNotification('success', __('Product Added To Cart'))
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
+                () => this.removeItem(id)
             )
             .then(
-                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
-                () => this.removeItem(id),
-                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartCatch */
-                () => this.showNotification('error', __('Error Adding Product To Cart'))
-            )
-            .catch(
-                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThenCatch */
-                () => this.showNotification('error', __('Error cleaning wishlist'))
+                /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThenThen */
+                () => this.showNotification('success', __('Product Added To Cart'))
             );
     }
 
