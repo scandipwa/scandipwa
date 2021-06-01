@@ -67,7 +67,8 @@ export class MyAccountCreateAccount extends PureComponent {
         const { location: { state: { firstName = '', lastName = '' } = {} } } = history;
 
         return (
-            <fieldset block="MyAccountOverlay" elem="Legend">
+            // eslint-disable-next-line max-len
+            <fieldset mix={ { block: 'MyAccountOverlay', elem: 'Legend' } }>
                 <legend>{ __('Personal Information') }</legend>
                 <Field
                   type="text"

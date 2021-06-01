@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountOverlayLegend {
-    padding: .8rem 0;
+.MyAccountOverlay {
+    &-Legend {
+        padding: .8rem 0;
+    }
 }
