@@ -30,6 +30,16 @@
         width: 100%;
     }
 
+    &Options-List, &Option {
+        font-weight: 400;
+        font-size: 12px;
+        color: var(--secondary-dark-color);
+    }
+
+    &Options-List {
+        height: 30px;
+    }
+
     &:first-of-type {
         @include mobile {
             border-block-start: none;
@@ -53,16 +63,6 @@
             &:last-child {
                 margin-block-end: 0;
             }
-        }
-
-        .ProductAttribute {
-            font-size: 10px;
-            text-transform: uppercase;
-            border: 1px solid #adadad;
-            color: #adadad;
-            padding: 3px 5px;
-            margin-inline-end: 5px;
-            display: inline-block;
         }
 
         .ProductCard-Name {
@@ -151,7 +151,8 @@
             }
 
             input {
-                padding-block-start: 1px;
+                min-width: 36px;
+                font-size: 14px;
             }
         }
 
@@ -165,9 +166,7 @@
         display: inline-block;
 
         @include after-mobile {
-            float: end;
             margin-block-end: 16px;
-            text-align: end;
         }
     }
 
@@ -267,30 +266,5 @@
         height: 100%;
         font-weight: 600;
         color: var(--whislist-swipe-to-delete-color);
-    }
-
-    &Options {
-        margin-block-end: 20px;
-        margin-block-start: 1px;
-
-        &-Title {
-            margin-block-start: 5px;
-            font-weight: bold;
-
-            &:hover {
-                cursor: pointer;
-                text-decoration: underline;
-            }
-        }
-    }
-
-    &Option {
-        font-size: 0.9em;
-        padding: 2px;
-
-        &-Value {
-            padding-inline-start: 5px;
-            font-weight: bold;
-        }
     }
 }

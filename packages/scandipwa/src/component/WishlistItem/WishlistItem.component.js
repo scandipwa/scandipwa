@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
+import { BUNDLE, GROUPED } from 'Util/Product';
 
 import './WishlistItem.style';
 
@@ -32,10 +33,7 @@ export class WishlistItem extends PureComponent {
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
-        attributes: PropTypes.array.isRequired,
-        handleSelectIdChange: PropTypes.func.isRequired,
-        toggleOptionVisibility: PropTypes.func.isRequired,
-        showOptions: PropTypes.bool.isRequired
+        handleSelectIdChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -48,6 +46,11 @@ export class WishlistItem extends PureComponent {
         isRemoving: false
     };
 
+    optionRenderMap = {
+        [GROUPED]: this.renderGroupedOption.bind(this),
+        [BUNDLE]: this.renderBundleOption.bind(this)
+    };
+
     renderDescription() {
         const {
             product: { wishlist: { description } },
@@ -58,8 +61,7 @@ export class WishlistItem extends PureComponent {
             <Field
               id="description"
               name="description"
-              type="textarea"
-              rows={ 3 }
+              type="input"
               value={ description }
               mix={ { block: 'WishlistItem', elem: 'CommentField' } }
               placeholder={ __('Add a comment') }
@@ -81,11 +83,7 @@ export class WishlistItem extends PureComponent {
               type="number"
               min={ 1 }
               value={ quantity }
-              mix={ {
-                  block: 'WishlistItem',
-                  elem: 'QuantityInput',
-                  mix: { block: 'Field', mods: { style: 'inline' } }
-              } }
+              mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
               onChange={ changeQuantity }
             />
         );
@@ -128,10 +126,6 @@ export class WishlistItem extends PureComponent {
               mix={ { block: 'WishlistItem', elem: 'AddToCart', mods } }
               onClick={ addToCart }
             >
-                <span
-                  block="WishlistItem"
-                  elem="MinicartIcon"
-                />
                 { __('Add to cart') }
             </button>
         );
@@ -175,76 +169,61 @@ export class WishlistItem extends PureComponent {
         };
     }
 
-    renderOption = (option) => {
+    renderGroupedOption(option) {
         const { label, value } = option;
 
         return (
-            <div block="WishlistItemOption">
-                <span block="WishlistItemOption" elem="Label">
-                    { label }
-                    :
-                </span>
-                <span block="WishlistItemOption" elem="Value">
-                    { value }
-                </span>
-            </div>
-        );
-    };
-
-    renderOptionsList() {
-        const { product: { wishlist: { options } } } = this.props;
-
-        return (
-            <div block="WishlistItemOptions" elem="List">
-                { options.map(this.renderOption) }
-            </div>
+            <span block="WishlistItemOption">
+                { `${ value} x ${label }` }
+            </span>
         );
     }
 
-    renderOptionsTitle() {
-        const { showOptions, toggleOptionVisibility } = this.props;
-        const label = showOptions ? __('Hide Details') : __('Show Details');
+    renderBundleOption(option) {
+        const { label, value } = option;
 
         return (
-            <div
-              block="WishlistItemOptions"
-              elem="Title"
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => toggleOptionVisibility() }
-            >
-                { label }
-            </div>
+            <span block="WishlistItemOption">
+                { `${label }: ${ value}` }
+            </span>
         );
     }
 
     renderOptions() {
-        const { showOptions, product: { wishlist: { options = [] } } } = this.props;
+        const { product: { type_id, wishlist: { options } } } = this.props;
 
-        if (options.length === 0) {
-            return null;
-        }
+        const renderMethod = this.optionRenderMap[type_id];
 
-        if (showOptions) {
+        if (renderMethod) {
             return (
-                <div block="WishlistItemOptions">
-                    { this.renderOptionsList() }
-                    { this.renderOptionsTitle() }
+                <div block="WishlistItemOptions" elem="List">
+                    { options.map(renderMethod) }
                 </div>
             );
         }
 
         return (
-            <div block="WishlistItemOptions">
-                { this.renderOptionsTitle() }
+            <div block="WishlistItemOptions" elem="List">
+                { options.map(({ value }) => value).join(', ') }
             </div>
         );
     }
+
+    // renderOptions() {
+    //     const { product: { wishlist: { options = [] } } } = this.props;
+    //
+    //     return (
+    //             <div block="WishlistItemOptions">
+    //                 { this.renderOptionsList() }
+    //             </div>
+    //     );
+    // }
 
     renderName() {
         const { product: { name } } = this.props;
 
         return (
-            <span>{ name }</span>
+            <h4>{ name }</h4>
         );
     }
 
@@ -255,20 +234,6 @@ export class WishlistItem extends PureComponent {
               elem="Price"
             >
                 { productPrice() }
-            </div>
-        );
-    }
-
-    renderAttributes() {
-        const { attributes } = this.props;
-
-        return (
-            <div block="WishlistItem" elem="AttributeWrapper">
-                { attributes.map((attr) => (
-                    <span mix={ { block: 'ProductAttribute' } }>
-                        { attr }
-                    </span>
-                )) }
             </div>
         );
     }
@@ -311,7 +276,6 @@ export class WishlistItem extends PureComponent {
                             ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
                             <div block="WishlistItem" elem="InformationWrapper">
                                 { this.renderName() }
-                                { this.renderAttributes() }
                                 <div block="WishlistItem" elem="RowWrapper">
                                     { this.renderQuantityFieldInput() }
                                     { this.renderPrice(productPrice) }
@@ -358,7 +322,6 @@ export class WishlistItem extends PureComponent {
                                 { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
                             </figure>
                             { this.renderName() }
-                            { this.renderAttributes() }
                         </>
                     ) }
                     { this.renderRemove() }
