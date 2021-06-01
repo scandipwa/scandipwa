@@ -14,12 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { KLARNA, PURCHASE_ORDER } from 'Component/CheckoutPayments/CheckoutPayments.config';
-import {
-    TERMS_AND_CONDITIONS_POPUP_ID
-} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
@@ -33,13 +29,13 @@ export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements,
+    isAllRequiredAgreementsSelected: state.CheckoutReducer.isAllRequiredAgreementsSelected,
     addressLinesQty: state.ConfigReducer.address_lines_quantity
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showPopup: (payload) => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
+    showErrorNotification: (message) => dispatch(showNotification('error', message))
 });
 
 /** @namespace Component/CheckoutBilling/Container */
@@ -48,7 +44,6 @@ export class CheckoutBillingContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
-        showPopup: PropTypes.func.isRequired,
         shippingAddress: addressType.isRequired,
         customer: customerType.isRequired,
         totals: TotalsType.isRequired,
@@ -83,8 +78,7 @@ export class CheckoutBillingContainer extends PureComponent {
         onBillingError: this.onBillingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
-        onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
-        showPopup: this.showPopup.bind(this)
+        onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this)
     };
 
     __construct(props) {
@@ -145,18 +139,6 @@ export class CheckoutBillingContainer extends PureComponent {
             const { message = __('Something went wrong!') } = error;
             showErrorNotification(message);
         }
-    }
-
-    showPopup() {
-        const { showPopup, termsAndConditions } = this.props;
-        const {
-            name: title = __('Terms and Conditions'),
-            content: text = __('There are no Terms and Conditions configured.')
-        } = termsAndConditions[0] || {};
-
-        return showPopup({
-            title, text
-        });
     }
 
     _getPaymentData(fields, asyncData) {
