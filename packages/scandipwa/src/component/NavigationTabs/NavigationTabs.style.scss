@@ -17,7 +17,6 @@
 
 .NavigationTabs {
     --header-background: var(--navigation-tabs-background);
-    --header-color: var(--navigation-tabs-color);
     --header-icon-stroke-width: 2px;
 
     position: fixed;
@@ -51,7 +50,7 @@
     }
 
     &-Nav {
-        height: var(--header-nav-height);
+        height: var(--footer-nav-height);
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -77,7 +76,7 @@
         font-weight: bold;
 
         &_isActive {
-            --header-color: var(--primary-base-color);
+            filter: var(--primary-base-filter);
         }
     }
 }

@@ -85,11 +85,11 @@
     & &-CloseBtn {
         @include close-button;
 
-        height: 40px;
-        width: 40px;
+        height: 30px;
+        width: 30px;
         position: absolute;
-        top: -4px;
-        inset-inline-end: 1px;
+        inset-block-start: -4px;
+        inset-inline-end: -6px;
         z-index: 5;
 
         @include mobile {

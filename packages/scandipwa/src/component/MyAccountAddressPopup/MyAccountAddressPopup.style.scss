@@ -10,6 +10,8 @@
  */
 
 .MyAccountAddressPopup {
+    font-size: 12px;
+
     &-Address {
         margin: 12px 0;
 
@@ -21,19 +23,6 @@
     .Button {
         @include mobile {
             width: 100%;
-        }
-    }
-
-
-    .Field {
-        &-CheckboxLabel {
-            flex-direction: row-reverse;
-            justify-content: flex-end;
-
-            .input-control {
-                margin-inline-end: 11px;
-                margin-inline-start: 0;
-            }
         }
     }
 }

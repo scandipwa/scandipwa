@@ -141,7 +141,9 @@ export class ProductCard extends PureComponent {
 
     renderProductPrice() {
         const {
-            product: { price_range, price_tiers = [], type_id },
+            product: {
+                price_range, price_tiers = [], type_id, name
+            },
             isConfigurableProductOutOfStock,
             isBundleProductOutOfStock
         } = this.props;

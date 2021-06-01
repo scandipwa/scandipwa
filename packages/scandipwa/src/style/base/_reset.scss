@@ -140,7 +140,8 @@ main {
 
     @include mobile {
         min-height: calc(100vh - var(--header-total-height) - var(--navigation-tabs-height));
-        margin-block: var(--header-total-height);
+        margin-block-start: var(--header-total-height);
+        margin-block-end: var(--footer-total-height);
     }
 }
 

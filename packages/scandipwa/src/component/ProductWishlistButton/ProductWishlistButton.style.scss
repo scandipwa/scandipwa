@@ -7,6 +7,14 @@
     height: var(--wishlist-heart-size);
     width: var(--wishlist-heart-size);
 
+    &-Button_isInWishlist {
+
+        .ProductWishlistButton-Heart {
+            @include heart-icon-full;
+            filter: var(--primary-base-filter);
+        }
+    }
+
     &-Button.Button {
         background-color: unset;
         border: none;

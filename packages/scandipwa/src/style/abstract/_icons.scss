@@ -326,6 +326,12 @@
     }
 }
 
+@mixin heart-icon-full {
+    background-image: url('./../icons/heart-full.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 @mixin exclamation-icon {
     background-image: var(--imported_icons_exclamation, url('./../icons/exclamation.svg'));
     background-repeat: no-repeat;

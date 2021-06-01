@@ -66,7 +66,7 @@ export class ProductCardContainer extends PureComponent {
     containerFunctions = {
         getAttribute: this.getAttribute.bind(this),
         isConfigurableProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
-        isBundleProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
+        isBundleProductOutOfStock: this.isBundleProductOutOfStock.bind(this),
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this)
     };
 

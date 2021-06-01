@@ -35,7 +35,9 @@
     }
 
     &-ExpandableContentButton {
-        @include after-mobile {
+        padding-inline: 16px;
+
+        @include desktop {
             display: none;
         }
 
