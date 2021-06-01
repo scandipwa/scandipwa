@@ -104,15 +104,10 @@
     &-Remove {
         @include close-button;
         position: absolute;
-        inset-inline-end: 5px;
-        top: 20px;
+        inset-inline-end: 4px;
+        inset-block-start: 4px;
         height: 30px;
         width: 30px;
-
-        &::before,
-        &::after {
-            top: 5px;
-        }
     }
 
     &-AddToCart {
@@ -146,8 +141,10 @@
         }
 
         &Input {
+            margin-block-start: 0;
+
             button {
-                padding: 15px;
+                padding: 14px;
             }
 
             input {
@@ -186,16 +183,10 @@
     }
 
     &-CommentField {
-        textarea {
-            width: 100%;
-            max-height: 48px;
-        }
+        margin-block-start: 8px;
 
-        &_isNotEditingActive {
-            textarea {
-                padding: 0;
-                border: none;
-            }
+        input {
+            width: 100%;
         }
     }
 

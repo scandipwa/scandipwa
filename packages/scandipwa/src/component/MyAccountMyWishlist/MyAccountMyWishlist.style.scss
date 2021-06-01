@@ -14,7 +14,7 @@
 }
 
 .MyAccountMyWishlist {
-    --myaccount-wihslist-products-margin-block-end: 0;
+    --myaccount-wishlist-action-bar-offset: 55px;
 
     &-Products {
         display: grid;
@@ -22,12 +22,21 @@
         grid-auto-rows: max-content;
         grid-column-gap: 24px;
 
-        @media (min-width: 17px) {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
         @include tablet {
             grid-template-columns: repeat(2, 1fr);
+            inset-block-start: var(--myaccount-wishlist-action-bar-offset);
+            padding-block-end: var(--myaccount-wishlist-action-bar-offset);
+        }
+
+        @include narrow-desktop {
+            grid-template-columns: repeat(3, 1fr);
+            inset-block-start: var(--myaccount-wishlist-action-bar-offset);
+            padding-block-end: var(--myaccount-wishlist-action-bar-offset);
+        }
+
+        @include wide-desktop {
+            grid-template-columns: repeat(4, 1fr);
+            inset-block-start: 0;
         }
 
         @include mobile {
@@ -51,10 +60,14 @@
         padding: 0 0 12px;
         justify-content: flex-end;
 
-        @include after-mobile {
+        @include desktop {
             position: absolute;
-            top: -55px;
+            inset-block-start: 0;
             inset-inline-end: 0;
+        }
+
+        @include wide-desktop {
+            inset-block-start: calc(0px - var(--myaccount-wishlist-action-bar-offset));
         }
 
         @include mobile {
@@ -65,6 +78,12 @@
             padding: 14px 14px;
             position: fixed;
             width: 100%;
+        }
+
+        @include tablet {
+            .AddToCart-Icon {
+                display: none;
+            }
         }
     }
 
@@ -125,7 +144,6 @@
 
         @include after-mobile {
             order: 1;
-            margin-inline-start: 15px;
         }
 
         &,

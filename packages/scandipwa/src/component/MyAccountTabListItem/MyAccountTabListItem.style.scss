@@ -36,17 +36,12 @@
 
     &_isActive,
     &:hover {
-        @include after-mobile {
-            --border-width: 2px;
-            --text-shadow:
-                -.02ex 0 var(--my-account-tab-list-item-color),
-                .02ex 0 var(--my-account-tab-list-item-color);
-        }
-    }
-
-    &_isActive {
         @include mobile {
             display: none;
+        }
+
+        .MyAccountTabListItem-Button {
+            font-weight: 700;
         }
     }
 
