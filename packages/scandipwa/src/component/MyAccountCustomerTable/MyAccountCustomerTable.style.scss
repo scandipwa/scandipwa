@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountMyOrders {
+.MyAccountCustomerTable {
     display: grid;
     grid-gap: 24px;
     grid-template-columns: 1fr;
@@ -31,13 +31,5 @@
         width: 100%;
         min-width: 100%;
         max-width: 100%;
-    }
-}
-
-.MyDownloadableOrders {
-    @include mobile {
-        overflow-x: scroll;
-        -webkit-overflow-scrolling: touch;
-        width: calc(100vw - var(--my-account-wrapper-padding-mobile) * 2);
     }
 }

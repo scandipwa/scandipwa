@@ -10,6 +10,8 @@
  */
 
 .MyAccountAddressTable {
+    font-size: 14px;
+
     td,
     th {
         @include after-mobile {

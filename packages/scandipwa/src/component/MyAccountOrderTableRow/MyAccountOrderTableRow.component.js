@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { baseOrderInfoType } from 'Type/Account';
-import { DeviceType } from 'Type/Device';
 import { formatPrice } from 'Util/Price';
 
 import './MyAccountOrderTableRow.style';
@@ -23,11 +22,10 @@ export class MyAccountOrderTableRow extends PureComponent {
     static propTypes = {
         currency_code: PropTypes.string.isRequired,
         base_order_info: baseOrderInfoType.isRequired,
-        onViewClick: PropTypes.func.isRequired,
-        device: DeviceType.isRequired
+        onViewClick: PropTypes.func.isRequired
     };
 
-    renderMobileView() {
+    render() {
         const {
             base_order_info: {
                 created_at,
@@ -40,56 +38,11 @@ export class MyAccountOrderTableRow extends PureComponent {
         } = this.props;
 
         return (
-            <button onClick={ onViewClick } block="MyAccountOrderTableRow">
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>{ __('Order') }</th>
-                            <td>{ increment_id ? `#${increment_id}` : '' }</td>
-                        </tr>
-                        <tr>
-                            <th>{ __('Date') }</th>
-                            <td>{ created_at }</td>
-                        </tr>
-                        <tr>
-                            <th>{ __('Status') }</th>
-                            <td>{ status_label }</td>
-                        </tr>
-                        <tr>
-                        <th>{ __('Total') }</th>
-                            <td>
-                                { grand_total ? formatPrice(grand_total, currency_code) : '' }
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </button>
-        );
-    }
-
-    render() {
-        const {
-            base_order_info: {
-                created_at,
-                status_label,
-                increment_id,
-                grand_total
-            },
-            onViewClick,
-            currency_code,
-            device
-        } = this.props;
-
-        if (device.isMobile) {
-            return this.renderMobileView();
-        }
-
-        return (
             <tr onClick={ onViewClick } block="MyAccountOrderTableRow">
                 <td>{ increment_id ? `#${increment_id}` : '' }</td>
                 <td>{ created_at }</td>
                 <td>{ status_label }</td>
-                <td>
+                <td block="hidden-mobile">
                     { grand_total ? formatPrice(grand_total, currency_code) : '' }
                 </td>
             </tr>

@@ -36,10 +36,6 @@
 
     &_isActive,
     &:hover {
-        @include mobile {
-            display: none;
-        }
-
         .MyAccountTabListItem-Button {
             font-weight: 700;
         }
