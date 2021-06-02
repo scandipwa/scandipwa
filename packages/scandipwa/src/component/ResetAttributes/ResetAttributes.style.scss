@@ -10,15 +10,12 @@
  */
 .ResetAttributes {
 
-    @include before-desktop {
-        margin: 16px 16px 0;
-    }
-
     @include desktop {
         margin-block-end: 20px;
     }
 
     @include mobile {
+        margin: 16px 16px 0;
         max-height: 200px;
         overflow-y: scroll;
     }
@@ -45,7 +42,7 @@
     }
 
     &-Title {
-        @include before-desktop {
+        @include mobile {
             display: none;
         }
 
@@ -56,7 +53,7 @@
     }
 
     &-MobileTitle {
-        @include before-desktop {
+        @include mobile {
             padding-inline-start: 16px;
             font-weight: 700;
         }

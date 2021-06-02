@@ -28,7 +28,7 @@
         overflow: visible;
     }
 
-    @include before-desktop {
+    @include mobile {
         transition: transform 200ms ease-in-out;
         transform: translateY(100%);
         will-change: transform;
@@ -62,7 +62,7 @@
         margin-block-start: 0;
         margin-block-end: 0;
 
-        @include before-desktop {
+        @include mobile {
             display: none;
         }
 
@@ -152,14 +152,10 @@
 
     &-SeeResults,
     &-ResetButton {
-        @include before-desktop {
+        @include mobile {
             bottom: 0;
-            padding: 12px;
             width: 100%;
             inset-inline-start: 0;
-        }
-
-        @include mobile {
             padding: 16px;
         }
     }
@@ -170,7 +166,7 @@
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
-            @include before-desktop {
+            @include mobile {
                 display: none;
             }
         }
@@ -187,7 +183,7 @@
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
-            @include before-desktop {
+            @include mobile {
                 display: block;
             }
         }
@@ -201,10 +197,6 @@
         }
 
         &:last-child {
-            @include before-desktop {
-                margin-block-end: 7.2px;
-            }
-
             @include mobile {
                 margin-block-end: 8.4px;
             }

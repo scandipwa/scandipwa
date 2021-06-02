@@ -19,7 +19,7 @@
     }
 
     &-Button {
-        @include after-mobile {
+        @include desktop {
             position: absolute;
             top: -55px;
             inset-inline-end: 0;

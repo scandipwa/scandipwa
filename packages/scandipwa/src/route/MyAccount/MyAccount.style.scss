@@ -11,7 +11,7 @@
 
 :root {
     --my-account-content-background: #{$white};
-    --my-account-wrapper-padding-mobile: 14px;
+    --my-account-wrapper-margin-mobile: 16px;
     --my-account-content-border: 1px solid rgba(10, 9, 3, 0.16);
 }
 
@@ -36,13 +36,11 @@
 
     &-TabContent {
         background: var(--my-account-content-background);
-        padding: 12px;
-
         @include mobile {
-            padding: var(--my-account-wrapper-padding-mobile);
+            margin-inline: var(--my-account-wrapper-margin-mobile);
         }
 
-        @include after-mobile {
+        @include desktop {
             border: var(--my-account-content-border);
             grid-row: span 2;
             padding: 24px;

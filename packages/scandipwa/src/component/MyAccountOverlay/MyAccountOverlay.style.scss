@@ -36,7 +36,7 @@
         width: var(--my-account-overlay-width);
     }
 
-    @include before-desktop {
+    @include mobile {
         height: auto;
         padding-block-end: 0;
         top: 0;
@@ -84,10 +84,6 @@
 
         @include mobile {
             padding: 0 14px 14px;
-        }
-
-        @include before-desktop {
-            display: none;
         }
     }
 
@@ -189,10 +185,6 @@
                     }
                 }
 
-                @include before-desktop {
-                    padding-block-start: 12px;
-                }
-
                 @include mobile {
                     padding-block-start: 14px;
                 }
@@ -271,9 +263,6 @@
 
                 @include mobile {
                     padding-block-start: 28px;
-                }
-
-                @include before-desktop {
                     display: none;
                 }
 
@@ -311,9 +300,6 @@
                 @include mobile {
                     padding-block-start: 39px;
                     padding-inline-start: 29px;
-                }
-
-                @include before-desktop {
                     display: none;
                 }
 

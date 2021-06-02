@@ -45,7 +45,7 @@
 
         button,
         input {
-            @include before-desktop {
+            @include mobile {
                 width: 100%;
             }
 

@@ -203,6 +203,7 @@ export class Header extends NavigationAbstract {
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         search: this.renderSearchField.bind(this),
+        welcome: this.renderWelcomeMessage.bind(this),
         account: this.renderAccount.bind(this),
         compare: this.renderComparePageButton.bind(this),
         minicart: this.renderMinicart.bind(this),
@@ -631,6 +632,24 @@ export class Header extends NavigationAbstract {
             >
                 { __('OK') }
             </button>
+        );
+    }
+
+    renderWelcomeMessage(isVisible = false) {
+        const { firstname } = this.props;
+
+        if (!isSignedIn() || !firstname) {
+            return null;
+        }
+
+        return (
+            <div
+              block="Header"
+              elem="Welcome"
+              mods={ { type: 'Welcome', isVisible } }
+            >
+                { __('Welcome, %s!', firstname) }
+            </div>
         );
     }
 

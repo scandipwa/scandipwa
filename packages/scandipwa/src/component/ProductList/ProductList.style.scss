@@ -14,7 +14,7 @@
 }
 
 .ProductList {
-    @include after-mobile {
+    @include desktop {
         grid-column: 2;
         padding-block-end: 24px;
     }

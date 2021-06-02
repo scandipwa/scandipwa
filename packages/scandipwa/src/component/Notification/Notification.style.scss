@@ -48,7 +48,7 @@
         padding: 12px 14px;
     }
 
-    @include after-mobile {
+    @include desktop {
         max-width: 550px;
         margin-block-end: 20px;
     }

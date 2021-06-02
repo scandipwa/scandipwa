@@ -78,9 +78,6 @@
 
     &-ExpandableContentContent {
         &_isContentExpanded {
-            @include before-desktop {
-                padding: 0 12px 12px;
-            }
 
             @include mobile {
                 padding: 0 14px 14px;

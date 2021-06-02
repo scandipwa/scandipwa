@@ -96,7 +96,7 @@
                     height: $size-mobile;
                     border: solid 1px $border-color;
 
-                    @include after-mobile {
+                    @include desktop {
                         width: $size;
                         height: $size;
                     }
@@ -120,7 +120,7 @@
                     font-size: 14px;
                 }
 
-                @include after-mobile {
+                @include desktop {
                     height: $size;
                     min-height: $size;
                     width: $input-width;
@@ -227,13 +227,13 @@
             }
 
             &:hover {
-                @include after-mobile {
+                @include desktop {
                     --box-color: var(--secondary-light-color);
 
                     border-color: var(--checkbox-border-color-active);
 
                     &::after {
-                        @include after-mobile {
+                        @include desktop {
                             --checkmark-color: var(--secondary-dark-color);
                         }
                     }

@@ -36,10 +36,6 @@
 
     &_isActive,
     &:hover {
-        @include mobile {
-            display: none;
-        }
-
         .MyAccountTabListItem-Button {
             font-weight: 700;
         }
@@ -58,7 +54,7 @@
         justify-content: space-between;
         align-items: center;
 
-        @include after-mobile {
+        @include desktop {
             padding: 10px 24px;
             min-width: 250px;
         }

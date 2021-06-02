@@ -31,7 +31,7 @@
     &-ExpandableContent {
 
         &Button {
-            @include after-mobile {
+            @include desktop {
                 display: none;
             }
         }

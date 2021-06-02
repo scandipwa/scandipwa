@@ -19,7 +19,7 @@
     --popup-min-width: 100%;
     --popup-content-padding: 12px;
 
-    @include after-mobile {
+    @include desktop {
         --popup-min-width: 490px;
         --popup-content-padding: 24px;
     }

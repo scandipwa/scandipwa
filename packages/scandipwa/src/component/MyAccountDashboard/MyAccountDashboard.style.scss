@@ -46,7 +46,7 @@
             margin-block-start: 14px;
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-inline-start: 12px;
         }
     }

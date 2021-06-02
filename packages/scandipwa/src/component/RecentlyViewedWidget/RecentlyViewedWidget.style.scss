@@ -14,7 +14,7 @@
 }
 
 .RecentlyViewedWidget {
-    @include after-mobile {
+    @include desktop {
         grid-column: 2;
         min-height: auto;
         padding-block-end: 20px;
@@ -35,7 +35,7 @@
             grid-template-columns: 1fr 1fr;
         }
 
-        @include after-mobile {
+        @include desktop {
             grid-column: 2;
         }
     }

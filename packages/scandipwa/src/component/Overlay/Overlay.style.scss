@@ -28,7 +28,7 @@
     background-color: var(--overlay-content-background);
 
     &:not(.Overlay_isStatic) {
-        @include before-desktop {
+        @include mobile {
             -webkit-overflow-scrolling: touch;
 
             position: fixed;

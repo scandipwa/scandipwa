@@ -12,6 +12,7 @@
 .KeyValueTable {
     margin: 0 0 12px;
     min-width: 100%;
+    font-size: 14px;
 
     @include mobile {
         margin: 0 0 14px;
@@ -36,7 +37,6 @@
     &-Wrapper {
         @include mobile {
             overflow-x: scroll;
-            max-width: calc(100vw - 28px);
         }
     }
 }

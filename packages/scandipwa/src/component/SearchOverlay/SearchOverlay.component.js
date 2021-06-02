@@ -69,11 +69,7 @@ export class SearchOverlay extends PureComponent {
     }
 
     renderSearchResults() {
-        const { searchCriteria, searchResults, isLoading } = this.props;
-
-        if (!searchCriteria.trim()) {
-            return null;
-        }
+        const { searchResults, isLoading } = this.props;
 
         if (!searchResults.length && !isLoading && !this.timeout) {
             return this.renderNoResults();
@@ -89,7 +85,11 @@ export class SearchOverlay extends PureComponent {
     }
 
     render() {
-        const { isHideOverlay } = this.props;
+        const { isHideOverlay, searchCriteria } = this.props;
+
+        if (!searchCriteria.trim()) {
+            return null;
+        }
 
         if (isHideOverlay) {
             return (

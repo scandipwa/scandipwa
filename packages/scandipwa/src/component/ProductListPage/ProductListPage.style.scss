@@ -25,7 +25,7 @@
         padding-inline: 10px;
     }
 
-    @include after-mobile {
+    @include desktop {
         grid-column: 2;
     }
 

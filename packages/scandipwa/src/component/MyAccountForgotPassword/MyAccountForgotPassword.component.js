@@ -63,7 +63,7 @@ export class MyAccountForgotPassword extends PureComponent {
 
         return (
             <section aria-labelledby="create-account-label">
-                <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
+                <h4 id="create-account-label">{ __("Don't have an account?") }</h4>
                 <button
                   block="Button"
                   mods={ { likeLink: true } }

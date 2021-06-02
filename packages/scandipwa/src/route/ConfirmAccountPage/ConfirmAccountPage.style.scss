@@ -13,9 +13,6 @@
     --content-wrapper-width: 600px;
 
     &-Wrapper {
-        @include before-desktop {
-            padding-block-start: 6px;
-        }
 
         @include mobile {
             padding-block-start: 7px;
@@ -30,7 +27,7 @@
             width: 100%;
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-inline-start: 12px;
         }
     }

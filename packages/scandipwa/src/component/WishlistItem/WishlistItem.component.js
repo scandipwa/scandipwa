@@ -51,7 +51,7 @@ export class WishlistItem extends PureComponent {
         [BUNDLE]: this.renderBundleOption.bind(this)
     };
 
-    renderDescription() {
+    renderCommentField() {
         const {
             product: { wishlist: { description } },
             changeDescription
@@ -244,45 +244,64 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderContentMobile({
+    renderCardFooterMobile() {
+        const { redirectToProductPage } = this.props;
+
+        return (
+            <div block="WishlistItem" elem="Content">
+                { this.renderCommentField() }
+                <div block="WishlistItem" elem="ActionWrapper">
+                    { this.renderAddToCartButton() }
+                    <span
+                      block="WishlistItem"
+                      elem="EditIcon"
+                      onClick={ redirectToProductPage }
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    renderCardDataMobile({
         content: { productPrice },
         pictureBlock: { picture: renderPicture },
         renderCardLinkWrapper
     }) {
+        return (
+            <div block="WishlistItem" elem="FigureWrapper">
+                { renderCardLinkWrapper((
+                    <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
+                        { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
+                    </figure>
+                ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
+                <div block="WishlistItem" elem="InformationWrapper">
+                    <div block="WishlistItem" elem="RowWrapper">
+                        <div>
+                            { this.renderName() }
+                            { this.renderOptions() }
+                        </div>
+                        { this.renderRemove() }
+                    </div>
+                    <div block="WishlistItem" elem="RowWrapper">
+                        { this.renderQuantityFieldInput() }
+                        { this.renderPrice(productPrice) }
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderContentMobile(renderMethods) {
         const {
-            isEditingActive,
-            redirectToProductPage
+            isEditingActive
         } = this.props;
 
         return (
             <div block="WishlistItem" elem="SelectWrapper">
                     { this.renderSelectCheckbox() }
                     <div block="WishlistItem" elem="ContentWrapper" mods={ { isEditingActive } }>
-                        <div block="WishlistItem" elem="FigureWrapper">
-                            { renderCardLinkWrapper((
-                                <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
-                                    { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
-                                </figure>
-                            ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
-                            <div block="WishlistItem" elem="InformationWrapper">
-                                { this.renderName() }
-                                <div block="WishlistItem" elem="RowWrapper">
-                                    { this.renderQuantityFieldInput() }
-                                    { this.renderPrice(productPrice) }
-                                </div>
-                            </div>
-                        </div>
-                        <div block="WishlistItem" elem="Content">
-                            { this.renderDescription() }
-                            <div block="WishlistItem" elem="ActionWrapper">
-                            { this.renderAddToCartButton() }
-                            <span
-                              block="WishlistItem"
-                              elem="EditIcon"
-                              onClick={ redirectToProductPage }
-                            />
-                            </div>
-                        </div>
+                        { this.renderCardDataMobile(renderMethods) }
+                        { this.renderCardFooterMobile() }
                     </div>
             </div>
         );
@@ -322,7 +341,7 @@ export class WishlistItem extends PureComponent {
                         { this.renderPrice(productPrice) }
                         { this.renderQuantityFieldInput() }
                     </div>
-                    { this.renderDescription() }
+                    { this.renderCommentField() }
                     <div block="WishlistItem" elem="ActionWrapper">
                         { this.renderAddToCartButton() }
                         <span

@@ -10,7 +10,7 @@
  */
 
 .ProductPage {
-    @include after-mobile {
+    @include desktop {
         padding-block-start: 12px;
     }
 
@@ -31,7 +31,7 @@
         grid-template-rows: min-content min-content;
         padding-block-start: 24px;
 
-        @include after-mobile {
+        @include desktop {
             grid-column-gap: 48px;
             padding-block-end: 72px;
         }

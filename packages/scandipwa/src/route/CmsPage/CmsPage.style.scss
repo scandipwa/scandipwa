@@ -37,7 +37,7 @@
             margin-block-start: calc(var(--header-total-height) + 14px);
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-block-start: 24px;
         }
 

@@ -14,12 +14,9 @@
 
 .CategoryPage {
     &-Wrapper {
-        @include after-mobile {
+        @include desktop {
             display: grid;
             padding-block-start: 24px;
-        }
-
-        @include desktop {
             grid-column-gap: 48px;
         }
 
@@ -41,7 +38,7 @@
     }
 
     &-ProductListWrapper {
-        @include before-desktop {
+        @include mobile {
             padding-block-start: 56px;
         }
     }
@@ -134,7 +131,7 @@
             padding-inline-end: 10px;
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-block-end: 10px;
         }
     }
