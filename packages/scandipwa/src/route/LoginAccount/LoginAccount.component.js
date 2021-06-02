@@ -43,7 +43,7 @@ export class LoginAccountComponent extends MyAccountOverlay {
         if (device.isMobile) {
             return (
                 <div block="LoginAccount" elem="CreateAccountWrapper">
-                    <h4>{ __('Don`t have an account?') }</h4>
+                    <h4>{ __("Don't have an account?") }</h4>
                     <button
                       block="Button"
                       mods={ { isHollow: true } }
