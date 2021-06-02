@@ -91,6 +91,8 @@ export class ProductCompareQuery extends ProductListQuery {
             'sku',
             'url',
             'type_id',
+            'review_count',
+            'rating_summary',
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getPriceRangeField(),

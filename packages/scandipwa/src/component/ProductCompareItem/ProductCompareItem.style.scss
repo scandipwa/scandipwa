@@ -16,22 +16,28 @@
 
 .ProductCompareItem {
     display: flex;
-    border: 1px solid var(--secondary-base-color);
+    flex-direction: column;
     padding: 10px;
     position: relative;
     height: 100%;
     min-height: 100px;
 
     @include mobile {
-        flex-direction: column;
-        border: none;
         border-inline-end: 1px solid var(--product-compare-item-divider-color);
         padding-block-end: 0;
+    }
+
+    &-Details {
+        display: flex;
+        flex-direction: row;
+        margin-block-end: 10px;
     }
 
     &-Figure {
         flex: 0 0 auto;
         width: 100px;
+        height: 100px;
+        margin-inline-end: 10px;
 
         @include mobile {
             width: 100%;
@@ -47,16 +53,13 @@
         }
     }
 
-    &-Details {
-        flex: 1;
+    &-Actions {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-inline-start: 10px;
+        align-items: center;
+    }
 
-        @include mobile {
-            margin: 10px 0 0;
-        }
+    .ProductWishlistButton {
+        margin-inline: 16px;
     }
 
     &-Title {
@@ -68,12 +71,11 @@
         font-size: 14px;
         line-height: 1.4;
         color: var(--body-content-color);
+        font-weight: 400;
 
         @include mobile {
             padding: 0;
             margin: 10px 0;
-            font-size: 14px;
-            font-weight: 400;
         }
     }
 
@@ -85,7 +87,7 @@
 
     &-AddToCartBtn {
         flex: 0 0 auto;
-        width: 100%;
+        width: 222px;
 
         @include mobile {
             min-width: 100%;
@@ -100,14 +102,9 @@
 
         background-size: auto;
         height: 15px;
-        inset-inline-end: 10px;
+        inset-inline-end: 0;
         position: absolute;
-        top: 10px;
+        inset-block-start: 3px;
         width: 15px;
-
-        &::before,
-        &::after {
-            top: -2px;
-        }
     }
 }

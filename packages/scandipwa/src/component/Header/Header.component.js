@@ -199,7 +199,6 @@ export class Header extends NavigationAbstract {
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         search: this.renderSearchField.bind(this),
-        welcome: this.renderWelcomeMessage.bind(this),
         account: this.renderAccount.bind(this),
         compare: this.renderComparePageButton.bind(this),
         minicart: this.renderMinicart.bind(this),
@@ -469,19 +468,22 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <ClickOutside
-              onClick={ onMyAccountOutsideClick }
-              key="account"
-            >
-                <div
-                  aria-label="My account"
-                  block="Header"
-                  elem="MyAccount"
+            <>
+                { this.renderWelcomeMessage() }
+                <ClickOutside
+                  onClick={ onMyAccountOutsideClick }
+                  key="account"
                 >
-                    { this.renderAccountButton(isVisible) }
-                    { this.renderAccountOverlay() }
-                </div>
-            </ClickOutside>
+                    <div
+                      aria-label="My account"
+                      block="Header"
+                      elem="MyAccount"
+                    >
+                        { this.renderAccountButton(isVisible) }
+                        { this.renderAccountOverlay() }
+                    </div>
+                </ClickOutside>
+            </>
         );
     }
 
