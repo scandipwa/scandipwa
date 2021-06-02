@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign, global-require */
 const path = require('path');
-const FallbackPlugin = require('@scandipwa/webpack-fallback-plugin');
+const FallbackPlugin = require('@tilework/mosaic-webpack-fallback-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { getLoader, loaderByName } = require('@tilework/mosaic-craco');
 

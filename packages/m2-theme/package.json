@@ -4,7 +4,7 @@
     "version": "0.1.4",
     "license": "OSL-3.0",
     "dependencies": {
-        "@scandipwa/webpack-fallback-plugin": "1.2.5"
+        "@tilework/mosaic-webpack-fallback-plugin": "0.0.5"
     },
     "peerDependencies": {
         "@tilework/mosaic-craco": "0.0.3"
