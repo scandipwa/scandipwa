@@ -38,7 +38,6 @@ export class MyAccountAddressForm extends FieldForm {
 
         const {
             countries,
-            default_country,
             address: {
                 country_id,
                 region: { region_id } = {},
@@ -46,9 +45,9 @@ export class MyAccountAddressForm extends FieldForm {
             }
         } = props;
 
-        const countryId = country_id || default_country;
-        const country = countries.find(({ id }) => id === countryId);
-        const isStateRequired = country.is_state_required;
+        const country = countries.find(({ id }) => id === country_id);
+        const countryId = country ? country_id : '';
+        const isStateRequired = country ? country.is_state_required : false;
         const { available_regions: availableRegions } = country || {};
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
@@ -225,7 +224,7 @@ export class MyAccountAddressForm extends FieldForm {
                 label: __('Country'),
                 validation: ['notEmpty'],
                 value: countryId,
-                selectOptions: countries.map(({ id, label }) => ({ id, label, value: id })),
+                selectOptions: countries.map(({ id, label }) => ({ id, label, value: id })).push({ label: ' ' }),
                 onChange: this.onCountryChange
             },
             ...this.getRegionFields(),
