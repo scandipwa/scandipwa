@@ -16,7 +16,7 @@
 }
 
 .CartOverlay {
-    @include after-mobile {
+    @include desktop {
         position: absolute;
         top: calc(var(--header-nav-height) - 7px);
         inset-inline-end: -10px;
@@ -25,7 +25,7 @@
     }
 
     &::before {
-        @include after-mobile {
+        @include desktop {
             content: '';
             position: absolute;
             top: -8px;
@@ -77,7 +77,7 @@
             text-align: center;
         }
 
-        @include after-mobile {
+        @include desktop {
             flex-grow: 1;
             text-align: center;
         }
@@ -91,14 +91,13 @@
 
     &-Promo,
     &-Total {
-        min-height: 48px;
         font-weight: 600;
 
         @include mobile {
             min-height: 56px;
         }
 
-        @include after-mobile {
+        @include desktop {
             min-height: 36px;
         }
     }

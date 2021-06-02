@@ -22,7 +22,7 @@
         height: calc(100vh - 40px);
         background: black;
 
-        @include after-mobile {
+        @include desktop {
             width: calc(100vw - 130px);
             height: 0;
             padding-block-start: 56.3%; // 16x9 proportion

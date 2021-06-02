@@ -40,7 +40,7 @@
             margin-inline: var(--my-account-wrapper-margin-mobile);
         }
 
-        @include after-mobile {
+        @include desktop {
             border: var(--my-account-content-border);
             grid-row: span 2;
             padding: 24px;

@@ -27,7 +27,7 @@
             margin-block-end: 14px;
         }
 
-        @include after-mobile {
+        @include desktop {
             display: none;
         }
     }

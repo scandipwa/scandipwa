@@ -17,7 +17,7 @@
     $divider-border-color: #e0e0e0;
     $divider-border: solid 1px $divider-border-color;
 
-    @include after-mobile {
+    @include desktop {
         border: 1px solid var(--secondary-base-color);
         border-radius: 2px;
         padding: 24px 16px 0;

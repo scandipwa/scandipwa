@@ -103,10 +103,11 @@
     }
 
     &-FigureWrapper {
-        padding-block: 9px;
+        padding: 9px;
 
         @include mobile {
             display: flex;
+            padding-inline: 0;
         }
     }
 
@@ -142,7 +143,7 @@
             margin-inline-end: 20px;
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-inline-end: 20px;
         }
 
@@ -151,7 +152,7 @@
         }
 
         &.Button {
-            @include after-mobile {
+            @include desktop {
                 width: 100%;
             }
         }
@@ -184,7 +185,7 @@
     &-Price {
         display: inline-block;
 
-        @include after-mobile {
+        @include desktop {
             margin-block-end: 16px;
         }
     }
@@ -220,7 +221,7 @@
         display: flex;
         justify-content: space-between;
 
-        @include after-mobile {
+        @include desktop {
             align-items: flex-start;
             flex-direction: column;
             margin-block-start: 10px;
@@ -246,7 +247,7 @@
         margin-inline-end: 14px;
         width: 18px;
 
-        @include after-mobile {
+        @include desktop {
             filter: invert(100%);
         }
     }

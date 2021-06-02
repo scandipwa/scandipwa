@@ -52,7 +52,7 @@
     &:not([disabled]) {
         &:hover,
         &:focus {
-            @include after-mobile {
+            @include desktop {
                 background-color: var(--button-hover-background);
                 border-color: var(--button-hover-border);
                 border-radius: var(--button-hover-border-radius);
@@ -79,7 +79,7 @@
         &:not([disabled]) {
             &:hover,
             &:focus {
-                @include after-mobile {
+                @include desktop {
                     background-color: var(--hollow-button-hover-background);
                     border-color: var(--hollow-button-hover-border);
                     border-radius: var(--hollow-button-hover-border-radius);

@@ -10,20 +10,20 @@
  */
 
 :root {
-    @include after-mobile {
+    @include desktop {
         --my-account-tab-list-background: #{$white};
     }
 }
 
 .MyAccountTabList {
-    @include after-mobile {
+    @include desktop {
         background-color: var(--my-account-tab-list-background);
         border: var(--my-account-content-border);
         padding: 12px 0;
     }
 
     &-ExpandableContentContent {
-        @include after-mobile {
+        @include desktop {
             margin-block-start: 0;
         }
 

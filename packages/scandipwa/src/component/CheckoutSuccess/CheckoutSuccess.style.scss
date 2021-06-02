@@ -8,7 +8,7 @@
             width: 100%;
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-block-start: 24px;
         }
     }

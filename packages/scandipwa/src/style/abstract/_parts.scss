@@ -13,7 +13,7 @@
         bottom: 0;
         background: var(--secondary-base-color);
 
-        @include after-mobile {
+        @include desktop {
             content: none;
         }
     }

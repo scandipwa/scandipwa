@@ -27,7 +27,7 @@
             width: 100%;
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-inline-start: 12px;
         }
     }

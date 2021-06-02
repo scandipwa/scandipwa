@@ -17,7 +17,7 @@
     max-width: 550px;
     list-style: none;
 
-    @include after-mobile {
+    @include desktop {
         display: flex;
         flex-direction: column;
         justify-content: center;

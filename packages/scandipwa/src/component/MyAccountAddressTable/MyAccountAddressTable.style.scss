@@ -14,7 +14,7 @@
 
     td,
     th {
-        @include after-mobile {
+        @include desktop {
             width: 50%;
         }
     }

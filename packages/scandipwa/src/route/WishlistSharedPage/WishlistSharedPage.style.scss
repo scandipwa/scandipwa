@@ -26,7 +26,7 @@
             border: 0;
         }
 
-        @include after-mobile {
+        @include desktop {
             grid-column: 2;
         }
     }
@@ -37,7 +37,7 @@
         justify-content: flex-end;
         z-index: 1;
 
-        @include after-mobile {
+        @include desktop {
             position: absolute;
             top: -3px;
             inset-inline-end: 0;

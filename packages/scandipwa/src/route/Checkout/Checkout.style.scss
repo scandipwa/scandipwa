@@ -26,7 +26,7 @@
     }
 
     &::before {
-        @include after-mobile {
+        @include desktop {
             content: '';
             background: var(--breadcrumbs-background);
             min-height: var(--breadcrumbs-height);
@@ -137,7 +137,7 @@
         font-weight: bold;
         padding-block-end: 14px;
 
-        @include after-mobile {
+        @include desktop {
             display: none;
         }
     }

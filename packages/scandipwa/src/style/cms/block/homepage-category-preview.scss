@@ -29,7 +29,7 @@
             margin-block-start: 14px;
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-block-start: 5px;
             height: 400px;
         }
@@ -64,7 +64,7 @@
             --button-padding: 5px 0;
         }
 
-        @include after-mobile {
+        @include desktop {
             position: absolute;
             top: 50%;
             inset-inline-start: 50%;

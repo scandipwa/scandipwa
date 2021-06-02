@@ -16,7 +16,7 @@
     &-Products {
         margin-block-end: 14px;
 
-        @include after-mobile {
+        @include desktop {
             margin-block-start: 24px;
         }
 
@@ -60,7 +60,7 @@
     &-Content {
         min-height: 200px;
 
-        @include after-mobile {
+        @include desktop {
             display: grid;
             grid-gap: 24px;
         }

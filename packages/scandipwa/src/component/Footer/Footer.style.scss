@@ -35,7 +35,7 @@
         align-items: center;
         min-height: var(--footer-copyright-height);
 
-        @include after-mobile {
+        @include desktop {
             padding-block-end: 48px;
         }
     }
@@ -101,7 +101,7 @@
         margin: 0 0 15px;
         font-size: 18px;
 
-        @include after-mobile {
+        @include desktop {
             margin: 0 0 20px;
         }
     }

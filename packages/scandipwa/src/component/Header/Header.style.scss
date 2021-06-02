@@ -23,7 +23,7 @@
             + env(safe-area-inset-top)
         );
 
-    @include after-mobile {
+    @include desktop {
         --header-nav-height: 60px;
         --header-top-menu-height: 32px;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height) + var(--menu-total-height));
@@ -152,7 +152,7 @@
             &_minicart {
                 @include minicart-button;
 
-                @include after-mobile {
+                @include desktop {
                     margin-inline-start: 35px;
                 }
             }
@@ -333,6 +333,21 @@
         }
     }
 
+    &-Welcome {
+        display: none;
+        font-size: 14px;
+        margin-inline-end: 16px;
+        text-align: end;
+
+        @include narrow-desktop {
+            display: block;
+        }
+
+        &_isVisible {
+            display: block;
+        }
+    }
+
     &-TopMenu,
     &-Nav {
         display: flex;
@@ -359,13 +374,13 @@
 
             &-Button_type_close,
             &-Button_type_back {
-                @include after-mobile {
+                @include desktop {
                     display: none;
                 }
             }
 
             &-MyAccount {
-                @include after-mobile {
+                @include desktop {
                     margin-inline-start: auto;
                 }
 
