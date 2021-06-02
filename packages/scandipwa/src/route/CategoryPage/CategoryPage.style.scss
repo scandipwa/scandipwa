@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 :root {
-    --category-page-miscellaneous-min-height: 56px;
+    --category-page-miscellaneous-height: 44px;
 }
 
 .CategoryPage {
@@ -24,6 +24,7 @@
 
         @include mobile {
             padding: 0;
+            margin-block-start: calc(var(--header-nav-height) + var(--category-page-miscellaneous-height));
         }
 
         &_hideProducts {
@@ -39,7 +40,7 @@
 
     &-ProductListWrapper {
         @include mobile {
-            padding-block-start: 56px;
+            padding-block-start: 16px;
         }
     }
 
@@ -59,7 +60,6 @@
         text-align: end;
         grid-column: 2;
         font-size: 16px;
-        min-height: 50px;
         display: inline-flex;
         align-items: center;
 
@@ -72,6 +72,7 @@
         width: 18px;
         height: 18px;
         margin-inline-end: 15px;
+        padding-block-end: 0;
     }
 
     &-Subheading {
@@ -85,10 +86,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        min-height: var(--category-page-miscellaneous-min-height);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
-        padding: 10px 0 60px;
+
+        @include desktop {
+            padding: 10px 0 60px;
+        }
 
         @include mobile {
             position: fixed;
@@ -99,6 +102,7 @@
             background: #fff;
             border-block-end: 1px solid var(--primary-divider-color);
             grid-template-columns: repeat(2, 1fr);
+            height: var(--category-page-miscellaneous-height);
         }
 
         @include tablet {
@@ -126,9 +130,10 @@
 
     &-CMS {
         @include mobile {
-            margin-block-start: calc(var(--header-total-height) + var(--category-page-miscellaneous-min-height));
-            padding-inline-start: 10px;
-            padding-inline-end: 10px;
+            margin-block-start: calc(var(--header-total-height) + var(--category-page-miscellaneous-height));
+            padding-inline: 10px;
+            padding-block-start: 20px;
+            overflow-x: scroll;
         }
 
         @include desktop {

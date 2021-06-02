@@ -40,4 +40,10 @@
         }
     }
 
+    &_isActive {
+
+        .ProductCompareButton-Icon {
+            filter: var(--primary-base-filter);
+        }
+    }
 }

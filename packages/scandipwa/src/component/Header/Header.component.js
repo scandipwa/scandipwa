@@ -72,7 +72,6 @@ export class Header extends NavigationAbstract {
         onClearSearchButtonClick: PropTypes.func.isRequired,
         onMyAccountButtonClick: PropTypes.func.isRequired,
         onSearchBarChange: PropTypes.func.isRequired,
-        onClearButtonClick: PropTypes.func.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
         onEditButtonClick: PropTypes.func.isRequired,
         onMinicartButtonClick: PropTypes.func.isRequired,
@@ -137,7 +136,6 @@ export class Header extends NavigationAbstract {
         [CUSTOMER_WISHLIST]: {
             share: true,
             title: true,
-            edit: true,
             ok: true
         },
         [MENU]: {
@@ -165,7 +163,6 @@ export class Header extends NavigationAbstract {
         },
         [FILTER]: {
             close: true,
-            clear: true,
             title: true
         },
         [CHECKOUT]: {
@@ -199,7 +196,6 @@ export class Header extends NavigationAbstract {
         cancel: this.renderCancelButton.bind(this),
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
-        share: this.renderShareWishListButton.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         search: this.renderSearchField.bind(this),
@@ -207,8 +203,7 @@ export class Header extends NavigationAbstract {
         account: this.renderAccount.bind(this),
         compare: this.renderComparePageButton.bind(this),
         minicart: this.renderMinicart.bind(this),
-        clear: this.renderClearButton.bind(this),
-        edit: this.renderEditButton.bind(this),
+        share: this.renderShareWishListButton.bind(this),
         ok: this.renderOkButton.bind(this)
     };
 
@@ -577,42 +572,6 @@ export class Header extends NavigationAbstract {
                     { this.renderMinicartOverlay() }
                 </div>
             </ClickOutside>
-        );
-    }
-
-    renderClearButton(isVisible = false) {
-        const { isClearEnabled, onClearButtonClick } = this.props;
-
-        return (
-            <button
-              key="clear"
-              block="Header"
-              elem="Button"
-              mods={ { type: 'clear', isVisible, isDisabled: !isClearEnabled } }
-              onClick={ onClearButtonClick }
-              aria-label="Clear"
-              aria-hidden={ !isVisible }
-              tabIndex={ isVisible ? 0 : -1 }
-            />
-        );
-    }
-
-    renderEditButton(isVisible = false) {
-        const { onEditButtonClick } = this.props;
-
-        return (
-            <button
-              key="edit"
-              block="Header"
-              elem="Button"
-              mods={ { type: 'edit', isVisible } }
-              onClick={ onEditButtonClick }
-              aria-label="Edit"
-              aria-hidden={ !isVisible }
-              tabIndex={ isVisible ? 0 : -1 }
-            >
-                { __('Edit') }
-            </button>
         );
     }
 

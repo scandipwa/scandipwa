@@ -70,9 +70,11 @@ export class ResetAttributes extends PureComponent {
     renderMobileTitle() {
         const { filtersData = {} } = this.props;
 
+        const count = getFiltersCount(filtersData);
+
         return (
             <div block="ResetAttributes" elem="MobileTitle">
-                { getFiltersCount(filtersData) + __(' filters selected') }
+                { count === 1 ? __('1 filter selected') : getFiltersCount(filtersData) + __(' filters selected') }
             </div>
         );
     }

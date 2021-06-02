@@ -27,7 +27,7 @@ import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import history from 'Util/History';
-import { appendWithStoreCode, setQueryParams } from 'Util/Url';
+import { appendWithStoreCode } from 'Util/Url';
 
 import Header from './Header.component';
 import {
@@ -109,7 +109,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
         onSearchBarChange: this.onSearchBarChange.bind(this),
-        onClearButtonClick: this.onClearButtonClick.bind(this),
         onEditButtonClick: this.onEditButtonClick.bind(this),
         onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
         onOkButtonClick: this.onOkButtonClick.bind(this),
@@ -406,28 +405,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }
-    }
-
-    onClearButtonClick() {
-        const {
-            hideActiveOverlay,
-            goToPreviousNavigationState
-        } = this.props;
-
-        setQueryParams(
-            {
-                customFilters: '',
-                priceMax: '',
-                priceMin: ''
-            },
-            history.location,
-            history
-        );
-
-        this.setState({ isClearEnabled: false });
-
-        hideActiveOverlay();
-        goToPreviousNavigationState();
     }
 
     onMinicartButtonClick() {

@@ -190,9 +190,9 @@
         @include mobile {
             --product-rating-size: 14px;
 
-            margin-block-end: 10px;
             width: 100%;
             border-radius: 0;
+            height: 18px;
         }
 
         @include desktop {

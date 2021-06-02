@@ -84,7 +84,6 @@ export class Checkout extends PureComponent {
         [SHIPPING_STEP]: {
             number: 1,
             title: __('Personal information'),
-            mobileTitle: __('Shipping step'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
             areTotalsVisible: true
@@ -92,7 +91,6 @@ export class Checkout extends PureComponent {
         [BILLING_STEP]: {
             number: 2,
             title: __('Payment'),
-            mobileTitle: __('Billing step'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
             areTotalsVisible: true
@@ -129,11 +127,11 @@ export class Checkout extends PureComponent {
 
     updateHeader() {
         const { setHeaderState, checkoutStep, goBack } = this.props;
-        const { mobileTitle: title = '' } = this.stepMap[checkoutStep];
+        const { mobileTitle, title } = this.stepMap[checkoutStep];
 
         setHeaderState({
             name: checkoutStep === DETAILS_STEP ? CHECKOUT_SUCCESS : CHECKOUT,
-            title,
+            title: mobileTitle || title,
             onBackClick: () => goBack()
         });
     }

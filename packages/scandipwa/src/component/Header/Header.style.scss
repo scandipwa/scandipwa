@@ -13,8 +13,8 @@
     --header-logo-width: 194px;
     --header-logo-height: 24px;
 
-    --header-height: 70px;
-    --header-nav-height: 70px;
+    --header-height: 60px;
+    --header-nav-height: 60px;
     --header-total-height:
         calc(
             var(--header-height)
@@ -24,7 +24,6 @@
         );
 
     @include desktop {
-        --header-nav-height: 60px;
         --header-top-menu-height: 32px;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height) + var(--menu-total-height));
     }
@@ -107,6 +106,10 @@
 
         &_category {
             position: fixed;
+
+            @include mobile {
+                border-block-end: none;
+            }
         }
     }
 
@@ -175,34 +178,13 @@
                 height: 27px;
             }
 
-            &_clear {
-                display: flex;
-
-                @include clear-button;
-
-                &::after {
-                    top: 2px;
-                    inset-inline-start: 9px;
-                }
-
-                &::before {
-                    top: 7px;
-                    inset-inline-start: 7px;
-                }
+            &_share {
+                @include share-icon;
             }
         }
 
         &[aria-hidden="true"] {
             display: none;
-        }
-
-        &_edit {
-            text-transform: uppercase;
-
-            &.Header-Button_isVisible {
-                width: 70px;
-                opacity: .5;
-            }
         }
     }
 
@@ -305,11 +287,8 @@
     }
 
     &-Title {
-        bottom: 0;
         color: var(--header-color);
-        left: 0;
         margin: auto;
-        max-width: 0;
         opacity: 0;
         overflow: hidden;
         pointer-events: none;
@@ -317,13 +296,17 @@
         right: 0;
         text-align: center;
         text-overflow: ellipsis;
-        top: 3px;
+        top: 0;
+        left: 0;
+        bottom: 0;
         transition-duration: 200ms;
         transition-property: opacity;
         white-space: nowrap;
         width: 100%;
-        line-height: 28px;
-        height: 28px;
+        text-transform: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &_isVisible {
             @include mobile {

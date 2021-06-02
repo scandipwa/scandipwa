@@ -48,4 +48,12 @@
         margin-block: var(--option-margin-block);
         margin-inside: var(--option-margin-inline);
     }
+
+    &-Expandable:first-of-type {
+        border-block-start: none;
+    }
+
+    &-Expandable:last-of-type {
+        border-block-end: none!important;
+    }
 }

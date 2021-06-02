@@ -34,6 +34,10 @@
 
     &_isVisible {
         display: block;
+
+        @include mobile {
+            margin-block-start: 16px;
+        }
     }
 
     &_isActive {
