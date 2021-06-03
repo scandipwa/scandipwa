@@ -19,13 +19,13 @@ export const COMPARE_UID = 'compare_uid';
 
 /**
  *
- * @type {Number}
+ * @type {number}
  */
 export const ONE_DAY = 86400;
 
 /**
  *
- * @param {String} uid
+ * @param {string} uid
  * @returns {void}
  * @namespace Util/Compare/setUid
  */
@@ -35,7 +35,7 @@ export const setUid = (uid) => {
 
 /**
  *
- * @returns {String/Boolean} uid
+ * @returns {string|boolean} uid
  * @namespace Util/Compare/getUid
  */
 export const getUid = () => {
