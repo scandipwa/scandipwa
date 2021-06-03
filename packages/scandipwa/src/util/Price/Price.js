@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable import/prefer-default-export */
 import currencyMap from './Price.config';
 
 /** @namespace Util/Price/formatCurrency */

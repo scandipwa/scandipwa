@@ -60,20 +60,4 @@
             transform: translateY(var(--translateYOnCursorMove));
         }
     }
-
-    .CarouselScroll-Content {
-        flex-direction: row;
-    }
-
-    .CarouselScrollItem {
-        width: 57px;
-        height: 38px;
-        flex: 0 0 auto;
-        border-color: var(--option-border-color);
-        border-radius: 2px;
-
-        & + .CarouselScrollItem {
-            margin-inline-start: 18px;
-        }
-    }
 }

@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const IMAGE_ZOOM = 'IMAGE_ZOOM';
+export const CAROUSEL_ITEM_GAP = 18;
+export const MAX_TABLET_CARDS_COUNT = 5;
