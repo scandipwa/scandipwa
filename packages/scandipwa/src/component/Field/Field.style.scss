@@ -168,6 +168,12 @@
                 }
             }
         }
+
+        &_checkbox {
+            span {
+                font-size: 12px;
+            }
+        }
     }
 
     [type='checkbox'] {
