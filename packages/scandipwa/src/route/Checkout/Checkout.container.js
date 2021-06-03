@@ -28,8 +28,13 @@ import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
+import {
+    deleteGuestQuoteId,
+    getCartTotalSubPrice,
+    getGuestQuoteId
+} from 'Util/Cart';
 import history from 'Util/History';
+import { formatPrice } from 'Util/Price';
 import {
     debounce,
     fetchMutation,
@@ -60,6 +65,7 @@ export const CheckoutDispatcher = import(
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
+    cartTotalSubPrice: getCartTotalSubPrice(state),
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
     countries: state.ConfigReducer.countries,
@@ -112,6 +118,7 @@ export class CheckoutContainer extends PureComponent {
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
         customer: customerType.isRequired,
+        cartTotalSubPrice: PropTypes.number.isRequired,
         countries: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,
@@ -147,6 +154,7 @@ export class CheckoutContainer extends PureComponent {
         onCreateUserChange: this.onCreateUserChange.bind(this),
         onPasswordChange: this.onPasswordChange.bind(this),
         onCouponCodeUpdate: this.onCouponCodeUpdate.bind(this),
+        obtainOrderTotal: this.obtainOrderTotal(this),
         goBack: this.goBack.bind(this)
     };
 
@@ -301,6 +309,46 @@ export class CheckoutContainer extends PureComponent {
         if (checkoutStep === SHIPPING_STEP) {
             this.onShippingEstimationFieldsChange(estimateAddress);
         }
+    }
+
+    obtainOrderTotalExlTax() {
+        const {
+            cartTotalSubPrice,
+            totals: { quote_currency_code }
+        } = this.props;
+
+        if (!cartTotalSubPrice) {
+            return null;
+        }
+
+        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
+            </span>
+        );
+    }
+
+    obtainOrderTotalInclTax() {
+        const { totals: { grand_total, quote_currency_code } } = this.props;
+
+        const orderTotal = formatPrice(grand_total, quote_currency_code);
+        return orderTotal;
+    }
+
+    obtainOrderTotal() {
+        return (
+            <dl block="Checkout" elem="OrderTotal">
+                <dt>
+                    { __('Order total:') }
+                </dt>
+                <dd>
+                    { this.obtainOrderTotalInclTax() }
+                    { this.obtainOrderTotalExlTax() }
+                </dd>
+            </dl>
+        );
     }
 
     goBack() {

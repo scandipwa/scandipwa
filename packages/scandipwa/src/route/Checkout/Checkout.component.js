@@ -44,6 +44,7 @@ export class Checkout extends PureComponent {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
+        obtainOrderTotal: PropTypes.object.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
@@ -178,6 +179,7 @@ export class Checkout extends PureComponent {
     renderShippingStep() {
         const {
             shippingMethods,
+            obtainOrderTotal,
             onShippingEstimationFieldsChange,
             saveAddressInformation,
             isDeliveryOptionsLoading,
@@ -193,6 +195,7 @@ export class Checkout extends PureComponent {
               isLoading={ isDeliveryOptionsLoading }
               shippingMethods={ shippingMethods }
               saveAddressInformation={ saveAddressInformation }
+              obtainOrderTotal={ obtainOrderTotal }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
               onPasswordChange={ onPasswordChange }
               onCreateUserChange={ onCreateUserChange }
@@ -208,6 +211,7 @@ export class Checkout extends PureComponent {
             setLoading,
             setDetailsStep,
             shippingAddress,
+            obtainOrderTotal,
             paymentMethods = [],
             savePaymentInformation,
             selectedShippingMethod
@@ -215,6 +219,7 @@ export class Checkout extends PureComponent {
 
         return (
             <CheckoutBilling
+              obtainOrderTotal={ obtainOrderTotal }
               setLoading={ setLoading }
               paymentMethods={ paymentMethods }
               setDetailsStep={ setDetailsStep }

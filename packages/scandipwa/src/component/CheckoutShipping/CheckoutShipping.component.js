@@ -20,16 +20,11 @@ import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPic
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
 import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
-import { formatPrice } from 'Util/Price';
-
-import './CheckoutShipping.style';
 
 /** @namespace Component/CheckoutShipping/Component */
 export class CheckoutShipping extends PureComponent {
     static propTypes = {
-        totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number,
+        obtainOrderTotal: PropTypes.object.isRequired,
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
@@ -45,59 +40,16 @@ export class CheckoutShipping extends PureComponent {
 
     static defaultProps = {
         selectedShippingMethod: null,
-        selectedStoreAddress: {},
-        cartTotalSubPrice: null
+        selectedStoreAddress: {}
     };
 
-    renderOrderTotalExlTax() {
-        const {
-            cartTotalSubPrice,
-            totals: { quote_currency_code }
-        } = this.props;
-
-        if (!cartTotalSubPrice) {
-            return null;
-        }
-
-        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
-
-        return (
-            <span>
-                { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
-            </span>
-        );
-    }
-
-    renderOrderTotal() {
-        const {
-            totals: {
-                grand_total,
-                quote_currency_code
-            }
-        } = this.props;
-
-        const orderTotal = formatPrice(grand_total, quote_currency_code);
-
-        return (
-            <dl block="Checkout" elem="OrderTotal">
-                <dt>
-                    { __('Order total:') }
-                </dt>
-                <dt>
-                    { orderTotal }
-                    { this.renderOrderTotalExlTax() }
-                </dt>
-            </dl>
-        );
-    }
-
     renderActions() {
-        const { selectedShippingMethod, selectedStoreAddress } = this.props;
+        const { selectedShippingMethod, selectedStoreAddress, obtainOrderTotal } = this.props;
         const { method_code } = selectedShippingMethod;
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
-                { this.renderOrderTotal() }
+                { obtainOrderTotal }
                 <button
                   type="submit"
                   block="Button"

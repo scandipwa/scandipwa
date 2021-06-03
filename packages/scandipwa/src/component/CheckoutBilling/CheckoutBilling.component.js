@@ -22,7 +22,6 @@ import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import { formatPrice } from 'Util/Price';
 
 import './CheckoutBilling.style';
 
@@ -39,6 +38,7 @@ export class CheckoutBilling extends PureComponent {
         setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
         termsAreEnabled: PropTypes.bool,
+        obtainOrderTotal: PropTypes.object.isRequired,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
@@ -47,7 +47,6 @@ export class CheckoutBilling extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number,
         shippingAddress: addressType.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
@@ -56,8 +55,7 @@ export class CheckoutBilling extends PureComponent {
     };
 
     static defaultProps = {
-        termsAreEnabled: false,
-        cartTotalSubPrice: null
+        termsAreEnabled: false
     };
 
     componentDidMount() {
@@ -135,43 +133,6 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
-    renderOrderTotalExlTax() {
-        const {
-            cartTotalSubPrice,
-            totals: { quote_currency_code }
-        } = this.props;
-
-        if (!cartTotalSubPrice) {
-            return null;
-        }
-
-        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
-
-        return (
-            <span>
-                { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
-            </span>
-        );
-    }
-
-    renderOrderTotal() {
-        const { totals: { grand_total, quote_currency_code } } = this.props;
-
-        const orderTotal = formatPrice(grand_total, quote_currency_code);
-
-        return (
-            <dl block="Checkout" elem="OrderTotal">
-                <dt>
-                    { __('Order total:') }
-                </dt>
-                <dd>
-                    { orderTotal }
-                    { this.renderOrderTotalExlTax() }
-                </dd>
-            </dl>
-        );
-    }
-
     renderActions() {
         const {
             isOrderButtonVisible,
@@ -179,7 +140,7 @@ export class CheckoutBilling extends PureComponent {
             isTermsAndConditionsAccepted
         } = this.state;
 
-        const { termsAreEnabled } = this.props;
+        const { termsAreEnabled, obtainOrderTotal } = this.props;
 
         if (!isOrderButtonVisible) {
             return null;
@@ -192,7 +153,7 @@ export class CheckoutBilling extends PureComponent {
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
-                { this.renderOrderTotal() }
+                { obtainOrderTotal }
                 <button
                   type="submit"
                   block="Button"
