@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
@@ -30,7 +31,8 @@ export const CartDispatcher = import(
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
@@ -45,12 +47,15 @@ export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isPreview: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
-        selectedFilters: {}
+        selectedFilters: {},
+        isPreview: false
     };
 
     containerFunctions = {
@@ -99,7 +104,7 @@ export class ProductCardContainer extends PureComponent {
 
         return {
             pathname: url,
-            state: { product, pageKey: product.id, prevCategoryId: category },
+            state: { product, prevCategoryId: category },
             search: objectToUri(parameters)
         };
     }
@@ -174,7 +179,14 @@ export class ProductCardContainer extends PureComponent {
             return [];
         }
 
-        const { attribute_options } = Object.values(configurable_options)[0];
+        // Find first option that has swatch_data in attribute_options property
+        const optionWithSwatchData = Object.values(configurable_options).find((option) => {
+            const { attribute_options = {} } = option;
+
+            return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
+        });
+
+        const { attribute_options = {} } = optionWithSwatchData || {};
 
         return Object.values(attribute_options).reduce(
             (acc, option) => {
@@ -196,7 +208,11 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants } } = this.props;
+        const { product: { variants }, isPreview } = this.props;
+
+        if (isPreview) {
+            return true;
+        }
 
         const variantsInStock = variants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
 

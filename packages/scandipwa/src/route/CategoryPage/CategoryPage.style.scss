@@ -50,7 +50,6 @@
 
         @include before-desktop {
             order: 1;
-            font-size: 1.08rem;
             padding: .36rem 1.2rem 1.2rem 0;
             text-align: center;
             grid-column: span 2;
@@ -58,7 +57,6 @@
 
         @include mobile {
             padding: 1.4rem;
-            font-size: 1.26rem;
         }
     }
 
@@ -111,7 +109,7 @@
     &-Miscellaneous {
         z-index: 1;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         align-items: center;
         min-height: var(--category-page-miscellaneous-min-height);
         transform: translateY(0);
@@ -130,6 +128,7 @@
 
         @include tablet {
             grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
         }
 
         @include tablet-portrait {
@@ -168,6 +167,10 @@
 
         p {
             margin-bottom: 0;
+        }
+
+        @include mobile {
+            display: none;
         }
     }
 

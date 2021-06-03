@@ -11,10 +11,21 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
+import { showNotification } from 'Store/Notification/Notification.action';
 import { formatPrice } from 'Util/Price';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
+
+/** @namespace Component/ProductCustomizableOption/Container/mapDispatchToProps */
+export const mapDispatchToProps = (dispatch) => ({
+    showNotification: (type, message) => dispatch(showNotification(type, message))
+});
+
+/** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = () => ({});
 
 /** @namespace Component/ProductCustomizableOption/Container */
 export class ProductCustomizableOptionContainer extends PureComponent {
@@ -23,7 +34,9 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
-        setSelectedDropdownValue: PropTypes.func.isRequired
+        setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
+        setSelectedDropdownValue: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     state = {
@@ -37,6 +50,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         getSelectedCheckboxValue: this.getSelectedCheckboxValue.bind(this),
         updateTextFieldValue: this.updateTextFieldValue.bind(this),
         setDropdownValue: this.setDropdownValue.bind(this),
+        processFileUpload: this.processFileUpload.bind(this),
         renderOptionLabel: this.renderOptionLabel.bind(this)
     };
 
@@ -93,13 +107,12 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    renderOptionLabel(priceType, price) {
+    renderOptionLabel(priceType, price, currency) {
         switch (priceType) {
         case 'PERCENT':
             return `${ price }%`;
         default:
-            /* TODO: get currency code */
-            return formatPrice(price);
+            return formatPrice(price, currency);
         }
     }
 
@@ -136,17 +149,43 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     getDropdownOptions(values) {
         return values.reduce((acc, {
-            option_type_id, title, price, price_type
+            option_type_id, title, price, price_type, currency
         }) => {
             acc.push({
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} + ${this.renderOptionLabel(price_type, price)}`
+                label: `${title} + ${this.renderOptionLabel(price_type, price, currency)}`
             });
 
             return acc;
         }, []);
+    }
+
+    processFileUpload(values) {
+        const {
+            option,
+            option: { data: { file_extension = '' } },
+            setCustomizableOptionFileFieldValue,
+            showNotification
+        } = this.props;
+        const { type = '', name } = values;
+
+        if (file_extension && !file_extension.split(', ').some((fileType) => type.includes(fileType))) {
+            showNotification('error', __('File type is incorrect'));
+
+            return false;
+        }
+
+        const reader = new FileReader();
+        // eslint-disable-next-line func-names
+        reader.onloadend = function () {
+            setCustomizableOptionFileFieldValue(reader.result, option, name);
+        };
+
+        reader.readAsDataURL(values);
+
+        return true;
     }
 
     render() {
@@ -161,4 +200,4 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     }
 }
 
-export default ProductCustomizableOptionContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCustomizableOptionContainer);

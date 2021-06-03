@@ -31,9 +31,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/ConfirmAccountPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn
-});
+export const mapStateToProps = () => ({});
 
 /** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({

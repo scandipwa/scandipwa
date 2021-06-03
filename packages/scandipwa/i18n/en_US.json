@@ -134,7 +134,6 @@
     "Get password link": null,
     "Create new account": null,
     "Confirm the email": null,
-    "Select currency": null,
     "Close": null,
     "You have no items in your shopping cart.": null,
     "Tax total:": null,
@@ -197,7 +196,6 @@
     "Save changes": null,
     "Enter personal information": null,
     "Create Password": null,
-    "Create free account and keep track of your orders": null,
     "I agree to terms and conditions": null,
     "read more": null,
     "Complete order": null,
@@ -358,5 +356,8 @@
     "Show more": null,
     "Written by ": null,
     ", written at %s": null,
-    "Choose %s": null
+    "Choose %s": null,
+    "Purchase Order Number": null,
+    "Confirmation request has been sent.": null,
+    "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": null
 }

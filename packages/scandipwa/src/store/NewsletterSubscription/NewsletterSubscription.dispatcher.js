@@ -11,7 +11,9 @@
 
 import NewsletterSubscriptionQuery from 'Query/NewsletterSubscription.query';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
+
+export const NOT_ACTIVE = 'NOT_ACTIVE';
 
 /**
  * Product Cart Dispatcher
@@ -22,11 +24,16 @@ export class NewsletterSubscriptionDispatcher {
     subscribeToNewsletter(dispatch, email) {
         return fetchMutation(NewsletterSubscriptionQuery.getSubscribeToNewsletterMutation(email)).then(
             /** @namespace Store/NewsletterSubscription/Dispatcher/fetchMutationThen */
-            () => {
-                dispatch(showNotification('success', __('A subscription confirmation email has been sent!')));
+            ({ subscribeEmailToNewsletter: { status } }) => {
+                // `NOT_ACTIVE` response status corresponds to `newsletter_subscription_confirm` magento setting
+                const message = status === NOT_ACTIVE
+                    ? __('Confirmation request has been sent.')
+                    : __('A subscription confirmation email has been sent!');
+
+                return dispatch(showNotification('success', message));
             },
             /** @namespace Store/NewsletterSubscription/Dispatcher/fetchMutationSuccess */
-            (error) => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
     }
 }

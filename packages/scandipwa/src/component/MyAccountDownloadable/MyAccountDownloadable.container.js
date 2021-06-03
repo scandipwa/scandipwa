@@ -16,9 +16,14 @@ import { connect } from 'react-redux';
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
-import { fetchQuery } from 'Util/Request';
+import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 import MyAccountDownloadable from './MyAccountDownloadable.component';
+
+export const OrderDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/Order/Order.dispatcher'
+);
 
 /** @namespace Component/MyAccountDownloadable/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -29,7 +34,10 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountDownloadable/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
-    showSuccessNotification: (message) => dispatch(showNotification('success', message))
+    showSuccessNotification: (message) => dispatch(showNotification('success', message)),
+    getOrderList: () => OrderDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.requestOrders(dispatch)
+    )
 });
 
 /** @namespace Component/MyAccountDownloadable/Container */
@@ -37,7 +45,8 @@ export class MyAccountDownloadableContainer extends PureComponent {
     static propTypes = {
         device: DeviceType.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired
+        showSuccessNotification: PropTypes.func.isRequired,
+        getOrderList: PropTypes.func.isRequired
     };
 
     state = {
@@ -46,6 +55,9 @@ export class MyAccountDownloadableContainer extends PureComponent {
     };
 
     componentDidMount() {
+        const { getOrderList } = this.props;
+
+        getOrderList();
         this.requestDownloadable();
     }
 
@@ -98,8 +110,7 @@ export class MyAccountDownloadableContainer extends PureComponent {
             }),
             /** @namespace Component/MyAccountDownloadable/Container/requestDownloadable/error */
             (err) => {
-                const { message = __('Something went wrong!') } = err;
-                showErrorNotification(message);
+                showErrorNotification(getErrorMessage(err));
                 this.setState({ isLoading: false });
             }
         );

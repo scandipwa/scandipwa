@@ -32,7 +32,8 @@ export class ProductAttributeValue extends PureComponent {
         isSelected: PropTypes.bool,
         isAvailable: PropTypes.bool,
         mix: MixType,
-        isFormattedAsText: PropTypes.bool
+        isFormattedAsText: PropTypes.bool,
+        isProductCountVisible: PropTypes.bool
     };
 
     static defaultProps = {
@@ -41,7 +42,8 @@ export class ProductAttributeValue extends PureComponent {
         getLink: () => {},
         mix: {},
         isAvailable: true,
-        isFormattedAsText: false
+        isFormattedAsText: false,
+        isProductCountVisible: false
     };
 
     clickHandler = this.clickHandler.bind(this);
@@ -57,12 +59,25 @@ export class ProductAttributeValue extends PureComponent {
     }
 
     getOptionLabel(value) {
-        const { attribute: { attribute_options } } = this.props;
+        const {
+            attribute: {
+                attribute_options
+            },
+            isProductCountVisible
+        } = this.props;
 
         if (attribute_options) {
             const optionValues = attribute_options[value];
             if (optionValues) {
-                return optionValues;
+                if (!isProductCountVisible) {
+                    return optionValues;
+                }
+
+                const { label, count = 0 } = optionValues;
+                return {
+                    ...optionValues,
+                    label: `${label} (${count})`
+                };
             }
         }
 
@@ -272,6 +287,11 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    renderNumericAttribute() {
+        const { attribute: { attribute_value } } = this.props;
+        return this.renderStringValue(parseFloat(attribute_value).toFixed(2));
+    }
+
     renderAttributeByType() {
         const { attribute: { attribute_type } } = this.props;
 
@@ -288,6 +308,8 @@ export class ProductAttributeValue extends PureComponent {
             return this.renderImageAttribute();
         case 'textarea':
             return this.renderTextAreaAttribute();
+        case 'weight':
+            return this.renderNumericAttribute();
         default:
             return this.renderPlaceholder();
         }

@@ -23,11 +23,15 @@ import Html from 'Component/Html';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
-    DISPLAY_MODE_PRODUCTS
+    DISPLAY_MODE_PRODUCTS,
+    GRID_LAYOUT,
+    LAYOUT_KEY,
+    LIST_LAYOUT
 } from './CategoryPage.config';
 
 import './CategoryPage.style';
@@ -59,7 +63,11 @@ export class CategoryPage extends PureComponent {
         totalPages: PropTypes.number,
         device: DeviceType.isRequired,
         is_anchor: PropTypes.bool,
-        defaultPlpType: PropTypes.string,
+        isMobile: PropTypes.bool.isRequired,
+        onGridButtonClick: PropTypes.func.isRequired,
+        onListButtonClick: PropTypes.func.isRequired,
+        defaultPlpType: PropTypes.string.isRequired,
+        selectedLayoutType: PropTypes.string,
         plpTypes: PropTypes.arrayOf(PropTypes.string)
     };
 
@@ -71,38 +79,44 @@ export class CategoryPage extends PureComponent {
         totalPages: 1,
         is_anchor: true,
         search: '',
-        defaultPlpType: '',
+        selectedLayoutType: '',
         plpTypes: []
     };
 
     state = {};
 
-    onFilterButtonClick = this.onFilterButtonClick.bind(this);
+    static getDerivedStateFromProps(props) {
+        const {
+            isMobile,
+            defaultPlpType,
+            selectedLayoutType
+        } = props;
 
-    onGridButtonClick = this.onGridButtonClick.bind(this);
+        /*
+        * Use stored plpType from the BrowserDatabase
+        * if there is one
+        */
+        const storedPlpType = BrowserDatabase.getItem(LAYOUT_KEY) || selectedLayoutType;
 
-    onListButtonClick = this.onListButtonClick.bind(this);
+        if (storedPlpType) {
+            const activeLayoutType = isMobile
+                ? GRID_LAYOUT
+                : storedPlpType || defaultPlpType;
 
-    componentDidUpdate() {
-        const { layout } = this.state;
-
-        if (!layout) {
-            this.setDefaultPlpType();
+            return { activeLayoutType };
         }
+
+        const activeLayoutType = isMobile
+            ? GRID_LAYOUT
+            : selectedLayoutType || defaultPlpType;
+
+        return { activeLayoutType };
     }
 
-    onFilterButtonClick() {
+    onFilterButtonClick = () => {
         const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
-    }
-
-    onGridButtonClick() {
-        this.setState({ layout: 'grid' });
-    }
-
-    onListButtonClick() {
-        this.setState({ layout: 'list' });
-    }
+    };
 
     displayProducts() {
         const {
@@ -120,12 +134,6 @@ export class CategoryPage extends PureComponent {
         const { category: { display_mode } = {} } = this.props;
         return display_mode === DISPLAY_MODE_CMS_BLOCK
             || display_mode === DISPLAY_MODE_BOTH;
-    }
-
-    setDefaultPlpType() {
-        const { defaultPlpType } = this.props;
-
-        this.setState({ layout: defaultPlpType });
     }
 
     renderCategoryDetails() {
@@ -207,23 +215,30 @@ export class CategoryPage extends PureComponent {
     }
 
     renderLayoutButton = (type) => {
-        const { layout } = this.state;
+        const {
+            onGridButtonClick,
+            onListButtonClick
+        } = this.props;
+
+        const { activeLayoutType } = this.state;
 
         switch (type) {
-        case 'grid':
+        case GRID_LAYOUT:
             return (
                 <button
-                  onClick={ this.onGridButtonClick }
-                  mix={ { block: 'grid', mods: { isActive: layout === 'grid' } } }
+                  key={ type }
+                  onClick={ onGridButtonClick }
+                  mix={ { block: GRID_LAYOUT, mods: { isActive: activeLayoutType === GRID_LAYOUT } } }
                 >
                     { __('Grid') }
                 </button>
             );
-        case 'list':
+        case LIST_LAYOUT:
             return (
                 <button
-                  onClick={ this.onListButtonClick }
-                  mix={ { block: 'list', mods: { isActive: layout === 'list' } } }
+                  key={ type }
+                  onClick={ onListButtonClick }
+                  mix={ { block: LIST_LAYOUT, mods: { isActive: activeLayoutType === LIST_LAYOUT } } }
                 >
                     { __('List') }
                 </button>
@@ -235,6 +250,14 @@ export class CategoryPage extends PureComponent {
 
     renderLayoutButtons() {
         const { plpTypes } = this.props;
+
+        /*
+        * So far there is only two types of
+        * the Storefront list modes
+         */
+        if (plpTypes.length !== 2) {
+            return null;
+        }
 
         return (
             <div block="CategoryPage" elem="LayoutButtons">
@@ -272,7 +295,7 @@ export class CategoryPage extends PureComponent {
             isMatchingInfoFilter
         } = this.props;
 
-        const { layout } = this.state;
+        const { activeLayoutType } = this.state;
 
         if (!this.displayProducts()) {
             return null;
@@ -289,7 +312,7 @@ export class CategoryPage extends PureComponent {
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
-                  layout={ layout }
+                  layout={ activeLayoutType }
                 />
             </div>
         );

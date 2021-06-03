@@ -101,10 +101,13 @@ export class ProductGalleryContainer extends PureComponent {
             areDetailsLoaded,
             product: {
                 media_gallery_entries: mediaGallery = [],
-                [THUMBNAIL_KEY]: { url } = {},
+                [THUMBNAIL_KEY]: { url: thumbnailUrl } = {},
+                [IMAGE_TYPE]: { url: imageTypeUrl } = {},
                 name
             }
         } = this.props;
+
+        const url = imageTypeUrl || thumbnailUrl;
 
         if (mediaGallery.length) {
             return mediaGallery

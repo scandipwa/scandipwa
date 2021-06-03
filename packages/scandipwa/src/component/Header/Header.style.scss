@@ -392,6 +392,7 @@
             padding-right: .48rem;
             text-transform: uppercase;
             color: var(--header-color);
+            margin: auto;
 
             @include mobile {
                 padding-right: .56rem;
@@ -522,6 +523,7 @@
         right: 0;
 
         @include mobile {
+            text-transform: uppercase;
             font-size: 1.82rem;
             height: 2.1rem;
             line-height: 2.1rem;
@@ -530,7 +532,7 @@
         &_isVisible {
             @include before-desktop {
                 opacity: 1;
-                max-width: calc(100% - 180px);
+                max-width: calc(100% - 100px);
             }
         }
     }

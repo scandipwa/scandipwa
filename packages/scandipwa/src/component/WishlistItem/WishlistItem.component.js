@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -15,6 +16,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
+import { BUNDLE, GROUPED } from 'Util/Product';
 
 import './WishlistItem.style';
 
@@ -67,7 +69,8 @@ export class WishlistItem extends PureComponent {
             <Field
               id="description"
               name="description"
-              type="text"
+              type="textarea"
+              rows={ 3 }
               value={ description }
               mix={ { block: 'WishlistItem', elem: 'CommentField', mods } }
               placeholder={ __('Add a comment') }
@@ -180,6 +183,49 @@ export class WishlistItem extends PureComponent {
         };
     }
 
+    renderOption = (option) => {
+        const { label, value } = option;
+
+        return (
+            <div block="WishlistItemOption">
+                <span block="WishlistItemOption" elem="Label">
+                    { label }
+                    :
+                </span>
+                <span block="WishlistItemOption" elem="Value">
+                    { value }
+                </span>
+            </div>
+        );
+    };
+
+    renderOptionsList() {
+        const { product: { wishlist: { options } } } = this.props;
+
+        return (
+            <div block="WishlistItemOptions" elem="List">
+                { options.map(this.renderOption) }
+            </div>
+        );
+    }
+
+    renderOptions() {
+        const { product: { wishlist: { options = [] }, type_id } } = this.props;
+
+        if (
+            options.length === 0
+            || (type_id !== BUNDLE && type_id !== GROUPED)
+        ) {
+            return null;
+        }
+
+        return (
+            <div block="WishlistItemOptions">
+                { this.renderOptionsList() }
+            </div>
+        );
+    }
+
     renderName() {
         const { product: { name } } = this.props;
 
@@ -290,6 +336,7 @@ export class WishlistItem extends PureComponent {
                     { this.renderRemove() }
                 </div>
                 <div block="WishlistItem" elem="Content">
+                    { this.renderOptions() }
                     <div block="WishlistItem" elem="RowWrapper">
                         { this.renderQuantityField() }
                         { this.renderPrice(productPrice) }

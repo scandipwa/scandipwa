@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import { getCityFromZipcode, setAddressesInFormObject } from 'Util/Address';
+import { getCityAndRegionFromZipcode, setAddressesInFormObject } from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
@@ -42,13 +42,13 @@ export class MyAccountAddressForm extends FieldForm {
             address: {
                 country_id,
                 region: { region_id } = {},
-                is_state_required,
                 city = ''
             }
         } = props;
 
         const countryId = country_id || default_country;
         const country = countries.find(({ id }) => id === countryId);
+        const isStateRequired = country.is_state_required;
         const { available_regions: availableRegions } = country || {};
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
@@ -57,14 +57,14 @@ export class MyAccountAddressForm extends FieldForm {
             countryId,
             availableRegions,
             regionId,
-            isStateRequired: is_state_required,
+            isStateRequired,
             city
         };
     }
 
     onFormSuccess = (fields) => {
         const { onSave, addressLinesQty } = this.props;
-        const { region_id, region_string: region, ...newAddress } = addressLinesQty > 1
+        const { region_id = 0, region_string: region, ...newAddress } = addressLinesQty > 1
             ? setAddressesInFormObject(fields, addressLinesQty)
             : fields;
 
@@ -114,16 +114,24 @@ export class MyAccountAddressForm extends FieldForm {
         });
     };
 
-    onZipcodeChange = (e) => {
+    onZipcodeChange = async (e) => {
         const { value } = e.currentTarget;
-        const { countryId } = this.state;
+        const { countryId, availableRegions } = this.state;
 
-        const city = getCityFromZipcode(countryId, value);
-
+        const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
         if (city) {
             this.setState({
                 city
             });
+        }
+
+        if (availableRegions.length > 0 && regionCode) {
+            const { id: regionId } = availableRegions
+                .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
+
+            if (regionId) {
+                this.setState({ regionId });
+            }
         }
     };
 

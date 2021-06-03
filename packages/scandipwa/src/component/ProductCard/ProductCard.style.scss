@@ -44,7 +44,7 @@
     }
 
     &-Content {
-        padding: 10px 0 15px;
+        padding: 10px 15px;
         display: flex;
         flex-grow: 1;
         flex-direction: column;
@@ -80,10 +80,6 @@
 
                 &-PriceWrapper {
                     flex-grow: unset;
-                }
-
-                &-Reviews {
-                    position: static;
                 }
 
                 &-WishListButton {
@@ -165,12 +161,15 @@
         width: 105px;
         height: 25px;
         position: absolute;
-        bottom: 0;
         background-color: var(--product-card-reviews-background);
         border-radius: 1rem;
         letter-spacing: normal;
-        left: 50%;
-        transform: translateX(-50%);
+
+        &_layout_grid {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+        }
 
         @include mobile {
             --product-rating-size: 1.4rem;
@@ -188,7 +187,8 @@
         min-height: calc(var(--product-card-color-size) + 5px);
     }
 
-    &-Color {
+    &-Color,
+    &-Image {
         display: inline-block;
         width: var(--product-card-color-size);
         height: var(--product-card-color-size);

@@ -68,6 +68,10 @@
             --check-mark-opacity: 1;
             --check-mark-color: var(--checkout-delivery-option-check-mark-hover-color);
         }
+
+        &_isDisabled {
+            pointer-events: none;
+        }
     }
 
     &-Row {
@@ -84,5 +88,9 @@
         left: 0;
         top: 1.5em;
         white-space: nowrap;
+    }
+
+    &-Message {
+        color: var(--primary-error-color);
     }
 }

@@ -16,7 +16,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 
 import {
-    AREA_FIELD, CHECKBOX, DROPDOWN, TEXT_FIELD
+    AREA_FIELD, CHECKBOX, DROPDOWN, FILE, TEXT_FIELD
 } from './ProductCustomizableOption.config';
 
 /** @namespace Component/ProductCustomizableOption/Component */
@@ -28,6 +28,7 @@ export class ProductCustomizableOption extends PureComponent {
         renderOptionLabel: PropTypes.func.isRequired,
         updateTextFieldValue: PropTypes.func.isRequired,
         textFieldValid: PropTypes.bool,
+        processFileUpload: PropTypes.func,
         setDropdownValue: PropTypes.func.isRequired,
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
@@ -36,6 +37,7 @@ export class ProductCustomizableOption extends PureComponent {
     };
 
     static defaultProps = {
+        processFileUpload: () => {},
         textFieldValid: null
     };
 
@@ -54,6 +56,10 @@ export class ProductCustomizableOption extends PureComponent {
         },
         [AREA_FIELD]: {
             render: () => this.renderTextField(),
+            title: () => this.renderTextFieldTitle()
+        },
+        [FILE]: {
+            render: () => this.renderFileField(),
             title: () => this.renderTextFieldTitle()
         }
     };
@@ -101,10 +107,11 @@ export class ProductCustomizableOption extends PureComponent {
             option_type_id,
             title,
             price,
-            price_type
+            price_type,
+            currency
         } = item;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, price, currency);
 
         return (
             <Field
@@ -189,7 +196,7 @@ export class ProductCustomizableOption extends PureComponent {
             optionType,
             textFieldValid
         } = this.props;
-        const { max_characters } = data;
+        const [{ max_characters = 0 }] = data;
         const fieldType = optionType === 'field' ? 'text' : 'textarea';
 
         return (
@@ -209,6 +216,30 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
+    renderFileField() {
+        const {
+            optionType,
+            processFileUpload,
+            option: {
+                required,
+                data: [{ file_extension = '' }] = []
+            } = {}
+        } = this.props;
+
+        return (
+            <>
+                <Field
+                  id={ `customizable-options-${ optionType }` }
+                  name={ `customizable-options-${ optionType }` }
+                  type="file"
+                  onChange={ processFileUpload }
+                  fileExtensions={ file_extension }
+                />
+                { this.renderRequired(required) }
+            </>
+        );
+    }
+
     renderTitle() {
         const { option } = this.props;
         const { title } = option;
@@ -221,14 +252,17 @@ export class ProductCustomizableOption extends PureComponent {
             renderOptionLabel,
             option: {
                 title,
-                data: {
-                    price_type,
-                    price
-                }
+                data: [
+                    {
+                        price_type = 'FIXED',
+                        price = 0,
+                        currency
+                    } = {}
+                ] = []
             }
         } = this.props;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, price, currency);
 
         return this.renderHeading(title, priceLabel);
     }

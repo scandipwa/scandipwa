@@ -17,6 +17,7 @@ import CheckoutPayments from 'Component/CheckoutPayments';
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
+import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
@@ -50,7 +51,8 @@ export class CheckoutBilling extends PureComponent {
         shippingAddress: addressType.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
-        })).isRequired
+        })).isRequired,
+        selectedShippingMethod: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -226,7 +228,8 @@ export class CheckoutBilling extends PureComponent {
         const {
             isSameAsShipping,
             onSameAsShippingChange,
-            totals: { is_virtual }
+            totals: { is_virtual },
+            selectedShippingMethod
         } = this.props;
 
         if (is_virtual) {
@@ -241,8 +244,9 @@ export class CheckoutBilling extends PureComponent {
               label={ __('My billing and shipping are the same') }
               value="sameAsShippingAddress"
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
-              checked={ isSameAsShipping }
+              checked={ isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE }
               onChange={ onSameAsShippingChange }
+              isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
             />
         );
     }

@@ -13,6 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import {
+    STORE_IN_PICK_UP_ATTRIBUTE_CODE,
+    STORE_IN_PICK_UP_METHOD_CODE
+} from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
@@ -48,7 +52,8 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingSuccess: this.onShippingSuccess.bind(this),
         onShippingError: this.onShippingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
+        onStoreSelect: this.onStoreSelect.bind(this)
     };
 
     __construct(props) {
@@ -56,10 +61,44 @@ export class CheckoutShippingContainer extends PureComponent {
 
         const { shippingMethods } = props;
         const [selectedShippingMethod] = shippingMethods;
+        const { method_code = '' } = selectedShippingMethod || {};
 
         this.state = {
             selectedCustomerAddressId: 0,
-            selectedShippingMethod
+            selectedShippingMethod: method_code && method_code !== STORE_IN_PICK_UP_METHOD_CODE
+                ? selectedShippingMethod
+                : {}
+        };
+    }
+
+    getStoreAddress(shippingAddress) {
+        const {
+            selectedStoreAddress: {
+                region,
+                city,
+                postcode,
+                phone,
+                street,
+                name,
+                pickup_location_code
+            }
+        } = this.state;
+
+        return {
+            ...shippingAddress,
+            region,
+            city,
+            postcode,
+            telephone: phone,
+            street: [street],
+            firstname: name,
+            lastname: 'Store',
+            extension_attributes: [
+                {
+                    attribute_code: STORE_IN_PICK_UP_ATTRIBUTE_CODE,
+                    value: pickup_location_code
+                }
+            ]
         };
     }
 
@@ -75,6 +114,10 @@ export class CheckoutShippingContainer extends PureComponent {
         // TODO: implement notification if some data in Form can not display error
     }
 
+    onStoreSelect(address) {
+        this.setState({ selectedStoreAddress: address });
+    }
+
     onShippingSuccess(fields) {
         const {
             saveAddressInformation,
@@ -84,7 +127,8 @@ export class CheckoutShippingContainer extends PureComponent {
 
         const {
             selectedCustomerAddressId,
-            selectedShippingMethod
+            selectedShippingMethod,
+            selectedStoreAddress
         } = this.state;
 
         const formFields = getFormFields(fields, addressLinesQty);
@@ -100,7 +144,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
         const data = {
             billing_address: shippingAddress,
-            shipping_address: shippingAddress,
+            shipping_address: selectedStoreAddress ? this.getStoreAddress(shippingAddress) : shippingAddress,
             shipping_carrier_code,
             shipping_method_code
         };

@@ -13,6 +13,7 @@
     --product-actions-option-border-color: #979797;
     --product-actions-selected-option-border-color: #f26323;
     --product-brand-heading-color: #adadad;
+    --product-qty-input-border-color: #e0e0e0;
 
     @include after-mobile {
         --product-actions-option-border-color: #adadad;
@@ -91,7 +92,6 @@
 
     &-ReviewLabel {
         display: inline-block;
-        font-weight: 600;
         margin-left: .6rem;
 
         @include mobile {
@@ -165,15 +165,11 @@
         padding: 0;
     }
 
-    &-Sku::after {
-        content: '•';
-        margin: 0 5px;
-    }
-
     &-Title {
         font-size: 2.4rem;
-        font-weight: bold;
         line-height: 3.6rem;
+        text-transform: none;
+        margin: 0;
 
         @include mobile {
             font-size: 2.8rem;
@@ -182,8 +178,6 @@
     }
 
     &-Brand {
-        font-size: 1.44rem;
-        font-weight: bold;
         text-transform: uppercase;
         color: var(--product-actions-option-border-color);
 
@@ -362,6 +356,11 @@
                     font-size: 1.4rem;
                     display: none;
                 }
+
+                & > span:not(:last-child):after {
+                        content: '•';
+                        margin: 0 5px;
+                    }
             }
 
             &_name {
@@ -387,6 +386,10 @@
                 }
             }
         }
+    }
+
+    &-SectionDownloadable {
+        order: 17;
     }
 
     &-SectionHeading {
@@ -447,6 +450,12 @@
 
         &_isSelected {
             --product-actions-option-border-color: var(--product-actions-selected-option-border-color);
+        }
+    }
+
+    .Field_isValid {
+        input[type='number'] {
+            border-color: var(--product-qty-input-border-color);
         }
     }
 

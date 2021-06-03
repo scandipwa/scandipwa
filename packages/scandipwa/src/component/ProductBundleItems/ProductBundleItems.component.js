@@ -36,7 +36,8 @@ export class ProductBundleItems extends ProductCustomizableOptions {
             maxQuantity,
             updateQuantity,
             productOptionsData,
-            price_range
+            price_range,
+            price_range: { minimum_price: { regular_price: { currency } } }
         } = this.props;
 
         return items.map((item, key) => (
@@ -50,6 +51,7 @@ export class ProductBundleItems extends ProductCustomizableOptions {
               maxQuantity={ maxQuantity }
               updateQuantity={ updateQuantity }
               productOptionsData={ productOptionsData }
+              currencyCode={ currency }
             />
         ));
     }
