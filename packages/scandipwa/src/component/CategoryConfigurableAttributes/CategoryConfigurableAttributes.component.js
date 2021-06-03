@@ -22,11 +22,14 @@ import { formatPrice } from 'Util/Price';
 /** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     static propTypes = {
-        childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment))
+        ...ProductConfigurableAttributes.propTypes,
+        currency_code: PropTypes.string.isRequired,
+        show_product_count: PropTypes.bool.isRequired,
+        childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment)).isRequired
     };
 
     renderSubCategories(option) {
-        const optionWithSubcategories = option;
+        const optionWithSubcategories = { ...option };
         const { childrenCategories } = this.props;
         const { attribute_values } = option;
         const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
