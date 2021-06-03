@@ -59,8 +59,9 @@
             width: 15px;
             transform: rotate(45deg);
             background-color: var(--overlay-background);
-            border-block-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
-            border-inline-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
+            // rtl-adjusted, don't remove 'left'
+            border-top: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
+            border-left: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
         }
     }
 
