@@ -340,7 +340,8 @@
     &-TopMenu {
         justify-content: space-between;
         height: var(--header-top-menu-height);
-        padding: 16px 34px 0 14px;
+        padding-inline: 14px 34px;
+        padding-block-start: 16px;
     }
 
     &-Switcher {
