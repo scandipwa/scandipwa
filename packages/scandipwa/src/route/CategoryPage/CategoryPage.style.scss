@@ -9,10 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 :root {
-    --category-page-miscellaneous-height: 44px;
+    --category-page-miscellaneous-height: 0px;
 }
 
 .CategoryPage {
+    --category-page-miscellaneous-height: 44px;
+
     &-Wrapper {
         @include desktop {
             display: grid;

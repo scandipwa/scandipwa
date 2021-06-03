@@ -32,7 +32,7 @@
             -webkit-overflow-scrolling: touch;
 
             position: fixed;
-            top: var(--header-total-height);
+            inset-block-start: var(--header-total-height);
             inset-inline-start: 0;
             width: 100%;
             height: calc(100% - var(--header-total-height));

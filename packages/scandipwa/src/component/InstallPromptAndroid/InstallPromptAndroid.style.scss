@@ -36,14 +36,14 @@
 
         position: absolute;
         z-index: 10;
-        top: 0;
+        inset-block-start: 0;
         inset-inline-end: 0;
         width: 40px;
         height: 40px;
 
         &::before,
         &::after {
-            top: 12px;
+            inset-block-start: 12px;
         }
     }
 

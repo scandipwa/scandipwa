@@ -10,7 +10,7 @@
  */
 
 :root {
-    --footer-totals-height: 123px;
+    --footer-totals-height: 0;
 }
 
 .CheckoutOrderSummary {
@@ -35,7 +35,7 @@
     &-ItemsInCart {
         font-size: 14px;
         text-transform: none;
-        top: 2px;
+        inset-block-start: 2px;
         font-weight: 400;
         margin-block: 20px 16px;
     }
@@ -168,7 +168,7 @@
     .ExpandableContent-ToggleButton {
         height: 20px;
         width: 20px;
-        left: 3px;
+        inset-inline-start: 3px;
     }
 
     &-Coupon {
@@ -223,12 +223,14 @@
 
     &-ButtonWrapper {
         @include mobile {
+            --footer-totals-height: 123px;
+
             height: var(--footer-totals-height);
             position: fixed;
             width: 100%;
-            left: 0;
+            inset-inline-start: 0;
             padding: 0 16px 16px 16px;
-            bottom: var(--footer-total-height);
+            inset-block-end: var(--footer-total-height);
             background-color: var(--color-white);
             border-block-start: 1px solid var(--primary-divider-color);
             z-index: 80;

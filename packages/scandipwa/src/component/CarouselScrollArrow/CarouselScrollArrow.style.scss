@@ -10,7 +10,7 @@
         content: '';
         position: absolute;
         inset-inline-start: 50%;
-        top: 50%;
+        inset-block-start: 50%;
         transform: $transform rotate(135deg);
         transition: transform 200ms;
         display: block;

@@ -28,8 +28,8 @@
     flex-direction: row;
     position: fixed;
     z-index: 99;
-    top: calc(var(--header-height) + var(--demo-notice-height));
-    bottom: 0;
+    inset-block-start: calc(var(--header-height) + var(--demo-notice-height));
+    inset-block-end: 0;
     inset-inline-end: 0;
     inset-inline-start: 0;
 
@@ -105,7 +105,7 @@
             &::before {
                 --fill-color: var(--line-color);
                 inset-inline-start: 0;
-                top: calc(-2px * var(--diameter));
+                inset-block-start: calc(-2px * var(--diameter));
                 width: calc(8px * var(--diameter));
                 height: calc(8px * var(--diameter));
             }
@@ -113,7 +113,7 @@
             &::after {
                 border-radius: 50% 50% 50% 50%;
                 inset-inline-start: calc(1px * var(--diameter));
-                top: calc(-1px * var(--diameter));
+                inset-block-start: calc(-1px * var(--diameter));
                 width: calc(6px * var(--diameter));
                 height: calc(6px * var(--diameter));
             }
@@ -124,7 +124,7 @@
             &::after {
                 -webkit-transform: rotate(45deg);
                 transform: rotate(45deg);
-                top: 0;
+                inset-block-start: 0;
             }
 
             &::before {

@@ -55,7 +55,7 @@
         position: absolute;
         height: 24px;
         inset-inline-end: 15px;
-        top: calc(50% - 12px);
+        inset-block-start: calc(50% - 12px);
         width: 24px;
     }
 
@@ -70,6 +70,6 @@
         content: ' ';
         position: absolute;
         inset-inline-end: 15px;
-        top: calc(50% - 12px);
+        inset-block-start: calc(50% - 12px);
     }
 }

@@ -28,7 +28,8 @@
         font-weight: 700;
 
         @include mobile {
-            padding: 10px;
+            padding-inline: 15px;
+            padding-block-end: 10px;
             white-space: nowrap;
         }
 

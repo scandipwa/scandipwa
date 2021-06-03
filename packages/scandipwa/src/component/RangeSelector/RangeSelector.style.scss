@@ -50,12 +50,12 @@
 
     &__label {
         &--value {
-            top: -22px;
+            inset-block-start: -22px;
         }
 
         &--min,
         &--max {
-            bottom: -16px;
+            inset-block-end: -16px;
         }
     }
 }

@@ -30,7 +30,7 @@
 
     @include desktop {
         position: absolute;
-        top: calc(var(--header-nav-height) - 10px);
+        inset-block-start: calc(var(--header-nav-height) - 10px);
         inset-inline-end: -45px;
         padding: 0;
         width: var(--my-account-overlay-width);
@@ -39,7 +39,7 @@
     @include mobile {
         height: auto;
         padding-block-end: 0;
-        top: 0;
+        inset-block-start: 0;
         position: relative;
     }
 
@@ -53,7 +53,7 @@
         @include desktop {
             content: '';
             position: absolute;
-            top: -9px;
+            inset-block-start: -9px;
             inset-inline-end: 49px;
             height: 15px;
             width: 15px;
@@ -351,7 +351,7 @@
             height: 20px;
             position: absolute;
             inset-inline-end: 27px;
-            top: -13px;
+            inset-block-start: -13px;
             transform-origin: 50% 50%;
             width: 1px;
             z-index: 1;
@@ -430,12 +430,12 @@
 
             &::after {
                 inset-inline-start: 1px;
-                top: 5px;
+                inset-block-start: 5px;
                 width: 2px;
                 height: 2px;
 
                 @include mobile {
-                    top: 6px;
+                    inset-block-start: 6px;
                     width: 2px;
                     height: 2px;
                 }

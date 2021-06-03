@@ -32,7 +32,7 @@
     position: fixed;
     background-color: var(--popup-background);
     inset-inline-start: 0;
-    top: var(--header-total-height);
+    inset-block-start: var(--header-total-height);
 
     display: flex;
     justify-content: center;
@@ -47,10 +47,10 @@
         opacity: 1;
         width: 100vw;
         height: 100vh;
-        top: 0;
+        inset-block-start: 0;
 
         @include mobile {
-            top: var(--header-total-height);
+            inset-block-start: var(--header-total-height);
             height: calc(100% - var(--header-total-height));
         }
     }
@@ -93,7 +93,7 @@
         z-index: 5;
 
         @include mobile {
-            top: 25px;
+            inset-block-start: 25px;
         }
     }
 

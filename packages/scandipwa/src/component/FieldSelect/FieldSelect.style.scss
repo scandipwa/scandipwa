@@ -35,14 +35,14 @@ $select-arrow-width: 16px !default;
 
         position: absolute;
         inset-inline-end: 20px;
-        bottom: 0;
-        top: 0;
+        inset-block-end: 0;
+        inset-block-start: 0;
         margin: auto;
     }
 
     &_isExpanded::after {
         @include desktop {
-            bottom: $select-arrow-height * 3/2;
+            inset-block-end: $select-arrow-height * 3/2;
             transform: translateY(-2px) rotate(-135deg);
         }
     }
@@ -65,7 +65,7 @@ $select-arrow-width: 16px !default;
     &-Options {
         position: absolute;
         width: 100%;
-        top: 100%;
+        inset-block-start: 100%;
         inset-inline-start: 0;
         z-index: 40;
         border-width: 0 1px 1px;

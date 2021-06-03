@@ -76,7 +76,7 @@
         display: none;
         inset-inline-end: -20px;
         position: absolute;
-        top: 25px;
+        inset-block-start: 25px;
         z-index: 2;
 
         &_isOpen {

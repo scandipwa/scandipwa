@@ -38,7 +38,7 @@
     overflow: hidden;
     padding: 12px;
     position: relative;
-    top: 0;
+    inset-block-start: 0;
 
     p {
         color: var(--notification-color);
@@ -76,7 +76,7 @@
         background: none;
         position: absolute;
         inset-inline-end: 0;
-        top: 0;
+        inset-block-start: 0;
         padding: 10px;
         width: 30px;
         height: 30px;
@@ -84,7 +84,7 @@
 
         @include mobile {
             margin: auto;
-            bottom: 0;
+            inset-block-end: 0;
             inset-inline-end: 14px;
         }
 
@@ -95,8 +95,8 @@
         &::before,
         &::after {
             position: absolute;
-            top: 0;
-            bottom: 0;
+            inset-block-start: 0;
+            inset-block-end: 0;
             inset-inline-end: 0;
             inset-inline-start: 0;
             margin: auto;

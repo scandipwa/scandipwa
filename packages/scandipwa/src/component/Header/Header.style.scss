@@ -73,7 +73,7 @@
     position: fixed;
     z-index: 100;
     border-block-end: 1px solid var(--primary-divider-color);
-    top: var(--demo-notice-height);
+    inset-block-start: var(--demo-notice-height);
 
     > * {
         max-width: var(--content-wrapper-width);
@@ -201,14 +201,14 @@
     }
 
     &-LogoWrapper {
-        bottom: 0;
+        inset-block-end: 0;
         height: var(--header-logo-height);
-        left: 0;
+        inset-inline-start: 0;
         max-width: 0;
         opacity: 0;
         overflow: hidden;
-        right: 0;
-        top: 0;
+        inset-inline-end: 0;
+        inset-block-start: 0;
         width: var(--header-logo-width);
 
         @include mobile {
@@ -279,7 +279,7 @@
         &Icon {
             @include exclamation-icon;
 
-            bottom: 1px;
+            inset-block-end: 1px;
             height: 16px;
             margin-inline-end: 10px;
             width: 16px;
@@ -293,20 +293,19 @@
         overflow: hidden;
         pointer-events: none;
         position: absolute;
-        right: 0;
+        inset-inline-end: 0;
         text-align: center;
         text-overflow: ellipsis;
-        top: 0;
-        left: 0;
-        bottom: 0;
+        inset-block-start: -1px;
+        inset-inline-start: 0;
+        inset-block-end: 0;
         transition-duration: 200ms;
         transition-property: opacity;
         white-space: nowrap;
         width: 100%;
         text-transform: inherit;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        line-height: 30px;
+        height: 30px;
 
         &_isVisible {
             @include mobile {
@@ -369,7 +368,7 @@
 
                 @include mobile {
                     position: absolute;
-                    right: 10px;
+                    inset-inline-end: 10px;
                     width: auto;
                 }
             }
@@ -377,7 +376,7 @@
 
         .MyAccountOverlay {
             @include mobile {
-                top: var(--header-total-height);
+                inset-block-start: var(--header-total-height);
                 height: calc(100vh - var(--header-total-height));
                 position: fixed;
                 width: 100vw;

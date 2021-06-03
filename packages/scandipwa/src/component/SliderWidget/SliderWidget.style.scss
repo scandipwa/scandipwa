@@ -12,7 +12,7 @@
 .SliderWidget {
     &-Figcaption {
         position: absolute;
-        top: 50%;
+        inset-block-start: 50%;
         inset-inline-start: 0;
         width: 100%;
         transform: translateY(-50%);

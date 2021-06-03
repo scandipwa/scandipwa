@@ -130,7 +130,7 @@
         margin-block: 18px;
 
         .ProductCompareButton {
-            margin-left: auto;
+            margin-inline-start: auto;
         }
 
         &_isWithoutPriceTotal .ProductActions-Section_type_sku {
@@ -146,14 +146,14 @@
 
     &-AddToCartFixed {
         position: fixed;
-        bottom: var(--footer-total-height);
+        inset-block-end: var(--footer-total-height);
         z-index: 5;
         background-color: var(--color-white);
         width: 100%;
         display: flex;
         padding: 12px 16px;
         border-block-start: 1px solid var(--primary-divider-color);
-        left: 0;
+        inset-inline-start: 0;
 
         .ProductWishlistButton {
             margin-inline: 18px 4px;

@@ -35,7 +35,7 @@
                 float: right;
                 display: inline-block;
                 @include radiobutton;
-                top: 3px;
+                inset-block-start: 3px;
             }
         }
 
