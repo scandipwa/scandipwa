@@ -33,7 +33,8 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    passwordResetStatus: state.MyAccountReducer.passwordResetStatus
+    passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
+    passwordResetMessage: state.MyAccountReducer.passwordResetMessage
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
@@ -65,6 +66,7 @@ export class PasswordChangePageContainer extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]).isRequired,
+        passwordResetMessage: PropTypes.string.isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired
     };
@@ -75,7 +77,11 @@ export class PasswordChangePageContainer extends PureComponent {
     };
 
     static getDerivedStateFromProps(props) {
-        const { passwordResetStatus, showNotification } = props;
+        const {
+            passwordResetStatus,
+            passwordResetMessage,
+            showNotification
+        } = props;
         const stateToBeUpdated = {};
 
         if (passwordResetStatus) {
@@ -90,7 +96,7 @@ export class PasswordChangePageContainer extends PureComponent {
                 showNotification('info', __('Your password and confirmation password do not match.'));
                 break;
             default:
-                showNotification('error', __('Error! Something went wrong'));
+                showNotification('error', __(passwordResetMessage));
             }
         }
 

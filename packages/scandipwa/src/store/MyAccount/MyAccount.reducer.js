@@ -25,7 +25,8 @@ export const getInitialState = () => ({
     passwordResetStatus: false,
     isPasswordForgotSend: false,
     isLoading: false,
-    customer: {}
+    customer: {},
+    message: ''
 });
 
 /** @namespace Store/MyAccount/Reducer */
@@ -33,7 +34,7 @@ export const MyAccountReducer = (
     state = getInitialState(),
     action
 ) => {
-    const { status, customer } = action;
+    const { status, customer, message } = action;
 
     switch (action.type) {
     case UPDATE_CUSTOMER_SIGN_IN_STATUS:
@@ -45,7 +46,8 @@ export const MyAccountReducer = (
     case UPDATE_CUSTOMER_PASSWORD_RESET_STATUS:
         return {
             ...state,
-            passwordResetStatus: status
+            passwordResetStatus: status,
+            passwordResetMessage: message
         };
 
     case UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS:
