@@ -13,8 +13,8 @@
     --header-logo-width: 194px;
     --header-logo-height: 24px;
 
-    --header-height: 70px;
-    --header-nav-height: 70px;
+    --header-height: 60px;
+    --header-nav-height: 60px;
     --header-total-height:
         calc(
             var(--header-height)
@@ -24,7 +24,6 @@
         );
 
     @include desktop {
-        --header-nav-height: 60px;
         --header-top-menu-height: 32px;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height) + var(--menu-total-height));
     }
@@ -74,7 +73,7 @@
     position: fixed;
     z-index: 100;
     border-block-end: 1px solid var(--primary-divider-color);
-    top: var(--demo-notice-height);
+    inset-block-start: var(--demo-notice-height);
 
     > * {
         max-width: var(--content-wrapper-width);
@@ -107,6 +106,10 @@
 
         &_category {
             position: fixed;
+
+            @include mobile {
+                border-block-end: none;
+            }
         }
     }
 
@@ -175,34 +178,13 @@
                 height: 27px;
             }
 
-            &_clear {
-                display: flex;
-
-                @include clear-button;
-
-                &::after {
-                    top: 2px;
-                    inset-inline-start: 9px;
-                }
-
-                &::before {
-                    top: 7px;
-                    inset-inline-start: 7px;
-                }
+            &_share {
+                @include share-icon;
             }
         }
 
         &[aria-hidden="true"] {
             display: none;
-        }
-
-        &_edit {
-            text-transform: uppercase;
-
-            &.Header-Button_isVisible {
-                width: 70px;
-                opacity: .5;
-            }
         }
     }
 
@@ -219,14 +201,14 @@
     }
 
     &-LogoWrapper {
-        bottom: 0;
+        inset-block-end: 0;
         height: var(--header-logo-height);
-        left: 0;
+        inset-inline-start: 0;
         max-width: 0;
         opacity: 0;
         overflow: hidden;
-        right: 0;
-        top: 0;
+        inset-inline-end: 0;
+        inset-block-start: 0;
         width: var(--header-logo-width);
 
         @include mobile {
@@ -297,7 +279,7 @@
         &Icon {
             @include exclamation-icon;
 
-            bottom: 1px;
+            inset-block-end: 1px;
             height: 16px;
             margin-inline-end: 10px;
             width: 16px;
@@ -305,25 +287,25 @@
     }
 
     &-Title {
-        bottom: 0;
         color: var(--header-color);
-        left: 0;
         margin: auto;
-        max-width: 0;
         opacity: 0;
         overflow: hidden;
         pointer-events: none;
         position: absolute;
-        right: 0;
+        inset-inline-end: 0;
         text-align: center;
         text-overflow: ellipsis;
-        top: 3px;
+        inset-block-start: -1px;
+        inset-inline-start: 0;
+        inset-block-end: 0;
         transition-duration: 200ms;
         transition-property: opacity;
         white-space: nowrap;
         width: 100%;
-        line-height: 28px;
-        height: 28px;
+        text-transform: inherit;
+        line-height: 30px;
+        height: 30px;
 
         &_isVisible {
             @include mobile {
@@ -358,7 +340,8 @@
     &-TopMenu {
         justify-content: space-between;
         height: var(--header-top-menu-height);
-        padding: 16px 34px 0 14px;
+        padding-inline: 14px 34px;
+        padding-block-start: 16px;
     }
 
     &-Switcher {
@@ -386,7 +369,7 @@
 
                 @include mobile {
                     position: absolute;
-                    right: 10px;
+                    inset-inline-end: 10px;
                     width: auto;
                 }
             }
@@ -394,7 +377,7 @@
 
         .MyAccountOverlay {
             @include mobile {
-                top: var(--header-total-height);
+                inset-block-start: var(--header-total-height);
                 height: calc(100vh - var(--header-total-height));
                 position: fixed;
                 width: 100vw;

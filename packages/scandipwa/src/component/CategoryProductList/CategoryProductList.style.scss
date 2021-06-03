@@ -11,7 +11,7 @@
 
 .CategoryProductList {
     @include desktop {
-        top: -56px;
+        inset-block-start: -56px;
         grid-column: 2;
         padding-block-end: 24px;
     }

@@ -42,7 +42,11 @@ export class ProductCompare extends PureComponent {
               elem="FirstColumn"
               mix={ { block: 'ClearButton' } }
             >
-                <button onClick={ clearCompareList }>
+                <button
+                  block="Button"
+                  mods={ { isHollow: true } }
+                  onClick={ clearCompareList }
+                >
                     { __('Clear Compare') }
                 </button>
             </div>

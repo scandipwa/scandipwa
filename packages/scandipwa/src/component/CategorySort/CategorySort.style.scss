@@ -26,6 +26,10 @@
             @include desktop {
                 display: none;
             }
+
+            @include mobile {
+                padding-block-end: 0;
+            }
         }
     }
 
@@ -46,7 +50,7 @@
 
             @include mobile {
                 inset-inline-start: 42px;
-                top: -32px;
+                inset-block-start: -20px;
             }
         }
 
@@ -59,7 +63,7 @@
 
             @include mobile {
                 position: absolute;
-                top: -35px;
+                inset-block-start: -35px;
                 opacity: 0;
             }
 

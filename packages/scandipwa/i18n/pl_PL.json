@@ -28,7 +28,6 @@
     "Back to homepage": "Powrót do strony głównej",
     "Bad": "Źle",
     "Best match": "Najlepsze dopasowanie",
-    "Billing step": "Etap rozliczeń",
     "Breadcrumbs (current location)...": "Ścieżka (obecne miejsce)...",
     "Browse website in full-screen:": "Przeglądaj witrynę na pełnym ekranie:",
     "Can not delete - address is set as default.": "Nie można usunąć - adres jest ustawiony jako domyślny.",
@@ -208,7 +207,6 @@
     "Shipping": "Wysyłka",
     "Shipping & Handling Information": "Wysyłka & informacje dotyczące obsługi",
     "Shipping address": "Adres wysyłki",
-    "Shipping step": "Krok wysyłki",
     "Shopping Options": "Opcje zakupów",
     "Shopping cart": "Koszyk",
     "Sign in": "Zaloguj",
@@ -330,7 +328,6 @@
     "Menu dropdown": null,
     "Style Guide page": null,
     "Compare Page": null,
-    "Edit": null,
     "Check new arrivals": null,
     "here!": null,
     "Dismiss": null,
@@ -464,5 +461,6 @@
     "Subscribe to newsletter": null,
     "read more": null,
     "In stock": null,
-    "VAT Number": null
+    "VAT Number": null,
+    "1 filter selected": null
 }

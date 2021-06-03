@@ -28,7 +28,6 @@
     "Back to homepage": "Вернуться на Главную",
     "Bad": "Плохо",
     "Best match": null,
-    "Billing step": "Выставление счета",
     "Breadcrumbs (current location)...": "Breadcrumbs (текущее местоположение)...",
     "Browse website in full-screen:": null,
     "Can not delete - address is set as default.": "Невозможно удалить - адрес установлен по умолчанию.",
@@ -209,7 +208,6 @@
     "Shipping": "Доставка",
     "Shipping & Handling Information": "Информация о доставке и обработке",
     "Shipping address": "Адрес доставки",
-    "Shipping step": "Доставка",
     "Shopping Options": "Варианты покупок",
     "Shopping cart": "Корзина",
     "Sign in": "Войти",
@@ -331,7 +329,6 @@
     "Menu dropdown": null,
     "Style Guide page": null,
     "Compare Page": null,
-    "Edit": null,
     "Check new arrivals": null,
     "here!": null,
     "Dismiss": null,
@@ -464,5 +461,6 @@
     "Subscribe to newsletter": null,
     "read more": null,
     "In stock": null,
-    "VAT Number": null
+    "VAT Number": null,
+    "1 filter selected": null
 }

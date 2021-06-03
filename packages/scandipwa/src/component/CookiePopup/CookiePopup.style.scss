@@ -20,6 +20,7 @@
     opacity: 0.9;
     align-items: center;
     width: fit-content;
+    z-index: 500;
 
     @include desktop {
         inset-inline-start: 50%;

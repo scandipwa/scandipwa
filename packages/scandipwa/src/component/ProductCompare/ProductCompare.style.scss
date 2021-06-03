@@ -11,19 +11,12 @@
 
 :root {
     --product-compare-area-width: var(--content-wrapper-width);
-    --product-compare-sidebar-width: 200px;
+    --product-compare-sidebar-width: 300px;
+    --product-compare-sidebar-padding: 30px;
     --product-compare-item-count: 3.2;
-    --product-compare-item-gap: 10px;
-    --product-compare-column-width: calc(350px + var(--product-compare-item-gap) * 2);
-    --product-compare-border-color: var(--secondary-dark-color);
-    --product-compare-attribute-table-background-color: var(--secondary-base-color);
-
-    @include mobile {
-        --product-compare-area-width: 100vw;
-        --product-compare-sidebar-width: 0;
-        --product-compare-item-count: 1.5;
-        --product-compare-column-width: calc((var(--product-compare-area-width) - var(--product-compare-sidebar-width) - 12px * 2) / var(--product-compare-item-count));
-    }
+    --product-compare-item-gap: 15px;
+    --prouduct-compare-additional-gap: 18px;
+    --product-compare-column-width: calc(300px + var(--product-compare-item-gap) * 2);
 }
 
 .ProductCompare {
@@ -68,7 +61,7 @@
     &-Item {
         flex: 0 0 auto;
         width: var(--product-compare-column-width);
-        padding: 0 var(--product-compare-item-gap);
+        padding-inline-end: var(--product-compare-item-gap);
 
         &:last-child {
             padding-inline-end: 0;
@@ -80,16 +73,7 @@
     }
 
     &-AttributeTable {
-        margin-block-start: 20px;
         min-width: fit-content;
-
-        @include mobile {
-            flex: 1;
-            min-width: fit-content;
-            width: 100%;
-            background-color: var(--product-compare-attribute-table-background-color);
-            border-block-end: 1px solid transparent;
-        }
     }
 
     &-Empty {
@@ -100,51 +84,37 @@
     .ClearButton {
         display: flex;
         align-items: center;
-
-        button {
-            @include clear-button;
-
-            height: 35px;
-            padding-inline-start: 35px;
-            text-transform: uppercase;
-        }
+        padding-inline-end: var(--product-compare-sidebar-padding);
 
         @include mobile {
             display: none;
+        }
+
+        .Button {
+            width: 100%;
         }
     }
 
     .ProductPriceRow {
         min-width: fit-content;
         width: 100%;
-        border-block-end: 1px solid var(--secondary-base-color);
-        padding-block-end: 10px;
-        margin-block-end: 10px;
-
-        @include mobile {
-            display: none;
-        }
+        border-block-start: 1px solid var(--secondary-base-color);
+        padding-block: 24px;
     }
 
-    .PriceLabel,
-    .ProductPrice {
-        font-weight: 600;
-        font-size: 18px;
+    .PriceLabel {
+        font-weight: 700;
+        font-size: 14px;
         margin: 0;
     }
 
     .ProductPrice {
         flex: 0 0 auto;
         padding: 2px var(--product-compare-item-gap);
-        width: var(--product-compare-column-width);
+        width: calc(var(--product-compare-column-width);
 
         &:last-child {
             padding-inline-end: 0;
-        }
-
-        @include mobile {
-            padding: 0;
-            width: auto;
         }
     }
 }

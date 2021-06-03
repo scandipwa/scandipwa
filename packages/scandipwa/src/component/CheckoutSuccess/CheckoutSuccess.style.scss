@@ -19,7 +19,7 @@
             position: fixed;
             inset-inline-start: 0;
             width: 100%;
-            bottom: var(--navigation-tabs-height);
+            inset-block-end: var(--navigation-tabs-height);
             border-block-start: 1px solid var(--primary-divider-color);
         }
     }

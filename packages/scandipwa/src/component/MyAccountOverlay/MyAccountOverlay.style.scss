@@ -30,7 +30,7 @@
 
     @include desktop {
         position: absolute;
-        top: calc(var(--header-nav-height) - 10px);
+        inset-block-start: calc(var(--header-nav-height) - 10px);
         inset-inline-end: -45px;
         padding: 0;
         width: var(--my-account-overlay-width);
@@ -39,7 +39,7 @@
     @include mobile {
         height: auto;
         padding-block-end: 0;
-        top: 0;
+        inset-block-start: 0;
         position: relative;
     }
 
@@ -53,14 +53,15 @@
         @include desktop {
             content: '';
             position: absolute;
-            top: -9px;
+            inset-block-start: -9px;
             inset-inline-end: 49px;
             height: 15px;
             width: 15px;
             transform: rotate(45deg);
             background-color: var(--overlay-background);
-            border-block-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
-            border-inline-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
+            // rtl-adjusted, don't remove 'left'
+            border-top: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
+            border-left: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
         }
     }
 
@@ -351,7 +352,7 @@
             height: 20px;
             position: absolute;
             inset-inline-end: 27px;
-            top: -13px;
+            inset-block-start: -13px;
             transform-origin: 50% 50%;
             width: 1px;
             z-index: 1;
@@ -393,60 +394,6 @@
     }
 
     &-Checkbox {
-        display: flex;
-        flex-direction: row-reverse;
-        inset-inline-end: 14px;
-        justify-content: flex-end;
-        align-items: center;
-        margin-block-end: 24px;
-        margin-block-start: 11px;
-
-        + .input-control {
-            margin-inline-start: 4px;
-            margin-inline-end: 10px;
-        }
-
-        @include mobile {
-            margin-block-end: 28px;
-            margin-block-start: 13px;
-        }
-
-        > label:first-of-type {
-            align-items: center;
-            color: var(--checkbox-label-color);
-            font-size: 12px;
-            display: inline-flex;
-            flex-direction: row-reverse;
-            font-weight: 500;
-            padding-block-end: 0;
-            margin-inline-start: 15px;
-        }
-
-        > label:last-of-type {
-            height: 13px;
-            @include mobile {
-                height: 15px;
-            }
-
-            &::after {
-                inset-inline-start: 1px;
-                top: 5px;
-                width: 2px;
-                height: 2px;
-
-                @include mobile {
-                    top: 6px;
-                    width: 2px;
-                    height: 2px;
-                }
-            }
-        }
-
-        input {
-            position: relative;
-            width: 20px;
-            height: 20px;
-            inset-inline-start: 20px;
-        }
+        margin-block: 11px 24px;
     }
 }

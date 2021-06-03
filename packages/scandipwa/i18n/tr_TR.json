@@ -28,7 +28,6 @@
     "Back to homepage": "Ana Sayfasına Gidin",
     "Bad": "Kötü",
     "Best match": null,
-    "Billing step": "Fatura",
     "Breadcrumbs (current location)...": "Breadcrumbs (mevcut konum)...",
     "Browse website in full-screen:": null,
     "Can not delete - address is set as default.": "Sililemiyor - adres varsayılan olarak ayarlandı.",
@@ -209,7 +208,6 @@
     "Shipping": "Kargo",
     "Shipping & Handling Information": "Teslimat & Teslim Alma",
     "Shipping address": "Teslimat Adresi",
-    "Shipping step": "Kargo",
     "Shopping Options": "Alışveriş Seçenekleri",
     "Shopping cart": "Alışveriş Sepeti",
     "Sign in": "Giriş Yap",
@@ -331,7 +329,6 @@
     "Menu dropdown": null,
     "Style Guide page": null,
     "Compare Page": null,
-    "Edit": null,
     "Check new arrivals": null,
     "here!": null,
     "Dismiss": null,
@@ -464,5 +461,6 @@
     "Subscribe to newsletter": null,
     "read more": null,
     "In stock": null,
-    "VAT Number": null
+    "VAT Number": null,
+    "1 filter selected": null
 }

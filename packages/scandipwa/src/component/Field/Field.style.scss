@@ -168,6 +168,12 @@
                 }
             }
         }
+
+        &_checkbox {
+            span {
+                font-size: 12px;
+            }
+        }
     }
 
     [type='checkbox'] {
@@ -217,7 +223,7 @@
                 left: calc(50% - 5px);
                 pointer-events: none;
                 position: absolute;
-                top: calc(50% - 1px);
+                inset-block-start: calc(50% - 1px);
                 transition-duration: .25s;
                 transition-property: background-color, box-shadow;
                 transition-timing-function: ease-in;
@@ -255,7 +261,7 @@
 
                     // required for ltr + rtl support, don't change to 'inset-inline-start'
                     left: calc(50% - 5px);
-                    top: calc(50% - 1px);
+                    inset-block-start: calc(50% - 1px);
                 }
             }
         }
@@ -278,7 +284,7 @@
             justify-content: center;
             height: 180px;
             position: absolute;
-            top: 0;
+            inset-block-start: 0;
             width: 100%;
 
             p {

@@ -19,7 +19,7 @@
     &-Button {
         @include desktop {
             position: absolute;
-            top: -55px;
+            inset-block-start: -55px;
             inset-inline-end: 0;
         }
     }

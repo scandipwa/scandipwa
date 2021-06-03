@@ -27,7 +27,6 @@
     "Back to homepage": "Gå till startsidan",
     "Bad": "Dålig",
     "Best match": null,
-    "Billing step": "Fakturering",
     "Breadcrumbs (current location)...": "Breadcrumbs (nuvarande position...",
     "Browse website in full-screen:": null,
     "Can not delete - address is set as default.": "Kan inte radera - adressen är inställd som standard.",
@@ -208,7 +207,6 @@
     "Shipping": "Frakt",
     "Shipping & Handling Information": "Frakt & hantering",
     "Shipping address": "Leveransadress",
-    "Shipping step": "Frakt",
     "Shopping Options": "Shoppingalternativ",
     "Shopping cart": "Kundvagn",
     "Sign in": "Logga in",
@@ -330,7 +328,6 @@
     "Menu dropdown": null,
     "Style Guide page": null,
     "Compare Page": null,
-    "Edit": null,
     "Check new arrivals": null,
     "here!": null,
     "Dismiss": null,
@@ -464,5 +461,6 @@
     "Subscribe to newsletter": null,
     "read more": null,
     "In stock": null,
-    "VAT Number": null
+    "VAT Number": null,
+    "1 filter selected": null
 }

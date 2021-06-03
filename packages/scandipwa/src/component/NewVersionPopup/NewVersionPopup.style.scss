@@ -13,7 +13,7 @@
     @include mobile {
         align-items: flex-end;
         height: 100%;
-        top: 0;
+        inset-block-start: 0;
     }
 
     &-Heading {

@@ -204,7 +204,6 @@ export class MyAccountMyWishlist extends PureComponent {
             <button
               block="Button"
               mods={ { isHollow: true } }
-              mix={ { } }
               onClick={ shareWishlist }
               disabled={ disabled }
             >

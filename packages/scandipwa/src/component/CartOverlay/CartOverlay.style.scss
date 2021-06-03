@@ -18,7 +18,7 @@
 .CartOverlay {
     @include desktop {
         position: absolute;
-        top: calc(var(--header-nav-height) - 7px);
+        inset-block-start: calc(var(--header-nav-height) - 7px);
         inset-inline-end: -10px;
         padding: 0;
         width: 453px;
@@ -28,7 +28,7 @@
         @include desktop {
             content: '';
             position: absolute;
-            top: -8px;
+            inset-block-start: -8px;
             inset-inline-end: 9px;
             height: 15px;
             width: 15px;

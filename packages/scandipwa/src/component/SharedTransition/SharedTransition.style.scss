@@ -12,7 +12,7 @@
 .SharedTransition {
     height: 100%;
     width: 100%;
-    top: 0;
+    inset-block-start: 0;
     inset-inline-start: 0;
     position: fixed;
     z-index: 75;
@@ -25,7 +25,7 @@
         display: block;
         height: calc(100vh - var(--header-height) - var(--navigation-tabs-height));
         width: 100%;
-        top: var(--header-total-height);
+        inset-block-start: var(--header-total-height);
         inset-inline-start: 0;
     }
 
@@ -41,7 +41,7 @@
         padding: 0 !important;
         margin: 0 !important;
         inset-inline-start: 0 !important;
-        top: 0 !important;
+        inset-block-start: 0 !important;
 
         width: var(--shared-element-width, 0) !important;
         height: var(--shared-element-height, 0) !important;

@@ -28,7 +28,6 @@
     "Back to homepage": "返回首頁",
     "Bad": "窳",
     "Best match": "最佳匹配",
-    "Billing step": "計費步驟",
     "Breadcrumbs (current location)...": "Breadcrumbs （當前位置）...",
     "Browse website in full-screen:": "全屏瀏覽網站",
     "Can not delete - address is set as default.": "無法刪除-地址設置為默認值。",
@@ -199,7 +198,6 @@
     "Shipping": "配送",
     "Shipping & Handling Information": "運費和手續費",
     "Shipping address": "配送地址",
-    "Shipping step": "配送",
     "Shopping Options": "購物選項",
     "Shopping cart": "購物車",
     "Sign in": "登入",
@@ -322,7 +320,6 @@
     "Menu dropdown": null,
     "Style Guide page": null,
     "Compare Page": null,
-    "Edit": null,
     "Check new arrivals": null,
     "here!": null,
     "Dismiss": null,
@@ -464,5 +461,6 @@
     "Subscribe to newsletter": null,
     "read more": null,
     "In stock": null,
-    "VAT Number": null
+    "VAT Number": null,
+    "1 filter selected": null
 }

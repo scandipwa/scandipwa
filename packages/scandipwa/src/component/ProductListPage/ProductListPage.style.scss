@@ -32,12 +32,12 @@
     &-Offset {
         @include mobile {
             height: 150vh;
-            top: -150vh;
+            inset-block-start: -150vh;
         }
 
         height: 100vh;
         pointer-events: none;
-        top: -100vh;
+        inset-block-start: -100vh;
         position: absolute;
         inset-inline-start: 0;
         width: 100%;
