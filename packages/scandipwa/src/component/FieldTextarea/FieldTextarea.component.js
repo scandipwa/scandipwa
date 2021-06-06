@@ -27,7 +27,8 @@ export class FieldTextarea extends PureComponent {
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ]),
-        rows: PropTypes.number
+        rows: PropTypes.number,
+        placeholder: PropTypes.string
     };
 
     static defaultProps = {
@@ -37,7 +38,8 @@ export class FieldTextarea extends PureComponent {
         maxLength: null,
         onChange: () => {},
         onFocus: () => {},
-        onClick: () => {}
+        onClick: () => {},
+        placeholder: null
     };
 
     render() {
@@ -51,7 +53,8 @@ export class FieldTextarea extends PureComponent {
             maxLength,
             onChange,
             onFocus,
-            onClick
+            onClick,
+            placeholder
         } = this.props;
 
         return (
@@ -66,6 +69,7 @@ export class FieldTextarea extends PureComponent {
               onFocus={ onFocus }
               onClick={ onClick }
               maxLength={ maxLength }
+              placeholder={ placeholder }
             />
         );
     }

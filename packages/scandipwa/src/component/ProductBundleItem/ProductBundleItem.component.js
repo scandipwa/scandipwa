@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 
 import Field from 'Component/Field';
-import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
+import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
 
 import {
@@ -60,10 +60,9 @@ export class ProductBundleItem extends ProductCustomizableOption {
 
     renderOptionCheckboxValue = (item) => {
         const {
+            currencyCode,
             getSelectedCheckboxValue,
-            renderOptionLabel,
-            isDynamicPrice,
-            price_range: { minimum_price: { discount: { percent_off } } }
+            renderOptionLabel
         } = this.props;
 
         if (!item.product) {
@@ -76,22 +75,13 @@ export class ProductBundleItem extends ProductCustomizableOption {
             price_type,
             quantity,
             is_default,
-            price,
-            product: {
-                price_range: {
-                    minimum_price: {
-                        final_price: {
-                            value = 0
-                        } = {}
-                    } = {}
-                } = {}
-            } = {}
+            finalOptionPrice,
+            price
         } = item;
 
-        const priceValue = isDynamicPrice ? value : price;
-        const finalPrice = priceValue - (priceValue * (percent_off / ONE_HUNDRED_PERCENT));
+        const finalPrice = price_type === PRICE_TYPE_PERCENT ? price : finalOptionPrice;
 
-        const priceLabel = renderOptionLabel(price_type, finalPrice);
+        const priceLabel = renderOptionLabel(price_type, finalPrice, currencyCode);
 
         return (
             <div key={ id }>

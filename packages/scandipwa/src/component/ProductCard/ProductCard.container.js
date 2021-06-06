@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
@@ -30,7 +31,8 @@ export const CartDispatcher = import(
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
@@ -45,12 +47,15 @@ export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isPreview: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
-        selectedFilters: {}
+        selectedFilters: {},
+        isPreview: false
     };
 
     containerFunctions = {
@@ -203,7 +208,11 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants } } = this.props;
+        const { product: { variants }, isPreview } = this.props;
+
+        if (isPreview) {
+            return true;
+        }
 
         const variantsInStock = variants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
 

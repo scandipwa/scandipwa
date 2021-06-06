@@ -107,10 +107,11 @@ export class ProductCustomizableOption extends PureComponent {
             option_type_id,
             title,
             price,
-            price_type
+            price_type,
+            currency
         } = item;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, price, currency);
 
         return (
             <Field
@@ -195,7 +196,7 @@ export class ProductCustomizableOption extends PureComponent {
             optionType,
             textFieldValid
         } = this.props;
-        const { max_characters } = data;
+        const [{ max_characters = 0 }] = data;
         const fieldType = optionType === 'field' ? 'text' : 'textarea';
 
         return (
@@ -221,9 +222,7 @@ export class ProductCustomizableOption extends PureComponent {
             processFileUpload,
             option: {
                 required,
-                data: {
-                    file_extension = ''
-                } = {}
+                data: [{ file_extension = '' }] = []
             } = {}
         } = this.props;
 
@@ -253,14 +252,17 @@ export class ProductCustomizableOption extends PureComponent {
             renderOptionLabel,
             option: {
                 title,
-                data: {
-                    price_type,
-                    price
-                }
+                data: [
+                    {
+                        price_type = 'FIXED',
+                        price = 0,
+                        currency
+                    } = {}
+                ] = []
             }
         } = this.props;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, price, currency);
 
         return this.renderHeading(title, priceLabel);
     }

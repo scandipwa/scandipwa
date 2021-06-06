@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,7 +8,4 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-export const PRICE_TYPE_DYNAMIC = 'DYNAMIC';
-export const PRICE_TYPE_FIXED = 'FIXED';
-export const PRICE_TYPE_PERCENT = 'PERCENT';
+export { default } from './StoreInPickUpStore.container';

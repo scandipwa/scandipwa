@@ -524,6 +524,9 @@ export class ProductListQuery {
             'attribute_code',
             'attribute_type',
             'attribute_label',
+            'attribute_group_id',
+            'attribute_group_code',
+            'attribute_group_name',
             ...(!isVariant
                 ? [
                     this._getAttributeOptionsField()
@@ -707,6 +710,29 @@ export class ProductListQuery {
             .addFieldList(this._getBundleItemsFields());
     }
 
+    _getBundlePriceOptionSelectionFields() {
+        return [
+            'selection_id',
+            'final_option_price',
+            'final_option_price_excl_tax',
+            'regular_option_price',
+            'regular_option_price_excl_tax'
+        ];
+    }
+
+    _getBundlePriceOptionFields() {
+        return [
+            'option_id',
+            new Field('selection_details')
+                .addFieldList(this._getBundlePriceOptionSelectionFields())
+        ];
+    }
+
+    _getBundlePriceOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundlePriceOptionFields());
+    }
+
     _getBundleProductFragmentFields() {
         return [
             'price_view',
@@ -714,7 +740,8 @@ export class ProductListQuery {
             'dynamic_sku',
             'ship_bundle_items',
             'dynamic_weight',
-            this._getBundleItemsField()
+            this._getBundleItemsField(),
+            this._getBundlePriceOptionsField()
         ];
     }
 
@@ -763,6 +790,7 @@ export class ProductListQuery {
         return [
             'price',
             'price_type',
+            'currency',
             'sku',
             'max_characters'
         ];
@@ -786,6 +814,7 @@ export class ProductListQuery {
             .addFieldList([
                 'price',
                 'price_type',
+                'currency',
                 'sku',
                 'file_extension'
             ])
@@ -812,6 +841,7 @@ export class ProductListQuery {
             'option_type_id',
             'price',
             'price_type',
+            'currency',
             'sku',
             'title',
             'sort_order'

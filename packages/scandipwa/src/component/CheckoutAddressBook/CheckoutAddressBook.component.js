@@ -19,6 +19,7 @@ import Loader from 'Component/Loader';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, customerType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 
 import './CheckoutAddressBook.style';
 
@@ -167,8 +168,7 @@ export class CheckoutAddressBook extends PureComponent {
     }
 
     renderContent() {
-        const { isSignedIn } = this.props;
-        if (isSignedIn) {
+        if (isSignedIn()) {
             return this.renderSignedInContent();
         }
 

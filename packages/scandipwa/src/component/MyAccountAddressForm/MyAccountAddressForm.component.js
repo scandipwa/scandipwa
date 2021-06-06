@@ -44,13 +44,13 @@ export class MyAccountAddressForm extends FieldForm {
             address: {
                 country_id,
                 region: { region_id } = {},
-                is_state_required,
                 city = ''
             }
         } = props;
 
         const countryId = country_id || default_country;
         const country = countries.find(({ id }) => id === countryId);
+        const isStateRequired = country.is_state_required;
         const { available_regions: availableRegions } = country || {};
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
@@ -59,14 +59,14 @@ export class MyAccountAddressForm extends FieldForm {
             countryId,
             availableRegions,
             regionId,
-            isStateRequired: is_state_required,
+            isStateRequired,
             city
         };
     }
 
     onFormSuccess = (fields) => {
         const { onSave, addressLinesQty } = this.props;
-        const { region_id, region_string: region, ...newAddress } = addressLinesQty > 1
+        const { region_id = 0, region_string: region, ...newAddress } = addressLinesQty > 1
             ? setAddressesInFormObject(fields, addressLinesQty)
             : fields;
 

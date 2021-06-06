@@ -31,7 +31,6 @@ export const ReviewDispatcher = import(
 /** @namespace Component/ProductReviewForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
-    isSignedIn: state.MyAccountReducer.isSignedIn,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 

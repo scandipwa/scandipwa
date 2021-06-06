@@ -28,7 +28,8 @@ export const MyAccountDispatcher = import(
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isLoading: state.MyAccountReducer.isLoading,
-    showTaxVatNumber: state.ConfigReducer.show_tax_vat_number
+    showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number,
+    newsletterActive: state.ConfigReducer.newsletter_general_active
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -114,7 +115,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         }
 
         try {
-            const code = createAccount(customerData);
+            const code = await createAccount(customerData);
+
             // if user needs confirmation
             if (code === 2) {
                 setSignInState(STATE_CONFIRM_EMAIL);

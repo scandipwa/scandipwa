@@ -98,6 +98,22 @@ export const getIndexedVariants = (variants) => variants.map(({ product }) => {
     };
 });
 
+/** @namespace Util/Product/getIndexedSingleVariant */
+export const getIndexedSingleVariant = (variants, itemSku) => {
+    const index = variants.findIndex(({ product: { sku } }) => sku === itemSku || itemSku.includes(sku));
+
+    if (index < 0) {
+        return getIndexedVariants(variants);
+    }
+
+    const indexedProduct = variants[index].product;
+    const { attributes } = indexedProduct;
+
+    return [
+        { ...indexedProduct, attributes: getIndexedAttributes(attributes || []) }
+    ];
+};
+
 /**
  * Get product variant index by options
  * @param {Object[]} variants
@@ -130,23 +146,28 @@ export const getIndexedCustomOption = (option) => {
     } = option;
 
     if (checkboxValues) {
-        return { type: 'checkbox', data: checkboxValues, ...otherFields };
+        const data = Array.isArray(checkboxValues) ? checkboxValues : [checkboxValues];
+        return { type: 'checkbox', data, ...otherFields };
     }
 
     if (dropdownValues) {
-        return { type: 'dropdown', data: dropdownValues, ...otherFields };
+        const data = Array.isArray(dropdownValues) ? dropdownValues : [dropdownValues];
+        return { type: 'dropdown', data, ...otherFields };
     }
 
     if (fieldValues) {
-        return { type: 'field', data: fieldValues, ...otherFields };
+        const data = Array.isArray(fieldValues) ? fieldValues : [fieldValues];
+        return { type: 'field', data, ...otherFields };
     }
 
     if (areaValues) {
-        return { type: 'area', data: areaValues, ...otherFields };
+        const data = Array.isArray(areaValues) ? areaValues : [areaValues];
+        return { type: 'area', data, ...otherFields };
     }
 
     if (fileValues) {
-        return { type: 'file', data: fileValues, ...otherFields };
+        const data = Array.isArray(fileValues) ? fileValues : [fileValues];
+        return { type: 'file', data, ...otherFields };
     }
 
     // skip unsupported types
@@ -203,8 +224,34 @@ export const getIndexedReviews = (reviews) => {
     }, []);
 };
 
+/** @namespace Util/Product/getBundleOptions */
+export const getBundleOptions = (options, items) => {
+    const bundleOptions = options.reduce((prev, next) => [...prev, ...next.selection_details], []);
+
+    return items.map((item) => ({
+        ...item,
+        options: item?.options?.map((option) => {
+            const selection = bundleOptions.find((o) => o.selection_id === option.id) || {};
+            const {
+                regular_option_price: regularOptionPrice = 0,
+                regular_option_price_excl_tax: regularOptionPriceExclTax = 0,
+                final_option_price: finalOptionPrice = 0,
+                final_option_price_excl_tax: finalOptionPriceExclTax = 0
+            } = selection;
+
+            return {
+                ...option,
+                regularOptionPrice,
+                regularOptionPriceExclTax,
+                finalOptionPrice,
+                finalOptionPriceExclTax
+            };
+        })
+    }));
+};
+
 /** @namespace Util/Product/getIndexedProduct */
-export const getIndexedProduct = (product) => {
+export const getIndexedProduct = (product, itemSku) => {
     const {
         variants: initialVariants = [],
         configurable_options: initialConfigurableOptions = [],
@@ -212,16 +259,18 @@ export const getIndexedProduct = (product) => {
         options: initialOptions = [],
         rating_summary,
         review_count,
-        reviews: initialReviews
+        reviews: initialReviews,
+        items = [],
+        bundle_options = []
     } = product;
 
     const attributes = getIndexedAttributes(initialAttributes || []);
     const reviews = getIndexedReviews(initialReviews);
 
-    return {
+    const updatedProduct = {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
-        variants: getIndexedVariants(initialVariants),
+        variants: itemSku ? getIndexedSingleVariant(initialVariants, itemSku) : getIndexedVariants(initialVariants),
         options: getIndexedCustomOptions(initialOptions || []),
         attributes,
         // Magento 2.4.1 review endpoint compatibility
@@ -231,10 +280,16 @@ export const getIndexedProduct = (product) => {
             review_count
         }
     };
+
+    if (bundle_options) {
+        updatedProduct.items = getBundleOptions(bundle_options, items);
+    }
+
+    return updatedProduct;
 };
 
 /** @namespace Util/Product/getIndexedProducts */
-export const getIndexedProducts = (products) => products.map(getIndexedProduct);
+export const getIndexedProducts = (products) => products.map((product) => getIndexedProduct(product));
 
 /** @namespace Util/Product/getIndexedParameteredProducts */
 export const getIndexedParameteredProducts = (products) => Object.entries(products)

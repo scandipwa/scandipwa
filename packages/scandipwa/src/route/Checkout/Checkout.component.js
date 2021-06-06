@@ -53,10 +53,12 @@ export class Checkout extends PureComponent {
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: addressType.isRequired,
         billingAddress: addressType.isRequired,
+        estimateAddress: addressType.isRequired,
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
         isEmailAvailable: PropTypes.bool.isRequired,
+        selectedShippingMethod: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         paymentTotals: TotalsType,
@@ -182,7 +184,8 @@ export class Checkout extends PureComponent {
             onPasswordChange,
             onCreateUserChange,
             onEmailChange,
-            isCreateUser
+            isCreateUser,
+            estimateAddress
         } = this.props;
 
         return (
@@ -195,6 +198,7 @@ export class Checkout extends PureComponent {
               onCreateUserChange={ onCreateUserChange }
               onEmailChange={ onEmailChange }
               isCreateUser={ isCreateUser }
+              estimateAddress={ estimateAddress }
             />
         );
     }
@@ -205,7 +209,8 @@ export class Checkout extends PureComponent {
             setDetailsStep,
             shippingAddress,
             paymentMethods = [],
-            savePaymentInformation
+            savePaymentInformation,
+            selectedShippingMethod
         } = this.props;
 
         return (
@@ -215,6 +220,7 @@ export class Checkout extends PureComponent {
               setDetailsStep={ setDetailsStep }
               shippingAddress={ shippingAddress }
               savePaymentInformation={ savePaymentInformation }
+              selectedShippingMethod={ selectedShippingMethod }
             />
         );
     }

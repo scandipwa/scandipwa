@@ -20,20 +20,17 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
-    DASHBOARD,
-    MY_DOWNLOADABLE,
-    MY_ORDERS,
-    MY_WISHLIST,
-    NEWSLETTER_SUBSCRIPTION
+    DASHBOARD, MY_DOWNLOADABLE, MY_ORDERS,
+    MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
+import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
 import MyAccount from './MyAccount.component';
-import {
-    MY_ACCOUNT_URL
-} from './MyAccount.config';
+import { MY_ACCOUNT_URL } from './MyAccount.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -46,9 +43,10 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Route/MyAccount/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn,
     device: state.ConfigReducer.device,
-    wishlistItems: state.WishlistReducer.productsInWishlist
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
+    wishlistItems: state.WishlistReducer.productsInWishlist,
+    isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -72,37 +70,20 @@ export class MyAccountContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
         device: DeviceType.isRequired,
-        wishlistItems: PropTypes.object
+        wishlistItems: PropTypes.object,
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         wishlistItems: {}
     };
 
-    static navigateToSelectedTab(props, state = {}) {
-        const {
-            match: {
-                params: {
-                    tab: historyActiveTab = DASHBOARD
-                } = {}
-            } = {}
-        } = props;
-
-        const { activeTab } = state;
-
-        if (activeTab !== historyActiveTab) {
-            return { activeTab: historyActiveTab };
-        }
-
-        return null;
-    }
-
-    tabMap = {
+    static tabMap = {
         [DASHBOARD]: {
             url: '/dashboard',
             name: __('Dashboard')
@@ -121,14 +102,53 @@ export class MyAccountContainer extends PureComponent {
         },
         [MY_WISHLIST]: {
             url: '/my-wishlist',
-            name: __('My wishlist'),
-            headerTitle: () => this.getMyWishlistHeaderTitle()
+            name: __('My wishlist')
         },
         [NEWSLETTER_SUBSCRIPTION]: {
             url: '/newsletter-subscription',
             name: __('Newsletter Subscription')
         }
     };
+
+    static isTabEnabled(props, tabName) {
+        const { isWishlistEnabled } = props;
+
+        switch (tabName) {
+        case MY_WISHLIST:
+            return isWishlistEnabled;
+
+        default:
+            return true;
+        }
+    }
+
+    static navigateToSelectedTab(props, state = {}) {
+        const {
+            history,
+            match: {
+                params: {
+                    tab: historyActiveTab
+                } = {}
+            } = {}
+        } = props;
+
+        const { activeTab } = state;
+
+        // redirect to Dashboard, if user visited non-existent or disabled page
+        const newActiveTab = this.tabMap[historyActiveTab] && this.isTabEnabled(props, historyActiveTab)
+            ? historyActiveTab
+            : DASHBOARD;
+
+        if (historyActiveTab !== newActiveTab) {
+            history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }/${ newActiveTab }`));
+        }
+
+        if (activeTab !== newActiveTab) {
+            return { activeTab: newActiveTab };
+        }
+
+        return null;
+    }
 
     containerFunctions = {
         changeActiveTab: this.changeActiveTab.bind(this),
@@ -140,7 +160,6 @@ export class MyAccountContainer extends PureComponent {
         super.__construct(props);
 
         const {
-            isSignedIn,
             updateMeta,
             toggleOverlayByKey
         } = this.props;
@@ -150,7 +169,7 @@ export class MyAccountContainer extends PureComponent {
             isEditingActive: false
         };
 
-        if (!isSignedIn) {
+        if (!isSignedIn()) {
             toggleOverlayByKey(CUSTOMER_ACCOUNT);
         }
 
@@ -166,12 +185,22 @@ export class MyAccountContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { wishlistItems: prevWishlistItems } = prevProps;
-        const { wishlistItems, isSignedIn } = this.props;
+        const {
+            wishlistItems: prevWishlistItems,
+            isSignedIn: prevIsSignedIn
+        } = prevProps;
+        const {
+            wishlistItems,
+            isSignedIn: currIsSignedIn
+        } = this.props;
         const { activeTab: prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
         this.redirectIfNotSignedIn();
+
+        if (prevIsSignedIn !== currIsSignedIn) {
+            this.changeHeaderState();
+        }
 
         if (prevActiveTab !== activeTab) {
             this.updateBreadcrumbs();
@@ -182,7 +211,7 @@ export class MyAccountContainer extends PureComponent {
             this.changeHeaderState();
         }
 
-        if (!isSignedIn) {
+        if (!isSignedIn()) {
             this.changeHeaderState('default');
         }
     }
@@ -195,19 +224,22 @@ export class MyAccountContainer extends PureComponent {
         return `${ length } ${ length === 1 ? __('item') : __('items') }`;
     };
 
+    tabsFilterEnabled() {
+        return Object.fromEntries(Object.entries(MyAccountContainer.tabMap)
+            .filter(([k]) => MyAccountContainer.isTabEnabled(this.props, k)));
+    }
+
     onSignOut() {
         const { toggleOverlayByKey } = this.props;
         this.setState({ activeTab: DASHBOARD });
         toggleOverlayByKey(CUSTOMER_ACCOUNT);
+        history.push(appendWithStoreCode('/'));
     }
 
     onSignIn() {
-        const {
-            requestCustomerData,
-            isSignedIn
-        } = this.props;
+        const { requestCustomerData } = this.props;
 
-        if (isSignedIn) {
+        if (isSignedIn()) {
             requestCustomerData();
         }
 
@@ -217,7 +249,6 @@ export class MyAccountContainer extends PureComponent {
     changeWishlistHeaderState(hiddenElements) {
         const { changeHeaderState } = this.props;
         const { isEditingActive } = this.state;
-        const { [MY_WISHLIST]: { headerTitle } } = this.tabMap;
 
         const currentHiddenElements = hiddenElements || [isEditingActive ? 'edit' : 'ok'];
 
@@ -230,7 +261,7 @@ export class MyAccountContainer extends PureComponent {
         };
 
         changeHeaderState({
-            title: headerTitle(),
+            title: this.getMyWishlistHeaderTitle(),
             name: CUSTOMER_WISHLIST,
             onEditClick: () => handleClick(true),
             onOkClick: () => handleClick(),
@@ -264,7 +295,7 @@ export class MyAccountContainer extends PureComponent {
 
     changeActiveTab(activeTab) {
         const { history } = this.props;
-        const { [activeTab]: { url } } = this.tabMap;
+        const { [activeTab]: { url } } = this.tabsFilterEnabled(MyAccountContainer.tabMap);
 
         history.push(appendWithStoreCode(`${ MY_ACCOUNT_URL }${ url }`));
         this.changeHeaderState(activeTab);
@@ -273,7 +304,7 @@ export class MyAccountContainer extends PureComponent {
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const { activeTab } = this.state;
-        const { url, name } = this.tabMap[activeTab];
+        const { url, name } = MyAccountContainer.tabMap[activeTab];
 
         updateBreadcrumbs([
             { url: `${ MY_ACCOUNT_URL }${ url }`, name },
@@ -283,13 +314,12 @@ export class MyAccountContainer extends PureComponent {
 
     redirectIfNotSignedIn() {
         const {
-            isSignedIn,
             history,
             location: { pathname },
             device
         } = this.props;
 
-        if (isSignedIn) { // do nothing for signed-in users
+        if (isSignedIn()) { // do nothing for signed-in users
             return;
         }
 
@@ -311,7 +341,7 @@ export class MyAccountContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
-              tabMap={ this.tabMap }
+              tabMap={ this.tabsFilterEnabled(MyAccountContainer.tabMap) }
             />
         );
     }

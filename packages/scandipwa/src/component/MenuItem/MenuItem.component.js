@@ -25,6 +25,7 @@ export class MenuItem extends PureComponent {
         item: PropTypes.object.isRequired,
         itemMods: PropTypes.object,
         handleCategoryHover: PropTypes.func.isRequired,
+        handleLinkLeave: PropTypes.func.isRequired,
         isLink: PropTypes.bool,
         onItemClick: PropTypes.func,
         device: DeviceType.isRequired
@@ -100,6 +101,7 @@ export class MenuItem extends PureComponent {
             item,
             itemMods,
             handleCategoryHover,
+            handleLinkLeave,
             onItemClick
         } = this.props;
 
@@ -117,6 +119,7 @@ export class MenuItem extends PureComponent {
               elem="Link"
               id={ item_id }
               onMouseEnter={ handleCategoryHover }
+              onMouseLeave={ handleLinkLeave }
               mods={ { isHovered } }
               onClick={ onItemClick }
             >

@@ -162,7 +162,7 @@ export class NewProductsContainer extends PureComponent {
             )
             .catch(
                 /** @namespace Component/NewProducts/Container/executeGetThenCatch */
-                (e) => showNotification('error', 'Error fetching NewProducts!', e)
+                (e) => showNotification('error', __('Error fetching NewProducts!'), e)
             );
     }
 
