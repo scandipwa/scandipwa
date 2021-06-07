@@ -3,7 +3,7 @@ import { PureComponent } from 'react';
 
 import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong.component';
 
-/** @namespace Framework/Src/Component/App/Component/AppComponent */
+/** @namespace Framework/Component/App/Component/AppComponent */
 export class AppComponent extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/forbid-prop-types

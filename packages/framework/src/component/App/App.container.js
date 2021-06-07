@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 
 import App from './App.component';
 
-/** @namespace Framework/Src/Component/App/Container/AppContainer */
+/** @namespace Framework/Component/App/Container/AppContainer */
 export class AppContainer extends PureComponent {
     productionFunctions = [
         this.disableReactDevTools.bind(this),
