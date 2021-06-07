@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { formatPrice } from 'Util/Price';
+import { BUNDLE } from 'Util/Product/Types';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
@@ -123,7 +124,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             type_id = ''
         } = this.props;
 
-        const finalPriceValue = (type_id === 'bundle') ? value : (value * price);
+        const finalPriceValue = type_id === BUNDLE ? value : value * price;
         const finalPrice = formatPrice(finalPriceValue / ONE_HUNDRED_PERCENT, finalPriceCurrency);
 
         switch (priceType) {

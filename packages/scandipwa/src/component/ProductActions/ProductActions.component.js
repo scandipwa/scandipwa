@@ -286,12 +286,13 @@ export class ProductActions extends PureComponent {
     renderCustomizableOptions() {
         const {
             product: {
-                options
+                options,
+                type_id = '',
+                price_range = {}
             } = {},
             getSelectedCustomizableOptions,
             productOptionsData,
-            device,
-            product: { type_id, price_range }
+            device
         } = this.props;
 
         if (device.isMobile) {
