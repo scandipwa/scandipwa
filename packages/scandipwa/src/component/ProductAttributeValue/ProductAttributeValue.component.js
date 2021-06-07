@@ -270,7 +270,6 @@ export class ProductAttributeValue extends PureComponent {
 
     renderStringValue(value, label) {
         const { isFormattedAsText, isSelected } = this.props;
-
         const isSwatch = label;
 
         if (isFormattedAsText) {
