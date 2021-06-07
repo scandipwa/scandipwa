@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 
 import Router from './Router.component';
 
-/** @namespace Router/Component/Router/Container/RouterContainer */
+/** @namespace Router/Src/Component/Router/Container/RouterContainer */
 export class RouterContainer extends PureComponent {
     static propTypes = {};
 
