@@ -208,6 +208,26 @@ export class ProductCompareDispatcher {
         }
     }
 
+    // async updateInitialProductCompareData(dispatch) {
+    //     const guestCartId = await this._getGuestQuoteId(dispatch);
+    //
+    //     try {
+    //         const {
+    //             compareProducts: {
+    //                 products = []
+    //             } = {}
+    //         } = await fetchQuery(
+    //             ProductCompareQuery.getProductIds(guestCartId)
+    //         );
+    //
+    //         const productIds = products.map(({ id }) => id);
+    //
+    //         dispatch(setComparedProductIds(productIds));
+    //     } catch (error) {
+    //         dispatch(showNotification('error', __('Unable to fetch compare product ids'), error));
+    //     }
+    // }
+
     resetComparedProducts(dispatch) {
         dispatch(clearComparedProducts());
     }

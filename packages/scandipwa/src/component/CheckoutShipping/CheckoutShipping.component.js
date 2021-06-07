@@ -41,8 +41,7 @@ export class CheckoutShipping extends PureComponent {
         isSubmitted: PropTypes.bool,
         onStoreSelect: PropTypes.func.isRequired,
         estimateAddress: addressType.isRequired,
-        selectedStoreAddress: addressType,
-        cartTotalSubPrice: PropTypes.number.isRequired
+        selectedStoreAddress: addressType
     };
 
     static defaultProps = {
