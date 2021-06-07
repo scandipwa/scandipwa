@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import ProductCard from 'Component/ProductCard';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { MixType } from 'Type/Common';
 import { FilterType, ProductType } from 'Type/ProductList';
 
@@ -166,7 +167,12 @@ export class ProductListPage extends PureComponent {
     renderPageItems() {
         const {
             items,
-            selectedFilters
+            selectedFilters,
+            mix: {
+                mods: {
+                    layout = GRID_LAYOUT
+                } = {}
+            }
         } = this.props;
 
         return items.map((product, i) => (
@@ -175,6 +181,7 @@ export class ProductListPage extends PureComponent {
               // eslint-disable-next-line react/no-array-index-key
               key={ i }
               selectedFilters={ selectedFilters }
+              layout={ layout }
               { ...this.containerProps() }
             />
         ));

@@ -52,8 +52,13 @@ export class Checkout extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: addressType.isRequired,
+        billingAddress: addressType.isRequired,
+        estimateAddress: addressType.isRequired,
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        isEmailAvailable: PropTypes.bool.isRequired,
+        selectedShippingMethod: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         paymentTotals: TotalsType,
@@ -68,7 +73,8 @@ export class Checkout extends PureComponent {
         isGuestEmailSaved: PropTypes.bool.isRequired,
         goBack: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        onCouponCodeUpdate: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -140,9 +146,9 @@ export class Checkout extends PureComponent {
         const { title = '' } = this.stepMap[checkoutStep];
 
         return (
-            <h1 block="Checkout" elem="Title">
+            <h2 block="Checkout" elem="Title">
                 { title }
-            </h1>
+            </h2>
         );
     }
 
@@ -178,7 +184,8 @@ export class Checkout extends PureComponent {
             onPasswordChange,
             onCreateUserChange,
             onEmailChange,
-            isCreateUser
+            isCreateUser,
+            estimateAddress
         } = this.props;
 
         return (
@@ -191,6 +198,7 @@ export class Checkout extends PureComponent {
               onCreateUserChange={ onCreateUserChange }
               onEmailChange={ onEmailChange }
               isCreateUser={ isCreateUser }
+              estimateAddress={ estimateAddress }
             />
         );
     }
@@ -201,7 +209,8 @@ export class Checkout extends PureComponent {
             setDetailsStep,
             shippingAddress,
             paymentMethods = [],
-            savePaymentInformation
+            savePaymentInformation,
+            selectedShippingMethod
         } = this.props;
 
         return (
@@ -211,15 +220,28 @@ export class Checkout extends PureComponent {
               setDetailsStep={ setDetailsStep }
               shippingAddress={ shippingAddress }
               savePaymentInformation={ savePaymentInformation }
+              selectedShippingMethod={ selectedShippingMethod }
             />
         );
     }
 
     renderDetailsStep() {
-        const { orderID } = this.props;
+        const {
+            orderID,
+            isEmailAvailable,
+            email,
+            billingAddress: {
+                firstname,
+                lastname
+            }
+        } = this.props;
 
         return (
             <CheckoutSuccess
+              email={ email }
+              firstName={ firstname }
+              lastName={ lastname }
+              isEmailAvailable={ isEmailAvailable }
               orderID={ orderID }
             />
         );
@@ -246,7 +268,8 @@ export class Checkout extends PureComponent {
             checkoutStep,
             paymentTotals,
             isMobile,
-            totals: { coupon_code }
+            totals: { coupon_code },
+            onCouponCodeUpdate
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
@@ -263,6 +286,7 @@ export class Checkout extends PureComponent {
               couponCode={ coupon_code }
               // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo(true) }
+              onCouponCodeUpdate={ onCouponCodeUpdate }
             />
         );
     }
@@ -281,10 +305,12 @@ export class Checkout extends PureComponent {
     renderCartCoupon() {
         const {
             totals: { coupon_code },
-            isMobile
+            isMobile,
+            onCouponCodeUpdate,
+            checkoutStep
         } = this.props;
 
-        if (isMobile) {
+        if (isMobile || checkoutStep === SHIPPING_STEP) {
             return null;
         }
 
@@ -293,7 +319,10 @@ export class Checkout extends PureComponent {
               heading={ __('Have a discount code?') }
               mix={ { block: 'Checkout', elem: 'Coupon' } }
             >
-                <CartCoupon couponCode={ coupon_code } />
+                <CartCoupon
+                  couponCode={ coupon_code }
+                  onCouponCodeUpdate={ onCouponCodeUpdate }
+                />
             </ExpandableContent>
         );
     }

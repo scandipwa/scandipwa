@@ -14,6 +14,8 @@ import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import { ChildrenType } from 'Type/Common';
 
+import './CmsBlock.style';
+
 /**
  * Cms Block
  * @class CmsBlock
@@ -26,12 +28,14 @@ export class CmsBlock extends PureComponent {
             content: PropTypes.string,
             disabled: PropTypes.bool
         }),
+        blockType: PropTypes.string,
         children: ChildrenType
     };
 
     static defaultProps = {
         cmsBlock: {},
-        children: []
+        children: [],
+        blockType: ''
     };
 
     renderPlaceholder() {
@@ -52,7 +56,8 @@ export class CmsBlock extends PureComponent {
                 identifier,
                 content,
                 disabled
-            }
+            },
+            blockType
         } = this.props;
 
         if (disabled) {
@@ -67,6 +72,7 @@ export class CmsBlock extends PureComponent {
             <div
               block="CmsBlock"
               elem="Wrapper"
+              mods={ { type: blockType } }
             >
                 <Html content={ content } />
             </div>

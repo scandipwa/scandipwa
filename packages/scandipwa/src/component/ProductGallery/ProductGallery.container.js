@@ -101,32 +101,36 @@ export class ProductGalleryContainer extends PureComponent {
             areDetailsLoaded,
             product: {
                 media_gallery_entries: mediaGallery = [],
-                [THUMBNAIL_KEY]: { url } = {},
+                [THUMBNAIL_KEY]: { url: thumbnailUrl } = {},
+                [IMAGE_TYPE]: { url: imageTypeUrl } = {},
                 name
             }
         } = this.props;
 
+        const url = imageTypeUrl || thumbnailUrl;
+
         if (mediaGallery.length) {
-            return Object.values(mediaGallery.reduce((acc, srcMedia) => {
-                const {
-                    types,
-                    position,
-                    disabled
-                } = srcMedia;
+            return mediaGallery
+                .filter(({ disabled }) => !disabled)
+                .sort((a, b) => {
+                    const aThumbnail = a.types.includes(THUMBNAIL_KEY);
+                    const bThumbnail = b.types.includes(THUMBNAIL_KEY);
+                    const sortResult = a.position - b.position;
 
-                const canBeShown = !disabled;
-                if (!canBeShown) {
-                    return acc;
-                }
+                    if (aThumbnail && bThumbnail) {
+                        return sortResult;
+                    }
 
-                const isThumbnail = types.includes(THUMBNAIL_KEY);
-                const key = isThumbnail ? 0 : position + 1;
+                    if (aThumbnail) {
+                        return -1;
+                    }
 
-                return {
-                    ...acc,
-                    [key]: srcMedia
-                };
-            }, {}));
+                    if (bThumbnail) {
+                        return 1;
+                    }
+
+                    return sortResult;
+                });
         }
 
         if (!url) {

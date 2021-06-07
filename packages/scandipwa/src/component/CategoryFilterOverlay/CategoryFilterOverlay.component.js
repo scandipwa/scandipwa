@@ -99,9 +99,9 @@ export class CategoryFilterOverlay extends PureComponent {
 
     renderHeading() {
         return (
-            <h2 block="CategoryFilterOverlay" elem="Heading">
+            <h3 block="CategoryFilterOverlay" elem="Heading">
                 { __('Shopping Options') }
-            </h2>
+            </h3>
         );
     }
 

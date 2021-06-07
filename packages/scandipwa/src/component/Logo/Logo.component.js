@@ -40,6 +40,11 @@ export class Logo extends Image {
 
     renderImage() {
         const { imageStatus } = this.state;
+        const { src } = this.props;
+
+        if (!src) {
+            return this.renderPlaceholderLogo();
+        }
 
         switch (imageStatus) {
         case IMAGE_NOT_FOUND:

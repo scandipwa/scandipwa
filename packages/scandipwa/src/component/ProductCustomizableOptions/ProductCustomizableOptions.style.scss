@@ -32,7 +32,7 @@
                 label {
                     order: 1;
 
-                    &:first-of-type ~ label {
+                    .input-control {
                         margin-left: 0;
                     }
                 }

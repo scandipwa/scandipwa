@@ -53,10 +53,11 @@ export class UrlRewrites extends PureComponent {
 
     renderContent() {
         const { props, type } = this.props;
+        const { id } = props;
 
         switch (type) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...props } />;
+            return <ProductPage { ...props } key={ id } />;
         case TYPE_CMS_PAGE:
             return <CmsPage { ...props } />;
         case TYPE_CATEGORY:

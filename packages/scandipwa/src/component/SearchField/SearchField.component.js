@@ -180,6 +180,7 @@ export class SearchField extends PureComponent {
                   value={ searchCriteria }
                   mods={ { isActive } }
                   autoComplete="off"
+                  aria-label={ __('Search') }
                 />
                 <div
                   block="SearchField"
@@ -277,6 +278,7 @@ export class SearchField extends PureComponent {
                   value={ searchCriteria }
                   mods={ { isActive } }
                   autoComplete="off"
+                  aria-label={ __('Search') }
                 />
                 <div
                   block="SearchField"

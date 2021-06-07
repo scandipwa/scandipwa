@@ -20,6 +20,8 @@ import {
 } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { isSignedIn } from 'Util/Auth';
+import { getErrorMessage } from 'Util/Request';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
 
@@ -30,7 +32,6 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/CheckoutGuestForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn,
     isEmailConfirmationRequired: state.ConfigReducer.is_email_confirmation_required,
     emailValue: state.CheckoutReducer.email,
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable
@@ -42,7 +43,7 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
     ),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message))
+    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error)))
 });
 
 /** @namespace Component/CheckoutGuestForm/Container */
@@ -50,7 +51,6 @@ export class CheckoutGuestFormContainer extends PureComponent {
     static propTypes = {
         isCreateUser: PropTypes.bool.isRequired,
         isGuestEmailSaved: PropTypes.bool,
-        isSignedIn: PropTypes.bool.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
@@ -139,8 +139,8 @@ export class CheckoutGuestFormContainer extends PureComponent {
     }
 
     render() {
-        const { isSignedIn, isGuestEmailSaved } = this.props;
-        if (isSignedIn || isGuestEmailSaved) {
+        const { isGuestEmailSaved } = this.props;
+        if (isSignedIn() || isGuestEmailSaved) {
             return null;
         }
 

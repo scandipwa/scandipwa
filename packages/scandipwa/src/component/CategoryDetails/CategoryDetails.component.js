@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Html from 'Component/Html';
@@ -25,27 +26,50 @@ import './CategoryDetails.style';
  */
 export class CategoryDetails extends PureComponent {
     static propTypes = {
-        category: CategoryTreeType.isRequired
+        category: CategoryTreeType.isRequired,
+        isCurrentCategoryLoaded: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isCurrentCategoryLoaded: true
     };
 
     renderCategoryName() {
-        const { category: { name, id } } = this.props;
+        const {
+            category: { name, id },
+            isCurrentCategoryLoaded
+        } = this.props;
 
         if (id && !name) {
             return null;
         }
 
+        if (!isCurrentCategoryLoaded) {
+            return this.renderCategoryNamePlaceholder();
+        }
+
         return (
-            <h1 block="CategoryDetails" elem="Heading">
+            <h2 block="CategoryDetails" elem="Heading">
                 <TextPlaceholder content={ name } />
-            </h1>
+            </h2>
+        );
+    }
+
+    renderCategoryNamePlaceholder() {
+        return (
+            <h2 block="CategoryDetails" elem="Heading">
+                <TextPlaceholder />
+            </h2>
         );
     }
 
     renderCategoryDescription() {
-        const { category: { description, id } } = this.props;
+        const {
+            category: { description, id },
+            isCurrentCategoryLoaded
+        } = this.props;
 
-        if (!id) {
+        if (!id || !isCurrentCategoryLoaded) {
             return this.renderCategoryDescriptionPlaceholder();
         }
 
@@ -76,9 +100,12 @@ export class CategoryDetails extends PureComponent {
     }
 
     renderCategoryImage() {
-        const { category: { image, id } } = this.props;
+        const {
+            category: { image, id },
+            isCurrentCategoryLoaded
+        } = this.props;
 
-        if (!id) {
+        if (!id || !isCurrentCategoryLoaded) {
             return this.renderCategoryImagePlaceholder();
         }
 

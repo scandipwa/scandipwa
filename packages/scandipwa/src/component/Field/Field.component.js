@@ -8,8 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-/* eslint-disable jsx-a11y/control-has-associated-label, jsx-a11y/label-has-associated-control */
-// Disabled due bug in `renderCheckboxInput` function
+/* eslint-disable react/jsx-no-bind */
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
@@ -17,16 +16,19 @@ import { PureComponent } from 'react';
 import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
+import Image from 'Component/Image';
 import { MixType } from 'Type/Common';
 
 import {
     CHECKBOX_TYPE,
+    FILE_TYPE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
     RADIO_TYPE,
     SELECT_TYPE,
     TEXTAREA_TYPE
 } from './Field.config';
+import upload from './icons/upload.svg';
 
 import './Field.style';
 
@@ -54,14 +56,19 @@ export class Field extends PureComponent {
             PropTypes.bool
         ]),
         validation: PropTypes.arrayOf(PropTypes.string).isRequired,
-        validationStatus: PropTypes.string,
+        validationStatus: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string
+        ]),
         checked: PropTypes.oneOfType([
             PropTypes.bool,
             PropTypes.string
         ]),
         mix: MixType,
         min: PropTypes.number,
-        max: PropTypes.number
+        max: PropTypes.number,
+        filename: PropTypes.string,
+        fileExtensions: PropTypes.string
     };
 
     static defaultProps = {
@@ -72,7 +79,9 @@ export class Field extends PureComponent {
         label: '',
         value: null,
         message: '',
-        validationStatus: null
+        validationStatus: null,
+        filename: '',
+        fileExtensions: ''
     };
 
     renderTextarea() {
@@ -123,16 +132,19 @@ export class Field extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onChange={ (e) => handleChange(e.target.value, false) }
                   onKeyDown={ onKeyEnterDown }
+                  aria-label={ __('Value') }
                 />
                 <button
                   disabled={ +value === max }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value + 1) }
+                  aria-label={ __('Add') }
                 />
                 <button
                   disabled={ +value === min }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value - 1) }
+                  aria-label={ __('Subtract') }
                 />
             </>
         );
@@ -141,17 +153,43 @@ export class Field extends PureComponent {
     renderCheckbox() {
         const {
             id,
-            onChangeCheckbox
+            onChangeCheckbox,
+            label
+        } = this.props;
+
+        return (
+            <label htmlFor={ id }>
+                { label }
+                <FieldInput
+                  { ...this.props }
+                  type="checkbox"
+                  onChange={ onChangeCheckbox }
+                />
+                <div block="input-control" />
+            </label>
+        );
+    }
+
+    renderFile() {
+        const {
+            filename,
+            id,
+            onChange,
+            fileExtensions
         } = this.props;
 
         return (
             <>
                 <FieldInput
                   { ...this.props }
-                  type="checkbox"
-                  onChange={ onChangeCheckbox }
+                  type="file"
+                  onChange={ (e) => onChange(e) }
                 />
-                <label htmlFor={ id } />
+                { this.renderLabelForFile(id, filename) }
+                <p>
+                    { __('Compatible file extensions to upload: ') }
+                    <b>{ fileExtensions }</b>
+                </p>
             </>
         );
     }
@@ -170,7 +208,7 @@ export class Field extends PureComponent {
                   type="radio"
                   onChange={ onClick }
                 />
-                <label htmlFor={ id } />
+                <div block="input-control" />
                 { label }
             </label>
         );
@@ -198,16 +236,42 @@ export class Field extends PureComponent {
             return this.renderTypePassword();
         case SELECT_TYPE:
             return this.renderSelectWithOptions();
+        case FILE_TYPE:
+            return this.renderFile();
         default:
             return this.renderTypeText();
         }
     }
 
-    renderLabel() {
-        const { id, label, validation } = this.props;
-        const isRequired = validation.includes('notEmpty');
+    renderLabelForFile(id, filename = '') {
+        if (filename) {
+            return (
+                <label htmlFor={ id }>
+                    <p>{ filename }</p>
+                </label>
+            );
+        }
 
-        if (!label) {
+        return (
+            <label htmlFor={ id }>
+                <Image src={ upload } alt="Upload icon" ratio="square" height="50px" />
+                <p>{ __('Drop files here or') }</p>
+                <span>{ __('Select files') }</span>
+            </label>
+        );
+    }
+
+    renderLabel() {
+        const {
+            id,
+            label,
+            validation,
+            type
+        } = this.props;
+        const isRequired = validation.includes('notEmpty');
+        const noRenderLabel = type === CHECKBOX_TYPE || type === RADIO_TYPE;
+
+        if (!label || noRenderLabel) {
             return null;
         }
 

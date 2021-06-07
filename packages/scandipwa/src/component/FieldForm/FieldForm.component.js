@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
@@ -18,6 +19,14 @@ import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
 export class FieldForm extends PureComponent {
+    static propTypes = {
+        isSubmitted: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isSubmitted: false
+    };
+
     onFormSuccess() {
         // TODO: implement
     }

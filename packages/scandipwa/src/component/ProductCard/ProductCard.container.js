@@ -33,7 +33,8 @@ export const CartDispatcher = import(
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     base_link_url: state.ConfigReducer.base_link_url || '',
-    product_use_categories: state.ConfigReducer.product_use_categories || false
+    product_use_categories: state.ConfigReducer.product_use_categories || false,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
@@ -50,12 +51,15 @@ export class ProductCardContainer extends PureComponent {
         selectedFilters: FilterType,
         device: DeviceType.isRequired,
         product_use_categories: PropTypes.bool.isRequired,
-        base_link_url: PropTypes.string.isRequired
+        base_link_url: PropTypes.string.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isPreview: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
-        selectedFilters: {}
+        selectedFilters: {},
+        isPreview: false
     };
 
     containerFunctions = {
@@ -107,6 +111,7 @@ export class ProductCardContainer extends PureComponent {
         }
 
         const { parameters } = this._getConfigurableParameters();
+        const { state: { category = null } = {} } = history.location;
 
         const productUrl = `${pathname.replace(storePrefix, '')}/${url.replace(storePrefix, '')}`;
 
@@ -119,7 +124,7 @@ export class ProductCardContainer extends PureComponent {
 
         return {
             pathname: rewriteUrlPath,
-            state: { product },
+            state: { product, prevCategoryId: category },
             search: objectToUri(parameters)
         };
     }
@@ -194,7 +199,14 @@ export class ProductCardContainer extends PureComponent {
             return [];
         }
 
-        const { attribute_options } = Object.values(configurable_options)[0];
+        // Find first option that has swatch_data in attribute_options property
+        const optionWithSwatchData = Object.values(configurable_options).find((option) => {
+            const { attribute_options = {} } = option;
+
+            return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
+        });
+
+        const { attribute_options = {} } = optionWithSwatchData || {};
 
         return Object.values(attribute_options).reduce(
             (acc, option) => {
@@ -216,7 +228,11 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants } } = this.props;
+        const { product: { variants }, isPreview } = this.props;
+
+        if (isPreview) {
+            return true;
+        }
 
         const variantsInStock = variants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
 

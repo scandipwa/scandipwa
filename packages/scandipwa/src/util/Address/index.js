@@ -87,3 +87,15 @@ export const getFormFields = (fields, addressLinesQty) => {
 
     return setAddressesInFormObject(fields, addressLinesQty);
 };
+
+/** @namespace Util/Address/getCityAndRegionFromZipcode */
+export const getCityAndRegionFromZipcode = async (countryId, value) => {
+    const response = await fetch(`https://api.zippopotam.us/${countryId}/${value.split(' ')[0]}`);
+    const data = await response.json();
+    return data && Object.entries(data).length > 0
+        ? [
+            data.places[0]['place name'],
+            data.places[0]['state abbreviation']
+        ]
+        : [null, null];
+};

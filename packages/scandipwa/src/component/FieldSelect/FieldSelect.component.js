@@ -94,6 +94,7 @@ export class FieldSelect extends PureComponent {
               value={ value || '' }
               onChange={ onChange }
               data-skip-value={ skipValue }
+              aria-label={ __('Select drop-down') }
             >
                 { this.renderPlaceholder() }
                 { selectOptions.map(this.renderNativeOption) }
@@ -129,7 +130,7 @@ export class FieldSelect extends PureComponent {
         }
 
         return (
-            <option value="" label={ placeholder } />
+            <option value="" label={ placeholder }>{ placeholder }</option>
         );
     }
 

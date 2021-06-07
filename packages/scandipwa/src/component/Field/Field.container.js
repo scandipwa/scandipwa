@@ -18,6 +18,7 @@ import Field from './Field.component';
 import {
     CHECKBOX_TYPE,
     ENTER_KEY_CODE,
+    FILE_TYPE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
     RADIO_TYPE,
@@ -46,7 +47,8 @@ export class FieldContainer extends PureComponent {
             PASSWORD_TYPE,
             RADIO_TYPE,
             CHECKBOX_TYPE,
-            SELECT_TYPE
+            SELECT_TYPE,
+            FILE_TYPE
         ]).isRequired,
         onChange: PropTypes.func,
         onFocus: PropTypes.func,
@@ -57,12 +59,15 @@ export class FieldContainer extends PureComponent {
         max: PropTypes.number,
         validation: PropTypes.arrayOf(PropTypes.string),
         message: PropTypes.string,
+        customValidationStatus: PropTypes.bool,
         id: PropTypes.string,
         formRef: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ]),
-        formRefMap: PropTypes.object
+        formRefMap: PropTypes.object,
+        validateSeparately: PropTypes.bool,
+        isSubmitted: PropTypes.bool
     };
 
     static defaultProps = {
@@ -79,8 +84,11 @@ export class FieldContainer extends PureComponent {
         isControlled: false,
         validation: [],
         message: '',
+        customValidationStatus: null,
         id: '',
-        formRefMap: {}
+        formRefMap: {},
+        validateSeparately: false,
+        isSubmitted: false
     };
 
     containerFunctions = {
@@ -103,13 +111,22 @@ export class FieldContainer extends PureComponent {
             value,
             checked,
             validationMessage: '',
-            validationStatus: null
+            validationStatus: null,
+            eventId: ''
         };
     }
 
     componentDidUpdate(prevProps) {
-        const { value: prevValue, checked: prevChecked } = prevProps;
-        const { value: currentValue, checked: currChecked, type } = this.props;
+        const { value: prevValue, checked: prevChecked, isSubmitted: prevSubmitted } = prevProps;
+        const {
+            value: currentValue,
+            checked: currChecked,
+            type,
+            id,
+            validateSeparately,
+            isSubmitted
+        } = this.props;
+        const { eventId } = this.state;
 
         if (prevValue !== currentValue) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -120,7 +137,11 @@ export class FieldContainer extends PureComponent {
             this.setState({ checked: currChecked });
         }
 
-        this.setValidationMessage(prevProps);
+        // prevents validating all fields when entering data in only one of them
+        if (eventId === id || prevSubmitted !== isSubmitted || !validateSeparately) {
+            this.updateValidationStatus();
+            this.setValidationMessage(prevProps);
+        }
     }
 
     setValidationMessage(prevProps) {
@@ -152,7 +173,8 @@ export class FieldContainer extends PureComponent {
 
     containerProps = () => {
         const {
-            checked: propsChecked
+            checked: propsChecked,
+            customValidationStatus
         } = this.props;
 
         const {
@@ -160,14 +182,16 @@ export class FieldContainer extends PureComponent {
             checked,
             value,
             validationStatus,
-            validationMessage
+            validationMessage,
+            filename
         } = this.state;
 
         return {
             checked: type === CHECKBOX_TYPE ? propsChecked : checked,
             value,
-            validationStatus,
-            message: validationMessage
+            validationStatus: customValidationStatus ?? validationStatus,
+            message: validationMessage,
+            filename
         };
     };
 
@@ -203,7 +227,19 @@ export class FieldContainer extends PureComponent {
         return validationConfig[rule] || {};
     }
 
+    updateValidationStatus() {
+        const validationRule = this.validateField();
+
+        this.setState({
+            validationStatus: !validationRule.validate,
+            validationMessage: validationRule.message
+        });
+    }
+
     onChange(event) {
+        const { type } = this.props;
+        this.setState({ eventId: event?.target?.name });
+
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
         }
@@ -214,12 +250,11 @@ export class FieldContainer extends PureComponent {
             });
         }
 
-        const validationRule = this.validateField();
+        this.updateValidationStatus();
 
-        this.setState({
-            validationStatus: !validationRule.validate,
-            validationMessage: validationRule.message
-        });
+        if (type === FILE_TYPE) {
+            return this.handleChange(event.target.value, false, event.target.files[0]);
+        }
 
         return this.handleChange(event.target.value);
     }
@@ -277,7 +312,7 @@ export class FieldContainer extends PureComponent {
         }
     }
 
-    handleChange(value, shouldUpdate = true) {
+    handleChange(value, shouldUpdate = true, fileValue = false) {
         const {
             isControlled,
             onChange,
@@ -299,6 +334,17 @@ export class FieldContainer extends PureComponent {
                 this.setState({ value });
             }
             break;
+        case FILE_TYPE:
+            if (value) {
+                const result = onChange && onChange(fileValue);
+
+                this.setState({
+                    value: result ? value : '',
+                    filename: result ? value.substr(value.lastIndexOf('\\') + 1) : ''
+                });
+            }
+
+            break;
         default:
             if (onChange) {
                 onChange(value);
@@ -310,9 +356,11 @@ export class FieldContainer extends PureComponent {
     }
 
     render() {
+        const { customValidationStatus, ...otherProps } = this.props;
+
         return (
             <Field
-              { ...this.props }
+              { ...otherProps }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

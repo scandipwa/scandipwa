@@ -13,6 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
+import StoreInPickUp from 'Component/StoreInPickUp';
+import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
+import { addressType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
 
 import './CheckoutDeliveryOptions.style';
@@ -22,20 +25,46 @@ export class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
-        selectedShippingMethodCode: PropTypes.string
+        onStoreSelect: PropTypes.func.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        setSelectedShippingMethodCode: PropTypes.func.isRequired,
+        selectedShippingMethodCode: PropTypes.string,
+        estimateAddress: addressType.isRequired
     };
 
     static defaultProps = {
         selectedShippingMethodCode: null
     };
 
-    shippingRenderMap = {};
+    shippingRenderMap = {
+        [STORE_IN_PICK_UP_METHOD_CODE]: this.renderStoreInPickUp.bind(this)
+    };
 
     renderHeading() {
         return (
             <h2 block="Checkout" elem="Heading">
                 { __('Select shipping method') }
             </h2>
+        );
+    }
+
+    renderStoreInPickUp() {
+        const {
+            estimateAddress,
+            shippingMethods,
+            onStoreSelect,
+            onShippingMethodSelect,
+            setSelectedShippingMethodCode
+        } = this.props;
+
+        return (
+            <StoreInPickUp
+              estimateAddress={ estimateAddress }
+              shippingMethods={ shippingMethods }
+              onStoreSelect={ onStoreSelect }
+              onShippingMethodSelect={ onShippingMethodSelect }
+              setSelectedShippingMethodCode={ setSelectedShippingMethodCode }
+            />
         );
     }
 

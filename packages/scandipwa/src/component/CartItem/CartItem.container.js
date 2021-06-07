@@ -249,9 +249,11 @@ export class CartItemContainer extends PureComponent {
             }, {}
         );
 
+        const stateProduct = parent || product;
+
         return {
             pathname: url,
-            state: { product: parent || product },
+            state: { product: stateProduct },
             search: objectToUri(parameters)
         };
     }

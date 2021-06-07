@@ -38,7 +38,7 @@ export class Breadcrumbs extends PureComponent {
             <Breadcrumb
               name={ name }
               url={ url }
-              index={ i }
+              index={ i + 1 }
               key={ i }
               isDisabled={ isDisabled }
             />
@@ -46,8 +46,14 @@ export class Breadcrumbs extends PureComponent {
     }
 
     renderBreadcrumbList(breadcrumbs) {
-        return breadcrumbs.map((_, i) => this.renderBreadcrumb(
-            breadcrumbs[breadcrumbs.length - 1 - i], i
+        const breadcrumbsWithHome = [
+            ...breadcrumbs,
+            // Looks like a browser bug, temporary fixed with .toString()
+            { url: '/', name: __('Home').toString() }
+        ];
+
+        return breadcrumbsWithHome.map((_, i) => this.renderBreadcrumb(
+            breadcrumbsWithHome[breadcrumbsWithHome.length - 1 - i], i
         ));
     }
 

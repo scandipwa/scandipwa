@@ -50,7 +50,7 @@ export class ProductCompareAttributeRow extends PureComponent {
     renderValues() {
         const {
             device: { isMobile },
-            values
+            values = []
         } = this.props;
         const renderableValues = values.map(this.renderValue);
 

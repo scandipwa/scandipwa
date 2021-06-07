@@ -16,7 +16,8 @@ import { connect } from 'react-redux';
 import WishlistQuery from 'Query/Wishlist.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
-import { fetchMutation } from 'Util/Request';
+import { isSignedIn } from 'Util/Auth';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 import ShareWishlistPopup from './ShareWishlistPopup.component';
 
@@ -26,6 +27,9 @@ export const mapDispatchToProps = (dispatch) => ({
     showError: (message) => dispatch(showNotification('error', message)),
     hidePopup: () => dispatch(showPopup('', {}))
 });
+
+/** @namespace Component/ShareWishlistPopup/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
 
 /** @namespace Component/ShareWishlistPopup/Container/shareWishlistPopupContainer */
 export class ShareWishlistPopupContainer extends PureComponent {
@@ -38,8 +42,11 @@ export class ShareWishlistPopupContainer extends PureComponent {
     handleFormData = (fields) => {
         const { hidePopup, showError, showNotification } = this.props;
         const { message, emails: initialEmails } = fields;
-
         const emails = initialEmails.split(',').map((email) => email.trim());
+
+        if (!isSignedIn()) {
+            return;
+        }
 
         fetchMutation(WishlistQuery.getShareWishlistMutation({ message, emails })).then(
             /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationThen */
@@ -48,7 +55,7 @@ export class ShareWishlistPopupContainer extends PureComponent {
                 hidePopup();
             },
             /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationCatch */
-            ([{ message }]) => showError(message)
+            (error) => showError(getErrorMessage(error))
         );
     };
 
@@ -65,9 +72,5 @@ export class ShareWishlistPopupContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/ShareWishlistPopup/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShareWishlistPopupContainer);

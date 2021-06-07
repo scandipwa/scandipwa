@@ -14,21 +14,24 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import { setAddressesInFormObject } from 'Util/Address';
+import { getCityAndRegionFromZipcode, setAddressesInFormObject } from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
+        ...FieldForm.propTypes.isSubmitted,
         address: addressType.isRequired,
         countries: countriesType.isRequired,
         default_country: PropTypes.string,
         onSave: PropTypes.func,
         addressLinesQty: PropTypes.number.isRequired,
-        showVatNumber: PropTypes.bool.isRequired
+        showVatNumber: PropTypes.bool.isRequired,
+        regionDisplayAll: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         default_country: 'US',
+        isSubmitted: false,
         onSave: () => {}
     };
 
@@ -38,11 +41,16 @@ export class MyAccountAddressForm extends FieldForm {
         const {
             countries,
             default_country,
-            address: { country_id, region: { region_id } = {} }
+            address: {
+                country_id,
+                region: { region_id } = {},
+                city = ''
+            }
         } = props;
 
         const countryId = country_id || default_country;
         const country = countries.find(({ id }) => id === countryId);
+        const isStateRequired = country.is_state_required;
         const { available_regions: availableRegions } = country || {};
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
@@ -50,13 +58,15 @@ export class MyAccountAddressForm extends FieldForm {
         this.state = {
             countryId,
             availableRegions,
-            regionId
+            regionId,
+            isStateRequired,
+            city
         };
     }
 
     onFormSuccess = (fields) => {
         const { onSave, addressLinesQty } = this.props;
-        const { region_id, region_string: region, ...newAddress } = addressLinesQty > 1
+        const { region_id = 0, region_string: region, ...newAddress } = addressLinesQty > 1
             ? setAddressesInFormObject(fields, addressLinesQty)
             : fields;
 
@@ -65,14 +75,19 @@ export class MyAccountAddressForm extends FieldForm {
     };
 
     getRegionFields() {
-        const { address: { region: { region } = {} } } = this.props;
-        const { availableRegions, regionId } = this.state;
+        const { address: { region: { region } = {} }, regionDisplayAll } = this.props;
+        const { availableRegions, regionId, isStateRequired } = this.state;
+
+        if (!regionDisplayAll && !isStateRequired) {
+            return null;
+        }
 
         if (!availableRegions || !availableRegions.length) {
             return {
                 region_string: {
                     label: __('State/Province'),
-                    value: region
+                    value: region,
+                    validation: isStateRequired ? ['notEmpty'] : []
                 }
             };
         }
@@ -83,7 +98,8 @@ export class MyAccountAddressForm extends FieldForm {
                 type: 'select',
                 selectOptions: availableRegions.map(({ id, name }) => ({ id, label: name, value: id })),
                 onChange: (regionId) => this.setState({ regionId }),
-                value: regionId
+                value: regionId,
+                validation: isStateRequired ? ['notEmpty'] : []
             }
         };
     }
@@ -91,21 +107,45 @@ export class MyAccountAddressForm extends FieldForm {
     onCountryChange = (countryId) => {
         const { countries } = this.props;
         const country = countries.find(({ id }) => id === countryId);
-        const { available_regions } = country;
+        const { available_regions, is_state_required } = country;
 
         this.setState({
             countryId,
+            isStateRequired: is_state_required,
             availableRegions: available_regions || []
         });
     };
 
+    onZipcodeChange = async (e) => {
+        const { value } = e.currentTarget;
+        const { countryId, availableRegions } = this.state;
+
+        const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
+        if (city) {
+            this.setState({
+                city
+            });
+        }
+
+        if (availableRegions.length > 0 && regionCode) {
+            const { id: regionId } = availableRegions
+                .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
+
+            if (regionId) {
+                this.setState({ regionId });
+            }
+        }
+    };
+
     getStreetFields(label, index) {
-        const { address: { street = [] } } = this.props;
+        const { address: { street = [] }, isSubmitted } = this.props;
 
         return {
             label,
             value: street[index],
-            validation: index === 0 ? ['notEmpty'] : []
+            validation: index === 0 ? ['notEmpty'] : [],
+            validateSeparately: index === 0,
+            isSubmitted
         };
     }
 
@@ -150,8 +190,8 @@ export class MyAccountAddressForm extends FieldForm {
     }
 
     get fieldMap() {
-        const { countryId } = this.state;
-        const { countries, address } = this.props;
+        const { countryId, city } = this.state;
+        const { countries, address, isSubmitted } = this.props;
         const { default_billing, default_shipping } = address;
 
         return {
@@ -169,24 +209,35 @@ export class MyAccountAddressForm extends FieldForm {
             },
             firstname: {
                 label: __('First name'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted
             },
             lastname: {
                 label: __('Last name'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted
             },
             telephone: {
                 label: __('Phone number'),
-                validation: ['notEmpty']
+                validation: ['notEmpty', 'telephone'],
+                validateSeparately: true,
+                isSubmitted
             },
             city: {
                 label: __('City'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
+                value: city
             },
             country_id: {
                 type: 'select',
                 label: __('Country'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 value: countryId,
                 selectOptions: countries.map(({ id, label }) => ({ id, label, value: id })),
                 onChange: this.onCountryChange
@@ -194,7 +245,10 @@ export class MyAccountAddressForm extends FieldForm {
             ...this.getRegionFields(),
             postcode: {
                 label: __('Zip/Postal code'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
+                onBlur: this.onZipcodeChange
             },
             ...this.getAddressFields(),
             ...this.getVatField()

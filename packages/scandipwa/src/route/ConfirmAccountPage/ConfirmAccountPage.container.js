@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ERROR_TYPE } from 'Component/Notification/Notification.config';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Router';
@@ -30,9 +31,7 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Route/ConfirmAccountPage/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn
-});
+export const mapStateToProps = () => ({});
 
 /** @namespace Route/ConfirmAccountPage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
@@ -103,7 +102,17 @@ export class ConfirmAccountPageContainer extends PureComponent {
         confirmAccount({ ...options, password })
             .then(
                 /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThen */
-                () => signIn({ email, password })
+                (data) => {
+                    const { msgType } = data || {};
+
+                    if (msgType === ERROR_TYPE) {
+                        // error message is handled in the dispatcher
+                        // just abort the chain
+                        return Promise.reject();
+                    }
+
+                    return signIn({ email, password });
+                }
             )
             .then(
                 /** @namespace Route/ConfirmAccountPage/Container/confirmAccountThenThen */
@@ -125,10 +134,6 @@ export class ConfirmAccountPageContainer extends PureComponent {
             {
                 url: '/account/confirmAccount',
                 name: __('Confirm Account')
-            },
-            {
-                url: '/',
-                name: __('Home')
             }
         ];
 

@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import AddToCart from 'Component/AddToCart';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
@@ -22,11 +23,16 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
-import { OPTION_TYPE_COLOR, validOptionTypes } from './ProductCard.config';
+import {
+    OPTION_TYPE_COLOR,
+    OPTION_TYPE_IMAGE,
+    validOptionTypes
+} from './ProductCard.config';
 
 import './ProductCard.style';
 /**
@@ -55,6 +61,7 @@ export class ProductCard extends PureComponent {
         isConfigurableProductOutOfStock: PropTypes.func.isRequired,
         isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
+        isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
         siblingsHaveBrands: PropTypes.bool,
         setSiblingsHaveBrands: PropTypes.func,
@@ -63,7 +70,9 @@ export class ProductCard extends PureComponent {
         siblingsHaveTierPrice: PropTypes.bool,
         setSiblingsHaveTierPrice: PropTypes.func,
         siblingsHaveConfigurableOptions: PropTypes.bool,
-        setSiblingsHaveConfigurableOptions: PropTypes.func
+        setSiblingsHaveConfigurableOptions: PropTypes.func,
+        layout: PropTypes.string,
+        isPreview: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -82,7 +91,8 @@ export class ProductCard extends PureComponent {
         siblingsHaveTierPrice: false,
         setSiblingsHaveTierPrice: () => null,
         siblingsHaveConfigurableOptions: false,
-        setSiblingsHaveConfigurableOptions: () => null
+        setSiblingsHaveConfigurableOptions: () => null,
+        layout: GRID_LAYOUT
     };
 
     contentObject = {
@@ -100,6 +110,11 @@ export class ProductCard extends PureComponent {
         }
     };
 
+    productTypeRenderMap = {
+        [GROUPED]: __('Starting from'),
+        [CONFIGURABLE]: __('As Low as')
+    };
+
     imageRef = createRef();
 
     registerSharedElement = () => {
@@ -107,14 +122,15 @@ export class ProductCard extends PureComponent {
         registerSharedElement(this.imageRef);
     };
 
-    renderConfigurablePriceBadge() {
+    renderProductTypePriceBadge() {
         const {
             product: { type_id },
             siblingsHavePriceBadge,
             setSiblingsHavePriceBadge
         } = this.props;
 
-        if (type_id !== CONFIGURABLE) {
+        const label = this.productTypeRenderMap[type_id];
+        if (!label) {
             return null;
         }
 
@@ -129,7 +145,7 @@ export class ProductCard extends PureComponent {
                   elem: 'PriceBadge'
               } }
             >
-                { __('As Low as') }
+                { label }
             </p>
         );
     }
@@ -173,7 +189,7 @@ export class ProductCard extends PureComponent {
         return (
             <div block="ProductCard" elem="PriceWrapper">
                 { this.renderTierPrice() }
-                { this.renderConfigurablePriceBadge() }
+                { this.renderProductTypePriceBadge() }
                 <ProductPrice
                   price={ price_range }
                   mix={ { block: 'ProductCard', elem: 'Price' } }
@@ -206,7 +222,23 @@ export class ProductCard extends PureComponent {
         );
     }
 
-    renderVisualOption({ value, label, type }, i) {
+    renderImageVisualOption(label, value, i) {
+        return (
+          <img
+            key={ i }
+            block="ProductCard"
+            elem="Image"
+            src={ `/media/attribute/swatch/swatch_thumb/110x90${value}` }
+            alt={ label }
+          />
+        );
+    }
+
+    renderVisualOption = ({ label, value, type }, i) => {
+        if (type === OPTION_TYPE_IMAGE) {
+            return this.renderImageVisualOption(label, value, i);
+        }
+
         const isColor = type === OPTION_TYPE_COLOR;
 
         return (
@@ -221,15 +253,20 @@ export class ProductCard extends PureComponent {
                 { isColor ? '' : value }
             </span>
         );
-    }
+    };
 
     renderVisualConfigurableOptions() {
         const {
             siblingsHaveConfigurableOptions,
             setSiblingsHaveConfigurableOptions,
             availableVisualOptions,
-            device
+            device,
+            isPreview
         } = this.props;
+
+        if (isPreview) {
+            return <TextPlaceholder />;
+        }
 
         if (device.isMobile || !availableVisualOptions.length) {
             return <div block="ProductCard" elem="ConfigurableOptions" />;
@@ -282,7 +319,8 @@ export class ProductCard extends PureComponent {
                 review_summary: {
                     rating_summary
                 } = {}
-            }
+            },
+            layout
         } = this.props;
 
         if (!rating_summary) {
@@ -293,6 +331,7 @@ export class ProductCard extends PureComponent {
             <div
               block="ProductCard"
               elem="Reviews"
+              mods={ { layout } }
             >
                 <ProductReviewRating summary={ rating_summary || 0 } />
             </div>
@@ -321,9 +360,9 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductCardWishlistButton() {
-        const { product, hideWishlistButton } = this.props;
+        const { product, hideWishlistButton, isWishlistEnabled } = this.props;
 
-        if (hideWishlistButton) {
+        if (hideWishlistButton || !isWishlistEnabled) {
             return null;
         }
 
@@ -386,6 +425,18 @@ export class ProductCard extends PureComponent {
     }
 
     renderMainDetails() {
+        const { layout } = this.props;
+
+        if (layout === GRID_LAYOUT) {
+            return this.renderProductName();
+        }
+
+        return this.renderCardLinkWrapper(
+            this.renderProductName()
+        );
+    }
+
+    renderProductName() {
         const { product: { name } } = this.props;
 
         return (
@@ -426,6 +477,36 @@ export class ProductCard extends PureComponent {
         );
     }
 
+    renderAddToCart() {
+        const {
+            product,
+            product: {
+                type_id
+            }
+        } = this.props;
+        const configurableVariantIndex = -1;
+        const quantity = 1;
+        const groupedProductQuantity = {};
+        const productOptionsData = {};
+
+        if (type_id !== 'simple') {
+            return this.renderCardLinkWrapper(
+                <button block="Button">{ __('Add To Cart') }</button>
+            );
+        }
+
+        return (
+            <AddToCart
+              product={ product }
+              configurableVariantIndex={ configurableVariantIndex }
+              mix={ { block: 'ProductActions', elem: 'AddToCart' } }
+              quantity={ quantity }
+              groupedProductQuantity={ groupedProductQuantity }
+              productOptionsData={ productOptionsData }
+            />
+        );
+    }
+
     renderCardContent() {
         const { renderContent } = this.props;
 
@@ -453,6 +534,44 @@ export class ProductCard extends PureComponent {
         );
     }
 
+    renderCardListContent() {
+        const { children, layout, renderContent } = this.props;
+
+        if (renderContent) {
+            return renderContent(this.contentObject);
+        }
+
+        return (
+            <div block="ProductCard" elem="Link">
+                { this.renderCardLinkWrapper(
+                    <div block="ProductCard" elem="FigureReview">
+                        <figure block="ProductCard" elem="Figure">
+                            { this.renderPicture() }
+                        </figure>
+                    </div>
+                ) }
+                <div block="ProductCard" elem="Content" mods={ { layout } }>
+                    <div block="ProductCard" elem="MainInfo">
+                        { this.renderAdditionalProductDetails() }
+                        { this.renderMainDetails() }
+                        { this.renderReviews() }
+                    </div>
+                    <div block="ProductCard" elem="AttributeWrapper">
+                        { this.renderProductPrice() }
+                        { this.renderVisualConfigurableOptions() }
+                    </div>
+                    <div block="ProductCard" elem="ActionWrapper">
+                        { this.renderAddToCart() }
+                        { this.renderProductActions() }
+                    </div>
+                    <div block="ProductCard" elem="AdditionalContent">
+                        { children }
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     render() {
         const {
             children,
@@ -461,7 +580,8 @@ export class ProductCard extends PureComponent {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
             siblingsHaveTierPrice,
-            siblingsHaveConfigurableOptions
+            siblingsHaveConfigurableOptions,
+            layout
         } = this.props;
 
         const mods = {
@@ -470,6 +590,19 @@ export class ProductCard extends PureComponent {
             siblingsHaveTierPrice,
             siblingsHaveConfigurableOptions
         };
+
+        if (layout === LIST_LAYOUT) {
+            return (
+                <li
+                  block="ProductCard"
+                  mods={ mods }
+                  mix={ mix }
+                >
+                    <Loader isLoading={ isLoading } />
+                    { this.renderCardListContent() }
+                </li>
+            );
+        }
 
         return (
             <li

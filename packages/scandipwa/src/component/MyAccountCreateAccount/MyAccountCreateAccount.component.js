@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { signInStateType } from 'Type/Account';
+import history from 'Util/History';
 
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
@@ -24,7 +25,8 @@ export class MyAccountCreateAccount extends PureComponent {
         onCreateAccountSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
-        vatNumberValidation: PropTypes.array.isRequired
+        vatNumberValidation: PropTypes.array.isRequired,
+        newsletterActive: PropTypes.bool.isRequired
     };
 
     renderVatNumberField() {
@@ -45,7 +47,23 @@ export class MyAccountCreateAccount extends PureComponent {
         );
     }
 
+    renderSubscribeToNewsletter() {
+        return (
+            <Field
+              type="checkbox"
+              value="is_subscribed"
+              label={ __('Subscribe to newsletter') }
+              id="is_subscribed"
+              mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
+              name="is_subscribed"
+            />
+        );
+    }
+
     renderCreateAccountPersonalInfoFields() {
+        const { newsletterActive } = this.props;
+        const { location: { state: { firstName = '', lastName = '' } = {} } } = history;
+
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Personal Information') }</legend>
@@ -54,6 +72,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('First Name') }
                   id="firstname"
                   name="firstname"
+                  value={ firstName }
                   autocomplete="given-name"
                   validation={ ['notEmpty'] }
                 />
@@ -62,23 +81,19 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('Last Name') }
                   id="lastname"
                   name="lastname"
+                  value={ lastName }
                   autocomplete="family-name"
                   validation={ ['notEmpty'] }
                 />
                 { this.renderVatNumberField() }
-                <Field
-                  type="checkbox"
-                  value="is_subscribed"
-                  label={ __('Subscribe to newsletter') }
-                  id="is_subscribed"
-                  mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
-                  name="is_subscribed"
-                />
+                { newsletterActive ? this.renderSubscribeToNewsletter() : null }
             </fieldset>
         );
     }
 
     renderCreateAccountSignUpInfoFields() {
+        const { location: { state: { email = '' } = {} } } = history;
+
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Sign-Up Information') }</legend>
@@ -87,6 +102,7 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('Email') }
                   id="email"
                   name="email"
+                  value={ email }
                   autocomplete="email"
                   validation={ ['notEmpty', 'email'] }
                 />

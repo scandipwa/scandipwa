@@ -33,8 +33,11 @@ export class ProductInformation extends PureComponent {
             return null;
         }
 
+        const cleanDescription = html.replace(/<\/?[^>]+(>|$)/g, '');
+
         return (
             <div>
+                <meta itemProp="description" content={ cleanDescription } />
                 <Html content={ html } />
             </div>
         );

@@ -18,7 +18,10 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
 import { debounce } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
 
 import WishlistItem from './WishlistItem.component';
 import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
@@ -125,23 +128,33 @@ export class WishlistItemContainer extends PureComponent {
 
     addItemToCart() {
         const { product: item, addProductToCart, showNotification } = this.props;
-
         const {
             type_id,
             variants,
             wishlist: {
-                id, sku, quantity
+                id, sku, quantity, buy_request
             }
         } = item;
 
-        const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
-        const product = type_id === 'configurable'
-            ? { ...item, configurableVariantIndex }
-            : item;
+        if (!isSignedIn()) {
+            return null;
+        }
+
+        if (type_id === 'configurable') {
+            const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
+
+            if (!configurableVariantIndex) {
+                history.push({ pathname: appendWithStoreCode(item.url) });
+                showNotification('info', __('Please select product options!'));
+                return Promise.resolve();
+            }
+
+            item.configurableVariantIndex = configurableVariantIndex;
+        }
 
         this.setState({ isLoading: true });
 
-        return addProductToCart({ product, quantity })
+        return addProductToCart({ product: item, quantity, buyRequest: buy_request })
             .then(
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => this.removeItem(id),
@@ -198,6 +211,7 @@ export class WishlistItemContainer extends PureComponent {
                   { ...this.props }
                   { ...this.containerProps() }
                   { ...this.containerFunctions }
+                  { ...this.state }
                 />
             </SwipeToDelete>
         );

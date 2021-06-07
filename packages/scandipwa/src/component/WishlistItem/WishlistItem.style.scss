@@ -59,16 +59,16 @@
         .ProductCard-Name {
             white-space: inherit;
         }
-    
+
         .ProductPrice_hasDiscount {
             @include mobile {
                 display: flex;
                 flex-direction: column;
             }
-    
+
             del {
                 margin-left: 4px;
-    
+
                 @include mobile {
                     order: -1;
                     margin-left: 0;
@@ -150,10 +150,12 @@
     }
 
     &-Content {
-        @include mobile {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        @include after-mobile {
+            justify-content: flex-end;
         }
     }
 
@@ -163,12 +165,12 @@
     }
 
     &-CommentField {
-        input {
+        textarea {
             width: 100%;
         }
 
         &_isNotEditingActive {
-            input {
+            textarea {
                 padding: 0;
                 border: none;
             }
@@ -221,5 +223,30 @@
         height: 100%;
         font-weight: 600;
         color: var(--whislist-swipe-to-delete-color);
+    }
+
+    &Options {
+        margin-bottom: 2rem;
+        margin-top: -1rem;
+
+        &-Title {
+            margin-top: .5rem;
+            font-weight: bold;
+
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &Option {
+        font-size: 0.9em;
+        padding: .25rem;
+
+        &-Value {
+            padding-left: .5rem;
+            font-weight: bold;
+        }
     }
 }

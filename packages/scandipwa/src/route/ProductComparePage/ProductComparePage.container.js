@@ -73,10 +73,6 @@ export class ProductComparePageContainer extends DataContainer {
             {
                 url: '/compare',
                 name: __('Product Compare')
-            },
-            {
-                url: '/',
-                name: __('Home')
             }
         ];
 

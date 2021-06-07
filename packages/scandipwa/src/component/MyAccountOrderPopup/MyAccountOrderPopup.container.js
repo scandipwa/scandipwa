@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { orderType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 import { getIndexedProducts } from 'Util/Product';
 import { fetchQuery } from 'Util/Request';
 
@@ -31,7 +32,6 @@ export const OrderDispatcher = import(
 export const mapStateToProps = (state) => ({
     order: state.OrderReducer.order,
     payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
-    currency_code: state.ConfigReducer.default_display_currency_code,
     display_tax_in_shipping_amount: state.ConfigReducer.cartDisplayConfig.display_tax_in_shipping_amount
 });
 
@@ -51,12 +51,12 @@ export class MyAccountOrderPopupContainer extends PureComponent {
             increment_id: PropTypes.string
         }).isRequired,
         showNotification: PropTypes.func.isRequired,
-        getOrder: PropTypes.func.isRequired,
-        currency_code: PropTypes.string.isRequired
+        getOrder: PropTypes.func.isRequired
     };
 
     state = {
         order: {},
+        currency_code: '',
         prevOrderId: 0,
         isLoading: true
     };
@@ -82,8 +82,8 @@ export class MyAccountOrderPopupContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { order: stateOrder, isLoading } = this.state;
-        const { payload: { order: payloadOrder }, currency_code } = this.props;
+        const { order: stateOrder, isLoading, currency_code } = this.state;
+        const { payload: { order: payloadOrder } } = this.props;
 
         return {
             isLoading,
@@ -104,13 +104,18 @@ export class MyAccountOrderPopupContainer extends PureComponent {
             } = {}
         } = this.props;
 
+        if (!isSignedIn()) {
+            return;
+        }
+
         fetchQuery(OrderQuery.getOrderByIdQuery(id)).then(
             /** @namespace Component/MyAccountOrderPopup/Container/requestOrderDetailsFetchQueryThen */
             ({ getOrderById: rawOrder }) => {
                 const { order_products = [] } = rawOrder;
                 const indexedProducts = getIndexedProducts(order_products);
                 const order = { ...rawOrder, order_products: indexedProducts };
-                this.setState({ order, isLoading: false });
+                const { base_order_info: { currency_code } } = order;
+                this.setState({ currency_code, order, isLoading: false });
             },
             /** @namespace Component/MyAccountOrderPopup/Container/requestOrderDetailsFetchQueryCatch */
             () => {
