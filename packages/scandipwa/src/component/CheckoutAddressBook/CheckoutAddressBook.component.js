@@ -30,7 +30,6 @@ export class CheckoutAddressBook extends PureComponent {
         onAddressSelect: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         selectedAddressId: PropTypes.number.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
         isBilling: PropTypes.bool.isRequired,
         isSubmitted: PropTypes.bool
     };
