@@ -14,107 +14,111 @@ import { Field } from 'Util/Query';
 
 /** @namespace Query/ProductCompare */
 export class ProductCompareQuery extends ProductListQuery {
-    getQuery(guestCartId = null) {
-        const field = new Field('compareProducts');
-
-        if (guestCartId) {
-            field.addArgument('guestCartId', 'String', guestCartId);
-        }
-
-        return field.addFieldList(this._getQueryFields());
+    getCreateEmptyCompareList() {
+        return new Field('createCompareList')
+            .addArgument('input', 'CreateCompareListInput', {})
+            .addFieldList(this._getCompareListFields());
     }
 
-    getAddProductToCompareMutation(productId, guestCartId = null) {
-        const field = new Field('addProductToCompare')
-            .addArgument('product_id', 'Int!', productId);
-
-        if (guestCartId) {
-            field.addArgument('guestCartId', 'String', guestCartId);
-        }
-
-        return field;
+    getCreateCompareList(products) {
+        return new Field('createCompareList')
+            .addArgument('input', 'CreateCompareListInput', { products })
+            .addFieldList(this._getCompareListFields());
     }
 
-    getRemoveComparedProductMutation(productId, guestCartId = null) {
-        const field = new Field('removeComparedProduct')
-            .addArgument('product_id', 'Int!', productId);
-
-        if (guestCartId) {
-            field.addArgument('guestCartId', 'String', guestCartId);
-        }
-
-        return field;
+    getDeleteCompareList(uid) {
+        return new Field('deleteCompareList')
+            .addArgument('uid', 'ID!', uid)
+            .addField('result');
     }
 
-    getClearComparedProductsMutation(guestCartId = null) {
-        const field = new Field('clearComparedProducts');
-
-        if (guestCartId) {
-            field.addArgument('guestCartId', 'String', guestCartId);
-        }
-
-        return field;
+    getAddProductsToCompareList(uid, products) {
+        return new Field('addProductsToCompareList')
+            .addArgument('input', 'AddProductsToCompareListInput', { uid, products })
+            .addFieldList(this._getCompareListFields());
     }
 
-    getProductIds(guestCartId = null) {
-        const field = new Field('compareProducts')
-            .addField(this._getProductIdFields());
-
-        if (guestCartId) {
-            field.addArgument('guestCartId', 'String', guestCartId);
-        }
-
-        return field;
+    getRemoveProductsFromCompareList(uid, products) {
+        return new Field('removeProductsFromCompareList')
+            .addArgument('input', 'RemoveProductsFromCompareListInput', { uid, products })
+            .addFieldList(this._getCompareListFields());
     }
 
-    _getProductIdFields() {
-        return new Field('products')
-            .addField('id');
+    getAssignCompareList(uid) {
+        return new Field('assignCompareListToCustomer')
+            .addArgument('uid', 'ID!', uid)
+            .addFieldList(this._getAssignFields());
     }
 
-    _getQueryFields() {
+    _getAssignFields() {
         return [
-            'count',
-            this._getProductsField()
+            'result',
+            this._getAssignCompareListField()
         ];
     }
 
-    _getProductsField() {
-        return new Field('products')
-            .addFieldList(this._getProductsFields());
+    _getAssignCompareListField() {
+        return new Field('compare_list')
+            .addFieldList(this._getCompareListFields());
     }
 
-    _getProductsFields() {
+    getCompareList(uid) {
+        return new Field('compareList')
+            .addArgument('uid', 'ID!', uid)
+            .addFieldList(this._getCompareListFields());
+    }
+
+    _getCompareListFields() {
         return [
-            'id',
-            'name',
-            'sku',
-            'url',
-            'type_id',
+            'uid',
+            'item_count',
             'review_count',
             'rating_summary',
-            this._getProductThumbnailField(),
-            this._getProductSmallField(),
-            this._getPriceRangeField(),
-            this._getAttributesField(),
-            this._getConfigurableProductFragment(),
-            this._getGroupedProductItems(),
-            this._getCustomizableProductFragment()
+            this._getCompareAttributeField(),
+            this._getComparableItemField()
         ];
     }
 
-    _getConfigurableOptionFields() {
+    _getCompareAttributeField() {
+        return new Field('attributes')
+            .addFieldList(this._getCompareAttributeFields());
+    }
+
+    _getCompareAttributeFields() {
         return [
-            'attribute_code',
             'label',
-            this._getValuesField()
+            'code'
         ];
     }
 
-    _getValueFields() {
+    _getComparableItemAttributeField() {
+        return new Field('attributes')
+            .addFieldList(this._getComparableItemAttributeFields());
+    }
+
+    _getComparableItemAttributeFields() {
         return [
-            'label'
+            'value',
+            'code'
         ];
+    }
+
+    _getComparableItemFields() {
+        return [
+            this._getProductField(),
+            this._getComparableItemAttributeField()
+        ];
+    }
+
+    _getProductField() {
+        return new Field('product')
+            .addFieldList(this._getProductInterfaceFields(true, false))
+            .addFieldList(['url']);
+    }
+
+    _getComparableItemField() {
+        return new Field('items')
+            .addFieldList(this._getComparableItemFields());
     }
 }
 

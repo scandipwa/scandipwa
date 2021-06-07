@@ -61,4 +61,18 @@
             text-decoration: underline;
         }
     }
+
+    .Checkout{
+        &-OrderTotal{
+            dd {
+                text-align: right;
+    
+                span {
+                    display: block;
+                    font-size: .6em;
+                    font-weight: 300;
+                }
+            }
+        }
+    }
 }
