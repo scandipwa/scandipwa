@@ -91,16 +91,22 @@ export class CarouselScroll extends PureComponent {
         CSS.setVariable(this.carouselRef, 'translateX', translate);
     }
 
-    handleArrowClick = (isNextArrow) => {
-        const { children } = this.props;
+    getNewCarouselItemId(isNextArrow) {
+        const { children: { length: childrenLength }, showedItemCount } = this.props;
         const { firstCarouselItemId: prevFirstCarouselItemId } = this.state;
 
-        const firstCarouselItemId = prevFirstCarouselItemId + (isNextArrow ? 1 : -1);
+        const scrollStep = Math.ceil(showedItemCount / 2);
 
-        if (children.length - 1 < firstCarouselItemId || firstCarouselItemId < 0) {
-            return;
+        if (isNextArrow) {
+            const maxFirstItemId = childrenLength - showedItemCount;
+            return Math.min(prevFirstCarouselItemId + scrollStep, maxFirstItemId);
         }
 
+        return Math.max(prevFirstCarouselItemId - scrollStep, 0);
+    }
+
+    handleArrowClick = (isNextArrow) => {
+        const firstCarouselItemId = this.getNewCarouselItemId(isNextArrow);
         this.setTranslate(firstCarouselItemId);
         this.setState({ firstCarouselItemId });
     };
