@@ -100,6 +100,7 @@ export class ConfigQuery {
             'default_title',
             'default_description',
             'default_country',
+            'downloadable_links_target_new_window',
             'secure_base_media_url',
             // 'paypal_sandbox_flag',
             // 'paypal_client_id',
@@ -117,9 +118,11 @@ export class ConfigQuery {
             'anchor_text_for_next',
             'reviews_are_enabled',
             'reviews_allow_guest',
+            'wishlist_general_active',
             'demo_notice',
             'guest_checkout',
             'is_email_confirmation_required',
+            'display_product_stock_status',
             'base_link_url',
             'show_vat_number_on_storefront',
             'show_tax_vat_number',
@@ -128,6 +131,9 @@ export class ConfigQuery {
             'layered_navigation_product_count_enabled',
             'region_display_all',
             'redirect_dashboard',
+            'newsletter_general_active',
+            'newsletter_subscription_allow_guest_subscribe',
+            'newsletter_subscription_confirm',
             this.getPriceDisplayTypeField()
         ];
     }

@@ -79,6 +79,7 @@ export class ImageZoomPopupContainer extends PureComponent {
               mix={ { block: 'ImageZoomPopup', mix } }
               contentMix={ { block: 'ImageZoomPopup', elem: 'PopupContent' } }
               onClose={ onClose }
+              onHide={ onClose }
             >
                 <ImageZoomPopup
                   { ...this.props }

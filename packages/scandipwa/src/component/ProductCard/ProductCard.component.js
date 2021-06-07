@@ -23,6 +23,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
+import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
@@ -60,6 +61,7 @@ export class ProductCard extends PureComponent {
         isConfigurableProductOutOfStock: PropTypes.func.isRequired,
         isBundleProductOutOfStock: PropTypes.func.isRequired,
         hideWishlistButton: PropTypes.bool,
+        isWishlistEnabled: PropTypes.bool.isRequired,
         hideCompareButton: PropTypes.bool,
         siblingsHaveBrands: PropTypes.bool,
         setSiblingsHaveBrands: PropTypes.func,
@@ -69,7 +71,8 @@ export class ProductCard extends PureComponent {
         setSiblingsHaveTierPrice: PropTypes.func,
         siblingsHaveConfigurableOptions: PropTypes.bool,
         setSiblingsHaveConfigurableOptions: PropTypes.func,
-        layout: PropTypes.string
+        layout: PropTypes.string,
+        isPreview: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -89,7 +92,7 @@ export class ProductCard extends PureComponent {
         setSiblingsHaveTierPrice: () => null,
         siblingsHaveConfigurableOptions: false,
         setSiblingsHaveConfigurableOptions: () => null,
-        layout: 'grid'
+        layout: GRID_LAYOUT
     };
 
     contentObject = {
@@ -257,8 +260,13 @@ export class ProductCard extends PureComponent {
             siblingsHaveConfigurableOptions,
             setSiblingsHaveConfigurableOptions,
             availableVisualOptions,
-            device
+            device,
+            isPreview
         } = this.props;
+
+        if (isPreview) {
+            return <TextPlaceholder />;
+        }
 
         if (device.isMobile || !availableVisualOptions.length) {
             return <div block="ProductCard" elem="ConfigurableOptions" />;
@@ -352,9 +360,9 @@ export class ProductCard extends PureComponent {
     }
 
     renderProductCardWishlistButton() {
-        const { product, hideWishlistButton } = this.props;
+        const { product, hideWishlistButton, isWishlistEnabled } = this.props;
 
-        if (hideWishlistButton) {
+        if (hideWishlistButton || !isWishlistEnabled) {
             return null;
         }
 
@@ -417,9 +425,21 @@ export class ProductCard extends PureComponent {
     }
 
     renderMainDetails() {
-        const { product: { name } } = this.props;
+        const { layout } = this.props;
+
+        if (layout === GRID_LAYOUT) {
+            return this.renderProductName();
+        }
 
         return this.renderCardLinkWrapper(
+            this.renderProductName()
+        );
+    }
+
+    renderProductName() {
+        const { product: { name } } = this.props;
+
+        return (
             <p
               block="ProductCard"
               elem="Name"
@@ -571,7 +591,7 @@ export class ProductCard extends PureComponent {
             siblingsHaveConfigurableOptions
         };
 
-        if (layout === 'list') {
+        if (layout === LIST_LAYOUT) {
             return (
                 <li
                   block="ProductCard"

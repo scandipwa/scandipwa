@@ -12,4 +12,5 @@
 export * from './Request';
 export * from './Mutation';
 export * from './Query';
+export * from './Error';
 export { default as QueryDispatcher } from './QueryDispatcher';

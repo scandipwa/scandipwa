@@ -15,3 +15,7 @@ export const crawlerRegEx = /(googlebot|Googlebot-Mobile|Googlebot-Image|Google 
 export const isSSR = () => !globalThis.window || !globalThis.window.document;
 
 export const isCrawler = () => crawlerRegEx.test(navigator.userAgent);
+
+export const toggleScroll = (state) => document.documentElement.classList.toggle('scrollDisabled', !state);
+
+export const isScrollDisabled = () => document.documentElement.classList.contains('scrollDisabled');

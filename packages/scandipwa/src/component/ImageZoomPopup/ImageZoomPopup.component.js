@@ -34,6 +34,8 @@ export class ImageZoomPopup extends PureComponent {
             <div block="ImageZoomPopup">
                 <TranslateOnCursorMove
                   activeImageId={ activeImageId }
+                  itemSelector=".ProductGallery-SliderImage"
+                  targetSelector=".Image-Image"
                 >
                     { children }
                 </TranslateOnCursorMove>
