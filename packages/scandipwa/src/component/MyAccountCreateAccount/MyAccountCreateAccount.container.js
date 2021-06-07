@@ -115,7 +115,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         }
 
         try {
-            const code = createAccount(customerData);
+            const code = await createAccount(customerData);
+
             // if user needs confirmation
             if (code === 2) {
                 setSignInState(STATE_CONFIRM_EMAIL);

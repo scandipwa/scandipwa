@@ -335,8 +335,8 @@ export class WishlistItem extends PureComponent {
                     ) }
                     { this.renderRemove() }
                 </div>
+                { this.renderOptions() }
                 <div block="WishlistItem" elem="Content">
-                    { this.renderOptions() }
                     <div block="WishlistItem" elem="RowWrapper">
                         { this.renderPrice(productPrice) }
                         { this.renderQuantityFieldInput() }
