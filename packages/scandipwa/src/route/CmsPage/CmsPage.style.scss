@@ -28,7 +28,7 @@
     &-Wrapper {
         grid-template-columns: auto;
         max-width: var(--content-wrapper-width);
-        padding-inline: 12px;
+        padding-inline: 32px;
         margin: calc(var(--header-total-height) + 12px) auto var(--header-nav-height);
         margin-inline: auto;
 
@@ -85,6 +85,11 @@
         @include mobile {
             margin-block-end: 25px;
         }
+    }
+
+    .Slider-Crumbs {
+        position: unset;
+        margin-block: 16px 40px;
     }
 
     h2,
