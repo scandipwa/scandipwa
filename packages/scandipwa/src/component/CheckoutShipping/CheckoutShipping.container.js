@@ -65,6 +65,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
         this.state = {
             selectedCustomerAddressId: 0,
+            isSubmitted: false,
             selectedShippingMethod: method_code && method_code !== STORE_IN_PICK_UP_METHOD_CODE
                 ? selectedShippingMethod
                 : {}
@@ -112,6 +113,8 @@ export class CheckoutShippingContainer extends PureComponent {
 
     onShippingError() {
         // TODO: implement notification if some data in Form can not display error
+        const { isSubmitted } = this.state;
+        this.setState({ isSubmitted: !isSubmitted });
     }
 
     onStoreSelect(address) {
