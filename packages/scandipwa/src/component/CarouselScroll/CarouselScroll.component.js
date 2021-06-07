@@ -11,7 +11,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import { CAROUSEL_ITEM_GAP, MAX_TABLET_CARDS_COUNT } from 'Component/CarouselScroll/CarouselScroll.config';
+import { CAROUSEL_ITEM_GAP } from 'Component/CarouselScroll/CarouselScroll.config';
 import CarouselScrollArrow from 'Component/CarouselScrollArrow';
 import CarouselScrollItem from 'Component/CarouselScrollItem';
 import { ChildrenType } from 'Type/Common';
@@ -51,11 +51,9 @@ export class CarouselScroll extends PureComponent {
 
         const margin = CAROUSEL_ITEM_GAP;
         const width = `${ (margin + cardWidth) * showedItemCount - margin }px`;
-        const widthTablet = `${ (margin + cardWidth) * Math.min(showedItemCount, MAX_TABLET_CARDS_COUNT) - margin }px`;
 
         CSS.setVariable(this.carouselRef, 'carousel-scroll-gap', `${margin}px`);
         CSS.setVariable(this.carouselRef, 'carousel-width', width);
-        CSS.setVariable(this.carouselRef, 'carousel-width-tablet', widthTablet);
     }
 
     componentDidUpdate(prevProps) {
@@ -91,15 +89,19 @@ export class CarouselScroll extends PureComponent {
         CSS.setVariable(this.carouselRef, 'translateX', translate);
     }
 
-    getNewCarouselItemId(isNextArrow) {
+    getMaxFirstItemId = () => {
         const { children: { length: childrenLength }, showedItemCount } = this.props;
+        return childrenLength - showedItemCount;
+    };
+
+    getNewCarouselItemId(isNextArrow) {
+        const { showedItemCount } = this.props;
         const { firstCarouselItemId: prevFirstCarouselItemId } = this.state;
 
         const scrollStep = Math.ceil(showedItemCount / 2);
 
         if (isNextArrow) {
-            const maxFirstItemId = childrenLength - showedItemCount;
-            return Math.min(prevFirstCarouselItemId + scrollStep, maxFirstItemId);
+            return Math.min(prevFirstCarouselItemId + scrollStep, this.getMaxFirstItemId());
         }
 
         return Math.max(prevFirstCarouselItemId - scrollStep, 0);
@@ -112,8 +114,16 @@ export class CarouselScroll extends PureComponent {
     };
 
     handleChange = (nextId) => {
-        const { onChange } = this.props;
+        const { onChange, showedItemCount } = this.props;
+        const { firstCarouselItemId } = this.state;
         onChange(nextId);
+        this.setState({ activeItemId: nextId });
+
+        if (nextId < firstCarouselItemId || nextId >= firstCarouselItemId + showedItemCount) {
+            const newId = Math.min(this.getMaxFirstItemId(), nextId);
+            this.setTranslate(newId);
+            this.setState({ firstCarouselItemId: newId });
+        }
     };
 
     handleReset() {
@@ -139,7 +149,7 @@ export class CarouselScroll extends PureComponent {
             return null;
         }
 
-        if (isNextArrow && firstCarouselItemId >= childrenLength - showedItemCount) {
+        if (isNextArrow && firstCarouselItemId >= this.getMaxFirstItemId()) {
             return null;
         }
 
