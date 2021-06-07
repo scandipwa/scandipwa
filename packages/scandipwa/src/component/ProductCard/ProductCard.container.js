@@ -112,7 +112,7 @@ export class ProductCardContainer extends PureComponent {
 
         // if 'Product Use Categories' is enabled then use the current window location to see if the product
         // has any url_rewrite for that path. (if not then just use the default url)
-        const rewriteUrl = url_rewrites.filter((e) => (e.url.includes(productUrl) ? e.url : null));
+        const rewriteUrl = url_rewrites.find((url) => url.includes(productUrl));
         const rewriteUrlPath = product_use_categories
             ? (rewriteUrl && rewriteUrl[0] && appendWithStoreCode(rewriteUrl[0].url))
             : url;
