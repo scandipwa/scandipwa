@@ -210,6 +210,7 @@ export class ProductActions extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   price_range={ price_range }
+                  type_id={ type_id }
                 />
             </section>
         );
@@ -285,16 +286,12 @@ export class ProductActions extends PureComponent {
     renderCustomizableOptions() {
         const {
             product: {
-                options,
-                price_range: {
-                    minimum_price: {
-                        default_final_price_excl_tax: finalPrice = 0
-                    } = {}
-                } = {}
+                options
             } = {},
             getSelectedCustomizableOptions,
             productOptionsData,
-            device
+            device,
+            product: { type_id, price_range }
         } = this.props;
 
         if (device.isMobile) {
@@ -309,9 +306,10 @@ export class ProductActions extends PureComponent {
             >
                 <ProductCustomizableOptions
                   options={ options }
-                  finalProductPrice={ finalPrice }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                   productOptionsData={ productOptionsData }
+                  price_range={ price_range }
+                  type_id={ type_id }
                 />
             </section>
         );
