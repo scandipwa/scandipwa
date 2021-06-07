@@ -19,6 +19,7 @@
     flex-direction: column;
     height: var(--slider-height);
     min-height: 480px;
+    margin-inline: 45px;
 
     @include mobile {
         min-height: 420px;

@@ -34,7 +34,6 @@
     will-change: background-color, color, border;
 
     @include mobile {
-        font-size: 15px;
         user-select: none;
     }
 

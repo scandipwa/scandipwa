@@ -42,8 +42,7 @@ $select-arrow-width: 16px !default;
 
     &_isExpanded::after {
         @include desktop {
-            inset-block-end: $select-arrow-height * 3/2;
-            transform: translateY(-2px) rotate(-135deg);
+            transform: rotate(-90deg);
         }
     }
 

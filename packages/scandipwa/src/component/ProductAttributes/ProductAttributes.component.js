@@ -46,9 +46,9 @@ export class ProductAttributes extends PureComponent {
             uniqueGroups.map(
                 (group) => (
                     <Fragment key={ group.attribute_group_id }>
-                        <p block="ProductAttributes" elem="Group">
+                        <h2 block="ProductAttributes" elem="Group">
                             { group.attribute_group_name }
-                        </p>
+                        </h2>
                         { this.renderAttributes(group.attribute_group_id) }
                     </Fragment>
                 )

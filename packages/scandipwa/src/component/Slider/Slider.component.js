@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unused-state */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -512,15 +510,17 @@ export class Slider extends PureComponent {
         const { mix } = this.props;
 
         return (
-            <div
-              block="Slider"
-              mix={ mix }
-              ref={ this.getSliderRef() }
-            >
-                { this.renderSliderContent() }
+            <>
+                <div
+                  block="Slider"
+                  mix={ mix }
+                  ref={ this.getSliderRef() }
+                >
+                    { this.renderSliderContent() }
+                    { this.renderCrumbs() }
+                </div>
                 { this.renderArrows() }
-                { this.renderCrumbs() }
-            </div>
+            </>
         );
     }
 }

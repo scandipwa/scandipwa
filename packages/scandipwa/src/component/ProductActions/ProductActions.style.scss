@@ -33,7 +33,6 @@
 }
 
 .ProductActions {
-    font-size: 12px;
     line-height: 16px;
 
     &-Brand {
@@ -45,7 +44,6 @@
     &-Title {
 
         @include desktop {
-            font-size: 36px;
             line-height: 40px;
             margin-block: 8px;
         }
@@ -89,6 +87,7 @@
         font-weight: 700;
         color: var(--primary-base-color);
         cursor: pointer;
+        bottom: -2px;
     }
 
     &-Section {
@@ -186,9 +185,17 @@
         }
     }
 
-    &-Qty.Field {
-        margin-block: 0;
-        margin-inline-end: 32px;
+    &-Qty {
+        &.Field {
+            margin-block: 0;
+            margin-inline-end: 32px;
+        }
+
+        button {
+            &:hover {
+                border-color: var(--primary-dark-color);
+            }
+        }
     }
 
     &-AttributesWrapper {

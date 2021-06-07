@@ -31,6 +31,12 @@
          }
     }
 
+    &-ExpandableContentHeading{
+        @include desktop {
+            display: none;
+        }
+    }
+
     &-Placeholder {
         margin-block-start: 24px;
 
@@ -46,5 +52,9 @@
                 margin-block-end: 14px;
             }
         }
+    }
+
+    &-Content {
+        margin-block-end: 12px;
     }
 }
