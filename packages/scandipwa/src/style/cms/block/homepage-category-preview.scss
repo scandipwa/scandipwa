@@ -9,11 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
-    --homepage-button-background: #fff;
-    --homepage-button-color: #000;
-}
-
 .HomepageCategories {
     @include desktop {
         grid-gap: 12px;
@@ -31,7 +26,7 @@
 
         @include desktop {
             margin-block-start: 5px;
-            height: 400px;
+            height: 376px;
         }
 
         .Image {
@@ -51,14 +46,15 @@
     }
 
     &-Figcaption {
-        --button-background: var(--homepage-button-background);
-        --button-color: var(--homepage-button-color);
-        --button-border: transparent;
-        --button-hover-background: var(--homepage-button-color);
-        --button-hover-color: var(--homepage-button-background);
-        --button-hover-border: transparent;
+        //--button-background: var(--color-white);
+        --button-color: var(--color-white);
+        //--button-border: transparent;
+        //--button-hover-background: var(--homepage-button-color);
+        //--button-hover-color: var(--homepage-button-background);
+        //--button-hover-border: transparent;
         --button-padding: 13px 40px;
-        --button-border-width: 0;
+        //--button-border-width: 0;
+        --hollow-button-background: var(--color-white);
 
         @include mobile {
             --button-padding: 5px 0;
@@ -78,7 +74,7 @@
     }
 
     &-Button.Button {
-        font-weight: 300;
+        //font-weight: 300;
 
         @include mobile {
             text-align: start;

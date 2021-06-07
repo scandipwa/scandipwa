@@ -39,7 +39,6 @@ import startHalf from 'Style/icons/star-half.svg';
 import twitter from 'Style/icons/twitter.svg';
 import user from 'Style/icons/user.svg';
 
-// eslint-disable-next-line import/prefer-default-export
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';
 export const MENU_ITEMS_AND_LINKS = 'menu items and links';
