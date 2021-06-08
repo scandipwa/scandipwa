@@ -89,6 +89,31 @@
 
     &-Wrapper {
         margin-bottom: var(--header-total-height);
+
+        &_isPrerendered {
+            @include mobile {
+                .Header-TopMenu,
+                .Menu-MenuWrapper {
+                    display: none;
+                }
+
+                .Header-Nav {
+                    & > * {
+                        display: none;
+                    }
+
+                    .Header {
+                        &-Title,
+                        &-LogoWrapper,
+                        &-Button {
+                            &_isVisible {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     &_isHiddenOnMobile {
