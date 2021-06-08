@@ -55,6 +55,8 @@
     }
 
     &-Content {
-        margin-block-end: 12px;
+        @include desktop {
+            margin-block-end: 12px;
+        }
     }
 }

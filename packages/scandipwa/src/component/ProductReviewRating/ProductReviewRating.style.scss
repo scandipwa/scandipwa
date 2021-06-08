@@ -22,6 +22,7 @@
 .ProductReviewRating {
     display: flex;
     align-items: flex-end;
+    line-height: normal;
 
     &-StarFull {
         @include star-icon-full;

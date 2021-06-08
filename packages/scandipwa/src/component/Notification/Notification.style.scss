@@ -46,6 +46,7 @@
 
     @include mobile {
         padding: 12px 14px;
+        width: 100%;
     }
 
     @include desktop {

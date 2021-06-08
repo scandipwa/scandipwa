@@ -56,4 +56,8 @@
     &-Expandable:last-of-type {
         border-block-end: none!important;
     }
+
+    &-ExpandableContentHeading {
+        color: var(--color-karaka) !important;
+    }
 }

@@ -42,16 +42,15 @@
     }
 
     &-Title {
+        margin-block: 8px;
 
         @include desktop {
             line-height: 40px;
-            margin-block: 8px;
         }
 
         @include mobile {
             font-weight: 400;
             font-size: 14px;
-            margin-block-start: 8px;
         }
     }
 
@@ -70,7 +69,7 @@
         }
 
         @include mobile {
-            margin-block: 15px 10px;
+            margin-block-end: 10px;
         }
     }
 
@@ -92,10 +91,6 @@
 
     &-Section {
 
-        @include mobile {
-            margin-block-end: 18px;
-        }
-
         &_type_sku {
             display: flex;
 
@@ -104,6 +99,10 @@
                 flex-direction: column;
             }
         }
+    }
+
+    &-Schema {
+        min-width: 150px;
     }
 
 
@@ -126,7 +125,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-block: 18px;
+        margin-block-end: 12px;
+
+        @include desktop {
+            margin-block: 18px;
+        }
 
         .ProductCompareButton {
             margin-inline-start: auto;
@@ -219,10 +222,6 @@
         .ProductReviewRating {
             margin-inline-end: 24px;
         }
-    }
-
-    &-Price {
-       font-size: 24px;
     }
 
     .ProductConfigurableAttributes-Expandable {

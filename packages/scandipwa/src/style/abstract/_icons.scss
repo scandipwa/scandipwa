@@ -322,7 +322,9 @@
     background-size: contain;
 
     &:hover {
-        filter: var(--primary-base-filter);
+        @include desktop {
+            filter: var(--primary-base-filter);
+        }
     }
 }
 

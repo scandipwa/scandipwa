@@ -90,12 +90,12 @@
      }
 
      &-SubHeading {
-         font-weight: 300;
+         font-weight: 400;
          font-size: 10px;
          line-height: 1.1;
 
          @include mobile {
-             font-size: 11px;
+             font-size: 12px;
          }
      }
 

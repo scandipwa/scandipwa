@@ -134,7 +134,7 @@
     }
 
     &-Brand {
-        font-weight: 300;
+        font-weight: 400;
         margin-block-end: 4px;
         opacity: .5;
         overflow: hidden;
@@ -142,11 +142,7 @@
         text-overflow: ellipsis;
         min-height: var(--product-card-brand-line-height);
         line-height: var(--product-card-brand-line-height);
-        font-size: 11px;
-
-        @include desktop {
-            font-size: 12px;
-        }
+        font-size: 12px;
     }
 
     &-BrandAttributeValue {
