@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
 import { BUNDLE } from 'Util/Product/Types';
 
@@ -39,7 +40,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        price_range: PropTypes.object.isRequired,
+        price_range: PriceType.isRequired,
         type_id: PropTypes.string.isRequired
     };
 
