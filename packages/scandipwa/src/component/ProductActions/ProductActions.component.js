@@ -675,8 +675,8 @@ export class ProductActions extends PureComponent {
                 { this.renderQuantityInput() }
                 { this.renderAddToCart() }
                 <div block="ProductActions" elem="ActionButtons">
-                    { this.renderProductCompareButton() }
                     { this.renderProductWishlistButton() }
+                    { this.renderProductCompareButton() }
                 </div>
             </div>
         );

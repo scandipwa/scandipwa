@@ -122,7 +122,6 @@
     }
 
     &-Name {
-        font-size: 13px;
         line-height: var(--product-card-name-line-height);
         margin: 5px 0;
         overflow: hidden;
@@ -130,7 +129,6 @@
         white-space: nowrap;
 
         @include desktop {
-            font-size: 14px;
             line-height: 1.3;
         }
     }

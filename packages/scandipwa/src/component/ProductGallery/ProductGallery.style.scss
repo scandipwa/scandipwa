@@ -17,8 +17,7 @@
 .ProductGallery {
     display: flex;
     flex-direction: column;
-    height: var(--slider-height);
-    min-height: 480px;
+    height: 500px;
     margin-inline: 45px;
 
     @include mobile {

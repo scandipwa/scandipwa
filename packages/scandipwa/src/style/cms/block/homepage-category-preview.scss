@@ -55,6 +55,7 @@
         --button-padding: 13px 40px;
         //--button-border-width: 0;
         --hollow-button-background: var(--color-white);
+        --hollow-button-hover-background: var(--color-white);
 
         @include mobile {
             --button-padding: 5px 0;
