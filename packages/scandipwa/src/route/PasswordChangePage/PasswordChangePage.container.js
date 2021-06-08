@@ -96,7 +96,7 @@ export class PasswordChangePageContainer extends PureComponent {
                 showNotification('info', __('Your password and confirmation password do not match.'));
                 break;
             default:
-                showNotification('error', __(passwordResetMessage));
+                showNotification('error', passwordResetMessage);
             }
         }
 

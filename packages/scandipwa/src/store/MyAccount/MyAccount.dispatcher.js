@@ -143,8 +143,7 @@ export class MyAccountDispatcher {
             ({ s_resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
             (errors) => {
-                const [{ message }] = errors;
-                dispatch(updateCustomerPasswordResetStatus('error', message));
+                dispatch(updateCustomerPasswordResetStatus('error', getErrorMessage(errors)));
             }
         );
     }
