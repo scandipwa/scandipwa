@@ -15,7 +15,9 @@ import { connect } from 'react-redux';
 
 import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
+import { BUNDLE } from 'Util/Product/Types';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
@@ -38,7 +40,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        finalPrice: PropTypes.object.isRequired
+        price_range: PriceType.isRequired,
+        type_id: PropTypes.string.isRequired
     };
 
     state = {
@@ -109,21 +112,27 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    renderOptionLabel(priceType, price, currency) {
+    renderOptionLabel(priceType, price) {
         const {
-            finalPrice: {
-                currency: finalPriceCurrency = '',
-                value = 0
-            } = {}
+            price_range: {
+                minimum_price: {
+                    default_final_price_excl_tax: {
+                        currency: finalPriceCurrency = '',
+                        value = 0
+                    } = {}
+                } = {}
+            } = {},
+            type_id = ''
         } = this.props;
 
-        const finalPrice = formatPrice((value * price) / ONE_HUNDRED_PERCENT, finalPriceCurrency);
+        const finalPriceValue = type_id === BUNDLE ? value : value * price;
+        const finalPrice = formatPrice(finalPriceValue / ONE_HUNDRED_PERCENT, finalPriceCurrency);
 
         switch (priceType) {
         case 'PERCENT':
             return `${finalPrice} (${ price }%)`;
         default:
-            return formatPrice(price, currency);
+            return finalPrice;
         }
     }
 
