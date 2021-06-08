@@ -120,7 +120,6 @@ export class MyAccountContainer extends PureComponent {
             return isWishlistEnabled;
         case NEWSLETTER_SUBSCRIPTION:
             return newsletterActive;
-
         default:
             return true;
         }
