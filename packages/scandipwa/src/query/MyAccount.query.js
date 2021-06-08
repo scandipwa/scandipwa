@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getGuestQuoteId } from 'Util/Cart';
 import { Field } from 'Util/Query';
 
 /**
@@ -42,12 +41,10 @@ export class MyAccountQuery {
      */
     getSignInMutation(options) {
         const { email, password } = options;
-        const guestQuoteId = getGuestQuoteId();
 
         return new Field('generateCustomerToken')
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
-            .addArgument('guest_quote_id', 'String', guestQuoteId)
             .addField('token');
     }
 

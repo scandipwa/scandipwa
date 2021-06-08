@@ -19,7 +19,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { MatchType } from 'Type/Common';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
-import { executeGet } from 'Util/Request';
+import { executeGet, getErrorMessage } from 'Util/Request';
 import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
@@ -91,7 +91,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
             /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartThen */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
             /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartCatch */
-            ([{ message }]) => showError(message)
+            (error) => showError(getErrorMessage(error))
         );
     };
 
@@ -151,8 +151,8 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
                 });
             },
             /** @namespace Route/WishlistSharedPage/Container/executeGetCatch */
-            ([{ message }]) => {
-                showError(message);
+            (error) => {
+                showError(getErrorMessage(error));
                 showNoMatch();
             }
         );

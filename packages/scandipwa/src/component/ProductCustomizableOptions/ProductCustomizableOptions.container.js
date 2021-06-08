@@ -93,10 +93,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     updateSelectedOptionsArray() {
         const { getSelectedCustomizableOptions } = this.props;
         const { selectedCheckboxValues } = this.state;
-        const customizableOptions = [];
-
-        customizableOptions.push(...customizableOptions, ...selectedCheckboxValues);
-        getSelectedCustomizableOptions(customizableOptions, true);
+        getSelectedCustomizableOptions(selectedCheckboxValues, true);
     }
 
     updateSelectedOptions() {

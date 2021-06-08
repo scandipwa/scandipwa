@@ -12,8 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CheckoutRegisterFormContainer from 'Component/CheckoutRegisterForm/CheckoutRegisterForm.container';
+import { REGISTER } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
+import { isSignedIn } from 'Util/Auth';
+import { appendWithStoreCode } from 'Util/Url';
 
 import './CheckoutSuccess.style';
 
@@ -21,7 +23,10 @@ import './CheckoutSuccess.style';
 export class CheckoutSuccess extends PureComponent {
     static propTypes = {
         orderID: PropTypes.string.isRequired,
-        setLoading: PropTypes.func.isRequired
+        isEmailAvailable: PropTypes.bool.isRequired,
+        email: PropTypes.string.isRequired,
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired
     };
 
     renderButtons() {
@@ -38,13 +43,41 @@ export class CheckoutSuccess extends PureComponent {
         );
     }
 
-    renderRegistrationForm() {
+    renderCreateAccountButton() {
         const {
-            orderID,
-            setLoading
+            isEmailAvailable,
+            email,
+            firstName,
+            lastName
         } = this.props;
 
-        return <CheckoutRegisterFormContainer orderID={ orderID } setLoadingState={ setLoading } />;
+        if (!isEmailAvailable || isSignedIn()) {
+            return null;
+        }
+
+        return (
+            <div block="CheckoutRegistrationLink">
+                <p>
+                    { __('You can track your order status by creating an account.') }
+                </p>
+                <p>
+                    { `${__('Email address')}: ${email}` }
+                </p>
+                <Link
+                  to={ {
+                      pathname: appendWithStoreCode(`${ REGISTER }`),
+                      state: {
+                          firstName,
+                          lastName,
+                          email
+                      }
+                  } }
+                  block="Button"
+                >
+                    { __('Create account') }
+                </Link>
+            </div>
+        );
     }
 
     render() {
@@ -55,7 +88,7 @@ export class CheckoutSuccess extends PureComponent {
                 <h3>{ __('Your order # is: %s', orderID) }</h3>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
                 { this.renderButtons() }
-                { this.renderRegistrationForm() }
+                { this.renderCreateAccountButton() }
             </div>
         );
     }

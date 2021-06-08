@@ -55,7 +55,8 @@ export class ProductPage extends PureComponent {
         device: DeviceType.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
-        selectedBundlePriceExclTax: PropTypes.number.isRequired
+        selectedBundlePriceExclTax: PropTypes.number.isRequired,
+        selectedInitialBundlePrice: PropTypes.number.isRequired
     };
 
     tabMap = {
@@ -63,7 +64,7 @@ export class ProductPage extends PureComponent {
             name: __('About'),
             shouldTabRender: () => {
                 const { isInformationTabEmpty } = this.props;
-                return isInformationTabEmpty;
+                return !isInformationTabEmpty;
             },
             render: (key) => this.renderProductInformationTab(key)
         },
@@ -71,14 +72,14 @@ export class ProductPage extends PureComponent {
             name: __('Details'),
             shouldTabRender: () => {
                 const { isAttributesTabEmpty } = this.props;
-                return isAttributesTabEmpty;
+                return !isAttributesTabEmpty;
             },
             render: (key) => this.renderProductAttributesTab(key)
         },
         [PRODUCT_REVIEWS]: {
             name: __('Reviews'),
-            // Return false since it always returns 'Add review' button
-            shouldTabRender: () => false,
+            // Return true since we always show 'Add review' button
+            shouldTabRender: () => true,
             render: (key) => this.renderProductReviewsTab(key)
         }
     };
@@ -119,6 +120,7 @@ export class ProductPage extends PureComponent {
             productOptionsData,
             setBundlePrice,
             selectedBundlePrice,
+            selectedInitialBundlePrice,
             selectedBundlePriceExclTax,
             setLinkedDownloadables,
             setLinkedDownloadablesPrice,
@@ -144,6 +146,7 @@ export class ProductPage extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   selectedBundlePrice={ selectedBundlePrice }
+                  selectedInitialBundlePrice={ selectedInitialBundlePrice }
                   selectedBundlePriceExclTax={ selectedBundlePriceExclTax }
                   setLinkedDownloadables={ setLinkedDownloadables }
                   setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
@@ -221,31 +224,13 @@ export class ProductPage extends PureComponent {
         );
     }
 
-    renderProductTabItems() {
-        return Object.values(this.tabMap).reduce((tabRenders, { shouldTabRender, render, name }) => {
-            if (!shouldTabRender()) {
-                tabRenders.push(render(name));
-            }
-
-            return tabRenders;
-        }, []);
-    }
-
-    getTabNames() {
-        return Object.values(this.tabMap).reduce((tabNames, { shouldTabRender, name }) => {
-            if (!shouldTabRender()) {
-                tabNames.push(name);
-            }
-
-            return tabNames;
-        }, []);
+    shouldTabsRender() {
+        return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
     }
 
     renderProductTabs() {
         return (
-            <ProductTabs tabNames={ this.getTabNames() }>
-                { this.renderProductTabItems() }
-            </ProductTabs>
+            <ProductTabs tabs={ this.shouldTabsRender() } />
         );
     }
 

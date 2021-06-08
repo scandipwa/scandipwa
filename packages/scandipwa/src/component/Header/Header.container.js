@@ -23,7 +23,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device';
-import { isSignedIn as isSignedInWithToken } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { appendWithStoreCode, setQueryParams } from 'Util/Url';
 
@@ -50,7 +50,6 @@ export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay,
-    isSignedIn: state.MyAccountReducer.isSignedIn,
     isWishlistLoading: state.WishlistReducer.isLoading
 });
 
@@ -77,8 +76,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string,
-        device: DeviceType.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -349,14 +347,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onMyAccountButtonClick() {
         const {
             showOverlay,
-            setNavigationState,
-            isSignedIn
+            setNavigationState
         } = this.props;
 
-        if (isSignedIn && !isSignedInWithToken()) {
-            return;
-        }
-        if (isSignedInWithToken()) {
+        if (isSignedIn()) {
             history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
             return;
         }

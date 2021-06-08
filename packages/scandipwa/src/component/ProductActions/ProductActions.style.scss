@@ -13,6 +13,7 @@
     --product-actions-option-border-color: #979797;
     --product-actions-selected-option-border-color: #f26323;
     --product-brand-heading-color: #adadad;
+    --product-qty-input-border-color: #e0e0e0;
 
     @include after-mobile {
         --product-actions-option-border-color: #adadad;
@@ -164,11 +165,6 @@
         padding: 0;
     }
 
-    &-Sku::after {
-        content: '•';
-        margin: 0 5px;
-    }
-
     &-Title {
         font-size: 2.4rem;
         line-height: 3.6rem;
@@ -207,23 +203,6 @@
 
         .Field_type_number {
             max-width: 80px;
-        }
-    }
-
-    &-Samples {
-        order: 16;
-
-        &Title {
-            font-weight: bold;
-            margin-bottom: .5rem;
-
-            @include mobile {
-                display: none;
-            }
-        }
-
-        &Link {
-            padding: .5rem 0;
         }
     }
 
@@ -377,6 +356,11 @@
                     font-size: 1.4rem;
                     display: none;
                 }
+
+                & > span:not(:last-child):after {
+                        content: '•';
+                        margin: 0 5px;
+                    }
             }
 
             &_name {
@@ -459,20 +443,6 @@
         }
     }
 
-    &-ExpandableContent {
-        &Button {
-            @include after-mobile {
-                display: none;
-            }
-        }
-
-        &Content_isContentExpanded {
-            @include mobile {
-                padding: 0 1.4rem 1.4rem;
-            }
-        }
-    }
-
     &-TextOption {
         margin: 6px;
         padding: 0 12px;
@@ -480,6 +450,12 @@
 
         &_isSelected {
             --product-actions-option-border-color: var(--product-actions-selected-option-border-color);
+        }
+    }
+
+    .Field_isValid {
+        input[type='number'] {
+            border-color: var(--product-qty-input-border-color);
         }
     }
 

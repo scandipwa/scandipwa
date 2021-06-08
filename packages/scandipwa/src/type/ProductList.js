@@ -205,3 +205,11 @@ export const FilterInputType = PropTypes.shape({
     }),
     condtions: PropTypes.string
 });
+
+export const DownloadableSamplesType = PropTypes.arrayOf(
+    PropTypes.shape({
+        sample_url: ProductType.string,
+        sort_order: PropTypes.number,
+        title: PropTypes.string
+    })
+);

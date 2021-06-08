@@ -19,7 +19,8 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { addressType } from 'Type/Account';
-import { fetchMutation } from 'Util/Request';
+import { isSignedIn } from 'Util/Auth';
+import { fetchMutation, getErrorMessage } from 'Util/Request';
 
 import MyAccountAddressPopup from './MyAccountAddressPopup.component';
 import { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.config';
@@ -37,7 +38,7 @@ export const mapStateToProps = (state) => ({
 /** @namespace Component/MyAccountAddressPopup/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    showErrorNotification: (error) => dispatch(showNotification('error', error[0].message)),
+    showErrorNotification: (error) => dispatch(showNotification('error', getErrorMessage(error))),
     showSuccessNotification: (message) => dispatch(showNotification('success', message)),
     updateCustomerDetails: () => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.requestCustomerData(dispatch)
@@ -104,17 +105,31 @@ export class MyAccountAddressPopupContainer extends PureComponent {
     handleEditAddress(address) {
         const { payload: { address: { id } } } = this.props;
         const query = MyAccountQuery.getUpdateAddressMutation(id, address);
+
+        if (!isSignedIn()) {
+            return;
+        }
+
         fetchMutation(query).then(this.handleAfterAction, this.handleError);
     }
 
     handleDeleteAddress() {
         const { payload: { address: { id } } } = this.props;
+
+        if (!isSignedIn()) {
+            return;
+        }
+
         this.setState({ isLoading: true });
         const query = MyAccountQuery.getDeleteAddressMutation(id);
         fetchMutation(query).then(this.handleAfterAction, this.handleError);
     }
 
     handleCreateAddress(address) {
+        if (!isSignedIn()) {
+            return;
+        }
+
         const query = MyAccountQuery.getCreateAddressMutation(address);
         fetchMutation(query).then(this.handleAfterAction, this.handleError);
     }
