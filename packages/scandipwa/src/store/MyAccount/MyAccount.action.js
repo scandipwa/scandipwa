@@ -28,9 +28,10 @@ export const updateCustomerDetails = (customer) => ({
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerPasswordResetStatus */
-export const updateCustomerPasswordResetStatus = (status) => ({
+export const updateCustomerPasswordResetStatus = (status, message) => ({
     type: UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    status
+    status,
+    message
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerPasswordForgotStatus */

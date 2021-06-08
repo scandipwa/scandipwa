@@ -101,9 +101,7 @@ export class WishlistDispatcher {
                 }
             },
             /** @namespace Store/Wishlist/Dispatcher/_syncWishlistWithBEFetchQueryError */
-            (error) => {
-                // eslint-disable-next-line no-console
-                console.log(error);
+            () => {
                 dispatch(updateIsLoading(false));
             }
         );
@@ -121,10 +119,8 @@ export class WishlistDispatcher {
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationThen */
             () => this._syncWishlistWithBE(dispatch),
             /** @namespace Store/Wishlist/Dispatcher/addItemToWishlistFetchMutationError */
-            (error) => {
+            () => {
                 dispatch(showNotification('error', __('Error updating wish list!')));
-                // eslint-disable-next-line no-console
-                console.log(error);
             }
         );
     }
@@ -192,10 +188,8 @@ export class WishlistDispatcher {
             /** @namespace Store/Wishlist/Dispatcher/removeItemFromWishlistFetchMutationThen */
             () => dispatch(removeItemFromWishlist(item_id)),
             /** @namespace Store/Wishlist/Dispatcher/removeItemFromWishlistFetchMutationError */
-            (error) => {
+            () => {
                 dispatch(showNotification('error', __('Error updating wish list!')));
-                // eslint-disable-next-line no-console
-                console.log(error);
             }
         );
     }
