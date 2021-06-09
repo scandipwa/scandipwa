@@ -27,7 +27,9 @@ import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 import {
-    BUNDLE, CONFIGURABLE, DOWNLOADABLE, GROUPED, SIMPLE
+    BUNDLE,
+    CONFIGURABLE,
+    GROUPED
 } from 'Util/Product';
 
 import { TIER_PRICES } from './ProductCard.config';
@@ -395,7 +397,7 @@ export class ProductCard extends PureComponent {
             requiredOptions
         };
 
-        if (type_id !== SIMPLE && type_id !== CONFIGURABLE && type_id !== DOWNLOADABLE) {
+        if (type_id === BUNDLE || type_id === GROUPED) {
             return (
                 <button
                   block="Button AddToCart"
