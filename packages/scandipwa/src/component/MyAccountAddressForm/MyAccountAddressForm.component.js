@@ -19,7 +19,7 @@ import { getCityAndRegionFromZipcode, setAddressesInFormObject } from 'Util/Addr
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
-        ...FieldForm.propTypes,
+        isSubmitted: PropTypes.bool,
         address: addressType.isRequired,
         countries: countriesType.isRequired,
         default_country: PropTypes.string,
@@ -30,7 +30,6 @@ export class MyAccountAddressForm extends FieldForm {
     };
 
     static defaultProps = {
-        ...FieldForm.defaultProps,
         default_country: 'US',
         isSubmitted: false,
         onSave: () => {}
