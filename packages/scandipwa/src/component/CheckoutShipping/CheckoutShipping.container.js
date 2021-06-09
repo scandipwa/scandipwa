@@ -21,6 +21,7 @@ import { updateShippingFields } from 'Store/Checkout/Checkout.action';
 import { customerType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
 import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { getCartTotalSubPrice } from 'Util/Cart';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
@@ -28,7 +29,8 @@ import CheckoutShipping from './CheckoutShipping.component';
 export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    cartTotalSubPrice: getCartTotalSubPrice(state)
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
@@ -63,6 +65,7 @@ export class CheckoutShippingContainer extends PureComponent {
 
         this.state = {
             selectedCustomerAddressId: 0,
+            isSubmitted: false,
             selectedShippingMethod: method_code && method_code !== STORE_IN_PICK_UP_METHOD_CODE
                 ? selectedShippingMethod
                 : {}
@@ -110,6 +113,8 @@ export class CheckoutShippingContainer extends PureComponent {
 
     onShippingError() {
         // TODO: implement notification if some data in Form can not display error
+        const { isSubmitted } = this.state;
+        this.setState({ isSubmitted: !isSubmitted });
     }
 
     onStoreSelect(address) {
