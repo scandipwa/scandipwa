@@ -26,7 +26,9 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
+import {
+    BUNDLE, CONFIGURABLE, DOWNLOADABLE, GROUPED, SIMPLE
+} from 'Util/Product';
 
 import { TIER_PRICES } from './ProductCard.config';
 
@@ -61,7 +63,8 @@ export class ProductCard extends PureComponent {
         layout: PropTypes.string,
         updateConfigurableVariant: PropTypes.func.isRequired,
         configurableVariantIndex: PropTypes.number,
-        parameters: PropTypes.shape({}).isRequired
+        parameters: PropTypes.shape({}).isRequired,
+        showSelectOptionsNotification: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -96,6 +99,7 @@ export class ProductCard extends PureComponent {
     };
 
     productTypeRenderMap = {
+        [BUNDLE]: __('Starting from'),
         [GROUPED]: __('Starting from'),
         [CONFIGURABLE]: __('As Low as'),
         [TIER_PRICES]: __('As Low as')
@@ -372,7 +376,8 @@ export class ProductCard extends PureComponent {
                 options = []
             },
             configurableVariantIndex,
-            layout
+            layout,
+            showSelectOptionsNotification
         } = this.props;
 
         const quantity = 1;
@@ -390,9 +395,13 @@ export class ProductCard extends PureComponent {
             requiredOptions
         };
 
-        if (type_id !== 'simple' && type_id !== 'configurable') {
+        if (type_id !== SIMPLE && type_id !== CONFIGURABLE && type_id !== DOWNLOADABLE) {
             return (
-                <button block="Button AddToCart" mods={ { layout } }>
+                <button
+                  block="Button AddToCart"
+                  mods={ { layout } }
+                  onClick={ showSelectOptionsNotification }
+                >
                     { __('Add To Cart') }
                 </button>
             );

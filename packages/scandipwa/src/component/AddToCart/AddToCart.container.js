@@ -19,6 +19,7 @@ import { isSignedIn } from 'Util/Auth';
 import {
     BUNDLE,
     CONFIGURABLE,
+    DOWNLOADABLE,
     GROUPED
 } from 'Util/Product';
 
@@ -86,7 +87,8 @@ export class AddToCartContainer extends PureComponent {
     validationMap = {
         [CONFIGURABLE]: this.validateConfigurableProduct.bind(this),
         [GROUPED]: this.validateGroupedProduct.bind(this),
-        [BUNDLE]: this.validateBundleProduct.bind(this)
+        [BUNDLE]: this.validateBundleProduct.bind(this),
+        [DOWNLOADABLE]: this.validateDownloadableProduct.bind(this)
     };
 
     addToCartHandlerMap = {
@@ -104,7 +106,7 @@ export class AddToCartContainer extends PureComponent {
         } = this.props;
 
         if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
-            showNotification('info', __('Please select product options!'));
+            showNotification('info', __('Please, select product options!'));
             return false;
         }
 
@@ -137,6 +139,21 @@ export class AddToCartContainer extends PureComponent {
         return true;
     }
 
+    validateDownloadableProduct() {
+        const {
+            product: { links_purchased_separately },
+            productOptionsData: { downloadableLinks = [] },
+            showNotification
+        } = this.props;
+
+        if (links_purchased_separately && downloadableLinks.length === 0) {
+            showNotification('info', __('Please, select product links!'));
+            return false;
+        }
+
+        return true;
+    }
+
     validateBundleProduct() {
         const {
             productOptionsData,
@@ -146,7 +163,7 @@ export class AddToCartContainer extends PureComponent {
         const validateBundleOptions = this.validateCustomizableOptions(productOptionsData, true);
 
         if (!validateBundleOptions) {
-            showNotification('info', __('Please select required option!'));
+            showNotification('info', __('Please, select required options!'));
             return false;
         }
 
@@ -162,7 +179,7 @@ export class AddToCartContainer extends PureComponent {
         const validateCustomizableOptions = this.validateCustomizableOptions(productOptionsData);
 
         if (!validateCustomizableOptions) {
-            showNotification('info', __('Please select required option!'));
+            showNotification('info', __('Please, select required options!'));
             return false;
         }
 
@@ -342,7 +359,7 @@ export class AddToCartContainer extends PureComponent {
             product: { type_id, variants = {} } = {}
         } = this.props;
 
-        if (type_id !== 'configurable') {
+        if (type_id !== CONFIGURABLE) {
             return;
         }
 

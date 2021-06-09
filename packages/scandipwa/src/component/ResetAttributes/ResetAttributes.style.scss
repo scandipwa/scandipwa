@@ -17,7 +17,6 @@
     @include mobile {
         margin: 16px 16px 0;
         max-height: 200px;
-        overflow-y: scroll;
     }
 
     &-AttributeValue {

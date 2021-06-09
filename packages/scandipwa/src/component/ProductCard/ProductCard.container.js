@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
@@ -41,7 +42,8 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
-    )
+    ),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Component/ProductCard/Container */
@@ -51,7 +53,8 @@ export class ProductCardContainer extends PureComponent {
         selectedFilters: FilterType,
         device: DeviceType.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
-        isPreview: PropTypes.bool
+        isPreview: PropTypes.bool,
+        showNotification: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -69,7 +72,8 @@ export class ProductCardContainer extends PureComponent {
         getAttribute: this.getAttribute.bind(this),
         isConfigurableProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
         isBundleProductOutOfStock: this.isBundleProductOutOfStock.bind(this),
-        updateConfigurableVariant: this.updateConfigurableVariant.bind(this)
+        updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
+        showSelectOptionsNotification: this.showSelectOptionsNotification.bind(this)
     };
 
     getAttribute(code) {
@@ -177,6 +181,12 @@ export class ProductCardContainer extends PureComponent {
         }
 
         return product || {};
+    }
+
+    showSelectOptionsNotification() {
+        const { showNotification } = this.props;
+
+        showNotification('info', __('Please, select product options!'));
     }
 
     isConfigurableProductOutOfStock() {

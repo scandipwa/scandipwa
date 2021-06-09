@@ -19,7 +19,7 @@
     --notification-error-height: var(--imported_notificationError_height, var(--default-notification-height));
     --notification-success-color: var(--imported_notificationSuccess_color, var(--secondary-success-color));
     --notification-success-background: var(--imported_notificationSuccess_background_color, var(--primary-success-color));
-    --notification-success-height: var(--imported_notificationSuccess_height, --default-notification-height);
+    --notification-success-height: var(--imported_notificationSuccess_height, var(--default-notification-height));
 }
 
 .Notification {
@@ -32,11 +32,11 @@
     border-radius: 2px;
     color: var(--notification-color);
     display: inline-flex;
-    height: var(--notification-height);
+    min-height: var(--notification-height);
     margin-block-end: 5px;
     max-width: 100vw;
     overflow: hidden;
-    padding: 12px;
+    padding: 6px 26px;
     position: relative;
     inset-block-start: 0;
 

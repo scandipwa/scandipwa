@@ -186,7 +186,7 @@ export class ProductActions extends PureComponent {
             product: { configurable_options, type_id, variants }
         } = this.props;
 
-        if (type_id !== 'configurable') {
+        if (type_id !== CONFIGURABLE) {
             return null;
         }
 

@@ -260,7 +260,7 @@
         align-items: center;
         display: flex;
         height: var(--header-nav-height);
-        padding: 0 14px;
+        padding-inline: 32px;
 
         @include desktop {
             justify-content: unset;
@@ -340,7 +340,7 @@
     &-TopMenu {
         justify-content: space-between;
         height: var(--header-top-menu-height);
-        padding-inline: 14px 34px;
+        padding-inline: 32px 50px;
         padding-block-start: 16px;
     }
 
