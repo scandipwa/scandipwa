@@ -13,11 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
-import { BUNDLE } from 'Util/Product/Types';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
 
@@ -112,21 +110,19 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    renderOptionLabel(priceType, price) {
+    renderOptionLabel(priceType, price, currency) {
         const {
             price_range: {
                 minimum_price: {
                     default_final_price_excl_tax: {
-                        currency: finalPriceCurrency = '',
                         value = 0
                     } = {}
                 } = {}
-            } = {},
-            type_id = ''
+            } = {}
         } = this.props;
 
-        const finalPriceValue = type_id === BUNDLE ? value : value * price;
-        const finalPrice = formatPrice(finalPriceValue / ONE_HUNDRED_PERCENT, finalPriceCurrency);
+        const finalPriceSource = price === 0 ? value : price;
+        const finalPrice = formatPrice(finalPriceSource, currency);
 
         switch (priceType) {
         case 'PERCENT':
