@@ -204,8 +204,7 @@
         }
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
         @include desktop {
             --option-border-color: var(--primary-base-color);
             --option-text-color: var(--primary-base-color);

@@ -93,6 +93,7 @@ export class ProductAttributeValue extends PureComponent {
         const { onClick, attribute } = this.props;
 
         e.preventDefault();
+        e.stopPropagation();
         onClick(attribute);
     }
 
