@@ -47,9 +47,9 @@ export class MyAccountAddressForm extends FieldForm {
         } = props;
 
         const countryId = country_id || default_country;
-        const country = countries.find(({ id }) => id === countryId);
-        const isStateRequired = country?.is_state_required;
-        const { available_regions: availableRegions } = country || {};
+        const country = countries.find(({ id }) => id === countryId) || {};
+        const isStateRequired = country.is_state_required;
+        const { available_regions: availableRegions } = country;
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
 
