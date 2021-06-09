@@ -15,6 +15,7 @@ import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttrib
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import { formatPrice } from 'Util/Price';
+import { sortBySortOrder } from 'Util/Product';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
@@ -127,7 +128,7 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
     renderConfigurableAttributes() {
         const { configurable_options } = this.props;
 
-        return Object.values(configurable_options)
+        return sortBySortOrder(Object.values(configurable_options), 'attribute_position')
             .map(this.renderConfigurableOption);
     }
 

@@ -19,6 +19,7 @@ export const reduceFilters = (filters) => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
         name: attribute_label,
+        position: attribute_position,
         filter_items,
         is_boolean
     } = item;
@@ -43,6 +44,7 @@ export const reduceFilters = (filters) => filters.reduce((co, item) => {
         [attribute_code]: {
             attribute_code,
             attribute_label,
+            attribute_position,
             attribute_values,
             attribute_type: 'select',
             attribute_options,
