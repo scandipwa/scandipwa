@@ -117,8 +117,7 @@
                     }
 
                     @include desktop {
-                        margin-block-start: 16px;
-                        margin-block-end: 20px;
+                        margin-block-start: 12px;
                         display: inline-block;
                     }
                 }
@@ -149,10 +148,7 @@
     }
 
     &-Link {
-        @include mobile {
-            display: contents;
-        }
-
+        display: contents;
         font-weight: 400;
         margin-block: 8px;
         margin-inline: 0 16px;
@@ -178,7 +174,8 @@
 
     &-SubCategories {
         @include desktop {
-            padding-inline-start: 16px;
+            padding-inline: 32px;
+            padding-block-end: 8px;
         }
     }
 
@@ -189,6 +186,9 @@
                     font-weight: 700;
                 }
             }
+
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
         }
 
         &Menu {
@@ -214,12 +214,16 @@
                 @include mobile {
                     padding-block: 8px;
                 }
+
+                @include desktop {
+                    padding-block-end: 8px;
+                }
             }
 
             > .Menu-ItemList {
                 @include desktop {
-                    display: grid;
-                    grid-auto-flow: column;
+                    columns: 4;
+                    -webkit-columns: 4;
                 }
             }
         }
