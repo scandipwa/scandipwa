@@ -22,11 +22,18 @@
 
     &-Page {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
         grid-auto-rows: max-content;
 
         @include tablet {
             grid-template-columns: repeat(3, 1fr);
+        }
+
+        @include narrow-desktop {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @include wide-desktop {
+            grid-template-columns: repeat(6, 1fr);
         }
 
         @include mobile {

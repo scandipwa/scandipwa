@@ -10,13 +10,24 @@
  */
 
 .CurrencySwitcher {
+    --selector-width: 56px;
+
     border-block-end: 1px solid var(--primary-divider-color);
-    margin: 0 16px;
+
+    @include mobile {
+        margin: 0 16px;
+    }
 
     .Field {
         margin-block-start: 0;
 
         &Select {
+
+            @include desktop {
+                width: var(--selector-width);
+                padding-inline-start: 12px;
+            }
+
             &-Select {
                 border: none;
                 font-size: 14px;
@@ -39,14 +50,12 @@
         border-block-end: none;
 
         .Field {
-            margin-inline-end: 44px;
+            margin-inline-end: 24px;
         }
 
         .FieldSelect {
             &::after {
                 @include chevron-icon;
-
-                inset-inline-end: -20px;
             }
 
             &[aria-expanded='true'] {
@@ -64,6 +73,11 @@
             &-Options {
                 overflow-y: auto;
                 width: min-content;
+                min-width: var(--selector-width);
+
+                &_isExpanded {
+                    border-block-start: 1px solid var(--primary-divider-color);
+                }
             }
 
             &-Option {

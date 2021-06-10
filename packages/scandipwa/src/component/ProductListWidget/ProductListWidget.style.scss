@@ -18,9 +18,16 @@
 
     &-Page {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
         grid-auto-rows: max-content;
         grid-column-gap: 12px;
+
+        @include narrow-desktop {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @include wide-desktop {
+            grid-template-columns: repeat(6, 1fr);
+        }
 
         @include mobile {
             grid-column-gap: 16px;

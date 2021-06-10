@@ -180,6 +180,10 @@
             &_share {
                 @include share-icon;
             }
+
+            &_compare {
+                display: contents;
+            }
         }
 
         &[aria-hidden="true"] {
@@ -249,8 +253,8 @@
             }
 
             @include desktop {
-                inset-block-start: -22px;
-                inset-inline-end: -16px;
+                inset-block-start: -10px;
+                inset-inline-end: -12px;
             }
         }
     }

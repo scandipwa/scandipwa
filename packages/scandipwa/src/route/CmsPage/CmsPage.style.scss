@@ -25,7 +25,9 @@
         }
 
         h2 {
-            text-align: center;
+            @include mobile {
+                text-align: center;
+            }
         }
     }
 
