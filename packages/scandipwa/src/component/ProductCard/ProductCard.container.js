@@ -34,6 +34,7 @@ export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     base_link_url: state.ConfigReducer.base_link_url || '',
     product_use_categories: state.ConfigReducer.product_use_categories || false,
+    category_url_suffix: state.ConfigReducer.category_url_suffix,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
@@ -51,6 +52,7 @@ export class ProductCardContainer extends PureComponent {
         selectedFilters: FilterType,
         device: DeviceType.isRequired,
         product_use_categories: PropTypes.bool.isRequired,
+        category_url_suffix: PropTypes.string.isRequired,
         base_link_url: PropTypes.string.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isPreview: PropTypes.bool
@@ -100,6 +102,7 @@ export class ProductCardContainer extends PureComponent {
         const {
             base_link_url,
             product_use_categories,
+            category_url_suffix,
             product: { url, url_rewrites },
             product
         } = this.props;
@@ -112,14 +115,14 @@ export class ProductCardContainer extends PureComponent {
 
         const { parameters } = this._getConfigurableParameters();
         const { state: { category = null } = {} } = history.location;
-
-        const productUrl = `${pathname.replace(storePrefix, '')}/${url.replace(storePrefix, '')}`;
+        const categoryUrlPart = pathname.replace(storePrefix, '').replace(category_url_suffix, '');
+        const productUrl = `${categoryUrlPart}/${url.replace(storePrefix, '')}`;
 
         // if 'Product Use Categories' is enabled then use the current window location to see if the product
         // has any url_rewrite for that path. (if not then just use the default url)
-        const rewriteUrl = url_rewrites.find((url) => url.includes(productUrl));
+        const rewriteUrl = url_rewrites.find(({ url }) => url.includes(productUrl)) || {};
         const rewriteUrlPath = product_use_categories
-            ? (rewriteUrl && rewriteUrl[0] && appendWithStoreCode(rewriteUrl[0].url))
+            ? (rewriteUrl.url && appendWithStoreCode(rewriteUrl.url)) || url
             : url;
 
         return {

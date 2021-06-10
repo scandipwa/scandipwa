@@ -127,6 +127,7 @@ export class ConfigQuery {
             'show_vat_number_on_storefront',
             'show_tax_vat_number',
             'product_use_categories',
+            'category_url_suffix',
             'cookie_lifetime',
             'plp_list_mode',
             'layered_navigation_product_count_enabled',
