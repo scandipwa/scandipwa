@@ -17,9 +17,8 @@ import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttrib
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
 import { CategoryFragment } from 'Type/Category';
-import { formatPrice } from 'Util/Price';
-import { sortBySortOrder } from 'Util/Product';
 import { getPriceFilterLabel } from 'Util/Category';
+import { sortBySortOrder } from 'Util/Product';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
