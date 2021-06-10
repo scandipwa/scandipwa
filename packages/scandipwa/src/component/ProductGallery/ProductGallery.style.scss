@@ -22,6 +22,7 @@
 
     @include mobile {
         min-height: 420px;
+        margin-block-end: 16px;
     }
 
     &-Additional {

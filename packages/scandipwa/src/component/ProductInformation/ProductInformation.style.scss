@@ -29,6 +29,10 @@
          + div {
              margin-block-end: 12px;
          }
+
+        &_isContentExpanded {
+            margin-block-end: 16px;
+        }
     }
 
     &-ExpandableContentHeading{
