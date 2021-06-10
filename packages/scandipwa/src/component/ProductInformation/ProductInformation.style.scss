@@ -63,4 +63,16 @@
             margin-block-end: 12px;
         }
     }
+
+    &-Description {
+        ul {
+            margin-left: 20px;
+
+            li {
+                &::before {
+                    left: -20px;
+                }
+            }
+        }
+    }
 }
