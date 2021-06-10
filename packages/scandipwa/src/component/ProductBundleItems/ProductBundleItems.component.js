@@ -37,6 +37,7 @@ export class ProductBundleItems extends ProductCustomizableOptions {
             updateQuantity,
             productOptionsData,
             price_range,
+            type_id,
             price_range: { minimum_price: { regular_price: { currency } } }
         } = this.props;
 
@@ -52,6 +53,7 @@ export class ProductBundleItems extends ProductCustomizableOptions {
               updateQuantity={ updateQuantity }
               productOptionsData={ productOptionsData }
               currencyCode={ currency }
+              type_id={ type_id }
             />
         ));
     }

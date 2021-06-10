@@ -29,7 +29,14 @@ export const {
     reviewRatings: [],
     storeConfig: {},
     currencyData: {},
-    cartDisplayConfig: {}
+    cartDisplayConfig: {
+        display_tax_in_price: '',
+        display_tax_in_subtotal: '',
+        display_tax_in_shipping_amount: '',
+        include_tax_in_order_total: false,
+        display_full_tax_summary: false,
+        display_zero_tax_subtotal: false
+    }
 };
 
 /** @namespace Store/Config/Reducer/getIndexedRatings */

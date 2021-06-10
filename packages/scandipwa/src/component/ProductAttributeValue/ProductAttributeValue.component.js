@@ -60,10 +60,13 @@ export class ProductAttributeValue extends PureComponent {
         return ((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186;
     }
 
+    _getBooleanLabel = (label) => (+label ? __('Yes') : __('No'));
+
     getOptionLabel(value) {
         const {
             attribute: {
-                attribute_options
+                attribute_options,
+                is_boolean
             },
             isProductCountVisible
         } = this.props;
@@ -77,10 +80,12 @@ export class ProductAttributeValue extends PureComponent {
                 }
 
                 const { label, count = 0 } = optionValues;
+                const adjustedLabel = is_boolean ? this._getBooleanLabel(label) : label;
+
                 return {
                     ...optionValues,
-                    label: `${label} (${count})`,
-                    labelText: label,
+                    label: `${adjustedLabel} (${count})`,
+                    labelText: adjustedLabel,
                     count
                 };
             }
