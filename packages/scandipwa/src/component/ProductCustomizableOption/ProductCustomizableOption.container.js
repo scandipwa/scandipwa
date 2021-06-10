@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
@@ -126,7 +127,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
         switch (priceType) {
         case 'PERCENT':
-            return `${finalPrice} (${ price }%)`;
+            const percentPrice = formatPrice((finalPriceSource / ONE_HUNDRED_PERCENT) * value, currency);
+            return `${percentPrice} (${ price }%)`;
         default:
             return finalPrice;
         }
