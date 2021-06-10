@@ -26,7 +26,11 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
+import {
+    BUNDLE,
+    CONFIGURABLE,
+    GROUPED
+} from 'Util/Product';
 
 import { TIER_PRICES } from './ProductCard.config';
 
@@ -61,7 +65,8 @@ export class ProductCard extends PureComponent {
         layout: PropTypes.string,
         updateConfigurableVariant: PropTypes.func.isRequired,
         configurableVariantIndex: PropTypes.number,
-        parameters: PropTypes.shape({}).isRequired
+        parameters: PropTypes.shape({}).isRequired,
+        showSelectOptionsNotification: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -96,6 +101,7 @@ export class ProductCard extends PureComponent {
     };
 
     productTypeRenderMap = {
+        [BUNDLE]: __('Starting from'),
         [GROUPED]: __('Starting from'),
         [CONFIGURABLE]: __('As Low as'),
         [TIER_PRICES]: __('As Low as')
@@ -372,7 +378,8 @@ export class ProductCard extends PureComponent {
                 options = []
             },
             configurableVariantIndex,
-            layout
+            layout,
+            showSelectOptionsNotification
         } = this.props;
 
         const quantity = 1;
@@ -390,9 +397,13 @@ export class ProductCard extends PureComponent {
             requiredOptions
         };
 
-        if (type_id !== 'simple' && type_id !== 'configurable') {
+        if (type_id === BUNDLE || type_id === GROUPED) {
             return (
-                <button block="Button AddToCart" mods={ { layout } }>
+                <button
+                  block="Button AddToCart"
+                  mods={ { layout } }
+                  onClick={ showSelectOptionsNotification }
+                >
                     { __('Add To Cart') }
                 </button>
             );
@@ -467,6 +478,8 @@ export class ProductCard extends PureComponent {
     renderCardContent() {
         const { renderContent } = this.props;
 
+        console.log('render grid content');
+
         if (renderContent) {
             return renderContent(this.contentObject);
         }
@@ -501,6 +514,8 @@ export class ProductCard extends PureComponent {
         if (renderContent) {
             return renderContent(this.contentObject);
         }
+
+        console.log('render list content');
 
         return this.renderCardLinkWrapper((
             <div block="ProductCard" elem="Link">
@@ -548,6 +563,8 @@ export class ProductCard extends PureComponent {
             siblingsHaveConfigurableOptions,
             layout
         };
+
+        console.log(layout);
 
         if (layout === LIST_LAYOUT) {
             return (

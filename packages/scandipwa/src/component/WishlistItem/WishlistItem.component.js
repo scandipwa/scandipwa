@@ -16,7 +16,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, GROUPED } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import './WishlistItem.style';
 
@@ -150,7 +150,7 @@ export class WishlistItem extends PureComponent {
             product: { url, type_id }
         } = this.props;
 
-        if (type_id !== 'configurable') {
+        if (type_id !== CONFIGURABLE) {
             return product;
         }
 

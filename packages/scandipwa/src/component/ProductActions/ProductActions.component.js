@@ -186,7 +186,7 @@ export class ProductActions extends PureComponent {
             product: { configurable_options, type_id, variants }
         } = this.props;
 
-        if (type_id !== 'configurable') {
+        if (type_id !== CONFIGURABLE) {
             return null;
         }
 
@@ -276,37 +276,34 @@ export class ProductActions extends PureComponent {
         );
     }
 
-    renderNameAndBrand() {
+    renderName() {
+        const { product: { name } } = this.props;
+
+        return (
+            <h1 block="ProductActions" elem="Title" itemProp="name">
+                <TextPlaceholder content={ name } length="medium" />
+            </h1>
+        );
+    }
+
+    renderBrand() {
         const {
-            product:
-                {
-                    name,
-                    attributes: { brand: { attribute_value: brand } = {} } = {}
-                },
+            product: {
+                attributes: { brand: { attribute_value: brand } = {} } = {}
+            },
             showOnlyIfLoaded
         } = this.props;
 
-        return (
-            <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'name' } }
-            >
-                { showOnlyIfLoaded(
-                    brand,
-                    (
-                        <>
-                            <meta itemProp="brand" content={ brand } />
-                            <h4 block="ProductActions" elem="Brand" itemProp="brand">
-                                <TextPlaceholder content={ brand } />
-                            </h4>
-                        </>
-                    )
-                ) }
-                <h2 block="ProductActions" elem="Title" itemProp="name">
-                    <TextPlaceholder content={ name } length="medium" />
-                </h2>
-            </section>
+        return showOnlyIfLoaded(
+            brand,
+            (
+                <>
+                    <meta itemProp="brand" content={ brand } />
+                    <h4 block="ProductActions" elem="Brand" itemProp="brand">
+                        <TextPlaceholder content={ brand } />
+                    </h4>
+                </>
+            )
         );
     }
 
@@ -683,8 +680,8 @@ export class ProductActions extends PureComponent {
                 { this.renderQuantityInput() }
                 { this.renderAddToCart() }
                 <div block="ProductActions" elem="ActionButtons">
-                    { this.renderProductCompareButton() }
                     { this.renderProductWishlistButton() }
+                    { this.renderProductCompareButton() }
                 </div>
             </div>
         );
@@ -705,7 +702,8 @@ export class ProductActions extends PureComponent {
     renderDesktop() {
         return (
             <>
-                { this.renderNameAndBrand() }
+                { this.renderBrand() }
+                { this.renderName() }
                 { this.renderReviewSection() }
                 { this.renderSkuAndStock() }
                 { this.renderShortDescription() }
@@ -737,7 +735,8 @@ export class ProductActions extends PureComponent {
                     { this.renderReviews() }
                     { this.renderProductCompareButton() }
                 </div>
-                { this.renderNameAndBrand() }
+                { this.renderBrand() }
+                { this.renderShortDescription() }
                 { this.renderConfigurableAttributes() }
                 { this.renderCustomizableOptions() }
                 { this.renderBundleItems() }

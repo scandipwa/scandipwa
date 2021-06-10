@@ -124,8 +124,7 @@
         @include mobile {
             --option-margin-block: 7px;
             --option-margin-inline: 7px;
-            margin: 16px;
-            overflow-y: scroll;
+            padding: 16px;
         }
 
         @include desktop {
@@ -163,6 +162,12 @@
     &-SeeResults {
         @include desktop {
             display: none;
+        }
+
+        @include mobile {
+            position: sticky;
+            background-color: var(--color-white);
+            border-block-start: 1px solid var(--primary-divider-color);
         }
 
         .CategoryFilterOverlay-NoResults ~ & {

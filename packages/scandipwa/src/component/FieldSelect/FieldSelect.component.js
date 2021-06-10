@@ -198,7 +198,7 @@ export class FieldSelect extends PureComponent {
             <ClickOutside onClick={ handleSelectExpandedExpand }>
                 <div
                   block="FieldSelect"
-                  mix={ { isExpanded } }
+                  mods={ { isExpanded } }
                   onClick={ handleSelectExpand }
                   onKeyPress={ handleSelectListKeyPress }
                   role="button"

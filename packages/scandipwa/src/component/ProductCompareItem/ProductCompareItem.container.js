@@ -138,7 +138,7 @@ export class ProductCompareItemContainer extends PureComponent {
 
     overriddenAddToCartBtnHandler() {
         const { showNotification } = this.props;
-        showNotification('info', __('Please select required option!'));
+        showNotification('info', __('Please, select required options!'));
     }
 
     render() {

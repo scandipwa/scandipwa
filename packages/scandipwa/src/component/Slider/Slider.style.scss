@@ -92,7 +92,7 @@
         height: 35px;
 
         &_isPrev {
-            inset-inline-start: 0;
+            inset-inline-start: -45px;
 
             &:dir(ltr) {
                 transform: translateY(-50%) scale(-1);
@@ -104,7 +104,7 @@
         }
 
         &_isNext {
-            inset-inline-end: 0;
+            inset-inline-end: -45px;
 
             &:dir(ltr) {
                 transform: translateY(-50%);

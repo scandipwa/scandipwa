@@ -23,6 +23,12 @@
         ol {
             margin-block-start: 10px;
         }
+
+        h2 {
+            @include mobile {
+                text-align: center;
+            }
+        }
     }
 
     &-Wrapper {
@@ -90,9 +96,12 @@
     .Slider-Crumbs {
         position: unset;
         margin-block: 16px 40px;
+
+        @include mobile {
+            margin-block: 20px 28px;
+        }
     }
 
-    h2,
     h3 {
         @include mobile {
             font-size: 14px;

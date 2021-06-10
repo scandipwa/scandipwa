@@ -99,7 +99,6 @@
 
     &-ColumnTitle {
         margin: 0 0 15px;
-        font-size: 18px;
 
         @include desktop {
             margin: 0 0 20px;
@@ -127,6 +126,9 @@
 
         &:last-of-type {
             margin: 0;
+        }
+        &:hover {
+            text-decoration: underline;
         }
 
         &Image {

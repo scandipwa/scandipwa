@@ -165,8 +165,8 @@
     "Phone number is invalid!": null,
     "Play video": null,
     "Play video %s": null,
-    "Please select product options!": null,
-    "Please select required option!": null,
+    "Please, select product options!": null,
+    "Please, select required options!": null,
     "Please select variant first!": null,
     "Please sign in first!": null,
     "Please sign-in to complete checkout!": null,
@@ -463,8 +463,9 @@
     "In stock": null,
     "VAT Number": null,
     "1 filter selected": null,
-    "Thank you for your subscription.": null,
+    "Please, select product links!": null,
     "Excl. tax:": null,
+    "Thank you for your subscription.": null,
     "Incorrect data! Please check review fields.": null,
     "Please fill all rating fields.": null
 }

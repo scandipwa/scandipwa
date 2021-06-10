@@ -29,6 +29,16 @@
          + div {
              margin-block-end: 12px;
          }
+
+        &_isContentExpanded {
+            margin-block-end: 16px;
+        }
+    }
+
+    &-ExpandableContentHeading{
+        @include desktop {
+            display: none;
+        }
     }
 
     &-Placeholder {
@@ -44,6 +54,24 @@
 
             @include mobile {
                 margin-block-end: 14px;
+            }
+        }
+    }
+
+    &-Content {
+        @include desktop {
+            margin-block-end: 12px;
+        }
+    }
+
+    &-Description {
+        ul {
+            margin-left: 20px;
+
+            li {
+                &::before {
+                    left: -20px;
+                }
             }
         }
     }

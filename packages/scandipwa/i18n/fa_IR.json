@@ -187,9 +187,9 @@
     "Got it": "متوجه هستم",
     "Incorrect data! Please resolve all field validation errors.": "اطلاعات وارد شده معتبر نمیباشد! لطفا قسمت های مشخص شده را اصلاح کنید.",
     "If there is an account associated with the provided address you will receive an email with a link to reset your password": "اگر قبلا با این ایمیل ثبت نام کرده باشید، ایمیلی با لینک برای تغییر رمز عبور خود دریافت خواهید کرد",
-    "Please select product options!": "لطفا گزینه های محصول را انتخاب کنید!",
+    "Please, select product options!": "لطفا گزینه های محصول را انتخاب کنید!",
     "Sorry! The selected product option is out of stock!": "با عرض پوزش٬ محصول انتخاب شده درحال حاضر موجود نیست!",
-    "Please select required option!": "لطفا گزینه مورد نیاز را انتخاب کنید!",
+    "Please, select required options!": "لطفا گزینه مورد نیاز را انتخاب کنید!",
     "Product added to cart!": "محصول با موفقیت به سبد خرید اضافه شد!",
     "You must login or register to review products.": "برای ثبت نظر برای محصولات باید وارد سیستم شوید یا ثبت نام کنید.",
     "Order #%s": "سفارش #%s",
@@ -466,5 +466,6 @@
     "Thank you for your subscription.": null,
     "Excl. tax:": null,
     "Incorrect data! Please check review fields.": null,
-    "Please fill all rating fields.": null
+    "Please fill all rating fields.": null,
+    "Please, select product links!": null
 }

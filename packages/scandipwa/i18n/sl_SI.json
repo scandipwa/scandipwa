@@ -165,8 +165,7 @@
     "Phone number is invalid!": "Vaša številka ni pravilna.",
     "Play video": "Predvajaj video",
     "Play video %s": "Predvajaj video %s",
-    "Please select product options!": null,
-    "Please select required option!": null,
+    "Please, select product options!": null,
     "Please select variant first!": "Najprej izberite varianto!",
     "Please sign in first!": "Prosimo, če se vpišete!",
     "Please sign-in to complete checkout!": null,
@@ -466,5 +465,7 @@
     "Thank you for your subscription.": null,
     "Excl. tax:": null,
     "Incorrect data! Please check review fields.": null,
-    "Please fill all rating fields.": null
+    "Please fill all rating fields.": null,
+    "Please, select product links!": null,
+    "Please, select required options!": null
 }

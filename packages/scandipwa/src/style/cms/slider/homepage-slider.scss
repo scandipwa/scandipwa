@@ -14,19 +14,8 @@
 }
 
 .homepage-slider {
-    --button-background: var(--homepage-button-background);
-    --button-color: var(--homepage-button-color);
-    --button-border: transparent;
-    --button-hover-background: var(--homepage-button-color);
-    --button-hover-color: var(--homepage-button-background);
-    --button-hover-border: transparent;
-    --button-padding: 13px 40px;
-    --button-border-width: 0;
 
     h1 {
-        font-size: 62px;
-        text-transform: uppercase;
-        color: var(--homepage-slider-color);
         margin-block-end: 30px;
 
         @include mobile {
@@ -49,6 +38,10 @@
 
         @include desktop {
             padding-block-start: 60px;
+        }
+
+        @include mobile {
+            padding-inline: 16px;
         }
     }
 }

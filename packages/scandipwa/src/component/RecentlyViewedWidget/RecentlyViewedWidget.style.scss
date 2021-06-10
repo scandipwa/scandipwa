@@ -22,21 +22,29 @@
 
     &-Page {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
         grid-auto-rows: max-content;
-        grid-column-gap: 10px;
 
         @include tablet {
             grid-template-columns: repeat(3, 1fr);
         }
 
+        @include narrow-desktop {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @include wide-desktop {
+            grid-template-columns: repeat(6, 1fr);
+        }
+
         @include mobile {
             border: 0;
             grid-template-columns: 1fr 1fr;
+            grid-column-gap: 16px;
         }
 
         @include desktop {
             grid-column: 2;
+            grid-column-gap: 12px;
         }
     }
 

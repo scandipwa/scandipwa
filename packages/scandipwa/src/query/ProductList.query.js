@@ -331,6 +331,17 @@ export class ProductListQuery {
         ];
     }
 
+    _getDownloadableProductLinksRequired() {
+        return new Fragment('DownloadableProduct')
+            .addFieldList(this._getDownloadableProductLinksRequiredFields());
+    }
+
+    _getDownloadableProductLinksRequiredFields() {
+        return [
+            'links_purchased_separately'
+        ];
+    }
+
     _getDownloadableProductLinkField() {
         return new Field('downloadable_product_links')
             .addFieldList(this._getDownloadableProductLinkFields());
@@ -368,6 +379,8 @@ export class ProductListQuery {
         if (isSingleProduct) {
             items.addField(this._getGroupedProductItems());
             items.addField(this._getDownloadableProductFields());
+        } else {
+            items.addField(this._getDownloadableProductLinksRequired());
         }
 
         return items;

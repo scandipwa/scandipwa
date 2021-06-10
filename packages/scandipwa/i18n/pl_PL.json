@@ -165,8 +165,7 @@
     "Phone number is invalid!": "Numer telefonu jest nieprawidłowy!",
     "Play video": "Odtwórz wideo",
     "Play video %s": "Odtwórz wideo %s",
-    "Please select product options!": "Proszę wybrać opcję produktu",
-    "Please select required option!": null,
+    "Please, select product options!": "Proszę wybrać opcję produktu",
     "Please select variant first!": "Proszę wybrać wariant pierwszy!",
     "Please sign in first!": "Proszę się zalogować w pierwszej kolejności!",
     "Please sign-in to complete checkout!": null,
@@ -466,5 +465,7 @@
     "Thank you for your subscription.": null,
     "Excl. tax:": null,
     "Incorrect data! Please check review fields.": null,
-    "Please fill all rating fields.": null
+    "Please fill all rating fields.": null,
+    "Please, select product links!": null,
+    "Please, select required options!": null
 }

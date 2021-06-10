@@ -45,12 +45,12 @@ export class ProductAttributes extends PureComponent {
         return (
             uniqueGroups.map(
                 (group) => (
-                    <Fragment key={ group.attribute_group_id }>
-                        <p block="ProductAttributes" elem="Group">
+                    <div block="ProductAttributes" elem="AttributeBlock">
+                        <h2 block="ProductAttributes" elem="Group">
                             { group.attribute_group_name }
-                        </p>
+                        </h2>
                         { this.renderAttributes(group.attribute_group_id) }
-                    </Fragment>
+                    </div>
                 )
             )
         );
@@ -103,9 +103,7 @@ export class ProductAttributes extends PureComponent {
               heading={ heading }
               mix={ { block: 'ProductAttributes', elem: 'Content' } }
             >
-                <div>
                     { this.renderGroups() }
-                </div>
             </ExpandableContent>
         );
     }

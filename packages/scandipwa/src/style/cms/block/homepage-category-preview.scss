@@ -18,67 +18,54 @@
     }
 
     &-Figure {
-        margin-block-start: 12px;
 
         @include mobile {
-            margin-block-start: 14px;
+            margin-block-start: 24px;
         }
 
         @include desktop {
             margin-block-start: 5px;
-            height: 376px;
+        }
+
+        > .Image {
+            border-block-end: 1px solid var(--primary-divider-color);
         }
 
         .Image {
-            height: 100%;
             display: block;
-            padding-block-end: 0;
-
-            @include mobile {
-                height: 0;
-                padding-block-end: 56.5%;
-            }
+            height: 0;
+            padding-block-end: 84.5%;
 
             &-Image {
                 object-fit: cover;
+                border: 1px solid var(--primary-divider-color);
             }
         }
     }
 
     &-Figcaption {
-        //--button-background: var(--color-white);
         --button-color: var(--color-white);
-        //--button-border: transparent;
-        //--button-hover-background: var(--homepage-button-color);
-        //--button-hover-color: var(--homepage-button-background);
-        //--button-hover-border: transparent;
         --button-padding: 13px 40px;
-        //--button-border-width: 0;
         --hollow-button-background: var(--color-white);
+        --hollow-button-hover-background: var(--color-white);
 
-        @include mobile {
-            --button-padding: 5px 0;
-        }
+        position: absolute;
+        inset-block-end: 24px;
+        text-align: center;
 
         @include desktop {
-            position: absolute;
-            top: 50%;
             inset-inline-start: 50%;
             transform: translate(-50%, 0);
-            text-align: center;
         }
 
         &_isPlaceholder {
             padding-block-end: 31px;
         }
-    }
-
-    &-Button.Button {
-        //font-weight: 300;
 
         @include mobile {
-            text-align: start;
             width: 100%;
+            padding-inline: 16px;
+            inset-block-end: 16px;
         }
     }
 

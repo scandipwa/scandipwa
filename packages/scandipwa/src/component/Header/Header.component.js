@@ -207,7 +207,11 @@ export class Header extends NavigationAbstract {
     };
 
     renderBackButton(isVisible = false) {
-        const { onBackButtonClick } = this.props;
+        const { onBackButtonClick, device: { isMobile } } = this.props;
+
+        if (!isMobile) {
+            return null;
+        }
 
         return (
             <button
@@ -241,9 +245,9 @@ export class Header extends NavigationAbstract {
     }
 
     renderMenu() {
-        const { isCheckout, device } = this.props;
+        const { isCheckout, device: { isMobile } } = this.props;
 
-        if (device.isMobile || isCheckout) {
+        if (isMobile || isCheckout) {
             return null;
         }
 
@@ -455,11 +459,11 @@ export class Header extends NavigationAbstract {
         const {
             onMyAccountOutsideClick,
             isCheckout,
-            device
+            device: { isMobile }
         } = this.props;
 
         // on mobile hide button if not in checkout
-        if (device.isMobile && !isCheckout) {
+        if (isMobile && !isCheckout) {
             return null;
         }
 
@@ -553,10 +557,10 @@ export class Header extends NavigationAbstract {
         const {
             onMinicartOutsideClick,
             isCheckout,
-            device
+            device: { isMobile }
         } = this.props;
 
-        if (device.isMobile || isCheckout) {
+        if (isMobile || isCheckout) {
             return null;
         }
 
@@ -634,8 +638,9 @@ export class Header extends NavigationAbstract {
     }
 
     renderTopMenu() {
-        const { device } = this.props;
-        if (device.isMobile) {
+        const { device: { isMobile } } = this.props;
+
+        if (isMobile) {
             return null;
         }
 
@@ -669,10 +674,10 @@ export class Header extends NavigationAbstract {
         const {
             navigationState: { name, isHiddenOnMobile = false },
             isCheckout,
-            device
+            device: { isMobile }
         } = this.props;
 
-        if (!device.isMobile) {
+        if (!isMobile) {
             // hide edit button on desktop
             stateMap[CUSTOMER_WISHLIST].edit = false;
             stateMap[CUSTOMER_WISHLIST].share = false;

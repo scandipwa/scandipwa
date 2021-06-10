@@ -74,6 +74,10 @@
         @include mobile {
             margin-inline-end: 16px;
         }
+
+        &:before {
+            content: ' '
+        }
     }
 
     &-Required {

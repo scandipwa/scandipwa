@@ -10,10 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// :root {
-//     --product-information-background: var(--secondary-base-color);
-// }
-
 .ProductAttributes {
     font-size: 14px;
     line-height: 20px;
@@ -39,13 +35,16 @@
         }
 
         @include desktop {
-            // display: grid;
-            // grid-template-columns: 1fr 1fr;
-            // grid-gap: 48px;
-            // justify-content: center;
-            // align-items: flex-start;
-            width: 50%;
+            columns: 2;
+            -webkit-columns: 2;
+            column-gap: 60px;
         }
+    }
+
+    &-AttributeBlock {
+        -webkit-column-break-inside: avoid;
+        break-inside: avoid;
+        width: 100%;
     }
 
     &-Placeholder {
@@ -68,14 +67,7 @@
     &-Group {
         margin: 0;
         padding-block: 32px 16px;
-        font-size: 18px;
-        font-weight: 700;
     }
-
-    // &-Description,
-    // &-Attributes {
-    //     width: 100%;
-    // }
 
     &-Attributes {
         display: grid;
@@ -98,22 +90,8 @@
         }
     }
 
-    // &-ValueLabel {
-    //     padding-inline-start: 6px;
-    //     margin-block-end: 12px;
-
-    //     @include mobile {
-    //         padding-inline-start: 7px;
-    //         margin-block-end: 14px;
-    //     }
-    // }
-
     &-AttributeLabel {
         font-weight: bold;
-
-        // &::after {
-        //     content: ':';
-        // }
     }
 
     &-Image {

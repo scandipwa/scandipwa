@@ -33,7 +33,6 @@
 }
 
 .ProductActions {
-    font-size: 12px;
     line-height: 16px;
 
     &-Brand {
@@ -43,17 +42,15 @@
     }
 
     &-Title {
+        margin-block: 8px;
 
         @include desktop {
-            font-size: 36px;
             line-height: 40px;
-            margin-block: 8px;
         }
 
         @include mobile {
             font-weight: 400;
             font-size: 14px;
-            margin-block-start: 8px;
         }
     }
 
@@ -72,7 +69,7 @@
         }
 
         @include mobile {
-            margin-block: 15px 10px;
+            margin-block-end: 10px;
         }
     }
 
@@ -89,13 +86,10 @@
         font-weight: 700;
         color: var(--primary-base-color);
         cursor: pointer;
+        bottom: -2px;
     }
 
     &-Section {
-
-        @include mobile {
-            margin-block-end: 18px;
-        }
 
         &_type_sku {
             display: flex;
@@ -105,6 +99,10 @@
                 flex-direction: column;
             }
         }
+    }
+
+    &-Schema {
+        min-width: 150px;
     }
 
 
@@ -127,7 +125,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-block: 18px;
+        margin-block-end: 12px;
+
+        @include desktop {
+            margin-block: 18px;
+        }
 
         .ProductCompareButton {
             margin-inline-start: auto;
@@ -186,9 +188,17 @@
         }
     }
 
-    &-Qty.Field {
-        margin-block: 0;
-        margin-inline-end: 32px;
+    &-Qty {
+        &.Field {
+            margin-block: 0;
+            margin-inline-end: 32px;
+        }
+
+        button {
+            &:hover {
+                border-color: var(--primary-dark-color);
+            }
+        }
     }
 
     &-AttributesWrapper {
@@ -212,10 +222,6 @@
         .ProductReviewRating {
             margin-inline-end: 24px;
         }
-    }
-
-    &-Price {
-       font-size: 24px;
     }
 
     .ProductConfigurableAttributes-Expandable {

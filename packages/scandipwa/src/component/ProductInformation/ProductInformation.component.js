@@ -39,7 +39,7 @@ export class ProductInformation extends PureComponent {
         const cleanDescription = html.replace(/<\/?[^>]+(>|$)/g, '');
 
         return (
-            <div>
+            <div block="ProductInformation" elem="Description">
                 <meta itemProp="description" content={ cleanDescription } />
                 <Html content={ html } />
             </div>
