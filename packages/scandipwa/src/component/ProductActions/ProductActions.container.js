@@ -412,7 +412,7 @@ export class ProductActionsContainer extends PureComponent {
             selectedLinkPrice
         } = this.props;
 
-        const { options } = product;
+        const { options = {} } = product;
 
         const {
             price_range
