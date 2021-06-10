@@ -309,7 +309,14 @@ export class ProductActions extends PureComponent {
 
     renderCustomizableOptions() {
         const {
-            product: { options },
+            product: {
+                options,
+                price_range: {
+                    minimum_price: {
+                        default_final_price_excl_tax: finalPrice = 0
+                    } = {}
+                } = {}
+            } = {},
             getSelectedCustomizableOptions,
             productOptionsData,
             device: { isMobile }
@@ -327,6 +334,7 @@ export class ProductActions extends PureComponent {
             >
                 <ProductCustomizableOptions
                   options={ options }
+                  finalProductPrice={ finalPrice }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                   productOptionsData={ productOptionsData }
                 />

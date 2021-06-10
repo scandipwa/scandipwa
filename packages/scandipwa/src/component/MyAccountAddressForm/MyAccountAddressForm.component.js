@@ -19,6 +19,7 @@ import { getCityAndRegionFromZipcode, setAddressesInFormObject } from 'Util/Addr
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
+        ...FieldForm.propTypes.isSubmitted,
         address: addressType.isRequired,
         countries: countriesType.isRequired,
         default_country: PropTypes.string,
@@ -30,6 +31,7 @@ export class MyAccountAddressForm extends FieldForm {
 
     static defaultProps = {
         default_country: 'US',
+        isSubmitted: false,
         onSave: () => {}
     };
 
@@ -136,13 +138,15 @@ export class MyAccountAddressForm extends FieldForm {
     };
 
     getStreetFields(label, placeholder, index) {
-        const { address: { street = [] } } = this.props;
+        const { address: { street = [] }, isSubmitted } = this.props;
 
         return {
             label,
             placeholder,
             value: street[index],
-            validation: index === 0 ? ['notEmpty'] : []
+            validation: index === 0 ? ['notEmpty'] : [],
+            validateSeparately: index === 0,
+            isSubmitted
         };
     }
 
@@ -190,7 +194,7 @@ export class MyAccountAddressForm extends FieldForm {
 
     get fieldMap() {
         const { countryId, city } = this.state;
-        const { countries, address } = this.props;
+        const { countries, address, isSubmitted } = this.props;
         const { default_billing, default_shipping } = address;
 
         return {
@@ -209,17 +213,23 @@ export class MyAccountAddressForm extends FieldForm {
             firstname: {
                 label: __('First name'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 placeholder: __('Your first name')
             },
             lastname: {
                 label: __('Last name'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 placeholder: __('Your last name')
             },
             ...this.getAddressFields(),
             city: {
                 label: __('City'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 value: city,
                 placeholder: __('Your city')
             },
@@ -227,6 +237,8 @@ export class MyAccountAddressForm extends FieldForm {
                 type: 'select',
                 label: __('Country'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 value: countryId,
                 selectOptions: countries.map(({ id, label }) => ({ id, label, value: id })),
                 onChange: this.onCountryChange
@@ -235,6 +247,8 @@ export class MyAccountAddressForm extends FieldForm {
             postcode: {
                 label: __('Zip / Postal code'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 onBlur: this.onZipcodeChange,
                 placeholder: __('Your zip / postal code')
             },
@@ -242,7 +256,8 @@ export class MyAccountAddressForm extends FieldForm {
             telephone: {
                 label: __('Phone number'),
                 validation: ['notEmpty', 'telephone'],
-                placeholder: __('Your phone number')
+                validateSeparately: true,
+                isSubmitted
             }
             // Will be back with B2B update
             // company: {
