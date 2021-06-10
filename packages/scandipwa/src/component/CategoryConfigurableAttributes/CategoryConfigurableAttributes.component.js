@@ -25,21 +25,21 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         ...ProductConfigurableAttributes.propTypes,
         currency_code: PropTypes.string.isRequired,
         show_product_count: PropTypes.bool.isRequired,
-        childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment)).isRequired
+        childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment)).isRequired,
+        getSubCategories: PropTypes.func.isRequired
     };
 
     renderSubCategories(option) {
-        const optionWithSubcategories = { ...option };
-        const { childrenCategories } = this.props;
-        const { attribute_values } = option;
-        const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
-        const subCategoriesIds = attribute_values.filter((item) => childrenCategoryIds.includes(item));
-        optionWithSubcategories.attribute_values = subCategoriesIds;
-        if (subCategoriesIds.length) {
-            return this.renderDropdownOrSwatch(optionWithSubcategories);
+        const { getSubCategories } = this.props;
+
+        const optionWithSubcategories = getSubCategories(option);
+        const { attribute_values = [] } = optionWithSubcategories;
+
+        if (!attribute_values.length) {
+            return null;
         }
 
-        return null;
+        return this.renderDropdownOrSwatch(optionWithSubcategories);
     }
 
     getPriceLabel(option) {

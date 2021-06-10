@@ -25,6 +25,22 @@ export const mapStateToProps = (state) => ({
 
 /** @namespace Component/CategoryConfigurableAttributes/Container */
 export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
+    containerFunctions = {
+        ...this.containerFunctions,
+        getSubCategories: this.getSubCategories.bind(this)
+    };
+
+    getSubCategories(option) {
+        const optionWithSubcategories = { ...option };
+        const { childrenCategories } = this.props;
+        const { attribute_values } = option;
+        const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
+        const subCategoriesIds = attribute_values.filter((item) => childrenCategoryIds.includes(item));
+        optionWithSubcategories.attribute_values = subCategoriesIds;
+
+        return optionWithSubcategories;
+    }
+
     render() {
         return (
             <CategoryConfigurableAttributes
