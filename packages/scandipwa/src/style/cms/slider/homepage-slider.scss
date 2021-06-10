@@ -39,5 +39,9 @@
         @include desktop {
             padding-block-start: 60px;
         }
+
+        @include mobile {
+            padding-inline: 16px;
+        }
     }
 }

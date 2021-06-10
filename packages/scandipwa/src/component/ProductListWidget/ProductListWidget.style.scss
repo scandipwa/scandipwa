@@ -23,7 +23,7 @@
         grid-column-gap: 12px;
 
         @include mobile {
-            grid-column-gap: 14px;
+            grid-column-gap: 16px;
             grid-template-columns: 1fr 1fr;
             border: 0;
         }

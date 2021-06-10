@@ -69,9 +69,12 @@
     &-Content {
         background: var(--product-card-background);
         padding-block: 10px 16px;
-        padding-inline: 15px;
         display: flex;
         flex-direction: column;
+
+        @include desktop {
+            padding-inline: 15px;
+        }
 
         &_layout_list {
             justify-content: space-between;
@@ -171,7 +174,10 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 10px 15px 0;
+
+        @include desktop {
+            padding: 10px 15px 0;
+        }
     }
 
     &-Reviews {
