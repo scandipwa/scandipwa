@@ -46,14 +46,8 @@
     }
 
     &-Figcaption {
-        //--button-background: var(--color-white);
         --button-color: var(--color-white);
-        //--button-border: transparent;
-        //--button-hover-background: var(--homepage-button-color);
-        //--button-hover-color: var(--homepage-button-background);
-        //--button-hover-border: transparent;
         --button-padding: 13px 40px;
-        //--button-border-width: 0;
         --hollow-button-background: var(--color-white);
         --hollow-button-hover-background: var(--color-white);
 
@@ -63,7 +57,7 @@
 
         @include desktop {
             position: absolute;
-            top: 50%;
+            inset-block-end: 24px;
             inset-inline-start: 50%;
             transform: translate(-50%, 0);
             text-align: center;
