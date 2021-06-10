@@ -160,7 +160,7 @@
     "Phone number is invalid!": "電話號碼無效！",
     "Play video": "播放視頻",
     "Play video %s": "播放視頻 %s",
-    "Please select product options!": "請選擇產品選項！",
+    "Please, select product options!": "請選擇產品選項！",
     "Please select variant first!": "請先選擇變體！",
     "Please sign in first!": "請先登錄！",
     "Please sign-in to complete checkout!": "請登錄以完成結帳！",
@@ -386,7 +386,6 @@
     "Tax/VAT Number": null,
     "Please, select desirable option first!": null,
     "Please specify the quantity of product(s)!": null,
-    "Please select required option!": null,
     "Product tabs": null,
     "Estimated Shipping": null,
     "Current product price excl. tax": null,
@@ -463,7 +462,6 @@
     "In stock": null,
     "VAT Number": null,
     "1 filter selected": null,
-    "Please, select product options!": null,
     "Please, select product links!": null,
     "Please, select required options!": null
 }
