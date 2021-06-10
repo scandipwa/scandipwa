@@ -19,7 +19,7 @@ import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
 import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
-import { objectToUri } from 'Util/Url';
+import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 import { IN_STOCK } from './ProductCard.config';
@@ -32,6 +32,8 @@ export const CartDispatcher = import(
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
+    base_link_url: state.ConfigReducer.base_link_url || '',
+    product_use_categories: state.ConfigReducer.product_use_categories || false,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
@@ -48,6 +50,8 @@ export class ProductCardContainer extends PureComponent {
         product: ProductType,
         selectedFilters: FilterType,
         device: DeviceType.isRequired,
+        product_use_categories: PropTypes.bool.isRequired,
+        base_link_url: PropTypes.string.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isPreview: PropTypes.bool
     };
@@ -93,7 +97,14 @@ export class ProductCardContainer extends PureComponent {
     });
 
     _getLinkTo() {
-        const { product: { url }, product } = this.props;
+        const {
+            base_link_url,
+            product_use_categories,
+            product: { url, url_rewrites },
+            product
+        } = this.props;
+        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
+        const { location: { pathname } } = history;
 
         if (!url) {
             return undefined;
@@ -102,8 +113,17 @@ export class ProductCardContainer extends PureComponent {
         const { parameters } = this._getConfigurableParameters();
         const { state: { category = null } = {} } = history.location;
 
+        const productUrl = `${pathname.replace(storePrefix, '')}/${url.replace(storePrefix, '')}`;
+
+        // if 'Product Use Categories' is enabled then use the current window location to see if the product
+        // has any url_rewrite for that path. (if not then just use the default url)
+        const rewriteUrl = url_rewrites.find((url) => url.includes(productUrl));
+        const rewriteUrlPath = product_use_categories
+            ? (rewriteUrl && rewriteUrl[0] && appendWithStoreCode(rewriteUrl[0].url))
+            : url;
+
         return {
-            pathname: url,
+            pathname: rewriteUrlPath,
             state: { product, prevCategoryId: category },
             search: objectToUri(parameters)
         };
