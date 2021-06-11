@@ -15,6 +15,7 @@ import { UPDATE_CONFIG, UPDATE_CONFIG_DEVICE } from './Config.action';
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
+export const DEFAULT_CATGORY_URL_SUFFIX = '.html';
 
 /** @namespace Store/Config/Reducer/filterStoreConfig */
 export const filterStoreConfig = (config) => Object.entries(config).reduce(
@@ -61,6 +62,7 @@ export const getInitialState = () => ({
     isLoading: true,
     cartDisplayConfig,
     priceTaxDisplay: {},
+    category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
     device: {
         isMobile: true,
         android: true,
