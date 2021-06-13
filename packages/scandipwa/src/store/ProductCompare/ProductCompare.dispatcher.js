@@ -14,6 +14,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import {
     clearComparedProducts,
     setCompareList,
+    setCompareListIds,
     toggleLoader
 } from 'Store/ProductCompare/ProductCompare.action';
 import { getUid, removeUid, setUid } from 'Util/Compare';
@@ -206,6 +207,33 @@ export class ProductCompareDispatcher {
             dispatch(showNotification('error', __('Unable to clear product compare list'), error));
             return false;
         }
+    }
+
+    async updateInitialProductCompareData(dispatch) {
+        const uid = getUid();
+        if (!uid) {
+            return false;
+        }
+
+        dispatch(toggleLoader(true));
+
+        try {
+            const { compareList: { items } } = await fetchQuery(
+                ProductCompareQuery.getCompareListIds(uid)
+            );
+
+            const compareIds = items.map(({ product: { id } }) => id);
+
+            dispatch(toggleLoader(false));
+            dispatch(setCompareListIds(compareIds));
+        } catch (error) {
+            dispatch(toggleLoader(false));
+            dispatch(showNotification('error', __('Unable to fetch compare list'), error));
+
+            return false;
+        }
+
+        return true;
     }
 
     resetComparedProducts(dispatch) {
