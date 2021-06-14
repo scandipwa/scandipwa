@@ -103,7 +103,7 @@ export class ProductCardContainer extends PureComponent {
             base_link_url,
             product_use_categories,
             category_url_suffix,
-            product: { url, url_rewrites },
+            product: { url, url_rewrites = [] },
             product
         } = this.props;
         const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
