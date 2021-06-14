@@ -122,8 +122,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        console.log({ price, value });
-
         const finalPriceSource = price === 0 ? value : price;
         const finalPrice = formatPrice(finalPriceSource, currency);
 
