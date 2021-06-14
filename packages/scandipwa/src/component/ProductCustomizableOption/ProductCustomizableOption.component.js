@@ -111,6 +111,10 @@ export class ProductCustomizableOption extends PureComponent {
             currency
         } = item;
 
+        if (price === 0) {
+            return null;
+        }
+
         const priceLabel = renderOptionLabel(price_type, price, currency);
 
         return (
