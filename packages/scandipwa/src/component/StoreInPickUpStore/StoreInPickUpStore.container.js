@@ -33,6 +33,12 @@ export class StoreInPickUpStoreContainer extends PureComponent {
         handleSelectStore: this.handleSelectStore.bind(this)
     };
 
+    containerProps() {
+        const { store } = this.props;
+
+        return { store };
+    }
+
     handleSelectStore() {
         const { selectStore, store } = this.props;
 
@@ -43,7 +49,7 @@ export class StoreInPickUpStoreContainer extends PureComponent {
         return (
             <StoreInPickUpStore
               { ...this.containerFunctions }
-              { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }
