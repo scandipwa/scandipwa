@@ -50,7 +50,6 @@ export class MyAccountAddressForm extends FieldForm {
         const country = countries.find(({ id }) => id === country_id) || {};
         const countryId = country ? country_id : '';
         const { is_state_required = false } = country;
-        const isStateRequired = is_state_required;
         const { available_regions: availableRegions } = country;
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
@@ -59,7 +58,7 @@ export class MyAccountAddressForm extends FieldForm {
             countryId,
             availableRegions,
             regionId,
-            isStateRequired,
+            isStateRequired: is_state_required,
             city
         };
     }
