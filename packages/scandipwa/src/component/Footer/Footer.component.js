@@ -33,7 +33,8 @@ export class Footer extends PureComponent {
     static propTypes = {
         copyright: PropTypes.string,
         isVisibleOnMobile: PropTypes.bool,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        newsletterActive: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -43,7 +44,7 @@ export class Footer extends PureComponent {
 
     renderMap = {
         [RENDER_NEWSLETTER]: {
-            render: this.renderNewsletterSubscriptionBlock
+            render: this.renderNewsletterSubscriptionBlock.bind(this)
         }
     };
 
@@ -93,11 +94,19 @@ export class Footer extends PureComponent {
     renderColumn = (column, i) => {
         const {
             title,
+            columnActiveKey,
             items,
             isItemsHorizontal,
             mods = {}
         } = column;
+
         const contentMods = isItemsHorizontal ? { direction: 'horizontal' } : {};
+
+        const { [columnActiveKey]: isColumnActive } = this.props;
+
+        if (columnActiveKey && !isColumnActive === true) {
+            return null;
+        }
 
         return (
             <div block="Footer" elem="Column" mods={ mods } key={ i }>

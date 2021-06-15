@@ -74,6 +74,7 @@ export class FieldSelectContainer extends PureComponent {
 
         return {
             selectOptions: this.sortSelectOptions(),
+            isDisabled: this.isSelectDisabled(),
             valueIndex,
             searchString,
             isSelectExpanded
@@ -96,8 +97,15 @@ export class FieldSelectContainer extends PureComponent {
         return sortedOptions;
     }
 
+    isSelectDisabled() {
+        const { selectOptions } = this.props;
+        return selectOptions.length === 0;
+    }
+
     handleSelectExpand() {
-        this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
+        if (!this.isSelectDisabled()) {
+            this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
+        }
     }
 
     handleSelectExpandedExpand() {

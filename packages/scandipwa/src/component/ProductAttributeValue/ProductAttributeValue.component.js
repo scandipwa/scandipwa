@@ -58,10 +58,13 @@ export class ProductAttributeValue extends PureComponent {
         return ((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186;
     }
 
+    _getBooleanLabel = (label) => (+label ? __('Yes') : __('No'));
+
     getOptionLabel(value) {
         const {
             attribute: {
-                attribute_options
+                attribute_options,
+                is_boolean
             },
             isProductCountVisible
         } = this.props;
@@ -74,9 +77,11 @@ export class ProductAttributeValue extends PureComponent {
                 }
 
                 const { label, count = 0 } = optionValues;
+                const adjustedLabel = is_boolean ? this._getBooleanLabel(label) : label;
+
                 return {
                     ...optionValues,
-                    label: `${label} (${count})`
+                    label: `${adjustedLabel} (${count})`
                 };
             }
         }
@@ -287,6 +292,11 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    renderNumericAttribute() {
+        const { attribute: { attribute_value } } = this.props;
+        return this.renderStringValue(parseFloat(attribute_value).toFixed(2));
+    }
+
     renderAttributeByType() {
         const { attribute: { attribute_type } } = this.props;
 
@@ -303,6 +313,8 @@ export class ProductAttributeValue extends PureComponent {
             return this.renderImageAttribute();
         case 'textarea':
             return this.renderTextAreaAttribute();
+        case 'weight':
+            return this.renderNumericAttribute();
         default:
             return this.renderPlaceholder();
         }

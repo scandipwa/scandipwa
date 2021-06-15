@@ -14,17 +14,10 @@ export const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
 export const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
 export const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
 export const UPDATE_CUSTOMER_IS_LOADING = 'UPDATE_CUSTOMER_IS_LOADING';
-export const UPDATE_CUSTOMER_IS_AUTH_TOKEN_EXPIRED = 'UPDATE_CUSTOMER_IS_AUTH_TOKEN_EXPIRED';
 
 /** @namespace Store/MyAccount/Action/updateCustomerSignInStatus */
 export const updateCustomerSignInStatus = (status) => ({
     type: UPDATE_CUSTOMER_SIGN_IN_STATUS,
-    status
-});
-
-/** @namespace Store/MyAccount/Action/updateCustomerIsAuthTokenExpired */
-export const updateCustomerIsAuthTokenExpired = (status) => ({
-    type: UPDATE_CUSTOMER_IS_AUTH_TOKEN_EXPIRED,
     status
 });
 
@@ -35,9 +28,10 @@ export const updateCustomerDetails = (customer) => ({
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerPasswordResetStatus */
-export const updateCustomerPasswordResetStatus = (status) => ({
+export const updateCustomerPasswordResetStatus = (status, message) => ({
     type: UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    status
+    status,
+    message
 });
 
 /** @namespace Store/MyAccount/Action/updateCustomerPasswordForgotStatus */

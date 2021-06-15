@@ -196,7 +196,6 @@
     "Save changes": null,
     "Enter personal information": null,
     "Create Password": null,
-    "Create free account and keep track of your orders": null,
     "I agree to terms and conditions": null,
     "read more": null,
     "Complete order": null,
@@ -358,5 +357,7 @@
     "Written by ": null,
     ", written at %s": null,
     "Choose %s": null,
-    "Purchase Order Number": null
+    "Purchase Order Number": null,
+    "Confirmation request has been sent.": null,
+    "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": null
 }

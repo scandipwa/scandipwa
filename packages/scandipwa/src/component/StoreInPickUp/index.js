@@ -9,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CheckoutRegisterForm.container';
+export { default } from './StoreInPickUp.container';
+export * from './StoreInPickUp.component';

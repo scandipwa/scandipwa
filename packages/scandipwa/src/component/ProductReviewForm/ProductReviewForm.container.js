@@ -31,7 +31,6 @@ export const ReviewDispatcher = import(
 /** @namespace Component/ProductReviewForm/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
-    isSignedIn: state.MyAccountReducer.isSignedIn,
     reviewRatings: state.ConfigReducer.reviewRatings
 });
 
@@ -76,26 +75,32 @@ export class ProductReviewFormContainer extends PureComponent {
         this.state = {
             isLoading: false,
             ratingData: {},
-            reviewData
+            reviewData,
+            isSubmitted: false
         };
     }
 
-    _onReviewError() {
-        this.setState({ isLoading: false });
-    }
-
-    _onReviewSubmitAttempt(_, invalidFields) {
-        const { showNotification, reviewRatings } = this.props;
-        const { ratingData } = this.state;
-
-        const reviewsAreNotValid = invalidFields
-            || !reviewRatings.every(({ rating_id }) => ratingData[rating_id]);
+    _onReviewError(_, invalidFields) {
+        const { showNotification } = this.props;
+        const reviewsAreNotValid = invalidFields;
 
         if (reviewsAreNotValid) {
-            showNotification('info', 'Incorrect data! Please check review fields.');
+            showNotification('info', __('Incorrect data! Please check review fields.'));
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
+    }
+
+    _onReviewSubmitAttempt() {
+        const { showNotification, reviewRatings } = this.props;
+        const { ratingData, isSubmitted } = this.state;
+        const reviewsAreNotValid = !reviewRatings.every(({ rating_id }) => ratingData[rating_id]);
+
+        if (reviewsAreNotValid) {
+            showNotification('info', __('Please fill all rating fields.'));
+        }
+
+        this.setState({ isSubmitted: !isSubmitted, isLoading: !reviewsAreNotValid });
     }
 
     _onReviewSubmitSuccess(fields) {
