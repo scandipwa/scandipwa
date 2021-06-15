@@ -121,7 +121,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     renderFormattedOptionsString(price, currency, priceType, value) {
         switch (priceType) {
         case 'PERCENT':
-            return price === 0 ? '' : `${formatPrice((price / ONE_HUNDRED_PERCENT) * value, currency)} (${ price }%)`;
+            return price === 0 ? '' : `+ ${formatPrice((price / ONE_HUNDRED_PERCENT) * value, currency)} (${ price }%)`;
         default:
             return price === 0 ? '' : `+ ${formatPrice(price, currency)}`;
         }
