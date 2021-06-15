@@ -199,8 +199,8 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             const finalPrice = price_type === PRICE_TYPE_PERCENT ? price : finalOptionPrice;
 
             const dropdownLabel = !can_change_quantity
-                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`
-                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`;
+                ? `${ quantity } x ${ label } ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`
+                : `${ label } ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`;
 
             acc.push({
                 id,
