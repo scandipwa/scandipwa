@@ -47,7 +47,8 @@ export class MyAccountAddressForm extends FieldForm {
 
         const country = countries.find(({ id }) => id === country_id);
         const countryId = country ? country_id : '';
-        const isStateRequired = country ? country.is_state_required : false;
+        const { is_state_required = false } = country || {};
+        const isStateRequired = is_state_required;
         const { available_regions: availableRegions } = country || {};
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
@@ -186,8 +187,15 @@ export class MyAccountAddressForm extends FieldForm {
 
     get fieldMap() {
         const { countryId, city } = this.state;
-        const { countries, address } = this.props;
+        const { countries: sourceCountries, address } = this.props;
         const { default_billing, default_shipping } = address;
+
+        /*
+        * Map and push empty field to show in case
+        * if no country selected instead of default
+        */
+        const countries = sourceCountries.map(({ id, label }) => ({ id, label, value: id }));
+        countries.push({ id: ' ', label: ' ', value: ' ' });
 
         return {
             default_billing: {
@@ -224,7 +232,7 @@ export class MyAccountAddressForm extends FieldForm {
                 label: __('Country'),
                 validation: ['notEmpty'],
                 value: countryId,
-                selectOptions: countries.map(({ id, label }) => ({ id, label, value: id })).push({ label: ' ' }),
+                selectOptions: countries,
                 onChange: this.onCountryChange
             },
             ...this.getRegionFields(),
