@@ -54,7 +54,7 @@ export class StoreInPickUpStore extends PureComponent {
                     <p>{ `${city}, ${region} ${postcode}` }</p>
                     <p>{ country }</p>
                     <a href={ `tel:${phone}` }>{ phone }</a>
-                    <Html content={ description } />
+                    <Html content={ description || '' } />
                 </div>
                 <div block="StoreInPickUpStore" elem="StoreActions">
                     <button
