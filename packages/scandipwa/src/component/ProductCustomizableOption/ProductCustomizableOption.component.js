@@ -89,7 +89,7 @@ export class ProductCustomizableOption extends PureComponent {
                   block="ProductCustomizableOptions"
                   elem="Heading"
                 >
-                    { `${ mainTitle } + ` }
+                    { `${ mainTitle } ` }
                 </span>
                 <span
                   block="ProductCustomizableOptions"
@@ -110,10 +110,6 @@ export class ProductCustomizableOption extends PureComponent {
             price_type,
             currency
         } = item;
-
-        if (price === 0) {
-            return null;
-        }
 
         const priceLabel = renderOptionLabel(price_type, price, currency);
 
@@ -136,9 +132,7 @@ export class ProductCustomizableOption extends PureComponent {
             selectedDropdownValue,
             setDropdownValue
         } = this.props;
-
-        const validatedValues = values.filter(({ price }) => price !== 0);
-        const dropdownOptions = getDropdownOptions(validatedValues);
+        const dropdownOptions = getDropdownOptions(values);
 
         return (
             <Field
