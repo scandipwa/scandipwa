@@ -312,7 +312,17 @@ export const getExtensionAttributes = (product) => {
 /** @namespace Util/Product/sortBySortOrder */
 export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(
     // eslint-disable-next-line no-nested-ternary
-    (a, b) => (a[sortKey] < b[sortKey] ? -1 : (a[sortKey] > b[sortKey]) ? 1 : 0)
+    (a, b) => {
+        if (a[sortKey] < b[sortKey]) {
+            return -1;
+        }
+
+        if (a[sortKey] > b[sortKey]) {
+            return 1;
+        }
+
+        return 0;
+    }
 );
 
 /** @namespace Util/Product/sortAlphabetically */
@@ -320,6 +330,14 @@ export const sortAlphabetically = (options, key, caseSensitive = false) => optio
     .sort((a, b) => {
         const textA = caseSensitive ? a[key] : a[key].toUpperCase();
         const textB = caseSensitive ? b[key] : b[key].toUpperCase();
-        // eslint-disable-next-line no-nested-ternary
-        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+
+        if (textA < textB) {
+            return -1;
+        }
+
+        if (textA > textB) {
+            return 1;
+        }
+
+        return 0;
     });
