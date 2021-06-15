@@ -41,7 +41,7 @@ export class CreateAccountComponent extends MyAccountOverlay {
                     { __('Creating an account has many benefits:') }
                     { __(' check out faster, keep more than one address, track orders and more.') }
                 </p>
-                { this.renderCreateAccount() }
+                { this.renderCreateAccount(true) }
             </div>
         );
     }

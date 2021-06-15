@@ -28,7 +28,7 @@ export class StoreInPickUpStore extends PureComponent {
             region: PropTypes.string,
             street: PropTypes.string
         }).isRequired,
-        selectStore: PropTypes.func.isRequired
+        handleSelectStore: PropTypes.func.isRequired
     };
 
     render() {
@@ -43,7 +43,7 @@ export class StoreInPickUpStore extends PureComponent {
                 region,
                 street
             },
-            selectStore
+            handleSelectStore
         } = this.props;
 
         return (
@@ -59,7 +59,7 @@ export class StoreInPickUpStore extends PureComponent {
                 <div block="StoreInPickUpStore" elem="StoreActions">
                     <button
                       block="Button"
-                      onClick={ selectStore }
+                      onClick={ handleSelectStore }
                       type="button"
                     >
                         { __('Ship here') }
