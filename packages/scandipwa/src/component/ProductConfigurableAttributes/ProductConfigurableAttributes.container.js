@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { getBooleanLabel } from 'Util/Product';
+
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
 
 /** @namespace Component/ProductConfigurableAttributes/Container */
@@ -45,12 +47,15 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         return getLink(attribute_code, attribute_value);
     }
 
-    getSubHeading({ attribute_values, attribute_code, attribute_options }) {
-        return attribute_values.reduce((acc, attribute_value) => (
-            this.isSelected({ attribute_code, attribute_value })
-                ? [...acc, attribute_options[attribute_value].label]
-                : acc
-        ), []).join(', ');
+    getSubHeading({
+        attribute_values, attribute_code, attribute_options, is_boolean = false
+    }) {
+        return attribute_values.reduce((acc, attribute_value) => (this.isSelected({
+            attribute_code,
+            attribute_value
+        })
+            ? [...acc, getBooleanLabel(attribute_options[attribute_value].label, is_boolean)]
+            : acc), []).join(', ');
     }
 
     handleOptionClick({ attribute_code, attribute_value }) {

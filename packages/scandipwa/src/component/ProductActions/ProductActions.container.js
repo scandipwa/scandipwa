@@ -391,6 +391,8 @@ export class ProductActionsContainer extends PureComponent {
             selectedLinkPrice
         } = this.props;
 
+        const { options = {} } = product;
+
         const {
             price_range
         } = variants[configurableVariantIndex] || product;
@@ -415,7 +417,7 @@ export class ProductActionsContainer extends PureComponent {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
-        if (product.options?.length > 0) {
+        if (Object.keys(options).length !== 0) {
             return this.getCustomizablePrice();
         }
 

@@ -421,3 +421,12 @@ export const showNewReviewPopup = () => {
 
     dispatch(showPopup(REVIEW_POPUP_ID, { title: __('Write a review') }));
 };
+
+/** @namespace Util/Product/getBooleanLabel */
+export const getBooleanLabel = (label, isBoolean = false) => {
+    if (!isBoolean) {
+        return label;
+    }
+
+    return +label ? __('Yes') : __('No');
+};

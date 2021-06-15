@@ -18,6 +18,7 @@ import Field from 'Component/Field';
 import Html from 'Component/Html';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
+import { getBooleanLabel } from 'Util/Product';
 
 import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
 
@@ -60,8 +61,6 @@ export class ProductAttributeValue extends PureComponent {
         return ((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186;
     }
 
-    _getBooleanLabel = (label) => (+label ? __('Yes') : __('No'));
-
     getOptionLabel(value) {
         const {
             attribute: {
@@ -80,11 +79,10 @@ export class ProductAttributeValue extends PureComponent {
                 }
 
                 const { label, count = 0 } = optionValues;
-                const adjustedLabel = is_boolean ? this._getBooleanLabel(label) : label;
 
                 return {
                     ...optionValues,
-                    label: `${adjustedLabel} (${count})`,
+                    label: `${getBooleanLabel(label, is_boolean)} (${count})`
                     labelText: adjustedLabel,
                     count
                 };
