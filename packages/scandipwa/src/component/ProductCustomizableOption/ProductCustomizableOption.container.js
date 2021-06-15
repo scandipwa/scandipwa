@@ -125,10 +125,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         const finalPriceSource = price === 0 ? value : price;
         const finalPrice = formatPrice(finalPriceSource, currency);
 
-        if (price === 0) {
-            return null;
-        }
-
         switch (priceType) {
         case 'PERCENT':
             const percentPrice = formatPrice((finalPriceSource / ONE_HUNDRED_PERCENT) * value, currency);
@@ -173,10 +169,6 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return values.reduce((acc, {
             option_type_id, title, price, price_type, currency
         }) => {
-            if (price === 0) {
-                return acc;
-            }
-
             acc.push({
                 id: option_type_id,
                 name: title,

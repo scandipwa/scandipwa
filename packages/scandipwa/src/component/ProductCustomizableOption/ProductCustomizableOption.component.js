@@ -136,7 +136,9 @@ export class ProductCustomizableOption extends PureComponent {
             selectedDropdownValue,
             setDropdownValue
         } = this.props;
-        const dropdownOptions = getDropdownOptions(values);
+
+        const validatedValues = values.filter(({ price }) => price !== 0);
+        const dropdownOptions = getDropdownOptions(validatedValues);
 
         return (
             <Field
