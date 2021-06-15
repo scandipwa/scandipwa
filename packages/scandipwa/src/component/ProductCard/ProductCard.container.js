@@ -233,7 +233,7 @@ export class ProductCardContainer extends PureComponent {
 
         const { options } = items[0];
 
-        const optionsInStock = options.filter((option) => option.product.stock_status === IN_STOCK);
+        const optionsInStock = options.filter((option) => option.product?.stock_status === IN_STOCK);
 
         return optionsInStock.length === 0;
     }
