@@ -28,7 +28,7 @@ export class NewsletterSubscriptionDispatcher {
                 // `NOT_ACTIVE` response status corresponds to `newsletter_subscription_confirm` magento setting
                 const message = status === NOT_ACTIVE
                     ? __('Confirmation request has been sent.')
-                    : __('A subscription confirmation email has been sent!');
+                    : __('Thank you for your subscription.');
 
                 return dispatch(showNotification('success', message));
             },

@@ -19,6 +19,7 @@ import { getCityAndRegionFromZipcode, setAddressesInFormObject } from 'Util/Addr
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
+        isSubmitted: PropTypes.bool,
         address: addressType.isRequired,
         countries: countriesType.isRequired,
         default_country: PropTypes.string,
@@ -30,6 +31,7 @@ export class MyAccountAddressForm extends FieldForm {
 
     static defaultProps = {
         default_country: 'US',
+        isSubmitted: false,
         onSave: () => {}
     };
 
@@ -45,11 +47,11 @@ export class MyAccountAddressForm extends FieldForm {
             }
         } = props;
 
-        const country = countries.find(({ id }) => id === country_id);
+        const country = countries.find(({ id }) => id === country_id) || {};
         const countryId = country ? country_id : '';
-        const { is_state_required = false } = country || {};
+        const { is_state_required = false } = country;
         const isStateRequired = is_state_required;
-        const { available_regions: availableRegions } = country || {};
+        const { available_regions: availableRegions } = country;
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
 
@@ -136,12 +138,14 @@ export class MyAccountAddressForm extends FieldForm {
     };
 
     getStreetFields(label, index) {
-        const { address: { street = [] } } = this.props;
+        const { address: { street = [] }, isSubmitted } = this.props;
 
         return {
             label,
             value: street[index],
-            validation: index === 0 ? ['notEmpty'] : []
+            validation: index === 0 ? ['notEmpty'] : [],
+            validateSeparately: index === 0,
+            isSubmitted
         };
     }
 
@@ -187,12 +191,12 @@ export class MyAccountAddressForm extends FieldForm {
 
     get fieldMap() {
         const { countryId, city } = this.state;
-        const { countries: sourceCountries, address } = this.props;
+        const { countries: sourceCountries, address, isSubmitted } = this.props;
         const { default_billing, default_shipping } = address;
 
         /*
         * Map and push empty field to show in case
-        * if no country selected instead of default
+        * if no country selected instead of default for myaccount
         */
         const countries = sourceCountries.map(({ id, label }) => ({ id, label, value: id }));
         countries.push({ id: ' ', label: ' ', value: ' ' });
@@ -212,25 +216,35 @@ export class MyAccountAddressForm extends FieldForm {
             },
             firstname: {
                 label: __('First name'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted
             },
             lastname: {
                 label: __('Last name'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted
             },
             telephone: {
                 label: __('Phone number'),
-                validation: ['notEmpty', 'telephone']
+                validation: ['notEmpty', 'telephone'],
+                validateSeparately: true,
+                isSubmitted
             },
             city: {
                 label: __('City'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 value: city
             },
             country_id: {
                 type: 'select',
                 label: __('Country'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 value: countryId,
                 selectOptions: countries,
                 onChange: this.onCountryChange
@@ -239,6 +253,8 @@ export class MyAccountAddressForm extends FieldForm {
             postcode: {
                 label: __('Zip/Postal code'),
                 validation: ['notEmpty'],
+                validateSeparately: true,
+                isSubmitted,
                 onBlur: this.onZipcodeChange
             },
             ...this.getAddressFields(),

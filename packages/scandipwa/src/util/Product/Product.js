@@ -363,3 +363,27 @@ export const getExtensionAttributes = (product) => {
 
     return {};
 };
+
+/** @namespace Util/Product/sortBySortOrder */
+export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(
+    (a, b) => {
+        if (a[sortKey] < b[sortKey]) {
+            return -1;
+        }
+
+        if (a[sortKey] > b[sortKey]) {
+            return 1;
+        }
+
+        return 0;
+    }
+);
+
+/** @namespace Util/Product/getBooleanLabel */
+export const getBooleanLabel = (label, isBoolean = false) => {
+    if (!isBoolean) {
+        return label;
+    }
+
+    return +label ? __('Yes') : __('No');
+};
