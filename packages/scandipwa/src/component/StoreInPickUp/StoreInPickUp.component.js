@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import Popup from 'Component/Popup';
-import StoreInPickUpStore from 'Component/StoreInPickUpStore/StoreInPickUpStore.component';
+import StoreInPickUpStore from 'Component/StoreInPickUpStore';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUp.config';
 

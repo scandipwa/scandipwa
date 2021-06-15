@@ -395,3 +395,12 @@ export const sortAlphabetically = (options, key, caseSensitive = false) => optio
 
         return 0;
     });
+
+/** @namespace Util/Product/getBooleanLabel */
+export const getBooleanLabel = (label, isBoolean = false) => {
+    if (!isBoolean) {
+        return label;
+    }
+
+    return +label ? __('Yes') : __('No');
+};
