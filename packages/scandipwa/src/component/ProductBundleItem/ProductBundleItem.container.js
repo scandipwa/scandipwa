@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import {
     RADIO_TYPE,
     SELECT_TYPE
 } from 'Component/Field/Field.config';
+import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
