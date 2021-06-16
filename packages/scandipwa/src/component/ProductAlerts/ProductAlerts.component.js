@@ -14,14 +14,13 @@ import { PureComponent } from 'react';
 
 import { PRODUCT_IN_STOCK } from 'Component/CartItem/CartItem.config';
 
-import { PRODUCT_ALERT_IN_STOCK, PRODUCT_ALERT_PRICE_DROP } from './ProductAlerts.config';
-
 import './ProductAlerts.style';
 
 /** @namespace Component/ProductAlerts/Component */
 export class ProductAlerts extends PureComponent {
     static propTypes = {
-        handlePriceDropSubscribe: PropTypes.func.isRequired,
+        handlePriceDropSubscribeAlertPriceDrop: PropTypes.func.isRequired,
+        handlePriceDropSubscribeAlertInStock: PropTypes.func.isRequired,
         isInStockAlertEnabled: PropTypes.bool.isRequired,
         isPriceAlertEnabled: PropTypes.bool.isRequired,
         stockStatus: PropTypes.bool
@@ -32,7 +31,7 @@ export class ProductAlerts extends PureComponent {
     };
 
     renderPriceDropSubscribeButton() {
-        const { handlePriceDropSubscribe, isPriceAlertEnabled } = this.props;
+        const { handlePriceDropSubscribeAlertPriceDrop, isPriceAlertEnabled } = this.props;
 
         if (!isPriceAlertEnabled) {
             return null;
@@ -42,8 +41,7 @@ export class ProductAlerts extends PureComponent {
             <button
               block="ProductAlerts"
               elem="PriceDrop"
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => handlePriceDropSubscribe(PRODUCT_ALERT_PRICE_DROP) }
+              onClick={ handlePriceDropSubscribeAlertPriceDrop }
             >
                 { __('Notify me when the price drops') }
             </button>
@@ -52,7 +50,7 @@ export class ProductAlerts extends PureComponent {
 
     renderInStockSubscribeButton() {
         const {
-            handlePriceDropSubscribe,
+            handlePriceDropSubscribeAlertInStock,
             isInStockAlertEnabled,
             stockStatus
         } = this.props;
@@ -69,8 +67,7 @@ export class ProductAlerts extends PureComponent {
             <button
               block="ProductAlerts"
               elem="InStock"
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={ () => handlePriceDropSubscribe(PRODUCT_ALERT_IN_STOCK) }
+              onClick={ handlePriceDropSubscribeAlertInStock }
             >
                 { __('Notify me when this product is in stock') }
             </button>

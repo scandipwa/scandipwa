@@ -18,6 +18,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { fetchMutation } from 'Util/Request';
 
 import ProductAlerts from './ProductAlerts.component';
+import { PRODUCT_ALERT_IN_STOCK, PRODUCT_ALERT_PRICE_DROP } from './ProductAlerts.config';
 
 /** @namespace Component/ProductAlerts/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -41,7 +42,8 @@ export class ProductAlertsContainer extends PureComponent {
     };
 
     containerFunctions = {
-        handlePriceDropSubscribe: this.handlePriceDropSubscribe.bind(this)
+        handlePriceDropSubscribeAlertPriceDrop: this.handlePriceDropSubscribe.bind(this, PRODUCT_ALERT_PRICE_DROP),
+        handlePriceDropSubscribeAlertInStock: this.handlePriceDropSubscribe.bind(this, PRODUCT_ALERT_IN_STOCK)
     };
 
     handlePriceDropSubscribe(type) {
