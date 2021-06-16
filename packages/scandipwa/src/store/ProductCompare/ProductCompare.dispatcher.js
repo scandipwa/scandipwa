@@ -29,6 +29,7 @@ export const CartDispatcher = import(
 export class ProductCompareDispatcher {
     async getCompareList(dispatch) {
         const uid = getUid();
+
         if (!uid) {
             return false;
         }
@@ -105,6 +106,7 @@ export class ProductCompareDispatcher {
 
     async removeComparedProduct(productId, dispatch) {
         const uid = getUid();
+
         if (!uid) {
             return false;
         }
@@ -149,6 +151,7 @@ export class ProductCompareDispatcher {
 
     async assignCompareList(dispatch) {
         const uid = getUid();
+
         if (!uid) {
             await this.fetchCustomersList(dispatch);
 
@@ -185,6 +188,7 @@ export class ProductCompareDispatcher {
 
     async clearComparedProducts(dispatch) {
         const uid = getUid();
+
         if (!uid) {
             return false;
         }
@@ -211,6 +215,7 @@ export class ProductCompareDispatcher {
 
     async updateInitialProductCompareData(dispatch) {
         const uid = getUid();
+
         if (!uid) {
             return false;
         }
