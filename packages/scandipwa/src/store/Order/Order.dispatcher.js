@@ -32,9 +32,11 @@ export class OrderDispatcher {
     async getOrderById(dispatch, id) {
         try {
             const { getOrderById: result } = await fetchQuery(OrderQuery.getOrderByIdQuery(id));
+
             return result;
         } catch (error) {
             dispatch(showNotification('error', getErrorMessage(error)));
+
             return null;
         }
     }
