@@ -51,7 +51,8 @@ export class MyAccountOrderPopupContainer extends PureComponent {
             increment_id: PropTypes.string
         }).isRequired,
         showNotification: PropTypes.func.isRequired,
-        getOrder: PropTypes.func.isRequired
+        getOrder: PropTypes.func.isRequired,
+        display_tax_in_shipping_amount: PropTypes.string.isRequired
     };
 
     state = {
@@ -83,9 +84,13 @@ export class MyAccountOrderPopupContainer extends PureComponent {
 
     containerProps = () => {
         const { order: stateOrder, isLoading, currency_code } = this.state;
-        const { payload: { order: payloadOrder } } = this.props;
+        const {
+            payload: { order: payloadOrder },
+            display_tax_in_shipping_amount
+        } = this.props;
 
         return {
+            display_tax_in_shipping_amount,
             isLoading,
             currency_code,
             order: {

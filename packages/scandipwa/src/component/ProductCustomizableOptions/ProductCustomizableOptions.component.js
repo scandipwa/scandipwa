@@ -24,7 +24,9 @@ export class ProductCustomizableOptions extends PureComponent {
         setSelectedDropdownValue: PropTypes.func.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
-        setCustomizableOptionFileFieldValue: PropTypes.func.isRequired
+        setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
+        price_range: PropTypes.object.isRequired,
+        type_id: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -38,7 +40,9 @@ export class ProductCustomizableOptions extends PureComponent {
             setSelectedCheckboxValues,
             setCustomizableOptionTextFieldValue,
             setCustomizableOptionFileFieldValue,
-            setSelectedDropdownValue
+            setSelectedDropdownValue,
+            price_range,
+            type_id
         } = this.props;
 
         return options.map((option, key) => (
@@ -51,6 +55,8 @@ export class ProductCustomizableOptions extends PureComponent {
               setCustomizableOptionFileFieldValue={ setCustomizableOptionFileFieldValue }
               setSelectedDropdownValue={ setSelectedDropdownValue }
               productOptionsData={ productOptionsData }
+              price_range={ price_range }
+              type_id={ type_id }
             />
         ));
     }

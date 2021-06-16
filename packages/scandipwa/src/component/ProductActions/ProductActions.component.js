@@ -210,6 +210,7 @@ export class ProductActions extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   price_range={ price_range }
+                  type_id={ type_id }
                 />
             </section>
         );
@@ -284,7 +285,11 @@ export class ProductActions extends PureComponent {
 
     renderCustomizableOptions() {
         const {
-            product: { options },
+            product: {
+                options,
+                type_id = '',
+                price_range = {}
+            } = {},
             getSelectedCustomizableOptions,
             productOptionsData,
             device
@@ -304,6 +309,8 @@ export class ProductActions extends PureComponent {
                   options={ options }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                   productOptionsData={ productOptionsData }
+                  price_range={ price_range }
+                  type_id={ type_id }
                 />
             </section>
         );
