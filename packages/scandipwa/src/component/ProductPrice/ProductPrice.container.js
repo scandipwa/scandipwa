@@ -130,35 +130,35 @@ export class ProductPriceContainer extends PureComponent {
                     discount: {
                         percent_off: discountPercentage = 0
                     } = {},
-                    final_price: {
-                        value: minimalPriceValue = 0,
-                        currency: priceCurrency = ''
-                    } = {},
-                    final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue = 0
-                    } = {},
                     regular_price: {
                         value: regularPriceValue = 0
                     } = {},
                     regular_price_excl_tax: {
                         value: regularPriceExclTaxValue = 0
+                    } = {},
+                    default_final_price: {
+                        value: defaultFinalPrice = 0,
+                        currency: priceCurrency = ''
+                    } = {},
+                    default_final_price_excl_tax: {
+                        value: defaultFinalPriceExclTax = 0
                     } = {}
                 } = {}
             } = {},
-            displayTaxInPrice
+            displayTaxInPrice = ''
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
             const finalPrice = calculateFinalPrice(
                 discountPercentage,
-                minimalPriceExclTaxValue,
+                defaultFinalPriceExclTax,
                 regularPriceExclTaxValue
             );
 
             return formatPrice(finalPrice, priceCurrency);
         }
 
-        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
+        const finalPrice = calculateFinalPrice(discountPercentage, defaultFinalPrice, regularPriceValue);
 
         return formatPrice(finalPrice, priceCurrency);
     }
