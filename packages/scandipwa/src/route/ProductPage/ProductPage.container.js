@@ -91,7 +91,8 @@ export class ProductPageContainer extends PureComponent {
         selectedBundlePrice: 0,
         selectedBundlePriceExclTax: 0,
         selectedLinkPrice: 0,
-        currentProductSKU: ''
+        currentProductSKU: '',
+        ProductTabsDefaultValue: 0
     };
 
     containerFunctions = {
@@ -101,6 +102,7 @@ export class ProductPageContainer extends PureComponent {
         setBundlePrice: this.setBundlePrice.bind(this),
         setLinkedDownloadables: this.setLinkedDownloadables.bind(this),
         setLinkedDownloadablesPrice: this.setLinkedDownloadablesPrice.bind(this),
+        handleChangeProductTab: this.handleChangeProductTab.bind(this),
         isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
         isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
     };
@@ -298,6 +300,16 @@ export class ProductPageContainer extends PureComponent {
         }
 
         this._addToRecentlyViewedProducts();
+    }
+
+    handleChangeProductTab(number) {
+        this.setState({
+            ProductTabsDefaultValue: number
+        });
+
+        document.querySelector('.ProductTabs-Wrapper')?.scrollIntoView({
+            behavior: 'smooth'
+        });
     }
 
     isProductInformationTabEmpty() {

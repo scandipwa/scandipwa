@@ -46,6 +46,7 @@ export class ProductPage extends PureComponent {
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        handleChangeProductTab: PropTypes.func.isRequired,
         setLinkedDownloadables: PropTypes.func.isRequired,
         setLinkedDownloadablesPrice: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
@@ -56,7 +57,8 @@ export class ProductPage extends PureComponent {
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
-        selectedInitialBundlePrice: PropTypes.number.isRequired
+        selectedInitialBundlePrice: PropTypes.number.isRequired,
+        ProductTabsDefaultValue: PropTypes.number.isRequired
     };
 
     tabMap = {
@@ -118,6 +120,7 @@ export class ProductPage extends PureComponent {
             areDetailsLoaded,
             getSelectedCustomizableOptions,
             productOptionsData,
+            handleChangeProductTab,
             setBundlePrice,
             selectedBundlePrice,
             selectedInitialBundlePrice,
@@ -144,6 +147,7 @@ export class ProductPage extends PureComponent {
                   configurableVariantIndex={ configurableVariantIndex }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                   productOptionsData={ productOptionsData }
+                  setProductTab={ handleChangeProductTab }
                   setBundlePrice={ setBundlePrice }
                   selectedBundlePrice={ selectedBundlePrice }
                   selectedInitialBundlePrice={ selectedInitialBundlePrice }
@@ -229,8 +233,10 @@ export class ProductPage extends PureComponent {
     }
 
     renderProductTabs() {
+        const { ProductTabsDefaultValue } = this.props;
+
         return (
-            <ProductTabs tabs={ this.shouldTabsRender() } />
+            <ProductTabs tabs={ this.shouldTabsRender() } defaultTab={ ProductTabsDefaultValue } />
         );
     }
 
