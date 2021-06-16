@@ -19,7 +19,7 @@ import { getCityAndRegionFromZipcode, setAddressesInFormObject } from 'Util/Addr
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
-        ...FieldForm.propTypes.isSubmitted,
+        isSubmitted: PropTypes.bool,
         address: addressType.isRequired,
         countries: countriesType.isRequired,
         default_country: PropTypes.string,
@@ -49,9 +49,9 @@ export class MyAccountAddressForm extends FieldForm {
         } = props;
 
         const countryId = country_id || default_country;
-        const country = countries.find(({ id }) => id === countryId);
+        const country = countries.find(({ id }) => id === countryId) || {};
         const isStateRequired = country.is_state_required;
-        const { available_regions: availableRegions } = country || {};
+        const { available_regions: availableRegions } = country;
         const regions = availableRegions || [{}];
         const regionId = region_id || regions[0].id;
 
