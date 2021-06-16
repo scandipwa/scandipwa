@@ -102,6 +102,15 @@
             position: fixed;
         }
     }
+
+    .NotificationList {
+
+        @include desktop {
+            display: none;
+        }
+
+        top: 0;
+    }
 }
 
 .scrollDisabled {

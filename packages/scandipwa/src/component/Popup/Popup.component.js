@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
 import ClickOutside from 'Component/ClickOutside';
+import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
 
 import { ESCAPE_KEY } from './Popup.config';
@@ -152,6 +153,7 @@ export class Popup extends Overlay {
                         { this.renderTitle() }
                         { this.renderCloseButton() }
                     </header>
+                    <NotificationList />
                     { children }
                 </div>
             </ClickOutside>
