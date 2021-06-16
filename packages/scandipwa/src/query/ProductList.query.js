@@ -238,6 +238,7 @@ export class ProductListQuery {
         if (!isVariant) {
             fields.push(
                 'url',
+                this._getUrlRewritesFields(),
                 this._getReviewCountField(),
                 this._getRatingSummaryField()
             );
@@ -438,9 +439,9 @@ export class ProductListQuery {
             this._getFinalPriceExclTaxField(),
             this._getRegularPriceField(),
             this._getRegularPriceExclTaxField(),
-            this._getBasePriceField(),
-            this._getBaseFinalPriceField(),
-            this._getBaseFinalPriceExclTaxField()
+            this._getDefaultPriceField(),
+            this._getDefaultFinalPriceField(),
+            this._getDefaultFinalPriceExclTaxField()
         ];
     }
 
@@ -524,6 +525,9 @@ export class ProductListQuery {
             'attribute_code',
             'attribute_type',
             'attribute_label',
+            'attribute_group_id',
+            'attribute_group_code',
+            'attribute_group_name',
             ...(!isVariant
                 ? [
                     this._getAttributeOptionsField()
@@ -550,7 +554,8 @@ export class ProductListQuery {
             'types',
             this._getVideoContentField(),
             this._getMediaThumbnailField(),
-            this._getMediaBaseField()
+            this._getMediaBaseField(),
+            this._getMediaLargeField()
         ];
     }
 
@@ -584,6 +589,10 @@ export class ProductListQuery {
         return new Field('base').addField('url');
     }
 
+    _getMediaLargeField() {
+        return new Field('large').addField('url');
+    }
+
     _getMediaGalleryField() {
         return new Field('media_gallery_entries')
             .addFieldList(this._getMediaGalleryFields());
@@ -603,6 +612,11 @@ export class ProductListQuery {
     _getDescriptionField() {
         return new Field('description')
             .addFieldList(this._getDescriptionFields());
+    }
+
+    _getUrlRewritesFields() {
+        return new Field('url_rewrites')
+            .addFieldList(['url']);
     }
 
     _getProductLinkFields() {
@@ -702,6 +716,29 @@ export class ProductListQuery {
             .addFieldList(this._getBundleItemsFields());
     }
 
+    _getBundlePriceOptionSelectionFields() {
+        return [
+            'selection_id',
+            'final_option_price',
+            'final_option_price_excl_tax',
+            'regular_option_price',
+            'regular_option_price_excl_tax'
+        ];
+    }
+
+    _getBundlePriceOptionFields() {
+        return [
+            'option_id',
+            new Field('selection_details')
+                .addFieldList(this._getBundlePriceOptionSelectionFields())
+        ];
+    }
+
+    _getBundlePriceOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundlePriceOptionFields());
+    }
+
     _getBundleProductFragmentFields() {
         return [
             'price_view',
@@ -709,7 +746,8 @@ export class ProductListQuery {
             'dynamic_sku',
             'ship_bundle_items',
             'dynamic_weight',
-            this._getBundleItemsField()
+            this._getBundleItemsField(),
+            this._getBundlePriceOptionsField()
         ];
     }
 
@@ -758,6 +796,7 @@ export class ProductListQuery {
         return [
             'price',
             'price_type',
+            'currency',
             'sku',
             'max_characters'
         ];
@@ -781,6 +820,7 @@ export class ProductListQuery {
             .addFieldList([
                 'price',
                 'price_type',
+                'currency',
                 'sku',
                 'file_extension'
             ])
@@ -807,6 +847,7 @@ export class ProductListQuery {
             'option_type_id',
             'price',
             'price_type',
+            'currency',
             'sku',
             'title',
             'sort_order'
@@ -920,20 +961,20 @@ export class ProductListQuery {
             .addField('value');
     }
 
-    _getBaseFinalPriceExclTaxField() {
-        return new Field('base_final_price_excl_tax')
+    _getDefaultFinalPriceExclTaxField() {
+        return new Field('default_final_price_excl_tax')
             .addField('currency')
             .addField('value');
     }
 
-    _getBasePriceField() {
-        return new Field('base_price')
+    _getDefaultPriceField() {
+        return new Field('default_price')
             .addField('currency')
             .addField('value');
     }
 
-    _getBaseFinalPriceField() {
-        return new Field('base_final_price')
+    _getDefaultFinalPriceField() {
+        return new Field('default_final_price')
             .addField('currency')
             .addField('value');
     }
@@ -1003,6 +1044,8 @@ export class ProductListQuery {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
+            new Field('is_boolean'),
+            'position',
             this._getAggregationsOptionsField()
         ];
     }

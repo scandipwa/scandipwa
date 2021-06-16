@@ -23,7 +23,8 @@ import MyAccountDownloadableTableRow from './MyAccountDownloadableTableRow.compo
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
-    orderList: state.OrderReducer.orderList
+    orderList: state.OrderReducer.orderList,
+    isOpenInNewTab: state.ConfigReducer.downloadable_links_target_new_window
 });
 
 /** @namespace Component/MyAccountDownloadableTableRow/Container/mapDispatchToProps */
@@ -37,7 +38,8 @@ export class MyAccountDownloadableTableRowContainer extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         orderList: PropTypes.array.isRequired,
         order: downloadableType.isRequired,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        isOpenInNewTab: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -65,11 +67,12 @@ export class MyAccountDownloadableTableRowContainer extends PureComponent {
     }
 
     containerProps() {
-        const { device, order } = this.props;
+        const { device, order, isOpenInNewTab } = this.props;
 
         return ({
             order,
-            device
+            device,
+            isOpenInNewTab
         });
     }
 

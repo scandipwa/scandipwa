@@ -84,6 +84,13 @@ export class CartQuery {
             .addFieldList(this._getCartDisplayConfigFields());
     }
 
+    getMergeCartQuery(sourceCartId, destinationCartId) {
+        return new Field('mergeCarts')
+            .addArgument('source_cart_id', 'String!', sourceCartId)
+            .addArgument('destination_cart_id', 'String!', destinationCartId)
+            .addField('id');
+    }
+
     _getSaveCartItemFields(quoteId) {
         return [
             this.getCartQuery(quoteId)

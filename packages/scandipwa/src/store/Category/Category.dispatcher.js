@@ -39,7 +39,7 @@ export class CategoryDispatcher extends QueryDispatcher {
     onError(error, dispatch, { isSearchPage }) {
         if (!isSearchPage) {
             dispatch(updateNoMatch(true));
-            dispatch(showNotification('error', 'Error fetching Category!', error));
+            dispatch(showNotification('error', __('Error fetching Category!'), error));
         } else {
             dispatch(updateCurrentCategory({ id: 'all-products' }));
         }

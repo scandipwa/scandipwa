@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -22,14 +23,16 @@ import {
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
-import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
+import { DEFAULT_MAX_PRODUCTS, ONE_HUNDRED_PERCENT } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
     device: state.ConfigReducer.device,
     isPriceAlertEnabled: state.ConfigReducer.product_alert_allow_price,
-    isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock
+    isInStockAlertEnabled: state.ConfigReducer.product_alert_allow_stock,
+    displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductActions/Container */
@@ -39,11 +42,14 @@ export class ProductActionsContainer extends PureComponent {
         productOrVariant: PropTypes.object.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
+        productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        selectedInitialBundlePrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
-        getLink: PropTypes.func.isRequired
+        getLink: PropTypes.func.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired
     };
 
     static getMinQuantity(props) {
@@ -243,7 +249,7 @@ export class ProductActionsContainer extends PureComponent {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === 'OUT_OF_STOCK') {
+        if (stock_status === PRODUCT_OUT_OF_STOCK) {
             return 'https://schema.org/OutOfStock';
         }
 
@@ -270,26 +276,172 @@ export class ProductActionsContainer extends PureComponent {
         return 0;
     }
 
+    getSelectedOptions() {
+        const {
+            productOptionsData: {
+                productOptionsMulti = [],
+                productOptions = []
+            } = {}
+        } = this.props;
+
+        return [...productOptionsMulti, ...productOptions].map((productOption) => {
+            const { option_value } = productOption;
+
+            return parseInt(option_value, 10);
+        });
+    }
+
+    getSelectedOptionsMulti() {
+        const {
+            productOptionsData: {
+                productOptionsMulti = [],
+                productOptions = []
+            } = {}
+        } = this.props;
+
+        return [...productOptionsMulti, ...productOptions].map((productOption) => {
+            const { option_id } = productOption;
+
+            return parseInt(option_id, 10);
+        });
+    }
+
+    getCustomizablePrice() {
+        const {
+            product: {
+                options = [],
+                price_range: {
+                    minimum_price: {
+                        regular_price: {
+                            value: regularPrice = 0
+                        } = {},
+                        regular_price_excl_tax: {
+                            currency,
+                            value: regularPriceExclTax = 0
+                        } = {},
+                        default_final_price_excl_tax: {
+                            value: defaultFinalPriceExclTax = 0
+                        } = {},
+                        discount: {
+                            percent_off = 0
+                        } = {}
+                    } = {}
+                } = {}
+            } = {}
+        } = this.props;
+
+        const customPrice = this._getCustomPrice(regularPrice, regularPriceExclTax, false);
+
+        const {
+            minimum_price: {
+                final_price: {
+                    value: finalCustomPrice = 0
+                } = {},
+                final_price_excl_tax: {
+                    value: finalCustomPriceExclTax = 0
+                } = {},
+                regular_price: {
+                    value: regularCustomPrice = 0
+                } = {},
+                regular_price_excl_tax: {
+                    value: regularCustomPriceExclTax = 0
+                } = {}
+            } = {}
+        } = customPrice;
+
+        const selectedOptions = this.getSelectedOptions();
+        const selectedOptionsMulti = this.getSelectedOptionsMulti();
+
+        const prices = options.reduce((acc, { data = [], option_id, type }) => {
+            /*
+            * Such types contain a single item within data
+            * as those are looked up on the option_id
+            */
+            if (['area', 'field', 'file'].includes(type)) {
+                if (selectedOptionsMulti.includes(option_id)) {
+                    /*
+                    * Since such types only have a single value
+                    * we can get the price_type directly
+                    */
+                    const [{ price_type }] = data;
+
+                    if (price_type === 'PERCENT') {
+                        const price = (data[0].price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
+                        acc.push(price);
+                    } else {
+                        acc.push(data[0].price);
+                    }
+                }
+
+                return acc;
+            }
+
+            data.forEach(({ option_type_id, price, price_type }) => {
+                if (selectedOptions.includes(option_type_id)) {
+                    if (price_type === 'PERCENT') {
+                        const finalPrice = (price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
+                        acc.push(finalPrice);
+                    } else {
+                        acc.push(price);
+                    }
+                }
+            });
+
+            return acc;
+        }, []);
+
+        const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
+        return {
+            minimum_price: {
+                final_price: {
+                    currency,
+                    value: selectedOptionsTotal + finalCustomPrice
+                },
+                discount: { percent_off },
+                default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
+                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
+                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
+                regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
+            }
+        };
+    }
+
     getProductPrice() {
         const {
             product,
             product: { variants = [], type_id, links_purchased_separately },
             configurableVariantIndex,
-            selectedBundlePrice,
-            selectedBundlePriceExclTax,
             selectedLinkPrice
         } = this.props;
+
+        const { options = {} } = product;
 
         const {
             price_range
         } = variants[configurableVariantIndex] || product;
 
         if (type_id === BUNDLE) {
-            return this._getCustomPrice(selectedBundlePrice, selectedBundlePriceExclTax);
+            const {
+                selectedBundlePrice,
+                selectedBundlePriceExclTax,
+                selectedInitialBundlePrice,
+                product: { dynamic_price }
+            } = this.props;
+
+            return this._getBundleCustomPrice(
+                selectedBundlePrice,
+                selectedBundlePriceExclTax,
+                selectedInitialBundlePrice,
+                dynamic_price
+            );
         }
 
         if (type_id === DOWNLOADABLE && links_purchased_separately) {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
+        }
+
+        if (Object.keys(options).length !== 0) {
+            return this.getCustomizablePrice();
         }
 
         return price_range;
@@ -300,20 +452,15 @@ export class ProductActionsContainer extends PureComponent {
             product: {
                 price_range: {
                     minimum_price: {
-                        regular_price: { currency, value },
-                        regular_price_excl_tax: { value: value_excl_tax },
-                        discount: discountData,
-                        discount: { percent_off },
-                        base_price,
-                        base_final_price,
-                        base_final_price_excl_tax
-                    }
-                }
-            }
+                        regular_price: { currency = '', value = 0 } = {},
+                        regular_price_excl_tax: { value: value_excl_tax = 0 } = {},
+                        discount: { percent_off = 0 } = {}
+                    } = {}
+                } = {}
+            } = {}
         } = this.props;
 
-        // eslint-disable-next-line no-magic-numbers
-        const discount = (1 - percent_off / 100);
+        const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
 
         const basePrice = addBase ? value : 0;
         const basePriceExclTax = addBase ? value_excl_tax : 0;
@@ -329,11 +476,59 @@ export class ProductActionsContainer extends PureComponent {
                 final_price: priceValue,
                 regular_price: priceValue,
                 final_price_excl_tax: priceValueExclTax,
-                regular_price_excl_tax: priceValueExclTax,
-                discount: discountData,
-                base_price,
-                base_final_price,
-                base_final_price_excl_tax
+                regular_price_excl_tax: priceValueExclTax
+            }
+        };
+    }
+
+    _getBundleCustomPrice(price, withoutTax, initial, isDynamicPrice) {
+        const {
+            product: {
+                price_range: {
+                    minimum_price: {
+                        default_price: { currency, value: defaultPrice },
+                        default_final_price: { value: defaultFinalPrice },
+                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
+                        discount: discountData,
+                        discount: { percent_off }
+                    }
+                }
+            }
+        } = this.props;
+
+        // If bundle product has dynamic price, it's own base price is always 0. For fix priced bundles price it's configurable
+        const addBase = !isDynamicPrice;
+
+        // Adjusting `discount` for bundle products for discount to be displayed on PDP
+        const priceBeforeDiscount = addBase ? defaultPrice : initial;
+        const priceAfterDiscount = addBase ? defaultFinalPrice : price;
+        const finalDiscount = !percent_off && defaultPrice !== defaultFinalPrice
+            ? {
+                percent_off: (ONE_HUNDRED_PERCENT * (priceBeforeDiscount - priceAfterDiscount)) / priceBeforeDiscount,
+                amount_off: priceBeforeDiscount - priceAfterDiscount
+            }
+            : discountData;
+
+        // Set initial price different from 0 for specific product types, i.e. downloadable, bundles with fixed price
+        const baseInitialPrice = addBase ? defaultPrice : 0;
+        const baseFinalPrice = addBase ? defaultFinalPrice : 0;
+        const basePriceExclTax = addBase ? defaultFinalPriceExclTax : 0;
+
+        const initialPrice = baseInitialPrice + initial;
+        const finalPrice = baseFinalPrice + price;
+        const finalPriceExclTax = basePriceExclTax + withoutTax;
+
+        const initialPriceValue = { value: initialPrice, currency };
+        const priceValue = { value: finalPrice, currency };
+        const priceValueExclTax = { value: finalPriceExclTax, currency };
+
+        return {
+            minimum_price: {
+                final_price: priceValue,
+                regular_price: initialPriceValue,
+                final_price_excl_tax: priceValueExclTax,
+                regular_price_excl_tax: initialPriceValue,
+                discount: finalDiscount
             }
         };
     }

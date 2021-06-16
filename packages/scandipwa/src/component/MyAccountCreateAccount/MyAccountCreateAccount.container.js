@@ -28,7 +28,8 @@ export const MyAccountDispatcher = import(
 // eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isLoading: state.MyAccountReducer.isLoading,
-    showTaxVatNumber: state.ConfigReducer.show_tax_vat_number
+    showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number,
+    newsletterActive: state.ConfigReducer.newsletter_general_active
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -48,7 +49,12 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         setLoadingState: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        showTaxVatNumber: PropTypes.string.isRequired
+        showTaxVatNumber: PropTypes.string.isRequired,
+        isLandingPage: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isLandingPage: false
     };
 
     containerProps = {
@@ -86,7 +92,9 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             onSignIn,
             setSignInState,
             setLoadingState,
-            isLoading
+            isLoading,
+            isLandingPage,
+            showNotification
         } = this.props;
 
         const {
@@ -114,10 +122,19 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         }
 
         try {
-            const code = createAccount(customerData);
+            const code = await createAccount(customerData);
+
             // if user needs confirmation
             if (code === 2) {
                 setSignInState(STATE_CONFIRM_EMAIL);
+
+                if (isLandingPage) {
+                    showNotification(
+                        'success',
+                        // eslint-disable-next-line max-len
+                        __('The email confirmation link has been sent to your email. Please confirm your account to proceed.')
+                    );
+                }
             } else {
                 onSignIn();
             }

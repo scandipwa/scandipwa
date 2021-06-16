@@ -1,4 +1,3 @@
-/* eslint-disable fp/no-let */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -23,8 +22,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     static propTypes = {
         ...ProductCustomizableOptionsContainer.propTypes,
         items: ProductItemsType,
-        setBundlePrice: PropTypes.func.isRequired,
-        isDynamicPrice: PropTypes.bool.isRequired
+        setBundlePrice: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -74,41 +72,33 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     }
 
     getOptionPrice(item, selectedValues) {
-        const { option_id } = item;
-        let price = 0;
-        let priceExclTax = 0;
+        const { option_id, options } = item;
 
-        selectedValues.forEach(({ id, quantity, value }) => {
-            if (option_id === id) {
-                const { options } = item;
+        return selectedValues
+            .filter(({ id }) => id === option_id)
+            .reduce((acc, { quantity, value }) => {
+                const { price, priceExclTax, initialPrice } = acc;
+                const selectedOption = options.find(
+                    (option) => JSON.stringify(value) === JSON.stringify([option.id.toString()])
+                        && option.product !== null
+                );
 
-                options.forEach(({ id: optionId, product }) => {
-                    if (JSON.stringify(value) === JSON.stringify([optionId.toString()])) {
-                        if (product === null) {
-                            return;
-                        }
+                if (!selectedOption) {
+                    return acc;
+                }
 
-                        const {
-                            price_range: {
-                                minimum_price: {
-                                    final_price: {
-                                        value: itemPrice = 0
-                                    } = {},
-                                    final_price_excl_tax: {
-                                        value: itemPriceExclTax = 0
-                                    } = {}
-                                } = {}
-                            } = {}
-                        } = product;
+                const {
+                    finalOptionPrice,
+                    finalOptionPriceExclTax,
+                    regularOptionPrice
+                } = selectedOption;
 
-                        price += itemPrice * quantity;
-                        priceExclTax += itemPriceExclTax * quantity;
-                    }
-                });
-            }
-        });
-
-        return { price, priceExclTax };
+                return {
+                    price: price + finalOptionPrice * quantity,
+                    priceExclTax: priceExclTax + finalOptionPriceExclTax * quantity,
+                    initialPrice: initialPrice + regularOptionPrice * quantity
+                };
+            }, { price: 0, priceExclTax: 0, initialPrice: 0 });
     }
 
     getItemsPrice = (item) => {
@@ -123,7 +113,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
             return this.getOptionPrice(item, values);
         }
 
-        return { price: 0, priceExclTax: 0 };
+        return { price: 0, priceExclTax: 0, initialPrice: 0 };
     };
 
     getTotalPrice() {
@@ -132,11 +122,12 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         return items
             .map(this.getItemsPrice)
             .reduce(
-                ({ price, priceExclTax }, item) => ({
-                    price: price + item.price,
+                ({ price, finalPrice, priceExclTax }, item) => ({
+                    price: price + item.initialPrice,
+                    finalPrice: finalPrice + item.price,
                     priceExclTax: priceExclTax + item.priceExclTax
                 }),
-                { price: 0, priceExclTax: 0 }
+                { price: 0, finalPrice: 0, priceExclTax: 0 }
             );
     }
 

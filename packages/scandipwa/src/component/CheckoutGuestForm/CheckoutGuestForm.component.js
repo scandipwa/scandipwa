@@ -225,6 +225,7 @@ export class CheckoutGuestForm extends FieldForm {
                   name="CheckoutGuestForm"
                 >
                     { this.renderFields() }
+                    <span>{ __('You can create an account after checkout') }</span>
                 </FormPortal>
             </>
         );
