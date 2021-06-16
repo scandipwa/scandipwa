@@ -490,10 +490,6 @@
         &_isVisible {
             @include logo-visible;
         }
-
-        .Image-Image {
-            object-fit: fill;
-        }
     }
 
     &-Title {
@@ -524,8 +520,6 @@
 
         @include mobile {
             text-transform: uppercase;
-            overflow: unset;
-            white-space: unset;
             font-size: 1.82rem;
             height: 2.1rem;
             line-height: 2.1rem;

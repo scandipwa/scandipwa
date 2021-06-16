@@ -26,31 +26,70 @@ export class ProductAttributes extends PureComponent {
         attributesWithValues: AttributeType.isRequired
     };
 
-    renderAttribute = ([attributeLabel, valueLabel]) => (
-        <Fragment key={ attributeLabel }>
+    renderGroups() {
+        const { attributesWithValues } = this.props;
+
+        const groups = Object.values(attributesWithValues).map(
+            (attribute) => ({
+                attribute_group_id: attribute.attribute_group_id,
+                attribute_group_name: attribute.attribute_group_name,
+                attribute_group_code: attribute.attribute_group_code
+            })
+        );
+
+        const uniqueGroups = groups.filter(
+            (group, index, array) => (
+                index === array.findIndex((g) => g.attribute_group_id === group.attribute_group_id)
+            )
+        );
+
+        return (
+            uniqueGroups.map(
+                (group) => (
+<Fragment key={ group.attribute_group_id }>
+                    <p block="ProductAttributes" elem="Group">
+                        { group.attribute_group_name }
+                    </p>
+                    { this.renderAttributes(group.attribute_group_id) }
+</Fragment>
+                )
+            )
+        );
+    }
+
+    renderAttribute = (attribute) => (
+        <Fragment key={ attribute.attribute_label }>
             <dt block="ProductAttributes" elem="AttributeLabel">
-                { attributeLabel }
+                { attribute.attribute_label }
             </dt>
             <dd block="ProductAttributes" elem="ValueLabel">
                 <ProductAttributeValue
-                  key={ attributeLabel }
-                  attribute={ valueLabel }
+                  key={ attribute.attribute_label }
+                  attribute={ attribute }
                   isFormattedAsText
                 />
             </dd>
         </Fragment>
     );
 
-    renderAttributes() {
+    renderAttributes(attribute_group_id) {
         const { attributesWithValues } = this.props;
 
         if (!Object.keys(attributesWithValues).length) {
             return null;
         }
 
+        const filteredAttributesWithValues = Object.values(attributesWithValues).filter(
+            (attribute) => attribute.attribute_group_id === attribute_group_id
+        );
+
+        if (!filteredAttributesWithValues.length) {
+            return null;
+        }
+
         return (
             <dl block="ProductAttributes" elem="Attributes">
-                { Object.entries(attributesWithValues).map(this.renderAttribute) }
+                { filteredAttributesWithValues.map(this.renderAttribute) }
             </dl>
         );
     }
@@ -65,7 +104,9 @@ export class ProductAttributes extends PureComponent {
               heading={ heading }
               mix={ { block: 'ProductAttributes', elem: 'Content' } }
             >
-                { this.renderAttributes() }
+                <div>
+                    { this.renderGroups() }
+                </div>
             </ExpandableContent>
         );
     }

@@ -19,6 +19,7 @@ import Loader from 'Component/Loader';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.config';
 import { ADDRESS_BOOK, customerType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 
 import './CheckoutAddressBook.style';
 
@@ -29,8 +30,12 @@ export class CheckoutAddressBook extends PureComponent {
         onAddressSelect: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         selectedAddressId: PropTypes.number.isRequired,
-        isSignedIn: PropTypes.bool.isRequired,
-        isBilling: PropTypes.bool.isRequired
+        isBilling: PropTypes.bool.isRequired,
+        isSubmitted: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isSubmitted: false
     };
 
     state = {
@@ -110,7 +115,7 @@ export class CheckoutAddressBook extends PureComponent {
     }
 
     renderCustomAddress() {
-        const { isBilling, onShippingEstimationFieldsChange } = this.props;
+        const { isBilling, onShippingEstimationFieldsChange, isSubmitted } = this.props;
         const formPortalId = isBilling ? BILLING_STEP : SHIPPING_STEP;
 
         return (
@@ -118,6 +123,7 @@ export class CheckoutAddressBook extends PureComponent {
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
               address={ {} }
               id={ formPortalId }
+              isSubmitted={ isSubmitted }
             />
         );
     }
@@ -161,8 +167,7 @@ export class CheckoutAddressBook extends PureComponent {
     }
 
     renderContent() {
-        const { isSignedIn } = this.props;
-        if (isSignedIn) {
+        if (isSignedIn()) {
             return this.renderSignedInContent();
         }
 

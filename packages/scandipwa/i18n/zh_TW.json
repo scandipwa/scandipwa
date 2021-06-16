@@ -70,6 +70,7 @@
     "Confirm password": "確認密碼",
     "Confirm the email": "確認email",
     "Confirm your account": "確認您的帳號",
+    "Confirmation request has been sent.": "确认请求已发送",
     "Continue shopping": "繼續購物",
     "Country": "國家",
     "County": "鄉鎮市區 ",
@@ -81,7 +82,6 @@
     "Coupon was removed!": "優惠券代碼無效",
     "Create Password": "創建密碼",
     "Create an account": "創建一個帳戶",
-    "Create free account and keep track of your orders": "創建免費帳戶並跟踪您的訂單",
     "Create new account": "建立新帳戶",
     "Created at:": "建立於:",
     "Created at: ": "訂單建立時間:",
@@ -127,6 +127,7 @@
     "Good": "好",
     "Got it": "好",
     "Grand total: ": "累計:",
+    "Guests can not subscribe to the newsletter. You must create an account or login to subscribe.": "来宾不能订阅新闻通讯。您必须创建一个帐户或登录才能订阅。",
     "Have a discount code?": "有優惠碼嗎？",
     "Home": "Home",
     "I agree to terms and conditions": "我同意條款和條件",
@@ -352,5 +353,5 @@
     "Mail:": null,
     "Create account": "創建帳號",
     "Forgot password": "忘記密碼了嗎",
-    "Remove out of stock products from cart": null
+    "Remove out of stock products from cart": "從購物車中刪除缺貨的產品"
 }

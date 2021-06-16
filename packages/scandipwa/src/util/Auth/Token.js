@@ -9,7 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { updateCustomerSignInStatus } from 'Store/MyAccount/MyAccount.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { deleteGuestQuoteId } from 'Util/Cart';
 import getStore from 'Util/Store';
 
 export const AUTH_TOKEN = 'auth_token';
@@ -41,14 +43,25 @@ export const isInitiallySignedIn = () => !!getAuthorizationToken();
 /** @namespace Util/Auth/isSignedIn */
 export const isSignedIn = () => {
     const _isSignedIn = !!getAuthorizationToken();
-    const state = getStore().getState();
+    const store = getStore();
+    const {
+        MyAccountReducer: {
+            isSignedIn: isCustomerSignedIn
+        } = {}
+    } = store.getState();
+    const { dispatch } = store;
 
-    if (!_isSignedIn && state.MyAccountReducer.isSignedIn) {
+    if (!_isSignedIn && isCustomerSignedIn) {
+        // since logout is async and slow, remove cart id
+        // and set customer sign in status here on auth token expiration
+        deleteGuestQuoteId();
+        dispatch(updateCustomerSignInStatus(false));
+
         const MyAccountDispatcher = import('../../store/MyAccount/MyAccount.dispatcher');
         MyAccountDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.logout(true, getStore().dispatch)
+            ({ default: dispatcher }) => dispatcher.logout(true, dispatch)
         );
-    } else if (_isSignedIn && state.MyAccountReducer.isSignedIn) {
+    } else if (_isSignedIn && isCustomerSignedIn) {
         refreshAuthorizationToken();
     }
 

@@ -41,7 +41,12 @@ export class ProductReviewForm extends PureComponent {
             nickname: PropTypes.string,
             summary: PropTypes.string,
             detail: PropTypes.string
-        }).isRequired
+        }).isRequired,
+        isSubmitted: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isSubmitted: false
     };
 
     ratingTitleMap = {
@@ -108,7 +113,8 @@ export class ProductReviewForm extends PureComponent {
             handleNicknameChange,
             handleSummaryChange,
             handleDetailChange,
-            reviewData
+            reviewData,
+            isSubmitted
         } = this.props;
 
         const {
@@ -137,6 +143,8 @@ export class ProductReviewForm extends PureComponent {
                       validation={ ['notEmpty'] }
                       value={ nickname }
                       onChange={ handleNicknameChange }
+                      validateSeparately
+                      isSubmitted={ isSubmitted }
                     />
                     <Field
                       type="text"
@@ -146,6 +154,8 @@ export class ProductReviewForm extends PureComponent {
                       validation={ ['notEmpty'] }
                       value={ summary }
                       onChange={ handleSummaryChange }
+                      isSubmitted={ isSubmitted }
+                      validateSeparately
                     />
                     <Field
                       type="textarea"
@@ -155,6 +165,8 @@ export class ProductReviewForm extends PureComponent {
                       validation={ ['notEmpty'] }
                       value={ detail }
                       onChange={ handleDetailChange }
+                      isSubmitted={ isSubmitted }
+                      validateSeparately
                     />
                 </div>
             </div>

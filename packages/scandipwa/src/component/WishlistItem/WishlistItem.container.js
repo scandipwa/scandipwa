@@ -18,6 +18,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -127,14 +128,17 @@ export class WishlistItemContainer extends PureComponent {
 
     addItemToCart() {
         const { product: item, addProductToCart, showNotification } = this.props;
-
         const {
             type_id,
             variants,
             wishlist: {
-                id, sku, quantity
+                id, sku, quantity, buy_request
             }
         } = item;
+
+        if (!isSignedIn()) {
+            return null;
+        }
 
         if (type_id === 'configurable') {
             const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
@@ -150,7 +154,7 @@ export class WishlistItemContainer extends PureComponent {
 
         this.setState({ isLoading: true });
 
-        return addProductToCart({ product: item, quantity })
+        return addProductToCart({ product: item, quantity, buyRequest: buy_request })
             .then(
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => this.removeItem(id),
@@ -207,6 +211,7 @@ export class WishlistItemContainer extends PureComponent {
                   { ...this.props }
                   { ...this.containerProps() }
                   { ...this.containerFunctions }
+                  { ...this.state }
                 />
             </SwipeToDelete>
         );
