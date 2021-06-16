@@ -62,7 +62,7 @@ export class ProductAlertsContainer extends PureComponent {
 
         return fetchMutation(query).then(
             /** @namespace Component/ProductAlerts/Container/fetchMutation/then */
-            ({ ProductAlertSubscribe }) => {
+            (ProductAlertSubscribe) => {
                 if (!ProductAlertSubscribe) {
                     return null;
                 }
