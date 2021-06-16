@@ -72,7 +72,7 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
 
     case SET_COMPARED_PRODUCT_IDS: {
         const { productIds } = action;
-        console.log(productIds);
+
         return {
             ...state,
             productIds
