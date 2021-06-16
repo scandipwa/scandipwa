@@ -120,9 +120,14 @@ export class ProductAttributeValue extends PureComponent {
     }
 
     renderSelectAttribute() {
-        const { attribute: { attribute_value, attribute_code } } = this.props;
+        const { attribute: { attribute_value, attribute_code, has_swatch } } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
         const { label, swatch_data } = attributeOption;
+
+        // skip attributes without valid swatches
+        if (!swatch_data && has_swatch) {
+            return null;
+        }
 
         if (!swatch_data || STRING_ONLY_ATTRIBUTE_CODES.includes(attribute_code)) {
             return this.renderStringValue(label || __('N/A'));
