@@ -27,7 +27,7 @@
         "scandipwa/locale": "^2",
         "scandipwa/contact-graphql": "^1.0.0",
         "scandipwa/klarna-graphql" : "^1.1.2",
-        "scandipwa/compare-graphql": "^1.0.6",
+        "scandipwa/compare-graphql": "^1.0.7",
         "scandipwa/customer-downloadable-graphql": "^1.0.2",
         "scandipwa/directory-graphql": "^1.0.1",
         "scandipwa/catalog-customer-graphql": "^1.0.0"
