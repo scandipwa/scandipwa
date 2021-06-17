@@ -128,20 +128,20 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     discount: {
-                        percent_off: discountPercentage = 0
+                        percent_off: discountPercentage
+                    } = {},
+                    final_price: {
+                        value: minimalPriceValue,
+                        currency: priceCurrency
+                    } = {},
+                    final_price_excl_tax: {
+                        value: minimalPriceExclTaxValue
                     } = {},
                     regular_price: {
-                        value: regularPriceValue = 0
+                        value: regularPriceValue
                     } = {},
                     regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue = 0
-                    } = {},
-                    default_final_price: {
-                        value: defaultFinalPrice = 0,
-                        currency: priceCurrency = ''
-                    } = {},
-                    default_final_price_excl_tax: {
-                        value: defaultFinalPriceExclTax = 0
+                        value: regularPriceExclTaxValue
                     } = {}
                 } = {}
             } = {},
@@ -151,14 +151,14 @@ export class ProductPriceContainer extends PureComponent {
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
             const finalPrice = calculateFinalPrice(
                 discountPercentage,
-                defaultFinalPriceExclTax,
+                minimalPriceExclTaxValue,
                 regularPriceExclTaxValue
             );
 
             return formatPrice(finalPrice, priceCurrency);
         }
 
-        const finalPrice = calculateFinalPrice(discountPercentage, defaultFinalPrice, regularPriceValue);
+        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
 
         return formatPrice(finalPrice, priceCurrency);
     }
