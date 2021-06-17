@@ -31,11 +31,13 @@ export class CheckoutAddressBook extends PureComponent {
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         selectedAddressId: PropTypes.number.isRequired,
         isBilling: PropTypes.bool.isRequired,
-        isSubmitted: PropTypes.bool
+        isSubmitted: PropTypes.bool,
+        is_virtual: PropTypes.bool
     };
 
     static defaultProps = {
-        isSubmitted: false
+        isSubmitted: false,
+        is_virtual: false
     };
 
     state = {
@@ -43,8 +45,13 @@ export class CheckoutAddressBook extends PureComponent {
     };
 
     static getDerivedStateFromProps(props) {
-        const { selectedAddressId } = props;
+        const { is_virtual, selectedAddressId } = props;
+
         if (selectedAddressId === 0) {
+            if (is_virtual) {
+                return { isCustomAddressExpanded: true };
+            }
+
             return null;
         }
 
