@@ -187,7 +187,7 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             currencyCode
         } = this.props;
 
-        return values.reduce((acc, {
+        return values.filter(({ product }) => !!product).reduce((acc, {
             id,
             label,
             price_type,
