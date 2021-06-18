@@ -73,9 +73,16 @@ export const RecentlyViewedProductsReducer = (
         const indexedProducts = getIndexedProducts(products);
         const recentProductsFromStorage = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
 
+        // Remove product from storage if it is not available
+        recentProductsFromStorage[storeCode] = recentProductsFromStorage[storeCode]
+            .filter((storageItem) => !indexedProducts.every((indexedItem) => indexedItem.id !== storageItem.id));
+
+        BrowserDatabase.setItem(recentProductsFromStorage, RECENTLY_VIEWED_PRODUCTS);
+
         // Sort products same as it is localstorage recentlyViewedProducts
         const sortedRecentProducts = recentProductsFromStorage[storeCode].reduce((acc, { sku }) => {
             const sortedProduct = indexedProducts.find((item) => item.sku === sku);
+
             return [...acc, sortedProduct];
         }, []);
 
