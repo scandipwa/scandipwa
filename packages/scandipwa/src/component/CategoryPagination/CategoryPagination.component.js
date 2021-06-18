@@ -13,6 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { UTMOST_PAGES_COUNT } from 'Component/CategoryPagination/CategoryPagination.config';
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
@@ -34,7 +35,8 @@ export class CategoryPagination extends PureComponent {
         prevPageJump: PropTypes.number.isRequired,
         nextPageJump: PropTypes.number.isRequired,
         shouldRenderNextJump: PropTypes.bool.isRequired,
-        shouldRenderPreviousJump: PropTypes.bool.isRequired
+        shouldRenderPreviousJump: PropTypes.bool.isRequired,
+        paginationFrame: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -47,7 +49,8 @@ export class CategoryPagination extends PureComponent {
         const {
             anchorTextPrevious,
             currentPage,
-            shouldRenderPreviousJump
+            totalPages,
+            paginationFrame
         } = this.props;
 
         /*
@@ -55,7 +58,7 @@ export class CategoryPagination extends PureComponent {
         2. hide 'Previous' button if total number of pages doesn't exceed total number of pages to display
         (i.e. all pages are already shown)
          */
-        if (currentPage <= 1 || !shouldRenderPreviousJump) {
+        if (currentPage <= 1 || paginationFrame >= totalPages) {
             return (
                 <li block="CategoryPagination" elem="ListItem" />
             );
@@ -106,7 +109,7 @@ export class CategoryPagination extends PureComponent {
             anchorTextNext,
             currentPage,
             totalPages,
-            shouldRenderNextJump
+            paginationFrame
         } = this.props;
 
         /*
@@ -114,7 +117,7 @@ export class CategoryPagination extends PureComponent {
         2. hide 'Next' button if total number of pages doesn't exceed total number of pages to display
         (i.e. all pages are already shown)
          */
-        if (currentPage > totalPages - 1 || !shouldRenderNextJump) {
+        if (currentPage > totalPages - 1 || paginationFrame >= totalPages) {
             return (
                 <li block="CategoryPagination" elem="ListItem" />
             );
@@ -160,9 +163,9 @@ export class CategoryPagination extends PureComponent {
     }
 
     renderFirstPageLink() {
-        const { firstFramePage } = this.props;
+        const { shouldRenderPreviousJump, firstFramePage } = this.props;
 
-        if (firstFramePage === 1) {
+        if (!shouldRenderPreviousJump && firstFramePage !== UTMOST_PAGES_COUNT) {
             return null;
         }
 
@@ -174,9 +177,9 @@ export class CategoryPagination extends PureComponent {
     }
 
     renderLastPageLink() {
-        const { totalPages, lastFramePage } = this.props;
+        const { totalPages, shouldRenderNextJump, lastFramePage } = this.props;
 
-        if (totalPages === lastFramePage) {
+        if (!shouldRenderNextJump && lastFramePage !== totalPages - 1) {
             return null;
         }
 
