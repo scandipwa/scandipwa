@@ -13,7 +13,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { UTMOST_PAGES_COUNT } from 'Component/CategoryPagination/CategoryPagination.config';
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
@@ -36,6 +35,7 @@ export class CategoryPagination extends PureComponent {
         nextPageJump: PropTypes.number.isRequired,
         shouldRenderNextJump: PropTypes.bool.isRequired,
         shouldRenderPreviousJump: PropTypes.bool.isRequired,
+        shouldRenderJumps: PropTypes.bool.isRequired,
         paginationFrame: PropTypes.bool.isRequired
     };
 
@@ -163,9 +163,9 @@ export class CategoryPagination extends PureComponent {
     }
 
     renderFirstPageLink() {
-        const { shouldRenderPreviousJump, firstFramePage } = this.props;
+        const { shouldRenderJumps, firstFramePage } = this.props;
 
-        if (!shouldRenderPreviousJump && firstFramePage !== UTMOST_PAGES_COUNT) {
+        if (!shouldRenderJumps || firstFramePage === 1) {
             return null;
         }
 
@@ -177,9 +177,9 @@ export class CategoryPagination extends PureComponent {
     }
 
     renderLastPageLink() {
-        const { totalPages, shouldRenderNextJump, lastFramePage } = this.props;
+        const { totalPages, shouldRenderJumps, lastFramePage } = this.props;
 
-        if (!shouldRenderNextJump && lastFramePage !== totalPages - 1) {
+        if (!shouldRenderJumps || lastFramePage === totalPages) {
             return null;
         }
 

@@ -65,7 +65,8 @@ export class CategoryPaginationContainer extends PureComponent {
         firstFramePage: this._getFirstFramePage(),
         lastFramePage: this._getLastFramePage(),
         shouldRenderNextJump: this._shouldRenderNextJump(),
-        shouldRenderPreviousJump: this._shouldRenderPreviousJump()
+        shouldRenderPreviousJump: this._shouldRenderPreviousJump(),
+        shouldRenderJumps: this._shouldRenderJumps()
     });
 
     _getCurrentPage() {
@@ -101,10 +102,16 @@ export class CategoryPaginationContainer extends PureComponent {
         return Math.min(totalPages - 1, this._getLastFramePage() + paginationFrameSkip);
     }
 
-    _shouldRenderNextJump() {
-        const { totalPages, paginationFrameSkip } = this.props;
+    _shouldRenderJumps() {
+        const { paginationFrameSkip } = this.props;
 
-        if (!paginationFrameSkip || paginationFrameSkip < 2) {
+        return !(!paginationFrameSkip || paginationFrameSkip < 2);
+    }
+
+    _shouldRenderNextJump() {
+        const { totalPages } = this.props;
+
+        if (!this._shouldRenderJumps()) {
             return false;
         }
 
@@ -112,9 +119,7 @@ export class CategoryPaginationContainer extends PureComponent {
     }
 
     _shouldRenderPreviousJump() {
-        const { paginationFrameSkip } = this.props;
-
-        if (!paginationFrameSkip || paginationFrameSkip < 2) {
+        if (!this._shouldRenderJumps()) {
             return false;
         }
 
