@@ -60,7 +60,7 @@
             transform: rotate(45deg);
             background-color: var(--overlay-background);
             // rtl-adjusted, don't remove 'left'
-            border-top: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
+            border-block-start: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
             border-left: var(--my-account-overlay-border-width) solid var(--overlay-desktop-border-color);
         }
     }
@@ -81,10 +81,13 @@
     &-Heading {
         font-size: 18px;
         font-weight: bold;
-        padding: 0 12px 12px;
+        padding-block-start: 0;
+        padding-block-end: 12px;
+        padding-inline: 12px;
 
         @include mobile {
-            padding: 0 14px 14px;
+            padding-block-end: 14px;
+            padding-inline: 14px;
         }
     }
 
@@ -147,7 +150,9 @@
 
     &-Action form,
     &-Additional {
-        padding: 0 12px 12px;
+        padding-block-start: 0;
+        padding-block-end: 12px;
+        padding-inline: 12px;
 
         @include mobile {
             padding-block-start: 14px;
@@ -237,7 +242,9 @@
 
         @include desktop {
             width: calc(var(--my-account-overlay-width) - (var(--my-account-overlay-border-width) * 2));
-            padding: 12px 24px 24px;
+            padding-block-start: 12px;
+            padding-block-end: 24px;
+            padding-inline: 24px;
         }
     }
 

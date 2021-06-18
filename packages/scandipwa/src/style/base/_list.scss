@@ -23,7 +23,7 @@ li {
     &::before {
         position: absolute;
         inset-inline-start: 1em;
-        top: .07em;
+        inset-block-start: .07em;
         padding-inline-end: 1.1225em;
 
         ol > & {

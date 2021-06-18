@@ -33,7 +33,10 @@
         width: 100%;
 
         @include desktop {
-            padding: 20px 0 10px 20px;
+            padding-block-start: 20px;
+            padding-block-end: 10px;
+            padding-inline-start: 20px;
+            padding-inline-end: 0;
             position: absolute;
             width: 100%;
             box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .1),

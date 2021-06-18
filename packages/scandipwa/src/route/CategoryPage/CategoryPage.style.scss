@@ -92,12 +92,14 @@
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
         @include desktop {
-            padding: 10px 0 60px;
+            padding-block-start: 10px;
+            padding-block-end: 60px;
+            padding-inline: 0;
         }
 
         @include mobile {
             position: fixed;
-            top: var(--header-total-height);
+            inset-block-start: var(--header-total-height);
             inset-inline-start: 0;
             width: 100%;
             z-index: 90;

@@ -26,6 +26,10 @@
         inset-inline-start: 50%;
         transform: translateX(-50%);
         padding: 5px 10px;
+
+        &:dir(rtl) {
+            transform: translateX(50%);
+        }
     }
 
     @include mobile {

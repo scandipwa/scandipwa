@@ -38,7 +38,7 @@
         justify-content: center;
         align-items: center;
         width: var(--end-side-content-width);
-        transition: margin-left var(--right-side-content-animation-speed) ease-out;
+        transition: margin-inline-start var(--right-side-content-animation-speed) ease-out;
 
         &_isAheadRemoveItemThreshold {
             margin-inline-start: 0;

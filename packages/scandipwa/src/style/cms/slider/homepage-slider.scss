@@ -26,10 +26,10 @@
     }
 
     .Slider-Crumbs {
-        bottom: 24px;
+        inset-block-end: 24px;
 
         @include mobile {
-            bottom: 28px;
+            inset-block-end: 28px;
         }
     }
 

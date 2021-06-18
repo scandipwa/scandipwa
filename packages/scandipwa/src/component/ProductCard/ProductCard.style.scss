@@ -176,7 +176,9 @@
         justify-content: center;
 
         @include desktop {
-            padding: 10px 15px 0;
+            padding-block-start: 10px;
+            padding-block-end: 0;
+            padding-inline: 15px;
         }
     }
 
@@ -226,7 +228,9 @@
         display: inline-block;
         text-align: center;
         padding: 0 6px;
-        margin: 5px 7px 0 0;
+        margin: 0;
+        margin-block-start: 5px;
+        margin-inline-end: 7px;
         line-height: 15px;
         min-width: 20px;
     }
@@ -298,7 +302,9 @@
         flex-direction: column;
         justify-content: flex-end;
         flex-grow: 1;
-        padding: 0 15px 10px;
+        padding-block-start: 0;
+        padding-block-end: 10px;
+        padding-inline: 15px;
         opacity: 0;
         position: absolute;
         inset-block-start: 100%;

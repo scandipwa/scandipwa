@@ -35,7 +35,9 @@
     }
 
     &-Rating {
-        margin: 12px 0 16px;
+        margin-block-start: 12px;
+        margin-block-end: 16px;
+        margin-inline: 0;
         text-align: start;
         direction: rtl;
         border: 0;
@@ -43,7 +45,9 @@
         white-space-collapse: discard; // alternative of `font-size: 0`
 
         @include mobile {
-            margin: 14px 0 18px;
+            margin-block-start: 14px;
+            margin-block-end: 18px;
+            margin-inline: 0;
         }
 
         &:first-child {

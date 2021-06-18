@@ -97,7 +97,7 @@ textarea {
         order: 1;
         padding: 22px;
         position: relative;
-        top: 0;
+        inset-block-start: 0;
 
         @include mobile {
             padding: 16px;
@@ -113,7 +113,7 @@ textarea {
         }
 
         &:last-of-type {
-            bottom: 0;
+            inset-block-end: 0;
             inset-inline-end: 0;
             order: 1;
 
@@ -128,7 +128,7 @@ textarea {
                 content: ' ';
                 position: absolute;
                 inset-inline-start: calc(50% - 12px);
-                top: calc(50% - 11px);
+                inset-block-start: calc(50% - 11px);
             }
         }
 
@@ -139,7 +139,7 @@ textarea {
 
         span {
             @include mobile {
-                top: -2px;
+                inset-block-start: -2px;
             }
         }
 
