@@ -9,5 +9,19 @@
  * @link https://github.com/scandipwa/scandipwa
  */
 
-export { default } from './StoreInPickUp.container';
-export * from './StoreInPickUp.component';
+.StoreInPickUpPopup {
+    &-Input {
+        width: 100%;
+    }
+
+    &-NoResult,
+    &-Info {
+        display: block;
+        margin-top: 1rem;
+        font-size: 1.4rem;
+    }
+
+    &-Heading {
+        margin-top: 0;
+    }
+}
