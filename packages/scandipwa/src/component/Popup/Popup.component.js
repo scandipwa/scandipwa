@@ -17,6 +17,7 @@ import { createPortal } from 'react-dom';
 import ClickOutside from 'Component/ClickOutside';
 import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
+import { DeviceType } from 'Type/Device';
 
 import { ESCAPE_KEY } from './Popup.config';
 
@@ -27,7 +28,8 @@ export class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
         clickOutside: PropTypes.bool,
-        title: PropTypes.string
+        title: PropTypes.string,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -138,6 +140,16 @@ export class Popup extends Overlay {
         );
     }
 
+    renderNotifications() {
+        const { device: { isMobile } } = this.props;
+
+        if (!isMobile) {
+            return null;
+        }
+
+        return <NotificationList />;
+    }
+
     renderContent() {
         const { children, contentMix } = this.props;
         const isVisible = this.getIsVisible();
@@ -153,7 +165,7 @@ export class Popup extends Overlay {
                         { this.renderTitle() }
                         { this.renderCloseButton() }
                     </header>
-                    <NotificationList />
+                    { this.renderNotifications() }
                     { children }
                 </div>
             </ClickOutside>
