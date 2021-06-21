@@ -112,7 +112,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     renderOptionLabel(priceType, price, currency) {
         const {
             finalPrice: {
-                currency: finalPriceCurrency = '',
+                currency: finalPriceCurrency,
                 value = 0
             } = {}
         } = this.props;

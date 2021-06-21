@@ -147,7 +147,9 @@ export class CartItemContainer extends PureComponent {
      * @return {void}
      */
     handleRemoveItem(e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
 
         this.setState({ isLoading: true }, () => {
             this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());

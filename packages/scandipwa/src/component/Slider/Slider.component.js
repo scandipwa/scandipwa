@@ -16,6 +16,7 @@ import Draggable from 'Component/Draggable';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import CSS from 'Util/CSS';
+import { isRtl } from 'Util/CSS/CSS';
 
 import {
     ACTIVE_SLIDE_PERCENT,
@@ -148,9 +149,8 @@ export class Slider extends PureComponent {
 
     getDir() {
         const { isVertical } = this.props;
-        const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
 
-        if (!isVertical && isRtl) {
+        if (!isVertical && isRtl()) {
             return -1;
         }
 

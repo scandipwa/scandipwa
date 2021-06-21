@@ -23,7 +23,8 @@
     z-index: 200;
 
     @include desktop {
-        inset-inline-start: 50%;
+        // rtl adjusted
+        left: 50%;
         transform: translateX(-50%);
         padding: 5px 10px;
     }
