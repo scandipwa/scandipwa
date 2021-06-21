@@ -14,6 +14,10 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import {
+    GUEST_EMAIL_FIELD_ID,
+    AUTOFILL_CHECK_TIMER
+} from "Component/CheckoutGuestForm/CheckoutGuestForm.config";
+import {
     STATE_CREATE_ACCOUNT,
     STATE_FORGOT_PASSWORD,
     STATE_SIGN_IN
@@ -92,6 +96,13 @@ export class CheckoutGuestFormContainer extends PureComponent {
             emailValue
         });
     };
+
+    componentDidMount() {
+        setTimeout(
+            () => this.handleEmailInput(document.getElementById(GUEST_EMAIL_FIELD_ID).value),
+            AUTOFILL_CHECK_TIMER
+        );
+    }
 
     onFormError() {
         this.setState({ isLoading: false });
