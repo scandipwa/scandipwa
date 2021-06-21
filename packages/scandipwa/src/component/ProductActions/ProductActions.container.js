@@ -397,8 +397,8 @@ export class ProductActionsContainer extends PureComponent {
                 },
                 discount: { percent_off },
                 default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
-                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
-                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
+                regular_price: { value: selectedOptionsTotal + regularCustomPrice },
+                final_price_excl_tax: { value: selectedOptionsTotal + finalCustomPriceExclTax },
                 regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
             }
         };
