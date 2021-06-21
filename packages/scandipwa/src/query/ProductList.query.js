@@ -846,6 +846,8 @@ export class ProductListQuery {
         return [
             'option_type_id',
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
             'currency',
             'sku',
