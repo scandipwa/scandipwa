@@ -235,12 +235,12 @@ h2 {
 
     + h3,
     + h4 {
-        top: -9px;
+        inset-block-start: -9px;
         margin-block-start: 7px;
         margin-block-end: 7px;
 
         @include mobile {
-            top: -9px;
+            inset-block-start: -9px;
             margin-block-start: 8.4px;
             margin-block-end: 8.4px;
         }
@@ -269,12 +269,12 @@ h3 {
     }
 
     + h4 {
-        top: -9px;
+        inset-block-start: -9px;
         margin-block-start: 7px;
         margin-block-end: 7px;
 
         @include mobile {
-            top: -9px;
+            inset-block-start: -9px;
             margin-block-start: 8.4px;
             margin-block-end: 8.4px;
         }

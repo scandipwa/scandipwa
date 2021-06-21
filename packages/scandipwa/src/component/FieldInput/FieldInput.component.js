@@ -18,16 +18,25 @@ export class FieldInput extends PureComponent {
         formRef: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ])
+        ]),
+        validateSeparately: PropTypes.bool,
+        isSubmitted: PropTypes.bool,
+        fileExtensions: PropTypes.string
     };
 
     static defaultProps = {
-        formRef: () => {}
+        formRef: () => {},
+        validateSeparately: false,
+        isSubmitted: false,
+        fileExtensions: ''
     };
 
     render() {
         const {
             formRef,
+            validateSeparately,
+            isSubmitted,
+            fileExtensions,
             ...validProps
         } = this.props;
 

@@ -38,7 +38,9 @@
 
         &Content_isContentExpanded {
             @include mobile {
-                padding: 0 1.4rem 1.4rem;
+                padding-block-start: 0;
+                padding-block-end: 1.4rem;
+                padding-inline: 1.4rem;
             }
         }
 

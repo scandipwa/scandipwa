@@ -35,7 +35,8 @@
         grid-template-columns: auto;
         max-width: var(--content-wrapper-width);
         padding-inline: 32px;
-        margin: calc(var(--header-total-height) + 12px) auto var(--header-nav-height);
+        margin-block-start: calc(var(--header-total-height) + 12px);
+        margin-block-end: var(--header-nav-height);
         margin-inline: auto;
 
         @include mobile {
@@ -68,7 +69,8 @@
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);
         animation: var(--placeholder-animation);
-        margin: 0 0 10px;
+        margin: 0;
+        margin-block-end: 10px;
         padding-block-end: 30%;
 
         @include mobile {

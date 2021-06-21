@@ -86,7 +86,7 @@
         font-weight: 700;
         color: var(--primary-base-color);
         cursor: pointer;
-        bottom: -2px;
+        inset-block-end: -2px;
     }
 
     &-Section {

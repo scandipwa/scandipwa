@@ -98,10 +98,11 @@
     }
 
     &-ColumnTitle {
-        margin: 0 0 15px;
+        margin: 0;
+        margin-block-end: 15px;
 
         @include desktop {
-            margin: 0 0 20px;
+            margin-block-end: 20px;
         }
     }
 
@@ -138,7 +139,13 @@
 
             img {
                 width: 16px!important;
-                inset-inline-start: auto!important;
+                inset-block-start: 50%;
+                inset-inline-start: 50%;
+                transform: translate(-50%, -50%);
+
+                &:dir(rtl) {
+                    transform: translate(50%, -50%);
+                }
             }
         }
 

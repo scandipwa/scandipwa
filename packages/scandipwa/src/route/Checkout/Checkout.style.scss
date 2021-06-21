@@ -41,9 +41,9 @@
             inset-inline-start: 0;
             width: 100%;
             z-index: 85;
-            bottom: var(--footer-total-height);
+            inset-block-end: var(--footer-total-height);
             background-color: var(--color-white);
-            padding: 16px 16px 16px;
+            padding: 16px;
         }
 
         .Button {
@@ -95,7 +95,7 @@
 
     &-StepBarActive {
         position: relative;
-        top: -4px;
+        inset-block-start: -4px;
         background-color: var(--primary-base-color);
         width: 50%;
         height: 4px;

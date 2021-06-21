@@ -48,8 +48,8 @@
         margin-block-start: var(--shared-element-top, 0) !important;
         margin-inline-start: var(--shared-element-start, 0) !important;
 
-        will-change: width, height, margin-left, margin-top;
-        transition-property: width, height, margin-left, margin-top;
+        will-change: width, height, margin-inline-start, margin-block-start;
+        transition-property: width, height, margin-inline-start, margin-block-start;
         transition-timing-function: cubic-bezier(.215, .61, .355, 1);
         transition-duration: var(--shared-element-animation-speed, 150ms);
 

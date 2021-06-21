@@ -49,7 +49,7 @@ export class ProductPrice extends PureComponent {
         formattedFinalPrice: '0',
         formattedSubPrice: null,
         variantsCount: 0,
-        formattedDefaultFinalPriceExclTax: 0,
+        formattedDefaultFinalPriceExclTax: '0',
         mix: {},
         price: {},
         label: '',

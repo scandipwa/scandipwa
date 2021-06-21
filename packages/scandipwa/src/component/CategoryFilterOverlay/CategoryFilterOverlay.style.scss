@@ -46,14 +46,20 @@
 
     &-NoResults {
         margin: 0;
-        padding: 12px 12px 0;
+        padding-block-start: 12px;
+        padding-block-end: 0;
+        padding-inline: 12px;
 
         @include mobile {
-            padding: 14px 14px 0;
+            padding-block-start: 14px;
+            padding-block-end: 0;
+            padding-inline: 14px;
         }
 
         @include desktop {
-            padding: 0 0 12px;
+            padding-block-start: 0;
+            padding-block-end: 12px;
+            padding-inline: 0;
         }
     }
 
@@ -136,7 +142,9 @@
             }
 
             .ExpandableContent  {
-                padding: 24px 0 12px 0;
+                padding-block-start: 24px;
+                padding-block-end: 12px;
+                padding-inline: 0;
             }
         }
     }

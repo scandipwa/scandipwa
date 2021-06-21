@@ -139,12 +139,16 @@
     &-Tax {
         display: flex;
         justify-content: space-between;
-        padding: 12px 12px 6px;
+        padding-block-start: 12px;
+        padding-block-end: 6px;
+        padding-inline: 12px;
 
         background: var(--cart-overlay-totals-background);
 
         @include mobile {
-            padding: 14px 14px 7px;
+            padding-block-start: 14px;
+            padding-block-end: 7px;
+            padding-inline: 14px;
         }
 
         dd {

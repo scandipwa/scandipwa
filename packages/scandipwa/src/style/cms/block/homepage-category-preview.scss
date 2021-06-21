@@ -56,6 +56,10 @@
         @include desktop {
             inset-inline-start: 50%;
             transform: translate(-50%, 0);
+
+            &:dir(rtl) {
+                transform: translate(50%, 0);
+            }
         }
 
         &_isPlaceholder {

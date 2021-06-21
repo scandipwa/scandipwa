@@ -16,7 +16,7 @@
 .Loader {
     background-color: rgba(255, 255, 255, .6);
     position: absolute;
-    top: 0;
+    inset-block-start: 0;
     inset-inline-start: 0;
     inset-inline-end: 0;
     inset-block-end: 0;
@@ -33,6 +33,10 @@
         position: absolute;
         transform: translate(-50%, -50%) scale(var(--loader-scale));
         inset-inline-start: 50%;
-        top: calc(50% - (3px * var(--loader-scale)));
+        inset-block-start: calc(50% - (3px * var(--loader-scale)));
+
+        &:dir(rtl) {
+            transform: translate(50%, -50%) scale(var(--loader-scale));
+        }
     }
 }

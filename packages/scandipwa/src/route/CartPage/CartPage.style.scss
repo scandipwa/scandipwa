@@ -47,7 +47,7 @@
         background: var(--color-white);
 
         @include mobile {
-            bottom: var(--navigation-tabs-height);
+            inset-block-end: var(--navigation-tabs-height);
             inset-inline-start: 0;
             width: 100%;
             border-block-start: 1px solid var(--primary-divider-color);
@@ -142,7 +142,9 @@
         padding: 12px 0;
 
         @include mobile {
-            padding: 14px 14px  0;
+            padding-block-start: 14px;
+            padding-block-end: 0;
+            padding-inline: 14px;
         }
 
         dd {

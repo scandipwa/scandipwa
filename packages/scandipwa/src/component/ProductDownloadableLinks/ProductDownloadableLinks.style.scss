@@ -40,7 +40,9 @@
 
         &Content_isContentExpanded {
             @include mobile {
-                padding: 0 14px 14px;
+                padding-block-start: 0;
+                padding-block-end: 14px;
+                padding-inline: 14px;
             }
         }
 
@@ -55,7 +57,9 @@
 }
 
 .ProductDownloadableLink {
-    padding: 15px 0 10px;
+    padding-block-start: 15px;
+    padding-block-end: 10px;
+    padding-inline: 0;
     border-block-end: 1px solid var(--expandable-content-divider-color);
 
     .Field {
@@ -69,7 +73,7 @@
     }
 
     &-SampleLink {
-        float: end;
+        float: inline-end;
 
         @include mobile {
             margin-inline-end: 16px;

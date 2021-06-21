@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
@@ -38,7 +39,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        finalPrice: PropTypes.object.isRequired
+        price_range: PriceType.isRequired,
+        type_id: PropTypes.string.isRequired
     };
 
     state = {
@@ -111,19 +113,24 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     renderOptionLabel(priceType, price, currency) {
         const {
-            finalPrice: {
-                currency: finalPriceCurrency,
-                value = 0
+            price_range: {
+                minimum_price: {
+                    default_final_price_excl_tax: {
+                        value = 0
+                    } = {}
+                } = {}
             } = {}
         } = this.props;
 
-        const finalPrice = formatPrice((value * price) / ONE_HUNDRED_PERCENT, finalPriceCurrency);
+        const finalPriceSource = price === 0 ? value : price;
+        const finalPrice = formatPrice(finalPriceSource, currency);
 
         switch (priceType) {
         case 'PERCENT':
-            return `${finalPrice} (${ price }%)`;
+            const percentPrice = formatPrice((finalPriceSource / ONE_HUNDRED_PERCENT) * value, currency);
+            return `${percentPrice} (${ price }%)`;
         default:
-            return formatPrice(price, currency);
+            return finalPrice;
         }
     }
 

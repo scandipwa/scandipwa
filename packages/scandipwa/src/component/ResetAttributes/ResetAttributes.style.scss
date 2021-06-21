@@ -15,7 +15,8 @@
     }
 
     @include mobile {
-        margin: 16px 16px 0;
+        margin: 16px;
+        margin-block-end: 0;
         max-height: 200px;
     }
 

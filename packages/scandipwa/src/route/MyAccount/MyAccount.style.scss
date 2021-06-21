@@ -49,10 +49,11 @@
 
     &-Heading {
         text-transform: none;
-        margin: 0 0 24px;
+        margin: 0;
+        margin-block-end: 24px;
 
         @include mobile {
-            margin: 0 0 28px;
+            margin-block-end: 28px;
             display: none;
         }
     }

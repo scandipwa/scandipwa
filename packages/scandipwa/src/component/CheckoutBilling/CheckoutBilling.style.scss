@@ -65,8 +65,8 @@
     .Checkout{
         &-OrderTotal{
             dd {
-                text-align: right;
-    
+                text-align: end;
+
                 span {
                     display: block;
                     font-size: .6em;

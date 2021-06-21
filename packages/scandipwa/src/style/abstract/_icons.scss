@@ -26,7 +26,7 @@
     }
 
     &::before {
-        top: 12px;
+        inset-block-start: 12px;
         inset-inline-start: 12px;
         width: 10px;
         height: 14px;
@@ -39,7 +39,7 @@
 
     &::after {
         inset-inline-start: 14px;
-        top: 7px;
+        inset-block-start: 7px;
         width: 6px;
         height: 2px;
         box-shadow:
@@ -71,7 +71,7 @@
     height: 32px;
     transform-origin: 50% 50%;
     inset-inline-start: 15px;
-    top: 1px;
+    inset-block-start: 1px;
     transform: rotate(45deg);
     box-shadow: none;
     border-radius: 0;
@@ -124,7 +124,7 @@
     &::after {
         height: 9px;
         width: 1px;
-        top: 3px;
+        inset-block-start: 3px;
         inset-inline-start: 7px;
         background-color: var(--header-background);
     }
@@ -142,7 +142,7 @@
         position: absolute;
         transform-origin: 0 0;
         transform: rotate(45deg);
-        top: 4px;
+        inset-block-start: 4px;
         inset-inline-end: 2px;
     }
 
@@ -160,7 +160,7 @@
     &::after {
         background-color: var(--header-color);
         width: 6px;
-        top: 4px;
+        inset-block-start: 4px;
         height: 23px;
         clip-path:
             polygon(
@@ -214,7 +214,7 @@
     $color-dodger-blue: #3b9cfe;
 
     border: 2px solid $color-dodger-blue;
-    bottom: -3px;
+    inset-block-end: -3px;
     height: 18px;
     margin: 0 4px;
     width: 18px;
@@ -227,7 +227,7 @@
         height: 6px;
         inset-inline-start: 3px;
         position: relative;
-        top: -9px;
+        inset-block-start: -9px;
         transform: rotate(45deg);
         width: 6px;
     }
@@ -239,7 +239,7 @@
         height: 16px;
         inset-inline-start: 6px;
         position: relative;
-        top: -16px;
+        inset-block-start: -16px;
         width: 19px;
     }
 }
@@ -285,7 +285,7 @@
         content: '';
         display: block;
         position: absolute;
-        top: 50%;
+        inset-block-start: 50%;
         inset-inline-start: 50%;
         box-sizing: border-box;
         border: 1px solid $white;
@@ -295,15 +295,23 @@
         width: 18px;
         height: 14px;
         transform: translate(-50%, -50%);
+
+        &:dir(rtl) {
+            transform: translate(50%, -50%);
+        }
     }
 
     &::after {
         width: 12px;
         height: 12px;
         transform: rotate(45deg) translate(calc(-50% - 4px), calc(-50% - 4px));
-        transform-origin: top left;
-        border-top-color: transparent;
+        transform-origin: inset-block-start inset-inline-start;
+        border-block-start-color: transparent;
         border-inline-start-color: transparent;
+
+        &:dir(rtl) {
+            transform: rotate(45deg) translate(calc(50% + 4px), calc(-50% - 4px));
+        }
     }
 }
 

@@ -10,12 +10,13 @@
  */
 
 .KeyValueTable {
-    margin: 0 0 12px;
+    margin: 0;
+    margin-block-end: 12px;
     min-width: 100%;
     font-size: 14px;
 
     @include mobile {
-        margin: 0 0 14px;
+        margin-block-end: 14px;
     }
 
     &-Heading {

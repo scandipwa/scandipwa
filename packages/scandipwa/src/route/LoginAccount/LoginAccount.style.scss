@@ -12,7 +12,9 @@
 .LoginAccount {
     .ContentWrapper {
         min-height: calc(100vh - var(--header-total-height));
-        padding: 28px 20px 50px;
+        padding-block-start: 28px;
+        padding-block-end: 50px;
+        padding-inline: 20px;
 
         @include desktop() {
             padding-block-start: 25px;

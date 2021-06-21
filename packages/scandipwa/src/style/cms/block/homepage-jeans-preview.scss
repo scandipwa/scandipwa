@@ -16,10 +16,13 @@
 .homage-jeans-preview {
     padding: 24px 48px;
     background: var(--homepage-jeans-background);
-    margin: 24px 0 12px;
+    margin-block-start: 24px;
+    margin-block-end: 12px;
+    margin-inline: 0;
 
     @include mobile {
-        margin: 28px 0 14px;
+        margin-block-start: 28px;
+        margin-block-end: 14px;
         padding: 28px 14px;
     }
 

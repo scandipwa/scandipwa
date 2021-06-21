@@ -32,7 +32,7 @@
 
         .KeyValueTable-Heading {
             span {
-                float: right;
+                float: inline-end;
                 display: inline-block;
                 @include radiobutton;
                 inset-block-start: 3px;

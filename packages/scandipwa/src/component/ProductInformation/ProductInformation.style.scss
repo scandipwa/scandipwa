@@ -66,11 +66,11 @@
 
     &-Description {
         ul {
-            margin-left: 20px;
+            margin-inline-start: 20px;
 
             li {
                 &::before {
-                    left: -20px;
+                    inset-inline-start: -20px;
                 }
             }
         }

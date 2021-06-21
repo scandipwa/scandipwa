@@ -54,7 +54,9 @@
 
         @include mobile {
 
-            margin: 14px 0 28px;
+            margin-block-start: 14px;
+            margin-block-end: 28px;
+            margin-inline: 0;
             font-size: 21px;
         }
     }

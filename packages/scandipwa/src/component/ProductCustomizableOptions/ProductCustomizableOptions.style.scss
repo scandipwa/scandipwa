@@ -59,7 +59,9 @@
         &_isContentExpanded {
 
             @include mobile {
-                padding: 0 14px 14px;
+                padding-block-start: 0;
+                padding-block-end: 14px;
+                padding-inline: 14px;
             }
 
             .Field {

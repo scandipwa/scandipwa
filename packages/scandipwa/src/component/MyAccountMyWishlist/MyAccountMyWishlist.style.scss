@@ -57,7 +57,8 @@
 
     &-ActionBar {
         display: flex;
-        padding: 0 0 12px;
+        padding: 0;
+        padding-block-end: 12px;
         justify-content: flex-end;
 
         @include desktop {
