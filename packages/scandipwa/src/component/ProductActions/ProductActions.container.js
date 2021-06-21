@@ -357,31 +357,16 @@ export class ProductActionsContainer extends PureComponent {
             */
             if (['area', 'field', 'file'].includes(type)) {
                 if (selectedOptionsMulti.includes(option_id)) {
-                    /*
-                    * Since such types only have a single value
-                    * we can get the price_type directly
-                    */
-                    const [{ price_type }] = data;
-
-                    if (price_type === 'PERCENT') {
-                        const price = (data[0].price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
-                        acc.push(price);
-                    } else {
-                        acc.push(data[0].price);
-                    }
+                    const [{ priceInclTax }] = data;
+                    acc.push(priceInclTax);
                 }
 
                 return acc;
             }
 
-            data.forEach(({ option_type_id, price, price_type }) => {
+            data.forEach(({ option_type_id, priceInclTax }) => {
                 if (selectedOptions.includes(option_type_id)) {
-                    if (price_type === 'PERCENT') {
-                        const finalPrice = (price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
-                        acc.push(finalPrice);
-                    } else {
-                        acc.push(price);
-                    }
+                    acc.push(priceInclTax);
                 }
             });
 
@@ -442,6 +427,7 @@ export class ProductActionsContainer extends PureComponent {
             return this.getCustomizablePrice();
         }
 
+        // console.log(price_range);
         return price_range;
     }
 
