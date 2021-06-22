@@ -304,6 +304,47 @@ export class ProductActionsContainer extends PureComponent {
         });
     }
 
+    getOptionPricesTotal(options) {
+        const selectedOptions = this.getSelectedOptions();
+        const selectedOptionsMulti = this.getSelectedOptionsMulti();
+
+        return options.reduce(([priceInclTaxTotal, priceExclTaxTotal], { data = [], option_id, type }) => {
+            /*
+            * Such types contain a single item within data
+            * as those are looked up on the option_id
+            */
+            if (['area', 'field', 'file'].includes(type)) {
+                if (selectedOptionsMulti.includes(option_id)) {
+                    const [{ priceInclTax, priceExclTax }] = data;
+                    return [priceInclTaxTotal + priceInclTax, priceExclTaxTotal + priceExclTax];
+                }
+
+                return [priceInclTaxTotal, priceExclTaxTotal];
+            }
+
+            const [
+                selectionPriceInclTax,
+                selectionPriceExclTax
+            ] = data.reduce((
+                [optionPriceInclTax, optionPriceExclTax], { option_type_id, priceInclTax, priceExclTax }
+            ) => {
+                if (selectedOptions.includes(option_type_id)) {
+                    return [
+                        optionPriceInclTax + priceInclTax,
+                        optionPriceExclTax + priceExclTax
+                    ];
+                }
+
+                return [optionPriceInclTax, optionPriceExclTax];
+            }, [0, 0]);
+
+            return [
+                priceInclTaxTotal + selectionPriceInclTax,
+                priceExclTaxTotal + selectionPriceExclTax
+            ];
+        }, [0, 0]);
+    }
+
     getCustomizablePrice() {
         const {
             product: {
@@ -347,44 +388,19 @@ export class ProductActionsContainer extends PureComponent {
             } = {}
         } = customPrice;
 
-        const selectedOptions = this.getSelectedOptions();
-        const selectedOptionsMulti = this.getSelectedOptionsMulti();
+        const [priceInclTax, priceExclTax] = this.getOptionPricesTotal(options);
 
-        const prices = options.reduce((acc, { data = [], option_id, type }) => {
-            /*
-            * Such types contain a single item within data
-            * as those are looked up on the option_id
-            */
-            if (['area', 'field', 'file'].includes(type)) {
-                if (selectedOptionsMulti.includes(option_id)) {
-                    const [{ priceInclTax }] = data;
-                    acc.push(priceInclTax);
-                }
-
-                return acc;
-            }
-
-            data.forEach(({ option_type_id, priceInclTax }) => {
-                if (selectedOptions.includes(option_type_id)) {
-                    acc.push(priceInclTax);
-                }
-            });
-
-            return acc;
-        }, []);
-
-        const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
         return {
             minimum_price: {
                 final_price: {
                     currency,
-                    value: selectedOptionsTotal + finalCustomPrice
+                    value: priceInclTax + finalCustomPrice
                 },
                 discount: { percent_off },
                 default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
-                regular_price: { value: selectedOptionsTotal + regularCustomPrice },
-                final_price_excl_tax: { value: selectedOptionsTotal + finalCustomPriceExclTax },
-                regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
+                regular_price: { value: priceInclTax + regularCustomPrice },
+                final_price_excl_tax: { value: priceExclTax + finalCustomPriceExclTax },
+                regular_price_excl_tax: { value: priceExclTax + regularCustomPriceExclTax }
             }
         };
     }
@@ -427,7 +443,6 @@ export class ProductActionsContainer extends PureComponent {
             return this.getCustomizablePrice();
         }
 
-        // console.log(price_range);
         return price_range;
     }
 
