@@ -618,7 +618,7 @@ export class ProductActions extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== DOWNLOADABLE || !samples || Array.isArray(samples) && !samples.length) {
+        if (type_id !== DOWNLOADABLE || !samples || (Array.isArray(samples) && !samples.length)) {
             return null;
         }
 
