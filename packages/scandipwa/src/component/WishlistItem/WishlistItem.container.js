@@ -158,7 +158,7 @@ export class WishlistItemContainer extends PureComponent {
             .then(
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => {
-                    this.removeItem(id)
+                    this.removeItem(id);
                     showNotification('success', __('Product Added To Cart'));
                 },
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartCatch */
