@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { MixType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 
@@ -51,7 +52,7 @@ export class AddToCart extends PureComponent {
     render() {
         const {
             mix,
-            product: { type_id },
+            product: { type_id, stock_status },
             isLoading,
             buttonClick
         } = this.props;
@@ -66,7 +67,7 @@ export class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading } }
-              disabled={ isLoading }
+              disabled={ isLoading || stock_status === OUT_OF_STOCK }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>

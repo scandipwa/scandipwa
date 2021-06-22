@@ -21,7 +21,7 @@ import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductBundleItems from 'Component/ProductBundleItems';
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
@@ -80,15 +80,13 @@ export class ProductActions extends PureComponent {
         metaLink: PropTypes.string.isRequired,
         device: DeviceType.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
-        displayProductStockStatus: PropTypes.bool.isRequired,
-        stock_status: PropTypes.string
+        displayProductStockStatus: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         configurableVariantIndex: 0,
         productPrice: {},
-        productName: '',
-        stock_status: IN_STOCK
+        productName: ''
     };
 
     configurableOptionsRef = createRef();
@@ -436,8 +434,12 @@ export class ProductActions extends PureComponent {
         const {
             productPrice,
             offerCount,
-            stock_status
+            productOrVariant: {
+                stock_status
+            }
         } = this.props;
+
+        console.log({ stock_status });
 
         if (stock_status === OUT_OF_STOCK) {
             return null;
