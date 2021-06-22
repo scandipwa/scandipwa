@@ -128,24 +128,24 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     discount: {
-                        percent_off: discountPercentage = 0
+                        percent_off: discountPercentage
                     } = {},
                     final_price: {
-                        value: minimalPriceValue = 0,
-                        currency: priceCurrency = ''
+                        value: minimalPriceValue,
+                        currency: priceCurrency
                     } = {},
                     final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue = 0
+                        value: minimalPriceExclTaxValue
                     } = {},
                     regular_price: {
-                        value: regularPriceValue = 0
+                        value: regularPriceValue
                     } = {},
                     regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue = 0
+                        value: regularPriceExclTaxValue
                     } = {}
                 } = {}
             } = {},
-            displayTaxInPrice
+            displayTaxInPrice = ''
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {

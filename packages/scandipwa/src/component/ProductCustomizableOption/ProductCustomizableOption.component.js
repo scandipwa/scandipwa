@@ -89,7 +89,7 @@ export class ProductCustomizableOption extends PureComponent {
                   block="ProductCustomizableOptions"
                   elem="Heading"
                 >
-                    { `${ mainTitle } + ` }
+                    { `${ mainTitle } ` }
                 </span>
                 <span
                   block="ProductCustomizableOptions"

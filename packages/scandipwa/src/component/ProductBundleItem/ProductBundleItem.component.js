@@ -46,7 +46,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
                   block="ProductBundleItem"
                   elem="Heading"
                 >
-                    { `${ quantity } x ${ mainTitle } + ` }
+                    { `${ quantity } x ${ mainTitle } ` }
                 </span>
                 <span
                   block="ProductBundleItem"

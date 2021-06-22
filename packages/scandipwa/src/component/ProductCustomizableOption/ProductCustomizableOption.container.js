@@ -111,6 +111,22 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
+    /**
+     * @param price options' actual price
+     * @param currency options' actual currency
+     * @param priceType figure out the calculation way
+     * @param value final price excluding tax divider
+     * @returns {string|string}
+     */
+    renderFormattedOptionsString(price, currency, priceType, value) {
+        switch (priceType) {
+        case 'PERCENT':
+            return price === 0 ? '' : `+ ${formatPrice((price / ONE_HUNDRED_PERCENT) * value, currency)} (${ price }%)`;
+        default:
+            return price === 0 ? '' : `+ ${formatPrice(price, currency)}`;
+        }
+    }
+
     renderOptionLabel(priceType, price, currency) {
         const {
             price_range: {
@@ -122,15 +138,11 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        const finalPriceSource = price === 0 ? value : price;
-        const finalPrice = formatPrice(finalPriceSource, currency);
-
         switch (priceType) {
         case 'PERCENT':
-            const percentPrice = formatPrice((finalPriceSource / ONE_HUNDRED_PERCENT) * value, currency);
-            return `${percentPrice} (${ price }%)`;
+            return this.renderFormattedOptionsString(price, currency, priceType, value);
         default:
-            return finalPrice;
+            return this.renderFormattedOptionsString(price, currency);
         }
     }
 
@@ -177,7 +189,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} + ${this.renderOptionLabel(price_type, price, currency)}`
+                label: `${title} ${this.renderOptionLabel(price_type, price, currency)}`
             });
 
             return acc;
