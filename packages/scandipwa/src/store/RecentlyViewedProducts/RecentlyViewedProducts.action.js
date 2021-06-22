@@ -10,6 +10,20 @@
  */
 
 export const UPDATE_RECENTLY_VIEWED_PRODUCTS = 'UPDATE_RECENTLY_VIEWED_PRODUCTS';
+export const ADD_RECENTLY_VIEWED_PRODUCT = 'ADD_RECENTLY_VIEWED_PRODUCT';
+
+/**
+ * Add RecentlyViewed product into list.
+ * @param  {Object} product Product returned from fetch
+ * @param  {String} store code
+ * @return {void}
+ * @namespace Store/RecentlyViewedProducts/Action/addRecentlyViewedProduct
+ */
+export const addRecentlyViewedProduct = (product, store) => ({
+    type: ADD_RECENTLY_VIEWED_PRODUCT,
+    product,
+    store
+});
 
 /**
  * Update RecentlyViewed products list.
@@ -17,7 +31,8 @@ export const UPDATE_RECENTLY_VIEWED_PRODUCTS = 'UPDATE_RECENTLY_VIEWED_PRODUCTS'
  * @return {void}
  * @namespace Store/RecentlyViewedProducts/Action/updateRecentlyViewedProducts
  */
-export const updateRecentlyViewedProducts = (product) => ({
+export const updateRecentlyViewedProducts = (products, storeCode) => ({
     type: UPDATE_RECENTLY_VIEWED_PRODUCTS,
-    product
+    products,
+    storeCode
 });

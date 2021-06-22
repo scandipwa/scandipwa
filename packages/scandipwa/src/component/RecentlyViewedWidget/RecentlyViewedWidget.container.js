@@ -9,33 +9,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import {
-    RECENTLY_VIEWED_PRODUCTS
-} from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
-import ProductListQuery from 'Query/ProductList.query';
-import { showNotification } from 'Store/Notification/Notification.action';
+import RecentlyViewedProductsDispatcher from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.dispatcher';
 import { ItemsType } from 'Type/ProductList';
-import BrowserDatabase from 'Util/BrowserDatabase';
-import { fetchQuery } from 'Util/Request';
 
 import RecentlyViewedWidget from './RecentlyViewedWidget.component';
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    products: state.RecentlyViewedProductsReducer.recentlyViewedProducts
+    recentProducts: state.RecentlyViewedProductsReducer.recentlyViewedProducts,
+    shouldBeUpdated: state.RecentlyViewedProductsReducer.shouldBeUpdated,
+    store: state.ConfigReducer.code
 });
 
-/** @namespace Component/Slider/Container/mapDispatchToProps */
+/** @namespace Component/RecentlyViewedWidget/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = (dispatch) => ({
+    updateRecentViewedProductsInfo:
+        (options) => RecentlyViewedProductsDispatcher.handleData(dispatch, options)
+});
 
 /** @namespace Component/RecentlyViewedWidget/Container */
 export class RecentlyViewedWidgetContainer extends PureComponent {
     static propTypes = {
-        products: ItemsType.isRequired
+        updateRecentViewedProductsInfo: PropTypes.func.isRequired,
+        recentProducts: PropTypes.objectOf(ItemsType).isRequired,
+        shouldBeUpdated: PropTypes.bool.isRequired,
+        store: PropTypes.string.isRequired
     };
 
     state = {
@@ -46,55 +49,14 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
     };
 
     componentDidMount() {
-        this.refreshProducts();
-    }
-
-    componentDidUpdate(prevProps) {
         const {
-            products
+            updateRecentViewedProductsInfo,
+            recentProducts,
+            store
         } = this.props;
 
-        const {
-            products: oldProducts
-        } = prevProps;
-
-        if (products !== oldProducts) {
-            this.refreshProducts();
-        }
-    }
-
-    refreshProducts() {
-        const { products } = this.props;
-        const skuArray = products.map(({ sku }) => sku);
-
-        if (skuArray.length) {
-            const options = {
-                args: {
-                    filter: {
-                        productsSkuArray: skuArray
-                    }
-                }
-            };
-
-            fetchQuery(ProductListQuery.getQuery(options)).then(
-                /** @namespace Component/RecentlyViewedWidget/Container/refreshProductsFetchQueryThen */
-                (data) => {
-                    // Replacing only price range
-                    const refreshedProducts = products.map((oldProduct) => ({
-                        ...oldProduct,
-                        price_range: data.products.items.find(
-                            (newProduct) => newProduct.sku === oldProduct.sku
-                        ).price_range
-                    }));
-
-                    BrowserDatabase.setItem(refreshedProducts, RECENTLY_VIEWED_PRODUCTS);
-                    this.setState({ products: refreshedProducts });
-                },
-                /** @namespace Component/RecentlyViewedWidget/Container/refreshProductsFetchQueryError */
-                (error) => {
-                    showNotification('error', __('Error fetching Recently viewed products!'), error);
-                }
-            );
+        if (Object.entries(recentProducts).length !== 0) {
+            updateRecentViewedProductsInfo({ recentProducts, store });
         }
     }
 
@@ -105,6 +67,13 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
             siblingsHaveTierPrice,
             siblingsHaveConfigurableOptions
         } = this.state;
+
+        const {
+            store,
+            recentProducts
+        } = this.props;
+
+        const products = recentProducts[store] ?? [];
 
         return {
             productCardFunctions: {
@@ -118,7 +87,8 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
                 siblingsHavePriceBadge,
                 siblingsHaveTierPrice,
                 siblingsHaveConfigurableOptions
-            }
+            },
+            products
         };
     }
 
@@ -126,7 +96,6 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
         return (
             <RecentlyViewedWidget
               { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
             />
         );

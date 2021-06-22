@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
@@ -183,13 +184,7 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
 
     getDropdownOptions(values) {
         const {
-            price_range: {
-                minimum_price: {
-                    discount: {
-                        percent_off: percentOff = 0
-                    } = {}
-                } = {}
-            } = {}
+            currencyCode
         } = this.props;
 
         return values.reduce((acc, {
@@ -198,16 +193,14 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             price_type,
             quantity,
             can_change_quantity,
-            product
+            finalOptionPrice,
+            price
         }) => {
-            const value = product?.price_range?.minimum_price?.final_price?.value || 0;
-
-            // eslint-disable-next-line no-magic-numbers
-            const finalPrice = value - (value * (percentOff / 100));
+            const finalPrice = price_type === PRICE_TYPE_PERCENT ? price : finalOptionPrice;
 
             const dropdownLabel = !can_change_quantity
-                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`
-                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`;
+                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`
+                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`;
 
             acc.push({
                 id,

@@ -16,6 +16,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { DeviceType } from 'Type/Device';
+import { isSignedIn } from 'Util/Auth';
+import { isScrollDisabled, toggleScroll } from 'Util/Browser';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -55,11 +57,18 @@ export class NavigationAbstractContainer extends PureComponent {
     componentDidMount() {
         const { setNavigationState } = this.props;
         setNavigationState(this.getNavigationState());
-        history.listen((history) => this.setState(this.onRouteChanged(history)));
+        history.listen((history) => {
+            this.handlePageScroll();
+            this.setState(this.onRouteChanged(history));
+        });
     }
 
     onRouteChanged(history) {
         const { device } = this.props;
+
+        // check if token is expired and logout
+        isSignedIn();
+
         if (!device.isMobile) {
             return this.handleDesktopRouteChange(history);
         }
@@ -130,6 +139,12 @@ export class NavigationAbstractContainer extends PureComponent {
         hideActiveOverlay();
 
         return {};
+    }
+
+    handlePageScroll() {
+        if (isScrollDisabled()) {
+            toggleScroll(true);
+        }
     }
 
     render() {

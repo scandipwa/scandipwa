@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { customerType } from 'Type/Account';
+import { isSignedIn } from 'Util/Auth';
 
 import CheckoutAddressBook from './CheckoutAddressBook.component';
 
@@ -24,8 +25,7 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Component/CheckoutAddressBook/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    customer: state.MyAccountReducer.customer,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    customer: state.MyAccountReducer.customer
 });
 
 /** @namespace Component/CheckoutAddressBook/Container/mapDispatchToProps */
@@ -38,7 +38,6 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/CheckoutAddressBook/Container */
 export class CheckoutAddressBookContainer extends PureComponent {
     static propTypes = {
-        isSignedIn: PropTypes.bool.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func,
         onAddressSelect: PropTypes.func,
@@ -77,11 +76,10 @@ export class CheckoutAddressBookContainer extends PureComponent {
         const {
             requestCustomerData,
             customer,
-            onAddressSelect,
-            isSignedIn
+            onAddressSelect
         } = props;
 
-        if (isSignedIn && !Object.keys(customer).length) {
+        if (isSignedIn() && !Object.keys(customer).length) {
             requestCustomerData();
         }
 
@@ -116,13 +114,12 @@ export class CheckoutAddressBookContainer extends PureComponent {
         const {
             onAddressSelect,
             requestCustomerData,
-            isSignedIn,
             customer
         } = this.props;
         const { selectedAddressId: prevSelectedAddressId } = prevState;
         const { selectedAddressId } = this.state;
 
-        if (isSignedIn && !Object.keys(customer).length) {
+        if (isSignedIn() && !Object.keys(customer).length) {
             requestCustomerData();
         }
 

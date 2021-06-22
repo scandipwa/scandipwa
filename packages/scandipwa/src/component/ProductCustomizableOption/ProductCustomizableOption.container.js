@@ -13,7 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
 
 import ProductCustomizableOption from './ProductCustomizableOption.component';
@@ -36,7 +38,9 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
         setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        price_range: PriceType.isRequired,
+        type_id: PropTypes.string.isRequired
     };
 
     state = {
@@ -107,13 +111,26 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    renderOptionLabel(priceType, price) {
+    renderOptionLabel(priceType, price, currency) {
+        const {
+            price_range: {
+                minimum_price: {
+                    default_final_price_excl_tax: {
+                        value = 0
+                    } = {}
+                } = {}
+            } = {}
+        } = this.props;
+
+        const finalPriceSource = price === 0 ? value : price;
+        const finalPrice = formatPrice(finalPriceSource, currency);
+
         switch (priceType) {
         case 'PERCENT':
-            return `${ price }%`;
+            const percentPrice = formatPrice((finalPriceSource / ONE_HUNDRED_PERCENT) * value, currency);
+            return `${percentPrice} (${ price }%)`;
         default:
-            /* TODO: get currency code */
-            return formatPrice(price);
+            return finalPrice;
         }
     }
 
@@ -150,13 +167,13 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     getDropdownOptions(values) {
         return values.reduce((acc, {
-            option_type_id, title, price, price_type
+            option_type_id, title, price, price_type, currency
         }) => {
             acc.push({
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} + ${this.renderOptionLabel(price_type, price)}`
+                label: `${title} + ${this.renderOptionLabel(price_type, price, currency)}`
             });
 
             return acc;
@@ -170,7 +187,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
             setCustomizableOptionFileFieldValue,
             showNotification
         } = this.props;
-        const { type = '' } = values;
+        const { type = '', name } = values;
 
         if (file_extension && !file_extension.split(', ').some((fileType) => type.includes(fileType))) {
             showNotification('error', __('File type is incorrect'));
@@ -181,7 +198,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         const reader = new FileReader();
         // eslint-disable-next-line func-names
         reader.onloadend = function () {
-            setCustomizableOptionFileFieldValue(reader.result, option);
+            setCustomizableOptionFileFieldValue(reader.result, option, name);
         };
 
         reader.readAsDataURL(values);

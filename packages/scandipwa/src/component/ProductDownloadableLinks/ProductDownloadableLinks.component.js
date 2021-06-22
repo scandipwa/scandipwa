@@ -25,11 +25,14 @@ export class ProductDownloadableLinks extends PureComponent {
         isRequired: PropTypes.bool.isRequired,
         links: PropTypes.array,
         title: PropTypes.string.isRequired,
-        setSelectedCheckboxValues: PropTypes.func.isRequired
+        setSelectedCheckboxValues: PropTypes.func.isRequired,
+        isOpenInNewTab: PropTypes.bool.isRequired,
+        selectedLinks: PropTypes.array
     };
 
     static defaultProps = {
-        links: []
+        links: [],
+        selectedLinks: []
     };
 
     getLabel(link) {
@@ -37,13 +40,23 @@ export class ProductDownloadableLinks extends PureComponent {
         const { isRequired } = this.props;
 
         if (!isRequired) {
-            return title;
+            return (
+            <span block="ProductDownloadableLink" elem="SampleTitle">
+                { title }
+            </span>
+            );
         }
 
-        return `${ title } (+${ formatPrice(price) })`;
+        return (
+            <span block="ProductDownloadableLink" elem="SampleTitle">
+                { title }
+                { `(+${ formatPrice(price) })` }
+            </span>
+        );
     }
 
     renderLabel(link) {
+        const { isOpenInNewTab } = this.props;
         const { sample_url } = link;
 
         if (!sample_url) {
@@ -53,7 +66,12 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <>
                 { this.getLabel(link) }
-                <Link to={ sample_url } block="ProductDownloadableLink" elem="SampleLink">
+                <Link
+                  to={ sample_url }
+                  isOpenInNewTab={ isOpenInNewTab }
+                  block="ProductDownloadableLink"
+                  elem="SampleLink"
+                >
                     { __('Sample') }
                 </Link>
             </>
@@ -80,26 +98,51 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderLink = (link) => (
-        <div block="ProductDownloadableLink">
-            { this.renderCheckBox(link) }
-            <span block="ProductDownloadableLink" elem="SampleLabel">
-                { this.renderLabel(link) }
-            </span>
-        </div>
-    );
+    renderLink = (link) => {
+        const { id } = link;
+
+        return (
+            <div block="ProductDownloadableLink" key={ id }>
+                { this.renderCheckBox(link) }
+                <span block="ProductDownloadableLink" elem="SampleLabel">
+                    { this.renderLabel(link) }
+                </span>
+            </div>
+        );
+    };
+
+    renderRequired(isRequired) {
+        const { selectedLinks } = this.props;
+
+        if (isRequired !== true || selectedLinks.length > 0) {
+            return null;
+        }
+
+        return (
+            <div
+              block="ProductDownloadableLink"
+              elem="Required"
+            >
+                { __('This field is required!') }
+            </div>
+        );
+    }
 
     renderLinks() {
-        const { links } = this.props;
-
-        return links.map(this.renderLink);
+        const { links, isRequired } = this.props;
+        return (
+            <>
+                { links.map(this.renderLink) }
+                { this.renderRequired(isRequired) }
+            </>
+        );
     }
 
     renderTitle() {
-        const { title, isRequired } = this.props;
+        const { title } = this.props;
 
         return (
-            <h3 block="ProductDownloadableLinks" elem="Title" mods={ { isRequired } }>
+            <h3 block="ProductDownloadableLinks" elem="Title">
                 { title }
             </h3>
         );

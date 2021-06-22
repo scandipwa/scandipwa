@@ -13,8 +13,6 @@
 import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
-import NoMatch from 'Route/NoMatch';
-
 import {
     TYPE_CATEGORY,
     TYPE_CMS_PAGE,
@@ -25,6 +23,7 @@ import {
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "product" */ 'Route/ProductPage'));
 export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "category" */ 'Route/CategoryPage'));
 export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cms" */ 'Route/CmsPage'));
+export const NoMatch = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "misc" */ 'Route/NoMatch'));
 
 /**
  * Additional types possible:
@@ -53,19 +52,11 @@ export class UrlRewrites extends PureComponent {
 
     renderContent() {
         const { props, type } = this.props;
-        const {
-            history: {
-                location: {
-                    state: {
-                        pageKey = null
-                    } = {}
-                } = {}
-            } = {}
-        } = props;
+        const { id } = props;
 
         switch (type) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...props } key={ pageKey } />;
+            return <ProductPage { ...props } key={ id } />;
         case TYPE_CMS_PAGE:
             return <CmsPage { ...props } />;
         case TYPE_CATEGORY:

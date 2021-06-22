@@ -22,7 +22,8 @@ import './MyAccountDownloadableTableRow.style';
 export class MyAccountDownloadableTableRowComponent extends PureComponent {
     static propTypes = {
         order: downloadableType.isRequired,
-        onOrderIdClick: PropTypes.func.isRequired
+        onOrderIdClick: PropTypes.func.isRequired,
+        isOpenInNewTab: PropTypes.bool.isRequired
     };
 
     renderOrderId() {
@@ -48,7 +49,8 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
                 link_title,
                 title,
                 downloads
-            }
+            },
+            isOpenInNewTab
         } = this.props;
 
         if (!download_url || !downloads) {
@@ -58,7 +60,12 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
         return (
             <>
                 { title }
-                <Link to={ download_url } block="MyAccountDownloadTableRow" elem="Link">
+                <Link
+                  to={ download_url }
+                  block="MyAccountDownloadTableRow"
+                  elem="Link"
+                  isOpenInNewTab={ isOpenInNewTab }
+                >
                     { link_title }
                 </Link>
             </>
@@ -80,7 +87,7 @@ export class MyAccountDownloadableTableRowComponent extends PureComponent {
 
         return (
             <tr block="MyAccountOrderTableRow">
-                <td>{ order_id }</td>
+                <td>{ order_id ? `#${order_id}` : '' }</td>
                 <td>{ created_at }</td>
                 <td>
                     { title }
