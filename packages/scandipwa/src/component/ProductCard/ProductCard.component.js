@@ -478,8 +478,6 @@ export class ProductCard extends PureComponent {
     renderCardContent() {
         const { renderContent } = this.props;
 
-        console.log('render grid content');
-
         if (renderContent) {
             return renderContent(this.contentObject);
         }
@@ -514,8 +512,6 @@ export class ProductCard extends PureComponent {
         if (renderContent) {
             return renderContent(this.contentObject);
         }
-
-        console.log('render list content');
 
         return this.renderCardLinkWrapper((
             <div block="ProductCard" elem="Link">
@@ -563,8 +559,6 @@ export class ProductCard extends PureComponent {
             siblingsHaveConfigurableOptions,
             layout
         };
-
-        console.log(layout);
 
         if (layout === LIST_LAYOUT) {
             return (

@@ -20,6 +20,10 @@
     transform: translateX(var(--translateX));
     transition: transform var(--animation-speed) ease-out;
 
+    [dir="rtl"] & {
+        transform: translateX(calc(-1 * var(--translateX)));
+    }
+
     &-RightSideContentWrapper {
         background-color: var(--swipe-to-delete-bg-color);
         position: absolute;

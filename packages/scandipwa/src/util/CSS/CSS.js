@@ -51,4 +51,7 @@ export const getFixedElementHeight = () => {
     };
 };
 
+/** @namespace Util/CSS/isRtl */
+export const isRtl = () => document.documentElement.getAttribute('dir') === 'rtl';
+
 export default CSS;

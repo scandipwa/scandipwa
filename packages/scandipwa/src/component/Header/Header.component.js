@@ -228,7 +228,11 @@ export class Header extends NavigationAbstract {
     }
 
     renderCloseButton(isVisible = false) {
-        const { onCloseButtonClick } = this.props;
+        const { onCloseButtonClick, device: { isMobile } } = this.props;
+
+        if (!isMobile) {
+            return null;
+        }
 
         return (
             <button
