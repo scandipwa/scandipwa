@@ -157,7 +157,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     }
 
     getDropdownOptions(values) {
-        return values.filter(({ product }) => !!product).reduce((acc, {
+        return values.reduce((acc, {
             option_type_id,
             title,
             priceInclTax,

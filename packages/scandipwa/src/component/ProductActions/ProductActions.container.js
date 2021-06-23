@@ -351,15 +351,17 @@ export class ProductActionsContainer extends PureComponent {
                 options = [],
                 price_range: {
                     minimum_price: {
-                        regular_price: {
-                            value: regularPrice = 0
-                        } = {},
                         regular_price_excl_tax: {
-                            currency,
-                            value: regularPriceExclTax = 0
+                            currency
                         } = {},
                         default_final_price_excl_tax: {
                             value: defaultFinalPriceExclTax = 0
+                        } = {},
+                        default_final_price: {
+                            value: defaultFinalPrice = 0
+                        } = {},
+                        default_price: {
+                            value: defaultPrice = 0
                         } = {},
                         discount: {
                             percent_off = 0
@@ -369,38 +371,17 @@ export class ProductActionsContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        const customPrice = this._getCustomPrice(regularPrice, regularPriceExclTax, false);
-
-        const {
-            minimum_price: {
-                final_price: {
-                    value: finalCustomPrice = 0
-                } = {},
-                final_price_excl_tax: {
-                    value: finalCustomPriceExclTax = 0
-                } = {},
-                regular_price: {
-                    value: regularCustomPrice = 0
-                } = {},
-                regular_price_excl_tax: {
-                    value: regularCustomPriceExclTax = 0
-                } = {}
-            } = {}
-        } = customPrice;
-
         const [priceInclTax, priceExclTax] = this.getOptionPricesTotal(options);
 
         return {
             minimum_price: {
                 final_price: {
                     currency,
-                    value: priceInclTax + finalCustomPrice
+                    value: priceInclTax + defaultFinalPrice
                 },
                 discount: { percent_off },
-                default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
-                regular_price: { value: priceInclTax + regularCustomPrice },
-                final_price_excl_tax: { value: priceExclTax + finalCustomPriceExclTax },
-                regular_price_excl_tax: { value: priceExclTax + regularCustomPriceExclTax }
+                regular_price: { value: priceInclTax + defaultPrice },
+                final_price_excl_tax: { value: priceExclTax + defaultFinalPriceExclTax }
             }
         };
     }
