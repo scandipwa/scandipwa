@@ -19,7 +19,8 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    GROUPED
+    GROUPED,
+    SIMPLE
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
@@ -345,10 +346,9 @@ export class ProductActionsContainer extends PureComponent {
         }, [0, 0]);
     }
 
-    getCustomizablePrice() {
+    getSimpleBasePrice() {
         const {
             product: {
-                options = [],
                 price_range: {
                     minimum_price: {
                         regular_price_excl_tax: {
@@ -371,22 +371,60 @@ export class ProductActionsContainer extends PureComponent {
             } = {}
         } = this.props;
 
+        return {
+            minimum_price: {
+                final_price: {
+                    currency,
+                    value: defaultFinalPrice
+                },
+                discount: { percent_off },
+                regular_price: { value: defaultPrice },
+                final_price_excl_tax: { value: defaultFinalPriceExclTax }
+            }
+        };
+    }
+
+    getCustomizablePrice({
+        minimum_price: {
+            final_price: {
+                currency,
+                value: finalPrice
+            },
+            discount: { percent_off },
+            regular_price: { value: regularPrice },
+            final_price_excl_tax: { value: finalPriceExclTax }
+        }
+    }) {
+        const { product: { options = [] } = {} } = this.props;
+
         const [priceInclTax, priceExclTax] = this.getOptionPricesTotal(options);
 
         return {
             minimum_price: {
                 final_price: {
                     currency,
-                    value: priceInclTax + defaultFinalPrice
+                    value: priceInclTax + finalPrice
                 },
                 discount: { percent_off },
-                regular_price: { value: priceInclTax + defaultPrice },
-                final_price_excl_tax: { value: priceExclTax + defaultFinalPriceExclTax }
+                regular_price: { value: priceInclTax + regularPrice },
+                final_price_excl_tax: { value: priceExclTax + finalPriceExclTax }
             }
         };
     }
 
     getProductPrice() {
+        const { product: { options = {} } } = this.props;
+
+        const priceWithVariants = this.getProductPriceWithVariants();
+
+        if (Object.keys(options).length === 0) {
+            return priceWithVariants;
+        }
+
+        return this.getCustomizablePrice(priceWithVariants);
+    }
+
+    getProductPriceWithVariants() {
         const {
             product,
             product: { variants = [], type_id, links_purchased_separately },
@@ -420,8 +458,9 @@ export class ProductActionsContainer extends PureComponent {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
-        if (Object.keys(options).length !== 0) {
-            return this.getCustomizablePrice();
+        if (type_id === SIMPLE && Object.keys(options).length !== 0) {
+            // price of a simple product before selecting any options
+            return this.getSimpleBasePrice();
         }
 
         return price_range;
