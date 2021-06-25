@@ -490,10 +490,6 @@
         &_isVisible {
             @include logo-visible;
         }
-
-        .Image-Image {
-            object-fit: fill;
-        }
     }
 
     &-Title {

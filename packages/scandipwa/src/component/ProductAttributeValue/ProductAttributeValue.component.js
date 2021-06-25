@@ -18,6 +18,7 @@ import Field from 'Component/Field';
 import Html from 'Component/Html';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
+import { getBooleanLabel } from 'Util/Product';
 
 import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
 
@@ -61,7 +62,8 @@ export class ProductAttributeValue extends PureComponent {
     getOptionLabel(value) {
         const {
             attribute: {
-                attribute_options
+                attribute_options,
+                is_boolean
             },
             isProductCountVisible
         } = this.props;
@@ -74,9 +76,10 @@ export class ProductAttributeValue extends PureComponent {
                 }
 
                 const { label, count = 0 } = optionValues;
+
                 return {
                     ...optionValues,
-                    label: `${label} (${count})`
+                    label: `${getBooleanLabel(label, is_boolean)} (${count})`
                 };
             }
         }

@@ -238,6 +238,7 @@ export class ProductListQuery {
         if (!isVariant) {
             fields.push(
                 'url',
+                this._getUrlRewritesFields(),
                 this._getReviewCountField(),
                 this._getRatingSummaryField()
             );
@@ -611,6 +612,11 @@ export class ProductListQuery {
     _getDescriptionField() {
         return new Field('description')
             .addFieldList(this._getDescriptionFields());
+    }
+
+    _getUrlRewritesFields() {
+        return new Field('url_rewrites')
+            .addFieldList(['url']);
     }
 
     _getProductLinkFields() {
@@ -1038,6 +1044,8 @@ export class ProductListQuery {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
+            new Field('is_boolean'),
+            'position',
             this._getAggregationsOptionsField()
         ];
     }

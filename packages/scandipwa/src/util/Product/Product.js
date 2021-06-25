@@ -98,6 +98,22 @@ export const getIndexedVariants = (variants) => variants.map(({ product }) => {
     };
 });
 
+/** @namespace Util/Product/getIndexedSingleVariant */
+export const getIndexedSingleVariant = (variants, itemSku) => {
+    const index = variants.findIndex(({ product: { sku } }) => sku === itemSku || itemSku.includes(sku));
+
+    if (index < 0) {
+        return getIndexedVariants(variants);
+    }
+
+    const indexedProduct = variants[index].product;
+    const { attributes } = indexedProduct;
+
+    return [
+        { ...indexedProduct, attributes: getIndexedAttributes(attributes || []) }
+    ];
+};
+
 /**
  * Get product variant index by options
  * @param {Object[]} variants
@@ -214,13 +230,13 @@ export const getBundleOptions = (options, items) => {
 
     return items.map((item) => ({
         ...item,
-        options: item.options.map((option) => {
-            const selection = bundleOptions.find((o) => o.selection_id === option.id);
+        options: item?.options?.map((option) => {
+            const selection = bundleOptions.find((o) => o.selection_id === option.id) || {};
             const {
-                regular_option_price: regularOptionPrice,
-                regular_option_price_excl_tax: regularOptionPriceExclTax,
-                final_option_price: finalOptionPrice,
-                final_option_price_excl_tax: finalOptionPriceExclTax
+                regular_option_price: regularOptionPrice = 0,
+                regular_option_price_excl_tax: regularOptionPriceExclTax = 0,
+                final_option_price: finalOptionPrice = 0,
+                final_option_price_excl_tax: finalOptionPriceExclTax = 0
             } = selection;
 
             return {
@@ -235,7 +251,7 @@ export const getBundleOptions = (options, items) => {
 };
 
 /** @namespace Util/Product/getIndexedProduct */
-export const getIndexedProduct = (product) => {
+export const getIndexedProduct = (product, itemSku) => {
     const {
         variants: initialVariants = [],
         configurable_options: initialConfigurableOptions = [],
@@ -254,7 +270,7 @@ export const getIndexedProduct = (product) => {
     const updatedProduct = {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
-        variants: getIndexedVariants(initialVariants),
+        variants: itemSku ? getIndexedSingleVariant(initialVariants, itemSku) : getIndexedVariants(initialVariants),
         options: getIndexedCustomOptions(initialOptions || []),
         attributes,
         // Magento 2.4.1 review endpoint compatibility
@@ -273,7 +289,7 @@ export const getIndexedProduct = (product) => {
 };
 
 /** @namespace Util/Product/getIndexedProducts */
-export const getIndexedProducts = (products) => products.map(getIndexedProduct);
+export const getIndexedProducts = (products) => products.map((product) => getIndexedProduct(product));
 
 /** @namespace Util/Product/getIndexedParameteredProducts */
 export const getIndexedParameteredProducts = (products) => Object.entries(products)
@@ -346,4 +362,28 @@ export const getExtensionAttributes = (product) => {
     }
 
     return {};
+};
+
+/** @namespace Util/Product/sortBySortOrder */
+export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(
+    (a, b) => {
+        if (a[sortKey] < b[sortKey]) {
+            return -1;
+        }
+
+        if (a[sortKey] > b[sortKey]) {
+            return 1;
+        }
+
+        return 0;
+    }
+);
+
+/** @namespace Util/Product/getBooleanLabel */
+export const getBooleanLabel = (label, isBoolean = false) => {
+    if (!isBoolean) {
+        return label;
+    }
+
+    return +label ? __('Yes') : __('No');
 };

@@ -99,9 +99,9 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
         return moveWishlistToCart().then(
             /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
-            () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
+            () => this.showNotificationAndRemoveLoading('Available items moved to cart'),
             /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartCatch */
-            () => this.showErrorAndRemoveLoading('Failed to add all items to cart')
+            () => this.showErrorAndRemoveLoading('Failed to add items to cart')
         );
     };
 
