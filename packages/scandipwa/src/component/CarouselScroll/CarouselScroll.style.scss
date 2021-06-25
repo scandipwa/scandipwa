@@ -18,7 +18,6 @@
         transform: translateY(var(--translateY));
         transition: transform var(--animation-speed);
         padding-right: 1px;
-        display: flex;
-        flex-direction: column;
+        
     }
 }

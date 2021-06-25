@@ -309,7 +309,7 @@ export class ProductGallery extends PureComponent {
 
         return (
             <div block="ProductGallery" elem="Additional" mods={ { isImageZoomPopupActive } }>
-                <CarouselScroll activeItemId={ activeImage } onChange={ onActiveImageChange } showedItemCount={ 4 }>
+                <CarouselScroll activeItemId={ activeImage } onChange={ onActiveImageChange } showedItemCount={ 5 }>
                     { gallery.map(this.renderAdditionalPicture) }
                 </CarouselScroll>
             </div>
