@@ -16,6 +16,8 @@
 }
 
 .CartOverlay {
+    cursor: auto;
+
     @include desktop {
         position: absolute;
         inset-block-start: calc(var(--header-nav-height) - 7px);

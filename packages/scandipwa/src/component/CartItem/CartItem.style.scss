@@ -221,7 +221,7 @@
             display: none;
         }
 
-        @include tablet{
+        @include tablet; @include narrow-desktop {
             display: none;
         }
     }
@@ -244,6 +244,8 @@
         }
 
         button {
+            cursor: pointer;
+
             @include mobile {
                 padding: 14px;
             }

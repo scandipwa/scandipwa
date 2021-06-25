@@ -16,13 +16,14 @@
 }
 
 @mixin narrow-desktop {
-    @media (min-width: 1024px){
+    @media (min-width: 1024px)
+        and (max-width: 1280px) {
         @content;
     }
 }
 
 @mixin wide-desktop {
-    @media (min-width: 1280px){
+    @media (min-width: 1280px) {
         @content;
     }
 }
