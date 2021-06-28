@@ -22,10 +22,14 @@ a {
     font-size: 14px;
     font-weight: 700;
 
+    &:hover,
+    &:focus {
+        color: var(--link-hover);
+    }
+
     &.Link {
         &:hover,
         &:focus {
-            color: var(--link-hover);
             border-block-end: var(--link-hover-underline);
             padding-block-end: 3px;
         }

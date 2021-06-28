@@ -38,7 +38,8 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    GROUPED, showNewReviewPopup
+    GROUPED,
+    showNewReviewPopup
 } from 'Util/Product';
 
 import './ProductActions.style';
@@ -123,9 +124,9 @@ export class ProductActions extends PureComponent {
     }
 
     renderReviewButton() {
-        const { areReviewsEnabled, device: { isMobile } } = this.props;
+        const { areReviewsEnabled } = this.props;
 
-        if (!areReviewsEnabled || isMobile) {
+        if (!areReviewsEnabled) {
             return null;
         }
 
@@ -731,7 +732,7 @@ export class ProductActions extends PureComponent {
                     { this.renderSkuAndStock() }
                 </div>
                 <div block="ProductActions" elem="ActionsWrapper">
-                    { this.renderReviews() }
+                    { this.renderReviewSection() }
                     { this.renderProductCompareButton() }
                 </div>
                 { this.renderBrand() }

@@ -76,7 +76,7 @@ export class ResetAttributesContainer extends PureComponent {
 
         return {
             [attribute_label]: func(attrValue, Object.values(attribute_options)).map(
-                (option) => ({ ...option, attribute_code })
+                (option) => ({ ...option, attribute_code, attribute_label })
             )
         };
     };

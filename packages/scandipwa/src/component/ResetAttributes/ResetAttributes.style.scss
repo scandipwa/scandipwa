@@ -37,10 +37,6 @@
         width: var(--checkbox-width);
     }
 
-    &-Attribute {
-        font-weight: bold;
-    }
-
     &-Title {
         @include mobile {
             display: none;
