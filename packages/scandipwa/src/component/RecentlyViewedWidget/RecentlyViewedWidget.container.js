@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { updateLoadStatus } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import RecentlyViewedProductsDispatcher from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.dispatcher';
 import { ItemsType } from 'Type/ProductList';
 
@@ -21,13 +22,14 @@ import RecentlyViewedWidget from './RecentlyViewedWidget.component';
 /** @namespace Component/RecentlyViewedWidget/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     recentProducts: state.RecentlyViewedProductsReducer.recentlyViewedProducts,
-    shouldBeUpdated: state.RecentlyViewedProductsReducer.shouldBeUpdated,
+    isLoading: state.RecentlyViewedProductsReducer.isLoading,
     store: state.ConfigReducer.code
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapDispatchToProps */
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({
+    updateLoadStatus: (isLoading) => dispatch(updateLoadStatus(isLoading)),
     updateRecentViewedProductsInfo:
         (options) => RecentlyViewedProductsDispatcher.handleData(dispatch, options)
 });
@@ -35,9 +37,10 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/RecentlyViewedWidget/Container */
 export class RecentlyViewedWidgetContainer extends PureComponent {
     static propTypes = {
+        updateLoadStatus: PropTypes.func.isRequired,
         updateRecentViewedProductsInfo: PropTypes.func.isRequired,
         recentProducts: PropTypes.objectOf(ItemsType).isRequired,
-        shouldBeUpdated: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool.isRequired,
         store: PropTypes.string.isRequired
     };
 
@@ -50,12 +53,14 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
 
     componentDidMount() {
         const {
+            updateLoadStatus,
             updateRecentViewedProductsInfo,
             recentProducts,
             store
         } = this.props;
 
         if (Object.entries(recentProducts).length !== 0) {
+            updateLoadStatus(true);
             updateRecentViewedProductsInfo({ recentProducts, store });
         }
     }
