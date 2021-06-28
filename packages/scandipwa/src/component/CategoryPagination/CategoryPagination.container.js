@@ -78,9 +78,10 @@ export class CategoryPaginationContainer extends PureComponent {
     // e.g. 5 for pagination like 1 ... 5 6 7 ... 14
     _getFirstFramePage() {
         const { paginationFrame, totalPages } = this.props;
-        const maxFirstPage = Math.max(1, this._getCurrentPage() - Math.ceil(paginationFrame / 2) + 1);
-        const minFirstPage = Math.max(1, totalPages - paginationFrame + 1);
-        return Math.min(maxFirstPage, minFirstPage);
+        const maxFirstPage = this._getCurrentPage() - Math.ceil(paginationFrame / 2) + 1;
+        const minFirstPage = totalPages - paginationFrame + 1;
+
+        return Math.max(1, Math.min(maxFirstPage, minFirstPage));
     }
 
     // e.g. 7 for pagination like 1 ... 5 6 7 ... 14
