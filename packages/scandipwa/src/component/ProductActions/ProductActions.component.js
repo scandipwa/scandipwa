@@ -439,8 +439,6 @@ export class ProductActions extends PureComponent {
             }
         } = this.props;
 
-        console.log({ stock_status });
-
         if (stock_status === OUT_OF_STOCK) {
             return null;
         }
