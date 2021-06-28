@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
+import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
@@ -111,39 +111,18 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    /**
-     * @param price options' actual price
-     * @param currency options' actual currency
-     * @param priceType figure out the calculation way
-     * @param value final price excluding tax divider
-     * @returns {string|string}
-     */
-    renderFormattedOptionsString(price, currency, priceType, value) {
-        switch (priceType) {
-        case 'PERCENT':
-            return price === 0 ? '' : `+ ${formatPrice((price / ONE_HUNDRED_PERCENT) * value, currency)} (${ price }%)`;
-        default:
-            return price === 0 ? '' : `+ ${formatPrice(price, currency)}`;
+    renderPercent(priceType, price) {
+        if (priceType !== PRICE_TYPE_PERCENT) {
+            return '';
         }
+
+        return ` (${ price }%)`;
     }
 
-    renderOptionLabel(priceType, price, currency) {
-        const {
-            price_range: {
-                minimum_price: {
-                    default_final_price_excl_tax: {
-                        value = 0
-                    } = {}
-                } = {}
-            } = {}
-        } = this.props;
-
-        switch (priceType) {
-        case 'PERCENT':
-            return this.renderFormattedOptionsString(price, currency, priceType, value);
-        default:
-            return this.renderFormattedOptionsString(price, currency);
-        }
+    renderOptionLabel(priceType, priceInclTax, price, currency) {
+        return price === 0
+            ? ''
+            : `+ ${formatPrice(priceInclTax, currency)}${this.renderPercent(priceType, price)}`;
     }
 
     getSelectedCheckboxValue(value) {
@@ -178,9 +157,10 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     }
 
     getDropdownOptions(values) {
-        return values.filter(({ product }) => !!product).reduce((acc, {
+        return values.reduce((acc, {
             option_type_id,
             title,
+            priceInclTax,
             price,
             price_type,
             currency
@@ -189,7 +169,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} ${this.renderOptionLabel(price_type, price, currency)}`
+                label: `${title} ${this.renderOptionLabel(price_type, priceInclTax, price, currency)}`
             });
 
             return acc;

@@ -19,7 +19,8 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    GROUPED
+    GROUPED,
+    SIMPLE
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
@@ -304,21 +305,63 @@ export class ProductActionsContainer extends PureComponent {
         });
     }
 
-    getCustomizablePrice() {
+    getOptionPricesTotal(options) {
+        const selectedOptions = this.getSelectedOptions();
+        const selectedOptionsMulti = this.getSelectedOptionsMulti();
+
+        return options.reduce(([priceInclTaxTotal, priceExclTaxTotal], { data = [], option_id, type }) => {
+            /*
+            * Such types contain a single item within data
+            * as those are looked up on the option_id
+            */
+            if (['area', 'field', 'file'].includes(type)) {
+                if (selectedOptionsMulti.includes(option_id)) {
+                    const [{ priceInclTax, priceExclTax }] = data;
+                    return [priceInclTaxTotal + priceInclTax, priceExclTaxTotal + priceExclTax];
+                }
+
+                return [priceInclTaxTotal, priceExclTaxTotal];
+            }
+
+            const [
+                selectionPriceInclTax,
+                selectionPriceExclTax
+            ] = data.reduce((
+                [optionPriceInclTax, optionPriceExclTax], { option_type_id, priceInclTax, priceExclTax }
+            ) => {
+                if (selectedOptions.includes(option_type_id)) {
+                    return [
+                        optionPriceInclTax + priceInclTax,
+                        optionPriceExclTax + priceExclTax
+                    ];
+                }
+
+                return [optionPriceInclTax, optionPriceExclTax];
+            }, [0, 0]);
+
+            return [
+                priceInclTaxTotal + selectionPriceInclTax,
+                priceExclTaxTotal + selectionPriceExclTax
+            ];
+        }, [0, 0]);
+    }
+
+    getSimpleBasePrice() {
         const {
             product: {
-                options = [],
                 price_range: {
                     minimum_price: {
-                        regular_price: {
-                            value: regularPrice = 0
-                        } = {},
                         regular_price_excl_tax: {
-                            currency,
-                            value: regularPriceExclTax = 0
+                            currency
                         } = {},
                         default_final_price_excl_tax: {
                             value: defaultFinalPriceExclTax = 0
+                        } = {},
+                        default_final_price: {
+                            value: defaultFinalPrice = 0
+                        } = {},
+                        default_price: {
+                            value: defaultPrice = 0
                         } = {},
                         discount: {
                             percent_off = 0
@@ -328,83 +371,60 @@ export class ProductActionsContainer extends PureComponent {
             } = {}
         } = this.props;
 
-        const customPrice = this._getCustomPrice(regularPrice, regularPriceExclTax, false);
-
-        const {
-            minimum_price: {
-                final_price: {
-                    value: finalCustomPrice = 0
-                } = {},
-                final_price_excl_tax: {
-                    value: finalCustomPriceExclTax = 0
-                } = {},
-                regular_price: {
-                    value: regularCustomPrice = 0
-                } = {},
-                regular_price_excl_tax: {
-                    value: regularCustomPriceExclTax = 0
-                } = {}
-            } = {}
-        } = customPrice;
-
-        const selectedOptions = this.getSelectedOptions();
-        const selectedOptionsMulti = this.getSelectedOptionsMulti();
-
-        const prices = options.reduce((acc, { data = [], option_id, type }) => {
-            /*
-            * Such types contain a single item within data
-            * as those are looked up on the option_id
-            */
-            if (['area', 'field', 'file'].includes(type)) {
-                if (selectedOptionsMulti.includes(option_id)) {
-                    /*
-                    * Since such types only have a single value
-                    * we can get the price_type directly
-                    */
-                    const [{ price_type }] = data;
-
-                    if (price_type === 'PERCENT') {
-                        const price = (data[0].price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
-                        acc.push(price);
-                    } else {
-                        acc.push(data[0].price);
-                    }
-                }
-
-                return acc;
-            }
-
-            data.forEach(({ option_type_id, price, price_type }) => {
-                if (selectedOptions.includes(option_type_id)) {
-                    if (price_type === 'PERCENT') {
-                        const finalPrice = (price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
-                        acc.push(finalPrice);
-                    } else {
-                        acc.push(price);
-                    }
-                }
-            });
-
-            return acc;
-        }, []);
-
-        const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
         return {
             minimum_price: {
                 final_price: {
                     currency,
-                    value: selectedOptionsTotal + finalCustomPrice
+                    value: defaultFinalPrice
                 },
                 discount: { percent_off },
-                default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
-                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
-                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
-                regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
+                regular_price: { value: defaultPrice },
+                final_price_excl_tax: { value: defaultFinalPriceExclTax }
+            }
+        };
+    }
+
+    getCustomizablePrice({
+        minimum_price: {
+            final_price: {
+                currency,
+                value: finalPrice
+            },
+            discount: { percent_off },
+            regular_price: { value: regularPrice },
+            final_price_excl_tax: { value: finalPriceExclTax }
+        }
+    }) {
+        const { product: { options = [] } = {} } = this.props;
+
+        const [priceInclTax, priceExclTax] = this.getOptionPricesTotal(options);
+
+        return {
+            minimum_price: {
+                final_price: {
+                    currency,
+                    value: priceInclTax + finalPrice
+                },
+                discount: { percent_off },
+                regular_price: { value: priceInclTax + regularPrice },
+                final_price_excl_tax: { value: priceExclTax + finalPriceExclTax }
             }
         };
     }
 
     getProductPrice() {
+        const { product: { options = {} } } = this.props;
+
+        const priceWithVariants = this.getProductPriceWithVariants();
+
+        if (Object.keys(options).length === 0) {
+            return priceWithVariants;
+        }
+
+        return this.getCustomizablePrice(priceWithVariants);
+    }
+
+    getProductPriceWithVariants() {
         const {
             product,
             product: { variants = [], type_id, links_purchased_separately },
@@ -438,8 +458,9 @@ export class ProductActionsContainer extends PureComponent {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
-        if (Object.keys(options).length !== 0) {
-            return this.getCustomizablePrice();
+        if (type_id === SIMPLE && Object.keys(options).length !== 0) {
+            // price of a simple product before selecting any options
+            return this.getSimpleBasePrice();
         }
 
         return price_range;
