@@ -182,7 +182,7 @@
             }
 
             &_compare {
-                display: contents;
+                @include button-visible;
             }
         }
 
