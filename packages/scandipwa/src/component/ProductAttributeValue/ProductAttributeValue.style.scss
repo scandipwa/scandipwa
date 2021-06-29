@@ -225,6 +225,7 @@
         .ProductAttributeValue-Color {
             &::before {
                 @include not-available;
+
                 background-color: var(--option-check-mark-background);
             }
         }

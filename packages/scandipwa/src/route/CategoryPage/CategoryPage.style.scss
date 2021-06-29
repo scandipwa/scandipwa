@@ -167,8 +167,10 @@
 
             &.list {
                 &:after {
-                    background-image: url('./../../style/icons/list.svg');
                     @include rtl-icon;
+
+                    background-image: url('./../../style/icons/list.svg');
+
                 }
 
                 &_isActive {

@@ -27,6 +27,7 @@
         .Breadcrumb-Arrow {
             @include chevron-icon;
             @include rtl-icon;
+
             filter: invert(57%) sepia(0%) saturate(1%) hue-rotate(105deg) brightness(93%) contrast(90%);
             display: inline-block;
             margin-inline-start: $crumb-padding;

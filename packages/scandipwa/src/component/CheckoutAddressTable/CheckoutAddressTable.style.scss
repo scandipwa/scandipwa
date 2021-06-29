@@ -32,9 +32,10 @@
 
         .KeyValueTable-Heading {
             span {
+                @include radiobutton;
+
                 float: inline-end;
                 display: inline-block;
-                @include radiobutton;
                 inset-block-start: 3px;
             }
         }

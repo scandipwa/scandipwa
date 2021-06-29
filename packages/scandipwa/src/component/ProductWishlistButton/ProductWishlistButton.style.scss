@@ -11,6 +11,7 @@
 
         .ProductWishlistButton-Heart {
             @include heart-icon-full;
+
             filter: var(--primary-base-filter);
         }
     }
@@ -30,9 +31,9 @@
     }
 
     &-Heart {
+        @include heart-icon;
+
         height: var(--wishlist-heart-size);
         min-width: var(--wishlist-heart-size);
-
-        @include heart-icon;
     }
 }

@@ -30,11 +30,13 @@
 
          &-ToggleButton {
              @include plus-icon;
+
              width: var(--toggle-button-size);
              height: var(--toggle-button-size);
 
              &_isContentExpanded {
                  @include minus-icon;
+
                  width: var(--toggle-button-size);
                  height: var(--toggle-button-size);
              }
@@ -42,6 +44,7 @@
 
          &-ToggleArrow {
              @include chevron-icon;
+
              width: var(--toggle-button-size);
              height: var(--toggle-button-size);
              transform: rotate(90deg);

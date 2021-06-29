@@ -33,6 +33,7 @@
 
     &-CloseIcon {
         @include close-button;
+
         height: var(--checkbox-height);
         width: var(--checkbox-width);
     }

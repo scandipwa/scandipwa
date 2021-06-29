@@ -120,6 +120,7 @@
 
     &-Remove {
         @include close-button;
+
         position: absolute;
         inset-inline-end: 4px;
         inset-block-start: 4px;
@@ -240,6 +241,7 @@
 
     &-EditIcon {
         @include edit-icon;
+
         display: inline-block;
         height: 20px;
         width: 20px;
@@ -248,6 +250,7 @@
 
     &-MinicartIcon {
         @include minicart-button;
+
         filter: var(--primary-base-filter);
         height: 20px;
         margin-inline-end: 14px;

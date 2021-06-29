@@ -54,9 +54,9 @@
     }
 
     &-Button {
-        margin-inline-start: 24px;
-
         @include button;
+
+        margin-inline-start: 24px;
 
         @include mobile {
             width: 100%;
