@@ -101,11 +101,9 @@ export class CarouselScroll extends PureComponent {
 
         const scrollStep = Math.ceil(showedItemCount / 2);
 
-        if (isNextArrow) {
-            return Math.min(prevFirstCarouselItemId + scrollStep, this.getMaxFirstItemId());
-        }
-
-        return Math.max(prevFirstCarouselItemId - scrollStep, 0);
+        return isNextArrow
+            ? Math.min(prevFirstCarouselItemId + scrollStep, this.getMaxFirstItemId())
+            : Math.max(prevFirstCarouselItemId - scrollStep, 0);
     }
 
     handleArrowClick = (isNextArrow) => {
