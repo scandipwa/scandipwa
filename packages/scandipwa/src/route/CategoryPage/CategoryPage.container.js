@@ -442,6 +442,7 @@ export class CategoryPageContainer extends PureComponent {
 
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
+
             return { ...acc, [key]: value };
         }, {});
     }
@@ -455,6 +456,7 @@ export class CategoryPageContainer extends PureComponent {
                 return acc;
             }
             const [key, value] = filter.split(':');
+
             return { ...acc, [key]: value.split(',') };
         }, {});
     }
@@ -498,6 +500,7 @@ export class CategoryPageContainer extends PureComponent {
         const { location } = this.props;
         const min = +getQueryParam('priceMin', location);
         const max = +getQueryParam('priceMax', location);
+
         return { min, max };
     }
 

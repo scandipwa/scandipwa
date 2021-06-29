@@ -369,6 +369,7 @@ export class CartItem extends PureComponent {
             isMobileLayout
         } = this.props;
         const isNotAvailable = !isProductInStock;
+
         return (
             <>
             <Image

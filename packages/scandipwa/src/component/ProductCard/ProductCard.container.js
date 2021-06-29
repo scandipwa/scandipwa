@@ -87,6 +87,7 @@ export class ProductCardContainer extends PureComponent {
 
         if (!Object.keys(selectedFilters).length) {
             const { product: { attributes = {} } } = this.props;
+
             return attributes[code];
         }
 
@@ -145,6 +146,7 @@ export class ProductCardContainer extends PureComponent {
 
     _getCurrentVariantIndex() {
         const { index } = this._getConfigurableParameters();
+
         return index;
     }
 

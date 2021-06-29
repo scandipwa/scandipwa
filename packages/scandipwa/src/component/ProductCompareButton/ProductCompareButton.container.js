@@ -58,6 +58,7 @@ export class ProductCompareButtonContainer extends PureComponent {
 
     isActive() {
         const { comparedProducts, productId } = this.props;
+
         return comparedProducts.indexOf(productId) !== -1;
     }
 

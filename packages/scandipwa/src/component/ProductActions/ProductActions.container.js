@@ -212,6 +212,7 @@ export class ProductActionsContainer extends PureComponent {
 
     getMetaLink() {
         const { getLink } = this.props;
+
         return window.location.origin + getLink().replace(/\?.*/, '');
     }
 
@@ -368,6 +369,7 @@ export class ProductActionsContainer extends PureComponent {
         }, []);
 
         const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
+
         return {
             minimum_price: {
                 final_price: {
@@ -512,6 +514,7 @@ export class ProductActionsContainer extends PureComponent {
 
     _getGroupedProductQuantity() {
         const { groupedProductQuantity } = this.state;
+
         return groupedProductQuantity;
     }
 

@@ -95,6 +95,7 @@ export class ExpandableContentShowMore extends PureComponent {
 
         if (isOpen && length <= showElemCount) {
             this.setState({ isOpen: false });
+
             return;
         }
 

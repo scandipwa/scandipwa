@@ -332,6 +332,7 @@ export class MyAccountContainer extends PureComponent {
 
         if (pathname === '/forgot-password') { // forward the forgot password state
             history.push({ pathname: appendWithStoreCode('/'), state: { isForgotPassword: true } });
+
             return;
         }
 

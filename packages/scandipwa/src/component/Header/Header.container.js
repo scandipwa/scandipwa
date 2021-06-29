@@ -219,6 +219,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     getUserName() {
         const { firstname } = BrowserDatabase.getItem(CUSTOMER) || {};
+
         return firstname;
     }
 
@@ -248,6 +249,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         if (isHiddenOnMobile) {
             document.documentElement.classList.add('hiddenHeader');
+
             return;
         }
 
@@ -358,6 +360,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         if (isSignedIn()) {
             history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
+
             return;
         }
 
@@ -422,6 +425,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             this.setState({ shouldRenderCartOverlay: true });
 
             showOverlay(CART_OVERLAY);
+
             return;
         }
 

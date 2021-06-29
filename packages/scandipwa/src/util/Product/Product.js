@@ -97,6 +97,7 @@ export const getIndexedConfigurableOptions = (configurableOptions, indexedAttrib
 /** @namespace Util/Product/getIndexedVariants */
 export const getIndexedVariants = (variants) => variants.map(({ product }) => {
     const { attributes } = product;
+
     return {
         ...product,
         attributes: getIndexedAttributes(attributes || [])
@@ -152,26 +153,31 @@ export const getIndexedCustomOption = (option) => {
 
     if (checkboxValues) {
         const data = Array.isArray(checkboxValues) ? checkboxValues : [checkboxValues];
+
         return { type: 'checkbox', data, ...otherFields };
     }
 
     if (dropdownValues) {
         const data = Array.isArray(dropdownValues) ? dropdownValues : [dropdownValues];
+
         return { type: 'dropdown', data, ...otherFields };
     }
 
     if (fieldValues) {
         const data = Array.isArray(fieldValues) ? fieldValues : [fieldValues];
+
         return { type: 'field', data, ...otherFields };
     }
 
     if (areaValues) {
         const data = Array.isArray(areaValues) ? areaValues : [areaValues];
+
         return { type: 'area', data, ...otherFields };
     }
 
     if (fileValues) {
         const data = Array.isArray(fileValues) ? fileValues : [fileValues];
+
         return { type: 'file', data, ...otherFields };
     }
 
@@ -416,6 +422,7 @@ export const showNewReviewPopup = () => {
     // if not logged in and guest reviews are not enabled
     if (!isSignedIn() && !isGuestEnabled) {
         dispatch(showNotification('info', __('You must login or register to review products.')));
+
         return;
     }
 

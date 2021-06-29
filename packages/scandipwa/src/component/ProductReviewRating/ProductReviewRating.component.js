@@ -87,6 +87,7 @@ export class ProductReviewRating extends PureComponent {
         const fullCount = Math.floor(percentRounded / ONE_STAR_SHARE);
         const halfFullCount = percentRounded % ONE_STAR_SHARE === STARS_GRANULARITY_PERCENT ? 1 : 0;
         const emptyCount = STARS_COUNT - fullCount - halfFullCount;
+
         return [fullCount, halfFullCount, emptyCount];
     }
 

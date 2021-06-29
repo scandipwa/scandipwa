@@ -257,12 +257,14 @@ export class Slider extends PureComponent {
         if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
             const activeSlide = sliderPossition - 1;
             onActiveImageChange(-activeSlide);
+
             return activeSlide;
         }
 
         if (slideSize / 2 > mousePossitionInElement && lastTranslate) {
             const activeSlide = sliderPossition + 1;
             onActiveImageChange(-activeSlide);
+
             return activeSlide;
         }
 
@@ -307,29 +309,34 @@ export class Slider extends PureComponent {
 
         if ((dir === 1 && translate >= 0) || (dir === -1 && translate < 0)) {
             onActiveImageChange(0);
+
             return 0;
         }
 
         if ((dir === 1 && translate < -fullSliderSize) || (dir === -1 && translate > fullSliderSize)) {
             const activeSlide = Math.round(fullSliderSize / (-slideSize * dir));
             onActiveImageChange(-activeSlide);
+
             return activeSlide;
         }
 
         if (isSlideBack && activeSlidePercent < 1 - ACTIVE_SLIDE_PERCENT) {
             const activeSlide = Math[dir === 1 ? 'ceil' : 'floor'](activeSlidePosition);
             onActiveImageChange(-activeSlide);
+
             return activeSlide;
         }
 
         if (!isSlideBack && activeSlidePercent > ACTIVE_SLIDE_PERCENT) {
             const activeSlide = Math[dir === 1 ? 'floor' : 'ceil'](activeSlidePosition);
             onActiveImageChange(-activeSlide);
+
             return activeSlide;
         }
 
         const activeSlide = Math.round(activeSlidePosition);
         onActiveImageChange(-activeSlide);
+
         return activeSlide;
     }
 

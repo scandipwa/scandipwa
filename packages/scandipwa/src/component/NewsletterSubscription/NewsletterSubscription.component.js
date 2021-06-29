@@ -54,6 +54,7 @@ export class NewsletterSubscription extends FieldForm {
 
     render() {
         const { isLoading, onFormSubmit } = this.props;
+
         return (
             <div block="NewsletterSubscription">
                 <Form

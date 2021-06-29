@@ -69,6 +69,7 @@ export class CartCoupon extends PureComponent {
 
         if (couponCode) {
             this.handleRemoveCoupon();
+
             return;
         }
 

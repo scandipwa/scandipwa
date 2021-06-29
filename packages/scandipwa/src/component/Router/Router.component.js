@@ -206,6 +206,7 @@ export class Router extends PureComponent {
                 if (!entry.component) {
                     // eslint-disable-next-line no-console
                     console.warn('There is an item without a component property declared in main router.');
+
                     return false;
                 }
 

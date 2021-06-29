@@ -101,6 +101,7 @@ export class ExpandableContent extends PureComponent {
         const { onClick } = this.props;
         if (onClick) {
             onClick();
+
             return;
         }
         this.setState(
@@ -152,6 +153,7 @@ export class ExpandableContent extends PureComponent {
         const { children, mix } = this.props;
         const { isContentExpanded } = this.state;
         const mods = { isContentExpanded };
+
         return (
             <div
               block="ExpandableContent"
@@ -166,6 +168,7 @@ export class ExpandableContent extends PureComponent {
 
     render() {
         const { mix, mods } = this.props;
+
         return (
             <article
               block="ExpandableContent"

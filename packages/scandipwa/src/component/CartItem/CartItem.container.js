@@ -92,6 +92,7 @@ export class CartItemContainer extends PureComponent {
 
     productIsInStock() {
         const { item } = this.props;
+
         return !itemIsOutOfStock(item);
     }
 
@@ -109,11 +110,13 @@ export class CartItemContainer extends PureComponent {
 
     getMinQuantity() {
         const { stock_item: { min_sale_qty } = {} } = this.getCurrentProduct() || {};
+
         return min_sale_qty || 1;
     }
 
     getMaxQuantity() {
         const { stock_item: { max_sale_qty } = {} } = this.getCurrentProduct() || {};
+
         return max_sale_qty || DEFAULT_MAX_PRODUCTS;
     }
 
@@ -160,6 +163,7 @@ export class CartItemContainer extends PureComponent {
         // "isMobileLayout" check is required to render mobile content in some additional cases
         // where screen width exceeds 810px (e.g. CartOverlay)
         const { device, isCartOverlay } = this.props;
+
         return device.isMobile || isCartOverlay;
     }
 
@@ -187,6 +191,7 @@ export class CartItemContainer extends PureComponent {
     registerCancelablePromise(promise) {
         const cancelablePromise = makeCancelable(promise);
         this.handlers.push(cancelablePromise);
+
         return cancelablePromise;
     }
 
@@ -278,6 +283,7 @@ export class CartItemContainer extends PureComponent {
     _getProductThumbnail() {
         const product = this.getCurrentProduct();
         const { thumbnail: { url: thumbnail } = {} } = product;
+
         return thumbnail || '';
     }
 
@@ -324,11 +330,13 @@ export class CartItemContainer extends PureComponent {
         }
 
         const { attributes = [] } = this.getCurrentProduct() || {};
+
         return Object.entries(attributes).map(this.getConfigurationOptionLabel).filter((label) => label);
     }
 
     renderRightSideContent = () => {
         const { handleRemoveItem } = this.containerFunctions;
+
         return (
             <button
               block="CartItem"

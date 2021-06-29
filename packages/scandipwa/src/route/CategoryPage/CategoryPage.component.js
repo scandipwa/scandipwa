@@ -138,6 +138,7 @@ export class CategoryPage extends PureComponent {
 
     displayCmsBlock() {
         const { category: { display_mode } = {} } = this.props;
+
         return display_mode === DISPLAY_MODE_CMS_BLOCK
             || display_mode === DISPLAY_MODE_BOTH;
     }

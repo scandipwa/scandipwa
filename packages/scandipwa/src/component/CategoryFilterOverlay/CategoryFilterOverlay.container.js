@@ -97,6 +97,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
                 return acc;
             }
             const [key, value] = filter.split(':');
+
             return { ...acc, [key]: value.split(',') };
         }, {});
     }
@@ -218,13 +219,16 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
     isContentFiltered() {
         const { customFilters, priceMin, priceMax } = this.urlStringToObject();
+
         return !!(customFilters || priceMin || priceMax);
     }
 
     urlStringToObject() {
         const { location: { search } } = this.props;
+
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
+
             return { ...acc, [key]: value };
         }, {});
     }

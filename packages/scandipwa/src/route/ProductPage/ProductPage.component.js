@@ -66,6 +66,7 @@ export class ProductPage extends PureComponent {
             name: __('About'),
             shouldTabRender: () => {
                 const { isInformationTabEmpty } = this.props;
+
                 return !isInformationTabEmpty;
             },
             render: (key) => this.renderProductInformationTab(key)
@@ -74,6 +75,7 @@ export class ProductPage extends PureComponent {
             name: __('Details'),
             shouldTabRender: () => {
                 const { isAttributesTabEmpty } = this.props;
+
                 return !isAttributesTabEmpty;
             },
             render: (key) => this.renderProductAttributesTab(key)

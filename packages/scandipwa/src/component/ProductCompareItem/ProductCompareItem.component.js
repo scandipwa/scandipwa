@@ -128,6 +128,7 @@ export class ProductCompareItem extends PureComponent {
 
     renderAddToCartBtnDisabled() {
         const { linkTo, overriddenAddToCartBtnHandler } = this.props;
+
         return (
             <Link
               to={ linkTo }

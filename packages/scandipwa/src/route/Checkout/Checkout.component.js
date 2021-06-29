@@ -282,6 +282,7 @@ export class Checkout extends PureComponent {
 
     renderLoader() {
         const { isLoading } = this.props;
+
         return <Loader isLoading={ isLoading } />;
     }
 

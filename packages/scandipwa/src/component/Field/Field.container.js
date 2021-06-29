@@ -225,6 +225,7 @@ export class FieldContainer extends PureComponent {
 
             const validationRules = validationConfig[rule];
             const isValid = validationRules.validate(inputNode, formRefMap);
+
             return !isValid;
         });
 

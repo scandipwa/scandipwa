@@ -40,6 +40,7 @@ export class CategoryPaginationLink extends PureComponent {
 
     getSearchQueryForPage = () => {
         const { getSearchQueryForPage, pageNumber } = this.props;
+
         return getSearchQueryForPage(pageNumber);
     };
 

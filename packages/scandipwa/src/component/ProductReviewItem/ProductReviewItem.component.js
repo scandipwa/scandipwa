@@ -29,6 +29,7 @@ export class ProductReviewItem extends PureComponent {
         // Safari bug
         const fixedDate = created_at.replace(/-/g, '/');
         const date = new Date(fixedDate);
+
         return date ? date.toDateString() : created_at;
     }
 

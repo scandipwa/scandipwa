@@ -72,6 +72,7 @@ export class CheckoutShipping extends PureComponent {
 
     renderPriceLine(price) {
         const { totals: { quote_currency_code } } = this.props;
+
         return formatPrice(price, quote_currency_code);
     }
 

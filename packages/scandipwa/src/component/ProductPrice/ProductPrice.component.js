@@ -68,6 +68,7 @@ export class ProductPrice extends PureComponent {
 
     getCurrencySchema() {
         const { isSchemaRequired, priceCurrency } = this.props;
+
         return isSchemaRequired ? { itemProp: 'priceCurrency', content: priceCurrency } : {};
     }
 
@@ -168,6 +169,7 @@ export class ProductPrice extends PureComponent {
 
         if (isSchemaRequired) {
             const currencySchema = this.getCurrencySchema();
+
             return (
                 <meta { ...currencySchema } />
             );

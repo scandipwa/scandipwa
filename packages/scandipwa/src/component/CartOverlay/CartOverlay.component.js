@@ -59,6 +59,7 @@ export class CartOverlay extends PureComponent {
 
     renderPriceLine(price) {
         const { currencyCode } = this.props;
+
         return formatPrice(price, currencyCode);
     }
 

@@ -91,6 +91,7 @@ export class CarouselScroll extends PureComponent {
 
     getMaxFirstItemId = () => {
         const { children: { length: childrenLength }, showedItemCount } = this.props;
+
         return childrenLength - showedItemCount;
     };
 
