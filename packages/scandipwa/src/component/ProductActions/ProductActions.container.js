@@ -20,7 +20,7 @@ import {
     CONFIGURABLE,
     DOWNLOADABLE,
     GROUPED,
-    SIMPLE
+    SIMPLE, VIRTUAL
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
@@ -432,7 +432,7 @@ export class ProductActionsContainer extends PureComponent {
             selectedLinkPrice
         } = this.props;
 
-        const { options = {} } = product;
+        const { options = [] } = product;
 
         const {
             price_range
@@ -458,8 +458,8 @@ export class ProductActionsContainer extends PureComponent {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
-        if (type_id === SIMPLE && Object.keys(options).length !== 0) {
-            // price of a simple product before selecting any options
+        if ((type_id === SIMPLE || type_id === VIRTUAL) && options.length !== 0) {
+            // price of a product before selecting any options
             return this.getSimpleBasePrice();
         }
 
