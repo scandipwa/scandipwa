@@ -40,7 +40,11 @@ export class StoreInPickUpContainer extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         countryId: PropTypes.string.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func.isRequired
+        setSelectedShippingMethodCode: PropTypes.func
+    };
+
+    static defaultProps = {
+        setSelectedShippingMethodCode: null
     };
 
     containerFunctions = {

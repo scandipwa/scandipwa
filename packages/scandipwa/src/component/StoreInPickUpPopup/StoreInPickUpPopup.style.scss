@@ -10,6 +10,15 @@
  */
 
 .StoreInPickUpPopup {
+    .Popup {
+        &-Content {
+            @include after-mobile {
+                width: 50vh;
+                height: 40vh;
+            }
+        }
+    }
+
     &-Input {
         width: 100%;
     }

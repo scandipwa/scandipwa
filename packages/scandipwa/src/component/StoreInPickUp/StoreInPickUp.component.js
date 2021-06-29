@@ -30,13 +30,14 @@ export class StoreInPickUpComponent extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func.isRequired,
+        setSelectedShippingMethodCode: PropTypes.func,
         selectedStore: storeType
     };
 
     static defaultProps = {
         selectedStore: null,
-        selectStore: null
+        selectStore: null,
+        setSelectedShippingMethodCode: null
     };
 
     renderEmptyResult() {

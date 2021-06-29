@@ -19,6 +19,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay } from 'Store/Overlay/Overlay.action';
 import { addressType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
+import { countriesType } from 'Type/Config';
 import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 import StoreInPickUpComponent from './StoreInPickUpPopup.component';
@@ -31,18 +32,21 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/StoreInPickUp/Container/mapStateToProps */
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+    countries: state.ConfigReducer.countries
+});
 
 /** @namespace Component/StoreInPickUp/Container */
 export class StoreInPickUpContainer extends PureComponent {
     static propTypes = {
-        estimateAddress: addressType.isRequired,
-        shippingMethods: shippingMethodsType.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
+        countries: countriesType.isRequired,
         countryId: PropTypes.string.isRequired,
+        estimateAddress: addressType.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        onStoreSelect: PropTypes.func.isRequired,
         setSelectedStore: PropTypes.func.isRequired,
+        shippingMethods: shippingMethodsType.isRequired,
         showNotification: PropTypes.func.isRequired
     };
 
@@ -55,8 +59,19 @@ export class StoreInPickUpContainer extends PureComponent {
     containerFunctions = {
         handleStoresSearch: this.handleStoresSearch.bind(this),
         selectStore: this.selectStore.bind(this),
-        setStoreSearchCriteria: this.setStoreSearchCriteria.bind(this)
+        setStoreSearchCriteria: this.setStoreSearchCriteria.bind(this),
+        handleChangeCountry: this.handleChangeCountry.bind(this)
     };
+
+    __construct(props) {
+        const {
+            countryId
+        } = props;
+
+        this.state = {
+            selectedCountryId: countryId
+        };
+    }
 
     componentDidMount() {
         this.handleStoresSearch();
@@ -82,10 +97,18 @@ export class StoreInPickUpContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { isLoading, stores, storeSearchCriteria } = this.state;
+        const { countries } = this.props;
+        const {
+            isLoading,
+            selectedCountryId,
+            stores,
+            storeSearchCriteria
+        } = this.state;
 
         return {
+            countries,
             isLoading,
+            selectedCountryId,
             stores,
             storeSearchCriteria
         };
@@ -128,10 +151,10 @@ export class StoreInPickUpContainer extends PureComponent {
     }
 
     handleStoresSearch() {
-        const { countryId, showNotification } = this.props;
-        const { storeSearchCriteria } = this.state;
+        const { showNotification } = this.props;
+        const { storeSearchCriteria, selectedCountryId } = this.state;
 
-        fetchQuery(StoreInPickUpQuery.getStores(countryId, storeSearchCriteria)).then(
+        fetchQuery(StoreInPickUpQuery.getStores(selectedCountryId, storeSearchCriteria)).then(
             ({ getStores: { stores } = {} }) => {
                 if (stores) {
                     this.setState({ stores });
@@ -144,6 +167,10 @@ export class StoreInPickUpContainer extends PureComponent {
                 showNotification('error', getErrorMessage(error));
             }
         );
+    }
+
+    handleChangeCountry(countryId) {
+        this.setState({ selectedCountryId: countryId });
     }
 
     render() {

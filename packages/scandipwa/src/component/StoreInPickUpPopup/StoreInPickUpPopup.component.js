@@ -17,6 +17,7 @@ import Loader from 'Component/Loader';
 import Popup from 'Component/Popup';
 import StoreInPickUpStoreComponent from 'Component/StoreInPickUpStore';
 import { storeType } from 'Type/Checkout';
+import { countriesType } from 'Type/Config';
 
 import { STORE_IN_PICK_UP_POPUP_ID } from './StoreInPickUpPopup.config';
 
@@ -25,17 +26,22 @@ import './StoreInPickUpPopup.style';
 /** @namespace Component/StoreInPickUpPopup/Component */
 export class StoreInPickUpPopupComponent extends PureComponent {
     static propTypes = {
+        countries: countriesType.isRequired,
+        selectedCountryId: PropTypes.string.isRequired,
+        handleChangeCountry: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool,
         selectStore: PropTypes.func.isRequired,
         setStoreSearchCriteria: PropTypes.func.isRequired,
-        storeSearchCriteria: PropTypes.string.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        storeSearchCriteria: PropTypes.string,
         stores: PropTypes.arrayOf(
             storeType
         )
     };
 
     static defaultProps = {
-        stores: []
+        stores: [],
+        storeSearchCriteria: '',
+        isLoading: true
     };
 
     renderHeading() {
@@ -61,10 +67,25 @@ export class StoreInPickUpPopupComponent extends PureComponent {
     }
 
     renderInput() {
-        const { storeSearchCriteria, setStoreSearchCriteria } = this.props;
+        const {
+            countries,
+            selectedCountryId,
+            handleChangeCountry,
+            setStoreSearchCriteria,
+            storeSearchCriteria
+        } = this.props;
 
         return (
             <>
+                <Field
+                  type="select"
+                  id="country_id"
+                  name="country_id"
+                  value={ selectedCountryId }
+                  onChange={ handleChangeCountry }
+                  selectOptions={ countries.map(({ id, label }) => ({ id, label, value: id })) }
+                  mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
+                />
                 <Field
                   type="text"
                   id="store-finder"
@@ -73,6 +94,7 @@ export class StoreInPickUpPopupComponent extends PureComponent {
                   value={ storeSearchCriteria }
                   onChange={ setStoreSearchCriteria }
                   mix={ { block: 'StoreInPickUpPopup', elem: 'Input' } }
+                  validateSeparately
                 />
                 { this.renderInfo() }
             </>
