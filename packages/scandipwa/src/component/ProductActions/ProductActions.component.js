@@ -17,11 +17,11 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
-import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductBundleItems from 'Component/ProductBundleItems';
+import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
@@ -103,7 +103,7 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
-        const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
+        const stockStatusLabel = stockStatus === OUT_OF_STOCK ? __('Out of stock') : __('In stock');
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
 
@@ -433,8 +433,15 @@ export class ProductActions extends PureComponent {
     renderPriceWithSchema() {
         const {
             productPrice,
-            offerCount
+            offerCount,
+            productOrVariant: {
+                stock_status
+            }
         } = this.props;
+
+        if (stock_status === OUT_OF_STOCK) {
+            return null;
+        }
 
         const {
             minimum_price: {

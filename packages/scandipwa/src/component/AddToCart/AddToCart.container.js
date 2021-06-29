@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
@@ -110,7 +111,7 @@ export class AddToCartContainer extends PureComponent {
 
         const { stock_status: configurableStock } = variants[configurableVariantIndex];
 
-        if (configurableStock !== 'IN_STOCK') {
+        if (configurableStock !== IN_STOCK) {
             showNotification('info', __('Sorry! The selected product option is out of stock!'));
             return false;
         }
