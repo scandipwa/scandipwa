@@ -9,16 +9,40 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
+
 import ExpandableContent from 'Component/ExpandableContent';
 import ExpandableContentShowMore from 'Component/ExpandableContentShowMore';
 import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 // eslint-disable-next-line max-len
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
+import { CategoryFragment } from 'Type/Category';
 import { formatPrice } from 'Util/Price';
 import { sortBySortOrder } from 'Util/Product';
 
 /** @namespace Component/CategoryConfigurableAttributes/Component */
 export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
+    static propTypes = {
+        ...ProductConfigurableAttributes.propTypes,
+        currency_code: PropTypes.string.isRequired,
+        show_product_count: PropTypes.bool.isRequired,
+        childrenCategories: PropTypes.arrayOf(PropTypes.shape(CategoryFragment)).isRequired,
+        getSubCategories: PropTypes.func.isRequired
+    };
+
+    renderSubCategories(option) {
+        const { getSubCategories } = this.props;
+
+        const optionWithSubcategories = getSubCategories(option);
+        const { attribute_values = [] } = optionWithSubcategories;
+
+        if (!attribute_values.length) {
+            return null;
+        }
+
+        return this.renderDropdownOrSwatch(optionWithSubcategories);
+    }
+
     getPriceLabel(option) {
         const { currency_code } = this.props;
         const { label } = option;
@@ -120,6 +144,8 @@ export class CategoryConfigurableAttributes extends ProductConfigurableAttribute
         switch (attribute_code) {
         case 'price':
             return this.renderPriceSwatch(option);
+        case 'category_id':
+            return this.renderSubCategories(option);
         default:
             return this.renderDropdownOrSwatch(option);
         }

@@ -141,7 +141,7 @@ export class MyAccountOverlay extends PureComponent {
         );
     }
 
-    renderCreateAccount() {
+    renderCreateAccount(isLandingPage = false) {
         const {
             state,
             handleSignIn,
@@ -157,6 +157,7 @@ export class MyAccountOverlay extends PureComponent {
               setLoadingState={ setLoadingState }
               setSignInState={ setSignInState }
               onSignIn={ onSignIn }
+              isLandingPage={ isLandingPage }
             />
         );
     }
