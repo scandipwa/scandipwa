@@ -178,7 +178,6 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <ExpandableContent
               block="ProductDownloadableLinks"
-              heading={ title }
               mix={ { block: 'ProductDownloadableLinks' } }
             >
                 { this.renderContent() }
