@@ -12,20 +12,16 @@
 .ExpandableContentShowMore {
     text-align: start;
 
-    &-ShowAllButton {
+    &-ShowAllButton.Button_likeLink {
+        --button-height: fit-content;
+        --button-hover-height: fit-content;
+        --button-hover-padding: 0;
+
         margin-block-start: 8px;
         font-weight: 700;
-        height: fit-content!important;
 
         &:focus:not(:hover) {
             text-decoration: unset;
-        }
-
-        padding: 0!important;
-
-        &:hover {
-            padding: 0;
-            height: fit-content!important;
         }
     }
 
