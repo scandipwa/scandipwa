@@ -169,7 +169,7 @@ export class ProductDownloadableLinks extends PureComponent {
     }
 
     render() {
-        const { isLoading, title } = this.props;
+        const { isLoading } = this.props;
 
         if (isLoading) {
             return this.renderPlaceholder();
