@@ -140,15 +140,10 @@ export class CarouselScroll extends PureComponent {
         const { showArrow, children: { length: childrenLength }, showedItemCount } = this.props;
         const { firstCarouselItemId } = this.state;
 
-        if (!showArrow || childrenLength <= showedItemCount) {
-            return null;
-        }
-
-        if (!isNextArrow && firstCarouselItemId === 0) {
-            return null;
-        }
-
-        if (isNextArrow && firstCarouselItemId >= this.getMaxFirstItemId()) {
+        if (!showArrow
+            || childrenLength <= showedItemCount
+            || (isNextArrow && firstCarouselItemId === 0)
+            || (isNextArrow && firstCarouselItemId >= this.getMaxFirstItemId())) {
             return null;
         }
 

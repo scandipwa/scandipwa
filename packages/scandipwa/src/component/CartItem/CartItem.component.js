@@ -161,7 +161,7 @@ export class CartItem extends PureComponent {
     }
 
     renderContent() {
-        const { linkTo, isProductInStock, device } = this.props;
+        const { linkTo = {}, isProductInStock, device } = this.props;
 
         if (!isProductInStock || Object.keys(linkTo).length === 0 || device.isMobile) {
             // If product is out of stock, or link is not set
@@ -180,7 +180,7 @@ export class CartItem extends PureComponent {
     }
 
     renderProductOption = (option) => {
-        const { label, values, id } = option;
+        const { label, values = [], id } = option;
 
         const labelText = values
             ? __('%s: %s', label, values.map(({ label, value }) => label || value).join(', '))

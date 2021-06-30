@@ -291,7 +291,7 @@ export class CartItemContainer extends PureComponent {
         const {
             item: {
                 product: {
-                    configurable_options
+                    configurable_options = {}
                 }
             }
         } = this.props;

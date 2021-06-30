@@ -268,11 +268,7 @@ export class CheckoutOrderSummary extends PureComponent {
             } = {}
         } = this.props;
 
-        if (!quote_currency_code) {
-            return null;
-        }
-
-        if (!tax_amount && !display_zero_tax_subtotal) {
+        if (!quote_currency_code || (!tax_amount && !display_zero_tax_subtotal)) {
             return null;
         }
 

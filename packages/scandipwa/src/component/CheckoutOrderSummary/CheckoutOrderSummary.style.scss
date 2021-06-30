@@ -14,8 +14,7 @@
 }
 
 .CheckoutOrderSummary {
-    $divider-border-color: #e0e0e0;
-    $divider-border: solid 1px $divider-border-color;
+    $divider-border: 1px solid var(--input-border-color);
 
     @include desktop {
         border: 1px solid var(--secondary-base-color);
