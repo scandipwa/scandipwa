@@ -10,7 +10,7 @@
  */
 
  :root {
-     --expandable-content-color: #000;
+     --expandable-content-color: var(--color-karaka);
      --expandable-content-divider-color: var(--primary-divider-color);
      --toggle-button-size: 18px;
  }

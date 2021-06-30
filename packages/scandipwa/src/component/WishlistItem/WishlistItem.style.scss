@@ -118,7 +118,7 @@
         }
     }
 
-    &-Remove {
+    &-Remove[aria-label='Remove'] {
         @include close-button;
 
         position: absolute;
@@ -130,7 +130,7 @@
         @include mobile {
             inset-block-start: -4px;
             inset-inline-end: -4px;
-            width: 24px!important;
+            width: 24px;
         }
     }
 
