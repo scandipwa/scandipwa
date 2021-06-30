@@ -20,7 +20,8 @@ import {
     CONFIGURABLE,
     DOWNLOADABLE,
     GROUPED,
-    SIMPLE, VIRTUAL
+    SIMPLE,
+    VIRTUAL
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
