@@ -53,7 +53,7 @@
         border-block-start: none;
     }
 
-    &-Expandable:last-of-type {
+    &-Expandable.ExpandableContent:last-of-type {
         border-block-end: none;
     }
 }
