@@ -132,6 +132,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             city,
             postcode,
             vat_id,
+            telephone,
             ...fieldMap
         } = super.fieldMap;
 
@@ -146,6 +147,9 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             onChange: (value) => this.onChange('postcode', value),
             onBlur: this.onZipcodeChange
         };
+
+        // Make phone the last field
+        fieldMap.telephone = telephone;
 
         // since object doesn't maintain the order of it's properties
         // and last modified property goes to the end of the property list,

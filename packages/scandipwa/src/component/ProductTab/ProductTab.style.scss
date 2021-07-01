@@ -12,7 +12,7 @@
 .ProductTab {
     &-Item {
         margin: 0;
-        padding: 0;
+        padding-inline-start: 0;
 
         &:last-child {
             margin: 0;
@@ -29,10 +29,10 @@
     }
 
     &-Button {
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: bold;
-        line-height: 2rem;
+        line-height: 20px;
         margin: 0;
-        padding: 2.4rem;
+        padding: 16px 24px;
     }
 }

@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,5 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-export const IMAGE_ZOOM = 'IMAGE_ZOOM';
+export const STARS_GRANULARITY_PERCENT = 10;
+export const ONE_STAR_SHARE = 20;
+export const STARS_COUNT = 5;

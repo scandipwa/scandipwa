@@ -24,14 +24,14 @@
 
     &-CustomAttribute {
         color: var(--color-black);
-        font-size: 1.2rem;
+        font-size: 12px;
         font-weight: 400;
         opacity: .5;
     }
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 4.8rem calc(100% - 6rem);
-        grid-column-gap: 1.2rem;
+        grid-template-columns: 48px calc(100% - 60px);
+        grid-column-gap: 12px;
     }
 }

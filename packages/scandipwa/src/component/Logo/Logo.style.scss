@@ -18,10 +18,10 @@
 
     &-Placeholder {
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+        inset-block-end: 0;
+        inset-block-start: 0;
         margin: auto;
 
         .Image {

@@ -22,28 +22,28 @@
 
     &-ActiveLink {
         color: var(--link-hover);
-        border-bottom: 2px solid var(--link-hover);
-        margin-left: 20px;
-        padding-bottom: 3px;
+        border-block-end: 2px solid var(--link-hover);
+        margin-inline-start: 20px;
+        padding-block-end: 3px;
     }
 
     &-Buttons {
         > div:first-of-type {
-            margin-bottom: 24px;
+            margin-block-end: 24px;
         }
     }
 
     &-Icon {
-        margin-right: 16px;
-        padding-bottom: 20px;
+        margin-inline-end: 16px;
+        padding-block-end: 20px;
         width: 16px;
     }
 
     &-Heading {
         background: radial-gradient(100% 4385% at 84% 0%, var(--emperor) 0%, var(--mine-shaft) 100%);
         color: var(--color-white);
-        line-height: 3.6rem;
-        margin-top: 40px;
+        line-height: 36px;
+        margin-block-start: 40px;
         padding: 14px 20px;
         text-transform: capitalize;
     }
@@ -63,21 +63,21 @@
     }
 
     &-Icons {
-        margin-top: 30px;
+        margin-block-start: 30px;
 
         .Image {
-            margin-right: 10px;
+            margin-inline-end: 10px;
             max-width: 20px;
-            padding-bottom: 20px;
+            padding-block-end: 20px;
         }
 
         > div {
             &:not(.Image) {
-                margin-bottom: 20px;
+                margin-block-end: 20px;
             }
 
             .Image {
-                margin-right: 30px;
+                margin-inline-end: 30px;
             }
         }
     }
@@ -86,24 +86,24 @@
         display: flex;
 
         > .CategorySort {
-            margin-left: 0;
+            margin-inline-start: 0;
         }
 
         > .Image {
-            height: 2rem;
+            height: 20px;
             margin: 0 10px;
-            max-width: 2rem;
-            padding-bottom: 0;
+            max-width: 20px;
+            padding-block-end: 0;
         }
     }
 
     &-MenuAndLinks {
         > div:first-of-type {
-            margin-bottom: 20px;
+            margin-block-end: 20px;
 
             .Menu {
                 &-ItemCaption {
-                    margin-right: 20px;
+                    margin-inline-end: 20px;
 
                     &_active {
                         color: var(--menu-item-hover-color);
@@ -143,14 +143,16 @@
     }
 
     &-SubHeading {
-        border-bottom: 1px solid var(--placeholder-gradient-color);
+        border-block-end: 1px solid var(--placeholder-gradient-color);
         font-weight: 700;
-        margin: 40px 0 24px;
-        padding-bottom: 8px;
+        margin-block-start: 40px;
+        margin-block-end: 24px;
+        margin-inline: 0;
+        padding-block-end: 8px;
     }
 
     .Button {
-        margin-right: 42px;
+        margin-inline-end: 42px;
 
         &_isHovered {
             border-color: var(--button-hover-border);
@@ -174,7 +176,7 @@
     }
 
     .Notification {
-        margin-right: 20px;
+        margin-inline-end: 20px;
     }
 
     .CategoryPagination {
@@ -184,10 +186,11 @@
     .CategoryConfigurableAttributes,
     .ProductConfigurableAttributes {
         display: flex;
-        --option-margin: 0 12px 12px 0;
+        --option-margin-block: 0 12px;
+        --option-margin-inline: 0 12px;
 
         > * {
-            margin-right: 60px;
+            margin-inline-end: 60px;
         }
     }
 }

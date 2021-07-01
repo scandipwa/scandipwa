@@ -21,10 +21,10 @@ import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
+import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
-import { getVariantIndex } from 'Util/Product';
+import { getIsConfigurableParameterSelected, getNewParameters, getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -78,7 +78,7 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateRecentlyViewedProducts: (products, store) => dispatch(updateRecentlyViewedProducts(products, store))
+    addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store))
 });
 
 /** @namespace Route/ProductPage/Container */
@@ -87,6 +87,7 @@ export class ProductPageContainer extends PureComponent {
         configurableVariantIndex: -1,
         parameters: {},
         productOptionsData: {},
+        selectedInitialBundlePrice: 0,
         selectedBundlePrice: 0,
         selectedBundlePriceExclTax: 0,
         selectedLinkPrice: 0,
@@ -120,7 +121,7 @@ export class ProductPageContainer extends PureComponent {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
-        updateRecentlyViewedProducts: PropTypes.func.isRequired,
+        addRecentlyViewedProduct: PropTypes.func.isRequired,
         store: PropTypes.string.isRequired
     };
 
@@ -315,7 +316,7 @@ export class ProductPageContainer extends PureComponent {
         const {
             product,
             product: { sku },
-            updateRecentlyViewedProducts,
+            addRecentlyViewedProduct,
             store
         } = this.props;
 
@@ -324,7 +325,25 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        updateRecentlyViewedProducts(product, store);
+        // push into localstorage only preview of product (image, name and etc)
+        const {
+            canonical_url,
+            categories,
+            configurable_options,
+            description,
+            items,
+            meta_description,
+            meta_keyword,
+            meta_title,
+            options,
+            product_links,
+            reviews,
+            short_description,
+            variants,
+            ...productPreview
+        } = product;
+
+        addRecentlyViewedProduct(productPreview, store);
     }
 
     scrollTop() {
@@ -389,9 +408,10 @@ export class ProductPageContainer extends PureComponent {
     }
 
     setBundlePrice(prices) {
-        const { price = 0, priceExclTax = 0 } = prices;
+        const { price = 0, priceExclTax = 0, finalPrice = 0 } = prices;
         this.setState({
-            selectedBundlePrice: price,
+            selectedInitialBundlePrice: price,
+            selectedBundlePrice: finalPrice,
             selectedBundlePriceExclTax: priceExclTax
         });
     }
@@ -421,26 +441,6 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    getIsConfigurableParameterSelected(parameters, key, value) {
-        return Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
-    }
-
-    getNewParameters(key, value) {
-        const { parameters } = this.state;
-
-        // If value is already selected, than we remove the key to achieve deselection
-        if (this.getIsConfigurableParameterSelected(parameters, key, value)) {
-            const { [key]: oldValue, ...newParameters } = parameters;
-
-            return newParameters;
-        }
-
-        return {
-            ...parameters,
-            [key]: value.toString()
-        };
-    }
-
     containerProps = () => ({
         productOrVariant: this.getProductOrVariant(),
         dataSource: this.getDataSource(),
@@ -450,7 +450,9 @@ export class ProductPageContainer extends PureComponent {
     });
 
     updateConfigurableVariant(key, value) {
-        const parameters = this.getNewParameters(key, value);
+        const { parameters: prevParameters } = this.state;
+
+        const parameters = getNewParameters(prevParameters, key, value);
         this.setState({ parameters });
 
         this.updateUrl(key, value, parameters);
@@ -460,7 +462,7 @@ export class ProductPageContainer extends PureComponent {
     updateUrl(key, value, parameters) {
         const { location, history } = this.props;
 
-        const isParameterSelected = this.getIsConfigurableParameterSelected(parameters, key, value);
+        const isParameterSelected = getIsConfigurableParameterSelected(parameters, key, value);
 
         if (isParameterSelected) {
             updateQueryParamWithoutHistory(key, value, history, location);
@@ -495,7 +497,7 @@ export class ProductPageContainer extends PureComponent {
         const currentVariantIndex = this.getConfigurableVariantIndex(variants);
         const variant = variants && variants[currentVariantIndex];
 
-        if (variants) {
+        if (variants?.length > 0) {
             dataSource.stock_status = variants.some((v) => v.stock_status === PRODUCT_IN_STOCK)
                 ? PRODUCT_IN_STOCK
                 : PRODUCT_OUT_OF_STOCK;

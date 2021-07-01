@@ -23,14 +23,15 @@ import {
 } from 'Util/Product';
 
 import ProductActions from './ProductActions.component';
-import { DEFAULT_MAX_PRODUCTS } from './ProductActions.config';
+import { DEFAULT_MAX_PRODUCTS, ONE_HUNDRED_PERCENT } from './ProductActions.config';
 
 /** @namespace Component/ProductActions/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
     device: state.ConfigReducer.device,
     displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
-    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
+    areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
 });
 
 /** @namespace Component/ProductActions/Container/mapDispatchToProps */
@@ -45,6 +46,7 @@ export class ProductActionsContainer extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         productOptionsData: PropTypes.objectOf(PropTypes.array).isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        selectedInitialBundlePrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedLinkPrice: PropTypes.number.isRequired,
@@ -110,7 +112,6 @@ export class ProductActionsContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this),
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
         setRefs: this.setRefs.bind(this)
     };
 
@@ -181,37 +182,6 @@ export class ProductActionsContainer extends PureComponent {
         }
 
         return variants[configurableVariantIndex].product[attribute] === value;
-    }
-
-    getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
-        const { parameters, product: { variants } } = this.props;
-
-        const isAttributeSelected = Object.hasOwnProperty.call(parameters, attribute_code);
-
-        // If value matches current attribute_value, option should be enabled
-        if (isAttributeSelected && parameters[attribute_code] === attribute_value) {
-            return true;
-        }
-
-        const parameterPairs = Object.entries(parameters);
-
-        const selectedAttributes = isAttributeSelected
-            // Need to exclude itself, otherwise different attribute_values of the same attribute_code will always be disabled
-            ? parameterPairs.filter(([key]) => key !== attribute_code)
-            : parameterPairs;
-
-        return variants
-            .some(({ stock_status, attributes }) => {
-                const { attribute_value: foundValue } = attributes[attribute_code] || {};
-
-                return (
-                    stock_status === 'IN_STOCK'
-                    // Variant must have currently checked attribute_code and attribute_value
-                    && foundValue === attribute_value
-                    // Variant must have all currently selected attributes
-                    && selectedAttributes.every(([key, value]) => attributes[key].attribute_value === value)
-                );
-            });
     }
 
     containerProps = () => ({
@@ -286,14 +256,30 @@ export class ProductActionsContainer extends PureComponent {
     getSelectedOptions() {
         const {
             productOptionsData: {
-                productOptionsMulti = []
+                productOptionsMulti = [],
+                productOptions = []
             } = {}
         } = this.props;
 
-        return productOptionsMulti.map((productOption) => {
+        return [...productOptionsMulti, ...productOptions].map((productOption) => {
             const { option_value } = productOption;
 
             return parseInt(option_value, 10);
+        });
+    }
+
+    getSelectedOptionsMulti() {
+        const {
+            productOptionsData: {
+                productOptionsMulti = [],
+                productOptions = []
+            } = {}
+        } = this.props;
+
+        return [...productOptionsMulti, ...productOptions].map((productOption) => {
+            const { option_id } = productOption;
+
+            return parseInt(option_id, 10);
         });
     }
 
@@ -309,6 +295,12 @@ export class ProductActionsContainer extends PureComponent {
                         regular_price_excl_tax: {
                             currency,
                             value: regularPriceExclTax = 0
+                        } = {},
+                        default_final_price_excl_tax: {
+                            value: defaultFinalPriceExclTax = 0
+                        } = {},
+                        discount: {
+                            percent_off = 0
                         } = {}
                     } = {}
                 } = {}
@@ -335,10 +327,40 @@ export class ProductActionsContainer extends PureComponent {
         } = customPrice;
 
         const selectedOptions = this.getSelectedOptions();
-        const prices = options.reduce((acc, { data = [] }) => {
-            data.forEach(({ option_type_id, price }) => {
+        const selectedOptionsMulti = this.getSelectedOptionsMulti();
+
+        const prices = options.reduce((acc, { data = [], option_id, type }) => {
+            /*
+            * Such types contain a single item within data
+            * as those are looked up on the option_id
+            */
+            if (['area', 'field', 'file'].includes(type)) {
+                if (selectedOptionsMulti.includes(option_id)) {
+                    /*
+                    * Since such types only have a single value
+                    * we can get the price_type directly
+                    */
+                    const [{ price_type }] = data;
+
+                    if (price_type === 'PERCENT') {
+                        const price = (data[0].price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
+                        acc.push(price);
+                    } else {
+                        acc.push(data[0].price);
+                    }
+                }
+
+                return acc;
+            }
+
+            data.forEach(({ option_type_id, price, price_type }) => {
                 if (selectedOptions.includes(option_type_id)) {
-                    acc.push(price);
+                    if (price_type === 'PERCENT') {
+                        const finalPrice = (price * finalCustomPrice) / ONE_HUNDRED_PERCENT;
+                        acc.push(finalPrice);
+                    } else {
+                        acc.push(price);
+                    }
                 }
             });
 
@@ -346,15 +368,16 @@ export class ProductActionsContainer extends PureComponent {
         }, []);
 
         const selectedOptionsTotal = prices.reduce((a, b) => a + b, 0);
-
         return {
             minimum_price: {
                 final_price: {
                     currency,
                     value: selectedOptionsTotal + finalCustomPrice
                 },
-                regular_price: { value: selectedOptionsTotal + finalCustomPriceExclTax },
-                final_price_excl_tax: { value: selectedOptionsTotal + regularCustomPrice },
+                discount: { percent_off },
+                default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
+                regular_price: { value: selectedOptionsTotal + regularCustomPrice },
+                final_price_excl_tax: { value: selectedOptionsTotal + finalCustomPriceExclTax },
                 regular_price_excl_tax: { value: selectedOptionsTotal + regularCustomPriceExclTax }
             }
         };
@@ -365,24 +388,36 @@ export class ProductActionsContainer extends PureComponent {
             product,
             product: { variants = [], type_id, links_purchased_separately },
             configurableVariantIndex,
-            selectedBundlePrice,
-            selectedBundlePriceExclTax,
             selectedLinkPrice
         } = this.props;
+
+        const { options = {} } = product;
 
         const {
             price_range
         } = variants[configurableVariantIndex] || product;
 
         if (type_id === BUNDLE) {
-            return this._getCustomPrice(selectedBundlePrice, selectedBundlePriceExclTax);
+            const {
+                selectedBundlePrice,
+                selectedBundlePriceExclTax,
+                selectedInitialBundlePrice,
+                product: { dynamic_price }
+            } = this.props;
+
+            return this._getBundleCustomPrice(
+                selectedBundlePrice,
+                selectedBundlePriceExclTax,
+                selectedInitialBundlePrice,
+                dynamic_price
+            );
         }
 
         if (type_id === DOWNLOADABLE && links_purchased_separately) {
             return this._getCustomPrice(selectedLinkPrice, selectedLinkPrice, true);
         }
 
-        if (product.options) {
+        if (Object.keys(options).length !== 0) {
             return this.getCustomizablePrice();
         }
 
@@ -394,16 +429,15 @@ export class ProductActionsContainer extends PureComponent {
             product: {
                 price_range: {
                     minimum_price: {
-                        regular_price: { currency, value },
-                        regular_price_excl_tax: { value: value_excl_tax },
-                        discount: { percent_off }
-                    }
-                }
-            }
+                        regular_price: { currency = '', value = 0 } = {},
+                        regular_price_excl_tax: { value: value_excl_tax = 0 } = {},
+                        discount: { percent_off = 0 } = {}
+                    } = {}
+                } = {}
+            } = {}
         } = this.props;
 
-        // eslint-disable-next-line no-magic-numbers
-        const discount = (1 - percent_off / 100);
+        const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
 
         const basePrice = addBase ? value : 0;
         const basePriceExclTax = addBase ? value_excl_tax : 0;
@@ -420,6 +454,58 @@ export class ProductActionsContainer extends PureComponent {
                 regular_price: priceValue,
                 final_price_excl_tax: priceValueExclTax,
                 regular_price_excl_tax: priceValueExclTax
+            }
+        };
+    }
+
+    _getBundleCustomPrice(price, withoutTax, initial, isDynamicPrice) {
+        const {
+            product: {
+                price_range: {
+                    minimum_price: {
+                        default_price: { currency, value: defaultPrice },
+                        default_final_price: { value: defaultFinalPrice },
+                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
+                        discount: discountData,
+                        discount: { percent_off }
+                    }
+                }
+            }
+        } = this.props;
+
+        // If bundle product has dynamic price, it's own base price is always 0. For fix priced bundles price it's configurable
+        const addBase = !isDynamicPrice;
+
+        // Adjusting `discount` for bundle products for discount to be displayed on PDP
+        const priceBeforeDiscount = addBase ? defaultPrice : initial;
+        const priceAfterDiscount = addBase ? defaultFinalPrice : price;
+        const finalDiscount = !percent_off && defaultPrice !== defaultFinalPrice
+            ? {
+                percent_off: (ONE_HUNDRED_PERCENT * (priceBeforeDiscount - priceAfterDiscount)) / priceBeforeDiscount,
+                amount_off: priceBeforeDiscount - priceAfterDiscount
+            }
+            : discountData;
+
+        // Set initial price different from 0 for specific product types, i.e. downloadable, bundles with fixed price
+        const baseInitialPrice = addBase ? defaultPrice : 0;
+        const baseFinalPrice = addBase ? defaultFinalPrice : 0;
+        const basePriceExclTax = addBase ? defaultFinalPriceExclTax : 0;
+
+        const initialPrice = baseInitialPrice + initial;
+        const finalPrice = baseFinalPrice + price;
+        const finalPriceExclTax = basePriceExclTax + withoutTax;
+
+        const initialPriceValue = { value: initialPrice, currency };
+        const priceValue = { value: finalPrice, currency };
+        const priceValueExclTax = { value: finalPriceExclTax, currency };
+
+        return {
+            minimum_price: {
+                final_price: priceValue,
+                regular_price: initialPriceValue,
+                final_price_excl_tax: priceValueExclTax,
+                regular_price_excl_tax: initialPriceValue,
+                discount: finalDiscount
             }
         };
     }

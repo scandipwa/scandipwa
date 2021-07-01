@@ -97,7 +97,7 @@ export class MyAccountSignIn extends PureComponent {
         return (
             <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
                 <section>
-                    <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
+                    <h4 id="forgot-password-label">{ __("Don't have an account?") }</h4>
                     <button
                       block="Button"
                       mods={ { isHollow: true } }

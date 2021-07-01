@@ -23,10 +23,13 @@ import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
 
+import './CheckoutShipping.style';
+
 /** @namespace Component/CheckoutShipping/Component */
 export class CheckoutShipping extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
@@ -34,16 +37,43 @@ export class CheckoutShipping extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         selectedShippingMethod: shippingMethodType,
         onAddressSelect: PropTypes.func.isRequired,
-        onStoreSelect: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        isSubmitted: PropTypes.bool,
+        onStoreSelect: PropTypes.func.isRequired,
         estimateAddress: addressType.isRequired,
         selectedStoreAddress: addressType
     };
 
     static defaultProps = {
         selectedShippingMethod: null,
+        isSubmitted: false,
+        cartTotalSubPrice: null,
         selectedStoreAddress: {}
     };
+
+    renderOrderTotalExclTax() {
+        const {
+            cartTotalSubPrice,
+            totals: { quote_currency_code }
+        } = this.props;
+
+        if (!cartTotalSubPrice) {
+            return null;
+        }
+
+        const orderTotalExclTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+
+        return (
+            <span block="Checkout" elem="SubPrice">
+                { __('Excl. tax: %s', orderTotalExclTax) }
+            </span>
+        );
+    }
+
+    renderPriceLine(price) {
+        const { totals: { quote_currency_code } } = this.props;
+        return formatPrice(price, quote_currency_code);
+    }
 
     renderOrderTotal() {
         const {
@@ -56,14 +86,15 @@ export class CheckoutShipping extends PureComponent {
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
         return (
-            <div block="Checkout" elem="OrderTotal">
-                <span>
-                    { __('Order total:') }
-                </span>
-                <span>
+            <dl block="Checkout" elem="OrderTotal">
+                <dt>
+                    { __('Order total') }
+                </dt>
+                <dt block="Checkout" elem="TotalValue">
                     { orderTotal }
-                </span>
-            </div>
+                    { this.renderOrderTotalExclTax() }
+                </dt>
+            </dl>
         );
     }
 
@@ -81,6 +112,7 @@ export class CheckoutShipping extends PureComponent {
                       || (method_code === STORE_IN_PICK_UP_METHOD_CODE && !Object.keys(selectedStoreAddress).length) }
                   mix={ { block: 'CheckoutShipping', elem: 'Button' } }
                 >
+                    <span />
                     { __('Proceed to billing') }
                 </button>
             </div>
@@ -108,13 +140,15 @@ export class CheckoutShipping extends PureComponent {
     renderAddressBook() {
         const {
             onAddressSelect,
-            onShippingEstimationFieldsChange
+            onShippingEstimationFieldsChange,
+            isSubmitted
         } = this.props;
 
         return (
             <CheckoutAddressBook
               onAddressSelect={ onAddressSelect }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
+              isSubmitted={ isSubmitted }
             />
         );
     }

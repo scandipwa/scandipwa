@@ -18,7 +18,9 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
 import history from 'Util/History';
+import { CONFIGURABLE } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -69,12 +71,11 @@ export class WishlistItemContainer extends PureComponent {
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
         removeItem: this.removeItem.bind(this, false, true),
-        toggleOptionVisibility: this.toggleOptionVisibility.bind(this)
+        redirectToProductPage: this.redirectToProductPage.bind(this)
     };
 
     state = {
-        isLoading: false,
-        showOptions: false
+        isLoading: false
     };
 
     removeItemOnSwipe = this.removeItem.bind(this, false, true);
@@ -127,14 +128,8 @@ export class WishlistItemContainer extends PureComponent {
         }, []) : [];
     };
 
-    toggleOptionVisibility() {
-        const { showOptions } = this.state;
-        this.setState({ showOptions: !showOptions });
-    }
-
     addItemToCart() {
         const { product: item, addProductToCart, showNotification } = this.props;
-
         const {
             type_id,
             variants,
@@ -143,12 +138,16 @@ export class WishlistItemContainer extends PureComponent {
             }
         } = item;
 
-        if (type_id === 'configurable') {
+        if (!isSignedIn()) {
+            return null;
+        }
+
+        if (type_id === CONFIGURABLE) {
             const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
 
             if (!configurableVariantIndex) {
                 history.push({ pathname: appendWithStoreCode(item.url) });
-                showNotification('info', __('Please select product options!'));
+                showNotification('info', __('Please, select product options!'));
                 return Promise.resolve();
             }
 
@@ -187,6 +186,12 @@ export class WishlistItemContainer extends PureComponent {
         handleSelectIdChange(item_id, isRemoveOnly);
 
         return removeFromWishlist({ item_id, noMessages });
+    }
+
+    redirectToProductPage() {
+        const { product: { url } } = this.props;
+
+        history.push({ pathname: appendWithStoreCode(url) });
     }
 
     renderRightSideContent = () => (

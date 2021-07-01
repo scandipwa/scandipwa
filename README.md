@@ -5,7 +5,7 @@ The next-generation front-end for Magento 2. Fast. Reliable. Extensible.
 ---
 
 - [Getting started](https://docs.scandipwa.com/?utm_source=github&utm_medium=readme&utm_campaign=general) – create a new application and deploy it as Magento 2 theme or standalone storefront.
-- [Developer guide](https://docs.scandipwa.com/getting-started/where-to-start?utm_source=github&utm_medium=readme&utm_campaign=general) – learn how to develop ScandiPWA applications.
+- [Developer guide](https://docs.scandipwa.com/getting-started-1) – learn how to develop ScandiPWA applications.
 - [Deploy into Cloud](https://readymage.com/?utm_source=github&utm_medium=readme&utm_campaign=general) - get production environment in 10 minutes
 
 ## Key features

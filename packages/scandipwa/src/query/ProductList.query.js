@@ -246,8 +246,10 @@ export class ProductListQuery {
         if (!isVariant) {
             fields.push(
                 'url',
+                this._getUrlRewritesFields(),
                 this._getReviewCountField(),
-                this._getRatingSummaryField()
+                this._getRatingSummaryField(),
+                this._getCustomizableProductFragment()
             );
 
             // if variants are not needed
@@ -338,6 +340,17 @@ export class ProductListQuery {
         ];
     }
 
+    _getDownloadableProductLinksRequired() {
+        return new Fragment('DownloadableProduct')
+            .addFieldList(this._getDownloadableProductLinksRequiredFields());
+    }
+
+    _getDownloadableProductLinksRequiredFields() {
+        return [
+            'links_purchased_separately'
+        ];
+    }
+
     _getDownloadableProductLinkField() {
         return new Field('downloadable_product_links')
             .addFieldList(this._getDownloadableProductLinkFields());
@@ -375,6 +388,8 @@ export class ProductListQuery {
         if (isSingleProduct) {
             items.addField(this._getGroupedProductItems());
             items.addField(this._getDownloadableProductFields());
+        } else {
+            items.addField(this._getDownloadableProductLinksRequired());
         }
 
         return items;
@@ -445,7 +460,10 @@ export class ProductListQuery {
             this._getFinalPriceField(),
             this._getFinalPriceExclTaxField(),
             this._getRegularPriceField(),
-            this._getRegularPriceExclTaxField()
+            this._getRegularPriceExclTaxField(),
+            this._getDefaultPriceField(),
+            this._getDefaultFinalPriceField(),
+            this._getDefaultFinalPriceExclTaxField()
         ];
     }
 
@@ -618,6 +636,11 @@ export class ProductListQuery {
             .addFieldList(this._getDescriptionFields());
     }
 
+    _getUrlRewritesFields() {
+        return new Field('url_rewrites')
+            .addFieldList(['url']);
+    }
+
     _getProductLinkFields() {
         return [
             'position',
@@ -715,6 +738,29 @@ export class ProductListQuery {
             .addFieldList(this._getBundleItemsFields());
     }
 
+    _getBundlePriceOptionSelectionFields() {
+        return [
+            'selection_id',
+            'final_option_price',
+            'final_option_price_excl_tax',
+            'regular_option_price',
+            'regular_option_price_excl_tax'
+        ];
+    }
+
+    _getBundlePriceOptionFields() {
+        return [
+            'option_id',
+            new Field('selection_details')
+                .addFieldList(this._getBundlePriceOptionSelectionFields())
+        ];
+    }
+
+    _getBundlePriceOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundlePriceOptionFields());
+    }
+
     _getBundleProductFragmentFields() {
         return [
             'price_view',
@@ -722,7 +768,8 @@ export class ProductListQuery {
             'dynamic_sku',
             'ship_bundle_items',
             'dynamic_weight',
-            this._getBundleItemsField()
+            this._getBundleItemsField(),
+            this._getBundlePriceOptionsField()
         ];
     }
 
@@ -942,6 +989,24 @@ export class ProductListQuery {
             .addField('value');
     }
 
+    _getDefaultFinalPriceExclTaxField() {
+        return new Field('default_final_price_excl_tax')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultPriceField() {
+        return new Field('default_price')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultFinalPriceField() {
+        return new Field('default_final_price')
+            .addField('currency')
+            .addField('value');
+    }
+
     _getBundleProductFragment() {
         return new Fragment('BundleProduct')
             .addFieldList(this._getBundleProductFragmentFields());
@@ -1007,6 +1072,8 @@ export class ProductListQuery {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
+            new Field('is_boolean'),
+            'position',
             this._getAggregationsOptionsField()
         ];
     }

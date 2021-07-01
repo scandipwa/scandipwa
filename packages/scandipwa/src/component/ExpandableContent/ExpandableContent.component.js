@@ -20,10 +20,11 @@ import './ExpandableContent.style';
 export class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
+        isArrow: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-        subHeading: PropTypes.string,
         children: ChildrenType.isRequired,
         mix: MixType.isRequired,
+        mods: PropTypes.object,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
             if (propValue === null) {
@@ -37,10 +38,11 @@ export class ExpandableContent extends PureComponent {
     };
 
     static defaultProps = {
-        subHeading: '',
         heading: '',
         isContentExpanded: false,
-        onClick: null
+        isArrow: false,
+        onClick: null,
+        mods: {}
     };
 
     expandableContentRef = createRef();
@@ -111,19 +113,22 @@ export class ExpandableContent extends PureComponent {
         const { isContentExpanded } = this.state;
         const {
             heading,
-            subHeading,
-            mix
+            mix,
+            isArrow
         } = this.props;
 
         return (
-            <button
+            <div
+              role="button"
+              tabIndex={ 0 }
               block="ExpandableContent"
               elem="Button"
               mods={ { isContentExpanded } }
               mix={ { ...mix, elem: 'ExpandableContentButton' } }
               onClick={ this.toggleExpand }
+              onKeyDown={ this.toggleExpand }
             >
-                <span
+                <div
                   block="ExpandableContent"
                   elem="Heading"
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
@@ -133,15 +138,13 @@ export class ExpandableContent extends PureComponent {
                     ) : (
                         heading
                     ) }
-                </span>
-                <span
+                </div>
+                <div
                   block="ExpandableContent"
-                  elem="SubHeading"
-                  mix={ { ...mix, elem: 'ExpandableContentSubHeading' } }
-                >
-                    { subHeading }
-                </span>
-            </button>
+                  elem={ isArrow ? 'ToggleArrow' : 'ToggleButton' }
+                  mods={ { isContentExpanded } }
+                />
+            </div>
         );
     }
 
@@ -162,11 +165,12 @@ export class ExpandableContent extends PureComponent {
     }
 
     render() {
-        const { mix } = this.props;
+        const { mix, mods } = this.props;
         return (
             <article
               block="ExpandableContent"
               mix={ mix }
+              mods={ mods }
               ref={ this.expandableContentRef }
             >
                 { this.renderButton() }

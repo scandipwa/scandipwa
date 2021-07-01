@@ -39,6 +39,10 @@ export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/ProductCompare/ProductCompare.dispatcher'
 );
+export const MyAccountDispatcher = import(
+    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 /** @namespace Component/Router/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -63,14 +67,14 @@ export const mapDispatchToProps = (dispatch) => ({
         ConfigDispatcher.then(
             ({ default: dispatcher }) => dispatcher.handleData(dispatch)
         );
+        MyAccountDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.handleCustomerDataOnInit(dispatch)
+        );
         WishlistDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialWishlistData(dispatch)
         );
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
-        );
-        ProductCompareDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
         );
     }
 });

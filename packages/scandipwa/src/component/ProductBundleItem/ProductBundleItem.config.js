@@ -13,3 +13,5 @@ export const CHECKBOX = 'checkbox';
 export const MULTI = 'multi';
 export const SELECT = 'select';
 export const RADIO = 'radio';
+
+export const PRICE_TYPE_PERCENT = 'PERCENT';

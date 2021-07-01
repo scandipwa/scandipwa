@@ -102,6 +102,10 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
             goToPreviousHeaderState
         } = this.props;
 
+        if (!isSignedIn()) {
+            return null;
+        }
+
         const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(passwords);
         this.setState({ isLoading: true });
 

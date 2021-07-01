@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -20,11 +21,13 @@ import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
+import Image from 'Component/Image/Image.container';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
+import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
@@ -63,8 +66,13 @@ export class CategoryPage extends PureComponent {
         totalPages: PropTypes.number,
         device: DeviceType.isRequired,
         is_anchor: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
+        onGridButtonClick: PropTypes.func.isRequired,
+        onListButtonClick: PropTypes.func.isRequired,
         defaultPlpType: PropTypes.string,
-        plpTypes: PropTypes.arrayOf(PropTypes.string)
+        selectedLayoutType: PropTypes.string,
+        plpTypes: PropTypes.arrayOf(PropTypes.string),
+        appliedFiltersCount: PropTypes.number
     };
 
     static defaultProps = {
@@ -76,41 +84,45 @@ export class CategoryPage extends PureComponent {
         is_anchor: true,
         search: '',
         defaultPlpType: '',
-        plpTypes: []
+        plpTypes: [],
+        appliedFiltersCount: 0,
+        selectedLayoutType: ''
     };
 
-    state = {
-        layout: BrowserDatabase.getItem(LAYOUT_KEY) || GRID_LAYOUT
-    };
+    state = {};
 
-    onFilterButtonClick = this.onFilterButtonClick.bind(this);
+    static getDerivedStateFromProps(props) {
+        const {
+            isMobile,
+            defaultPlpType,
+            selectedLayoutType
+        } = props;
 
-    onGridButtonClick = this.onGridButtonClick.bind(this);
+        /*
+        * Use stored plpType from the BrowserDatabase
+        * if there is one
+        */
+        const storedPlpType = BrowserDatabase.getItem(LAYOUT_KEY) || selectedLayoutType;
 
-    onListButtonClick = this.onListButtonClick.bind(this);
+        if (storedPlpType) {
+            const activeLayoutType = isMobile
+                ? GRID_LAYOUT
+                : storedPlpType || defaultPlpType;
 
-    componentDidUpdate() {
-        const { layout } = this.state;
-
-        if (!layout) {
-            this.setDefaultPlpType();
+            return { activeLayoutType };
         }
+
+        const activeLayoutType = isMobile
+            ? GRID_LAYOUT
+            : selectedLayoutType || defaultPlpType;
+
+        return { activeLayoutType };
     }
 
-    onFilterButtonClick() {
+    onFilterButtonClick = () => {
         const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
-    }
-
-    onGridButtonClick() {
-        this.setState({ layout: GRID_LAYOUT });
-        BrowserDatabase.setItem(GRID_LAYOUT, LAYOUT_KEY);
-    }
-
-    onListButtonClick() {
-        this.setState({ layout: LIST_LAYOUT });
-        BrowserDatabase.setItem(LIST_LAYOUT, LAYOUT_KEY);
-    }
+    };
 
     displayProducts() {
         const {
@@ -130,12 +142,6 @@ export class CategoryPage extends PureComponent {
             || display_mode === DISPLAY_MODE_BOTH;
     }
 
-    setDefaultPlpType() {
-        const { defaultPlpType } = this.props;
-
-        this.setState({ layout: defaultPlpType });
-    }
-
     renderCategoryDetails() {
         const {
             category,
@@ -150,8 +156,24 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderFiltersCount() {
+        const { appliedFiltersCount } = this.props;
+
+        if (!appliedFiltersCount) {
+            return null;
+        }
+
+        return (
+            <span block="CategoryPage" elem="Subheading">
+                { ` (${appliedFiltersCount})` }
+            </span>
+        );
+    }
+
     renderFilterButton() {
-        const { isContentFiltered, totalPages, category: { is_anchor } } = this.props;
+        const {
+            isContentFiltered, totalPages, category: { is_anchor }
+        } = this.props;
 
         if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
             return null;
@@ -163,7 +185,9 @@ export class CategoryPage extends PureComponent {
               elem="Filter"
               onClick={ this.onFilterButtonClick }
             >
-                { __('Filter') }
+                <Image src={ filterIcon } alt="filter" mix={ { block: 'CategoryPage', elem: 'FilterIcon' } } />
+                <span>{ __('Filters') }</span>
+                { this.renderFiltersCount() }
             </button>
         );
     }
@@ -215,15 +239,20 @@ export class CategoryPage extends PureComponent {
     }
 
     renderLayoutButton = (type) => {
-        const { layout } = this.state;
+        const {
+            onGridButtonClick,
+            onListButtonClick
+        } = this.props;
+
+        const { activeLayoutType } = this.state;
 
         switch (type) {
         case GRID_LAYOUT:
             return (
                 <button
                   key={ type }
-                  onClick={ this.onGridButtonClick }
-                  mix={ { block: GRID_LAYOUT, mods: { isActive: layout === GRID_LAYOUT } } }
+                  onClick={ onGridButtonClick }
+                  mix={ { block: GRID_LAYOUT, mods: { isActive: activeLayoutType === GRID_LAYOUT } } }
                 >
                     { __('Grid') }
                 </button>
@@ -232,8 +261,8 @@ export class CategoryPage extends PureComponent {
             return (
                 <button
                   key={ type }
-                  onClick={ this.onListButtonClick }
-                  mix={ { block: LIST_LAYOUT, mods: { isActive: layout === LIST_LAYOUT } } }
+                  onClick={ onListButtonClick }
+                  mix={ { block: LIST_LAYOUT, mods: { isActive: activeLayoutType === LIST_LAYOUT } } }
                 >
                     { __('List') }
                 </button>
@@ -290,7 +319,7 @@ export class CategoryPage extends PureComponent {
             isMatchingInfoFilter
         } = this.props;
 
-        const { layout } = this.state;
+        const { activeLayoutType } = this.state;
 
         if (!this.displayProducts()) {
             return null;
@@ -307,7 +336,7 @@ export class CategoryPage extends PureComponent {
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
-                  layout={ layout }
+                  layout={ activeLayoutType || GRID_LAYOUT }
                 />
             </div>
         );
@@ -343,11 +372,11 @@ export class CategoryPage extends PureComponent {
 
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
+                { this.renderItemsCount() }
                 <div block="CategoryPage" elem="LayoutWrapper">
                     { this.renderLayoutButtons() }
-                    { this.renderItemsCount() }
+                    { this.renderCategorySort() }
                 </div>
-                { this.renderCategorySort() }
                 { this.renderFilterButton() }
             </aside>
         );

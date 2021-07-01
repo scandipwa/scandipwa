@@ -31,7 +31,7 @@ import {
     getCartShippingSubPrice,
     getCartSubtotal,
     getCartSubtotalSubPrice,
-    getCartTotalSubPrice,
+    getCartTotalSubPrice, getItemsCountLabel,
     hasOutOfStockProductsInCartItems
 } from 'Util/Cart';
 import history from 'Util/History';
@@ -117,7 +117,7 @@ export class CartPageContainer extends PureComponent {
         } = this.props;
 
         const {
-            totals: { items_qty: prevItemsQty },
+            totals: { items_qty: prevItemsQty = 0 },
             headerState: { name: prevName }
         } = prevProps;
 
@@ -128,7 +128,7 @@ export class CartPageContainer extends PureComponent {
         }
 
         if (items_qty !== prevItemsQty && prevItemsQty !== undefined) {
-            const title = __('%s Item(s)', items_qty);
+            const title = getItemsCountLabel(items_qty);
             changeHeaderState({
                 ...headerState,
                 title
@@ -200,7 +200,7 @@ export class CartPageContainer extends PureComponent {
 
     _changeHeaderState() {
         const { changeHeaderState, totals: { items_qty } } = this.props;
-        const title = __('%s Item(s)', items_qty || 0);
+        const title = getItemsCountLabel(items_qty);
 
         changeHeaderState({
             name: CART,

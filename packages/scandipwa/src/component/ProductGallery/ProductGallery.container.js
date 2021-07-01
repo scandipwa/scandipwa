@@ -91,7 +91,7 @@ export class ProductGalleryContainer extends PureComponent {
 
     onActiveImageChange(activeImage) {
         this.setState({
-            activeImage,
+            activeImage: Math.abs(activeImage),
             isZoomEnabled: false
         });
     }

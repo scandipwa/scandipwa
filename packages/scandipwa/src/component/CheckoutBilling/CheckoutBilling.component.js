@@ -47,6 +47,7 @@ export class CheckoutBilling extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         shippingAddress: addressType.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
@@ -55,7 +56,8 @@ export class CheckoutBilling extends PureComponent {
     };
 
     static defaultProps = {
-        termsAreEnabled: false
+        termsAreEnabled: false,
+        cartTotalSubPrice: null
     };
 
     componentDidMount() {
@@ -106,20 +108,6 @@ export class CheckoutBilling extends PureComponent {
               block="CheckoutBilling"
               elem="TermsAndConditions"
             >
-                <label
-                  block="CheckoutBilling"
-                  elem="TACLabel"
-                  htmlFor="termsAndConditions"
-                >
-                    { checkbox_text }
-                    <button
-                      block="CheckoutBilling"
-                      elem="TACLink"
-                      onClick={ this.handleShowPopup }
-                    >
-                        { __('read more') }
-                    </button>
-                </label>
                 <Field
                   id="termsAndConditions"
                   name="termsAndConditions"
@@ -129,7 +117,40 @@ export class CheckoutBilling extends PureComponent {
                   checked={ isTermsAndConditionsAccepted }
                   onChange={ this.setTACAccepted }
                 />
+                <label
+                  block="CheckoutBilling"
+                  elem="TACLabel"
+                  htmlFor="termsAndConditions"
+                >
+                    { `${checkbox_text } - ` }
+                    <button
+                      block="CheckoutBilling"
+                      elem="TACLink"
+                      onClick={ this.handleShowPopup }
+                    >
+                        { __('read more') }
+                    </button>
+                </label>
             </div>
+        );
+    }
+
+    renderOrderTotalExlTax() {
+        const {
+            cartTotalSubPrice,
+            totals: { quote_currency_code }
+        } = this.props;
+
+        if (!cartTotalSubPrice) {
+            return null;
+        }
+
+        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
+            </span>
         );
     }
 
@@ -139,14 +160,15 @@ export class CheckoutBilling extends PureComponent {
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
         return (
-            <div block="Checkout" elem="OrderTotal">
-                <span>
+            <dl block="Checkout" elem="OrderTotal">
+                <dt>
                     { __('Order total:') }
-                </span>
-                <span>
+                </dt>
+                <dd>
                     { orderTotal }
-                </span>
-            </div>
+                    { this.renderOrderTotalExlTax() }
+                </dd>
+            </dl>
         );
     }
 
@@ -229,9 +251,18 @@ export class CheckoutBilling extends PureComponent {
         );
     }
 
+    renderHeading() {
+        return (
+            <h2 block="Checkout" elem="Heading">
+                { __('Billing address') }
+            </h2>
+        );
+    }
+
     renderAddresses() {
         return (
             <>
+                { this.renderHeading() }
                 { this.renderSameAsShippingCheckbox() }
                 { this.renderAddressBook() }
             </>

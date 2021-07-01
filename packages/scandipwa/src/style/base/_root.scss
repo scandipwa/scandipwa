@@ -16,7 +16,7 @@
     --color-gray: #f3f3f2;
     --color-dark-gray: #dddddd;
     --color-karaka: #0a0903;
-    --primary-divider-color: #f0f0f0;
+    --primary-divider-color: #e0e0e0;
     --secondary-error-color: #fff;
     --primary-error-color: #d20b0b;
     --secondary-success-color: #fff;
@@ -38,4 +38,6 @@
     --secondary-base-color: var(--imported_secondary_base_color, #{$default-secondary-base-color});
     --secondary-dark-color: var(--imported_secondary_dark_color, #{$default-secondary-dark-color});
     --secondary-light-color: var(--imported_secondary_light_color, #{$default-secondary-light-color});
+    --primary-base-filter: var(--imported_primary_base_filter, #{$svg-filter-primary-base-color});
+    --primary-dark-filter: var(--imported_primary_base_filter, #{$svg-filter-primary-dark-color});
 }

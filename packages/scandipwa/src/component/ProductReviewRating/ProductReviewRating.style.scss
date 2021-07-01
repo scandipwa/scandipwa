@@ -12,32 +12,31 @@
 :root {
     --product-rating-background: #979797;
     --product-rating-filled-background: var(--primary-base-color);
-    --product-rating-size: 1.8rem;
+    --product-rating-size: 18px;
 
     @include mobile {
-        --product-rating-size: 2.1rem;
+        --product-rating-size: 21px;
     }
 }
 
 .ProductReviewRating {
-    --percentage: 0%;
+    display: flex;
+    align-items: flex-end;
+    line-height: normal;
 
-    display: inline-block;
-    font-size: var(--product-rating-size);
-    letter-spacing: 2px;
-
-    &::before {
-        content: '★★★★★';
-        background:
-            linear-gradient(
-                90deg,
-                var(--product-rating-filled-background) var(--percentage),
-                var(--product-rating-background) var(--percentage)
-            );
-
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    &-StarFull {
+        @include star-icon-full;
     }
+
+    &-StarHalfFull {
+        @include star-icon-half;
+        @include rtl-icon;
+    }
+
+    &-StarEmpty {
+        @include star-icon-empty;
+    }
+
 
     &_isLoading {
         &::before {
@@ -49,7 +48,8 @@
 
     &-Counter {
         display: inline-block;
-        font-size: 1.2rem;
+        font-size: 12px;
         letter-spacing: 0;
+        font-weight: 700;
     }
 }

@@ -15,11 +15,14 @@ import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
-import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
-import { objectToUri } from 'Util/Url';
+import {
+    CONFIGURABLE, getNewParameters, getVariantIndex, getVariantsIndexes
+} from 'Util/Product';
+import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 import { IN_STOCK } from './ProductCard.config';
@@ -32,6 +35,9 @@ export const CartDispatcher = import(
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
+    base_link_url: state.ConfigReducer.base_link_url || '',
+    product_use_categories: state.ConfigReducer.product_use_categories || false,
+    category_url_suffix: state.ConfigReducer.category_url_suffix,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
@@ -39,7 +45,8 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
     addProduct: (options) => CartDispatcher.then(
         ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
-    )
+    ),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 /** @namespace Component/ProductCard/Container */
@@ -48,18 +55,31 @@ export class ProductCardContainer extends PureComponent {
         product: ProductType,
         selectedFilters: FilterType,
         device: DeviceType.isRequired,
-        isWishlistEnabled: PropTypes.bool.isRequired
+        product_use_categories: PropTypes.bool.isRequired,
+        category_url_suffix: PropTypes.string.isRequired,
+        base_link_url: PropTypes.string.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isPreview: PropTypes.bool,
+        showNotification: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         product: {},
-        selectedFilters: {}
+        selectedFilters: {},
+        isPreview: false
+    };
+
+    state = {
+        parameters: {},
+        configurableVariantIndex: -1
     };
 
     containerFunctions = {
         getAttribute: this.getAttribute.bind(this),
         isConfigurableProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this),
-        isBundleProductOutOfStock: this.isConfigurableProductOutOfStock.bind(this)
+        isBundleProductOutOfStock: this.isBundleProductOutOfStock.bind(this),
+        updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
+        showSelectOptionsNotification: this.showSelectOptionsNotification.bind(this)
     };
 
     getAttribute(code) {
@@ -83,7 +103,6 @@ export class ProductCardContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        availableVisualOptions: this._getAvailableVisualOptions(),
         currentVariantIndex: this._getCurrentVariantIndex(),
         productOrVariant: this._getProductOrVariant(),
         thumbnail: this._getThumbnail(),
@@ -91,7 +110,15 @@ export class ProductCardContainer extends PureComponent {
     });
 
     _getLinkTo() {
-        const { product: { url }, product } = this.props;
+        const {
+            base_link_url,
+            product_use_categories,
+            category_url_suffix,
+            product: { url, url_rewrites = [] },
+            product
+        } = this.props;
+        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
+        const { location: { pathname } } = history;
 
         if (!url) {
             return undefined;
@@ -99,9 +126,18 @@ export class ProductCardContainer extends PureComponent {
 
         const { parameters } = this._getConfigurableParameters();
         const { state: { category = null } = {} } = history.location;
+        const categoryUrlPart = pathname.replace(storePrefix, '').replace(category_url_suffix, '');
+        const productUrl = `${categoryUrlPart}/${url.replace(storePrefix, '')}`;
+
+        // if 'Product Use Categories' is enabled then use the current window location to see if the product
+        // has any url_rewrite for that path. (if not then just use the default url)
+        const rewriteUrl = url_rewrites.find(({ url }) => url.includes(productUrl)) || {};
+        const rewriteUrlPath = product_use_categories
+            ? (rewriteUrl.url && appendWithStoreCode(rewriteUrl.url)) || url
+            : url;
 
         return {
-            pathname: url,
+            pathname: rewriteUrlPath,
             state: { product, prevCategoryId: category },
             search: objectToUri(parameters)
         };
@@ -170,43 +206,18 @@ export class ProductCardContainer extends PureComponent {
         return product || {};
     }
 
-    _getAvailableVisualOptions() {
-        const { product: { configurable_options = {} } } = this.props;
+    showSelectOptionsNotification() {
+        const { showNotification } = this.props;
 
-        if (Object.keys(configurable_options).length === 0) {
-            return [];
-        }
-
-        // Find first option that has swatch_data in attribute_options property
-        const optionWithSwatchData = Object.values(configurable_options).find((option) => {
-            const { attribute_options = {} } = option;
-
-            return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
-        });
-
-        const { attribute_options = {} } = optionWithSwatchData || {};
-
-        return Object.values(attribute_options).reduce(
-            (acc, option) => {
-                const {
-                    swatch_data,
-                    label
-                } = option;
-
-                const { type, value } = swatch_data || {};
-
-                if (type && value) {
-                    acc.push({ value, label, type });
-                }
-
-                return acc;
-            },
-            []
-        );
+        showNotification('info', __('Please, select product options!'));
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants } } = this.props;
+        const { product: { variants }, isPreview } = this.props;
+
+        if (isPreview) {
+            return true;
+        }
 
         const variantsInStock = variants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
 
@@ -214,7 +225,7 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isBundleProductOutOfStock() {
-        const { product: { items } } = this.props;
+        const { product: { items = [] } } = this.props;
 
         if (items.length === 0) {
             return true;
@@ -222,9 +233,32 @@ export class ProductCardContainer extends PureComponent {
 
         const { options } = items[0];
 
-        const optionsInStock = options.filter((option) => option.product.stock_status === IN_STOCK);
+        const optionsInStock = options.filter((option) => option?.product?.stock_status === IN_STOCK);
 
         return optionsInStock.length === 0;
+    }
+
+    updateConfigurableVariant(key, value) {
+        const { parameters: prevParameters } = this.state;
+
+        const parameters = getNewParameters(prevParameters, key, value);
+        this.setState({ parameters });
+
+        this.updateConfigurableVariantIndex(parameters);
+    }
+
+    updateConfigurableVariantIndex(parameters) {
+        const { product: { variants, configurable_options } } = this.props;
+        const { configurableVariantIndex } = this.state;
+
+        const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
+            ? getVariantIndex(variants, parameters)
+            // Not all parameters are selected yet, therefore variantIndex must be invalid
+            : -1;
+
+        if (configurableVariantIndex !== newIndex) {
+            this.setState({ configurableVariantIndex: newIndex });
+        }
     }
 
     render() {
@@ -235,6 +269,7 @@ export class ProductCardContainer extends PureComponent {
                       { ...{ ...this.props, registerSharedElement } }
                       { ...this.containerFunctions }
                       { ...this.containerProps() }
+                      { ...this.state }
                     />
                 ) }
             </Subscribe>

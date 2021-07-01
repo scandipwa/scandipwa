@@ -14,29 +14,33 @@
 }
 
 .StoreSwitcher {
-    border-bottom: 1px solid var(--primary-divider-color);
-    margin: 0 16px;
+    border-block-end: 1px solid var(--primary-divider-color);
 
     @include desktop {
-        border-bottom: none;
+        border-block-end: none;
         margin: 0;
     }
 
+    @include mobile {
+        margin: 0 16px;
+    }
+
     .Field {
-        margin-top: 0;
+        margin-block-start: 0;
 
         &Select {
             &-Select {
                 border: none;
-                font-size: 1.4rem;
+                font-size: 14px;
                 font-weight: 400;
                 opacity: 1;
                 padding-inline-start: 0;
+                line-height: 23px;
             }
 
             &::after {
                 height: 13px;
-                right: 0;
+                inset-inline-end: 0;
                 width: 13px;
             }
         }
@@ -47,7 +51,7 @@
         cursor: pointer;
 
         @include desktop {
-            font-size: 1.2rem;
+            font-size: 12px;
         }
 
         &::after {
@@ -55,7 +59,8 @@
 
             content: ' ';
             position: absolute;
-            right: -20px;
+            inset-inline-end: -20px;
+            inset-block-start: 1px;
             transform: rotate(90deg);
         }
 
@@ -70,9 +75,9 @@
         background-color: var(--store-switcher-list-background);
         border: 1px solid var(--input-border-color);
         display: none;
-        right: -20px;
+        inset-inline-end: -20px;
         position: absolute;
-        top: 25px;
+        inset-block-start: 25px;
         z-index: 2;
 
         &_isOpen {

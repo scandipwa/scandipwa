@@ -11,7 +11,7 @@
 
 :root {
     --menu-item-height: 20px;
-    --menu-total-height: 66px;
+    --menu-total-height: 59px;
 }
 
 @mixin subcategory-visible {
@@ -24,14 +24,16 @@
 .Menu {
     &-CompareLink {
         color: var(--color-black);
-        font-size: 1.4rem;
+        font-size: 14px;
         font-weight: 400;
         padding-inline-start: 30px;
         text-transform: none;
 
         &Wrapper {
-            border-bottom: 1px solid var(--primary-divider-color);
-            padding: 17px 0 16px;
+            border-block-end: 1px solid var(--primary-divider-color);
+            padding-block-start: 17px;
+            padding-block-end: 16px;
+            padding-inline: 0;
             margin: 0 16px;
 
             &::before {
@@ -40,23 +42,30 @@
                 content: ' ';
                 position: absolute;
             }
+
+            @include mobile {
+                padding: 13px 0;
+            }
         }
     }
 
     &-ExpandedState {
+        --plus-minus-icon-size: 18px;
         @include plus-icon;
+        display: inline-block;
+        float: inline-end;
+
+        &:dir(rtl) {
+            float: inline-start;
+        }
 
         &_isExpanded {
             @include minus-icon;
-
-            width: 13px;
         }
 
         filter: brightness(.2) sepia(1) hue-rotate(180deg) saturate(5);
         position: absolute;
-        right: 16px;
-        top: 0;
-        width: 13px;
+        inset-inline-end: 0;
 
         @include desktop {
             display: none;
@@ -64,11 +73,10 @@
     }
 
     &-Item {
-        min-height: var(--menu-item-height);
-        margin: 16px 0;
         padding-inline-start: 0;
 
         @include desktop {
+            height: var(--menu-item-height);
             margin: 0;
         }
 
@@ -78,20 +86,42 @@
 
         &Caption {
             color: var(--color-black);
-            padding-inline-start: 16px;
 
             &:hover {
                 color: var(--link-hover);
             }
 
+            @include mobile {
+                margin-inline: 16px;
+            }
+
+            @include mobile {
+                padding-block: 16px;
+            }
+
+            &_isSecondLevel {
+                font-weight: 700;
+            }
+
             &_type {
                 &_main {
-                    margin: 0 0 16px;
+                    @include desktop {
+                        margin: 0 0 16px;
+                    }
+
                     text-transform: uppercase;
+                    font-weight: 700;
                 }
 
                 &_subcategory {
-                    margin-top: 16px;
+                    @include mobile {
+                        margin-inline-end: 0;
+                    }
+
+                    @include desktop {
+                        margin-block-start: 12px;
+                        display: inline-block;
+                    }
                 }
             }
         }
@@ -104,12 +134,26 @@
                     display: block;
                 }
             }
+
+            &_type_subcategory {
+                @include mobile {
+                    padding-block: 8px;
+                }
+            }
+        }
+
+        &:not(:first-of-type) {
+            @include desktop {
+                margin-inline-start: 20px;
+            }
         }
     }
 
     &-Link {
+        display: contents;
         font-weight: 400;
-        margin: 8px 16px 8px 0;
+        margin-block: 8px;
+        margin-inline: 0 16px;
     }
 
     &-MainCategories {
@@ -126,21 +170,27 @@
 
     &-MenuWrapper {
         @include desktop {
-            margin-top: 26px;
+            margin-block-start: 18px;
+        }
+    }
+
+    &-SubCategories {
+        @include desktop {
+            padding-inline: 32px;
+            padding-block-end: 8px;
         }
     }
 
     &-Sub {
-        &CatLink {
-            font-weight: 700;
-        }
-
         &ItemWrapper {
             > .Menu-Link {
                 @include desktop {
                     font-weight: 700;
                 }
             }
+
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
         }
 
         &Menu {
@@ -149,7 +199,7 @@
             &_isVisible {
                 background: var(--color-gray);
                 display: block;
-                padding: 12px 0 12px 8px;
+                padding-inline: 16px;
             }
 
             @include desktop {
@@ -159,13 +209,23 @@
             }
 
             .Menu-SubMenu & {
-                padding-bottom: 0;
+                padding-block-end: 0;
+            }
+
+            .Menu-ItemCaption {
+                @include mobile {
+                    padding-block: 8px;
+                }
+
+                @include desktop {
+                    padding-block-end: 8px;
+                }
             }
 
             > .Menu-ItemList {
                 @include desktop {
-                    display: grid;
-                    grid-auto-flow: column;
+                    columns: 4;
+                    -webkit-columns: 4;
                 }
             }
         }

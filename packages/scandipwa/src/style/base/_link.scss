@@ -17,17 +17,17 @@
 }
 
 a {
-    border-bottom: var(--link-underline);
+    border-block-end: var(--link-underline);
     color: var(--link-color);
-    font-size: 1.4rem;
+    font-size: 14px;
     font-weight: 700;
 
     &.Link {
         &:hover,
         &:focus {
             color: var(--link-hover);
-            border-bottom: var(--link-hover-underline);
-            padding-bottom: 3px;
+            border-block-end: var(--link-hover-underline);
+            padding-block-end: 3px;
         }
     }
 }

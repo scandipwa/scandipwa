@@ -9,12 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
+import { isSignedIn } from 'Util/Auth';
 import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
     SIMPLE
 } from 'Util/Product';
+import getStore from 'Util/Store';
 
 /**
  * Checks whether every option is in attributes
@@ -97,6 +102,22 @@ export const getIndexedVariants = (variants) => variants.map(({ product }) => {
         attributes: getIndexedAttributes(attributes || [])
     };
 });
+
+/** @namespace Util/Product/getIndexedSingleVariant */
+export const getIndexedSingleVariant = (variants, itemSku) => {
+    const index = variants.findIndex(({ product: { sku } }) => sku === itemSku || itemSku.includes(sku));
+
+    if (index < 0) {
+        return getIndexedVariants(variants);
+    }
+
+    const indexedProduct = variants[index].product;
+    const { attributes } = indexedProduct;
+
+    return [
+        { ...indexedProduct, attributes: getIndexedAttributes(attributes || []) }
+    ];
+};
 
 /**
  * Get product variant index by options
@@ -208,8 +229,34 @@ export const getIndexedReviews = (reviews) => {
     }, []);
 };
 
+/** @namespace Util/Product/getBundleOptions */
+export const getBundleOptions = (options, items) => {
+    const bundleOptions = options.reduce((prev, next) => [...prev, ...next.selection_details], []);
+
+    return items.map((item) => ({
+        ...item,
+        options: item?.options?.map((option) => {
+            const selection = bundleOptions.find((o) => o.selection_id === option.id) || {};
+            const {
+                regular_option_price: regularOptionPrice = 0,
+                regular_option_price_excl_tax: regularOptionPriceExclTax = 0,
+                final_option_price: finalOptionPrice = 0,
+                final_option_price_excl_tax: finalOptionPriceExclTax = 0
+            } = selection;
+
+            return {
+                ...option,
+                regularOptionPrice,
+                regularOptionPriceExclTax,
+                finalOptionPrice,
+                finalOptionPriceExclTax
+            };
+        })
+    }));
+};
+
 /** @namespace Util/Product/getIndexedProduct */
-export const getIndexedProduct = (product) => {
+export const getIndexedProduct = (product, itemSku) => {
     const {
         variants: initialVariants = [],
         configurable_options: initialConfigurableOptions = [],
@@ -217,16 +264,18 @@ export const getIndexedProduct = (product) => {
         options: initialOptions = [],
         rating_summary,
         review_count,
-        reviews: initialReviews
+        reviews: initialReviews,
+        items = [],
+        bundle_options = []
     } = product;
 
     const attributes = getIndexedAttributes(initialAttributes || []);
     const reviews = getIndexedReviews(initialReviews);
 
-    return {
+    const updatedProduct = {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
-        variants: getIndexedVariants(initialVariants),
+        variants: itemSku ? getIndexedSingleVariant(initialVariants, itemSku) : getIndexedVariants(initialVariants),
         options: getIndexedCustomOptions(initialOptions || []),
         attributes,
         // Magento 2.4.1 review endpoint compatibility
@@ -236,10 +285,16 @@ export const getIndexedProduct = (product) => {
             review_count
         }
     };
+
+    if (bundle_options.length) {
+        updatedProduct.items = getBundleOptions(bundle_options, items);
+    }
+
+    return updatedProduct;
 };
 
 /** @namespace Util/Product/getIndexedProducts */
-export const getIndexedProducts = (products) => products.map(getIndexedProduct);
+export const getIndexedProducts = (products) => products.map((product) => getIndexedProduct(product));
 
 /** @namespace Util/Product/getIndexedParameteredProducts */
 export const getIndexedParameteredProducts = (products) => Object.entries(products)
@@ -312,4 +367,66 @@ export const getExtensionAttributes = (product) => {
     }
 
     return {};
+};
+
+/** @namespace Util/Product/sortBySortOrder */
+export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort(
+    (a, b) => {
+        if (a[sortKey] < b[sortKey]) {
+            return -1;
+        }
+
+        if (a[sortKey] > b[sortKey]) {
+            return 1;
+        }
+
+        return 0;
+    }
+);
+
+/** @namespace Util/Product/getIsConfigurableParameterSelected */
+// eslint-disable-next-line max-len
+export const getIsConfigurableParameterSelected = (parameters, key, value) => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
+
+/** @namespace Util/Product/getNewParameters */
+export const getNewParameters = (parameters, key, value) => {
+    // If value is already selected, than we remove the key to achieve deselection
+    if (getIsConfigurableParameterSelected(parameters, key, value)) {
+        const { [key]: oldValue, ...newParameters } = parameters;
+
+        return newParameters;
+    }
+
+    return {
+        ...parameters,
+        [key]: value.toString()
+    };
+};
+
+/** @namespace Util/Product/showNewReviewPopup */
+export const showNewReviewPopup = () => {
+    const store = getStore();
+    const {
+        ConfigReducer: {
+            reviews_allow_guest: isGuestEnabled
+        } = {}
+    } = store.getState();
+    const { dispatch } = store;
+
+    // if not logged in and guest reviews are not enabled
+    if (!isSignedIn() && !isGuestEnabled) {
+        dispatch(showNotification('info', __('You must login or register to review products.')));
+        return;
+    }
+
+    dispatch(showPopup(REVIEW_POPUP_ID, { title: __('Write a review') }));
+};
+
+/** @namespace Util/Product/getBooleanLabel */
+export const getBooleanLabel = (label, isBoolean = false) => {
+    if (!isBoolean) {
+        return label;
+    }
+
+    return +label ? __('Yes') : __('No');
 };

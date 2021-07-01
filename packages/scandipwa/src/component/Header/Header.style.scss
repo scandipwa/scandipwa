@@ -13,7 +13,8 @@
     --header-logo-width: 194px;
     --header-logo-height: 24px;
 
-    --header-nav-height: 50px;
+    --header-height: 60px;
+    --header-nav-height: 60px;
     --header-total-height:
         calc(
             var(--header-height)
@@ -22,19 +23,20 @@
             + env(safe-area-inset-top)
         );
 
-    @include after-mobile {
-        --header-nav-height: 60px;
-        --header-top-menu-height: 30px;
+    @include desktop {
+        --header-top-menu-height: 32px;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height) + var(--menu-total-height));
     }
 }
 
 @mixin button-invisible {
+    margin: 0;
     opacity: 0;
-    padding: 0;
-    width: 0;
-    pointer-events: none;
     overflow: hidden;
+    padding: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
 }
 
 @mixin button-visible {
@@ -43,6 +45,7 @@
     width: 25px;
     pointer-events: all;
     overflow: visible;
+    cursor: pointer;
 }
 
 @mixin visible-on-mobile {
@@ -53,70 +56,58 @@
     }
 }
 
+@mixin logo-visible {
+    opacity: 1;
+    max-width: 100%;
+}
+
 .Header {
     align-items: center;
     background: var(--color-white);
     height: fit-content;
     display: flex;
     flex-direction: column;
-    padding: calc(var(--demo-notice-height) + 15px) 16px 0;
+    padding-block-start: env(safe-area-inset-top, 0);
     width: 100%;
+    position: fixed;
     z-index: 100;
-
-    @include desktop {
-        padding: var(--demo-notice-height) 32px 0;
-        position: fixed;
-        top: 0;
-    }
+    border-block-end: 1px solid var(--primary-divider-color);
+    inset-block-start: var(--demo-notice-height);
 
     > * {
         max-width: var(--content-wrapper-width);
         width: 100%;
     }
 
+    &_menu,
+    &_menu_subcategory {
+        .Header-Button_type {
+            &_close {
+                @include desktop {
+                    @include button-visible;
+                }
+            }
+
+            &_menu {
+                @include desktop {
+                    @include button-invisible;
+                }
+            }
+        }
+    }
+
     &_name {
         &_menu,
         &_menu_subcategory,
         &_search {
-            .Header {
-                &-LogoWrapper {
-                    display: none;
-
-                    @include desktop {
-                        display: block;
-                    }
-                }
-
-                &-Title {
-                    display: none;
-                }
-            }
+            border-block-end: none;
         }
 
         &_category {
             position: fixed;
 
-            .Header {
-                &-Button {
-                    &_type {
-                        &_back {
-                            @include back-button;
-
-                            @include visible-on-mobile;
-
-                            bottom: 3px;
-                            margin-inline-end: 15px;
-                        }
-                    }
-                }
-
-                &-LogoWrapper {
-                    display: none;
-
-                    @include desktop {
-                        display: block;
-                    }
-                }
+            @include mobile {
+                border-block-end: none;
             }
         }
     }
@@ -124,9 +115,19 @@
     &-Button {
         @include button-invisible;
 
+        &_isVisible {
+            @include mobile {
+                @include button-visible;
+            }
+        }
+
+        &_isDisabled {
+            pointer-events: none;
+            opacity: .1;
+        }
+
         &_type {
             &_menu,
-            &_account,
             &_minicart {
                 @include button-visible;
 
@@ -136,6 +137,7 @@
             }
 
             &_account {
+                @include button-visible;
                 @include account-button;
             }
 
@@ -151,21 +153,78 @@
 
             &_minicart {
                 @include minicart-button;
+
+                @include desktop {
+                    margin-inline-start: 35px;
+                }
+            }
+
+            &_back {
+                @include back-button;
+
+                width: 18px;
+                height: 20px;
+
+                [dir="rtl"] & {
+                    transform: none;
+                }
+            }
+
+            &_close {
+                @include close-button;
+
+                width: 27px;
+                height: 27px;
+            }
+
+            &_share {
+                @include share-icon;
+            }
+
+            &_compare {
+                display: contents;
             }
         }
+
+        &[aria-hidden="true"] {
+            display: none;
+        }
+    }
+
+    &-MinicartButtonWrapper {
+        cursor: pointer;
+    }
+
+    &-CompareButtonWrapper {
+        margin-inline-start: 35px;
     }
 
     &-CompareIcon {
         @include compare-icon;
-
-        @include desktop {
-            margin-inline-start: 35px;
-        }
     }
 
     &-LogoWrapper {
+        inset-block-end: 0;
         height: var(--header-logo-height);
+        inset-inline-start: 0;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        inset-inline-end: 0;
+        inset-block-start: 0;
         width: var(--header-logo-width);
+
+        @include mobile {
+            margin: auto;
+        }
+
+        @include desktop {
+            @include logo-visible;
+        }
+
+        &_isVisible {
+            @include logo-visible;
+        }
     }
 
     &-Minicart {
@@ -177,13 +236,26 @@
         &ItemCount {
             background: var(--primary-base-color);
             border-radius: 50%;
-            bottom: -5px;
             color: var(--color-white);
             height: 17px;
             padding: 2px;
             position: absolute;
-            right: -5px;
             width: 17px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 80%;
+            font-weight: 700;
+
+            @include mobile {
+                inset-block-start: -7px;
+                inset-inline-end: -11px;
+            }
+
+            @include desktop {
+                inset-block-start: -10px;
+                inset-inline-end: -12px;
+            }
         }
     }
 
@@ -191,10 +263,11 @@
         align-items: center;
         display: flex;
         height: var(--header-nav-height);
-        justify-content: center;
+        padding-inline: 14px;
 
         @include desktop {
             justify-content: unset;
+            padding-inline: 32px;
         }
     }
 
@@ -203,14 +276,14 @@
         display: flex;
 
         &Button {
-            font-size: 1.2rem;
+            font-size: 12px;
             margin-inline-start: 5px;
         }
 
         &Icon {
             @include exclamation-icon;
 
-            bottom: 1px;
+            inset-block-end: 1px;
             height: 16px;
             margin-inline-end: 10px;
             width: 16px;
@@ -218,21 +291,61 @@
     }
 
     &-Title {
-        max-width: 100%;
+        color: var(--header-color);
+        margin: auto;
+        opacity: 0;
         overflow: hidden;
+        pointer-events: none;
+        position: absolute;
+        inset-inline-end: 0;
+        text-align: center;
         text-overflow: ellipsis;
+        inset-block-start: -1px;
+        inset-inline-start: 0;
+        inset-block-end: 0;
+        transition-duration: 200ms;
+        transition-property: opacity;
         white-space: nowrap;
+        width: 100%;
+        text-transform: inherit;
+        line-height: 30px;
+        height: 30px;
 
-        @include desktop {
-            opacity: 0;
-            max-width: 0;
+        &_isVisible {
+            @include mobile {
+                opacity: 1;
+                max-width: calc(100% - 80px);
+            }
         }
     }
 
-    &-TopMenu {
+    &-Welcome {
+        display: none;
+        font-size: 14px;
+        margin-inline-end: 16px;
+        text-align: end;
+
+        @include narrow-desktop {
+            display: block;
+        }
+
+        &_isVisible {
+            display: block;
+        }
+    }
+
+    &-TopMenu,
+    &-Nav {
         display: flex;
+        margin: auto;
+        max-width: var(--content-wrapper-width);
+    }
+
+    &-TopMenu {
         justify-content: space-between;
         height: var(--header-top-menu-height);
+        padding-inline: 32px 50px;
+        padding-block-start: 16px;
     }
 
     &-Switcher {
@@ -240,9 +353,45 @@
         display: flex;
     }
 
+    &_isCheckout {
+        .Header {
+            &-Button_type_account {
+                display: block;
+            }
+
+            &-Button_type_close,
+            &-Button_type_back {
+                @include desktop {
+                    display: none;
+                }
+            }
+
+            &-MyAccount {
+                @include desktop {
+                    margin-inline-start: auto;
+                }
+
+                @include mobile {
+                    position: absolute;
+                    inset-inline-end: 10px;
+                    width: auto;
+                }
+            }
+        }
+
+        .MyAccountOverlay {
+            @include mobile {
+                inset-block-start: var(--header-total-height);
+                height: calc(100vh - var(--header-total-height));
+                position: fixed;
+                width: 100vw;
+            }
+        }
+    }
+
     &-Wrapper {
         display: flex;
         justify-content: center;
-        margin-bottom: var(--header-total-height);
+        margin-block-end: var(--header-total-height);
     }
 }

@@ -19,11 +19,28 @@ import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.com
 /** @namespace Component/CategoryConfigurableAttributes/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     currency_code: state.ConfigReducer.currencyData.current_currency_code,
-    show_product_count: state.ConfigReducer.layered_navigation_product_count_enabled
+    show_product_count: state.ConfigReducer.layered_navigation_product_count_enabled,
+    childrenCategories: state.CategoryReducer.category.children
 });
 
 /** @namespace Component/CategoryConfigurableAttributes/Container */
 export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
+    containerFunctions = {
+        ...this.containerFunctions,
+        getSubCategories: this.getSubCategories.bind(this)
+    };
+
+    getSubCategories(option) {
+        const optionWithSubcategories = { ...option };
+        const { childrenCategories } = this.props;
+        const { attribute_values } = option;
+        const childrenCategoryIds = childrenCategories.map((category) => category.id.toString());
+        const subCategoriesIds = attribute_values.filter((item) => childrenCategoryIds.includes(item));
+        optionWithSubcategories.attribute_values = subCategoriesIds;
+
+        return optionWithSubcategories;
+    }
+
     render() {
         return (
             <CategoryConfigurableAttributes

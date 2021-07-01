@@ -18,16 +18,12 @@ ol {
 }
 
 li {
-    padding-inline-start: 3.9rem;
-
-    @include mobile {
-        padding-inline-start: 4.55rem;
-    }
+    padding-inline-start: 3px;
 
     &::before {
         position: absolute;
-        left: 1em;
-        top: .07em;
+        inset-inline-start: 1em;
+        inset-block-start: .07em;
         padding-inline-end: 1.1225em;
 
         ol > & {

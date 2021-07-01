@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { DeviceType } from 'Type/Device';
 import { CartItemType } from 'Type/MiniCart';
 import { itemIsOutOfStock } from 'Util/Cart';
 import { CONFIGURABLE } from 'Util/Product';
@@ -60,11 +61,14 @@ export class CartItemContainer extends PureComponent {
         changeItemQty: PropTypes.func.isRequired,
         removeProduct: PropTypes.func.isRequired,
         updateCrossSellProducts: PropTypes.func.isRequired,
-        updateCrossSellsOnRemove: PropTypes.bool
+        updateCrossSellsOnRemove: PropTypes.bool,
+        device: DeviceType.isRequired,
+        isCartOverlay: PropTypes.bool
     };
 
     static defaultProps = {
-        updateCrossSellsOnRemove: false
+        updateCrossSellsOnRemove: false,
+        isCartOverlay: false
     };
 
     state = { isLoading: false };
@@ -122,7 +126,9 @@ export class CartItemContainer extends PureComponent {
         thumbnail: this._getProductThumbnail(),
         minSaleQuantity: this.getMinQuantity(),
         maxSaleQuantity: this.getMaxQuantity(),
-        isProductInStock: this.productIsInStock()
+        isProductInStock: this.productIsInStock(),
+        optionsLabels: this.getConfigurableOptionsLabels(),
+        isMobileLayout: this.getIsMobileLayout()
     });
 
     /**
@@ -140,10 +146,21 @@ export class CartItemContainer extends PureComponent {
     /**
      * @return {void}
      */
-    handleRemoveItem() {
+    handleRemoveItem(e) {
+        if (e) {
+            e.preventDefault();
+        }
+
         this.setState({ isLoading: true }, () => {
             this.hideLoaderAfterPromise(this.removeProductAndUpdateCrossSell());
         });
+    }
+
+    getIsMobileLayout() {
+        // "isMobileLayout" check is required to render mobile content in some additional cases
+        // where screen width exceeds 810px (e.g. CartOverlay)
+        const { device, isCartOverlay } = this.props;
+        return device.isMobile || isCartOverlay;
     }
 
     async removeProductAndUpdateCrossSell() {
@@ -262,6 +279,52 @@ export class CartItemContainer extends PureComponent {
         const product = this.getCurrentProduct();
         const { thumbnail: { url: thumbnail } = {} } = product;
         return thumbnail || '';
+    }
+
+    getConfigurationOptionLabel = ([key, attribute]) => {
+        const {
+            item: {
+                product: {
+                    configurable_options
+                }
+            }
+        } = this.props;
+
+        const { attribute_code, attribute_value } = attribute;
+
+        if (!Object.keys(configurable_options).includes(key) || attribute_value === null) {
+            return null;
+        }
+
+        const {
+            [attribute_code]: { // configurable option attribute
+                attribute_options: {
+                    [attribute_value]: { // attribute option value label
+                        label
+                    }
+                }
+            }
+        } = configurable_options;
+
+        return label;
+    };
+
+    getConfigurableOptionsLabels() {
+        const {
+            item: {
+                product: {
+                    configurable_options,
+                    variants
+                }
+            }
+        } = this.props;
+
+        if (!variants || !configurable_options) {
+            return [];
+        }
+
+        const { attributes = [] } = this.getCurrentProduct() || {};
+        return Object.entries(attributes).map(this.getConfigurationOptionLabel).filter((label) => label);
     }
 
     renderRightSideContent = () => {

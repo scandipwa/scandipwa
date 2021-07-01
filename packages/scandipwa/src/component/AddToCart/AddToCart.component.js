@@ -12,6 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Image from 'Component/Image/Image.container';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
+import bag from 'Style/icons/bag.svg';
 import { MixType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 
@@ -27,13 +30,17 @@ export class AddToCart extends PureComponent {
         isLoading: PropTypes.bool,
         product: ProductType,
         mix: MixType,
-        buttonClick: PropTypes.func.isRequired
+        buttonClick: PropTypes.func.isRequired,
+        layout: PropTypes.string,
+        isWithIcon: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
         mix: {},
-        isLoading: false
+        isLoading: false,
+        layout: GRID_LAYOUT,
+        isWithIcon: false
     };
 
     renderPlaceholder() {
@@ -48,12 +55,23 @@ export class AddToCart extends PureComponent {
         );
     }
 
+    renderCartIcon() {
+        const { isWithIcon } = this.props;
+
+        if (!isWithIcon) {
+            return null;
+        }
+
+        return <Image src={ bag } alt="cart" mix={ { block: 'AddToCart', elem: 'Icon' } } />;
+    }
+
     render() {
         const {
             mix,
             product: { type_id },
             isLoading,
-            buttonClick
+            buttonClick,
+            layout
         } = this.props;
 
         if (!type_id) {
@@ -65,11 +83,11 @@ export class AddToCart extends PureComponent {
               onClick={ buttonClick }
               block="Button AddToCart"
               mix={ mix }
-              mods={ { isLoading } }
+              mods={ { isLoading, layout } }
               disabled={ isLoading }
             >
-                <span>{ __('Add to cart') }</span>
-                <span>{ __('Adding...') }</span>
+                { this.renderCartIcon() }
+                <span>{ isLoading ? __('Adding...') : __('Add to cart') }</span>
             </button>
         );
     }

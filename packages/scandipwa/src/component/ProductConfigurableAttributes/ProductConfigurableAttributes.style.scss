@@ -9,39 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// :root {
-//     --product-configurable-attributes-direction: flex-start;
-//     --product-configurable-attributes-margin: 0;
-//     --product-configurable-attributes-content-padding: 0;
-
-//     @include mobile {
-//         --product-configurable-attributes-content-padding: .7rem .7rem 2.1rem;
-//     }
-// }
-
 .ProductConfigurableAttributes {
-    font-size: 1.4rem;
-    line-height: 2rem;
+    font-size: 14px;
+    line-height: 20px;
 
-    &-Expandable {
-        margin-block-start: 2.4rem;
+    &-SwatchList,
+    &-DropDownList {
+        text-align: center;
+        margin-block-start: 2px;
+        margin-block-end: 12px;
     }
 
-    &-ExpandableContentButton {
-        margin-block-end: 1.2rem;
-        text-align: start;
-    }
+    &-Title {
+        font-weight: 700;
+        margin-block: 24px 12px;
 
-    &-ExpandableContentHeading {
-        font-weight: bold;
-    }
-
-    &-ExpandableContentSubHeading {
-        display: block;
-        font-size: .96rem;
-        font-weight: 300;
-        line-height: 1.1;
-        text-transform: capitalize;
     }
 
     &-SwatchList {
@@ -49,6 +31,8 @@
         flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
+        padding-inline-start: 3px;
+        padding-block-start: 3px;
     }
 
     &-DropDownList {
@@ -61,79 +45,19 @@
         background-size: var(--placeholder-size);
         height: var(--option-size);
         width: var(--option-size);
-        margin: var(--option-margin);
+        margin-block: var(--option-margin-block);
+        margin-inside: var(--option-margin-inline);
+    }
+
+    &-Expandable:first-of-type {
+        border-block-start: none;
+    }
+
+    &-Expandable:last-of-type {
+        border-block-end: none!important;
+    }
+
+    &-ExpandableContentHeading {
+        color: var(--color-karaka) !important;
     }
 }
-
-// .xProductConfigurableAttributes {
-//     &-SwatchList,
-//     &-DropDownList {
-//         text-align: center;
-
-//         @include after-mobile {
-//             --option-size: 40px;
-//         }
-//     }
-
-//     &-SwatchList {
-//         display: flex;
-//         flex-wrap: wrap;
-//         justify-content: var(--product-configurable-attributes-direction);
-//         align-items: center;
-//     }
-
-//     &-DropDownList {
-//         width: 100%;
-//     }
-
-//     &-Expandable {
-//         margin: var(--product-configurable-attributes-margin);
-//     }
-
-//     &-ExpandableContent {
-//         &Button {
-//             @include after-mobile {
-//                 min-height: 30px;
-//             }
-//         }
-
-//         &SubHeading {
-//             text-transform: capitalize;
-//         }
-
-//         &Content {
-//             overflow-anchor: none;
-
-//             @include after-mobile {
-//                 margin-bottom: 1.2rem;
-//             }
-
-//             &_isContentExpanded {
-//                 @include mobile {
-//                     padding: var(--product-configurable-attributes-content-padding);
-//                 }
-//             }
-//         }
-//     }
-
-//     &-SectionHeading {
-//         font-size: 1.2em;
-//         font-weight: 700;
-//         line-height: 1;
-//         margin: 0 0 1.2rem;
-
-//         @include mobile {
-//             margin: 0 0 1.4rem;
-//             display: none;
-//         }
-//     }
-
-//     &-Placeholder {
-//         animation: var(--placeholder-animation);
-//         background-image: var(--placeholder-image);
-//         background-size: var(--placeholder-size);
-//         height: var(--option-size);
-//         width: var(--option-size);
-//         margin: var(--option-margin);
-//     }
-// }

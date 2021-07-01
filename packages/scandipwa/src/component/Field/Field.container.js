@@ -65,7 +65,9 @@ export class FieldContainer extends PureComponent {
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ]),
-        formRefMap: PropTypes.object
+        formRefMap: PropTypes.object,
+        validateSeparately: PropTypes.bool,
+        isSubmitted: PropTypes.bool
     };
 
     static defaultProps = {
@@ -84,7 +86,9 @@ export class FieldContainer extends PureComponent {
         message: '',
         customValidationStatus: null,
         id: '',
-        formRefMap: {}
+        formRefMap: {},
+        validateSeparately: false,
+        isSubmitted: false
     };
 
     containerFunctions = {
@@ -107,13 +111,22 @@ export class FieldContainer extends PureComponent {
             value,
             checked,
             validationMessage: '',
-            validationStatus: null
+            validationStatus: null,
+            eventId: ''
         };
     }
 
     componentDidUpdate(prevProps) {
-        const { value: prevValue, checked: prevChecked } = prevProps;
-        const { value: currentValue, checked: currChecked, type } = this.props;
+        const { value: prevValue, checked: prevChecked, isSubmitted: prevSubmitted } = prevProps;
+        const {
+            value: currentValue,
+            checked: currChecked,
+            type,
+            id,
+            validateSeparately,
+            isSubmitted
+        } = this.props;
+        const { eventId } = this.state;
 
         if (prevValue !== currentValue) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -124,8 +137,11 @@ export class FieldContainer extends PureComponent {
             this.setState({ checked: currChecked });
         }
 
-        this.updateValidationStatus();
-        this.setValidationMessage(prevProps);
+        // prevents validating all fields when entering data in only one of them
+        if (eventId === id || prevSubmitted !== isSubmitted || !validateSeparately) {
+            this.updateValidationStatus();
+            this.setValidationMessage(prevProps);
+        }
     }
 
     setValidationMessage(prevProps) {
@@ -222,6 +238,7 @@ export class FieldContainer extends PureComponent {
 
     onChange(event) {
         const { type } = this.props;
+        this.setState({ eventId: event?.target?.name });
 
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);

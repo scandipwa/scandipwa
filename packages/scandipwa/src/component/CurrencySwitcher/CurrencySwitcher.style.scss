@@ -10,42 +10,52 @@
  */
 
 .CurrencySwitcher {
-    border-bottom: 1px solid var(--primary-divider-color);
-    margin: 0 16px;
+    --selector-width: 56px;
+
+    border-block-end: 1px solid var(--primary-divider-color);
+
+    @include mobile {
+        margin: 0 16px;
+    }
 
     .Field {
-        margin-top: 0;
+        margin-block-start: 0;
 
         &Select {
+
+            @include desktop {
+                width: var(--selector-width);
+                padding-inline-start: 12px;
+            }
+
             &-Select {
                 border: none;
-                font-size: 1.4rem;
+                font-size: 14px;
                 font-weight: 400;
                 margin: 0;
                 opacity: 1;
                 padding-inline-start: 0;
+                line-height: 23px;
             }
 
             &::after {
                 height: 13px;
-                right: 0;
+                inset-inline-end: 0;
                 width: 13px;
             }
         }
     }
 
     @include desktop {
-        border-bottom: none;
+        border-block-end: none;
 
         .Field {
-            margin-inline-end: 44px;
+            margin-inline-end: 24px;
         }
 
         .FieldSelect {
             &::after {
                 @include chevron-icon;
-
-                right: -20px;
             }
 
             &[aria-expanded='true'] {
@@ -56,19 +66,24 @@
 
             &-Select {
                 border: none;
-                font-size: 1.2rem;
+                font-size: 12px;
                 padding: 0;
             }
 
             &-Options {
                 overflow-y: auto;
                 width: min-content;
+                min-width: var(--selector-width);
+
+                &_isExpanded {
+                    border-block-start: 1px solid var(--primary-divider-color);
+                }
             }
 
             &-Option {
-                line-height: 2.8rem;
+                line-height: 28px;
                 padding: 6px 12px;
-                font-size: 1.2rem;
+                font-size: 12px;
             }
         }
     }

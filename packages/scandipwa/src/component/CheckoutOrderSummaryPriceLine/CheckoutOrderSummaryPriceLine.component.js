@@ -46,7 +46,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
 
         return (
             <span>
-                { `${ __('Excl. tax:') } ${ formatPrice(subPrice, currency) }` }
+                { __('Excl. tax: %s', formatPrice(subPrice, currency)) }
             </span>
         );
     }
@@ -65,9 +65,9 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
-                <strong block="CheckoutOrderSummary" elem="Text">
+                <p block="CheckoutOrderSummary" elem="Text">
                     { title }
-                </strong>
+                </p>
                 <strong block="CheckoutOrderSummary" elem="Text">
                     { this.renderPrice() }
                     { this.renderSubPrice() }

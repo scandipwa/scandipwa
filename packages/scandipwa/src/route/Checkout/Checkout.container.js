@@ -28,7 +28,7 @@ import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
+import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
 import history from 'Util/History';
 import {
     debounce,
@@ -60,6 +60,7 @@ export const CheckoutDispatcher = import(
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
+    cartTotalSubPrice: getCartTotalSubPrice(state),
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
     countries: state.ConfigReducer.countries,
@@ -74,7 +75,10 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
     ),
     resetGuestCart: () => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.resetGuestCart(dispatch)
+        ({ default: dispatcher }) => {
+            dispatcher.resetGuestCart(dispatch);
+            dispatcher.createGuestEmptyCart(dispatch);
+        }
     ),
     toggleBreadcrumbs: (state) => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: (message) => dispatch(showNotification('error', message)),
@@ -143,8 +147,8 @@ export class CheckoutContainer extends PureComponent {
         onEmailChange: this.onEmailChange.bind(this),
         onCreateUserChange: this.onCreateUserChange.bind(this),
         onPasswordChange: this.onPasswordChange.bind(this),
-        onCouponCodeUpdate: this.onCouponCodeUpdate.bind(this),
-        goBack: this.goBack.bind(this)
+        goBack: this.goBack.bind(this),
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
     checkEmailAvailability = debounce((email) => {
@@ -257,6 +261,10 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ password });
     }
 
+    onShippingMethodSelect(selectedShippingMethod) {
+        this.setState({ selectedShippingMethod });
+    }
+
     onShippingEstimationFieldsChange(address) {
         const { requestsSent } = this.state;
         const guestQuoteId = getGuestQuoteId();
@@ -289,17 +297,6 @@ export class CheckoutContainer extends PureComponent {
         );
     }
 
-    onCouponCodeUpdate() {
-        const { estimateAddress, checkoutStep } = this.state;
-
-        // update delivery methods on coupon change
-        // in order ot fetch new available delivery methods
-        // if any could be applied by coupon
-        if (checkoutStep === SHIPPING_STEP) {
-            this.onShippingEstimationFieldsChange(estimateAddress);
-        }
-    }
-
     goBack() {
         const { checkoutStep } = this.state;
 
@@ -316,14 +313,9 @@ export class CheckoutContainer extends PureComponent {
     setDetailsStep(orderID) {
         const { resetCart, resetGuestCart, setNavigationState } = this.props;
 
-        // For some reason not logged in user cart preserves qty in it
-        if (!isSignedIn()) {
-            deleteGuestQuoteId();
-        }
-
+        deleteGuestQuoteId();
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
-        // For guest we can just update cart without creating new quote id
         if (isSignedIn()) {
             resetCart();
         } else {
@@ -605,7 +597,8 @@ export class CheckoutContainer extends PureComponent {
         const newAddress = {
             ...restOfBillingAddress,
             country_code: country_id,
-            region
+            region,
+            region_id
         };
 
         /**
