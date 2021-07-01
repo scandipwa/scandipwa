@@ -268,8 +268,6 @@ export class FieldContainer extends PureComponent {
         const { onChange } = this.props;
         const { target: { checked, value } } = event;
 
-        console.log(event.target, value, checked);
-
         if (onChange) {
             onChange(value, checked);
         }

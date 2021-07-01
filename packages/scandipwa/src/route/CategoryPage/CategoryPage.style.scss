@@ -56,6 +56,10 @@
             grid-column: span 2;
             padding-inline: 14px;
         }
+
+        @include desktop {
+            margin-block-end: 0;
+        }
     }
 
     &-Filter {
@@ -164,6 +168,7 @@
         button {
             color: transparent;
             margin-inline-end: 10px;
+            cursor: pointer;
 
             &.list {
                 &:after {

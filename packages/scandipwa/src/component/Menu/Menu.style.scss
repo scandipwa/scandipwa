@@ -190,8 +190,8 @@
                 }
             }
 
-            -webkit-column-break-inside: avoid;
             break-inside: avoid;
+            overflow: hidden;
         }
 
         &Menu {
@@ -226,7 +226,6 @@
             > .Menu-ItemList {
                 @include desktop {
                     columns: 4;
-                    -webkit-columns: 4;
                 }
             }
         }
