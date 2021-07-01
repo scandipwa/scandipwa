@@ -350,7 +350,10 @@ export class ProductActions extends PureComponent {
             quantity,
             groupedProductQuantity,
             onProductValidationError,
-            productOptionsData
+            productOptionsData,
+            product: {
+                stock_status
+            } = {}
         } = this.props;
 
         return (
@@ -362,6 +365,7 @@ export class ProductActions extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status === OUT_OF_STOCK }
             />
         );
     }

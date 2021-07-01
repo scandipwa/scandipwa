@@ -31,6 +31,7 @@ import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 import {
     OPTION_TYPE_COLOR,
     OPTION_TYPE_IMAGE,
+    OUT_OF_STOCK,
     validOptionTypes
 } from './ProductCard.config';
 
@@ -481,7 +482,8 @@ export class ProductCard extends PureComponent {
         const {
             product,
             product: {
-                type_id
+                type_id,
+                stock_status
             }
         } = this.props;
         const configurableVariantIndex = -1;
@@ -503,6 +505,7 @@ export class ProductCard extends PureComponent {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status === OUT_OF_STOCK }
             />
         );
     }
