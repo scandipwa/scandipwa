@@ -206,27 +206,35 @@ export class ProductListQuery {
 
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
         const {
+            isPlp = false,
             isSingleProduct,
             noAttributes = false,
             noVariants = false,
             noVariantAttributes = false
         } = this.options;
 
+        // Basic fields returned always
         const fields = [
             'id',
             'sku',
             'name',
             'type_id',
-            'stock_status',
-            this._getPriceRangeField(),
-            this._getProductImageField(),
-            this._getProductThumbnailField(),
-            this._getProductSmallField(),
-            this._getShortDescriptionField(),
-            'special_from_date',
-            'special_to_date',
-            this._getTierPricesField()
+            'stock_status'
         ];
+
+        // Additional fields, which we want to return always, except when it's variants on PLP (due to hugh number of items)
+        if (!(isPlp && isVariant)) {
+            fields.push(
+                this._getPriceRangeField(),
+                this._getProductImageField(),
+                this._getProductThumbnailField(),
+                this._getProductSmallField(),
+                this._getShortDescriptionField(),
+                'special_from_date',
+                'special_to_date',
+                this._getTierPricesField()
+            );
+        }
 
         // if it is normal product and we need attributes
         // or if, it is variant, but we need variant attributes or variants them-self
@@ -795,7 +803,13 @@ export class ProductListQuery {
     }
 
     _getVariantsField() {
-        return new Field('variants')
+        const { isPlp = false } = this.options;
+
+        // For PLP page we have optimized variants graphql field
+        const variantsField = isPlp ? 'variants_plp' : 'variants';
+
+        return new Field(variantsField)
+            .setAlias('variants')
             .addFieldList(this._getVariantFields());
     }
 
