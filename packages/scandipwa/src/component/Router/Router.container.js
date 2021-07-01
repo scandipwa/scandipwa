@@ -76,6 +76,9 @@ export const mapDispatchToProps = (dispatch) => ({
         CartDispatcher.then(
             ({ default: dispatcher }) => dispatcher.updateInitialCartData(dispatch)
         );
+        ProductCompareDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.updateInitialProductCompareData(dispatch)
+        );
     }
 });
 

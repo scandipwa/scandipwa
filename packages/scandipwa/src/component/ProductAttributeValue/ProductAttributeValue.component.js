@@ -113,7 +113,7 @@ export class ProductAttributeValue extends PureComponent {
     renderBooleanAttribute() {
         const { attribute: { attribute_value } } = this.props;
 
-        return this.renderStringValue(attribute_value ? __('Yes') : __('No'));
+        return this.renderStringValue(+attribute_value ? __('Yes') : __('No'));
     }
 
     renderMultiSelectAttribute() {

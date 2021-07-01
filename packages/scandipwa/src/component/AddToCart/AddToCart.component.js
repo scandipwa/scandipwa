@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import Image from 'Component/Image/Image.container';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import bag from 'Style/icons/bag.svg';
@@ -68,7 +69,7 @@ export class AddToCart extends PureComponent {
     render() {
         const {
             mix,
-            product: { type_id },
+            product: { type_id, stock_status },
             isLoading,
             buttonClick,
             layout
@@ -84,7 +85,7 @@ export class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading, layout } }
-              disabled={ isLoading }
+              disabled={ isLoading || stock_status === OUT_OF_STOCK }
             >
                 { this.renderCartIcon() }
                 <span>{ isLoading ? __('Adding...') : __('Add to cart') }</span>
