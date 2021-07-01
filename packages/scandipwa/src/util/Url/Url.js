@@ -1,5 +1,3 @@
-/* eslint-disable fp/no-let */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,8 +10,6 @@
  */
 
 import getStore from 'Util/Store';
-
-// TODO: fix no LET
 
 /**
  * Update query params without adding to history
@@ -50,7 +46,7 @@ export const removeQueryParamWithoutHistory = (name, history, location) => {
  */
 export const getUrlParam = (match, location) => {
     const baseUrl = match.path.replace(window.storeRegexText, '').replace('/', '');
-    const currentUrl = location.pathname.replace(new RegExp(window.storeRegexText), '');
+    const currentUrl = location.pathname.replace(new RegExp(`^${window.storeRegexText}`, 'i'), '');
 
     if (baseUrl === '/') {
         return currentUrl.replace(baseUrl, '');
@@ -74,17 +70,14 @@ export const appendWithStoreCode = (pathname) => {
     }
 
     // match URLs which have the store code in pathname
-    if (pathname.match(`/(${window.storeList.join('|')})`)) {
+    if (new RegExp(`^/(${window.storeList.join('|')})/`, 'i').test(pathname)) {
         return pathname;
     }
 
-    if (!pathname.startsWith('/')) {
-        // eslint-disable-next-line no-param-reassign
-        pathname = `/${ pathname }`;
-    }
-
     // trim the last slash from URL, and append it to pathname
-    return storePrefix.slice(0, -1).concat(pathname);
+    return storePrefix.slice(0, -1).concat(
+        !pathname.startsWith('/') ? `/${ pathname }` : pathname
+    );
 };
 
 /**
@@ -97,15 +90,11 @@ export const appendWithStoreCode = (pathname) => {
 export const getQueryParam = (variable, location) => {
     const query = location.search.substring(1);
     const vars = query.split('&');
-    // eslint-disable-next-line fp/no-loops
-    for (let i = 0; i < vars.length; i++) {
-        const pair = vars[i].split('=');
-        if (pair[0] === variable) {
-            return pair[1];
-        }
-    }
 
-    return false;
+    return vars.reduce((acc, item) => {
+        const [k, v] = item.split('=');
+        return k === variable ? v : acc;
+    }, false);
 };
 
 /**
@@ -160,46 +149,46 @@ export const updateKeyValuePairs = (keyValuePairs, currentKey, currentValue) => 
  * @return {String} Converted query string
  * @namespace Util/Url/convertKeyValuesToQueryString
  */
-export const convertKeyValuesToQueryString = (keyValuePairs) => {
-    let newSearchQuery = '';
-
-    Object.entries(keyValuePairs).forEach((pair) => {
+export const convertKeyValuesToQueryString = (keyValuePairs) => Object.entries(keyValuePairs)
+    .map((pair) => {
         const [key, value] = pair;
         const keyExists = key !== '';
         const valueExists = typeof value === 'object' ? value.length : value !== '';
 
         if (valueExists && keyExists) {
-            newSearchQuery += `${key}=${value}&`;
+            return `${key}=${value}`;
         }
-    });
 
-    return `${newSearchQuery.slice(0, -1)}`; // remove trailing '&'
-};
+        return null;
+    })
+    .filter((x) => !!x)
+    .join('&');
 
 /** @namespace Util/Url/generateQuery */
-export const generateQuery = (keyValueObject, location, history) => {
-    let query = history.location.search;
-
-    Object.entries(keyValueObject).forEach((pair) => {
+export const generateQuery = (keyValueObject, location, history) => Object.entries(keyValueObject)
+    .reduce((acc, pair) => {
         const [key, value] = pair;
 
         const keyAndValueExist = !!key && !!value;
 
-        if (query === '' && keyAndValueExist) {
-            query = `?${key}=${value}`;
-        } else if (getQueryParam(key, location) !== false) {
-            const keyValuePairs = convertQueryStringToKeyValuePairs(query);
+        if (acc === '' && keyAndValueExist) {
+            return `?${key}=${value}`;
+        }
+
+        if (getQueryParam(key, location) !== false) {
+            const keyValuePairs = convertQueryStringToKeyValuePairs(acc);
             const updatedKeyValuePairs = updateKeyValuePairs(keyValuePairs, key, value);
             const updatedQuery = convertKeyValuesToQueryString(updatedKeyValuePairs);
 
-            query = updatedQuery.length ? `?${updatedQuery}` : '';
-        } else if (keyAndValueExist) {
-            query = `${query}&${key}=${value}`;
+            return updatedQuery.length ? `?${updatedQuery}` : '';
         }
-    });
 
-    return query;
-};
+        if (keyAndValueExist) {
+            return `${acc}&${key}=${value}`;
+        }
+
+        return acc;
+    }, history.location.search);
 
 /**
  * Set add key value pairs to url
