@@ -13,8 +13,8 @@ import {
     DISPLAY_SHIPPING_PRICES_BOTH,
     DISPLAY_SHIPPING_PRICES_EXCL_TAX
 } from 'Component/CheckoutDeliveryOption/CheckoutDeliveryOption.config';
-import { CONFIGURABLE } from 'Util/Product';
 import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { CONFIGURABLE } from 'Util/Product';
 
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_INCL_TAX';
 export const DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX = 'DISPLAY_CART_TAX_IN_SUBTOTAL_EXL_TAX';

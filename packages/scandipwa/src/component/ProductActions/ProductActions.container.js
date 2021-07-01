@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
