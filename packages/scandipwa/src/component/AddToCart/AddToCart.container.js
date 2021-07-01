@@ -20,7 +20,8 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    GROUPED
+    GROUPED,
+    validateProductQuantity
 } from 'Util/Product';
 
 import AddToCart from './AddToCart.component';
@@ -102,7 +103,8 @@ export class AddToCartContainer extends PureComponent {
             showNotification,
             product: {
                 variants = []
-            }
+            },
+            quantity
         } = this.props;
 
         if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
@@ -111,10 +113,18 @@ export class AddToCartContainer extends PureComponent {
             return false;
         }
 
-        const { stock_status: configurableStock } = variants[configurableVariantIndex];
+        const { stock_status: configurableStock, stock_item } = variants[configurableVariantIndex];
 
         if (configurableStock !== 'IN_STOCK') {
             showNotification('info', __('Sorry! The selected product option is out of stock!'));
+
+            return false;
+        }
+
+        const [validationStatus, message] = validateProductQuantity(quantity, stock_item);
+
+        if (validationStatus === false) {
+            showNotification('info', message);
 
             return false;
         }
@@ -178,13 +188,23 @@ export class AddToCartContainer extends PureComponent {
     validateSimpleProduct() {
         const {
             productOptionsData,
-            showNotification
+            showNotification,
+            product: { stock_item = {} },
+            quantity
         } = this.props;
 
         const validateCustomizableOptions = this.validateCustomizableOptions(productOptionsData);
 
         if (!validateCustomizableOptions) {
             showNotification('info', __('Please, select required options!'));
+
+            return false;
+        }
+
+        const [validationStatus, message] = validateProductQuantity(quantity, stock_item);
+
+        if (validationStatus === false) {
+            showNotification('info', message);
 
             return false;
         }

@@ -464,5 +464,9 @@
     "Excl. tax:": null,
     "Incorrect data! Please check review fields.": null,
     "Please fill all rating fields.": null,
-    "Please, select product links!": null
+    "Please, select product links!": null,
+    "You can buy this product only in quantities of 3 at a time.": null,
+    "You can buy this product only in quantities of %s at a time.": null,
+    "The minimum amount you can purchase is %s": null,
+    "The maximum amount you can purchase is %s": null
 }

@@ -226,7 +226,8 @@ export class ProductListQuery {
             this._getShortDescriptionField(),
             'special_from_date',
             'special_to_date',
-            this._getTierPricesField()
+            this._getTierPricesField(),
+            this._getStockItemField()
         ];
 
         // if it is normal product and we need attributes
@@ -414,7 +415,8 @@ export class ProductListQuery {
     _getStockItemFields() {
         return [
             'min_sale_qty',
-            'max_sale_qty'
+            'max_sale_qty',
+            'qty_increments'
         ];
     }
 
