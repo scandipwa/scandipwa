@@ -91,6 +91,7 @@ export class CarouselScroll extends PureComponent {
 
     getMaxFirstItemId = () => {
         const { children: { length: childrenLength }, showedItemCount } = this.props;
+
         return childrenLength - showedItemCount;
     };
 
@@ -100,11 +101,9 @@ export class CarouselScroll extends PureComponent {
 
         const scrollStep = Math.ceil(showedItemCount / 2);
 
-        if (isNextArrow) {
-            return Math.min(prevFirstCarouselItemId + scrollStep, this.getMaxFirstItemId());
-        }
-
-        return Math.max(prevFirstCarouselItemId - scrollStep, 0);
+        return isNextArrow
+            ? Math.min(prevFirstCarouselItemId + scrollStep, this.getMaxFirstItemId())
+            : Math.max(prevFirstCarouselItemId - scrollStep, 0);
     }
 
     handleArrowClick = (isNextArrow) => {
@@ -141,15 +140,10 @@ export class CarouselScroll extends PureComponent {
         const { showArrow, children: { length: childrenLength }, showedItemCount } = this.props;
         const { firstCarouselItemId } = this.state;
 
-        if (!showArrow || childrenLength <= showedItemCount) {
-            return null;
-        }
-
-        if (!isNextArrow && firstCarouselItemId === 0) {
-            return null;
-        }
-
-        if (isNextArrow && firstCarouselItemId >= this.getMaxFirstItemId()) {
+        if (!showArrow
+            || childrenLength <= showedItemCount
+            || (isNextArrow && firstCarouselItemId === 0)
+            || (isNextArrow && firstCarouselItemId >= this.getMaxFirstItemId())) {
             return null;
         }
 

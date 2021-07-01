@@ -36,6 +36,7 @@ export const getElementHeight = (id) => Array.from(
     document.getElementsByClassName(id)
 ).reduce((acc, item) => {
     const { offsetHeight } = item;
+
     return acc + offsetHeight;
 }, 0);
 

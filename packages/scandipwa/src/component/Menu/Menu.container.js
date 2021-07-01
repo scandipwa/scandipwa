@@ -108,10 +108,6 @@ export class MenuContainer extends DataContainer {
 
         const newActiveMenuItemsStack = this.getNewActiveMenuItemsStack(activeMenuItemsStack, item_id);
         this.setState({ activeMenuItemsStack: newActiveMenuItemsStack });
-
-        // keep the stack here, so later we can de-construct menu out of it
-        const { pathname } = location;
-        history.push(pathname, { stack: newActiveMenuItemsStack });
     }
 
     onCategoryHover(activeSubcategory) {

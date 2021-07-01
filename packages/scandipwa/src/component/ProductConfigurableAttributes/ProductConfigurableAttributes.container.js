@@ -44,6 +44,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
 
     getLink({ attribute_code, attribute_value }) {
         const { getLink } = this.props;
+
         return getLink(attribute_code, attribute_value);
     }
 

@@ -34,6 +34,7 @@ export class CheckoutOrderSummaryPriceLine extends PureComponent {
 
     renderPrice() {
         const { price, currency } = this.props;
+
         return formatPrice(price, currency);
     }
 

@@ -170,7 +170,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
 
-                display: -webkit-box;
+                //display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 3;
 
@@ -179,6 +179,7 @@
                     margin: 0;
                     width: 18px;
                     height: 18px;
+                    min-width: 18px;
                     vertical-align: top;
                     border-color: var(--color-karaka);
                 }
@@ -225,6 +226,7 @@
         .ProductAttributeValue-Color {
             &::before {
                 @include not-available;
+
                 background-color: var(--option-check-mark-background);
             }
         }

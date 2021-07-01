@@ -38,7 +38,8 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    GROUPED, showNewReviewPopup
+    GROUPED,
+    showNewReviewPopup
 } from 'Util/Product';
 
 import './ProductActions.style';
@@ -119,13 +120,14 @@ export class ProductActions extends PureComponent {
         }
 
         const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
+
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
 
     renderReviewButton() {
-        const { areReviewsEnabled, device: { isMobile } } = this.props;
+        const { areReviewsEnabled } = this.props;
 
-        if (!areReviewsEnabled || isMobile) {
+        if (!areReviewsEnabled) {
             return null;
         }
 
@@ -731,7 +733,7 @@ export class ProductActions extends PureComponent {
                     { this.renderSkuAndStock() }
                 </div>
                 <div block="ProductActions" elem="ActionsWrapper">
-                    { this.renderReviews() }
+                    { this.renderReviewSection() }
                     { this.renderProductCompareButton() }
                 </div>
                 { this.renderBrand() }
@@ -749,6 +751,7 @@ export class ProductActions extends PureComponent {
 
     render() {
         const { device: { isMobile } = {} } = this.props;
+
         return (
             <article block="ProductActions">
                 { isMobile ? this.renderMobile() : this.renderDesktop() }

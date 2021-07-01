@@ -182,6 +182,7 @@ export class CartPageContainer extends PureComponent {
 
         if (device.isMobile) { // for all mobile devices, simply switch route
             history.push({ pathname: appendWithStoreCode('/my-account') });
+
             return;
         }
 

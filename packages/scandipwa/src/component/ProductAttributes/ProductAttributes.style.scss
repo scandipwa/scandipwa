@@ -36,14 +36,13 @@
 
         @include desktop {
             columns: 2;
-            -webkit-columns: 2;
             column-gap: 60px;
         }
     }
 
     &-AttributeBlock {
-        -webkit-column-break-inside: avoid;
         break-inside: avoid;
+        overflow: hidden;
         width: 100%;
     }
 

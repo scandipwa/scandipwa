@@ -29,8 +29,8 @@
         padding-block-end: 8px;
     }
 
-    &-CheckboxLabel {
-        display: inline-flex!important;
+    &-CheckboxLabel{
+        display: inline-flex;
         align-items: center;
     }
 
@@ -139,7 +139,7 @@
         &_radio {
             label {
                 &:first-of-type {
-                    display: inline-block;
+                    display: inline-flex;
                     max-width: calc(100vw - 24px - 45px);
                     vertical-align: middle;
 
@@ -150,7 +150,6 @@
             }
 
             .input-control {
-                display: inline-block;
                 vertical-align: middle;
             }
         }

@@ -76,6 +76,7 @@ export const RecentlyViewedProductsReducer = (
         // Sort products same as it is localstorage recentlyViewedProducts
         const sortedRecentProducts = recentProductsFromStorage[storeCode].reduce((acc, { sku }) => {
             const sortedProduct = indexedProducts.find((item) => item.sku === sku);
+
             return [...acc, sortedProduct];
         }, []);
 

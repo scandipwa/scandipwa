@@ -53,6 +53,7 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
 
     containerProps = () => {
         const { order: { base_order_info, base_order_info: { currency_code = '' } } } = this.props;
+
         return { base_order_info, currency_code };
     };
 

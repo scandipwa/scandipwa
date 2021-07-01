@@ -180,6 +180,7 @@ export class SwipeToDelete extends PureComponent {
             this.setAnimationSpeedStyle(animationDurationOnRemove);
             this.setTranslateXStyle(-draggableWidth);
             onAheadOfDragItemRemoveThreshold();
+
             return;
         }
 

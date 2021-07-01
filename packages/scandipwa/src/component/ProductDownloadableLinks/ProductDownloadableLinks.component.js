@@ -130,6 +130,7 @@ export class ProductDownloadableLinks extends PureComponent {
 
     renderLinks() {
         const { links, isRequired } = this.props;
+
         return (
             <>
                 { links.map(this.renderLink) }

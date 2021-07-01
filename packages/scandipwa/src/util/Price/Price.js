@@ -17,6 +17,7 @@ export const formatCurrency = (currency = 'USD') => currencyMap[currency];
 /** @namespace Util/Price/formatPrice */
 export const formatPrice = (price, currency = 'USD') => {
     const language = navigator.languages ? navigator.languages[0] : navigator.language;
+
     return new Intl.NumberFormat(language, { style: 'currency', currency }).format(price);
 };
 

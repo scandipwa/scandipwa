@@ -243,6 +243,7 @@ export class ProductList extends PureComponent {
         // if the "isInfiniteLoaderEnabled" is false
         const { key, ...restProps } = props;
         restProps.key = 0;
+
         return restProps;
     }
 

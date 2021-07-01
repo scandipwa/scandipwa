@@ -143,6 +143,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
     renderCreateAccountForm() {
         const { onCreateAccountAttempt, onCreateAccountSuccess } = this.props;
+
         return (
             <Form
               key="create-account"

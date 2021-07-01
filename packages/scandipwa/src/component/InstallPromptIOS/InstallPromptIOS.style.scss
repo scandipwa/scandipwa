@@ -33,12 +33,14 @@
 
     &-Plus {
         @include ios-plus;
+
         transform: scale(.9);
         transform-origin: 50% 50%;
     }
 
     &-Share {
         @include ios-share;
+
         transform: scale(.8);
         transform-origin: 50% 50%;
     }

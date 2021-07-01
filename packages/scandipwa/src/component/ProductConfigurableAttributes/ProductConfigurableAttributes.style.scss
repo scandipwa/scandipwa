@@ -53,11 +53,7 @@
         border-block-start: none;
     }
 
-    &-Expandable:last-of-type {
-        border-block-end: none!important;
-    }
-
-    &-ExpandableContentHeading {
-        color: var(--color-karaka) !important;
+    &-Expandable.ExpandableContent:last-of-type {
+        border-block-end: none;
     }
 }

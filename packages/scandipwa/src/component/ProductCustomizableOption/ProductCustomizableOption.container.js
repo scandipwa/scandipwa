@@ -128,6 +128,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         switch (priceType) {
         case 'PERCENT':
             const percentPrice = formatPrice((finalPriceSource / ONE_HUNDRED_PERCENT) * value, currency);
+
             return `${percentPrice} (${ price }%)`;
         default:
             return finalPrice;

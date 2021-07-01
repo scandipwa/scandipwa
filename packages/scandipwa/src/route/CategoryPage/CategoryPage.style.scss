@@ -56,6 +56,10 @@
             grid-column: span 2;
             padding-inline: 14px;
         }
+
+        @include desktop {
+            margin-block-end: 0;
+        }
     }
 
     &-Filter {
@@ -155,7 +159,8 @@
     }
 
     &-LayoutButtons {
-        margin-block-end: 10px;
+        display: flex;
+        align-items: center;
 
         @include mobile {
             display: none;
@@ -164,39 +169,18 @@
         button {
             color: transparent;
             margin-inline-end: 10px;
+            cursor: pointer;
 
-            &.list {
-                &:after {
-                    background-image: url('./../../style/icons/list.svg');
-                    @include rtl-icon;
-                }
-
-                &_isActive {
-                    &:after {
-                        filter: var(--primary-base-filter);
-                    }
-                }
-            }
-
-            &.grid {
-                &:after {
-                    background-image: url('./../../style/icons/grid.svg');
-                }
-
-                &_isActive {
-                    &:after {
-                        filter: var(--primary-base-filter);
-                    }
-                }
-            }
-
-            &:after {
-                background-size: cover;
-                content: '';
-                height: 25px;
-                inset-inline-start: 0;
-                position: absolute;
+            .Image {
                 width: 26px;
+                height: 25px;
+            }
+
+            &.grid_isActive, &.list_isActive {
+
+                img {
+                    filter: var(--primary-base-filter);
+                }
             }
         }
     }

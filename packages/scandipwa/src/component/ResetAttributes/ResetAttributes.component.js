@@ -29,7 +29,7 @@ export class ResetAttributes extends PureComponent {
 
     renderSelectedOption(selectedOption) {
         const { toggleCustomFilter } = this.props;
-        const { attribute_code, value_string } = selectedOption;
+        const { attribute_code, attribute_label, value_string } = selectedOption;
         const onRemove = () => toggleCustomFilter(attribute_code, value_string);
 
         return (
@@ -43,7 +43,9 @@ export class ResetAttributes extends PureComponent {
                   onClick={ onRemove }
                   aria-label={ __('Close') }
                 />
-                <div block="ResetAttributes" elem="AttributeText">{ selectedOption.label }</div>
+                <div block="ResetAttributes" elem="AttributeText">
+                    { `${attribute_label}: ${selectedOption.label}` }
+                </div>
             </div>
         );
     }
@@ -51,9 +53,6 @@ export class ResetAttributes extends PureComponent {
     renderResetItem(title, selectedOptions) {
         return (
             <div key={ title }>
-                <h4 block="ResetAttributes" elem="Attribute">
-                    { title }
-                </h4>
                 { selectedOptions.map((o) => this.renderSelectedOption(o)) }
             </div>
         );

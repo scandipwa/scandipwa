@@ -107,6 +107,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
             showNotification('info', __('Please, select product options!'));
+
             return false;
         }
 
@@ -114,6 +115,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (configurableStock !== 'IN_STOCK') {
             showNotification('info', __('Sorry! The selected product option is out of stock!'));
+
             return false;
         }
 
@@ -133,6 +135,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (!isAllItemsAvailable) {
             showNotification('info', __('Please specify the quantity of product(s)!'));
+
             return false;
         }
 
@@ -148,6 +151,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (links_purchased_separately && downloadableLinks.length === 0) {
             showNotification('info', __('Please, select product links!'));
+
             return false;
         }
 
@@ -164,6 +168,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (!validateBundleOptions) {
             showNotification('info', __('Please, select required options!'));
+
             return false;
         }
 
@@ -180,6 +185,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (!validateCustomizableOptions) {
             showNotification('info', __('Please, select required options!'));
+
             return false;
         }
 
@@ -214,6 +220,7 @@ export class AddToCartContainer extends PureComponent {
             items.find((item) => {
                 const { id, option_id } = item;
                 const matchWith = isBundle ? id : option_id;
+
                 return requiredOption === matchWith;
             })
         ));
@@ -320,6 +327,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (addToCartHandler) {
             addToCartHandler();
+
             return;
         }
 
@@ -339,6 +347,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (!this.validateAddToCart()) {
             onProductValidationError(type_id);
+
             return;
         }
 
@@ -368,6 +377,7 @@ export class AddToCartContainer extends PureComponent {
         const wishlistItemKey = Object.keys(wishlistItems)
             .find((key) => {
                 const { wishlist: { sku: wSku } } = wishlistItems[key];
+
                 return wSku === sku;
             });
 

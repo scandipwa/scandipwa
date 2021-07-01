@@ -44,6 +44,7 @@ export class CheckoutPayment extends PureComponent {
             method: { title }
         } = this.props;
 
+        // disable checkbox in order to skip direct clicks on checkbox and handle clicks on entire button instead
         return (
             <li block="CheckoutPayment">
                 <button
@@ -58,6 +59,7 @@ export class CheckoutPayment extends PureComponent {
                       id={ `option-${ title }` }
                       name={ `option-${ title }` }
                       checked={ isSelected }
+                      disabled
                     />
                     { title }
                 </button>

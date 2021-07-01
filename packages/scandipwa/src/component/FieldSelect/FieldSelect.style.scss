@@ -41,9 +41,7 @@ $select-arrow-width: 16px !default;
     }
 
     &_isExpanded::after {
-        @include desktop {
-            transform: rotate(-90deg);
-        }
+        transform: rotate(-90deg);
     }
 
     &-Select {

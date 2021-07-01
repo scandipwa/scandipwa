@@ -417,6 +417,7 @@ export class CheckoutContainer extends PureComponent {
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
         updateEmail(email);
+
         return fetchMutation(mutation).then(
             /** @namespace Route/Checkout/Container/saveGuestEmailFetchMutationThen */
             ({ setGuestEmailOnCart: data }) => {
@@ -511,6 +512,7 @@ export class CheckoutContainer extends PureComponent {
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
                 this.setState({ isLoading: false });
+
                 return;
             }
         }
@@ -570,6 +572,7 @@ export class CheckoutContainer extends PureComponent {
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
                 this.setState({ isLoading: false });
+
                 return;
             }
         }

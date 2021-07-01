@@ -148,6 +148,7 @@ export class WishlistItemContainer extends PureComponent {
             if (!configurableVariantIndex) {
                 history.push({ pathname: appendWithStoreCode(item.url) });
                 showNotification('info', __('Please, select product options!'));
+
                 return Promise.resolve();
             }
 

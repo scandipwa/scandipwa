@@ -98,8 +98,7 @@
 
     &_name {
         &_menu,
-        &_menu_subcategory,
-        &_search {
+        &_menu_subcategory {
             border-block-end: none;
         }
 
@@ -143,7 +142,6 @@
 
             &_home {
                 @include visible-on-mobile;
-
                 @include home-icon;
             }
 
@@ -182,7 +180,7 @@
             }
 
             &_compare {
-                display: contents;
+                @include button-visible;
             }
         }
 
@@ -344,7 +342,7 @@
     &-TopMenu {
         justify-content: space-between;
         height: var(--header-top-menu-height);
-        padding-inline: 32px 50px;
+        padding-inline: 32px;
         padding-block-start: 16px;
     }
 

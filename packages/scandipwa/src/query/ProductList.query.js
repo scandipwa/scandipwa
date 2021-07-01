@@ -175,6 +175,7 @@ export class ProductListQuery {
                 return acc;
             }
             const { type, handler = (option) => option } = argumentMap[key];
+
             return [...acc, [key, type, handler(arg)]];
         }, []);
     }

@@ -52,6 +52,7 @@
     &-ExpandedState {
         --plus-minus-icon-size: 18px;
         @include plus-icon;
+
         display: inline-block;
         float: inline-end;
 
@@ -189,8 +190,8 @@
                 }
             }
 
-            -webkit-column-break-inside: avoid;
             break-inside: avoid;
+            overflow: hidden;
         }
 
         &Menu {
@@ -225,7 +226,6 @@
             > .Menu-ItemList {
                 @include desktop {
                     columns: 4;
-                    -webkit-columns: 4;
                 }
             }
         }

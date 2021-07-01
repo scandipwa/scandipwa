@@ -488,6 +488,7 @@ export class ProductPageContainer extends PureComponent {
     getAreDetailsLoaded() {
         const { product } = this.props;
         const dataSource = this.getDataSource();
+
         return dataSource === product;
     }
 
@@ -556,6 +557,7 @@ export class ProductPageContainer extends PureComponent {
 
     getProductRequestFilter() {
         const { productSKU } = this.props;
+
         return { productSKU };
     }
 

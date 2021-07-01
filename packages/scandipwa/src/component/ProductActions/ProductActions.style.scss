@@ -95,6 +95,7 @@
             display: flex;
 
             @include mobile {
+                flex: 1;
                 align-items: flex-end;
                 flex-direction: column;
             }
@@ -137,11 +138,12 @@
 
         &_isWithoutPriceTotal .ProductActions-Section_type_sku {
             @include mobile {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                width: 100%;
-                align-items: center;
+                float: end;
+                //display: flex;
+                //flex-direction: row;
+                //justify-content: space-between;
+                //width: 100%;
+                //align-items: center;
             }
         }
     }
@@ -195,6 +197,8 @@
         }
 
         button {
+            cursor: pointer;
+
             &:hover {
                 border-color: var(--primary-dark-color);
             }

@@ -1,8 +1,7 @@
 .CarouselScrollArrow {
-    $arrow-size: 25px;
-
     @include chevron-icon;
 
+    $arrow-size: 25px;
     z-index: 1;
     transition: opacity 200ms;
     cursor: pointer;

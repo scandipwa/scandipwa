@@ -153,10 +153,10 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     table-layout: fixed;
-    margin-block-end: 14.4px;
+    margin-block-end: 14px;
 
     @include mobile {
-        margin-block-end: 16.8px;
+        margin-block-end: 17px;
     }
 }
 
@@ -219,7 +219,7 @@ h2 {
     font-style: var(--h2-font-style);
     line-height: var(--h2-line-height);
     margin-block-end: 18px;
-    margin-block-start: 21.6px;
+    margin-block-start: 22px;
     text-transform: var(--h2-text-transform);
 
     @include mobile {
@@ -241,8 +241,8 @@ h2 {
 
         @include mobile {
             inset-block-start: -9px;
-            margin-block-start: 8.4px;
-            margin-block-end: 8.4px;
+            margin-block-start: 8px;
+            margin-block-end: 8px;
         }
     }
 }
@@ -253,7 +253,7 @@ h3 {
     font-style: var(--h3-font-style);
     font-weight: var(--h3-font-weight);
     line-height: var(--h3-line-height);
-    margin-block-start: 21.6px;
+    margin-block-start: 22px;
     margin-block-end: 18px;
     text-transform: var(--h3-text-transform);
 
@@ -275,8 +275,8 @@ h3 {
 
         @include mobile {
             inset-block-start: -9px;
-            margin-block-start: 8.4px;
-            margin-block-end: 8.4px;
+            margin-block-start: 8px;
+            margin-block-end: 8px;
         }
     }
 }
@@ -321,10 +321,10 @@ li {
 }
 
 p {
-    margin-block-end: 14.4px;
+    margin-block-end: 14px;
 
     @include mobile {
-        margin-block-end: 16.8px;
+        margin-block-end: 17px;
     }
 
     &.caption {

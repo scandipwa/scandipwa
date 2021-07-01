@@ -69,7 +69,8 @@ export class Field extends PureComponent {
         max: PropTypes.number,
         filename: PropTypes.string,
         fileExtensions: PropTypes.string,
-        subLabel: PropTypes.number
+        subLabel: PropTypes.number,
+        disabled: PropTypes.bool
     };
 
     static defaultProps = {
@@ -83,7 +84,8 @@ export class Field extends PureComponent {
         validationStatus: null,
         filename: '',
         fileExtensions: '',
-        subLabel: null
+        subLabel: null,
+        disabled: false
     };
 
     renderTextarea() {
@@ -157,7 +159,8 @@ export class Field extends PureComponent {
             id,
             onChangeCheckbox,
             label,
-            subLabel
+            subLabel,
+            disabled
         } = this.props;
 
         return (
@@ -166,6 +169,7 @@ export class Field extends PureComponent {
                   { ...this.props }
                   type="checkbox"
                   onChange={ onChangeCheckbox }
+                  isDisabled={ disabled }
                 />
                 <div block="input-control" />
                 <span>
