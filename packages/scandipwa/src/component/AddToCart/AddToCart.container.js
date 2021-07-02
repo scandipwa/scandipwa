@@ -141,7 +141,7 @@ export class AddToCartContainer extends PureComponent {
             groupedProductQuantity,
             showNotification,
             product: {
-                items
+                items = []
             }
         } = this.props;
 
