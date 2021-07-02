@@ -169,7 +169,7 @@ export class ProductDownloadableLinks extends PureComponent {
     }
 
     render() {
-        const { isLoading } = this.props;
+        const { isLoading, title } = this.props;
 
         if (isLoading) {
             return this.renderPlaceholder();
@@ -178,6 +178,7 @@ export class ProductDownloadableLinks extends PureComponent {
         return (
             <ExpandableContent
               block="ProductDownloadableLinks"
+              heading={ title }
               mix={ { block: 'ProductDownloadableLinks' } }
             >
                 { this.renderContent() }
