@@ -145,7 +145,7 @@ export class ProductCardContainer extends PureComponent {
             return { indexes: [], parameters: {} };
         }
 
-        const indexes = getVariantsIndexes(variants, selectedFilters);
+        const indexes = getVariantsIndexes(variants, selectedFilters, true);
         const [index] = indexes;
 
         if (!variants[index]) {
