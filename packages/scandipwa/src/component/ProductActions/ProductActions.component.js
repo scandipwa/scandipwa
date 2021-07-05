@@ -9,10 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable react/no-array-index-key */
-// Disabled due placeholder needs
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
