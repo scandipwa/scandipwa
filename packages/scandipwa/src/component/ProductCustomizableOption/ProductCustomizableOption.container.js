@@ -36,11 +36,15 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
-        setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
+        setCustomizableOptionFileFieldValue: PropTypes.func,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         price_range: PriceType.isRequired,
         type_id: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        setCustomizableOptionFileFieldValue: () => null
     };
 
     state = {
@@ -192,8 +196,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         }
 
         const reader = new FileReader();
-        // eslint-disable-next-line func-names
-        reader.onloadend = function () {
+        reader.onloadend = () => {
             setCustomizableOptionFileFieldValue(reader.result, option, name);
         };
 
