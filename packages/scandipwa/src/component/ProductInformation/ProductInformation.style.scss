@@ -65,14 +65,6 @@
     }
 
     &-Description {
-        ul {
-            margin-inline-start: 20px;
-
-            li {
-                &::before {
-                    inset-inline-start: -20px;
-                }
-            }
-        }
+        @include default-list;
     }
 }
