@@ -347,6 +347,8 @@
     "Share": null,
     "Remove item (%s)": null,
     "Remove items (%s)": null,
+    "Grid": null,
+    "List": null,
     "Newsletter": null,
     "Cannot proceed to checkout. Remove out of stock products first.": null,
     "Compare products": null,
@@ -463,5 +465,11 @@
     "Please fill all rating fields.": null,
     "Please, select product links!": null,
     "Please, select required options!": null,
-    "Product compare": null
+    "Product compare": null,
+    "Enter your password": null,
+    "MyAccountOverlay": null,
+    "Your Email address": null,
+    "Your Tax/VAT Number": null,
+    "Sign In": null,
+    "Retype your password": null
 }

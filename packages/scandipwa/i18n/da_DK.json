@@ -368,6 +368,8 @@
     "This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.": null,
     "Error fetching URL-rewrites!": null,
     "Share": null,
+    "Grid": null,
+    "List": null,
     "Cannot proceed to checkout. Remove out of stock products first.": null,
     "Compare products": null,
     "You can track your order status by creating an account.": null,
@@ -463,5 +465,11 @@
     "Please fill all rating fields.": null,
     "Please, select product links!": null,
     "Please, select required options!": null,
-    "Product compare": null
+    "Product compare": null,
+    "Enter your password": null,
+    "MyAccountOverlay": null,
+    "Your Email address": null,
+    "Your Tax/VAT Number": null,
+    "Sign In": null,
+    "Retype your password": null
 }

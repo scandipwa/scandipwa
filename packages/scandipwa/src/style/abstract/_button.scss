@@ -103,7 +103,12 @@
         --button-hover-border: transparent;
         --button-hover-background: transparent;
         --button-hover-color: var(--primary-base-color);
+        --button-padding: 0;
+        --button-hover-padding: 0;
+        --button-height: min-content;
+        --button-hover-height: min-content;
 
+        border: none;
         text-transform: none;
         margin: 0;
         padding: 0;

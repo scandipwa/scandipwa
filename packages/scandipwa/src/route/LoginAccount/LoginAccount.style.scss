@@ -45,7 +45,6 @@
             }
         }
 
-        button,
         input {
             @include mobile {
                 width: 100%;
@@ -59,7 +58,6 @@
 
         > div {
             flex: 1;
-            margin-block-start: 80px;
 
             @include desktop {
                 margin: 0 10px;
@@ -78,6 +76,21 @@
 
     .Loader {
         margin: 0;
+    }
+
+    &-CreateAccountWrapper {
+        margin-block-start: 24px;
+        display: flex;
+        align-items: center;
+
+        h4 {
+            margin-block-end: 0;
+        }
+
+        button {
+            width: auto;
+            margin-inline-start: 5px;
+        }
     }
 }
 
