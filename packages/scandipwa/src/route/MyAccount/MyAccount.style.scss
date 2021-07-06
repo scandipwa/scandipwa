@@ -62,11 +62,4 @@
         color: var(--secondary-dark-color);
         font-size: 16px;
     }
-
-    &-Button,
-    button {
-        @include mobile {
-            width: 100%;
-        }
-    }
 }

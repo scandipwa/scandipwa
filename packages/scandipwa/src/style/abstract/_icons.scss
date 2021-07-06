@@ -251,6 +251,10 @@
     cursor: pointer;
     height: var(--plus-minus-icon-size);
     width: var(--plus-minus-icon-size);
+
+    &:hover {
+        filter: var(--primary-dark-filter);
+    }
 }
 
 @mixin plus-icon {
@@ -260,18 +264,16 @@
     cursor: pointer;
     height: var(--plus-minus-icon-size);
     width: var(--plus-minus-icon-size);
+
+    &:hover {
+        filter: var(--primary-dark-filter);
+    }
 }
 
 @mixin ios-plus {
     $color-storm-grey: #7b7b86;
 
-    background:
-        linear-gradient($white, $white),
-        linear-gradient($white, $white),
-        $color-storm-grey;
-
-    background-position: center;
-    background-repeat: no-repeat;
+    background: linear-gradient($white, $white) linear-gradient($white, $white) no-repeat center;
     background-size: 53% 1px, 1px 50%;
     border-radius: 5px;
     height: 20px;

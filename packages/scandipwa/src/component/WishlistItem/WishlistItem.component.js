@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
@@ -209,6 +210,28 @@ export class WishlistItem extends PureComponent {
         );
     }
 
+    renderRating() {
+        const { product: { rating_summary, review_count } } = this.props;
+
+        if (review_count < 1) {
+            return <div block="WishlistItem" elem="RatingPlaceholder" />;
+        }
+
+        return <ProductReviewRating summary={ rating_summary } count={ review_count } />;
+    }
+
+    renderBrand() {
+        const {
+            product: {
+                attributes: { brand: { attribute_value: brand } = {} } = {}
+            }
+        } = this.props;
+
+        return (
+            <div block="WishlistItem" elem="Brand">{ brand }</div>
+        );
+    }
+
     renderName() {
         const { product: { name } } = this.props;
 
@@ -330,6 +353,8 @@ export class WishlistItem extends PureComponent {
                             <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
                                 { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
                             </figure>
+                            { this.renderRating() }
+                            { this.renderBrand() }
                             { this.renderName() }
                         </>
                     ) }

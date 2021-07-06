@@ -17,6 +17,8 @@ import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
 import Image from 'Component/Image';
+import add from 'Style/icons/add.svg';
+import minus from 'Style/icons/minus.svg';
 import { MixType } from 'Type/Common';
 
 import {
@@ -143,13 +145,17 @@ export class Field extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value + 1) }
                   aria-label={ __('Add') }
-                />
+                >
+                    <Image src={ add } alt="add" mix={ { block: 'AddButton' } } />
+                </button>
                 <button
                   disabled={ +value === min }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value - 1) }
                   aria-label={ __('Subtract') }
-                />
+                >
+                    <Image src={ minus } alt="subtract" mix={ { block: 'SubtractButton' } } />
+                </button>
             </>
         );
     }
