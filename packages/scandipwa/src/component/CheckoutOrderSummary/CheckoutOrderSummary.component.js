@@ -231,7 +231,7 @@ export class CheckoutOrderSummary extends PureComponent {
             );
         }
 
-        return this.renderPriceLine(grand_total, title);
+        return this.renderPriceLine(grand_total, title, { isTotal: true });
     }
 
     renderTaxFullSummary() {
