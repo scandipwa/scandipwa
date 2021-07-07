@@ -469,10 +469,13 @@
             @include desktop {
                 margin-left: 10px;
             }
+            @include mobile {
+                margin-left: 1.26rem;
+            }
         }
 
         @include before-desktop {
-            display: none;
+            order: -1;
         }
     }
 
