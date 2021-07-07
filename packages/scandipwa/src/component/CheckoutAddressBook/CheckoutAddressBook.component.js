@@ -48,11 +48,7 @@ export class CheckoutAddressBook extends PureComponent {
         const { is_virtual, selectedAddressId } = props;
 
         if (selectedAddressId === 0) {
-            if (is_virtual) {
-                return { isCustomAddressExpanded: true };
-            }
-
-            return null;
+            return is_virtual ? { isCustomAddressExpanded: true } : null;
         }
 
         return { isCustomAddressExpanded: false };
