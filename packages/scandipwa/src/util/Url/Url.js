@@ -70,7 +70,7 @@ export const appendWithStoreCode = (pathname) => {
 
     // ignore empty URLs
     if (!pathname) {
-        return storePrefix.slice(0, -1);
+        return pathname;
     }
 
     // match URLs which have the store code in pathname
