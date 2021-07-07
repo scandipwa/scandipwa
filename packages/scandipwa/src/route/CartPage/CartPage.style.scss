@@ -202,10 +202,8 @@
     }
 
     &-Heading {
-        height: 36px;
         margin-block-start: 24px;
         margin-block-end: 18px;
-        font-size: 24px;
 
         @include mobile {
             display: none;

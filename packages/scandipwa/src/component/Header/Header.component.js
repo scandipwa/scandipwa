@@ -50,6 +50,7 @@ import {
     FILTER,
     MENU,
     MENU_SUBCATEGORY,
+    NO_MATCH,
     PDP,
     POPUP,
     PRODUCT_COMPARE,
@@ -110,6 +111,9 @@ export class Header extends NavigationAbstract {
         [DEFAULT_STATE_NAME]: {
             title: true,
             logo: true
+        },
+        [NO_MATCH]: {
+            title: true
         },
         [POPUP]: {
             title: true,

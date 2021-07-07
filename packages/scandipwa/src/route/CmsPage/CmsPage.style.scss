@@ -19,10 +19,7 @@
     }
 
     &-Content {
-        ul,
-        ol {
-            margin-block-start: 10px;
-        }
+        @include default-list;
 
         h2 {
             @include mobile {

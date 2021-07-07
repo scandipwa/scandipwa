@@ -20,7 +20,8 @@
 }
 
 @mixin default-list {
-    ul {
+    ul,
+    ol {
         margin-inline-start: 20px;
 
         li {

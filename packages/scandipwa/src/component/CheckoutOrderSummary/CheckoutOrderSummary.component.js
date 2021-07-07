@@ -145,7 +145,7 @@ export class CheckoutOrderSummary extends PureComponent {
               elem="Header"
               mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
             >
-                <span>{ __('Summary') }</span>
+                <h2>{ __('Summary') }</h2>
             </div>
         );
     }
