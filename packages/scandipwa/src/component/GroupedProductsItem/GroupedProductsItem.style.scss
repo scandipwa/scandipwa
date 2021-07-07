@@ -86,4 +86,14 @@
             }
         }
     }
+
+    .ProductPrice {
+        &-Price {
+            font-size: 18px;
+        }
+
+        del {
+            display: block;
+        }
+    }
 }

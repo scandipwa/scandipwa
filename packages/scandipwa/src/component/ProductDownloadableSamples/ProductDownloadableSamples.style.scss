@@ -16,7 +16,7 @@
 
     &-Title {
         font-weight: bold;
-        margin-block-end: .5rem;
+        margin-block-end: 5px;
 
         @include mobile {
             display: none;
@@ -24,7 +24,7 @@
     }
 
     &-Link {
-        padding: .5rem 0;
+        padding: 5px 0;
     }
 
 
@@ -38,9 +38,7 @@
 
         &Content_isContentExpanded {
             @include mobile {
-                padding-block-start: 0;
-                padding-block-end: 1.4rem;
-                padding-inline: 1.4rem;
+                padding-block: 0 14px;
             }
         }
 

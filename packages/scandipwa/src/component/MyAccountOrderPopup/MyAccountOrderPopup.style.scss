@@ -22,6 +22,7 @@
 
         @include mobile {
             margin-block-end: 28px;
+            overflow-x: unset!important;
         }
     }
 
@@ -94,5 +95,11 @@
     td,
     th {
         min-width: 0;
+    }
+
+    &-Address {
+        .KeyValueTable-Wrapper {
+            overflow-x: unset;
+        }
     }
 }

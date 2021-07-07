@@ -245,9 +245,7 @@ export class ProductCustomizableOption extends PureComponent {
         const { title } = option;
 
         return (
-            <span block="ProductCustomizableOptions" elem="HeadingBold">
-                { title }
-            </span>
+            <strong>{ title }</strong>
         );
     }
 

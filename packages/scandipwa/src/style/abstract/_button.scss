@@ -25,7 +25,7 @@
     justify-content: center;
     height: var(--button-height);
     line-height: normal;
-    padding: var(--button-padding);
+    padding-inline: var(--button-padding);
     text-decoration: var(--button-text-decoration);
     text-transform: uppercase;
     transition-duration: .25s;
@@ -58,7 +58,7 @@
                 border-radius: var(--button-hover-border-radius);
                 color: var(--button-hover-color);
                 height: var(--button-hover-height);
-                padding: var(--button-hover-padding);
+                padding-inline: var(--button-hover-padding);
             }
         }
     }
@@ -73,7 +73,7 @@
         border-radius: var(--hollow-button-border-radius);
         color: var(--hollow-button-color);
         height: var(--hollow-button-height);
-        padding: var(--hollow-button-padding);
+        padding-inline: var(--hollow-button-padding);
         text-decoration: var(--hollow-button-text-decoration);
 
         &:not([disabled]) {
@@ -85,7 +85,7 @@
                     border-radius: var(--hollow-button-hover-border-radius);
                     color: var(--hollow-button-hover-color);
                     height: var(--hollow-button-hover-height);
-                    padding: var(--hollow-button-hover-padding);
+                    padding-inline: var(--hollow-button-hover-padding);
                     text-decoration: var(--hollow-button-hover-text-decoration);
                 }
             }
@@ -103,7 +103,12 @@
         --button-hover-border: transparent;
         --button-hover-background: transparent;
         --button-hover-color: var(--primary-base-color);
+        --button-padding: 0;
+        --button-hover-padding: 0;
+        --button-height: min-content;
+        --button-hover-height: min-content;
 
+        border: none;
         text-transform: none;
         margin: 0;
         padding: 0;

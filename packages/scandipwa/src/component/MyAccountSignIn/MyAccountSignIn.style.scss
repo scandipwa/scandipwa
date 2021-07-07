@@ -9,19 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.Klarna {
-    display: flex;
-    flex-direction: column;
+.MyAccountOverlay {
+    &-SignInButton {
+        margin-block-start: 20px;
+    }
 
-    &-PaymentSelector {
+    #forgot-password-label {
+        margin-block-end: 0;
+    }
 
-        @include desktop {
-            width: 50%;
-        };
-
-        .Button {
-            width: 100%;
-            margin: 10px 0;
-        }
+    .CreateAccount {
+        margin-inline-start: 5px;
     }
 }

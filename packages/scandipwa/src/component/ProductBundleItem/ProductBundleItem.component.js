@@ -47,12 +47,9 @@ export class ProductBundleItem extends ProductCustomizableOption {
                 >
                     { `${ quantity } x ${ mainTitle } ` }
                 </span>
-                <span
-                  block="ProductBundleItem"
-                  elem="HeadingBold"
-                >
+                <strong>
                     { titleBold }
-                </span>
+                </strong>
             </>
         );
     }

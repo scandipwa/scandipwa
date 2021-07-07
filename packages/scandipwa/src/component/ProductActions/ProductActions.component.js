@@ -721,8 +721,8 @@ export class ProductActions extends PureComponent {
                 { this.renderGroupedItems() }
                 { this.renderDownloadableProductSample() }
                 { this.renderDownloadableProductLinks() }
-                { this.renderPriceWithGlobalSchema() }
                 { this.renderTierPrices() }
+                { this.renderPriceWithGlobalSchema() }
                 { this.renderAddToCartActionBlock() }
             </>
         );

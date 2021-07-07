@@ -157,6 +157,12 @@
         &_number {
             align-items: center;
             display: inline-flex;
+
+            .AddButton,
+            .SubtractButton {
+                width: 24px;
+                filter: var(--primary-base-filter);
+            }
         }
 
         &_text {
