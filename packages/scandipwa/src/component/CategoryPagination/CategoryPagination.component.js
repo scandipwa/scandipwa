@@ -1,4 +1,3 @@
-/* eslint-disable fp/no-let, fp/no-loops */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -15,6 +14,7 @@ import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { range } from 'Util/Manipulations';
 
 import './CategoryPagination.style';
 
@@ -78,20 +78,12 @@ export class CategoryPagination extends PureComponent {
             lastFramePage
         } = this.props;
 
-        const pages = [];
-        let i;
-
-        // Render frame pagination links
-        for (i = firstFramePage; i <= lastFramePage; i++) {
-            pages.push(this.renderPageLink(
-                i,
-                __('Page %s', i),
-                i.toString(),
-                i === currentPage
-            ));
-        }
-
-        return pages;
+        return range(firstFramePage, lastFramePage).map((page) => this.renderPageLink(
+            page,
+            __('Page %s', page),
+            page.toString(),
+            page === currentPage
+        ));
     }
 
     renderPageIcon(isNext = false) {
