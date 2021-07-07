@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { isSignedIn } from 'Util/Auth';
-import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import {
     BUNDLE,
     CONFIGURABLE,

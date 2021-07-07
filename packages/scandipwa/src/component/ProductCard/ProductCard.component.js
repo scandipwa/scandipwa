@@ -31,13 +31,8 @@ import {
     CONFIGURABLE,
     GROUPED
 } from 'Util/Product';
-import {
-    OPTION_TYPE_COLOR,
-    OPTION_TYPE_IMAGE,
-    OUT_OF_STOCK,
-    validOptionTypes,
-    TIER_PRICES
-} from './ProductCard.config';
+
+import { OUT_OF_STOCK, TIER_PRICES } from './ProductCard.config';
 
 import './ProductCard.style';
 /**

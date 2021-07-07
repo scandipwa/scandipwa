@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Image from 'Component/Image/Image.container';
-import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import bag from 'Style/icons/bag.svg';
 import { MixType } from 'Type/Common';
