@@ -9,10 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable react/no-array-index-key */
-// Disabled due placeholder needs
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
@@ -377,7 +373,10 @@ export class ProductActions extends PureComponent {
             quantity,
             groupedProductQuantity,
             onProductValidationError,
-            productOptionsData
+            productOptionsData,
+            product: {
+                stock_status
+            } = {}
         } = this.props;
 
         return (
@@ -389,6 +388,7 @@ export class ProductActions extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status === OUT_OF_STOCK }
               isWithIcon
             />
         );

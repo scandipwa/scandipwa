@@ -33,7 +33,8 @@ export class AddToCart extends PureComponent {
         mix: MixType,
         buttonClick: PropTypes.func.isRequired,
         layout: PropTypes.string,
-        isWithIcon: PropTypes.bool
+        isWithIcon: PropTypes.bool,
+        disabled: PropTypes.bool
     };
 
     static defaultProps = {
@@ -41,7 +42,8 @@ export class AddToCart extends PureComponent {
         mix: {},
         isLoading: false,
         layout: GRID_LAYOUT,
-        isWithIcon: false
+        isWithIcon: false,
+        disabled: false
     };
 
     renderPlaceholder() {
@@ -69,10 +71,11 @@ export class AddToCart extends PureComponent {
     render() {
         const {
             mix,
-            product: { type_id, stock_status },
+            product: { type_id },
             isLoading,
             buttonClick,
-            layout
+            layout,
+            disabled
         } = this.props;
 
         if (!type_id) {
@@ -85,7 +88,7 @@ export class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading, layout } }
-              disabled={ isLoading || stock_status === OUT_OF_STOCK }
+              disabled={ isLoading || disabled }
             >
                 { this.renderCartIcon() }
                 <span>{ isLoading ? __('Adding...') : __('Add to cart') }</span>

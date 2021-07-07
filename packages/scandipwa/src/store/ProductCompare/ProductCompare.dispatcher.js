@@ -224,10 +224,10 @@ export class ProductCompareDispatcher {
         dispatch(toggleLoader(true));
 
         try {
-            const { compareList: { items } } = await fetchQuery(
+            const { compareList } = await fetchQuery(
                 ProductCompareQuery.getCompareListIds(uid)
             );
-
+            const { items = [] } = compareList || {};
             const compareIds = items.map(({ product: { id } }) => id);
 
             dispatch(toggleLoader(false));

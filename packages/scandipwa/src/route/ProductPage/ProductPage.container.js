@@ -176,7 +176,7 @@ export class ProductPageContainer extends PureComponent {
             };
         }
 
-        const configurableVariantIndex = getVariantIndex(variants, parameters);
+        const configurableVariantIndex = getVariantIndex(variants, parameters, true);
 
         const newOptionsData = options.reduce((acc, { option_id, required }) => {
             if (required) {
@@ -476,7 +476,7 @@ export class ProductPageContainer extends PureComponent {
         const { configurableVariantIndex } = this.state;
 
         const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
-            ? getVariantIndex(variants, parameters)
+            ? getVariantIndex(variants, parameters, true)
             // Not all parameters are selected yet, therefore variantIndex must be invalid
             : -1;
 
@@ -514,7 +514,7 @@ export class ProductPageContainer extends PureComponent {
         }
 
         if (variants && hasParameters) {
-            return getVariantIndex(variants, parameters);
+            return getVariantIndex(variants, parameters, true);
         }
 
         return -1;
