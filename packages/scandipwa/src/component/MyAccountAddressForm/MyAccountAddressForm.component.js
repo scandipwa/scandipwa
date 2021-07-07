@@ -106,7 +106,7 @@ export class MyAccountAddressForm extends FieldForm {
         const { countries } = this.props;
         const { countryId: prevCountryId } = this.state;
         const country = countries.find(({ id }) => id === countryId);
-        const { available_regions, is_state_required } = country;
+        const { available_regions = [], is_state_required } = country;
 
         this.setState({
             countryId,
@@ -117,7 +117,7 @@ export class MyAccountAddressForm extends FieldForm {
         // avoid region reset when coming back to shipping step
         if (prevCountryId && prevCountryId !== countryId) {
             this.setState({
-                regionId: available_regions ? available_regions[0].id : null
+                regionId: available_regions[0]?.id || null
             });
         }
     };
