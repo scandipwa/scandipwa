@@ -62,6 +62,10 @@
     cursor: pointer;
     height: 16px;
     width: 16px;
+
+    &:hover {
+        filter: var(--primary-base-filter);
+    }
 }
 
 @mixin not-available {
