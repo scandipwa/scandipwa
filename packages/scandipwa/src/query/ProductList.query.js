@@ -824,6 +824,8 @@ export class ProductListQuery {
     _getCustomizableTextValueFields() {
         return [
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
             'currency',
             'sku',
@@ -848,6 +850,8 @@ export class ProductListQuery {
         return new Field('value')
             .addFieldList([
                 'price',
+                'priceInclTax',
+                'priceExclTax',
                 'price_type',
                 'currency',
                 'sku',
@@ -875,6 +879,8 @@ export class ProductListQuery {
         return [
             'option_type_id',
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
             'currency',
             'sku',

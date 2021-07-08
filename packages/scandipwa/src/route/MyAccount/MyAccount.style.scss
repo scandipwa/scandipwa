@@ -58,10 +58,8 @@
         }
     }
 
-    &-Button,
-    button {
-        @include mobile {
-            width: 100%;
-        }
+    &-SubHeading {
+        color: var(--secondary-dark-color);
+        font-size: 16px;
     }
 }

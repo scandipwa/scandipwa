@@ -32,7 +32,7 @@ import {
     GROUPED
 } from 'Util/Product';
 
-import { TIER_PRICES } from './ProductCard.config';
+import { OUT_OF_STOCK, TIER_PRICES } from './ProductCard.config';
 
 import './ProductCard.style';
 /**
@@ -375,6 +375,7 @@ export class ProductCard extends PureComponent {
             product,
             product: {
                 type_id,
+                stock_status,
                 options = []
             },
             configurableVariantIndex,
@@ -418,6 +419,7 @@ export class ProductCard extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
               layout={ layout }
+              disabled={ stock_status === OUT_OF_STOCK }
             />
         );
     }

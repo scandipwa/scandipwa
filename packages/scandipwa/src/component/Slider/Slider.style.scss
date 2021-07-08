@@ -52,20 +52,15 @@
     }
 
     &-Crumbs {
-        height: 16px;
+        height: auto;
         position: absolute;
         margin: auto;
         display: grid;
         grid-gap: 16px;
-
         width: 100%;
         grid-template-columns: repeat(auto-fit, 16px);
         justify-content: center;
         inset-block-end: 12px;
-
-        @include mobile {
-            inset-block-end: 14px;
-        }
     }
 
     &-Crumb {

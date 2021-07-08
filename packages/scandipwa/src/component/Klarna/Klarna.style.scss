@@ -14,13 +14,14 @@
     flex-direction: column;
 
     &-PaymentSelector {
+
+        @include desktop {
+            width: 50%;
+        };
+
         .Button {
             width: 100%;
             margin: 10px 0;
-
-            @include desktop {
-                width: 50%;
-            }
         }
     }
 }

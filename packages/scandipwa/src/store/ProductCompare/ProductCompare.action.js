@@ -40,7 +40,7 @@ export const clearComparedProducts = () => ({
 });
 
 /** @namespace Store/ProductCompare/Action/clearComparedProducts/setComparedProductIds */
-export const setComparedProductIds = (productIds) => ({
+export const setCompareListIds = (productIds) => ({
     type: SET_COMPARED_PRODUCT_IDS,
     productIds
 });

@@ -45,7 +45,7 @@
 
     &-Figcaption {
         --button-color: var(--color-white);
-        --button-padding: 13px 40px;
+        --button-padding: 40px;
         --hollow-button-background: var(--color-white);
         --hollow-button-hover-background: var(--color-white);
 
@@ -54,12 +54,11 @@
         text-align: center;
 
         @include desktop {
-            inset-inline-start: 50%;
-            transform: translate(-50%, 0);
-
-            &:dir(rtl) {
-                transform: translate(50%, 0);
-            }
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            padding-inline: 16px;
         }
 
         &_isPlaceholder {

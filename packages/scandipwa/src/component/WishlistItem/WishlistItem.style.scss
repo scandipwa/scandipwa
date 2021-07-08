@@ -41,7 +41,11 @@
     }
 
     &Options-List {
-        height: 30px;
+        min-height: 30px;
+
+        @include desktop {
+            padding-inline: 9px;
+        }
     }
 
     &:first-of-type {
@@ -92,11 +96,24 @@
             }
 
             del {
-                margin-inline-start: 4px;
-
                 @include mobile {
                     order: -1;
-                    margin-inline-start: 0;
+                    margin-inline: 0;
+                }
+            }
+        }
+
+        .ProductPrice {
+            &-Price {
+                @include mobile {
+                    width: min-content;
+                    text-align: right;
+                }
+            }
+
+            &-PriceBadge {
+                @include mobile {
+                    margin-inline-end: 0;
                 }
             }
         }
@@ -170,7 +187,12 @@
             margin-block-start: 0;
 
             button {
-                padding: 14px;
+                width: 36px;
+                height: 36px;
+
+                &:not([disabled]) {
+                    cursor: pointer;
+                }
             }
 
             input {
@@ -190,6 +212,7 @@
 
         @include desktop {
             margin-block-end: 16px;
+            min-height: 48px;
         }
     }
 
@@ -246,6 +269,10 @@
         height: 20px;
         width: 20px;
         margin-inline-end: 10px;
+
+        &:not([disabled]):hover {
+            filter: var(--primary-dark-filter);
+        }
     }
 
     &-MinicartIcon {
@@ -288,5 +315,16 @@
         height: 100%;
         font-weight: 600;
         color: var(--whislist-swipe-to-delete-color);
+    }
+
+    &-RatingPlaceholder {
+        height: 18px;
+    }
+
+    &-Brand {
+        color: var(--secondary-dark-color);
+        font-weight: 400;
+        font-size: 12px;
+        min-height: 20px;
     }
 }

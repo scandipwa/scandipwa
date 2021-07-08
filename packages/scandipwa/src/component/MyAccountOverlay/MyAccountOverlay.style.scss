@@ -12,7 +12,7 @@
 :root {
     --checkbox-label-color: #0a0a0a;
     --my-account-input-label-color: rgba(10, 10, 10, .59);
-    --my-account-overlay-width: 400px;
+    --my-account-overlay-width: 454px;
     --my-account-overlay-border-width: 1px;
 }
 
@@ -67,11 +67,15 @@
 
     button {
         width: 100%;
-        margin-block-start: 6px;
 
-        @include mobile {
-            margin-block-start: 7px;
+        &.Button_likeLink {
+            width: auto;
         }
+    }
+
+    &-ForgotPassword {
+        width: auto;
+        margin-block-start: 8px;
     }
 
     input {
@@ -82,8 +86,7 @@
         font-size: 18px;
         font-weight: bold;
         padding-block-start: 0;
-        padding-block-end: 12px;
-        padding-inline: 12px;
+        margin-block-end: 0;
 
         @include mobile {
             padding-block-end: 14px;
@@ -150,9 +153,6 @@
 
     &-Action form,
     &-Additional {
-        padding-block-start: 0;
-        padding-block-end: 12px;
-        padding-inline: 12px;
 
         @include mobile {
             padding-block-start: 14px;
@@ -210,6 +210,10 @@
                 h4 {
                     text-align: center;
                 }
+
+                .Form .Button_likeLink {
+                    margin-block-start: 8px;
+                }
             }
 
             &_loggedIn {
@@ -241,19 +245,13 @@
         }
 
         @include desktop {
-            width: calc(var(--my-account-overlay-width) - (var(--my-account-overlay-border-width) * 2));
-            padding-block-start: 12px;
-            padding-block-end: 24px;
-            padding-inline: 24px;
+            padding-inline: 16px;
+            padding-block: 24px 16px;
         }
     }
 
     &-Additional {
-        padding-block-start: 66px;
-
-        @include mobile {
-            padding-block-start: 77px;
-        }
+        padding-block-start: 24px;
 
         section {
             display: flex;
@@ -281,19 +279,23 @@
 
                 button {
                     width: initial;
-                    height: initial;
-                    margin: 0;
-                    padding-inline-start: 5px;
+                    margin-block: 0;
+                    margin-inline-start: 5px;
 
-                    @include mobile {
-                        padding-inline-start: 6px;
+                    &:hover,
+                    &:focus {
+                        margin-block: 0;
                     }
                 }
             }
 
             &_signIn {
                 section {
-                    flex-direction: column;
+                    align-items: center;
+                }
+
+                button {
+                    margin-inline-start: 5px;
                 }
             }
 
@@ -302,14 +304,6 @@
             }
 
             &_forgotPassword {
-                padding-block-start: 34px;
-                padding-inline-start: 25px;
-
-                @include mobile {
-                    padding-block-start: 39px;
-                    padding-inline-start: 29px;
-                    display: none;
-                }
 
                 section {
                     display: flex;
@@ -319,6 +313,11 @@
                         margin-block-start: 0;
                         padding-inline-start: 5px;
                         font-weight: 600;
+
+                        &:hover,
+                        &:focus {
+                            margin-left: 5px;
+                        }
                     }
 
                     h4 {
@@ -402,5 +401,9 @@
 
     &-Checkbox {
         margin-block: 11px 24px;
+    }
+
+    &-ResetPassword {
+        margin-block-start: 24px;
     }
 }
