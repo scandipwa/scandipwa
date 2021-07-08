@@ -696,6 +696,7 @@ export class ProductActions extends PureComponent {
               block="ProductActions"
               elem="AddToCartFixed"
             >
+                { this.renderQuantityInput() }
                 { this.renderAddToCart() }
                 { this.renderProductWishlistButton() }
             </div>

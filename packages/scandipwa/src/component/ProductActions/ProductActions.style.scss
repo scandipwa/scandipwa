@@ -189,7 +189,18 @@
     &-Qty {
         &.Field {
             margin-block: 0;
-            margin-inline-end: 32px;
+
+            @include desktop {
+                margin-inline-end: 32px;
+            }
+
+            @include mobile {
+                margin-inline-end: 12px;
+
+                input {
+                    min-width: 36px;
+                };
+            }
         }
 
         button {
@@ -198,13 +209,6 @@
             &:hover {
                 border-color: var(--primary-dark-color);
             }
-            @include mobile {
-                margin-left: 1.26rem;
-            }
-        }
-
-        @include mobile {
-            order: -1;
         }
     }
 

@@ -75,6 +75,7 @@ textarea {
     order: 2;
     text-align: center;
     width: var(--input-type-number-width);
+    pointer-events: none;
 
     &:focus {
         border: 1px solid var(--input-border-color);
