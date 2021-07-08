@@ -148,7 +148,7 @@ export class MyAccountAddressForm extends FieldForm {
             placeholder,
             value: street[index],
             validation: index === 0 ? ['notEmpty'] : [],
-            validateSeparately: index === 0,
+            validateSeparately: true,
             isSubmitted
         };
     }
