@@ -112,7 +112,7 @@ export class ProductActionsContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this),
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
-        setRefs: this.setRefs.bind(this)
+        setRefs: this.setRefs.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
         filterConfigurableOptions: this.filterConfigurableOptions.bind(this)
     };

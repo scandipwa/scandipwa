@@ -203,7 +203,7 @@
             }
         }
 
-        @include before-desktop {
+        @include mobile {
             order: -1;
         }
     }
