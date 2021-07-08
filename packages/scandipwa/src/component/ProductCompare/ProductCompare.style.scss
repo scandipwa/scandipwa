@@ -57,6 +57,7 @@
     &-Item {
         flex: 1;
         width: var(--product-compare-column-width);
+        max-width: var(--product-compare-column-width);
         padding-inline-end: var(--product-compare-item-gap);
 
         &:last-child {
@@ -78,11 +79,13 @@
     }
 
     .ClearButton {
+        flex: 1;
         display: flex;
         align-items: center;
         padding-inline-end: var(--product-compare-sidebar-padding);
         position: sticky;
         inset-inline-start: 0;
+        max-width: calc(var(--product-compare-sidebar-width) + var(--product-compare-item-gap));
 
         @include mobile {
             display: none;

@@ -52,17 +52,6 @@
         margin-inline: 16px;
     }
 
-    &-ControlButtons {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-
-        a button {
-            height: 47px;
-        }
-    }
-
     &-Title {
         flex: 1;
         display: block;
