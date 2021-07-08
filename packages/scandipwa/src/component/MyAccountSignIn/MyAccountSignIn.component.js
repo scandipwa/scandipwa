@@ -54,7 +54,7 @@ export class MyAccountSignIn extends PureComponent {
               onSubmitError={ onFormError }
             >
                 <Field
-                  type="text"
+                  type="email"
                   label={ __('Email') }
                   id="email"
                   name="email"

@@ -140,11 +140,6 @@
         &_isWithoutPriceTotal .ProductActions-Section_type_sku {
             @include mobile {
                 float: end;
-                //display: flex;
-                //flex-direction: row;
-                //justify-content: space-between;
-                //width: 100%;
-                //align-items: center;
             }
         }
     }
@@ -203,6 +198,13 @@
             &:hover {
                 border-color: var(--primary-dark-color);
             }
+            @include mobile {
+                margin-left: 1.26rem;
+            }
+        }
+
+        @include before-desktop {
+            order: -1;
         }
     }
 
