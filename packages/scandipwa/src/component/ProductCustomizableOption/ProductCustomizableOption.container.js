@@ -124,7 +124,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
     }
 
     renderOptionLabel(priceType, priceInclTax, price, currency) {
-        return price === 0
+        return (price === 0 && priceInclTax === 0)
             ? ''
             : `+ ${formatPrice(priceInclTax, currency)}${this.renderPercent(priceType, price)}`;
     }
