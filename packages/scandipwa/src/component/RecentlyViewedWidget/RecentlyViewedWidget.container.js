@@ -14,7 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import RecentlyViewedProductsDispatcher from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.dispatcher';
+import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
 import { ItemsType } from 'Type/ProductList';
+import { withReducers } from 'Util/DynamicReducer';
 
 import RecentlyViewedWidget from './RecentlyViewedWidget.component';
 
@@ -103,4 +105,6 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecentlyViewedWidgetContainer);
+export default withReducers({
+    RecentlyViewedProductsReducer
+})(connect(mapStateToProps, mapDispatchToProps)(RecentlyViewedWidgetContainer));

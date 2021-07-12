@@ -17,6 +17,7 @@ import { CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, CUSTOMER_WISHLIST } from 'Comp
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import OrderReducer from 'Store/Order/Order.reducer';
 import { toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import {
     ADDRESS_BOOK,
@@ -26,6 +27,7 @@ import {
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
+import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -350,4 +352,6 @@ export class MyAccountContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer);
+export default withReducers({
+    OrderReducer
+})(connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer));
