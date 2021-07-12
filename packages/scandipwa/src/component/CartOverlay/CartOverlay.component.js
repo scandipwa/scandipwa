@@ -148,6 +148,32 @@ export class CartOverlay extends PureComponent {
         );
     }
 
+    renderDiscount() {
+        const {
+            totals: {
+                applied_rule_ids,
+                discount_amount,
+                coupon_code
+            }
+        } = this.props;
+
+        if (!applied_rule_ids || !discount_amount) {
+            return null;
+        }
+
+        const label = coupon_code ? __('Coupon code discount: ') : __('Discount: ');
+
+        return (
+            <dl
+              block="CartOverlay"
+              elem="Discount"
+            >
+                <dt>{ label }</dt>
+                <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+            </dl>
+        );
+    }
+
     renderSecureCheckoutButton() {
         const { handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
 
@@ -197,6 +223,7 @@ export class CartOverlay extends PureComponent {
 
         return (
             <div block="CartOverlay" elem="Additional">
+                { this.renderDiscount() }
                 { this.renderTax() }
                 { this.renderTotals() }
                 { this.renderOutOfStockProductsWarning() }
