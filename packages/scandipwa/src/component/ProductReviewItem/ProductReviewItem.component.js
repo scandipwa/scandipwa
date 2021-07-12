@@ -93,14 +93,14 @@ export class ProductReviewItem extends PureComponent {
                 <h4 block="ProductReviewItem" elem="ReviewTitle" itemProp="name">
                     { title }
                 </h4>
-                <div block="ProductReviewItem" elem="ReviewContent">
+                <div block="ProductReviewItem" elem="RatingSummary">
+                    { rating_votes.map(this.renderReviewListItemRating) }
+                </div>
+                <div block="ProductReviewItem" elem="Content">
                     <p block="ProductReviewItem" elem="ReviewDetails" itemProp="reviewBody">
                         { detail }
                     </p>
                     { this.renderAuthor(reviewItem) }
-                </div>
-                <div block="ProductReviewItem" elem="RatingSummary">
-                    { rating_votes.map(this.renderReviewListItemRating) }
                 </div>
             </li>
         );

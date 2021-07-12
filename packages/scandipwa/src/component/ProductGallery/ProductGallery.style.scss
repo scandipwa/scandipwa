@@ -20,6 +20,10 @@
     height: 500px;
     margin-inline: 45px;
 
+    @include desktop {
+        min-width: 507px;
+    }
+
     @include mobile {
         height: calc(100vh/2);
         margin-block-end: 16px;
