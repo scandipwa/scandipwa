@@ -18,3 +18,16 @@
         }
     }
 }
+
+@mixin default-list {
+    ul,
+    ol {
+        margin-inline-start: 20px;
+
+        li {
+            &::before {
+                inset-inline-start: -20px;
+            }
+        }
+    }
+}

@@ -35,6 +35,8 @@ export class CheckoutOrderSummary extends PureComponent {
         cartDisplayConfig: PropTypes.object.isRequired,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
+        cartSubtotal: PropTypes.number,
+        cartSubtotalSubPrice: PropTypes.number,
         cartTotalSubPrice: PropTypes.number,
         showItems: PropTypes.bool,
         children: ChildrenType
@@ -47,6 +49,8 @@ export class CheckoutOrderSummary extends PureComponent {
         cartShippingPrice: 0,
         cartShippingSubPrice: null,
         cartTotalSubPrice: null,
+        cartSubtotal: null,
+        cartSubtotalSubPrice: null,
         showItems: true,
         children: [],
         checkoutStep: null
@@ -141,33 +145,32 @@ export class CheckoutOrderSummary extends PureComponent {
               elem="Header"
               mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
             >
-                <span>{ __('Summary') }</span>
+                <h2>{ __('Summary') }</h2>
             </div>
         );
     }
 
     renderSubTotal() {
         const {
-            totals: {
-                quote_currency_code,
-                subtotal_incl_tax,
-                subtotal
-            }
+            totals: { quote_currency_code },
+            cartSubtotal,
+            cartSubtotalSubPrice
         } = this.props;
+
         const title = __('Subtotal');
 
-        if (subtotal) {
+        if (cartSubtotal) {
             return (
                 <CheckoutOrderSummaryPriceLine
-                  price={ subtotal_incl_tax }
+                  price={ cartSubtotal }
                   currency={ quote_currency_code }
                   title={ title }
-                  subPrice={ subtotal }
+                  subPrice={ cartSubtotalSubPrice }
                 />
             );
         }
 
-        return this.renderPriceLine(subtotal_incl_tax, title);
+        return this.renderPriceLine(cartSubtotal, title);
     }
 
     getShippingLabel() {
@@ -228,7 +231,7 @@ export class CheckoutOrderSummary extends PureComponent {
             );
         }
 
-        return this.renderPriceLine(grand_total, title);
+        return this.renderPriceLine(grand_total, title, { isTotal: true });
     }
 
     renderTaxFullSummary() {

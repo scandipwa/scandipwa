@@ -17,10 +17,13 @@ import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
 import Image from 'Component/Image';
+import add from 'Style/icons/add.svg';
+import minus from 'Style/icons/minus.svg';
 import { MixType } from 'Type/Common';
 
 import {
     CHECKBOX_TYPE,
+    EMAIL_TYPE,
     FILE_TYPE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
@@ -109,6 +112,15 @@ export class Field extends PureComponent {
         );
     }
 
+    renderTypeEmail() {
+        return (
+            <FieldInput
+              { ...this.props }
+              type="email"
+            />
+        );
+    }
+
     renderTypePassword() {
         return (
             <FieldInput
@@ -143,13 +155,17 @@ export class Field extends PureComponent {
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value + 1) }
                   aria-label={ __('Add') }
-                />
+                >
+                    <Image src={ add } alt="add" mix={ { block: 'AddButton' } } />
+                </button>
                 <button
                   disabled={ +value === min }
                   // eslint-disable-next-line react/jsx-no-bind
                   onClick={ () => handleChange(+value - 1) }
                   aria-label={ __('Subtract') }
-                />
+                >
+                    <Image src={ minus } alt="subtract" mix={ { block: 'SubtractButton' } } />
+                </button>
             </>
         );
     }
@@ -250,6 +266,8 @@ export class Field extends PureComponent {
             return this.renderTypePassword();
         case SELECT_TYPE:
             return this.renderSelectWithOptions();
+        case EMAIL_TYPE:
+            return this.renderTypeEmail();
         case FILE_TYPE:
             return this.renderFile();
         default:

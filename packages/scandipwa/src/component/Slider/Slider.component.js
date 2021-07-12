@@ -67,8 +67,6 @@ export class Slider extends PureComponent {
 
     sliderWidth = 0;
 
-    prevPosition = 0;
-
     draggableRef = createRef();
 
     sliderRef = createRef();
@@ -121,7 +119,10 @@ export class Slider extends PureComponent {
             return;
         }
 
-        this.setStyleVariablesOnMount();
+        // delay setting carousel translate to avoid wrong calculations be made during transition
+        setTimeout(() => {
+            this.setStyleVariablesOnMount();
+        }, 0);
 
         const sliderRef = this.getSliderRef();
         const sliderHeight = `${ sliderChildren[0].offsetHeight }px`;

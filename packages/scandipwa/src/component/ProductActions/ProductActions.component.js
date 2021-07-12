@@ -9,19 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable react/no-array-index-key */
-// Disabled due placeholder needs
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
-import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductBundleItems from 'Component/ProductBundleItems';
+import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
@@ -63,6 +59,7 @@ export class ProductActions extends PureComponent {
         setQuantity: PropTypes.func.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        filterConfigurableOptions: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
@@ -119,7 +116,7 @@ export class ProductActions extends PureComponent {
             return null;
         }
 
-        const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
+        const stockStatusLabel = stockStatus === OUT_OF_STOCK ? __('Out of stock') : __('In stock');
 
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
@@ -185,7 +182,8 @@ export class ProductActions extends PureComponent {
             updateConfigurableVariant,
             parameters,
             areDetailsLoaded,
-            product: { configurable_options, type_id, variants }
+            product: { configurable_options, type_id, variants },
+            filterConfigurableOptions
         } = this.props;
 
         if (type_id !== CONFIGURABLE) {
@@ -207,7 +205,7 @@ export class ProductActions extends PureComponent {
                   parameters={ parameters }
                   variants={ variants }
                   updateConfigurableVariant={ updateConfigurableVariant }
-                  configurable_options={ configurable_options }
+                  configurable_options={ filterConfigurableOptions(configurable_options) }
                   isContentExpanded
                 />
             </div>
@@ -377,7 +375,10 @@ export class ProductActions extends PureComponent {
             quantity,
             groupedProductQuantity,
             onProductValidationError,
-            productOptionsData
+            productOptionsData,
+            product: {
+                stock_status
+            } = {}
         } = this.props;
 
         return (
@@ -389,6 +390,7 @@ export class ProductActions extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status === OUT_OF_STOCK }
               isWithIcon
             />
         );
@@ -452,8 +454,15 @@ export class ProductActions extends PureComponent {
     renderPriceWithSchema() {
         const {
             productPrice,
-            offerCount
+            offerCount,
+            productOrVariant: {
+                stock_status
+            }
         } = this.props;
+
+        if (stock_status === OUT_OF_STOCK) {
+            return null;
+        }
 
         const {
             minimum_price: {
@@ -694,6 +703,7 @@ export class ProductActions extends PureComponent {
               block="ProductActions"
               elem="AddToCartFixed"
             >
+                { this.renderQuantityInput() }
                 { this.renderAddToCart() }
                 { this.renderProductWishlistButton() }
             </div>
@@ -714,8 +724,8 @@ export class ProductActions extends PureComponent {
                 { this.renderGroupedItems() }
                 { this.renderDownloadableProductSample() }
                 { this.renderDownloadableProductLinks() }
-                { this.renderPriceWithGlobalSchema() }
                 { this.renderTierPrices() }
+                { this.renderPriceWithGlobalSchema() }
                 { this.renderAddToCartActionBlock() }
             </>
         );

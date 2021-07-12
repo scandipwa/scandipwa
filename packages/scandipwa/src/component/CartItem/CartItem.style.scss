@@ -245,10 +245,11 @@
 
         button {
             cursor: pointer;
-
-            @include mobile {
-                padding: 14px;
-            }
+            //
+            //@include mobile {
+            //    width: 36px;
+            //    height: 36px;
+            //}
         }
     }
 
@@ -265,7 +266,8 @@
 
     .CartItem-QuantityWrapper_isCartOverlay {
         & button {
-            padding: 14px;
+            width: 36px;
+            height: 36px;
         }
 
         .CartItem-Qty {

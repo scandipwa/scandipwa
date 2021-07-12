@@ -21,7 +21,7 @@
     margin-inline: 45px;
 
     @include mobile {
-        min-height: 420px;
+        height: calc(100vh/2);
         margin-block-end: 16px;
     }
 
@@ -35,6 +35,7 @@
 
     &-SliderWrapper {
         flex: 1;
+        max-height: 80vh;
     }
 
     &-Slider {
