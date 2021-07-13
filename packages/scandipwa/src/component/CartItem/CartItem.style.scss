@@ -55,7 +55,6 @@
 
     &-Content {
         display: flex;
-        flex-wrap: wrap;
         flex-direction: column;
 
         .CartItem_isEditing &:not(.CartItem-Content_isLikeTable) {
