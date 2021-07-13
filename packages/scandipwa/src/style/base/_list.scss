@@ -18,8 +18,6 @@ ol {
 }
 
 li {
-    padding-inline-start: 3px;
-
     &::before {
         position: absolute;
         inset-inline-start: 1em;

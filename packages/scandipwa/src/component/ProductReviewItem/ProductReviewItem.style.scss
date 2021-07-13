@@ -14,8 +14,16 @@
 }
 
 .ProductReviewItem {
-    display: flex;
-    flex-wrap: wrap;
+    @include desktop {
+        display: grid;
+        grid-template-areas:
+            "title ."
+            "content ratings";
+        grid-template-rows: repeat(1, min-content);
+        grid-template-columns: 2fr 1fr;
+        grid-column-gap: 24px;
+    };
+
     margin: 0;
     word-break: break-word;
     padding-inline: 24px;
@@ -34,13 +42,19 @@
         width: 100%;
         margin-block-end: 12px;
         font-weight: 700;
+        grid-area: title;
 
         @include mobile {
             margin-block-end: 14px;
         }
     }
 
+    &-Content {
+        grid-area: content;
+    }
+
     &-RatingSummary {
+        grid-area: ratings;
         line-height: 1;
 
         @include desktop {

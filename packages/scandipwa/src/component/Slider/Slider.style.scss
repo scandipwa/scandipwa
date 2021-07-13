@@ -53,14 +53,19 @@
 
     &-Crumbs {
         height: auto;
+        min-height: 16px;
         position: absolute;
         margin: auto;
         display: grid;
-        grid-gap: 16px;
+        grid-gap: 4px;
         width: 100%;
         grid-template-columns: repeat(auto-fit, 16px);
         justify-content: center;
         inset-block-end: 12px;
+
+        @include desktop {
+            grid-gap: 16px;
+        }
     }
 
     &-Crumb {

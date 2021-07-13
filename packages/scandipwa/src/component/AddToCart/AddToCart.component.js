@@ -16,6 +16,7 @@ import Image from 'Component/Image/Image.container';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import bag from 'Style/icons/bag.svg';
 import { MixType } from 'Type/Common';
+import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
 
 import './AddToCart.style';
@@ -31,7 +32,7 @@ export class AddToCart extends PureComponent {
         product: ProductType,
         mix: MixType,
         buttonClick: PropTypes.func.isRequired,
-        layout: PropTypes.string,
+        layout: LayoutType,
         isWithIcon: PropTypes.bool,
         disabled: PropTypes.bool
     };
