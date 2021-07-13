@@ -371,6 +371,7 @@ export class ProductCard extends PureComponent {
             <ProductWishlistButton
               product={ product }
               mix={ { block: 'ProductCard', elem: 'WishListButton' } }
+              groupedProductQuantity={ {} }
             />
         );
     }

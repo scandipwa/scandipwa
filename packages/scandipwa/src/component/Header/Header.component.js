@@ -30,6 +30,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { isCrawler, isSSR } from 'Util/Browser';
 import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
@@ -719,7 +720,11 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <section block="Header" elem="Wrapper">
+            <section
+              block="Header"
+              elem="Wrapper"
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
+            >
                 <header
                   block="Header"
                   mods={ { name, isHiddenOnMobile, isCheckout } }
