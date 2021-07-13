@@ -126,6 +126,12 @@
             display: flex;
             padding-inline: 0;
         }
+
+        h4 {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
     }
 
     &-ContentWrapper {
@@ -212,7 +218,7 @@
 
         @include desktop {
             margin-block-end: 16px;
-            min-height: 48px;
+            min-height: 36px;
         }
     }
 
