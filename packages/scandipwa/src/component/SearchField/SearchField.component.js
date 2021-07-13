@@ -44,7 +44,8 @@ export class SearchField extends PureComponent {
         isVisible: PropTypes.bool,
         isActive: PropTypes.bool,
         hideActiveOverlay: PropTypes.func,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired// eslint-disable-next-line react/no-redundant-should-component-update
+
     };
 
     static defaultProps = {

@@ -23,6 +23,13 @@ export class MyAccountNewsletterSubscription extends FieldForm {
         onCustomerSave: PropTypes.func.isRequired
     };
 
+    shouldComponentUpdate(nextProps) {
+        const { customer } = this.props;
+        const { customer: nextCustomer } = nextProps;
+
+        return customer !== nextCustomer;
+    }
+
     onFormSuccess = (fields) => {
         const { onCustomerSave } = this.props;
         onCustomerSave(fields);

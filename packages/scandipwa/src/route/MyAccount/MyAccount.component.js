@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { lazy, PureComponent, Suspense } from 'react';
+import { Component, lazy, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader/Loader.component';
@@ -56,7 +56,7 @@ export const MyAccountNewsletterSubscription = lazy(() => import(
 ));
 
 /** @namespace Route/MyAccount/Component */
-export class MyAccount extends PureComponent {
+export class MyAccount extends Component {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
@@ -74,6 +74,13 @@ export class MyAccount extends PureComponent {
         [NEWSLETTER_SUBSCRIPTION]: MyAccountNewsletterSubscription,
         [MY_DOWNLOADABLE]: MyAccountDownloadable
     };
+
+    shouldComponentUpdate(nextProps) {
+        const { activeTab } = this.props;
+        const { activeTab: nextActiveTab } = nextProps;
+
+        return activeTab !== nextActiveTab;
+    }
 
     renderLoginOverlay() {
         const { onSignIn } = this.props;

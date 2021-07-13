@@ -211,6 +211,10 @@ export class SwipeToDelete extends PureComponent {
         );
     }
 
+    stopPropagation = (event) => {
+        event.stopPropagation();
+    };
+
     renderChildren() {
         const { children } = this.props;
 
@@ -220,8 +224,7 @@ export class SwipeToDelete extends PureComponent {
                   block="SwipeToDelete"
                   role="button"
                   tabIndex="0"
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onMouseDown={ (e) => e.stopPropagation() }
+                  onMouseDown={ this.stopPropagation }
                 >
                     { children }
                 </div>

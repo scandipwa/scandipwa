@@ -24,10 +24,22 @@ import {
 
 import './WidgetFactory.style';
 
-export const ProductListWidget = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "widget" */ 'Component/ProductListWidget'));
-export const NewProducts = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "widget" */ 'Component/NewProducts'));
-export const HomeSlider = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "widget" */ 'Component/SliderWidget'));
-export const RecentlyViewedWidget = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "widget" */ 'Component/RecentlyViewedWidget'));
+export const ProductListWidget = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget-product-list" */
+    'Component/ProductListWidget'
+));
+export const NewProducts = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget-new-product" */
+    'Component/NewProducts'
+));
+export const HomeSlider = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget-slider" */
+    'Component/SliderWidget'
+));
+export const RecentlyViewedWidget = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "widget-recently-viewed" */
+    'Component/RecentlyViewedWidget'
+));
 
 /** @namespace Component/WidgetFactory/Component */
 export class WidgetFactory extends PureComponent {

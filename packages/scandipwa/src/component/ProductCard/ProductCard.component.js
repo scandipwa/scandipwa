@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { Component, createRef } from 'react';
 
 import AddToCart from 'Component/AddToCart';
 import Image from 'Component/Image';
@@ -40,7 +40,7 @@ import './ProductCard.style';
  * @class ProductCard
  * @namespace Component/ProductCard/Component
  */
-export class ProductCard extends PureComponent {
+export class ProductCard extends Component {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
@@ -116,6 +116,17 @@ export class ProductCard extends PureComponent {
     };
 
     imageRef = createRef();
+
+    shouldComponentUpdate(nextProps) {
+        const { product, device, productOrVariant } = this.props;
+        const {
+            product: nextProduct,
+            device: nextDevice,
+            productOrVariant: nextProductOrVariant
+        } = nextProps;
+
+        return product !== nextProduct || device !== nextDevice || productOrVariant !== nextProductOrVariant;
+    }
 
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
