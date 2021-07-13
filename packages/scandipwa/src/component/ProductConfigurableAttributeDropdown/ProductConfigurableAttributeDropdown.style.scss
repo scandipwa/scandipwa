@@ -8,9 +8,4 @@
     @include tablet {
         width: 60%;
     }
-
-    @include mobile {
-        margin-block: var(--option-margin-block);
-        margin-inline: var(--option-margin-inline);
-    }
 }

@@ -58,7 +58,9 @@ export class LinkContainer extends PureComponent {
     };
 
     getTo() {
-        const { to } = this.props;
+        const { to: toProp } = this.props;
+        // fix null, undefined and empty links
+        const to = toProp || '/';
 
         if (typeof to === 'string') {
             // in case this URL is absolute, do not append store
@@ -69,11 +71,11 @@ export class LinkContainer extends PureComponent {
             return appendWithStoreCode(to);
         }
 
-        const { pathname } = to;
+        const pathname = to.pathname || '/';
 
         return {
-            pathname: appendWithStoreCode(pathname),
-            ...to
+            ...to,
+            pathname: appendWithStoreCode(pathname)
         };
     }
 

@@ -165,7 +165,9 @@
             }
         }
 
-        &_text {
+        &_text,
+        &_email,
+        &_password {
             &.Field_isValid {
                 input,
                 textarea {

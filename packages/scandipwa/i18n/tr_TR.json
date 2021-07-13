@@ -464,5 +464,7 @@
     "Enter your password": null,
     "Your Tax/VAT Number": null,
     "Sign In": null,
-    "Retype your password": null
+    "Retype your password": null,
+    "Coupon code discount: ": null,
+    "Discount: ": null
 }

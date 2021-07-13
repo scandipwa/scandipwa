@@ -25,6 +25,7 @@ import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { DeviceType } from 'Type/Device';
+import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -62,7 +63,7 @@ export class ProductCard extends PureComponent {
         siblingsHavePriceBadge: PropTypes.bool,
         setSiblingsHavePriceBadge: PropTypes.func,
         siblingsHaveConfigurableOptions: PropTypes.bool,
-        layout: PropTypes.string,
+        layout: LayoutType,
         updateConfigurableVariant: PropTypes.func.isRequired,
         configurableVariantIndex: PropTypes.number,
         parameters: PropTypes.shape({}).isRequired,

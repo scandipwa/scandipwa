@@ -16,10 +16,12 @@
 }
 
 .CartPage {
-    margin-block-end: var(--header-nav-height);
+    margin-block-end: var(--footer-total-height);
 
     @include mobile {
-        margin-block-end: calc(var(--header-nav-height) + var(--footer-totals-height));
+        --footer-totals-height: 123px;
+
+        padding-block-end: var(--footer-totals-height);
         padding-inline: 16px;
     }
 

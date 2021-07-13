@@ -41,4 +41,8 @@
     &:focus {
         border: 0;
     }
+
+    &:first-of-type {
+        margin-block-start: 12px;
+    }
 }
