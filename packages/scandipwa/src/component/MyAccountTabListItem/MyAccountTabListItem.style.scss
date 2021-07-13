@@ -67,6 +67,7 @@
 
         span {
             @include chevron-icon;
+            @include rtl-icon;
 
             width: 14px;
             height: 14px;
