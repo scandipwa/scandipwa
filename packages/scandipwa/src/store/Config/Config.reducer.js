@@ -15,6 +15,7 @@ import { UPDATE_CONFIG, UPDATE_CONFIG_DEVICE } from './Config.action';
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
+export const DEFAULT_CATGORY_URL_SUFFIX = '.html';
 
 /** @namespace Store/Config/Reducer/filterStoreConfig */
 export const filterStoreConfig = (config) => Object.entries(config).reduce(
@@ -29,7 +30,14 @@ export const {
     reviewRatings: [],
     storeConfig: {},
     currencyData: {},
-    cartDisplayConfig: {}
+    cartDisplayConfig: {
+        display_tax_in_price: '',
+        display_tax_in_subtotal: '',
+        display_tax_in_shipping_amount: '',
+        include_tax_in_order_total: false,
+        display_full_tax_summary: false,
+        display_zero_tax_subtotal: false
+    }
 };
 
 /** @namespace Store/Config/Reducer/getIndexedRatings */
@@ -54,6 +62,8 @@ export const getInitialState = () => ({
     isLoading: true,
     cartDisplayConfig,
     priceTaxDisplay: {},
+    category_url_suffix: DEFAULT_CATGORY_URL_SUFFIX,
+    newsletter_general_active: false,
     device: {
         isMobile: true,
         android: true,

@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 
 import Field from 'Component/Field';
-import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
 
 import {
@@ -46,7 +45,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
                   block="ProductBundleItem"
                   elem="Heading"
                 >
-                    { `${ quantity } x ${ mainTitle } + ` }
+                    { `${ quantity } x ${ mainTitle } ` }
                 </span>
                 <span
                   block="ProductBundleItem"
@@ -79,9 +78,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
             price
         } = item;
 
-        const finalPrice = price_type === PRICE_TYPE_PERCENT ? price : finalOptionPrice;
-
-        const priceLabel = renderOptionLabel(price_type, finalPrice, currencyCode);
+        const priceLabel = renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
 
         return (
             <div key={ id }>

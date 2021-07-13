@@ -360,7 +360,8 @@
 
                 @include mobile {
                     font-size: 1.4rem;
-                    display: none;
+                    order: -3;
+                    padding: .7rem 1.4rem;
                 }
 
                 & > span:not(:last-child):after {
@@ -475,10 +476,13 @@
             @include desktop {
                 margin-left: 10px;
             }
+            @include mobile {
+                margin-left: 1.26rem;
+            }
         }
 
         @include before-desktop {
-            display: none;
+            order: -1;
         }
     }
 

@@ -251,7 +251,7 @@ export class WishlistItem extends PureComponent {
         return (
             <div block="WishlistItem" elem="AttributeWrapper">
                 { attributes.map((attr) => (
-                    <span mix={ { block: 'ProductAttribute' } }>
+                    <span mix={ { block: 'ProductAttribute' } } key={ attr }>
                         { attr }
                     </span>
                 )) }

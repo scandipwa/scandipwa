@@ -95,6 +95,7 @@ export class MyAccountDispatcher {
         deleteGuestQuoteId();
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
+        removeUid();
 
         dispatch(updateCustomerSignInStatus(false));
         dispatch(updateCustomerDetails({}));
@@ -111,9 +112,6 @@ export class MyAccountDispatcher {
             ({ default: dispatcher }) => dispatcher.resetWishlist(dispatch)
         );
 
-        BrowserDatabase.deleteItem(ORDERS);
-        BrowserDatabase.deleteItem(CUSTOMER);
-        removeUid();
         dispatch(clearComparedProducts());
         dispatch(updateCustomerDetails({}));
     }
@@ -147,7 +145,7 @@ export class MyAccountDispatcher {
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationThen */
             ({ s_resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             /** @namespace Store/MyAccount/Dispatcher/resetPasswordFetchMutationError */
-            () => dispatch(updateCustomerPasswordResetStatus('error'))
+            (errors) => dispatch(updateCustomerPasswordResetStatus('error', getErrorMessage(errors)))
         );
     }
 

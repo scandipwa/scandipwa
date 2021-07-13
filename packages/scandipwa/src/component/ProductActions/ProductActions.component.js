@@ -9,19 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable react/no-array-index-key */
-// Disabled due placeholder needs
-
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
-import { PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductBundleItems from 'Component/ProductBundleItems';
+import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
@@ -64,6 +60,7 @@ export class ProductActions extends PureComponent {
         updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
+        filterConfigurableOptions: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
@@ -104,7 +101,7 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
-        const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
+        const stockStatusLabel = stockStatus === OUT_OF_STOCK ? __('Out of stock') : __('In stock');
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
 
@@ -156,7 +153,8 @@ export class ProductActions extends PureComponent {
             parameters,
             areDetailsLoaded,
             product: { configurable_options, type_id },
-            getIsConfigurableAttributeAvailable
+            getIsConfigurableAttributeAvailable,
+            filterConfigurableOptions
         } = this.props;
 
         if (type_id !== 'configurable') {
@@ -177,7 +175,7 @@ export class ProductActions extends PureComponent {
                   getLink={ getLink }
                   parameters={ parameters }
                   updateConfigurableVariant={ updateConfigurableVariant }
-                  configurable_options={ configurable_options }
+                  configurable_options={ filterConfigurableOptions(configurable_options) }
                   getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
                   isContentExpanded
                 />
@@ -211,6 +209,7 @@ export class ProductActions extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   price_range={ price_range }
+                  type_id={ type_id }
                 />
             </section>
         );
@@ -287,11 +286,8 @@ export class ProductActions extends PureComponent {
         const {
             product: {
                 options,
-                price_range: {
-                    minimum_price: {
-                        default_final_price_excl_tax: finalPrice = 0
-                    } = {}
-                } = {}
+                type_id = '',
+                price_range = {}
             } = {},
             getSelectedCustomizableOptions,
             productOptionsData,
@@ -310,9 +306,10 @@ export class ProductActions extends PureComponent {
             >
                 <ProductCustomizableOptions
                   options={ options }
-                  finalProductPrice={ finalPrice }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                   productOptionsData={ productOptionsData }
+                  price_range={ price_range }
+                  type_id={ type_id }
                 />
             </section>
         );
@@ -352,7 +349,10 @@ export class ProductActions extends PureComponent {
             quantity,
             groupedProductQuantity,
             onProductValidationError,
-            productOptionsData
+            productOptionsData,
+            product: {
+                stock_status
+            } = {}
         } = this.props;
 
         return (
@@ -364,6 +364,7 @@ export class ProductActions extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status === OUT_OF_STOCK }
             />
         );
     }
@@ -435,8 +436,15 @@ export class ProductActions extends PureComponent {
     renderPriceWithSchema() {
         const {
             productPrice,
-            offerCount
+            offerCount,
+            productOrVariant: {
+                stock_status
+            }
         } = this.props;
+
+        if (stock_status === OUT_OF_STOCK) {
+            return null;
+        }
 
         const {
             minimum_price: {

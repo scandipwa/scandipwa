@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { DeviceType } from 'Type/Device';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
 import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
@@ -29,7 +30,8 @@ export const MyAccountDispatcher = import(
 export const mapStateToProps = (state) => ({
     isLoading: state.MyAccountReducer.isLoading,
     showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number,
-    newsletterActive: state.ConfigReducer.newsletter_general_active
+    newsletterActive: state.ConfigReducer.newsletter_general_active,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -49,7 +51,13 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         setLoadingState: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        showTaxVatNumber: PropTypes.string.isRequired
+        showTaxVatNumber: PropTypes.string.isRequired,
+        isLandingPage: PropTypes.bool,
+        device: DeviceType.isRequired
+    };
+
+    static defaultProps = {
+        isLandingPage: false
     };
 
     containerProps = {
@@ -87,7 +95,10 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             onSignIn,
             setSignInState,
             setLoadingState,
-            isLoading
+            isLoading,
+            isLandingPage,
+            showNotification,
+            device
         } = this.props;
 
         const {
@@ -120,6 +131,14 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             // if user needs confirmation
             if (code === 2) {
                 setSignInState(STATE_CONFIRM_EMAIL);
+
+                if (isLandingPage || device.isMobile) {
+                    showNotification(
+                        'success',
+                        // eslint-disable-next-line max-len
+                        __('The email confirmation link has been sent to your email. Please confirm your account to proceed.')
+                    );
+                }
             } else {
                 onSignIn();
             }

@@ -40,7 +40,8 @@ $icons = $this->getAppIconData();
         window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
 
         // Multistore
-        window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`);
+        // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
+        window.storeList = JSON.parse(`<?= $this->getStoreListJson() ?>`).sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
     </script>
 

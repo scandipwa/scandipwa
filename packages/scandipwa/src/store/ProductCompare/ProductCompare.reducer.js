@@ -12,6 +12,7 @@
 import {
     CLEAR_COMPARED_PRODUCTS,
     SET_COMPARE_LIST,
+    SET_COMPARED_PRODUCT_IDS,
     TOGGLE_COMPARE_LIST_LOADER
 } from './ProductCompare.action';
 
@@ -66,6 +67,15 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
             productIds: [],
             items: [],
             attributes: []
+        };
+    }
+
+    case SET_COMPARED_PRODUCT_IDS: {
+        const { productIds } = action;
+
+        return {
+            ...state,
+            productIds
         };
     }
 
