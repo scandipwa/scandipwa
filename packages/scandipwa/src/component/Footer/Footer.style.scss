@@ -128,6 +128,7 @@
         &:last-of-type {
             margin: 0;
         }
+
         &:hover {
             text-decoration: underline;
         }
@@ -148,6 +149,10 @@
                 &:dir(rtl) {
                     transform: translate(50%, -50%);
                 }
+
+                &:hover {
+                    opacity: 0.6;
+                }
             }
         }
 
@@ -158,6 +163,10 @@
 
             &:not(:last-of-type) {
                 margin-inline-end: 20px;
+            }
+
+            &:hover {
+
             }
         }
     }

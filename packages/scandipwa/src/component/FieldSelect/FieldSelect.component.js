@@ -108,7 +108,7 @@ export class FieldSelect extends PureComponent {
             value,
             disabled,
             label,
-            subLabel
+            subLabel = ''
         } = option;
 
         return (
