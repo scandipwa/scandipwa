@@ -14,8 +14,10 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { MixType } from 'Type/Common';
+import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import {
@@ -70,7 +72,8 @@ export class AddToCartContainer extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         disableHandler: PropTypes.bool,
         mix: MixType,
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
+        layout: LayoutType
     };
 
     static defaultProps = {
@@ -81,7 +84,8 @@ export class AddToCartContainer extends PureComponent {
         isLoading: false,
         disableHandler: false,
         mix: {},
-        disabled: false
+        disabled: false,
+        layout: GRID_LAYOUT
     };
 
     state = { isLoading: false };
@@ -103,14 +107,20 @@ export class AddToCartContainer extends PureComponent {
     };
 
     containerProps() {
-        const { product, mix, disabled } = this.props;
+        const {
+            product,
+            mix,
+            disabled,
+            layout
+        } = this.props;
         const { isLoading } = this.state;
 
         return {
             isLoading,
             product,
             mix,
-            disabled
+            disabled,
+            layout
         };
     }
 

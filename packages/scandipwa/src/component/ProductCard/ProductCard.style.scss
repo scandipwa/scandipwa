@@ -50,6 +50,15 @@
                 0 6px 16px rgba(0, 0, 0, .1),
                 0 9px 28px 8px rgba(0, 0, 0, .1);
                 z-index: -1;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                flex-grow: 1;
+                padding-block-start: 0;
+                padding-block-end: 10px;
+                padding-inline: 15px;
+                position: absolute;
+                inset-block-start: 100%;
             }
         }
     }
@@ -274,6 +283,7 @@
         &:hover,
         &:focus {
             text-decoration: none;
+            color: initial;
         }
     }
 
@@ -314,6 +324,7 @@
         opacity: 0;
         position: absolute;
         inset-block-start: 100%;
+        display: none;
     }
 
     &_siblingsHaveBrands {
