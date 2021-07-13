@@ -46,15 +46,15 @@
         font-weight: 700;
         margin-block-end: 0;
         text-align: center;
-    }
-
-    &-Link {
-        font-size: 12px;
 
         &::after {
             content: '.';
             color: var(--color-white);
         }
+    }
+
+    &-Link {
+        font-size: 12px;
     }
 
     &-CTA {

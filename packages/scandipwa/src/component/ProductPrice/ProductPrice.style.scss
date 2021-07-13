@@ -31,10 +31,10 @@
         font-size: 18px;
     }
 
-    ins {
+    &-Price {
         text-decoration: none;
         display: inline-flex;
-        align-items: flex-end;
+        align-items: baseline;
     }
 
     del {
