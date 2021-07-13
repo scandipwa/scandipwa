@@ -14,9 +14,9 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { PRODUCT_IN_STOCK, PRODUCT_OUT_OF_STOCK } from 'Component/CartItem/CartItem.config';
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -176,7 +176,7 @@ export class ProductPageContainer extends PureComponent {
             };
         }
 
-        const configurableVariantIndex = getVariantIndex(variants, parameters);
+        const configurableVariantIndex = getVariantIndex(variants, parameters, true);
 
         const newOptionsData = options.reduce((acc, { option_id, required }) => {
             if (required) {
@@ -494,7 +494,7 @@ export class ProductPageContainer extends PureComponent {
         const { configurableVariantIndex } = this.state;
 
         const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
-            ? getVariantIndex(variants, parameters)
+            ? getVariantIndex(variants, parameters, true)
             // Not all parameters are selected yet, therefore variantIndex must be invalid
             : -1;
 
@@ -516,9 +516,7 @@ export class ProductPageContainer extends PureComponent {
         const variant = variants && variants[currentVariantIndex];
 
         if (variants?.length > 0) {
-            dataSource.stock_status = variants.some((v) => v.stock_status === PRODUCT_IN_STOCK)
-                ? PRODUCT_IN_STOCK
-                : PRODUCT_OUT_OF_STOCK;
+            dataSource.stock_status = variants.some((v) => v.stock_status === IN_STOCK) ? IN_STOCK : OUT_OF_STOCK;
         }
 
         return variant || dataSource;
@@ -533,7 +531,7 @@ export class ProductPageContainer extends PureComponent {
         }
 
         if (variants && hasParameters) {
-            return getVariantIndex(variants, parameters);
+            return getVariantIndex(variants, parameters, true);
         }
 
         return -1;

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import {
     BUNDLE,
     CONFIGURABLE,
@@ -114,25 +115,37 @@ export const getIndexedSingleVariant = (variants, itemSku) => {
     ];
 };
 
+/** @namespace Util/Product/getVariantsIndexes */
+export const getVariantsIndexes = (variants, options, inStockOnly = false) => {
+    const result = Object.entries(variants)
+        .reduce((indexes, [index, variant]) => {
+            if (checkEveryOption(variant.attributes, options)) {
+                indexes.push(+index);
+            }
+
+            return indexes;
+        }, []);
+
+    if (inStockOnly) {
+        return result.filter((n) => variants[n].stock_status === IN_STOCK);
+    }
+
+    return result;
+};
+
 /**
  * Get product variant index by options
  * @param {Object[]} variants
  * @param {{ attribute_code: string }[]} options
+ * @pram {boolean} inStockOnly
  * @returns {number}
  * @namespace Util/Product/getVariantIndex
  */
-export const getVariantIndex = (variants, options) => variants
-    .findIndex((variant) => checkEveryOption(variant.attributes, options));
+export const getVariantIndex = (variants, options, inStockOnly = false) => {
+    const indexes = getVariantsIndexes(variants, options, inStockOnly);
 
-/** @namespace Util/Product/getVariantsIndexes */
-export const getVariantsIndexes = (variants, options) => Object.entries(variants)
-    .reduce((indexes, [index, variant]) => {
-        if (checkEveryOption(variant.attributes, options)) {
-            indexes.push(+index);
-        }
-
-        return indexes;
-    }, []);
+    return indexes.length ? indexes[0] : -1;
+};
 
 /** @namespace Util/Product/getIndexedCustomOption */
 export const getIndexedCustomOption = (option) => {
