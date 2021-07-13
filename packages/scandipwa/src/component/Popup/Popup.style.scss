@@ -102,6 +102,13 @@
             position: fixed;
         }
     }
+
+    .NotificationList {
+        width: 100vw;
+        top: 0;
+        left: calc(0px - var(--popup-content-padding));
+        position: relative;
+    }
 }
 
 .scrollDisabled {
