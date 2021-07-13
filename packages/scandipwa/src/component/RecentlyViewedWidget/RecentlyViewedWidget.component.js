@@ -24,7 +24,7 @@ export class RecentlyViewedWidget extends PureComponent {
         products: ItemsType.isRequired,
         productCardProps: PropTypes.object.isRequired,
         productCardFunctions: PropTypes.object.isRequired,
-        shouldBeUpdated: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -47,7 +47,7 @@ export class RecentlyViewedWidget extends PureComponent {
         const {
             productCardProps,
             productCardFunctions,
-            shouldBeUpdated
+            isLoading
         } = this.props;
         const { id, selectedFilters } = product;
 
@@ -56,7 +56,7 @@ export class RecentlyViewedWidget extends PureComponent {
               selectedFilters={ selectedFilters }
               product={ product }
               key={ id }
-              isPreview={ shouldBeUpdated }
+              isPreview={ isLoading }
               { ...productCardProps }
               { ...productCardFunctions }
             />
