@@ -107,7 +107,8 @@ export class FieldSelect extends PureComponent {
             id,
             value,
             disabled,
-            label
+            label,
+            subLabel
         } = option;
 
         return (
@@ -117,7 +118,7 @@ export class FieldSelect extends PureComponent {
               value={ value }
               disabled={ disabled }
             >
-                { label }
+                { label + subLabel }
             </option>
         );
     };
@@ -137,7 +138,8 @@ export class FieldSelect extends PureComponent {
     renderOption = (option) => {
         const {
             id,
-            label
+            label,
+            subLabel
         } = option;
 
         const {
@@ -164,6 +166,7 @@ export class FieldSelect extends PureComponent {
               tabIndex={ isExpanded ? '0' : '-1' }
             >
                 { label }
+                { subLabel && <strong>{ subLabel }</strong> }
             </li>
         );
     };
