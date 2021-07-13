@@ -118,7 +118,7 @@ export class ProductListQuery {
             },
             search: {
                 type: 'String!',
-                handler: (option) => option
+                handler: (option) => option.replace(/\+/g, ' ')
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
