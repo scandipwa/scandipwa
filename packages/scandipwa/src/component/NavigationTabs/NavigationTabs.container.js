@@ -63,7 +63,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         '/my-account': { name: ACCOUNT_TAB },
         '/checkout': { name: CHECKOUT_TAB, isHidden: true },
         '/cart': { name: CART_TAB },
-        '/': { name: HOME_TAB }
+        '/': { name: HOME_TAB },
+        '': { name: HOME_TAB }
     };
 
     containerFunctions = {
@@ -212,7 +213,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleMobileRouteChange(history) {
         const {
-            // hideActiveOverlay,
             setNavigationState,
             navigationState: { name }
         } = this.props;
