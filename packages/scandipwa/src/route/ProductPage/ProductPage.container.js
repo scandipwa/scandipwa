@@ -21,10 +21,13 @@ import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
+import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { getIsConfigurableParameterSelected, getNewParameters, getVariantIndex } from 'Util/Product';
+import { withReducers } from 'Util/DynamicReducer';
+import { getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,
@@ -626,6 +629,8 @@ export class ProductPageContainer extends PureComponent {
     }
 }
 
-export default withRouter(
+export default withReducers({
+    ProductReducer
+})(withRouter(
     connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer)
-);
+));

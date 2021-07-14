@@ -104,17 +104,9 @@ export class CheckoutOrderSummary extends PureComponent {
             return null;
         }
 
-        if (!coupon_code) {
-            return this.renderPriceLine(
-                -Math.abs(discount_amount),
-                __('Discount')
-            );
-        }
+        const label = coupon_code ? __('Coupon code discount') : __('Discount');
 
-        return this.renderPriceLine(
-            -Math.abs(discount_amount),
-            __('Coupon code discount')
-        );
+        return this.renderPriceLine(-Math.abs(discount_amount), label);
     }
 
     renderItems() {

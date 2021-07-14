@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,10 +10,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@import './font';
-@import './variables';
-@import './media';
-@import './button';
-@import './loader';
-@import './icons';
-@import './parts';
+export { range } from './Array';

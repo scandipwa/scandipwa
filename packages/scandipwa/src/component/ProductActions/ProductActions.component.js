@@ -30,6 +30,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import TierPrices from 'Component/TierPrices';
 import { DeviceType } from 'Type/Device';
 import { PriceType, ProductType } from 'Type/ProductList';
+import { isCrawler, isSSR } from 'Util/Browser';
 import {
     BUNDLE,
     CONFIGURABLE,
@@ -686,6 +687,7 @@ export class ProductActions extends PureComponent {
             <div
               block="ProductActions"
               elem="AddToCartWrapper"
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
             >
                 { this.renderQuantityInput() }
                 { this.renderAddToCart() }
@@ -702,6 +704,7 @@ export class ProductActions extends PureComponent {
             <div
               block="ProductActions"
               elem="AddToCartFixed"
+              mods={ { isPrerendered: isSSR() || isCrawler() }
             >
                 { this.renderQuantityInput() }
                 { this.renderAddToCart() }

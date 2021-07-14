@@ -14,14 +14,16 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import RecentlyViewedProductsDispatcher from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.dispatcher';
+import RecentlyViewedProductsReducer from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.reducer';
 import { ItemsType } from 'Type/ProductList';
+import { withReducers } from 'Util/DynamicReducer';
 
 import RecentlyViewedWidget from './RecentlyViewedWidget.component';
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     recentProducts: state.RecentlyViewedProductsReducer.recentlyViewedProducts,
-    shouldBeUpdated: state.RecentlyViewedProductsReducer.shouldBeUpdated,
+    isLoading: state.RecentlyViewedProductsReducer.isLoading,
     store: state.ConfigReducer.code
 });
 
@@ -37,7 +39,7 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
     static propTypes = {
         updateRecentViewedProductsInfo: PropTypes.func.isRequired,
         recentProducts: PropTypes.objectOf(ItemsType).isRequired,
-        shouldBeUpdated: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool.isRequired,
         store: PropTypes.string.isRequired
     };
 
@@ -50,13 +52,12 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
 
     componentDidMount() {
         const {
-            shouldBeUpdated,
             updateRecentViewedProductsInfo,
             recentProducts,
             store
         } = this.props;
 
-        if (shouldBeUpdated && Object.entries(recentProducts).length !== 0) {
+        if (Object.entries(recentProducts).length !== 0) {
             updateRecentViewedProductsInfo({ recentProducts, store });
         }
     }
@@ -103,4 +104,6 @@ export class RecentlyViewedWidgetContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecentlyViewedWidgetContainer);
+export default withReducers({
+    RecentlyViewedProductsReducer
+})(connect(mapStateToProps, mapDispatchToProps)(RecentlyViewedWidgetContainer));

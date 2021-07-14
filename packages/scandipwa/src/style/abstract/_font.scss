@@ -9,10 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@import './font';
-@import './variables';
-@import './media';
-@import './button';
-@import './loader';
-@import './icons';
-@import './parts';
+@font-face {
+  font-family: 'Muli';
+  src: local('Arial'), local('OpenSans'), url(https://use.typekit.net/gbk7rfi.css);
+  font-display: swap;
+}
