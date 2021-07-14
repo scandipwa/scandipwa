@@ -38,7 +38,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching LinkedProducts!', error));
+        dispatch(showNotification('error', __('Error fetching LinkedProducts!'), error));
     }
 
     /**
@@ -135,7 +135,8 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         }, {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
-            crosssell: { total_count: 0, items: [] }
+            crosssell: { total_count: 0, items: [] },
+            associated: { total_count: 0, items: [] }
         });
 
         return linkedProducts;

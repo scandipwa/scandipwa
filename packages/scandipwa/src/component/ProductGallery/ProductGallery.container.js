@@ -113,19 +113,19 @@ export class ProductGalleryContainer extends PureComponent {
             return mediaGallery
                 .filter(({ disabled }) => !disabled)
                 .sort((a, b) => {
-                    const aThumbnail = a.types.includes(THUMBNAIL_KEY);
-                    const bThumbnail = b.types.includes(THUMBNAIL_KEY);
+                    const aBase = a.types.includes(IMAGE_TYPE);
+                    const bBase = b.types.includes(IMAGE_TYPE);
                     const sortResult = a.position - b.position;
 
-                    if (aThumbnail && bThumbnail) {
+                    if (aBase && bBase) {
                         return sortResult;
                     }
 
-                    if (aThumbnail) {
+                    if (aBase) {
                         return -1;
                     }
 
-                    if (bThumbnail) {
+                    if (bBase) {
                         return 1;
                     }
 

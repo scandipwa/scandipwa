@@ -89,7 +89,7 @@ export class ProductCustomizableOption extends PureComponent {
                   block="ProductCustomizableOptions"
                   elem="Heading"
                 >
-                    { `${ mainTitle } + ` }
+                    { `${ mainTitle } ` }
                 </span>
                 <span
                   block="ProductCustomizableOptions"
@@ -107,10 +107,12 @@ export class ProductCustomizableOption extends PureComponent {
             option_type_id,
             title,
             price,
-            price_type
+            priceInclTax,
+            price_type,
+            currency
         } = item;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
 
         return (
             <Field
@@ -195,7 +197,7 @@ export class ProductCustomizableOption extends PureComponent {
             optionType,
             textFieldValid
         } = this.props;
-        const { max_characters } = data;
+        const [{ max_characters = 0 }] = data;
         const fieldType = optionType === 'field' ? 'text' : 'textarea';
 
         return (
@@ -221,9 +223,7 @@ export class ProductCustomizableOption extends PureComponent {
             processFileUpload,
             option: {
                 required,
-                data: {
-                    file_extension = ''
-                } = {}
+                data: [{ file_extension = '' }] = []
             } = {}
         } = this.props;
 
@@ -253,14 +253,18 @@ export class ProductCustomizableOption extends PureComponent {
             renderOptionLabel,
             option: {
                 title,
-                data: {
-                    price_type,
-                    price
-                }
+                data: [
+                    {
+                        price_type = 'FIXED',
+                        price = 0,
+                        priceInclTax,
+                        currency
+                    } = {}
+                ] = []
             }
         } = this.props;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
 
         return this.renderHeading(title, priceLabel);
     }

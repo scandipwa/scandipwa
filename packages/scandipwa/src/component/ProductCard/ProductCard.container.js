@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Subscribe } from 'unstated';
@@ -18,7 +19,7 @@ import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
 import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
-import { objectToUri } from 'Util/Url';
+import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 import { IN_STOCK } from './ProductCard.config';
@@ -30,7 +31,11 @@ export const CartDispatcher = import(
 
 /** @namespace Component/ProductCard/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    base_link_url: state.ConfigReducer.base_link_url || '',
+    product_use_categories: state.ConfigReducer.product_use_categories || false,
+    category_url_suffix: state.ConfigReducer.category_url_suffix,
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
 });
 
 /** @namespace Component/ProductCard/Container/mapDispatchToProps */
@@ -45,12 +50,18 @@ export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        product_use_categories: PropTypes.bool.isRequired,
+        category_url_suffix: PropTypes.string.isRequired,
+        base_link_url: PropTypes.string.isRequired,
+        isWishlistEnabled: PropTypes.bool.isRequired,
+        isPreview: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
-        selectedFilters: {}
+        selectedFilters: {},
+        isPreview: false
     };
 
     containerFunctions = {
@@ -88,7 +99,15 @@ export class ProductCardContainer extends PureComponent {
     });
 
     _getLinkTo() {
-        const { product: { url }, product } = this.props;
+        const {
+            base_link_url,
+            product_use_categories,
+            category_url_suffix,
+            product: { url, url_rewrites = [] },
+            product
+        } = this.props;
+        const { pathname: storePrefix } = new URL(base_link_url || window.location.origin);
+        const { location: { pathname } } = history;
 
         if (!url) {
             return undefined;
@@ -96,10 +115,19 @@ export class ProductCardContainer extends PureComponent {
 
         const { parameters } = this._getConfigurableParameters();
         const { state: { category = null } = {} } = history.location;
+        const categoryUrlPart = pathname.replace(storePrefix, '').replace(category_url_suffix, '');
+        const productUrl = `${categoryUrlPart}/${url.replace(storePrefix, '')}`;
+
+        // if 'Product Use Categories' is enabled then use the current window location to see if the product
+        // has any url_rewrite for that path. (if not then just use the default url)
+        const rewriteUrl = url_rewrites.find(({ url }) => url.includes(productUrl)) || {};
+        const rewriteUrlPath = product_use_categories
+            ? (rewriteUrl.url && appendWithStoreCode(rewriteUrl.url)) || url
+            : url;
 
         return {
-            pathname: url,
-            state: { product, pageKey: product.id, prevCategoryId: category },
+            pathname: rewriteUrlPath,
+            state: { product, prevCategoryId: category },
             search: objectToUri(parameters)
         };
     }
@@ -117,7 +145,7 @@ export class ProductCardContainer extends PureComponent {
             return { indexes: [], parameters: {} };
         }
 
-        const indexes = getVariantsIndexes(variants, selectedFilters);
+        const indexes = getVariantsIndexes(variants, selectedFilters, true);
         const [index] = indexes;
 
         if (!variants[index]) {
@@ -203,7 +231,11 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants } } = this.props;
+        const { product: { variants }, isPreview } = this.props;
+
+        if (isPreview) {
+            return true;
+        }
 
         const variantsInStock = variants.filter((productVariant) => productVariant.stock_status === IN_STOCK);
 

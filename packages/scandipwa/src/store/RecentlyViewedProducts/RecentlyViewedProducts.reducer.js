@@ -14,13 +14,17 @@ import {
     RECENTLY_VIEWED_PRODUCTS
 } from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import {
+    ADD_RECENTLY_VIEWED_PRODUCT,
+    UPDATE_LOAD_STATUS,
     UPDATE_RECENTLY_VIEWED_PRODUCTS
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedProducts } from 'Util/Product';
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = () => ({
-    recentlyViewedProducts: BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || []
+    recentlyViewedProducts: BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || {},
+    isLoading: true
 });
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/recentlyViewedProductsReducer */
@@ -29,24 +33,79 @@ export const RecentlyViewedProductsReducer = (
     action
 ) => {
     switch (action.type) {
-    case UPDATE_RECENTLY_VIEWED_PRODUCTS:
+    case ADD_RECENTLY_VIEWED_PRODUCT:
         const {
             product,
             product: { sku: newSku }
         } = action;
-        const { recentlyViewedProducts } = state;
 
-        if (recentlyViewedProducts.length === MAX_NUMBER_OF_RECENT_PRODUCTS) {
-            recentlyViewedProducts.pop();
+        const { recentlyViewedProducts = {} } = state;
+        const { store } = action;
+        const storeProducts = recentlyViewedProducts[store] ?? [];
+
+        if (storeProducts.length === MAX_NUMBER_OF_RECENT_PRODUCTS) {
+            storeProducts.pop();
         }
 
         // Remove product from existing recentProducts to add it later in the beginning
-        const newRecentProducts = recentlyViewedProducts.filter(({ sku }) => (newSku !== sku));
-        newRecentProducts.unshift(product);
+        const newStoreRecentProducts = storeProducts.filter(({ sku }) => (newSku !== sku));
+        newStoreRecentProducts.unshift(product);
+
+        const newRecentProducts = {
+            ...recentlyViewedProducts,
+            [store]: newStoreRecentProducts
+        };
 
         BrowserDatabase.setItem(newRecentProducts, RECENTLY_VIEWED_PRODUCTS);
 
-        return { ...state, recentlyViewedProducts: newRecentProducts };
+        return {
+            ...state,
+            recentlyViewedProducts: newRecentProducts
+        };
+
+    case UPDATE_RECENTLY_VIEWED_PRODUCTS:
+        const {
+            products,
+            storeCode
+        } = action;
+        const { recentlyViewedProducts: recent = {} } = state;
+
+        const indexedProducts = getIndexedProducts(products);
+        const recentProductsFromStorage = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
+
+        // Remove product from storage if it is not available
+        recentProductsFromStorage[storeCode] = recentProductsFromStorage[storeCode]
+            .filter((storageItem) => !indexedProducts.every((indexedItem) => indexedItem.id !== storageItem.id));
+
+        BrowserDatabase.setItem(recentProductsFromStorage, RECENTLY_VIEWED_PRODUCTS);
+
+        // Sort products same as it is localstorage recentlyViewedProducts
+        const sortedRecentProducts = recentProductsFromStorage[storeCode].reduce((acc, { sku }) => {
+            const sortedProduct = indexedProducts.find((item) => item.sku === sku);
+
+            return [...acc, sortedProduct];
+        }, []);
+
+        const updatedRecentViewedProducts = {
+            ...recent,
+            [storeCode]: sortedRecentProducts
+        };
+
+        return {
+            ...state,
+            recentlyViewedProducts: updatedRecentViewedProducts,
+            isLoading: false
+        };
+
+    case UPDATE_LOAD_STATUS:
+        const {
+            isLoading
+        } = action;
+
+        return {
+            ...state,
+            isLoading
+        };
 
     default:
         return state;

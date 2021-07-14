@@ -13,7 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { MixType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import {
@@ -65,7 +67,9 @@ export class AddToCartContainer extends PureComponent {
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         onProductValidationError: PropTypes.func,
         productOptionsData: PropTypes.object.isRequired,
-        disableHandler: PropTypes.bool
+        disableHandler: PropTypes.bool,
+        mix: MixType,
+        disabled: PropTypes.bool
     };
 
     static defaultProps = {
@@ -74,14 +78,12 @@ export class AddToCartContainer extends PureComponent {
         setQuantityToDefault: () => {},
         onProductValidationError: () => {},
         isLoading: false,
-        disableHandler: false
+        disableHandler: false,
+        mix: {},
+        disabled: false
     };
 
     state = { isLoading: false };
-
-    containerFunctions = {
-        buttonClick: this.buttonClick.bind(this)
-    };
 
     validationMap = {
         [CONFIGURABLE]: this.validateConfigurableProduct.bind(this),
@@ -93,6 +95,22 @@ export class AddToCartContainer extends PureComponent {
         [CONFIGURABLE]: this.addConfigurableProductToCart.bind(this),
         [GROUPED]: this.addGroupedProductToCart.bind(this)
     };
+
+    containerFunctions = {
+        buttonClick: this.buttonClick.bind(this)
+    };
+
+    containerProps() {
+        const { product, mix, disabled } = this.props;
+        const { isLoading } = this.state;
+
+        return {
+            isLoading,
+            product,
+            mix,
+            disabled
+        };
+    }
 
     validateConfigurableProduct() {
         const {
@@ -110,7 +128,7 @@ export class AddToCartContainer extends PureComponent {
 
         const { stock_status: configurableStock } = variants[configurableVariantIndex];
 
-        if (configurableStock !== 'IN_STOCK') {
+        if (configurableStock !== IN_STOCK) {
             showNotification('info', __('Sorry! The selected product option is out of stock!'));
             return false;
         }
@@ -123,7 +141,7 @@ export class AddToCartContainer extends PureComponent {
             groupedProductQuantity,
             showNotification,
             product: {
-                items
+                items = []
             }
         } = this.props;
 
@@ -376,8 +394,7 @@ export class AddToCartContainer extends PureComponent {
     render() {
         return (
             <AddToCart
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

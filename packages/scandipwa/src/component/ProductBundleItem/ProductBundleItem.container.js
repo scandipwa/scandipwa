@@ -25,8 +25,7 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     static propTypes = {
         ...ProductCustomizableOptionContainer.propTypes,
         setCustomizableOptionTextFieldValue: PropTypes.func,
-        updateQuantity: PropTypes.func.isRequired,
-        isDynamicPrice: PropTypes.bool.isRequired
+        updateQuantity: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -184,14 +183,7 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
 
     getDropdownOptions(values) {
         const {
-            price_range: {
-                minimum_price: {
-                    discount: {
-                        percent_off: percentOff = 0
-                    } = {}
-                } = {}
-            } = {},
-            isDynamicPrice
+            currencyCode
         } = this.props;
 
         return values.reduce((acc, {
@@ -199,19 +191,14 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             label,
             price_type,
             quantity,
-            price: fixedPriceValue,
             can_change_quantity,
-            product
+            finalOptionPrice,
+            price
         }) => {
-            const finalPriceValue = product?.price_range?.minimum_price?.final_price?.value || 0;
-            const value = isDynamicPrice ? finalPriceValue : fixedPriceValue;
-
-            // eslint-disable-next-line no-magic-numbers
-            const finalPrice = value - (value * (percentOff / 100));
-
+            const optionLabel = this.renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
             const dropdownLabel = !can_change_quantity
-                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`
-                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`;
+                ? `${ quantity } x ${ label } ${ optionLabel }`
+                : `${ label } ${optionLabel}`;
 
             acc.push({
                 id,

@@ -21,8 +21,7 @@ export class ProductBundleItems extends ProductCustomizableOptions {
         ...ProductCustomizableOptions.propTypes,
         items: PropTypes.array,
         maxQuantity: PropTypes.number.isRequired,
-        updateQuantity: PropTypes.func.isRequired,
-        isDynamicPrice: PropTypes.bool.isRequired
+        updateQuantity: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -38,7 +37,8 @@ export class ProductBundleItems extends ProductCustomizableOptions {
             updateQuantity,
             productOptionsData,
             price_range,
-            isDynamicPrice
+            type_id,
+            price_range: { minimum_price: { regular_price: { currency } } }
         } = this.props;
 
         return items.map((item, key) => (
@@ -52,7 +52,8 @@ export class ProductBundleItems extends ProductCustomizableOptions {
               maxQuantity={ maxQuantity }
               updateQuantity={ updateQuantity }
               productOptionsData={ productOptionsData }
-              isDynamicPrice={ isDynamicPrice }
+              currencyCode={ currency }
+              type_id={ type_id }
             />
         ));
     }

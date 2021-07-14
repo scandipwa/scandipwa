@@ -16,11 +16,12 @@ import { withRouter } from 'react-router';
 
 import { PDP } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { LOADING_TIME } from 'Route/CategoryPage/CategoryPage.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
-import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
+import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
@@ -55,7 +56,8 @@ export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product,
     navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    store: state.ConfigReducer.code
 });
 
 /** @namespace Route/ProductPage/Container/mapDispatchToProps */
@@ -76,7 +78,7 @@ export const mapDispatchToProps = (dispatch) => ({
         ({ default: dispatcher }) => dispatcher.updateWithProduct(product, dispatch)
     ),
     goToPreviousNavigationState: (state) => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateRecentlyViewedProducts: (products) => dispatch(updateRecentlyViewedProducts(products))
+    addRecentlyViewedProduct: (product, store) => dispatch(addRecentlyViewedProduct(product, store))
 });
 
 /** @namespace Route/ProductPage/Container */
@@ -119,7 +121,8 @@ export class ProductPageContainer extends PureComponent {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
-        updateRecentlyViewedProducts: PropTypes.func.isRequired
+        addRecentlyViewedProduct: PropTypes.func.isRequired,
+        store: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -173,7 +176,7 @@ export class ProductPageContainer extends PureComponent {
             };
         }
 
-        const configurableVariantIndex = getVariantIndex(variants, parameters);
+        const configurableVariantIndex = getVariantIndex(variants, parameters, true);
 
         const newOptionsData = options.reduce((acc, { option_id, required }) => {
             if (required) {
@@ -300,7 +303,7 @@ export class ProductPageContainer extends PureComponent {
     isProductInformationTabEmpty() {
         const dataSource = this.getDataSource();
 
-        return !dataSource?.description?.html.length;
+        return dataSource?.description?.html?.length === 0;
     }
 
     isProductAttributesTabEmpty() {
@@ -313,7 +316,8 @@ export class ProductPageContainer extends PureComponent {
         const {
             product,
             product: { sku },
-            updateRecentlyViewedProducts
+            addRecentlyViewedProduct,
+            store
         } = this.props;
 
         // necessary for skipping not loaded products
@@ -321,7 +325,25 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        updateRecentlyViewedProducts(product);
+        // push into localstorage only preview of product (image, name and etc)
+        const {
+            canonical_url,
+            categories,
+            configurable_options,
+            description,
+            items,
+            meta_description,
+            meta_keyword,
+            meta_title,
+            options,
+            product_links,
+            reviews,
+            short_description,
+            variants,
+            ...productPreview
+        } = product;
+
+        addRecentlyViewedProduct(productPreview, store);
     }
 
     scrollTop() {
@@ -472,7 +494,7 @@ export class ProductPageContainer extends PureComponent {
         const { configurableVariantIndex } = this.state;
 
         const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
-            ? getVariantIndex(variants, parameters)
+            ? getVariantIndex(variants, parameters, true)
             // Not all parameters are selected yet, therefore variantIndex must be invalid
             : -1;
 
@@ -493,6 +515,10 @@ export class ProductPageContainer extends PureComponent {
         const currentVariantIndex = this.getConfigurableVariantIndex(variants);
         const variant = variants && variants[currentVariantIndex];
 
+        if (variants?.length > 0) {
+            dataSource.stock_status = variants.some((v) => v.stock_status === IN_STOCK) ? IN_STOCK : OUT_OF_STOCK;
+        }
+
         return variant || dataSource;
     }
 
@@ -505,7 +531,7 @@ export class ProductPageContainer extends PureComponent {
         }
 
         if (variants && hasParameters) {
-            return getVariantIndex(variants, parameters);
+            return getVariantIndex(variants, parameters, true);
         }
 
         return -1;

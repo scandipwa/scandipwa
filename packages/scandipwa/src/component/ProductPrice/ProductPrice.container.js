@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { MixType } from 'Type/Common';
 import { PriceType } from 'Type/ProductList';
 import {
-    calculateFinalPrice,
     formatPrice,
     roundPrice
 } from 'Util/Price';
@@ -47,8 +46,7 @@ export class ProductPriceContainer extends PureComponent {
         isSchemaRequired: PropTypes.bool,
         price: PriceType,
         mix: MixType,
-        displayTaxInPrice: PropTypes.string,
-        product: PropTypes.object.isRequired
+        displayTaxInPrice: PropTypes.string
     };
 
     static defaultProps = {
@@ -63,17 +61,20 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     discount: {
-                        percent_off: discountPercentage
+                        percent_off: discountPercentage = 0
                     } = {},
                     final_price: {
-                        value: minimalPriceValue,
-                        currency: priceCurrency
+                        value: minimalPriceValue = 0,
+                        currency: priceCurrency = ''
                     } = {},
                     regular_price: {
-                        value: regularPriceValue
+                        value: regularPriceValue = 0
                     } = {},
                     default_price: {
-                        value: defaultPriceValue
+                        value: defaultPriceValue = 0
+                    } = {},
+                    default_final_price_excl_tax: {
+                        value: defaultFinalPriceExclTax = 0
                     } = {}
                 } = {}
             } = {}
@@ -90,6 +91,7 @@ export class ProductPriceContainer extends PureComponent {
         return {
             roundedRegularPrice,
             priceCurrency,
+            defaultFinalPriceExclTax,
             discountPercentage,
             formattedFinalPrice,
             formattedSubPrice
@@ -101,10 +103,10 @@ export class ProductPriceContainer extends PureComponent {
             price: {
                 minimum_price: {
                     regular_price: {
-                        value: regularPriceValue
+                        value: regularPriceValue = 0
                     } = {},
                     regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue
+                        value: regularPriceExclTaxValue = 0
                     } = {}
                 } = {}
             } = {},
@@ -122,69 +124,42 @@ export class ProductPriceContainer extends PureComponent {
         const {
             price: {
                 minimum_price: {
-                    discount: {
-                        percent_off: discountPercentage
-                    } = {},
                     final_price: {
                         value: minimalPriceValue,
                         currency: priceCurrency
                     } = {},
                     final_price_excl_tax: {
                         value: minimalPriceExclTaxValue
-                    } = {},
-                    regular_price: {
-                        value: regularPriceValue
-                    } = {},
-                    regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue
                     } = {}
                 } = {}
             } = {},
-            displayTaxInPrice
+            displayTaxInPrice = ''
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
-            const finalPrice = calculateFinalPrice(
-                discountPercentage,
-                minimalPriceExclTaxValue,
-                regularPriceExclTaxValue
-            );
-
-            return formatPrice(finalPrice, priceCurrency);
+            return formatPrice(minimalPriceExclTaxValue, priceCurrency);
         }
 
-        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-
-        return formatPrice(finalPrice, priceCurrency);
+        return formatPrice(minimalPriceValue, priceCurrency);
     }
 
     getFormattedSubPrice() {
         const {
             price: {
                 minimum_price: {
-                    discount: {
-                        percent_off: discountPercentage
-                    } = {},
+                    final_price: {
+                        currency: priceCurrency = ''
+                    },
                     final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue,
-                        currency: priceCurrency
-                    } = {},
-                    regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue
+                        value: minimalPriceExclTaxValue = 0
                     } = {}
                 } = {}
             } = {},
-            displayTaxInPrice
+            displayTaxInPrice = ''
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH) {
-            const finalPrice = calculateFinalPrice(
-                discountPercentage,
-                minimalPriceExclTaxValue,
-                regularPriceExclTaxValue
-            );
-
-            return formatPrice(finalPrice, priceCurrency);
+            return formatPrice(minimalPriceExclTaxValue, priceCurrency);
         }
 
         return null;

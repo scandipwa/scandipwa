@@ -50,6 +50,7 @@
         top: 0;
 
         @include mobile {
+            top: var(--header-total-height);
             height: calc(100% - var(--header-total-height));
         }
     }
@@ -100,6 +101,13 @@
         @include mobile {
             position: fixed;
         }
+    }
+
+    .NotificationList {
+        width: 100vw;
+        top: 0;
+        left: calc(0px - var(--popup-content-padding));
+        position: relative;
     }
 }
 

@@ -9,12 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getIndexedProducts } from 'Util/Product';
-
 import {
-    ADD_COMPARED_PRODUCT_ID,
     CLEAR_COMPARED_PRODUCTS,
-    REMOVE_COMPARED_PRODUCT,
     SET_COMPARE_LIST,
     SET_COMPARED_PRODUCT_IDS,
     TOGGLE_COMPARE_LIST_LOADER
@@ -24,8 +20,10 @@ import {
 export const getInitialState = () => ({
     isLoading: false,
     count: 0,
+    attributes: [],
     products: [],
-    productIds: []
+    productIds: [],
+    items: []
 });
 
 /** @namespace Store/ProductCompare/Reducer */
@@ -43,24 +41,21 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
     }
 
     case SET_COMPARE_LIST: {
-        const { count = 0, products = [] } = action;
+        const { item_count = 0, items = [], attributes = [] } = action;
+
+        const products = items.map((item) => ({
+            ...item.product,
+            attributes: []
+        }));
+        const productIds = products.map((product) => product.id);
 
         return {
             ...state,
-            count,
-            products: getIndexedProducts(products)
-        };
-    }
-
-    case REMOVE_COMPARED_PRODUCT: {
-        const { productId } = action;
-        const { count, products, productIds } = state;
-
-        return {
-            ...state,
-            count: count - 1,
-            products: products.filter(({ id }) => id !== productId),
-            productIds: productIds.filter((id) => id !== productId)
+            count: item_count,
+            attributes,
+            products,
+            productIds,
+            items
         };
     }
 
@@ -69,24 +64,18 @@ export const ProductCompareReducer = (state = getInitialState(), action) => {
             ...state,
             count: 0,
             products: [],
-            productIds: []
+            productIds: [],
+            items: [],
+            attributes: []
         };
     }
 
     case SET_COMPARED_PRODUCT_IDS: {
         const { productIds } = action;
+
         return {
             ...state,
             productIds
-        };
-    }
-
-    case ADD_COMPARED_PRODUCT_ID: {
-        const { productId } = action;
-        const { productIds } = state;
-        return {
-            ...state,
-            productIds: [...productIds, productId]
         };
     }
 

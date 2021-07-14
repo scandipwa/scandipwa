@@ -18,6 +18,7 @@ import Field from 'Component/Field';
 import Html from 'Component/Html';
 import { MixType } from 'Type/Common';
 import { AttributeType } from 'Type/ProductList';
+import { getBooleanLabel } from 'Util/Product';
 
 import { STRING_ONLY_ATTRIBUTE_CODES } from './ProductAttributeValue.config';
 
@@ -61,7 +62,8 @@ export class ProductAttributeValue extends PureComponent {
     getOptionLabel(value) {
         const {
             attribute: {
-                attribute_options
+                attribute_options,
+                is_boolean
             },
             isProductCountVisible
         } = this.props;
@@ -74,9 +76,10 @@ export class ProductAttributeValue extends PureComponent {
                 }
 
                 const { label, count = 0 } = optionValues;
+
                 return {
                     ...optionValues,
-                    label: `${label} (${count})`
+                    label: `${getBooleanLabel(label, is_boolean)} (${count})`
                 };
             }
         }
@@ -98,7 +101,7 @@ export class ProductAttributeValue extends PureComponent {
 
     renderBooleanAttribute() {
         const { attribute: { attribute_value } } = this.props;
-        return this.renderStringValue(attribute_value ? __('Yes') : __('No'));
+        return this.renderStringValue(+attribute_value ? __('Yes') : __('No'));
     }
 
     renderMultiSelectAttribute() {
@@ -117,9 +120,14 @@ export class ProductAttributeValue extends PureComponent {
     }
 
     renderSelectAttribute() {
-        const { attribute: { attribute_value, attribute_code } } = this.props;
+        const { attribute: { attribute_value, attribute_code, has_swatch } } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
         const { label, swatch_data } = attributeOption;
+
+        // skip attributes without valid swatches
+        if (!swatch_data && has_swatch) {
+            return null;
+        }
 
         if (!swatch_data || STRING_ONLY_ATTRIBUTE_CODES.includes(attribute_code)) {
             return this.renderStringValue(label || __('N/A'));
@@ -287,6 +295,11 @@ export class ProductAttributeValue extends PureComponent {
         );
     }
 
+    renderNumericAttribute() {
+        const { attribute: { attribute_value } } = this.props;
+        return this.renderStringValue(parseFloat(attribute_value).toFixed(2));
+    }
+
     renderAttributeByType() {
         const { attribute: { attribute_type } } = this.props;
 
@@ -303,6 +316,8 @@ export class ProductAttributeValue extends PureComponent {
             return this.renderImageAttribute();
         case 'textarea':
             return this.renderTextAreaAttribute();
+        case 'weight':
+            return this.renderNumericAttribute();
         default:
             return this.renderPlaceholder();
         }

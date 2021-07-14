@@ -110,7 +110,7 @@ export class CartOverlayContainer extends PureComponent {
         const hasOutOfStockProductsInCart = hasOutOfStockProductsInCartItems(totals.items);
 
         if (hasOutOfStockProductsInCart) {
-            showNotification('error', 'Cannot proceed to checkout. Remove out of stock products first.');
+            showNotification('error', __('Cannot proceed to checkout. Remove out of stock products first.'));
             return;
         }
 

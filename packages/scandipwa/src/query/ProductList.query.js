@@ -118,7 +118,7 @@ export class ProductListQuery {
             },
             search: {
                 type: 'String!',
-                handler: (option) => option
+                handler: (option) => option.replace(/\+/g, ' ')
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
@@ -238,6 +238,7 @@ export class ProductListQuery {
         if (!isVariant) {
             fields.push(
                 'url',
+                this._getUrlRewritesFields(),
                 this._getReviewCountField(),
                 this._getRatingSummaryField()
             );
@@ -524,6 +525,9 @@ export class ProductListQuery {
             'attribute_code',
             'attribute_type',
             'attribute_label',
+            'attribute_group_id',
+            'attribute_group_code',
+            'attribute_group_name',
             ...(!isVariant
                 ? [
                     this._getAttributeOptionsField()
@@ -608,6 +612,11 @@ export class ProductListQuery {
     _getDescriptionField() {
         return new Field('description')
             .addFieldList(this._getDescriptionFields());
+    }
+
+    _getUrlRewritesFields() {
+        return new Field('url_rewrites')
+            .addFieldList(['url']);
     }
 
     _getProductLinkFields() {
@@ -707,6 +716,29 @@ export class ProductListQuery {
             .addFieldList(this._getBundleItemsFields());
     }
 
+    _getBundlePriceOptionSelectionFields() {
+        return [
+            'selection_id',
+            'final_option_price',
+            'final_option_price_excl_tax',
+            'regular_option_price',
+            'regular_option_price_excl_tax'
+        ];
+    }
+
+    _getBundlePriceOptionFields() {
+        return [
+            'option_id',
+            new Field('selection_details')
+                .addFieldList(this._getBundlePriceOptionSelectionFields())
+        ];
+    }
+
+    _getBundlePriceOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundlePriceOptionFields());
+    }
+
     _getBundleProductFragmentFields() {
         return [
             'price_view',
@@ -714,7 +746,8 @@ export class ProductListQuery {
             'dynamic_sku',
             'ship_bundle_items',
             'dynamic_weight',
-            this._getBundleItemsField()
+            this._getBundleItemsField(),
+            this._getBundlePriceOptionsField()
         ];
     }
 
@@ -762,7 +795,10 @@ export class ProductListQuery {
     _getCustomizableTextValueFields() {
         return [
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
+            'currency',
             'sku',
             'max_characters'
         ];
@@ -785,7 +821,10 @@ export class ProductListQuery {
         return new Field('value')
             .addFieldList([
                 'price',
+                'priceInclTax',
+                'priceExclTax',
                 'price_type',
+                'currency',
                 'sku',
                 'file_extension'
             ])
@@ -811,7 +850,10 @@ export class ProductListQuery {
         return [
             'option_type_id',
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
+            'currency',
             'sku',
             'title',
             'sort_order'
@@ -1008,6 +1050,9 @@ export class ProductListQuery {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
+            'is_boolean',
+            'has_swatch',
+            'position',
             this._getAggregationsOptionsField()
         ];
     }

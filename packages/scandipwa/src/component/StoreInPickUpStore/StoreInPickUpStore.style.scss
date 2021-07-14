@@ -1,0 +1,22 @@
+.StoreInPickUpStore {
+    &-Store {
+        align-items: center;
+        border-bottom: 1px solid $black;
+        display: flex;
+        justify-content: space-between;
+
+        &:last-of-type {
+            border-bottom: none;
+        }
+
+        &Data {
+            padding: 20px 0;
+
+            > * {
+                font-size: 1.4rem;
+                line-height: 1.8;
+                margin: 0;
+            }
+        }
+    }
+}
