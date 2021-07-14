@@ -146,7 +146,13 @@ export class NavigationTabs extends NavigationAbstract {
                       elem="Button"
                       mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
                       mods={ { isVisible: true, type: 'minicart' } }
-                    />
+                    >
+                        <span
+                          aria-label="Minicart"
+                          block="Header"
+                          elem="MinicartIcon"
+                        />
+                    </div>
                     { this.renderMinicartItemsQty() }
                 </div>
             </button>

@@ -150,7 +150,6 @@
             }
 
             &_minicart {
-                @include minicart-button;
 
                 @include desktop {
                     margin-inline-start: 35px;
@@ -391,5 +390,13 @@
         display: flex;
         justify-content: center;
         margin-block-end: var(--header-total-height);
+    }
+
+    &-MinicartIcon {
+        @include minicart-button;
+
+        display: inline-block;
+        height: 24px;
+        width: 24px;
     }
 }
