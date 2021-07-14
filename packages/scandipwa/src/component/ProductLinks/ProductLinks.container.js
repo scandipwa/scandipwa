@@ -12,7 +12,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import LinkedProductsReducer from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { ProductType } from 'Type/ProductList';
+import { withReducers } from 'Util/DynamicReducer';
 
 import ProductLinks from './ProductLinks.component';
 
@@ -86,4 +88,6 @@ export class ProductLinksContainer extends PureComponent {
 // eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductLinksContainer);
+export default withReducers({
+    LinkedProductsReducer
+})(connect(mapStateToProps, mapDispatchToProps)(ProductLinksContainer));

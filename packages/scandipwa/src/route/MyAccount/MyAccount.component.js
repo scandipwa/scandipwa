@@ -10,15 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component, lazy, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
-import MyAccountAddressBook from 'Component/MyAccountAddressBook';
-import MyAccountDashboard from 'Component/MyAccountDashboard';
-import MyAccountDownloadable from 'Component/MyAccountDownloadable';
-import MyAccountMyOrders from 'Component/MyAccountMyOrders';
-import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
-import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
+import Loader from 'Component/Loader/Loader.component';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import MyAccountTabList from 'Component/MyAccountTabList';
 import {
@@ -35,8 +30,33 @@ import { isSignedIn } from 'Util/Auth';
 
 import './MyAccount.style';
 
+export const MyAccountAddressBook = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "account-address" */
+    'Component/MyAccountAddressBook'
+));
+export const MyAccountDashboard = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "account-dashboard" */
+    'Component/MyAccountDashboard'
+));
+export const MyAccountDownloadable = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "account-downloadable" */
+    'Component/MyAccountDownloadable'
+));
+export const MyAccountMyOrders = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "account-orders" */
+    'Component/MyAccountMyOrders'
+));
+export const MyAccountMyWishlist = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "account-wishlist" */
+    'Component/MyAccountMyWishlist'
+));
+export const MyAccountNewsletterSubscription = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "account-newsletter" */
+    'Component/MyAccountNewsletterSubscription'
+));
+
 /** @namespace Route/MyAccount/Component */
-export class MyAccount extends PureComponent {
+export class MyAccount extends Component {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
@@ -54,6 +74,13 @@ export class MyAccount extends PureComponent {
         [NEWSLETTER_SUBSCRIPTION]: MyAccountNewsletterSubscription,
         [MY_DOWNLOADABLE]: MyAccountDownloadable
     };
+
+    shouldComponentUpdate(nextProps) {
+        const { activeTab } = this.props;
+        const { activeTab: nextActiveTab } = nextProps;
+
+        return activeTab !== nextActiveTab;
+    }
 
     renderLoginOverlay() {
         const { onSignIn } = this.props;
@@ -94,7 +121,9 @@ export class MyAccount extends PureComponent {
                 />
                 <div block="MyAccount" elem="TabContent">
                     <h2 block="MyAccount" elem="Heading">{ name }</h2>
-                    <TabContent isEditingActive={ isEditingActive } />
+                    <Suspense fallback={ <Loader /> }>
+                        <TabContent isEditingActive={ isEditingActive } />
+                    </Suspense>
                 </div>
             </ContentWrapper>
         );

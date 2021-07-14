@@ -72,7 +72,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             regionId: prevRegionId,
             region: prevRegion,
             city: prevCity,
-            postcode: prevpostcode
+            postcode: prevPostcode
         } = prevState;
 
         if (
@@ -80,7 +80,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             || regionId !== prevRegionId
             || city !== prevCity
             || region !== prevRegion
-            || postcode !== prevpostcode
+            || postcode !== prevPostcode
         ) {
             this.estimateShipping();
         }

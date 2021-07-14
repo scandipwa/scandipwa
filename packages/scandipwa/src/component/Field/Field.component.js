@@ -193,7 +193,7 @@ export class Field extends PureComponent {
                 <FieldInput
                   { ...this.props }
                   type="file"
-                  onChange={ (e) => onChange(e) }
+                  onChange={ onChange }
                 />
                 { this.renderLabelForFile(id, filename) }
                 <p>

@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -29,7 +29,7 @@ import './Footer.style';
  * @class Footer
  * @namespace Component/Footer/Component
  */
-export class Footer extends PureComponent {
+export class Footer extends Component {
     static propTypes = {
         copyright: PropTypes.string,
         isVisibleOnMobile: PropTypes.bool,
@@ -47,6 +47,24 @@ export class Footer extends PureComponent {
             render: this.renderNewsletterSubscriptionBlock.bind(this)
         }
     };
+
+    shouldComponentUpdate(nextProps) {
+        const {
+            device: {
+                isMobile
+            },
+            isVisibleOnMobile
+        } = this.props;
+
+        const {
+            device: {
+                isMobile: nextIsMobile
+            },
+            isVisibleOnMobile: nextIsVisibleOnMobile
+        } = nextProps;
+
+        return isMobile !== nextIsMobile || isVisibleOnMobile !== nextIsVisibleOnMobile;
+    }
 
     renderColumnItemContent(src, title) {
         if (!src) {
