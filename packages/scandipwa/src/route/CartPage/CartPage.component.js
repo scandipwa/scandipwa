@@ -193,6 +193,21 @@ export class CartPage extends PureComponent {
         );
     }
 
+    renderTotalsSection() {
+        const { totals: { items = [] } } = this.props;
+
+        if (items.length < 1) {
+            return this.renderPromo();
+        }
+
+        return (
+            <div block="CartPage" elem="Floating">
+                { this.renderPromo() }
+                { this.renderTotals() }
+            </div>
+        );
+    }
+
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
@@ -205,10 +220,7 @@ export class CartPage extends PureComponent {
                         { this.renderCartItems() }
                         { this.renderDiscountCode() }
                     </div>
-                    <div block="CartPage" elem="Floating">
-                        { this.renderPromo() }
-                        { this.renderTotals() }
-                    </div>
+                    { this.renderTotalsSection() }
                 </ContentWrapper>
                 { this.renderCrossSellProducts() }
             </main>

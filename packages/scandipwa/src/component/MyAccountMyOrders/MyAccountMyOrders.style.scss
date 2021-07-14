@@ -31,6 +31,11 @@
         width: 100%;
         min-width: 100%;
         max-width: 100%;
+
+        &.MyDownloadable {
+            width: auto;
+            max-width: initial;
+        }
     }
 }
 
