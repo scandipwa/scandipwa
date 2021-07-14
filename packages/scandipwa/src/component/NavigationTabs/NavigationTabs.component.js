@@ -13,7 +13,10 @@ import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.
 import { DeviceType } from 'Type/Device';
 
 import {
-    ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
+    ACCOUNT_TAB,
+    CART_TAB,
+    HOME_TAB,
+    MENU_TAB
 } from './NavigationTabs.config';
 
 import './NavigationTabs.style';
@@ -146,7 +149,13 @@ export class NavigationTabs extends NavigationAbstract {
                       elem="Button"
                       mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
                       mods={ { isVisible: true, type: 'minicart' } }
-                    />
+                    >
+                        <span
+                          aria-label="Minicart"
+                          block="Header"
+                          elem="MinicartIcon"
+                        />
+                    </div>
                     { this.renderMinicartItemsQty() }
                 </div>
             </button>

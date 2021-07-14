@@ -27,6 +27,7 @@ import list from 'Style/icons/list.svg';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
+import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 import filterIcon from '../../style/icons/filter.svg';
@@ -331,7 +332,11 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <div block="CategoryPage" elem="ProductListWrapper">
+            <div
+              block="CategoryPage"
+              elem="ProductListWrapper"
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
+            >
                 { this.renderItemsCount(true) }
                 <CategoryProductList
                   filter={ filter }
@@ -378,7 +383,11 @@ export class CategoryPage extends PureComponent {
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }
-                <div block="CategoryPage" elem="LayoutWrapper">
+                <div
+                  block="CategoryPage"
+                  elem="LayoutWrapper"
+                  mods={ { isPrerendered: isSSR() || isCrawler() } }
+                >
                     { this.renderLayoutButtons() }
                     { this.renderCategorySort() }
                 </div>

@@ -184,6 +184,12 @@
             flex-wrap: wrap;
             justify-content: space-between;
         }
+
+        &_isPrerendered {
+            @include mobile {
+                bottom: 0;
+            }
+        }
     }
 
     &-Qty {

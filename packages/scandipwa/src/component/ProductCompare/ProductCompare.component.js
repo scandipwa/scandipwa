@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
@@ -21,7 +21,7 @@ import { ProductItemsType } from 'Type/ProductList';
 import './ProductCompare.style';
 
 /** @namespace Component/ProductCompare/Component */
-export class ProductCompare extends PureComponent {
+export class ProductCompare extends Component {
     static propTypes = {
         clearCompareList: PropTypes.func.isRequired,
         getAttributes: PropTypes.func.isRequired,
@@ -34,6 +34,13 @@ export class ProductCompare extends PureComponent {
         isLoading: false,
         products: []
     };
+
+    shouldComponentUpdate(nextProps) {
+        const { products } = this.props;
+        const { products: nextProducts } = nextProps;
+
+        return products !== nextProducts;
+    }
 
     renderHeading() {
         const { device } = this.props;

@@ -61,12 +61,11 @@ export const getUrlParam = (match, location) => {
  * @namespace Util/Url/appendWithStoreCode
  */
 export const appendWithStoreCode = (pathname) => {
-    const { ConfigReducer: { base_link_url = window.location.origin } = {} } = getStore().getState() || {};
+    const { ConfigReducer: { base_link_url = window.location.href } = {} } = getStore().getState() || {};
     const { pathname: storePrefix } = new URL(base_link_url);
 
-    // ignore empty URLs
     if (!pathname) {
-        return pathname;
+        return storePrefix.slice(0, -1);
     }
 
     // match URLs which have the store code in pathname

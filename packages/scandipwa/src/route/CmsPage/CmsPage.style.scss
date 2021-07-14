@@ -19,7 +19,10 @@
     }
 
     &-Content {
-        @include default-list;
+
+        .cms-content {
+            @include default-list;
+        }
 
         h2 {
             @include mobile {

@@ -42,6 +42,15 @@ export class Meta extends PureComponent {
         canonical_url: ''
     };
 
+    componentDidMount() {
+        // Remove prerendered meta tags so dynamic meta tags can take effect
+        Array.prototype.slice.call(
+            document.head.querySelectorAll('title[data-prerendered], meta[data-prerendered]')
+        ).forEach((tag) => {
+            document.head.removeChild(tag);
+        });
+    }
+
     renderTitle() {
         const {
             default_title,

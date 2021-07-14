@@ -117,5 +117,9 @@
         &:last-child {
             padding-inline-end: 0;
         }
+
+        @include mobile {
+            margin-block-start: 26px;
+        }
     }
 }

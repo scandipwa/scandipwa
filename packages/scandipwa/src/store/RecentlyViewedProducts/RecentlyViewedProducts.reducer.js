@@ -15,6 +15,7 @@ import {
 } from 'Component/RecentlyViewedWidget/RecentlyViewedWidget.config';
 import {
     ADD_RECENTLY_VIEWED_PRODUCT,
+    UPDATE_LOAD_STATUS,
     UPDATE_RECENTLY_VIEWED_PRODUCTS
 } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -23,7 +24,7 @@ import { getIndexedProducts } from 'Util/Product';
 /** @namespace Store/RecentlyViewedProducts/Reducer/getInitialState */
 export const getInitialState = () => ({
     recentlyViewedProducts: BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || {},
-    shouldBeUpdated: true
+    isLoading: true
 });
 
 /** @namespace Store/RecentlyViewedProducts/Reducer/recentlyViewedProductsReducer */
@@ -59,8 +60,7 @@ export const RecentlyViewedProductsReducer = (
 
         return {
             ...state,
-            recentlyViewedProducts: newRecentProducts,
-            shouldBeUpdated: true
+            recentlyViewedProducts: newRecentProducts
         };
 
     case UPDATE_RECENTLY_VIEWED_PRODUCTS:
@@ -94,8 +94,19 @@ export const RecentlyViewedProductsReducer = (
         return {
             ...state,
             recentlyViewedProducts: updatedRecentViewedProducts,
-            shouldBeUpdated: false
+            isLoading: false
         };
+
+    case UPDATE_LOAD_STATUS:
+        const {
+            isLoading
+        } = action;
+
+        return {
+            ...state,
+            isLoading
+        };
+
     default:
         return state;
     }

@@ -46,7 +46,6 @@
     &-Wrapper {
         display: grid;
         grid-gap: 12px;
-        height: 130px;
         padding: 12px;
         background: var(--color-white);
         align-items: center;
@@ -94,6 +93,10 @@
     &-Options {
         color: var(--secondary-dark-color);
         font-size: 12px;
+
+        @include mobile {
+            padding-block-end: 12px;
+        }
     }
 
     &-Option {

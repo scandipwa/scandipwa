@@ -49,10 +49,8 @@
         background: var(--color-white);
 
         @include mobile {
-            inset-block-end: var(--navigation-tabs-height);
             inset-inline-start: 0;
             width: 100%;
-            border-block-start: 1px solid var(--primary-divider-color);
         }
     }
 
@@ -114,9 +112,9 @@
             padding: 24px 12px;
 
             @include mobile {
+                margin-block-start: 12px;
                 padding: 14px;
-                border: 0;
-                border-block-end: 1px solid var(--primary-divider-color);
+                border: 1px solid var(--primary-divider-color);
             }
         }
 

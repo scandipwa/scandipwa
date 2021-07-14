@@ -22,7 +22,7 @@ export class ExpandableContent extends PureComponent {
         isContentExpanded: PropTypes.bool,
         isArrow: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-        children: ChildrenType.isRequired,
+        children: ChildrenType,
         mix: MixType.isRequired,
         mods: PropTypes.object,
         onClick: (props, propName, componentName) => {
@@ -40,8 +40,9 @@ export class ExpandableContent extends PureComponent {
     static defaultProps = {
         heading: '',
         isContentExpanded: false,
-        isArrow: false,
         onClick: null,
+        children: [],
+        isArrow: false,
         mods: {}
     };
 

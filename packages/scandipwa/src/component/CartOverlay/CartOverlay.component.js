@@ -64,9 +64,9 @@ export class CartOverlay extends PureComponent {
     }
 
     renderCartItems() {
-        const { totals: { items, quote_currency_code } } = this.props;
+        const { totals: { items = [], quote_currency_code } } = this.props;
 
-        if (!items || items.length < 1) {
+        if (items.length < 1) {
             return this.renderNoCartItems();
         }
 
@@ -148,6 +148,10 @@ export class CartOverlay extends PureComponent {
         );
     }
 
+    renderCouponCode = (code) => (
+        <strong block="CartOverlay" elem="DiscountCoupon">{ code }</strong>
+    );
+
     renderDiscount() {
         const {
             totals: {
@@ -215,9 +219,9 @@ export class CartOverlay extends PureComponent {
     }
 
     renderCartAdditional() {
-        const { totals: { items } } = this.props;
+        const { totals: { items = [] } } = this.props;
 
-        if (!items || items.length < 1) {
+        if (items.length < 1) {
             return null;
         }
 
