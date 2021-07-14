@@ -384,9 +384,9 @@ export class CategoryPage extends PureComponent {
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }
                 <div
-                    block="CategoryPage"
-                    elem="LayoutWrapper"
-                    mods={ { isPrerendered: isSSR() || isCrawler() } }
+                  block="CategoryPage"
+                  elem="LayoutWrapper"
+                  mods={ { isPrerendered: isSSR() || isCrawler() } }
                 >
                     { this.renderLayoutButtons() }
                     { this.renderCategorySort() }

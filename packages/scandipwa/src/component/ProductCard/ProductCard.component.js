@@ -67,7 +67,8 @@ export class ProductCard extends Component {
         updateConfigurableVariant: PropTypes.func.isRequired,
         configurableVariantIndex: PropTypes.number,
         parameters: PropTypes.shape({}).isRequired,
-        showSelectOptionsNotification: PropTypes.func.isRequired
+        showSelectOptionsNotification: PropTypes.func.isRequired,
+        productOrVariant: ProductType.isRequired
     };
 
     static defaultProps = {

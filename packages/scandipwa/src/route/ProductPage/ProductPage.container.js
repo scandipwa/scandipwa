@@ -25,9 +25,8 @@ import ProductReducer from 'Store/Product/Product.reducer';
 import { addRecentlyViewedProduct } from 'Store/RecentlyViewedProducts/RecentlyViewedProducts.action';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
-import { getIsConfigurableParameterSelected, getNewParameters, getVariantIndex } from 'Util/Product';
 import { withReducers } from 'Util/DynamicReducer';
-import { getVariantIndex } from 'Util/Product';
+import { getIsConfigurableParameterSelected, getNewParameters, getVariantIndex } from 'Util/Product';
 import { debounce } from 'Util/Request';
 import {
     convertQueryStringToKeyValuePairs,

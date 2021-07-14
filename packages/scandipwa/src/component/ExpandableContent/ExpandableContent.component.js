@@ -23,7 +23,6 @@ export class ExpandableContent extends PureComponent {
         isArrow: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         children: ChildrenType,
-        subHeading: PropTypes.string,
         mix: MixType.isRequired,
         mods: PropTypes.object,
         onClick: (props, propName, componentName) => {
@@ -44,7 +43,6 @@ export class ExpandableContent extends PureComponent {
         onClick: null,
         children: [],
         isArrow: false,
-        onClick: null,
         mods: {}
     };
 

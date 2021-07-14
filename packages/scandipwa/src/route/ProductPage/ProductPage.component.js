@@ -14,15 +14,12 @@ import PropTypes from 'prop-types';
 import { lazy, PureComponent, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
-import Popup from 'Component/Popup/Popup.container';
 import Loader from 'Component/Loader/Loader.component';
+import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
-import ProductAttributes from 'Component/ProductAttributes';
-import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
-import ProductReviews from 'Component/ProductReviews';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import ProductTabs from 'Component/ProductTabs';
 import NoMatchHandler from 'Route/NoMatchHandler';

@@ -704,7 +704,7 @@ export class ProductActions extends PureComponent {
             <div
               block="ProductActions"
               elem="AddToCartFixed"
-              mods={ { isPrerendered: isSSR() || isCrawler() }
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
             >
                 { this.renderQuantityInput() }
                 { this.renderAddToCart() }

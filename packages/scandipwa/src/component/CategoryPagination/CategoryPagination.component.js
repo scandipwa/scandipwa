@@ -39,7 +39,6 @@ export class CategoryPagination extends PureComponent {
         shouldRenderPreviousJump: PropTypes.bool.isRequired,
         shouldRenderJumps: PropTypes.bool.isRequired,
         paginationFrame: PropTypes.bool.isRequired,
-        anchorTextNext: PropTypes.string,
         id: PropTypes.string
     };
 
