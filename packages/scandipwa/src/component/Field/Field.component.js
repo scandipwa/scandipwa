@@ -21,6 +21,7 @@ import { MixType } from 'Type/Common';
 
 import {
     CHECKBOX_TYPE,
+    EMAIL_TYPE,
     FILE_TYPE,
     NUMBER_TYPE,
     PASSWORD_TYPE,
@@ -105,6 +106,15 @@ export class Field extends PureComponent {
         );
     }
 
+    renderTypeEmail() {
+        return (
+            <FieldInput
+              { ...this.props }
+              type="email"
+            />
+        );
+    }
+
     renderTypePassword() {
         return (
             <FieldInput
@@ -183,7 +193,7 @@ export class Field extends PureComponent {
                 <FieldInput
                   { ...this.props }
                   type="file"
-                  onChange={ (e) => onChange(e) }
+                  onChange={ onChange }
                 />
                 { this.renderLabelForFile(id, filename) }
                 <p>
@@ -236,6 +246,8 @@ export class Field extends PureComponent {
             return this.renderTypePassword();
         case SELECT_TYPE:
             return this.renderSelectWithOptions();
+        case EMAIL_TYPE:
+            return this.renderTypeEmail();
         case FILE_TYPE:
             return this.renderFile();
         default:

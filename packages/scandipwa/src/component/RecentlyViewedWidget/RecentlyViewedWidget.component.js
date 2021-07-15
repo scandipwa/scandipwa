@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Component, React } from 'react';
 
 import ProductCard from 'Component/ProductCard';
 import { ItemsType } from 'Type/ProductList';
@@ -18,13 +18,13 @@ import { ItemsType } from 'Type/ProductList';
 import './RecentlyViewedWidget.style';
 
 /** @namespace Component/RecentlyViewedWidget/Component */
-export class RecentlyViewedWidget extends PureComponent {
+export class RecentlyViewedWidget extends Component {
     static propTypes = {
         pageSize: PropTypes.number,
         products: ItemsType.isRequired,
         productCardProps: PropTypes.object.isRequired,
         productCardFunctions: PropTypes.object.isRequired,
-        shouldBeUpdated: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -32,6 +32,16 @@ export class RecentlyViewedWidget extends PureComponent {
     };
 
     renderProductCard = this.renderProductCard.bind(this);
+
+    shouldComponentUpdate(nextProps) {
+        const { products, pageSize } = this.props;
+        const {
+            products: nextProducts,
+            pageSize: nextPageSize
+        } = nextProps;
+
+        return products !== nextProducts || pageSize !== nextPageSize;
+    }
 
     renderProducts(products) {
         const { pageSize } = this.props;
@@ -47,7 +57,7 @@ export class RecentlyViewedWidget extends PureComponent {
         const {
             productCardProps,
             productCardFunctions,
-            shouldBeUpdated
+            isLoading
         } = this.props;
         const { id, selectedFilters } = product;
 
@@ -56,7 +66,7 @@ export class RecentlyViewedWidget extends PureComponent {
               selectedFilters={ selectedFilters }
               product={ product }
               key={ id }
-              isPreview={ shouldBeUpdated }
+              isPreview={ isLoading }
               { ...productCardProps }
               { ...productCardFunctions }
             />

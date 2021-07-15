@@ -43,6 +43,12 @@
         @include before-desktop {
             padding-top: 56px;
         }
+
+        &_isPrerendered {
+            @include mobile {
+                padding-top: 120px;
+            }
+        }
     }
 
     &-ItemsCount {
@@ -171,6 +177,16 @@
 
         @include mobile {
             display: none;
+        }
+
+        &_isPrerendered {
+            @include mobile {
+                display: flex;
+                position: absolute;
+                bottom: -50px;
+                left: 0;
+                right: 0;
+            }
         }
     }
 

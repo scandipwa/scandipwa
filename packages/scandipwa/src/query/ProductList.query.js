@@ -118,7 +118,7 @@ export class ProductListQuery {
             },
             search: {
                 type: 'String!',
-                handler: (option) => option
+                handler: (option) => option.replace(/\+/g, ' ')
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
@@ -795,6 +795,8 @@ export class ProductListQuery {
     _getCustomizableTextValueFields() {
         return [
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
             'currency',
             'sku',
@@ -819,6 +821,8 @@ export class ProductListQuery {
         return new Field('value')
             .addFieldList([
                 'price',
+                'priceInclTax',
+                'priceExclTax',
                 'price_type',
                 'currency',
                 'sku',
@@ -846,6 +850,8 @@ export class ProductListQuery {
         return [
             'option_type_id',
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
             'currency',
             'sku',
@@ -1044,7 +1050,8 @@ export class ProductListQuery {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
-            new Field('is_boolean'),
+            'is_boolean',
+            'has_swatch',
             'position',
             this._getAggregationsOptionsField()
         ];

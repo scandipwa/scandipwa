@@ -22,7 +22,7 @@ export class ExpandableContent extends PureComponent {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         subHeading: PropTypes.string,
-        children: ChildrenType.isRequired,
+        children: ChildrenType,
         mix: MixType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
@@ -40,7 +40,8 @@ export class ExpandableContent extends PureComponent {
         subHeading: '',
         heading: '',
         isContentExpanded: false,
-        onClick: null
+        onClick: null,
+        children: []
     };
 
     expandableContentRef = createRef();

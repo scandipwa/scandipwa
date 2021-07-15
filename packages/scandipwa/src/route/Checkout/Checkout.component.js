@@ -10,17 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
-import CartCoupon from 'Component/CartCoupon';
-import CheckoutBilling from 'Component/CheckoutBilling';
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
-import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
-import CheckoutShipping from 'Component/CheckoutShipping';
-import CheckoutSuccess from 'Component/CheckoutSuccess';
-import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
-import ExpandableContent from 'Component/ExpandableContent';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
@@ -37,6 +30,41 @@ import {
 } from './Checkout.config';
 
 import './Checkout.style';
+
+export const CartCoupon = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/CartCoupon'
+));
+
+export const CmsBlock = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/CmsBlock'
+));
+
+export const CheckoutOrderSummary = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/CheckoutOrderSummary'
+));
+
+export const CheckoutBilling = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-billing" */
+    'Component/CheckoutBilling'
+));
+
+export const CheckoutShipping = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-shipping" */
+    'Component/CheckoutShipping'
+));
+
+export const CheckoutSuccess = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-success" */
+    'Component/CheckoutSuccess'
+));
+
+export const ExpandableContent = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/ExpandableContent'
+));
 
 /** @namespace Route/Checkout/Component */
 export class Checkout extends PureComponent {
@@ -189,17 +217,19 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <CheckoutShipping
-              isLoading={ isDeliveryOptionsLoading }
-              shippingMethods={ shippingMethods }
-              saveAddressInformation={ saveAddressInformation }
-              onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-              onPasswordChange={ onPasswordChange }
-              onCreateUserChange={ onCreateUserChange }
-              onEmailChange={ onEmailChange }
-              isCreateUser={ isCreateUser }
-              estimateAddress={ estimateAddress }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <CheckoutShipping
+                  isLoading={ isDeliveryOptionsLoading }
+                  shippingMethods={ shippingMethods }
+                  saveAddressInformation={ saveAddressInformation }
+                  onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
+                  onPasswordChange={ onPasswordChange }
+                  onCreateUserChange={ onCreateUserChange }
+                  onEmailChange={ onEmailChange }
+                  isCreateUser={ isCreateUser }
+                  estimateAddress={ estimateAddress }
+                />
+            </Suspense>
         );
     }
 
@@ -214,14 +244,16 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <CheckoutBilling
-              setLoading={ setLoading }
-              paymentMethods={ paymentMethods }
-              setDetailsStep={ setDetailsStep }
-              shippingAddress={ shippingAddress }
-              savePaymentInformation={ savePaymentInformation }
-              selectedShippingMethod={ selectedShippingMethod }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <CheckoutBilling
+                  setLoading={ setLoading }
+                  paymentMethods={ paymentMethods }
+                  setDetailsStep={ setDetailsStep }
+                  shippingAddress={ shippingAddress }
+                  savePaymentInformation={ savePaymentInformation }
+                  selectedShippingMethod={ selectedShippingMethod }
+                />
+            </Suspense>
         );
     }
 
@@ -237,13 +269,15 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <CheckoutSuccess
-              email={ email }
-              firstName={ firstname }
-              lastName={ lastname }
-              isEmailAvailable={ isEmailAvailable }
-              orderID={ orderID }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <CheckoutSuccess
+                  email={ email }
+                  firstName={ firstname }
+                  lastName={ lastname }
+                  isEmailAvailable={ isEmailAvailable }
+                  orderID={ orderID }
+                />
+            </Suspense>
         );
     }
 
@@ -363,9 +397,11 @@ export class Checkout extends PureComponent {
                         { this.renderLoader() }
                     </div>
                     <div>
-                        { this.renderSummary() }
-                        { this.renderPromo() }
-                        { this.renderCoupon() }
+                        <Suspense fallback={ <Loader /> }>
+                            { this.renderSummary() }
+                            { this.renderPromo() }
+                            { this.renderCoupon() }
+                        </Suspense>
                     </div>
                 </ContentWrapper>
             </main>

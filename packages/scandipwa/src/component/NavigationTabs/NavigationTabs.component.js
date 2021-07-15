@@ -13,7 +13,10 @@ import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.
 import { DeviceType } from 'Type/Device';
 
 import {
-    ACCOUNT_TAB, CART_TAB, HOME_TAB, MENU_TAB
+    ACCOUNT_TAB,
+    CART_TAB,
+    HOME_TAB,
+    MENU_TAB
 } from './NavigationTabs.config';
 
 import './NavigationTabs.style';

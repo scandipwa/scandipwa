@@ -180,20 +180,14 @@ export class CartItem extends PureComponent {
         );
     };
 
+    renderProductOptionValues = (values) => (
+        <div block="CartItem" elem="ItemOptionValues">
+            { values.map(this.renderProductOptionValue) }
+        </div>
+    );
+
     renderProductOptionContent = (option) => {
         const { label, values, id } = option;
-
-        if (!values) {
-            return (
-                <div
-                  block="CartItem"
-                  elem="ItemOptionLabel"
-                  key={ `label-${ id }` }
-                >
-                    { label }
-                </div>
-            );
-        }
 
         return (
             <>
@@ -202,11 +196,9 @@ export class CartItem extends PureComponent {
                   elem="ItemOptionLabel"
                   key={ `label-${ id }` }
                 >
-                    { `${ label }:` }
+                    { label }
                 </div>
-                <div block="CartItem" elem="ItemOptionValues">
-                    { values.map(this.renderProductOptionValue) }
-                </div>
+                { values && this.renderProductOptionValues(values) }
             </>
         );
     };

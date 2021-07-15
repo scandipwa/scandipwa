@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import {
     mapDispatchToProps,
     mapStateToProps,
@@ -196,11 +195,10 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             finalOptionPrice,
             price
         }) => {
-            const finalPrice = price_type === PRICE_TYPE_PERCENT ? price : finalOptionPrice;
-
+            const optionLabel = this.renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
             const dropdownLabel = !can_change_quantity
-                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`
-                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice, currencyCode) }`;
+                ? `${ quantity } x ${ label } ${ optionLabel }`
+                : `${ label } ${optionLabel}`;
 
             acc.push({
                 id,

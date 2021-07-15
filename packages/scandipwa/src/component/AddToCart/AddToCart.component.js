@@ -27,13 +27,15 @@ export class AddToCart extends PureComponent {
         isLoading: PropTypes.bool,
         product: ProductType,
         mix: MixType,
-        buttonClick: PropTypes.func.isRequired
+        buttonClick: PropTypes.func.isRequired,
+        disabled: PropTypes.bool
     };
 
     static defaultProps = {
         product: {},
         mix: {},
-        isLoading: false
+        isLoading: false,
+        disabled: false
     };
 
     renderPlaceholder() {
@@ -53,7 +55,8 @@ export class AddToCart extends PureComponent {
             mix,
             product: { type_id },
             isLoading,
-            buttonClick
+            buttonClick,
+            disabled
         } = this.props;
 
         if (!type_id) {
@@ -66,7 +69,7 @@ export class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading } }
-              disabled={ isLoading }
+              disabled={ isLoading || disabled }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>

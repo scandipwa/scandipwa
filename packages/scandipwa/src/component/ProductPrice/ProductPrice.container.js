@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { MixType } from 'Type/Common';
 import { PriceType } from 'Type/ProductList';
 import {
-    calculateFinalPrice,
     formatPrice,
     roundPrice
 } from 'Util/Price';
@@ -88,13 +87,11 @@ export class ProductPriceContainer extends PureComponent {
         const roundedRegularPrice = this.getRoundedRegularPrice();
         const formattedFinalPrice = this.getFormattedFinalPrice();
         const formattedSubPrice = this.getFormattedSubPrice();
-        const formattedDefaultFinalPriceExclTax = formatPrice(defaultFinalPriceExclTax, priceCurrency);
 
         return {
             roundedRegularPrice,
             priceCurrency,
             defaultFinalPriceExclTax,
-            formattedDefaultFinalPriceExclTax,
             discountPercentage,
             formattedFinalPrice,
             formattedSubPrice
@@ -127,40 +124,23 @@ export class ProductPriceContainer extends PureComponent {
         const {
             price: {
                 minimum_price: {
-                    discount: {
-                        percent_off: discountPercentage = 0
-                    } = {},
                     final_price: {
-                        value: minimalPriceValue = 0,
-                        currency: priceCurrency = ''
+                        value: minimalPriceValue,
+                        currency: priceCurrency
                     } = {},
                     final_price_excl_tax: {
-                        value: minimalPriceExclTaxValue = 0
-                    } = {},
-                    regular_price: {
-                        value: regularPriceValue = 0
-                    } = {},
-                    regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue = 0
+                        value: minimalPriceExclTaxValue
                     } = {}
                 } = {}
             } = {},
-            displayTaxInPrice
+            displayTaxInPrice = ''
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_EXCL_TAX) {
-            const finalPrice = calculateFinalPrice(
-                discountPercentage,
-                minimalPriceExclTaxValue,
-                regularPriceExclTaxValue
-            );
-
-            return formatPrice(finalPrice, priceCurrency);
+            return formatPrice(minimalPriceExclTaxValue, priceCurrency);
         }
 
-        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-
-        return formatPrice(finalPrice, priceCurrency);
+        return formatPrice(minimalPriceValue, priceCurrency);
     }
 
     getFormattedSubPrice() {
@@ -170,14 +150,8 @@ export class ProductPriceContainer extends PureComponent {
                     final_price: {
                         currency: priceCurrency = ''
                     },
-                    discount: {
-                        percent_off: discountPercentage = 0
-                    } = {},
                     final_price_excl_tax: {
                         value: minimalPriceExclTaxValue = 0
-                    } = {},
-                    regular_price_excl_tax: {
-                        value: regularPriceExclTaxValue = 0
                     } = {}
                 } = {}
             } = {},
@@ -185,13 +159,7 @@ export class ProductPriceContainer extends PureComponent {
         } = this.props;
 
         if (displayTaxInPrice === DISPLAY_PRODUCT_PRICES_IN_CATALOG_BOTH) {
-            const finalPrice = calculateFinalPrice(
-                discountPercentage,
-                minimalPriceExclTaxValue,
-                regularPriceExclTaxValue
-            );
-
-            return formatPrice(finalPrice, priceCurrency);
+            return formatPrice(minimalPriceExclTaxValue, priceCurrency);
         }
 
         return null;
