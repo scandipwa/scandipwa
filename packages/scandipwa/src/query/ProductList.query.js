@@ -220,7 +220,8 @@ export class ProductListQuery {
             'sku',
             'name',
             'type_id',
-            'stock_status'
+            'stock_status',
+            this._getStockItemField()
         ];
 
         // Additional fields, which we want to return always, except when it's variants on PLP (due to hugh number of items)
@@ -422,7 +423,8 @@ export class ProductListQuery {
     _getStockItemFields() {
         return [
             'min_sale_qty',
-            'max_sale_qty'
+            'max_sale_qty',
+            'qty_increments'
         ];
     }
 

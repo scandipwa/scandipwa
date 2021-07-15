@@ -466,5 +466,8 @@
     "Sign In": null,
     "Retype your password": null,
     "Coupon code discount: ": null,
-    "Discount: ": null
+    "Discount: ": null,
+    "The minimum amount you can purchase is %s": null,
+    "The maximum amount you can purchase is %s": null,
+    "You can buy this product only in quantities of %s at a time.": null
 }

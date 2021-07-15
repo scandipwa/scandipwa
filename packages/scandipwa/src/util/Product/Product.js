@@ -450,3 +450,22 @@ export const getBooleanLabel = (label, isBoolean = false) => {
 
     return +label ? __('Yes') : __('No');
 };
+
+/** @namespace Util/Product/validateProductQuantity */
+export const validateProductQuantity = (quantity, stockItem) => {
+    const { min_sale_qty = 1, max_sale_qty, qty_increments = 1 } = stockItem;
+
+    if (quantity < min_sale_qty) {
+        return [false, __('The minimum amount you can purchase is %s', min_sale_qty)];
+    }
+
+    if (quantity > max_sale_qty) {
+        return [false, __('The maximum amount you can purchase is %s', max_sale_qty)];
+    }
+
+    if (qty_increments > 1 && quantity % qty_increments !== 0) {
+        return [false, __('You can buy this product only in quantities of %s at a time.', qty_increments)];
+    }
+
+    return [true];
+};
