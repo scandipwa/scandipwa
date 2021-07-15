@@ -103,7 +103,10 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
-        const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK ? __('Out of stock') : __('In stock');
+        const stockStatusLabel = stockStatus === PRODUCT_OUT_OF_STOCK || !stockStatus
+            ? __('Out of stock')
+            : __('In stock');
+
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
 
