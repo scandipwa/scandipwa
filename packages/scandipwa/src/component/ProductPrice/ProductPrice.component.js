@@ -36,7 +36,6 @@ export class ProductPrice extends PureComponent {
         price: PriceType,
         label: PropTypes.string,
         price_tiers: PropTypes.array,
-        formattedDefaultFinalPriceExclTax: PropTypes.number,
         mix: MixType
     };
 
@@ -49,7 +48,6 @@ export class ProductPrice extends PureComponent {
         formattedFinalPrice: '0',
         formattedSubPrice: null,
         variantsCount: 0,
-        formattedDefaultFinalPriceExclTax: '0',
         mix: {},
         price: {},
         label: '',
@@ -103,7 +101,7 @@ export class ProductPrice extends PureComponent {
         }
 
         return (
-            <PriceSemanticElementName>
+            <PriceSemanticElementName block="ProductPrice" elem="Price">
                 { this.renderPriceBadge(label) }
                 <span { ...priceSchema }>{ formattedFinalPrice }</span>
             </PriceSemanticElementName>
@@ -139,7 +137,7 @@ export class ProductPrice extends PureComponent {
     renderOldPrice() {
         const {
             discountPercentage,
-            formattedDefaultFinalPriceExclTax,
+            roundedRegularPrice,
             isSchemaRequired,
             variantsCount,
             price_tiers,
@@ -148,7 +146,7 @@ export class ProductPrice extends PureComponent {
 
         const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
 
-        if (discountPercentage === 0 || price_tiers.length || label) {
+        if (discountPercentage === 0 || roundedRegularPrice === 0 || price_tiers.length || label) {
             return null;
         }
 
@@ -159,7 +157,7 @@ export class ProductPrice extends PureComponent {
               aria-label={ __('Old product price') }
               { ...schema }
             >
-                { formattedDefaultFinalPriceExclTax }
+                { roundedRegularPrice }
             </del>
         );
     }

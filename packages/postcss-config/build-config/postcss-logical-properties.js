@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,15 +16,15 @@ module.exports = {
     plugin: {
         overrideCracoConfig: ({ cracoConfig }) => {
             if (!cracoConfig.style) {
-                cracoConfig.style = {};
+                Object.assign(cracoConfig, { style: {} });
             }
 
             if (!cracoConfig.style.postcss) {
-                cracoConfig.style.postcss = {};
+                Object.assign(cracoConfig.style, { postcss: {} });
             }
 
             if (!cracoConfig.style.postcss.plugins) {
-                cracoConfig.style.postcss.plugins = [];
+                Object.assign(cracoConfig.style.postcss, { plugins: [] });
             }
 
             cracoConfig.style.postcss.plugins.push(

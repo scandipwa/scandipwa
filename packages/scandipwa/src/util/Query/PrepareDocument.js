@@ -82,6 +82,18 @@ export const prepareRequest = (fields, type) => {
     // Wrap arguments with "()" and join using ","
     const formattedArgs = resolvedArgs.length ? `(${resolvedArgs.join(',')})` : '';
 
+    if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.log(
+            '%cGraphQL Request',
+            'background-color: #ff00ff; color: #ffffff; font-weight: bold; border-radius: 5px; padding: 2px 5px',
+            {
+                query: `${type}${formattedArgs}{${fieldStrings}}`,
+                variables
+            }
+        );
+    }
+
     return {
         // format like "query($var_1:String){test(arg: $var_1){id}}"
         query: `${type}${formattedArgs}{${fieldStrings}}`,

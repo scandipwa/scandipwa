@@ -19,9 +19,9 @@
     }
 
     &-Content {
-        ul,
-        ol {
-            margin-block-start: 10px;
+
+        .cms-content {
+            @include default-list;
         }
 
         h2 {
@@ -108,5 +108,9 @@
         @include mobile {
             font-size: 14px;
         }
+    }
+
+    .widget {
+        overflow-x: scroll;
     }
 }

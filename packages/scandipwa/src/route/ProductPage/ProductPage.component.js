@@ -11,18 +11,15 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
+import Loader from 'Component/Loader/Loader.component';
 import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
-import ProductAttributes from 'Component/ProductAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import ProductGallery from 'Component/ProductGallery';
-import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
 import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
-import ProductReviews from 'Component/ProductReviews';
 import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import ProductTabs from 'Component/ProductTabs';
 import NoMatchHandler from 'Route/NoMatchHandler';
@@ -36,6 +33,23 @@ import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
+
+export const ProductGallery = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-gallery" */
+    'Component/ProductGallery'
+));
+export const ProductInformation = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-info" */
+    'Component/ProductInformation'
+));
+export const ProductReviews = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-reviews" */
+    'Component/ProductReviews'
+));
+export const ProductAttributes = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-attributes" */
+    'Component/ProductAttributes'
+));
 
 /** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
@@ -110,10 +124,12 @@ export class ProductPage extends PureComponent {
 
         return (
             <>
-                <ProductGallery
-                  product={ productOrVariant }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
+                <Suspense fallback={ <Loader /> }>
+                    <ProductGallery
+                      product={ productOrVariant }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                </Suspense>
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
@@ -165,11 +181,13 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <ProductInformation
-              product={ { ...dataSource, parameters } }
-              areDetailsLoaded={ areDetailsLoaded }
-              key={ key }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <ProductInformation
+                  product={ { ...dataSource, parameters } }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
+                />
+            </Suspense>
         );
     }
 
@@ -181,11 +199,13 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <ProductAttributes
-              product={ { ...dataSource, parameters } }
-              areDetailsLoaded={ areDetailsLoaded }
-              key={ key }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <ProductAttributes
+                  product={ { ...dataSource, parameters } }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
+                />
+            </Suspense>
         );
     }
 
@@ -196,11 +216,13 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <ProductReviews
-              product={ dataSource }
-              areDetailsLoaded={ areDetailsLoaded }
-              key={ key }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <ProductReviews
+                  product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
+                />
+            </Suspense>
         );
     }
 

@@ -9,6 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const PRODUCT_IN_STOCK = 'IN_STOCK';
+.MyAccountOverlay {
+    &-SignInButton {
+        margin-block-start: 20px;
+    }
 
-export const PRODUCT_OUT_OF_STOCK = 'OUT_OF_STOCK';
+    #forgot-password-label {
+        margin-block-end: 0;
+    }
+
+    .CreateAccount {
+        margin-inline-start: 5px;
+    }
+}

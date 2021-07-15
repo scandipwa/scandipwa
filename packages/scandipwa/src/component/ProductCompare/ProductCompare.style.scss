@@ -11,7 +11,7 @@
 
 :root {
     --product-compare-area-width: var(--content-wrapper-width);
-    --product-compare-sidebar-width: 300px;
+    --product-compare-sidebar-width: 330px;
     --product-compare-sidebar-padding: 30px;
     --product-compare-item-count: 3.2;
     --product-compare-item-gap: 15px;
@@ -52,15 +52,12 @@
         inset-inline-start: 0;
         background-color: $white;
         z-index: 10;
-
-        @include mobile {
-            display: none;
-        }
     }
 
     &-Item {
-        flex: 0 0 auto;
+        flex: 1;
         width: var(--product-compare-column-width);
+        max-width: var(--product-compare-column-width);
         padding-inline-end: var(--product-compare-item-gap);
 
         &:last-child {
@@ -82,9 +79,13 @@
     }
 
     .ClearButton {
+        flex: 1;
         display: flex;
         align-items: center;
         padding-inline-end: var(--product-compare-sidebar-padding);
+        position: sticky;
+        inset-inline-start: 0;
+        max-width: calc(var(--product-compare-sidebar-width) + var(--product-compare-item-gap));
 
         @include mobile {
             display: none;
@@ -115,6 +116,10 @@
 
         &:last-child {
             padding-inline-end: 0;
+        }
+
+        @include mobile {
+            margin-block-start: 26px;
         }
     }
 }

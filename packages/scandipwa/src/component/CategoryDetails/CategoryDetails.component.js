@@ -44,21 +44,9 @@ export class CategoryDetails extends PureComponent {
             return null;
         }
 
-        if (!isCurrentCategoryLoaded) {
-            return this.renderCategoryNamePlaceholder();
-        }
-
         return (
             <h1 block="CategoryDetails" elem="Heading">
-                <TextPlaceholder content={ name } />
-            </h1>
-        );
-    }
-
-    renderCategoryNamePlaceholder() {
-        return (
-            <h1 block="CategoryDetails" elem="Heading">
-                <TextPlaceholder />
+                { isCurrentCategoryLoaded ? <TextPlaceholder content={ name } /> : <TextPlaceholder /> }
             </h1>
         );
     }

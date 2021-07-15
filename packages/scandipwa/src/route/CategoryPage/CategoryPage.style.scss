@@ -44,6 +44,12 @@
         @include mobile {
             padding-block-start: 16px;
         }
+
+        &_isPrerendered {
+            @include mobile {
+                padding-top: 120px;
+            }
+        }
     }
 
     &-ItemsCount {
@@ -155,6 +161,16 @@
 
         p {
             margin-block-end: 0;
+        }
+
+        &_isPrerendered {
+            @include mobile {
+                display: flex;
+                position: absolute;
+                bottom: -50px;
+                left: 0;
+                right: 0;
+            }
         }
     }
 

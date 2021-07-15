@@ -140,17 +140,19 @@ export class CarouselScroll extends PureComponent {
         const { showArrow, children: { length: childrenLength }, showedItemCount } = this.props;
         const { firstCarouselItemId } = this.state;
 
-        if (!showArrow
-            || childrenLength <= showedItemCount
-            || (isNextArrow && firstCarouselItemId === 0)
-            || (isNextArrow && firstCarouselItemId >= this.getMaxFirstItemId())) {
+        if (!showArrow || childrenLength <= showedItemCount) {
             return null;
         }
+
+        // render hidden arrow to avoid carousel jumping on error hide/appear
+        const isInvisible = (!isNextArrow && firstCarouselItemId === 0)
+            || (isNextArrow && firstCarouselItemId >= this.getMaxFirstItemId());
 
         return (
             <CarouselScrollArrow
               isNextArrow={ isNextArrow }
               onClick={ this.handleArrowClick }
+              isInvisible={ isInvisible }
             />
         );
     }

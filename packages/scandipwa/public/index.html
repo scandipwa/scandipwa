@@ -24,7 +24,8 @@
             }());
 
         window.contentConfiguration = {};
-        window.storeList = ['default'];
+        // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
+        window.storeList = ['default'].sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
     </script>
 </head>

@@ -88,7 +88,7 @@ export class ProductCustomizableOption extends PureComponent {
                   block="ProductCustomizableOptions"
                   elem="Heading"
                 >
-                    { `${ mainTitle } + ` }
+                    { `${ mainTitle } ` }
                 </span>
                 <span
                   block="ProductCustomizableOptions"
@@ -106,11 +106,12 @@ export class ProductCustomizableOption extends PureComponent {
             option_type_id,
             title,
             price,
+            priceInclTax,
             price_type,
             currency
         } = item;
 
-        const priceLabel = renderOptionLabel(price_type, price, currency);
+        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
 
         return (
             <Field
@@ -244,9 +245,7 @@ export class ProductCustomizableOption extends PureComponent {
         const { title } = option;
 
         return (
-            <span block="ProductCustomizableOptions" elem="HeadingBold">
-                { title }
-            </span>
+            <strong>{ title }</strong>
         );
     }
 
@@ -259,13 +258,14 @@ export class ProductCustomizableOption extends PureComponent {
                     {
                         price_type = 'FIXED',
                         price = 0,
+                        priceInclTax,
                         currency
                     } = {}
                 ] = []
             }
         } = this.props;
 
-        const priceLabel = renderOptionLabel(price_type, price, currency);
+        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
 
         return this.renderHeading(title, priceLabel);
     }

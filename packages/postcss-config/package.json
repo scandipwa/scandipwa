@@ -1,12 +1,12 @@
 {
-    "name": "rtl-support",
+    "name": "@scandipwa/postcss-config",
     "version": "0.0.0",
     "license": "OSL-3.0",
     "scandipwa": {
         "type": "extension",
         "build": {
             "cracoPlugins": [
-                "build-config/craco-config.js"
+                "build-config/postcss-logical-properties.js"
             ]
         }
     },

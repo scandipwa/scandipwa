@@ -150,7 +150,6 @@
             }
 
             &_minicart {
-                @include minicart-button;
 
                 @include desktop {
                     margin-inline-start: 35px;
@@ -391,5 +390,38 @@
         display: flex;
         justify-content: center;
         margin-block-end: var(--header-total-height);
+
+        &_isPrerendered {
+            @include mobile {
+                .Header-TopMenu,
+                .Menu-MenuWrapper {
+                    display: none;
+                }
+
+                .Header-Nav {
+                    & > * {
+                        display: none;
+                    }
+
+                    .Header {
+                        &-Title,
+                        &-LogoWrapper,
+                        &-Button {
+                            &_isVisible {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-MinicartIcon {
+        @include minicart-button;
+
+        display: inline-block;
+        height: 24px;
+        width: 24px;
     }
 }

@@ -10,21 +10,26 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableRow';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import { downloadableType } from 'Type/Account';
-import { DeviceType } from 'Type/Device';
 
 /** @namespace Component/MyAccountDownloadable/Component */
-export class MyAccountDownloadableComponent extends PureComponent {
+export class MyAccountDownloadableComponent extends Component {
     static propTypes = {
         items: PropTypes.arrayOf(downloadableType).isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired
+        isLoading: PropTypes.bool.isRequired
     };
+
+    shouldComponentUpdate(nextProps) {
+        const { items } = this.props;
+        const { items: nextItems } = nextProps;
+
+        return items !== nextItems;
+    }
 
     renderPopup() {
         return <MyAccountOrderPopup />;
@@ -51,12 +56,6 @@ export class MyAccountDownloadableComponent extends PureComponent {
     }
 
     renderTable() {
-        const { device } = this.props;
-
-        if (device.isMobile) {
-            return this.renderMobileTable();
-        }
-
         return (
             <table
               block="MyAccountMyOrders"
@@ -73,10 +72,6 @@ export class MyAccountDownloadableComponent extends PureComponent {
                 </tbody>
             </table>
         );
-    }
-
-    renderMobileTable() {
-        return this.renderOrderRows();
     }
 
     renderOrderRow = (order) => {

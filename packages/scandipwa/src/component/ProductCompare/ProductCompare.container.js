@@ -48,8 +48,8 @@ export class ProductCompareContainer extends PureComponent {
         clearCompareList: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         products: ProductItemsType,
-        items: PropTypes.object,
-        attributes: PropTypes.object
+        items: PropTypes.array,
+        attributes: PropTypes.array
     };
 
     static defaultProps = {

@@ -68,6 +68,12 @@ export class ProductCompareQuery extends ProductListQuery {
             .addFieldList(this._getCompareListFields());
     }
 
+    getCompareListIds(uid) {
+        return new Field('compareList')
+            .addArgument('uid', 'ID!', uid)
+            .addField(this._getComparableItemIdsField());
+    }
+
     _getCompareListFields() {
         return [
             'uid',
@@ -110,6 +116,12 @@ export class ProductCompareQuery extends ProductListQuery {
         ];
     }
 
+    _getComparableItemIdsFields() {
+        return [
+            this._getProductIdsField()
+        ];
+    }
+
     _getProductField() {
         return new Field('product')
             .addFieldList(this._getProductInterfaceFields(true, false))
@@ -118,9 +130,25 @@ export class ProductCompareQuery extends ProductListQuery {
             .addField(this._getRatingSummaryField());
     }
 
+    _getProductIdsField() {
+        return new Field('product')
+            .addFieldList(this._getProductIdsFields());
+    }
+
     _getComparableItemField() {
         return new Field('items')
             .addFieldList(this._getComparableItemFields());
+    }
+
+    _getComparableItemIdsField() {
+        return new Field('items')
+            .addFieldList(this._getComparableItemIdsFields());
+    }
+
+    _getProductIdsFields() {
+        return [
+            'id'
+        ];
     }
 }
 

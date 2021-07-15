@@ -31,7 +31,8 @@ import {
     getCartShippingSubPrice,
     getCartSubtotal,
     getCartSubtotalSubPrice,
-    getCartTotalSubPrice, getItemsCountLabel,
+    getCartTotalSubPrice,
+    getItemsCountLabel,
     hasOutOfStockProductsInCartItems
 } from 'Util/Cart';
 import history from 'Util/History';

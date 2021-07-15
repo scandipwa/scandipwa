@@ -46,7 +46,6 @@
     &-Wrapper {
         display: grid;
         grid-gap: 12px;
-        height: 130px;
         padding: 12px;
         background: var(--color-white);
         align-items: center;
@@ -94,6 +93,10 @@
     &-Options {
         color: var(--secondary-dark-color);
         font-size: 12px;
+
+        @include mobile {
+            padding-block-end: 12px;
+        }
     }
 
     &-Option {
@@ -188,6 +191,7 @@
 
         &_isMobileLayout {
             justify-content: space-between;
+            align-items: flex-end;
         }
     }
 
@@ -245,10 +249,11 @@
 
         button {
             cursor: pointer;
-
-            @include mobile {
-                padding: 14px;
-            }
+            //
+            //@include mobile {
+            //    width: 36px;
+            //    height: 36px;
+            //}
         }
     }
 
@@ -258,14 +263,21 @@
         color: var(--color-white);
     }
 
-    .ProductPrice-SubPrice {
-        font-size: 12px;
-        font-weight: 400;
+    .ProductPrice {
+        @include desktop {
+            min-height: auto;
+        }
+
+        &-SubPrice {
+            font-size: 12px;
+            font-weight: 400;
+        }
     }
 
     .CartItem-QuantityWrapper_isCartOverlay {
         & button {
-            padding: 14px;
+            width: 36px;
+            height: 36px;
         }
 
         .CartItem-Qty {

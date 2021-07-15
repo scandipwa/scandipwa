@@ -29,6 +29,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { isCrawler, isSSR } from 'Util/Browser';
 import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
@@ -50,6 +51,7 @@ import {
     FILTER,
     MENU,
     MENU_SUBCATEGORY,
+    NO_MATCH,
     PDP,
     POPUP,
     PRODUCT_COMPARE,
@@ -110,6 +112,9 @@ export class Header extends NavigationAbstract {
         [DEFAULT_STATE_NAME]: {
             title: true,
             logo: true
+        },
+        [NO_MATCH]: {
+            title: true
         },
         [POPUP]: {
             title: true,
@@ -421,13 +426,8 @@ export class Header extends NavigationAbstract {
             onSignIn
         } = this.props;
 
-        // This is here to prevent the popup-suspense from rendering
-        if (!showMyAccountLogin) {
-            return null;
-        }
-
         return (
-            <Suspense fallback={ this.renderAccountOverlayFallback() }>
+            <Suspense fallback={ showMyAccountLogin ? this.renderAccountOverlayFallback() : null }>
                 <MyAccountOverlay
                   onSignIn={ onSignIn }
                   isCheckout={ isCheckout }
@@ -689,7 +689,11 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <section block="Header" elem="Wrapper">
+            <section
+              block="Header"
+              elem="Wrapper"
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
+            >
                 <header
                   block="Header"
                   mods={ { name, isHiddenOnMobile, isCheckout } }

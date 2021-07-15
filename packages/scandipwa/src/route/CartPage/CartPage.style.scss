@@ -16,10 +16,12 @@
 }
 
 .CartPage {
-    margin-block-end: var(--header-nav-height);
+    margin-block-end: var(--footer-total-height);
 
     @include mobile {
-        margin-block-end: calc(var(--header-nav-height) + var(--footer-totals-height));
+        --footer-totals-height: 123px;
+
+        padding-block-end: var(--footer-totals-height);
         padding-inline: 16px;
     }
 
@@ -47,10 +49,8 @@
         background: var(--color-white);
 
         @include mobile {
-            inset-block-end: var(--navigation-tabs-height);
             inset-inline-start: 0;
             width: 100%;
-            border-block-start: 1px solid var(--primary-divider-color);
         }
     }
 
@@ -112,9 +112,9 @@
             padding: 24px 12px;
 
             @include mobile {
+                margin-block-start: 12px;
                 padding: 14px;
-                border: 0;
-                border-block-end: 1px solid var(--primary-divider-color);
+                border: 1px solid var(--primary-divider-color);
             }
         }
 
@@ -202,10 +202,8 @@
     }
 
     &-Heading {
-        height: 36px;
         margin-block-start: 24px;
         margin-block-end: 18px;
-        font-size: 24px;
 
         @include mobile {
             display: none;

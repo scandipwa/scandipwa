@@ -10,28 +10,51 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import ProductCompareAttributeRow from 'Component/ProductCompareAttributeRow';
 import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
+import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
 
 import './ProductCompare.style';
 
 /** @namespace Component/ProductCompare/Component */
-export class ProductCompare extends PureComponent {
+export class ProductCompare extends Component {
     static propTypes = {
         clearCompareList: PropTypes.func.isRequired,
         getAttributes: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
-        products: ProductItemsType
+        products: ProductItemsType,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
         isLoading: false,
         products: []
     };
+
+    shouldComponentUpdate(nextProps) {
+        const { products } = this.props;
+        const { products: nextProducts } = nextProps;
+
+        return products !== nextProducts;
+    }
+
+    renderHeading() {
+        const { device } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
+
+        return (
+            <h1 block="ContactPage" elem="Heading">
+                { __('Product compare') }
+            </h1>
+        );
+    }
 
     renderClearButton() {
         const { clearCompareList } = this.props;
@@ -66,9 +89,8 @@ export class ProductCompare extends PureComponent {
     renderPriceLabel() {
         return (
             <div
-              block="ProductCompare"
-              elem="FirstColumn"
-              mix={ { block: 'PriceLabel' } }
+              block="ProductCompareAttributeRow"
+              elem="Title"
             >
                 { __('Price') }
             </div>
@@ -131,7 +153,7 @@ export class ProductCompare extends PureComponent {
         );
     }
 
-    render() {
+    renderContent() {
         const {
             isLoading,
             products
@@ -147,6 +169,15 @@ export class ProductCompare extends PureComponent {
         }
 
         return this.renderProducts();
+    }
+
+    render() {
+        return (
+            <>
+            { this.renderHeading() }
+            { this.renderContent() }
+            </>
+        );
     }
 }
 

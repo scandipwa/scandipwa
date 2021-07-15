@@ -23,7 +23,6 @@
         font-size: 24px;
 
         @include mobile {
-
             font-size: 25px;
         }
     }
@@ -35,6 +34,12 @@
     }
 
     &-Rating {
+
+        [dir="rtl"] & {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
         margin-block-start: 12px;
         margin-block-end: 16px;
         margin-inline: 0;

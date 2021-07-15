@@ -16,6 +16,7 @@ import Image from 'Component/Image/Image.container';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import bag from 'Style/icons/bag.svg';
 import { MixType } from 'Type/Common';
+import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
 
 import './AddToCart.style';
@@ -31,8 +32,9 @@ export class AddToCart extends PureComponent {
         product: ProductType,
         mix: MixType,
         buttonClick: PropTypes.func.isRequired,
-        layout: PropTypes.string,
-        isWithIcon: PropTypes.bool
+        layout: LayoutType,
+        isWithIcon: PropTypes.bool,
+        disabled: PropTypes.bool
     };
 
     static defaultProps = {
@@ -40,7 +42,8 @@ export class AddToCart extends PureComponent {
         mix: {},
         isLoading: false,
         layout: GRID_LAYOUT,
-        isWithIcon: false
+        isWithIcon: false,
+        disabled: false
     };
 
     renderPlaceholder() {
@@ -71,7 +74,8 @@ export class AddToCart extends PureComponent {
             product: { type_id },
             isLoading,
             buttonClick,
-            layout
+            layout,
+            disabled
         } = this.props;
 
         if (!type_id) {
@@ -84,7 +88,7 @@ export class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading, layout } }
-              disabled={ isLoading }
+              disabled={ isLoading || disabled }
             >
                 { this.renderCartIcon() }
                 <span>{ isLoading ? __('Adding...') : __('Add to cart') }</span>

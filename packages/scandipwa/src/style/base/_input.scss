@@ -75,6 +75,7 @@ textarea {
     order: 2;
     text-align: center;
     width: var(--input-type-number-width);
+    pointer-events: none;
 
     &:focus {
         border: 1px solid var(--input-border-color);
@@ -95,41 +96,32 @@ textarea {
         line-height: 0;
         margin: 0;
         order: 1;
-        padding: 22px;
+        display: flex;
+        width: 48px;
+        height: 48px;
+        align-items: center;
+        justify-content: center;
         position: relative;
         inset-block-start: 0;
 
         @include mobile {
-            padding: 16px;
+            width: 36px;
+            height: 36px;
+        }
+
+        &:not([disabled]):hover {
+            filter: var(--primary-dark-filter);
         }
 
         &:first-of-type {
             inset-inline-start: 0;
             order: 3;
-
-            &::before {
-                @include plus-icon;
-            }
         }
 
         &:last-of-type {
             inset-block-end: 0;
             inset-inline-end: 0;
             order: 1;
-
-            &::before {
-                @include minus-icon;
-            }
-        }
-
-        &:first-of-type,
-        &:last-of-type {
-            &::before {
-                content: ' ';
-                position: absolute;
-                inset-inline-start: calc(50% - 12px);
-                inset-block-start: calc(50% - 11px);
-            }
         }
 
         &:disabled {
@@ -141,11 +133,6 @@ textarea {
             @include mobile {
                 inset-block-start: -2px;
             }
-        }
-
-        @include mobile {
-            width: 18px;
-            height: 18px;
         }
     }
 }

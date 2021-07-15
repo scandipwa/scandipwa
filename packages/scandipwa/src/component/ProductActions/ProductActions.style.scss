@@ -87,6 +87,7 @@
         color: var(--primary-base-color);
         cursor: pointer;
         inset-block-end: -2px;
+        font-size: 14px;
     }
 
     &-Section {
@@ -139,11 +140,6 @@
         &_isWithoutPriceTotal .ProductActions-Section_type_sku {
             @include mobile {
                 float: end;
-                //display: flex;
-                //flex-direction: row;
-                //justify-content: space-between;
-                //width: 100%;
-                //align-items: center;
             }
         }
     }
@@ -188,12 +184,29 @@
             flex-wrap: wrap;
             justify-content: space-between;
         }
+
+        &_isPrerendered {
+            @include mobile {
+                bottom: 0;
+            }
+        }
     }
 
     &-Qty {
         &.Field {
             margin-block: 0;
-            margin-inline-end: 32px;
+
+            @include desktop {
+                margin-inline-end: 32px;
+            }
+
+            @include mobile {
+                margin-inline-end: 12px;
+
+                input {
+                    min-width: 36px;
+                };
+            }
         }
 
         button {

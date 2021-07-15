@@ -64,9 +64,9 @@ export class CartOverlay extends PureComponent {
     }
 
     renderCartItems() {
-        const { totals: { items, quote_currency_code } } = this.props;
+        const { totals: { items = [], quote_currency_code } } = this.props;
 
-        if (!items || items.length < 1) {
+        if (items.length < 1) {
             return this.renderNoCartItems();
         }
 
@@ -148,6 +148,36 @@ export class CartOverlay extends PureComponent {
         );
     }
 
+    renderCouponCode = (code) => (
+        <strong block="CartOverlay" elem="DiscountCoupon">{ code }</strong>
+    );
+
+    renderDiscount() {
+        const {
+            totals: {
+                applied_rule_ids,
+                discount_amount,
+                coupon_code
+            }
+        } = this.props;
+
+        if (!applied_rule_ids || !discount_amount) {
+            return null;
+        }
+
+        const label = coupon_code ? __('Coupon code discount: ') : __('Discount: ');
+
+        return (
+            <dl
+              block="CartOverlay"
+              elem="Discount"
+            >
+                <dt>{ label }</dt>
+                <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+            </dl>
+        );
+    }
+
     renderSecureCheckoutButton() {
         const { handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
 
@@ -189,14 +219,15 @@ export class CartOverlay extends PureComponent {
     }
 
     renderCartAdditional() {
-        const { totals: { items } } = this.props;
+        const { totals: { items = [] } } = this.props;
 
-        if (!items || items.length < 1) {
+        if (items.length < 1) {
             return null;
         }
 
         return (
             <div block="CartOverlay" elem="Additional">
+                { this.renderDiscount() }
                 { this.renderTax() }
                 { this.renderTotals() }
                 { this.renderOutOfStockProductsWarning() }

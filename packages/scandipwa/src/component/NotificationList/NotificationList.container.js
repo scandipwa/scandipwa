@@ -12,6 +12,8 @@
 import { connect } from 'react-redux';
 
 import { hideNotification } from 'Store/Notification/Notification.action';
+import NotificationReducer from 'Store/Notification/Notification.reducer';
+import { withReducers } from 'Util/DynamicReducer';
 
 import NotificationList from './NotificationList.component';
 
@@ -27,4 +29,6 @@ export const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);
+export default withReducers({
+    NotificationReducer
+})(connect(mapStateToProps, mapDispatchToProps)(NotificationList));
