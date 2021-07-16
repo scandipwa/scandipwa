@@ -277,7 +277,7 @@ export class ProductActionsContainer extends PureComponent {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === OUT_OF_STOCK) {
+        if (stock_status === OUT_OF_STOCK || !stock_status) {
             return 'https://schema.org/OutOfStock';
         }
 
