@@ -56,6 +56,10 @@ export class CategorySortContainer extends PureComponent {
                 asc: __('%s: Low to High', label),
                 desc: __('%s: High to Low', label)
             };
+        case 'none':
+            return {
+                asc: __('- None -')
+            };
         default:
             return {
                 asc: __('%s: Ascending', label),

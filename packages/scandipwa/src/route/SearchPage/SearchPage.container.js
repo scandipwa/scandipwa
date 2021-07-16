@@ -27,6 +27,7 @@ import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
 
 import SearchPage from './SearchPage.component';
+import { NONE_SORT_OPTION } from './SearchPage.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -94,6 +95,11 @@ export class SearchPageContainer extends CategoryPageContainer {
     static defaultProps = {
         ...this.defaultProps,
         isSearchPage: true
+    };
+
+    config = {
+        sortKey: 'none',
+        sortDirection: 'ASC'
     };
 
     updateMeta() {
@@ -183,6 +189,21 @@ export class SearchPageContainer extends CategoryPageContainer {
         return query;
     }
 
+    getSortFields() {
+        const {
+            sortFields: {
+                options = []
+            } = {}
+        } = this.props;
+
+        return {
+            options: [
+                NONE_SORT_OPTION,
+                ...options
+            ]
+        };
+    }
+
     render() {
         return (
             <SearchPage
@@ -191,6 +212,7 @@ export class SearchPageContainer extends CategoryPageContainer {
               { ...this.containerProps() }
               // addded here to not override the container props
               search={ this.getSearchParam() }
+              sortFields={ this.getSortFields() }
             />
         );
     }
