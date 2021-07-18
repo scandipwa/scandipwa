@@ -60,8 +60,8 @@ import {
 
 import './Header.style';
 
-export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
-export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
+export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "overlay" */ 'Component/CartOverlay'));
+export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "overlay" */ 'Component/MyAccountOverlay'));
 
 /** @namespace Component/Header/Component */
 export class Header extends NavigationAbstract {

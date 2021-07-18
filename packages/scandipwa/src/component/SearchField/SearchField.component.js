@@ -28,7 +28,7 @@ import './SearchField.style';
 
 export const SearchOverlay = lazy(
     () => import(
-        /* webpackMode: "lazy", webpackChunkName: "category" */
+        /* webpackMode: "lazy", webpackChunkName: "overlay" */
         'Component/SearchOverlay'
     )
 );
