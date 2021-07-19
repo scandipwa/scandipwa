@@ -33,7 +33,12 @@
 
         @include desktop {
             grid-column-gap: 48px;
+            grid-template-areas: '. actions';
             padding-block-end: 72px;
+
+            .ProductActions {
+                grid-area: actions;
+            }
         }
 
         @include mobile {
