@@ -31,18 +31,14 @@
         grid-template-rows: min-content min-content;
         padding-block-start: 24px;
 
-        @include after-mobile {
+        @include desktop {
+            grid-column-gap: 48px;
             grid-template-areas: '. actions';
-            padding-bottom: 7.2rem;
+            padding-block-end: 72px;
 
             .ProductActions {
                 grid-area: actions;
             }
-        }
-
-        @include desktop {
-            grid-column-gap: 48px;
-            padding-block-end: 72px;
         }
 
         @include mobile {
