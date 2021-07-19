@@ -240,11 +240,9 @@ export class Router extends PureComponent {
         }
 
         return (
-            <Suspense fallback={ this.renderFallbackPage() }>
-                <Switch>
-                    { this.renderComponentsOfType(SWITCH_ITEMS_TYPE) }
-                </Switch>
-            </Suspense>
+            <Switch>
+                { this.renderComponentsOfType(SWITCH_ITEMS_TYPE) }
+            </Switch>
         );
     }
 
@@ -295,9 +293,11 @@ export class Router extends PureComponent {
         return (
             <>
                 <Meta />
-                <ReactRouter history={ history }>
-                    { this.renderRouterContent() }
-                </ReactRouter>
+                <Suspense fallback={ this.renderFallbackPage() }>
+                    <ReactRouter history={ history }>
+                        { this.renderRouterContent() }
+                    </ReactRouter>
+                </Suspense>
             </>
         );
     }
