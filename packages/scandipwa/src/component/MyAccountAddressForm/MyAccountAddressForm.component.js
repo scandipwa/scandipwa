@@ -122,7 +122,7 @@ export class MyAccountAddressForm extends FieldForm {
         // avoid region reset when coming back to shipping step
         if (prevCountryId && prevCountryId !== countryId) {
             this.setState({
-                regionId: available_regions[0]?.id || null
+                regionId: available_regions?.length ? available_regions[0].id : null
             });
         }
     };
