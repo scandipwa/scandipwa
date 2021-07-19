@@ -16,7 +16,7 @@ import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddres
 import { getCityAndRegionFromZipcode } from 'Util/Address';
 import { debounce } from 'Util/Request';
 
-import { UPDATE_STATE_FREQUENCY } from './CheckoutAddressForm.config';
+import { REQUEST_SHIPPING_METHODS_FREQUENCY } from './CheckoutAddressForm.config';
 
 /** @namespace Component/CheckoutAddressForm/Component */
 export class CheckoutAddressForm extends MyAccountAddressForm {
@@ -31,17 +31,20 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         onShippingEstimationFieldsChange: () => {}
     };
 
-    onChange = debounce((key, value) => {
-        this.setState(() => ({ [key]: value }));
-    }, UPDATE_STATE_FREQUENCY);
+    onChange = (key, value) => this.setState(() => ({ [key]: value }));
 
     __construct(props) {
         super.__construct(props);
 
         const {
-            address: { region: { region = '' } = {} },
-            default_country,
-            country_id
+            shippingFields: {
+                city = '',
+                region_id: regionId = null,
+                region_string: region = '',
+                default_country,
+                country_id = '',
+                postcode = ''
+            }
         } = this.props;
 
         const countryId = country_id || default_country;
@@ -51,12 +54,20 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             ...this.state,
             countryId,
             region,
-            city: '',
-            postcode: ''
+            regionId,
+            city,
+            postcode
         };
+    }
 
+    componentDidMount() {
         this.estimateShipping();
     }
+
+    estimateShippingDebounced = debounce(
+        this.estimateShipping.bind(this),
+        REQUEST_SHIPPING_METHODS_FREQUENCY
+    );
 
     componentDidUpdate(_, prevState) {
         const {
@@ -82,7 +93,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             || region !== prevRegion
             || postcode !== prevPostcode
         ) {
-            this.estimateShipping();
+            this.estimateShippingDebounced();
         }
     }
 
