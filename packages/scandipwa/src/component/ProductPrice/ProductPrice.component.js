@@ -34,7 +34,7 @@ export class ProductPrice extends PureComponent {
         defaultFinalPriceExclTax: PropTypes.number,
         variantsCount: PropTypes.number,
         price: PriceType,
-        formattedDefaultFinalPriceExclTax: PropTypes.number,
+        formattedDefaultFinalPriceExclTax: PropTypes.string,
         mix: MixType
     };
 
@@ -47,7 +47,7 @@ export class ProductPrice extends PureComponent {
         formattedFinalPrice: '0',
         formattedSubPrice: null,
         variantsCount: 0,
-        formattedDefaultFinalPriceExclTax: 0,
+        formattedDefaultFinalPriceExclTax: '0',
         mix: {},
         price: {}
     };

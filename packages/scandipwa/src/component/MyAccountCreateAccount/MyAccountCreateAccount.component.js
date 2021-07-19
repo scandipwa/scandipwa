@@ -17,6 +17,8 @@ import Form from 'Component/Form';
 import { signInStateType } from 'Type/Account';
 import history from 'Util/History';
 
+import './MyAccountCreateAccount.style.scss';
+
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
     static propTypes = {

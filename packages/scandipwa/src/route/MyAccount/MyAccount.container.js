@@ -46,7 +46,8 @@ export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    newsletterActive: state.ConfigReducer.newsletter_general_active
 });
 
 /** @namespace Route/MyAccount/Container/mapDispatchToProps */
@@ -75,6 +76,7 @@ export class MyAccountContainer extends PureComponent {
         history: HistoryType.isRequired,
         device: DeviceType.isRequired,
         wishlistItems: PropTypes.object,
+        newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired
     };
@@ -111,12 +113,13 @@ export class MyAccountContainer extends PureComponent {
     };
 
     static isTabEnabled(props, tabName) {
-        const { isWishlistEnabled } = props;
+        const { isWishlistEnabled, newsletterActive } = props;
 
         switch (tabName) {
         case MY_WISHLIST:
             return isWishlistEnabled;
-
+        case NEWSLETTER_SUBSCRIPTION:
+            return newsletterActive;
         default:
             return true;
         }
