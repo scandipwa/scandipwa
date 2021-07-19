@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { NONE_SORT_OPTION_VALUE } from 'Route/SearchPage/SearchPage.config';
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { Field, Fragment } from 'Util/Query';
@@ -122,7 +123,13 @@ export class ProductListQuery {
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
-                handler: ({ sortKey, sortDirection }) => ({ [sortKey]: sortDirection || 'ASC' })
+                handler: ({ sortKey, sortDirection }) => {
+                    if (sortKey === NONE_SORT_OPTION_VALUE) {
+                        return {};
+                    }
+
+                    return { [sortKey]: sortDirection || 'ASC' };
+                }
             },
             filter: {
                 type: 'ProductAttributeFilterInput!',
