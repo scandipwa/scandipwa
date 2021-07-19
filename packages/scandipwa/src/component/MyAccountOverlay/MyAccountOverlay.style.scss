@@ -146,6 +146,7 @@
                 padding: 6px;
             }
         }
+
         @include desktop {
             padding: 6px;
         }
@@ -153,7 +154,6 @@
 
     &-Action form,
     &-Additional {
-
         @include mobile {
             padding-block-start: 14px;
             padding-inline: 14px;
@@ -222,6 +222,7 @@
                         display: none;
                     }
                 }
+
                 @include desktop {
                     width: 180px;
                     padding: 0;
@@ -304,7 +305,6 @@
             }
 
             &_forgotPassword {
-
                 section {
                     display: flex;
 

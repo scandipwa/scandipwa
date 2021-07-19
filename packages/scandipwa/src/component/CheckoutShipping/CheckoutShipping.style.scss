@@ -12,7 +12,6 @@
 .Checkout {
   .CheckoutShipping {
     &-Button {
-
       span {
         @include lock-button;
       }

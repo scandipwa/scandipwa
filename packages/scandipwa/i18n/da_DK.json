@@ -409,7 +409,6 @@
     "Write a review": null,
     "1 item": null,
     "Welcome, %s!": null,
-    "here": null,
     "Personal information": null,
     "Payment": null,
     "quantity": null,
@@ -469,5 +468,6 @@
     "Discount: ": null,
     "The minimum amount you can purchase is %s": null,
     "The maximum amount you can purchase is %s": null,
-    "You can buy this product only in quantities of %s at a time.": null
+    "You can buy this product only in quantities of %s at a time.": null,
+    "Read more": null
 }

@@ -53,7 +53,6 @@
             font-size: 36px;
 
             @include mobile {
-
                 font-size: 28px;
             }
         }
@@ -64,7 +63,6 @@
             font-size: 18px;
 
             @include mobile {
-
                 max-width: 280px;
                 margin: 0 auto;
                 font-size: 14px;

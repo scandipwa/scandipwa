@@ -243,6 +243,9 @@ export class StyleGuidePageComponent extends PureComponent {
 
         const isMatchingInfoFilter = true;
 
+        // eslint-disable-next-line max-len
+        const longText = __('Product badges, also known as product labels or product stickers structuring products in engaging categories e.g. sales, new, popular to initiate purchase journey by highlighting key products.');
+
         return (
             <>
                 <h4 block="StyleGuidePage" elem="SubHeading">
@@ -275,9 +278,7 @@ export class StyleGuidePageComponent extends PureComponent {
                 </h4>
                 <CategoryPagination totalPages={ 10 } id="pagination" />
                 <p>
-                    { __('Product badges, also known as product labels or product stickers structuring'
-                        + ' products in engaging categories e.g. sales, new, popular to initiate purchase journey'
-                        + ' by highlighting key products.') }
+                    { longText }
                 </p>
                 <h4 block="StyleGuidePage" elem="SubHeading">
                     { __('Layered navigation') }
@@ -308,7 +309,7 @@ export class StyleGuidePageComponent extends PureComponent {
 
     renderItem = (title, render) => (
         <div block="StyleGuidePage" elem="Component" key={ title }>
-            <h1 block="StyleGuidePage" elem="Heading">{ __(title) }</h1>
+            <h1 block="StyleGuidePage" elem="Heading">{ title }</h1>
             { render() }
         </div>
     );

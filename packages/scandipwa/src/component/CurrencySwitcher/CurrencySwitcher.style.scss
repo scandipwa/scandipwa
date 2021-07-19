@@ -22,7 +22,6 @@
         margin-block-start: 0;
 
         &Select {
-
             @include desktop {
                 width: var(--selector-width);
                 padding-inline-start: 12px;

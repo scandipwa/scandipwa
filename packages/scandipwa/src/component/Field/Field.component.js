@@ -192,7 +192,7 @@ export class Field extends PureComponent {
                     { label }
                     { subLabel && (
                         <strong block="Field" elem="SubLabel">
-                        { ` (${subLabel})` }
+                            { ` (${subLabel})` }
                         </strong>
                     ) }
                 </span>

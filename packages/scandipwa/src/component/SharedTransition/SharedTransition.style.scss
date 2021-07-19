@@ -28,7 +28,6 @@
         inset-block-start: var(--header-total-height);
         inset-inline-start: 0;
     }
-
     &_isVisible {
         @include mobile {
             pointer-events: all;

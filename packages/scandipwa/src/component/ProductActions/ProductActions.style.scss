@@ -91,7 +91,6 @@
     }
 
     &-Section {
-
         &_type_sku {
             display: flex;
 
@@ -107,13 +106,11 @@
         min-width: 150px;
     }
 
-
     &-SchemaUrl {
         display: none;
     }
 
     &-PriceWrapper {
-
         @include desktop {
             margin-block-start: 24px;
         }
@@ -187,7 +184,7 @@
 
         &_isPrerendered {
             @include mobile {
-                bottom: 0;
+                inset-block-end: 0;
             }
         }
     }

@@ -34,8 +34,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/ProductPrice/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /**
  * Product price

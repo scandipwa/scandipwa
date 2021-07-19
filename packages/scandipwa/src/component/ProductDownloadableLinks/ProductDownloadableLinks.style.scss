@@ -77,7 +77,7 @@
             margin-inline-end: 16px;
         }
 
-        &:before {
+        &::before {
             content: ' '
         }
     }

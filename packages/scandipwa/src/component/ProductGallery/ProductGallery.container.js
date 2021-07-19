@@ -32,8 +32,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/ProductGallery/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/ProductGallery/Container */
 export class ProductGalleryContainer extends PureComponent {

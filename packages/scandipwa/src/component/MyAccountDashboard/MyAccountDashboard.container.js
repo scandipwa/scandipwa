@@ -21,6 +21,9 @@ export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer
 });
 
+/** @namespace Component/MyAccountDashboard/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/MyAccountDashboard/Container */
 export class MyAccountDashboardContainer extends PureComponent {
     static propTypes = {
@@ -47,9 +50,5 @@ export class MyAccountDashboardContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/MyAccountDashboard/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountDashboardContainer);

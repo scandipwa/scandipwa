@@ -22,7 +22,6 @@
         grid-auto-rows: max-content;
         grid-gap: 24px;
 
-
         @include tablet {
             grid-template-columns: repeat(2, 1fr);
             inset-block-start: var(--myaccount-wishlist-action-bar-offset);

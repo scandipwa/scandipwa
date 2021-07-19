@@ -34,7 +34,6 @@
     }
 
     &-Rating {
-
         [dir="rtl"] & {
             display: flex;
             flex-direction: row-reverse;
@@ -78,7 +77,6 @@
         margin-block-start: 12px;
 
         @include mobile {
-
             margin-block-start: 28px;
             width: 100%;
         }

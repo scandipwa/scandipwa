@@ -34,7 +34,8 @@
         justify-content: space-between;
     }
 
-    &Options-List, &Option {
+    &Options-List,
+    &Option {
         font-weight: 400;
         font-size: 12px;
         color: var(--secondary-dark-color);
@@ -107,7 +108,7 @@
             &-Price {
                 @include mobile {
                     width: min-content;
-                    text-align: right;
+                    text-align: end;
                 }
             }
 

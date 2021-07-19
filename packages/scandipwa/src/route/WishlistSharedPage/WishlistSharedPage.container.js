@@ -184,7 +184,6 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
 }
 
 /** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistSharedPageContainer);

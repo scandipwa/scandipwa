@@ -118,7 +118,7 @@ export class FieldSelect extends PureComponent {
               value={ value }
               disabled={ disabled }
             >
-                { label + subLabel }
+                { `${label}${subLabel}` }
             </option>
         );
     };

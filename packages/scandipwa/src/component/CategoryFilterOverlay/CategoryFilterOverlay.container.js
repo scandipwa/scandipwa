@@ -22,6 +22,7 @@ import { HistoryType, LocationType } from 'Type/Common';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
+import { KEY_PRICE } from './CategoryFilterOverlay.config';
 
 /** @namespace Component/CategoryFilterOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -249,7 +250,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
         const filterValueIndex = newFilterArray.indexOf(value);
 
-        if (filterKey === 'price') {
+        if (filterKey === KEY_PRICE) {
             // for price filter, choose one only
             // if price is already selected, remove
             // if price is not selected, select

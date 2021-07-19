@@ -12,7 +12,7 @@
 .MyAccountOverlay {
     &-Legend {
         legend {
-            padding: .8rem 0;
+            padding: 8px 0;
         }
     }
 
@@ -29,7 +29,6 @@
     }
 
     &-PasswordBlock {
-
         @include desktop {
             display: grid;
             grid-template-columns: repeat(2, 1fr);

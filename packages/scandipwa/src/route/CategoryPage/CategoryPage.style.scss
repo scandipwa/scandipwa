@@ -8,6 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
 :root {
     --category-page-miscellaneous-height: 0px;
 }
@@ -47,7 +48,7 @@
 
         &_isPrerendered {
             @include mobile {
-                padding-top: 120px;
+                padding-block-start: 120px;
             }
         }
     }
@@ -167,9 +168,9 @@
             @include mobile {
                 display: flex;
                 position: absolute;
-                bottom: -50px;
-                left: 0;
-                right: 0;
+                inset-block-end: -50px;
+                inset-inline-start: 0;
+                inset-inline-end: 0;
             }
         }
     }
@@ -192,8 +193,8 @@
                 height: 25px;
             }
 
-            &.grid_isActive, &.list_isActive {
-
+            &.grid_isActive,
+            &.list_isActive {
                 img {
                     filter: var(--primary-base-filter);
                 }

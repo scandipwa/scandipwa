@@ -23,8 +23,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/InstallPrompt/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/InstallPrompt/Container */
 export class InstallPromptContainer extends PureComponent {

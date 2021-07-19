@@ -225,7 +225,11 @@
             display: none;
         }
 
-        @include tablet; @include narrow-desktop {
+        @include tablet {
+            display: none;
+        }
+
+        @include narrow-desktop {
             display: none;
         }
     }
@@ -249,11 +253,6 @@
 
         button {
             cursor: pointer;
-            //
-            //@include mobile {
-            //    width: 36px;
-            //    height: 36px;
-            //}
         }
     }
 

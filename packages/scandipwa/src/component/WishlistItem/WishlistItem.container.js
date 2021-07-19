@@ -37,7 +37,6 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile
 });

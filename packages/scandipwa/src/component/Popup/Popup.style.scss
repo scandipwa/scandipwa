@@ -105,8 +105,8 @@
 
     .NotificationList {
         width: 100vw;
-        top: 0;
-        left: calc(0px - var(--popup-content-padding));
+        inset-block-start: 0;
+        inset-inline-start: calc(0px - var(--popup-content-padding));
         position: relative;
     }
 }

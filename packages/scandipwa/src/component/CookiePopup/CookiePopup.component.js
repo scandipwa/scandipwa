@@ -66,7 +66,7 @@ export class CookiePopup extends PureComponent {
               elem="Link"
               to={ cookieLink }
             >
-                { __('here') }
+                { __('Read more') }
             </Link>
         );
     }

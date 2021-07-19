@@ -14,12 +14,10 @@
 }
 
 .homepage-slider {
-
     h1 {
         margin-block-end: 30px;
 
         @include mobile {
-
             font-size: 30px;
             margin-block-end: 14px;
         }

@@ -376,7 +376,6 @@
     width: var(--radiobutton-size);
 }
 
-
 @mixin radiobutton-full {
     background-image: var(--imported_icons_chevron, url('./../icons/radiobutton_full.svg'));
     background-repeat: no-repeat;

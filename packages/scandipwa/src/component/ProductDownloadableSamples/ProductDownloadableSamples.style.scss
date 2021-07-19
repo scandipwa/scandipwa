@@ -27,9 +27,7 @@
         padding: 5px 0;
     }
 
-
     &-ExpandableContent {
-
         &Button {
             @include desktop {
                 display: none;

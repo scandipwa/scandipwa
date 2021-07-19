@@ -26,7 +26,6 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = () => ({});
 
 /** @namespace Component/ProductCustomizableOption/Container */

@@ -26,6 +26,9 @@ export const mapStateToProps = (state) => ({
     maxPriceValue: state.ProductListInfoReducer.maxPrice
 });
 
+/** @namespace Component/CategoryPriceRange/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/CategoryPriceRange/Container */
 export class CategoryPriceRangeContainer extends PureComponent {
     static propTypes = {
@@ -92,10 +95,6 @@ export class CategoryPriceRangeContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/CategoryPriceRange/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default withRouter(
     connect(mapStateToProps, mapDispatchToProps)(CategoryPriceRangeContainer)
