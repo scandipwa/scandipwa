@@ -18,7 +18,7 @@ import SharedTransitionContainer from 'Component/SharedTransition/SharedTransiti
 import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
-import { CONFIGURABLE, getVariantsIndexes } from 'Util/Product';
+import { CONFIGURABLE, filterConfigurableOptions, getVariantsIndexes } from 'Util/Product';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
@@ -196,14 +196,16 @@ export class ProductCardContainer extends PureComponent {
     }
 
     _getAvailableVisualOptions() {
-        const { product: { configurable_options = {} } } = this.props;
+        const { product: { configurable_options = {}, variants = {} } } = this.props;
 
         if (Object.keys(configurable_options).length === 0) {
             return [];
         }
 
+        const filteredOptions = filterConfigurableOptions(configurable_options, variants);
+
         // Find first option that has swatch_data in attribute_options property
-        const optionWithSwatchData = Object.values(configurable_options).find((option) => {
+        const optionWithSwatchData = Object.values(filteredOptions).find((option) => {
             const { attribute_options = {} } = option;
 
             return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
