@@ -109,6 +109,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
             ({ wishlist, wishlist: { items_count, creators_name: creatorsName } = {} }) => {
                 if (!items_count) {
                     this.setLoading(false);
+
                     return;
                 }
 
@@ -160,11 +161,13 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
 
     _getIsWishlistEmpty = () => {
         const { wishlistItems } = this.state;
+
         return Object.entries(wishlistItems).length <= 0;
     };
 
     getCode() {
         const { match: { params: { code } } } = this.props;
+
         return code;
     }
 
@@ -181,7 +184,6 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
 }
 
 /** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistSharedPageContainer);

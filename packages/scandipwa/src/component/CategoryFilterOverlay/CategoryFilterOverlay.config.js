@@ -12,3 +12,4 @@
  */
 
 export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
+export const KEY_PRICE = 'price';

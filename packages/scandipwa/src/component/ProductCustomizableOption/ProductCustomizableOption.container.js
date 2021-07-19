@@ -26,7 +26,6 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Component/ProductCustomizableOption/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = () => ({});
 
 /** @namespace Component/ProductCustomizableOption/Container */
@@ -173,7 +172,8 @@ export class ProductCustomizableOptionContainer extends PureComponent {
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} ${this.renderOptionLabel(price_type, priceInclTax, price, currency)}`
+                label: `${title} `,
+                subLabel: this.renderOptionLabel(price_type, priceInclTax, price, currency)
             });
 
             return acc;
