@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { IN_STOCK, OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -32,8 +32,12 @@ export const mapStateToProps = (state) => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
     device: state.ConfigReducer.device,
     displayProductStockStatus: state.ConfigReducer.display_product_stock_status,
-    isWishlistEnabled: state.ConfigReducer.wishlist_general_active
+    isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
+    areReviewsEnabled: state.ConfigReducer.reviews_are_enabled
 });
+
+/** @namespace Component/ProductActions/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/ProductActions/Container */
 export class ProductActionsContainer extends PureComponent {
@@ -110,6 +114,7 @@ export class ProductActionsContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this),
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
+        setRefs: this.setRefs.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
@@ -128,9 +133,15 @@ export class ProductActionsContainer extends PureComponent {
         return null;
     }
 
-    onConfigurableProductError = this.onProductError.bind(this, this.configurableOptionsRef);
+    setRefs(refs) {
+        const {
+            configurableOptionsRef,
+            groupedProductsRef
+        } = refs;
 
-    onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
+        this.onConfigurableProductError = this.onProductError.bind(this, configurableOptionsRef);
+        this.onGroupedProductError = this.onProductError.bind(this, groupedProductsRef);
+    }
 
     onProductError(ref) {
         if (!ref) {
@@ -198,7 +209,7 @@ export class ProductActionsContainer extends PureComponent {
                 const { attribute_value: foundValue } = attributes[attribute_code] || {};
 
                 return (
-                    stock_status === IN_STOCK
+                    stock_status === 'IN_STOCK'
                     // Variant must have currently checked attribute_code and attribute_value
                     && foundValue === attribute_value
                     // Variant must have all currently selected attributes
@@ -235,6 +246,7 @@ export class ProductActionsContainer extends PureComponent {
 
     getMetaLink() {
         const { getLink } = this.props;
+
         return window.location.origin + getLink().replace(/\?.*/, '');
     }
 
@@ -555,6 +567,7 @@ export class ProductActionsContainer extends PureComponent {
 
     _getGroupedProductQuantity() {
         const { groupedProductQuantity } = this.state;
+
         return groupedProductQuantity;
     }
 
@@ -595,9 +608,5 @@ export class ProductActionsContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/ProductActions/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductActionsContainer);

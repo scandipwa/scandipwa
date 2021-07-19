@@ -23,11 +23,9 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountForgotPassword/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = () => ({});
 
 /** @namespace Component/MyAccountForgotPassword/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({
     forgotPassword: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.forgotPassword(options, dispatch)
