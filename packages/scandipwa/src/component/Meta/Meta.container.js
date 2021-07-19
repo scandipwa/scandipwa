@@ -29,6 +29,9 @@ export const mapStateToProps = (state) => ({
     status_code: state.MetaReducer.status_code
 });
 
+/** @namespace Component/Meta/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/Meta/Container */
 export class MetaContainer extends PureComponent {
     static propTypes = {
@@ -122,9 +125,5 @@ export class MetaContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/Meta/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetaContainer);

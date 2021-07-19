@@ -23,6 +23,9 @@ export const mapStateToProps = (state) => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 
+/** @namespace Component/ProductLinks/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/ProductLinks/Container */
 export class ProductLinksContainer extends PureComponent {
     static propTypes = {
@@ -83,10 +86,6 @@ export class ProductLinksContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/ProductLinks/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default withReducers({
     LinkedProductsReducer
