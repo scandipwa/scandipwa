@@ -13,13 +13,19 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { MixType } from 'Type/Common';
+import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import {
     BUNDLE,
     CONFIGURABLE,
-    GROUPED
+    DOWNLOADABLE,
+    GROUPED,
+    validateProductQuantity
 } from 'Util/Product';
 
 import AddToCart from './AddToCart.component';
@@ -65,7 +71,10 @@ export class AddToCartContainer extends PureComponent {
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         onProductValidationError: PropTypes.func,
         productOptionsData: PropTypes.object.isRequired,
-        disableHandler: PropTypes.bool
+        disableHandler: PropTypes.bool,
+        mix: MixType,
+        disabled: PropTypes.bool,
+        layout: LayoutType
     };
 
     static defaultProps = {
@@ -74,19 +83,19 @@ export class AddToCartContainer extends PureComponent {
         setQuantityToDefault: () => {},
         onProductValidationError: () => {},
         isLoading: false,
-        disableHandler: false
+        disableHandler: false,
+        mix: {},
+        disabled: false,
+        layout: GRID_LAYOUT
     };
 
     state = { isLoading: false };
 
-    containerFunctions = {
-        buttonClick: this.buttonClick.bind(this)
-    };
-
     validationMap = {
         [CONFIGURABLE]: this.validateConfigurableProduct.bind(this),
         [GROUPED]: this.validateGroupedProduct.bind(this),
-        [BUNDLE]: this.validateBundleProduct.bind(this)
+        [BUNDLE]: this.validateBundleProduct.bind(this),
+        [DOWNLOADABLE]: this.validateDownloadableProduct.bind(this)
     };
 
     addToCartHandlerMap = {
@@ -94,24 +103,57 @@ export class AddToCartContainer extends PureComponent {
         [GROUPED]: this.addGroupedProductToCart.bind(this)
     };
 
+    containerFunctions = {
+        buttonClick: this.buttonClick.bind(this)
+    };
+
+    containerProps() {
+        const {
+            product,
+            mix,
+            disabled,
+            layout
+        } = this.props;
+        const { isLoading } = this.state;
+
+        return {
+            isLoading,
+            product,
+            mix,
+            disabled,
+            layout
+        };
+    }
+
     validateConfigurableProduct() {
         const {
             configurableVariantIndex,
             showNotification,
             product: {
                 variants = []
-            }
+            },
+            quantity
         } = this.props;
 
         if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
-            showNotification('info', __('Please select product options!'));
+            showNotification('info', __('Please, select product options!'));
+
             return false;
         }
 
-        const { stock_status: configurableStock } = variants[configurableVariantIndex];
+        const { stock_status: configurableStock, stock_item } = variants[configurableVariantIndex];
 
-        if (configurableStock !== 'IN_STOCK') {
+        if (configurableStock !== IN_STOCK) {
             showNotification('info', __('Sorry! The selected product option is out of stock!'));
+
+            return false;
+        }
+
+        const [validationStatus, message] = validateProductQuantity(quantity, stock_item);
+
+        if (validationStatus === false) {
+            showNotification('info', message);
+
             return false;
         }
 
@@ -123,7 +165,7 @@ export class AddToCartContainer extends PureComponent {
             groupedProductQuantity,
             showNotification,
             product: {
-                items
+                items = []
             }
         } = this.props;
 
@@ -131,6 +173,23 @@ export class AddToCartContainer extends PureComponent {
 
         if (!isAllItemsAvailable) {
             showNotification('info', __('Please specify the quantity of product(s)!'));
+
+            return false;
+        }
+
+        return true;
+    }
+
+    validateDownloadableProduct() {
+        const {
+            product: { links_purchased_separately },
+            productOptionsData: { downloadableLinks = [] },
+            showNotification
+        } = this.props;
+
+        if (links_purchased_separately && downloadableLinks.length === 0) {
+            showNotification('info', __('Please, select product links!'));
+
             return false;
         }
 
@@ -146,7 +205,8 @@ export class AddToCartContainer extends PureComponent {
         const validateBundleOptions = this.validateCustomizableOptions(productOptionsData, true);
 
         if (!validateBundleOptions) {
-            showNotification('info', __('Please select required option!'));
+            showNotification('info', __('Please, select required options!'));
+
             return false;
         }
 
@@ -156,13 +216,24 @@ export class AddToCartContainer extends PureComponent {
     validateSimpleProduct() {
         const {
             productOptionsData,
-            showNotification
+            showNotification,
+            product: { stock_item = {} },
+            quantity
         } = this.props;
 
         const validateCustomizableOptions = this.validateCustomizableOptions(productOptionsData);
 
         if (!validateCustomizableOptions) {
-            showNotification('info', __('Please select required option!'));
+            showNotification('info', __('Please, select required options!'));
+
+            return false;
+        }
+
+        const [validationStatus, message] = validateProductQuantity(quantity, stock_item);
+
+        if (validationStatus === false) {
+            showNotification('info', message);
+
             return false;
         }
 
@@ -197,6 +268,7 @@ export class AddToCartContainer extends PureComponent {
             items.find((item) => {
                 const { id, option_id } = item;
                 const matchWith = isBundle ? id : option_id;
+
                 return requiredOption === matchWith;
             })
         ));
@@ -303,13 +375,14 @@ export class AddToCartContainer extends PureComponent {
 
         if (addToCartHandler) {
             addToCartHandler();
+
             return;
         }
 
         this.addSimpleProductToCart();
     }
 
-    buttonClick() {
+    buttonClick(e) {
         const {
             product: { type_id } = {},
             onProductValidationError,
@@ -322,8 +395,11 @@ export class AddToCartContainer extends PureComponent {
 
         if (!this.validateAddToCart()) {
             onProductValidationError(type_id);
+
             return;
         }
+
+        e.preventDefault();
 
         this.setState({ isLoading: true }, () => this.addProductToCart());
     }
@@ -340,7 +416,7 @@ export class AddToCartContainer extends PureComponent {
             product: { type_id, variants = {} } = {}
         } = this.props;
 
-        if (type_id !== 'configurable') {
+        if (type_id !== CONFIGURABLE) {
             return;
         }
 
@@ -349,6 +425,7 @@ export class AddToCartContainer extends PureComponent {
         const wishlistItemKey = Object.keys(wishlistItems)
             .find((key) => {
                 const { wishlist: { sku: wSku } } = wishlistItems[key];
+
                 return wSku === sku;
             });
 
@@ -376,8 +453,7 @@ export class AddToCartContainer extends PureComponent {
     render() {
         return (
             <AddToCart
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

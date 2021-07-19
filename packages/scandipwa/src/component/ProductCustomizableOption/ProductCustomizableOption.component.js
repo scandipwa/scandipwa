@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 
 import {
@@ -89,11 +88,11 @@ export class ProductCustomizableOption extends PureComponent {
                   block="ProductCustomizableOptions"
                   elem="Heading"
                 >
-                    { `${ mainTitle } + ` }
+                    { `${ mainTitle } ` }
                 </span>
                 <span
                   block="ProductCustomizableOptions"
-                  elem="HeadingBold"
+                  elem="HeadingPrice"
                 >
                     { titleBold }
                 </span>
@@ -107,11 +106,12 @@ export class ProductCustomizableOption extends PureComponent {
             option_type_id,
             title,
             price,
+            priceInclTax,
             price_type,
             currency
         } = item;
 
-        const priceLabel = renderOptionLabel(price_type, price, currency);
+        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
 
         return (
             <Field
@@ -244,7 +244,9 @@ export class ProductCustomizableOption extends PureComponent {
         const { option } = this.props;
         const { title } = option;
 
-        return title;
+        return (
+            <strong>{ title }</strong>
+        );
     }
 
     renderTextFieldTitle() {
@@ -256,24 +258,20 @@ export class ProductCustomizableOption extends PureComponent {
                     {
                         price_type = 'FIXED',
                         price = 0,
+                        priceInclTax,
                         currency
                     } = {}
                 ] = []
             }
         } = this.props;
 
-        const priceLabel = renderOptionLabel(price_type, price, currency);
+        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
 
         return this.renderHeading(title, priceLabel);
     }
 
     render() {
-        const {
-            option: {
-                option_id
-            },
-            optionType
-        } = this.props;
+        const { optionType } = this.props;
 
         const optionRenderMap = this.renderMap[optionType];
 
@@ -284,14 +282,12 @@ export class ProductCustomizableOption extends PureComponent {
         const { render, title } = optionRenderMap;
 
         return (
-            <ExpandableContent
-              heading={ title() }
-              mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
-              key={ option_id }
-              isContentExpanded
-            >
-                { render() }
-            </ExpandableContent>
+            <div block="ProductCustomizableOptions" elem="Wrapper">
+                { title() }
+                <div block="ProductCustomizableOptions" elem="Content">
+                    { render() }
+                </div>
+            </div>
         );
     }
 }

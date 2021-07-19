@@ -17,14 +17,12 @@ import MenuItem from './MenuItem.component';
 import { HOVER_TIMEOUT } from './MenuItem.config';
 
 /** @namespace Component/Menu/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
 });
 
 /** @namespace Component/Menu/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/MenuItem/Container/menuItemContainer */
 export class MenuItemContainer extends PureComponent {

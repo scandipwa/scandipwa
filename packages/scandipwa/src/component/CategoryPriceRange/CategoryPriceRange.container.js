@@ -26,6 +26,9 @@ export const mapStateToProps = (state) => ({
     maxPriceValue: state.ProductListInfoReducer.maxPrice
 });
 
+/** @namespace Component/CategoryPriceRange/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/CategoryPriceRange/Container */
 export class CategoryPriceRangeContainer extends PureComponent {
     static propTypes = {
@@ -60,6 +63,7 @@ export class CategoryPriceRangeContainer extends PureComponent {
         const { minPriceValue, maxPriceValue } = this.props;
         const { defaultPriceRange: { min: defaultMin, max: defaultMax } } = this.config;
         const { min, max } = this._getPriceRangeFromUrl();
+
         return { min: min || minPriceValue || defaultMin, max: max || maxPriceValue || defaultMax };
     }
 
@@ -67,6 +71,7 @@ export class CategoryPriceRangeContainer extends PureComponent {
         const { location } = this.props;
         const min = +getQueryParam('priceMin', location);
         const max = +getQueryParam('priceMax', location);
+
         return { min, max };
     }
 
@@ -90,10 +95,6 @@ export class CategoryPriceRangeContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/CategoryPriceRange/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default withRouter(
     connect(mapStateToProps, mapDispatchToProps)(CategoryPriceRangeContainer)

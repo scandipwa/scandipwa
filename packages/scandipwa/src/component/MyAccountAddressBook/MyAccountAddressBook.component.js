@@ -10,30 +10,36 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import { customerType } from 'Type/Account';
+import { getDefaultAddressLabel } from 'Util/Address';
 
 import './MyAccountAddressBook.style';
 
 /** @namespace Component/MyAccountAddressBook/Component */
-export class MyAccountAddressBook extends PureComponent {
+export class MyAccountAddressBook extends Component {
     static propTypes = {
         customer: customerType.isRequired,
-        getDefaultPostfix: PropTypes.func.isRequired,
         showCreateNewPopup: PropTypes.func.isRequired
     };
+
+    shouldComponentUpdate(nextProps) {
+        const { customer } = this.props;
+        const { customer: nextCustomer } = nextProps;
+
+        return customer !== nextCustomer;
+    }
 
     renderPopup() {
         return <MyAccountAddressPopup />;
     }
 
     renderAddress = (address, index) => {
-        const { getDefaultPostfix } = this.props;
         const addressNumber = index + 1;
-        const postfix = getDefaultPostfix(address);
+        const postfix = getDefaultAddressLabel(address);
 
         return (
             <MyAccountAddressTable
@@ -58,9 +64,9 @@ export class MyAccountAddressBook extends PureComponent {
 
         return (
             <button
-              block="MyAccountAddressBook"
-              elem="Button"
-              mix={ { block: 'Button' } }
+              block="Button"
+              mix={ { block: 'MyAccountAddressBook', elem: 'Button' } }
+              mods={ { isHollow: true } }
               onClick={ showCreateNewPopup }
             >
                 { __('Add new address') }

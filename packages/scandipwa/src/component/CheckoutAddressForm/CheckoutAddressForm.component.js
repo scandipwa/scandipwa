@@ -39,12 +39,17 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         super.__construct(props);
 
         const {
-            address: { region: { region = '' } = {} }
+            address: { region: { region = '' } = {} },
+            default_country,
+            country_id
         } = this.props;
+
+        const countryId = country_id || default_country;
 
         // TODO: get from region data
         this.state = {
             ...this.state,
+            countryId,
             region,
             city: '',
             postcode: ''
@@ -67,7 +72,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             regionId: prevRegionId,
             region: prevRegion,
             city: prevCity,
-            postcode: prevpostcode
+            postcode: prevPostcode
         } = prevState;
 
         if (
@@ -75,7 +80,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             || regionId !== prevRegionId
             || city !== prevCity
             || region !== prevRegion
-            || postcode !== prevpostcode
+            || postcode !== prevPostcode
         ) {
             this.estimateShipping();
         }
@@ -124,7 +129,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     get fieldMap() {
         // country_id, region, region_id, city - are used for shipping estimation
-        const { shippingFields } = this.props;
+        const { shippingFields, countries } = this.props;
 
         const {
             default_billing,
@@ -132,8 +137,28 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             city,
             postcode,
             vat_id,
+            country_id,
+            telephone,
+            region_string,
+            region_id,
             ...fieldMap
         } = super.fieldMap;
+
+        // since object doesn't maintain the order of it's properties
+        // and last modified property goes to the end of the property list,
+        // move some of field into correct order.
+        fieldMap.country_id = {
+            ...country_id,
+            selectOptions: countries.map(({ id, label }) => ({ id, label, value: id }))
+        };
+
+        if (region_id) {
+            fieldMap.region_id = region_id;
+        }
+
+        if (region_string) {
+            fieldMap.region_string = region_string;
+        }
 
         fieldMap.city = {
             ...city,
@@ -147,9 +172,11 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             onBlur: this.onZipcodeChange
         };
 
-        // since object doesn't maintain the order of it's properties
-        // and last modified property goes to the end of the property list,
-        // move vat_id after postcode
+        // Make phone the last field
+        if (telephone) {
+            fieldMap.telephone = telephone;
+        }
+
         if (vat_id) {
             fieldMap.vat_id = vat_id;
         }

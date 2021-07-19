@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const EMAIL_TYPE = 'email';
 export const TEXT_TYPE = 'text';
 export const NUMBER_TYPE = 'number';
 export const RADIO_TYPE = 'radio';

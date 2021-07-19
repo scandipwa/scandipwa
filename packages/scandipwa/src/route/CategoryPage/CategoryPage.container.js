@@ -17,6 +17,7 @@ import { CATEGORY } from 'Component/Header/Header.config';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import { GRID_LAYOUT, LAYOUT_KEY, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 import { updateCurrentCategory } from 'Store/Category/Category.action';
+import CategoryReducer from 'Store/Category/Category.reducer';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { setBigOfflineNotice } from 'Store/Offline/Offline.action';
@@ -27,6 +28,8 @@ import {
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getFiltersCount } from 'Util/Category';
+import { withReducers } from 'Util/DynamicReducer';
 import { debounce } from 'Util/Request';
 import {
     appendWithStoreCode,
@@ -133,14 +136,16 @@ export class CategoryPageContainer extends PureComponent {
             })
         }),
         selectedInfoFilter: PropTypes.shape({
-            categoryIds: PropTypes.number
+            categoryIds: PropTypes.number,
+            customFilters: PropTypes.objectOf(PropTypes.array)
         }),
         isInfoLoading: PropTypes.bool.isRequired,
         isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isSearchPage: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
-        plpType: PropTypes.string
+        plpType: PropTypes.string,
+        device: PropTypes.shape({}).isRequired
     };
 
     static defaultProps = {
@@ -391,6 +396,14 @@ export class CategoryPageContainer extends PureComponent {
         return categoryIds === selectedCategoryIds;
     }
 
+    getAppliedFiltersCount() {
+        const {
+            selectedInfoFilter: { customFilters = {} }
+        } = this.props;
+
+        return getFiltersCount(customFilters);
+    }
+
     isCurrentCategoryLoaded() {
         const {
             categoryIds,
@@ -408,6 +421,7 @@ export class CategoryPageContainer extends PureComponent {
         isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
         isMatchingListFilter: this.getIsMatchingListFilter(),
         isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
+        appliedFiltersCount: this.getAppliedFiltersCount(),
         selectedSort: this.getSelectedSortFromUrl(),
         selectedFilters: this.getSelectedFiltersFromUrl(),
         isContentFiltered: this.isContentFiltered(),
@@ -430,6 +444,7 @@ export class CategoryPageContainer extends PureComponent {
 
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
+
             return { ...acc, [key]: value };
         }, {});
     }
@@ -443,6 +458,7 @@ export class CategoryPageContainer extends PureComponent {
                 return acc;
             }
             const [key, value] = filter.split(':');
+
             return { ...acc, [key]: value.split(',') };
         }, {});
     }
@@ -486,6 +502,7 @@ export class CategoryPageContainer extends PureComponent {
         const { location } = this.props;
         const min = +getQueryParam('priceMin', location);
         const max = +getQueryParam('priceMax', location);
+
         return { min, max };
     }
 
@@ -685,4 +702,6 @@ export class CategoryPageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer);
+export default withReducers({
+    CategoryReducer
+})(connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer));

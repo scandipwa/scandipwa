@@ -31,8 +31,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/NavigationAbstract/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/NavigationAbstract/Container */
 export class NavigationAbstractContainer extends PureComponent {
@@ -81,9 +80,11 @@ export class NavigationAbstractContainer extends PureComponent {
 
         const activeRoute = Object.keys(this.routeMap)
             .find((route) => (
-                route !== '/'
+                (route !== '/' && route !== '')
                 || pathname === appendWithStoreCode('/')
                 || pathname === '/'
+                || pathname === appendWithStoreCode('')
+                || pathname === ''
             ) && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;

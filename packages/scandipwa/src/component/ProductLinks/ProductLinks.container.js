@@ -12,7 +12,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import LinkedProductsReducer from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { ProductType } from 'Type/ProductList';
+import { withReducers } from 'Util/DynamicReducer';
 
 import ProductLinks from './ProductLinks.component';
 
@@ -20,6 +22,9 @@ import ProductLinks from './ProductLinks.component';
 export const mapStateToProps = (state) => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
+
+/** @namespace Component/ProductLinks/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/ProductLinks/Container */
 export class ProductLinksContainer extends PureComponent {
@@ -82,8 +87,6 @@ export class ProductLinksContainer extends PureComponent {
     }
 }
 
-/** @namespace Component/ProductLinks/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductLinksContainer);
+export default withReducers({
+    LinkedProductsReducer
+})(connect(mapStateToProps, mapDispatchToProps)(ProductLinksContainer));

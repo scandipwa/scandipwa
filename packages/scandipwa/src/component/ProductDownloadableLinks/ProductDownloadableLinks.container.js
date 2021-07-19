@@ -21,8 +21,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/ProductDownloadableLinks/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/ProductDownloadableLinks/Container */
 export class ProductDownloadableLinksContainer extends PureComponent {
@@ -98,6 +97,7 @@ export class ProductDownloadableLinksContainer extends PureComponent {
         return selectedLinks.reduce(
             (base, { link_id }) => {
                 const link = links.find(({ id }) => id === link_id);
+
                 return base + link.price;
             },
             0

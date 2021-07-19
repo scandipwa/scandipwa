@@ -32,8 +32,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/ProductGallery/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/ProductGallery/Container */
 export class ProductGalleryContainer extends PureComponent {
@@ -91,7 +90,7 @@ export class ProductGalleryContainer extends PureComponent {
 
     onActiveImageChange(activeImage) {
         this.setState({
-            activeImage,
+            activeImage: Math.abs(activeImage),
             isZoomEnabled: false
         });
     }
@@ -113,19 +112,19 @@ export class ProductGalleryContainer extends PureComponent {
             return mediaGallery
                 .filter(({ disabled }) => !disabled)
                 .sort((a, b) => {
-                    const aThumbnail = a.types.includes(THUMBNAIL_KEY);
-                    const bThumbnail = b.types.includes(THUMBNAIL_KEY);
+                    const aBase = a.types.includes(IMAGE_TYPE);
+                    const bBase = b.types.includes(IMAGE_TYPE);
                     const sortResult = a.position - b.position;
 
-                    if (aThumbnail && bThumbnail) {
+                    if (aBase && bBase) {
                         return sortResult;
                     }
 
-                    if (aThumbnail) {
+                    if (aBase) {
                         return -1;
                     }
 
-                    if (bThumbnail) {
+                    if (bBase) {
                         return 1;
                     }
 
@@ -174,6 +173,7 @@ export class ProductGalleryContainer extends PureComponent {
      */
     _getProductName() {
         const { product: { name } } = this.props;
+
         return name;
     }
 

@@ -20,12 +20,14 @@ import {
     ACCOUNT_URL,
     MY_ACCOUNT_URL
 } from 'Route/MyAccount/MyAccount.config';
+import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
 
@@ -37,6 +39,10 @@ import {
     STATE_LOGGED_IN,
     STATE_SIGN_IN
 } from './MyAccountOverlay.config';
+
+export const MyAccountDispatcher = import(
+    'Store/MyAccount/MyAccount.dispatcher'
+);
 
 /** @namespace Component/MyAccountOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -55,7 +61,10 @@ export const mapDispatchToProps = (dispatch) => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     showOverlay: (overlayKey) => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: (headerState) => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    logout: () => MyAccountDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.logout(false, dispatch)
+    )
 });
 
 /** @namespace Component/MyAccountOverlay/Container */
@@ -73,6 +82,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         hideActiveOverlay: PropTypes.func.isRequired,
         device: DeviceType.isRequired,
         redirectToDashboard: PropTypes.bool.isRequired,
+        logout: PropTypes.func.isRequired,
         isLoading: PropTypes.bool
     };
 
@@ -145,6 +155,22 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
+    }
+
+    componentDidMount() {
+        const {
+            isSignedIn,
+            showNotification,
+            isOverlayVisible,
+            logout
+        } = this.props;
+
+        const customer = BrowserDatabase.getItem(CUSTOMER) || null;
+
+        if (!isSignedIn && customer && !isOverlayVisible) {
+            showNotification('error', __('Your session is over, you are logged out!'));
+            logout();
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -237,6 +263,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (device.isMobile) {
             history.push({ pathname: appendWithStoreCode('/my-account'), state: { isForgotPassword: true } });
+
             return state;
         }
 
