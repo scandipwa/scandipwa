@@ -143,13 +143,13 @@
     }
 
     &-ShippingButton {
-        margin-right: 1rem;
-        margin-bottom: 1rem;
+        margin-inline-end: 10px;
+        margin-block-end: 10px;
     }
 
     &-DeliverySelect {
         @include mobile {
-            margin-top: 1rem;
+            margin-block-start: 10px;
         }
     }
 
