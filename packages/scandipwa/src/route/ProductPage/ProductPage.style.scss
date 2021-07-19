@@ -32,7 +32,12 @@
 
         @include after-mobile {
             grid-column-gap: 4.8rem;
+            grid-template-areas: '. actions';
             padding-bottom: 7.2rem;
+
+            .ProductActions {
+                grid-area: actions;
+            }
         }
 
         @include mobile {
