@@ -72,7 +72,7 @@ export class ContactForm extends FieldForm {
             // eslint-disable-next-line no-param-reassign
             input.value = '';
         });
-    }
+    };
 
     renderActions() {
         const { isLoading } = this.props;
