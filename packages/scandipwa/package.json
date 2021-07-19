@@ -9,7 +9,7 @@
         "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/m2-theme": "0.1.6",
+        "@scandipwa/m2-theme": "0.2.0-next.265+ddc4f62b",
         "@scandipwa/postcss-config": "^0.0.0",
         "@scandipwa/scandipwa-scripts": "^2.4.9",
         "@scandipwa/service-worker": "^0.0.10",
