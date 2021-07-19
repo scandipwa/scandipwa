@@ -78,7 +78,7 @@ export class Breadcrumb extends PureComponent {
 
     renderName() {
         const { name } = this.props;
-        const cleanName = name.replace('+', ' ');
+        const cleanName = name.replace(/([+])/g, ' ');
 
         return (
             <TextPlaceholder content={ cleanName } />
