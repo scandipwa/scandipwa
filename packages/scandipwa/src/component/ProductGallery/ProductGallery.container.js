@@ -62,7 +62,7 @@ export class ProductGalleryContainer extends PureComponent {
         const { product: { id } } = props;
 
         this.state = {
-            activeImage: 0,
+            activeImage: this.getBaseImage(),
             isZoomEnabled: false,
             prevProdId: id,
             isImageZoomPopupActive: false
@@ -71,12 +71,22 @@ export class ProductGalleryContainer extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const { product: { id } } = props;
-        const { prevProdId } = state;
+        const { prevProdId, activeImage } = state;
+
         if (prevProdId === id) {
             return null;
         }
 
-        return { prevProdId: id, activeImage: 0 };
+        return { prevProdId: id, activeImage };
+    }
+
+    componentDidUpdate(prevProps) {
+        const { product: { media_gallery_entries: mediaGallery = [] } } = this.props;
+        const { product: { media_gallery_entries: prevMediaGallery = [] } } = prevProps;
+
+        if (mediaGallery !== prevMediaGallery) {
+            this.onActiveImageChange(this.getBaseImage());
+        }
     }
 
     handleImageZoomPopupActiveChange(isImageZoomPopupActive) {
@@ -96,6 +106,22 @@ export class ProductGalleryContainer extends PureComponent {
         });
     }
 
+    getBaseImage() {
+        const {
+            product: {
+                media_gallery_entries: mediaGallery = []
+            }
+        } = this.props;
+
+        const baseImageIndex = mediaGallery.findIndex((value) => value.types.includes(IMAGE_TYPE));
+
+        if (baseImageIndex) {
+            return baseImageIndex;
+        }
+
+        return 0;
+    }
+
     getGalleryPictures() {
         const {
             areDetailsLoaded,
@@ -112,25 +138,7 @@ export class ProductGalleryContainer extends PureComponent {
         if (mediaGallery.length) {
             return mediaGallery
                 .filter(({ disabled }) => !disabled)
-                .sort((a, b) => {
-                    const aBase = a.types.includes(IMAGE_TYPE);
-                    const bBase = b.types.includes(IMAGE_TYPE);
-                    const sortResult = a.position - b.position;
-
-                    if (aBase && bBase) {
-                        return sortResult;
-                    }
-
-                    if (aBase) {
-                        return -1;
-                    }
-
-                    if (bBase) {
-                        return 1;
-                    }
-
-                    return sortResult;
-                });
+                .sort((a, b) => a.position - b.position);
         }
 
         if (!url) {
