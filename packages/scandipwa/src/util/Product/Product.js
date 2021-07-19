@@ -60,7 +60,7 @@ export const getIndexedAttributeOption = (option) => {
 };
 
 /** @namespace Util/Product/getIndexedAttributes */
-export const getIndexedAttributes = (attributes = []) => attributes?.reduce((indexedAttributes, attribute) => {
+export const getIndexedAttributes = (attributes) => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
 
     return {
