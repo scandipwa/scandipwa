@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 
 import FormPortal from 'Component/FormPortal';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
+import { getCityAndRegionFromZipcode } from 'Util/Address';
 import { debounce } from 'Util/Request';
 
 import { REQUEST_SHIPPING_METHODS_FREQUENCY } from './CheckoutAddressForm.config';
@@ -40,17 +41,21 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
                 city = '',
                 region_id: regionId = null,
                 region_string: region = '',
-                country_id: countryId = '',
+                default_country,
+                country_id = '',
                 postcode = ''
             }
         } = this.props;
 
+        const countryId = country_id || default_country;
+
+        // TODO: get from region data
         this.state = {
             ...this.state,
+            countryId,
             region,
             regionId,
             city,
-            countryId,
             postcode
         };
     }
@@ -78,7 +83,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             regionId: prevRegionId,
             region: prevRegion,
             city: prevCity,
-            postcode: prevpostcode
+            postcode: prevPostcode
         } = prevState;
 
         if (
@@ -86,7 +91,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             || regionId !== prevRegionId
             || city !== prevCity
             || region !== prevRegion
-            || postcode !== prevpostcode
+            || postcode !== prevPostcode
         ) {
             this.estimateShippingDebounced();
         }
@@ -112,9 +117,30 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         });
     }
 
+    onZipcodeChange = async (e) => {
+        const { value } = e.currentTarget;
+        const { countryId, availableRegions } = this.state;
+
+        const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
+        if (city) {
+            this.setState({
+                city
+            });
+        }
+
+        if (availableRegions.length > 0 && regionCode) {
+            const { id: regionId } = availableRegions
+                .find((r) => r.code.toUpperCase() === regionCode.toUpperCase());
+
+            if (regionId) {
+                this.setState({ regionId });
+            }
+        }
+    };
+
     get fieldMap() {
         // country_id, region, region_id, city - are used for shipping estimation
-        const { shippingFields } = this.props;
+        const { shippingFields, countries } = this.props;
 
         const {
             default_billing,
@@ -122,22 +148,46 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             city,
             postcode,
             vat_id,
+            country_id,
+            telephone,
+            region_string,
+            region_id,
             ...fieldMap
         } = super.fieldMap;
 
+        // since object doesn't maintain the order of it's properties
+        // and last modified property goes to the end of the property list,
+        // move some of field into correct order.
+        fieldMap.country_id = {
+            ...country_id,
+            selectOptions: countries.map(({ id, label }) => ({ id, label, value: id }))
+        };
+
+        if (region_id) {
+            fieldMap.region_id = region_id;
+        }
+
+        if (region_string) {
+            fieldMap.region_string = region_string;
+        }
+
         fieldMap.city = {
             ...city,
-            onChange: (value) => this.onChange('city', value)
+            onChange: (value) => this.onChange('city', value),
+            value: this.state.city
         };
 
         fieldMap.postcode = {
             ...postcode,
-            onChange: (value) => this.onChange('postcode', value)
+            onChange: (value) => this.onChange('postcode', value),
+            onBlur: this.onZipcodeChange
         };
 
-        // since object doesn't maintain the order of it's properties
-        // and last modified property goes to the end of the property list,
-        // move vat_id after postcode
+        // Make phone the last field
+        if (telephone) {
+            fieldMap.telephone = telephone;
+        }
+
         if (vat_id) {
             fieldMap.vat_id = vat_id;
         }

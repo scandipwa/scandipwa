@@ -21,76 +21,79 @@ import './ProductTabs.style';
 /** @namespace Component/ProductTabs/Component */
 export class ProductTabs extends PureComponent {
     static propTypes = {
-        tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-        children: PropTypes.node,
-        defaultTab: PropTypes.string
+        tabs: PropTypes.arrayOf(PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            render: PropTypes.func.isRequired
+        })).isRequired,
+        defaultTab: PropTypes.number
     };
 
     static defaultProps = {
-        children: null,
-        defaultTab: null
+        defaultTab: 0
     };
 
     __construct(props) {
         super.__construct(props);
 
-        const { defaultTab, tabNames } = this.props;
+        const { defaultTab } = this.props;
 
         this.state = {
-            activeTab: defaultTab || tabNames[0]
+            activeTab: defaultTab
         };
     }
 
-    onTabClick = (activeTab) => {
-        this.setState({
-            activeTab
-        });
+    onTabClick = (tab) => {
+        const { tabs } = this.props;
+        const { activeTab } = this.state;
+
+        const currentTab = tabs.findIndex(({ name }) => name === tab);
+
+        if (activeTab !== currentTab) {
+            this.setState({
+                activeTab: currentTab
+            });
+        }
     };
 
-    renderActiveTab(activeTab, childrenArray) {
-        const { tabNames } = this.props;
+    renderActiveTab() {
+        const { tabs } = this.props;
+        const { activeTab } = this.state;
 
-        return childrenArray.map((item, i) => {
-            if (tabNames[i].toLowerCase() === activeTab.toLowerCase()) {
-                return item;
-            }
-
-            return false;
-        });
+        return tabs[activeTab].render();
     }
 
-    renderAllTabs(childrenArray) {
-        return childrenArray.map((item) => item);
+    renderAllTabs() {
+        const { tabs } = this.props;
+
+        return tabs.map(({ render }) => render());
     }
 
-    renderTab = (_, i) => {
-        const { tabNames } = this.props;
+    renderTab = (item, i) => {
         const { activeTab } = this.state;
 
         return (
             <ProductTab
-              tabName={ tabNames[i] }
-              key={ tabNames[i] }
+              tabName={ item.name }
+              key={ i }
               onClick={ this.onTabClick }
-              isActive={ tabNames[i].toLowerCase() === activeTab.toLowerCase() }
+              isActive={ i === activeTab }
             />
         );
     };
 
     renderTabs() {
-        const { children } = this.props;
-        const { activeTab } = this.state;
+        const { tabs } = this.props;
+
+        if (isMobile.any()) {
+            return this.renderAllTabs();
+        }
 
         return (
             <>
-                <ul
-                  block="ProductTabs"
-                >
-                    { children.map(this.renderTab) }
+                <ul block="ProductTabs">
+                    { tabs.map(this.renderTab) }
                 </ul>
-                { isMobile.any()
-                    ? this.renderAllTabs(children)
-                    : this.renderActiveTab(activeTab, children) }
+                { this.renderActiveTab() }
             </>
         );
     }

@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
+import { LayoutType } from 'Type/Layout';
 import { FilterInputType } from 'Type/ProductList';
 
 import './CategoryProductList.style';
@@ -47,16 +48,18 @@ export class CategoryProductListContainer extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
-        isCurrentCategoryLoaded: PropTypes.bool,
+        layout: LayoutType,
         filter: FilterInputType,
-        requestProductList: PropTypes.func.isRequired
+        requestProductList: PropTypes.func.isRequired,
+        isCurrentCategoryLoaded: PropTypes.bool
     };
 
     static defaultProps = {
         isMatchingListFilter: false,
         isMatchingInfoFilter: false,
-        isCurrentCategoryLoaded: true,
-        filter: {}
+        isCurrentCategoryLoaded: false,
+        filter: {},
+        layout: 'grid'
     };
 
     containerFunctions = {
@@ -107,15 +110,21 @@ export class CategoryProductListContainer extends PureComponent {
         return isMatchingListFilter && isMatchingInfoFilter; // if filter match - prevent request
     }
 
+    getLayout() {
+        const { layout } = this.props;
+
+        return layout;
+    }
+
     requestProductList(options) {
         const { requestProductList } = this.props;
-        requestProductList(options);
+        requestProductList({ ...options, isPlp: true });
     }
 
     containerProps = () => ({
         isLoading: this.getIsLoading(),
         isPreventRequest: this.getIsPreventRequest(),
-        mix: { block: 'CategoryProductList' }
+        mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } }
     });
 
     render() {

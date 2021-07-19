@@ -1,5 +1,9 @@
-.SharedWishlistItem {
-    &-Row {
-        margin-top: 0;
+.WishlistItem {
+    display: block;
+
+    .SharedWishlistItem {
+        &-Row {
+            margin-block-start: 0;
+        }
     }
 }

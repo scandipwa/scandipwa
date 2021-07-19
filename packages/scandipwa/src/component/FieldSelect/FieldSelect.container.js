@@ -73,6 +73,7 @@ export class FieldSelectContainer extends PureComponent {
 
         return {
             selectOptions: this.sortSelectOptions(),
+            isDisabled: this.isSelectDisabled(),
             valueIndex,
             searchString,
             isSelectExpanded
@@ -90,6 +91,7 @@ export class FieldSelectContainer extends PureComponent {
         ).sort((a, b) => {
             const textA = a.label.toUpperCase();
             const textB = b.label.toUpperCase();
+
             // eslint-disable-next-line no-nested-ternary
             return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
         });
@@ -97,8 +99,16 @@ export class FieldSelectContainer extends PureComponent {
         return sortedOptions;
     }
 
+    isSelectDisabled() {
+        const { selectOptions } = this.props;
+
+        return selectOptions.length === 0;
+    }
+
     handleSelectExpand() {
-        this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
+        if (!this.isSelectDisabled()) {
+            this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
+        }
     }
 
     handleSelectExpandedExpand() {
@@ -169,6 +179,7 @@ export class FieldSelectContainer extends PureComponent {
         // on Enter pressed
         if (keyCode === ENTER_KEY_CODE) {
             this.handleSelectExpand();
+
             return;
         }
 

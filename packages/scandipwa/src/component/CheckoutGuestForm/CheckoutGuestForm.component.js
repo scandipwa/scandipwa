@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 
-import Field from 'Component/Field';
 import FieldForm from 'Component/FieldForm/FieldForm.component';
 import FormPortal from 'Component/FormPortal';
 import MyAccountConfirmEmail from 'Component/MyAccountConfirmEmail';
@@ -40,6 +39,7 @@ export class CheckoutGuestForm extends FieldForm {
         setSignInState: PropTypes.func.isRequired
     };
 
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
     componentDidUpdate(prevProps) {
         const { isEmailAvailable, setSignInState, signInState } = this.props;
         const { isEmailAvailable: prevIsEmailAvailable } = prevProps;
@@ -74,6 +74,7 @@ export class CheckoutGuestForm extends FieldForm {
         }
     };
 
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
     get fieldMap() {
         const {
             handleEmailInput,
@@ -87,6 +88,7 @@ export class CheckoutGuestForm extends FieldForm {
             guest_email: {
                 form: formId,
                 label: __('Email'),
+                type: 'email',
                 validation: ['notEmpty', 'email'],
                 onChange: handleEmailInput,
                 skipValue: true,
@@ -113,34 +115,6 @@ export class CheckoutGuestForm extends FieldForm {
             <h2 block="Checkout" elem="Heading">
                 { __('Enter personal information') }
             </h2>
-        );
-    }
-
-    renderCreateUserCheckbox() {
-        const {
-            isCreateUser,
-            handleCreateUser,
-            isEmailConfirmationRequired
-        } = this.props;
-
-        // if email confirmation required and user is not logged in
-        // the user is 100% not logged in (we are in the guest form)
-        // do not show the checkbox to create the user account
-        if (isEmailConfirmationRequired) {
-            return null;
-        }
-
-        return (
-            <Field
-              type="checkbox"
-              label={ __('Create free account and keep track of your orders') }
-              id="guest_create_user"
-              name="guest_create_user"
-              value={ isCreateUser }
-              checked={ isCreateUser }
-              skipValue
-              onChange={ handleCreateUser }
-            />
         );
     }
 
@@ -244,6 +218,7 @@ export class CheckoutGuestForm extends FieldForm {
 
     renderGuestForm() {
         const { formId } = this.props;
+
         return (
             <>
                 { this.renderHeading() }
@@ -252,7 +227,7 @@ export class CheckoutGuestForm extends FieldForm {
                   name="CheckoutGuestForm"
                 >
                     { this.renderFields() }
-                    { this.renderCreateUserCheckbox() }
+                    <span>{ __('You can create an account after checkout') }</span>
                 </FormPortal>
             </>
         );

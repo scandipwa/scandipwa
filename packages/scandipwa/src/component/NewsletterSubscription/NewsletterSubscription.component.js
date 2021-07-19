@@ -31,7 +31,8 @@ export class NewsletterSubscription extends FieldForm {
         const fields = {
             newsletterEmail: {
                 validation: ['notEmpty', 'email'],
-                placeholder: __('Enter your email address')
+                placeholder: __('Enter your email address'),
+                'aria-label': __('Email address')
             }
         };
 
@@ -43,14 +44,17 @@ export class NewsletterSubscription extends FieldForm {
             <button
               type="submit"
               block="Button"
-              mix={ { block: 'FieldForm', elem: 'Button' } }
+              mods={ { isHollow: true } }
               aria-label={ __('Submit') }
-            />
+            >
+                { __('Subscribe') }
+            </button>
         );
     }
 
     render() {
         const { isLoading, onFormSubmit } = this.props;
+
         return (
             <div block="NewsletterSubscription">
                 <Form

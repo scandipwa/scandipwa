@@ -12,7 +12,7 @@
 import OrderQuery from 'Query/Order.query';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { getOrderList } from 'Store/Order/Order.action';
-import { fetchQuery } from 'Util/Request';
+import { fetchQuery, getErrorMessage } from 'Util/Request';
 
 /** @namespace Store/Order/Dispatcher */
 export class OrderDispatcher {
@@ -25,8 +25,20 @@ export class OrderDispatcher {
                 dispatch(getOrderList(orders, false));
             },
             /** @namespace Store/Order/Dispatcher/requestOrdersFetchQueryError */
-            (error) => dispatch(showNotification('error', error[0].message))
+            (error) => dispatch(showNotification('error', getErrorMessage(error)))
         );
+    }
+
+    async getOrderById(dispatch, id) {
+        try {
+            const { getOrderById: result } = await fetchQuery(OrderQuery.getOrderByIdQuery(id));
+
+            return result;
+        } catch (error) {
+            dispatch(showNotification('error', getErrorMessage(error)));
+
+            return null;
+        }
     }
 }
 

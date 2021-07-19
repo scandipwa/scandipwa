@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
+import { toggleBreadcrumbs } from 'Store/Breadcrumbs/Breadcrumbs.action';
 import { updateMeta } from 'Store/Meta/Meta.action';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { LocationType } from 'Type/Common';
@@ -25,10 +26,6 @@ import {
     STATUS_PASSWORD_UPDATED
 } from './PasswordChangePage.config';
 
-export const BreadcrumbsDispatcher = import(
-    /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Breadcrumbs/Breadcrumbs.dispatcher'
-);
 export const MyAccountDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
     'Store/MyAccount/MyAccount.dispatcher'
@@ -36,17 +33,14 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Route/PasswordChangePage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    passwordResetStatus: state.MyAccountReducer.passwordResetStatus
+    passwordResetStatus: state.MyAccountReducer.passwordResetStatus,
+    passwordResetMessage: state.MyAccountReducer.passwordResetMessage
 });
 
 /** @namespace Route/PasswordChangePage/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     updateMeta: (meta) => dispatch(updateMeta(meta)),
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.update(breadcrumbs, dispatch)
-        );
-    },
+    toggleBreadcrumbs: (visibility) => dispatch(toggleBreadcrumbs(visibility)),
     resetPassword(options) {
         MyAccountDispatcher.then(
             ({ default: dispatcher }) => dispatcher.resetPassword(options, dispatch)
@@ -66,12 +60,13 @@ export const mapDispatchToProps = (dispatch) => ({
 export class PasswordChangePageContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         passwordResetStatus: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
         ]).isRequired,
+        passwordResetMessage: PropTypes.string.isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired
     };
@@ -82,7 +77,11 @@ export class PasswordChangePageContainer extends PureComponent {
     };
 
     static getDerivedStateFromProps(props) {
-        const { passwordResetStatus, showNotification } = props;
+        const {
+            passwordResetStatus,
+            passwordResetMessage,
+            showNotification
+        } = props;
         const stateToBeUpdated = {};
 
         if (passwordResetStatus) {
@@ -97,7 +96,7 @@ export class PasswordChangePageContainer extends PureComponent {
                 showNotification('info', __('Your password and confirmation password do not match.'));
                 break;
             default:
-                showNotification('error', __('Error! Something went wrong'));
+                showNotification('error', passwordResetMessage);
             }
         }
 
@@ -112,11 +111,12 @@ export class PasswordChangePageContainer extends PureComponent {
 
     componentDidMount() {
         this.updateMeta();
-        this.updateBreadcrumbs();
+        this.toggleBreadcrumbs(false);
     }
 
     containerProps = () => {
         const { isLoading } = this.state;
+
         return { isLoading };
     };
 
@@ -141,16 +141,9 @@ export class PasswordChangePageContainer extends PureComponent {
         updateMeta({ title: __('Password Change Page') });
     }
 
-    updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        const breadcrumbs = [
-            {
-                url: '/createPassword',
-                name: __('Change password')
-            }
-        ];
-
-        updateBreadcrumbs(breadcrumbs);
+    toggleBreadcrumbs(visibility) {
+        const { toggleBreadcrumbs } = this.props;
+        toggleBreadcrumbs(visibility);
     }
 
     render() {

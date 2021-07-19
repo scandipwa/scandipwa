@@ -28,7 +28,7 @@ export class CreateAccountComponent extends MyAccountOverlay {
             <div block="CreateAccount" elem="SignInWrapper">
                 <h3>{ __('Registered Customers') }</h3>
                 <p>{ __('If you have an account, sign in with your email address.') }</p>
-                <button block="Button" onClick={ onLoginClick }>{ __('Sign In Here') }</button>
+                <button block="Button" onClick={ onLoginClick }>{ __('Sign In') }</button>
             </div>
         );
     }
@@ -41,7 +41,7 @@ export class CreateAccountComponent extends MyAccountOverlay {
                     { __('Creating an account has many benefits:') }
                     { __(' check out faster, keep more than one address, track orders and more.') }
                 </p>
-                { this.renderCreateAccount() }
+                { this.renderCreateAccount(true) }
             </div>
         );
     }

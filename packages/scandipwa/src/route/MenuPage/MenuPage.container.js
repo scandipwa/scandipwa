@@ -23,8 +23,6 @@ import { HistoryType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { appendWithStoreCode } from 'Util/Url';
 
-import './MenuPage.style';
-
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
@@ -53,6 +51,10 @@ export class MenuPageContainer extends PureComponent {
             name: MENU,
             onBackClick: () => history.goBack()
         });
+    }
+
+    componentDidUpdate() {
+        this.redirectIfNotOnMobile();
     }
 
     redirectIfNotOnMobile() {

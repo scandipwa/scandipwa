@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import { getErrorMessage } from 'Util/Request';
 
 import MyAccountSignIn from './MyAccountSignIn.component';
 
@@ -23,13 +24,11 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchtoProps */
-// eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)
@@ -111,10 +110,11 @@ export class MyAccountSignInContainer extends PureComponent {
         try {
             await signIn(fields);
             onSignIn();
-        } catch ([{ message }]) {
-            setLoadingState(false);
-            showNotification('error', message);
+        } catch (error) {
+            showNotification('error', getErrorMessage(error));
         }
+
+        setLoadingState(false);
     }
 
     onSignInAttempt() {

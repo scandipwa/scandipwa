@@ -34,24 +34,44 @@ export class Breadcrumb extends PureComponent {
         name: ''
     };
 
+    getLinkUrl() {
+        const {
+            url = ''
+        } = this.props;
+
+        if (typeof url === 'string' || !url) {
+            return {
+                pathname: url || '',
+                search: '',
+                state: {
+                    ...this.state
+                }
+            };
+        }
+
+        return url;
+    }
+
     renderLink() {
         const {
-            url,
             index,
             isDisabled
         } = this.props;
+
+        const url = this.getLinkUrl() || {};
 
         return (
             <Link
               block="Breadcrumb"
               elem="Link"
-              to={ url || '' }
+              to={ url }
               tabIndex={ isDisabled ? '-1' : '0' }
             >
-                <meta itemProp="item" content={ window.location.origin + (url || '') } />
+                <meta itemProp="item" content={ window.location.origin + url.pathname } />
                 <span itemProp="name">
                     { this.renderName() }
                 </span>
+                <span block="Breadcrumb" elem="Arrow" />
                 <meta itemProp="position" content={ index } />
             </Link>
         );

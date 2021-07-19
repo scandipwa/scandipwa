@@ -18,14 +18,16 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
+import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { DeviceType } from 'Type/Device';
-import { isSignedIn as isSignedInWithToken } from 'Util/Auth';
+import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import history from 'Util/History';
-import { appendWithStoreCode, setQueryParams } from 'Util/Url';
+import { appendWithStoreCode } from 'Util/Url';
 
 import Header from './Header.component';
 import {
@@ -50,7 +52,6 @@ export const mapStateToProps = (state) => ({
     isLoading: state.ConfigReducer.isLoading,
     device: state.ConfigReducer.device,
     activeOverlay: state.OverlayReducer.activeOverlay,
-    isSignedIn: state.MyAccountReducer.isSignedIn,
     isWishlistLoading: state.WishlistReducer.isLoading
 });
 
@@ -77,8 +78,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string,
-        device: DeviceType.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -109,7 +109,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
         onSearchBarChange: this.onSearchBarChange.bind(this),
-        onClearButtonClick: this.onClearButtonClick.bind(this),
         onEditButtonClick: this.onEditButtonClick.bind(this),
         onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
         onOkButtonClick: this.onOkButtonClick.bind(this),
@@ -164,7 +163,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             isCheckout,
             showMyAccountLogin,
             device,
-            isWishlistLoading
+            isWishlistLoading,
+            firstname: this.getUserName()
         };
     };
 
@@ -217,6 +217,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
         return this.routeMap[activeRoute] || this.default_state;
     }
 
+    getUserName() {
+        const { firstname } = BrowserDatabase.getItem(CUSTOMER) || {};
+
+        return firstname;
+    }
+
     hideSearchOnStateChange(prevProps) {
         const { navigationState: { name: prevName } } = prevProps;
         const { navigationState: { name } } = this.props;
@@ -243,6 +249,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         if (isHiddenOnMobile) {
             document.documentElement.classList.add('hiddenHeader');
+
             return;
         }
 
@@ -301,11 +308,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onSearchOutsideClick() {
         const {
             goToPreviousNavigationState,
-            navigationState: { name },
-            device
+            navigationState: { name }
         } = this.props;
 
-        if (!device.isMobile && name === SEARCH) {
+        if (name === SEARCH) {
             this.hideSearchOverlay();
             goToPreviousNavigationState();
         }
@@ -349,15 +355,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onMyAccountButtonClick() {
         const {
             showOverlay,
-            setNavigationState,
-            isSignedIn
+            setNavigationState
         } = this.props;
 
-        if (isSignedIn && !isSignedInWithToken()) {
-            return;
-        }
-        if (isSignedInWithToken()) {
+        if (isSignedIn()) {
             history.push({ pathname: appendWithStoreCode('/my-account/dashboard') });
+
             return;
         }
 
@@ -407,28 +410,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         }
     }
 
-    onClearButtonClick() {
-        const {
-            hideActiveOverlay,
-            goToPreviousNavigationState
-        } = this.props;
-
-        setQueryParams(
-            {
-                customFilters: '',
-                priceMax: '',
-                priceMin: ''
-            },
-            history.location,
-            history
-        );
-
-        this.setState({ isClearEnabled: false });
-
-        hideActiveOverlay();
-        goToPreviousNavigationState();
-    }
-
     onMinicartButtonClick() {
         const {
             showOverlay,
@@ -444,6 +425,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             this.setState({ shouldRenderCartOverlay: true });
 
             showOverlay(CART_OVERLAY);
+
             return;
         }
 

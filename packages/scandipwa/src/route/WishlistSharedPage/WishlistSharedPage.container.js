@@ -19,7 +19,7 @@ import { showNotification } from 'Store/Notification/Notification.action';
 import { MatchType } from 'Type/Common';
 import { getIndexedProduct } from 'Util/Product';
 import { prepareQuery } from 'Util/Query';
-import { executeGet } from 'Util/Request';
+import { executeGet, getErrorMessage } from 'Util/Request';
 import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import WishlistShared from './WishlistSharedPage.component';
@@ -91,7 +91,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
             /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartThen */
             () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
             /** @namespace Route/WishlistSharedPage/Container/moveWishlistToCartCatch */
-            ([{ message }]) => showError(message)
+            (error) => showError(getErrorMessage(error))
         );
     };
 
@@ -109,6 +109,7 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
             ({ wishlist, wishlist: { items_count, creators_name: creatorsName } = {} }) => {
                 if (!items_count) {
                     this.setLoading(false);
+
                     return;
                 }
 
@@ -151,8 +152,8 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
                 });
             },
             /** @namespace Route/WishlistSharedPage/Container/executeGetCatch */
-            ([{ message }]) => {
-                showError(message);
+            (error) => {
+                showError(getErrorMessage(error));
                 showNoMatch();
             }
         );
@@ -160,11 +161,13 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
 
     _getIsWishlistEmpty = () => {
         const { wishlistItems } = this.state;
+
         return Object.entries(wishlistItems).length <= 0;
     };
 
     getCode() {
         const { match: { params: { code } } } = this.props;
+
         return code;
     }
 
@@ -181,7 +184,6 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
 }
 
 /** @namespace Route/WishlistSharedPage/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistSharedPageContainer);

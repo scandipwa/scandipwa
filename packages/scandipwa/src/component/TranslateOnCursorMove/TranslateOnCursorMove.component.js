@@ -21,7 +21,9 @@ export class TranslateOnCursorMove extends PureComponent {
     static propTypes = {
         children: ChildrenType.isRequired,
         activeImageId: PropTypes.number.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        itemSelector: PropTypes.string.isRequired,
+        targetSelector: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -30,14 +32,24 @@ export class TranslateOnCursorMove extends PureComponent {
     ref = createRef();
 
     handleMouseMove = ({ pageY: wrapperPageY }) => {
-        const { activeImageId } = this.props;
+        const {
+            activeImageId,
+            itemSelector,
+            targetSelector
+        } = this.props;
 
         // Space from top and bottom to shrink mouse move watch area
         const paddingY = 90;
 
-        // TODO: need to think how to implement more dynamic way
-        const innerHeight = this.ref.current.children[0].children[1].children[0].children[0]
-            .children[activeImageId].children[0].getBoundingClientRect().height;
+        const target = this.ref.current
+            .querySelectorAll(itemSelector)?.[activeImageId]
+            ?.querySelector(targetSelector);
+
+        if (!target) {
+            return;
+        }
+
+        const innerHeight = target.getBoundingClientRect().height;
         const { height: wrapperHeight, top } = this.ref.current.getBoundingClientRect();
 
         const pageY = wrapperPageY - top;

@@ -118,7 +118,7 @@ export class ProductListQuery {
             },
             search: {
                 type: 'String!',
-                handler: (option) => option
+                handler: (option) => option.replace(/\+/g, ' ')
             },
             sort: {
                 type: 'ProductAttributeSortInput!',
@@ -175,6 +175,7 @@ export class ProductListQuery {
                 return acc;
             }
             const { type, handler = (option) => option } = argumentMap[key];
+
             return [...acc, [key, type, handler(arg)]];
         }, []);
     }
@@ -206,26 +207,36 @@ export class ProductListQuery {
 
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
         const {
+            isPlp = false,
             isSingleProduct,
             noAttributes = false,
             noVariants = false,
             noVariantAttributes = false
         } = this.options;
 
+        // Basic fields returned always
         const fields = [
             'id',
             'sku',
             'name',
             'type_id',
             'stock_status',
-            this._getPriceRangeField(),
-            this._getProductThumbnailField(),
-            this._getProductSmallField(),
-            this._getShortDescriptionField(),
-            'special_from_date',
-            'special_to_date',
-            this._getTierPricesField()
+            this._getStockItemField()
         ];
+
+        // Additional fields, which we want to return always, except when it's variants on PLP (due to hugh number of items)
+        if (!(isPlp && isVariant)) {
+            fields.push(
+                this._getPriceRangeField(),
+                this._getProductImageField(),
+                this._getProductThumbnailField(),
+                this._getProductSmallField(),
+                this._getShortDescriptionField(),
+                'special_from_date',
+                'special_to_date',
+                this._getTierPricesField()
+            );
+        }
 
         // if it is normal product and we need attributes
         // or if, it is variant, but we need variant attributes or variants them-self
@@ -237,8 +248,10 @@ export class ProductListQuery {
         if (!isVariant) {
             fields.push(
                 'url',
+                this._getUrlRewritesFields(),
                 this._getReviewCountField(),
-                this._getRatingSummaryField()
+                this._getRatingSummaryField(),
+                this._getCustomizableProductFragment()
             );
 
             // if variants are not needed
@@ -309,6 +322,65 @@ export class ProductListQuery {
         );
     }
 
+    /**
+     * A DownloadableProduct-specific field that queries the links and samples
+     * @returns {Field}
+     * @private
+     */
+    _getDownloadableProductFields() {
+        return new Fragment('DownloadableProduct')
+            .addFieldList(this._getDownloadableProductLinks());
+    }
+
+    _getDownloadableProductLinks() {
+        return [
+            'links_title',
+            'samples_title',
+            'links_purchased_separately',
+            this._getDownloadableProductLinkField(),
+            this._getDownloadableProductSampleField()
+        ];
+    }
+
+    _getDownloadableProductLinksRequired() {
+        return new Fragment('DownloadableProduct')
+            .addFieldList(this._getDownloadableProductLinksRequiredFields());
+    }
+
+    _getDownloadableProductLinksRequiredFields() {
+        return [
+            'links_purchased_separately'
+        ];
+    }
+
+    _getDownloadableProductLinkField() {
+        return new Field('downloadable_product_links')
+            .addFieldList(this._getDownloadableProductLinkFields());
+    }
+
+    _getDownloadableProductLinkFields() {
+        return [
+            'sample_url',
+            'sort_order',
+            'title',
+            'id',
+            'price'
+        ];
+    }
+
+    _getDownloadableProductSampleField() {
+        return new Field('downloadable_product_samples')
+            .addFieldList(this._getDownloadableProductSampleFields());
+    }
+
+    _getDownloadableProductSampleFields() {
+        return [
+            'title',
+            'sort_order',
+            'sample_url'
+        ];
+    }
+
     _getItemsField() {
         const { isSingleProduct } = this.options;
 
@@ -317,6 +389,9 @@ export class ProductListQuery {
 
         if (isSingleProduct) {
             items.addField(this._getGroupedProductItems());
+            items.addField(this._getDownloadableProductFields());
+        } else {
+            items.addField(this._getDownloadableProductLinksRequired());
         }
 
         return items;
@@ -348,7 +423,8 @@ export class ProductListQuery {
     _getStockItemFields() {
         return [
             'min_sale_qty',
-            'max_sale_qty'
+            'max_sale_qty',
+            'qty_increments'
         ];
     }
 
@@ -387,7 +463,10 @@ export class ProductListQuery {
             this._getFinalPriceField(),
             this._getFinalPriceExclTaxField(),
             this._getRegularPriceField(),
-            this._getRegularPriceExclTaxField()
+            this._getRegularPriceExclTaxField(),
+            this._getDefaultPriceField(),
+            this._getDefaultFinalPriceField(),
+            this._getDefaultFinalPriceExclTaxField()
         ];
     }
 
@@ -396,10 +475,16 @@ export class ProductListQuery {
             .addFieldList(this._getMinimalPriceFields());
     }
 
+    _getMaximalPriceField() {
+        return new Field('maximum_price')
+            .addFieldList(this._getMinimalPriceFields());
+    }
+
     _getPriceRangeFields() {
         // Using an array as potentially would want to add maximum price
         return [
-            this._getMinimalPriceField()
+            this._getMinimalPriceField(),
+            this._getMaximalPriceField()
         ];
     }
 
@@ -440,6 +525,11 @@ export class ProductListQuery {
             .addFieldList(this._getProductSmallFields());
     }
 
+    _getProductImageField() {
+        return new Field('image')
+            .addFieldList(this._getProductThumbnailFields());
+    }
+
     _getAttributeOptionField() {
         return [
             'label',
@@ -460,6 +550,9 @@ export class ProductListQuery {
             'attribute_code',
             'attribute_type',
             'attribute_label',
+            'attribute_group_id',
+            'attribute_group_code',
+            'attribute_group_name',
             ...(!isVariant
                 ? [
                     this._getAttributeOptionsField()
@@ -486,7 +579,8 @@ export class ProductListQuery {
             'types',
             this._getVideoContentField(),
             this._getMediaThumbnailField(),
-            this._getMediaBaseField()
+            this._getMediaBaseField(),
+            this._getMediaLargeField()
         ];
     }
 
@@ -520,6 +614,10 @@ export class ProductListQuery {
         return new Field('base').addField('url');
     }
 
+    _getMediaLargeField() {
+        return new Field('large').addField('url');
+    }
+
     _getMediaGalleryField() {
         return new Field('media_gallery_entries')
             .addFieldList(this._getMediaGalleryFields());
@@ -539,6 +637,11 @@ export class ProductListQuery {
     _getDescriptionField() {
         return new Field('description')
             .addFieldList(this._getDescriptionFields());
+    }
+
+    _getUrlRewritesFields() {
+        return new Field('url_rewrites')
+            .addFieldList(['url']);
     }
 
     _getProductLinkFields() {
@@ -638,6 +741,29 @@ export class ProductListQuery {
             .addFieldList(this._getBundleItemsFields());
     }
 
+    _getBundlePriceOptionSelectionFields() {
+        return [
+            'selection_id',
+            'final_option_price',
+            'final_option_price_excl_tax',
+            'regular_option_price',
+            'regular_option_price_excl_tax'
+        ];
+    }
+
+    _getBundlePriceOptionFields() {
+        return [
+            'option_id',
+            new Field('selection_details')
+                .addFieldList(this._getBundlePriceOptionSelectionFields())
+        ];
+    }
+
+    _getBundlePriceOptionsField() {
+        return new Field('bundle_options')
+            .addFieldList(this._getBundlePriceOptionFields());
+    }
+
     _getBundleProductFragmentFields() {
         return [
             'price_view',
@@ -645,7 +771,8 @@ export class ProductListQuery {
             'dynamic_sku',
             'ship_bundle_items',
             'dynamic_weight',
-            this._getBundleItemsField()
+            this._getBundleItemsField(),
+            this._getBundlePriceOptionsField()
         ];
     }
 
@@ -679,7 +806,13 @@ export class ProductListQuery {
     }
 
     _getVariantsField() {
-        return new Field('variants')
+        const { isPlp = false } = this.options;
+
+        // For PLP page we have optimized variants graphql field
+        const variantsField = isPlp ? 'variants_plp' : 'variants';
+
+        return new Field(variantsField)
+            .setAlias('variants')
             .addFieldList(this._getVariantFields());
     }
 
@@ -693,7 +826,10 @@ export class ProductListQuery {
     _getCustomizableTextValueFields() {
         return [
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
+            'currency',
             'sku',
             'max_characters'
         ];
@@ -712,6 +848,20 @@ export class ProductListQuery {
         ];
     }
 
+    _getCustomizableFileValueField(alias) {
+        return new Field('value')
+            .addFieldList([
+                'price',
+                'priceInclTax',
+                'priceExclTax',
+                'price_type',
+                'currency',
+                'sku',
+                'file_extension'
+            ])
+            .setAlias(alias);
+    }
+
     _getCustomizableAreaOption() {
         return new Fragment('CustomizableAreaOption')
             .addFieldList(this._getCustomizableTextFields('areaValues'));
@@ -722,11 +872,19 @@ export class ProductListQuery {
             .addFieldList(this._getCustomizableTextFields('fieldValues'));
     }
 
+    _getCustomizableFileOption() {
+        return new Fragment('CustomizableFileOption')
+            .addFieldList([this._getCustomizableFileValueField('fileValues')]);
+    }
+
     _getCustomizableSelectionValueFields() {
         return [
             'option_type_id',
             'price',
+            'priceInclTax',
+            'priceExclTax',
             'price_type',
+            'currency',
             'sku',
             'title',
             'sort_order'
@@ -767,6 +925,7 @@ export class ProductListQuery {
             this._getCustomizableMultiOption(),
             this._getCustomizableFieldOption(),
             this._getCustomizableAreaOption(),
+            this._getCustomizableFileOption(),
             'title',
             'required',
             'sort_order',
@@ -839,6 +998,24 @@ export class ProductListQuery {
             .addField('value');
     }
 
+    _getDefaultFinalPriceExclTaxField() {
+        return new Field('default_final_price_excl_tax')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultPriceField() {
+        return new Field('default_price')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getDefaultFinalPriceField() {
+        return new Field('default_final_price')
+            .addField('currency')
+            .addField('value');
+    }
+
     _getBundleProductFragment() {
         return new Fragment('BundleProduct')
             .addFieldList(this._getBundleProductFragmentFields());
@@ -904,6 +1081,9 @@ export class ProductListQuery {
         return [
             new Field('label').setAlias('name'),
             new Field('attribute_code').setAlias('request_var'),
+            'is_boolean',
+            'has_swatch',
+            'position',
             this._getAggregationsOptionsField()
         ];
     }
@@ -917,6 +1097,7 @@ export class ProductListQuery {
     _getAggregationsOptionsFields() {
         return [
             'label',
+            'count',
             new Field('value').setAlias('value_string'),
             this._getSwatchDataField()
         ];

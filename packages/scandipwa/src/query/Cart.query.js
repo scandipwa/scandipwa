@@ -84,6 +84,13 @@ export class CartQuery {
             .addFieldList(this._getCartDisplayConfigFields());
     }
 
+    getMergeCartQuery(sourceCartId, destinationCartId) {
+        return new Field('mergeCarts')
+            .addArgument('source_cart_id', 'String!', sourceCartId)
+            .addArgument('destination_cart_id', 'String!', destinationCartId)
+            .addField('id');
+    }
+
     _getSaveCartItemFields(quoteId) {
         return [
             this.getCartQuery(quoteId)
@@ -187,6 +194,18 @@ export class CartQuery {
             ]);
     }
 
+    _getDownloadableLinksField() {
+        return new Field('downloadable_links')
+            .addFieldList(this._getDownloadableLinksFields());
+    }
+
+    _getDownloadableLinksFields() {
+        return [
+            'id',
+            'label'
+        ];
+    }
+
     _getCartItemFields() {
         return [
             'qty',
@@ -200,6 +219,7 @@ export class CartQuery {
             'discount_amount',
             'discount_percent',
             this._getCustomizableOptionsFields(),
+            this._getDownloadableLinksField(),
             this._getBundleOptionsField(),
             this._getProductField()
         ];

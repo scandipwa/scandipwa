@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { Component, createRef } from 'react';
 
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
@@ -19,7 +19,7 @@ import CSS from 'Util/CSS';
 import './NewProducts.style';
 
 /** @namespace Component/NewProducts/Component */
-export class NewProducts extends PureComponent {
+export class NewProducts extends Component {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),
         productsPerPage: PropTypes.number,
@@ -38,6 +38,16 @@ export class NewProducts extends PureComponent {
 
     componentDidMount() {
         this.setStyles();
+    }
+
+    shouldComponentUpdate(nextProps) {
+        const { products, productsPerPage } = this.props;
+        const {
+            products: nextProducts,
+            productsPerPage: nextProductsPerPage
+        } = nextProps;
+
+        return products !== nextProducts || productsPerPage !== nextProductsPerPage;
     }
 
     componentDidUpdate() {
@@ -67,9 +77,10 @@ export class NewProducts extends PureComponent {
 
     render() {
         const { products } = this.props;
+
         return (
             <section block="NewProducts" ref={ this.newProductsRef }>
-                <h3>{ __('New Products') }</h3>
+                <h2>{ __('New Products') }</h2>
                 <ul block="NewProducts" elem="Products">
                     { products.map(this.renderProductCard) }
                 </ul>

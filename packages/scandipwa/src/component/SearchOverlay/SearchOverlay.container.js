@@ -13,6 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
+import { withReducers } from 'Util/DynamicReducer';
+
 import SearchOverlay from './SearchOverlay.component';
 
 export const SearchBarDispatcher = import(
@@ -78,4 +81,6 @@ export class SearchOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer);
+export default withReducers({
+    SearchBarReducer
+})(connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer));

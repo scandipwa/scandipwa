@@ -45,38 +45,37 @@ export class ProductBundleItem extends ProductCustomizableOption {
                   block="ProductBundleItem"
                   elem="Heading"
                 >
-                    { `${ quantity } x ${ mainTitle } + ` }
+                    { `${ quantity } x ${ mainTitle } ` }
                 </span>
-                <span
-                  block="ProductBundleItem"
-                  elem="HeadingBold"
-                >
+                <strong>
                     { titleBold }
-                </span>
+                </strong>
             </>
         );
     }
 
     renderOptionCheckboxValue = (item) => {
         const {
+            currencyCode,
             getSelectedCheckboxValue,
-            renderOptionLabel,
-            price_range: { minimum_price: { discount: { percent_off } } }
+            renderOptionLabel
         } = this.props;
+
+        if (!item.product) {
+            return null;
+        }
 
         const {
             id,
             label,
-            product: { price_range: { minimum_price: { final_price: { value } } } },
             price_type,
             quantity,
-            is_default
+            is_default,
+            finalOptionPrice,
+            price
         } = item;
 
-        // eslint-disable-next-line no-magic-numbers
-        const finalPrice = value - (value * (percent_off / 100));
-
-        const priceLabel = renderOptionLabel(price_type, finalPrice);
+        const priceLabel = renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
 
         return (
             <div key={ id }>
@@ -114,7 +113,7 @@ export class ProductBundleItem extends ProductCustomizableOption {
               value={ quantity }
               max={ maxQuantity }
               min={ 1 }
-              mix={ { block: 'ProductBundleItems', elem: 'Qty' } }
+              mix={ { block: 'ProductBundleItem', elem: 'Qty' } }
               onChange={ setDropdownItemQuantity }
             />
         );

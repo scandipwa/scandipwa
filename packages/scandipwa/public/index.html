@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover">
+
     <!-- Muli font import from Abode -->
     <link rel="stylesheet" href="https://use.typekit.net/gbk7rfi.css">
 
@@ -11,11 +11,21 @@
     <title>ScandiPWA</title>
     <meta name="theme-color" content="#ffffff" />
     <meta name="description" content="Web site created using create-scandipwa-app" />
-    
+
     <!-- Default content-configurations -->
     <script>
+        (function() {
+                if (typeof globalThis === 'object') return;
+                Object.prototype.__defineGetter__('__magic__', function() {
+                    return this;
+                });
+                __magic__.globalThis = __magic__;
+                delete Object.prototype.__magic__;
+            }());
+
         window.contentConfiguration = {};
-        window.storeList = ['default'];
+        // do reverse sort in order prevent an issue like store code `en` replaces store code `en_us`
+        window.storeList = ['default'].sort().reverse();
         window.storeRegexText = `/(${window.storeList.join('|')})?`;
     </script>
 </head>

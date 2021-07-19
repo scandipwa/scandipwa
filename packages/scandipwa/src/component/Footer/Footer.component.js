@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -18,7 +18,6 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import NewsletterSubscription from 'Component/NewsletterSubscription';
 import { DeviceType } from 'Type/Device';
-import media from 'Util/Media';
 
 import { COLUMN_MAP, NEWSLETTER_COLUMN, RENDER_NEWSLETTER } from './Footer.config';
 
@@ -29,11 +28,12 @@ import './Footer.style';
  * @class Footer
  * @namespace Component/Footer/Component
  */
-export class Footer extends PureComponent {
+export class Footer extends Component {
     static propTypes = {
         copyright: PropTypes.string,
         isVisibleOnMobile: PropTypes.bool,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        newsletterActive: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -43,9 +43,27 @@ export class Footer extends PureComponent {
 
     renderMap = {
         [RENDER_NEWSLETTER]: {
-            render: this.renderNewsletterSubscriptionBlock
+            render: this.renderNewsletterSubscriptionBlock.bind(this)
         }
     };
+
+    shouldComponentUpdate(nextProps) {
+        const {
+            device: {
+                isMobile
+            },
+            isVisibleOnMobile
+        } = this.props;
+
+        const {
+            device: {
+                isMobile: nextIsMobile
+            },
+            isVisibleOnMobile: nextIsVisibleOnMobile
+        } = nextProps;
+
+        return isMobile !== nextIsMobile || isVisibleOnMobile !== nextIsVisibleOnMobile;
+    }
 
     renderColumnItemContent(src, title) {
         if (!src) {
@@ -55,7 +73,7 @@ export class Footer extends PureComponent {
         return (
             <Image
               mix={ { block: 'Footer', elem: 'ColumnItemImage' } }
-              src={ media(src, '', false) }
+              src={ src }
             />
         );
     }
@@ -70,6 +88,7 @@ export class Footer extends PureComponent {
               to={ href }
               mods={ mods }
               key={ i }
+              aria-label={ title }
             >
                 { this.renderColumnItemContent(src, title) }
             </Link>
@@ -89,11 +108,19 @@ export class Footer extends PureComponent {
     renderColumn = (column, i) => {
         const {
             title,
+            columnActiveKey,
             items,
             isItemsHorizontal,
             mods = {}
         } = column;
+
         const contentMods = isItemsHorizontal ? { direction: 'horizontal' } : {};
+
+        const { [columnActiveKey]: isColumnActive } = this.props;
+
+        if (columnActiveKey && !isColumnActive === true) {
+            return null;
+        }
 
         return (
             <div block="Footer" elem="Column" mods={ mods } key={ i }>

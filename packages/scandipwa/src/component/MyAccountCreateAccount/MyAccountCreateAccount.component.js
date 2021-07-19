@@ -15,6 +15,9 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { signInStateType } from 'Type/Account';
+import history from 'Util/History';
+
+import './MyAccountCreateAccount.style.scss';
 
 /** @namespace Component/MyAccountCreateAccount/Component */
 export class MyAccountCreateAccount extends PureComponent {
@@ -24,7 +27,8 @@ export class MyAccountCreateAccount extends PureComponent {
         onCreateAccountSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
-        vatNumberValidation: PropTypes.array.isRequired
+        vatNumberValidation: PropTypes.array.isRequired,
+        newsletterActive: PropTypes.bool.isRequired
     };
 
     renderVatNumberField() {
@@ -38,6 +42,7 @@ export class MyAccountCreateAccount extends PureComponent {
             <Field
               type="text"
               label={ __('Tax/VAT Number') }
+              placeholder={ __('Your Tax/VAT Number') }
               id="taxvat"
               name="taxvat"
               validation={ vatNumberValidation }
@@ -45,7 +50,23 @@ export class MyAccountCreateAccount extends PureComponent {
         );
     }
 
+    renderSubscribeToNewsletter() {
+        return (
+            <Field
+              type="checkbox"
+              value="is_subscribed"
+              label={ __('Subscribe to newsletter') }
+              id="is_subscribed"
+              mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
+              name="is_subscribed"
+            />
+        );
+    }
+
     renderCreateAccountPersonalInfoFields() {
+        const { newsletterActive } = this.props;
+        const { location: { state: { firstName = '', lastName = '' } = {} } } = history;
+
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Personal Information') }</legend>
@@ -54,6 +75,8 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('First Name') }
                   id="firstname"
                   name="firstname"
+                  placeholder={ __('Your first name') }
+                  value={ firstName }
                   autocomplete="given-name"
                   validation={ ['notEmpty'] }
                 />
@@ -62,39 +85,40 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('Last Name') }
                   id="lastname"
                   name="lastname"
+                  placeholder={ __('Your last name') }
+                  value={ lastName }
                   autocomplete="family-name"
                   validation={ ['notEmpty'] }
                 />
                 { this.renderVatNumberField() }
-                <Field
-                  type="checkbox"
-                  value="is_subscribed"
-                  label={ __('Subscribe to newsletter') }
-                  id="is_subscribed"
-                  mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
-                  name="is_subscribed"
-                />
+                { newsletterActive ? this.renderSubscribeToNewsletter() : null }
             </fieldset>
         );
     }
 
     renderCreateAccountSignUpInfoFields() {
+        const { location: { state: { email = '' } = {} } } = history;
+
         return (
             <fieldset block="MyAccountOverlay" elem="Legend">
                 <legend>{ __('Sign-Up Information') }</legend>
                 <Field
-                  type="text"
+                  type="email"
                   label={ __('Email') }
                   id="email"
                   name="email"
+                  placeholder={ __('Your email address') }
+                  value={ email }
                   autocomplete="email"
                   validation={ ['notEmpty', 'email'] }
                 />
+                <div block="MyAccountOverlay" elem="PasswordBlock">
                 <Field
                   type="password"
                   label={ __('Password') }
                   id="password"
                   name="password"
+                  placeholder={ __('Enter your password') }
                   autocomplete="new-password"
                   validation={ ['notEmpty', 'password'] }
                 />
@@ -103,9 +127,11 @@ export class MyAccountCreateAccount extends PureComponent {
                   label={ __('Confirm password') }
                   id="confirm_password"
                   name="confirm_password"
+                  placeholder={ __('Retype your password') }
                   autocomplete="new-password"
                   validation={ ['notEmpty', 'password', 'password_match'] }
                 />
+                </div>
             </fieldset>
         );
     }
@@ -116,6 +142,7 @@ export class MyAccountCreateAccount extends PureComponent {
                 <button
                   block="Button"
                   type="submit"
+                  mix={ { block: 'MyAccountOverlay', elem: 'SignUpButton' } }
                 >
                     { __('Sign up') }
                 </button>
@@ -125,6 +152,7 @@ export class MyAccountCreateAccount extends PureComponent {
 
     renderCreateAccountForm() {
         const { onCreateAccountAttempt, onCreateAccountSuccess } = this.props;
+
         return (
             <Form
               key="create-account"
@@ -149,9 +177,10 @@ export class MyAccountCreateAccount extends PureComponent {
                     <button
                       block="Button"
                       mods={ { likeLink: true } }
+                      mix={ { block: 'MyAccountOverlay', elem: 'SignInButton' } }
                       onClick={ handleSignIn }
                     >
-                        { __('Sign in here') }
+                        { __('Sign in') }
                     </button>
                 </section>
             </article>

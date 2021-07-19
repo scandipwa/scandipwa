@@ -1,19 +1,22 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "4.1.0",
+    "version": "4.5.1",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
-        "build": "scandipwa-scripts build"
+        "build": "scandipwa-scripts build",
+        "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/m2-theme": "^0.1.4",
-        "@scandipwa/scandipwa-scripts": "^2.2.5",
-        "@scandipwa/service-worker": "^0.0.4",
-        "@scandipwa/webpack-i18n-runtime": "0.0.9",
+        "@scandipwa/m2-theme": "0.1.6",
+        "@scandipwa/postcss-config": "^0.0.0",
+        "@scandipwa/scandipwa-scripts": "^2.4.9",
+        "@scandipwa/service-worker": "^0.0.10",
+        "@scandipwa/webpack-i18n-runtime": "^0.0.21",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
+        "intersection-observer": "^0.12.0",
         "prop-types": "^15.6.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
@@ -34,51 +37,67 @@
         "themeAlias": "Source",
         "type": "theme",
         "locales": {
-            "en_US": true
+            "en_US": true,
+            "da_DK": true,
+            "de_DE": true,
+            "es_ES": true,
+            "fa_IR": true,
+            "fr_FR": true,
+            "it_IT": true,
+            "lv_LV": true,
+            "nb_NO": true,
+            "nl_NL": true,
+            "pl_PL": true,
+            "pt_BR": true,
+            "ru_RU": true,
+            "sl_SI": true,
+            "sv_SE": true,
+            "tr_TR": true,
+            "zh_TW": true
         },
         "extensions": {
             "@scandipwa/m2-theme": true,
             "@scandipwa/webpack-i18n-runtime": true,
-            "@scandipwa/service-worker": true
+            "@scandipwa/service-worker": true,
+            "@scandipwa/postcss-config": true
         },
         "composer": {
             "magento/framework": "*",
-            "scandipwa/service-worker": "^1.0",
-            "scandipwa/installer": "^4.0",
-            "scandipwa/menu-organizer": "^2.1.1",
-            "scandipwa/persisted-query": "^3.0",
-            "scandipwa/slider-graphql": "^2.0",
-            "scandipwa/cms-graphql": "^1.4.2",
-            "scandipwa/catalog-graphql": "^3.1.8",
-            "scandipwa/route717": "^2",
-            "scandipwa/performance": "^1.4.3",
-            "scandipwa/customer-graph-ql": "^3.0",
-            "scandipwa/quote-graphql": "^2.17.9",
-            "scandipwa/wishlist-graphql": "^2",
-            "scandipwa/urlrewrite-graphql": "^1.3.5",
-            "scandipwa/store-graphql": "^1.2.0",
-            "scandipwa/customization": "^1.5",
-            "scandipwa/cache": "^1.1.1",
-            "scandipwa/locale": "^2",
-            "scandipwa/contact-graphql": "^1.0.0",
-            "scandipwa/klarna-graphql": "^1.1.2",
-            "scandipwa/compare-graphql": "^1.0.5",
-            "scandipwa/customer-downloadable-graphql": "^1.0.0",
-            "scandipwa/directory-graphql": "^1.0.0"
+            "scandipwa/service-worker": "1.0.1",
+            "scandipwa/installer": "4.0",
+            "scandipwa/menu-organizer": "2.1.2",
+            "scandipwa/persisted-query": "3.0.1",
+            "scandipwa/slider-graphql": "2.1.0",
+            "scandipwa/cms-graphql": "1.4.2",
+            "scandipwa/catalog-graphql": "3.1.27",
+            "scandipwa/route717": "2",
+            "scandipwa/performance": "1.4.6",
+            "scandipwa/customer-graph-ql": "3.1.3",
+            "scandipwa/quote-graphql": "2.19.8",
+            "scandipwa/wishlist-graphql": "2.0.7",
+            "scandipwa/urlrewrite-graphql": "1.3.7",
+            "scandipwa/store-graphql": "1.2.3",
+            "scandipwa/customization": "1.5.3",
+            "scandipwa/cache": "1.1.3",
+            "scandipwa/locale": "2",
+            "scandipwa/contact-graphql": "1.0.0",
+            "scandipwa/klarna-graphql": "1.1.2",
+            "scandipwa/compare-graphql": "1.0.8",
+            "scandipwa/customer-downloadable-graphql": "1.0.2",
+            "scandipwa/directory-graphql": "1.0.1",
+            "scandipwa/catalog-customer-graphql": "1.0.0"
         }
     },
     "browserslist": {
         "production": [
-            ">0.01%",
+            ">0.2%",
             "not dead",
-            "not op_mini all",
-            "safari 10.1"
+            "not op_mini all"
         ],
         "development": [
-            ">0.01%",
-            "not dead",
-            "not op_mini all",
-            "safari 10.1"
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
         ]
     },
     "eslintConfig": {
@@ -432,5 +451,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://scandipwapmrev.indvp.com/"
+    "proxy": "https://40kskudemo.scandipwa.com/"
 }

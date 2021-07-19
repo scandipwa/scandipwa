@@ -12,3 +12,5 @@ export const CONFIGURABLE = 'configurable';
 export const GROUPED = 'grouped';
 export const SIMPLE = 'simple';
 export const BUNDLE = 'bundle';
+export const DOWNLOADABLE = 'downloadable';
+export const VIRTUAL = 'virtual';

@@ -38,7 +38,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching LinkedProducts!', error));
+        dispatch(showNotification('error', __('Error fetching LinkedProducts!'), error));
     }
 
     /**
@@ -50,6 +50,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     prepareRequest(product_links) {
         const relatedSKUs = product_links.reduce((links, link) => {
             const { linked_product_sku } = link;
+
             return [...links, `${ linked_product_sku.replace(/ /g, '%20') }`];
         }, []);
 
@@ -90,7 +91,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         const query = this.prepareRequest(product_links);
         const data = await fetchQuery(query);
         const { crosssell } = this._processResponse(data, product_links);
-        const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS);
+        const linkedProducts = BrowserDatabase.getItem(LINKED_PRODUCTS) || {};
 
         Object.assign(linkedProducts, {
             crosssell,
@@ -117,13 +118,14 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         const indexedBySku = items.reduce((acc, item) => {
             const { sku } = item;
             acc[sku] = getIndexedProduct(item);
+
             return acc;
         }, {});
 
         const linkedProducts = product_links.reduce((acc, link) => {
             const { linked_product_sku, link_type } = link;
 
-            if (indexedBySku[linked_product_sku]) {
+            if (indexedBySku[linked_product_sku] && acc[link_type]) {
                 acc[link_type].items.push(
                     indexedBySku[linked_product_sku]
                 );
@@ -135,7 +137,8 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         }, {
             upsell: { total_count: 0, items: [] },
             related: { total_count: 0, items: [] },
-            crosssell: { total_count: 0, items: [] }
+            crosssell: { total_count: 0, items: [] },
+            associated: { total_count: 0, items: [] }
         });
 
         return linkedProducts;

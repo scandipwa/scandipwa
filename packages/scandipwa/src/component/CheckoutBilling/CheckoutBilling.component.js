@@ -17,6 +17,7 @@ import CheckoutPayments from 'Component/CheckoutPayments';
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
+import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { addressType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
@@ -46,14 +47,17 @@ export class CheckoutBilling extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
+        cartTotalSubPrice: PropTypes.number,
         shippingAddress: addressType.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
-        })).isRequired
+        })).isRequired,
+        selectedShippingMethod: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        termsAreEnabled: false
+        termsAreEnabled: false,
+        cartTotalSubPrice: null
     };
 
     componentDidMount() {
@@ -104,20 +108,6 @@ export class CheckoutBilling extends PureComponent {
               block="CheckoutBilling"
               elem="TermsAndConditions"
             >
-                <label
-                  block="CheckoutBilling"
-                  elem="TACLabel"
-                  htmlFor="termsAndConditions"
-                >
-                    { checkbox_text }
-                    <button
-                      block="CheckoutBilling"
-                      elem="TACLink"
-                      onClick={ this.handleShowPopup }
-                    >
-                        { __('read more') }
-                    </button>
-                </label>
                 <Field
                   id="termsAndConditions"
                   name="termsAndConditions"
@@ -127,7 +117,40 @@ export class CheckoutBilling extends PureComponent {
                   checked={ isTermsAndConditionsAccepted }
                   onChange={ this.setTACAccepted }
                 />
+                <label
+                  block="CheckoutBilling"
+                  elem="TACLabel"
+                  htmlFor="termsAndConditions"
+                >
+                    { `${checkbox_text } - ` }
+                    <button
+                      block="CheckoutBilling"
+                      elem="TACLink"
+                      onClick={ this.handleShowPopup }
+                    >
+                        { __('read more') }
+                    </button>
+                </label>
             </div>
+        );
+    }
+
+    renderOrderTotalExlTax() {
+        const {
+            cartTotalSubPrice,
+            totals: { quote_currency_code }
+        } = this.props;
+
+        if (!cartTotalSubPrice) {
+            return null;
+        }
+
+        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+
+        return (
+            <span>
+                { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
+            </span>
         );
     }
 
@@ -137,14 +160,15 @@ export class CheckoutBilling extends PureComponent {
         const orderTotal = formatPrice(grand_total, quote_currency_code);
 
         return (
-            <div block="Checkout" elem="OrderTotal">
-                <span>
+            <dl block="Checkout" elem="OrderTotal">
+                <dt>
                     { __('Order total:') }
-                </span>
-                <span>
+                </dt>
+                <dd>
                     { orderTotal }
-                </span>
-            </div>
+                    { this.renderOrderTotalExlTax() }
+                </dd>
+            </dl>
         );
     }
 
@@ -196,6 +220,7 @@ export class CheckoutBilling extends PureComponent {
             <CheckoutAddressBook
               onAddressSelect={ onAddressSelect }
               isBilling
+              is_virtual
             />
         );
     }
@@ -204,7 +229,8 @@ export class CheckoutBilling extends PureComponent {
         const {
             isSameAsShipping,
             onSameAsShippingChange,
-            totals: { is_virtual }
+            totals: { is_virtual },
+            selectedShippingMethod
         } = this.props;
 
         if (is_virtual) {
@@ -219,15 +245,25 @@ export class CheckoutBilling extends PureComponent {
               label={ __('My billing and shipping are the same') }
               value="sameAsShippingAddress"
               mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
-              checked={ isSameAsShipping }
+              checked={ isSameAsShipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE }
               onChange={ onSameAsShippingChange }
+              isDisabled={ selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE }
             />
+        );
+    }
+
+    renderHeading() {
+        return (
+            <h2 block="Checkout" elem="Heading">
+                { __('Billing address') }
+            </h2>
         );
     }
 
     renderAddresses() {
         return (
             <>
+                { this.renderHeading() }
                 { this.renderSameAsShippingCheckbox() }
                 { this.renderAddressBook() }
             </>

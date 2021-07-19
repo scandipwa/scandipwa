@@ -13,16 +13,18 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.config';
+import { KLARNA, PURCHASE_ORDER } from 'Component/CheckoutPayments/CheckoutPayments.config';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.config';
+import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { showPopup } from 'Store/Popup/Popup.action';
 import { addressType, customerType } from 'Type/Account';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
+import { getCartTotalSubPrice } from 'Util/Cart';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -32,7 +34,8 @@ export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
     termsAreEnabled: state.ConfigReducer.terms_are_enabled,
     termsAndConditions: state.ConfigReducer.checkoutAgreements,
-    addressLinesQty: state.ConfigReducer.address_lines_quantity
+    addressLinesQty: state.ConfigReducer.address_lines_quantity,
+    cartTotalSubPrice: getCartTotalSubPrice(state)
 });
 
 /** @namespace Component/CheckoutBilling/Container/mapDispatchToProps */
@@ -56,7 +59,8 @@ export class CheckoutBillingContainer extends PureComponent {
             checkbox_text: PropTypes.string,
             content: PropTypes.string,
             name: PropTypes.string
-        })).isRequired
+        })).isRequired,
+        selectedShippingMethod: PropTypes.string.isRequired
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -101,13 +105,13 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     isSameShippingAddress({ default_billing, default_shipping }) {
-        const { totals: { is_virtual } } = this.props;
+        const { totals: { is_virtual }, selectedShippingMethod } = this.props;
 
         if (is_virtual) {
             return false;
         }
 
-        return default_billing === default_shipping;
+        return default_billing === default_shipping && selectedShippingMethod !== STORE_IN_PICK_UP_METHOD_CODE;
     }
 
     onAddressSelect(id) {
@@ -127,7 +131,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const { isSameAsShipping } = this.state;
 
         const address = this._getAddress(fields);
-        const paymentMethod = this._getPaymentData(asyncData);
+        const paymentMethod = this._getPaymentData(fields, asyncData);
 
         savePaymentInformation({
             billing_address: address,
@@ -157,7 +161,7 @@ export class CheckoutBillingContainer extends PureComponent {
         });
     }
 
-    _getPaymentData(asyncData) {
+    _getPaymentData(fields, asyncData) {
         const { paymentMethod: code } = this.state;
 
         switch (code) {
@@ -169,6 +173,14 @@ export class CheckoutBillingContainer extends PureComponent {
                 additional_data: {
                     authorization_token
                 }
+            };
+
+        case PURCHASE_ORDER:
+            const { purchaseOrderNumber } = fields;
+
+            return {
+                code,
+                purchase_order_number: purchaseOrderNumber
             };
 
         default:

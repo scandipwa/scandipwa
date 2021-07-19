@@ -31,13 +31,15 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         isLoading: true,
         selectedCheckboxValues: [],
         selectedDropdownOptions: [],
-        textFieldValues: []
+        textFieldValues: [],
+        fileFieldValues: []
     };
 
     containerFunctions = {
         setSelectedDropdownValue: this.setSelectedDropdownValue.bind(this),
         setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this),
-        setCustomizableOptionTextFieldValue: this.setCustomizableOptionTextFieldValue.bind(this)
+        setCustomizableOptionTextFieldValue: this.setCustomizableOptionTextFieldValue.bind(this),
+        setCustomizableOptionFileFieldValue: this.setCustomizableOptionFileFieldValue.bind(this)
     };
 
     componentDidMount() {
@@ -54,13 +56,15 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
             selectedCheckboxValues,
             selectedDropdownOptions,
             textFieldValues,
+            fileFieldValues,
             isLoading
         } = this.state;
 
         const {
             selectedCheckboxValues: prevSelectedCheckboxValues,
             selectedDropdownOptions: prevSelectedDropdownOptions,
-            textFieldValues: prevTextFieldValues
+            textFieldValues: prevTextFieldValues,
+            fileFieldValues: prevFileFieldValues
         } = prevState;
 
         if (options && isLoading) {
@@ -76,6 +80,10 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         ) {
             this.updateSelectedOptions();
         }
+
+        if (fileFieldValues !== prevFileFieldValues) {
+            this.updateSelectedOptions();
+        }
     }
 
     stopLoading() {
@@ -85,24 +93,23 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     updateSelectedOptionsArray() {
         const { getSelectedCustomizableOptions } = this.props;
         const { selectedCheckboxValues } = this.state;
-        const customizableOptions = [];
-
-        customizableOptions.push(...customizableOptions, ...selectedCheckboxValues);
-        getSelectedCustomizableOptions(customizableOptions, true);
+        getSelectedCustomizableOptions(selectedCheckboxValues, true);
     }
 
     updateSelectedOptions() {
         const { getSelectedCustomizableOptions } = this.props;
         const {
             selectedDropdownOptions,
-            textFieldValues
+            textFieldValues,
+            fileFieldValues
         } = this.state;
         const customizableOptions = [];
 
         customizableOptions.push(
             ...customizableOptions,
             ...textFieldValues,
-            ...selectedDropdownOptions
+            ...selectedDropdownOptions,
+            ...fileFieldValues
         );
 
         getSelectedCustomizableOptions(customizableOptions);
@@ -113,6 +120,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
 
         if (!option_value) {
             const filteredOptions = textFieldValues.filter((item) => item.option_id !== option_id);
+
             return this.setState({ textFieldValues: filteredOptions });
         }
 
@@ -120,10 +128,17 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
 
         if (textFieldValues.some(({ option_id: val }) => option_id === val)) {
             const filteredItems = textFieldValues.filter((value) => value.option_id !== option_id);
+
             return this.setState({ textFieldValues: filteredItems.concat(textFieldValue) });
         }
 
         return this.setState({ textFieldValues: [...textFieldValues, textFieldValue] });
+    }
+
+    setCustomizableOptionFileFieldValue(value, option, filename) {
+        const { option_id } = option;
+
+        return this.setState({ fileFieldValues: [{ option_id, option_value: value, option_filename: filename }] });
     }
 
     setSelectedDropdownValue(value, option) {
@@ -132,6 +147,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
 
         if (!value) {
             const filteredOptions = selectedDropdownOptions.filter((item) => item.option_id !== option_id);
+
             return this.setState({ selectedDropdownOptions: filteredOptions });
         }
 
@@ -139,6 +155,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
 
         if (selectedDropdownOptions.some(({ option_id: val }) => option_id === val)) {
             const filteredItems = selectedDropdownOptions.filter((value) => value.option_id !== option_id);
+
             return this.setState({ selectedDropdownOptions: filteredItems.concat(optionData) });
         }
 

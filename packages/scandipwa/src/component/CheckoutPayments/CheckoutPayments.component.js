@@ -16,9 +16,11 @@ import { PureComponent } from 'react';
 import CheckoutPayment from 'Component/CheckoutPayment';
 import Klarna from 'Component/Klarna';
 import NotSupportedPayment from 'Component/NotSupportedPayment';
+import { PurchaseOrder } from 'Component/PurchaseOrder/PurchaseOrder.component';
+import { BILLING_STEP } from 'Route/Checkout/Checkout.config';
 import { paymentMethodsType } from 'Type/Checkout';
 
-import { KLARNA } from './CheckoutPayments.config';
+import { KLARNA, PURCHASE_ORDER } from './CheckoutPayments.config';
 
 import './CheckoutPayments.style';
 
@@ -55,7 +57,8 @@ export class CheckoutPayments extends PureComponent {
     };
 
     paymentRenderMap = {
-        [KLARNA]: this.renderKlarnaPayment.bind(this)
+        [KLARNA]: this.renderKlarnaPayment.bind(this),
+        [PURCHASE_ORDER]: this.renderPurchaseOrderPayment.bind(this)
     };
 
     state = {
@@ -80,11 +83,17 @@ export class CheckoutPayments extends PureComponent {
 
     renderKlarnaPayment() {
         const { setOrderButtonEnableStatus } = this.props;
+
         return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
+    }
+
+    renderPurchaseOrderPayment() {
+        return <PurchaseOrder id={ BILLING_STEP } />;
     }
 
     renderNotSupported() {
         const { setOrderButtonEnableStatus } = this.props;
+
         return <NotSupportedPayment disableButton={ setOrderButtonEnableStatus } />;
     }
 
@@ -109,6 +118,7 @@ export class CheckoutPayments extends PureComponent {
 
     renderPayments() {
         const { paymentMethods } = this.props;
+
         return paymentMethods.map(this.renderPayment);
     }
 
@@ -125,7 +135,7 @@ export class CheckoutPayments extends PureComponent {
     renderHeading() {
         return (
             <h2 block="Checkout" elem="Heading">
-                { __('Select payment method') }
+                { __('Payment method') }
             </h2>
         );
     }

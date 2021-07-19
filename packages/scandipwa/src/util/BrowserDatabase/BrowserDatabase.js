@@ -31,10 +31,11 @@ export class BrowserDatabase {
 
             if (expiration && Date.now() - createdAt > expiration * MILLISECONDS_TO_SECONDS) {
                 localStorage.removeItem(location);
+
                 return null;
             }
 
-            return data || entryObject;
+            return data;
         } catch {
             return null;
         }

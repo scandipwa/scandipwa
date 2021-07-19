@@ -13,9 +13,13 @@ import { connect } from 'react-redux';
 
 import { CART, MY_ACCOUNT } from 'Component/Header/Header.config';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import {
+    ACCOUNT_LOGIN_URL
+} from 'Route/MyAccount/MyAccount.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
+import { isSignedIn } from 'Util/Auth';
 import browserHistory from 'Util/History';
 import { debounce } from 'Util/Request';
 import { appendWithStoreCode } from 'Util/Url';
@@ -55,10 +59,12 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     scrollPosition = 0;
 
     routeMap = {
+        '/account': { name: ACCOUNT_TAB },
         '/my-account': { name: ACCOUNT_TAB },
-        '/checkout': { name: CHECKOUT_TAB, isHidden: true },
+        '/checkout': { name: CHECKOUT_TAB },
         '/cart': { name: CART_TAB },
-        '/': { name: HOME_TAB }
+        '/': { name: HOME_TAB },
+        '': { name: HOME_TAB }
     };
 
     containerFunctions = {
@@ -89,6 +95,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         if (isHidden) {
             document.documentElement.classList.add('hiddenNavigationTabs');
+
             return;
         }
 
@@ -117,12 +124,14 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         if (windowY < TOP_MIN_OFFSET) {
             // We are on top
             document.documentElement.classList.remove('hideOnScroll');
+
             return;
         }
 
         if (offset >= (height - ERROR_BOTTOM_OFFSET)) {
             // We are on the bottom
             document.documentElement.classList.remove('hideOnScroll');
+
             return;
         }
 
@@ -177,9 +186,10 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     onMyAccountButtonClick() {
         const { pathname } = location;
+        const url = appendWithStoreCode(isSignedIn() ? `/${ MY_ACCOUNT }` : ACCOUNT_LOGIN_URL);
 
-        if (pathname !== appendWithStoreCode(`/${ MY_ACCOUNT }`)) {
-            browserHistory.push(appendWithStoreCode(`/${ MY_ACCOUNT }`));
+        if (pathname !== url) {
+            browserHistory.push(url);
         }
     }
 
@@ -188,6 +198,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         if (noMatch) {
             this.lastSeenMenu = -1;
+
             return;
         }
 
@@ -206,7 +217,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleMobileRouteChange(history) {
         const {
-            // hideActiveOverlay,
             setNavigationState,
             navigationState: { name }
         } = this.props;

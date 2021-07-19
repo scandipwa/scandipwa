@@ -1,0 +1,100 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.ProductDownloadableLinks {
+    &-Title {
+        margin-block-end: 1px;
+        font-weight: 700;
+
+        &_isRequired {
+            &::after{
+                content: '*';
+                color: var(--primary-base-color);
+                padding: 0 5px;
+            }
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-ExpandableContent {
+        &Content {
+            padding: 0;
+        }
+
+        @include desktop {
+            &Heading {
+                display: none;
+            }
+        }
+
+        &Content_isContentExpanded {
+            @include mobile {
+                padding-block: 0 14px;
+            }
+        }
+
+        &Heading {
+            text-transform: uppercase;
+        }
+    }
+
+    @include desktop {
+        margin-block-end: 30px;
+    }
+}
+
+.ProductDownloadableLink {
+    padding-block-start: 15px;
+    padding-block-end: 10px;
+    padding-inline: 0;
+    border-block-end: 1px solid var(--expandable-content-divider-color);
+
+    .Field {
+        display: inline-block;
+        margin-inline-end: 10px;
+        margin-block-start: 0;
+    }
+
+    &-SampleTitle {
+        font-weight: bold;
+    }
+
+    &-SampleLink {
+        float: inline-end;
+
+        @include mobile {
+            margin-inline-end: 16px;
+        }
+
+        &::before {
+            content: ' '
+        }
+    }
+
+    &-Required {
+        color: var(--primary-error-color);
+        padding-block-start: 10px;
+        padding-inline-start: 15px;
+    }
+
+    @include mobile {
+        &:last-of-type {
+            border-block-end: none;
+        }
+
+        &:first-of-type {
+            padding-block-start: 10px;
+        }
+    }
+}

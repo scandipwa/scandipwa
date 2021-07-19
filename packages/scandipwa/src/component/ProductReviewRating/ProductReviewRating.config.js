@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-export const PRODUCT_IN_STOCK = 'IN_STOCK';
-
-export const PRODUCT_OUT_OF_STOCK = 'OUT_OF_STOCK';
+export const STARS_GRANULARITY_PERCENT = 10;
+export const ONE_STAR_SHARE = 20;
+export const STARS_COUNT = 5;

@@ -12,11 +12,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
 
 import {
-    AREA_FIELD, CHECKBOX, DROPDOWN, TEXT_FIELD
+    AREA_FIELD, CHECKBOX, DROPDOWN, FILE, TEXT_FIELD
 } from './ProductCustomizableOption.config';
 
 /** @namespace Component/ProductCustomizableOption/Component */
@@ -28,6 +27,7 @@ export class ProductCustomizableOption extends PureComponent {
         renderOptionLabel: PropTypes.func.isRequired,
         updateTextFieldValue: PropTypes.func.isRequired,
         textFieldValid: PropTypes.bool,
+        processFileUpload: PropTypes.func,
         setDropdownValue: PropTypes.func.isRequired,
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
@@ -36,6 +36,7 @@ export class ProductCustomizableOption extends PureComponent {
     };
 
     static defaultProps = {
+        processFileUpload: () => {},
         textFieldValid: null
     };
 
@@ -54,6 +55,10 @@ export class ProductCustomizableOption extends PureComponent {
         },
         [AREA_FIELD]: {
             render: () => this.renderTextField(),
+            title: () => this.renderTextFieldTitle()
+        },
+        [FILE]: {
+            render: () => this.renderFileField(),
             title: () => this.renderTextFieldTitle()
         }
     };
@@ -83,11 +88,11 @@ export class ProductCustomizableOption extends PureComponent {
                   block="ProductCustomizableOptions"
                   elem="Heading"
                 >
-                    { `${ mainTitle } + ` }
+                    { `${ mainTitle } ` }
                 </span>
                 <span
                   block="ProductCustomizableOptions"
-                  elem="HeadingBold"
+                  elem="HeadingPrice"
                 >
                     { titleBold }
                 </span>
@@ -101,10 +106,12 @@ export class ProductCustomizableOption extends PureComponent {
             option_type_id,
             title,
             price,
-            price_type
+            priceInclTax,
+            price_type,
+            currency
         } = item;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
 
         return (
             <Field
@@ -189,7 +196,7 @@ export class ProductCustomizableOption extends PureComponent {
             optionType,
             textFieldValid
         } = this.props;
-        const { max_characters } = data;
+        const [{ max_characters = 0 }] = data;
         const fieldType = optionType === 'field' ? 'text' : 'textarea';
 
         return (
@@ -209,11 +216,37 @@ export class ProductCustomizableOption extends PureComponent {
         );
     }
 
+    renderFileField() {
+        const {
+            optionType,
+            processFileUpload,
+            option: {
+                required,
+                data: [{ file_extension = '' }] = []
+            } = {}
+        } = this.props;
+
+        return (
+            <>
+                <Field
+                  id={ `customizable-options-${ optionType }` }
+                  name={ `customizable-options-${ optionType }` }
+                  type="file"
+                  onChange={ processFileUpload }
+                  fileExtensions={ file_extension }
+                />
+                { this.renderRequired(required) }
+            </>
+        );
+    }
+
     renderTitle() {
         const { option } = this.props;
         const { title } = option;
 
-        return title;
+        return (
+            <strong>{ title }</strong>
+        );
     }
 
     renderTextFieldTitle() {
@@ -221,25 +254,24 @@ export class ProductCustomizableOption extends PureComponent {
             renderOptionLabel,
             option: {
                 title,
-                data: {
-                    price_type,
-                    price
-                }
+                data: [
+                    {
+                        price_type = 'FIXED',
+                        price = 0,
+                        priceInclTax,
+                        currency
+                    } = {}
+                ] = []
             }
         } = this.props;
 
-        const priceLabel = renderOptionLabel(price_type, price);
+        const priceLabel = renderOptionLabel(price_type, priceInclTax, price, currency);
 
         return this.renderHeading(title, priceLabel);
     }
 
     render() {
-        const {
-            option: {
-                option_id
-            },
-            optionType
-        } = this.props;
+        const { optionType } = this.props;
 
         const optionRenderMap = this.renderMap[optionType];
 
@@ -250,14 +282,12 @@ export class ProductCustomizableOption extends PureComponent {
         const { render, title } = optionRenderMap;
 
         return (
-            <ExpandableContent
-              heading={ title() }
-              mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
-              key={ option_id }
-              isContentExpanded
-            >
-                { render() }
-            </ExpandableContent>
+            <div block="ProductCustomizableOptions" elem="Wrapper">
+                { title() }
+                <div block="ProductCustomizableOptions" elem="Content">
+                    { render() }
+                </div>
+            </div>
         );
     }
 }

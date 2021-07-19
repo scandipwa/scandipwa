@@ -11,17 +11,16 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
+import Loader from 'Component/Loader/Loader.component';
+import Popup from 'Component/Popup/Popup.container';
 import ProductActions from 'Component/ProductActions';
-import ProductAttributes from 'Component/ProductAttributes';
-import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import ProductGallery from 'Component/ProductGallery';
-import ProductInformation from 'Component/ProductInformation';
 import ProductLinks from 'Component/ProductLinks';
-import ProductReviews from 'Component/ProductReviews';
+import ProductReviewForm from 'Component/ProductReviewForm/ProductReviewForm.container';
+import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
 import ProductTabs from 'Component/ProductTabs';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import {
@@ -35,6 +34,23 @@ import { ProductType } from 'Type/ProductList';
 
 import './ProductPage.style';
 
+export const ProductGallery = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-gallery" */
+    'Component/ProductGallery'
+));
+export const ProductInformation = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-info" */
+    'Component/ProductInformation'
+));
+export const ProductReviews = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-reviews" */
+    'Component/ProductReviews'
+));
+export const ProductAttributes = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "product-attributes" */
+    'Component/ProductAttributes'
+));
+
 /** @namespace Route/ProductPage/Component */
 export class ProductPage extends PureComponent {
     static propTypes = {
@@ -46,13 +62,17 @@ export class ProductPage extends PureComponent {
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        setLinkedDownloadables: PropTypes.func.isRequired,
+        setLinkedDownloadablesPrice: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
         setBundlePrice: PropTypes.func.isRequired,
+        selectedLinkPrice: PropTypes.number.isRequired,
         selectedBundlePrice: PropTypes.number.isRequired,
         device: DeviceType.isRequired,
         isInformationTabEmpty: PropTypes.bool.isRequired,
         isAttributesTabEmpty: PropTypes.bool.isRequired,
-        selectedBundlePriceExclTax: PropTypes.number.isRequired
+        selectedBundlePriceExclTax: PropTypes.number.isRequired,
+        selectedInitialBundlePrice: PropTypes.number.isRequired
     };
 
     tabMap = {
@@ -60,7 +80,8 @@ export class ProductPage extends PureComponent {
             name: __('About'),
             shouldTabRender: () => {
                 const { isInformationTabEmpty } = this.props;
-                return isInformationTabEmpty;
+
+                return !isInformationTabEmpty;
             },
             render: (key) => this.renderProductInformationTab(key)
         },
@@ -68,40 +89,18 @@ export class ProductPage extends PureComponent {
             name: __('Details'),
             shouldTabRender: () => {
                 const { isAttributesTabEmpty } = this.props;
-                return isAttributesTabEmpty;
+
+                return !isAttributesTabEmpty;
             },
             render: (key) => this.renderProductAttributesTab(key)
         },
         [PRODUCT_REVIEWS]: {
             name: __('Reviews'),
-            // Return false since it always returns 'Add review' button
-            shouldTabRender: () => false,
+            // Return true since we always show 'Add review' button
+            shouldTabRender: () => true,
             render: (key) => this.renderProductReviewsTab(key)
         }
     };
-
-    renderProductCompareButton() {
-        const {
-            dataSource: { id } = {},
-            device: { isMobile } = {}
-        } = this.props;
-
-        if (!isMobile) {
-            return null;
-        }
-
-        return (
-            <div block="ProductPage" elem="ProductCompareButtonWrapper">
-                <ProductCompareButton
-                  productId={ id }
-                  mix={ {
-                      block: 'ProductCompareButton',
-                      mods: { isGrey: true }
-                  } }
-                />
-            </div>
-        );
-    }
 
     renderProductPageContent() {
         const {
@@ -116,16 +115,21 @@ export class ProductPage extends PureComponent {
             productOptionsData,
             setBundlePrice,
             selectedBundlePrice,
-            selectedBundlePriceExclTax
+            selectedInitialBundlePrice,
+            selectedBundlePriceExclTax,
+            setLinkedDownloadables,
+            setLinkedDownloadablesPrice,
+            selectedLinkPrice
         } = this.props;
 
         return (
             <>
-                <ProductGallery
-                  product={ productOrVariant }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
-                { this.renderProductCompareButton() }
+                <Suspense fallback={ <Loader /> }>
+                    <ProductGallery
+                      product={ productOrVariant }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                </Suspense>
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
@@ -138,7 +142,11 @@ export class ProductPage extends PureComponent {
                   productOptionsData={ productOptionsData }
                   setBundlePrice={ setBundlePrice }
                   selectedBundlePrice={ selectedBundlePrice }
+                  selectedInitialBundlePrice={ selectedInitialBundlePrice }
                   selectedBundlePriceExclTax={ selectedBundlePriceExclTax }
+                  setLinkedDownloadables={ setLinkedDownloadables }
+                  setLinkedDownloadablesPrice={ setLinkedDownloadablesPrice }
+                  selectedLinkPrice={ selectedLinkPrice }
                 />
             </>
         );
@@ -173,11 +181,13 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <ProductInformation
-              product={ { ...dataSource, parameters } }
-              areDetailsLoaded={ areDetailsLoaded }
-              key={ key }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <ProductInformation
+                  product={ { ...dataSource, parameters } }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
+                />
+            </Suspense>
         );
     }
 
@@ -189,11 +199,13 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <ProductAttributes
-              product={ { ...dataSource, parameters } }
-              areDetailsLoaded={ areDetailsLoaded }
-              key={ key }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <ProductAttributes
+                  product={ { ...dataSource, parameters } }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
+                />
+            </Suspense>
         );
     }
 
@@ -204,39 +216,23 @@ export class ProductPage extends PureComponent {
         } = this.props;
 
         return (
-            <ProductReviews
-              product={ dataSource }
-              areDetailsLoaded={ areDetailsLoaded }
-              key={ key }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <ProductReviews
+                  product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  key={ key }
+                />
+            </Suspense>
         );
     }
 
-    renderProductTabItems() {
-        return Object.values(this.tabMap).reduce((tabRenders, { shouldTabRender, render, name }) => {
-            if (!shouldTabRender()) {
-                tabRenders.push(render(name));
-            }
-
-            return tabRenders;
-        }, []);
-    }
-
-    getTabNames() {
-        return Object.values(this.tabMap).reduce((tabNames, { shouldTabRender, name }) => {
-            if (!shouldTabRender()) {
-                tabNames.push(name);
-            }
-
-            return tabNames;
-        }, []);
+    shouldTabsRender() {
+        return Object.values(this.tabMap).filter(({ shouldTabRender }) => shouldTabRender());
     }
 
     renderProductTabs() {
         return (
-            <ProductTabs tabNames={ this.getTabNames() }>
-                { this.renderProductTabItems() }
-            </ProductTabs>
+            <ProductTabs tabs={ this.shouldTabsRender() } />
         );
     }
 
@@ -263,6 +259,19 @@ export class ProductPage extends PureComponent {
         );
     }
 
+    renderReviewPopup() {
+        const { productOrVariant } = this.props;
+
+        return (
+            <Popup
+              id={ REVIEW_POPUP_ID }
+              mix={ { block: 'ProductReviews', elem: 'Popup' } }
+            >
+                <ProductReviewForm product={ productOrVariant } />
+            </Popup>
+        );
+    }
+
     render() {
         return (
             <NoMatchHandler>
@@ -279,6 +288,7 @@ export class ProductPage extends PureComponent {
                         { this.renderProductPageContent() }
                     </ContentWrapper>
                     { this.renderAdditionalSections() }
+                    { this.renderReviewPopup() }
                 </main>
             </NoMatchHandler>
         );

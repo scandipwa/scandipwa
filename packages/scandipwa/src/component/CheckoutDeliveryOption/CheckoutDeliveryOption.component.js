@@ -12,9 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import Field from 'Component/Field/Field.container';
 import { shippingMethodType } from 'Type/Checkout';
-import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
+
+import { DELIVERY_METHOD_UNAVAILABLE_MESSAGE } from './CheckoutDeliveryOption.config';
 
 import './CheckoutDeliveryOption.style';
 
@@ -22,74 +24,90 @@ import './CheckoutDeliveryOption.style';
 export class CheckoutDeliveryOption extends PureComponent {
     static propTypes = {
         option: shippingMethodType.isRequired,
-        onClick: PropTypes.func.isRequired,
+        currency: PropTypes.string.isRequired,
         isSelected: PropTypes.bool,
-        totals: TotalsType.isRequired,
         optionPrice: PropTypes.number,
-        optionSubPrice: PropTypes.number
+        onOptionClick: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         isSelected: false,
-        optionPrice: 0,
-        optionSubPrice: null
-    };
-
-    onClick = () => {
-        const {
-            onClick,
-            option
-        } = this.props;
-
-        onClick(option);
+        optionPrice: 0
     };
 
     getOptionPrice() {
         const {
-            totals: {
-                quote_currency_code
-            },
+            currency,
             optionPrice
         } = this.props;
 
-        return formatPrice(optionPrice, quote_currency_code);
+        return formatPrice(optionPrice, currency);
     }
 
-    renderOptionSubPrice() {
+    renderPrice() {
         const {
-            totals: {
-                quote_currency_code
-            },
-            optionSubPrice
+            option: {
+                available
+            } = {}
         } = this.props;
 
-        if (!optionSubPrice) {
+        if (!available) {
             return null;
         }
 
         return (
-            <span block="CheckoutDeliveryOption" elem="SubPrice">
-                { __('Excl. tax: ') }
-                { formatPrice(optionSubPrice, quote_currency_code) }
+            <strong>
+                { ` - ${ this.getOptionPrice() }` }
+            </strong>
+        );
+    }
+
+    renderRate() {
+        const {
+            option: {
+                method_title,
+                available
+            } = {}
+        } = this.props;
+
+        if (!available) {
+            return null;
+        }
+
+        return (
+            <span>
+                { __('Rate: ') }
+                <strong>{ method_title }</strong>
             </span>
         );
     }
 
-    renderPrice() {
+    renderAvailabilityMessage() {
+        const {
+            option: {
+                available
+            } = {}
+        } = this.props;
+
+        if (available) {
+            return null;
+        }
+
         return (
-            <strong>
-                { ` - ${ this.getOptionPrice() }` }
-                { this.renderOptionSubPrice() }
-            </strong>
+            <div
+              block="CheckoutDeliveryOption"
+              elem="Message"
+            >
+                { DELIVERY_METHOD_UNAVAILABLE_MESSAGE }
+            </div>
         );
     }
 
     renderRow() {
         const {
             option: {
-                carrier_title,
-                method_title
-            }
+                carrier_title
+            } = {}
         } = this.props;
 
         return (
@@ -99,29 +117,41 @@ export class CheckoutDeliveryOption extends PureComponent {
                     <strong>{ carrier_title }</strong>
                 </span>
                 <br />
-                <span>
-                    { __('Rate: ') }
-                    <strong>{ method_title }</strong>
-                </span>
+                { this.renderRate() }
                 { this.renderPrice() }
+                { this.renderAvailabilityMessage() }
             </div>
         );
     }
 
     render() {
         const {
+            option: {
+                carrier_title,
+                available
+            } = {},
+            onOptionClick,
             isSelected
         } = this.props;
 
+        // disable checkbox in order to skip direct clicks on checkbox and handle clicks on entire button instead
         return (
             <li block="CheckoutDeliveryOption">
                 <button
                   block="CheckoutDeliveryOption"
-                  mods={ { isSelected } }
+                  mods={ { isDisabled: !available } }
                   elem="Button"
-                  onClick={ this.onClick }
                   type="button"
+                  onClick={ onOptionClick }
+                  disabled={ !available }
                 >
+                    <Field
+                      type="checkbox"
+                      id={ `option-${ carrier_title }` }
+                      name={ `option-${ carrier_title }` }
+                      checked={ isSelected }
+                      disabled
+                    />
                     { this.renderRow() }
                 </button>
             </li>

@@ -31,6 +31,11 @@ export class OrderQuery {
         return this._getOrderByIdField(orderId);
     }
 
+    linkOrderMutation(customerEmail) {
+        return new Field('linkOrder')
+            .addArgument('customer_email', 'String!', customerEmail);
+    }
+
     _getOrderListFields(isList) {
         return [
             this._getOrderItemsField(isList)
@@ -183,6 +188,7 @@ export class OrderQuery {
             'created_at',
             'status_label',
             'grand_total',
+            'currency_code',
             ...(isList ? [] : ['sub_total'])
         ];
     }

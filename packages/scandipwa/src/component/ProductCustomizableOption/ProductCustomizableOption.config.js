@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -15,3 +13,4 @@ export const CHECKBOX = 'checkbox';
 export const DROPDOWN = 'dropdown';
 export const TEXT_FIELD = 'field';
 export const AREA_FIELD = 'area';
+export const FILE = 'file';

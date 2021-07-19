@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -20,14 +21,23 @@ import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
+import Image from 'Component/Image/Image.container';
+import grid from 'Style/icons/grid.svg';
+import list from 'Style/icons/list.svg';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
+import { isCrawler, isSSR } from 'Util/Browser';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
+import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
-    DISPLAY_MODE_PRODUCTS
+    DISPLAY_MODE_PRODUCTS,
+    GRID_LAYOUT,
+    LAYOUT_KEY,
+    LIST_LAYOUT
 } from './CategoryPage.config';
 
 import './CategoryPage.style';
@@ -58,7 +68,14 @@ export class CategoryPage extends PureComponent {
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
         device: DeviceType.isRequired,
-        is_anchor: PropTypes.bool
+        is_anchor: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
+        onGridButtonClick: PropTypes.func.isRequired,
+        onListButtonClick: PropTypes.func.isRequired,
+        defaultPlpType: PropTypes.string,
+        selectedLayoutType: PropTypes.string,
+        plpTypes: PropTypes.arrayOf(PropTypes.string),
+        appliedFiltersCount: PropTypes.number
     };
 
     static defaultProps = {
@@ -68,15 +85,47 @@ export class CategoryPage extends PureComponent {
         isMatchingInfoFilter: false,
         totalPages: 1,
         is_anchor: true,
-        search: ''
+        search: '',
+        defaultPlpType: '',
+        plpTypes: [],
+        appliedFiltersCount: 0,
+        selectedLayoutType: ''
     };
 
-    onFilterButtonClick = this.onFilterButtonClick.bind(this);
+    state = {};
 
-    onFilterButtonClick() {
+    static getDerivedStateFromProps(props) {
+        const {
+            isMobile,
+            defaultPlpType,
+            selectedLayoutType
+        } = props;
+
+        /*
+        * Use stored plpType from the BrowserDatabase
+        * if there is one
+        */
+        const storedPlpType = BrowserDatabase.getItem(LAYOUT_KEY) || selectedLayoutType;
+
+        if (storedPlpType) {
+            const activeLayoutType = isMobile
+                ? GRID_LAYOUT
+                : storedPlpType || defaultPlpType;
+
+            return { activeLayoutType };
+        }
+
+        const activeLayoutType = isMobile
+            ? GRID_LAYOUT
+            : selectedLayoutType || defaultPlpType;
+
+        return { activeLayoutType };
+    }
+
+    onFilterButtonClick = () => {
         const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
-    }
+    };
 
     displayProducts() {
         const {
@@ -92,6 +141,7 @@ export class CategoryPage extends PureComponent {
 
     displayCmsBlock() {
         const { category: { display_mode } = {} } = this.props;
+
         return display_mode === DISPLAY_MODE_CMS_BLOCK
             || display_mode === DISPLAY_MODE_BOTH;
     }
@@ -110,8 +160,24 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderFiltersCount() {
+        const { appliedFiltersCount } = this.props;
+
+        if (!appliedFiltersCount) {
+            return null;
+        }
+
+        return (
+            <span block="CategoryPage" elem="Subheading">
+                { ` (${appliedFiltersCount})` }
+            </span>
+        );
+    }
+
     renderFilterButton() {
-        const { isContentFiltered, totalPages, category: { is_anchor } } = this.props;
+        const {
+            isContentFiltered, totalPages, category: { is_anchor }
+        } = this.props;
 
         if ((!isContentFiltered && totalPages === 0) || !is_anchor) {
             return null;
@@ -123,7 +189,9 @@ export class CategoryPage extends PureComponent {
               elem="Filter"
               onClick={ this.onFilterButtonClick }
             >
-                { __('Filter') }
+                <Image src={ filterIcon } alt="filter" mix={ { block: 'CategoryPage', elem: 'FilterIcon' } } />
+                <span>{ __('Filters') }</span>
+                { this.renderFiltersCount() }
             </button>
         );
     }
@@ -174,6 +242,60 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderLayoutButton = (type) => {
+        const {
+            onGridButtonClick,
+            onListButtonClick
+        } = this.props;
+
+        const { activeLayoutType } = this.state;
+
+        switch (type) {
+        case GRID_LAYOUT:
+            return (
+                <button
+                  key={ type }
+                  onClick={ onGridButtonClick }
+                  mix={ { block: GRID_LAYOUT, mods: { isActive: activeLayoutType === GRID_LAYOUT } } }
+                  aria-label="grid"
+                >
+                    <Image src={ grid } alt="grid" mix={ { block: GRID_LAYOUT, elem: 'Icon' } } />
+                </button>
+            );
+        case LIST_LAYOUT:
+            return (
+                <button
+                  key={ type }
+                  onClick={ onListButtonClick }
+                  mix={ { block: LIST_LAYOUT, mods: { isActive: activeLayoutType === LIST_LAYOUT } } }
+                  aria-label="list"
+                >
+                    <Image src={ list } alt="list" mix={ { block: LIST_LAYOUT, elem: 'Icon' } } />
+                </button>
+            );
+        default:
+            return false;
+        }
+    };
+
+    renderLayoutButtons() {
+        const { plpTypes } = this.props;
+
+        /*
+        * So far there is only two types of
+        * the Storefront list modes
+         */
+        if (plpTypes.length !== 2) {
+            return null;
+        }
+
+        return (
+            <div block="CategoryPage" elem="LayoutButtons">
+                { plpTypes.map(this.renderLayoutButton) }
+            </div>
+        );
+    }
+
     renderItemsCount(isVisibleOnMobile = false) {
         const { isMatchingListFilter, device } = this.props;
 
@@ -203,12 +325,18 @@ export class CategoryPage extends PureComponent {
             isMatchingInfoFilter
         } = this.props;
 
+        const { activeLayoutType } = this.state;
+
         if (!this.displayProducts()) {
             return null;
         }
 
         return (
-            <div block="CategoryPage" elem="ProductListWrapper">
+            <div
+              block="CategoryPage"
+              elem="ProductListWrapper"
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
+            >
                 { this.renderItemsCount(true) }
                 <CategoryProductList
                   filter={ filter }
@@ -218,6 +346,7 @@ export class CategoryPage extends PureComponent {
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
                   isMatchingListFilter={ isMatchingListFilter }
                   isMatchingInfoFilter={ isMatchingInfoFilter }
+                  layout={ activeLayoutType || GRID_LAYOUT }
                 />
             </div>
         );
@@ -254,7 +383,14 @@ export class CategoryPage extends PureComponent {
         return (
             <aside block="CategoryPage" elem="Miscellaneous">
                 { this.renderItemsCount() }
-                { this.renderCategorySort() }
+                <div
+                  block="CategoryPage"
+                  elem="LayoutWrapper"
+                  mods={ { isPrerendered: isSSR() || isCrawler() } }
+                >
+                    { this.renderLayoutButtons() }
+                    { this.renderCategorySort() }
+                </div>
                 { this.renderFilterButton() }
             </aside>
         );

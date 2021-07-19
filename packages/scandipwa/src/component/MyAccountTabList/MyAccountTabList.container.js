@@ -20,10 +20,13 @@ export const MyAccountDispatcher = import(
     'Store/MyAccount/MyAccount.dispatcher'
 );
 
+/** @namespace Component/MyAccountTabList/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
+
 /** @namespace Component/MyAccountTabList/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     logout: () => MyAccountDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.logout(null, dispatch)
+        ({ default: dispatcher }) => dispatcher.logout(false, dispatch)
     )
 });
 
@@ -58,9 +61,5 @@ export class MyAccountTabListContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/MyAccountTabList/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountTabListContainer);

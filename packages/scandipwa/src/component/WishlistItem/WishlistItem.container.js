@@ -18,7 +18,11 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { ProductType } from 'Type/ProductList';
+import { isSignedIn } from 'Util/Auth';
+import history from 'Util/History';
+import { CONFIGURABLE } from 'Util/Product';
 import { debounce } from 'Util/Request';
+import { appendWithStoreCode } from 'Util/Url';
 
 import WishlistItem from './WishlistItem.component';
 import { UPDATE_WISHLIST_FREQUENCY } from './WishlistItem.config';
@@ -33,7 +37,6 @@ export const WishlistDispatcher = import(
 );
 
 /** @namespace Component/WishlistItem/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
@@ -66,7 +69,8 @@ export class WishlistItemContainer extends PureComponent {
 
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
-        removeItem: this.removeItem.bind(this, false, true)
+        removeItem: this.removeItem.bind(this, false, true),
+        redirectToProductPage: this.redirectToProductPage.bind(this)
     };
 
     state = {
@@ -125,23 +129,34 @@ export class WishlistItemContainer extends PureComponent {
 
     addItemToCart() {
         const { product: item, addProductToCart, showNotification } = this.props;
-
         const {
             type_id,
             variants,
             wishlist: {
-                id, sku, quantity
+                id, sku, quantity, buy_request
             }
         } = item;
 
-        const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
-        const product = type_id === 'configurable'
-            ? { ...item, configurableVariantIndex }
-            : item;
+        if (!isSignedIn()) {
+            return null;
+        }
+
+        if (type_id === CONFIGURABLE) {
+            const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
+
+            if (!configurableVariantIndex) {
+                history.push({ pathname: appendWithStoreCode(item.url) });
+                showNotification('info', __('Please, select product options!'));
+
+                return Promise.resolve();
+            }
+
+            item.configurableVariantIndex = configurableVariantIndex;
+        }
 
         this.setState({ isLoading: true });
 
-        return addProductToCart({ product, quantity })
+        return addProductToCart({ product: item, quantity, buyRequest: buy_request })
             .then(
                 /** @namespace Component/WishlistItem/Container/addItemToCartAddProductToCartThen */
                 () => this.removeItem(id),
@@ -173,6 +188,12 @@ export class WishlistItemContainer extends PureComponent {
         return removeFromWishlist({ item_id, noMessages });
     }
 
+    redirectToProductPage() {
+        const { product: { url } } = this.props;
+
+        history.push({ pathname: appendWithStoreCode(url) });
+    }
+
     renderRightSideContent = () => (
         <button
           block="WishlistItem"
@@ -198,6 +219,7 @@ export class WishlistItemContainer extends PureComponent {
                   { ...this.props }
                   { ...this.containerProps() }
                   { ...this.containerFunctions }
+                  { ...this.state }
                 />
             </SwipeToDelete>
         );

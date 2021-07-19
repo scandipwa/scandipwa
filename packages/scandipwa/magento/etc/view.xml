@@ -17,6 +17,9 @@
             <image id="scandipwa_small_image" type="image">
                 <width>350</width>
             </image>
+            <image id="scandipwa_media_large" type="image">
+                <width>1200</width>
+            </image>
         </images>
     </media>
 </view>

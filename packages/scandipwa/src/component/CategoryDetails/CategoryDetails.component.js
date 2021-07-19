@@ -34,31 +34,35 @@ export class CategoryDetails extends PureComponent {
         isCurrentCategoryLoaded: true
     };
 
+    renderCategoryText() {
+        const {
+            category: { name },
+            isCurrentCategoryLoaded
+        } = this.props;
+
+        if (isCurrentCategoryLoaded) {
+            return (
+                <TextPlaceholder content={ name } />
+            );
+        }
+
+        return (
+            <TextPlaceholder />
+        );
+    }
+
     renderCategoryName() {
         const {
-            category: { name, id },
-            isCurrentCategoryLoaded
+            category: { name, id }
         } = this.props;
 
         if (id && !name) {
             return null;
         }
 
-        if (!isCurrentCategoryLoaded) {
-            return this.renderCategoryNamePlaceholder();
-        }
-
         return (
             <h1 block="CategoryDetails" elem="Heading">
-                <TextPlaceholder content={ name } />
-            </h1>
-        );
-    }
-
-    renderCategoryNamePlaceholder() {
-        return (
-            <h1 block="CategoryDetails" elem="Heading">
-                <TextPlaceholder />
+                { this.renderCategoryText() }
             </h1>
         );
     }

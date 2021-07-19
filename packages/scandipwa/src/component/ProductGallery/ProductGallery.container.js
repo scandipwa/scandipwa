@@ -32,8 +32,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/ProductGallery/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/ProductGallery/Container */
 export class ProductGalleryContainer extends PureComponent {
@@ -91,7 +90,7 @@ export class ProductGalleryContainer extends PureComponent {
 
     onActiveImageChange(activeImage) {
         this.setState({
-            activeImage,
+            activeImage: Math.abs(activeImage),
             isZoomEnabled: false
         });
     }
@@ -101,32 +100,36 @@ export class ProductGalleryContainer extends PureComponent {
             areDetailsLoaded,
             product: {
                 media_gallery_entries: mediaGallery = [],
-                [THUMBNAIL_KEY]: { url } = {},
+                [THUMBNAIL_KEY]: { url: thumbnailUrl } = {},
+                [IMAGE_TYPE]: { url: imageTypeUrl } = {},
                 name
             }
         } = this.props;
 
+        const url = imageTypeUrl || thumbnailUrl;
+
         if (mediaGallery.length) {
-            return Object.values(mediaGallery.reduce((acc, srcMedia) => {
-                const {
-                    types,
-                    position,
-                    disabled
-                } = srcMedia;
+            return mediaGallery
+                .filter(({ disabled }) => !disabled)
+                .sort((a, b) => {
+                    const aBase = a.types.includes(IMAGE_TYPE);
+                    const bBase = b.types.includes(IMAGE_TYPE);
+                    const sortResult = a.position - b.position;
 
-                const canBeShown = !disabled;
-                if (!canBeShown) {
-                    return acc;
-                }
+                    if (aBase && bBase) {
+                        return sortResult;
+                    }
 
-                const isThumbnail = types.includes(THUMBNAIL_KEY);
-                const key = isThumbnail ? 0 : position + 1;
+                    if (aBase) {
+                        return -1;
+                    }
 
-                return {
-                    ...acc,
-                    [key]: srcMedia
-                };
-            }, {}));
+                    if (bBase) {
+                        return 1;
+                    }
+
+                    return sortResult;
+                });
         }
 
         if (!url) {
@@ -170,6 +173,7 @@ export class ProductGalleryContainer extends PureComponent {
      */
     _getProductName() {
         const { product: { name } } = this.props;
+
         return name;
     }
 

@@ -11,6 +11,9 @@
 
 import { connect } from 'react-redux';
 
+import BreadcrumbsReducer from 'Store/Breadcrumbs/Breadcrumbs.reducer';
+import { withReducers } from 'Util/DynamicReducer';
+
 import Breadcrumbs from './Breadcrumbs.component';
 
 /** @namespace Component/Breadcrumbs/Container/mapStateToProps */
@@ -20,7 +23,8 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/Breadcrumbs/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Breadcrumbs);
+export default withReducers({
+    BreadcrumbsReducer
+})(connect(mapStateToProps, mapDispatchToProps)(Breadcrumbs));

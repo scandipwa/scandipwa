@@ -10,9 +10,13 @@
  */
 
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import ProductCustomizableOptionContainer
-    from 'Component/ProductCustomizableOption/ProductCustomizableOption.container';
+import {
+    mapDispatchToProps,
+    mapStateToProps,
+    ProductCustomizableOptionContainer
+} from 'Component/ProductCustomizableOption/ProductCustomizableOption.container';
 
 import ProductBundleItem from './ProductBundleItem.component';
 
@@ -178,7 +182,9 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     }
 
     getDropdownOptions(values) {
-        const { price_range: { minimum_price: { discount: { percent_off } } } } = this.props;
+        const {
+            currencyCode
+        } = this.props;
 
         return values.reduce((acc, {
             id,
@@ -186,20 +192,18 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
             price_type,
             quantity,
             can_change_quantity,
-            product: { price_range: { minimum_price: { final_price: { value } } } }
+            finalOptionPrice,
+            price
         }) => {
-            // eslint-disable-next-line no-magic-numbers
-            const finalPrice = value - (value * (percent_off / 100));
-
-            const dropdownLabel = !can_change_quantity
-                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`
-                : `${ label } + ${ this.renderOptionLabel(price_type, finalPrice) }`;
+            const subLabel = this.renderOptionLabel(price_type, finalOptionPrice, price, currencyCode);
+            const dropdownLabel = !can_change_quantity ? `${ quantity } x ${ label } ` : `${ label } `;
 
             acc.push({
                 id,
                 name: label,
                 value: id,
-                label: dropdownLabel
+                label: dropdownLabel,
+                subLabel
             });
 
             return acc;
@@ -218,4 +222,4 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     }
 }
 
-export default ProductBundleItemContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductBundleItemContainer);

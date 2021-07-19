@@ -15,7 +15,6 @@ import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
-import { isSignedIn } from 'Util/Auth';
 
 import './ProductWishlistButton.style';
 
@@ -30,7 +29,8 @@ export class ProductWishlistButton extends PureComponent {
         product: ProductType.isRequired,
         addToWishlist: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
-        mix: PropTypes.shape({ block: PropTypes.string, elem: PropTypes.string, mod: PropTypes.string })
+        mix: PropTypes.shape({ block: PropTypes.string, elem: PropTypes.string, mod: PropTypes.string }),
+        isSignedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -43,9 +43,9 @@ export class ProductWishlistButton extends PureComponent {
     };
 
     getTitle = () => {
-        const { isInWishlist, isReady } = this.props;
+        const { isInWishlist, isReady, isSignedIn } = this.props;
 
-        if (!isSignedIn()) {
+        if (!isSignedIn) {
             return __('Please sign in first!');
         }
 
@@ -60,7 +60,7 @@ export class ProductWishlistButton extends PureComponent {
         return __('Add to Wishlist');
     };
 
-    onClick = () => {
+    onClick = (e) => {
         const {
             product,
             quantity,
@@ -68,6 +68,8 @@ export class ProductWishlistButton extends PureComponent {
             addToWishlist,
             removeFromWishlist
         } = this.props;
+
+        e.preventDefault();
 
         if (!isInWishlist) {
             return addToWishlist(product, quantity);

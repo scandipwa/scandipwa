@@ -17,6 +17,7 @@ import { createPortal } from 'react-dom';
 
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
+import { toggleScroll } from 'Util/Browser';
 
 import './Overlay.style';
 
@@ -82,17 +83,18 @@ export class Overlay extends PureComponent {
 
     getIsVisible(props = this.props) {
         const { id, activeOverlay, isStatic } = props;
+
         return isStatic || id === activeOverlay;
     }
 
     freezeScroll() {
         this.YoffsetWhenScrollDisabled = window.pageYOffset || document.body.scrollTop;
-        document.documentElement.classList.add('scrollDisabled');
+        toggleScroll(false);
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
     }
 
     unfreezeScroll() {
-        document.documentElement.classList.remove('scrollDisabled');
+        toggleScroll(true);
         document.body.style.marginTop = 0;
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }

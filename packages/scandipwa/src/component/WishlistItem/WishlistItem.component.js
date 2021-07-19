@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,7 +15,9 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import './WishlistItem.style';
 
@@ -26,11 +29,11 @@ export class WishlistItem extends PureComponent {
         product: ProductType.isRequired,
         changeDescription: PropTypes.func,
         removeItem: PropTypes.func,
+        redirectToProductPage: PropTypes.func,
         isLoading: PropTypes.bool,
         isRemoving: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
-        attributes: PropTypes.array.isRequired,
         handleSelectIdChange: PropTypes.func.isRequired
     };
 
@@ -39,39 +42,30 @@ export class WishlistItem extends PureComponent {
         changeQuantity: () => {},
         changeDescription: () => {},
         removeItem: () => {},
+        redirectToProductPage: () => {},
         isLoading: false,
         isRemoving: false
     };
 
-    renderDescription() {
+    optionRenderMap = {
+        [GROUPED]: this.renderGroupedOption.bind(this),
+        [BUNDLE]: this.renderBundleOption.bind(this)
+    };
+
+    renderCommentField() {
         const {
             product: { wishlist: { description } },
-            changeDescription,
-            isMobile
+            changeDescription
         } = this.props;
-        const { isEditingActive } = this.props;
-
-        if (!description && !isEditingActive && isMobile) {
-            return null;
-        }
-
-        const isDisabled = isMobile && !isEditingActive;
-        const mods = isMobile
-            ? {
-                isNotEditingActive: !isEditingActive,
-                isEmpty: !description
-            }
-            : {};
 
         return (
             <Field
               id="description"
               name="description"
-              type="text"
+              type="input"
               value={ description }
-              mix={ { block: 'WishlistItem', elem: 'CommentField', mods } }
+              mix={ { block: 'WishlistItem', elem: 'CommentField' } }
               placeholder={ __('Add a comment') }
-              isDisabled={ isDisabled }
               onChange={ changeDescription }
             />
         );
@@ -90,11 +84,7 @@ export class WishlistItem extends PureComponent {
               type="number"
               min={ 1 }
               value={ quantity }
-              mix={ {
-                  block: 'WishlistItem',
-                  elem: 'QuantityInput',
-                  mix: { block: 'Field', mods: { style: 'inline' } }
-              } }
+              mix={ { block: 'WishlistItem', elem: 'QuantityInput' } }
               onChange={ changeQuantity }
             />
         );
@@ -161,11 +151,18 @@ export class WishlistItem extends PureComponent {
             product: { url, type_id }
         } = this.props;
 
-        if (type_id !== 'configurable') {
+        if (type_id !== CONFIGURABLE) {
             return product;
         }
 
         const wishedVariant = product.variants.find(({ sku }) => sku === product.wishlist.sku);
+
+        if (!wishedVariant) {
+            return {
+                ...product,
+                url
+            };
+        }
 
         return {
             ...wishedVariant,
@@ -173,11 +170,73 @@ export class WishlistItem extends PureComponent {
         };
     }
 
+    renderGroupedOption(option) {
+        const { label, value } = option;
+
+        return (
+            <span block="WishlistItemOption">
+                { `${ value} x ${label }` }
+            </span>
+        );
+    }
+
+    renderBundleOption(option) {
+        const { label, value } = option;
+
+        return (
+            <span block="WishlistItemOption">
+                { `${label }: ${ value}` }
+            </span>
+        );
+    }
+
+    renderOptions() {
+        const { product: { type_id, wishlist: { options } } } = this.props;
+
+        const renderMethod = this.optionRenderMap[type_id];
+
+        if (renderMethod) {
+            return (
+                <div block="WishlistItemOptions" elem="List">
+                    { options.map(renderMethod) }
+                </div>
+            );
+        }
+
+        return (
+            <div block="WishlistItemOptions" elem="List">
+                { options.map(({ value }) => value).join(', ') }
+            </div>
+        );
+    }
+
+    renderRating() {
+        const { product: { rating_summary, review_count } } = this.props;
+
+        if (review_count < 1) {
+            return <div block="WishlistItem" elem="RatingPlaceholder" />;
+        }
+
+        return <ProductReviewRating summary={ rating_summary } count={ review_count } />;
+    }
+
+    renderBrand() {
+        const {
+            product: {
+                attributes: { brand: { attribute_value: brand } = {} } = {}
+            }
+        } = this.props;
+
+        return (
+            <div block="WishlistItem" elem="Brand">{ brand }</div>
+        );
+    }
+
     renderName() {
         const { product: { name } } = this.props;
 
         return (
-            <span>{ name }</span>
+            <h4>{ name }</h4>
         );
     }
 
@@ -188,20 +247,6 @@ export class WishlistItem extends PureComponent {
               elem="Price"
             >
                 { productPrice() }
-            </div>
-        );
-    }
-
-    renderAttributes() {
-        const { attributes } = this.props;
-
-        return (
-            <div block="WishlistItem" elem="AttributeWrapper">
-                { attributes.map((attr) => (
-                    <span mix={ { block: 'ProductAttribute' } }>
-                        { attr }
-                    </span>
-                )) }
             </div>
         );
     }
@@ -222,40 +267,72 @@ export class WishlistItem extends PureComponent {
         );
     }
 
-    renderContentMobile({
+    renderCardFooterMobile() {
+        const { redirectToProductPage } = this.props;
+
+        return (
+            <div block="WishlistItem" elem="Content">
+                { this.renderCommentField() }
+                <div block="WishlistItem" elem="ActionWrapper">
+                    { this.renderAddToCartButton() }
+                    <span
+                      block="WishlistItem"
+                      elem="EditIcon"
+                      onClick={ redirectToProductPage }
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    renderCardDataMobile({
         content: { productPrice },
         pictureBlock: { picture: renderPicture },
         renderCardLinkWrapper
     }) {
-        const { isEditingActive } = this.props;
-
         return (
-            <>
-                <div block="WishlistItem" elem="SelectWrapper">
-                    { this.renderSelectCheckbox() }
-                    <div block="WishlistItem" elem="ContentWrapper" mods={ { isEditingActive } }>
-                        { renderCardLinkWrapper((
-                            <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
-                                { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
-                            </figure>
-                        ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
-                        <div block="WishlistItem" elem="Content">
+            <div block="WishlistItem" elem="FigureWrapper">
+                { renderCardLinkWrapper((
+                    <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
+                        { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
+                    </figure>
+                ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
+                <div block="WishlistItem" elem="InformationWrapper">
+                    <div block="WishlistItem" elem="RowWrapper">
+                        <div>
                             { this.renderName() }
-                            { this.renderAttributes() }
-                            { this.renderQuantityField() }
-                            <div block="WishlistItem" elem="RowWrapper">
-                                { this.renderPrice(productPrice) }
-                                { this.renderAddToCartButton() }
-                            </div>
+                            { this.renderOptions() }
                         </div>
+                        { this.renderRemove() }
+                    </div>
+                    <div block="WishlistItem" elem="RowWrapper">
+                        { this.renderQuantityFieldInput() }
+                        { this.renderPrice(productPrice) }
                     </div>
                 </div>
-                { this.renderDescription() }
-            </>
+            </div>
+        );
+    }
+
+    renderContentMobile(renderMethods) {
+        const {
+            isEditingActive
+        } = this.props;
+
+        return (
+            <div block="WishlistItem" elem="SelectWrapper">
+                    { this.renderSelectCheckbox() }
+                    <div block="WishlistItem" elem="ContentWrapper" mods={ { isEditingActive } }>
+                        { this.renderCardDataMobile(renderMethods) }
+                        { this.renderCardFooterMobile() }
+                    </div>
+            </div>
         );
     }
 
     renderContent = (renderMethods) => {
+        const { redirectToProductPage } = this.props;
+
         const {
             content: { productPrice },
             pictureBlock: { picture: renderPicture },
@@ -276,19 +353,28 @@ export class WishlistItem extends PureComponent {
                             <figure mix={ { block: 'ProductCard', elem: 'Figure' } }>
                                 { renderPicture({ block: 'WishlistItem', elem: 'Picture' }) }
                             </figure>
+                            { this.renderRating() }
+                            { this.renderBrand() }
                             { this.renderName() }
-                            { this.renderAttributes() }
                         </>
                     ) }
                     { this.renderRemove() }
                 </div>
+                { this.renderOptions() }
                 <div block="WishlistItem" elem="Content">
                     <div block="WishlistItem" elem="RowWrapper">
-                        { this.renderQuantityField() }
                         { this.renderPrice(productPrice) }
+                        { this.renderQuantityFieldInput() }
                     </div>
-                    { this.renderDescription() }
-                    { this.renderAddToCartButton() }
+                    { this.renderCommentField() }
+                    <div block="WishlistItem" elem="ActionWrapper">
+                        { this.renderAddToCartButton() }
+                        <span
+                          block="WishlistItem"
+                          elem="EditIcon"
+                          onClick={ redirectToProductPage }
+                        />
+                    </div>
                 </div>
             </>
         );

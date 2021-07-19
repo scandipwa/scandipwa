@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { ProductItemsType } from 'Type/ProductList';
 
 import ProductCompare from './ProductCompare.component';
-import { ATTR_MULTISELECT } from './ProductCompare.config';
 
 export const ProductCompareDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -26,6 +25,8 @@ export const ProductCompareDispatcher = import(
 /** @namespace Component/ProductCompare/Container/mapStateToProps  */
 export const mapStateToProps = (state) => ({
     products: state.ProductCompareReducer.products,
+    items: state.ProductCompareReducer.items,
+    attributes: state.ProductCompareReducer.attributes,
     isLoading: state.ProductCompareReducer.isLoading,
     device: state.ConfigReducer.device
 });
@@ -46,12 +47,16 @@ export class ProductCompareContainer extends PureComponent {
         fetchCompareList: PropTypes.func.isRequired,
         clearCompareList: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
-        products: ProductItemsType
+        products: ProductItemsType,
+        items: PropTypes.array,
+        attributes: PropTypes.array
     };
 
     static defaultProps = {
         isLoading: false,
-        products: []
+        products: [],
+        items: [],
+        attributes: []
     };
 
     containerFunctions = {
@@ -76,44 +81,20 @@ export class ProductCompareContainer extends PureComponent {
     }
 
     getAttributes() {
-        const { products } = this.props;
+        const { attributes, items } = this.props;
 
-        if (!products.length) {
+        if (!items.length || !attributes.length) {
             return [];
         }
 
-        return Object.values(
-            products.reduce((acc, { attributes }) => {
-                Object.assign(acc, attributes);
-                return acc;
-            }, {})
-        ).map(({ attribute_code, attribute_value, ...rest }) => ({
-            ...rest,
-            attribute_code,
-            attribute_values: products.map(({ attributes }) => {
-                const {
-                    attribute_value = null,
-                    attribute_options = {},
-                    attribute_type
-                } = attributes[attribute_code] || {};
-
-                return attribute_type === ATTR_MULTISELECT
-                    ? this.getMultiSelectAttributeValue(attribute_value, attribute_options)
-                    : this.getAttributeValue(attribute_value, attribute_options);
-            })
+        return attributes.map(({ code, label }) => ({
+            attribute_id: code,
+            attribute_code: code,
+            attribute_label: label,
+            attribute_values: items.map(
+                ({ attributes }) => attributes.find((attribute) => attribute.code === code).value
+            )
         }));
-    }
-
-    getAttributeValue(value, options) {
-        return options[value]?.label || value || null;
-    }
-
-    getMultiSelectAttributeValue(value, options) {
-        return value
-            .split(/,\s*/)
-            .map((v) => this.getAttributeValue(v, options))
-            .filter((v) => !!v)
-            .join(', ');
     }
 
     render() {

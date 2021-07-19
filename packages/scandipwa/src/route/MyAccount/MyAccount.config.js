@@ -12,3 +12,5 @@
  */
 
 export const MY_ACCOUNT_URL = '/my-account';
+export const ACCOUNT_LOGIN_URL = '/account/login';
+export const ACCOUNT_URL = '/account';

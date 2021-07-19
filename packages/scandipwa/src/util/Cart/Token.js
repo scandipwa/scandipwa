@@ -9,17 +9,32 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
 /** @namespace Util/Token/setGuestQuoteId */
 export const setGuestQuoteId = (token) => {
-    BrowserDatabase.setItem(token, GUEST_QUOTE_ID);
+    BrowserDatabase.setItem({
+        token,
+        isCustomerToken: isSignedIn()
+    }, GUEST_QUOTE_ID);
 };
 
 /** @namespace Util/Token/getGuestQuoteId */
-export const getGuestQuoteId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
+export const getGuestQuoteId = () => {
+    const {
+        token,
+        isCustomerToken
+    } = BrowserDatabase.getItem(GUEST_QUOTE_ID) || {};
+
+    if (isCustomerToken && !isSignedIn()) {
+        return null;
+    }
+
+    return token;
+};
 
 /** @namespace Util/Token/deleteGuestQuoteId */
 export const deleteGuestQuoteId = () => BrowserDatabase.deleteItem(GUEST_QUOTE_ID);

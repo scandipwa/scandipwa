@@ -10,9 +10,9 @@
  */
 
 .ProductGalleryThumbnailImage {
-    @include after-mobile {
-        display: contents;
-        height: 100%;
+    @include desktop {
+        display: flex;
+        height: auto;
         width: 100%;
         padding: 5px 0;
     }

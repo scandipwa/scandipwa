@@ -141,6 +141,7 @@ export class ProductGallery extends PureComponent {
      */
     renderVideo(media, index) {
         const { isImageZoomPopupActive } = this.props;
+
         return (
             <VideoThumbnail
               key={ index }
@@ -206,9 +207,13 @@ export class ProductGallery extends PureComponent {
         const { scrollEnabled } = this.state;
 
         if (!isMobile) {
-            const { base: { url: src } } = mediaData;
+            const {
+                base: { url: baseSrc } = {},
+                large: { url: largeSrc } = {}
+            } = mediaData;
 
             const style = isImageZoomPopupActive ? { height: 'auto' } : {};
+            const src = isImageZoomPopupActive ? largeSrc : baseSrc;
 
             return (
                 <Image
@@ -305,11 +310,25 @@ export class ProductGallery extends PureComponent {
 
         return (
             <div block="ProductGallery" elem="Additional" mods={ { isImageZoomPopupActive } }>
-                <CarouselScroll activeItemId={ activeImage } onChange={ onActiveImageChange } showedItemCount={ 4 }>
+                <CarouselScroll activeItemId={ activeImage } onChange={ onActiveImageChange } showedItemCount={ 7 }>
                     { gallery.map(this.renderAdditionalPicture) }
                 </CarouselScroll>
             </div>
         );
+    }
+
+    getImageUrl() {
+        const {
+            gallery: [
+                {
+                    thumbnail: {
+                        url = ''
+                    } = {}
+                }
+            ] = []
+        } = this.props;
+
+        return url;
     }
 
     renderSlider() {
@@ -319,7 +338,8 @@ export class ProductGallery extends PureComponent {
             isZoomEnabled,
             onActiveImageChange,
             isImageZoomPopupActive,
-            sliderRef
+            sliderRef,
+            isMobile
         } = this.props;
 
         const mods = {
@@ -327,16 +347,20 @@ export class ProductGallery extends PureComponent {
             isZoomInCursor: !isImageZoomPopupActive
         };
 
+        const isMoreThanOnePhoto = gallery.length > 1;
+
         return (
             <div
               ref={ this.imageRef }
               block="ProductGallery"
               elem="SliderWrapper"
             >
+                <meta itemProp="image" content={ this.getImageUrl() } />
                 <Slider
                   sliderRef={ sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider', mods } }
-                  showCrumbs
+                  showCrumbs={ isMobile && isMoreThanOnePhoto }
+                  showArrows={ !isMobile && isMoreThanOnePhoto }
                   activeImage={ activeImage }
                   onActiveImageChange={ onActiveImageChange }
                   isInteractionDisabled={ isZoomEnabled }
@@ -353,8 +377,8 @@ export class ProductGallery extends PureComponent {
     render() {
         return (
             <div block="ProductGallery">
-                { this.renderAdditionalPictures() }
                 { this.renderSlider() }
+                { this.renderAdditionalPictures() }
                 <VideoPopup />
             </div>
         );

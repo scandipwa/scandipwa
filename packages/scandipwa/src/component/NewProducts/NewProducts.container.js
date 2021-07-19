@@ -125,6 +125,7 @@ export class NewProductsContainer extends PureComponent {
         const requestDate = new Date(requestTime);
 
         const timeOffset = 10;
+
         return requestDate.toISOString().slice(0, timeOffset);
     }
 
@@ -162,7 +163,7 @@ export class NewProductsContainer extends PureComponent {
             )
             .catch(
                 /** @namespace Component/NewProducts/Container/executeGetThenCatch */
-                (e) => showNotification('error', 'Error fetching NewProducts!', e)
+                (e) => showNotification('error', __('Error fetching NewProducts!'), e)
             );
     }
 
