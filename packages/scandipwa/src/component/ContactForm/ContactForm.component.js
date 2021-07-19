@@ -53,14 +53,10 @@ export class ContactForm extends FieldForm {
 
     onFormSuccess(fields) {
         const { onFormSubmit } = this.props;
-        onFormSubmit(fields).then(
-            () => {
-                this.clearForm();
-            }
-        );
+        onFormSubmit(fields).then(this.clearForm);
     }
 
-    clearForm() {
+    clearForm = () => {
         const {
             form: {
                 form
