@@ -30,6 +30,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
+import { isCrawler, isSSR } from 'Util/Browser';
 import CSS from 'Util/CSS';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
@@ -59,8 +60,8 @@ import {
 
 import './Header.style';
 
-export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "cart" */ 'Component/CartOverlay'));
-export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "account" */ 'Component/MyAccountOverlay'));
+export const CartOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "overlay" */ 'Component/CartOverlay'));
+export const MyAccountOverlay = lazy(() => import(/* webpackMode: "lazy", webpackChunkName: "overlay" */ 'Component/MyAccountOverlay'));
 
 /** @namespace Component/Header/Component */
 export class Header extends NavigationAbstract {
@@ -719,7 +720,11 @@ export class Header extends NavigationAbstract {
         }
 
         return (
-            <section block="Header" elem="Wrapper">
+            <section
+              block="Header"
+              elem="Wrapper"
+              mods={ { isPrerendered: isSSR() || isCrawler() } }
+            >
                 <header
                   block="Header"
                   mods={ { name, isHiddenOnMobile, isCheckout } }

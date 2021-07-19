@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
@@ -19,12 +19,19 @@ import { customerType } from 'Type/Account';
 import './MyAccountAddressBook.style';
 
 /** @namespace Component/MyAccountAddressBook/Component */
-export class MyAccountAddressBook extends PureComponent {
+export class MyAccountAddressBook extends Component {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultPostfix: PropTypes.func.isRequired,
         showCreateNewPopup: PropTypes.func.isRequired
     };
+
+    shouldComponentUpdate(nextProps) {
+        const { customer } = this.props;
+        const { customer: nextCustomer } = nextProps;
+
+        return customer !== nextCustomer;
+    }
 
     renderPopup() {
         return <MyAccountAddressPopup />;

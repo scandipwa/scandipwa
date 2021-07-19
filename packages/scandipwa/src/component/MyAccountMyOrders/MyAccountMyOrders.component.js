@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import Loader from 'Component/Loader';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
@@ -21,12 +21,22 @@ import { DeviceType } from 'Type/Device';
 import './MyAccountMyOrders.style';
 
 /** @namespace Component/MyAccountMyOrders/Component */
-export class MyAccountMyOrders extends PureComponent {
+export class MyAccountMyOrders extends Component {
     static propTypes = {
         orderList: ordersType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         device: DeviceType.isRequired
     };
+
+    shouldComponentUpdate(nextProps) {
+        const { device, orderList } = this.props;
+        const {
+            device: nextDevice,
+            orderList: nextOrderList
+        } = nextProps;
+
+        return device !== nextDevice || orderList !== nextOrderList;
+    }
 
     renderPopup() {
         return <MyAccountOrderPopup />;

@@ -28,7 +28,7 @@ export class SearchPage extends CategoryPage {
               } }
             >
                 { __('Search results for: ') }
-                <span>{ search }</span>
+                <span>{ search.replace(/\+/g, ' ') }</span>
             </h1>
         );
     }

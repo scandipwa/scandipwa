@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { createRef, PureComponent } from 'react';
+import { Component, createRef } from 'react';
 
 import AddToCart from 'Component/AddToCart';
 import Image from 'Component/Image';
@@ -31,6 +31,7 @@ import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 import {
     OPTION_TYPE_COLOR,
     OPTION_TYPE_IMAGE,
+    OUT_OF_STOCK,
     validOptionTypes
 } from './ProductCard.config';
 
@@ -40,7 +41,7 @@ import './ProductCard.style';
  * @class ProductCard
  * @namespace Component/ProductCard/Component
  */
-export class ProductCard extends PureComponent {
+export class ProductCard extends Component {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
@@ -116,6 +117,17 @@ export class ProductCard extends PureComponent {
     };
 
     imageRef = createRef();
+
+    shouldComponentUpdate(nextProps) {
+        const { product, device, productOrVariant } = this.props;
+        const {
+            product: nextProduct,
+            device: nextDevice,
+            productOrVariant: nextProductOrVariant
+        } = nextProps;
+
+        return product !== nextProduct || device !== nextDevice || productOrVariant !== nextProductOrVariant;
+    }
 
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
@@ -370,6 +382,7 @@ export class ProductCard extends PureComponent {
             <ProductWishlistButton
               product={ product }
               mix={ { block: 'ProductCard', elem: 'WishListButton' } }
+              groupedProductQuantity={ {} }
             />
         );
     }
@@ -481,7 +494,8 @@ export class ProductCard extends PureComponent {
         const {
             product,
             product: {
-                type_id
+                type_id,
+                stock_status
             }
         } = this.props;
         const configurableVariantIndex = -1;
@@ -503,6 +517,7 @@ export class ProductCard extends PureComponent {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status === OUT_OF_STOCK }
             />
         );
     }

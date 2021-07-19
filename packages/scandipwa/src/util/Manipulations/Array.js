@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,6 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const PRODUCT_IN_STOCK = 'IN_STOCK';
-
-export const PRODUCT_OUT_OF_STOCK = 'OUT_OF_STOCK';
+export const range = (start, end) => {
+    const length = end - start + 1;
+    return Array.from({ length }, (_, i) => start + i);
+};

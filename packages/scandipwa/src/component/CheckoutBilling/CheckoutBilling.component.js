@@ -220,6 +220,7 @@ export class CheckoutBilling extends PureComponent {
             <CheckoutAddressBook
               onAddressSelect={ onAddressSelect }
               isBilling
+              is_virtual
             />
         );
     }

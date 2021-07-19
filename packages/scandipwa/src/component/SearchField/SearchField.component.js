@@ -28,7 +28,7 @@ import './SearchField.style';
 
 export const SearchOverlay = lazy(
     () => import(
-        /* webpackMode: "lazy", webpackChunkName: "category" */
+        /* webpackMode: "lazy", webpackChunkName: "overlay" */
         'Component/SearchOverlay'
     )
 );
@@ -88,7 +88,7 @@ export class SearchField extends PureComponent {
 
     onSearchEnterPress = (e) => {
         const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
-        const search = searchCriteria.trim().replace(/\s\s+/g, '%20');
+        const search = searchCriteria.trim().replace(/\s/g, '+');
         const trimmedSearch = searchCriteria.trim();
 
         if (e.key === 'Enter' && trimmedSearch !== '') {

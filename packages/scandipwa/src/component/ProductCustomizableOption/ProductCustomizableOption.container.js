@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { ONE_HUNDRED_PERCENT } from 'Component/ProductActions/ProductActions.config';
+import { PRICE_TYPE_PERCENT } from 'Component/ProductBundleItem/ProductBundleItem.config';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { PriceType } from 'Type/ProductList';
 import { formatPrice } from 'Util/Price';
@@ -36,11 +36,15 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         productOptionsData: PropTypes.object.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
-        setCustomizableOptionFileFieldValue: PropTypes.func.isRequired,
+        setCustomizableOptionFileFieldValue: PropTypes.func,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         price_range: PriceType.isRequired,
         type_id: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        setCustomizableOptionFileFieldValue: () => null
     };
 
     state = {
@@ -111,27 +115,18 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         return !!isRequiredSelected.length;
     }
 
-    renderOptionLabel(priceType, price, currency) {
-        const {
-            price_range: {
-                minimum_price: {
-                    default_final_price_excl_tax: {
-                        value = 0
-                    } = {}
-                } = {}
-            } = {}
-        } = this.props;
-
-        const finalPriceSource = price === 0 ? value : price;
-        const finalPrice = formatPrice(finalPriceSource, currency);
-
-        switch (priceType) {
-        case 'PERCENT':
-            const percentPrice = formatPrice((finalPriceSource / ONE_HUNDRED_PERCENT) * value, currency);
-            return `${percentPrice} (${ price }%)`;
-        default:
-            return finalPrice;
+    renderPercent(priceType, price) {
+        if (priceType !== PRICE_TYPE_PERCENT) {
+            return '';
         }
+
+        return ` (${ price }%)`;
+    }
+
+    renderOptionLabel(priceType, priceInclTax, price, currency) {
+        return (price === 0 && priceInclTax === 0)
+            ? ''
+            : `+ ${formatPrice(priceInclTax, currency)}${this.renderPercent(priceType, price)}`;
     }
 
     getSelectedCheckboxValue(value) {
@@ -167,13 +162,18 @@ export class ProductCustomizableOptionContainer extends PureComponent {
 
     getDropdownOptions(values) {
         return values.reduce((acc, {
-            option_type_id, title, price, price_type, currency
+            option_type_id,
+            title,
+            priceInclTax,
+            price,
+            price_type,
+            currency
         }) => {
             acc.push({
                 id: option_type_id,
                 name: title,
                 value: option_type_id,
-                label: `${title} + ${this.renderOptionLabel(price_type, price, currency)}`
+                label: `${title} ${this.renderOptionLabel(price_type, priceInclTax, price, currency)}`
             });
 
             return acc;
@@ -196,8 +196,7 @@ export class ProductCustomizableOptionContainer extends PureComponent {
         }
 
         const reader = new FileReader();
-        // eslint-disable-next-line func-names
-        reader.onloadend = function () {
+        reader.onloadend = () => {
             setCustomizableOptionFileFieldValue(reader.result, option, name);
         };
 

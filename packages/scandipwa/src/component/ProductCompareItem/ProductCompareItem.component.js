@@ -17,6 +17,7 @@ import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import ProductPrice from 'Component/ProductPrice';
+import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
 
@@ -149,12 +150,26 @@ export class ProductCompareItem extends PureComponent {
         return <ProductPrice price={ price_range } />;
     }
 
+    renderProductCardWishlistButton() {
+        const { product } = this.props;
+
+        return (
+            <ProductWishlistButton
+              product={ product }
+              mix={ { block: 'ProductCard', elem: 'WishListButton' } }
+            />
+        );
+    }
+
     renderProductDetails() {
         return (
             <div block="ProductCompareItem" elem="Details">
                 { this.renderPrice() }
                 { this.renderTitle() }
-                { this.renderAddToCartBtn() }
+                <div block="ProductCompareItem" elem="ControlButtons">
+                    { this.renderAddToCartBtn() }
+                    { this.renderProductCardWishlistButton() }
+                </div>
             </div>
         );
     }
