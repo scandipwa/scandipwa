@@ -226,3 +226,12 @@ export const objectToUri = (keyValueObject = {}) => {
 
     return paramString.length > 0 ? `?${paramString}` : '';
 };
+
+export const isHomePageUrl = (pathname) => {
+    const isHomePage = pathname === appendWithStoreCode('/')
+        || pathname === '/'
+        || pathname === appendWithStoreCode('')
+        || pathname === '';
+
+    return isHomePage;
+};
