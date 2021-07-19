@@ -21,7 +21,6 @@ import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
 import {
     CONFIGURABLE,
-    filterConfigurableOptions,
     getNewParameters,
     getVariantIndex,
     getVariantsIndexes
