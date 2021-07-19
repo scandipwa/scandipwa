@@ -29,6 +29,9 @@ export const mapStateToProps = (state) => ({
     anchorTextNext: state.ConfigReducer.anchor_text_for_next
 });
 
+/** @namespace Component/CategoryPagination/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/CategoryPagination/Container */
 export class CategoryPaginationContainer extends PureComponent {
     static propTypes = {
@@ -55,6 +58,7 @@ export class CategoryPaginationContainer extends PureComponent {
     getSearchQuery = (pageNumber) => {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
+
         return generateQuery({ page }, location, history);
     };
 
@@ -141,10 +145,6 @@ export class CategoryPaginationContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/CategoryPagination/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default withRouter(
     connect(mapStateToProps, mapDispatchToProps)(CategoryPaginationContainer)

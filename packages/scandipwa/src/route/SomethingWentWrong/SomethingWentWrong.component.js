@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ContentWrapper from 'Component/ContentWrapper';
-import Link from 'Component/Link';
 
 import './SomethingWentWrong.style';
 
@@ -61,15 +60,15 @@ export class SomethingWentWrong extends PureComponent {
                 <ContentWrapper label="Something went wrong on the page.">
                     <h1 block="SomethingWentWrong" elem="Heading">{ __('Ooops!') }</h1>
                     <h2 block="SomethingWentWrong" elem="SubHeading">{ __('Something went wrong!') }</h2>
-                    <Link
-                      to="/"
+                    <a
+                      href="/"
                       block="SomethingWentWrong"
                       elem="Button"
                       mix={ { block: 'Button' } }
                       onClick={ onClick }
                     >
                         { __('Back to homepage') }
-                    </Link>
+                    </a>
                     { this.renderErrorDetails() }
                 </ContentWrapper>
             </main>

@@ -23,7 +23,7 @@ import { LocationType, MatchType } from 'Type/Common';
 import history from 'Util/History';
 import { debounce } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
-import { appendWithStoreCode, getUrlParam } from 'Util/Url';
+import { getUrlParam, isHomePageUrl } from 'Util/Url';
 
 import CmsPage from './CmsPage.component';
 import { LOADING_TIME } from './CmsPage.config';
@@ -175,10 +175,7 @@ export class CmsPageContainer extends DataContainer {
             canonical_url: window.location.href
         });
 
-        if (
-            pathname !== appendWithStoreCode('/')
-            && pathname !== '/'
-        ) {
+        if (!isHomePageUrl(pathname)) {
             setHeaderState({
                 name: CMS_PAGE,
                 title: content_heading,

@@ -28,7 +28,6 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/RecentlyViewedWidget/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({
     updateRecentViewedProductsInfo:
         (options) => RecentlyViewedProductsDispatcher.handleData(dispatch, options)

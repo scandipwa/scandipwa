@@ -53,7 +53,7 @@ export class CheckoutShipping extends PureComponent {
         cartTotalSubPrice: null
     };
 
-    renderOrderTotalExlTax() {
+    renderOrderTotalExclTax() {
         const {
             cartTotalSubPrice,
             totals: { quote_currency_code }
@@ -63,13 +63,19 @@ export class CheckoutShipping extends PureComponent {
             return null;
         }
 
-        const orderTotalExlTax = formatPrice(cartTotalSubPrice, quote_currency_code);
+        const orderTotalExclTax = formatPrice(cartTotalSubPrice, quote_currency_code);
 
         return (
-            <span>
-                { `${ __('Excl. tax:') } ${ orderTotalExlTax }` }
+            <span block="Checkout" elem="SubPrice">
+                { __('Excl. tax: %s', orderTotalExclTax) }
             </span>
         );
+    }
+
+    renderPriceLine(price) {
+        const { totals: { quote_currency_code } } = this.props;
+
+        return formatPrice(price, quote_currency_code);
     }
 
     renderOrderTotal() {
@@ -85,18 +91,24 @@ export class CheckoutShipping extends PureComponent {
         return (
             <dl block="Checkout" elem="OrderTotal">
                 <dt>
-                    { __('Order total:') }
+                    { __('Order total') }
                 </dt>
-                <dt>
+                <dt block="Checkout" elem="TotalValue">
                     { orderTotal }
-                    { this.renderOrderTotalExlTax() }
+                    { this.renderOrderTotalExclTax() }
                 </dt>
             </dl>
         );
     }
 
     renderActions() {
-        const { selectedShippingMethod } = this.props;
+        const { selectedShippingMethod, selectedStoreAddress } = this.props;
+        const { method_code } = selectedShippingMethod;
+        const isDisabled = !selectedShippingMethod
+            || (
+                method_code === STORE_IN_PICK_UP_METHOD_CODE
+                && !Object.keys(selectedStoreAddress).length
+            );
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
@@ -107,6 +119,7 @@ export class CheckoutShipping extends PureComponent {
                   disabled={ !selectedShippingMethod }
                   mix={ { block: 'CheckoutShipping', elem: 'Button' } }
                 >
+                    <span />
                     { __('Proceed to billing') }
                 </button>
             </div>
