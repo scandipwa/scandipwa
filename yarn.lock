@@ -2579,13 +2579,14 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@scandipwa/craco@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@scandipwa/craco/-/craco-0.0.4.tgz#78e0c2e1cb9b640290327041780f554c9c2ecb5a"
-  integrity sha512-KvIeti/xrgQ2mPc1E6hISP1ULPiFR2sq3tScKxXEOc546LPEqNQEV69qOUcIO7ILWyfoRPIf0eSg8hmpZRzb1w==
+"@scandipwa/craco@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@scandipwa/craco/-/craco-0.1.1.tgz#a010ed86fb6905b2e6fe4683eb502ad58c14f8f5"
+  integrity sha512-RFMbINkaLlNC8aEYglDqK1XfBbpPLyRpmpIYxF22VHtflSQWyjqJHcdL1OZeGY5Bq9Gi9sWmDGGKkVDbV0G/aw==
   dependencies:
     cross-spawn "^7.0.0"
     lodash "^4.17.15"
+    semver "^7.3.2"
     webpack-merge "^4.2.2"
 
 "@scandipwa/eslint-config@^0.1.6":
@@ -2619,12 +2620,6 @@
     "@tilework/mosaic-dev-utils" "0.0.5"
     eslint-traverse "^1.0.0"
     requireindex "~1.1.0"
-
-"@scandipwa/m2-theme@file:packages/m2-theme":
-  version "0.1.6"
-  dependencies:
-    "@scandipwa/craco" "0.0.4"
-    "@scandipwa/webpack-fallback-plugin" "^1.2.0"
 
 "@scandipwa/scandipwa-dev-utils@0.0.25":
   version "0.0.25"
@@ -2685,7 +2680,7 @@
   dependencies:
     "@scandipwa/scandipwa-dev-utils" "0.0.25"
 
-"@scandipwa/webpack-fallback-plugin@^1.2.0":
+"@scandipwa/webpack-fallback-plugin@^1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@scandipwa/webpack-fallback-plugin/-/webpack-fallback-plugin-1.2.5.tgz#325e5edeecf8a2c800cb6b64b6f02821382dbea5"
   integrity sha512-N2GjXMdYseHKtKD3oxabCwQSjl/ZP5u6sFm8MrwToNJsxAwZ14taa5ZNgUMhIhZNI3PSJEaeLJWYU7Fii0vsZg==
@@ -3168,7 +3163,7 @@
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
 
-"@types/json-schema@*", "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.7":
+"@types/json-schema@*", "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.7", "@types/json-schema@^7.0.8":
   version "7.0.8"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.8.tgz#edf1bf1dbf4e04413ca8e5b17b3b7d7d54b59818"
   integrity sha512-YSBPTLTVm2e2OoQIDYx8HaeWJ5tTToLH67kXR7zYNGupXMEHa2++G8k+DczX2cFVgalypqtyZIcU19AFcmOpmg==
@@ -14005,11 +14000,11 @@ schema-utils@^1.0.0:
     ajv-keywords "^3.1.0"
 
 schema-utils@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-3.1.0.tgz#95986eb604f66daadeed56e379bfe7a7f963cdb9"
-  integrity sha512-tTEaeYkyIhEZ9uWgAjDerWov3T9MgX8dhhy2r0IGeeX4W8ngtGl1++dUve/RUqzuaASSh7shwCDJjEzthxki8w==
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-3.1.1.tgz#bc74c4b6b6995c1d88f76a8b77bea7219e0c8281"
+  integrity sha512-Y5PQxS4ITlC+EahLuXaY86TXfR7Dc5lw294alXOq86JAHCihAIZfqv8nNCWvaEJvaC51uN9hbLGeV0cFBdH+Fw==
   dependencies:
-    "@types/json-schema" "^7.0.7"
+    "@types/json-schema" "^7.0.8"
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 

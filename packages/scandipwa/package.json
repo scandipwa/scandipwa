@@ -6,11 +6,10 @@
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
         "build": "scandipwa-scripts build",
-        "postinstall": "scandipwa-scripts link",
-        "postupdate": "scandipwa-scripts link"
+        "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/m2-theme": "file:../m2-theme",
+        "@scandipwa/m2-theme": "0.1.6",
         "@scandipwa/postcss-config": "^0.0.0",
         "@scandipwa/scandipwa-scripts": "^2.4.9",
         "@scandipwa/service-worker": "^0.0.10",
