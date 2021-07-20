@@ -11,6 +11,7 @@
 
 export const UPDATE_RECENTLY_VIEWED_PRODUCTS = 'UPDATE_RECENTLY_VIEWED_PRODUCTS';
 export const ADD_RECENTLY_VIEWED_PRODUCT = 'ADD_RECENTLY_VIEWED_PRODUCT';
+export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
 
 /**
  * Add RecentlyViewed product into list.
@@ -35,4 +36,15 @@ export const updateRecentlyViewedProducts = (products, storeCode) => ({
     type: UPDATE_RECENTLY_VIEWED_PRODUCTS,
     products,
     storeCode
+});
+
+/**
+ * Update loading status
+ * @param {Boolean} status Loading indication boolean
+ * @return {void}
+ * @namespace Store/RecentlyViewedProducts/Action/updateLoadStatus
+ */
+export const updateLoadStatus = (status) => ({
+    type: UPDATE_LOAD_STATUS,
+    isLoading: status
 });

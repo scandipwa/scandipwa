@@ -22,6 +22,7 @@ import { HistoryType, LocationType } from 'Type/Common';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
+import { KEY_PRICE } from './CategoryFilterOverlay.config';
 
 /** @namespace Component/CategoryFilterOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -97,6 +98,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
                 return acc;
             }
             const [key, value] = filter.split(':');
+
             return { ...acc, [key]: value.split(',') };
         }, {});
     }
@@ -218,13 +220,16 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
     isContentFiltered() {
         const { customFilters, priceMin, priceMax } = this.urlStringToObject();
+
         return !!(customFilters || priceMin || priceMax);
     }
 
     urlStringToObject() {
         const { location: { search } } = this.props;
+
         return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
+
             return { ...acc, [key]: value };
         }, {});
     }
@@ -238,15 +243,21 @@ export class CategoryFilterOverlayContainer extends PureComponent {
      * @memberof CategoryShoppingOptions
      */
     _getNewFilterArray(filterKey, value) {
-        const { customFiltersValues } = this.props;
+        const { customFiltersValues, customFiltersValues: { price } } = this.props;
         const newFilterArray = customFiltersValues[filterKey] !== undefined
             ? Array.from(customFiltersValues[filterKey])
             : [];
 
         const filterValueIndex = newFilterArray.indexOf(value);
 
-        if (filterKey === 'price') { // for price filter, choose one
-            return [value];
+        if (filterKey === KEY_PRICE) {
+            // for price filter, choose one only
+            // if price is already selected, remove
+            // if price is not selected, select
+            // if price is already selected and new other price is selected, replace
+            return price && price.includes(value)
+                ? []
+                : [value];
         }
 
         if (filterValueIndex === -1) {

@@ -95,6 +95,7 @@ export class MyAccountDispatcher {
         deleteGuestQuoteId();
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
+        removeUid();
 
         dispatch(updateCustomerSignInStatus(false));
         dispatch(updateCustomerDetails({}));
@@ -111,9 +112,6 @@ export class MyAccountDispatcher {
             ({ default: dispatcher }) => dispatcher.resetWishlist(dispatch)
         );
 
-        BrowserDatabase.deleteItem(ORDERS);
-        BrowserDatabase.deleteItem(CUSTOMER);
-        removeUid();
         dispatch(clearComparedProducts());
         dispatch(updateCustomerDetails({}));
     }
@@ -126,6 +124,7 @@ export class MyAccountDispatcher {
      */
     forgotPassword(options = {}, dispatch) {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
+
         return fetchMutation(mutation).then(
             /** @namespace Store/MyAccount/Dispatcher/forgotPasswordFetchMutationThen */
             () => dispatch(updateCustomerPasswordForgotStatus()),
@@ -169,6 +168,7 @@ export class MyAccountDispatcher {
 
                 if (confirmation_required) {
                     dispatch(updateIsLoading(false));
+
                     return 2;
                 }
 

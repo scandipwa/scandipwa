@@ -19,7 +19,7 @@ import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import { isScrollDisabled, toggleScroll } from 'Util/Browser';
 import history from 'Util/History';
-import { appendWithStoreCode } from 'Util/Url';
+import { isHomePageUrl } from 'Util/Url';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.config';
 
@@ -31,8 +31,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/NavigationAbstract/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/NavigationAbstract/Container */
 export class NavigationAbstractContainer extends PureComponent {
@@ -79,12 +78,8 @@ export class NavigationAbstractContainer extends PureComponent {
     getNavigationState() {
         const { pathname } = location;
 
-        const activeRoute = Object.keys(this.routeMap)
-            .find((route) => (
-                route !== '/'
-                || pathname === appendWithStoreCode('/')
-                || pathname === '/'
-            ) && pathname.includes(route));
+        const activeRoute = Object.keys(this.routeMap).find((route) => (
+            (route !== '/' && route !== '') || isHomePageUrl(pathname)) && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;
     }

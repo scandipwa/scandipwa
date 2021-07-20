@@ -17,6 +17,9 @@ import { showNotification } from 'Store/Notification/Notification.action';
 
 import KlarnaComponent from './Klarna.component';
 
+/** @namespace Component/Klarna/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
+
 /** @namespace Component/Klarna/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     showError: (message) => dispatch(showNotification('error', message))
@@ -45,9 +48,5 @@ export class KlarnaContainer extends PureComponent {
         return <KlarnaComponent { ...this.props } />;
     }
 }
-
-/** @namespace Component/Klarna/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(KlarnaContainer);

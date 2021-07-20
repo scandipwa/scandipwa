@@ -1,4 +1,3 @@
-/* eslint-disable fp/no-let, fp/no-loops */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -14,7 +13,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
+import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import chevron from 'Style/icons/chevron.svg';
+import { range } from 'Util/Manipulations';
 
 import './CategoryPagination.style';
 
@@ -27,27 +29,40 @@ export class CategoryPagination extends PureComponent {
         totalPages: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
         getSearchQuery: PropTypes.func.isRequired,
-        paginationFrame: PropTypes.number,
-        paginationFrameSkip: PropTypes.number,
         anchorTextPrevious: PropTypes.string,
-        anchorTextNext: PropTypes.string
+        anchorTextNext: PropTypes.string,
+        firstFramePage: PropTypes.number.isRequired,
+        lastFramePage: PropTypes.number.isRequired,
+        prevPageJump: PropTypes.number.isRequired,
+        nextPageJump: PropTypes.number.isRequired,
+        shouldRenderNextJump: PropTypes.bool.isRequired,
+        shouldRenderPreviousJump: PropTypes.bool.isRequired,
+        shouldRenderJumps: PropTypes.bool.isRequired,
+        paginationFrame: PropTypes.bool.isRequired,
+        id: PropTypes.string
     };
 
     static defaultProps = {
         isLoading: false,
-        paginationFrame: 5,
-        paginationFrameSkip: 4,
         anchorTextPrevious: '',
-        anchorTextNext: ''
+        anchorTextNext: '',
+        id: ''
     };
 
     renderPreviousPageLink() {
         const {
             anchorTextPrevious,
-            currentPage
+            currentPage,
+            totalPages,
+            paginationFrame
         } = this.props;
 
-        if (currentPage <= 1) {
+        /*
+        1. hide 'Previous' button if current page is the first page
+        2. hide 'Previous' button if total number of pages doesn't exceed total number of pages to display
+        (i.e. all pages are already shown)
+         */
+        if (currentPage <= 1 || paginationFrame >= totalPages) {
             return (
                 <li block="CategoryPagination" elem="ListItem" />
             );
@@ -62,61 +77,25 @@ export class CategoryPagination extends PureComponent {
 
     renderPageLinks() {
         const {
-            totalPages,
-            paginationFrame,
-            paginationFrameSkip,
-            currentPage
+            currentPage,
+            firstFramePage,
+            lastFramePage
         } = this.props;
 
-        let pages = [];
-        let i;
-
-        // Render next pagination links
-        for (i = currentPage; i <= currentPage + paginationFrame; i++) {
-            if (i <= totalPages && pages.length <= paginationFrameSkip) {
-                pages.push(this.renderPageLink(
-                    i,
-                    __('Page %s', i),
-                    i.toString(),
-                    i === currentPage
-                ));
-            }
-        }
-
-        // Render previous pagination links if necessary
-        for (i = 1; i < currentPage; i++) {
-            if (pages.length < paginationFrame) {
-                const id = currentPage - i;
-                const pageData = this.renderPageLink(
-                    id,
-                    __('Page %s', id),
-                    id.toString()
-                );
-
-                pages = [pageData, ...pages];
-            }
-        }
-
-        // Edge case for rendering correct count of next links when current page is 1
-        if (currentPage === 1 && pages.length < totalPages) {
-            for (i = pages.length + 1; i <= paginationFrame; i++) {
-                pages.push(this.renderPageLink(
-                    i,
-                    __('Page %s', i),
-                    i.toString()
-                ));
-            }
-        }
-
-        return pages;
+        return range(firstFramePage, lastFramePage).map((page) => this.renderPageLink(
+            page,
+            __('Page %s', page),
+            page.toString(),
+            page === currentPage
+        ));
     }
 
     renderPageIcon(isNext = false) {
         return (
-            <span
-              block="CategoryPagination"
-              elem="Icon"
-              mods={ { isNext } }
+            <Image
+              src={ chevron }
+              alt="Next Icon"
+              mix={ { block: 'CategoryPagination', elem: 'Icon', mods: { isNext } } }
             />
         );
     }
@@ -125,10 +104,16 @@ export class CategoryPagination extends PureComponent {
         const {
             anchorTextNext,
             currentPage,
-            totalPages
+            totalPages,
+            paginationFrame
         } = this.props;
 
-        if (currentPage > totalPages - 1) {
+        /*
+        1. hide 'Next' button if current page is the last page
+        2. hide 'Next' button if total number of pages doesn't exceed total number of pages to display
+        (i.e. all pages are already shown)
+         */
+        if (currentPage > totalPages - 1 || paginationFrame >= totalPages) {
             return (
                 <li block="CategoryPagination" elem="ListItem" />
             );
@@ -173,6 +158,64 @@ export class CategoryPagination extends PureComponent {
         );
     }
 
+    renderFirstPageLink() {
+        const { shouldRenderJumps, firstFramePage } = this.props;
+
+        if (!shouldRenderJumps || firstFramePage === 1) {
+            return null;
+        }
+
+        return this.renderPageLink(
+            1,
+            __('Page %s', 1),
+            '1',
+        );
+    }
+
+    renderLastPageLink() {
+        const { totalPages, shouldRenderJumps, lastFramePage } = this.props;
+
+        if (!shouldRenderJumps || lastFramePage === totalPages) {
+            return null;
+        }
+
+        return this.renderPageLink(
+            totalPages,
+            __('Page %s', totalPages),
+            totalPages.toString(),
+        );
+    }
+
+    // displayed as '...' by default
+    renderPreviousJump() {
+        const { prevPageJump, shouldRenderPreviousJump } = this.props;
+
+        if (!shouldRenderPreviousJump) {
+            return null;
+        }
+
+        return this.renderPageLink(
+            prevPageJump,
+            __('Page %s', prevPageJump),
+            '...',
+        );
+    }
+
+    // displayed as '...' by default
+    renderNextJump() {
+        const { nextPageJump, shouldRenderNextJump } = this.props;
+
+        if (!shouldRenderNextJump) {
+            return null;
+        }
+
+        return this.renderPageLink(
+            nextPageJump,
+            __('Page %s', nextPageJump),
+            '...',
+        );
+    }
+
     renderPlaceholder() {
         return (
             <ul block="CategoryPagination" mods={ { isLoading: true } }>
@@ -190,7 +233,7 @@ export class CategoryPagination extends PureComponent {
     }
 
     render() {
-        const { isLoading, totalPages } = this.props;
+        const { isLoading, totalPages, id } = this.props;
 
         if (totalPages === 1) { // do not show pagination, if there are less then one page
             return <ul block="CategoryPagination" />;
@@ -202,9 +245,13 @@ export class CategoryPagination extends PureComponent {
 
         return (
             <nav aria-label={ __('Product list navigation') }>
-                <ul block="CategoryPagination">
+                <ul block="CategoryPagination" id={ id }>
                     { this.renderPreviousPageLink() }
+                    { this.renderFirstPageLink() }
+                    { this.renderPreviousJump() }
                     { this.renderPageLinks() }
+                    { this.renderNextJump() }
+                    { this.renderLastPageLink() }
                     { this.renderNextPageLink() }
                 </ul>
             </nav>

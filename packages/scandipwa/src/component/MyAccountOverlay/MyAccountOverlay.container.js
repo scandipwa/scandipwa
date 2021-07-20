@@ -237,6 +237,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         if (device.isMobile) {
             history.push({ pathname: appendWithStoreCode('/my-account'), state: { isForgotPassword: true } });
+
             return state;
         }
 

@@ -9,12 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { REVIEW_POPUP_ID } from 'Component/ProductReviews/ProductReviews.config';
+import { showNotification } from 'Store/Notification/Notification.action';
+import { showPopup } from 'Store/Popup/Popup.action';
+import { isSignedIn } from 'Util/Auth';
 import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
     SIMPLE
 } from 'Util/Product';
+import getStore from 'Util/Store';
 
 /**
  * Checks whether every option is in attributes
@@ -92,6 +98,7 @@ export const getIndexedConfigurableOptions = (configurableOptions, indexedAttrib
 /** @namespace Util/Product/getIndexedVariants */
 export const getIndexedVariants = (variants) => variants.map(({ product }) => {
     const { attributes } = product;
+
     return {
         ...product,
         attributes: getIndexedAttributes(attributes || [])
@@ -114,25 +121,37 @@ export const getIndexedSingleVariant = (variants, itemSku) => {
     ];
 };
 
+/** @namespace Util/Product/getVariantsIndexes */
+export const getVariantsIndexes = (variants, options, inStockOnly = false) => {
+    const result = Object.entries(variants)
+        .reduce((indexes, [index, variant]) => {
+            if (checkEveryOption(variant.attributes, options)) {
+                indexes.push(+index);
+            }
+
+            return indexes;
+        }, []);
+
+    if (inStockOnly) {
+        return result.filter((n) => variants[n].stock_status === IN_STOCK);
+    }
+
+    return result;
+};
+
 /**
  * Get product variant index by options
  * @param {Object[]} variants
  * @param {{ attribute_code: string }[]} options
+ * @pram {boolean} inStockOnly
  * @returns {number}
  * @namespace Util/Product/getVariantIndex
  */
-export const getVariantIndex = (variants, options) => variants
-    .findIndex((variant) => checkEveryOption(variant.attributes, options));
+export const getVariantIndex = (variants, options, inStockOnly = false) => {
+    const indexes = getVariantsIndexes(variants, options, inStockOnly);
 
-/** @namespace Util/Product/getVariantsIndexes */
-export const getVariantsIndexes = (variants, options) => Object.entries(variants)
-    .reduce((indexes, [index, variant]) => {
-        if (checkEveryOption(variant.attributes, options)) {
-            indexes.push(+index);
-        }
-
-        return indexes;
-    }, []);
+    return indexes.length ? indexes[0] : -1;
+};
 
 /** @namespace Util/Product/getIndexedCustomOption */
 export const getIndexedCustomOption = (option) => {
@@ -147,26 +166,31 @@ export const getIndexedCustomOption = (option) => {
 
     if (checkboxValues) {
         const data = Array.isArray(checkboxValues) ? checkboxValues : [checkboxValues];
+
         return { type: 'checkbox', data, ...otherFields };
     }
 
     if (dropdownValues) {
         const data = Array.isArray(dropdownValues) ? dropdownValues : [dropdownValues];
+
         return { type: 'dropdown', data, ...otherFields };
     }
 
     if (fieldValues) {
         const data = Array.isArray(fieldValues) ? fieldValues : [fieldValues];
+
         return { type: 'field', data, ...otherFields };
     }
 
     if (areaValues) {
         const data = Array.isArray(areaValues) ? areaValues : [areaValues];
+
         return { type: 'area', data, ...otherFields };
     }
 
     if (fileValues) {
         const data = Array.isArray(fileValues) ? fileValues : [fileValues];
+
         return { type: 'file', data, ...otherFields };
     }
 
@@ -281,7 +305,7 @@ export const getIndexedProduct = (product, itemSku) => {
         }
     };
 
-    if (bundle_options) {
+    if (bundle_options.length) {
         updatedProduct.items = getBundleOptions(bundle_options, items);
     }
 
@@ -379,6 +403,45 @@ export const sortBySortOrder = (options, sortKey = 'sort_order') => options.sort
     }
 );
 
+/** @namespace Util/Product/getIsConfigurableParameterSelected */
+// eslint-disable-next-line max-len
+export const getIsConfigurableParameterSelected = (parameters, key, value) => Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
+
+/** @namespace Util/Product/getNewParameters */
+export const getNewParameters = (parameters, key, value) => {
+    // If value is already selected, than we remove the key to achieve deselection
+    if (getIsConfigurableParameterSelected(parameters, key, value)) {
+        const { [key]: oldValue, ...newParameters } = parameters;
+
+        return newParameters;
+    }
+
+    return {
+        ...parameters,
+        [key]: value.toString()
+    };
+};
+
+/** @namespace Util/Product/showNewReviewPopup */
+export const showNewReviewPopup = () => {
+    const store = getStore();
+    const {
+        ConfigReducer: {
+            reviews_allow_guest: isGuestEnabled
+        } = {}
+    } = store.getState();
+    const { dispatch } = store;
+
+    // if not logged in and guest reviews are not enabled
+    if (!isSignedIn() && !isGuestEnabled) {
+        dispatch(showNotification('info', __('You must login or register to review products.')));
+
+        return;
+    }
+
+    dispatch(showPopup(REVIEW_POPUP_ID, { title: __('Write a review') }));
+};
+
 /** @namespace Util/Product/getBooleanLabel */
 export const getBooleanLabel = (label, isBoolean = false) => {
     if (!isBoolean) {
@@ -386,4 +449,23 @@ export const getBooleanLabel = (label, isBoolean = false) => {
     }
 
     return +label ? __('Yes') : __('No');
+};
+
+/** @namespace Util/Product/validateProductQuantity */
+export const validateProductQuantity = (quantity, stockItem) => {
+    const { min_sale_qty = 1, max_sale_qty, qty_increments = 1 } = stockItem;
+
+    if (quantity < min_sale_qty) {
+        return [false, __('The minimum amount you can purchase is %s', min_sale_qty)];
+    }
+
+    if (quantity > max_sale_qty) {
+        return [false, __('The maximum amount you can purchase is %s', max_sale_qty)];
+    }
+
+    if (qty_increments > 1 && quantity % qty_increments !== 0) {
+        return [false, __('You can buy this product only in quantities of %s at a time.', qty_increments)];
+    }
+
+    return [true];
 };

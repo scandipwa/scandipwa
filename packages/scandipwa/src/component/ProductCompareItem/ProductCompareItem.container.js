@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { DeviceType } from 'Type/Device';
 import { ProductType } from 'Type/ProductList';
-import { BUNDLE, CONFIGURABLE } from 'Util/Product';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import ProductCompareItem from './ProductCompareItem.component';
 
@@ -84,6 +84,7 @@ export class ProductCompareItemContainer extends PureComponent {
         return items.reduce((result, item) => {
             const { product: { id } = {} } = item;
             Object.assign(result, { [id]: 1 });
+
             return result;
         }, {});
     }
@@ -131,14 +132,14 @@ export class ProductCompareItemContainer extends PureComponent {
 
     getOverrideAddToCartBtnBehavior() {
         const { product: { type_id, options } } = this.props;
-        const types = [BUNDLE, CONFIGURABLE];
+        const types = [BUNDLE, CONFIGURABLE, GROUPED];
 
         return !!(types.indexOf(type_id) !== -1 || options?.length);
     }
 
     overriddenAddToCartBtnHandler() {
         const { showNotification } = this.props;
-        showNotification('info', __('Please select required option!'));
+        showNotification('info', __('Please, select required options!'));
     }
 
     render() {
