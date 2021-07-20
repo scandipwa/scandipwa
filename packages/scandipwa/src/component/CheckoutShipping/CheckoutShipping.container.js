@@ -87,21 +87,7 @@ export class CheckoutShippingContainer extends PureComponent {
             }
         } = this.state;
 
-        if (isBillingAddress) {
-            return {
-                ...shippingAddress,
-                country_id,
-                region,
-                city,
-                postcode,
-                telephone: phone,
-                street: [street],
-                firstname: name,
-                lastname: 'Store'
-            };
-        }
-
-        return {
+        const address = {
             ...shippingAddress,
             country_id,
             region,
@@ -110,7 +96,15 @@ export class CheckoutShippingContainer extends PureComponent {
             telephone: phone,
             street: [street],
             firstname: name,
-            lastname: 'Store',
+            lastname: 'Store'
+        };
+
+        if (isBillingAddress) {
+            return address;
+        }
+
+        return {
+            ...address,
             extension_attributes: [
                 {
                     attribute_code: STORE_IN_PICK_UP_ATTRIBUTE_CODE,

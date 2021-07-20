@@ -102,13 +102,7 @@ export class CheckoutShipping extends PureComponent {
     }
 
     renderActions() {
-        const { selectedShippingMethod, selectedStoreAddress } = this.props;
-        const { method_code } = selectedShippingMethod;
-        const isDisabled = !selectedShippingMethod
-            || (
-                method_code === STORE_IN_PICK_UP_METHOD_CODE
-                && !Object.keys(selectedStoreAddress).length
-            );
+        const { selectedShippingMethod } = this.props;
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
