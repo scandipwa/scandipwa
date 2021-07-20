@@ -17,7 +17,6 @@ import { VALIDATION_STATUS } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 
 import './CartCoupon.style';
-import { VALIDATION_STATUS } from 'Component/Field/Field.config';
 
 /** @namespace Component/CartCoupon/Component */
 export class CartCoupon extends PureComponent {
