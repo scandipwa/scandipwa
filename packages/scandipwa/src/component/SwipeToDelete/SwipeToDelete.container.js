@@ -24,6 +24,9 @@ export const mapStateToProps = (state) => ({
     isMobile: state.ConfigReducer.device.isMobile
 });
 
+/** @namespace Component/Link/Container/mapDispatchToProps */
+export const mapDispatchToProps = () => ({});
+
 /** @namespace Component/Link/Container */
 export class SwipeToDeleteContainer extends PureComponent {
     static propTypes = {
@@ -45,9 +48,5 @@ export class SwipeToDeleteContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/Link/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwipeToDeleteContainer);

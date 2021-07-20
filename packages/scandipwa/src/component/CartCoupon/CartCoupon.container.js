@@ -20,6 +20,9 @@ export const CartDispatcher = import(
     'Store/Cart/Cart.dispatcher'
 );
 
+/** @namespace Component/CartCoupon/Container/mapStateToProps */
+export const mapStateToProps = () => ({});
+
 /** @namespace Component/CartCoupon/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
     applyCouponToCart: (couponCode) => CartDispatcher.then(
@@ -89,9 +92,5 @@ export class CartCouponContainer extends PureComponent {
         );
     }
 }
-
-/** @namespace Component/CartCoupon/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartCouponContainer);

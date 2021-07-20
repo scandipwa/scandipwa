@@ -40,7 +40,6 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 /** @namespace Route/NoMatch/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     urlRewrite: state.UrlRewritesReducer.urlRewrite
 });

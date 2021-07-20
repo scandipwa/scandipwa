@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { Component, React } from 'react';
+import React, { Component } from 'react';
 
 import ProductCard from 'Component/ProductCard';
 import { ItemsType } from 'Type/ProductList';

@@ -21,8 +21,7 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/Overlay/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 // eslint-disable-next-line @scandipwa/scandipwa-guidelines/always-both-mappings
 export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(OverlayComponent);
