@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 
 import FieldForm from 'Component/FieldForm';
+import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 
 import './ContactForm.style';
@@ -52,8 +53,26 @@ export class ContactForm extends FieldForm {
 
     onFormSuccess(fields) {
         const { onFormSubmit } = this.props;
-        onFormSubmit(fields);
+        onFormSubmit(fields).then(this.clearForm);
     }
+
+    clearForm = () => {
+        const {
+            form: {
+                form
+            } = {}
+        } = this;
+
+        if (!form) {
+            return;
+        }
+
+        const fields = form.querySelectorAll('input, textarea');
+        fields.forEach((input) => {
+            // eslint-disable-next-line no-param-reassign
+            input.value = '';
+        });
+    };
 
     renderActions() {
         const { isLoading } = this.props;
@@ -71,7 +90,16 @@ export class ContactForm extends FieldForm {
     render() {
         return (
             <div block="ContactForm">
-                { super.render() }
+                <Form
+                  onSubmitSuccess={ this.onFormSuccess }
+                  mix={ { block: 'FieldForm' } }
+                  ref={ (ref) => {
+                      this.form = ref;
+                  } }
+                >
+                    { this.renderFields() }
+                    { this.renderActions() }
+                </Form>
             </div>
         );
     }

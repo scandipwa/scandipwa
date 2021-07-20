@@ -44,7 +44,7 @@ export class ContactFormContainer extends PureComponent {
 
     onFormSubmit(fields) {
         const { sendMessage } = this.props;
-        sendMessage(fields);
+        return sendMessage(fields);
     }
 
     render() {
