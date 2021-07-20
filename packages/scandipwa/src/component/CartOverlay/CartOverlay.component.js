@@ -210,6 +210,7 @@ export class CartOverlay extends PureComponent {
                   elem="CartButton"
                   mix={ { block: 'Button', mods: { isHollow: true } } }
                   to="/cart"
+                  onClick={ window.scrollTo({ top: 0 }) }
                 >
                     { __('View cart') }
                 </Link>
