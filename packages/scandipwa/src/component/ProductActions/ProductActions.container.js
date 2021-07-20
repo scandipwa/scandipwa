@@ -65,7 +65,7 @@ export class ProductActionsContainer extends PureComponent {
         if (!min_sale_qty) {
             return 1;
         }
-        if (!configurableVariantIndex && !variants) {
+        if ((!configurableVariantIndex && !variants) || configurableVariantIndex === -1) {
             return min_sale_qty;
         }
 
