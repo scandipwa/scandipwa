@@ -112,14 +112,24 @@ export class ProductCard extends Component {
     imageRef = createRef();
 
     shouldComponentUpdate(nextProps) {
-        const { product, device, productOrVariant } = this.props;
+        const {
+            product,
+            device,
+            productOrVariant,
+            parameters
+        } = this.props;
+
         const {
             product: nextProduct,
             device: nextDevice,
-            productOrVariant: nextProductOrVariant
+            productOrVariant: nextProductOrVariant,
+            parameters: nextParameters
         } = nextProps;
 
-        return product !== nextProduct || device !== nextDevice || productOrVariant !== nextProductOrVariant;
+        return product !== nextProduct
+            || device !== nextDevice
+            || productOrVariant !== nextProductOrVariant
+            || parameters !== nextParameters;
     }
 
     registerSharedElement = () => {
