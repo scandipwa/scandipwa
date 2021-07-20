@@ -18,7 +18,8 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    SIMPLE
+    SIMPLE,
+    VIRTUAL
 } from 'Util/Product';
 import getStore from 'Util/Store';
 
@@ -372,7 +373,7 @@ export const getExtensionAttributes = (product) => {
         return { bundle_options: Array.from(productOptions || []) };
     }
 
-    if (type_id === SIMPLE && (productOptions || productOptionsMulti)) {
+    if ((type_id === SIMPLE || type_id === VIRTUAL) && (productOptions || productOptionsMulti)) {
         return {
             customizable_options: productOptions || [],
             customizable_options_multi: productOptionsMulti || []
