@@ -31,6 +31,7 @@ import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
+// import CSS from 'Util/CSS';
 import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
@@ -251,21 +252,6 @@ export class CategoryPage extends PureComponent {
 
         const { activeLayoutType } = this.state;
 
-        /**
-         * Get the HEX value of the current primary color
-         * and transform it to the CSS Filter property
-         * supported value
-         */
-        const primaryBaseColor = getComputedStyle(document.documentElement)
-            .getPropertyValue('--primary-base-color').trim();
-        const cssFilter = hexToCSSFilter(primaryBaseColor);
-
-        /**
-         * Apply the value as the CSS variable value
-         */
-        const { filter = '' } = cssFilter;
-        document.documentElement.style.cssText = `--primary-base-filter: ${filter}`;
-
         switch (type) {
         case GRID_LAYOUT:
             return (
@@ -305,8 +291,27 @@ export class CategoryPage extends PureComponent {
             return null;
         }
 
+        /**
+         * Get the HEX value of the current primary color
+         * and transform it to the CSS Filter property
+         * supported value
+         */
+        const primaryBaseColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--primary-base-color').trim();
+        const cssFilter = hexToCSSFilter(primaryBaseColor);
+
+        /**
+         * Apply the value as the CSS variable value
+         * Since the filter string contains a semi-colon –
+         * we remove it
+         */
+        const { filter = '' } = cssFilter;
+        const style = {
+            '--primary-base-filter': filter.replace(/[;]/, '')
+        };
+
         return (
-            <div block="CategoryPage" elem="LayoutButtons">
+            <div block="CategoryPage" elem="LayoutButtons" style={ style }>
                 { plpTypes.map(this.renderLayoutButton) }
             </div>
         );
