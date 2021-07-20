@@ -10,6 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { hexToCSSFilter } from 'hex-to-css-filter';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -249,6 +250,21 @@ export class CategoryPage extends PureComponent {
         } = this.props;
 
         const { activeLayoutType } = this.state;
+
+        /**
+         * Get the HEX value of the current primary color
+         * and transform it to the CSS Filter property
+         * supported value
+         */
+        const primaryBaseColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--primary-base-color').trim();
+        const cssFilter = hexToCSSFilter(primaryBaseColor);
+
+        /**
+         * Apply the value as the CSS variable value
+         */
+        const { filter = '' } = cssFilter;
+        document.documentElement.style.cssText = `--primary-base-filter: ${filter}`;
 
         switch (type) {
         case GRID_LAYOUT:
