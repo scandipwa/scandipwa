@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
+import { VALIDATION_STATUS } from 'Component/Field/Field.config';
 import Loader from 'Component/Loader';
 
 import './CartCoupon.style';
@@ -78,6 +79,7 @@ export class CartCoupon extends PureComponent {
 
     renderApplyCoupon() {
         const { enteredCouponCode } = this.state;
+        const { skip, success } = VALIDATION_STATUS;
 
         return (
             <>
@@ -88,6 +90,7 @@ export class CartCoupon extends PureComponent {
                   value={ enteredCouponCode }
                   placeholder={ __('Your discount code') }
                   onChange={ this.handleCouponCodeChange }
+                  customValidationStatus={ !enteredCouponCode ? skip : success }
                   mix={ { block: 'CartCoupon', elem: 'Input' } }
                   aria-label={ __('Your discount code') }
                 />
