@@ -65,7 +65,8 @@ export const mapStateToProps = (state) => ({
     guest_checkout: state.ConfigReducer.guest_checkout,
     countries: state.ConfigReducer.countries,
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable,
-    isMobile: state.ConfigReducer.device.isMobile
+    isMobile: state.ConfigReducer.device.isMobile,
+    isInStoreActivated: state.ConfigReducer.delivery_instore_active
 });
 
 /** @namespace Route/Checkout/Container/mapDispatchToProps */
@@ -135,7 +136,8 @@ export class CheckoutContainer extends PureComponent {
         updateEmail: PropTypes.func.isRequired,
         checkEmailAvailability: PropTypes.func.isRequired,
         isEmailAvailable: PropTypes.bool.isRequired,
-        updateShippingPrice: PropTypes.func.isRequired
+        updateShippingPrice: PropTypes.func.isRequired,
+        isInStoreActivated: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -148,6 +150,8 @@ export class CheckoutContainer extends PureComponent {
         onCreateUserChange: this.onCreateUserChange.bind(this),
         onPasswordChange: this.onPasswordChange.bind(this),
         goBack: this.goBack.bind(this),
+        handleSelectDeliveryMethod: this.handleSelectDeliveryMethod.bind(this),
+        onStoreSelect: this.onStoreSelect.bind(this),
         onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
@@ -183,7 +187,8 @@ export class CheckoutContainer extends PureComponent {
             email: '',
             isGuestEmailSaved: false,
             isCreateUser: false,
-            estimateAddress: {}
+            estimateAddress: {},
+            isPickInStoreMethodSelected: false
         };
 
         if (is_virtual) {
@@ -295,6 +300,16 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    handleSelectDeliveryMethod() {
+        const { isPickInStoreMethodSelected } = this.state;
+
+        this.setState({ isPickInStoreMethodSelected: !isPickInStoreMethodSelected });
+    }
+
+    onStoreSelect(address) {
+        this.setState({ selectedStoreAddress: address });
     }
 
     goBack() {

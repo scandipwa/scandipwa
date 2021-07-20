@@ -102,6 +102,9 @@ export class Checkout extends PureComponent {
         goBack: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         isMobile: PropTypes.bool.isRequired,
+        isPickInStoreMethodSelected: PropTypes.bool.isRequired,
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
+        isInStoreActivated: PropTypes.bool.isRequired,
         cartTotalSubPrice: PropTypes.number.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired
     };
@@ -235,6 +238,8 @@ export class Checkout extends PureComponent {
             onEmailChange,
             isCreateUser,
             estimateAddress,
+            isPickInStoreMethodSelected,
+            handleSelectDeliveryMethod,
             cartTotalSubPrice,
             onShippingMethodSelect
         } = this.props;
@@ -253,6 +258,8 @@ export class Checkout extends PureComponent {
                   onEmailChange={ onEmailChange }
                   isCreateUser={ isCreateUser }
                   estimateAddress={ estimateAddress }
+                  handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
+                  isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
                 />
             </Suspense>
         );
@@ -309,6 +316,7 @@ export class Checkout extends PureComponent {
     renderStep() {
         const { checkoutStep } = this.props;
         const { render } = this.stepMap[checkoutStep];
+
         if (render) {
             return render();
         }
@@ -369,6 +377,47 @@ export class Checkout extends PureComponent {
         return <CmsBlock identifier={ promo } />;
     }
 
+    renderStoreInPickUpMethod() {
+        const {
+            isPickInStoreMethodSelected,
+            handleSelectDeliveryMethod,
+            checkoutStep,
+            isInStoreActivated
+        } = this.props;
+
+        if (checkoutStep !== SHIPPING_STEP || !isInStoreActivated) {
+            return null;
+        }
+
+        return (
+            <div
+              block="Checkout"
+              elem="DeliverySelect"
+            >
+                <button
+                  block="Checkout"
+                  elem="ShippingButton"
+                  mix={ { block: 'Button', mods: { isHollow: !isPickInStoreMethodSelected } } }
+                  type="button"
+                  disabled={ !isPickInStoreMethodSelected }
+                  onClick={ handleSelectDeliveryMethod }
+                >
+                   { __('Shipping') }
+                </button>
+                <button
+                  block="Checkout"
+                  elem="PickInStore"
+                  mix={ { block: 'Button', mods: { isHollow: isPickInStoreMethodSelected } } }
+                  type="button"
+                  disabled={ isPickInStoreMethodSelected }
+                  onClick={ handleSelectDeliveryMethod }
+                >
+                    { __('Pick in Store') }
+                </button>
+            </div>
+        );
+    }
+
     render() {
         return (
             <main block="Checkout">
@@ -379,6 +428,7 @@ export class Checkout extends PureComponent {
                     { this.renderSummary(true) }
                     <div block="Checkout" elem="Step">
                         { this.renderTitle() }
+                        { this.renderStoreInPickUpMethod() }
                         { this.renderGuestForm() }
                         { this.renderStep() }
                         { this.renderLoader() }
