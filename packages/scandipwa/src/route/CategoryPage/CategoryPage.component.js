@@ -31,7 +31,6 @@ import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-// import CSS from 'Util/CSS';
 import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
