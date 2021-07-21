@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -209,7 +209,7 @@ export class ProductActionsContainer extends PureComponent {
                 const { attribute_value: foundValue } = attributes[attribute_code] || {};
 
                 return (
-                    stock_status === 'IN_STOCK'
+                    stock_status === IN_STOCK
                     // Variant must have currently checked attribute_code and attribute_value
                     && foundValue === attribute_value
                     // Variant must have all currently selected attributes
@@ -261,11 +261,11 @@ export class ProductActionsContainer extends PureComponent {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === OUT_OF_STOCK) {
-            return 'https://schema.org/OutOfStock';
+        if (stock_status === IN_STOCK) {
+            return 'https://schema.org/InStock';
         }
 
-        return 'https://schema.org/InStock';
+        return 'https://schema.org/OutOfStock';
     }
 
     getOfferType() {

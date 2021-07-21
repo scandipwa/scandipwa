@@ -34,7 +34,7 @@ import {
     GROUPED
 } from 'Util/Product';
 
-import { OUT_OF_STOCK, TIER_PRICES } from './ProductCard.config';
+import { IN_STOCK, TIER_PRICES } from './ProductCard.config';
 
 import './ProductCard.style';
 /**
@@ -443,8 +443,8 @@ export class ProductCard extends Component {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status !== IN_STOCK }
               layout={ layout }
-              disabled={ stock_status === OUT_OF_STOCK }
             />
         );
     }
