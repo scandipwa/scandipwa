@@ -26,11 +26,11 @@
     &-NoResult,
     &-Info {
         display: block;
-        margin-top: 1rem;
-        font-size: 1.4rem;
+        margin-block-start: 10px;
+        font-size: 14px;
     }
 
     &-Heading {
-        margin-top: 0;
+        margin-block-start: 0;
     }
 }

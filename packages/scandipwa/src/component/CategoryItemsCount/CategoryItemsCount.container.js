@@ -19,7 +19,6 @@ export const mapStateToProps = (state) => ({
 });
 
 /** @namespace Component/CategoryItemsCount/Container/mapDispatchToProps */
-// eslint-disable-next-line no-unused-vars
-export const mapDispatchToProps = (dispatch) => ({});
+export const mapDispatchToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryItemsCount);

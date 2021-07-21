@@ -24,13 +24,11 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountSignIn/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isEmailAvailable: state.CheckoutReducer.isEmailAvailable
 });
 
 /** @namespace Component/MyAccountSignIn/Container/mapDispatchtoProps */
-// eslint-disable-next-line no-unused-vars
 export const mapDispatchToProps = (dispatch) => ({
     signIn: (options) => MyAccountDispatcher.then(
         ({ default: dispatcher }) => dispatcher.signIn(options, dispatch)

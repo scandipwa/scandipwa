@@ -17,21 +17,21 @@
     &-Actions {
         display: flex;
         justify-content: space-between;
-        margin-top: 10px;
+        margin-block-start: 10px;
     }
 
     &-Heading {
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--pick-in-store-heading-separator-color);
-        margin-bottom: 0;
+        padding-block-end: 10px;
+        border-block-end: 1px solid var(--pick-in-store-heading-separator-color);
+        margin-block-end: 0;
     }
 
     &-Empty {
-        margin: 2rem 0;
+        margin: 20px 0;
         display: block;
     }
 
     &-SelectButton {
-        margin-right: 1rem;
+        margin-inline-end: 10px;
     }
 }

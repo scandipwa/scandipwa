@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { STATE_CONFIRM_EMAIL } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { showNotification } from 'Store/Notification/Notification.action';
+import { DeviceType } from 'Type/Device';
 
 import MyAccountCreateAccount from './MyAccountCreateAccount.component';
 import { SHOW_VAT_NUMBER_REQUIRED } from './MyAccountCreateAccount.config';
@@ -25,11 +26,11 @@ export const MyAccountDispatcher = import(
 );
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapStateToProps */
-// eslint-disable-next-line no-unused-vars
 export const mapStateToProps = (state) => ({
     isLoading: state.MyAccountReducer.isLoading,
     showTaxVatNumber: !!state.ConfigReducer.show_tax_vat_number,
-    newsletterActive: state.ConfigReducer.newsletter_general_active
+    newsletterActive: state.ConfigReducer.newsletter_general_active,
+    device: state.ConfigReducer.device
 });
 
 /** @namespace Component/MyAccountCreateAccount/Container/mapDispatchToProps */
@@ -50,7 +51,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         showTaxVatNumber: PropTypes.string.isRequired,
-        isLandingPage: PropTypes.bool
+        isLandingPage: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
@@ -94,7 +96,8 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             setLoadingState,
             isLoading,
             isLandingPage,
-            showNotification
+            showNotification,
+            device
         } = this.props;
 
         const {
@@ -128,7 +131,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
             if (code === 2) {
                 setSignInState(STATE_CONFIRM_EMAIL);
 
-                if (isLandingPage) {
+                if (isLandingPage || device.isMobile) {
                     showNotification(
                         'success',
                         // eslint-disable-next-line max-len

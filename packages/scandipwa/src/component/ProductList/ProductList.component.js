@@ -75,6 +75,7 @@ export class ProductList extends PureComponent {
     componentDidUpdate(prevProps) {
         const { isWidget, currentPage, device } = this.props;
         const { currentPage: prevCurrentPage } = prevProps;
+        window.scrollTo({ top: 0 });
 
         // Scroll up on page change, ignore widgets
         if (prevCurrentPage !== currentPage && !isWidget && !device.isMobile) {
@@ -243,6 +244,7 @@ export class ProductList extends PureComponent {
         // if the "isInfiniteLoaderEnabled" is false
         const { key, ...restProps } = props;
         restProps.key = 0;
+
         return restProps;
     }
 
@@ -337,7 +339,6 @@ export class ProductList extends PureComponent {
               mods={ { isLoading } }
               mix={ mix }
             >
-                { this.renderPagination() }
                 { this.renderTitle() }
                 { this.renderLoadButton() }
                 { this.renderPages() }

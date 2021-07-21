@@ -28,7 +28,7 @@ import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
+import { deleteGuestQuoteId, getCartTotalSubPrice, getGuestQuoteId } from 'Util/Cart';
 import history from 'Util/History';
 import {
     debounce,
@@ -60,6 +60,7 @@ export const CheckoutDispatcher = import(
 /** @namespace Route/Checkout/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
+    cartTotalSubPrice: getCartTotalSubPrice(state),
     customer: state.MyAccountReducer.customer,
     guest_checkout: state.ConfigReducer.guest_checkout,
     countries: state.ConfigReducer.countries,
@@ -148,10 +149,10 @@ export class CheckoutContainer extends PureComponent {
         onEmailChange: this.onEmailChange.bind(this),
         onCreateUserChange: this.onCreateUserChange.bind(this),
         onPasswordChange: this.onPasswordChange.bind(this),
-        onCouponCodeUpdate: this.onCouponCodeUpdate.bind(this),
         goBack: this.goBack.bind(this),
         handleSelectDeliveryMethod: this.handleSelectDeliveryMethod.bind(this),
-        onStoreSelect: this.onStoreSelect.bind(this)
+        onStoreSelect: this.onStoreSelect.bind(this),
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
     checkEmailAvailability = debounce((email) => {
@@ -265,6 +266,10 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ password });
     }
 
+    onShippingMethodSelect(selectedShippingMethod) {
+        this.setState({ selectedShippingMethod });
+    }
+
     onShippingEstimationFieldsChange(address) {
         const { requestsSent } = this.state;
         const guestQuoteId = getGuestQuoteId();
@@ -305,17 +310,6 @@ export class CheckoutContainer extends PureComponent {
 
     onStoreSelect(address) {
         this.setState({ selectedStoreAddress: address });
-    }
-
-    onCouponCodeUpdate() {
-        const { estimateAddress, checkoutStep } = this.state;
-
-        // update delivery methods on coupon change
-        // in order ot fetch new available delivery methods
-        // if any could be applied by coupon
-        if (checkoutStep === SHIPPING_STEP) {
-            this.onShippingEstimationFieldsChange(estimateAddress);
-        }
     }
 
     goBack() {
@@ -438,6 +432,7 @@ export class CheckoutContainer extends PureComponent {
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
         updateEmail(email);
+
         return fetchMutation(mutation).then(
             /** @namespace Route/Checkout/Container/saveGuestEmailFetchMutationThen */
             ({ setGuestEmailOnCart: data }) => {
@@ -532,6 +527,7 @@ export class CheckoutContainer extends PureComponent {
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
                 this.setState({ isLoading: false });
+
                 return;
             }
         }
@@ -591,6 +587,7 @@ export class CheckoutContainer extends PureComponent {
         if (!isSignedIn()) {
             if (!await this.createUserOrSaveGuest()) {
                 this.setState({ isLoading: false });
+
                 return;
             }
         }

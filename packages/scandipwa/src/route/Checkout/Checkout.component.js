@@ -10,17 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
-import CartCoupon from 'Component/CartCoupon';
-import CheckoutBilling from 'Component/CheckoutBilling';
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
-import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
-import CheckoutShipping from 'Component/CheckoutShipping';
-import CheckoutSuccess from 'Component/CheckoutSuccess';
-import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
-import ExpandableContent from 'Component/ExpandableContent';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
@@ -37,6 +30,41 @@ import {
 } from './Checkout.config';
 
 import './Checkout.style';
+
+export const CartCoupon = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/CartCoupon'
+));
+
+export const CmsBlock = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/CmsBlock'
+));
+
+export const CheckoutOrderSummary = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/CheckoutOrderSummary'
+));
+
+export const CheckoutBilling = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-billing" */
+    'Component/CheckoutBilling'
+));
+
+export const CheckoutShipping = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-shipping" */
+    'Component/CheckoutShipping'
+));
+
+export const CheckoutSuccess = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-success" */
+    'Component/CheckoutSuccess'
+));
+
+export const ExpandableContent = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "checkout-info" */
+    'Component/ExpandableContent'
+));
 
 /** @namespace Route/Checkout/Component */
 export class Checkout extends PureComponent {
@@ -74,10 +102,11 @@ export class Checkout extends PureComponent {
         goBack: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         isMobile: PropTypes.bool.isRequired,
-        onCouponCodeUpdate: PropTypes.func.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
-        isInStoreActivated: PropTypes.bool.isRequired
+        isInStoreActivated: PropTypes.bool.isRequired,
+        cartTotalSubPrice: PropTypes.number.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -86,26 +115,29 @@ export class Checkout extends PureComponent {
 
     stepMap = {
         [SHIPPING_STEP]: {
-            title: __('Shipping step'),
+            number: 1,
+            title: __('Personal information'),
             url: '/shipping',
             render: this.renderShippingStep.bind(this),
-            areTotalsVisible: true,
-            renderCartCoupon: this.renderCartCoupon.bind(this)
+            areTotalsVisible: true
         },
         [BILLING_STEP]: {
-            title: __('Billing step'),
+            number: 2,
+            title: __('Payment'),
             url: '/billing',
             render: this.renderBillingStep.bind(this),
-            areTotalsVisible: true,
-            renderCartCoupon: this.renderCartCoupon.bind(this)
+            areTotalsVisible: true
         },
         [DETAILS_STEP]: {
             title: __('Thank you for your purchase!'),
+            mobileTitle: __('Order details'),
             url: '/success',
             render: this.renderDetailsStep.bind(this),
             areTotalsVisible: false
         }
     };
+
+    stepsCount = 2;
 
     componentDidMount() {
         const { checkoutStep, history } = this.props;
@@ -128,11 +160,11 @@ export class Checkout extends PureComponent {
 
     updateHeader() {
         const { setHeaderState, checkoutStep, goBack } = this.props;
-        const { title = '' } = this.stepMap[checkoutStep];
+        const { mobileTitle, title } = this.stepMap[checkoutStep];
 
         setHeaderState({
             name: checkoutStep === DETAILS_STEP ? CHECKOUT_SUCCESS : CHECKOUT,
-            title,
+            title: mobileTitle || title,
             onBackClick: () => goBack()
         });
     }
@@ -145,13 +177,30 @@ export class Checkout extends PureComponent {
     }
 
     renderTitle() {
-        const { checkoutStep } = this.props;
-        const { title = '' } = this.stepMap[checkoutStep];
+        const { checkoutStep, totals: { is_virtual } } = this.props;
+        const { title = '', number } = this.stepMap[checkoutStep];
+
+        if (is_virtual || !number) {
+            return (
+                <div block="Checkout" elem="Header">
+                    <div block="Checkout" elem="Title">{ title }</div>
+                </div>
+            );
+        }
 
         return (
-            <h2 block="Checkout" elem="Title">
-                { title }
-            </h2>
+            <div block="Checkout" elem="ProgressSection">
+                <div block="Checkout" elem="Header">
+                    <div block="Checkout" elem="Title">{ title }</div>
+                    <div block="Checkout" elem="Step">
+                        <span block="Checkout" elem="SelectedStep">{ number }</span>
+                        <span block="Checkout" elem="StepsBorder">/</span>
+                        <span block="Checkout" elem="TotalSteps">{ this.stepsCount }</span>
+                    </div>
+                </div>
+                <div block="Checkout" elem="StepBarTotal" />
+                <div block="Checkout" elem="StepBarActive" mods={ { isSecond: number === 2 } } />
+            </div>
         );
     }
 
@@ -190,23 +239,29 @@ export class Checkout extends PureComponent {
             isCreateUser,
             estimateAddress,
             isPickInStoreMethodSelected,
-            handleSelectDeliveryMethod
+            handleSelectDeliveryMethod,
+            cartTotalSubPrice,
+            onShippingMethodSelect
         } = this.props;
 
         return (
-            <CheckoutShipping
-              isLoading={ isDeliveryOptionsLoading }
-              shippingMethods={ shippingMethods }
-              saveAddressInformation={ saveAddressInformation }
-              onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
-              onPasswordChange={ onPasswordChange }
-              onCreateUserChange={ onCreateUserChange }
-              onEmailChange={ onEmailChange }
-              isCreateUser={ isCreateUser }
-              estimateAddress={ estimateAddress }
-              handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
-              isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <CheckoutShipping
+                  isLoading={ isDeliveryOptionsLoading }
+                  shippingMethods={ shippingMethods }
+                  cartTotalSubPrice={ cartTotalSubPrice }
+                  saveAddressInformation={ saveAddressInformation }
+                  onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
+                  onShippingMethodSelect={ onShippingMethodSelect }
+                  onPasswordChange={ onPasswordChange }
+                  onCreateUserChange={ onCreateUserChange }
+                  onEmailChange={ onEmailChange }
+                  isCreateUser={ isCreateUser }
+                  estimateAddress={ estimateAddress }
+                  handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
+                  isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
+                />
+            </Suspense>
         );
     }
 
@@ -221,14 +276,16 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <CheckoutBilling
-              setLoading={ setLoading }
-              paymentMethods={ paymentMethods }
-              setDetailsStep={ setDetailsStep }
-              shippingAddress={ shippingAddress }
-              savePaymentInformation={ savePaymentInformation }
-              selectedShippingMethod={ selectedShippingMethod }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <CheckoutBilling
+                  setLoading={ setLoading }
+                  paymentMethods={ paymentMethods }
+                  setDetailsStep={ setDetailsStep }
+                  shippingAddress={ shippingAddress }
+                  savePaymentInformation={ savePaymentInformation }
+                  selectedShippingMethod={ selectedShippingMethod }
+                />
+            </Suspense>
         );
     }
 
@@ -244,13 +301,15 @@ export class Checkout extends PureComponent {
         } = this.props;
 
         return (
-            <CheckoutSuccess
-              email={ email }
-              firstName={ firstname }
-              lastName={ lastname }
-              isEmailAvailable={ isEmailAvailable }
-              orderID={ orderID }
-            />
+            <Suspense fallback={ <Loader /> }>
+                <CheckoutSuccess
+                  email={ email }
+                  firstName={ firstname }
+                  lastName={ lastname }
+                  isEmailAvailable={ isEmailAvailable }
+                  orderID={ orderID }
+                />
+            </Suspense>
         );
     }
 
@@ -267,6 +326,7 @@ export class Checkout extends PureComponent {
 
     renderLoader() {
         const { isLoading } = this.props;
+
         return <Loader isLoading={ isLoading } />;
     }
 
@@ -275,9 +335,7 @@ export class Checkout extends PureComponent {
             checkoutTotals,
             checkoutStep,
             paymentTotals,
-            isMobile,
-            totals: { coupon_code },
-            onCouponCodeUpdate
+            isMobile
         } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
@@ -291,47 +349,10 @@ export class Checkout extends PureComponent {
               totals={ checkoutTotals }
               paymentTotals={ paymentTotals }
               isExpandable={ isMobile }
-              couponCode={ coupon_code }
               // eslint-disable-next-line react/jsx-no-bind
               renderCmsBlock={ () => this.renderPromo(true) }
-              onCouponCodeUpdate={ onCouponCodeUpdate }
+              showItems
             />
-        );
-    }
-
-    renderCoupon() {
-        const { checkoutStep } = this.props;
-        const { renderCartCoupon } = this.stepMap[checkoutStep];
-
-        if (renderCartCoupon) {
-            return renderCartCoupon();
-        }
-
-        return null;
-    }
-
-    renderCartCoupon() {
-        const {
-            totals: { coupon_code },
-            isMobile,
-            onCouponCodeUpdate,
-            checkoutStep
-        } = this.props;
-
-        if (isMobile || checkoutStep === SHIPPING_STEP) {
-            return null;
-        }
-
-        return (
-            <ExpandableContent
-              heading={ __('Have a discount code?') }
-              mix={ { block: 'Checkout', elem: 'Coupon' } }
-            >
-                <CartCoupon
-                  couponCode={ coupon_code }
-                  onCouponCodeUpdate={ onCouponCodeUpdate }
-                />
-            </ExpandableContent>
         );
     }
 
@@ -413,9 +434,10 @@ export class Checkout extends PureComponent {
                         { this.renderLoader() }
                     </div>
                     <div>
-                        { this.renderSummary() }
-                        { this.renderPromo() }
-                        { this.renderCoupon() }
+                        <Suspense fallback={ <Loader /> }>
+                            { this.renderSummary() }
+                            { this.renderPromo() }
+                        </Suspense>
                     </div>
                 </ContentWrapper>
             </main>
