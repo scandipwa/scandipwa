@@ -83,7 +83,8 @@ export class CartOverlayContainer extends PureComponent {
 
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),
-        handleCheckoutClick: this.handleCheckoutClick.bind(this)
+        handleCheckoutClick: this.handleCheckoutClick.bind(this),
+        scrollToTop: this.scrollToTop.bind(this)
     };
 
     containerProps = () => {
@@ -93,6 +94,10 @@ export class CartOverlayContainer extends PureComponent {
             hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
     };
+
+    scrollToTop() {
+        window.scrollTo({ top: 0 });
+    }
 
     handleCheckoutClick(e) {
         const {
@@ -119,7 +124,7 @@ export class CartOverlayContainer extends PureComponent {
         if (guest_checkout || isSignedIn()) {
             hideActiveOverlay();
             history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
-            window.scrollTo({ top: 0 });
+            this.scrollToTop();
 
             return;
         }
