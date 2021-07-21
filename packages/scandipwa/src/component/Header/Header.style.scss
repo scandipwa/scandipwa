@@ -416,6 +416,10 @@
         }
     }
 
+    &_name_popup {
+        z-index: 400;
+    }
+
     &-MinicartIcon {
         @include minicart-button;
 
