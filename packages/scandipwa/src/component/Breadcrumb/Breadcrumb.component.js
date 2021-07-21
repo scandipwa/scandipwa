@@ -71,6 +71,7 @@ export class Breadcrumb extends PureComponent {
                 <span itemProp="name">
                     { this.renderName() }
                 </span>
+                <span block="Breadcrumb" elem="Arrow" />
                 <meta itemProp="position" content={ index } />
             </Link>
         );
@@ -78,9 +79,10 @@ export class Breadcrumb extends PureComponent {
 
     renderName() {
         const { name } = this.props;
+        const cleanName = name.replace(/([+])/g, ' ');
 
         return (
-            <TextPlaceholder content={ name } />
+            <TextPlaceholder content={ cleanName } />
         );
     }
 

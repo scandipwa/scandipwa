@@ -4,10 +4,11 @@ $contentConfig = $this->getThemeConfiguration('content_customization');
 $title = $this->getThemeConfiguration('design/head/default_title');
 $description = $this->getThemeConfiguration('design/head/default_description');
 $themeColor = $this->getThemeConfiguration('webmanifest_customization/webmanifest/theme_color');
+$layoutDirection = $this->getThemeConfiguration('layout_direction_configuration/layout_direction_section/layout_direction') ?: 'ltr';
 $icons = $this->getAppIconData();
 ?>
 <!DOCTYPE html>
-<html lang="<?= $this->getLanguageCode() ?>">
+<html lang="<?= $this->getLanguageCode() ?>" dir="<?= $layoutDirection?>">
 
 <head>
     <meta charset="utf-8" />
