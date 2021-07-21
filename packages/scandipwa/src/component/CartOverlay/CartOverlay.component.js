@@ -39,7 +39,8 @@ export class CartOverlay extends PureComponent {
         cartTotalSubPrice: PropTypes.number,
         cartShippingPrice: PropTypes.number,
         cartShippingSubPrice: PropTypes.number,
-        cartDisplaySettings: PropTypes.object.isRequired
+        cartDisplaySettings: PropTypes.object.isRequired,
+        scrollToTop: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -203,6 +204,8 @@ export class CartOverlay extends PureComponent {
     }
 
     renderActions() {
+        const { scrollToTop } = this.props;
+
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link
@@ -210,6 +213,7 @@ export class CartOverlay extends PureComponent {
                   elem="CartButton"
                   mix={ { block: 'Button', mods: { isHollow: true } } }
                   to="/cart"
+                  onClick={ scrollToTop }
                 >
                     { __('View cart') }
                 </Link>
