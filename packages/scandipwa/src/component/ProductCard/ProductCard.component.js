@@ -29,9 +29,9 @@ import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import {
+    IN_STOCK,
     OPTION_TYPE_COLOR,
     OPTION_TYPE_IMAGE,
-    OUT_OF_STOCK,
     validOptionTypes
 } from './ProductCard.config';
 
@@ -517,7 +517,7 @@ export class ProductCard extends Component {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
-              disabled={ stock_status === OUT_OF_STOCK }
+              disabled={ stock_status !== IN_STOCK }
             />
         );
     }

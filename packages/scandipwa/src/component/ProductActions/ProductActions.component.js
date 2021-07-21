@@ -17,7 +17,7 @@ import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductBundleItems from 'Component/ProductBundleItems';
-import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
@@ -101,9 +101,9 @@ export class ProductActions extends PureComponent {
     }
 
     renderStock(stockStatus) {
-        const stockStatusLabel = stockStatus === OUT_OF_STOCK || !stockStatus
-            ? __('Out of stock')
-            : __('In stock');
+        const stockStatusLabel = stockStatus === IN_STOCK
+            ? __('In stock')
+            : __('Out of stock');
 
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
@@ -367,7 +367,7 @@ export class ProductActions extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
-              disabled={ stock_status === OUT_OF_STOCK }
+              disabled={ stock_status !== IN_STOCK }
             />
         );
     }
@@ -445,7 +445,7 @@ export class ProductActions extends PureComponent {
             }
         } = this.props;
 
-        if (stock_status === OUT_OF_STOCK) {
+        if (stock_status !== IN_STOCK) {
             return null;
         }
 
