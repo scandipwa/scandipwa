@@ -115,8 +115,7 @@ export class ProductActionsContainer extends PureComponent {
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
         setRefs: this.setRefs.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
-        filterConfigurableOptions: this.filterConfigurableOptions.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -186,33 +185,6 @@ export class ProductActionsContainer extends PureComponent {
         }
 
         return variants[configurableVariantIndex].product[attribute] === value;
-    }
-
-    filterConfigurableOptions(options) {
-        const { product: { variants } } = this.props;
-
-        return Object.values(options).reduce((acc, option) => {
-            const { attribute_values, attribute_code } = option;
-
-            // show option if it exist as variant for configurable product
-            const filteredOptions = attribute_values.reduce((acc, value) => {
-                const isVariantExist = variants.find(({ attributes }) => {
-                    const { attribute_value: foundValue } = attributes[attribute_code] || {};
-
-                    return value === foundValue;
-                });
-
-                if (isVariantExist) {
-                    acc.push(value);
-                }
-
-                return acc;
-            }, []);
-
-            acc.push({ ...option, attribute_values: filteredOptions });
-
-            return acc;
-        }, []);
     }
 
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {

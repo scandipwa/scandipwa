@@ -35,6 +35,7 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
+    filterConfigurableOptions,
     GROUPED,
     showNewReviewPopup
 } from 'Util/Product';
@@ -60,7 +61,6 @@ export class ProductActions extends PureComponent {
         setQuantity: PropTypes.func.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        filterConfigurableOptions: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
@@ -183,8 +183,7 @@ export class ProductActions extends PureComponent {
             updateConfigurableVariant,
             parameters,
             areDetailsLoaded,
-            product: { configurable_options, type_id, variants },
-            filterConfigurableOptions
+            product: { configurable_options, type_id, variants }
         } = this.props;
 
         if (type_id !== CONFIGURABLE) {
@@ -206,7 +205,7 @@ export class ProductActions extends PureComponent {
                   parameters={ parameters }
                   variants={ variants }
                   updateConfigurableVariant={ updateConfigurableVariant }
-                  configurable_options={ filterConfigurableOptions(configurable_options) }
+                  configurable_options={ filterConfigurableOptions(configurable_options, variants) }
                   isContentExpanded
                 />
             </div>

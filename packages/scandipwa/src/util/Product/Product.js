@@ -452,6 +452,32 @@ export const getBooleanLabel = (label, isBoolean = false) => {
     return +label ? __('Yes') : __('No');
 };
 
+/** @namespace Util/Product/filterConfigurableOptions */
+export const filterConfigurableOptions = (options, variants) => (
+    Object.values(options).reduce((acc, option) => {
+        const { attribute_values, attribute_code } = option;
+
+        // show option if it exist as variant for configurable product
+        const filteredOptions = attribute_values.reduce((acc, value) => {
+            const isVariantExist = variants.find(({ attributes }) => {
+                const { attribute_value: foundValue } = attributes[attribute_code] || {};
+
+                return value === foundValue;
+            });
+
+            if (isVariantExist) {
+                acc.push(value);
+            }
+
+            return acc;
+        }, []);
+
+        acc.push({ ...option, attribute_values: filteredOptions });
+
+        return acc;
+    }, [])
+);
+
 /** @namespace Util/Product/validateProductQuantity */
 export const validateProductQuantity = (quantity, stockItem) => {
     const { min_sale_qty = 1, max_sale_qty, qty_increments = 1 } = stockItem;

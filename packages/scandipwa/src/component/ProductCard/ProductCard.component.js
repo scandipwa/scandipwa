@@ -30,6 +30,7 @@ import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
     CONFIGURABLE,
+    filterConfigurableOptions,
     GROUPED
 } from 'Util/Product';
 
@@ -451,11 +452,14 @@ export class ProductCard extends Component {
     getAttributesToShow() {
         const {
             product: {
-                configurable_options = []
+                configurable_options = [],
+                variants
             }
         } = this.props;
 
-        return Object.fromEntries(Object.entries(configurable_options).filter(([, option]) => {
+        const filteredOptions = filterConfigurableOptions(configurable_options, variants);
+
+        return Object.fromEntries(Object.entries(filteredOptions).filter(([, option]) => {
             const { attribute_options = {} } = option;
 
             return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);
