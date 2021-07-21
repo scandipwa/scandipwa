@@ -53,7 +53,6 @@ export class CheckoutDeliveryOptions extends PureComponent {
             shippingMethods,
             onStoreSelect,
             onShippingMethodSelect
-            // setSelectedShippingMethodCode
         } = this.props;
 
         return (
