@@ -418,11 +418,13 @@
 
     &_name_popup {
         z-index: 400;
+    }
 
     &-MinicartIcon {
         @include minicart-button;
 
         display: inline-block;
         height: 24px;
+        width: 24px;
     }
 }
