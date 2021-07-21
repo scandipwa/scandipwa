@@ -27,13 +27,12 @@ export class CheckoutDeliveryOptions extends PureComponent {
         selectShippingMethod: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func.isRequired,
-        selectedShippingMethodCode: PropTypes.string,
+        selectedShippingMethod: PropTypes.object,
         estimateAddress: addressType.isRequired
     };
 
     static defaultProps = {
-        selectedShippingMethodCode: null
+        selectedShippingMethod: { }
     };
 
     shippingRenderMap = {
@@ -53,8 +52,8 @@ export class CheckoutDeliveryOptions extends PureComponent {
             estimateAddress,
             shippingMethods,
             onStoreSelect,
-            onShippingMethodSelect,
-            setSelectedShippingMethodCode
+            onShippingMethodSelect
+            // setSelectedShippingMethodCode
         } = this.props;
 
         return (
@@ -63,19 +62,18 @@ export class CheckoutDeliveryOptions extends PureComponent {
               shippingMethods={ shippingMethods }
               onStoreSelect={ onStoreSelect }
               onShippingMethodSelect={ onShippingMethodSelect }
-              setSelectedShippingMethodCode={ setSelectedShippingMethodCode }
             />
         );
     }
 
     renderDeliveryOption = (option) => {
         const {
-            selectedShippingMethodCode,
-            selectShippingMethod
+            selectShippingMethod,
+            selectedShippingMethod: { method_code: selectedMethodCode }
         } = this.props;
 
         const { carrier_code, method_code } = option;
-        const isSelected = selectedShippingMethodCode === method_code;
+        const isSelected = selectedMethodCode === method_code;
 
         return (
             <CheckoutDeliveryOption
@@ -105,8 +103,8 @@ export class CheckoutDeliveryOptions extends PureComponent {
     }
 
     renderSelectedShippingMethod() {
-        const { selectedShippingMethodCode } = this.props;
-        const render = this.shippingRenderMap[selectedShippingMethodCode];
+        const { selectedShippingMethod: { method_code } } = this.props;
+        const render = this.shippingRenderMap[method_code];
         if (!render) {
             return null;
         }

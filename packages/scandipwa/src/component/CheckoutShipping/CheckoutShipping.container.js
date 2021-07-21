@@ -30,7 +30,8 @@ export const mapStateToProps = (state) => ({
     customer: state.MyAccountReducer.customer,
     addressLinesQty: state.ConfigReducer.address_lines_quantity,
     totals: state.CartReducer.cartTotals,
-    cartTotalSubPrice: getCartTotalSubPrice(state)
+    cartTotalSubPrice: getCartTotalSubPrice(state),
+    savedShippingMethodCode: state.CheckoutReducer.shippingFields.shippingMethod
 });
 
 /** @namespace Component/CheckoutShipping/Container/mapDispatchToProps */
@@ -60,9 +61,15 @@ export class CheckoutShippingContainer extends PureComponent {
     __construct(props) {
         super.__construct(props);
 
-        const { shippingMethods } = props;
-        const [selectedShippingMethod] = shippingMethods;
-        const { method_code = '' } = selectedShippingMethod || {};
+        const { shippingMethods = [], savedShippingMethodCode } = props;
+
+        const previousShippingMethod = shippingMethods.find(
+            (method) => `${method.carrier_code}_${method.method_code}` === savedShippingMethodCode
+        );
+
+        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
+        const selectedShippingMethod = previousShippingMethod || defaultShippingMethod || {};
+        const { method_code = '' } = selectedShippingMethod;
 
         this.state = {
             selectedCustomerAddressId: 0,
@@ -71,6 +78,29 @@ export class CheckoutShippingContainer extends PureComponent {
                 ? selectedShippingMethod
                 : {}
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        const { shippingMethods: prevShippingMethods } = prevProps;
+        const { shippingMethods } = this.props;
+
+        if (prevShippingMethods !== shippingMethods) {
+            this.resetShippingMethod();
+        }
+    }
+
+    resetShippingMethod() {
+        const { selectedShippingMethod: { method_code: selectedMethodCode = '' } } = this.state;
+        const { shippingMethods } = this.props;
+
+        if (shippingMethods.find(({ method_code }) => method_code === selectedMethodCode)) {
+            return;
+        }
+
+        const [defaultShippingMethod] = shippingMethods.filter((method) => method.available);
+        const selectedShippingMethod = defaultShippingMethod || {};
+
+        this.setState({ selectedShippingMethod });
     }
 
     getStoreAddress(shippingAddress) {

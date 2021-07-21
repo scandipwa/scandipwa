@@ -41,13 +41,14 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
                 city = '',
                 region_id: regionId = null,
                 region_string: region = '',
-                default_country,
                 country_id = '',
                 postcode = ''
-            }
+            },
+            default_country
         } = this.props;
 
         const countryId = country_id || default_country;
+        const availableRegions = this.getAvailableRegions(countryId);
 
         // TODO: get from region data
         this.state = {
@@ -56,7 +57,8 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             region,
             regionId,
             city,
-            postcode
+            postcode,
+            availableRegions
         };
     }
 
@@ -97,6 +99,14 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         }
     }
 
+    getAvailableRegions(country_id) {
+        const { countries } = this.props;
+        const country = countries.find(({ id }) => id === country_id) || {};
+        const { available_regions } = country;
+
+        return available_regions;
+    }
+
     estimateShipping() {
         const { onShippingEstimationFieldsChange } = this.props;
 
@@ -119,7 +129,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onZipcodeChange = async (e) => {
         const { value } = e.currentTarget;
-        const { countryId, availableRegions } = this.state;
+        const { countryId, availableRegions = [] } = this.state;
 
         const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
         if (city) {
