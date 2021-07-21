@@ -129,7 +129,8 @@ export class CheckoutShipping extends PureComponent {
             shippingMethods,
             onShippingMethodSelect,
             estimateAddress,
-            onStoreSelect
+            onStoreSelect,
+            selectedShippingMethod
         } = this.props;
 
         return (
@@ -138,6 +139,7 @@ export class CheckoutShipping extends PureComponent {
               onShippingMethodSelect={ onShippingMethodSelect }
               estimateAddress={ estimateAddress }
               onStoreSelect={ onStoreSelect }
+              selectedShippingMethod={ selectedShippingMethod }
             />
         );
     }

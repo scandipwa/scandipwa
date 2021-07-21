@@ -36,7 +36,6 @@ export class StoreInPickUpContainer extends PureComponent {
         estimateAddress: addressType.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired
     };
@@ -62,14 +61,11 @@ export class StoreInPickUpContainer extends PureComponent {
         const {
             onStoreSelect,
             onShippingMethodSelect,
-            setSelectedShippingMethodCode,
             hideActiveOverlay
         } = this.props;
         const method = this.getShippingMethod();
-        const { method_code } = method;
 
         onStoreSelect(store);
-        setSelectedShippingMethodCode(method_code);
         onShippingMethodSelect(method);
         hideActiveOverlay();
     }
