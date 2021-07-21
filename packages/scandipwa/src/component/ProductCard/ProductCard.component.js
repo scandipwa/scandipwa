@@ -35,7 +35,6 @@ import {
 
 import { IN_STOCK, TIER_PRICES } from './ProductCard.config';
 
-
 import './ProductCard.style';
 /**
  * Product card
