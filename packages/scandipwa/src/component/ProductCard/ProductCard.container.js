@@ -215,7 +215,7 @@ export class ProductCardContainer extends PureComponent {
     }
 
     isConfigurableProductOutOfStock() {
-        const { product: { variants }, isPreview } = this.props;
+        const { product: { variants = [] }, isPreview } = this.props;
 
         if (isPreview) {
             return true;
