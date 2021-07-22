@@ -102,7 +102,12 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
     componentDidMount() {
         setTimeout(
-            () => this.handleEmailInput(document.getElementById(GUEST_EMAIL_FIELD_ID).value),
+            () => {
+                const field = document.getElementById(GUEST_EMAIL_FIELD_ID);
+                if (field) {
+                    this.handleEmailInput(field.value);
+                }
+            },
             AUTOFILL_CHECK_TIMER
         );
     }
