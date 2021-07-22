@@ -61,7 +61,7 @@ export const mapStateToProps = (state) => ({
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
-    device: state.ConfigReducer.device
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/SearchPage/Container/mapDispatchToProps */
@@ -208,7 +208,6 @@ export class SearchPageContainer extends CategoryPageContainer {
     render() {
         return (
             <SearchPage
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
               // addded here to not override the container props

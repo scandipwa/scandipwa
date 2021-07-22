@@ -39,20 +39,36 @@ export class CartCouponContainer extends PureComponent {
         couponCode: PropTypes.string,
         applyCouponToCart: PropTypes.func.isRequired,
         removeCouponFromCart: PropTypes.func.isRequired,
-        onCouponCodeUpdate: PropTypes.func
+        onCouponCodeUpdate: PropTypes.func,
+        mix: PropTypes.object,
+        title: PropTypes.string
     };
 
     static defaultProps = {
         couponCode: '',
-        onCouponCodeUpdate: () => {}
+        onCouponCodeUpdate: () => {},
+        mix: {},
+        title: ''
     };
+
+    state = { isLoading: false };
 
     containerFunctions = {
         handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),
         handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this)
     };
 
-    state = { isLoading: false };
+    containerProps() {
+        const { isLoading } = this.state;
+        const { couponCode, mix, title } = this.props;
+
+        return {
+            isLoading,
+            couponCode,
+            mix,
+            title
+        };
+    }
 
     handleApplyCouponToCart(couponCode) {
         const { applyCouponToCart, onCouponCodeUpdate } = this.props;
@@ -85,8 +101,7 @@ export class CartCouponContainer extends PureComponent {
     render() {
         return (
             <CartCoupon
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

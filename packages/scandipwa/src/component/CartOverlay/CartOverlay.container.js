@@ -41,7 +41,7 @@ export const CartDispatcher = import(
 /** @namespace Component/CartOverlay/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     totals: state.CartReducer.cartTotals,
-    device: state.ConfigReducer.device,
+    isMobile: state.ConfigReducer.device.isMobile,
     guest_checkout: state.ConfigReducer.guest_checkout,
     currencyCode: state.CartReducer.cartTotals.quote_currency_code,
     activeOverlay: state.OverlayReducer.activeOverlay,
@@ -72,11 +72,17 @@ export class CartOverlayContainer extends PureComponent {
         showOverlay: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        cartTotalSubPrice: PropTypes.number,
+        cartDisplaySettings: PropTypes.object.isRequired,
+        currencyCode: PropTypes.string.isRequired,
+        activeOverlay: PropTypes.string.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        guest_checkout: true
+        guest_checkout: true,
+        cartTotalSubPrice: null
     };
 
     state = { isEditing: false };
@@ -87,9 +93,26 @@ export class CartOverlayContainer extends PureComponent {
     };
 
     containerProps = () => {
-        const { totals } = this.props;
+        const {
+            totals,
+            showOverlay,
+            currencyCode,
+            activeOverlay,
+            cartTotalSubPrice,
+            cartDisplaySettings,
+            isMobile
+        } = this.props;
+        const { isEditing } = this.state;
 
         return {
+            totals,
+            showOverlay,
+            currencyCode,
+            activeOverlay,
+            cartTotalSubPrice,
+            cartDisplaySettings,
+            isEditing,
+            isMobile,
             hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
     };
@@ -111,6 +134,7 @@ export class CartOverlayContainer extends PureComponent {
 
         if (hasOutOfStockProductsInCart) {
             showNotification('error', __('Cannot proceed to checkout. Remove out of stock products first.'));
+            e.preventDefault();
 
             return;
         }
@@ -156,8 +180,6 @@ export class CartOverlayContainer extends PureComponent {
     render() {
         return (
             <CartOverlay
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

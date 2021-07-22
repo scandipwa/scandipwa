@@ -21,7 +21,6 @@ import MyAccountForgotPasswordSuccess from 'Component/MyAccountForgotPasswordSuc
 import MyAccountSignIn from 'Component/MyAccountSignIn';
 import Overlay from 'Component/Overlay';
 import { signInStateType } from 'Type/Account';
-import { DeviceType } from 'Type/Device';
 
 import {
     CUSTOMER_ACCOUNT_OVERLAY_KEY,
@@ -50,7 +49,7 @@ export class MyAccountOverlay extends PureComponent {
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
         isCheckout: PropTypes.bool,
-        device: DeviceType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
         onSignIn: PropTypes.func.isRequired
     };
 
@@ -191,7 +190,7 @@ export class MyAccountOverlay extends PureComponent {
             isLoading,
             onVisible,
             isCheckout,
-            device
+            isMobile
         } = this.props;
 
         return (
@@ -199,7 +198,7 @@ export class MyAccountOverlay extends PureComponent {
               id={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
               mix={ { block: 'MyAccountOverlay' } }
               onVisible={ onVisible }
-              isStatic={ !isCheckout && device.isMobile }
+              isStatic={ !isCheckout && isMobile }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }

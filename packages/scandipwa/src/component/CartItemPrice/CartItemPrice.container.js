@@ -30,17 +30,23 @@ export const mapDispatchToProps = () => ({});
 export class CartItemPriceContainer extends PureComponent {
     static propTypes = {
         getCartItemPrice: PropTypes.func.isRequired,
-        getCartItemSubPrice: PropTypes.func.isRequired
+        getCartItemSubPrice: PropTypes.func.isRequired,
+        currency_code: PropTypes.string.isRequired,
+        mix: PropTypes.object.isRequired
     };
 
     containerProps = () => {
         const {
             getCartItemPrice,
             getCartItemSubPrice,
+            currency_code,
+            mix,
             ...rest
         } = this.props;
 
         return {
+            currency_code,
+            mix,
             price: getCartItemPrice(rest),
             subPrice: getCartItemSubPrice(rest)
         };
@@ -49,7 +55,6 @@ export class CartItemPriceContainer extends PureComponent {
     render() {
         return (
             <CartItemPrice
-              { ...this.props }
               { ...this.containerProps() }
             />
         );

@@ -22,15 +22,14 @@ import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
 import Image from 'Component/Image/Image.container';
+import filterIcon from 'Style/icons/filter.svg';
 import grid from 'Style/icons/grid.svg';
 import list from 'Style/icons/list.svg';
 import { CategoryTreeType } from 'Type/Category';
-import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
@@ -61,6 +60,7 @@ export class CategoryPage extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
+        search: PropTypes.string,
         isContentFiltered: PropTypes.bool,
         isCurrentCategoryLoaded: PropTypes.bool,
         isMatchingListFilter: PropTypes.bool,
@@ -83,6 +83,7 @@ export class CategoryPage extends PureComponent {
         totalPages: 1,
         defaultPlpType: '',
         plpTypes: [],
+        search: '',
         appliedFiltersCount: 0,
         selectedLayoutType: ''
     };
@@ -312,6 +313,7 @@ export class CategoryPage extends PureComponent {
     renderCategoryProductList() {
         const {
             filter,
+            search,
             selectedSort,
             selectedFilters,
             isMatchingListFilter,
@@ -334,6 +336,7 @@ export class CategoryPage extends PureComponent {
                 { this.renderItemsCount(true) }
                 <CategoryProductList
                   filter={ filter }
+                  search={ search }
                   sort={ selectedSort }
                   selectedFilters={ selectedFilters }
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }

@@ -135,7 +135,10 @@ export class CheckoutContainer extends PureComponent {
         updateEmail: PropTypes.func.isRequired,
         checkEmailAvailability: PropTypes.func.isRequired,
         isEmailAvailable: PropTypes.bool.isRequired,
-        updateShippingPrice: PropTypes.func.isRequired
+        updateShippingPrice: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        cartTotalSubPrice: PropTypes.number.isRequired
     };
 
     containerFunctions = {
@@ -362,14 +365,56 @@ export class CheckoutContainer extends PureComponent {
         return true;
     };
 
-    containerProps = () => {
-        const { paymentTotals } = this.state;
+    containerProps() {
+        const {
+            cartTotalSubPrice,
+            history,
+            isEmailAvailable,
+            isMobile,
+            setHeaderState,
+            totals
+        } = this.props;
+        const {
+            billingAddress,
+            checkoutStep,
+            email,
+            estimateAddress,
+            isCreateUser,
+            isDeliveryOptionsLoading,
+            isGuestEmailSaved,
+            isLoading,
+            orderID,
+            paymentMethods,
+            paymentTotals,
+            selectedShippingMethod,
+            shippingAddress,
+            shippingMethods
+        } = this.state;
 
         return {
+            billingAddress,
+            cartTotalSubPrice,
+            checkoutStep,
             checkoutTotals: this._getCheckoutTotals(),
-            paymentTotals
+            email,
+            estimateAddress,
+            history,
+            isCreateUser,
+            isDeliveryOptionsLoading,
+            isEmailAvailable,
+            isGuestEmailSaved,
+            isLoading,
+            isMobile,
+            orderID,
+            paymentMethods,
+            paymentTotals,
+            selectedShippingMethod,
+            setHeaderState,
+            shippingAddress,
+            shippingMethods,
+            totals
         };
-    };
+    }
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
@@ -693,8 +738,6 @@ export class CheckoutContainer extends PureComponent {
     render() {
         return (
             <Checkout
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

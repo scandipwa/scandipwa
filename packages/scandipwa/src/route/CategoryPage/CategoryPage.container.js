@@ -27,7 +27,6 @@ import {
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
 import { withReducers } from 'Util/DynamicReducer';
@@ -417,35 +416,35 @@ export class CategoryPageContainer extends PureComponent {
         return isSearchPage || categoryIds === id;
     }
 
-    containerProps = () => {
+    containerProps() {
         const {
             category,
             filters,
-            sortFields,
             isMobile,
-            totalPages,
-            toggleOverlayByKey
+            sortFields,
+            toggleOverlayByKey,
+            totalPages
         } = this.props;
 
         return {
-            filters,
-            sortFields,
-            category,
-            isMobile,
-            totalPages,
-            toggleOverlayByKey,
-            filter: this.getFilter(),
-            isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
-            isMatchingListFilter: this.getIsMatchingListFilter(),
-            isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
             appliedFiltersCount: this.getAppliedFiltersCount(),
-            selectedSort: this.getSelectedSortFromUrl(),
-            selectedFilters: this.getSelectedFiltersFromUrl(),
-            isContentFiltered: this.isContentFiltered(),
+            category,
             defaultPlpType: this.getDefaultPlpType(),
-            plpTypes: this.getPlpTypes()
+            filter: this.getFilter(),
+            filters,
+            isContentFiltered: this.isContentFiltered(),
+            isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
+            isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
+            isMatchingListFilter: this.getIsMatchingListFilter(),
+            isMobile,
+            plpTypes: this.getPlpTypes(),
+            selectedFilters: this.getSelectedFiltersFromUrl(),
+            selectedSort: this.getSelectedSortFromUrl(),
+            sortFields,
+            toggleOverlayByKey,
+            totalPages
         };
-    };
+    }
 
     isContentFiltered() {
         const {

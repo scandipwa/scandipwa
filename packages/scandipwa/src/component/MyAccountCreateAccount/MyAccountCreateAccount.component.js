@@ -26,7 +26,7 @@ export class MyAccountCreateAccount extends PureComponent {
         onCreateAccountAttempt: PropTypes.func.isRequired,
         onCreateAccountSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
-        showTaxVatNumber: PropTypes.string.isRequired,
+        showTaxVatNumber: PropTypes.bool.isRequired,
         vatNumberValidation: PropTypes.array.isRequired,
         newsletterActive: PropTypes.bool.isRequired
     };

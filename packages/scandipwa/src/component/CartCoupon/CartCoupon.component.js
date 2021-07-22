@@ -24,14 +24,12 @@ export class CartCoupon extends PureComponent {
         couponCode: PropTypes.string,
         handleApplyCouponToCart: PropTypes.func.isRequired,
         handleRemoveCouponFromCart: PropTypes.func.isRequired,
-        mix: PropTypes.object,
-        title: PropTypes.string
+        mix: PropTypes.object.isRequired,
+        title: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        couponCode: '',
-        mix: {},
-        title: ''
+        couponCode: ''
     };
 
     state = {
