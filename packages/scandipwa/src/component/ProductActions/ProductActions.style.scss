@@ -166,7 +166,7 @@
         .ProductActions-AddToCart {
             margin-inline-end: 16px;
 
-            @include tablet {
+            @include ultra-narrow-desktop {
                 order: 10;
                 margin-block-start: 24px;
             }
@@ -177,7 +177,7 @@
             margin-inline: 16px;
         }
 
-        @include tablet {
+        @include ultra-narrow-desktop {
             flex-wrap: wrap;
             justify-content: space-between;
         }
