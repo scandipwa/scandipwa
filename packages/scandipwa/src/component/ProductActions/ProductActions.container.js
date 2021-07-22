@@ -188,8 +188,8 @@ export class ProductActionsContainer extends PureComponent {
         return variants[configurableVariantIndex].product[attribute] === value;
     }
 
-    filterConfigurableOptions(options) {
-        const { product: { variants } } = this.props;
+    filterConfigurableOptions(options = {}) {
+        const { product: { variants = [] } } = this.props;
 
         return Object.values(options).reduce((acc, option) => {
             const { attribute_values, attribute_code } = option;
