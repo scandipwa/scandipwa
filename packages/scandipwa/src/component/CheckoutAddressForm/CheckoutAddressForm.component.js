@@ -119,7 +119,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onZipcodeChange = async (e) => {
         const { value } = e.currentTarget;
-        const { countryId, availableRegions } = this.state;
+        const { countryId, availableRegions = [] } = this.state;
 
         const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
         if (city) {

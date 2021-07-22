@@ -40,12 +40,15 @@ export class MyAccountAddressForm extends FieldForm {
 
         const {
             countries,
-            shippingFields: {
-                country_id,
-                region_id,
-                city = ''
-            }
+            shippingFields,
+            address
         } = props;
+
+        const {
+            country_id,
+            region_id,
+            city = ''
+        } = shippingFields || address;
 
         const country = countries.find(({ id }) => id === country_id) || {};
         const countryId = Object.keys(country).length ? country_id : '';
