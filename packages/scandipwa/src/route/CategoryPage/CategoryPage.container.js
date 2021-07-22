@@ -27,6 +27,7 @@ import {
 } from 'Store/ProductListInfo/ProductListInfo.action';
 import { CategoryTreeType } from 'Type/Category';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getFiltersCount } from 'Util/Category';
 import { withReducers } from 'Util/DynamicReducer';
@@ -75,7 +76,6 @@ export const mapStateToProps = (state) => ({
     selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
-    device: state.ConfigReducer.device,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile
 });
@@ -145,7 +145,8 @@ export class CategoryPageContainer extends PureComponent {
         isSearchPage: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         plpType: PropTypes.string,
-        device: PropTypes.shape({}).isRequired
+        totalPages: PropTypes.number.isRequired,
+        toggleOverlayByKey: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -420,13 +421,19 @@ export class CategoryPageContainer extends PureComponent {
         const {
             category,
             filters,
-            sortFields
+            sortFields,
+            isMobile,
+            totalPages,
+            toggleOverlayByKey
         } = this.props;
 
         return {
             filters,
             sortFields,
             category,
+            isMobile,
+            totalPages,
+            toggleOverlayByKey,
             filter: this.getFilter(),
             isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
             isMatchingListFilter: this.getIsMatchingListFilter(),
@@ -701,7 +708,6 @@ export class CategoryPageContainer extends PureComponent {
 
         return (
             <CategoryPage
-              { ...this.props }
               pageSize={ pageSize }
               defaultPlpType={ defaultPlpType }
               selectedLayoutType={ selectedLayoutType }

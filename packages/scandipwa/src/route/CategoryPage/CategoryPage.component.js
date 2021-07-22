@@ -61,14 +61,11 @@ export class CategoryPage extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
-        search: PropTypes.string,
         isContentFiltered: PropTypes.bool,
         isCurrentCategoryLoaded: PropTypes.bool,
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
-        device: DeviceType.isRequired,
-        is_anchor: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         onGridButtonClick: PropTypes.func.isRequired,
         onListButtonClick: PropTypes.func.isRequired,
@@ -84,8 +81,6 @@ export class CategoryPage extends PureComponent {
         isCurrentCategoryLoaded: false,
         isMatchingInfoFilter: false,
         totalPages: 1,
-        is_anchor: true,
-        search: '',
         defaultPlpType: '',
         plpTypes: [],
         appliedFiltersCount: 0,
@@ -297,13 +292,13 @@ export class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isMatchingListFilter, device } = this.props;
+        const { isMatchingListFilter, isMobile } = this.props;
 
-        if (isVisibleOnMobile && !device.isMobile) {
+        if (isVisibleOnMobile && !isMobile) {
             return null;
         }
 
-        if (!isVisibleOnMobile && device.isMobile) {
+        if (!isVisibleOnMobile && isMobile) {
             return null;
         }
 
@@ -317,7 +312,6 @@ export class CategoryPage extends PureComponent {
     renderCategoryProductList() {
         const {
             filter,
-            search,
             selectedSort,
             selectedFilters,
             isMatchingListFilter,
@@ -331,8 +325,6 @@ export class CategoryPage extends PureComponent {
             return null;
         }
 
-        console.log(search);
-
         return (
             <div
               block="CategoryPage"
@@ -342,7 +334,6 @@ export class CategoryPage extends PureComponent {
                 { this.renderItemsCount(true) }
                 <CategoryProductList
                   filter={ filter }
-                  search={ search }
                   sort={ selectedSort }
                   selectedFilters={ selectedFilters }
                   isCurrentCategoryLoaded={ isCurrentCategoryLoaded }
