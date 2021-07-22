@@ -151,9 +151,9 @@
             }
         ],
         "rules": {
-            "@scandipwa/scandipwa-guidelines/no-jsx-variables": "error",
-            "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "error",
-            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "error",
+            "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
+            "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
+            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "off",
             "import/no-extraneous-dependencies": "off",
             "@scandipwa/scandipwa-guidelines/file-structure": "error",
             "@scandipwa/scandipwa-guidelines/only-one-class": "error",
@@ -451,5 +451,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://40kskudemo.scandipwa.com/"
+    "proxy": "https://scandipwapmrev.indvp.com/"
 }
