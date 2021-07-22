@@ -416,18 +416,29 @@ export class CategoryPageContainer extends PureComponent {
         return isSearchPage || categoryIds === id;
     }
 
-    containerProps = () => ({
-        filter: this.getFilter(),
-        isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
-        isMatchingListFilter: this.getIsMatchingListFilter(),
-        isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
-        appliedFiltersCount: this.getAppliedFiltersCount(),
-        selectedSort: this.getSelectedSortFromUrl(),
-        selectedFilters: this.getSelectedFiltersFromUrl(),
-        isContentFiltered: this.isContentFiltered(),
-        defaultPlpType: this.getDefaultPlpType(),
-        plpTypes: this.getPlpTypes()
-    });
+    containerProps = () => {
+        const {
+            category,
+            filters,
+            sortFields
+        } = this.props;
+
+        return {
+            filters,
+            sortFields,
+            category,
+            filter: this.getFilter(),
+            isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
+            isMatchingListFilter: this.getIsMatchingListFilter(),
+            isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
+            appliedFiltersCount: this.getAppliedFiltersCount(),
+            selectedSort: this.getSelectedSortFromUrl(),
+            selectedFilters: this.getSelectedFiltersFromUrl(),
+            isContentFiltered: this.isContentFiltered(),
+            defaultPlpType: this.getDefaultPlpType(),
+            plpTypes: this.getPlpTypes()
+        };
+    };
 
     isContentFiltered() {
         const {

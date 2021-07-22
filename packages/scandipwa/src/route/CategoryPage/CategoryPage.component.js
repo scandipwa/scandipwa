@@ -331,6 +331,8 @@ export class CategoryPage extends PureComponent {
             return null;
         }
 
+        console.log(search);
+
         return (
             <div
               block="CategoryPage"

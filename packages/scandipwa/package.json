@@ -151,9 +151,9 @@
             }
         ],
         "rules": {
-            "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
-            "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
-            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "off",
+            "@scandipwa/scandipwa-guidelines/no-jsx-variables": "error",
+            "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "error",
+            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "error",
             "import/no-extraneous-dependencies": "off",
             "@scandipwa/scandipwa-guidelines/file-structure": "error",
             "@scandipwa/scandipwa-guidelines/only-one-class": "error",
