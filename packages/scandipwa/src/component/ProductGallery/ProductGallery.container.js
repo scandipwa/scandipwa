@@ -113,10 +113,11 @@ export class ProductGalleryContainer extends PureComponent {
             }
         } = this.props;
 
-        const baseImageIndex = mediaGallery.findIndex((value) => value.types.includes(IMAGE_TYPE));
+        const baseImage = mediaGallery.find((value) => value.types.includes(IMAGE_TYPE));
+        const { position = 0 } = baseImage || {};
 
-        if (baseImageIndex) {
-            return baseImageIndex;
+        if (position) {
+            return position;
         }
 
         return 0;
