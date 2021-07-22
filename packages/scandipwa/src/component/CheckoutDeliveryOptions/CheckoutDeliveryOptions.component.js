@@ -118,7 +118,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         return (
             <div block="CheckoutDeliveryOptions">
                 { this.renderHeading() }
-                <ul block="CheckoutPayments" elem="Methods">
+                <ul>
                     { this.renderShippingMethods() }
                 </ul>
                 { this.renderSelectedShippingMethod() }
