@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { PRODUCT_IN_STOCK } from 'Component/CartItem/CartItem.config';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 
 import './ProductAlerts.style';
 
@@ -59,7 +59,7 @@ export class ProductAlerts extends PureComponent {
             return null;
         }
 
-        if (stockStatus === PRODUCT_IN_STOCK || !stockStatus) {
+        if (stockStatus === IN_STOCK || !stockStatus) {
             return null;
         }
 

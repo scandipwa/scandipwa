@@ -684,7 +684,7 @@ export class ProductActions extends PureComponent {
             />
         );
     }
-    
+
     renderProductAlerts() {
         const {
             areDetailsLoaded,
@@ -740,7 +740,6 @@ export class ProductActions extends PureComponent {
     }
 
     renderAddToCartMobile() {
-
         return (
             <div
               block="ProductActions"
@@ -793,6 +792,7 @@ export class ProductActions extends PureComponent {
                 </div>
                 { this.renderBrand() }
                 { this.renderShortDescription() }
+                { this.renderProductAlerts() }
                 { this.renderConfigurableAttributes() }
                 { this.renderCustomizableOptions() }
                 { this.renderBundleItems() }
