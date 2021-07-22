@@ -46,7 +46,11 @@ export class CheckoutAddressBook extends PureComponent {
     };
 
     static getDerivedStateFromProps(props) {
-        const { is_virtual, selectedAddressId } = props;
+        const { is_virtual, selectedAddressId, customer: { addresses = [] } } = props;
+
+        if (addresses.length === 0) {
+            return { isCustomAddressExpanded: true };
+        }
 
         if (selectedAddressId === 0) {
             return is_virtual ? { isCustomAddressExpanded: true } : null;
