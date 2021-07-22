@@ -158,6 +158,13 @@
             padding-block-start: 14px;
             padding-inline: 14px;
         }
+
+        &_state_forgotPassword {
+            .Button.Button_likeLink {
+                width: auto;
+                margin-block-start: 0;
+            }
+        }
     }
 
     &-Action {

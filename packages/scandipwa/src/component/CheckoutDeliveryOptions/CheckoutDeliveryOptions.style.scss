@@ -15,4 +15,8 @@
     @include mobile {
         margin-block-end: 28px;
     }
+
+    @include desktop {
+        width: 50%;
+    }
 }
