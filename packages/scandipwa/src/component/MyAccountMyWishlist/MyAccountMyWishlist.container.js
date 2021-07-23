@@ -90,7 +90,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     });
 
     addAllToCart = () => {
-        const { moveWishlistToCart, showError } = this.props;
+        const { moveWishlistToCart } = this.props;
 
         if (!isSignedIn()) {
             return null;
@@ -102,20 +102,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
             () => this.showNotificationAndRemoveLoading('Available items moved to cart'),
             /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartCatch */
-            (error) => {
-                const errorMessage = getErrorMessage(error);
-
-                try {
-                    const errorMessages = JSON.parse(errorMessage);
-                    errorMessages.forEach((err) => {
-                        showError(err);
-                    });
-                } catch {
-                    showError(errorMessage);
-                }
-
-                this.setState({ isLoading: false });
-            }
+            (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
         );
     };
 
@@ -172,8 +159,17 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     showErrorAndRemoveLoading(message) {
         const { showError } = this.props;
+
+        try {
+            const errorMessages = JSON.parse(message);
+            errorMessages.forEach((err) => {
+                showError(err);
+            });
+        } catch {
+            showError(message);
+        }
+
         this.setState({ isLoading: false });
-        showError(message);
     }
 
     render() {
