@@ -119,22 +119,6 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         );
     };
 
-    addAllToCart = () => {
-        const { moveWishlistToCart } = this.props;
-
-        if (!isSignedIn()) {
-            return null;
-        }
-
-        this.setState({ isLoading: true });
-
-        return moveWishlistToCart().then(
-            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
-            () => this.showNotificationAndRemoveLoading('Available items moved to cart'),
-            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartCatch */
-            (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
-        );
-    };
     removeAll = () => {
         const { clearWishlist } = this.props;
 
