@@ -90,6 +90,36 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     });
 
     addAllToCart = () => {
+        const { moveWishlistToCart, showError } = this.props;
+
+        if (!isSignedIn()) {
+            return null;
+        }
+
+        this.setState({ isLoading: true });
+
+        return moveWishlistToCart().then(
+            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartThen */
+            () => this.showNotificationAndRemoveLoading('Available items moved to cart'),
+            /** @namespace Component/MyAccountMyWishlist/Container/moveWishlistToCartCatch */
+            (error) => {
+                const errorMessage = getErrorMessage(error);
+
+                try {
+                    const errorMessages = JSON.parse(errorMessage);
+                    errorMessages.forEach((err) => {
+                        showError(err);
+                    });
+                } catch {
+                    showError(errorMessage);
+                }
+
+                this.setState({ isLoading: false });
+            }
+        );
+    };
+
+    addAllToCart = () => {
         const { moveWishlistToCart } = this.props;
 
         if (!isSignedIn()) {
@@ -105,7 +135,6 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             (error) => this.showErrorAndRemoveLoading(getErrorMessage(error))
         );
     };
-
     removeAll = () => {
         const { clearWishlist } = this.props;
 
