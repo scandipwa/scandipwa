@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { MixType } from 'Type/Common';
 import { getCartItemPrice, getCartItemSubPrice } from 'Util/Cart';
 
 import CartItemPrice from './CartItemPrice.component';
@@ -32,7 +33,7 @@ export class CartItemPriceContainer extends PureComponent {
         getCartItemPrice: PropTypes.func.isRequired,
         getCartItemSubPrice: PropTypes.func.isRequired,
         currency_code: PropTypes.string.isRequired,
-        mix: PropTypes.object.isRequired
+        mix: MixType.isRequired
     };
 
     containerProps = () => {

@@ -20,7 +20,7 @@ import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { showNotification } from 'Store/Notification/Notification.action';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay/Overlay.action';
-import { TotalsType } from 'Type/MiniCart';
+import { CartDisplayType, TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import {
     getCartShippingPrice,
@@ -74,7 +74,7 @@ export class CartOverlayContainer extends PureComponent {
         setNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         cartTotalSubPrice: PropTypes.number,
-        cartDisplaySettings: PropTypes.object.isRequired,
+        cartDisplaySettings: CartDisplayType.isRequired,
         currencyCode: PropTypes.string.isRequired,
         activeOverlay: PropTypes.string.isRequired,
         isMobile: PropTypes.bool.isRequired
@@ -103,7 +103,7 @@ export class CartOverlayContainer extends PureComponent {
             isMobile
         } = this.props;
         const { isEditing } = this.state;
-
+        console.log(cartDisplaySettings);
         return {
             totals,
             showOverlay,

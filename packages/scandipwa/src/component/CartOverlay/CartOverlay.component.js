@@ -18,7 +18,7 @@ import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
-import { TotalsType } from 'Type/MiniCart';
+import { CartDisplayType, TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
 
 import './CartOverlay.style';
@@ -34,7 +34,7 @@ export class CartOverlay extends PureComponent {
         activeOverlay: PropTypes.string.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
         cartTotalSubPrice: PropTypes.number.isRequired,
-        cartDisplaySettings: PropTypes.object.isRequired,
+        cartDisplaySettings: CartDisplayType.isRequired,
         isMobile: PropTypes.bool.isRequired
     };
 

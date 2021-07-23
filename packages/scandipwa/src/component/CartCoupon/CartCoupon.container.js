@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { MixType } from 'Type/Common';
+
 import CartCoupon from './CartCoupon.component';
 
 export const CartDispatcher = import(
@@ -40,7 +42,7 @@ export class CartCouponContainer extends PureComponent {
         applyCouponToCart: PropTypes.func.isRequired,
         removeCouponFromCart: PropTypes.func.isRequired,
         onCouponCodeUpdate: PropTypes.func,
-        mix: PropTypes.object,
+        mix: MixType,
         title: PropTypes.string
     };
 
