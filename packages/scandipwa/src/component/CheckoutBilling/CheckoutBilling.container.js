@@ -188,8 +188,20 @@ export class CheckoutBillingContainer extends PureComponent {
         }
     }
 
+    getBillingSameAsShipping() {
+        const { selectedShippingMethod, shippingAddress } = this.props;
+
+        if (selectedShippingMethod === STORE_IN_PICK_UP_METHOD_CODE) {
+            const { extension_attributes, ...billingAddress } = shippingAddress;
+
+            return billingAddress;
+        }
+
+        return shippingAddress;
+    }
+
     _getAddress(fields) {
-        const { addressLinesQty, shippingAddress } = this.props;
+        const { addressLinesQty } = this.props;
 
         const {
             isSameAsShipping,
@@ -199,7 +211,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const formFields = getFormFields(fields, addressLinesQty);
 
         if (isSameAsShipping) {
-            return shippingAddress;
+            return this.getBillingSameAsShipping();
         }
 
         if (!selectedCustomerAddressId) {
