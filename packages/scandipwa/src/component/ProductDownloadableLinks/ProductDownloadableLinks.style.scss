@@ -55,6 +55,7 @@
 }
 
 .ProductDownloadableLink {
+    display: flex;
     padding-block-start: 15px;
     padding-block-end: 10px;
     padding-inline: 0;
@@ -68,10 +69,11 @@
 
     &-SampleTitle {
         font-weight: bold;
+        flex: 1;
     }
 
     &-SampleLink {
-        float: inline-end;
+        margin-inline-start: 8px;
 
         @include mobile {
             margin-inline-end: 16px;

@@ -177,7 +177,7 @@ export class MyAccountCreateAccount extends PureComponent {
                     <button
                       block="Button"
                       mods={ { likeLink: true } }
-                      mix={ { block: 'MyAccountOverlay', elem: 'SignInButton' } }
+                      mix={ { block: 'MyAccountOverlay', elem: 'SignInLink' } }
                       onClick={ handleSignIn }
                     >
                         { __('Sign in') }
