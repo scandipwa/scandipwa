@@ -108,6 +108,9 @@
         "env": {
             "browser": true
         },
+        "ignorePatterns": [
+            "**/*.d.ts"
+        ],
         "parser": "babel-eslint",
         "globals": {
             "window": true,
