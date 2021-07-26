@@ -57,10 +57,10 @@ export class MyAccountAddressForm extends FieldForm {
 
         const country = countries.find(({ id }) => id === country_id) || {};
         const countryId = Object.keys(country).length ? country_id : default_country;
-        const availableRegions = getAvailableRegions(countryId, countries);
 
         const { is_state_required = false } = country;
 
+        const availableRegions = getAvailableRegions(countryId, countries);
         const [...{ id: defaultRegionId = '' }] = availableRegions;
         const regionId = region_id || defaultRegionId;
 
