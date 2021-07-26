@@ -103,7 +103,7 @@ export class CartOverlayContainer extends PureComponent {
             isMobile
         } = this.props;
         const { isEditing } = this.state;
-        console.log(cartDisplaySettings);
+
         return {
             totals,
             showOverlay,

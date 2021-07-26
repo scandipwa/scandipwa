@@ -38,7 +38,7 @@ export class CheckoutBilling extends PureComponent {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
-        termsAreEnabled: PropTypes.bool,
+        termsAreEnabled: PropTypes.bool.isRequired,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
@@ -47,17 +47,12 @@ export class CheckoutBilling extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number,
+        cartTotalSubPrice: PropTypes.number.isRequired,
         shippingAddress: addressType.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string
         })).isRequired,
         selectedShippingMethod: PropTypes.string.isRequired
-    };
-
-    static defaultProps = {
-        termsAreEnabled: false,
-        cartTotalSubPrice: null
     };
 
     componentDidMount() {

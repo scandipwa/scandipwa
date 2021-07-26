@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { STORE_IN_PICK_UP_METHOD_CODE, STORE_IN_PICK_UP_POPUP_ID } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
 import { showPopup } from 'Store/Popup/Popup.action';
+import { addressType } from 'Type/Account';
 import { shippingMethodsType } from 'Type/Checkout';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
@@ -36,7 +37,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         onShippingMethodSelect: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
-        shippingMethods: shippingMethodsType.isRequired
+        shippingMethods: shippingMethodsType.isRequired,
+        estimateAddress: addressType.isRequired
     };
 
     static _getDefaultMethod(props) {
@@ -130,6 +132,24 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         }
     }
 
+    containerProps() {
+        const {
+            estimateAddress,
+            onShippingMethodSelect,
+            onStoreSelect,
+            shippingMethods
+        } = this.props;
+        const { selectedShippingMethodCode } = this.state;
+
+        return {
+            estimateAddress,
+            onShippingMethodSelect,
+            onStoreSelect,
+            selectedShippingMethodCode,
+            shippingMethods
+        };
+    }
+
     collectAdditionalData = () => {
         const { selectedShippingMethodCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedShippingMethodCode];
@@ -160,9 +180,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     render() {
         return (
             <CheckoutDeliveryOptions
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
-              { ...this.state }
             />
         );
     }
