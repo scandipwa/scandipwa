@@ -12,7 +12,7 @@
 .StoreInPickUpPopup {
     .Popup {
         &-Content {
-            @include after-mobile {
+            @include desktop {
                 width: 50vh;
                 height: 40vh;
             }

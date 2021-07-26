@@ -404,7 +404,9 @@ export class CheckoutContainer extends PureComponent {
             paymentTotals,
             selectedShippingMethod,
             shippingAddress,
-            shippingMethods
+            shippingMethods,
+            selectedStoreAddress,
+            isPickInStoreMethodSelected
         } = this.state;
 
         return {
@@ -429,7 +431,9 @@ export class CheckoutContainer extends PureComponent {
             setHeaderState,
             shippingAddress,
             shippingMethods,
-            totals
+            totals,
+            selectedStoreAddress,
+            isPickInStoreMethodSelected
         };
     }
 
