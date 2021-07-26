@@ -387,7 +387,8 @@ export class CheckoutContainer extends PureComponent {
             isEmailAvailable,
             isMobile,
             setHeaderState,
-            totals
+            totals,
+            isInStoreActivated
         } = this.props;
         const {
             billingAddress,
@@ -403,7 +404,9 @@ export class CheckoutContainer extends PureComponent {
             paymentTotals,
             selectedShippingMethod,
             shippingAddress,
-            shippingMethods
+            shippingMethods,
+            selectedStoreAddress,
+            isPickInStoreMethodSelected
         } = this.state;
 
         return {
@@ -418,6 +421,7 @@ export class CheckoutContainer extends PureComponent {
             isDeliveryOptionsLoading,
             isEmailAvailable,
             isGuestEmailSaved,
+            isInStoreActivated,
             isLoading,
             isMobile,
             orderID,
@@ -427,7 +431,9 @@ export class CheckoutContainer extends PureComponent {
             setHeaderState,
             shippingAddress,
             shippingMethods,
-            totals
+            totals,
+            selectedStoreAddress,
+            isPickInStoreMethodSelected
         };
     }
 
