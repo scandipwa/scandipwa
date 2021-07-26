@@ -101,9 +101,6 @@
         ]
     },
     "eslintConfig": {
-        "ignorePatterns": [
-            "**/*.d.ts"
-        ],
         "extends": [
             "airbnb",
             "plugin:array-func/recommended"
@@ -454,5 +451,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://scandipwapmrev.indvp.com/"
+    "proxy": "https://40kskudemo.scandipwa.com/"
 }
