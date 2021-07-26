@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 import FormPortal from 'Component/FormPortal';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
-import { getCityAndRegionFromZipcode } from 'Util/Address';
+import { getAvailableRegions, getCityAndRegionFromZipcode } from 'Util/Address';
 import { debounce } from 'Util/Request';
 
 import { REQUEST_SHIPPING_METHODS_FREQUENCY } from './CheckoutAddressForm.config';
@@ -44,11 +44,12 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
                 country_id = '',
                 postcode = ''
             },
-            default_country
+            default_country,
+            countries
         } = this.props;
 
         const countryId = country_id || default_country;
-        const availableRegions = this.getAvailableRegions(countryId);
+        const availableRegions = getAvailableRegions(countryId, countries);
 
         // TODO: get from region data
         this.state = {
