@@ -76,14 +76,13 @@ export class PasswordChangePageContainer extends PureComponent {
         isLoading: false
     };
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props, state) {
         const {
             passwordResetStatus,
             passwordResetMessage,
             showNotification
         } = props;
-        const stateToBeUpdated = {};
-        stateToBeUpdated.isLoading = false;
+        const stateToBeUpdated = { isLoading: false };
 
         if (passwordResetStatus && !state.isLoading) {
             stateToBeUpdated.passwordResetStatus = passwordResetStatus;
