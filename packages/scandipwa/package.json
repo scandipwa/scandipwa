@@ -101,6 +101,9 @@
         ]
     },
     "eslintConfig": {
+        "ignorePatterns": [
+            "**/*.d.ts"
+        ],
         "extends": [
             "airbnb",
             "plugin:array-func/recommended"
