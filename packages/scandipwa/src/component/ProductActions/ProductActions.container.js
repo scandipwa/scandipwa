@@ -514,19 +514,20 @@ export class ProductActionsContainer extends PureComponent {
                     minimum_price: {
                         regular_price: { currency = '', value = 0 } = {},
                         regular_price_excl_tax: { value: value_excl_tax = 0 } = {},
-                        discount: { percent_off = 0 } = {}
+                        discount: { percent_off = 0 } = {},
+                        discount
                     } = {}
                 } = {}
             } = {}
         } = this.props;
 
-        const discount = (1 - percent_off / ONE_HUNDRED_PERCENT);
+        const discountValue = (1 - percent_off / ONE_HUNDRED_PERCENT);
 
         const basePrice = addBase ? value : 0;
         const basePriceExclTax = addBase ? value_excl_tax : 0;
 
-        const finalPrice = (basePrice + price) * discount;
-        const finalPriceExclTax = (basePriceExclTax + withoutTax) * discount;
+        const finalPrice = (basePrice + price) * discountValue;
+        const finalPriceExclTax = (basePriceExclTax + withoutTax) * discountValue;
 
         const priceValue = { value: finalPrice, currency };
         const priceValueExclTax = { value: finalPriceExclTax, currency };
@@ -536,7 +537,8 @@ export class ProductActionsContainer extends PureComponent {
                 final_price: priceValue,
                 regular_price: priceValue,
                 final_price_excl_tax: priceValueExclTax,
-                regular_price_excl_tax: priceValueExclTax
+                regular_price_excl_tax: priceValueExclTax,
+                discount
             }
         };
     }
