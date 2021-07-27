@@ -95,7 +95,7 @@ export class ProductDownloadableLinks extends PureComponent {
         );
     }
 
-    renderDownloadableLink = (link) => {
+    renderDownloadableLink(link) {
         const { id } = link;
 
         return (
@@ -105,7 +105,7 @@ export class ProductDownloadableLinks extends PureComponent {
                 { this.renderLink(link) }
             </div>
         );
-    };
+    }
 
     renderRequired(isRequired) {
         const { selectedLinks } = this.props;
