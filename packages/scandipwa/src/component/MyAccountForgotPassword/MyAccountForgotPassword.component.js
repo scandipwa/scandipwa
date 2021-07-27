@@ -90,6 +90,7 @@ export class MyAccountForgotPassword extends PureComponent {
                     <button
                       block="Button"
                       mods={ { likeLink: true } }
+                      mix={ { block: 'MyAccountOverlay', elem: 'SignInButton' } }
                       onClick={ handleSignIn }
                     >
                         { __('Sign in') }
