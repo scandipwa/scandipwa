@@ -74,6 +74,7 @@ export class MyAccountSignIn extends PureComponent {
                   validation={ ['notEmpty', 'password'] }
                 />
                 <button
+                  type="button"
                   block="Button"
                   mods={ { likeLink: true } }
                   mix={ { block: 'MyAccountOverlay', elem: 'ForgotPassword' } }
