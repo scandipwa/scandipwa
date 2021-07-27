@@ -43,6 +43,7 @@
             "es_ES": true,
             "fa_IR": true,
             "fr_FR": true,
+            "fi_FI": true,
             "it_IT": true,
             "lv_LV": true,
             "nb_NO": true,
@@ -451,5 +452,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "proxy": "https://40kskudemo.scandipwa.com/"
+    "proxy": "http://scandipwapmrev.indvp.com/"
 }
