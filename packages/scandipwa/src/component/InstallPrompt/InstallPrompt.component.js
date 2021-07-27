@@ -50,23 +50,10 @@ export class InstallPrompt extends PureComponent {
             && !isBannerClosed;
     }
 
-    renderDebug() {
-        const { device, isBannerClosed } = this.props;
-        const {
-            ios,
-            safari,
-            standaloneMode
-        } = device;
-
-        return {
-            ios, safari, standaloneMode, isBannerClosed
-        };
-    }
-
     renderPrompt() {
         const { device, containerFunctions } = this.props;
 
-        if (device.ios) {
+        if (device) {
             return <InstallPromptIOS { ...containerFunctions } />;
         }
 
@@ -81,13 +68,12 @@ export class InstallPrompt extends PureComponent {
         const displayComponent = this.hasSupport();
 
         if (!displayComponent) {
-            return JSON.stringify(this.renderDebug());
+            return null;
         }
 
         return (
             <div block="InstallPrompt">
                 { this.renderPrompt() }
-                { JSON.stringify(this.renderDebug()) }
             </div>
         );
     }
