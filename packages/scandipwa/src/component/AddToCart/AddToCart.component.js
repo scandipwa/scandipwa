@@ -19,7 +19,7 @@ import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
 
-import './AddToCart.style';
+import(/* webpackChunkName: "cart" */ './AddToCart.style');
 
 /**
  * Button for adding product to Cart
