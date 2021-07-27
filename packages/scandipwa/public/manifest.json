@@ -1,0 +1,17 @@
+{
+  "name": "ScandiPWA",
+  "short_name": "ScandiPWA",
+  "description": "ScandiPWA theme DEMO store",
+  "lang": "en-US",
+  "start_url": "\/",
+  "orientation": "portrait",
+  "display": "standalone",
+  "scope": "\/",
+  "icons": [
+    {
+      "src": "..\/media\/icons\/icon_ios_640x640.png",
+      "type": "image\/png",
+      "sizes" :"640x640"
+    }
+  ]
+}
