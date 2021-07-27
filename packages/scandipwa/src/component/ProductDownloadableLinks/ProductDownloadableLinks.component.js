@@ -129,7 +129,7 @@ export class ProductDownloadableLinks extends PureComponent {
 
         return (
             <>
-                { links.map(this.renderDownloadableLink) }
+                { links.map(this.renderDownloadableLink.bind(this)) }
                 { this.renderRequired(isRequired) }
             </>
         );
