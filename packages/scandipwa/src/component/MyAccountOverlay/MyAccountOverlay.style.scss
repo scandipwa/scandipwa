@@ -152,8 +152,7 @@
         }
     }
 
-    &-Action form,
-    &-Additional {
+    &-Action form {
         @include mobile {
             padding-block-start: 14px;
             padding-inline: 14px;
