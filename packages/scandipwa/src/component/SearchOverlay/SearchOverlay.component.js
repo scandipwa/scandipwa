@@ -21,7 +21,7 @@ import {
     SEARCH_TIMEOUT
 } from './SearchOverlay.config';
 
-import './SearchOverlay.style';
+import(/* webpackChunkName: "overlays" */ './SearchOverlay.style');
 
 /** @namespace Component/SearchOverlay/Component */
 export class SearchOverlay extends PureComponent {
