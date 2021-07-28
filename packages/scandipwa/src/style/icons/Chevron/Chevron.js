@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import { RIGHT } from 'Style/icons/Chevron/Chevron.config';
 import { DirectionType } from 'Type/Direction';
 
+/** @namespace Component/ChevronIcon/Component */
 export class ChevronIcon extends PureComponent {
     static propTypes = {
         direction: DirectionType

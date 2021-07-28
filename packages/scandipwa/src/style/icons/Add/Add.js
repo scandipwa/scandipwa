@@ -13,6 +13,7 @@ import './Add.scss';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+/** @namespace Component/AddIcon/Component */
 export class AddIcon extends PureComponent {
     static propTypes = {
         isPrimary: PropTypes.bool

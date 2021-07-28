@@ -8,5 +8,4 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-export { default } from './ExpandableContent.container';
+export { default } from './Star';

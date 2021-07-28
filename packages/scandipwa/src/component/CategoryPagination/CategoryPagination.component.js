@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
-import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import chevron from 'Style/icons/chevron.svg';
+import ChevronIcon from 'Style/icons/Chevron';
+import { LEFT, RIGHT } from 'Style/icons/Chevron/Chevron.config';
 import { range } from 'Util/Manipulations';
 
 import './CategoryPagination.style';
@@ -92,11 +92,7 @@ export class CategoryPagination extends PureComponent {
 
     renderPageIcon(isNext = false) {
         return (
-            <Image
-              src={ chevron }
-              alt="Next Icon"
-              mix={ { block: 'CategoryPagination', elem: 'Icon', mods: { isNext } } }
-            />
+            <ChevronIcon direction={ isNext ? RIGHT : LEFT } />
         );
     }
 

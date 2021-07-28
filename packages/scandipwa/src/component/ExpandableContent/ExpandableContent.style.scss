@@ -29,23 +29,10 @@
          }
 
          .AddIcon,
-         .MinusIcon {
+         .MinusIcon,
+         .ChevronIcon {
              width: var(--toggle-button-size);
              height: var(--toggle-button-size);
-         }
-
-         &-ToggleArrow {
-             @include chevron-icon;
-
-             width: var(--toggle-button-size);
-             height: var(--toggle-button-size);
-             transform: rotate(90deg);
-
-             &_isContentExpanded {
-                 width: var(--toggle-button-size);
-                 height: var(--toggle-button-size);
-                 transform: rotate(270deg);
-             }
          }
      }
 

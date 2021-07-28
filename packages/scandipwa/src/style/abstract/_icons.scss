@@ -343,14 +343,6 @@
     width: 24px;
 }
 
-@mixin chevron-icon {
-    background-image: var(--imported_icons_chevron, url('./../icons/chevron.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: var(--radiobutton-size);
-    width: var(--radiobutton-size);
-}
-
 @mixin radiobutton {
     background-image: var(--imported_icons_chevron, url('./../icons/radiobutton.svg'));
     background-repeat: no-repeat;
@@ -365,36 +357,6 @@
     background-size: contain;
     height: var(--radiobutton-size);
     width: var(--radiobutton-size);
-    filter: var(--primary-base-filter);
-}
-
-@mixin star-icon-full {
-    background-image: var(--imported_icons_menu, url('./../icons/star-full.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: inline-block;
-    height: var(--star-size);
-    width: var(--star-size);
-    filter: var(--primary-base-filter);
-}
-
-@mixin star-icon-half {
-    background-image: var(--imported_icons_menu, url('./../icons/star-half.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: inline-block;
-    height: var(--star-size);
-    width: var(--star-size);
-    filter: var(--primary-base-filter);
-}
-
-@mixin star-icon-empty {
-    background-image: var(--imported_icons_menu, url('./../icons/star-empty.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: inline-block;
-    height: var(--star-size);
-    width: var(--star-size);
     filter: var(--primary-base-filter);
 }
 

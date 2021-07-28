@@ -13,6 +13,7 @@ import './Minus.scss';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+/** @namespace Component/MinusIcon/Component */
 export class MinusIcon extends PureComponent {
     static propTypes = {
         isPrimary: PropTypes.bool

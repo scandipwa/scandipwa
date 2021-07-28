@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ChevronIcon from 'Style/icons/Chevron';
 import { tabType } from 'Type/Account';
 
 import './MyAccountTabListItem.style';
@@ -53,7 +54,7 @@ export class MyAccountTabListItem extends PureComponent {
                   role="link"
                 >
                     { name }
-                    <span />
+                    <ChevronIcon />
                 </button>
             </li>
         );

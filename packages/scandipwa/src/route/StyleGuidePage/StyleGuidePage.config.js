@@ -9,9 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import AddIcon from 'Style/icons/Add';
-import arrow from 'Style/icons/arrow.svg';
 import bag from 'Style/icons/bag.svg';
-import chevron from 'Style/icons/chevron.svg';
+import ChevronIcon from 'Style/icons/Chevron';
 import close from 'Style/icons/close.svg';
 import compare from 'Style/icons/compare.svg';
 import edit from 'Style/icons/edit.svg';
@@ -33,9 +32,7 @@ import search from 'Style/icons/search.svg';
 import share from 'Style/icons/share.svg';
 import sliderItemSelected from 'Style/icons/slider-item-selected.svg';
 import sliderItem from 'Style/icons/slider-item.svg';
-import startEmpty from 'Style/icons/star-empty.svg';
-import startFull from 'Style/icons/star-full.svg';
-import startHalf from 'Style/icons/star-half.svg';
+import Star from 'Style/icons/Star';
 import twitter from 'Style/icons/twitter.svg';
 import user from 'Style/icons/user.svg';
 
@@ -55,15 +52,12 @@ export const ICONS_LIST = {
     search,
     user,
     heart,
-    startFull,
-    startHalf,
-    startEmpty,
+    Star,
     sliderItemSelected,
     sliderItem,
-    arrow,
     help,
     lock,
-    chevron,
+    ChevronIcon,
     compare,
     exclamation,
     close,
