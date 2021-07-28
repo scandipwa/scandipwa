@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import add from 'Style/icons/add.svg';
+import AddIcon from 'Style/icons/Add';
 import arrow from 'Style/icons/arrow.svg';
 import bag from 'Style/icons/bag.svg';
 import chevron from 'Style/icons/chevron.svg';
@@ -27,7 +27,7 @@ import list from 'Style/icons/list.svg';
 import lock from 'Style/icons/lock.svg';
 import mail from 'Style/icons/mail.svg';
 import menu from 'Style/icons/menu.svg';
-import minus from 'Style/icons/minus.svg';
+import MinusIcon from 'Style/icons/Minus';
 import phone from 'Style/icons/phone.svg';
 import search from 'Style/icons/search.svg';
 import share from 'Style/icons/share.svg';
@@ -49,8 +49,8 @@ export const ADDITIONAL_ELEMENTS = 'additional elements';
 export const ICONS_LIST = {
     bag,
     filter,
-    minus,
-    add,
+    MinusIcon,
+    AddIcon,
     menu,
     search,
     user,

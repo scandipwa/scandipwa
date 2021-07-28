@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
+import AddIcon from 'Style/icons/Add';
+import MinusIcon from 'Style/icons/Minus';
 import { ChildrenType, MixType } from 'Type/Common';
 import { getFixedElementHeight } from 'Util/CSS';
 
@@ -141,13 +143,23 @@ export class ExpandableContent extends PureComponent {
                         heading
                     ) }
                 </div>
-                <div
-                  block="ExpandableContent"
-                  elem={ isArrow ? 'ToggleArrow' : 'ToggleButton' }
-                  mods={ { isContentExpanded } }
-                />
+                { isArrow ? (
+                    <div
+                      block="ExpandableContent"
+                      elem="ToggleArrow"
+                      mods={ { isContentExpanded } }
+                    />
+                ) : this.renderTogglePlusMinus() }
             </div>
         );
+    }
+
+    renderTogglePlusMinus() {
+        const { isContentExpanded } = this.state;
+
+        return isContentExpanded
+            ? <MinusIcon />
+            : <AddIcon />;
     }
 
     renderContent() {

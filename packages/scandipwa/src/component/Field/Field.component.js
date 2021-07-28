@@ -17,8 +17,8 @@ import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
 import Image from 'Component/Image';
-import add from 'Style/icons/add.svg';
-import minus from 'Style/icons/minus.svg';
+import AddIcon from 'Style/icons/Add';
+import MinusIcon from 'Style/icons/Minus';
 import { MixType } from 'Type/Common';
 
 import {
@@ -156,7 +156,7 @@ export class Field extends PureComponent {
                   onClick={ () => handleChange(+value + 1) }
                   aria-label={ __('Add') }
                 >
-                    <Image src={ add } alt="add" mix={ { block: 'AddButton' } } />
+                    <AddIcon block="SubtractButton" isPrimary />
                 </button>
                 <button
                   disabled={ +value === min }
@@ -164,7 +164,7 @@ export class Field extends PureComponent {
                   onClick={ () => handleChange(+value - 1) }
                   aria-label={ __('Subtract') }
                 >
-                    <Image src={ minus } alt="subtract" mix={ { block: 'SubtractButton' } } />
+                    <MinusIcon block="AddButton" isPrimary />
                 </button>
             </>
         );

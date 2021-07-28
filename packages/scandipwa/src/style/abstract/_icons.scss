@@ -16,6 +16,22 @@
     --plus-minus-icon-size: 24px;
 }
 
+@mixin icon-black {
+    fill: var(--color-black);
+
+    &:hover {
+        fill: var(--primary-base-color);
+    }
+}
+
+@mixin icon-primary {
+    fill: var(--primary-base-color);
+
+    &:hover {
+        fill: var(--primary-dark-color);
+    }
+}
+
 @mixin clear-button {
     cursor: pointer;
 
@@ -247,32 +263,6 @@
         position: relative;
         inset-block-start: -16px;
         width: 19px;
-    }
-}
-
-@mixin minus-icon {
-    background-image: var(--imported_icons_minus, url('./../icons/minus.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    cursor: pointer;
-    height: var(--plus-minus-icon-size);
-    width: var(--plus-minus-icon-size);
-
-    &:hover {
-        filter: var(--primary-dark-filter);
-    }
-}
-
-@mixin plus-icon {
-    background-image: var(--imported_icons_add, url('./../icons/add.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    cursor: pointer;
-    height: var(--plus-minus-icon-size);
-    width: var(--plus-minus-icon-size);
-
-    &:hover {
-        filter: var(--primary-dark-filter);
     }
 }
 

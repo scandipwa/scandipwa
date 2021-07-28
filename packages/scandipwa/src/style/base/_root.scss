@@ -32,6 +32,8 @@
     --placeholder-animation: placeholderAnimation 2s linear infinite;
 
     // Declare imported primary colors to change the theme's colors
+    // "imported_..." variables are set up in Admin panel -> Stores -> Configuration -> Scandipwa -> Color Configuration
+    // They have higher priority than "default_..." variables defined in code.
     --primary-base-color: var(--imported_primary_base_color, #{$default-primary-base-color});
     --primary-dark-color: var(--imported_primary_dark_color, #{$default-primary-dark-color});
     --primary-light-color: var(--imported_primary_light_color, #{$default-primary-light-color});

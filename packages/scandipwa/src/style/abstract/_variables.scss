@@ -12,11 +12,11 @@
 $white: #fff;
 $black: #0a0903;
 $default-primary-base-color: #f26323;
-$default-primary-dark-color: #d1490c;
-$default-primary-light-color: #f69e77;
+$default-primary-dark-color: darken($default-primary-base-color, 15%);
+$default-primary-light-color: lighten($default-primary-base-color, 15%);
 $default-secondary-base-color: #eee;
-$default-secondary-dark-color: #929292;
-$default-secondary-light-color: #f8f8f8;
+$default-secondary-dark-color: darken($default-secondary-base-color, 15%);
+$default-secondary-light-color: lighten($default-secondary-base-color, 15%);
 $font-muli: 'Muli', sans-serif;
 $font-standard-size: 62.5%;
 $svg-filter-primary-base-color: invert(43%) sepia(55%) saturate(2559%) hue-rotate(349deg) brightness(90%) contrast(91%);

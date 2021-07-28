@@ -14,6 +14,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
+import AddIcon from 'Style/icons/Add';
+import MinusIcon from 'Style/icons/Minus';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {
@@ -37,6 +39,7 @@ export class MenuItem extends PureComponent {
 
     renderExpandButton() {
         const { isExpandable, itemMods } = this.props;
+        const { isExpanded } = itemMods;
 
         if (!isExpandable) {
             return null;
@@ -47,7 +50,9 @@ export class MenuItem extends PureComponent {
               block="Menu"
               elem="ExpandedState"
               mods={ itemMods }
-            />
+            >
+                { isExpanded ? <MinusIcon /> : <AddIcon /> }
+            </figcaption>
         );
     }
 

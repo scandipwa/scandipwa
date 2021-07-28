@@ -51,7 +51,6 @@
 
     &-ExpandedState {
         --plus-minus-icon-size: 18px;
-        @include plus-icon;
 
         display: inline-block;
         float: inline-end;
@@ -60,11 +59,6 @@
             float: inline-start;
         }
 
-        &_isExpanded {
-            @include minus-icon;
-        }
-
-        filter: brightness(.2) sepia(1) hue-rotate(180deg) saturate(5);
         position: absolute;
         inset-inline-end: 0;
 

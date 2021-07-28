@@ -28,18 +28,10 @@
              border-block-end: 1px solid var(--expandable-content-divider-color);
          }
 
-         &-ToggleButton {
-             @include plus-icon;
-
+         .AddIcon,
+         .MinusIcon {
              width: var(--toggle-button-size);
              height: var(--toggle-button-size);
-
-             &_isContentExpanded {
-                 @include minus-icon;
-
-                 width: var(--toggle-button-size);
-                 height: var(--toggle-button-size);
-             }
          }
 
          &-ToggleArrow {

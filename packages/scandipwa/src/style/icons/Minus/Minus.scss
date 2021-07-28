@@ -1,0 +1,11 @@
+.MinusIcon {
+  @include icon-black;
+
+  cursor: pointer;
+  height: var(--plus-minus-icon-size);
+  width: var(--plus-minus-icon-size);
+
+  &_isPrimary {
+    @include icon-primary;
+  }
+}
