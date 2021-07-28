@@ -11,6 +11,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ChevronIcon from 'Style/icons/Chevron';
+
 import './CarouselScrollArrow.style';
 
 /** @namespace Component/CarouselScrollArrow/Component */
@@ -34,7 +36,9 @@ export class CarouselScrollArrow extends PureComponent {
               mods={ mods }
               onClick={ onClick }
               aria-label="Arrow"
-            />
+            >
+                <ChevronIcon />
+            </button>
         );
     }
 }

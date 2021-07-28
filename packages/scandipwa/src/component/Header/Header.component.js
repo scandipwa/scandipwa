@@ -26,6 +26,8 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import ChevronIcon from 'Style/icons/Chevron';
+import { LEFT } from 'Style/icons/Chevron/Chevron.config';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
@@ -228,7 +230,9 @@ export class Header extends NavigationAbstract {
               aria-label="Go back"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
-            />
+            >
+                <ChevronIcon direction={ LEFT } />
+            </button>
         );
     }
 

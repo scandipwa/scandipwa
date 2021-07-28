@@ -37,9 +37,18 @@ export class MenuItem extends PureComponent {
         isExpandable: false
     };
 
+    renderPlusMinusIcon() {
+        const { itemMods: { isExpanded } } = this.props;
+
+        if (isExpanded) {
+            return <MinusIcon />;
+        }
+
+        return <AddIcon />;
+    }
+
     renderExpandButton() {
         const { isExpandable, itemMods } = this.props;
-        const { isExpanded } = itemMods;
 
         if (!isExpandable) {
             return null;
@@ -51,7 +60,7 @@ export class MenuItem extends PureComponent {
               elem="ExpandedState"
               mods={ itemMods }
             >
-                { isExpanded ? <MinusIcon /> : <AddIcon /> }
+                { this.renderPlusMinusIcon() }
             </figcaption>
         );
     }

@@ -156,13 +156,9 @@
             }
 
             &_back {
-                @include back-button;
-
-                width: 18px;
-                height: 20px;
-
-                [dir="rtl"] & {
-                    transform: none;
+                .ChevronIcon {
+                    width: 20px;
+                    height: 20px;
                 }
             }
 

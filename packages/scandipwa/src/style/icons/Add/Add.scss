@@ -1,5 +1,5 @@
 .AddIcon {
-  @include icon-black;
+  @include icon-black-hover-effect;
 
   cursor: pointer;
   height: var(--plus-minus-icon-size);

@@ -1,13 +1,19 @@
 .CarouselScrollArrow {
-    @include chevron-icon;
+    //@include chevron-icon;
 
     $arrow-size: 25px;
     z-index: 1;
     transition: opacity 200ms;
     cursor: pointer;
+    transform: rotate(-180deg);
+
     width: $arrow-size;
     height: $arrow-size;
-    transform: rotate(-180deg);
+
+    .ChevronIcon {
+        width: 100%;
+        height: 100%;
+    }
 
     &:hover {
         transform: rotate(-180deg) scale(1.2);

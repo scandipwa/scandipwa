@@ -157,9 +157,11 @@ export class ExpandableContent extends PureComponent {
     renderTogglePlusMinus() {
         const { isContentExpanded } = this.state;
 
-        return isContentExpanded
-            ? <MinusIcon />
-            : <AddIcon />;
+        if (isContentExpanded) {
+            return <MinusIcon />;
+        }
+
+        return <AddIcon />;
     }
 
     renderContent() {

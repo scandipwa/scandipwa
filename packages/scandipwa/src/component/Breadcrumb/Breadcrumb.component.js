@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import ChevronIcon from 'Style/icons/Chevron';
 
 import './Breadcrumb.style';
 
@@ -71,7 +72,8 @@ export class Breadcrumb extends PureComponent {
                 <span itemProp="name">
                     { this.renderName() }
                 </span>
-                <span block="Breadcrumb" elem="Arrow" />
+                { /* <span block="Breadcrumb" elem="Arrow" /> */ }
+                <ChevronIcon />
                 <meta itemProp="position" content={ index } />
             </Link>
         );

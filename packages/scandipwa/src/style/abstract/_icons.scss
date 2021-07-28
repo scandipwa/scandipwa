@@ -16,7 +16,7 @@
     --plus-minus-icon-size: 24px;
 }
 
-@mixin icon-black {
+@mixin icon-black-hover-effect {
     fill: var(--color-black);
 
     &:hover {
@@ -96,13 +96,6 @@
     box-shadow: none;
     border-radius: 0;
     opacity: 1;
-}
-
-@mixin back-button {
-    @include chevron-icon;
-
-    background-size: cover;
-    transform: rotate(180deg);
 }
 
 @mixin menu-button {

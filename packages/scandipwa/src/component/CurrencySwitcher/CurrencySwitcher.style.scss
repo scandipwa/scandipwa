@@ -53,16 +53,6 @@
         }
 
         .FieldSelect {
-            &::after {
-                @include chevron-icon;
-            }
-
-            &[aria-expanded='true'] {
-                &::after {
-                    transform: rotate(-90deg);
-                }
-            }
-
             &-Select {
                 border: none;
                 font-size: 12px;

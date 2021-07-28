@@ -12,8 +12,8 @@
 $select-width: 160px !default;
 $select-height: 45px !default;
 $select-option-height: 36px !default;
-$select-arrow-height: 16px !default;
-$select-arrow-width: 16px !default;
+$select-arrow-height: 14px !default;
+$select-arrow-width: 14px !default;
 
 :root {
     --select-option-background: #fff;
@@ -23,21 +23,19 @@ $select-arrow-width: 16px !default;
 .FieldSelect {
     cursor: pointer;
 
-    &::after {
-        background-image: url('./../../style/icons/chevron.svg');
-        background-size: cover;
-        content: '';
-        display: block;
+    &-Clickable {
+        display: flex;
+        align-items: center;
+    }
+
+    .ChevronIcon {
+        display: inline-block;
         width: $select-arrow-width;
         height: $select-arrow-height;
-        transform: rotate(90deg);
         pointer-events: none;
 
         position: absolute;
-        inset-inline-end: 20px;
-        inset-block-end: 0;
-        inset-block-start: 0;
-        margin: auto;
+        inset-inline-end: 0;
     }
 
     &_isExpanded::after {
@@ -74,6 +72,7 @@ $select-arrow-width: 16px !default;
         will-change: max-height;
         max-height: 0;
         -webkit-overflow-scrolling: touch;
+        min-width: 100%;
 
         // Firefox support
         scrollbar-width: none !important;
