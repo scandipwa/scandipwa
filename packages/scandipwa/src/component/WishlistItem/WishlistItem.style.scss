@@ -132,6 +132,10 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+
+            @include mobile {
+                white-space: normal;
+            }
         }
     }
 
