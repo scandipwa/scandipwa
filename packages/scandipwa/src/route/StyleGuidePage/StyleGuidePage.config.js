@@ -34,7 +34,7 @@ import sliderItemSelected from 'Style/icons/slider-item-selected.svg';
 import sliderItem from 'Style/icons/slider-item.svg';
 import Star from 'Style/icons/Star';
 import twitter from 'Style/icons/twitter.svg';
-import user from 'Style/icons/user.svg';
+import UserIcon from 'Style/icons/User';
 
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';
@@ -50,7 +50,7 @@ export const ICONS_LIST = {
     AddIcon,
     MenuIcon,
     search,
-    user,
+    UserIcon,
     heart,
     Star,
     sliderItemSelected,

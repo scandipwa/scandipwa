@@ -26,8 +26,7 @@ import heartSelected from 'Style/icons/heart-selected.svg';
 import heart from 'Style/icons/heart.svg';
 import list from 'Style/icons/list.svg';
 import lockWhite from 'Style/icons/lock-white.svg';
-import userSelected from 'Style/icons/user-selected.svg';
-import user from 'Style/icons/user.svg';
+import UserIcon from 'Style/icons/User';
 import { ProductType } from 'Type/ProductList';
 
 import configurableOptions from './configurableOptions.json';
@@ -193,8 +192,8 @@ export class StyleGuidePageComponent extends PureComponent {
                     { __('Icons in header [default state + hover]') }
                 </h4>
                 <div>
-                    <Image src={ user } alt="user" />
-                    <Image src={ userSelected } alt="userSelected" />
+                    <UserIcon />
+                    <UserIcon isActive />
                 </div>
                 <div>
                     <Image src={ heart } alt="heart" />

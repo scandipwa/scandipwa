@@ -13,6 +13,7 @@ import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.
 import CartIcon from 'Style/icons/Cart';
 import HomeIcon from 'Style/icons/Home/Home';
 import MenuIcon from 'Style/icons/Menu';
+import UserIcon from 'Style/icons/User';
 import { DeviceType } from 'Type/Device';
 
 import {
@@ -97,12 +98,7 @@ export class NavigationTabs extends NavigationAbstract {
               onClick={ onMyAccountButtonClick }
               aria-label="Open my account"
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { isVisible: true, type: 'account' } }
-                />
+                <UserIcon isActive={ isActive } />
             </button>
         );
     }

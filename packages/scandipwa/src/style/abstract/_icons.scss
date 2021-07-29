@@ -98,15 +98,6 @@
     opacity: 1;
 }
 
-@mixin account-button {
-    background-image: var(--imported_icons_account, url('./../icons/user.svg'));
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    height: 24px;
-    width: 24px;
-}
-
 @mixin clear-search-button {
     @include close-button;
 
