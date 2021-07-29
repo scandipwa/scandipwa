@@ -21,9 +21,9 @@ import Image from 'Component/Image';
 import Notification from 'Component/Notification';
 import ProductCard from 'Component/ProductCard';
 import SearchItem from 'Component/SearchItem';
-import gridFilled from 'Style/icons/grid-filled.svg';
+import GridIcon from 'Style/icons/Grid';
 import HeartIcon from 'Style/icons/Heart';
-import list from 'Style/icons/list.svg';
+import ListIcon from 'Style/icons/List';
 import lockWhite from 'Style/icons/lock-white.svg';
 import UserIcon from 'Style/icons/User';
 import { ProductType } from 'Type/ProductList';
@@ -295,8 +295,8 @@ export class StyleGuidePageComponent extends PureComponent {
                       sortDirection="ASC"
                       isMatchingInfoFilter={ isMatchingInfoFilter }
                     />
-                    <Image src={ gridFilled } alt="Grid Icon" />
-                    <Image src={ list } alt="List Icon" />
+                    <GridIcon isActive />
+                    <ListIcon />
                 </div>
                 <h4 block="StyleGuidePage" elem="SubHeading">
                     { __('Menu dropdown') }

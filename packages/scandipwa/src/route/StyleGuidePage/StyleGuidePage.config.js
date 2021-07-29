@@ -17,12 +17,12 @@ import edit from 'Style/icons/edit.svg';
 import exclamation from 'Style/icons/exclamation.svg';
 import facebook from 'Style/icons/facebook.svg';
 import filter from 'Style/icons/filter.svg';
-import grid from 'Style/icons/grid.svg';
+import GridIcon from 'Style/icons/Grid';
 import HeartIcon from 'Style/icons/Heart';
 import help from 'Style/icons/help.svg';
 import HomeIcon from 'Style/icons/Home';
 import linkedIn from 'Style/icons/linked-in.svg';
-import list from 'Style/icons/list.svg';
+import ListIcon from 'Style/icons/List';
 import lock from 'Style/icons/lock.svg';
 import mail from 'Style/icons/mail.svg';
 import MenuIcon from 'Style/icons/Menu';
@@ -30,8 +30,6 @@ import MinusIcon from 'Style/icons/Minus';
 import phone from 'Style/icons/phone.svg';
 import search from 'Style/icons/search.svg';
 import share from 'Style/icons/share.svg';
-import sliderItemSelected from 'Style/icons/slider-item-selected.svg';
-import sliderItem from 'Style/icons/slider-item.svg';
 import Star from 'Style/icons/Star';
 import twitter from 'Style/icons/twitter.svg';
 import UserIcon from 'Style/icons/User';
@@ -53,8 +51,6 @@ export const ICONS_LIST = {
     UserIcon,
     HeartIcon,
     Star,
-    sliderItemSelected,
-    sliderItem,
     help,
     lock,
     ChevronIcon,
@@ -66,9 +62,9 @@ export const ICONS_LIST = {
     linkedIn,
     facebook,
     twitter,
-    grid,
+    GridIcon,
     HomeIcon,
-    list,
+    ListIcon,
     share,
     edit
 };

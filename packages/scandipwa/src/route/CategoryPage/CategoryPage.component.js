@@ -22,8 +22,8 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
 import Image from 'Component/Image/Image.container';
 import Loader from 'Component/Loader';
-import grid from 'Style/icons/grid.svg';
-import list from 'Style/icons/list.svg';
+import GridIcon from 'Style/icons/Grid';
+import ListIcon from 'Style/icons/List';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
@@ -273,7 +273,7 @@ export class CategoryPage extends PureComponent {
                   mix={ { block: GRID_LAYOUT, mods: { isActive: activeLayoutType === GRID_LAYOUT } } }
                   aria-label="grid"
                 >
-                    <Image src={ grid } alt="grid" mix={ { block: GRID_LAYOUT, elem: 'Icon' } } />
+                    <GridIcon isActive={ activeLayoutType === GRID_LAYOUT } />
                 </button>
             );
         case LIST_LAYOUT:
@@ -284,7 +284,7 @@ export class CategoryPage extends PureComponent {
                   mix={ { block: LIST_LAYOUT, mods: { isActive: activeLayoutType === LIST_LAYOUT } } }
                   aria-label="list"
                 >
-                    <Image src={ list } alt="list" mix={ { block: LIST_LAYOUT, elem: 'Icon' } } />
+                    <ListIcon isActive={ activeLayoutType === LIST_LAYOUT } />
                 </button>
             );
         default:
