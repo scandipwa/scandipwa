@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@include mobile {
-    .MyDownloadableOrders {
+.MyDownloadableOrders {
+    @include mobile {
         overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
         width: calc(100vw - 24px);
