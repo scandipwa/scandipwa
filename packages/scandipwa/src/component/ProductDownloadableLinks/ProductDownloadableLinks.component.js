@@ -16,7 +16,7 @@ import Field from 'Component/Field';
 import Link from 'Component/Link';
 import { formatPrice } from 'Util/Price';
 
-import './ProductDownloadableLinks.style.scss';
+import(/* webpackChunkName: "expandable-content" */ './ProductDownloadableLinks.style');
 
 /** @namespace Component/ProductDownloadableLinks/Component */
 export class ProductDownloadableLinks extends PureComponent {

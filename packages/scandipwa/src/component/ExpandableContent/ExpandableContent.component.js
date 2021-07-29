@@ -15,7 +15,8 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { ChildrenType, MixType } from 'Type/Common';
 import { getFixedElementHeight } from 'Util/CSS';
 
-import './ExpandableContent.style';
+import(/* webpackChunkName: "expandable-content" */ './ExpandableContent.style');
+
 /** @namespace Component/ExpandableContent/Component */
 export class ExpandableContent extends PureComponent {
     static propTypes = {
