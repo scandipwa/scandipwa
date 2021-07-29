@@ -25,7 +25,7 @@ import linkedIn from 'Style/icons/linked-in.svg';
 import list from 'Style/icons/list.svg';
 import lock from 'Style/icons/lock.svg';
 import mail from 'Style/icons/mail.svg';
-import menu from 'Style/icons/menu.svg';
+import MenuIcon from 'Style/icons/Menu';
 import MinusIcon from 'Style/icons/Minus';
 import phone from 'Style/icons/phone.svg';
 import search from 'Style/icons/search.svg';
@@ -48,7 +48,7 @@ export const ICONS_LIST = {
     filter,
     MinusIcon,
     AddIcon,
-    menu,
+    MenuIcon,
     search,
     user,
     heart,

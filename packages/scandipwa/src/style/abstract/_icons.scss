@@ -98,14 +98,6 @@
     opacity: 1;
 }
 
-@mixin menu-button {
-    background-image: var(--imported_icons_menu, url('./../icons/menu.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 24px;
-    width: 24px;
-}
-
 @mixin account-button {
     background-image: var(--imported_icons_account, url('./../icons/user.svg'));
     background-size: contain;

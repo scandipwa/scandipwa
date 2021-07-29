@@ -18,6 +18,7 @@ import {
     STARS_GRANULARITY_PERCENT
 } from 'Component/ProductReviewRating/ProductReviewRating.config';
 import Star from 'Style/icons/Star';
+import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Style/icons/Star/Star.config';
 import { MixType } from 'Type/Common';
 import CSS from 'Util/CSS';
 
@@ -121,9 +122,9 @@ export class ProductReviewRating extends PureComponent {
               aria-label={ ariaText }
               mix={ mix }
             >
-                { this.renderStar(fullCount, 'full') }
-                { this.renderStar(halfFullCount, 'halfFull') }
-                { this.renderStar(emptyCount, 'empty') }
+                { this.renderStar(fullCount, STAR_FULL) }
+                { this.renderStar(halfFullCount, STAR_HALF_FULL) }
+                { this.renderStar(emptyCount, STAR_EMPTY) }
                 <span block="ProductReviewRating" elem="Counter">
                     { `(${count})` }
                 </span>

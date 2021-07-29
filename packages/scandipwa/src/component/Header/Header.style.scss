@@ -145,10 +145,6 @@
                 @include home-icon;
             }
 
-            &_menu {
-                @include menu-button;
-            }
-
             &_minicart {
                 @include desktop {
                     margin-inline-start: 35px;

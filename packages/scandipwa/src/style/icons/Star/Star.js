@@ -13,16 +13,18 @@ import './Star.scss';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Style/icons/Star/Star.config';
+
 /** @namespace Component/StarIcon/Component */
 export class AddIcon extends PureComponent {
     static propTypes = {
-        starFill: PropTypes.string.isRequired
+        starFill: PropTypes.oneOf([STAR_HALF_FULL, STAR_EMPTY, STAR_FULL]).isRequired
     };
 
     getStarPath() {
         const { starFill } = this.props;
 
-        if (starFill === 'empty') {
+        if (starFill === STAR_EMPTY) {
             return (
                 <path d="M6.18899 14.3472L4.69899 20.7992C4.60699 21.1982 4.76699 21.6132 5.10499 21.8462C5.27599
                 21.9642 5.47399 22.0242 5.67299 22.0242C5.86599 22.0242 6.05999 21.9682 6.22799 21.8562L11.673
@@ -40,7 +42,7 @@ export class AddIcon extends PureComponent {
             );
         }
 
-        if (starFill === 'halfFull') {
+        if (starFill === STAR_HALF_FULL) {
             return (
                 <path d="M5.02496 20.775C4.93296 21.174 5.09296 21.589 5.43096 21.822C5.60296 21.94 5.80096 22 5.99996
                 22C6.19296 22 6.38696 21.944 6.55496 21.832L12 18.202L17.445 21.832C17.793 22.064 18.249 22.055 18.59
@@ -55,7 +57,7 @@ export class AddIcon extends PureComponent {
             );
         }
 
-        if (starFill === 'full') {
+        if (starFill === STAR_FULL) {
             return (
                 <path d="M21.9471 9.179C21.8181 8.801 21.4771 8.534 21.0791 8.503L15.3779 8.05L12.9108
                 2.589C12.7498 2.23 12.3928 2 11.9998 2C11.6068 2 11.2498 2.23 11.0888 2.588L8.62171 8.05L2.92052
