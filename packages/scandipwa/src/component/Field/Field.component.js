@@ -18,6 +18,8 @@ import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
 import Image from 'Component/Image';
 import AddIcon from 'Style/icons/Add';
+import ChevronIcon from 'Style/icons/Chevron';
+import { BOTTOM } from 'Style/icons/Chevron/Chevron.config';
 import MinusIcon from 'Style/icons/Minus';
 import { MixType } from 'Type/Common';
 
@@ -308,14 +310,18 @@ export class Field extends PureComponent {
         }
 
         return (
-            <label
-              block="Field"
-              elem="Label"
-              mods={ { isRequired } }
-              htmlFor={ id }
-            >
-                { label }
-            </label>
+            <div block="Field" elem="LabelContainer">
+                <label
+                  block="Field"
+                  elem="Label"
+                  mods={ { isRequired } }
+                  htmlFor={ id }
+                >
+                    { label }
+                </label>
+
+                { type === SELECT_TYPE && <ChevronIcon direction={ BOTTOM } /> }
+            </div>
         );
     }
 

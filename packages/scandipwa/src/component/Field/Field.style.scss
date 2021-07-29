@@ -29,6 +29,19 @@
         padding-block-end: 8px;
     }
 
+    &-LabelContainer {
+        display: flex;
+        align-items: center;
+
+        .ChevronIcon {
+            width: 23px;
+        }
+
+        @include desktop {
+            display: none;
+        }
+    }
+
     &-CheckboxLabel{
         display: inline-flex;
         align-items: center;
