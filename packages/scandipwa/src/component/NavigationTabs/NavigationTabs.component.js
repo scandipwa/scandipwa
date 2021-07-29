@@ -10,6 +10,7 @@
  */
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
+import HomeIcon from 'Style/icons/Home/Home';
 import MenuIcon from 'Style/icons/Menu';
 import { DeviceType } from 'Type/Device';
 
@@ -63,12 +64,7 @@ export class NavigationTabs extends NavigationAbstract {
               aria-label="Home"
               onClick={ onHomeButtonClick }
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { type: 'home', isVisible: true } }
-                />
+                <HomeIcon isActive={ isActive } />
             </button>
         );
     }
@@ -84,12 +80,6 @@ export class NavigationTabs extends NavigationAbstract {
               aria-label="Go to menu and search"
               onClick={ onMenuButtonClick }
             >
-                { /* <div */ }
-                { /*  block="Header" */ }
-                { /*  elem="Button" */ }
-                { /*  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } } */ }
-                { /*  mods={ { isVisible: true, type: 'menu' } } */ }
-                { /* /> */ }
                 <MenuIcon isActive={ isActive } />
             </button>
         );

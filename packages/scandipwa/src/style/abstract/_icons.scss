@@ -200,14 +200,6 @@
     width: 20px;
 }
 
-@mixin home-icon {
-    background-image: var(--imported_icons_home, url('./../icons/home.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 24px;
-    width: 24px;
-}
-
 @mixin search-icon {
     background-image: var(--imported_icons_search, url('./../icons/search.svg'));
     background-repeat: no-repeat;

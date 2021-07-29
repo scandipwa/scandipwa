@@ -20,7 +20,7 @@ import filter from 'Style/icons/filter.svg';
 import grid from 'Style/icons/grid.svg';
 import heart from 'Style/icons/heart.svg';
 import help from 'Style/icons/help.svg';
-import home from 'Style/icons/home.svg';
+import HomeIcon from 'Style/icons/Home';
 import linkedIn from 'Style/icons/linked-in.svg';
 import list from 'Style/icons/list.svg';
 import lock from 'Style/icons/lock.svg';
@@ -67,7 +67,7 @@ export const ICONS_LIST = {
     facebook,
     twitter,
     grid,
-    home,
+    HomeIcon,
     list,
     share,
     edit
