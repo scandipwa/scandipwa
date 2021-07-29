@@ -29,6 +29,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import { LEFT } from 'Style/icons/Chevron/Chevron.config';
+import UserIcon from 'Style/icons/User';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
@@ -446,7 +447,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccountButton(isVisible) {
+    renderAccountButton() {
         const {
             onMyAccountButtonClick
         } = this.props;
@@ -460,11 +461,7 @@ export class Header extends NavigationAbstract {
               aria-label="Open my account"
               id="myAccount"
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mods={ { isVisible, type: 'account' } }
-                />
+                <UserIcon />
             </button>
         );
     }

@@ -22,8 +22,7 @@ import Notification from 'Component/Notification';
 import ProductCard from 'Component/ProductCard';
 import SearchItem from 'Component/SearchItem';
 import gridFilled from 'Style/icons/grid-filled.svg';
-import heartSelected from 'Style/icons/heart-selected.svg';
-import heart from 'Style/icons/heart.svg';
+import HeartIcon from 'Style/icons/Heart';
 import list from 'Style/icons/list.svg';
 import lockWhite from 'Style/icons/lock-white.svg';
 import UserIcon from 'Style/icons/User';
@@ -196,8 +195,8 @@ export class StyleGuidePageComponent extends PureComponent {
                     <UserIcon isActive />
                 </div>
                 <div>
-                    <Image src={ heart } alt="heart" />
-                    <Image src={ heartSelected } alt="heartSelected" />
+                    <HeartIcon />
+                    <HeartIcon isActive />
                 </div>
             </div>
         );

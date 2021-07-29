@@ -355,6 +355,7 @@
             &-MyAccount {
                 @include desktop {
                     margin-inline-start: auto;
+                    height: 24px;
                 }
 
                 @include mobile {

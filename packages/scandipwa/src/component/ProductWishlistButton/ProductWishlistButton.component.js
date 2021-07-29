@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
+import HeartIcon from 'Style/icons/Heart';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductWishlistButton.style';
@@ -86,14 +87,11 @@ export class ProductWishlistButton extends PureComponent {
               block="ProductWishlistButton"
               elem="Button"
               mods={ { isInWishlist, isDisabled } }
-              mix={ { block: 'Button', mods: { isHollow: !isInWishlist }, mix } }
+              mix={ { block: 'Button', mix } }
               title={ this.getTitle() }
               onClick={ this.onClick }
             >
-                <div
-                  block="ProductWishlistButton"
-                  elem="Heart"
-                />
+                <HeartIcon isActive={ isInWishlist } />
             </button>
         );
     }

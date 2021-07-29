@@ -18,7 +18,7 @@ import exclamation from 'Style/icons/exclamation.svg';
 import facebook from 'Style/icons/facebook.svg';
 import filter from 'Style/icons/filter.svg';
 import grid from 'Style/icons/grid.svg';
-import heart from 'Style/icons/heart.svg';
+import HeartIcon from 'Style/icons/Heart';
 import help from 'Style/icons/help.svg';
 import HomeIcon from 'Style/icons/Home';
 import linkedIn from 'Style/icons/linked-in.svg';
@@ -51,7 +51,7 @@ export const ICONS_LIST = {
     MenuIcon,
     search,
     UserIcon,
-    heart,
+    HeartIcon,
     Star,
     sliderItemSelected,
     sliderItem,

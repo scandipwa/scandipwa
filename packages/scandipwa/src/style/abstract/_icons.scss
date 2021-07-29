@@ -14,6 +14,7 @@
     --radiobutton-size: 14px;
     --icon-clear-color: #{$black};
     --plus-minus-icon-size: 24px;
+    --wishlist-heart-size: 23px;
 }
 
 @mixin icon-black-hover-effect {
@@ -281,24 +282,6 @@
     cursor: pointer;
     height: 24px;
     width: 24px;
-}
-
-@mixin heart-icon {
-    background-image: url('./../icons/heart.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    &:hover {
-        @include desktop {
-            filter: var(--primary-base-filter);
-        }
-    }
-}
-
-@mixin heart-icon-full {
-    background-image: url('./../icons/heart-full.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
 }
 
 @mixin exclamation-icon {
