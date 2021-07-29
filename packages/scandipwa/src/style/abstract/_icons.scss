@@ -107,15 +107,6 @@
     width: 24px;
 }
 
-@mixin minicart-button {
-    @include rtl-icon;
-
-    background-image: var(--imported_icons_cart, url('./../icons/bag.svg'));
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-}
-
 @mixin clear-search-button {
     @include close-button;
 

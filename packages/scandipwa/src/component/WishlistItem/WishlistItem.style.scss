@@ -282,19 +282,6 @@
         }
     }
 
-    &-MinicartIcon {
-        @include minicart-button;
-
-        filter: var(--primary-base-filter);
-        height: 20px;
-        margin-inline-end: 14px;
-        width: 18px;
-
-        @include desktop {
-            filter: invert(100%);
-        }
-    }
-
     &-SelectWrapper {
         display: flex;
         width: 100%;

@@ -12,9 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import Image from 'Component/Image/Image.container';
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import bag from 'Style/icons/bag.svg';
+import CartIcon from 'Style/icons/Cart';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';
@@ -65,7 +64,7 @@ export class AddToCart extends PureComponent {
             return null;
         }
 
-        return <Image src={ bag } alt="cart" mix={ { block: 'AddToCart', elem: 'Icon' } } />;
+        return <CartIcon />;
     }
 
     render() {

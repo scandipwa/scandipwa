@@ -26,6 +26,7 @@ import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import { LEFT } from 'Style/icons/Chevron/Chevron.config';
 import { DeviceType } from 'Type/Device';
@@ -556,11 +557,7 @@ export class Header extends NavigationAbstract {
               tabIndex="0"
               onClick={ onMinicartButtonClick }
             >
-                <span
-                  aria-label="Minicart"
-                  block="Header"
-                  elem="MinicartIcon"
-                />
+                <CartIcon />
                 { this.renderMinicartItemsQty() }
             </button>
         );

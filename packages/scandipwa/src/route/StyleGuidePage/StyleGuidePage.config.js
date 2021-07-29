@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import AddIcon from 'Style/icons/Add';
-import bag from 'Style/icons/bag.svg';
+import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import close from 'Style/icons/close.svg';
 import compare from 'Style/icons/compare.svg';
@@ -44,7 +44,7 @@ export const ICONS = 'icons';
 export const PRODUCT_POD = 'product pod';
 export const ADDITIONAL_ELEMENTS = 'additional elements';
 export const ICONS_LIST = {
-    bag,
+    CartIcon,
     filter,
     MinusIcon,
     AddIcon,

@@ -10,6 +10,7 @@
  */
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
+import CartIcon from 'Style/icons/Cart';
 import HomeIcon from 'Style/icons/Home/Home';
 import MenuIcon from 'Style/icons/Menu';
 import { DeviceType } from 'Type/Device';
@@ -142,11 +143,7 @@ export class NavigationTabs extends NavigationAbstract {
                       mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
                       mods={ { isVisible: true, type: 'minicart' } }
                     >
-                        <span
-                          aria-label="Minicart"
-                          block="Header"
-                          elem="MinicartIcon"
-                        />
+                        <CartIcon isActive={ isActive } />
                     </div>
                     { this.renderMinicartItemsQty() }
                 </div>

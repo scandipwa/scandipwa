@@ -8,4 +8,4 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-export { default } from './Home';
+export { default } from './Cart';
