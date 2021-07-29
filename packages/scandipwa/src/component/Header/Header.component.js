@@ -29,6 +29,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import { LEFT } from 'Style/icons/Chevron/Chevron.config';
+import CompareIcon from 'Style/icons/Compare';
 import UserIcon from 'Style/icons/User';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
@@ -346,10 +347,7 @@ export class Header extends NavigationAbstract {
                   mods={ { type: 'compare' } }
                   aria-label={ __('Compare Page') }
                 >
-                    <div
-                      block="Header"
-                      elem="CompareIcon"
-                    />
+                    <CompareIcon />
                 </Link>
             </div>
         );

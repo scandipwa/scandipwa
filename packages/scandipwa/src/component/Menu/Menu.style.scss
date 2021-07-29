@@ -26,8 +26,18 @@
         color: var(--color-black);
         font-size: 14px;
         font-weight: 400;
-        padding-inline-start: 30px;
         text-transform: none;
+
+        display: flex;
+        align-items: center;
+
+        .CompareIcon {
+            margin-inline-end: 12px;
+
+            &:hover {
+                fill: var(--color-black);
+            }
+        }
 
         &Wrapper {
             border-block-end: 1px solid var(--primary-divider-color);
@@ -35,13 +45,6 @@
             padding-block-end: 16px;
             padding-inline: 0;
             margin: 0 16px;
-
-            &::before {
-                @include compare-icon;
-
-                content: ' ';
-                position: absolute;
-            }
 
             @include mobile {
                 padding: 13px 0;

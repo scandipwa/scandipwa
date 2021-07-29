@@ -273,17 +273,6 @@
     }
 }
 
-@mixin compare-icon {
-    @include rtl-icon;
-
-    background-image: var(--imported_icons_compare, url('./../icons/compare.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    cursor: pointer;
-    height: 24px;
-    width: 24px;
-}
-
 @mixin exclamation-icon {
     background-image: var(--imported_icons_exclamation, url('./../icons/exclamation.svg'));
     background-repeat: no-repeat;

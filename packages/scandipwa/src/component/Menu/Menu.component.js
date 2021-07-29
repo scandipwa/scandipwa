@@ -17,6 +17,7 @@ import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import CompareIcon from 'Style/icons/Compare';
 import { DeviceType } from 'Type/Device';
 import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';
@@ -363,11 +364,12 @@ export class Menu extends PureComponent {
         }
 
         return (
-            <h3 block="Menu" elem="CompareLinkWrapper">
-                <Link to="compare" block="Menu" elem="CompareLink">
-                    { __('Compare products') }
-                </Link>
-            </h3>
+            <div block="Menu" elem="CompareLinkWrapper">
+                    <Link to="compare" block="Menu" elem="CompareLink">
+                        <CompareIcon />
+                        <h4>{ __('Compare products') }</h4>
+                    </Link>
+            </div>
         );
     }
 

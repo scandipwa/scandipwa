@@ -12,7 +12,7 @@ import AddIcon from 'Style/icons/Add';
 import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import close from 'Style/icons/close.svg';
-import compare from 'Style/icons/compare.svg';
+import CompareIcon from 'Style/icons/Compare';
 import edit from 'Style/icons/edit.svg';
 import exclamation from 'Style/icons/exclamation.svg';
 import facebook from 'Style/icons/facebook.svg';
@@ -58,7 +58,7 @@ export const ICONS_LIST = {
     help,
     lock,
     ChevronIcon,
-    compare,
+    CompareIcon,
     exclamation,
     close,
     phone,

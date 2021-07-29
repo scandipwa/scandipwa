@@ -1,16 +1,18 @@
 .HeartIcon {
-  stroke: var(--primary-base-color);
+  stroke: var(--color-black);
 
   &:hover {
+    stroke: var(--primary-base-color);
     fill: var(--primary-base-color);
   }
 
   &_isActive {
     fill: var(--primary-base-color);
+    stroke: var(--primary-base-color);
 
     &:hover {
       fill: none;
-      stroke: var(--primary-base-color);
+      stroke: var(--color-black);
     }
   }
 

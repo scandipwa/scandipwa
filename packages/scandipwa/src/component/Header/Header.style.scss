@@ -185,10 +185,6 @@
         margin-inline-start: 35px;
     }
 
-    &-CompareIcon {
-        @include compare-icon;
-    }
-
     &-LogoWrapper {
         inset-block-end: 0;
         height: var(--header-logo-height);
