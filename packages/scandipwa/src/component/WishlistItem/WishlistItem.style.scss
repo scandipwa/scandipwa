@@ -135,6 +135,7 @@
 
             @include mobile {
                 white-space: normal;
+                max-width: calc(100% - 24px);
             }
         }
     }
