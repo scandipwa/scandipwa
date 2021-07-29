@@ -164,7 +164,7 @@
             }
 
             &_share {
-                @include share-icon;
+                @include button-visible;
             }
 
             &_compare {

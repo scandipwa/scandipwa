@@ -15,23 +15,23 @@ import close from 'Style/icons/close.svg';
 import CompareIcon from 'Style/icons/Compare';
 import edit from 'Style/icons/edit.svg';
 import exclamation from 'Style/icons/exclamation.svg';
-import facebook from 'Style/icons/facebook.svg';
 import filter from 'Style/icons/filter.svg';
 import GridIcon from 'Style/icons/Grid';
 import HeartIcon from 'Style/icons/Heart';
 import help from 'Style/icons/help.svg';
 import HomeIcon from 'Style/icons/Home';
-import linkedIn from 'Style/icons/linked-in.svg';
 import ListIcon from 'Style/icons/List';
 import lock from 'Style/icons/lock.svg';
+import facebook from 'Style/icons/Logos/facebook.svg';
+import linkedIn from 'Style/icons/Logos/linkedIn.svg';
+import twitter from 'Style/icons/Logos/twitter.svg';
 import mail from 'Style/icons/mail.svg';
 import MenuIcon from 'Style/icons/Menu';
 import MinusIcon from 'Style/icons/Minus';
 import phone from 'Style/icons/phone.svg';
 import search from 'Style/icons/search.svg';
-import share from 'Style/icons/share.svg';
+import ShareIcon from 'Style/icons/Share';
 import Star from 'Style/icons/Star';
-import twitter from 'Style/icons/twitter.svg';
 import UserIcon from 'Style/icons/User';
 
 export const BUTTONS = 'buttons';
@@ -65,7 +65,7 @@ export const ICONS_LIST = {
     GridIcon,
     HomeIcon,
     ListIcon,
-    share,
+    ShareIcon,
     edit
 };
 export const NOTIFICATION_SUCCESS_DATA = {

@@ -198,19 +198,6 @@
         button {
             color: transparent;
             margin-inline-end: 10px;
-            cursor: pointer;
-
-            .Image {
-                width: 26px;
-                height: 25px;
-            }
-
-            &.grid_isActive,
-            &.list_isActive {
-                img {
-                    filter: var(--primary-base-filter);
-                }
-            }
         }
     }
 }

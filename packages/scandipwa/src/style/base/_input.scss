@@ -109,10 +109,6 @@ textarea {
             height: 36px;
         }
 
-        &:not([disabled]):hover {
-            filter: var(--primary-dark-filter);
-        }
-
         &:first-of-type {
             inset-inline-start: 0;
             order: 3;

@@ -30,6 +30,7 @@ import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import { LEFT } from 'Style/icons/Chevron/Chevron.config';
 import CompareIcon from 'Style/icons/Compare';
+import ShareIcon from 'Style/icons/Share';
 import UserIcon from 'Style/icons/User';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
@@ -317,7 +318,9 @@ export class Header extends NavigationAbstract {
               aria-label="Share"
               aria-hidden={ !isVisible }
               disabled={ isWishlistLoading }
-            />
+            >
+                <ShareIcon />
+            </button>
         );
     }
 

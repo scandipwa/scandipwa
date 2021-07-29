@@ -17,6 +17,7 @@ import ProductCard from 'Component/ProductCard';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
 import CartIcon from 'Style/icons/Cart';
+import ShareIcon from 'Style/icons/Share';
 import { ProductType } from 'Type/ProductList';
 import CSS from 'Util/CSS';
 
@@ -203,13 +204,11 @@ export class MyAccountMyWishlist extends PureComponent {
             <button
               block="Button"
               mods={ { isHollow: true } }
+              mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
               onClick={ shareWishlist }
               disabled={ disabled }
             >
-                <span
-                  block="MyAccountMyWishlist"
-                  elem="ShareIcon"
-                />
+                <ShareIcon isPrimary />
                 { __('Share') }
             </button>
         );
