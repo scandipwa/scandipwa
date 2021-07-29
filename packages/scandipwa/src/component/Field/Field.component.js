@@ -295,6 +295,16 @@ export class Field extends PureComponent {
         );
     }
 
+    renderArrow() {
+        const { type } = this.props;
+
+        if (type !== SELECT_TYPE) {
+            return null;
+        }
+
+        return <ChevronIcon direction={ BOTTOM } />;
+    }
+
     renderLabel() {
         const {
             id,
@@ -320,7 +330,7 @@ export class Field extends PureComponent {
                     { label }
                 </label>
 
-                { type === SELECT_TYPE && <ChevronIcon direction={ BOTTOM } /> }
+                { this.renderArrow() }
             </div>
         );
     }

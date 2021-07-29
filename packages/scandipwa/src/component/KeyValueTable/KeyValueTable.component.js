@@ -63,7 +63,6 @@ export class KeyValueTable extends PureComponent {
     };
 
     renderHeading() {
-        // eslint-disable-next-line react/prop-types
         const { title, isSelected } = this.props;
         if (!title) {
             return null;
