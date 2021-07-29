@@ -18,17 +18,14 @@ import exclamation from 'Style/icons/exclamation.svg';
 import filter from 'Style/icons/filter.svg';
 import GridIcon from 'Style/icons/Grid';
 import HeartIcon from 'Style/icons/Heart';
-import help from 'Style/icons/help.svg';
 import HomeIcon from 'Style/icons/Home';
 import ListIcon from 'Style/icons/List';
 import lock from 'Style/icons/lock.svg';
 import facebook from 'Style/icons/Logos/facebook.svg';
 import linkedIn from 'Style/icons/Logos/linkedIn.svg';
 import twitter from 'Style/icons/Logos/twitter.svg';
-import mail from 'Style/icons/mail.svg';
 import MenuIcon from 'Style/icons/Menu';
 import MinusIcon from 'Style/icons/Minus';
-import phone from 'Style/icons/phone.svg';
 import search from 'Style/icons/search.svg';
 import ShareIcon from 'Style/icons/Share';
 import Star from 'Style/icons/Star';
@@ -51,14 +48,11 @@ export const ICONS_LIST = {
     UserIcon,
     HeartIcon,
     Star,
-    help,
     lock,
     ChevronIcon,
     CompareIcon,
     exclamation,
     close,
-    phone,
-    mail,
     linkedIn,
     facebook,
     twitter,
