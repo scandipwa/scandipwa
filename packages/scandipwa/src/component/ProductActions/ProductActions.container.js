@@ -544,15 +544,16 @@ export class ProductActionsContainer extends PureComponent {
     }
 
     _getBundleCustomPrice(price, withoutTax, initial, isDynamicPrice) {
+
         const {
             product: {
                 price_range: {
                     minimum_price: {
-                        default_price: { currency, value: defaultPrice },
-                        default_final_price: { value: defaultFinalPrice },
-                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax },
+                        default_price: { currency, value: defaultPrice } = {},
+                        default_final_price: { value: defaultFinalPrice } = {},
+                        default_final_price_excl_tax: { value: defaultFinalPriceExclTax } = {},
                         discount: discountData,
-                        discount: { percent_off }
+                        discount: { percent_off } = {}
                     }
                 }
             }
