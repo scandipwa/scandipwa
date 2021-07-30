@@ -544,7 +544,6 @@ export class ProductActionsContainer extends PureComponent {
     }
 
     _getBundleCustomPrice(price, withoutTax, initial, isDynamicPrice) {
-
         const {
             product: {
                 price_range: {
