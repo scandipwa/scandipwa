@@ -299,7 +299,7 @@ export class WishlistItem extends PureComponent {
                 ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
                 <div block="WishlistItem" elem="InformationWrapper">
                     <div block="WishlistItem" elem="RowWrapper">
-                        <div>
+                        <div block="WishlistItem" elem="NameAndOptions">
                             { this.renderName() }
                             { this.renderOptions() }
                         </div>
