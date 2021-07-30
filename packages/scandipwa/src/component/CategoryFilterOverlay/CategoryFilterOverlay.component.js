@@ -28,7 +28,7 @@ export class CategoryFilterOverlay extends PureComponent {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
-        isMatchingInfoFilter: PropTypes.bool,
+        isMatchingInfoFilter: PropTypes.bool.isRequired,
         isInfoLoading: PropTypes.bool.isRequired,
         isProductsLoading: PropTypes.bool.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
@@ -38,12 +38,7 @@ export class CategoryFilterOverlay extends PureComponent {
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,
-        isCategoryAnchor: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isCategoryAnchor: true,
-        isMatchingInfoFilter: false
+        isCategoryAnchor: PropTypes.bool.isRequired
     };
 
     renderFilters() {

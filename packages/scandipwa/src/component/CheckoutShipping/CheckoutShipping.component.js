@@ -29,28 +29,21 @@ import './CheckoutShipping.style';
 export class CheckoutShipping extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        cartTotalSubPrice: PropTypes.number,
+        cartTotalSubPrice: PropTypes.number.isRequired,
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
-        selectedShippingMethod: shippingMethodType,
+        selectedShippingMethod: shippingMethodType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        isSubmitted: PropTypes.bool,
+        isSubmitted: PropTypes.bool.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         estimateAddress: addressType.isRequired,
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isPickInStoreMethodSelected: PropTypes.bool.isRequired,
-        setSelectedShippingMethodCode: PropTypes.func
-    };
-
-    static defaultProps = {
-        selectedShippingMethod: null,
-        setSelectedShippingMethodCode: null,
-        isSubmitted: false,
-        cartTotalSubPrice: null
+        setSelectedShippingMethodCode: PropTypes.func.isRequired
     };
 
     renderOrderTotalExclTax() {
