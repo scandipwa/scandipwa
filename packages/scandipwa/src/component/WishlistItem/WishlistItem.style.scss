@@ -339,4 +339,10 @@
         font-size: 12px;
         min-height: 20px;
     }
+
+    &-NameAndOptions {
+        @include mobile {
+            width: 100%;
+        }
+    }
 }
