@@ -137,6 +137,9 @@ export class CheckoutContainer extends PureComponent {
         checkEmailAvailability: PropTypes.func.isRequired,
         isEmailAvailable: PropTypes.bool.isRequired,
         updateShippingPrice: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        cartTotalSubPrice: PropTypes.number.isRequired,
         isInStoreActivated: PropTypes.bool.isRequired
     };
 
@@ -377,14 +380,62 @@ export class CheckoutContainer extends PureComponent {
         return true;
     };
 
-    containerProps = () => {
-        const { paymentTotals } = this.state;
+    containerProps() {
+        const {
+            cartTotalSubPrice,
+            history,
+            isEmailAvailable,
+            isMobile,
+            setHeaderState,
+            totals,
+            isInStoreActivated
+        } = this.props;
+        const {
+            billingAddress,
+            checkoutStep,
+            email,
+            estimateAddress,
+            isCreateUser,
+            isDeliveryOptionsLoading,
+            isGuestEmailSaved,
+            isLoading,
+            orderID,
+            paymentMethods,
+            paymentTotals,
+            selectedShippingMethod,
+            shippingAddress,
+            shippingMethods,
+            selectedStoreAddress,
+            isPickInStoreMethodSelected
+        } = this.state;
 
         return {
+            billingAddress,
+            cartTotalSubPrice,
+            checkoutStep,
             checkoutTotals: this._getCheckoutTotals(),
-            paymentTotals
+            email,
+            estimateAddress,
+            history,
+            isCreateUser,
+            isDeliveryOptionsLoading,
+            isEmailAvailable,
+            isGuestEmailSaved,
+            isInStoreActivated,
+            isLoading,
+            isMobile,
+            orderID,
+            paymentMethods,
+            paymentTotals,
+            selectedShippingMethod,
+            setHeaderState,
+            shippingAddress,
+            shippingMethods,
+            totals,
+            selectedStoreAddress,
+            isPickInStoreMethodSelected
         };
-    };
+    }
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
@@ -708,8 +759,6 @@ export class CheckoutContainer extends PureComponent {
     render() {
         return (
             <Checkout
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

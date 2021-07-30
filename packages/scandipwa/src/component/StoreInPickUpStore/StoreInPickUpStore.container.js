@@ -25,7 +25,6 @@ export class StoreInPickUpStoreContainer extends PureComponent {
 
     static defaultProps = {
         selectStore: null,
-
         isSelectedStore: false
     };
 

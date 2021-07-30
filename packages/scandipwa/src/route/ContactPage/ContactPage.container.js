@@ -29,7 +29,7 @@ export const BreadcrumbsDispatcher = import(
 
 /** @namespace Route/ContactPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/ContactPage/Container/mapDispatchToProps */
@@ -48,7 +48,8 @@ export const mapDispatchToProps = (dispatch) => ({
 export class ContactPageContainer extends DataContainer {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     state = {
@@ -61,6 +62,17 @@ export class ContactPageContainer extends DataContainer {
         this.updateBreadcrumbs();
         this.updateHeader();
         this.getEnabledState();
+    }
+
+    containerProps() {
+        const { isMobile } = this.props;
+        const { isLoading, isEnabled } = this.state;
+
+        return {
+            isMobile,
+            isLoading,
+            isEnabled
+        };
     }
 
     updateMeta() {
@@ -108,8 +120,7 @@ export class ContactPageContainer extends DataContainer {
     render() {
         return (
             <ContactPage
-              { ...this.state }
-              { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }
