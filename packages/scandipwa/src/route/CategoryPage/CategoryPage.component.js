@@ -20,7 +20,6 @@ import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
-import Image from 'Component/Image/Image.container';
 import Loader from 'Component/Loader';
 import GridIcon from 'Style/icons/Grid';
 import ListIcon from 'Style/icons/List';
@@ -30,7 +29,7 @@ import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import filterIcon from '../../style/icons/filter.svg';
+import FilterIcon from '../../style/icons/Filter';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
@@ -193,7 +192,7 @@ export class CategoryPage extends PureComponent {
               elem="Filter"
               onClick={ this.onFilterButtonClick }
             >
-                <Image src={ filterIcon } alt="filter" mix={ { block: 'CategoryPage', elem: 'FilterIcon' } } />
+                <FilterIcon />
                 <span>{ __('Filters') }</span>
                 { this.renderFiltersCount() }
             </button>

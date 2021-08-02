@@ -13,9 +13,9 @@ import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import close from 'Style/icons/close.svg';
 import CompareIcon from 'Style/icons/Compare';
-import edit from 'Style/icons/edit.svg';
+import EditIcon from 'Style/icons/Edit';
 import ExclamationMarkIcon from 'Style/icons/ExclamationMark';
-import filter from 'Style/icons/filter.svg';
+import FilterIcon from 'Style/icons/Filter';
 import GridIcon from 'Style/icons/Grid';
 import HeartIcon from 'Style/icons/Heart';
 import HomeIcon from 'Style/icons/Home';
@@ -39,7 +39,7 @@ export const PRODUCT_POD = 'product pod';
 export const ADDITIONAL_ELEMENTS = 'additional elements';
 export const ICONS_LIST = {
     CartIcon,
-    filter,
+    FilterIcon,
     MinusIcon,
     AddIcon,
     MenuIcon,
@@ -58,7 +58,7 @@ export const ICONS_LIST = {
     HomeIcon,
     ListIcon,
     ShareIcon,
-    edit
+    EditIcon
 };
 export const NOTIFICATION_SUCCESS_DATA = {
     msgText: 'Product was added to cart!',

@@ -269,19 +269,6 @@
         margin-inline: 0;
     }
 
-    &-EditIcon {
-        @include edit-icon;
-
-        display: inline-block;
-        height: 20px;
-        width: 20px;
-        margin-inline-end: 10px;
-
-        &:not([disabled]):hover {
-            filter: var(--primary-dark-filter);
-        }
-    }
-
     &-SelectWrapper {
         display: flex;
         width: 100%;
