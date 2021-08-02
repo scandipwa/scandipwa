@@ -19,7 +19,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
-import './WishlistItem.style';
+import(/* webpackChunkName: "product-item" */ './WishlistItem.style');
 
 /** @namespace Component/WishlistItem/Component */
 export class WishlistItem extends PureComponent {
