@@ -454,8 +454,13 @@ export class Header extends NavigationAbstract {
 
     renderAccountButton() {
         const {
-            onMyAccountButtonClick
+            onMyAccountButtonClick,
+            device
         } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
 
         return (
             <button

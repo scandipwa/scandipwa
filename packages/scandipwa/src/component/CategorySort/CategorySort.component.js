@@ -83,6 +83,7 @@ export class CategorySort extends PureComponent {
               selectOptions={ selectOptions }
               value={ `${sortDirection} ${sortKey}` }
               onChange={ this.onChange }
+              isLabelWithArrow
             />
         );
     }

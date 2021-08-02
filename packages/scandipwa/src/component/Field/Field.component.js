@@ -74,7 +74,8 @@ export class Field extends PureComponent {
         filename: PropTypes.string,
         fileExtensions: PropTypes.string,
         subLabel: PropTypes.number,
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
+        isLabelWithArrow: PropTypes.bool
     };
 
     static defaultProps = {
@@ -89,7 +90,8 @@ export class Field extends PureComponent {
         filename: '',
         fileExtensions: '',
         subLabel: null,
-        disabled: false
+        disabled: false,
+        isLabelWithArrow: false
     };
 
     renderTextarea() {
@@ -295,9 +297,9 @@ export class Field extends PureComponent {
     }
 
     renderArrow() {
-        const { type } = this.props;
+        const { isLabelWithArrow } = this.props;
 
-        if (type !== SELECT_TYPE) {
+        if (!isLabelWithArrow) {
             return null;
         }
 
