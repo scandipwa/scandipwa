@@ -15,7 +15,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import Link from 'Component/Link';
 import { DownloadableSamplesType } from 'Type/ProductList';
 
-import './ProductDownloadableSamples.style.scss';
+import(/* webpackChunkName: "expandable-content" */ './ProductDownloadableSamples.style');
 
 /** @namespace Component/ProductDownloadableSamples/Component */
 export class ProductDownloadableSamples extends PureComponent {

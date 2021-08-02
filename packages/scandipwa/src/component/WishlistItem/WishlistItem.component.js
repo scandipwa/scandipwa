@@ -21,7 +21,7 @@ import EditIcon from 'Style/icons/Edit';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
-import './WishlistItem.style';
+import(/* webpackChunkName: "product-item" */ './WishlistItem.style');
 
 /** @namespace Component/WishlistItem/Component */
 export class WishlistItem extends PureComponent {
@@ -299,7 +299,7 @@ export class WishlistItem extends PureComponent {
                 ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
                 <div block="WishlistItem" elem="InformationWrapper">
                     <div block="WishlistItem" elem="RowWrapper">
-                        <div>
+                        <div block="WishlistItem" elem="NameAndOptions">
                             { this.renderName() }
                             { this.renderOptions() }
                         </div>

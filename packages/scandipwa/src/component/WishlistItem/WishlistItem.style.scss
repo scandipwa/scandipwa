@@ -132,6 +132,11 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+
+            @include mobile {
+                white-space: normal;
+                max-width: calc(100% - 24px);
+            }
         }
     }
 
@@ -311,5 +316,11 @@
         font-weight: 400;
         font-size: 12px;
         min-height: 20px;
+    }
+
+    &-NameAndOptions {
+        @include mobile {
+            width: 100%;
+        }
     }
 }
