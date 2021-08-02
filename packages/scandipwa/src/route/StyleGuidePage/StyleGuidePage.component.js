@@ -24,7 +24,7 @@ import SearchItem from 'Component/SearchItem';
 import GridIcon from 'Style/icons/Grid';
 import HeartIcon from 'Style/icons/Heart';
 import ListIcon from 'Style/icons/List';
-import lockWhite from 'Style/icons/lock-white.svg';
+import LockIcon from 'Style/icons/Lock';
 import UserIcon from 'Style/icons/User';
 import { ProductType } from 'Type/ProductList';
 
@@ -75,11 +75,11 @@ export class StyleGuidePageComponent extends PureComponent {
                 </div>
                 <div>
                     <button block="Button">
-                        <Image src={ lockWhite } alt="lock" mix={ { block: 'StyleGuidePage', elem: 'Icon' } } />
+                        <LockIcon />
                         { __('Button text') }
                     </button>
                     <button block="Button" mods={ { isHovered: true } }>
-                        <Image src={ lockWhite } alt="lock" mix={ { block: 'StyleGuidePage', elem: 'Icon' } } />
+                        <LockIcon />
                         { __('Button text') }
                     </button>
                 </div>

@@ -109,6 +109,14 @@ textarea {
             height: 36px;
         }
 
+        &:hover {
+            border-color: var(--primary-dark-color);
+
+            svg {
+                fill: var(--primary-dark-color);
+            }
+        }
+
         &:first-of-type {
             inset-inline-start: 0;
             order: 3;

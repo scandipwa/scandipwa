@@ -20,6 +20,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import LockIcon from 'Style/icons/Lock';
 import { TotalsType } from 'Type/MiniCart';
 
 import './CartPage.style';
@@ -108,7 +109,7 @@ export class CartPage extends PureComponent {
                   mix={ { block: 'Button' } }
                   onClick={ onCheckoutButtonClick }
                 >
-                    <span />
+                    <LockIcon />
                     { __('Proceed to checkout') }
                 </button>
             </div>

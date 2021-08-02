@@ -20,6 +20,7 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
+import SearchIcon from 'Style/icons/Search/Search';
 import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
@@ -96,6 +97,7 @@ export class SearchField extends PureComponent {
 
     handleChange = (e) => {
         const { onSearchBarChange } = this.props;
+
         onSearchBarChange(e);
     };
 
@@ -187,7 +189,9 @@ export class SearchField extends PureComponent {
               tabIndex="0"
               onClick={ this.openSearch }
               aria-label={ __('Search') }
-            />
+            >
+                <SearchIcon />
+            </div>
         );
     }
 

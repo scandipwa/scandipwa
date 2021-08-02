@@ -20,15 +20,14 @@ import GridIcon from 'Style/icons/Grid';
 import HeartIcon from 'Style/icons/Heart';
 import HomeIcon from 'Style/icons/Home';
 import ListIcon from 'Style/icons/List';
-import lock from 'Style/icons/lock.svg';
 import facebook from 'Style/icons/Logos/facebook.svg';
 import linkedIn from 'Style/icons/Logos/linkedIn.svg';
 import twitter from 'Style/icons/Logos/twitter.svg';
 import MenuIcon from 'Style/icons/Menu';
 import MinusIcon from 'Style/icons/Minus';
-import search from 'Style/icons/search.svg';
+import SearchIcon from 'Style/icons/Search';
 import ShareIcon from 'Style/icons/Share';
-import Star from 'Style/icons/Star';
+import StarIcon from 'Style/icons/Star';
 import UserIcon from 'Style/icons/User';
 
 export const BUTTONS = 'buttons';
@@ -44,11 +43,10 @@ export const ICONS_LIST = {
     MinusIcon,
     AddIcon,
     MenuIcon,
-    search,
+    SearchIcon,
     UserIcon,
     HeartIcon,
-    Star,
-    lock,
+    StarIcon,
     ChevronIcon,
     CompareIcon,
     exclamation,

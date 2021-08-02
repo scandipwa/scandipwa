@@ -174,24 +174,6 @@
     }
 }
 
-@mixin lock-button {
-    background-image: url('./../icons/lock-white.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-inline-end: 10px;
-    height: 20px;
-    width: 20px;
-}
-
-@mixin search-icon {
-    background-image: var(--imported_icons_search, url('./../icons/search.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    cursor: pointer;
-    height: 24px;
-    width: 24px;
-}
-
 @mixin ios-share {
     $color-dodger-blue: #3b9cfe;
 
