@@ -16,11 +16,11 @@ import { PureComponent } from 'react';
 import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
-import Image from 'Component/Image';
 import AddIcon from 'Style/icons/Add';
 import ChevronIcon from 'Style/icons/Chevron';
 import { BOTTOM } from 'Style/icons/Chevron/Chevron.config';
 import MinusIcon from 'Style/icons/Minus';
+import UploadIcon from 'Style/icons/Upload';
 import { MixType } from 'Type/Common';
 
 import {
@@ -33,7 +33,6 @@ import {
     SELECT_TYPE,
     TEXTAREA_TYPE
 } from './Field.config';
-import upload from './icons/upload.svg';
 
 import './Field.style';
 
@@ -288,7 +287,7 @@ export class Field extends PureComponent {
 
         return (
             <label htmlFor={ id }>
-                <Image src={ upload } alt="Upload icon" ratio="square" height="50px" />
+                <UploadIcon />
                 <p>{ __('Drop files here or') }</p>
                 <span>{ __('Select files') }</span>
             </label>

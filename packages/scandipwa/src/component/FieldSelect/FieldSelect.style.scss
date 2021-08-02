@@ -35,7 +35,7 @@ $select-arrow-width: 14px !default;
         pointer-events: none;
 
         position: absolute;
-        inset-inline-end: 0;
+        inset-inline-end: 12px;
     }
 
     &_isExpanded::after {
