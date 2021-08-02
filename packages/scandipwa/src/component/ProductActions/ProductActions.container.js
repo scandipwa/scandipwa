@@ -430,10 +430,10 @@ export class ProductActionsContainer extends PureComponent {
             final_price: {
                 currency,
                 value: finalPrice
-            },
-            discount: { percent_off },
-            regular_price: { value: regularPrice },
-            final_price_excl_tax: { value: finalPriceExclTax }
+            } = {},
+            discount: { percent_off } = {},
+            regular_price: { value: regularPrice } = {},
+            final_price_excl_tax: { value: finalPriceExclTax } = {}
         }
     }) {
         const { product: { options = [] } = {} } = this.props;
