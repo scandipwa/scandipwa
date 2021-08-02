@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { hexToCSSFilter } from 'hex-to-css-filter';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
@@ -30,6 +29,7 @@ import { CategoryTreeType } from 'Type/Category';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { calcHexToCssFilter } from 'Util/CSS/CSS';
 
 import {
     DISPLAY_MODE_BOTH,
@@ -293,7 +293,7 @@ export class CategoryPage extends PureComponent {
          */
         const primaryBaseColor = getComputedStyle(document.documentElement)
             .getPropertyValue('--primary-base-color').trim();
-        const cssFilter = hexToCSSFilter(primaryBaseColor);
+        const cssFilter = calcHexToCssFilter(primaryBaseColor);
 
         /**
          * Apply the value as the CSS variable value

@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { hexToCSSFilter } from 'hex-to-css-filter';
+
 /**
  * Set of helpers related to CSS
  * @class CSS
@@ -30,6 +32,9 @@ export class CSS {
         }
     }
 }
+
+/** @namespace Util/CSS/calcHexToCssFilter */
+export const calcHexToCssFilter = (colorCode) => hexToCSSFilter(colorCode);
 
 /** @namespace Util/CSS/getHeight */
 export const getElementHeight = (id) => Array.from(
