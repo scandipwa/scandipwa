@@ -181,6 +181,11 @@
                     min-width: 18px;
                     vertical-align: top;
                     border-color: var(--color-karaka);
+
+                    @include desktop {
+                        align-self: self-start;
+                        margin-block-start: 6px;
+                    }
                 }
             }
         }

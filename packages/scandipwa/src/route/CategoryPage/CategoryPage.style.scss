@@ -78,6 +78,18 @@
 
         @include desktop {
             display: none;
+
+            &Placeholder {
+                position: relative;
+                grid-row: 1/6;
+                width: 100%;
+                opacity: 1;
+                pointer-events: all;
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
         }
     }
 

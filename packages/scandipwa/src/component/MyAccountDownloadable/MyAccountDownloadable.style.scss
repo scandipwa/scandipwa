@@ -9,20 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountOverlay {
-    &-SignInButton {
-        margin-block-start: 20px;
-
-        button {
-            width: 100%;
-        }
-    }
-
-    #forgot-password-label {
-        margin-block-end: 0;
-    }
-
-    .CreateAccount {
-        margin-inline-start: 5px;
+.MyDownloadableOrders {
+    @include mobile {
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        width: calc(100vw - 24px);
     }
 }

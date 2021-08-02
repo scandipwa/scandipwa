@@ -20,7 +20,7 @@
     height: 500px;
     margin-inline: 45px;
 
-    @include desktop {
+    @include narrow-desktop {
         min-width: 507px;
     }
 

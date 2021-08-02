@@ -166,6 +166,7 @@ export class CartPageContainer extends PureComponent {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
             });
+            window.scrollTo({ top: 0 });
 
             return;
         }
@@ -174,6 +175,7 @@ export class CartPageContainer extends PureComponent {
             history.push({
                 pathname: appendWithStoreCode(CHECKOUT_URL)
             });
+            window.scrollTo({ top: 0 });
 
             return;
         }

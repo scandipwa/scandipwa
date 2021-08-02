@@ -129,16 +129,16 @@ export class ProductCompare extends Component {
                 </div>
                 <div
                   block="ProductCompare"
-                  elem="Row"
-                  mix={ { block: 'ProductPriceRow' } }
-                >
-                    { this.renderPriceLabel() }
-                    { this.renderProductPrices() }
-                </div>
-                <div
-                  block="ProductCompare"
                   elem="AttributeTable"
                 >
+                    <div
+                      block="ProductCompareAttributeRow"
+                    >
+                        { this.renderPriceLabel() }
+                        <div block="ProductCompareAttributeRow" elem="Values">
+                            { this.renderProductPrices() }
+                        </div>
+                    </div>
                     { this.renderAttributes() }
                 </div>
             </div>

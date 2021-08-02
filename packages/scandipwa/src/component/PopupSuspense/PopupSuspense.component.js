@@ -20,8 +20,8 @@ import { OVERLAY_PLACEHOLDER } from './PopupSuspense.config';
 
 import './PopupSuspense.style';
 // Import styles from different bundles
-import 'Component/CartOverlay/CartOverlay.style';
-import 'Component/MyAccountOverlay/MyAccountOverlay.style';
+import(/* webpackChunkName: "overlays" */ 'Component/CartOverlay/CartOverlay.style');
+import(/* webpackChunkName: "overlays" */ 'Component/MyAccountOverlay/MyAccountOverlay.style');
 
 /** @namespace Component/PopupSuspense/Component */
 export class PopupSuspense extends PureComponent {

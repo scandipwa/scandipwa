@@ -11,10 +11,9 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import CategoryDetails from 'Component/CategoryDetails';
-import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
@@ -22,6 +21,7 @@ import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
 import Image from 'Component/Image/Image.container';
+import Loader from 'Component/Loader';
 import grid from 'Style/icons/grid.svg';
 import list from 'Style/icons/list.svg';
 import { CategoryTreeType } from 'Type/Category';
@@ -41,6 +41,10 @@ import {
 } from './CategoryPage.config';
 
 import './CategoryPage.style';
+
+export const CategoryFilterOverlay = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "overlays-category" */ 'Component/CategoryFilterOverlay'
+));
 
 /** @namespace Route/CategoryPage/Component */
 export class CategoryPage extends PureComponent {
@@ -196,6 +200,14 @@ export class CategoryPage extends PureComponent {
         );
     }
 
+    renderFilterPlaceholder() {
+        return (
+            <div block="CategoryPage" elem="FilterPlaceholder">
+                <Loader isLoading />
+            </div>
+        );
+    }
+
     renderFilterOverlay() {
         const {
             filters,
@@ -210,12 +222,14 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <CategoryFilterOverlay
-              availableFilters={ filters }
-              customFiltersValues={ selectedFilters }
-              isMatchingInfoFilter={ isMatchingInfoFilter }
-              isCategoryAnchor={ !!is_anchor }
-            />
+            <Suspense fallback={ this.renderFilterPlaceholder() }>
+                <CategoryFilterOverlay
+                  availableFilters={ filters }
+                  customFiltersValues={ selectedFilters }
+                  isMatchingInfoFilter={ isMatchingInfoFilter }
+                  isCategoryAnchor={ !!is_anchor }
+                />
+            </Suspense>
         );
     }
 

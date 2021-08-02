@@ -17,7 +17,7 @@ import MyAccountTabListItem from 'Component/MyAccountTabListItem';
 import { activeTabType, tabMapType } from 'Type/Account';
 import { isSignedIn } from 'Util/Auth';
 
-import './MyAccountTabList.style';
+import(/* webpackChunkName: "expandable-content" */ './MyAccountTabList.style');
 
 /** @namespace Component/MyAccountTabList/Component */
 export class MyAccountTabList extends PureComponent {

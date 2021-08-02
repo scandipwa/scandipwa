@@ -22,7 +22,7 @@ import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
 
-import './CartOverlay.style';
+import(/* webpackChunkName: "overlays" */ './CartOverlay.style');
 
 /** @namespace Component/CartOverlay/Component */
 export class CartOverlay extends PureComponent {
