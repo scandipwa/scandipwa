@@ -41,10 +41,10 @@ export class MyAccountAddressForm extends FieldForm {
         const {
             countries,
             shippingFields: {
-                country_id,
-                region_id,
+                country_id = 0,
+                region_id = 0,
                 city = ''
-            }
+            } = {}
         } = props;
 
         const country = countries.find(({ id }) => id === country_id) || {};
