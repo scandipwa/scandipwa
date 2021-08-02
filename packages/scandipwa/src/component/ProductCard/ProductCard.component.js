@@ -30,10 +30,11 @@ import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
     CONFIGURABLE,
+    filterConfigurableOptions,
     GROUPED
 } from 'Util/Product';
 
-import { OUT_OF_STOCK, TIER_PRICES } from './ProductCard.config';
+import { IN_STOCK, TIER_PRICES } from './ProductCard.config';
 
 import './ProductCard.style';
 /**
@@ -112,14 +113,24 @@ export class ProductCard extends Component {
     imageRef = createRef();
 
     shouldComponentUpdate(nextProps) {
-        const { product, device, productOrVariant } = this.props;
+        const {
+            product,
+            device,
+            productOrVariant,
+            parameters
+        } = this.props;
+
         const {
             product: nextProduct,
             device: nextDevice,
-            productOrVariant: nextProductOrVariant
+            productOrVariant: nextProductOrVariant,
+            parameters: nextParameters
         } = nextProps;
 
-        return product !== nextProduct || device !== nextDevice || productOrVariant !== nextProductOrVariant;
+        return product !== nextProduct
+            || device !== nextDevice
+            || productOrVariant !== nextProductOrVariant
+            || parameters !== nextParameters;
     }
 
     registerSharedElement = () => {
@@ -432,8 +443,8 @@ export class ProductCard extends Component {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               productOptionsData={ productOptionsData }
+              disabled={ stock_status !== IN_STOCK }
               layout={ layout }
-              disabled={ stock_status === OUT_OF_STOCK }
             />
         );
     }
@@ -441,11 +452,14 @@ export class ProductCard extends Component {
     getAttributesToShow() {
         const {
             product: {
-                configurable_options = []
+                configurable_options = [],
+                variants
             }
         } = this.props;
 
-        return Object.fromEntries(Object.entries(configurable_options).filter(([, option]) => {
+        const filteredOptions = filterConfigurableOptions(configurable_options, variants);
+
+        return Object.fromEntries(Object.entries(filteredOptions).filter(([, option]) => {
             const { attribute_options = {} } = option;
 
             return Object.values(attribute_options).some(({ swatch_data }) => swatch_data);

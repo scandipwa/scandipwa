@@ -50,7 +50,7 @@ export class MyAccountCreateAccountContainer extends PureComponent {
         setLoadingState: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
-        showTaxVatNumber: PropTypes.string.isRequired,
+        showTaxVatNumber: PropTypes.bool.isRequired,
         isLandingPage: PropTypes.bool,
         device: DeviceType.isRequired
     };

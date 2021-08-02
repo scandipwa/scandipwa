@@ -60,7 +60,10 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         moveWishlistToCart: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
-        removeSelectedFromWishlist: PropTypes.func.isRequired
+        removeSelectedFromWishlist: PropTypes.func.isRequired,
+        creatorsName: PropTypes.string.isRequired,
+        isEditingActive: PropTypes.bool.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     state = {
@@ -70,7 +73,13 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     containerProps = () => {
         const { isLoading, loadingItemsMap } = this.state;
-        const { isWishlistLoading } = this.props;
+        const {
+            isWishlistLoading,
+            creatorsName,
+            wishlistItems,
+            isEditingActive,
+            isMobile
+        } = this.props;
 
         const isWishlistEmpty = this._getIsWishlistEmpty();
 
@@ -78,7 +87,11 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             isWishlistEmpty,
             isLoading,
             isActionsDisabled: isWishlistLoading || isWishlistEmpty,
-            loadingItemsMap
+            loadingItemsMap,
+            creatorsName,
+            wishlistItems,
+            isEditingActive,
+            isMobile
         };
     };
 
@@ -166,9 +179,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     render() {
         return (
             <MyAccountMyWishlist
-              { ...this.props }
               { ...this.containerProps() }
-              { ...this.containerFunctions() }
+              { ...this.containerFunctions }
             />
         );
     }

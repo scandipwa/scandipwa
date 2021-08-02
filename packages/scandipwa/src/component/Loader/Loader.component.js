@@ -22,7 +22,11 @@ import './Loader.style';
  */
 export class Loader extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isLoading: true
     };
 
     renderMain() {

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import { ProductType } from 'Type/ProductList';
 import {
     BUNDLE,
@@ -65,7 +65,7 @@ export class ProductActionsContainer extends PureComponent {
         if (!min_sale_qty) {
             return 1;
         }
-        if (!configurableVariantIndex && !variants) {
+        if ((!configurableVariantIndex && !variants) || configurableVariantIndex === -1) {
             return min_sale_qty;
         }
 
@@ -115,8 +115,7 @@ export class ProductActionsContainer extends PureComponent {
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
         setRefs: this.setRefs.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
-        filterConfigurableOptions: this.filterConfigurableOptions.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -188,33 +187,6 @@ export class ProductActionsContainer extends PureComponent {
         return variants[configurableVariantIndex].product[attribute] === value;
     }
 
-    filterConfigurableOptions(options) {
-        const { product: { variants } } = this.props;
-
-        return Object.values(options).reduce((acc, option) => {
-            const { attribute_values, attribute_code } = option;
-
-            // show option if it exist as variant for configurable product
-            const filteredOptions = attribute_values.reduce((acc, value) => {
-                const isVariantExist = variants.find(({ attributes }) => {
-                    const { attribute_value: foundValue } = attributes[attribute_code] || {};
-
-                    return value === foundValue;
-                });
-
-                if (isVariantExist) {
-                    acc.push(value);
-                }
-
-                return acc;
-            }, []);
-
-            acc.push({ ...option, attribute_values: filteredOptions });
-
-            return acc;
-        }, []);
-    }
-
     getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
         const { parameters, product: { variants } } = this.props;
 
@@ -237,7 +209,7 @@ export class ProductActionsContainer extends PureComponent {
                 const { attribute_value: foundValue } = attributes[attribute_code] || {};
 
                 return (
-                    stock_status === 'IN_STOCK'
+                    stock_status === IN_STOCK
                     // Variant must have currently checked attribute_code and attribute_value
                     && foundValue === attribute_value
                     // Variant must have all currently selected attributes
@@ -289,11 +261,11 @@ export class ProductActionsContainer extends PureComponent {
             stock_status
         } = variants[configurableVariantIndex] || product;
 
-        if (stock_status === OUT_OF_STOCK) {
-            return 'https://schema.org/OutOfStock';
+        if (stock_status === IN_STOCK) {
+            return 'https://schema.org/InStock';
         }
 
-        return 'https://schema.org/InStock';
+        return 'https://schema.org/OutOfStock';
     }
 
     getOfferType() {

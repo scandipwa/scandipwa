@@ -20,7 +20,10 @@ import { DeviceType } from 'Type/Device';
 import { FilterType, ProductType } from 'Type/ProductList';
 import history from 'Util/History';
 import {
-    CONFIGURABLE, getNewParameters, getVariantIndex, getVariantsIndexes
+    CONFIGURABLE,
+    getNewParameters,
+    getVariantIndex,
+    getVariantsIndexes
 } from 'Util/Product';
 import { appendWithStoreCode, objectToUri } from 'Util/Url';
 

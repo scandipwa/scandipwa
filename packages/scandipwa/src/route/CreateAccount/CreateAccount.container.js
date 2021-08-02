@@ -49,8 +49,6 @@ export class CreateAccountContainer extends MyAccountOverlayContainer {
     render() {
         return (
             <CreateAccount
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

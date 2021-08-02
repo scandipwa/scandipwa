@@ -14,6 +14,7 @@
     --my-account-input-label-color: rgba(10, 10, 10, .59);
     --my-account-overlay-width: 454px;
     --my-account-overlay-border-width: 1px;
+    --popup-bottom-offset: 40px;
 }
 
 .MyAccountOverlay {
@@ -163,6 +164,11 @@
     &-Action {
         display: grid;
         grid-template-rows: max-content 1fr;
+
+        @include desktop {
+            overflow-y: scroll;
+            max-height: calc(100vh - var(--header-nav-height) - var(--popup-bottom-offset));
+        }
 
         &_state {
             &_createAccount {
