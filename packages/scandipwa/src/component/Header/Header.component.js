@@ -30,6 +30,7 @@ import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import { LEFT } from 'Style/icons/Chevron/Chevron.config';
 import CompareIcon from 'Style/icons/Compare';
+import ExclamationMarkIcon from 'Style/icons/ExclamationMark';
 import ShareIcon from 'Style/icons/Share';
 import UserIcon from 'Style/icons/User';
 import { DeviceType } from 'Type/Device';
@@ -655,10 +656,7 @@ export class Header extends NavigationAbstract {
         return (
             <div block="Header" elem="TopMenu">
                 <div block="Header" elem="News">
-                    <div
-                      block="Header"
-                      elem="NewsIcon"
-                    />
+                    <ExclamationMarkIcon />
                     <span>{ __('Check new arrivals') }</span>
                     <Link
                       to="/"

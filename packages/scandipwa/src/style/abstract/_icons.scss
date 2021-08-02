@@ -255,14 +255,6 @@
     }
 }
 
-@mixin exclamation-icon {
-    background-image: var(--imported_icons_exclamation, url('./../icons/exclamation.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 24px;
-    width: 24px;
-}
-
 @mixin edit-icon {
     background-image: var(--imported_icons_share, url('./../icons/edit.svg'));
     background-repeat: no-repeat;

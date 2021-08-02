@@ -262,9 +262,7 @@
             margin-inline-start: 5px;
         }
 
-        &Icon {
-            @include exclamation-icon;
-
+        .ExclamationMarkIcon {
             inset-block-end: 1px;
             height: 16px;
             margin-inline-end: 10px;

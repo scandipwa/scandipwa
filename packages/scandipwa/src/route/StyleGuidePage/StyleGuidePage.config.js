@@ -14,7 +14,7 @@ import ChevronIcon from 'Style/icons/Chevron';
 import close from 'Style/icons/close.svg';
 import CompareIcon from 'Style/icons/Compare';
 import edit from 'Style/icons/edit.svg';
-import exclamation from 'Style/icons/exclamation.svg';
+import ExclamationMarkIcon from 'Style/icons/ExclamationMark';
 import filter from 'Style/icons/filter.svg';
 import GridIcon from 'Style/icons/Grid';
 import HeartIcon from 'Style/icons/Heart';
@@ -49,7 +49,7 @@ export const ICONS_LIST = {
     StarIcon,
     ChevronIcon,
     CompareIcon,
-    exclamation,
+    ExclamationMarkIcon,
     close,
     linkedIn,
     facebook,
