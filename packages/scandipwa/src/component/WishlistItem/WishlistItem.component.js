@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import CloseIcon from 'Style/icons/Close';
 import EditIcon from 'Style/icons/Edit';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
@@ -142,7 +143,9 @@ export class WishlistItem extends PureComponent {
               elem="Remove"
               onClick={ removeItem }
               aria-label={ __('Remove') }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 

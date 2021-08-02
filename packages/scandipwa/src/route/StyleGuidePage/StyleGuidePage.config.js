@@ -11,7 +11,7 @@
 import AddIcon from 'Style/icons/Add';
 import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
-import close from 'Style/icons/close.svg';
+import CloseIcon from 'Style/icons/Close';
 import CompareIcon from 'Style/icons/Compare';
 import EditIcon from 'Style/icons/Edit';
 import ExclamationMarkIcon from 'Style/icons/ExclamationMark';
@@ -50,7 +50,7 @@ export const ICONS_LIST = {
     ChevronIcon,
     CompareIcon,
     ExclamationMarkIcon,
-    close,
+    CloseIcon,
     linkedIn,
     facebook,
     twitter,

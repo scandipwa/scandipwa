@@ -17,6 +17,7 @@ import Field from 'Component/Field';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
+import CloseIcon from 'Style/icons/Close';
 import { DeviceType } from 'Type/Device';
 import { CartItemType } from 'Type/MiniCart';
 
@@ -352,6 +353,7 @@ export class CartItem extends PureComponent {
               aria-label="Remove item from cart"
               onClick={ handleRemoveItem }
             >
+                <CloseIcon />
                 <span block="CartItem" elem="DeleteButtonText" mods={ { isMobileLayout } }>
                     { __('Delete') }
                 </span>

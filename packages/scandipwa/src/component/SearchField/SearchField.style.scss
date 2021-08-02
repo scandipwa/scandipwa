@@ -48,10 +48,8 @@
         }
     }
 
-    &-CloseIcon {
-        @include close-button;
-
-        content: ' ';
+    &-CloseIcon,
+    &-SearchIcon {
         position: absolute;
         height: 24px;
         inset-inline-end: 15px;
@@ -61,13 +59,5 @@
 
     &-Input {
         width: 100%;
-    }
-
-    &-SearchIcon {
-        position: absolute;
-        inset-inline-end: 15px;
-        inset-block-start: calc(50% - 12px);
-        height: 24px;
-        cursor: pointer;
     }
 }

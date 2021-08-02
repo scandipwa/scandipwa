@@ -11,8 +11,6 @@
 
 :root {
     --star-size: 18px;
-    --radiobutton-size: 14px;
-    --icon-clear-color: #{$black};
     --plus-minus-icon-size: 24px;
     --wishlist-heart-size: 23px;
 }
@@ -30,20 +28,6 @@
 
     &:hover {
         fill: var(--primary-dark-color);
-    }
-}
-
-@mixin close-button {
-    background-image: var(--imported_icons_search, url('./../icons/close.svg'));
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    cursor: pointer;
-    height: 16px;
-    width: 16px;
-
-    &:hover {
-        filter: var(--primary-base-filter);
     }
 }
 

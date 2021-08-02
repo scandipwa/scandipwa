@@ -12,7 +12,7 @@ import './Edit.scss';
 
 import { PureComponent } from 'react';
 
-/** @namespace Component/CompareIcon/Component */
+/** @namespace Component/EditIcon/Component */
 export class EditIcon extends PureComponent {
     render() {
         return (

@@ -35,9 +35,8 @@
         }
     }
 
+    // TODO: check on Android device
     &-Close {
-        @include close-button;
-
         position: absolute;
         z-index: 10;
         inset-block-start: 0;

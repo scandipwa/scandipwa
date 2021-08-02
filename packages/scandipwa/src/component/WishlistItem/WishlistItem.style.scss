@@ -143,18 +143,22 @@
     }
 
     &-Remove[aria-label='Remove'] {
-        @include close-button;
-
         position: absolute;
         inset-inline-end: 4px;
         inset-block-start: 4px;
-        height: 30px;
-        width: 30px;
+
+        .CloseIcon {
+            height: 30px;
+            width: 30px;
+        }
 
         @include mobile {
             inset-block-start: -4px;
             inset-inline-end: -4px;
-            width: 24px;
+
+            .CloseIcon {
+                width: 24px;
+            }
         }
     }
 

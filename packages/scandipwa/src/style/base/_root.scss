@@ -40,5 +40,4 @@
     --secondary-base-color: var(--imported_secondary_base_color, #{$default-secondary-base-color});
     --secondary-dark-color: var(--imported_secondary_dark_color, #{$default-secondary-dark-color});
     --secondary-light-color: var(--imported_secondary_light_color, #{$default-secondary-light-color});
-    --primary-base-filter: var(--imported_primary_base_filter, #{$svg-filter-primary-base-color});
 }

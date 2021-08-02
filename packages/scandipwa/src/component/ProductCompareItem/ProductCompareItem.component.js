@@ -18,6 +18,7 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
+import CloseIcon from 'Style/icons/Close';
 import { ProductType } from 'Type/ProductList';
 
 import {
@@ -175,7 +176,9 @@ export class ProductCompareItem extends PureComponent {
               elem="CloseBtn"
               onClick={ removeComparedProduct }
               aria-label={ __('Remove') }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 

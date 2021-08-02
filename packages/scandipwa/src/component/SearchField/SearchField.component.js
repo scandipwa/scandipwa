@@ -20,6 +20,7 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
+import CloseIcon from 'Style/icons/Close';
 import SearchIcon from 'Style/icons/Search/Search';
 import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
@@ -176,7 +177,9 @@ export class SearchField extends PureComponent {
                   tabIndex="0"
                   onClick={ this.closeSearch }
                   aria-label={ __('Close') }
-                />
+                >
+                    <CloseIcon />
+                </div>
             );
         }
 

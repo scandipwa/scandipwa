@@ -12,7 +12,7 @@ import './Filter.scss';
 
 import { PureComponent } from 'react';
 
-/** @namespace Component/CompareIcon/Component */
+/** @namespace Component/FilterIcon/Component */
 export class FilterIcon extends PureComponent {
     render() {
         return (

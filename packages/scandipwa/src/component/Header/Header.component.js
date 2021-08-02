@@ -29,6 +29,7 @@ import StoreSwitcher from 'Component/StoreSwitcher';
 import CartIcon from 'Style/icons/Cart';
 import ChevronIcon from 'Style/icons/Chevron';
 import { LEFT } from 'Style/icons/Chevron/Chevron.config';
+import CloseIcon from 'Style/icons/Close';
 import CompareIcon from 'Style/icons/Compare';
 import ExclamationMarkIcon from 'Style/icons/ExclamationMark';
 import ShareIcon from 'Style/icons/Share';
@@ -258,7 +259,9 @@ export class Header extends NavigationAbstract {
               aria-label="Close"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 

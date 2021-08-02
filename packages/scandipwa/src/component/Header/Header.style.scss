@@ -157,10 +157,10 @@
             }
 
             &_close {
-                @include close-button;
-
-                width: 27px;
-                height: 27px;
+                .CloseIcon {
+                    width: 27px;
+                    height: 27px;
+                }
             }
 
             &_share {
