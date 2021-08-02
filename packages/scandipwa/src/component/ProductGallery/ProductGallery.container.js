@@ -114,15 +114,21 @@ export class ProductGalleryContainer extends PureComponent {
         } = this.props;
 
         const baseImage = mediaGallery.find((value) => value.types.includes(IMAGE_TYPE));
-        const isStartFromNull = mediaGallery.find((value) => value.position === 0);
         const { position = 0 } = baseImage || {};
-        const mediaGalleryLastIndex = mediaGallery.length - 1;
 
-        if (isStartFromNull) {
-            return Math.min(mediaGalleryLastIndex, position);
+        if (!mediaGallery.length) {
+            return 0;
         }
 
-        return Math.min(mediaGalleryLastIndex, position ? position - 1 : position);
+        const positionsArray = mediaGallery.reduce((acc, item) => {
+            const { position } = item;
+
+            acc.push(position);
+
+            return acc;
+        }, []).sort((a, b) => a - b);
+
+        return positionsArray.findIndex((value) => value === position);
     }
 
     getGalleryPictures() {
