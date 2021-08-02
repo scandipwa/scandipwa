@@ -97,7 +97,6 @@ export class SearchField extends PureComponent {
 
     handleChange = (e) => {
         const { onSearchBarChange } = this.props;
-
         onSearchBarChange(e);
     };
 
