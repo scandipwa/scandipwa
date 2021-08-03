@@ -50,6 +50,10 @@
         color: var(--price-discount-color);
     }
 
+    &-PriceValue {
+        margin-block-start: 6px;
+    }
+
     &-Placeholder {
         &::after {
             content: 'aaaaa';
