@@ -14,8 +14,8 @@ import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import ChevronIcon from 'Style/icons/Chevron';
-import { LEFT, RIGHT } from 'Style/icons/Chevron/Chevron.config';
+import ChevronIcon from 'Style/Icons/Chevron';
+import { LEFT, RIGHT } from 'Style/Icons/Chevron/Chevron.config';
 import { range } from 'Util/Manipulations';
 
 import './CategoryPagination.style';

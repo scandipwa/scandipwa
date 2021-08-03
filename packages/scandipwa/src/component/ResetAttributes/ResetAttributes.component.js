@@ -13,7 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import CloseIcon from 'Style/icons/Close';
+import CloseIcon from 'Style/Icons/Close';
 import { getFiltersCount } from 'Util/Category';
 
 import './ResetAttributes.style';

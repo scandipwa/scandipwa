@@ -12,7 +12,7 @@ import './Chevron.scss';
 
 import { PureComponent } from 'react';
 
-import { RIGHT } from 'Style/icons/Chevron/Chevron.config';
+import { RIGHT } from 'Style/Icons/Chevron/Chevron.config';
 import { DirectionType } from 'Type/Direction';
 
 /** @namespace Component/ChevronIcon/Component */

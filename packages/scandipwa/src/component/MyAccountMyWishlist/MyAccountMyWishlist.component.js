@@ -16,8 +16,8 @@ import Loader from 'Component/Loader';
 import ProductCard from 'Component/ProductCard';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
-import CartIcon from 'Style/icons/Cart';
-import ShareIcon from 'Style/icons/Share';
+import CartIcon from 'Style/Icons/Cart';
+import ShareIcon from 'Style/Icons/Share';
 import { ProductType } from 'Type/ProductList';
 import CSS from 'Util/CSS';
 

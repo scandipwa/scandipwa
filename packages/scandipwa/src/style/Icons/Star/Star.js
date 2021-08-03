@@ -13,7 +13,7 @@ import './Star.scss';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Style/icons/Star/Star.config';
+import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Style/Icons/Star/Star.config';
 
 /** @namespace Component/StarIcon/Component */
 export class AddIcon extends PureComponent {

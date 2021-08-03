@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import facebookIcon from 'Style/icons/Logos/facebook.svg';
-import linkedinIcon from 'Style/icons/Logos/linkedIn.svg';
-import twitterIcon from 'Style/icons/Logos/twitter.svg';
+import facebookIcon from 'Style/Icons/Logos/facebook.svg';
+import linkedinIcon from 'Style/Icons/Logos/linkedIn.svg';
+import twitterIcon from 'Style/Icons/Logos/twitter.svg';
 
 export const RENDER_NEWSLETTER = 'render_newsletter';
 

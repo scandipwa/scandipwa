@@ -21,15 +21,15 @@ import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
 import Loader from 'Component/Loader';
-import GridIcon from 'Style/icons/Grid';
-import ListIcon from 'Style/icons/List';
+import FilterIcon from 'Style/Icons/Filter';
+import GridIcon from 'Style/Icons/Grid';
+import ListIcon from 'Style/Icons/List';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import FilterIcon from '../../style/icons/Filter';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,

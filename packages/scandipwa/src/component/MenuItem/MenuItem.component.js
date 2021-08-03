@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
-import AddIcon from 'Style/icons/Add';
-import MinusIcon from 'Style/icons/Minus';
+import AddIcon from 'Style/Icons/Add';
+import MinusIcon from 'Style/Icons/Minus';
 
 /** @namespace Component/MenuItem/Component */
 export class MenuItem extends PureComponent {

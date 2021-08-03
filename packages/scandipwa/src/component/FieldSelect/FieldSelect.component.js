@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
-import ChevronIcon from 'Style/icons/Chevron';
-import { BOTTOM, TOP } from 'Style/icons/Chevron/Chevron.config';
+import ChevronIcon from 'Style/Icons/Chevron';
+import { BOTTOM, TOP } from 'Style/Icons/Chevron/Chevron.config';
 
 import './FieldSelect.style';
 

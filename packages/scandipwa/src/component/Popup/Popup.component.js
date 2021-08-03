@@ -17,7 +17,7 @@ import { createPortal } from 'react-dom';
 import ClickOutside from 'Component/ClickOutside';
 import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
-import CloseIcon from 'Style/icons/Close';
+import CloseIcon from 'Style/Icons/Close';
 import { DeviceType } from 'Type/Device';
 
 import { ESCAPE_KEY } from './Popup.config';

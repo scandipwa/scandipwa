@@ -18,7 +18,7 @@ import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
-import CloseIcon from 'Style/icons/Close';
+import CloseIcon from 'Style/Icons/Close';
 import { ProductType } from 'Type/ProductList';
 
 import {

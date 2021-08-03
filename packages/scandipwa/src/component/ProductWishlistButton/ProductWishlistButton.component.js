@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
-import HeartIcon from 'Style/icons/Heart';
+import HeartIcon from 'Style/Icons/Heart';
 import { ProductType } from 'Type/ProductList';
 
 import './ProductWishlistButton.style';

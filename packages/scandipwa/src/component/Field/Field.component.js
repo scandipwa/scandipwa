@@ -16,11 +16,11 @@ import { PureComponent } from 'react';
 import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
-import AddIcon from 'Style/icons/Add';
-import ChevronIcon from 'Style/icons/Chevron';
-import { BOTTOM } from 'Style/icons/Chevron/Chevron.config';
-import MinusIcon from 'Style/icons/Minus';
-import UploadIcon from 'Style/icons/Upload';
+import AddIcon from 'Style/Icons/Add';
+import ChevronIcon from 'Style/Icons/Chevron';
+import { BOTTOM } from 'Style/Icons/Chevron/Chevron.config';
+import MinusIcon from 'Style/Icons/Minus';
+import UploadIcon from 'Style/Icons/Upload';
 import { MixType } from 'Type/Common';
 
 import {

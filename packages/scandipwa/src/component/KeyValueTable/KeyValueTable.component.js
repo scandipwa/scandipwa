@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import RadioButton from 'Style/icons/RadioButton';
+import RadioButton from 'Style/Icons/RadioButton';
 
 import './KeyValueTable.style';
 

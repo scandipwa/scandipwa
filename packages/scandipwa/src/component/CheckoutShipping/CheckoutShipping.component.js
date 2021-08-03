@@ -18,7 +18,7 @@ import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import { STORE_IN_PICK_UP_METHOD_CODE } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.config';
-import LockIcon from 'Style/icons/Lock';
+import LockIcon from 'Style/Icons/Lock';
 import { addressType } from 'Type/Account';
 import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';

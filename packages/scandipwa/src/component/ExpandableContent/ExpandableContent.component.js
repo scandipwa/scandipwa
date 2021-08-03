@@ -12,10 +12,10 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
-import AddIcon from 'Style/icons/Add';
-import ChevronIcon from 'Style/icons/Chevron';
-import { BOTTOM, TOP } from 'Style/icons/Chevron/Chevron.config';
-import MinusIcon from 'Style/icons/Minus';
+import AddIcon from 'Style/Icons/Add';
+import ChevronIcon from 'Style/Icons/Chevron';
+import { BOTTOM, TOP } from 'Style/Icons/Chevron/Chevron.config';
+import MinusIcon from 'Style/Icons/Minus';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { getFixedElementHeight } from 'Util/CSS';

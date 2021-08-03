@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import { GRID_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
-import CartIcon from 'Style/icons/Cart';
+import CartIcon from 'Style/Icons/Cart';
 import { MixType } from 'Type/Common';
 import { LayoutType } from 'Type/Layout';
 import { ProductType } from 'Type/ProductList';

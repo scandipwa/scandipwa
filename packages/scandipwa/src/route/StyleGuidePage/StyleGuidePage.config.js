@@ -8,27 +8,27 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import AddIcon from 'Style/icons/Add';
-import CartIcon from 'Style/icons/Cart';
-import ChevronIcon from 'Style/icons/Chevron';
-import CloseIcon from 'Style/icons/Close';
-import CompareIcon from 'Style/icons/Compare';
-import EditIcon from 'Style/icons/Edit';
-import ExclamationMarkIcon from 'Style/icons/ExclamationMark';
-import FilterIcon from 'Style/icons/Filter';
-import GridIcon from 'Style/icons/Grid';
-import HeartIcon from 'Style/icons/Heart';
-import HomeIcon from 'Style/icons/Home';
-import ListIcon from 'Style/icons/List';
-import facebook from 'Style/icons/Logos/facebook.svg';
-import linkedIn from 'Style/icons/Logos/linkedIn.svg';
-import twitter from 'Style/icons/Logos/twitter.svg';
-import MenuIcon from 'Style/icons/Menu';
-import MinusIcon from 'Style/icons/Minus';
-import SearchIcon from 'Style/icons/Search';
-import ShareIcon from 'Style/icons/Share';
-import StarIcon from 'Style/icons/Star';
-import UserIcon from 'Style/icons/User';
+import AddIcon from 'Style/Icons/Add';
+import CartIcon from 'Style/Icons/Cart';
+import ChevronIcon from 'Style/Icons/Chevron';
+import CloseIcon from 'Style/Icons/Close';
+import CompareIcon from 'Style/Icons/Compare';
+import EditIcon from 'Style/Icons/Edit';
+import ExclamationMarkIcon from 'Style/Icons/ExclamationMark';
+import FilterIcon from 'Style/Icons/Filter';
+import GridIcon from 'Style/Icons/Grid';
+import HeartIcon from 'Style/Icons/Heart';
+import HomeIcon from 'Style/Icons/Home';
+import ListIcon from 'Style/Icons/List';
+import facebook from 'Style/Icons/Logos/facebook.svg';
+import linkedIn from 'Style/Icons/Logos/linkedIn.svg';
+import twitter from 'Style/Icons/Logos/twitter.svg';
+import MenuIcon from 'Style/Icons/Menu';
+import MinusIcon from 'Style/Icons/Minus';
+import SearchIcon from 'Style/Icons/Search';
+import ShareIcon from 'Style/Icons/Share';
+import StarIcon from 'Style/Icons/Star';
+import UserIcon from 'Style/Icons/User';
 
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';

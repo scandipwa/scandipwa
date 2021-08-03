@@ -21,11 +21,11 @@ import Image from 'Component/Image';
 import Notification from 'Component/Notification';
 import ProductCard from 'Component/ProductCard';
 import SearchItem from 'Component/SearchItem';
-import GridIcon from 'Style/icons/Grid';
-import HeartIcon from 'Style/icons/Heart';
-import ListIcon from 'Style/icons/List';
-import LockIcon from 'Style/icons/Lock';
-import UserIcon from 'Style/icons/User';
+import GridIcon from 'Style/Icons/Grid';
+import HeartIcon from 'Style/Icons/Heart';
+import ListIcon from 'Style/Icons/List';
+import LockIcon from 'Style/Icons/Lock';
+import UserIcon from 'Style/Icons/User';
 import { ProductType } from 'Type/ProductList';
 
 import configurableOptions from './configurableOptions.json';

@@ -20,8 +20,8 @@ import {
 
 import ClickOutside from 'Component/ClickOutside';
 import Loader from 'Component/Loader';
-import CloseIcon from 'Style/icons/Close';
-import SearchIcon from 'Style/icons/Search/Search';
+import CloseIcon from 'Style/Icons/Close';
+import SearchIcon from 'Style/Icons/Search/Search';
 import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
-import CompareIcon from 'Style/icons/Compare';
+import CompareIcon from 'Style/Icons/Compare';
 import { MixType } from 'Type/Common';
 
 import './ProductCompareButton.style';

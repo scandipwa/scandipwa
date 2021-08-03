@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 
 import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import ChevronIcon from 'Style/icons/Chevron';
+import ChevronIcon from 'Style/Icons/Chevron';
 
 import './Breadcrumb.style';
 

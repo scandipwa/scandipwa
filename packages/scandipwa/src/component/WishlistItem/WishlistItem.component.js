@@ -16,8 +16,8 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import CloseIcon from 'Style/icons/Close';
-import EditIcon from 'Style/icons/Edit';
+import CloseIcon from 'Style/Icons/Close';
+import EditIcon from 'Style/Icons/Edit';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 

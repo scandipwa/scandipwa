@@ -10,10 +10,10 @@
  */
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
-import CartIcon from 'Style/icons/Cart';
-import HomeIcon from 'Style/icons/Home/Home';
-import MenuIcon from 'Style/icons/Menu';
-import UserIcon from 'Style/icons/User';
+import CartIcon from 'Style/Icons/Cart';
+import HomeIcon from 'Style/Icons/Home/Home';
+import MenuIcon from 'Style/Icons/Menu';
+import UserIcon from 'Style/Icons/User';
 import { DeviceType } from 'Type/Device';
 
 import {
