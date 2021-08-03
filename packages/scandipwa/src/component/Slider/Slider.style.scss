@@ -83,23 +83,26 @@
     }
 
     &-Arrow {
-        @include chevron-icon;
-
         cursor: pointer;
         position: absolute;
         inset-block-start: 50%;
         width: 35px;
         height: 35px;
 
+        .ChevronIcon {
+            width: 100%;
+            height: 100%;
+        }
+
         &_isPrev {
             inset-inline-start: -45px;
 
             &:dir(ltr) {
-                transform: translateY(-50%) scale(-1);
+                transform: rotate(180deg) translateY(50%) scale(-1);
             }
 
             &:dir(rtl) {
-                transform: translateY(-50%);
+                transform: translateY(50%);
             }
         }
 
@@ -111,7 +114,7 @@
             }
 
             &:dir(rtl) {
-                transform: translateY(-50%) scale(-1);
+                transform: rotate(180deg) translateY(-50%) scale(-1);
             }
         }
 

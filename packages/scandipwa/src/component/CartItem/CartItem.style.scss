@@ -204,15 +204,18 @@
     }
 
     &-Delete {
-        @include close-button;
-
-        background-size: auto;
-        width: 12px;
+        display: flex;
         z-index: 5;
-        height: 35px;
         font-size: 14px;
-        color: var(--color-black);
-        padding-inline-start: 35px;
+        margin-inline-start: 8px;
+
+        &:hover {
+            color: var(--primary-base-color);
+
+            .CloseIcon {
+                fill: var(--primary-base-color);
+            }
+        }
 
         &_isMobileLayout {
             height: 12px;
@@ -221,6 +224,9 @@
     }
 
     &-DeleteButtonText {
+        line-height: 24px;
+        margin-inline-start: 4px;
+
         &_isMobileLayout {
             display: none;
         }

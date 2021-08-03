@@ -1,0 +1,22 @@
+.HeartIcon {
+  stroke: var(--color-black);
+
+  &:hover {
+    stroke: var(--primary-base-color);
+    fill: var(--primary-base-color);
+  }
+
+  &_isActive {
+    fill: var(--primary-base-color);
+    stroke: var(--primary-base-color);
+
+    &:hover {
+      fill: none;
+      stroke: var(--color-black);
+    }
+  }
+
+  height: var(--wishlist-heart-size);
+  min-width: var(--wishlist-heart-size);
+  cursor: pointer;
+}

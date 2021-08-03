@@ -17,6 +17,7 @@ import { createPortal } from 'react-dom';
 import ClickOutside from 'Component/ClickOutside';
 import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
+import CloseIcon from 'Style/Icons/Close';
 import { DeviceType } from 'Type/Device';
 
 import { ESCAPE_KEY } from './Popup.config';
@@ -136,7 +137,9 @@ export class Popup extends Overlay {
               elem="CloseBtn"
               aria-label={ __('Close') }
               onClick={ this.hidePopUp }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 

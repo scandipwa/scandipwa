@@ -31,18 +31,4 @@
             padding: 0;
         }
     }
-
-    &-Icon {
-        @include compare-icon;
-
-        &:hover {
-            filter: var(--primary-base-filter);
-        }
-    }
-
-    &_isActive {
-        .ProductCompareButton-Icon {
-            filter: var(--primary-base-filter);
-        }
-    }
 }

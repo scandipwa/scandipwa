@@ -82,5 +82,11 @@
                 height: 100%;
             }
         }
+
+        .ChevronIcon {
+            @include mobile {
+                display: none;
+            }
+        }
     }
 }

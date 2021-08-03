@@ -12,16 +12,20 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import RadioButton from 'Style/Icons/RadioButton';
+
 import './KeyValueTable.style';
 
 /** @namespace Component/KeyValueTable/Component */
 export class KeyValueTable extends PureComponent {
     static propTypes = {
-        title: PropTypes.string
+        title: PropTypes.string,
+        isSelected: PropTypes.bool
     };
 
     static defaultProps = {
-        title: ''
+        title: '',
+        isSelected: false
     };
 
     get dataPairArray() {
@@ -59,7 +63,7 @@ export class KeyValueTable extends PureComponent {
     };
 
     renderHeading() {
-        const { title } = this.props;
+        const { title, isSelected } = this.props;
         if (!title) {
             return null;
         }
@@ -72,7 +76,7 @@ export class KeyValueTable extends PureComponent {
                   colSpan={ 2 }
                 >
                     { title }
-                    <span />
+                    <RadioButton isActive={ isSelected } />
                 </th>
             </tr>
         );

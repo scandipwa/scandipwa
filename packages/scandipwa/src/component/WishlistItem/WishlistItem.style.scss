@@ -148,18 +148,22 @@
     }
 
     &-Remove[aria-label='Remove'] {
-        @include close-button;
-
         position: absolute;
         inset-inline-end: 4px;
         inset-block-start: 4px;
-        height: 30px;
-        width: 30px;
+
+        .CloseIcon {
+            height: 30px;
+            width: 30px;
+        }
 
         @include mobile {
             inset-block-start: -4px;
             inset-inline-end: -4px;
-            width: 24px;
+
+            .CloseIcon {
+                width: 24px;
+            }
         }
     }
 
@@ -272,32 +276,6 @@
         margin-block-start: 5px;
         margin-block-end: 12px;
         margin-inline: 0;
-    }
-
-    &-EditIcon {
-        @include edit-icon;
-
-        display: inline-block;
-        height: 20px;
-        width: 20px;
-        margin-inline-end: 10px;
-
-        &:not([disabled]):hover {
-            filter: var(--primary-dark-filter);
-        }
-    }
-
-    &-MinicartIcon {
-        @include minicart-button;
-
-        filter: var(--primary-base-filter);
-        height: 20px;
-        margin-inline-end: 14px;
-        width: 18px;
-
-        @include desktop {
-            filter: invert(100%);
-        }
     }
 
     &-SelectWrapper {

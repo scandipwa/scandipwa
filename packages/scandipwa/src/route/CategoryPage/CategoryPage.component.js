@@ -20,17 +20,16 @@ import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
-import Image from 'Component/Image/Image.container';
 import Loader from 'Component/Loader';
-import grid from 'Style/icons/grid.svg';
-import list from 'Style/icons/list.svg';
+import FilterIcon from 'Style/Icons/Filter';
+import GridIcon from 'Style/Icons/Grid';
+import ListIcon from 'Style/Icons/List';
 import { CategoryTreeType } from 'Type/Category';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
@@ -193,7 +192,7 @@ export class CategoryPage extends PureComponent {
               elem="Filter"
               onClick={ this.onFilterButtonClick }
             >
-                <Image src={ filterIcon } alt="filter" mix={ { block: 'CategoryPage', elem: 'FilterIcon' } } />
+                <FilterIcon />
                 <span>{ __('Filters') }</span>
                 { this.renderFiltersCount() }
             </button>
@@ -273,7 +272,7 @@ export class CategoryPage extends PureComponent {
                   mix={ { block: GRID_LAYOUT, mods: { isActive: activeLayoutType === GRID_LAYOUT } } }
                   aria-label="grid"
                 >
-                    <Image src={ grid } alt="grid" mix={ { block: GRID_LAYOUT, elem: 'Icon' } } />
+                    <GridIcon isActive={ activeLayoutType === GRID_LAYOUT } />
                 </button>
             );
         case LIST_LAYOUT:
@@ -284,7 +283,7 @@ export class CategoryPage extends PureComponent {
                   mix={ { block: LIST_LAYOUT, mods: { isActive: activeLayoutType === LIST_LAYOUT } } }
                   aria-label="list"
                 >
-                    <Image src={ list } alt="list" mix={ { block: LIST_LAYOUT, elem: 'Icon' } } />
+                    <ListIcon isActive={ activeLayoutType === LIST_LAYOUT } />
                 </button>
             );
         default:

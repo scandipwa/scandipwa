@@ -152,7 +152,8 @@
         }
     }
 
-    &-Action form {
+    &-Action form,
+    &-Additional_state_signIn {
         @include mobile {
             padding-block-start: 14px;
             padding-inline: 14px;
@@ -325,7 +326,7 @@
 
                         &:hover,
                         &:focus {
-                            margin-inline-start: 5px;
+                            padding-inline-start: 5px;
                         }
                     }
 

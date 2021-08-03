@@ -12,7 +12,12 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
+import AddIcon from 'Style/Icons/Add';
+import ChevronIcon from 'Style/Icons/Chevron';
+import { BOTTOM, TOP } from 'Style/Icons/Chevron/Chevron.config';
+import MinusIcon from 'Style/Icons/Minus';
 import { ChildrenType, MixType } from 'Type/Common';
+import { DeviceType } from 'Type/Device';
 import { getFixedElementHeight } from 'Util/CSS';
 
 import(/* webpackChunkName: "expandable-content" */ './ExpandableContent.style');
@@ -26,6 +31,7 @@ export class ExpandableContent extends PureComponent {
         children: ChildrenType,
         mix: MixType.isRequired,
         mods: PropTypes.object,
+        device: DeviceType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
             if (propValue === null) {
@@ -114,11 +120,7 @@ export class ExpandableContent extends PureComponent {
 
     renderButton() {
         const { isContentExpanded } = this.state;
-        const {
-            heading,
-            mix,
-            isArrow
-        } = this.props;
+        const { heading, mix } = this.props;
 
         return (
             <div
@@ -142,13 +144,34 @@ export class ExpandableContent extends PureComponent {
                         heading
                     ) }
                 </div>
-                <div
-                  block="ExpandableContent"
-                  elem={ isArrow ? 'ToggleArrow' : 'ToggleButton' }
-                  mods={ { isContentExpanded } }
-                />
+                { this.renderButtonIcon() }
             </div>
         );
+    }
+
+    renderButtonIcon() {
+        const { isContentExpanded } = this.state;
+        const { isArrow, device: { isMobile } } = this.props;
+
+        if (!isMobile) {
+            return null;
+        }
+
+        if (isArrow) {
+            return <ChevronIcon direction={ isContentExpanded ? TOP : BOTTOM } />;
+        }
+
+        return this.renderTogglePlusMinus();
+    }
+
+    renderTogglePlusMinus() {
+        const { isContentExpanded } = this.state;
+
+        if (isContentExpanded) {
+            return <MinusIcon />;
+        }
+
+        return <AddIcon />;
     }
 
     renderContent() {

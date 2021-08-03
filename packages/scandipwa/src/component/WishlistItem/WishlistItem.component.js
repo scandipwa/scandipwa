@@ -16,6 +16,8 @@ import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import CloseIcon from 'Style/Icons/Close';
+import EditIcon from 'Style/Icons/Edit';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
@@ -141,7 +143,9 @@ export class WishlistItem extends PureComponent {
               elem="Remove"
               onClick={ removeItem }
               aria-label={ __('Remove') }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 
@@ -275,11 +279,7 @@ export class WishlistItem extends PureComponent {
                 { this.renderCommentField() }
                 <div block="WishlistItem" elem="ActionWrapper">
                     { this.renderAddToCartButton() }
-                    <span
-                      block="WishlistItem"
-                      elem="EditIcon"
-                      onClick={ redirectToProductPage }
-                    />
+                    <EditIcon onClick={ redirectToProductPage } />
                 </div>
             </div>
         );
@@ -369,11 +369,13 @@ export class WishlistItem extends PureComponent {
                     { this.renderCommentField() }
                     <div block="WishlistItem" elem="ActionWrapper">
                         { this.renderAddToCartButton() }
-                        <span
+                        <div
                           block="WishlistItem"
                           elem="EditIcon"
                           onClick={ redirectToProductPage }
-                        />
+                        >
+                            <EditIcon />
+                        </div>
                     </div>
                 </div>
             </>

@@ -10,6 +10,10 @@
  */
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
+import CartIcon from 'Style/Icons/Cart';
+import HomeIcon from 'Style/Icons/Home/Home';
+import MenuIcon from 'Style/Icons/Menu';
+import UserIcon from 'Style/Icons/User';
 import { DeviceType } from 'Type/Device';
 
 import {
@@ -62,12 +66,7 @@ export class NavigationTabs extends NavigationAbstract {
               aria-label="Home"
               onClick={ onHomeButtonClick }
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { type: 'home', isVisible: true } }
-                />
+                <HomeIcon isActive={ isActive } />
             </button>
         );
     }
@@ -83,12 +82,7 @@ export class NavigationTabs extends NavigationAbstract {
               aria-label="Go to menu and search"
               onClick={ onMenuButtonClick }
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { isVisible: true, type: 'menu' } }
-                />
+                <MenuIcon isActive={ isActive } />
             </button>
         );
     }
@@ -104,12 +98,7 @@ export class NavigationTabs extends NavigationAbstract {
               onClick={ onMyAccountButtonClick }
               aria-label="Open my account"
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
-                  mods={ { isVisible: true, type: 'account' } }
-                />
+                <UserIcon isActive={ isActive } />
             </button>
         );
     }
@@ -150,11 +139,7 @@ export class NavigationTabs extends NavigationAbstract {
                       mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
                       mods={ { isVisible: true, type: 'minicart' } }
                     >
-                        <span
-                          aria-label="Minicart"
-                          block="Header"
-                          elem="MinicartIcon"
-                        />
+                        <CartIcon isActive={ isActive } />
                     </div>
                     { this.renderMinicartItemsQty() }
                 </div>

@@ -81,10 +81,6 @@
         @include desktop {
             margin: 10px 0;
         }
-
-        span {
-            @include lock-button;
-        }
     }
 
     &-Promo,

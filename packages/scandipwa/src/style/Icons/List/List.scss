@@ -1,0 +1,10 @@
+.ListIcon {
+  @include icon-black-hover-effect;
+  @include rtl-icon;
+
+  cursor: pointer;
+
+  &_isActive {
+    fill: var(--primary-base-color);
+  }
+}

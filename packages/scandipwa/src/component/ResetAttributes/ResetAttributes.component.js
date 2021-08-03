@@ -13,6 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CloseIcon from 'Style/Icons/Close';
 import { getFiltersCount } from 'Util/Category';
 
 import './ResetAttributes.style';
@@ -42,7 +43,9 @@ export class ResetAttributes extends PureComponent {
                   onKeyDown={ onRemove }
                   onClick={ onRemove }
                   aria-label={ __('Close') }
-                />
+                >
+                    <CloseIcon />
+                </div>
                 <div block="ResetAttributes" elem="AttributeText">
                     { `${attribute_label}: ${selectedOption.label}` }
                 </div>

@@ -18,6 +18,7 @@ import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
+import LockIcon from 'Style/Icons/Lock';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
@@ -197,7 +198,7 @@ export class CartOverlay extends PureComponent {
               onClick={ handleCheckoutClick }
               { ...options }
             >
-                <span />
+                <LockIcon />
                 { __('Secure checkout') }
             </button>
         );

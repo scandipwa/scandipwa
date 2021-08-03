@@ -77,13 +77,7 @@
     }
 
     &-CloseBtn {
-        @include close-button;
-
-        background-size: auto;
-        height: 15px;
         inset-inline-end: 0;
         position: absolute;
-        inset-block-start: 3px;
-        width: 15px;
     }
 }

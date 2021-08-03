@@ -11,6 +11,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CloseIcon from 'Style/Icons/Close';
+
 import './InstallPromptAndroid.style';
 
 /** @namespace Component/InstallPromptAndroid/Component */
@@ -29,7 +31,9 @@ export class InstallPromptAndroid extends PureComponent {
               elem="Close"
               onClick={ handleBannerClose }
               aria-label={ __('Close') }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 
