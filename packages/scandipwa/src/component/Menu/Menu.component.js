@@ -365,10 +365,10 @@ export class Menu extends PureComponent {
 
         return (
             <div block="Menu" elem="CompareLinkWrapper">
-                    <Link to="compare" block="Menu" elem="CompareLink">
-                        <CompareIcon />
-                        <h4>{ __('Compare products') }</h4>
-                    </Link>
+                <Link to="compare" block="Menu" elem="CompareLink">
+                    <CompareIcon />
+                    <h4>{ __('Compare products') }</h4>
+                </Link>
             </div>
         );
     }
