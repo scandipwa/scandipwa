@@ -9,7 +9,7 @@
   "scope": "\/",
   "icons": [
     {
-      "src": "..\/media\/icons\/icon_ios_640x640.png",
+      "src": "icon_ios_640x640.png",
       "type": "image\/png",
       "sizes" :"640x640"
     }
