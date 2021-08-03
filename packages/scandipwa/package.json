@@ -225,6 +225,7 @@
                 {
                     "ignoreComments": true,
                     "ignoreUrls": true,
+                    "ignorePattern": "d=\"([\\s\\S]*?)\"",
                     "code": 120
                 }
             ],
