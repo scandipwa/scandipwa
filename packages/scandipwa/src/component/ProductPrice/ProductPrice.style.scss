@@ -35,6 +35,7 @@
         text-decoration: none;
         display: inline-flex;
         align-items: baseline;
+        flex-wrap: wrap;
     }
 
     del {
@@ -47,6 +48,10 @@
 
     &-HighPrice {
         color: var(--price-discount-color);
+    }
+
+    &-PriceValue {
+        margin-block-start: 6px;
     }
 
     &-Placeholder {
