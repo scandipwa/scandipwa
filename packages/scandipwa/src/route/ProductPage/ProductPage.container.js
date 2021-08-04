@@ -58,7 +58,7 @@ export const mapStateToProps = (state) => ({
     product: state.ProductReducer.product,
     navigation: state.NavigationReducer[TOP_NAVIGATION_TYPE],
     metaTitle: state.MetaReducer.title,
-    device: state.ConfigReducer.device,
+    isMobile: state.ConfigReducer.device.isMobile,
     store: state.ConfigReducer.code
 });
 
@@ -124,7 +124,8 @@ export class ProductPageContainer extends PureComponent {
         navigation: PropTypes.shape(PropTypes.shape).isRequired,
         metaTitle: PropTypes.string,
         addRecentlyViewedProduct: PropTypes.func.isRequired,
-        store: PropTypes.string.isRequired
+        store: PropTypes.string.isRequired,
+        isMobile: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -443,13 +444,34 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    containerProps = () => ({
-        productOrVariant: this.getProductOrVariant(),
-        dataSource: this.getDataSource(),
-        areDetailsLoaded: this.getAreDetailsLoaded(),
-        isInformationTabEmpty: this.isProductInformationTabEmpty(),
-        isAttributesTabEmpty: this.isProductAttributesTabEmpty()
-    });
+    containerProps = () => {
+        const { isMobile } = this.props;
+        const {
+            configurableVariantIndex,
+            parameters,
+            productOptionsData,
+            selectedBundlePrice,
+            selectedBundlePriceExclTax,
+            selectedInitialBundlePrice,
+            selectedLinkPrice
+        } = this.state;
+
+        return {
+            areDetailsLoaded: this.getAreDetailsLoaded(),
+            configurableVariantIndex,
+            dataSource: this.getDataSource(),
+            isAttributesTabEmpty: this.isProductAttributesTabEmpty(),
+            isInformationTabEmpty: this.isProductInformationTabEmpty(),
+            isMobile,
+            parameters,
+            productOptionsData,
+            productOrVariant: this.getProductOrVariant(),
+            selectedBundlePrice,
+            selectedBundlePriceExclTax,
+            selectedInitialBundlePrice,
+            selectedLinkPrice
+        };
+    };
 
     updateConfigurableVariant(key, value) {
         const { parameters: prevParameters } = this.state;
@@ -619,8 +641,6 @@ export class ProductPageContainer extends PureComponent {
     render() {
         return (
             <ProductPage
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

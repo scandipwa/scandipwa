@@ -41,6 +41,12 @@ export class CategorySubcategoriesContainer extends PureComponent {
         handleCategoryClick: this.handleCategoryClick.bind(this)
     };
 
+    containerProps() {
+        const { option } = this.props;
+
+        return { option };
+    }
+
     handleCategoryClick(e) {
         const { hideActiveOverlay, option } = this.props;
         const { value_string } = option;
@@ -58,7 +64,7 @@ export class CategorySubcategoriesContainer extends PureComponent {
     render() {
         return (
             <CategorySubcategories
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

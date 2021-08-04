@@ -21,11 +21,7 @@ import './ProductComparePage.style';
 /** @namespace Route/ComparePage/Component */
 export class ProductComparePage extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isLoading: false
+        isLoading: PropTypes.bool.isRequired
     };
 
     render() {

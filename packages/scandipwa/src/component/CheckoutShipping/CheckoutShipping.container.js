@@ -18,8 +18,9 @@ import {
     STORE_IN_PICK_UP_METHOD_CODE
 } from 'Component/StoreInPickUp/StoreInPickUp.config';
 import { updateShippingFields } from 'Store/Checkout/Checkout.action';
-import { customerType } from 'Type/Account';
-import { shippingMethodsType } from 'Type/Checkout';
+import { addressType, customerType } from 'Type/Account';
+import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
+import { TotalsType } from 'Type/MiniCart';
 import { getFormFields, trimAddressFields, trimCustomerAddress } from 'Util/Address';
 import { getCartTotalSubPrice } from 'Util/Cart';
 
@@ -46,7 +47,25 @@ export class CheckoutShippingContainer extends PureComponent {
         customer: customerType.isRequired,
         addressLinesQty: PropTypes.number.isRequired,
         updateShippingFields: PropTypes.func.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired
+        cartTotalSubPrice: PropTypes.number,
+        estimateAddress: addressType.isRequired,
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        isPickInStoreMethodSelected: PropTypes.bool.isRequired,
+        isSubmitted: PropTypes.bool,
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        onStoreSelect: PropTypes.func.isRequired,
+        selectedShippingMethod: shippingMethodType,
+        setSelectedShippingMethodCode: PropTypes.func,
+        totals: TotalsType.isRequired
+    };
+
+    static defaultProps = {
+        selectedShippingMethod: null,
+        setSelectedShippingMethodCode: null,
+        isSubmitted: false,
+        cartTotalSubPrice: null
     };
 
     containerFunctions = {
@@ -70,6 +89,34 @@ export class CheckoutShippingContainer extends PureComponent {
             selectedShippingMethod: method_code && method_code !== STORE_IN_PICK_UP_METHOD_CODE
                 ? selectedShippingMethod
                 : {}
+        };
+    }
+
+    containerProps() {
+        const {
+            cartTotalSubPrice,
+            estimateAddress,
+            handleSelectDeliveryMethod,
+            isLoading,
+            isPickInStoreMethodSelected,
+            isSubmitted,
+            setSelectedShippingMethodCode,
+            shippingMethods,
+            totals
+        } = this.props;
+        const { selectedShippingMethod } = this.state;
+
+        return {
+            cartTotalSubPrice,
+            estimateAddress,
+            handleSelectDeliveryMethod,
+            isLoading,
+            isPickInStoreMethodSelected,
+            isSubmitted,
+            setSelectedShippingMethodCode,
+            shippingMethods,
+            totals,
+            selectedShippingMethod
         };
     }
 
@@ -185,8 +232,7 @@ export class CheckoutShippingContainer extends PureComponent {
     render() {
         return (
             <CheckoutShipping
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

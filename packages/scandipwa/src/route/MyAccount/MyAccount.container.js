@@ -25,7 +25,6 @@ import {
     MY_WISHLIST, NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
 import { isSignedIn } from 'Util/Auth';
 import { withReducers } from 'Util/DynamicReducer';
 import history from 'Util/History';
@@ -45,7 +44,7 @@ export const MyAccountDispatcher = import(
 
 /** @namespace Route/MyAccount/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device,
+    isMobile: state.ConfigReducer.device.isMobile,
     isWishlistEnabled: state.ConfigReducer.wishlist_general_active,
     wishlistItems: state.WishlistReducer.productsInWishlist,
     isSignedIn: state.MyAccountReducer.isSignedIn,
@@ -76,7 +75,7 @@ export class MyAccountContainer extends PureComponent {
         match: MatchType.isRequired,
         location: LocationType.isRequired,
         history: HistoryType.isRequired,
-        device: DeviceType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.object,
         newsletterActive: PropTypes.bool.isRequired,
         isWishlistEnabled: PropTypes.bool.isRequired,
@@ -226,9 +225,15 @@ export class MyAccountContainer extends PureComponent {
         }
     }
 
-    containerProps = () => ({
-        subHeading: this.getSubHeading()
-    });
+    containerProps() {
+        const { activeTab, isEditingActive } = this.state;
+
+        return {
+            activeTab,
+            isEditingActive,
+            subHeading: this.getSubHeading()
+        };
+    }
 
     _getWishlistItemsCount() {
         const { wishlistItems } = this.props;
@@ -354,14 +359,14 @@ export class MyAccountContainer extends PureComponent {
         const {
             history,
             location: { pathname },
-            device
+            isMobile
         } = this.props;
 
         if (isSignedIn()) { // do nothing for signed-in users
             return;
         }
 
-        if (device.isMobile) { // do not redirect on mobile
+        if (isMobile) { // do not redirect on mobile
             return;
         }
 
@@ -377,8 +382,6 @@ export class MyAccountContainer extends PureComponent {
     render() {
         return (
             <MyAccount
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
               tabMap={ this.tabsFilterEnabled(MyAccountContainer.tabMap) }

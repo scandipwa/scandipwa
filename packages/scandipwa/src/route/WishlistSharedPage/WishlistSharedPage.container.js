@@ -174,10 +174,8 @@ export class WishlistSharedPageContainer extends MyAccountMyWishlistContainer {
     render() {
         return (
             <WishlistShared
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
-              { ...this.containerFunctions() }
+              { ...this.containerFunctions }
             />
         );
     }

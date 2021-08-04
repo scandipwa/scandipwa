@@ -25,7 +25,16 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Route/SomethingWentWrong/Container */
 export class SomethingWentWrongContainer extends PureComponent {
     static propTypes = {
-        updateMeta: PropTypes.func.isRequired
+        updateMeta: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired,
+        errorDetails: PropTypes.shape({
+            err: PropTypes.shape({
+
+            }),
+            info: PropTypes.shape({
+                componentStack: PropTypes.string
+            })
+        }).isRequired
     };
 
     componentDidMount() {
@@ -34,10 +43,16 @@ export class SomethingWentWrongContainer extends PureComponent {
         updateMeta({ title: __('Something went wrong!') });
     }
 
+    containerProps() {
+        const { onClick, errorDetails } = this.props;
+
+        return { onClick, errorDetails };
+    }
+
     render() {
         return (
             <SomethingWentWrong
-              { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }

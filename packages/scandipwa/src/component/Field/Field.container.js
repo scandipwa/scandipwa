@@ -17,6 +17,7 @@ import validationConfig from 'Component/Form/Form.config';
 import Field from './Field.component';
 import {
     CHECKBOX_TYPE,
+    EMAIL_TYPE,
     ENTER_KEY_CODE,
     FILE_TYPE,
     NUMBER_TYPE,
@@ -48,7 +49,8 @@ export class FieldContainer extends PureComponent {
             RADIO_TYPE,
             CHECKBOX_TYPE,
             SELECT_TYPE,
-            FILE_TYPE
+            FILE_TYPE,
+            EMAIL_TYPE
         ]).isRequired,
         onChange: PropTypes.func,
         onFocus: PropTypes.func,

@@ -22,15 +22,14 @@ import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
 import Image from 'Component/Image/Image.container';
+import filterIcon from 'Style/icons/filter.svg';
 import grid from 'Style/icons/grid.svg';
 import list from 'Style/icons/list.svg';
 import { CategoryTreeType } from 'Type/Category';
-import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
-import filterIcon from '../../style/icons/filter.svg';
 import {
     DISPLAY_MODE_BOTH,
     DISPLAY_MODE_CMS_BLOCK,
@@ -67,8 +66,6 @@ export class CategoryPage extends PureComponent {
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
-        device: DeviceType.isRequired,
-        is_anchor: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         onGridButtonClick: PropTypes.func.isRequired,
         onListButtonClick: PropTypes.func.isRequired,
@@ -84,10 +81,9 @@ export class CategoryPage extends PureComponent {
         isCurrentCategoryLoaded: false,
         isMatchingInfoFilter: false,
         totalPages: 1,
-        is_anchor: true,
-        search: '',
         defaultPlpType: '',
         plpTypes: [],
+        search: '',
         appliedFiltersCount: 0,
         selectedLayoutType: ''
     };
@@ -297,13 +293,13 @@ export class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isMatchingListFilter, device } = this.props;
+        const { isMatchingListFilter, isMobile } = this.props;
 
-        if (isVisibleOnMobile && !device.isMobile) {
+        if (isVisibleOnMobile && !isMobile) {
             return null;
         }
 
-        if (!isVisibleOnMobile && device.isMobile) {
+        if (!isVisibleOnMobile && isMobile) {
             return null;
         }
 

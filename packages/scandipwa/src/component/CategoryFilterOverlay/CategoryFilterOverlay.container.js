@@ -52,7 +52,16 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
-        isInfoLoading: PropTypes.bool.isRequired
+        isInfoLoading: PropTypes.bool.isRequired,
+        isCategoryAnchor: PropTypes.bool,
+        isMatchingInfoFilter: PropTypes.bool,
+        isProductsLoading: PropTypes.bool.isRequired,
+        totalPages: PropTypes.number.isRequired
+    };
+
+    static defaultProps = {
+        isCategoryAnchor: true,
+        isMatchingInfoFilter: false
     };
 
     containerFunctions = {
@@ -213,10 +222,29 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         );
     }
 
-    containerProps = () => ({
-        areFiltersEmpty: this.getAreFiltersEmpty(),
-        isContentFiltered: this.isContentFiltered()
-    });
+    containerProps = () => {
+        const {
+            availableFilters,
+            customFiltersValues,
+            isCategoryAnchor,
+            isInfoLoading,
+            isMatchingInfoFilter,
+            isProductsLoading,
+            totalPages
+        } = this.props;
+
+        return {
+            availableFilters,
+            isCategoryAnchor,
+            isInfoLoading,
+            isProductsLoading,
+            isMatchingInfoFilter,
+            totalPages,
+            customFiltersValues,
+            areFiltersEmpty: this.getAreFiltersEmpty(),
+            isContentFiltered: this.isContentFiltered()
+        };
+    };
 
     isContentFiltered() {
         const { customFilters, priceMin, priceMax } = this.urlStringToObject();
@@ -272,7 +300,6 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     render() {
         return (
             <CategoryFilterOverlay
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />
