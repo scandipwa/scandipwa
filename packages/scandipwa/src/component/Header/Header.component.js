@@ -234,7 +234,7 @@ export class Header extends NavigationAbstract {
             firstname
         } = nextProps;
 
-        const condition = prevActiveOverlay !== activeOverlay
+        return  prevActiveOverlay !== activeOverlay
             || prevSearchCriteria !== searchCriteria
             || prevShowMyAccountLogin !== showMyAccountLogin
             || prevNavigationStateName !== navigationStateName
@@ -243,17 +243,6 @@ export class Header extends NavigationAbstract {
             || prevQty !== items_qty
             || prevFirstName !== firstname
             || prevTitle !== title;
-
-        if (!condition) {
-            // eslint-disable-next-line fp/no-loops,no-restricted-syntax
-            for (const [key, value] of Object.entries(this.props)) {
-                if (nextProps[key] !== value) {
-                    console.debug({ [key]: value, [key + 2]: nextProps[key] });
-                }
-            }
-        }
-
-        return condition;
     }
 
     renderBackButton(isVisible = false) {
