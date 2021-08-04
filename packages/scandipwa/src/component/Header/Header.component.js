@@ -211,38 +211,9 @@ export class Header extends NavigationAbstract {
         ok: this.renderOkButton.bind(this)
     };
 
+    // retain PureComponent behaviour for component extending React.Component
     shouldComponentUpdate(nextProps) {
-        const {
-            activeOverlay: prevActiveOverlay,
-            searchCriteria: prevSearchCriteria,
-            showMyAccountLogin: prevShowMyAccountLogin,
-            navigationState: { name: prevNavigationStateName, title: prevTitle },
-            isLoading: prevIsLoading,
-            device: prevDevice,
-            cartTotals: { items_qty: prevQty },
-            firstname: prevFirstName
-        } = this.props;
-
-        const {
-            activeOverlay,
-            searchCriteria,
-            showMyAccountLogin,
-            navigationState: { name: navigationStateName, title },
-            isLoading,
-            device,
-            cartTotals: { items_qty },
-            firstname
-        } = nextProps;
-
-        return  prevActiveOverlay !== activeOverlay
-            || prevSearchCriteria !== searchCriteria
-            || prevShowMyAccountLogin !== showMyAccountLogin
-            || prevNavigationStateName !== navigationStateName
-            || prevIsLoading !== isLoading
-            || prevDevice !== device
-            || prevQty !== items_qty
-            || prevFirstName !== firstname
-            || prevTitle !== title;
+        return Object.keys(nextProps).some((key) => nextProps[key] !== this.props[key]);
     }
 
     renderBackButton(isVisible = false) {
