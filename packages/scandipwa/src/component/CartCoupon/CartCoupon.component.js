@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
+import { MixType } from 'Type/Common';
 
 import './CartCoupon.style';
 
@@ -24,14 +25,12 @@ export class CartCoupon extends PureComponent {
         couponCode: PropTypes.string,
         handleApplyCouponToCart: PropTypes.func.isRequired,
         handleRemoveCouponFromCart: PropTypes.func.isRequired,
-        mix: PropTypes.object,
-        title: PropTypes.string
+        mix: MixType.isRequired,
+        title: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        couponCode: '',
-        mix: {},
-        title: ''
+        couponCode: ''
     };
 
     state = {

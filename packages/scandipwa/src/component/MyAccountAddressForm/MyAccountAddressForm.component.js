@@ -156,7 +156,7 @@ export class MyAccountAddressForm extends FieldForm {
             placeholder,
             value: street[index],
             validation: index === 0 ? ['notEmpty'] : [],
-            validateSeparately: true,
+            validateSeparately: false,
             isSubmitted
         };
     }
@@ -231,14 +231,14 @@ export class MyAccountAddressForm extends FieldForm {
             firstname: {
                 label: __('First name'),
                 validation: ['notEmpty'],
-                validateSeparately: true,
+                validateSeparately: false,
                 isSubmitted,
                 placeholder: __('Your first name')
             },
             lastname: {
                 label: __('Last name'),
                 validation: ['notEmpty'],
-                validateSeparately: true,
+                validateSeparately: false,
                 isSubmitted,
                 placeholder: __('Your last name')
             },
@@ -246,7 +246,7 @@ export class MyAccountAddressForm extends FieldForm {
             city: {
                 label: __('City'),
                 validation: ['notEmpty'],
-                validateSeparately: true,
+                validateSeparately: false,
                 isSubmitted,
                 value: city,
                 placeholder: __('Your city')
@@ -255,7 +255,7 @@ export class MyAccountAddressForm extends FieldForm {
                 type: 'select',
                 label: __('Country'),
                 validation: ['notEmpty'],
-                validateSeparately: true,
+                validateSeparately: false,
                 isSubmitted,
                 value: countryId,
                 selectOptions: countries,
@@ -265,7 +265,7 @@ export class MyAccountAddressForm extends FieldForm {
             postcode: {
                 label: __('Zip / Postal code'),
                 validation: ['notEmpty'],
-                validateSeparately: true,
+                validateSeparately: false,
                 isSubmitted,
                 onBlur: this.onZipcodeChange,
                 placeholder: __('Your zip / postal code')
@@ -274,7 +274,7 @@ export class MyAccountAddressForm extends FieldForm {
             telephone: {
                 label: __('Phone number'),
                 validation: ['notEmpty', 'telephone'],
-                validateSeparately: true,
+                validateSeparately: false,
                 isSubmitted
             }
             // Will be back with B2B update

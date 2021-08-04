@@ -83,6 +83,15 @@ export class ConfirmAccountPageContainer extends PureComponent {
         this._updateBreadcrumbs();
     }
 
+    containerProps() {
+        const { redirect, isLoading } = this.state;
+
+        return {
+            redirect,
+            isLoading
+        };
+    }
+
     onConfirmAttempt() {
         this.setState({ isLoading: true });
     }
@@ -143,9 +152,8 @@ export class ConfirmAccountPageContainer extends PureComponent {
     render() {
         return (
             <ConfirmAccountPage
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
-              { ...this.state }
             />
         );
     }

@@ -46,3 +46,12 @@ export const CartItemType = PropTypes.shape({
     tax_amount: PropTypes.number,
     tax_percent: PropTypes.number
 });
+
+export const CartDisplayType = PropTypes.shape({
+    display_tax_in_price: PropTypes.string,
+    display_tax_in_subtotal: PropTypes.string,
+    display_tax_in_shipping_amount: PropTypes.string,
+    include_tax_in_order_total: PropTypes.bool,
+    display_full_tax_summary: PropTypes.bool,
+    display_zero_tax_subtotal: PropTypes.bool
+});

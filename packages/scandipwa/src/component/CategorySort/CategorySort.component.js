@@ -39,11 +39,7 @@ export class CategorySort extends PureComponent {
             disabled: PropTypes.bool,
             label: PropTypes.string
         })).isRequired,
-        isMatchingInfoFilter: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isMatchingInfoFilter: false
+        isMatchingInfoFilter: PropTypes.bool.isRequired
     };
 
     onChange = (value) => {

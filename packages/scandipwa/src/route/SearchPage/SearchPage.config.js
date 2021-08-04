@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -7,9 +6,13 @@
  * See LICENSE for license details.
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/scandipwa
- * @link https://github.com/scandipwa/scandipwa
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
  */
 
-export const STORE_IN_PICK_UP_METHOD_CODE = 'pickup';
-export const STORE_IN_PICK_UP_ATTRIBUTE_CODE = 'pickup_location_code';
+export const NONE_SORT_OPTION_VALUE = 'none';
+
+export const NONE_SORT_OPTION = {
+    label: __('None'),
+    value: NONE_SORT_OPTION_VALUE
+};

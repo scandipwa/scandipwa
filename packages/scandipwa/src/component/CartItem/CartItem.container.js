@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.config';
 import SwipeToDelete from 'Component/SwipeToDelete';
 import { showNotification } from 'Store/Notification/Notification.action';
-import { DeviceType } from 'Type/Device';
 import { CartItemType } from 'Type/MiniCart';
 import { itemIsOutOfStock } from 'Util/Cart';
 import { CONFIGURABLE } from 'Util/Product';
@@ -32,7 +31,7 @@ export const CartDispatcher = import(
 
 /** @namespace Component/CartItem/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/CartItem/Container/mapDispatchToProps */
@@ -61,13 +60,15 @@ export class CartItemContainer extends PureComponent {
         removeProduct: PropTypes.func.isRequired,
         updateCrossSellProducts: PropTypes.func.isRequired,
         updateCrossSellsOnRemove: PropTypes.bool,
-        device: DeviceType.isRequired,
-        isCartOverlay: PropTypes.bool
+        isCartOverlay: PropTypes.bool,
+        isMobile: PropTypes.bool.isRequired,
+        isEditing: PropTypes.bool
     };
 
     static defaultProps = {
         updateCrossSellsOnRemove: false,
-        isCartOverlay: false
+        isCartOverlay: false,
+        isEditing: false
     };
 
     state = { isLoading: false };
@@ -123,15 +124,32 @@ export class CartItemContainer extends PureComponent {
         this.setState({ isLoading: false });
     }
 
-    containerProps = () => ({
-        linkTo: this._getProductLinkTo(),
-        thumbnail: this._getProductThumbnail(),
-        minSaleQuantity: this.getMinQuantity(),
-        maxSaleQuantity: this.getMaxQuantity(),
-        isProductInStock: this.productIsInStock(),
-        optionsLabels: this.getConfigurableOptionsLabels(),
-        isMobileLayout: this.getIsMobileLayout()
-    });
+    containerProps = () => {
+        const {
+            item,
+            currency_code,
+            isEditing,
+            isCartOverlay,
+            isMobile
+        } = this.props;
+        const { isLoading } = this.state;
+
+        return {
+            item,
+            currency_code,
+            isEditing,
+            isCartOverlay,
+            isMobile,
+            isLoading,
+            linkTo: this._getProductLinkTo(),
+            thumbnail: this._getProductThumbnail(),
+            minSaleQuantity: this.getMinQuantity(),
+            maxSaleQuantity: this.getMaxQuantity(),
+            isProductInStock: this.productIsInStock(),
+            optionsLabels: this.getConfigurableOptionsLabels(),
+            isMobileLayout: this.getIsMobileLayout()
+        };
+    };
 
     /**
      * Handle item quantity change. Check that value is <1
@@ -161,9 +179,9 @@ export class CartItemContainer extends PureComponent {
     getIsMobileLayout() {
         // "isMobileLayout" check is required to render mobile content in some additional cases
         // where screen width exceeds 810px (e.g. CartOverlay)
-        const { device, isCartOverlay } = this.props;
+        const { isMobile, isCartOverlay } = this.props;
 
-        return device.isMobile || isCartOverlay;
+        return isMobile || isCartOverlay;
     }
 
     async removeProductAndUpdateCrossSell() {
@@ -358,8 +376,6 @@ export class CartItemContainer extends PureComponent {
               isLoading={ isLoading }
             >
                 <CartItem
-                  { ...this.props }
-                  { ...this.state }
                   { ...this.containerFunctions }
                   { ...this.containerProps() }
                 />

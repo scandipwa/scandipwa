@@ -14,4 +14,4 @@ import PropTypes from 'prop-types';
 import { GRID_LAYOUT, LIST_LAYOUT } from 'Route/CategoryPage/CategoryPage.config';
 
 // eslint-disable-next-line import/prefer-default-export
-export const LayoutType = PropTypes.oneOf(GRID_LAYOUT, LIST_LAYOUT);
+export const LayoutType = PropTypes.oneOf([GRID_LAYOUT, LIST_LAYOUT]);
