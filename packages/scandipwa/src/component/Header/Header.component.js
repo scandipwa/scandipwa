@@ -212,7 +212,7 @@ export class Header extends NavigationAbstract {
     };
 
     // PureComponent suits perfectly for current component, as changes in almost all props (7+) need to trigger rerender.
-    // Yet shouldComponentUpdate() is overriden in another component also extending NavigationAbstract
+    // Yet shouldComponentUpdate() is overridden in another component also extending NavigationAbstract
     // (i.e. NavigationTabs) to minimize rerenders. => We can't extend PureComponent from Header.
     // This is why shallow comparison behavior for all props  (like in PureComponent) is used here.
     shouldComponentUpdate(nextProps) {
