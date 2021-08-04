@@ -172,6 +172,7 @@
                 //display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 3;
+                line-height: 24px;
 
                 .input-control {
                     inset-inline-start: 0;
@@ -184,7 +185,7 @@
 
                     @include desktop {
                         align-self: self-start;
-                        margin-block-start: 6px;
+                        margin-block-start: 4px;
                     }
                 }
             }
