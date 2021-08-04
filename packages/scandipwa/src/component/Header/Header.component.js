@@ -211,6 +211,25 @@ export class Header extends NavigationAbstract {
         ok: this.renderOkButton.bind(this)
     };
 
+    shouldComponentUpdate(nextProps) {
+        const {
+            activeOverlay: prevActiveOverlay,
+            searchCriteria: prevSearchCriteria,
+            showMyAccountLogin: prevShowMyAccountLogin
+        } = this.props;
+        const { activeOverlay, searchCriteria, showMyAccountLogin } = nextProps;
+
+        const condition = prevActiveOverlay !== activeOverlay
+            || prevSearchCriteria !== searchCriteria
+            || prevShowMyAccountLogin !== showMyAccountLogin;
+
+        if (!condition) {
+            console.debug(this.props, nextProps);
+        }
+
+        return condition;
+    }
+
     renderBackButton(isVisible = false) {
         const { onBackButtonClick, device: { isMobile } } = this.props;
 
