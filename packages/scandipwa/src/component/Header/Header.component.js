@@ -215,16 +215,42 @@ export class Header extends NavigationAbstract {
         const {
             activeOverlay: prevActiveOverlay,
             searchCriteria: prevSearchCriteria,
-            showMyAccountLogin: prevShowMyAccountLogin
+            showMyAccountLogin: prevShowMyAccountLogin,
+            navigationState: { name: prevNavigationStateName, title: prevTitle },
+            isLoading: prevIsLoading,
+            device: prevDevice,
+            cartTotals: { items_qty: prevQty },
+            firstname: prevFirstName
         } = this.props;
-        const { activeOverlay, searchCriteria, showMyAccountLogin } = nextProps;
+
+        const {
+            activeOverlay,
+            searchCriteria,
+            showMyAccountLogin,
+            navigationState: { name: navigationStateName, title },
+            isLoading,
+            device,
+            cartTotals: { items_qty },
+            firstname
+        } = nextProps;
 
         const condition = prevActiveOverlay !== activeOverlay
             || prevSearchCriteria !== searchCriteria
-            || prevShowMyAccountLogin !== showMyAccountLogin;
+            || prevShowMyAccountLogin !== showMyAccountLogin
+            || prevNavigationStateName !== navigationStateName
+            || prevIsLoading !== isLoading
+            || prevDevice !== device
+            || prevQty !== items_qty
+            || prevFirstName !== firstname
+            || prevTitle !== title;
 
         if (!condition) {
-            console.debug(this.props, nextProps);
+            // eslint-disable-next-line fp/no-loops,no-restricted-syntax
+            for (const [key, value] of Object.entries(this.props)) {
+                if (nextProps[key] !== value) {
+                    console.debug({ [key]: value, [key + 2]: nextProps[key] });
+                }
+            }
         }
 
         return condition;

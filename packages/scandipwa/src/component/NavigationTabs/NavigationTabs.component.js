@@ -52,10 +52,19 @@ export class NavigationTabs extends NavigationAbstract {
     };
 
     shouldComponentUpdate(nextProps) {
-        const { navigationState: { name: prevName }, cartTotals: { items_qty: prevQty } } = this.props;
-        const { navigationState: { name: nextName }, cartTotals: { items_qty: nextQty } } = nextProps;
+        const {
+            navigationState: { name: prevName },
+            cartTotals: { items_qty: prevQty },
+            device: prevDevice
+        } = this.props;
 
-        return prevName !== nextName || nextQty !== prevQty;
+        const {
+            navigationState: { name: nextName },
+            cartTotals: { items_qty: nextQty },
+            device: nextDevice
+        } = nextProps;
+
+        return prevName !== nextName || nextQty !== prevQty || prevDevice !== nextDevice;
     }
 
     renderHomeButton(isActive = false) {
