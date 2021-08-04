@@ -18,6 +18,7 @@ import Image from 'Component/Image';
 import Slider from 'Component/Slider';
 import { DIRECTION_LEFT, DIRECTION_RIGHT } from 'Component/SliderWidget/SliderWidget.config';
 import { DeviceType } from 'Type/Device';
+import { debounce } from 'Util/Request';
 
 import './SliderWidget.style';
 
@@ -52,29 +53,31 @@ export class SliderWidget extends PureComponent {
         carouselDirection: DIRECTION_RIGHT
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const { slider: { slideSpeed, slides } } = this.props;
         const { slider: { slideSpeed: prevSlideSpeed } } = prevProps;
 
+        const { activeImage } = this.state;
+        const { activeImage: prevActiveImage } = prevState;
+
         if (slideSpeed !== prevSlideSpeed && slides.length !== 1) {
-            this.startCarousel(slideSpeed);
+            this.changeSlideDebounced = debounce(this.changeSlide, slideSpeed);
+            this.changeSlideDebounced();
+        }
+
+        if (prevActiveImage !== activeImage) {
+            this.changeSlideDebounced();
         }
     }
 
-    componentWillUnmount() {
-        clearInterval(this.carouselInterval);
-    }
+    changeSlide = () => {
+        const imageToShow = this.getImageToShow();
+        this.onActiveImageChange(imageToShow);
+    };
 
     onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
         this.changeDirection(activeImage);
-    };
-
-    startCarousel = (interval) => {
-        this.carouselInterval = setInterval(() => {
-            const imageToShow = this.getImageToShow();
-            this.onActiveImageChange(imageToShow);
-        }, interval);
     };
 
     changeDirection(activeImage) {
