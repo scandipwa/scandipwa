@@ -28,44 +28,6 @@ module.exports = {
             return config;
         },
         overrideWebpackConfig: ({ webpackConfig }) => {
-            if (!isMagento) {
-                return webpackConfig;
-            }
-
-            // For Magento setup, change output file name
-            webpackConfig.plugins.forEach((plugin) => {
-                if (plugin instanceof HtmlWebpackPlugin) {
-                    plugin.options.filename = '../templates/scandipwa_root.phtml';
-                    plugin.options.minify = false;
-                }
-            });
-
-            try {
-                // Optional dependency (if the @scandipwa/service-worker is installed)
-                const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-
-                // Yes, another loop, but it is more readable
-                webpackConfig.plugins.forEach((plugin) => {
-                    if (plugin instanceof WorkboxWebpackPlugin.InjectManifest) {
-                        plugin.config.exclude.push(/scandipwa_root/);
-                    }
-                });
-            } catch (e) {
-                // Supress error, there is nothing to see here :D
-            }
-
-            const { isFound: isFileLoaderFound, match: fileLoader } = getLoader(
-                webpackConfig,
-                loaderByName('file-loader')
-            );
-
-            if (isFileLoaderFound) {
-                // Add .php to ignore files (otherwise php will compile into /media as file)
-                fileLoader.loader.exclude.push(/\.php$/);
-            }
-
-            webpackConfig.output.path = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
-
             // For chunk optimization:
             // JS chunks:
             webpackConfig.optimization.splitChunks = {
@@ -136,6 +98,44 @@ module.exports = {
                     enforce: true
                 };
             });
+
+            if (!isMagento) {
+                return webpackConfig;
+            }
+
+            // For Magento setup, change output file name
+            webpackConfig.plugins.forEach((plugin) => {
+                if (plugin instanceof HtmlWebpackPlugin) {
+                    plugin.options.filename = '../templates/scandipwa_root.phtml';
+                    plugin.options.minify = false;
+                }
+            });
+
+            try {
+                // Optional dependency (if the @scandipwa/service-worker is installed)
+                const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+
+                // Yes, another loop, but it is more readable
+                webpackConfig.plugins.forEach((plugin) => {
+                    if (plugin instanceof WorkboxWebpackPlugin.InjectManifest) {
+                        plugin.config.exclude.push(/scandipwa_root/);
+                    }
+                });
+            } catch (e) {
+                // Supress error, there is nothing to see here :D
+            }
+
+            const { isFound: isFileLoaderFound, match: fileLoader } = getLoader(
+                webpackConfig,
+                loaderByName('file-loader')
+            );
+
+            if (isFileLoaderFound) {
+                // Add .php to ignore files (otherwise php will compile into /media as file)
+                fileLoader.loader.exclude.push(/\.php$/);
+            }
+
+            webpackConfig.output.path = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
 
             return webpackConfig;
         },
