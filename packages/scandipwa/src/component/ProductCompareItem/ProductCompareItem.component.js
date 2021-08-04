@@ -26,7 +26,7 @@ import {
     PRODUCT_ADD_TO_CART_DEFAULT_VARIANT_INDEX
 } from './ProductCompareItem.config';
 
-import(/* webpackChunkName: "cart" */ './ProductCompareItem.style');
+import './ProductCompareItem.style';
 
 /** @namespace Component/ProductCompareItem/Component */
 export class ProductCompareItem extends PureComponent {

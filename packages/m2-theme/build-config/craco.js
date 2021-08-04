@@ -66,6 +66,77 @@ module.exports = {
 
             webpackConfig.output.path = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
 
+            // For chunk optimization:
+            // JS chunks:
+            webpackConfig.optimization.splitChunks = {
+                cacheGroups: {
+                    default: false,
+                    vendors: {
+                        test: /node_modules/,
+                        chunks: 'initial',
+                        filename: 'vendors.[contenthash].js',
+                        priority: 1,
+                        maxInitialRequests: 2, // create only one vendor file
+                        minChunks: 1
+                    },
+                    react: {
+                        test(module) {
+                            return (
+                                module.resource
+                                && module.resource.includes('node_modules/react')
+                            );
+                        },
+                        chunks: 'initial',
+                        filename: 'react.[contenthash].js',
+                        priority: 1,
+                        maxInitialRequests: 2,
+                        minChunks: 1
+                    }
+                }
+            };
+
+            // Style chunks (SCSS/CSS):
+            const styleChunks = [{
+                name: 'products',
+                match: /((p|P)roduct).*\.s?css$/
+            }, {
+                name: 'checkout',
+                match: /((c|C)heckout).*\.s?css$/
+            }, {
+                name: 'cart',
+                match: /((c|C)art).*\.s?css$/
+            }, {
+                name: 'widget',
+                match: /((w|W)idget).*\.s?css$/
+            }, {
+                name: 'account',
+                match: /((a|A)ccount).*\.s?css$/
+            }, {
+                name: 'category',
+                match: /((c|C)ategory).*\.s?css$/
+            }, {
+                name: 'misc',
+                match: /(store|query|util)[\\/].*\.s?css$/
+            }, {
+                name: 'wishlist',
+                match: /((w|W)ish).*\.s?css$/
+            }, {
+                name: 'main',
+                match: /\.s?css$/
+            }];
+
+            styleChunks.forEach(({ name, match }, index) => {
+                webpackConfig.optimization.splitChunks.cacheGroups[`${name}_style`] = {
+                    name: `${name}_style`,
+                    test: match,
+                    chunks: 'all',
+                    minChunks: 1,
+                    priority: styleChunks.length - index,
+                    reuseExistingChunk: true,
+                    enforce: true
+                };
+            });
+
             return webpackConfig;
         },
         overrideDevServerConfig: ({ devServerConfig }) => {

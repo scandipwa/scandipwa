@@ -21,7 +21,7 @@ import EditIcon from 'Style/Icons/Edit';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
-import(/* webpackChunkName: "product-item" */ './WishlistItem.style');
+import './WishlistItem.style';
 
 /** @namespace Component/WishlistItem/Component */
 export class WishlistItem extends PureComponent {

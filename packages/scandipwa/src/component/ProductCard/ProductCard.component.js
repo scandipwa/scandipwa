@@ -35,7 +35,7 @@ import {
 
 import { OUT_OF_STOCK, TIER_PRICES } from './ProductCard.config';
 
-import(/* webpackChunkName: "product-item" */'./ProductCard.style');
+import './ProductCard.style';
 /**
  * Product card
  * @class ProductCard

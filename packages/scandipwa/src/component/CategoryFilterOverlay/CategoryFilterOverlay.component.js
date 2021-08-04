@@ -20,7 +20,7 @@ import ResetButton from 'Component/ResetButton';
 
 import { CATEGORY_FILTER_OVERLAY_ID } from './CategoryFilterOverlay.config';
 
-import(/* webpackChunkName: "overlays-category" */ './CategoryFilterOverlay.style');
+import './CategoryFilterOverlay.style';
 
 /** @namespace Component/CategoryFilterOverlay/Component */
 export class CategoryFilterOverlay extends PureComponent {

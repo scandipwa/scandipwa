@@ -33,7 +33,7 @@ import {
     STATE_SIGN_IN
 } from './MyAccountOverlay.config';
 
-import(/* webpackChunkName: "overlays" */ './MyAccountOverlay.style');
+import './MyAccountOverlay.style';
 
 /** @namespace Component/MyAccountOverlay/Component */
 export class MyAccountOverlay extends PureComponent {
