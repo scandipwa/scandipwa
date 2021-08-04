@@ -36,10 +36,6 @@
         .ChevronIcon {
             width: 23px;
         }
-
-        @include desktop {
-            display: none;
-        }
     }
 
     &-CheckboxLabel{
@@ -182,6 +178,7 @@
         }
 
         &_text,
+        &_textarea,
         &_email,
         &_password {
             &.Field_isValid {
