@@ -482,7 +482,7 @@ export class Header extends NavigationAbstract {
 
         return (
             <>
-                { this.renderWelcomeMessage() }
+                { this.renderWelcomeMessage(true) }
                 <ClickOutside
                   onClick={ onMyAccountOutsideClick }
                   key="account"
