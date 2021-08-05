@@ -1,14 +1,20 @@
 /* eslint-disable no-param-reassign */
+
+const fetchModuleParent = (issuer) => {
+    const { type } = issuer;
+    if (type === 'css/mini-extract') {
+        const { issuer: parent } = issuer;
+        return fetchModuleParent(parent);
+    }
+
+    return issuer;
+};
+
 // Disables chunk-optimizer rules for specific files and uses Rect/Webpack specific chunks:
-// * if file name follows: [name].manual.[scss/css] or [name].manual.extended.style.[scss/css]
+// * if file name follows: [name].manual.style.[scss/css] or [name].manual.extended.style.[scss/css]
 // * if file is imported via webpackChunkName
 const isChunkOptimizationDisabled = (module) => {
-    const {
-        resource,
-        type,
-        issuer = {}
-    } = module;
-    const name = module.nameForCondition() || resource;
+    const name = module.nameForCondition() || module.resource;
 
     // If not a style element skip
     if (!name || (!name.endsWith('.css') && !name.endsWith('.scss'))) {
@@ -16,8 +22,8 @@ const isChunkOptimizationDisabled = (module) => {
     }
 
     // Support implementation for name tags based chunk:
-    if (name.endsWith('.manual.scss')
-        || name.endsWith('.manual.css')
+    if (name.endsWith('.manual.style.scss')
+        || name.endsWith('.manual.style.css')
         || name.endsWith('.manual.extended.style.scss')
         || name.endsWith('.manual.extended.style.css')) {
         return true;
@@ -32,24 +38,20 @@ const isChunkOptimizationDisabled = (module) => {
                 _value: value
             } = {}
         }
-    } = type === 'css/mini-extract' ? issuer : module;
+    } = fetchModuleParent(module);
 
     if (!rawRequest || !chunks || !value) {
         return false;
     }
 
-    const chunk = chunks.values().next().value;
+    return Array.from(chunks).some(({ name: chunkName = '' }) => {
+        const match = new RegExp(
+            `webpackChunkName:\\s*("|')${ chunkName }("|')\\s*\\*\\/\\s*("|')${ rawRequest }`,
+            'g'
+        );
 
-    const {
-        name: chunkName = ''
-    } = chunk || {};
-
-    const match = new RegExp(
-        `webpackChunkName:\\s*("|')${ chunkName }("|')\\s*\\*\\/\\s*("|')${ rawRequest }`,
-        'g'
-    );
-
-    return !!match.exec(value);
+        return !!match.exec(value);
+    });
 };
 
 module.exports = {
