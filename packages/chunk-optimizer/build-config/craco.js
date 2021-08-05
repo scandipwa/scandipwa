@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 // Disables chunk-optimizer rules for specific files and uses Rect/Webpack specific chunks:
-// * if file name follows: [name].manual.[scss/css] or [name].manual.extended.[scss/css]
+// * if file name follows: [name].manual.[scss/css] or [name].manual.extended.style.[scss/css]
 // * if file is imported via webpackChunkName
 const isChunkOptimizationDisabled = (module) => {
     const {
@@ -18,8 +18,8 @@ const isChunkOptimizationDisabled = (module) => {
     // Support implementation for name tags based chunk:
     if (name.endsWith('.manual.scss')
         || name.endsWith('.manual.css')
-        || name.endsWith('.manual.extended.scss')
-        || name.endsWith('.manual.extended.css')) {
+        || name.endsWith('.manual.extended.style.scss')
+        || name.endsWith('.manual.extended.style.css')) {
         return true;
     }
 
