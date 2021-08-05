@@ -16,6 +16,10 @@
     }
   }
 
+  @include mobile {
+    pointer-events: none;
+  }
+
   height: var(--wishlist-heart-size);
   min-width: var(--wishlist-heart-size);
   cursor: pointer;

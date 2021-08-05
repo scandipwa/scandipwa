@@ -11,4 +11,8 @@
       fill: var(--color-black);
     }
   }
+
+  @include mobile {
+    pointer-events: none;
+  }
 }
