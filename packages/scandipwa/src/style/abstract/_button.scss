@@ -121,4 +121,9 @@
             padding: 0;
         }
     }
+
+    // make icons on buttons have same hover behaviour as buttons themselves
+    svg {
+        pointer-events: none;
+    }
 }
