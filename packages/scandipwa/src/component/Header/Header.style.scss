@@ -321,11 +321,7 @@
         margin-inline-end: 16px;
         text-align: end;
 
-        @include narrow-desktop {
-            display: block;
-        }
-
-        &_isVisible {
+        @include wide-desktop {
             display: block;
         }
     }
