@@ -22,7 +22,7 @@ To move file to specific chunk use one of three options:
 1. Name tagging:
    1. By using one of following name formats you can disable SplitChunksPlugin configuration:
       1. `[name].manual.[scss/css]`
-      2. `[name.manual.extended.[scss/css]`
+      2. `[name.manual.extended.style.[scss/css]`
 2. Dynamic import:
    1. `import(/* webpackChunkName: "[chunk-name]" */ '[path]');`
 3. Changing configuration.
