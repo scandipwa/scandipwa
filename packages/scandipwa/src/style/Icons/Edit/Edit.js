@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
