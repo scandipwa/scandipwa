@@ -2579,6 +2579,11 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@scandipwa/chunk-optimizer@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@scandipwa/chunk-optimizer/-/chunk-optimizer-0.0.1.tgz#fcdfcacc2393337bd86d63b6d8c495d7c161a6e9"
+  integrity sha512-/+6LHB8nHdPoE2seshCfIWn38ARotzLM1BZyYyDEW3Ft4ZLP7GaryfKPDPgDcqw/Su1QTGJk1+/++sJS1TfjZQ==
+
 "@scandipwa/craco@0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@scandipwa/craco/-/craco-0.1.1.tgz#a010ed86fb6905b2e6fe4683eb502ad58c14f8f5"
@@ -2635,6 +2640,17 @@
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
+"@scandipwa/scandipwa-dev-utils@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.1.10.tgz#9519dc201c35781aecc029945f5d9a22399c2a5e"
+  integrity sha512-bcqfk43Idfr5smmlr1AD9N1HL+40h9rURc9i2mJVRlCTEmZDeKLqZTYJbhO88HDDHcBHfCzhP8hWdV8t5qMcsA==
+  dependencies:
+    "@tilework/mosaic-dev-utils" "0.1.5"
+    cross-spawn "^7.0.3"
+    react-dev-utils "^11.0.4"
+    semver "^7.3.2"
+    validate-npm-package-name "^3.0.0"
+
 "@scandipwa/scandipwa-dev-utils@0.1.5":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-dev-utils/-/scandipwa-dev-utils-0.1.5.tgz#605da605b0bcaf5e94e57f5d859541b7eb1e1017"
@@ -2687,12 +2703,12 @@
   dependencies:
     "@scandipwa/scandipwa-dev-utils" "0.0.25"
 
-"@scandipwa/webpack-i18n-runtime@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-runtime/-/webpack-i18n-runtime-0.0.21.tgz#e9e9b29bb96d448d81adab0e62f7931a7fce1dea"
-  integrity sha512-hnLIgq9fVL+9qk16FN7fN7b3WcHqd6fRDtFDc82qkDft/f1/aXmwTmsiHMfzgx19ushNDG32+NWmB6Lf1+oWwg==
+"@scandipwa/webpack-i18n-runtime@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@scandipwa/webpack-i18n-runtime/-/webpack-i18n-runtime-0.0.26.tgz#5207179023e0d9fa84364af3ac63d3f264fbd79d"
+  integrity sha512-AIxx1qMXGpb6aQLAhunoeg2k5zZpEbskWA41jWMnNBVOA5mg5ipNGpCyK2SPevAJev2nyqlZp9LxSTNFKL7DKw==
   dependencies:
-    "@scandipwa/scandipwa-dev-utils" "0.1.5"
+    "@scandipwa/scandipwa-dev-utils" "0.1.10"
     "@scandipwa/webpack-after-emit-logger" "0.0.8"
     "@tilework/mosaic-dev-utils" "0.0.5"
     loader-utils "^2.0.0"
@@ -2958,6 +2974,17 @@
     mem-fs "^1.2.0"
     mem-fs-editor "^7.0.1"
     memoizee "^0.4.15"
+
+"@tilework/mosaic-dev-utils@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@tilework/mosaic-dev-utils/-/mosaic-dev-utils-0.1.5.tgz#7d656d94b9ddc1781da268694c0af1eac5ab535f"
+  integrity sha512-d7ahuThWkO8H/DY4fBQfoKyGaVDBG9BJcU1bfSVKhc+8TJPnE/CvyM3roo5B66aQ8HrB7o1CfyyNKFEwFbPT4g==
+  dependencies:
+    chalk "^4.1.0"
+    mem-fs "^1.2.0"
+    mem-fs-editor "^7.0.1"
+    memoizee "^0.4.15"
+    node-fetch "^2.6.1"
 
 "@tilework/mosaic-nextjs-scripts@0.1.12":
   version "0.1.12"
@@ -4890,9 +4917,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001093, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001113, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001154, caniuse-lite@^1.0.30001219:
-  version "1.0.30001245"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001245.tgz#45b941bbd833cb0fa53861ff2bae746b3c6ca5d4"
-  integrity sha512-768fM9j1PKXpOCKws6eTo3RHmvTUsG9UrpT4WoREFeZgJBTi4/X9g565azS/rVUGtqb8nt7FjLeF5u4kukERnA==
+  version "1.0.30001249"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001249.tgz#90a330057f8ff75bfe97a94d047d5e14fabb2ee8"
+  integrity sha512-vcX4U8lwVXPdqzPWi6cAJ3FnQaqXbBqy/GZseKNQzRj37J7qZdGcBtxq/QLFNLLlfsoXLUdHw8Iwenri86Tagw==
 
 capture-exit@^2.0.0:
   version "2.0.0"

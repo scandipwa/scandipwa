@@ -9,11 +9,12 @@
         "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
+        "@scandipwa/chunk-optimizer": "^0.0.1",
         "@scandipwa/m2-theme": "0.2.0-next.265+ddc4f62b",
         "@scandipwa/postcss-config": "^0.0.0",
         "@scandipwa/scandipwa-scripts": "^2.4.9",
         "@scandipwa/service-worker": "^0.0.10",
-        "@scandipwa/webpack-i18n-runtime": "^0.0.21",
+        "@scandipwa/webpack-i18n-runtime": "^0.0.26",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",
@@ -59,7 +60,8 @@
             "@scandipwa/m2-theme": true,
             "@scandipwa/webpack-i18n-runtime": true,
             "@scandipwa/service-worker": true,
-            "@scandipwa/postcss-config": true
+            "@scandipwa/postcss-config": true,
+            "@scandipwa/chunk-optimizer": true
         },
         "composer": {
             "magento/framework": "*",
