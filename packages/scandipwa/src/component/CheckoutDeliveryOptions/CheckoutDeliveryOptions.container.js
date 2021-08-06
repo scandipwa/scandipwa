@@ -31,10 +31,10 @@ export const mapDispatchToProps = () => ({});
 export class CheckoutDeliveryOptionsContainer extends PureComponent {
     static propTypes = {
         onShippingMethodSelect: PropTypes.func.isRequired,
-        showPopup: PropTypes.func.isRequired,
         onStoreSelect: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
-        estimateAddress: addressType.isRequired
+        estimateAddress: addressType.isRequired,
+        handleSelectDeliveryMethod: PropTypes.func.isRequired
     };
 
     static _getDefaultMethod(props) {
@@ -121,7 +121,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             estimateAddress,
             onShippingMethodSelect,
             onStoreSelect,
-            shippingMethods
+            shippingMethods,
+            handleSelectDeliveryMethod
         } = this.props;
         const { selectedShippingMethodCode } = this.state;
 
@@ -130,7 +131,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             onShippingMethodSelect,
             onStoreSelect,
             selectedShippingMethodCode,
-            shippingMethods
+            shippingMethods,
+            handleSelectDeliveryMethod
         };
     }
 

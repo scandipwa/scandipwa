@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Field from 'Component/Field';
@@ -19,14 +18,6 @@ import './FieldForm.style';
 
 /** @namespace Component/FieldForm/Component */
 export class FieldForm extends PureComponent {
-    static propTypes = {
-        isSubmitted: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isSubmitted: false
-    };
-
     onFormSuccess() {
         // TODO: implement
     }
@@ -57,9 +48,39 @@ export class FieldForm extends PureComponent {
         };
     }
 
-    renderField = (fieldEntry) => (
-        <Field { ...this.getDefaultValues(fieldEntry) } />
-    );
+    renderField = (fieldEntry) => {
+        const {
+            key = null,
+            isSubmitted,
+            id = null,
+            label = null,
+            name = null,
+            onChange = null,
+            placeholder = null,
+            type = null,
+            validateSeparately,
+            validation = [],
+            value = null,
+            selectOptions = {}
+        } = this.getDefaultValues(fieldEntry);
+
+        return (
+            <Field
+              id={ id }
+              key={ key }
+              label={ label }
+              name={ name }
+              onChange={ onChange }
+              placeholder={ placeholder }
+              type={ type }
+              validateSeparately={ validateSeparately }
+              validation={ validation }
+              value={ value }
+              isSubmitted={ isSubmitted }
+              selectOptions={ selectOptions }
+            />
+        );
+    };
 
     renderFields() {
         return (

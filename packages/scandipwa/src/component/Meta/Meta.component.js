@@ -86,7 +86,6 @@ export class Meta extends PureComponent {
         }
 
         return (
-            // eslint-disable-next-line jsx-a11y/control-has-associated-label
             <link rel="canonical" href={ canonical_url } />
         );
     }
@@ -98,7 +97,21 @@ export class Meta extends PureComponent {
             <>
                 { this.renderTitle() }
                 { this.renderCanonical() }
-                { metadata.map((tag) => <meta key={ tag.name || tag.property } { ...tag } />) }
+                { metadata.map((tag) => {
+                    const {
+                        name = null,
+                        property = null,
+                        content = null
+                    } = tag;
+
+                    return (
+                        <meta
+                          key={ name || property }
+                          name={ name }
+                          content={ content }
+                        />
+                    );
+                }) }
             </>
         );
     }

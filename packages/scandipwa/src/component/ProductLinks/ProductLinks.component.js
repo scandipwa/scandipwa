@@ -34,8 +34,18 @@ export class ProductLinks extends PureComponent {
 
     renderProductCard(product, i) {
         const {
-            productCardProps,
-            productCardFunctions
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            },
+            productCardFunctions: {
+                setSiblingsHaveBrands,
+                setSiblingsHavePriceBadge,
+                setSiblingsHaveTierPrice,
+                setSiblingsHaveConfigurableOptions
+            }
         } = this.props;
         const { id = i } = product;
 
@@ -45,8 +55,14 @@ export class ProductLinks extends PureComponent {
               elem="Card"
               product={ product }
               key={ id }
-              { ...productCardProps }
-              { ...productCardFunctions }
+              siblingsHaveBrands={ siblingsHaveBrands }
+              siblingsHavePriceBadge={ siblingsHavePriceBadge }
+              siblingsHaveTierPrice={ siblingsHaveTierPrice }
+              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+              setSiblingsHaveBrands={ setSiblingsHaveBrands }
+              setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
+              setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
+              setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

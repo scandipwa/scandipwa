@@ -72,8 +72,7 @@ export class CheckoutShippingContainer extends PureComponent {
         onShippingSuccess: this.onShippingSuccess.bind(this),
         onShippingError: this.onShippingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
-        onShippingMethodSelect: this.onShippingMethodSelect.bind(this),
-        onStoreSelect: this.onStoreSelect.bind(this)
+        onShippingMethodSelect: this.onShippingMethodSelect.bind(this)
     };
 
     __construct(props) {
@@ -102,7 +101,9 @@ export class CheckoutShippingContainer extends PureComponent {
             isSubmitted,
             setSelectedShippingMethodCode,
             shippingMethods,
-            totals
+            totals,
+            onStoreSelect,
+            onShippingEstimationFieldsChange
         } = this.props;
         const { selectedShippingMethod } = this.state;
 
@@ -116,7 +117,9 @@ export class CheckoutShippingContainer extends PureComponent {
             setSelectedShippingMethodCode,
             shippingMethods,
             totals,
-            selectedShippingMethod
+            selectedShippingMethod,
+            onStoreSelect,
+            onShippingEstimationFieldsChange
         };
     }
 
@@ -176,10 +179,6 @@ export class CheckoutShippingContainer extends PureComponent {
         // TODO: implement notification if some data in Form can not display error
         const { isSubmitted } = this.state;
         this.setState({ isSubmitted: !isSubmitted });
-    }
-
-    onStoreSelect(address) {
-        this.setState({ selectedStoreAddress: address });
     }
 
     onShippingSuccess(fields) {

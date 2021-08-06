@@ -106,7 +106,8 @@ export class Checkout extends PureComponent {
         handleSelectDeliveryMethod: PropTypes.func.isRequired,
         isInStoreActivated: PropTypes.bool.isRequired,
         cartTotalSubPrice: PropTypes.number.isRequired,
-        onShippingMethodSelect: PropTypes.func.isRequired
+        onShippingMethodSelect: PropTypes.func.isRequired,
+        onStoreSelect: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -241,7 +242,8 @@ export class Checkout extends PureComponent {
             isPickInStoreMethodSelected,
             handleSelectDeliveryMethod,
             cartTotalSubPrice,
-            onShippingMethodSelect
+            onShippingMethodSelect,
+            onStoreSelect
         } = this.props;
 
         return (
@@ -260,6 +262,7 @@ export class Checkout extends PureComponent {
                   estimateAddress={ estimateAddress }
                   handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
+                  onStoreSelect={ onStoreSelect }
                 />
             </Suspense>
         );

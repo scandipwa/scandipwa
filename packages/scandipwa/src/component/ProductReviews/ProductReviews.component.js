@@ -116,18 +116,13 @@ export class ProductReviews extends PureComponent {
             }
         } = this.props;
 
-        const reviewSchemaObject = review_count
-            ? {
-                itemType: 'http://schema.org/AggregateRating',
-                itemProp: 'aggregateRating',
-                itemScope: true
-            } : {};
-
         return (
             <div
               block="ProductReviews"
               elem="Summary"
-              { ...reviewSchemaObject }
+              itemType={ review_count ? 'http://schema.org/AggregateRating' : null }
+              itemProp={ review_count ? 'aggregateRating' : null }
+              itemScope={ review_count ? true : null }
             >
                 { this.renderRatingData() }
                 { this.renderButton() }

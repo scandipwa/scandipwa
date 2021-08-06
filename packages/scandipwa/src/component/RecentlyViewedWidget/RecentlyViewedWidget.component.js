@@ -51,8 +51,18 @@ export class RecentlyViewedWidget extends Component {
 
     renderProductCard(product) {
         const {
-            productCardProps,
-            productCardFunctions,
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            },
+            productCardFunctions: {
+                setSiblingsHaveBrands,
+                setSiblingsHavePriceBadge,
+                setSiblingsHaveTierPrice,
+                setSiblingsHaveConfigurableOptions
+            },
             isLoading
         } = this.props;
         const { id, selectedFilters } = product;
@@ -63,8 +73,14 @@ export class RecentlyViewedWidget extends Component {
               product={ product }
               key={ id }
               isPreview={ isLoading }
-              { ...productCardProps }
-              { ...productCardFunctions }
+              siblingsHaveBrands={ siblingsHaveBrands }
+              siblingsHavePriceBadge={ siblingsHavePriceBadge }
+              siblingsHaveTierPrice={ siblingsHaveTierPrice }
+              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+              setSiblingsHaveBrands={ setSiblingsHaveBrands }
+              setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
+              setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
+              setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }
