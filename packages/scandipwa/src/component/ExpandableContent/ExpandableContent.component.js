@@ -20,7 +20,7 @@ import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { getFixedElementHeight } from 'Util/CSS';
 
-import(/* webpackChunkName: "expandable-content" */ './ExpandableContent.style');
+import './ExpandableContent.style';
 
 /** @namespace Component/ExpandableContent/Component */
 export class ExpandableContent extends PureComponent {

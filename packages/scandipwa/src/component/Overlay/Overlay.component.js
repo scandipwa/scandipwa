@@ -19,7 +19,7 @@ import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { toggleScroll } from 'Util/Browser';
 
-import(/* webpackChunkName: "overlay" */ './Overlay.style');
+import './Overlay.style';
 
 /** @namespace Component/Overlay/Component */
 export class Overlay extends PureComponent {
