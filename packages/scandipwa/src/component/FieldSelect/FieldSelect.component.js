@@ -196,12 +196,14 @@ export class FieldSelect extends PureComponent {
             isSelectExpanded: isExpanded,
             handleSelectExpand,
             handleSelectListKeyPress,
-            handleSelectExpandedExpand
+            handleSelectExpandedExpand,
+            id
         } = this.props;
 
         return (
             <ClickOutside onClick={ handleSelectExpandedExpand }>
                 <div
+                  id={ `${id}_wrapper` }
                   block="FieldSelect"
                   mods={ { isExpanded } }
                   onClick={ handleSelectExpand }
