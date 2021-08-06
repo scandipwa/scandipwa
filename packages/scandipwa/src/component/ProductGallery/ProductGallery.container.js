@@ -151,7 +151,7 @@ export class ProductGalleryContainer extends PureComponent {
         ];
     }
 
-    containerProps = () => {
+    containerProps() {
         const { activeImage, isZoomEnabled, isImageZoomPopupActive } = this.state;
         const { product: { id }, isMobile } = this.props;
 
@@ -165,7 +165,7 @@ export class ProductGalleryContainer extends PureComponent {
             isImageZoomPopupActive,
             sliderRef: this.sliderRef
         };
-    };
+    }
 
     /**
      * Returns the name of the product this gallery if for

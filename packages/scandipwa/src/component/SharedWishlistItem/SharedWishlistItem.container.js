@@ -44,7 +44,14 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
         return +this.getConfigurableVariantIndex(sku, variants);
     }
 
-    containerProps = () => {
+    containerProps() {
+        const {
+            handleSelectIdChange,
+            isEditingActive,
+            isMobile,
+            isRemoving,
+            product
+        } = this.props;
         const { isLoading } = this.state;
 
         return {
@@ -52,9 +59,14 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
             changeDescription: this.changeDescription,
             configurableVariantIndex: this._getConfigurableVariantIndex(),
             parameters: this.getAttributes(),
-            isLoading
+            isLoading,
+            handleSelectIdChange,
+            isEditingActive,
+            isMobile,
+            isRemoving,
+            product
         };
-    };
+    }
 
     changeQuantity = (quantity) => {
         this.setState({ quantity });
@@ -63,8 +75,6 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
     render() {
         return (
             <SharedWishlistItem
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

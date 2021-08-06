@@ -18,46 +18,22 @@ import { ChildrenType } from 'Type/Common';
 import CSS from 'Util/CSS';
 import { isRtl } from 'Util/CSS/CSS';
 
-import {
-    ANIMATION_DURATION,
-    ANIMATION_DURATION_ON_REMOVE,
-    DRAG_ITEM_REMOVE_THRESHOLD,
-    DRAG_RIGHT_OPEN_THRESHOLD,
-    DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD
-} from './SwipeToDelete.config';
-
 import './SwipeToDelete.style';
 
 /** @namespace Component/SwipeToDelete/Component */
 export class SwipeToDelete extends PureComponent {
     static propTypes = {
         children: ChildrenType.isRequired,
-        dragRightOpenTriggerThreshold: PropTypes.number,
-        dragRightOpenThreshold: PropTypes.number,
-        dragItemRemoveThreshold: PropTypes.number,
-        animationDuration: PropTypes.number,
-        animationDurationOnRemove: PropTypes.number,
-        renderRightSideContent: PropTypes.func,
-        rightSideMix: PropTypes.object,
-        topElemMix: PropTypes.object,
-        onAheadOfDragItemRemoveThreshold: PropTypes.func,
-        isLoading: PropTypes.bool
-    };
-
-    static defaultProps = {
-        // Threshold after we open right side
-        dragRightOpenTriggerThreshold: DRAG_RIGHT_OPEN_TRIGGER_THRESHOLD,
-        // Width of opened right side
-        dragRightOpenThreshold: DRAG_RIGHT_OPEN_THRESHOLD,
-        // Threshold after we remove item on touchend as percentage of item width
-        dragItemRemoveThreshold: DRAG_ITEM_REMOVE_THRESHOLD,
-        animationDuration: ANIMATION_DURATION,
-        animationDurationOnRemove: ANIMATION_DURATION_ON_REMOVE,
-        renderRightSideContent: () => {},
-        rightSideMix: {},
-        topElemMix: {},
-        onAheadOfDragItemRemoveThreshold: () => {},
-        isLoading: false
+        dragRightOpenTriggerThreshold: PropTypes.number.isRequired,
+        dragRightOpenThreshold: PropTypes.number.isRequired,
+        dragItemRemoveThreshold: PropTypes.number.isRequired,
+        animationDuration: PropTypes.number.isRequired,
+        animationDurationOnRemove: PropTypes.number.isRequired,
+        renderRightSideContent: PropTypes.func.isRequired,
+        rightSideMix: PropTypes.object.isRequired,
+        topElemMix: PropTypes.object.isRequired,
+        onAheadOfDragItemRemoveThreshold: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     state = {

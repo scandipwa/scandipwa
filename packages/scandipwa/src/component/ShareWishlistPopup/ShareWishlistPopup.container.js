@@ -39,6 +39,10 @@ export class ShareWishlistPopupContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired
     };
 
+    containerFunctions = {
+        handleFormData: this.handleFormData.bind(this)
+    };
+
     handleFormData = (fields) => {
         const { hidePopup, showError, showNotification } = this.props;
         const { message, emails: initialEmails } = fields;
@@ -59,15 +63,10 @@ export class ShareWishlistPopupContainer extends PureComponent {
         );
     };
 
-    containerFunctions = () => ({
-        handleFormData: this.handleFormData
-    });
-
     render() {
         return (
             <ShareWishlistPopup
-              { ...this.props }
-              { ...this.containerFunctions() }
+              { ...this.containerFunctions }
             />
         );
     }

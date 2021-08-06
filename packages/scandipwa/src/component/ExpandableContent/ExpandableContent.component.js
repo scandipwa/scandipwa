@@ -16,6 +16,7 @@ import { ChildrenType, MixType } from 'Type/Common';
 import { getFixedElementHeight } from 'Util/CSS';
 
 import './ExpandableContent.style';
+
 /** @namespace Component/ExpandableContent/Component */
 export class ExpandableContent extends PureComponent {
     static propTypes = {

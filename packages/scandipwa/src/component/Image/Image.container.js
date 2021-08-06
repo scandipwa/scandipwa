@@ -34,7 +34,13 @@ export class ImageContainer extends PureComponent {
             'square',
             'custom'
         ]),
-        mix: MixType
+        mix: MixType,
+        className: PropTypes.string,
+        imageRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ]),
+        title: PropTypes.string
     };
 
     static defaultProps = {
@@ -45,13 +51,37 @@ export class ImageContainer extends PureComponent {
         height: '',
         width: '',
         isPlaceholder: false,
-        style: {}
+        style: {},
+        title: null,
+        className: '',
+        imageRef: () => {}
     };
 
-    containerProps = () => ({
-        style: this._getStyle(),
-        wrapperSize: this._getWrapperSize()
-    });
+    containerProps() {
+        const {
+            isPlaceholder,
+            src,
+            title,
+            alt,
+            className,
+            ratio,
+            mix,
+            imageRef
+        } = this.props;
+
+        return {
+            style: this._getStyle(),
+            wrapperSize: this._getWrapperSize(),
+            isPlaceholder,
+            src,
+            title,
+            alt,
+            className,
+            ratio,
+            mix,
+            imageRef
+        };
+    }
 
     _parseSize(size) {
         const trimmedSize = size.trim();
@@ -104,7 +134,6 @@ export class ImageContainer extends PureComponent {
     render() {
         return (
             <Image
-              { ...this.props }
               { ...this.containerProps() }
             />
         );

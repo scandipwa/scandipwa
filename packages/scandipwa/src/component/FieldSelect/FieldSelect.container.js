@@ -42,13 +42,31 @@ export class FieldSelectContainer extends PureComponent {
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ]),
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        isDisabled: PropTypes.bool,
+        skipValue: PropTypes.bool,
+        placeholder: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool
+        ]),
+        autocomplete: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]),
+        name: PropTypes.string.isRequired
     };
 
     static defaultProps = {
         selectOptions: [],
         formRef: () => {},
-        onChange: () => {}
+        onChange: () => {},
+        placeholder: '',
+        value: null,
+        isDisabled: false,
+        autocomplete: 'off',
+        skipValue: false
     };
 
     state = {
@@ -64,7 +82,17 @@ export class FieldSelectContainer extends PureComponent {
         handleSelectListKeyPress: this.handleSelectListKeyPress.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
+        const {
+            onChange,
+            id,
+            name,
+            formRef,
+            placeholder,
+            value,
+            autocomplete,
+            skipValue
+        } = this.props;
         const {
             valueIndex,
             searchString,
@@ -76,9 +104,17 @@ export class FieldSelectContainer extends PureComponent {
             isDisabled: this.isSelectDisabled(),
             valueIndex,
             searchString,
-            isSelectExpanded
+            isSelectExpanded,
+            onChange,
+            id,
+            name,
+            formRef,
+            placeholder,
+            value,
+            autocomplete,
+            skipValue
         };
-    };
+    }
 
     sortSelectOptions() {
         const { selectOptions } = this.props;
@@ -217,7 +253,6 @@ export class FieldSelectContainer extends PureComponent {
 
         return (
             <FieldSelect
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

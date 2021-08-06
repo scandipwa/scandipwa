@@ -83,7 +83,6 @@ export class NewVersionPopupContainer extends PureComponent {
     render() {
         return (
             <NewVersionPopup
-              { ...this.props }
               { ...this.containerFunctions }
             />
         );

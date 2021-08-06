@@ -20,19 +20,16 @@ export class MenuItem extends PureComponent {
     static propTypes = {
         activeMenuItemsStack: PropTypes.array.isRequired,
         item: PropTypes.object.isRequired,
-        itemMods: PropTypes.object,
+        itemMods: PropTypes.object.isRequired,
         handleCategoryHover: PropTypes.func.isRequired,
         handleLinkLeave: PropTypes.func.isRequired,
-        isLink: PropTypes.bool,
+        isLink: PropTypes.bool.isRequired,
         onItemClick: PropTypes.func,
-        isExpandable: PropTypes.bool
+        isExpandable: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        itemMods: {},
-        isLink: false,
-        onItemClick: () => {},
-        isExpandable: false
+        onItemClick: () => {}
     };
 
     renderExpandButton() {

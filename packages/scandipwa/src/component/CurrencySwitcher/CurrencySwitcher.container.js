@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { ConfigDispatcher } from 'Store/Config/Config.dispatcher';
@@ -28,6 +29,17 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/CurrencySwitcher/Container */
 export class CurrencySwitcherContainer extends DataContainer {
+    static propTypes = {
+        currencyData: PropTypes.shape({
+            available_currencies_data: PropTypes.arrayOf(
+                PropTypes.objectOf(
+                    PropTypes.string
+                )
+            ),
+            current_currency_code: PropTypes.string
+        }).isRequired
+    };
+
     containerFunctions = {
         handleCurrencySelect: this._handleCurrencySelect.bind(this)
     };
@@ -41,11 +53,17 @@ export class CurrencySwitcherContainer extends DataContainer {
         );
     }
 
+    containerProps() {
+        const { currencyData } = this.props;
+
+        return { currencyData };
+    }
+
     render() {
         return (
             <CurrencySwitcher
               { ...this.containerFunctions }
-              { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }

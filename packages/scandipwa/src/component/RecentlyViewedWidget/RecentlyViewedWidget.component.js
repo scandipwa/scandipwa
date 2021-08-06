@@ -20,15 +20,11 @@ import './RecentlyViewedWidget.style';
 /** @namespace Component/RecentlyViewedWidget/Component */
 export class RecentlyViewedWidget extends Component {
     static propTypes = {
-        pageSize: PropTypes.number,
+        pageSize: PropTypes.number.isRequired,
         products: ItemsType.isRequired,
         productCardProps: PropTypes.object.isRequired,
         productCardFunctions: PropTypes.object.isRequired,
         isLoading: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
-        pageSize: 6
     };
 
     renderProductCard = this.renderProductCard.bind(this);

@@ -21,18 +21,13 @@ import './ProductLinks.style';
 /** @namespace Component/ProductLinks/Component */
 export class ProductLinks extends PureComponent {
     static propTypes = {
-        numberOfProductsToDisplay: PropTypes.number,
-        areDetailsLoaded: PropTypes.bool,
+        numberOfProductsToDisplay: PropTypes.number.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired,
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
         linkType: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         productCardProps: PropTypes.object.isRequired,
         productCardFunctions: PropTypes.object.isRequired
-    };
-
-    static defaultProps = {
-        numberOfProductsToDisplay: 4,
-        areDetailsLoaded: true
     };
 
     renderProductCard = this.renderProductCard.bind(this);

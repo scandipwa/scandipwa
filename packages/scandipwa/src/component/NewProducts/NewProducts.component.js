@@ -22,14 +22,13 @@ import './NewProducts.style';
 export class NewProducts extends Component {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),
-        productsPerPage: PropTypes.number,
+        productsPerPage: PropTypes.number.isRequired,
         productCardProps: PropTypes.object.isRequired,
         productCardFunctions: PropTypes.object.isRequired
     };
 
     static defaultProps = {
-        products: Array.from({ length: 4 }, () => ({})),
-        productsPerPage: 6
+        products: Array.from({ length: 4 }, () => ({}))
     };
 
     newProductsRef = createRef();

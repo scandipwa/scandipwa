@@ -92,7 +92,7 @@ export class CartOverlayContainer extends PureComponent {
         handleCheckoutClick: this.handleCheckoutClick.bind(this)
     };
 
-    containerProps = () => {
+    containerProps() {
         const {
             totals,
             showOverlay,
@@ -115,7 +115,7 @@ export class CartOverlayContainer extends PureComponent {
             isMobile,
             hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
-    };
+    }
 
     handleCheckoutClick(e) {
         const {

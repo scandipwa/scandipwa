@@ -40,6 +40,12 @@ export class MyAccountAddressBookContainer extends PureComponent {
         showCreateNewPopup: this.showCreateNewPopup.bind(this)
     };
 
+    containerProps() {
+        const { customer, showPopup } = this.props;
+
+        return { customer, showPopup };
+    }
+
     showCreateNewPopup() {
         const { showPopup } = this.props;
 
@@ -53,7 +59,7 @@ export class MyAccountAddressBookContainer extends PureComponent {
     render() {
         return (
             <MyAccountAddressBook
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

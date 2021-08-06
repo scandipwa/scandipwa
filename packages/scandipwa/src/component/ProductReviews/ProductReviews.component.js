@@ -26,12 +26,8 @@ import './ProductReviews.style';
 export class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool,
+        areDetailsLoaded: PropTypes.bool.isRequired,
         device: DeviceType.isRequired
-    };
-
-    static defaultProps = {
-        areDetailsLoaded: false
     };
 
     renderButton() {
