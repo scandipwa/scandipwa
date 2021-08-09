@@ -12,12 +12,12 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import CartIcon from 'Component/CartIcon';
 import Loader from 'Component/Loader';
 import ProductCard from 'Component/ProductCard';
+import ShareIcon from 'Component/ShareIcon';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
-import CartIcon from 'Style/Icons/Cart';
-import ShareIcon from 'Style/Icons/Share';
 import { ProductType } from 'Type/ProductList';
 import CSS from 'Util/CSS';
 

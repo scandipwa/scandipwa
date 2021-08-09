@@ -13,11 +13,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CompareIcon from 'Component/CompareIcon';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
 import Link from 'Component/Link';
 import MenuItem from 'Component/MenuItem';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import CompareIcon from 'Style/Icons/Compare';
 import { DeviceType } from 'Type/Device';
 import { MenuType } from 'Type/Menu';
 import { getSortedItems } from 'Util/Menu';

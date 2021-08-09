@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import ChevronIcon from 'Style/Icons/Chevron';
+import ChevronIcon from 'Component/ChevronIcon';
 import { tabType } from 'Type/Account';
 
 import './MyAccountTabListItem.style';

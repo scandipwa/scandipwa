@@ -14,8 +14,14 @@
 import PropTypes from 'prop-types';
 import { createRef, lazy, Suspense } from 'react';
 
+import CartIcon from 'Component/CartIcon';
+import ChevronIcon from 'Component/ChevronIcon';
+import { LEFT } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
+import CloseIcon from 'Component/CloseIcon';
+import CompareIcon from 'Component/CompareIcon';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
+import ExclamationMarkIcon from 'Component/ExclamationMarkIcon';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
 import Menu from 'Component/Menu';
@@ -25,15 +31,9 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
+import ShareIcon from 'Component/ShareIcon';
 import StoreSwitcher from 'Component/StoreSwitcher';
-import CartIcon from 'Style/Icons/Cart';
-import ChevronIcon from 'Style/Icons/Chevron';
-import { LEFT } from 'Style/Icons/Chevron/Chevron.config';
-import CloseIcon from 'Style/Icons/Close';
-import CompareIcon from 'Style/Icons/Compare';
-import ExclamationMarkIcon from 'Style/Icons/ExclamationMark';
-import ShareIcon from 'Style/Icons/Share';
-import UserIcon from 'Style/Icons/User';
+import UserIcon from 'Component/UserIcon';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';

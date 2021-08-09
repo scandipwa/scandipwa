@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import CartIcon from 'Component/CartIcon';
+import HomeIcon from 'Component/HomeIcon';
+import MenuIcon from 'Component/MenuIcon';
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
-import CartIcon from 'Style/Icons/Cart';
-import HomeIcon from 'Style/Icons/Home/Home';
-import MenuIcon from 'Style/Icons/Menu';
-import UserIcon from 'Style/Icons/User';
+import UserIcon from 'Component/UserIcon';
 import { DeviceType } from 'Type/Device';
 
 import {

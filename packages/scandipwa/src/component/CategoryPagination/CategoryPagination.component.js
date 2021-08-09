@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
+import ChevronIcon from 'Component/ChevronIcon';
+import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import ChevronIcon from 'Style/Icons/Chevron';
-import { LEFT, RIGHT } from 'Style/Icons/Chevron/Chevron.config';
 import { range } from 'Util/Manipulations';
 
 import './CategoryPagination.style';

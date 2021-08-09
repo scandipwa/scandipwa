@@ -13,12 +13,12 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import CloseIcon from 'Component/CloseIcon';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductWishlistButton from 'Component/ProductWishlistButton/ProductWishlistButton.container';
-import CloseIcon from 'Style/Icons/Close';
 import { ProductType } from 'Type/ProductList';
 
 import {
