@@ -1,0 +1,37 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.HeartIcon {
+    stroke: var(--color-black);
+
+    &:hover {
+        stroke: var(--primary-base-color);
+        fill: var(--primary-base-color);
+    }
+
+    &_isActive {
+        fill: var(--primary-base-color);
+        stroke: var(--primary-base-color);
+
+        &:hover {
+            fill: none;
+            stroke: var(--color-black);
+        }
+    }
+
+    @include mobile {
+        pointer-events: none;
+    }
+
+    height: var(--wishlist-heart-size);
+    min-width: var(--wishlist-heart-size);
+    cursor: pointer;
+}

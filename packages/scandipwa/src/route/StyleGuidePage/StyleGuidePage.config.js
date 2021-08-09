@@ -8,27 +8,27 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import AddIcon from 'Style/Icons/Add';
-import CartIcon from 'Style/Icons/Cart';
-import ChevronIcon from 'Style/Icons/Chevron';
-import CloseIcon from 'Style/Icons/Close';
-import CompareIcon from 'Style/Icons/Compare';
-import EditIcon from 'Style/Icons/Edit';
-import ExclamationMarkIcon from 'Style/Icons/ExclamationMark';
-import FilterIcon from 'Style/Icons/Filter';
-import GridIcon from 'Style/Icons/Grid';
-import HeartIcon from 'Style/Icons/Heart';
-import HomeIcon from 'Style/Icons/Home';
-import ListIcon from 'Style/Icons/List';
+import AddIcon from 'Component/AddIcon';
+import CartIcon from 'Component/CartIcon';
+import ChevronIcon from 'Component/ChevronIcon';
+import CloseIcon from 'Component/CloseIcon';
+import CompareIcon from 'Component/CompareIcon';
+import EditIcon from 'Component/EditIcon';
+import ExclamationMarkIcon from 'Component/ExclamationMarkIcon';
+import FilterIcon from 'Component/FilterIcon';
+import GridIcon from 'Component/GridIcon';
+import HeartIcon from 'Component/HeartIcon';
+import HomeIcon from 'Component/HomeIcon';
+import ListIcon from 'Component/ListIcon';
+import MenuIcon from 'Component/MenuIcon';
+import MinusIcon from 'Component/MinusIcon';
+import SearchIcon from 'Component/SearchIcon';
+import ShareIcon from 'Component/ShareIcon';
+import StarIcon from 'Component/StarIcon';
+import UserIcon from 'Component/UserIcon';
 import facebook from 'Style/Icons/Logos/facebook.svg';
 import linkedIn from 'Style/Icons/Logos/linkedIn.svg';
 import twitter from 'Style/Icons/Logos/twitter.svg';
-import MenuIcon from 'Style/Icons/Menu';
-import MinusIcon from 'Style/Icons/Minus';
-import SearchIcon from 'Style/Icons/Search';
-import ShareIcon from 'Style/Icons/Share';
-import StarIcon from 'Style/Icons/Star';
-import UserIcon from 'Style/Icons/User';
 
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';

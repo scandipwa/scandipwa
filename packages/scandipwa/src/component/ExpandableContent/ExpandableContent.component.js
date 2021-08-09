@@ -11,11 +11,11 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
+import AddIcon from 'Component/AddIcon';
+import ChevronIcon from 'Component/ChevronIcon';
+import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
+import MinusIcon from 'Component/MinusIcon';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import AddIcon from 'Style/Icons/Add';
-import ChevronIcon from 'Style/Icons/Chevron';
-import { BOTTOM, TOP } from 'Style/Icons/Chevron/Chevron.config';
-import MinusIcon from 'Style/Icons/Minus';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { getFixedElementHeight } from 'Util/CSS';

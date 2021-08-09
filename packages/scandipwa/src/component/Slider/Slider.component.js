@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { Children, createRef, PureComponent } from 'react';
 
+import ChevronIcon from 'Component/ChevronIcon';
+import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
 import Draggable from 'Component/Draggable';
-import ChevronIcon from 'Style/Icons/Chevron';
-import { LEFT, RIGHT } from 'Style/Icons/Chevron/Chevron.config';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import CSS from 'Util/CSS';

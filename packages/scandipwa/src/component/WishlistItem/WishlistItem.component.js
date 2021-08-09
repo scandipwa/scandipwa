@@ -13,11 +13,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CloseIcon from 'Component/CloseIcon';
+import EditIcon from 'Component/EditIcon';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import CloseIcon from 'Style/Icons/Close';
-import EditIcon from 'Style/Icons/Edit';
 import { ProductType } from 'Type/ProductList';
 import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 

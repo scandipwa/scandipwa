@@ -18,9 +18,9 @@ import CheckoutOrderSummary from 'Component/CheckoutOrderSummary/CheckoutOrderSu
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
+import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
-import LockIcon from 'Style/Icons/Lock';
 import { TotalsType } from 'Type/MiniCart';
 
 import './CartPage.style';
