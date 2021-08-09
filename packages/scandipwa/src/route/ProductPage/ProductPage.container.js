@@ -34,6 +34,7 @@ import {
 } from 'Util/Url';
 
 import ProductPage from './ProductPage.component';
+import { PRODUCT_REVIEWS } from './ProductPage.config';
 
 export const BreadcrumbsDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
@@ -92,7 +93,8 @@ export class ProductPageContainer extends PureComponent {
         selectedBundlePriceExclTax: 0,
         selectedLinkPrice: 0,
         currentProductSKU: '',
-        ProductTabsDefaultValue: 0
+        productTabsDefaultValue: 0,
+        reviewTabIndex: 2
     };
 
     containerFunctions = {
@@ -104,7 +106,9 @@ export class ProductPageContainer extends PureComponent {
         setLinkedDownloadablesPrice: this.setLinkedDownloadablesPrice.bind(this),
         handleChangeProductTab: this.handleChangeProductTab.bind(this),
         isProductInformationTabEmpty: this.isProductInformationTabEmpty.bind(this),
-        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this)
+        isProductAttributesTabEmpty: this.isProductAttributesTabEmpty.bind(this),
+        setActiveTabToReviewTab: this.setActiveTabToReviewTab.bind(this),
+        handleSetReviewTabIndex: this.handleSetReviewTabIndex.bind(this)
     };
 
     static propTypes = {
@@ -304,12 +308,24 @@ export class ProductPageContainer extends PureComponent {
 
     handleChangeProductTab(number) {
         this.setState({
-            ProductTabsDefaultValue: number
+            productTabsDefaultValue: number
         });
 
         document.querySelector('.ProductTabs-Wrapper')?.scrollIntoView({
             behavior: 'smooth'
         });
+    }
+
+    handleSetReviewTabIndex(tabMap) {
+        const reviewTabIndex = tabMap.findIndex((tab) => tab.tabKey === PRODUCT_REVIEWS);
+
+        this.setState({ reviewTabIndex });
+    }
+
+    setActiveTabToReviewTab() {
+        const { reviewTabIndex } = this.state;
+
+        this.handleChangeProductTab(reviewTabIndex);
     }
 
     isProductInformationTabEmpty() {

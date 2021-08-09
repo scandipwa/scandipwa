@@ -425,8 +425,7 @@
                 "error",
                 "always"
             ],
-            "no-extra-semi": "error",
-            "linebreak-style": 0
+            "no-extra-semi": "error"
         }
     },
     "license": "OSL-3.0",

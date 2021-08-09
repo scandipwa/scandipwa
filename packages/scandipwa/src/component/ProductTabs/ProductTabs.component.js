@@ -24,8 +24,13 @@ export class ProductTabs extends PureComponent {
         tabs: PropTypes.arrayOf(PropTypes.shape({
             name: PropTypes.string.isRequired,
             render: PropTypes.func.isRequired
-        })).isRequired,
-        defaultTab: PropTypes.number.isRequired
+        })),
+        defaultTab: PropTypes.number.isRequired,
+        handleSetReviewTabIndex: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        tabs: []
     };
 
     __construct(props) {
@@ -38,11 +43,22 @@ export class ProductTabs extends PureComponent {
         };
     }
 
-    componentDidUpdate(prevProps) {
-        const { defaultTab } = this.props;
+    componentDidMount() {
+        const { handleSetReviewTabIndex, tabs } = this.props;
 
-        if (defaultTab !== prevProps.defaultTab) {
+        handleSetReviewTabIndex(tabs);
+    }
+
+    componentDidUpdate(prevProps) {
+        const { defaultTab, tabs, handleSetReviewTabIndex } = this.props;
+        const { defaultTab: prevDefaultTab, tabs: prevTabs } = prevProps;
+
+        if (defaultTab !== prevDefaultTab) {
             this.handleChangeTab(defaultTab);
+        }
+
+        if (tabs.length !== prevTabs.length) {
+            handleSetReviewTabIndex(tabs);
         }
     }
 

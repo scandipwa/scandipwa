@@ -46,7 +46,7 @@ export class ProductPage extends PureComponent {
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        handleChangeProductTab: PropTypes.func.isRequired,
+        setActiveTabToReviewTab: PropTypes.func.isRequired,
         setLinkedDownloadables: PropTypes.func.isRequired,
         setLinkedDownloadablesPrice: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object.isRequired,
@@ -58,28 +58,36 @@ export class ProductPage extends PureComponent {
         isAttributesTabEmpty: PropTypes.bool.isRequired,
         selectedBundlePriceExclTax: PropTypes.number.isRequired,
         selectedInitialBundlePrice: PropTypes.number.isRequired,
-        ProductTabsDefaultValue: PropTypes.number.isRequired
+        productTabsDefaultValue: PropTypes.number.isRequired,
+        handleSetReviewTabIndex: PropTypes.func.isRequired
     };
 
     tabMap = {
         [PRODUCT_INFORMATION]: {
             name: __('About'),
+            tabKey: PRODUCT_INFORMATION,
             shouldTabRender: () => {
                 const { isInformationTabEmpty } = this.props;
+
                 return !isInformationTabEmpty;
             },
-            render: (key) => this.renderProductInformationTab(key)
+            render: (key) => this.renderProductInformationTab(key),
+            key: PRODUCT_INFORMATION
         },
         [PRODUCT_ATTRIBUTES]: {
             name: __('Details'),
+            tabKey: PRODUCT_ATTRIBUTES,
             shouldTabRender: () => {
                 const { isAttributesTabEmpty } = this.props;
+
                 return !isAttributesTabEmpty;
             },
-            render: (key) => this.renderProductAttributesTab(key)
+            render: (key) => this.renderProductAttributesTab(key),
+            key: PRODUCT_ATTRIBUTES
         },
         [PRODUCT_REVIEWS]: {
             name: __('Reviews'),
+            tabKey: PRODUCT_REVIEWS,
             // Return true since we always show 'Add review' button
             shouldTabRender: () => true,
             render: (key) => this.renderProductReviewsTab(key)
@@ -120,7 +128,7 @@ export class ProductPage extends PureComponent {
             areDetailsLoaded,
             getSelectedCustomizableOptions,
             productOptionsData,
-            handleChangeProductTab,
+            setActiveTabToReviewTab,
             setBundlePrice,
             selectedBundlePrice,
             selectedInitialBundlePrice,
@@ -147,7 +155,7 @@ export class ProductPage extends PureComponent {
                   configurableVariantIndex={ configurableVariantIndex }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                   productOptionsData={ productOptionsData }
-                  setProductTab={ handleChangeProductTab }
+                  setActiveTabToReviewTab={ setActiveTabToReviewTab }
                   setBundlePrice={ setBundlePrice }
                   selectedBundlePrice={ selectedBundlePrice }
                   selectedInitialBundlePrice={ selectedInitialBundlePrice }
@@ -233,10 +241,19 @@ export class ProductPage extends PureComponent {
     }
 
     renderProductTabs() {
-        const { ProductTabsDefaultValue } = this.props;
+        const {
+            productTabsDefaultValue,
+            handleSetReviewTabIndex,
+            dataSource: { id: productId }
+        } = this.props;
 
         return (
-            <ProductTabs tabs={ this.shouldTabsRender() } defaultTab={ ProductTabsDefaultValue } />
+            <ProductTabs
+              tabs={ this.shouldTabsRender() }
+              defaultTab={ productTabsDefaultValue }
+              handleSetReviewTabIndex={ handleSetReviewTabIndex }
+              productId={ productId }
+            />
         );
     }
 
