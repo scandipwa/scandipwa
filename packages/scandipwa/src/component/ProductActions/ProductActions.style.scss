@@ -88,6 +88,10 @@
         cursor: pointer;
         inset-block-end: -2px;
         font-size: 14px;
+
+        &:hover {
+            color: var(--primary-dark-color);
+        }
     }
 
     &-Section {
