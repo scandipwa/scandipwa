@@ -159,11 +159,13 @@ export class Image extends PureComponent {
             alt,
             src,
             style,
-            title
+            title,
+            className
         } = this.props;
 
         return (
             <img
+              block={ className }
               src={ src || '' }
               alt={ alt }
               style={ style }
