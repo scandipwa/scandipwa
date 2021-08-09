@@ -16,7 +16,7 @@ import {
     IMAGE_NOT_FOUND,
     IMAGE_NOT_SPECIFIED
 } from 'Component/Image/Image.config';
-import logo from 'Style/Icons/Logos/mainLogo.svg';
+import logo from 'Style/icons/Logos/mainLogo.svg';
 
 import './Logo.style';
 
