@@ -2646,7 +2646,7 @@
     semver "^7.3.2"
     validate-npm-package-name "^3.0.0"
 
-"@scandipwa/scandipwa-scripts@^2.4.9":
+"@scandipwa/scandipwa-scripts@2.4.14":
   version "2.4.14"
   resolved "https://registry.yarnpkg.com/@scandipwa/scandipwa-scripts/-/scandipwa-scripts-2.4.14.tgz#211fd7a29c12be5c091635985cf01a847a0d2226"
   integrity sha512-EIyAxmZa+nDXyX7KzqEnpESMmdR/ky/q8Y6j8rDItOGTn66VpT8RLPip3j7Cg1v84cMh+2tgxkJTSFAMyks1BQ==
@@ -2665,12 +2665,12 @@
     lodash "^4.17.20"
     xmldom "^0.5.0"
 
-"@scandipwa/service-worker@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@scandipwa/service-worker/-/service-worker-0.0.10.tgz#9d357fd621b30b7155e4e66030258da11765142c"
-  integrity sha512-hyLtmOQy4me2nG0RZthfbET87GPqFycnh0otp+Kko3K8rIyrR+h6PF7BpHMtb7tprkVz3hoRCAgfSNuEpU+56w==
+"@scandipwa/service-worker@0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@scandipwa/service-worker/-/service-worker-0.0.16.tgz#a86a566bf6f033469255986ad8dd69ceb9982f90"
+  integrity sha512-fRNJvru03BOFMdmoxfDumoSiZCnBPM+g/8q+aJTKgAZSFYBb7aRMPWbWuXnf4HXZO4Gxz8givslb5mNl/IeWqw==
   dependencies:
-    "@tilework/mosaic-webpack-fallback-plugin" "0.0.5"
+    "@tilework/mosaic-webpack-fallback-plugin" "0.0.10"
     lodash.clonedeep "^4.5.0"
 
 "@scandipwa/webpack-after-emit-logger@0.0.8":
@@ -2986,14 +2986,7 @@
     babel-preset-react-app "10.0.0"
     react "17.0.1"
 
-"@tilework/mosaic-webpack-fallback-plugin@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-fallback-plugin/-/mosaic-webpack-fallback-plugin-0.0.5.tgz#b94d8329ee6d63c50cb596103c8f9f76357c657e"
-  integrity sha512-k08i+2AWUNO6/JLqt5vSVpO8V+GLlWFOZ3n1KJAMFha76jglt22SYCHNapvp/+QzDTWrm5/eHC/1IzLLFbIotg==
-  dependencies:
-    "@tilework/mosaic-dev-utils" "0.0.5"
-
-"@tilework/mosaic-webpack-fallback-plugin@^0.0.10":
+"@tilework/mosaic-webpack-fallback-plugin@0.0.10", "@tilework/mosaic-webpack-fallback-plugin@^0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@tilework/mosaic-webpack-fallback-plugin/-/mosaic-webpack-fallback-plugin-0.0.10.tgz#eafb2fb6a9650e874d35b330b55f3115b26ff5a3"
   integrity sha512-n4ihOYTUbnTrq/0sLEKn9mfzvBRsZ9on0z+l5yACqlFJE1adgcIWc+aaURKKKhm4P/2rrgntyc+TgfdQVNgmZw==
