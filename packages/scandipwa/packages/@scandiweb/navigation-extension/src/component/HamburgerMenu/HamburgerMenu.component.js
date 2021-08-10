@@ -46,8 +46,6 @@ export class HamburgerMenuComponent extends PureComponent {
     closeMenu = () => {
         const { device: { isMobile }, isSideMenuOpen, closeSideMenu } = this.props;
 
-        console.debug(isSideMenuOpen);
-
         if (isMobile && isSideMenuOpen) {
             closeSideMenu();
         }

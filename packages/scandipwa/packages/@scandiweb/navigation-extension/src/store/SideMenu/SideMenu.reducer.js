@@ -14,7 +14,7 @@ import { CLOSE_SIDE_MENU, OPEN_SIDE_MENU } from './SideMenu.action';
 
 /** @namespace Scandiweb/NavigationExtension/Store/SideMenu/Reducer/getInitialState */
 export const getInitialState = () => ({
-    isSideMenuOpen: true
+    isSideMenuOpen: false
 });
 
 /** @namespace Scandiweb/NavigationExtension/Store/SideMenu/Reducer/SideMenuReducer */

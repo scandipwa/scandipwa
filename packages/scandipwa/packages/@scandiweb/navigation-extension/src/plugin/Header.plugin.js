@@ -1,5 +1,4 @@
 import ListIcon from 'Component/ListIcon';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -11,16 +10,16 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import './HeaderOverride.style.scss';
 
 export class HeaderPlugin {
-    stateMap = (originalMember) => {
-        const defaultState = { ...originalMember[DEFAULT_STATE_NAME], menu: true };
-        return { ...originalMember, defaultState };
-    };
+    stateMap = (originalMember) => Object.entries(originalMember)
+        .reduce((prev, [k, v]) => ({ ...prev, [k]: { ...v, menu: true, minicart: true } }), {});
 
     renderMap = (originalMember, instance) => ({
+        menu: this.renderOpenMenuButton.bind(instance),
         ...originalMember,
-        menu: this.renderOpenMenuButton.bind(instance)
+        minicart: instance.renderMinicartButton.bind(instance)
     });
 
     renderOpenMenuButton() {

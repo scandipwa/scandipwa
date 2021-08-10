@@ -1,6 +1,3 @@
-import ListIcon from 'Component/ListIcon';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
