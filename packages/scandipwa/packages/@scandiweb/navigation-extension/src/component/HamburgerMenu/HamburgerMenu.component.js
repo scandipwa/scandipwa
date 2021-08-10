@@ -43,8 +43,18 @@ export class HamburgerMenuComponent extends PureComponent {
         );
     }
 
-    render() {
+    closeMenu = () => {
         const { device: { isMobile }, isSideMenuOpen, closeSideMenu } = this.props;
+
+        console.debug(isSideMenuOpen);
+
+        if (isMobile && isSideMenuOpen) {
+            closeSideMenu();
+        }
+    };
+
+    render() {
+        const { device: { isMobile }, isSideMenuOpen } = this.props;
 
         if (!isMobile) {
             return null;
@@ -52,7 +62,7 @@ export class HamburgerMenuComponent extends PureComponent {
 
         return (
             <ClickOutside
-              onClick={ closeSideMenu }
+              onClick={ this.closeMenu }
               key="sideMenu"
             >
             <div block="HamburgerMenu" mods={ { isSideMenuOpen } }>
