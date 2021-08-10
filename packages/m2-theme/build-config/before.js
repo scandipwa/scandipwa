@@ -28,5 +28,4 @@ module.exports = () => {
 
     const { name: themeName } = require(path.join(process.cwd(), 'composer.json'));
     process.env.PUBLIC_URL = `/static/frontend/${ themeName }/en_US/Magento_Theme/`;
-    process.env.BUILD_PATH = path.join(process.cwd(), 'magento', 'Magento_Theme', 'web');
 };
