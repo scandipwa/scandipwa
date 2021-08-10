@@ -13,6 +13,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ClickOutside from 'Component/ClickOutside';
 import CloseIcon from 'Component/CloseIcon';
 import Menu from 'Component/Menu';
 import { DeviceType } from 'Type/Device';
@@ -43,17 +44,22 @@ export class HamburgerMenuComponent extends PureComponent {
     }
 
     render() {
-        const { device: { isMobile }, isSideMenuOpen } = this.props;
+        const { device: { isMobile }, isSideMenuOpen, closeSideMenu } = this.props;
 
         if (!isMobile) {
             return null;
         }
 
         return (
+            <ClickOutside
+              onClick={ closeSideMenu }
+              key="sideMenu"
+            >
             <div block="HamburgerMenu" mods={ { isSideMenuOpen } }>
                 { this.renderCloseMenuBtn() }
                 <Menu />
             </div>
+            </ClickOutside>
         );
     }
 }

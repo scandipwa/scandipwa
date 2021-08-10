@@ -1,12 +1,14 @@
 .HamburgerMenu {
+  --side-menu-width: 250px;
+
   position: fixed;
   top: 0;
-  width: 250px;
+  width: var(--side-menu-width);
   background-color: var(--color-white);
   height: 100%;
   z-index: 300;
-  transform: translateX(-200px);
-  transition: transform 300ms cubic-bezier(.47, 0, .745, .715);
+  transform: translateX(calc(-1 * var(--side-menu-width)));
+  transition: transform 250ms ease-out;
   overflow-y: scroll;
 
   &_isSideMenuOpen {

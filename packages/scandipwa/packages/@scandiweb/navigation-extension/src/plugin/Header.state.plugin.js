@@ -19,14 +19,14 @@ const mapDispatchToProps = (args, callback) => {
 
     return {
         ...callback(...args),
-        closeSideMenu: () => SideMenuDispatcher.then(
-            ({ default: dispatcher }) => dispatcher.closeSideMenu(dispatch)
+        openSideMenu: () => SideMenuDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.openSideMenu(dispatch)
         )
     };
 };
 
 export default {
-    'Component/Menu/Container/mapDispatchToProps': {
+    'Component/Header/Container/mapDispatchToProps': {
         function: mapDispatchToProps
     }
 };

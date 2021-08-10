@@ -14,10 +14,12 @@ import { closeSideMenu, openSideMenu } from './SideMenu.action';
 /** @namespace Scandiweb/NavigationExtension/Store/SideMenu/Dispatcher/SideMenuDispatcher */
 export class SideMenuDispatcher {
     openSideMenu(dispatch) {
-        dispatch(openSideMenu());
+        console.debug('open method');
+        return dispatch(openSideMenu());
     }
 
     closeSideMenu(dispatch) {
+        console.debug('close method');
         dispatch(closeSideMenu());
     }
 }
