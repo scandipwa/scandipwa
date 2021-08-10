@@ -13,11 +13,11 @@ import { closeSideMenu, openSideMenu } from './SideMenu.action';
 
 /** @namespace Scandiweb/NavigationExtension/Store/SideMenu/Dispatcher/SideMenuDispatcher */
 export class SideMenuDispatcher {
-    openMenu(dispatch) {
+    openSideMenu(dispatch) {
         dispatch(openSideMenu());
     }
 
-    closeMenu(dispatch) {
+    closeSideMenu(dispatch) {
         dispatch(closeSideMenu());
     }
 }

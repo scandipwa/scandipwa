@@ -1,9 +1,21 @@
 .HamburgerMenu {
   position: fixed;
-  left: 0;
   top: 0;
-  width: 200px;
-  background-color: plum;
+  width: 250px;
+  background-color: var(--color-white);
   height: 100%;
   z-index: 300;
+  transform: translateX(-200px);
+  transition: transform 300ms cubic-bezier(.47, 0, .745, .715);
+  overflow-y: scroll;
+
+  &_isSideMenuOpen {
+    transform: translateX(0);
+    box-shadow: 0 5px 10px rgba(125, 125, 125, 0.5);
+  }
+
+  &-CloseBtn {
+    position: sticky;
+    top: 0;
+  }
 };

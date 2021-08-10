@@ -10,35 +10,38 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { CartDispatcher } from 'Component/AddToCart/AddToCart.container';
 import { DeviceType } from 'Type/Device';
 
 import HamburgerMenu from './HamburgerMenu.component';
 
-export const WishlistDispatcher = import(
+export const SideMenuDispatcher = import(
     /* webpackMode: "lazy", webpackChunkName: "dispatchers" */
-    'Store/Wishlist/Wishlist.dispatcher'
+    '../../store/SideMenu/SideMenu.dispatcher'
 );
 
 /** @namespace Scandiweb/NavigationExtension/Component/HamburgerMenu/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    device: state.ConfigReducer.device,
+    isSideMenuOpen: state.SideMenuReducer.isSideMenuOpen
 });
 
 /** @namespace Scandiweb/NavigationExtension/Component/HamburgerMenu/Container/mapDispatchToProps */
 export const mapDispatchToProps = (dispatch) => ({
-    addProduct: (options) => CartDispatcher.then(
-        ({ default: dispatcher }) => dispatcher.addProductToCart(dispatch, options)
+    closeSideMenu: () => SideMenuDispatcher.then(
+        ({ default: dispatcher }) => dispatcher.closeSideMenu(dispatch)
     )
 });
 
 /** @namespace Scandiweb/NavigationExtension/Component/HamburgerMenu/Container/HamburgerMenuContainer */
 export class HamburgerMenuContainer extends PureComponent {
     static propTypes = {
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        closeSideMenu: PropTypes.func.isRequired,
+        isSideMenuOpen: PropTypes.bool.isRequired
     };
 
     containerFunctions = {
@@ -46,10 +49,16 @@ export class HamburgerMenuContainer extends PureComponent {
     };
 
     containerProps = () => {
-        const { device } = this.props;
+        const {
+            device,
+            closeSideMenu,
+            isSideMenuOpen
+        } = this.props;
 
         return {
-            device
+            device,
+            closeSideMenu,
+            isSideMenuOpen
         };
     };
 
