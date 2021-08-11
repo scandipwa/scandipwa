@@ -12,6 +12,7 @@ import { lazy } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
 import ListIcon from 'Component/ListIcon';
+import UserIcon from 'Component/UserIcon';
 
 import './HeaderOverride.style.scss';
 
@@ -22,13 +23,38 @@ export const HamburgerMenu = lazy(() => import(
 
 export class HeaderPlugin {
     stateMap = (originalMember) => Object.entries(originalMember)
-        .reduce((prev, [k, v]) => ({ ...prev, [k]: { ...v, menu: true, minicart: true } }), {});
+        .reduce((prev, [page, icons]) => ({
+            ...prev,
+            [page]: {
+                ...icons,
+                menu: icons.close !== true,
+                account: true,
+                minicart: true,
+                back: false
+            }
+        }), {});
 
     renderMap = (originalMember, instance) => ({
         menu: this.renderOpenMenuButton.bind(instance),
         ...originalMember,
+        account: this.renderMobileAccountButton.bind(instance),
         minicart: instance.renderMinicartButton.bind(instance)
     });
+
+    renderMobileAccountButton() {
+        const { onMyAccountButtonClick } = this.props;
+
+        return (
+            <button
+              block="Header"
+              elem="AccountBtn"
+              onClick={ onMyAccountButtonClick }
+              aria-label="Open my account"
+            >
+                <UserIcon />
+            </button>
+        );
+    }
 
     renderOpenMenuButton() {
         const { openSideMenu, closeSideMenu } = this.props;

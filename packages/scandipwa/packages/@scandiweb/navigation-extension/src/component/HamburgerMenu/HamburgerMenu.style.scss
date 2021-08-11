@@ -20,5 +20,19 @@
   &-CloseBtn {
     position: sticky;
     top: 0;
+    width: 34px;
+    height: 34px;
+    margin-block-start: 5px;
+    margin-inline-start: 5px;
+
+    svg {
+      width: 34px;
+      height: 34px;
+    }
+  }
+
+  .MinusIcon,
+  .AddIcon {
+    pointer-events: none;
   }
 };
