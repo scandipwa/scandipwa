@@ -1,4 +1,4 @@
-import { MY_ACCOUNT } from 'Component/Header/Header.config';
+import { MENU, MY_ACCOUNT, SEARCH } from 'Component/Header/Header.config';
 import { ACCOUNT_LOGIN_URL } from 'Route/MyAccount/MyAccount.config';
 import { isSignedIn } from 'Util/Auth';
 import browserHistory from 'Util/History';
@@ -16,16 +16,37 @@ import { appendWithStoreCode } from 'Util/Url';
  */
 
 export class HeaderContainerPlugin {
+    state = (originalMember) => ({
+        ...originalMember,
+        isSearchBarActive: false
+    });
+
     containerProps = (args, callback, instance) => {
         const { openSideMenu, closeSideMenu } = instance.props;
+        const { isSearchBarActive } = instance.state;
 
-        return { ...callback.apply(instance, args), openSideMenu, closeSideMenu };
+        return {
+            ...callback.apply(instance, args),
+            openSideMenu,
+            closeSideMenu,
+            isSearchBarActive
+        };
     };
 
     containerFunctions = (originalMember, instance) => ({
         ...originalMember,
-        onMyAccountButtonClick: this.onMyAccountButtonClick.bind(instance)
+        onMyAccountButtonClick: this.onMyAccountButtonClick.bind(instance),
+        onSearchButtonClick: this.onSearchButtonClick.bind(instance),
+        onSearchBarDeactivate: this.onSearchBarDeactivate.bind(instance)
     });
+
+    onSearchButtonClick() {
+        this.setState({ isSearchBarActive: true });
+    }
+
+    onSearchBarDeactivate() {
+        this.setState({ isSearchBarActive: false });
+    }
 
     onMyAccountButtonClick() {
         const { pathname } = location;
@@ -35,16 +56,47 @@ export class HeaderContainerPlugin {
             browserHistory.push(url);
         }
     }
+
+    onSearchBarFocus(args, callback, instance) {
+        const {
+            setNavigationState,
+            goToPreviousNavigationState,
+            showOverlay,
+            navigationState: { name },
+            device
+        } = instance.props;
+
+        if (!device.isMobile && name === SEARCH) {
+            return;
+        }
+
+        showOverlay(SEARCH);
+
+        setNavigationState({
+            name: SEARCH,
+            onBackClick: () => {
+                showOverlay(MENU);
+                goToPreviousNavigationState();
+            }
+        });
+    }
 }
 
-const { containerProps, containerFunctions } = new HeaderContainerPlugin();
+const {
+    state,
+    containerProps,
+    containerFunctions,
+    onSearchBarFocus
+} = new HeaderContainerPlugin();
 
 export default {
     'Component/Header/Container': {
         'member-function': {
-            containerProps
+            containerProps,
+            onSearchBarFocus
         },
         'member-property': {
+            state,
             containerFunctions
         }
     }

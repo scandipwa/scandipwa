@@ -4,12 +4,33 @@
   }
 
   &-AccountBtn {
-    margin-inline-end: 16px;
+    margin-inline: 8px 16px;
   }
 
   &-MinicartItemCount {
     @include mobile {
       inset-block-start: 4px!important;
     }
+  }
+
+  &-SearchBtn:hover {
+    .SearchIcon {
+      fill: var(--primary-base-color);
+    }
+  }
+
+  &-BackBtn {
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .SearchField_isVisible {
+    margin-block: 0!important;
+  }
+
+  &-SearchBtn {
+    margin-inline: 8px;
   }
 }
