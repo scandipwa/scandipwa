@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import history from 'Util/History';
+
 import MenuItem from './MenuItem.component';
 import { HOVER_TIMEOUT } from './MenuItem.config';
 
@@ -47,9 +49,13 @@ export class MenuItemContainer extends PureComponent {
     menuHoverTimeout = null;
 
     onItemClick() {
-        const { closeMenu } = this.props;
+        const { closeMenu, activeMenuItemsStack } = this.props;
         window.scrollTo({ top: 0 });
         closeMenu();
+
+        // keep the stack here, so later we can deconstruct menu out of it
+        const { pathname } = location;
+        history.push(pathname, { stack: activeMenuItemsStack });
     }
 
     handleCategoryHover() {

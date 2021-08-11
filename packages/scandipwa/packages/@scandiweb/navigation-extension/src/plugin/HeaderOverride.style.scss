@@ -6,4 +6,10 @@
   &-AccountBtn {
     margin-inline-end: 16px;
   }
+
+  &-MinicartItemCount {
+    @include mobile {
+      inset-block-start: 4px!important;
+    }
+  }
 }

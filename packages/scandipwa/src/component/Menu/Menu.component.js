@@ -97,6 +97,10 @@ export class Menu extends PureComponent {
         );
     }
 
+    stopPropagation(e) {
+        e.stopPropagation();
+    }
+
     renderSubLevelItems = (item, isSecondLevel) => {
         const {
             handleSubcategoryClick,
@@ -139,6 +143,9 @@ export class Menu extends PureComponent {
               block="Menu"
               elem="SubItemWrapper"
               key={ item_id }
+              onClick={ this.stopPropagation }
+              role="button"
+              tabIndex="-1"
             >
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
