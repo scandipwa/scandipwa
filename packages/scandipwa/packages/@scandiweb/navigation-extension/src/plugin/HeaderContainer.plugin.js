@@ -10,9 +10,9 @@
  */
 
 const containerProps = (args, callback, instance) => {
-    const { openSideMenu } = instance.props;
+    const { openSideMenu, closeSideMenu } = instance.props;
 
-    return { ...callback.apply(instance, args), openSideMenu };
+    return { ...callback.apply(instance, args), openSideMenu, closeSideMenu };
 };
 
 export default {

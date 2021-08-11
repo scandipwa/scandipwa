@@ -25,6 +25,7 @@ export const SideMenuReducer = (state = getInitialState(), action) => {
             ...state,
             isSideMenuOpen: true
         };
+
     case CLOSE_SIDE_MENU:
         return {
             ...state,

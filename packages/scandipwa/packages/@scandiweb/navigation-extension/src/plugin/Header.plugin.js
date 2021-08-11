@@ -1,5 +1,3 @@
-import ListIcon from 'Component/ListIcon';
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,7 +8,17 @@ import ListIcon from 'Component/ListIcon';
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { lazy } from 'react';
+
+import ClickOutside from 'Component/ClickOutside';
+import ListIcon from 'Component/ListIcon';
+
 import './HeaderOverride.style.scss';
+
+export const HamburgerMenu = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "navigation-extension" */
+    '../component/HamburgerMenu'
+));
 
 export class HeaderPlugin {
     stateMap = (originalMember) => Object.entries(originalMember)
@@ -23,17 +31,24 @@ export class HeaderPlugin {
     });
 
     renderOpenMenuButton() {
-        const { openSideMenu } = this.props;
+        const { openSideMenu, closeSideMenu } = this.props;
 
         return (
-                <button
-                  block="Header"
-                  elem="OpenMenuBtn"
-                  onClick={ openSideMenu }
-                  aria-label={ __('Open Menu') }
-                >
-                    <ListIcon />
-                </button>
+            <ClickOutside
+              onClick={ closeSideMenu }
+            >
+                <div block="Header" elem="HamburgerMenuWrapper">
+                    <button
+                      block="Header"
+                      elem="OpenMenuBtn"
+                      onClick={ openSideMenu }
+                      aria-label={ __('Open Menu') }
+                    >
+                        <ListIcon />
+                    </button>
+                    <HamburgerMenu />
+                </div>
+            </ClickOutside>
         );
     }
 }

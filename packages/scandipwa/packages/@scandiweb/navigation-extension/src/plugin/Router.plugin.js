@@ -18,13 +18,7 @@ export const HamburgerMenu = lazy(() => import(
 export const BEFORE_ITEMS_TYPE = (originalMember) => {
     console.debug(originalMember[0].component);
     // eslint-disable-next-line @scandipwa/scandipwa-guidelines/no-jsx-variables
-    return [
-        ...originalMember,
-        {
-            component: <HamburgerMenu />,
-            position: 45
-        }
-    ];
+    return originalMember;
 };
 
 export const config = {

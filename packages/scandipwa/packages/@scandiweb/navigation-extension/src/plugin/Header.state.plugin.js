@@ -21,6 +21,9 @@ const mapDispatchToProps = (args, callback) => {
         ...callback(...args),
         openSideMenu: () => SideMenuDispatcher.then(
             ({ default: dispatcher }) => dispatcher.openSideMenu(dispatch)
+        ),
+        closeSideMenu: () => SideMenuDispatcher.then(
+            ({ default: dispatcher }) => dispatcher.closeSideMenu(dispatch)
         )
     };
 };
