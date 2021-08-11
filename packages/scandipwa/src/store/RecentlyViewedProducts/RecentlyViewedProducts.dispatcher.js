@@ -49,8 +49,18 @@ export class RecentlyViewedProductsDispatcher extends QueryDispatcher {
      * @param recentlyViewedProducts
      */
     prepareRequest(options, dispatch) {
-        const { recentProducts, store } = options;
-        const recentlyViewedProductsSKUs = recentProducts[store].reduce((productSKUs, item) => {
+        const { store } = options;
+        const {
+            recentProducts: {
+                [store]: storeRecentProducts
+            } = {}
+        } = options;
+
+        if (!Array.isArray(storeRecentProducts)) {
+            return null;
+        }
+
+        const recentlyViewedProductsSKUs = storeRecentProducts.reduce((productSKUs, item) => {
             const { sku } = item;
 
             return [...productSKUs, `${ sku.replace(/ /g, '%20') }`];
