@@ -10,7 +10,7 @@
   z-index: 300;
   transform: translateX(calc(-1 * var(--side-menu-width)));
   transition: transform 250ms ease-out;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-block-end: 16px;
 
   &_isSideMenuOpen {
