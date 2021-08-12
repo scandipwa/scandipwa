@@ -76,10 +76,11 @@ export class SwipeToDeleteContainer extends PureComponent {
             dragRightOpenThreshold,
             dragRightOpenTriggerThreshold,
             isLoading,
-            onAheadOfDragItemRemoveThresho,
+            onAheadOfDragItemRemoveThreshold,
             renderRightSideConte,
             rightSideMix,
-            topElemMix
+            topElemMix,
+            renderRightSideContent
         } = this.props;
 
         return {
@@ -90,10 +91,11 @@ export class SwipeToDeleteContainer extends PureComponent {
             dragRightOpenThreshold,
             dragRightOpenTriggerThreshold,
             isLoading,
-            onAheadOfDragItemRemoveThresho,
+            onAheadOfDragItemRemoveThreshold,
             renderRightSideConte,
             rightSideMix,
-            topElemMix
+            topElemMix,
+            renderRightSideContent
         };
     }
 

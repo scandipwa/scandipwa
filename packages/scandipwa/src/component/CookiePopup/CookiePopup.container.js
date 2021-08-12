@@ -50,7 +50,7 @@ export class CookiePopupContainer extends PureComponent {
 
         return (
             <CookiePopup
-              { ...this.props }
+              { ...this.containerProps() }
               key={ code }
             />
         );

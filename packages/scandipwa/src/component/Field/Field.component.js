@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,7 +9,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-/* eslint-disable react/jsx-no-bind */
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
