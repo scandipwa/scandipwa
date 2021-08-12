@@ -26,7 +26,8 @@ import {
     RADIO_TYPE,
     SELECT_TYPE,
     TEXT_TYPE,
-    TEXTAREA_TYPE
+    TEXTAREA_TYPE,
+    VALIDATION_STATUS
 } from './Field.config';
 
 /** @namespace Component/Field/Container */
@@ -62,7 +63,7 @@ export class FieldContainer extends PureComponent {
         max: PropTypes.number,
         validation: PropTypes.arrayOf(PropTypes.string),
         message: PropTypes.string,
-        customValidationStatus: PropTypes.bool,
+        customValidationStatus: PropTypes.oneOf(Object.values(VALIDATION_STATUS)),
         id: PropTypes.string,
         formRef: PropTypes.oneOfType([
             PropTypes.func,

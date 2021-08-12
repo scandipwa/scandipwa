@@ -20,3 +20,9 @@ export const SELECT_TYPE = 'select';
 export const FILE_TYPE = 'file';
 
 export const ENTER_KEY_CODE = 13;
+
+export const VALIDATION_STATUS = {
+    success: true,
+    error: false,
+    skip: 'skip'
+};
