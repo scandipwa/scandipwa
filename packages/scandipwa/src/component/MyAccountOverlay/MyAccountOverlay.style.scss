@@ -166,7 +166,7 @@
         grid-template-rows: max-content 1fr;
 
         @include desktop {
-            overflow-y: scroll;
+            overflow-y: auto;
             max-height: calc(100vh - var(--header-nav-height) - var(--popup-bottom-offset));
         }
 
