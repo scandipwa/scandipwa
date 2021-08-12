@@ -183,7 +183,7 @@ export class ProductActions extends PureComponent {
             updateConfigurableVariant,
             parameters,
             areDetailsLoaded,
-            product: { configurable_options, type_id, variants }
+            product: { configurable_options = {}, type_id, variants = {} }
         } = this.props;
 
         if (type_id !== CONFIGURABLE) {

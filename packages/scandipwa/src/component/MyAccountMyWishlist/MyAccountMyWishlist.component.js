@@ -12,12 +12,12 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 
-import Image from 'Component/Image/Image.container';
+import CartIcon from 'Component/CartIcon';
 import Loader from 'Component/Loader';
 import ProductCard from 'Component/ProductCard';
+import ShareIcon from 'Component/ShareIcon';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 import WishlistItem from 'Component/WishlistItem';
-import bag from 'Style/icons/bag.svg';
 import { ProductType } from 'Type/ProductList';
 import CSS from 'Util/CSS';
 
@@ -185,7 +185,7 @@ export class MyAccountMyWishlist extends PureComponent {
               onClick={ addAllToCart }
               disabled={ isDisabled }
             >
-                <Image src={ bag } alt="cart" mix={ { block: 'AddToCart', elem: 'Icon' } } />
+                <CartIcon />
                 { __('Add All to Cart') }
             </button>
         );
@@ -204,13 +204,11 @@ export class MyAccountMyWishlist extends PureComponent {
             <button
               block="Button"
               mods={ { isHollow: true } }
+              mix={ { block: 'MyAccountMyWishlist', elem: 'ShareWishlistButton' } }
               onClick={ shareWishlist }
               disabled={ disabled }
             >
-                <span
-                  block="MyAccountMyWishlist"
-                  elem="ShareIcon"
-                />
+                <ShareIcon isPrimary />
                 { __('Share') }
             </button>
         );

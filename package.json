@@ -22,7 +22,8 @@
         "extends": "@scandipwa",
         "ignorePatterns": [
             "**/node_modules/**",
-            "**/Magento_Theme/**"
+            "**/Magento_Theme/**",
+            "**/build/**"
         ]
     },
     "workspaces": [

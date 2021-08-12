@@ -41,6 +41,7 @@ export class ImageZoomPopupContainer extends PureComponent {
         popupId: PropTypes.string.isRequired,
         isActive: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
+        activeImageId: PropTypes.number.isRequired,
         mix: MixType
     };
 
@@ -56,6 +57,18 @@ export class ImageZoomPopupContainer extends PureComponent {
         if (prevIsActive !== isActive && isActive) {
             showPopup(popupId, {});
         }
+    }
+
+    containerProps() {
+        const {
+            children,
+            activeImageId
+        } = this.props;
+
+        return {
+            children,
+            activeImageId
+        };
     }
 
     render() {
@@ -82,7 +95,7 @@ export class ImageZoomPopupContainer extends PureComponent {
               onHide={ onClose }
             >
                 <ImageZoomPopup
-                  { ...this.props }
+                  { ...this.containerProps() }
                 />
             </Popup>
         );

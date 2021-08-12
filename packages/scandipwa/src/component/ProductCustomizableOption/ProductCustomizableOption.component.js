@@ -26,18 +26,13 @@ export class ProductCustomizableOption extends PureComponent {
         getSelectedCheckboxValue: PropTypes.func.isRequired,
         renderOptionLabel: PropTypes.func.isRequired,
         updateTextFieldValue: PropTypes.func.isRequired,
-        textFieldValid: PropTypes.bool,
-        processFileUpload: PropTypes.func,
+        textFieldValid: PropTypes.bool.isRequired,
+        processFileUpload: PropTypes.func.isRequired,
         setDropdownValue: PropTypes.func.isRequired,
         selectedDropdownValue: PropTypes.number.isRequired,
         optionType: PropTypes.string.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
         requiredSelected: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
-        processFileUpload: () => {},
-        textFieldValid: null
     };
 
     renderMap = {

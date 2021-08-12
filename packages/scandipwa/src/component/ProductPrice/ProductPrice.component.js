@@ -31,7 +31,6 @@ export class ProductPrice extends PureComponent {
         discountPercentage: PropTypes.number,
         formattedFinalPrice: PropTypes.string,
         formattedSubPrice: PropTypes.string,
-        defaultFinalPriceExclTax: PropTypes.number,
         variantsCount: PropTypes.number,
         price: PriceType,
         label: PropTypes.string,
@@ -43,7 +42,6 @@ export class ProductPrice extends PureComponent {
         isSchemaRequired: false,
         roundedRegularPrice: '0',
         priceCurrency: 'USD',
-        defaultFinalPriceExclTax: 0,
         discountPercentage: 0,
         formattedFinalPrice: '0',
         formattedSubPrice: null,
@@ -89,7 +87,7 @@ export class ProductPrice extends PureComponent {
             label
         } = this.props;
 
-        const priceSchema = this.getCurrentPriceSchema();
+        const { itemProp = null, content = null } = this.getCurrentPriceSchema();
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
@@ -103,7 +101,14 @@ export class ProductPrice extends PureComponent {
         return (
             <PriceSemanticElementName block="ProductPrice" elem="Price">
                 { this.renderPriceBadge(label) }
-                <span { ...priceSchema }>{ formattedFinalPrice }</span>
+                <span
+                  itemProp={ itemProp }
+                  content={ content }
+                  block="ProductPrice"
+                  elem="PriceValue"
+                >
+                    { formattedFinalPrice }
+                </span>
             </PriceSemanticElementName>
         );
     }
@@ -144,8 +149,6 @@ export class ProductPrice extends PureComponent {
             label
         } = this.props;
 
-        const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
-
         if (discountPercentage === 0 || roundedRegularPrice === 0 || price_tiers.length || label) {
             return null;
         }
@@ -155,7 +158,7 @@ export class ProductPrice extends PureComponent {
               block="ProductPrice"
               elem="HighPrice"
               aria-label={ __('Old product price') }
-              { ...schema }
+              itemProp={ isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : null }
             >
                 { roundedRegularPrice }
             </del>
@@ -166,10 +169,10 @@ export class ProductPrice extends PureComponent {
         const { isSchemaRequired } = this.props;
 
         if (isSchemaRequired) {
-            const currencySchema = this.getCurrencySchema();
+            const { itemProp = null, content = null } = this.getCurrencySchema();
 
             return (
-                <meta { ...currencySchema } />
+                <meta itemProp={ itemProp } content={ content } />
             );
         }
 

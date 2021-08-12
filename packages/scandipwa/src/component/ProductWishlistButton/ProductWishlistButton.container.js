@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import { MixType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import {
@@ -62,10 +63,12 @@ export class ProductWishlistButtonContainer extends PureComponent {
         onProductValidationError: PropTypes.func,
         removeProductFromWishlist: PropTypes.func.isRequired,
         productOptionsData: PropTypes.object,
-        groupedProductQuantity: PropTypes.objectOf(PropTypes.number)
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
+        mix: MixType
     };
 
     static defaultProps = {
+        mix: {},
         quantity: 1,
         onProductValidationError: () => {},
         configurableVariantIndex: -2,
@@ -77,6 +80,11 @@ export class ProductWishlistButtonContainer extends PureComponent {
         isWishlistButtonLoading: false
     };
 
+    containerFunctions = {
+        addToWishlist: this.toggleProductInWishlist.bind(this, true),
+        removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
+    };
+
     componentDidUpdate(prevProps) {
         const { isAddingWishlistItem: isPrevAddingWishlistItem } = prevProps;
         const { isAddingWishlistItem } = this.props;
@@ -86,23 +94,25 @@ export class ProductWishlistButtonContainer extends PureComponent {
         }
     }
 
-    containerProps = () => ({
-        isDisabled: this.isDisabled(),
-        isInWishlist: this.isInWishlist(),
-        isReady: this._getIsProductReady(),
-        isSignedIn: isSignedIn()
-    });
+    containerProps() {
+        const { quantity, product, mix } = this.props;
 
-    containerFunctions = () => ({
-        addToWishlist: this.toggleProductInWishlist.bind(this, true),
-        removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
-    });
+        return {
+            quantity,
+            mix,
+            product,
+            isDisabled: this.isDisabled(),
+            isInWishlist: this.isInWishlist(),
+            isReady: this._getIsProductReady(),
+            isSignedIn: isSignedIn()
+        };
+    }
 
     setWishlistButtonLoading(isLoading) {
         return this.setState({ isWishlistButtonLoading: isLoading });
     }
 
-    toggleProductInWishlist = (add = true) => {
+    toggleProductInWishlist(add = true) {
         const {
             product: { sku, type_id },
             quantity,
@@ -141,7 +151,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         );
 
         return removeProductFromWishlist({ item_id, sku: variantSku });
-    };
+    }
 
     isDisabled = () => {
         const { isAddingWishlistItem } = this.props;
@@ -241,9 +251,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
         return (
             <ProductWishlistButton
               isLoading={ isWishlistButtonLoading }
-              { ...this.props }
               { ...this.containerProps() }
-              { ...this.containerFunctions() }
+              { ...this.containerFunctions }
             />
         );
     }

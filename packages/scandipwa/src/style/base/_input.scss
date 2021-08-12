@@ -109,8 +109,12 @@ textarea {
             height: 36px;
         }
 
-        &:not([disabled]):hover {
-            filter: var(--primary-dark-filter);
+        &:hover {
+            border-color: var(--primary-dark-color);
+
+            svg {
+                fill: var(--primary-dark-color);
+            }
         }
 
         &:first-of-type {

@@ -17,6 +17,7 @@ import { POPUP } from 'Component/Header/Header.config';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay, hideActivePopup } from 'Store/Overlay/Overlay.action';
+import { ChildrenType, MixType } from 'Type/Common';
 
 import Popup from './Popup.component';
 
@@ -26,7 +27,7 @@ export const mapStateToProps = (state) => ({
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
     shouldPopupClose: state.PopupReducer.shouldPopupClose,
     payload: state.PopupReducer.popupPayload,
-    device: state.ConfigReducer.device
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Component/Popup/Container/mapDispatchToProps */
@@ -40,6 +41,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/Popup/Container */
 export class PopupContainer extends PureComponent {
     static propTypes = {
+        mix: MixType,
         payload: PropTypes.objectOf(
             PropTypes.shape({
                 title: PropTypes.string
@@ -47,15 +49,24 @@ export class PopupContainer extends PureComponent {
         ).isRequired,
         activeOverlay: PropTypes.string.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
+        areOtherOverlaysOpen: PropTypes.bool.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         onVisible: PropTypes.func,
         onClose: PropTypes.func,
-        shouldPopupClose: PropTypes.bool.isRequired
+        isStatic: PropTypes.bool,
+        children: ChildrenType,
+        id: PropTypes.string.isRequired,
+        shouldPopupClose: PropTypes.bool.isRequired,
+        isMobile: PropTypes.bool.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         onVisible: () => {},
-        onClose: () => {}
+        onClose: () => {},
+        mix: {},
+        children: [],
+        isStatic: false
     };
 
     containerFunctions = {
@@ -76,9 +87,38 @@ export class PopupContainer extends PureComponent {
         onVisible();
     }
 
-    containerProps = () => ({
-        title: this._getPopupTitle()
-    });
+    containerProps() {
+        const {
+            activeOverlay,
+            areOtherOverlaysOpen,
+            changeHeaderState,
+            children,
+            id,
+            isMobile,
+            isStatic,
+            mix,
+            onClose,
+            onVisible,
+            hideActiveOverlay,
+            goToPreviousNavigationState
+        } = this.props;
+
+        return {
+            activeOverlay,
+            areOtherOverlaysOpen,
+            changeHeaderState,
+            children,
+            id,
+            isMobile,
+            isStatic,
+            mix,
+            onClose,
+            onVisible,
+            hideActiveOverlay,
+            goToPreviousNavigationState,
+            title: this._getPopupTitle()
+        };
+    }
 
     _getPopupTitle() {
         const { payload, activeOverlay } = this.props;
@@ -90,7 +130,6 @@ export class PopupContainer extends PureComponent {
     render() {
         return (
             <Popup
-              { ...this.props }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

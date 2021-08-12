@@ -8,36 +8,27 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import add from 'Style/icons/add.svg';
-import arrow from 'Style/icons/arrow.svg';
-import bag from 'Style/icons/bag.svg';
-import chevron from 'Style/icons/chevron.svg';
-import close from 'Style/icons/close.svg';
-import compare from 'Style/icons/compare.svg';
-import edit from 'Style/icons/edit.svg';
-import exclamation from 'Style/icons/exclamation.svg';
-import facebook from 'Style/icons/facebook.svg';
-import filter from 'Style/icons/filter.svg';
-import grid from 'Style/icons/grid.svg';
-import heart from 'Style/icons/heart.svg';
-import help from 'Style/icons/help.svg';
-import home from 'Style/icons/home.svg';
-import linkedIn from 'Style/icons/linked-in.svg';
-import list from 'Style/icons/list.svg';
-import lock from 'Style/icons/lock.svg';
-import mail from 'Style/icons/mail.svg';
-import menu from 'Style/icons/menu.svg';
-import minus from 'Style/icons/minus.svg';
-import phone from 'Style/icons/phone.svg';
-import search from 'Style/icons/search.svg';
-import share from 'Style/icons/share.svg';
-import sliderItemSelected from 'Style/icons/slider-item-selected.svg';
-import sliderItem from 'Style/icons/slider-item.svg';
-import startEmpty from 'Style/icons/star-empty.svg';
-import startFull from 'Style/icons/star-full.svg';
-import startHalf from 'Style/icons/star-half.svg';
-import twitter from 'Style/icons/twitter.svg';
-import user from 'Style/icons/user.svg';
+import AddIcon from 'Component/AddIcon';
+import CartIcon from 'Component/CartIcon';
+import ChevronIcon from 'Component/ChevronIcon';
+import CloseIcon from 'Component/CloseIcon';
+import CompareIcon from 'Component/CompareIcon';
+import EditIcon from 'Component/EditIcon';
+import ExclamationMarkIcon from 'Component/ExclamationMarkIcon';
+import FilterIcon from 'Component/FilterIcon';
+import GridIcon from 'Component/GridIcon';
+import HeartIcon from 'Component/HeartIcon';
+import HomeIcon from 'Component/HomeIcon';
+import ListIcon from 'Component/ListIcon';
+import MenuIcon from 'Component/MenuIcon';
+import MinusIcon from 'Component/MinusIcon';
+import SearchIcon from 'Component/SearchIcon';
+import ShareIcon from 'Component/ShareIcon';
+import StarIcon from 'Component/StarIcon';
+import UserIcon from 'Component/UserIcon';
+import facebook from 'Style/Icons/Logos/facebook.svg';
+import linkedIn from 'Style/Icons/Logos/linkedIn.svg';
+import twitter from 'Style/Icons/Logos/twitter.svg';
 
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';
@@ -47,36 +38,27 @@ export const ICONS = 'icons';
 export const PRODUCT_POD = 'product pod';
 export const ADDITIONAL_ELEMENTS = 'additional elements';
 export const ICONS_LIST = {
-    bag,
-    filter,
-    minus,
-    add,
-    menu,
-    search,
-    user,
-    heart,
-    startFull,
-    startHalf,
-    startEmpty,
-    sliderItemSelected,
-    sliderItem,
-    arrow,
-    help,
-    lock,
-    chevron,
-    compare,
-    exclamation,
-    close,
-    phone,
-    mail,
+    CartIcon,
+    FilterIcon,
+    MinusIcon,
+    AddIcon,
+    MenuIcon,
+    SearchIcon,
+    UserIcon,
+    HeartIcon,
+    StarIcon,
+    ChevronIcon,
+    CompareIcon,
+    ExclamationMarkIcon,
+    CloseIcon,
     linkedIn,
     facebook,
     twitter,
-    grid,
-    home,
-    list,
-    share,
-    edit
+    GridIcon,
+    HomeIcon,
+    ListIcon,
+    ShareIcon,
+    EditIcon
 };
 export const NOTIFICATION_SUCCESS_DATA = {
     msgText: 'Product was added to cart!',

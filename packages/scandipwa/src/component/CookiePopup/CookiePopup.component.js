@@ -23,15 +23,9 @@ import './CookiePopup.style';
 /** @namespace Component/CookiePopup/Component */
 export class CookiePopup extends PureComponent {
     static propTypes = {
-        cookieText: PropTypes.string,
-        cookieLink: PropTypes.string,
-        code: PropTypes.string
-    };
-
-    static defaultProps = {
-        cookieText: '',
-        cookieLink: '',
-        code: ''
+        cookieText: PropTypes.string.isRequired,
+        cookieLink: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired
     };
 
     state = {

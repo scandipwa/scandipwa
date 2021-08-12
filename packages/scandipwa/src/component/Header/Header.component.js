@@ -14,8 +14,14 @@
 import PropTypes from 'prop-types';
 import { createRef, lazy, Suspense } from 'react';
 
+import CartIcon from 'Component/CartIcon';
+import ChevronIcon from 'Component/ChevronIcon';
+import { LEFT } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
+import CloseIcon from 'Component/CloseIcon';
+import CompareIcon from 'Component/CompareIcon';
 import CurrencySwitcher from 'Component/CurrencySwitcher';
+import ExclamationMarkIcon from 'Component/ExclamationMarkIcon';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
 import Menu from 'Component/Menu';
@@ -25,7 +31,9 @@ import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstr
 import OfflineNotice from 'Component/OfflineNotice';
 import PopupSuspense from 'Component/PopupSuspense';
 import SearchField from 'Component/SearchField';
+import ShareIcon from 'Component/ShareIcon';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import UserIcon from 'Component/UserIcon';
 import { DeviceType } from 'Type/Device';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
@@ -228,7 +236,9 @@ export class Header extends NavigationAbstract {
               aria-label="Go back"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
-            />
+            >
+                <ChevronIcon direction={ LEFT } />
+            </button>
         );
     }
 
@@ -249,7 +259,9 @@ export class Header extends NavigationAbstract {
               aria-label="Close"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 
@@ -310,7 +322,9 @@ export class Header extends NavigationAbstract {
               aria-label="Share"
               aria-hidden={ !isVisible }
               disabled={ isWishlistLoading }
-            />
+            >
+                <ShareIcon />
+            </button>
         );
     }
 
@@ -340,10 +354,7 @@ export class Header extends NavigationAbstract {
                   mods={ { type: 'compare' } }
                   aria-label={ __('Compare Page') }
                 >
-                    <div
-                      block="Header"
-                      elem="CompareIcon"
-                    />
+                    <CompareIcon />
                 </Link>
             </div>
         );
@@ -441,10 +452,15 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderAccountButton(isVisible) {
+    renderAccountButton() {
         const {
-            onMyAccountButtonClick
+            onMyAccountButtonClick,
+            device
         } = this.props;
+
+        if (device.isMobile) {
+            return null;
+        }
 
         return (
             <button
@@ -455,11 +471,7 @@ export class Header extends NavigationAbstract {
               aria-label="Open my account"
               id="myAccount"
             >
-                <div
-                  block="Header"
-                  elem="Button"
-                  mods={ { isVisible, type: 'account' } }
-                />
+                <UserIcon />
             </button>
         );
     }
@@ -552,11 +564,7 @@ export class Header extends NavigationAbstract {
               tabIndex="0"
               onClick={ onMinicartButtonClick }
             >
-                <span
-                  aria-label="Minicart"
-                  block="Header"
-                  elem="MinicartIcon"
-                />
+                <CartIcon />
                 { this.renderMinicartItemsQty() }
             </button>
         );
@@ -656,10 +664,7 @@ export class Header extends NavigationAbstract {
         return (
             <div block="Header" elem="TopMenu">
                 <div block="Header" elem="News">
-                    <div
-                      block="Header"
-                      elem="NewsIcon"
-                    />
+                    <ExclamationMarkIcon />
                     <span>{ __('Check new arrivals') }</span>
                     <Link
                       to="/"

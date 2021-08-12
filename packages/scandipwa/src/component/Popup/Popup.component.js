@@ -15,9 +15,9 @@ import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
 import ClickOutside from 'Component/ClickOutside';
+import CloseIcon from 'Component/CloseIcon';
 import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
-import { DeviceType } from 'Type/Device';
 
 import { ESCAPE_KEY } from './Popup.config';
 
@@ -28,8 +28,7 @@ export class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
         clickOutside: PropTypes.bool,
-        title: PropTypes.string,
-        device: DeviceType.isRequired
+        title: PropTypes.string
     };
 
     static defaultProps = {
@@ -136,12 +135,14 @@ export class Popup extends Overlay {
               elem="CloseBtn"
               aria-label={ __('Close') }
               onClick={ this.hidePopUp }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 
     renderNotifications() {
-        const { device: { isMobile } } = this.props;
+        const { isMobile } = this.props;
 
         if (!isMobile) {
             return null;

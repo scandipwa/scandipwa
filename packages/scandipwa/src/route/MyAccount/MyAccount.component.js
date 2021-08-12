@@ -64,7 +64,11 @@ export class MyAccount extends Component {
         onSignIn: PropTypes.func.isRequired,
         onSignOut: PropTypes.func.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
-        subHeading: PropTypes.func.isRequired
+        subHeading: PropTypes.func
+    };
+
+    static defaultProps = {
+        subHeading: () => {}
     };
 
     renderMap = {

@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { Children, createRef, PureComponent } from 'react';
 
+import ChevronIcon from 'Component/ChevronIcon';
+import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
 import Draggable from 'Component/Draggable';
 import { ChildrenType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
@@ -478,14 +480,18 @@ export class Slider extends PureComponent {
                   mods={ { isPrev: true, isDisabled: prevIsDisabled } }
                   aria-label={ __('Previous') }
                   onClick={ this.goPrev }
-                />
+                >
+                    <ChevronIcon direction={ LEFT } />
+                </button>
                 <button
                   block="Slider"
                   elem="Arrow"
                   mods={ { isNext: true, isDisabled: nextIsDisabled } }
                   aria-label={ __('Next') }
                   onClick={ this.goNext }
-                />
+                >
+                    <ChevronIcon direction={ RIGHT } />
+                </button>
             </>
         );
     }

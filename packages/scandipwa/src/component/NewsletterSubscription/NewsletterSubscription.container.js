@@ -55,6 +55,12 @@ export class NewsletterSubscriptionContainer extends PureComponent {
 
     onFormSubmitDone = this.onFormSubmitDone.bind(this);
 
+    containerProps() {
+        const { isLoading } = this.state;
+
+        return { isLoading };
+    }
+
     onFormSubmit(fields) {
         const {
             subscribeToNewsletter,
@@ -86,8 +92,7 @@ export class NewsletterSubscriptionContainer extends PureComponent {
     render() {
         return (
             <NewsletterSubscription
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

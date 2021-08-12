@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { activeTabType, tabMapType } from 'Type/Account';
+
 import MyAccountTabList from './MyAccountTabList.component';
 
 export const MyAccountDispatcher = import(
@@ -34,7 +36,10 @@ export const mapDispatchToProps = (dispatch) => ({
 export class MyAccountTabListContainer extends PureComponent {
     static propTypes = {
         onSignOut: PropTypes.func,
-        logout: PropTypes.func.isRequired
+        logout: PropTypes.func.isRequired,
+        tabMap: tabMapType.isRequired,
+        activeTab: activeTabType.isRequired,
+        changeActiveTab: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -44,6 +49,20 @@ export class MyAccountTabListContainer extends PureComponent {
     containerFunctions = {
         handleLogout: this.handleLogout.bind(this)
     };
+
+    containerProps() {
+        const {
+            tabMap,
+            activeTab,
+            changeActiveTab
+        } = this.props;
+
+        return {
+            tabMap,
+            activeTab,
+            changeActiveTab
+        };
+    }
 
     handleLogout() {
         const { onSignOut, logout } = this.props;
@@ -55,7 +74,7 @@ export class MyAccountTabListContainer extends PureComponent {
     render() {
         return (
             <MyAccountTabList
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

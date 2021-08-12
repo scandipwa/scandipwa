@@ -74,8 +74,15 @@ export class StoreSwitcherContainer extends DataContainer {
 
     containerProps = () => {
         const { currentStoreCode, device } = this.props;
+        const { storeList, isOpened, storeLabel } = this.state;
 
-        return { currentStoreCode, device };
+        return {
+            currentStoreCode,
+            device,
+            isOpened,
+            storeLabel,
+            storeList
+        };
     };
 
     onStoreSwitcherClick() {
@@ -157,7 +164,6 @@ export class StoreSwitcherContainer extends DataContainer {
             <StoreSwitcher
               { ...this.containerFunctions }
               { ...this.containerProps() }
-              { ...this.state }
             />
         );
     }

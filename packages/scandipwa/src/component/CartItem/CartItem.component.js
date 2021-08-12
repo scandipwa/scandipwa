@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CartItemPrice from 'Component/CartItemPrice';
+import CloseIcon from 'Component/CloseIcon';
 import Field from 'Component/Field';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
@@ -350,6 +351,7 @@ export class CartItem extends PureComponent {
               aria-label="Remove item from cart"
               onClick={ handleRemoveItem }
             >
+                <CloseIcon />
                 <span block="CartItem" elem="DeleteButtonText" mods={ { isMobileLayout } }>
                     { __('Delete') }
                 </span>

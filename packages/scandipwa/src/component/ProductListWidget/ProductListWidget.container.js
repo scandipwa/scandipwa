@@ -58,6 +58,43 @@ export class ProductListWidgetContainer extends DataContainer {
         getIsNewCategory: this.getIsNewCategory.bind(this)
     };
 
+    containerProps() {
+        const {
+            currentPage,
+            device,
+            isShowLoading,
+            isVisible,
+            loadPrevPage,
+            requestPage,
+            selectedFilters,
+            title,
+            updatePage
+        } = this.props;
+        const {
+            pages,
+            totalItems,
+            totalPages,
+            isLoading
+        } = this.state;
+
+        return {
+            currentPage,
+            device,
+            isShowLoading,
+            isVisible,
+            loadPrevPage,
+            requestPage,
+            selectedFilters,
+            title,
+            updatePage,
+            pages,
+            totalItems,
+            totalPages,
+            isLoading,
+            ...this.adaptProps()
+        };
+    }
+
     onError = this.onError.bind(this);
 
     appendPage = this.appendPage.bind(this);
@@ -152,13 +189,9 @@ export class ProductListWidgetContainer extends DataContainer {
     }
 
     render() {
-        const adaptedProps = this.adaptProps();
-
         return (
             <ProductList
-              { ...this.props }
-              { ...this.state }
-              { ...adaptedProps }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
               isInfiniteLoaderEnabled={ false }
               numberOfPlaceholders={ 6 }

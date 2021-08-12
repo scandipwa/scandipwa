@@ -30,11 +30,7 @@ export class MyAccountOrderPopup extends PureComponent {
         order: orderType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         currency_code: PropTypes.string.isRequired,
-        display_tax_in_shipping_amount: PropTypes.string
-    };
-
-    static defaultProps = {
-        display_tax_in_shipping_amount: ''
+        display_tax_in_shipping_amount: PropTypes.string.isRequired
     };
 
     renderBaseInfo() {

@@ -46,6 +46,13 @@
         }
     }
 
+    .ChevronIcon {
+        width: 14px;
+        height: 14px;
+        margin-inline-start: 10px;
+        inset-inline-end: 0;
+    }
+
     &-Title {
         color: var(--input-color);
         cursor: pointer;
@@ -54,21 +61,6 @@
 
         @include desktop {
             font-size: 12px;
-        }
-
-        span {
-            @include chevron-icon;
-            height: 14px;
-            width: 14px;
-            display: inline-block;
-            margin-inline-start: 10px;
-            transform: rotate(90deg);
-        }
-
-        &_isOpen {
-            span {
-                transform: rotate(-90deg);
-            }
         }
     }
 

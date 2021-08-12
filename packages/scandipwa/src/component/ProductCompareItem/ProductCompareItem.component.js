@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import AddToCart from 'Component/AddToCart';
+import CloseIcon from 'Component/CloseIcon';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
@@ -175,7 +176,9 @@ export class ProductCompareItem extends PureComponent {
               elem="CloseBtn"
               onClick={ removeComparedProduct }
               aria-label={ __('Remove') }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 
