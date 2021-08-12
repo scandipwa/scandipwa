@@ -17,6 +17,7 @@ import SearchIcon from 'Component/SearchIcon';
 import UserIcon from 'Component/UserIcon';
 
 import './HeaderOverride.style.scss';
+import './FooterOverride.style.scss';
 
 export const HamburgerMenu = lazy(() => import(
     /* webpackMode: "lazy", webpackChunkName: "navigation-extension" */

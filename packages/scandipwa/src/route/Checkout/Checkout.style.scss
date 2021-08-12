@@ -21,7 +21,9 @@
     }
 
     @include mobile {
-        padding-block-end: calc(var(--navigation-tabs-height) + 60px);
+        --footer-totals-height: 123px;
+
+        padding-block-end: var(--footer-totals-height);
         padding-block-start: 20px;
     }
 
