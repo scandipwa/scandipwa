@@ -77,19 +77,24 @@ export class CartOverlayContainer extends PureComponent {
         cartDisplaySettings: CartDisplayType.isRequired,
         currencyCode: PropTypes.string.isRequired,
         activeOverlay: PropTypes.string.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        cartShippingPrice: PropTypes.number,
+        cartShippingSubPrice: PropTypes.number
     };
 
     static defaultProps = {
         guest_checkout: true,
-        cartTotalSubPrice: null
+        cartTotalSubPrice: null,
+        cartShippingPrice: 0,
+        cartShippingSubPrice: null
     };
 
     state = { isEditing: false };
 
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this),
-        handleCheckoutClick: this.handleCheckoutClick.bind(this)
+        handleCheckoutClick: this.handleCheckoutClick.bind(this),
+        scrollToTop: this.scrollToTop.bind(this)
     };
 
     containerProps() {
@@ -100,7 +105,9 @@ export class CartOverlayContainer extends PureComponent {
             activeOverlay,
             cartTotalSubPrice,
             cartDisplaySettings,
-            isMobile
+            isMobile,
+            cartShippingPrice,
+            cartShippingSubPrice
         } = this.props;
         const { isEditing } = this.state;
 
@@ -113,8 +120,14 @@ export class CartOverlayContainer extends PureComponent {
             cartDisplaySettings,
             isEditing,
             isMobile,
+            cartShippingPrice,
+            cartShippingSubPrice,
             hasOutOfStockProductsInCart: hasOutOfStockProductsInCartItems(totals.items)
         };
+    }
+
+    scrollToTop() {
+        window.scrollTo({ top: 0 });
     }
 
     handleCheckoutClick(e) {
@@ -143,7 +156,7 @@ export class CartOverlayContainer extends PureComponent {
         if (guest_checkout || isSignedIn()) {
             hideActiveOverlay();
             history.push({ pathname: appendWithStoreCode(CHECKOUT_URL) });
-            window.scrollTo({ top: 0 });
+            this.scrollToTop();
 
             return;
         }

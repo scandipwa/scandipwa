@@ -16,6 +16,7 @@ import CartItem from 'Component/CartItem';
 import CmsBlock from 'Component/CmsBlock';
 import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
+import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
 import { CartDisplayType, TotalsType } from 'Type/MiniCart';
@@ -35,7 +36,8 @@ export class CartOverlay extends PureComponent {
         hasOutOfStockProductsInCart: PropTypes.bool,
         cartTotalSubPrice: PropTypes.number.isRequired,
         cartDisplaySettings: CartDisplayType.isRequired,
-        isMobile: PropTypes.bool.isRequired
+        isMobile: PropTypes.bool.isRequired,
+        scrollToTop: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -182,13 +184,15 @@ export class CartOverlay extends PureComponent {
               onClick={ handleCheckoutClick }
               disabled={ hasOutOfStockProductsInCart }
             >
-                <span />
+                <LockIcon />
                 { __('Secure checkout') }
             </button>
         );
     }
 
     renderActions() {
+        const { scrollToTop } = this.props;
+
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link
@@ -196,6 +200,7 @@ export class CartOverlay extends PureComponent {
                   elem="CartButton"
                   mix={ { block: 'Button', mods: { isHollow: true } } }
                   to="/cart"
+                  onClick={ scrollToTop }
                 >
                     { __('View cart') }
                 </Link>

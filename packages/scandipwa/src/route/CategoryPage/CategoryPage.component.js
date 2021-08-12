@@ -11,20 +11,19 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { lazy, PureComponent, Suspense } from 'react';
 
 import CategoryDetails from 'Component/CategoryDetails';
-import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.config';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
+import FilterIcon from 'Component/FilterIcon';
+import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
-import Image from 'Component/Image/Image.container';
-import filterIcon from 'Style/icons/filter.svg';
-import grid from 'Style/icons/grid.svg';
-import list from 'Style/icons/list.svg';
+import ListIcon from 'Component/ListIcon';
+import Loader from 'Component/Loader';
 import { CategoryTreeType } from 'Type/Category';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
@@ -40,6 +39,10 @@ import {
 } from './CategoryPage.config';
 
 import './CategoryPage.style';
+
+export const CategoryFilterOverlay = lazy(() => import(
+    /* webpackMode: "lazy", webpackChunkName: "overlays-category" */ 'Component/CategoryFilterOverlay'
+));
 
 /** @namespace Route/CategoryPage/Component */
 export class CategoryPage extends PureComponent {
@@ -185,10 +188,18 @@ export class CategoryPage extends PureComponent {
               elem="Filter"
               onClick={ this.onFilterButtonClick }
             >
-                <Image src={ filterIcon } alt="filter" mix={ { block: 'CategoryPage', elem: 'FilterIcon' } } />
+                <FilterIcon />
                 <span>{ __('Filters') }</span>
                 { this.renderFiltersCount() }
             </button>
+        );
+    }
+
+    renderFilterPlaceholder() {
+        return (
+            <div block="CategoryPage" elem="FilterPlaceholder">
+                <Loader isLoading />
+            </div>
         );
     }
 
@@ -206,12 +217,14 @@ export class CategoryPage extends PureComponent {
         }
 
         return (
-            <CategoryFilterOverlay
-              availableFilters={ filters }
-              customFiltersValues={ selectedFilters }
-              isMatchingInfoFilter={ isMatchingInfoFilter }
-              isCategoryAnchor={ !!is_anchor }
-            />
+            <Suspense fallback={ this.renderFilterPlaceholder() }>
+                <CategoryFilterOverlay
+                  availableFilters={ filters }
+                  customFiltersValues={ selectedFilters }
+                  isMatchingInfoFilter={ isMatchingInfoFilter }
+                  isCategoryAnchor={ !!is_anchor }
+                />
+            </Suspense>
         );
     }
 
@@ -255,7 +268,7 @@ export class CategoryPage extends PureComponent {
                   mix={ { block: GRID_LAYOUT, mods: { isActive: activeLayoutType === GRID_LAYOUT } } }
                   aria-label="grid"
                 >
-                    <Image src={ grid } alt="grid" mix={ { block: GRID_LAYOUT, elem: 'Icon' } } />
+                    <GridIcon isActive={ activeLayoutType === GRID_LAYOUT } />
                 </button>
             );
         case LIST_LAYOUT:
@@ -266,7 +279,7 @@ export class CategoryPage extends PureComponent {
                   mix={ { block: LIST_LAYOUT, mods: { isActive: activeLayoutType === LIST_LAYOUT } } }
                   aria-label="list"
                 >
-                    <Image src={ list } alt="list" mix={ { block: LIST_LAYOUT, elem: 'Icon' } } />
+                    <ListIcon isActive={ activeLayoutType === LIST_LAYOUT } />
                 </button>
             );
         default:

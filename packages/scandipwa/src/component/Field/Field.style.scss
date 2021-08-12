@@ -29,6 +29,15 @@
         padding-block-end: 8px;
     }
 
+    &-LabelContainer {
+        display: flex;
+        align-items: center;
+
+        .ChevronIcon {
+            width: 23px;
+        }
+    }
+
     &-CheckboxLabel{
         display: inline-flex;
         align-items: center;
@@ -165,11 +174,11 @@
             .AddButton,
             .SubtractButton {
                 width: 24px;
-                filter: var(--primary-base-filter);
             }
         }
 
         &_text,
+        &_textarea,
         &_email,
         &_password {
             &.Field_isValid {
@@ -310,9 +319,10 @@
                 text-transform: uppercase;
             }
 
-            .Image {
+            .UploadIcon {
                 margin-block-end: 10px;
-                text-align: center;
+                height: 50px;
+                width: auto;
             }
 
             + p {

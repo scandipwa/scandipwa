@@ -14,7 +14,7 @@ const fetchModuleParent = (issuer) => {
 // * if file name follows: [name].manual.style.[scss/css] or [name].manual.extended.style.[scss/css]
 // * if file is imported via webpackChunkName
 const isChunkOptimizationDisabled = (module) => {
-    const name = module.nameForCondition() || module.resource;
+    const name = (module.nameForCondition && module.nameForCondition()) || module.resource;
 
     // If not a style element skip
     if (!name || (!name.endsWith('.css') && !name.endsWith('.scss'))) {
@@ -124,7 +124,8 @@ module.exports = {
                             return false;
                         }
 
-                        const name = module.nameForCondition();
+                        const name = (module.nameForCondition && module.nameForCondition()) || module.resource;
+
                         return !!match.exec(name);
                     },
                     chunks: 'all',

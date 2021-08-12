@@ -239,8 +239,10 @@ export class FieldSelectContainer extends PureComponent {
             const { id, value } = selectOptions[valueIndex];
             // converting to string for avoiding the error with the first select option
             onChange(value.toString());
-            const selectedElement = document.querySelector(`#${selectId} + ul #o${id}`);
-            selectedElement.focus();
+            const selectedElement = document.querySelector(`#${selectId}_wrapper ul #o${id}`);
+            if (selectedElement) {
+                selectedElement.focus();
+            }
         });
     }
 

@@ -43,7 +43,7 @@ export class ShareWishlistPopupContainer extends PureComponent {
         handleFormData: this.handleFormData.bind(this)
     };
 
-    handleFormData = (fields) => {
+    handleFormData(fields) {
         const { hidePopup, showError, showNotification } = this.props;
         const { message, emails: initialEmails } = fields;
         const emails = initialEmails.split(',').map((email) => email.trim());
@@ -61,7 +61,7 @@ export class ShareWishlistPopupContainer extends PureComponent {
             /** @namespace Component/ShareWishlistPopup/Container/handleFormDataFetchMutationCatch */
             (error) => showError(getErrorMessage(error))
         );
-    };
+    }
 
     render() {
         return (

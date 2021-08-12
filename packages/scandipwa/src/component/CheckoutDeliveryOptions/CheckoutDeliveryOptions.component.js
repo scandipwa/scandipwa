@@ -23,12 +23,13 @@ export class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
-        selectedShippingMethodCode: PropTypes.string,
-        handleSelectDeliveryMethod: PropTypes.func.isRequired
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
+        selectedShippingMethod: PropTypes.object,
+        isShippingMethodPreSelected: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        selectedShippingMethodCode: null
+        selectedShippingMethod: { }
     };
 
     shippingRenderMap = {
@@ -45,20 +46,25 @@ export class CheckoutDeliveryOptions extends PureComponent {
 
     handleSelectStoreInPickUp() {
         const {
-            handleSelectDeliveryMethod
+            handleSelectDeliveryMethod,
+            isShippingMethodPreSelected
         } = this.props;
+
+        if (isShippingMethodPreSelected) {
+            return;
+        }
 
         handleSelectDeliveryMethod();
     }
 
     renderDeliveryOption = (option) => {
         const {
-            selectedShippingMethodCode,
-            selectShippingMethod
+            selectShippingMethod,
+            selectedShippingMethod: { method_code: selectedMethodCode }
         } = this.props;
 
         const { carrier_code, method_code } = option;
-        const isSelected = selectedShippingMethodCode === method_code;
+        const isSelected = selectedMethodCode === method_code;
 
         return (
             <CheckoutDeliveryOption
@@ -88,8 +94,8 @@ export class CheckoutDeliveryOptions extends PureComponent {
     }
 
     renderSelectedShippingMethod() {
-        const { selectedShippingMethodCode } = this.props;
-        const render = this.shippingRenderMap[selectedShippingMethodCode];
+        const { selectedShippingMethod: { method_code } } = this.props;
+        const render = this.shippingRenderMap[method_code];
 
         if (!render) {
             return null;
@@ -102,7 +108,7 @@ export class CheckoutDeliveryOptions extends PureComponent {
         return (
             <div block="CheckoutDeliveryOptions">
                 { this.renderHeading() }
-                <ul block="CheckoutPayments" elem="Methods">
+                <ul>
                     { this.renderShippingMethods() }
                 </ul>
                 { this.renderSelectedShippingMethod() }

@@ -172,6 +172,7 @@
                 //display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 3;
+                line-height: 24px;
 
                 .input-control {
                     inset-inline-start: 0;
@@ -181,6 +182,11 @@
                     min-width: 18px;
                     vertical-align: top;
                     border-color: var(--color-karaka);
+
+                    @include desktop {
+                        align-self: self-start;
+                        margin-block-start: 4px;
+                    }
                 }
             }
         }

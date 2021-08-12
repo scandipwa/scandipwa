@@ -17,6 +17,8 @@ import MyAccountDownloadableTableRow from 'Component/MyAccountDownloadableTableR
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import { downloadableType } from 'Type/Account';
 
+import './MyAccountDownloadable.style';
+
 /** @namespace Component/MyAccountDownloadable/Component */
 export class MyAccountDownloadableComponent extends Component {
     static propTypes = {

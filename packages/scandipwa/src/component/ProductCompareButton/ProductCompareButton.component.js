@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CompareIcon from 'Component/CompareIcon';
 import Loader from 'Component/Loader';
 import { MixType } from 'Type/Common';
 
@@ -52,7 +53,7 @@ export class ProductCompareButton extends PureComponent {
                   mix={ { block: 'Button' } }
                   aria-label={ __('Compare') }
                 >
-                    <div block="ProductCompareButton" elem="Icon" />
+                    <CompareIcon isActive={ isActive } />
                     <Loader isLoading={ isLoading } />
                 </button>
             </div>

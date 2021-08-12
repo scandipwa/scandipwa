@@ -20,9 +20,7 @@ import { shippingMethodsType } from 'Type/Checkout';
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 
 /** @namespace Component/CheckoutDeliveryOptions/Container/mapStateToProps */
-export const mapStateToProps = (state) => ({
-    shippingMethod: state.CheckoutReducer.shippingFields.shippingMethod
-});
+export const mapStateToProps = () => ({});
 
 /** @namespace Component/CheckoutDeliveryOptions/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
@@ -34,23 +32,17 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         onStoreSelect: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         estimateAddress: addressType.isRequired,
-        handleSelectDeliveryMethod: PropTypes.func.isRequired
+        handleSelectDeliveryMethod: PropTypes.func.isRequired,
+        selectedShippingMethod: PropTypes.object
     };
 
-    static _getDefaultMethod(props) {
-        const {
-            shippingMethods = [],
-            shippingMethod
-        } = props;
+    static defaultProps = {
+        selectedShippingMethod: {}
+    };
 
-        const items = shippingMethods.filter(({ available }) => available);
-
-        const result = items.find(
-            ({ method_code, carrier_code }) => `${carrier_code}_${method_code}` === shippingMethod
-        ) || items[0] || {};
-
-        return result.method_code;
-    }
+    state = {
+        isShippingMethodPreSelected: true
+    };
 
     containerFunctions = {
         selectShippingMethod: this.selectShippingMethod.bind(this)
@@ -58,55 +50,9 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
     dataMap = {};
 
-    __construct(props) {
-        super.__construct(props);
-
-        const { shippingMethods } = props;
-        this.state = { prevShippingMethods: shippingMethods };
-
-        const selectedShippingMethodCode = CheckoutDeliveryOptionsContainer._getDefaultMethod(props);
-
-        if (selectedShippingMethodCode) {
-            this.state = {
-                ...this.state,
-                selectedShippingMethodCode
-            };
-        }
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { shippingMethods } = props;
-        const { prevShippingMethods } = state;
-
-        if (shippingMethods.length !== prevShippingMethods.length) {
-            const selectedShippingMethodCode = CheckoutDeliveryOptionsContainer._getDefaultMethod(props);
-
-            return {
-                selectedShippingMethodCode,
-                prevShippingMethods: shippingMethods
-            };
-        }
-
-        return null;
-    }
-
     componentDidMount() {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(SHIPPING_STEP, this.collectAdditionalData, 'CheckoutDeliveryOptions');
-        }
-    }
-
-    componentDidUpdate(_, prevState) {
-        const { onShippingMethodSelect, shippingMethods } = this.props;
-        const { selectedShippingMethodCode } = this.state;
-        const { selectedShippingMethodCode: prevSelectedShippingMethodCode } = prevState;
-
-        if (selectedShippingMethodCode !== prevSelectedShippingMethodCode) {
-            const shippingMethod = shippingMethods.find(
-                ({ method_code }) => method_code === selectedShippingMethodCode
-            );
-
-            onShippingMethodSelect(shippingMethod);
         }
     }
 
@@ -122,23 +68,26 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
             onShippingMethodSelect,
             onStoreSelect,
             shippingMethods,
-            handleSelectDeliveryMethod
+            handleSelectDeliveryMethod,
+            selectedShippingMethod
         } = this.props;
-        const { selectedShippingMethodCode } = this.state;
+        const { isShippingMethodPreSelected } = this.state;
 
         return {
             estimateAddress,
             onShippingMethodSelect,
             onStoreSelect,
-            selectedShippingMethodCode,
+            selectedShippingMethod,
             shippingMethods,
-            handleSelectDeliveryMethod
+            handleSelectDeliveryMethod,
+            isShippingMethodPreSelected
         };
     }
 
     collectAdditionalData = () => {
-        const { selectedShippingMethodCode } = this.state;
-        const additionalDataGetter = this.dataMap[selectedShippingMethodCode];
+        const { selectedShippingMethod: { method_code } } = this.props;
+        const additionalDataGetter = this.dataMap[method_code];
+
         if (!additionalDataGetter) {
             return {};
         }
@@ -148,9 +97,12 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
     selectShippingMethod(shippingMethod) {
         const { onShippingMethodSelect } = this.props;
-        const { method_code } = shippingMethod;
+        const { isShippingMethodPreSelected } = this.state;
 
-        this.setState({ selectedShippingMethodCode: method_code });
+        if (isShippingMethodPreSelected) {
+            this.setState({ isShippingMethodPreSelected: false });
+        }
+
         onShippingMethodSelect(shippingMethod);
     }
 

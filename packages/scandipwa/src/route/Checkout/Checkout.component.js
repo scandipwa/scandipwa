@@ -17,7 +17,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT, CHECKOUT_SUCCESS } from 'Component/Header/Header.config';
 import Loader from 'Component/Loader';
 import { addressType } from 'Type/Account';
-import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
+import { paymentMethodsType, shippingMethodsType, storeType } from 'Type/Checkout';
 import { HistoryType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
 import { appendWithStoreCode } from 'Util/Url';
@@ -107,11 +107,13 @@ export class Checkout extends PureComponent {
         isInStoreActivated: PropTypes.bool.isRequired,
         cartTotalSubPrice: PropTypes.number.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
-        onStoreSelect: PropTypes.func.isRequired
+        onStoreSelect: PropTypes.func.isRequired,
+        selectedStoreAddress: storeType
     };
 
     static defaultProps = {
-        paymentTotals: {}
+        paymentTotals: {},
+        selectedStoreAddress: {}
     };
 
     stepMap = {
@@ -243,7 +245,8 @@ export class Checkout extends PureComponent {
             handleSelectDeliveryMethod,
             cartTotalSubPrice,
             onShippingMethodSelect,
-            onStoreSelect
+            onStoreSelect,
+            selectedStoreAddress
         } = this.props;
 
         return (
@@ -263,6 +266,7 @@ export class Checkout extends PureComponent {
                   handleSelectDeliveryMethod={ handleSelectDeliveryMethod }
                   isPickInStoreMethodSelected={ isPickInStoreMethodSelected }
                   onStoreSelect={ onStoreSelect }
+                  selectedStoreAddress={ selectedStoreAddress }
                 />
             </Suspense>
         );

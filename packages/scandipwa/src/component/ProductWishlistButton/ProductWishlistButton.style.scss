@@ -9,22 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
-    --wishlist-heart-size: 23px;
-}
-
 .ProductWishlistButton {
     display: inline-block;
     height: var(--wishlist-heart-size);
     width: var(--wishlist-heart-size);
-
-    &-Button_isInWishlist {
-        .ProductWishlistButton-Heart {
-            @include heart-icon-full;
-
-            filter: var(--primary-base-filter);
-        }
-    }
 
     &-Button.Button {
         background-color: unset;
@@ -38,12 +26,5 @@
             height: var(--wishlist-heart-size);
             padding: 0;
         }
-    }
-
-    &-Heart {
-        @include heart-icon;
-
-        height: var(--wishlist-heart-size);
-        min-width: var(--wishlist-heart-size);
     }
 }

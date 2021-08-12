@@ -82,5 +82,19 @@
                 height: 100%;
             }
         }
+
+        .ChevronIcon {
+            @include mobile {
+                display: none;
+            }
+        }
+    }
+
+    .Field-LabelContainer {
+        .ChevronIcon {
+            @include desktop {
+                display: none;
+            }
+        }
     }
 }

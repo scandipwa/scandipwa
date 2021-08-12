@@ -31,21 +31,10 @@
         width: 100%;
 
         .KeyValueTable-Heading {
-            span {
-                @include radiobutton;
-
+            .RadioButtonIcon {
                 float: inline-end;
                 display: inline-block;
                 inset-block-start: 3px;
-            }
-        }
-
-        &:not(&_isSelected):hover,
-        &_isSelected {
-            .KeyValueTable-Heading {
-                span {
-                    @include radiobutton-full;
-                }
             }
         }
 

@@ -13,12 +13,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import AddIcon from 'Component/AddIcon';
+import ChevronIcon from 'Component/ChevronIcon';
+import { BOTTOM } from 'Component/ChevronIcon/ChevronIcon.config';
 import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
-import Image from 'Component/Image';
-import add from 'Style/icons/add.svg';
-import minus from 'Style/icons/minus.svg';
+import MinusIcon from 'Component/MinusIcon';
+import UploadIcon from 'Component/UploadIcon';
 import { MixType } from 'Type/Common';
 
 import {
@@ -31,7 +33,6 @@ import {
     SELECT_TYPE,
     TEXTAREA_TYPE
 } from './Field.config';
-import upload from './icons/upload.svg';
 
 import './Field.style';
 
@@ -73,7 +74,8 @@ export class Field extends PureComponent {
         filename: PropTypes.string,
         fileExtensions: PropTypes.string,
         subLabel: PropTypes.number,
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
+        isLabelWithArrow: PropTypes.bool
     };
 
     static defaultProps = {
@@ -88,7 +90,8 @@ export class Field extends PureComponent {
         filename: '',
         fileExtensions: '',
         subLabel: null,
-        disabled: false
+        disabled: false,
+        isLabelWithArrow: false
     };
 
     renderTextarea() {
@@ -156,7 +159,7 @@ export class Field extends PureComponent {
                   onClick={ () => handleChange(+value + 1) }
                   aria-label={ __('Add') }
                 >
-                    <Image src={ add } alt="add" mix={ { block: 'AddButton' } } />
+                    <AddIcon block="SubtractButton" isPrimary />
                 </button>
                 <button
                   disabled={ +value === min }
@@ -164,7 +167,7 @@ export class Field extends PureComponent {
                   onClick={ () => handleChange(+value - 1) }
                   aria-label={ __('Subtract') }
                 >
-                    <Image src={ minus } alt="subtract" mix={ { block: 'SubtractButton' } } />
+                    <MinusIcon block="AddButton" isPrimary />
                 </button>
             </>
         );
@@ -286,11 +289,21 @@ export class Field extends PureComponent {
 
         return (
             <label htmlFor={ id }>
-                <Image src={ upload } alt="Upload icon" ratio="square" height="50px" />
+                <UploadIcon />
                 <p>{ __('Drop files here or') }</p>
                 <span>{ __('Select files') }</span>
             </label>
         );
+    }
+
+    renderArrow() {
+        const { isLabelWithArrow } = this.props;
+
+        if (!isLabelWithArrow) {
+            return null;
+        }
+
+        return <ChevronIcon direction={ BOTTOM } />;
     }
 
     renderLabel() {
@@ -308,14 +321,18 @@ export class Field extends PureComponent {
         }
 
         return (
-            <label
-              block="Field"
-              elem="Label"
-              mods={ { isRequired } }
-              htmlFor={ id }
-            >
-                { label }
-            </label>
+            <div block="Field" elem="LabelContainer">
+                <label
+                  block="Field"
+                  elem="Label"
+                  mods={ { isRequired } }
+                  htmlFor={ id }
+                >
+                    { label }
+                </label>
+
+                { this.renderArrow() }
+            </div>
         );
     }
 

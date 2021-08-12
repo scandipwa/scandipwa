@@ -19,7 +19,9 @@ import {
 } from 'react';
 
 import ClickOutside from 'Component/ClickOutside';
+import CloseIcon from 'Component/CloseIcon';
 import Loader from 'Component/Loader';
+import SearchIcon from 'Component/SearchIcon';
 import { DeviceType } from 'Type/Device';
 import history from 'Util/History';
 import { appendWithStoreCode } from 'Util/Url';
@@ -175,7 +177,9 @@ export class SearchField extends PureComponent {
                   tabIndex="0"
                   onClick={ this.closeSearch }
                   aria-label={ __('Close') }
-                />
+                >
+                    <CloseIcon />
+                </div>
             );
         }
 
@@ -187,7 +191,9 @@ export class SearchField extends PureComponent {
               tabIndex="0"
               onClick={ this.openSearch }
               aria-label={ __('Search') }
-            />
+            >
+                <SearchIcon />
+            </div>
         );
     }
 

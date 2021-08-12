@@ -61,7 +61,8 @@ export class FieldForm extends PureComponent {
             validateSeparately,
             validation = [],
             value = null,
-            selectOptions = {}
+            selectOptions = {},
+            checked = null
         } = this.getDefaultValues(fieldEntry);
 
         return (
@@ -78,6 +79,7 @@ export class FieldForm extends PureComponent {
               value={ value }
               isSubmitted={ isSubmitted }
               selectOptions={ selectOptions }
+              checked={ checked }
             />
         );
     };

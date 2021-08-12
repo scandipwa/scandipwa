@@ -117,20 +117,23 @@ export class ProductCard extends Component {
             product,
             device,
             productOrVariant,
-            parameters
+            parameters,
+            layout
         } = this.props;
 
         const {
             product: nextProduct,
             device: nextDevice,
             productOrVariant: nextProductOrVariant,
-            parameters: nextParameters
+            parameters: nextParameters,
+            layout: prevLayout
         } = nextProps;
 
         return product !== nextProduct
             || device !== nextDevice
             || productOrVariant !== nextProductOrVariant
-            || parameters !== nextParameters;
+            || parameters !== nextParameters
+            || layout !== prevLayout;
     }
 
     registerSharedElement = () => {

@@ -12,6 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ChevronIcon from 'Component/ChevronIcon';
+import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 
 import './FieldSelect.style';
@@ -185,12 +187,14 @@ export class FieldSelect extends PureComponent {
             isSelectExpanded: isExpanded,
             handleSelectExpand,
             handleSelectListKeyPress,
-            handleSelectExpandedExpand
+            handleSelectExpandedExpand,
+            id
         } = this.props;
 
         return (
             <ClickOutside onClick={ handleSelectExpandedExpand }>
                 <div
+                  id={ `${id}_wrapper` }
                   block="FieldSelect"
                   mods={ { isExpanded } }
                   onClick={ handleSelectExpand }
@@ -200,7 +204,10 @@ export class FieldSelect extends PureComponent {
                   aria-label="Select dropdown"
                   aria-expanded={ isExpanded }
                 >
-                    { this.renderNativeSelect() }
+                    <div block="FieldSelect" elem="Clickable">
+                        { this.renderNativeSelect() }
+                        <ChevronIcon direction={ isExpanded ? TOP : BOTTOM } />
+                    </div>
                     { this.renderOptions() }
                 </div>
             </ClickOutside>

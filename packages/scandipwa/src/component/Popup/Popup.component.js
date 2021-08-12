@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
 import ClickOutside from 'Component/ClickOutside';
+import CloseIcon from 'Component/CloseIcon';
 import NotificationList from 'Component/NotificationList';
 import Overlay from 'Component/Overlay/Overlay.component';
 
@@ -134,7 +135,9 @@ export class Popup extends Overlay {
               elem="CloseBtn"
               aria-label={ __('Close') }
               onClick={ this.hidePopUp }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 

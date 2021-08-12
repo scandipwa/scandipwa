@@ -177,8 +177,17 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     showErrorAndRemoveLoading(message) {
         const { showError } = this.props;
+
+        try {
+            const errorMessages = JSON.parse(message);
+            errorMessages.forEach((err) => {
+                showError(err);
+            });
+        } catch {
+            showError(message);
+        }
+
         this.setState({ isLoading: false });
-        showError(message);
     }
 
     render() {

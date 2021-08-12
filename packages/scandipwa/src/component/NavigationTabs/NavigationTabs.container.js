@@ -186,6 +186,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { pathname } = location;
 
         if (pathname !== appendWithStoreCode(`/${ CART }`)) {
+            window.scrollTo({ top: 0 });
             browserHistory.push(appendWithStoreCode(`/${ CART }`));
         }
     }
