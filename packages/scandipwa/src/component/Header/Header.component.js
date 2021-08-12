@@ -617,7 +617,7 @@ export class Header extends NavigationAbstract {
         );
     }
 
-    renderWelcomeMessage(isVisible = false) {
+    renderWelcomeMessage() {
         const { firstname } = this.props;
 
         if (!isSignedIn() || !firstname) {
@@ -628,7 +628,7 @@ export class Header extends NavigationAbstract {
             <div
               block="Header"
               elem="Welcome"
-              mods={ { type: 'Welcome', isVisible } }
+              mods={ { type: 'Welcome' } }
             >
                 { __('Welcome, %s!', firstname) }
             </div>
