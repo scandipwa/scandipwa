@@ -278,7 +278,16 @@ export class WishlistItem extends PureComponent {
                 { this.renderCommentField() }
                 <div block="WishlistItem" elem="ActionWrapper">
                     { this.renderAddToCartButton() }
-                    <EditIcon onClick={ redirectToProductPage } />
+                    <button
+                      key="edit"
+                      block="WislistItem"
+                      elem="Edit"
+                      onClick={ redirectToProductPage }
+                      aria-label={ __('Edit wishlist item') }
+                      tabIndex="0"
+                    >
+                        <EditIcon />
+                    </button>
                 </div>
             </div>
         );
