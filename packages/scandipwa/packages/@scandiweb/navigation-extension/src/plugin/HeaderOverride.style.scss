@@ -33,4 +33,8 @@
   &-SearchBtn {
     margin-inline: 8px;
   }
+
+  &-Title_isVisible {
+    max-width: calc(100% - 170px) !important;
+  }
 }

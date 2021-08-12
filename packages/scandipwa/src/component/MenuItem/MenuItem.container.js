@@ -18,12 +18,12 @@ import history from 'Util/History';
 import MenuItem from './MenuItem.component';
 import { HOVER_TIMEOUT } from './MenuItem.config';
 
-/** @namespace Component/Menu/Container/mapStateToProps */
+/** @namespace Component/MenuItem/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
     device: state.ConfigReducer.device
 });
 
-/** @namespace Component/Menu/Container/mapDispatchToProps */
+/** @namespace Component/MenuItem/Container/mapDispatchToProps */
 export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/MenuItem/Container/menuItemContainer */
