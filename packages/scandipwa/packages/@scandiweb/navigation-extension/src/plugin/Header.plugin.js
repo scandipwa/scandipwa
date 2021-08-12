@@ -45,12 +45,39 @@ export class HeaderPlugin {
         logo: this.renderLogoMobile.bind(instance),
         title: this.renderTitleMobile.bind(instance),
         search: this.renderSearchFieldMobile.bind(instance),
-        account: this.renderMobileAccountButton.bind(instance),
-        minicart: this.renderMiniCartMobile.bind(instance)
+        account: this.renderAccountButton.bind(instance),
+        minicart: this.renderMiniCart.bind(instance)
     });
 
-    renderMiniCartMobile(isVisible) {
-        const { isSearchBarActive } = this.props;
+    renderMiniCart(isVisible) {
+        const {
+            isSearchBarActive,
+            onMinicartOutsideClick,
+            isCheckout,
+            device: { isMobile }
+        } = this.props;
+
+        if (isCheckout) {
+            return null;
+        }
+
+        if (!isMobile) {
+            return (
+                <ClickOutside
+                  onClick={ onMinicartOutsideClick }
+                  key="minicart"
+                >
+                    <div
+                      block="Header"
+                      elem="Button"
+                      mods={ { isVisible, type: 'minicart' } }
+                    >
+                        { this.renderMinicartButton() }
+                        { this.renderMinicartOverlay() }
+                    </div>
+                </ClickOutside>
+            );
+        }
 
         if (isSearchBarActive) {
             return null;
@@ -126,19 +153,39 @@ export class HeaderPlugin {
         return this.renderSearchField(true);
     }
 
-    renderMobileAccountButton() {
-        const { onMyAccountButtonClick, isSearchBarActive } = this.props;
+    renderAccountButton() {
+        const {
+            onMyAccountButtonClick,
+            onMobileMyAccountButtonClick,
+            isSearchBarActive,
+            device: { isMobile }
+        } = this.props;
 
-        if (isSearchBarActive) {
-            return null;
+        if (isMobile) {
+            if (isSearchBarActive) {
+                return null;
+            }
+
+            return (
+                <button
+                  block="Header"
+                  elem="AccountBtn"
+                  onClick={ onMobileMyAccountButtonClick }
+                  aria-label="Open my account"
+                >
+                    <UserIcon />
+                </button>
+            );
         }
 
         return (
             <button
               block="Header"
-              elem="AccountBtn"
+              elem="MyAccountWrapper"
+              tabIndex="0"
               onClick={ onMyAccountButtonClick }
               aria-label="Open my account"
+              id="myAccount"
             >
                 <UserIcon />
             </button>
@@ -146,9 +193,14 @@ export class HeaderPlugin {
     }
 
     renderOpenMenuButton() {
-        const { openSideMenu, closeSideMenu, isSearchBarActive } = this.props;
+        const {
+            openSideMenu,
+            closeSideMenu,
+            isSearchBarActive,
+            device: { isMobile }
+        } = this.props;
 
-        if (isSearchBarActive) {
+        if (isSearchBarActive || !isMobile) {
             return null;
         }
 

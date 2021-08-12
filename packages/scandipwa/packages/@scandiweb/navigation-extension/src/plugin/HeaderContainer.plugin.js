@@ -35,7 +35,7 @@ export class HeaderContainerPlugin {
 
     containerFunctions = (originalMember, instance) => ({
         ...originalMember,
-        onMyAccountButtonClick: this.onMyAccountButtonClick.bind(instance),
+        onMobileMyAccountButtonClick: this.onMobileMyAccountButtonClick.bind(instance),
         onSearchButtonClick: this.onSearchButtonClick.bind(instance),
         onSearchBarDeactivate: this.onSearchBarDeactivate.bind(instance)
     });
@@ -48,7 +48,7 @@ export class HeaderContainerPlugin {
         this.setState({ isSearchBarActive: false });
     }
 
-    onMyAccountButtonClick() {
+    onMobileMyAccountButtonClick() {
         const { pathname } = location;
         const url = appendWithStoreCode(isSignedIn() ? `/${ MY_ACCOUNT }` : ACCOUNT_LOGIN_URL);
 
