@@ -1,0 +1,83 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.ProgressBar {
+    @include mobile {
+        display: none;
+    }
+    position: relative;
+    background-color: #f3f3f3;
+    width: 100%;
+    height: 126px;
+
+    &-BackgroundLine {
+        position: absolute;
+        top: 52px;
+        width: 100%;
+        height: 5px;
+        background-color: #dbdbdb;
+    }
+
+    &-ProgressLine {
+        position: absolute;
+        top: 52px;
+        height: 5px;
+        background-color: #a82222;
+        transition: all 0.5s;
+    }
+
+    &-StepBar {
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 21px;
+    }
+
+    &-ProgressStep {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        position: relative;
+        color: #9c9c9c;
+    }
+
+    &-StepNumber {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 64px;
+        width: 64px;
+        border: 12px solid #f3f3f3;
+        border-radius: 50%;
+        background-color: #dbdbdb;
+        font-size: 14px;
+        font-weight: 700;
+        
+        &_highlighted {
+            background-color: #a82222;
+            color: white;
+        }
+    }
+
+    &-StepTitle {
+        position: absolute;
+        left: -68px;
+        width: 200px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #9c9c9c;
+        text-align: center;
+
+        &_highlighted {
+            color: black;
+        }
+    }
+}
