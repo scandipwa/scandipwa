@@ -10,6 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
@@ -27,6 +28,11 @@ export const mapDispatchToProps = (dispatch) => ({
 
 /** @namespace Component/Klarna/Container */
 export class KlarnaContainer extends PureComponent {
+    static propTypes = {
+        showError: PropTypes.func.isRequired,
+        setOrderButtonEnableStatus: PropTypes.func.isRequired
+    };
+
     static authorize() {
         return new Promise((resolve, reject) => {
             window.Klarna.Payments.authorize(
@@ -44,8 +50,14 @@ export class KlarnaContainer extends PureComponent {
         });
     }
 
+    containerProps() {
+        const { showError, setOrderButtonEnableStatus } = this.props;
+
+        return { showError, setOrderButtonEnableStatus };
+    }
+
     render() {
-        return <KlarnaComponent { ...this.props } />;
+        return <KlarnaComponent { ...this.containerProps() } />;
     }
 }
 

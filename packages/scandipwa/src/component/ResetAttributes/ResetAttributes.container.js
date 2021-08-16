@@ -39,16 +39,18 @@ export class ResetAttributesContainer extends PureComponent {
             }))
         }).isRequired).isRequired,
         customFiltersValues: PropTypes.any.isRequired,
-        currency_code: PropTypes.string.isRequired
+        currency_code: PropTypes.string.isRequired,
+        toggleCustomFilter: PropTypes.func.isRequired
     };
 
-    containerProps = () => ({
-        filtersData: this.filterResetItems()
-    });
+    containerProps() {
+        const { toggleCustomFilter } = this.props;
 
-    containerFunctions = () => ({
-        resetFilters: this.resetFilters
-    });
+        return {
+            toggleCustomFilter,
+            filtersData: this.filterResetItems()
+        };
+    }
 
     getFilterOptionsForPrice = (options) => options.map((option) => {
         const { currency_code } = this.props;
@@ -96,9 +98,7 @@ export class ResetAttributesContainer extends PureComponent {
     render() {
         return (
             <ResetAttributes
-              { ...this.props }
               { ...this.containerProps() }
-              { ...this.containerFunctions() }
             />
         );
     }

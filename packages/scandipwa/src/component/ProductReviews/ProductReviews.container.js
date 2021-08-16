@@ -14,6 +14,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification/Notification.action';
+import { DeviceType } from 'Type/Device';
+import { ProductType } from 'Type/ProductList';
 
 import ProductReviews from './ProductReviews.component';
 
@@ -34,13 +36,33 @@ export class ProductReviewsContainer extends PureComponent {
     static propTypes = {
         showInfoNotification: PropTypes.func.isRequired,
         isGuestEnabled: PropTypes.bool,
-        isEnabled: PropTypes.bool
+        isEnabled: PropTypes.bool,
+        product: ProductType.isRequired,
+        areDetailsLoaded: PropTypes.bool,
+        device: DeviceType.isRequired
     };
 
     static defaultProps = {
         isEnabled: true,
-        isGuestEnabled: true
+        isGuestEnabled: true,
+        areDetailsLoaded: false
     };
+
+    containerProps() {
+        const {
+            areDetailsLoaded,
+            device,
+            isEnabled,
+            product
+        } = this.props;
+
+        return {
+            areDetailsLoaded,
+            device,
+            isEnabled,
+            product
+        };
+    }
 
     render() {
         const { isEnabled } = this.props;
@@ -51,7 +73,7 @@ export class ProductReviewsContainer extends PureComponent {
 
         return (
             <ProductReviews
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

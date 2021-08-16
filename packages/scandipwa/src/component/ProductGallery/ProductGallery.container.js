@@ -61,7 +61,7 @@ export class ProductGalleryContainer extends PureComponent {
         const { product: { id } } = props;
 
         this.state = {
-            activeImage: 0,
+            activeImage: this.getBaseImage(),
             isZoomEnabled: false,
             prevProdId: id,
             isImageZoomPopupActive: false
@@ -70,12 +70,22 @@ export class ProductGalleryContainer extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const { product: { id } } = props;
-        const { prevProdId } = state;
+        const { prevProdId, activeImage } = state;
+
         if (prevProdId === id) {
             return null;
         }
 
-        return { prevProdId: id, activeImage: 0 };
+        return { prevProdId: id, activeImage };
+    }
+
+    componentDidUpdate(prevProps) {
+        const { product: { media_gallery_entries: mediaGallery = [] } } = this.props;
+        const { product: { media_gallery_entries: prevMediaGallery = [] } } = prevProps;
+
+        if (mediaGallery !== prevMediaGallery) {
+            this.onActiveImageChange(this.getBaseImage());
+        }
     }
 
     handleImageZoomPopupActiveChange(isImageZoomPopupActive) {
@@ -95,6 +105,31 @@ export class ProductGalleryContainer extends PureComponent {
         });
     }
 
+    getBaseImage() {
+        const {
+            product: {
+                media_gallery_entries: mediaGallery = []
+            }
+        } = this.props;
+
+        const baseImage = mediaGallery.find((value) => value.types.includes(IMAGE_TYPE));
+        const { position = 0 } = baseImage || {};
+
+        if (!mediaGallery.length) {
+            return 0;
+        }
+
+        const positionsArray = mediaGallery.reduce((acc, item) => {
+            const { position } = item;
+
+            acc.push(position);
+
+            return acc;
+        }, []).sort((a, b) => a - b);
+
+        return positionsArray.findIndex((value) => value === position);
+    }
+
     getGalleryPictures() {
         const {
             areDetailsLoaded,
@@ -111,25 +146,7 @@ export class ProductGalleryContainer extends PureComponent {
         if (mediaGallery.length) {
             return mediaGallery
                 .filter(({ disabled }) => !disabled)
-                .sort((a, b) => {
-                    const aBase = a.types.includes(IMAGE_TYPE);
-                    const bBase = b.types.includes(IMAGE_TYPE);
-                    const sortResult = a.position - b.position;
-
-                    if (aBase && bBase) {
-                        return sortResult;
-                    }
-
-                    if (aBase) {
-                        return -1;
-                    }
-
-                    if (bBase) {
-                        return 1;
-                    }
-
-                    return sortResult;
-                });
+                .sort((a, b) => a.position - b.position);
         }
 
         if (!url) {
@@ -151,7 +168,7 @@ export class ProductGalleryContainer extends PureComponent {
         ];
     }
 
-    containerProps = () => {
+    containerProps() {
         const { activeImage, isZoomEnabled, isImageZoomPopupActive } = this.state;
         const { product: { id }, isMobile } = this.props;
 
@@ -165,7 +182,7 @@ export class ProductGalleryContainer extends PureComponent {
             isImageZoomPopupActive,
             sliderRef: this.sliderRef
         };
-    };
+    }
 
     /**
      * Returns the name of the product this gallery if for

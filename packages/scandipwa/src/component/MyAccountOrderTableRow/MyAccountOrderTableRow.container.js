@@ -33,7 +33,12 @@ export const mapStateToProps = (state) => ({
 export class MyAccountOrderTableRowContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
-        order: orderType.isRequired
+        order: orderType.isRequired,
+        display_tax_in_shipping_amount: PropTypes.string
+    };
+
+    static defaultProps = {
+        display_tax_in_shipping_amount: ''
     };
 
     containerFunctions = {
@@ -52,15 +57,23 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { order: { base_order_info, base_order_info: { currency_code = '' } } } = this.props;
+        const {
+            display_tax_in_shipping_amount,
+            order,
+            order: { base_order_info, base_order_info: { currency_code = '' } }
+        } = this.props;
 
-        return { base_order_info, currency_code };
+        return {
+            order,
+            base_order_info,
+            currency_code,
+            display_tax_in_shipping_amount
+        };
     };
 
     render() {
         return (
             <MyAccountOrderTableRow
-              { ...this.props }
               { ...this.containerProps() }
               { ...this.containerFunctions }
             />

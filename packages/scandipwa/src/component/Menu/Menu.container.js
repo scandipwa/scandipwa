@@ -74,6 +74,17 @@ export class MenuContainer extends DataContainer {
         window.removeEventListener('popstate', this.historyBackHook);
     }
 
+    containerProps() {
+        const { device } = this.props;
+        const { activeMenuItemsStack, menu } = this.state;
+
+        return {
+            activeMenuItemsStack,
+            menu,
+            device
+        };
+    }
+
     _getMenuOptions() {
         const { header_content: { header_menu } = {} } = window.contentConfiguration;
 
@@ -138,8 +149,7 @@ export class MenuContainer extends DataContainer {
     render() {
         return (
             <Menu
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

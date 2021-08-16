@@ -30,7 +30,15 @@ export const mapDispatchToProps = () => ({});
 export class ProductLinksContainer extends PureComponent {
     static propTypes = {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
-        linkType: PropTypes.string.isRequired
+        linkType: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        numberOfProductsToDisplay: PropTypes.number,
+        areDetailsLoaded: PropTypes.bool
+    };
+
+    static defaultProps = {
+        numberOfProductsToDisplay: 4,
+        areDetailsLoaded: true
     };
 
     state = {
@@ -42,6 +50,13 @@ export class ProductLinksContainer extends PureComponent {
 
     containerProps() {
         const {
+            areDetailsLoaded,
+            linkType,
+            linkedProducts,
+            numberOfProductsToDisplay,
+            title
+        } = this.props;
+        const {
             siblingsHaveBrands,
             siblingsHavePriceBadge,
             siblingsHaveTierPrice,
@@ -49,6 +64,11 @@ export class ProductLinksContainer extends PureComponent {
         } = this.state;
 
         return {
+            areDetailsLoaded,
+            linkType,
+            linkedProducts,
+            numberOfProductsToDisplay,
+            title,
             productCardFunctions: {
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
                 setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
@@ -80,7 +100,6 @@ export class ProductLinksContainer extends PureComponent {
 
         return (
             <ProductLinks
-              { ...this.props }
               { ...this.containerProps() }
             />
         );

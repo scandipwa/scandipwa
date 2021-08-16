@@ -13,6 +13,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CloseIcon from 'Component/CloseIcon';
+import EditIcon from 'Component/EditIcon';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -31,7 +33,7 @@ export class WishlistItem extends PureComponent {
         removeItem: PropTypes.func,
         redirectToProductPage: PropTypes.func,
         isLoading: PropTypes.bool,
-        isRemoving: PropTypes.bool,
+        isRemoving: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         isEditingActive: PropTypes.bool.isRequired,
         handleSelectIdChange: PropTypes.func.isRequired
@@ -43,8 +45,7 @@ export class WishlistItem extends PureComponent {
         changeDescription: () => {},
         removeItem: () => {},
         redirectToProductPage: () => {},
-        isLoading: false,
-        isRemoving: false
+        isLoading: false
     };
 
     optionRenderMap = {
@@ -141,7 +142,9 @@ export class WishlistItem extends PureComponent {
               elem="Remove"
               onClick={ removeItem }
               aria-label={ __('Remove') }
-            />
+            >
+                <CloseIcon />
+            </button>
         );
     }
 
@@ -275,11 +278,16 @@ export class WishlistItem extends PureComponent {
                 { this.renderCommentField() }
                 <div block="WishlistItem" elem="ActionWrapper">
                     { this.renderAddToCartButton() }
-                    <span
-                      block="WishlistItem"
-                      elem="EditIcon"
+                    <button
+                      key="edit"
+                      block="WislistItem"
+                      elem="Edit"
                       onClick={ redirectToProductPage }
-                    />
+                      aria-label={ __('Edit wishlist item') }
+                      tabIndex="0"
+                    >
+                        <EditIcon />
+                    </button>
                 </div>
             </div>
         );
@@ -299,7 +307,7 @@ export class WishlistItem extends PureComponent {
                 ), { block: 'WishlistItem', elem: 'ImageWrapper' }) }
                 <div block="WishlistItem" elem="InformationWrapper">
                     <div block="WishlistItem" elem="RowWrapper">
-                        <div>
+                        <div block="WishlistItem" elem="NameAndOptions">
                             { this.renderName() }
                             { this.renderOptions() }
                         </div>
@@ -369,11 +377,13 @@ export class WishlistItem extends PureComponent {
                     { this.renderCommentField() }
                     <div block="WishlistItem" elem="ActionWrapper">
                         { this.renderAddToCartButton() }
-                        <span
+                        <div
                           block="WishlistItem"
                           elem="EditIcon"
                           onClick={ redirectToProductPage }
-                        />
+                        >
+                            <EditIcon />
+                        </div>
                     </div>
                 </div>
             </>

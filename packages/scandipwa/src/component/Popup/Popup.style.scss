@@ -83,14 +83,15 @@
     }
 
     & &-CloseBtn {
-        @include close-button;
-
-        height: 30px;
-        width: 30px;
         position: absolute;
         inset-block-start: -4px;
         inset-inline-end: -6px;
         z-index: 5;
+
+        .CloseIcon {
+            height: 30px;
+            width: 30px;
+        }
 
         @include mobile {
             inset-block-start: 25px;

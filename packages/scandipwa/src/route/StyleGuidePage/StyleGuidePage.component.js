@@ -17,17 +17,15 @@ import CategoryPagination from 'Component/CategoryPagination';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
+import GridIcon from 'Component/GridIcon';
+import HeartIcon from 'Component/HeartIcon';
 import Image from 'Component/Image';
+import ListIcon from 'Component/ListIcon';
+import LockIcon from 'Component/LockIcon';
 import Notification from 'Component/Notification';
 import ProductCard from 'Component/ProductCard';
 import SearchItem from 'Component/SearchItem';
-import gridFilled from 'Style/icons/grid-filled.svg';
-import heartSelected from 'Style/icons/heart-selected.svg';
-import heart from 'Style/icons/heart.svg';
-import list from 'Style/icons/list.svg';
-import lockWhite from 'Style/icons/lock-white.svg';
-import userSelected from 'Style/icons/user-selected.svg';
-import user from 'Style/icons/user.svg';
+import UserIcon from 'Component/UserIcon';
 import { ProductType } from 'Type/ProductList';
 
 import configurableOptions from './configurableOptions.json';
@@ -77,11 +75,11 @@ export class StyleGuidePageComponent extends PureComponent {
                 </div>
                 <div>
                     <button block="Button">
-                        <Image src={ lockWhite } alt="lock" mix={ { block: 'StyleGuidePage', elem: 'Icon' } } />
+                        <LockIcon />
                         { __('Button text') }
                     </button>
                     <button block="Button" mods={ { isHovered: true } }>
-                        <Image src={ lockWhite } alt="lock" mix={ { block: 'StyleGuidePage', elem: 'Icon' } } />
+                        <LockIcon />
                         { __('Button text') }
                     </button>
                 </div>
@@ -193,12 +191,12 @@ export class StyleGuidePageComponent extends PureComponent {
                     { __('Icons in header [default state + hover]') }
                 </h4>
                 <div>
-                    <Image src={ user } alt="user" />
-                    <Image src={ userSelected } alt="userSelected" />
+                    <UserIcon />
+                    <UserIcon isActive />
                 </div>
                 <div>
-                    <Image src={ heart } alt="heart" />
-                    <Image src={ heartSelected } alt="heartSelected" />
+                    <HeartIcon />
+                    <HeartIcon isActive />
                 </div>
             </div>
         );
@@ -297,8 +295,8 @@ export class StyleGuidePageComponent extends PureComponent {
                       sortDirection="ASC"
                       isMatchingInfoFilter={ isMatchingInfoFilter }
                     />
-                    <Image src={ gridFilled } alt="Grid Icon" />
-                    <Image src={ list } alt="List Icon" />
+                    <GridIcon isActive />
+                    <ListIcon />
                 </div>
                 <h4 block="StyleGuidePage" elem="SubHeading">
                     { __('Menu dropdown') }

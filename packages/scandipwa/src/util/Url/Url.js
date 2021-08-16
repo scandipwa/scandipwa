@@ -55,6 +55,9 @@ export const getUrlParam = (match, location) => {
     return currentUrl.replace(baseUrl, '').replace(/^\/*/, '');
 };
 
+/**  Util/Url/trimEndSlash */
+export const trimEndSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str);
+
 /**
  * Append store code to URL
  * @param {String} pathname the URL to append store code to
@@ -65,7 +68,7 @@ export const appendWithStoreCode = (pathname) => {
     const { pathname: storePrefix } = new URL(base_link_url);
 
     if (!pathname) {
-        return storePrefix.slice(0, -1);
+        return trimEndSlash(storePrefix);
     }
 
     // match URLs which have the store code in pathname
@@ -74,9 +77,7 @@ export const appendWithStoreCode = (pathname) => {
     }
 
     // trim the last slash from URL, and append it to pathname
-    return storePrefix.slice(0, -1).concat(
-        !pathname.startsWith('/') ? `/${ pathname }` : pathname
-    );
+    return trimEndSlash(storePrefix).concat(!pathname.startsWith('/') ? `/${ pathname }` : pathname);
 };
 
 /**

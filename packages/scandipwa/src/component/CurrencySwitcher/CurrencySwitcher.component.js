@@ -65,7 +65,6 @@ export class CurrencySwitcher extends PureComponent {
                       value={ this.getCurrencyValue() }
                       onChange={ handleCurrencySelect }
                     />
-                    <span />
                 </div>
             );
         }

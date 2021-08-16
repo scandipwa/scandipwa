@@ -55,6 +55,13 @@ export class SliderWidgetContainer extends DataContainer {
         }
     }
 
+    containerProps() {
+        const { device } = this.props;
+        const { slider } = this.state;
+
+        return { device, slider };
+    }
+
     requestSlider() {
         const { sliderId, showNotification } = this.props;
 
@@ -74,8 +81,7 @@ export class SliderWidgetContainer extends DataContainer {
     render() {
         return (
             <SliderWidget
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
             />
         );
     }

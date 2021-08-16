@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -74,7 +75,16 @@ export class WidgetFactory extends PureComponent {
     }
 
     renderContent() {
-        const { type } = this.props;
+        const {
+            type,
+            sliderId = null,
+            displayType,
+            productsCount,
+            showPager,
+            storeId,
+            title,
+            conditionsEncoded
+        } = this.props;
         const {
             component: Widget,
             fallback
@@ -83,7 +93,15 @@ export class WidgetFactory extends PureComponent {
         if (Widget !== undefined) {
             return (
                 <RenderWhenVisible fallback={ fallback }>
-                    <Widget { ...this.props } />
+                    <Widget
+                      sliderId={ sliderId }
+                      displayType={ displayType }
+                      productsCount={ productsCount }
+                      showPager={ showPager }
+                      storeId={ storeId }
+                      title={ title }
+                      conditionsEncoded={ conditionsEncoded }
+                    />
                 </RenderWhenVisible>
             );
         }

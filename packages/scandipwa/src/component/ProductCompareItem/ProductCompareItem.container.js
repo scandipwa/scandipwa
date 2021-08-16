@@ -58,11 +58,18 @@ export class ProductCompareItemContainer extends PureComponent {
         overriddenAddToCartBtnHandler: this.overriddenAddToCartBtnHandler.bind(this)
     };
 
-    containerProps = {
-        imgUrl: this.getProductImage(),
-        overrideAddToCartBtnBehavior: this.getOverrideAddToCartBtnBehavior(),
-        linkTo: this.getLinkTo()
-    };
+    containerProps() {
+        const { product } = this.props;
+        const { isLoading } = this.state;
+
+        return {
+            product,
+            isLoading,
+            imgUrl: this.getProductImage(),
+            overrideAddToCartBtnBehavior: this.getOverrideAddToCartBtnBehavior(),
+            linkTo: this.getLinkTo()
+        };
+    }
 
     async removeComparedProduct() {
         const {
@@ -145,9 +152,7 @@ export class ProductCompareItemContainer extends PureComponent {
     render() {
         return (
             <ProductCompareItem
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerProps }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

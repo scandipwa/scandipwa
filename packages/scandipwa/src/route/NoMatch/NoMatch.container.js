@@ -93,7 +93,8 @@ export class NoMatchContainer extends PureComponent {
             <Subscribe to={ [SharedTransitionContainer] }>
                 { ({ cleanUpTransition }) => (
                     <NoMatch
-                      { ...{ ...this.containerProps(), cleanUpTransition } }
+                      { ...this.containerProps() }
+                      cleanUpTransition={ cleanUpTransition }
                     />
                 ) }
             </Subscribe>

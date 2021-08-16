@@ -18,6 +18,7 @@ import CheckoutOrderSummary from 'Component/CheckoutOrderSummary/CheckoutOrderSu
 import CmsBlock from 'Component/CmsBlock';
 import ContentWrapper from 'Component/ContentWrapper';
 import ExpandableContent from 'Component/ExpandableContent';
+import LockIcon from 'Component/LockIcon';
 import ProductLinks from 'Component/ProductLinks';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import { TotalsType } from 'Type/MiniCart';
@@ -108,7 +109,7 @@ export class CartPage extends PureComponent {
                   mix={ { block: 'Button' } }
                   onClick={ onCheckoutButtonClick }
                 >
-                    <span />
+                    <LockIcon />
                     { __('Proceed to checkout') }
                 </button>
             </div>

@@ -14,7 +14,11 @@ import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import { getCityAndRegionFromZipcode, setAddressesInFormObject } from 'Util/Address';
+import {
+    getAvailableRegions,
+    getCityAndRegionFromZipcode,
+    setAddressesInFormObject
+} from 'Util/Address';
 
 /** @namespace Component/MyAccountAddressForm/Component */
 export class MyAccountAddressForm extends FieldForm {
@@ -40,23 +44,25 @@ export class MyAccountAddressForm extends FieldForm {
 
         const {
             countries,
-            shippingFields: {
-                country_id,
-                region_id,
-                city = ''
-            }
+            shippingFields,
+            address,
+            default_country
         } = props;
 
-        const country = countries.find(({ id }) => id === country_id) || {};
-        const countryId = Object.keys(country).length ? country_id : '';
-
         const {
-            available_regions: availableRegions,
-            is_state_required = false
-        } = country;
+            country_id,
+            region_id,
+            city = ''
+        } = shippingFields || address;
 
-        const regions = availableRegions || [{}];
-        const regionId = region_id || regions[0].id;
+        const country = countries.find(({ id }) => id === country_id) || {};
+        const countryId = Object.keys(country).length ? country_id : default_country;
+
+        const { is_state_required = false } = country;
+
+        const availableRegions = getAvailableRegions(countryId, countries);
+        const [{ id: defaultRegionId = '' }] = availableRegions;
+        const regionId = region_id || defaultRegionId;
 
         this.state = {
             countryId,

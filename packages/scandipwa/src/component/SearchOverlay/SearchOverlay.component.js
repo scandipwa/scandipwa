@@ -31,12 +31,11 @@ export class SearchOverlay extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired,
-        isHideOverlay: PropTypes.bool
+        isHideOverlay: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        searchCriteria: '',
-        isHideOverlay: false
+        searchCriteria: ''
     };
 
     componentDidUpdate(prevProps) {

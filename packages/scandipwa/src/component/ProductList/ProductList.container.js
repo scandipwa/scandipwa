@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProductListInfoDispatcher from 'Store/ProductListInfo/ProductListInfo.dispatcher';
-import { HistoryType } from 'Type/Common';
+import { HistoryType, MixType } from 'Type/Common';
 import { DeviceType } from 'Type/Device';
 import { FilterInputType, PagesType } from 'Type/ProductList';
 import { LocationType } from 'Type/Router';
@@ -61,10 +61,14 @@ export class ProductListContainer extends PureComponent {
         noAttributes: PropTypes.bool,
         noVariants: PropTypes.bool,
         isWidget: PropTypes.bool,
-        device: DeviceType.isRequired
+        device: DeviceType.isRequired,
+        mix: MixType,
+        title: PropTypes.string,
+        totalPages: PropTypes.number
     };
 
     static defaultProps = {
+        mix: {},
         pageSize: 24,
         filter: {},
         search: '',
@@ -76,7 +80,9 @@ export class ProductListContainer extends PureComponent {
         isPageLoading: false,
         noAttributes: false,
         noVariants: false,
-        isWidget: false
+        isWidget: false,
+        title: '',
+        totalPages: 1
     };
 
     state = {
@@ -199,14 +205,37 @@ export class ProductListContainer extends PureComponent {
         }
     };
 
-    containerProps = () => ({
-        currentPage: this._getPageFromUrl(),
-        isShowLoading: this._isShowLoading(),
-        isVisible: this._isVisible(),
-        requestPage: this.requestPage,
-        // disable this property to enable infinite scroll on desktop
-        isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()
-    });
+    containerProps() {
+        const {
+            device,
+            isLoading,
+            isPaginationEnabled,
+            isWidget,
+            mix,
+            pages,
+            selectedFilters,
+            title,
+            totalPages
+        } = this.props;
+
+        return {
+            device,
+            isLoading,
+            isPaginationEnabled,
+            isWidget,
+            mix,
+            pages,
+            selectedFilters,
+            title,
+            totalPages,
+            currentPage: this._getPageFromUrl(),
+            isShowLoading: this._isShowLoading(),
+            isVisible: this._isVisible(),
+            requestPage: this.requestPage,
+            // disable this property to enable infinite scroll on desktop
+            isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()
+        };
+    }
 
     _getIsInfiniteLoaderEnabled() { // disable infinite scroll on mobile
         const { isInfiniteLoaderEnabled, device } = this.props;
@@ -281,7 +310,6 @@ export class ProductListContainer extends PureComponent {
     render() {
         return (
             <ProductList
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

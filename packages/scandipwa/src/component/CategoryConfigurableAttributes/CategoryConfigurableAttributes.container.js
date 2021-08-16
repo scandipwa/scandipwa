@@ -33,6 +33,21 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
         getSubCategories: this.getSubCategories.bind(this)
     };
 
+    containerProps() {
+        const {
+            currency_code,
+            show_product_count,
+            childrenCategories
+        } = this.props;
+
+        return {
+            currency_code,
+            show_product_count,
+            childrenCategories,
+            ...super.containerProps()
+        };
+    }
+
     getSubCategories(option) {
         const optionWithSubcategories = { ...option };
         const { childrenCategories } = this.props;
@@ -47,7 +62,7 @@ export class CategoryConfigurableAttributesContainer extends ProductConfigurable
     render() {
         return (
             <CategoryConfigurableAttributes
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

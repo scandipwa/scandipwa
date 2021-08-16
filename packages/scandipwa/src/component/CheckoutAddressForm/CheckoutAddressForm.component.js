@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 import FormPortal from 'Component/FormPortal';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
-import { getCityAndRegionFromZipcode } from 'Util/Address';
+import { getAvailableRegions, getCityAndRegionFromZipcode } from 'Util/Address';
 import { debounce } from 'Util/Request';
 
 import { REQUEST_SHIPPING_METHODS_FREQUENCY } from './CheckoutAddressForm.config';
@@ -41,13 +41,15 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
                 city = '',
                 region_id: regionId = null,
                 region_string: region = '',
-                default_country,
                 country_id = '',
                 postcode = ''
-            }
+            },
+            default_country,
+            countries
         } = this.props;
 
         const countryId = country_id || default_country;
+        const availableRegions = getAvailableRegions(countryId, countries);
 
         // TODO: get from region data
         this.state = {
@@ -56,7 +58,8 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
             region,
             regionId,
             city,
-            postcode
+            postcode,
+            availableRegions
         };
     }
 
@@ -97,6 +100,14 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
         }
     }
 
+    getAvailableRegions(country_id) {
+        const { countries } = this.props;
+        const country = countries.find(({ id }) => id === country_id) || {};
+        const { available_regions } = country;
+
+        return available_regions;
+    }
+
     estimateShipping() {
         const { onShippingEstimationFieldsChange } = this.props;
 
@@ -119,7 +130,7 @@ export class CheckoutAddressForm extends MyAccountAddressForm {
 
     onZipcodeChange = async (e) => {
         const { value } = e.currentTarget;
-        const { countryId, availableRegions } = this.state;
+        const { countryId, availableRegions = [] } = this.state;
 
         const [city, regionCode] = await getCityAndRegionFromZipcode(countryId, value);
         if (city) {

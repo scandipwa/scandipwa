@@ -28,20 +28,15 @@
         display: none;
     }
 
-    &-Icon {
+    .ChevronIcon {
         cursor: pointer;
         display: block;
         height: 20px;
-        margin: 0 auto;
-        width: 12px;
+        width: 16px;
 
         &:hover,
         &:focus {
-            --header-color: var(--color-pagination-link-active-text);
-        }
-
-        &:not(&_isNext) {
-            transform: rotate(180deg);
+           fill: var(--primary-base-color);
         }
     }
 

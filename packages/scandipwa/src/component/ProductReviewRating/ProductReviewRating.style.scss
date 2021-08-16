@@ -24,19 +24,6 @@
     align-items: flex-end;
     line-height: normal;
 
-    &-StarFull {
-        @include star-icon-full;
-    }
-
-    &-StarHalfFull {
-        @include star-icon-half;
-        @include rtl-icon;
-    }
-
-    &-StarEmpty {
-        @include star-icon-empty;
-    }
-
     &_isLoading {
         &::before {
             background-image: var(--placeholder-image);

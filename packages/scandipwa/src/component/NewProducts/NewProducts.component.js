@@ -22,14 +22,13 @@ import './NewProducts.style';
 export class NewProducts extends Component {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),
-        productsPerPage: PropTypes.number,
+        productsPerPage: PropTypes.number.isRequired,
         productCardProps: PropTypes.object.isRequired,
         productCardFunctions: PropTypes.object.isRequired
     };
 
     static defaultProps = {
-        products: Array.from({ length: 4 }, () => ({})),
-        productsPerPage: 6
+        products: Array.from({ length: 4 }, () => ({}))
     };
 
     newProductsRef = createRef();
@@ -61,16 +60,32 @@ export class NewProducts extends Component {
 
     renderProductCard(product, i) {
         const {
-            productCardProps,
-            productCardFunctions
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            },
+            productCardFunctions: {
+                setSiblingsHaveBrands,
+                setSiblingsHavePriceBadge,
+                setSiblingsHaveTierPrice,
+                setSiblingsHaveConfigurableOptions
+            }
         } = this.props;
 
         return (
             <ProductCard
               key={ product.id || i }
               product={ product }
-              { ...productCardProps }
-              { ...productCardFunctions }
+              siblingsHaveBrands={ siblingsHaveBrands }
+              siblingsHavePriceBadge={ siblingsHavePriceBadge }
+              siblingsHaveTierPrice={ siblingsHaveTierPrice }
+              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+              setSiblingsHaveBrands={ setSiblingsHaveBrands }
+              setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
+              setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
+              setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }
