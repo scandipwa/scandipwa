@@ -28,14 +28,16 @@ export class FieldInputContainer extends PureComponent {
             PropTypes.string,
             PropTypes.number,
             PropTypes.bool
-        ])
+        ]),
+        ariaLabel: PropTypes.string
     };
 
     static defaultProps = {
         value: '',
         autocomplete: 'off',
         isDisabled: false,
-        skipValue: false
+        skipValue: false,
+        ariaLabel: ''
     };
 
     getAutocomplete() {
@@ -70,13 +72,17 @@ export class FieldInputContainer extends PureComponent {
             isDisabled: disabled,
             autocomplete,
             skipValue,
+            ariaLabel,
 
             // Props that are passed correctly from the beginning
             ...validProps
         } = this.props;
 
+        const ariaLabelProp = ariaLabel ? { 'aria-label': ariaLabel } : {};
+
         return {
             ...validProps,
+            ...ariaLabelProp,
             disabled,
             'data-skip-value': skipValue,
             autoComplete: this.getAutocomplete()

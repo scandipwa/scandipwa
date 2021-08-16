@@ -563,6 +563,7 @@ export class Header extends NavigationAbstract {
               elem="MinicartButtonWrapper"
               tabIndex="0"
               onClick={ onMinicartButtonClick }
+              aria-label={ __('Cart') }
             >
                 <CartIcon />
                 { this.renderMinicartItemsQty() }

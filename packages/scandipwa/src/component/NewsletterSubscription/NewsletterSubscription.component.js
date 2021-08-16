@@ -32,7 +32,7 @@ export class NewsletterSubscription extends FieldForm {
             newsletterEmail: {
                 validation: ['notEmpty', 'email'],
                 placeholder: __('Enter your email address'),
-                'aria-label': __('Email address')
+                ariaLabel: __('Email address')
             }
         };
 
