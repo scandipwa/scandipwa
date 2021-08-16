@@ -26,9 +26,9 @@ import SearchIcon from 'Component/SearchIcon';
 import ShareIcon from 'Component/ShareIcon';
 import StarIcon from 'Component/StarIcon';
 import UserIcon from 'Component/UserIcon';
-import facebook from 'Style/Icons/Logos/facebook.svg';
-import linkedIn from 'Style/Icons/Logos/linkedIn.svg';
-import twitter from 'Style/Icons/Logos/twitter.svg';
+import facebook from 'Style/icons/logos/facebook.svg';
+import linkedIn from 'Style/icons/logos/linkedIn.svg';
+import twitter from 'Style/icons/logos/twitter.svg';
 
 export const BUTTONS = 'buttons';
 export const TEXT_STYLES = 'text styles';
