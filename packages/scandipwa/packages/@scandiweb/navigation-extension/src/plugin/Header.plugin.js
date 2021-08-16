@@ -15,6 +15,7 @@ import CloseIcon from 'Component/CloseIcon';
 import ListIcon from 'Component/ListIcon';
 import SearchIcon from 'Component/SearchIcon';
 import UserIcon from 'Component/UserIcon';
+import { isSignedIn } from 'Util/Auth';
 
 import './HeaderOverride.style.scss';
 import './FooterOverride.style.scss';
@@ -46,7 +47,7 @@ export class HeaderPlugin {
         logo: this.renderLogoMobile.bind(instance),
         title: this.renderTitleMobile.bind(instance),
         search: this.renderSearchFieldMobile.bind(instance),
-        account: this.renderAccountButton.bind(instance),
+        account: this.renderAccount.bind(instance),
         minicart: this.renderMiniCart.bind(instance)
     });
 
@@ -154,9 +155,10 @@ export class HeaderPlugin {
         return this.renderSearchField(true);
     }
 
-    renderAccountButton() {
+    renderAccount(isVisible = false) {
         const {
-            onMyAccountButtonClick,
+            onMyAccountOutsideClick,
+            isCheckout,
             onMobileMyAccountButtonClick,
             isSearchBarActive,
             device: { isMobile }
@@ -179,17 +181,27 @@ export class HeaderPlugin {
             );
         }
 
+        if (isCheckout && isSignedIn()) {
+            return null;
+        }
+
         return (
-            <button
-              block="Header"
-              elem="MyAccountWrapper"
-              tabIndex="0"
-              onClick={ onMyAccountButtonClick }
-              aria-label="Open my account"
-              id="myAccount"
-            >
-                <UserIcon />
-            </button>
+            <>
+                { this.renderWelcomeMessage() }
+                <ClickOutside
+                  onClick={ onMyAccountOutsideClick }
+                  key="account"
+                >
+                    <div
+                      aria-label="My account"
+                      block="Header"
+                      elem="MyAccount"
+                    >
+                        { this.renderAccountButton(isVisible) }
+                        { this.renderAccountOverlay() }
+                    </div>
+                </ClickOutside>
+            </>
         );
     }
 

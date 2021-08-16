@@ -31,14 +31,16 @@ export class HamburgerMenuComponent extends PureComponent {
         const { closeSideMenu } = this.props;
 
         return (
-            <button
-              block="HamburgerMenu"
-              elem="CloseBtn"
-              onClick={ closeSideMenu }
-              aria-label={ __('Close Menu') }
-            >
-                <CloseIcon />
-            </button>
+            <div block="HamburgerMenu" elem="CloseBtnWrapper">
+                <button
+                  block="HamburgerMenu"
+                  elem="CloseBtn"
+                  onClick={ closeSideMenu }
+                  aria-label={ __('Close Menu') }
+                >
+                    <CloseIcon />
+                </button>
+            </div>
         );
     }
 
