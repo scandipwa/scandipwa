@@ -304,12 +304,12 @@
         font-size: 14px;
         margin-inline-end: 16px;
         text-align: end;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
 
-        @include narrow-desktop {
-            display: block;
-        }
-
-        &_isVisible {
+        @include wide-desktop {
             display: block;
         }
     }

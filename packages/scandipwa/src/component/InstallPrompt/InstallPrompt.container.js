@@ -45,6 +45,17 @@ export class InstallPromptContainer extends PureComponent {
         this.listenForInstallPrompt();
     }
 
+    containerProps() {
+        const { device } = this.props;
+        const { isBannerClosed, hasInstallPromptEvent } = this.state;
+
+        return {
+            device,
+            isBannerClosed,
+            hasInstallPromptEvent
+        };
+    }
+
     handleAppInstall() {
         if (!window.promt_event) {
             return;
@@ -85,8 +96,7 @@ export class InstallPromptContainer extends PureComponent {
     render() {
         return (
             <InstallPrompt
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               containerFunctions={ this.containerFunctions }
             />
         );

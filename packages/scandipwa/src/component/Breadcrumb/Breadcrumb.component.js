@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ChevronIcon from 'Component/ChevronIcon';
 import Link from 'Component/Link';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import ChevronIcon from 'Style/Icons/Chevron';
 
 import './Breadcrumb.style';
 

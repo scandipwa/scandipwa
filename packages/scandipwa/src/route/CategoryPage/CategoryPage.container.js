@@ -75,7 +75,6 @@ export const mapStateToProps = (state) => ({
     selectedInfoFilter: state.ProductListInfoReducer.selectedFilter,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages,
-    device: state.ConfigReducer.device,
     plpType: state.ConfigReducer.plp_list_mode,
     isMobile: state.ConfigReducer.device.isMobile
 });
@@ -145,7 +144,8 @@ export class CategoryPageContainer extends PureComponent {
         isSearchPage: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         plpType: PropTypes.string,
-        device: PropTypes.shape({}).isRequired
+        totalPages: PropTypes.number.isRequired,
+        toggleOverlayByKey: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -416,18 +416,35 @@ export class CategoryPageContainer extends PureComponent {
         return isSearchPage || categoryIds === id;
     }
 
-    containerProps = () => ({
-        filter: this.getFilter(),
-        isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
-        isMatchingListFilter: this.getIsMatchingListFilter(),
-        isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
-        appliedFiltersCount: this.getAppliedFiltersCount(),
-        selectedSort: this.getSelectedSortFromUrl(),
-        selectedFilters: this.getSelectedFiltersFromUrl(),
-        isContentFiltered: this.isContentFiltered(),
-        defaultPlpType: this.getDefaultPlpType(),
-        plpTypes: this.getPlpTypes()
-    });
+    containerProps() {
+        const {
+            category,
+            filters,
+            isMobile,
+            sortFields,
+            toggleOverlayByKey,
+            totalPages
+        } = this.props;
+
+        return {
+            appliedFiltersCount: this.getAppliedFiltersCount(),
+            category,
+            defaultPlpType: this.getDefaultPlpType(),
+            filter: this.getFilter(),
+            filters,
+            isContentFiltered: this.isContentFiltered(),
+            isCurrentCategoryLoaded: this.isCurrentCategoryLoaded(),
+            isMatchingInfoFilter: this.getIsMatchingInfoFilter(),
+            isMatchingListFilter: this.getIsMatchingListFilter(),
+            isMobile,
+            plpTypes: this.getPlpTypes(),
+            selectedFilters: this.getSelectedFiltersFromUrl(),
+            selectedSort: this.getSelectedSortFromUrl(),
+            sortFields,
+            toggleOverlayByKey,
+            totalPages
+        };
+    }
 
     isContentFiltered() {
         const {
@@ -690,7 +707,6 @@ export class CategoryPageContainer extends PureComponent {
 
         return (
             <CategoryPage
-              { ...this.props }
               pageSize={ pageSize }
               defaultPlpType={ defaultPlpType }
               selectedLayoutType={ selectedLayoutType }

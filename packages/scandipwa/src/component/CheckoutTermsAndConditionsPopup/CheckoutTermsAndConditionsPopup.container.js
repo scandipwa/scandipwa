@@ -38,10 +38,16 @@ export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
         }
     };
 
+    containerProps() {
+        const { payload } = this.props;
+
+        return { payload };
+    }
+
     render() {
         return (
             <CheckoutTermsAndConditionsPopup
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

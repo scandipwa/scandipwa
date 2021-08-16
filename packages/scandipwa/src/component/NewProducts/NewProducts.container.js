@@ -38,13 +38,15 @@ export class NewProductsContainer extends PureComponent {
         cacheLifetime: PropTypes.number,
         productsCount: PropTypes.number,
         timezone: PropTypes.string.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        productsPerPage: PropTypes.number
     };
 
     static defaultProps = {
         category: '',
         productsCount: 10,
-        cacheLifetime: 86400
+        cacheLifetime: 86400,
+        productsPerPage: 6
     };
 
     state = {
@@ -82,7 +84,9 @@ export class NewProductsContainer extends PureComponent {
     }
 
     containerProps() {
+        const { productsPerPage } = this.props;
         const {
+            products,
             siblingsHaveBrands,
             siblingsHavePriceBadge,
             siblingsHaveTierPrice,
@@ -90,7 +94,11 @@ export class NewProductsContainer extends PureComponent {
         } = this.state;
 
         return {
+            productsPerPage,
+            products,
             productCardFunctions: {
+                products,
+                productsPerPage,
                 setSiblingsHaveBrands: () => this.setState({ siblingsHaveBrands: true }),
                 setSiblingsHavePriceBadge: () => this.setState({ siblingsHavePriceBadge: true }),
                 setSiblingsHaveTierPrice: () => this.setState({ siblingsHaveTierPrice: true }),
@@ -170,8 +178,6 @@ export class NewProductsContainer extends PureComponent {
     render() {
         return (
             <NewProducts
-              { ...this.props }
-              { ...this.state }
               { ...this.containerProps() }
             />
         );

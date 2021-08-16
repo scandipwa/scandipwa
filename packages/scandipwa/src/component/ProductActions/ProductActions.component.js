@@ -17,7 +17,7 @@ import Field from 'Component/Field';
 import GroupedProductList from 'Component/GroupedProductList';
 import Html from 'Component/Html';
 import ProductBundleItems from 'Component/ProductBundleItems';
-import { OUT_OF_STOCK } from 'Component/ProductCard/ProductCard.config';
+import { IN_STOCK } from 'Component/ProductCard/ProductCard.config';
 import ProductCompareButton from 'Component/ProductCompareButton';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
@@ -35,6 +35,7 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
+    filterConfigurableOptions,
     GROUPED,
     showNewReviewPopup
 } from 'Util/Product';
@@ -60,7 +61,6 @@ export class ProductActions extends PureComponent {
         setQuantity: PropTypes.func.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        filterConfigurableOptions: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
@@ -117,7 +117,7 @@ export class ProductActions extends PureComponent {
             return null;
         }
 
-        const stockStatusLabel = stockStatus === OUT_OF_STOCK ? __('Out of stock') : __('In stock');
+        const stockStatusLabel = stockStatus === IN_STOCK ? __('In stock') : __('Out of stock');
 
         return <span block="ProductActions" elem="Stock">{ stockStatusLabel }</span>;
     }
@@ -183,8 +183,7 @@ export class ProductActions extends PureComponent {
             updateConfigurableVariant,
             parameters,
             areDetailsLoaded,
-            product: { configurable_options = {}, type_id, variants },
-            filterConfigurableOptions
+            product: { configurable_options = {}, type_id, variants = {} }
         } = this.props;
 
         if (type_id !== CONFIGURABLE) {
@@ -206,7 +205,7 @@ export class ProductActions extends PureComponent {
                   parameters={ parameters }
                   variants={ variants }
                   updateConfigurableVariant={ updateConfigurableVariant }
-                  configurable_options={ filterConfigurableOptions(configurable_options) }
+                  configurable_options={ filterConfigurableOptions(configurable_options, variants) }
                   isContentExpanded
                 />
             </div>
@@ -391,7 +390,7 @@ export class ProductActions extends PureComponent {
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ onProductValidationError }
               productOptionsData={ productOptionsData }
-              disabled={ stock_status === OUT_OF_STOCK }
+              disabled={ stock_status !== IN_STOCK }
               isWithIcon
             />
         );
@@ -461,7 +460,7 @@ export class ProductActions extends PureComponent {
             }
         } = this.props;
 
-        if (stock_status === OUT_OF_STOCK) {
+        if (stock_status !== IN_STOCK) {
             return null;
         }
 

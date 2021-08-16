@@ -1,0 +1,26 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.RadioButtonIcon {
+    cursor: pointer;
+
+    &-Circle {
+        fill: var(--color-black);
+    }
+
+    &:hover, &_isActive {
+        .RadioButtonIcon-Circle {
+            fill: var(--primary-base-color);
+        }
+
+        fill: var(--primary-base-color);
+    }
+}

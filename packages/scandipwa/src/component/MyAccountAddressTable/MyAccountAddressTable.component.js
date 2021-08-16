@@ -21,11 +21,11 @@ import './MyAccountAddressTable.style';
 /** @namespace Component/MyAccountAddressTable/Component */
 export class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
-        mix: MixType,
+        mix: MixType.isRequired,
         getFormatedRegion: PropTypes.func.isRequired,
         address: addressType.isRequired,
-        showActions: PropTypes.bool,
-        showAdditionalFields: PropTypes.bool,
+        showActions: PropTypes.bool.isRequired,
+        showAdditionalFields: PropTypes.bool.isRequired,
         onEditClick: PropTypes.func.isRequired,
         onDeleteClick: PropTypes.func.isRequired,
         countries: PropTypes.arrayOf(
@@ -41,12 +41,6 @@ export class MyAccountAddressTable extends KeyValueTable {
                 )
             })
         ).isRequired
-    };
-
-    static defaultProps = {
-        showAdditionalFields: false,
-        showActions: false,
-        mix: {}
     };
 
     get dataPairArray() {

@@ -9,8 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+
+import { DownloadableSamplesType } from 'Type/ProductList';
 
 import ProductDownloadableSamples from './ProductDownloadableSamples.component';
 
@@ -24,10 +27,22 @@ export const mapDispatchToProps = () => ({});
 
 /** @namespace Component/ProductDownloadableSamples/Container */
 export class ProductDownloadableSamplesContainer extends PureComponent {
+    static propTypes = {
+        title: PropTypes.string.isRequired,
+        samples: DownloadableSamplesType.isRequired,
+        isOpenInNewTab: PropTypes.bool.isRequired
+    };
+
+    containerProps() {
+        const { title, samples, isOpenInNewTab } = this.props;
+
+        return { title, samples, isOpenInNewTab };
+    }
+
     render() {
         return (
             <ProductDownloadableSamples
-              { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }

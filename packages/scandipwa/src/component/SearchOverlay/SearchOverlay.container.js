@@ -14,6 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import SearchBarReducer from 'Store/SearchBar/SearchBar.reducer';
+import { ItemsType } from 'Type/ProductList';
 import { withReducers } from 'Util/DynamicReducer';
 
 import SearchOverlay from './SearchOverlay.component';
@@ -44,12 +45,37 @@ export class SearchOverlayContainer extends PureComponent {
     static propTypes = {
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired,
-        searchCriteria: PropTypes.string.isRequired
+        searchCriteria: PropTypes.string.isRequired,
+        searchResults: ItemsType.isRequired,
+        isHideOverlay: PropTypes.bool,
+        isLoading: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        isHideOverlay: false
     };
 
     containerFunctions = {
         makeSearchRequest: this.makeSearchRequest.bind(this)
     };
+
+    containerProps() {
+        const {
+            clearSearchResults,
+            isHideOverlay,
+            isLoading,
+            searchCriteria,
+            searchResults
+        } = this.props;
+
+        return {
+            clearSearchResults,
+            isHideOverlay,
+            isLoading,
+            searchCriteria,
+            searchResults
+        };
+    }
 
     makeSearchRequest() {
         const {
@@ -74,7 +100,7 @@ export class SearchOverlayContainer extends PureComponent {
     render() {
         return (
             <SearchOverlay
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

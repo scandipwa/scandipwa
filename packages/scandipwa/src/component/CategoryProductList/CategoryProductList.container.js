@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import ProductList from 'Component/ProductList';
 import { updateLoadStatus } from 'Store/ProductList/ProductList.action';
 import { LayoutType } from 'Type/Layout';
-import { FilterInputType } from 'Type/ProductList';
+import { FilterInputType, PagesType } from 'Type/ProductList';
 
 import './CategoryProductList.style';
 
@@ -51,7 +51,14 @@ export class CategoryProductListContainer extends PureComponent {
         layout: LayoutType,
         filter: FilterInputType,
         requestProductList: PropTypes.func.isRequired,
-        isCurrentCategoryLoaded: PropTypes.bool
+        isCurrentCategoryLoaded: PropTypes.bool,
+        totalItems: PropTypes.number.isRequired,
+        totalPages: PropTypes.number,
+        search: PropTypes.string,
+        sort: PropTypes.objectOf(PropTypes.string),
+        selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        pages: PagesType.isRequired,
+        isPageLoading: PropTypes.bool
     };
 
     static defaultProps = {
@@ -59,7 +66,12 @@ export class CategoryProductListContainer extends PureComponent {
         isMatchingInfoFilter: false,
         isCurrentCategoryLoaded: false,
         filter: {},
-        layout: 'grid'
+        layout: 'grid',
+        totalPages: 1,
+        search: '',
+        sort: undefined,
+        selectedFilters: {},
+        isPageLoading: false
     };
 
     containerFunctions = {
@@ -121,16 +133,36 @@ export class CategoryProductListContainer extends PureComponent {
         requestProductList({ ...options, isPlp: true });
     }
 
-    containerProps = () => ({
-        isLoading: this.getIsLoading(),
-        isPreventRequest: this.getIsPreventRequest(),
-        mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } }
-    });
+    containerProps() {
+        const {
+            filter,
+            isPageLoading,
+            pages,
+            search,
+            selectedFilters,
+            sort,
+            totalItems,
+            totalPages
+        } = this.props;
+
+        return {
+            filter,
+            isPageLoading,
+            pages,
+            search,
+            selectedFilters,
+            sort,
+            totalItems,
+            totalPages,
+            isLoading: this.getIsLoading(),
+            isPreventRequest: this.getIsPreventRequest(),
+            mix: { block: 'CategoryProductList', mods: { layout: this.getLayout() } }
+        };
+    }
 
     render() {
         return (
             <ProductList
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

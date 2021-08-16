@@ -17,8 +17,8 @@ import {
     STARS_COUNT,
     STARS_GRANULARITY_PERCENT
 } from 'Component/ProductReviewRating/ProductReviewRating.config';
-import Star from 'Style/Icons/Star';
-import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Style/Icons/Star/Star.config';
+import Star from 'Component/StarIcon';
+import { STAR_EMPTY, STAR_FULL, STAR_HALF_FULL } from 'Component/StarIcon/StarIcon.config';
 import { MixType } from 'Type/Common';
 import CSS from 'Util/CSS';
 

@@ -20,15 +20,11 @@ import './RecentlyViewedWidget.style';
 /** @namespace Component/RecentlyViewedWidget/Component */
 export class RecentlyViewedWidget extends Component {
     static propTypes = {
-        pageSize: PropTypes.number,
+        pageSize: PropTypes.number.isRequired,
         products: ItemsType.isRequired,
         productCardProps: PropTypes.object.isRequired,
         productCardFunctions: PropTypes.object.isRequired,
         isLoading: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
-        pageSize: 6
     };
 
     renderProductCard = this.renderProductCard.bind(this);
@@ -55,8 +51,18 @@ export class RecentlyViewedWidget extends Component {
 
     renderProductCard(product) {
         const {
-            productCardProps,
-            productCardFunctions,
+            productCardProps: {
+                siblingsHaveBrands,
+                siblingsHavePriceBadge,
+                siblingsHaveTierPrice,
+                siblingsHaveConfigurableOptions
+            },
+            productCardFunctions: {
+                setSiblingsHaveBrands,
+                setSiblingsHavePriceBadge,
+                setSiblingsHaveTierPrice,
+                setSiblingsHaveConfigurableOptions
+            },
             isLoading
         } = this.props;
         const { id, selectedFilters } = product;
@@ -67,8 +73,14 @@ export class RecentlyViewedWidget extends Component {
               product={ product }
               key={ id }
               isPreview={ isLoading }
-              { ...productCardProps }
-              { ...productCardFunctions }
+              siblingsHaveBrands={ siblingsHaveBrands }
+              siblingsHavePriceBadge={ siblingsHavePriceBadge }
+              siblingsHaveTierPrice={ siblingsHaveTierPrice }
+              siblingsHaveConfigurableOptions={ siblingsHaveConfigurableOptions }
+              setSiblingsHaveBrands={ setSiblingsHaveBrands }
+              setSiblingsHavePriceBadge={ setSiblingsHavePriceBadge }
+              setSiblingsHaveTierPrice={ setSiblingsHaveTierPrice }
+              setSiblingsHaveConfigurableOptions={ setSiblingsHaveConfigurableOptions }
             />
         );
     }

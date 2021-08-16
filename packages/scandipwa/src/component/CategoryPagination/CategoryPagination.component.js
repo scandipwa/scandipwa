@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
+import ChevronIcon from 'Component/ChevronIcon';
+import { LEFT, RIGHT } from 'Component/ChevronIcon/ChevronIcon.config';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import ChevronIcon from 'Style/Icons/Chevron';
-import { LEFT, RIGHT } from 'Style/Icons/Chevron/Chevron.config';
 import { range } from 'Util/Manipulations';
 
 import './CategoryPagination.style';
@@ -23,14 +23,14 @@ import './CategoryPagination.style';
 /** @namespace Component/CategoryPagination/Component */
 export class CategoryPagination extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool,
+        isLoading: PropTypes.bool.isRequired,
         pathname: PropTypes.string.isRequired,
         onPageSelect: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
         getSearchQuery: PropTypes.func.isRequired,
-        anchorTextPrevious: PropTypes.string,
-        anchorTextNext: PropTypes.string,
+        anchorTextPrevious: PropTypes.string.isRequired,
+        anchorTextNext: PropTypes.string.isRequired,
         firstFramePage: PropTypes.number.isRequired,
         lastFramePage: PropTypes.number.isRequired,
         prevPageJump: PropTypes.number.isRequired,
@@ -38,15 +38,8 @@ export class CategoryPagination extends PureComponent {
         shouldRenderNextJump: PropTypes.bool.isRequired,
         shouldRenderPreviousJump: PropTypes.bool.isRequired,
         shouldRenderJumps: PropTypes.bool.isRequired,
-        paginationFrame: PropTypes.bool.isRequired,
-        id: PropTypes.string
-    };
-
-    static defaultProps = {
-        isLoading: false,
-        anchorTextPrevious: '',
-        anchorTextNext: '',
-        id: ''
+        paginationFrame: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired
     };
 
     renderPreviousPageLink() {

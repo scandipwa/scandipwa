@@ -1,3 +1,4 @@
+/* eslint-disable @scandipwa/scandipwa-guidelines/jsx-no-props-destruction */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,19 +9,18 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-/* eslint-disable react/jsx-no-bind */
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import AddIcon from 'Component/AddIcon';
+import ChevronIcon from 'Component/ChevronIcon';
+import { BOTTOM } from 'Component/ChevronIcon/ChevronIcon.config';
 import FieldInput from 'Component/FieldInput';
 import FieldSelect from 'Component/FieldSelect';
 import FieldTextarea from 'Component/FieldTextarea';
-import AddIcon from 'Style/Icons/Add';
-import ChevronIcon from 'Style/Icons/Chevron';
-import { BOTTOM } from 'Style/Icons/Chevron/Chevron.config';
-import MinusIcon from 'Style/Icons/Minus';
-import UploadIcon from 'Style/Icons/Upload';
+import MinusIcon from 'Component/MinusIcon';
+import UploadIcon from 'Component/UploadIcon';
 import { MixType } from 'Type/Common';
 
 import {

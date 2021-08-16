@@ -12,6 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import {
+    BIG_PLACEHOLDER_CONFIG
+} from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.config';
+import { MixType } from 'Type/Common';
+import { AttributeType } from 'Type/ProductList';
 import { getBooleanLabel } from 'Util/Product';
 
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
@@ -24,14 +29,21 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         updateConfigurableVariant: PropTypes.func.isRequired,
         isExpandable: PropTypes.bool,
         showProductAttributeAsLink: PropTypes.bool,
-        variants: PropTypes.array
+        variants: PropTypes.array,
+        mix: MixType,
+        isReady: PropTypes.bool,
+        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
+        configurable_options: PropTypes.objectOf(AttributeType).isRequired
     };
 
     static defaultProps = {
         getLink: () => {},
         isExpandable: true,
         showProductAttributeAsLink: true,
-        variants: null
+        variants: null,
+        isReady: true,
+        mix: {},
+        numberOfPlaceholders: BIG_PLACEHOLDER_CONFIG
     };
 
     containerFunctions = {
@@ -41,6 +53,30 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
         getLink: this.getLink.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
+
+    containerProps() {
+        const {
+            configurable_options,
+            isExpandable,
+            isReady,
+            mix,
+            numberOfPlaceholders,
+            parameters,
+            showProductAttributeAsLink,
+            updateConfigurableVariant
+        } = this.props;
+
+        return {
+            configurable_options,
+            isExpandable,
+            isReady,
+            mix,
+            numberOfPlaceholders,
+            parameters,
+            showProductAttributeAsLink,
+            updateConfigurableVariant
+        };
+    }
 
     getLink({ attribute_code, attribute_value }) {
         const { getLink } = this.props;
@@ -117,7 +153,7 @@ export class ProductConfigurableAttributesContainer extends PureComponent {
     render() {
         return (
             <ProductConfigurableAttributes
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

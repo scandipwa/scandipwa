@@ -22,6 +22,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     static propTypes = {
         ...ProductCustomizableOptionsContainer.propTypes,
         items: ProductItemsType,
+        maxQuantity: PropTypes.number.isRequired,
         setBundlePrice: PropTypes.func.isRequired
     };
 
@@ -65,6 +66,12 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
         ) {
             this.updateSelectedOptions();
         }
+    }
+
+    containerProps() {
+        const { items, maxQuantity } = this.props;
+
+        return { items, maxQuantity, ...super.containerProps() };
     }
 
     stopLoading() {
@@ -211,8 +218,7 @@ export class ProductBundleItemsContainer extends ProductCustomizableOptionsConta
     render() {
         return (
             <ProductBundleItems
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

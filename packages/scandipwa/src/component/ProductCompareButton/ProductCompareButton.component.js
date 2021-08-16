@@ -12,8 +12,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import CompareIcon from 'Component/CompareIcon';
 import Loader from 'Component/Loader';
-import CompareIcon from 'Style/Icons/Compare';
 import { MixType } from 'Type/Common';
 
 import './ProductCompareButton.style';
@@ -24,13 +24,12 @@ export class ProductCompareButton extends PureComponent {
         handleClick: PropTypes.func.isRequired,
         isLoading: PropTypes.bool,
         isActive: PropTypes.bool,
-        mix: MixType
+        mix: MixType.isRequired
     };
 
     static defaultProps = {
         isLoading: false,
-        isActive: false,
-        mix: {}
+        isActive: false
     };
 
     render() {

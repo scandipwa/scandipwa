@@ -91,6 +91,24 @@ export class OfflineNoticeContainer extends PureComponent {
         }
     }
 
+    containerProps() {
+        const {
+            isBig,
+            isPage,
+            location,
+            setBigOfflineNotice,
+            showOfflineNotice
+        } = this.props;
+
+        return {
+            isBig,
+            isPage,
+            location,
+            setBigOfflineNotice,
+            showOfflineNotice
+        };
+    }
+
     handleNetworkChange = () => {
         const {
             isBig,
@@ -113,7 +131,7 @@ export class OfflineNoticeContainer extends PureComponent {
     render() {
         return (
             <OfflineNotice
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

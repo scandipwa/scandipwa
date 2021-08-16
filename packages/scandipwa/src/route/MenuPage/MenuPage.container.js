@@ -20,12 +20,11 @@ import { updateMeta } from 'Store/Meta/Meta.action';
 import { changeNavigationState } from 'Store/Navigation/Navigation.action';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { HistoryType } from 'Type/Common';
-import { DeviceType } from 'Type/Device';
 import { appendWithStoreCode } from 'Util/Url';
 
 /** @namespace Route/MenuPage/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
-    device: state.ConfigReducer.device
+    isMobile: state.ConfigReducer.device.isMobile
 });
 
 /** @namespace Route/MenuPage/Container/mapDispatchToProps */
@@ -40,7 +39,7 @@ export class MenuPageContainer extends PureComponent {
         updateMeta: PropTypes.func.isRequired,
         history: HistoryType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        device: DeviceType.isRequired
+        isMobile: PropTypes.bool.isRequired
     };
 
     componentDidMount() {
@@ -58,9 +57,9 @@ export class MenuPageContainer extends PureComponent {
     }
 
     redirectIfNotOnMobile() {
-        const { history, device } = this.props;
+        const { history, isMobile } = this.props;
 
-        if (!device.isMobile) {
+        if (!isMobile) {
             history.push(appendWithStoreCode('/'));
         }
     }

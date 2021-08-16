@@ -93,7 +93,14 @@ export class RouterContainer extends PureComponent {
         title_suffix: PropTypes.string,
         isLoading: PropTypes.bool,
         isBigOffline: PropTypes.bool,
-        meta_title: PropTypes.string,
+        meta_title: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.shape({
+                TranslatedValue: PropTypes.string,
+                value: PropTypes.string,
+                injectables: PropTypes.array
+            })
+        ]),
         status_code: PropTypes.string
     };
 
@@ -141,9 +148,11 @@ export class RouterContainer extends PureComponent {
                 status_code
             } = this.props;
 
+            const { value: metaTitle = meta_title } = meta_title;
+
             updateMeta({
                 default_title,
-                title: meta_title || default_title,
+                title: metaTitle || default_title,
                 default_description,
                 description: default_description,
                 default_keywords,
@@ -185,11 +194,11 @@ export class RouterContainer extends PureComponent {
         }
     };
 
-    containerProps = () => {
+    containerProps() {
         const { isBigOffline } = this.props;
 
         return { isBigOffline };
-    };
+    }
 
     initializeApplication() {
         const { init } = this.props;

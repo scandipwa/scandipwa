@@ -17,6 +17,7 @@ import ProductCompareItem from 'Component/ProductCompareItem';
 import ProductPrice from 'Component/ProductPrice';
 import { DeviceType } from 'Type/Device';
 import { ProductItemsType } from 'Type/ProductList';
+import { BUNDLE, CONFIGURABLE, GROUPED } from 'Util/Product';
 
 import './ProductCompare.style';
 
@@ -33,6 +34,12 @@ export class ProductCompare extends Component {
     static defaultProps = {
         isLoading: false,
         products: []
+    };
+
+    productTypeLabelMap = {
+        [BUNDLE]: __('Starting from'),
+        [GROUPED]: __('Starting from'),
+        [CONFIGURABLE]: __('As Low as')
     };
 
     shouldComponentUpdate(nextProps) {
@@ -100,7 +107,13 @@ export class ProductCompare extends Component {
     renderProductPrices() {
         const { products } = this.props;
 
-        return products.map(({ id, price_range }) => <ProductPrice price={ price_range } key={ id } />);
+        return products.map(({ id, price_range, type_id }) => (
+            <ProductPrice
+              price={ price_range }
+              key={ id }
+              label={ this.productTypeLabelMap[type_id] }
+            />
+        ));
     }
 
     renderAttributes() {

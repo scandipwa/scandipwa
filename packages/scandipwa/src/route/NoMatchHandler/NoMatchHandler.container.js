@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { updateMeta } from 'Store/Meta/Meta.action';
+import { ChildrenType, LocationType } from 'Type/Common';
 
 import NoMatchHandler from './NoMatchHandler.component';
 
@@ -42,7 +43,10 @@ export const mapDispatchToProps = (dispatch) => ({
 export class NoMatchHandlerContainer extends PureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
-        noMatch: PropTypes.bool.isRequired
+        noMatch: PropTypes.bool.isRequired,
+        location: LocationType.isRequired,
+        updateNoMatch: PropTypes.func.isRequired,
+        children: ChildrenType.isRequired
     };
 
     componentDidUpdate(prevProps) {
@@ -54,10 +58,28 @@ export class NoMatchHandlerContainer extends PureComponent {
         }
     }
 
+    containerProps() {
+        const {
+            children,
+            location,
+            noMatch,
+            updateMeta,
+            updateNoMatch
+        } = this.props;
+
+        return {
+            children,
+            location,
+            noMatch,
+            updateMeta,
+            updateNoMatch
+        };
+    }
+
     render() {
         return (
             <NoMatchHandler
-              { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }

@@ -1,7 +1,7 @@
 {
     "name": "@scandipwa/scandipwa",
     "description": "ScandiPWA source code used by CSA.",
-    "version": "4.5.1",
+    "version": "5.0.2",
     "scripts": {
         "start": "scandipwa-scripts start",
         "start:magento": "BUILD_MODE=magento scandipwa-scripts start",
@@ -9,12 +9,12 @@
         "build:magento": "BUILD_MODE=magento scandipwa-scripts build"
     },
     "dependencies": {
-        "@scandipwa/chunk-optimizer": "^0.0.1",
-        "@scandipwa/m2-theme": "0.2.0-next.265+ddc4f62b",
-        "@scandipwa/postcss-config": "^0.0.0",
-        "@scandipwa/scandipwa-scripts": "^2.4.9",
-        "@scandipwa/service-worker": "^0.0.10",
-        "@scandipwa/webpack-i18n-runtime": "^0.0.26",
+        "@scandipwa/chunk-optimizer": "0.0.2",
+        "@scandipwa/m2-theme": "0.2.1",
+        "@scandipwa/postcss-config": "0.0.1",
+        "@scandipwa/scandipwa-scripts": "2.4.15",
+        "@scandipwa/service-worker": "0.0.16",
+        "@scandipwa/webpack-i18n-runtime": "0.0.27",
         "history": "^4.9.0",
         "html-react-parser": "^0.13.0",
         "intersection-observer": "^0.12.0",
@@ -44,6 +44,7 @@
             "es_ES": true,
             "fa_IR": true,
             "fr_FR": true,
+            "fi_FI": true,
             "it_IT": true,
             "lv_LV": true,
             "nb_NO": true,
@@ -155,7 +156,7 @@
         "rules": {
             "@scandipwa/scandipwa-guidelines/no-jsx-variables": "off",
             "@scandipwa/scandipwa-guidelines/jsx-no-conditional": "off",
-            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "off",
+            "@scandipwa/scandipwa-guidelines/jsx-no-props-destruction": "error",
             "import/no-extraneous-dependencies": "off",
             "@scandipwa/scandipwa-guidelines/file-structure": "error",
             "@scandipwa/scandipwa-guidelines/only-one-class": "error",

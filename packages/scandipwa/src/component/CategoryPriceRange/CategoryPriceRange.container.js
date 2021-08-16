@@ -34,11 +34,6 @@ export class CategoryPriceRangeContainer extends PureComponent {
     static propTypes = {
         minPriceValue: PropTypes.number.isRequired,
         maxPriceValue: PropTypes.number.isRequired,
-        priceValue: PropTypes.shape({
-            min: PropTypes.number,
-            max: PropTypes.number
-        }).isRequired,
-        updatePriceRange: PropTypes.func.isRequired,
         history: HistoryType.isRequired,
         location: LocationType.isRequired
     };
@@ -47,17 +42,22 @@ export class CategoryPriceRangeContainer extends PureComponent {
         defaultPriceRange: { min: 0, max: 300 }
     };
 
-    static propTypes = {
-        // TODO: implement prop-types
-    };
-
     containerFunctions = {
         updatePriceRange: this.updatePriceRange.bind(this)
     };
 
-    containerProps = () => ({
-        priceValue: this._getPriceRangeValue()
-    });
+    containerProps() {
+        const {
+            maxPriceValue,
+            minPriceValue
+        } = this.props;
+
+        return {
+            maxPriceValue,
+            minPriceValue,
+            priceValue: this._getPriceRangeValue()
+        };
+    }
 
     _getPriceRangeValue() {
         const { minPriceValue, maxPriceValue } = this.props;
@@ -88,7 +88,6 @@ export class CategoryPriceRangeContainer extends PureComponent {
     render() {
         return (
             <CategoryPriceRange
-              { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

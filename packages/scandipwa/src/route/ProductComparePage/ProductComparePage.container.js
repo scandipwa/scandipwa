@@ -62,6 +62,12 @@ export class ProductComparePageContainer extends DataContainer {
         this.updateHeaderState();
     }
 
+    containerProps() {
+        const { isLoading } = this.props;
+
+        return { isLoading };
+    }
+
     updateMeta() {
         const { updateMeta } = this.props;
         updateMeta({ title: __('Product Compare') });
@@ -92,7 +98,7 @@ export class ProductComparePageContainer extends DataContainer {
     render() {
         return (
             <ProductComparePage
-              { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }

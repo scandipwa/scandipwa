@@ -12,11 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import ChevronIcon from 'Component/ChevronIcon';
+import { BOTTOM, TOP } from 'Component/ChevronIcon/ChevronIcon.config';
 import ClickOutside from 'Component/ClickOutside';
 import Field from 'Component/Field';
 import StoreItems from 'Component/StoreItems';
-import ChevronIcon from 'Style/Icons/Chevron';
-import { BOTTOM, TOP } from 'Style/Icons/Chevron/Chevron.config';
 import { DeviceType } from 'Type/Device';
 
 import './StoreSwitcher.style';

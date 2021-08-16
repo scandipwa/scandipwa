@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
+import { MixType } from 'Type/Common';
 import { getCartItemPrice, getCartItemSubPrice } from 'Util/Cart';
 
 import CartItemPrice from './CartItemPrice.component';
@@ -30,17 +31,23 @@ export const mapDispatchToProps = () => ({});
 export class CartItemPriceContainer extends PureComponent {
     static propTypes = {
         getCartItemPrice: PropTypes.func.isRequired,
-        getCartItemSubPrice: PropTypes.func.isRequired
+        getCartItemSubPrice: PropTypes.func.isRequired,
+        currency_code: PropTypes.string.isRequired,
+        mix: MixType.isRequired
     };
 
     containerProps = () => {
         const {
             getCartItemPrice,
             getCartItemSubPrice,
+            currency_code,
+            mix,
             ...rest
         } = this.props;
 
         return {
+            currency_code,
+            mix,
             price: getCartItemPrice(rest),
             subPrice: getCartItemSubPrice(rest)
         };
@@ -49,7 +56,6 @@ export class CartItemPriceContainer extends PureComponent {
     render() {
         return (
             <CartItemPrice
-              { ...this.props }
               { ...this.containerProps() }
             />
         );

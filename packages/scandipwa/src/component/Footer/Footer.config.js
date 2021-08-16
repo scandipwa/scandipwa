@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import facebookIcon from 'Style/Icons/Logos/facebook.svg';
-import linkedinIcon from 'Style/Icons/Logos/linkedIn.svg';
-import twitterIcon from 'Style/Icons/Logos/twitter.svg';
+import facebookIcon from 'Style/icons/logos/facebook.svg';
+import linkedinIcon from 'Style/icons/logos/linkedIn.svg';
+import twitterIcon from 'Style/icons/logos/twitter.svg';
 
 export const RENDER_NEWSLETTER = 'render_newsletter';
 
@@ -28,66 +28,66 @@ export const NEWSLETTER_COLUMN = {
 // eslint-disable-next-line import/prefer-default-export
 export const COLUMN_MAP = [
     {
-        title: 'About',
+        title: __('About'),
         items: [
             {
                 href: '/about-us',
-                title: 'About Us'
+                title: __('About Us')
             }
         ]
     },
     {
-        title: 'Additional info',
+        title: __('Additional info'),
         items: [
             {
                 href: '/privacy-policy-cookie-restriction-mode',
-                title: 'Privacy Policy'
+                title: __('Privacy Policy')
             },
             {
                 href: '/terms-and-conditions',
-                title: 'Terms of use'
+                title: __('Terms of use')
             },
             {
                 href: '/privacy-policy-cookie-restriction-mode',
-                title: 'Use of Cookies'
+                title: __('Use of Cookies')
             }
         ]
     },
     {
-        title: 'Popular categories',
+        title: __('Popular categories'),
         items: [
             {
                 href: '/women',
-                title: 'Women'
+                title: __('Women')
             },
             {
                 href: '/men',
-                title: 'Men'
+                title: __('Men')
             },
             {
                 href: '/accessories',
-                title: 'Accessories'
+                title: __('Accessories')
             }
         ]
     },
     {
-        title: 'Follow',
+        title: __('Follow'),
         isItemsHorizontal: true,
         items: [
             {
                 href: 'https://www.linkedin.com/company/scandipwa',
                 src: linkedinIcon,
-                title: 'LinkedIn'
+                title: __('LinkedIn')
             },
             {
                 href: 'https://www.facebook.com/ScandiPWA/',
                 src: facebookIcon,
-                title: 'Facebook'
+                title: __('Facebook')
             },
             {
                 href: 'https://twitter.com/scandipwa',
                 src: twitterIcon,
-                title: 'Twitter'
+                title: __('Twitter')
             }
         ]
     },

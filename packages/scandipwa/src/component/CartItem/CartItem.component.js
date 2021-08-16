@@ -13,12 +13,11 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import CartItemPrice from 'Component/CartItemPrice';
+import CloseIcon from 'Component/CloseIcon';
 import Field from 'Component/Field';
 import Image from 'Component/Image';
 import Link from 'Component/Link';
 import Loader from 'Component/Loader';
-import CloseIcon from 'Style/Icons/Close';
-import { DeviceType } from 'Type/Device';
 import { CartItemType } from 'Type/MiniCart';
 
 import './CartItem.style';
@@ -33,7 +32,7 @@ export class CartItem extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,
-        isEditing: PropTypes.bool,
+        isEditing: PropTypes.bool.isRequired,
         isCartOverlay: PropTypes.bool,
         handleRemoveItem: PropTypes.func.isRequired,
         minSaleQuantity: PropTypes.number.isRequired,
@@ -48,13 +47,12 @@ export class CartItem extends PureComponent {
         ]).isRequired,
         thumbnail: PropTypes.string.isRequired,
         isProductInStock: PropTypes.bool.isRequired,
-        device: DeviceType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
         optionsLabels: PropTypes.array.isRequired,
         isMobileLayout: PropTypes.bool
     };
 
     static defaultProps = {
-        isEditing: false,
         isCartOverlay: false,
         isMobileLayout: false
     };
@@ -162,9 +160,9 @@ export class CartItem extends PureComponent {
     }
 
     renderContent() {
-        const { linkTo = {}, isProductInStock, device } = this.props;
+        const { linkTo = {}, isProductInStock, isMobile } = this.props;
 
-        if (!isProductInStock || Object.keys(linkTo).length === 0 || device.isMobile) {
+        if (!isProductInStock || Object.keys(linkTo).length === 0 || isMobile) {
             // If product is out of stock, or link is not set
             return (
                 <span block="CartItem" elem="Link">
@@ -396,9 +394,9 @@ export class CartItem extends PureComponent {
     }
 
     renderImage() {
-        const { linkTo, device } = this.props;
+        const { linkTo, isMobile } = this.props;
 
-        if (device.isMobile) {
+        if (isMobile) {
             return (
                 <Link to={ linkTo } block="CartItem" elem="Link">
                     { this.renderImageElement() }

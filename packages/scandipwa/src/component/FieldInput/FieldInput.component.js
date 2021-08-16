@@ -43,6 +43,7 @@ export class FieldInput extends PureComponent {
         return (
             <input
               ref={ formRef }
+              // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
               { ...validProps }
             />
         );

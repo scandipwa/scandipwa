@@ -97,6 +97,18 @@ export class CmsPageContainer extends DataContainer {
         toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
+    containerProps() {
+        const { isBreadcrumbsActive } = this.props;
+        const { page, isPageLoaded, isLoading } = this.state;
+
+        return {
+            isBreadcrumbsActive,
+            isLoading,
+            isPageLoaded,
+            page
+        };
+    }
+
     componentDidMount() {
         const {
             isOffline,
@@ -229,8 +241,7 @@ export class CmsPageContainer extends DataContainer {
     render() {
         return (
             <CmsPage
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
             />
         );
     }

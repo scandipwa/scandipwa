@@ -213,8 +213,6 @@ export class ProductBundleItemContainer extends ProductCustomizableOptionContain
     render() {
         return (
             <ProductBundleItem
-              { ...this.props }
-              { ...this.state }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

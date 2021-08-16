@@ -20,11 +20,16 @@ import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: OptionsType,
-        getSelectedCustomizableOptions: PropTypes.func.isRequired
+        getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        price_range: PropTypes.object,
+        type_id: PropTypes.string,
+        productOptionsData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
-        options: []
+        options: [],
+        price_range: {},
+        type_id: ''
     };
 
     state = {
@@ -84,6 +89,24 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         if (fileFieldValues !== prevFileFieldValues) {
             this.updateSelectedOptions();
         }
+    }
+
+    containerProps() {
+        const {
+            options,
+            price_range,
+            productOptionsData,
+            type_id
+        } = this.props;
+        const { isLoading } = this.state;
+
+        return {
+            options,
+            price_range,
+            productOptionsData,
+            type_id,
+            isLoading
+        };
     }
 
     stopLoading() {
@@ -187,8 +210,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
     render() {
         return (
             <ProductCustomizableOptions
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

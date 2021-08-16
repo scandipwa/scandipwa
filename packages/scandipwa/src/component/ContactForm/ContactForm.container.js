@@ -35,6 +35,7 @@ export const mapDispatchToProps = (dispatch) => ({
 /** @namespace Component/ContactForm/Container */
 export class ContactFormContainer extends PureComponent {
     static propTypes = {
+        isLoading: PropTypes.bool.isRequired,
         sendMessage: PropTypes.func.isRequired
     };
 
@@ -47,10 +48,16 @@ export class ContactFormContainer extends PureComponent {
         sendMessage(fields);
     }
 
+    containerProps() {
+        const { isLoading } = this.props;
+
+        return { isLoading };
+    }
+
     render() {
         return (
             <ContactForm
-              { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

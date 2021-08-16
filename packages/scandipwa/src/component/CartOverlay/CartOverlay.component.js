@@ -16,11 +16,10 @@ import CartItem from 'Component/CartItem';
 import CmsBlock from 'Component/CmsBlock';
 import { CART_OVERLAY } from 'Component/Header/Header.config';
 import Link from 'Component/Link';
+import LockIcon from 'Component/LockIcon';
 import Overlay from 'Component/Overlay';
 import { OVERLAY_PLACEHOLDER } from 'Component/PopupSuspense/PopupSuspense.config';
-import LockIcon from 'Style/Icons/Lock';
-import { DeviceType } from 'Type/Device';
-import { TotalsType } from 'Type/MiniCart';
+import { CartDisplayType, TotalsType } from 'Type/MiniCart';
 import { formatPrice } from 'Util/Price';
 
 import './CartOverlay.style';
@@ -29,32 +28,26 @@ import './CartOverlay.style';
 export class CartOverlay extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        device: DeviceType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        isEditing: PropTypes.bool.isRequired,
         handleCheckoutClick: PropTypes.func.isRequired,
         currencyCode: PropTypes.string.isRequired,
         showOverlay: PropTypes.func.isRequired,
         activeOverlay: PropTypes.string.isRequired,
         hasOutOfStockProductsInCart: PropTypes.bool,
-        cartTotalSubPrice: PropTypes.number,
-        cartShippingPrice: PropTypes.number,
-        cartShippingSubPrice: PropTypes.number,
-        cartDisplaySettings: PropTypes.object.isRequired,
+        cartTotalSubPrice: PropTypes.number.isRequired,
+        cartDisplaySettings: CartDisplayType.isRequired,
+        isMobile: PropTypes.bool.isRequired,
         scrollToTop: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        hasOutOfStockProductsInCart: false,
-        cartTotalSubPrice: null,
-        cartShippingPrice: 0,
-        cartShippingSubPrice: null
+        hasOutOfStockProductsInCart: false
     };
 
     componentDidMount() {
-        const { showOverlay, device, activeOverlay } = this.props;
+        const { showOverlay, isMobile, activeOverlay } = this.props;
 
-        if (!device.isMobile && activeOverlay === OVERLAY_PLACEHOLDER) {
+        if (!isMobile && activeOverlay === OVERLAY_PLACEHOLDER) {
             showOverlay(CART_OVERLAY);
         }
     }
@@ -183,20 +176,13 @@ export class CartOverlay extends PureComponent {
     renderSecureCheckoutButton() {
         const { handleCheckoutClick, hasOutOfStockProductsInCart } = this.props;
 
-        const options = hasOutOfStockProductsInCart
-            ? {
-                onClick: (e) => e.preventDefault(),
-                disabled: true
-            }
-            : {};
-
         return (
             <button
               block="CartOverlay"
               elem="CheckoutButton"
               mix={ { block: 'Button' } }
               onClick={ handleCheckoutClick }
-              { ...options }
+              disabled={ hasOutOfStockProductsInCart }
             >
                 <LockIcon />
                 { __('Secure checkout') }

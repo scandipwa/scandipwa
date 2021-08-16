@@ -18,7 +18,8 @@ import {
     BUNDLE,
     CONFIGURABLE,
     DOWNLOADABLE,
-    SIMPLE
+    SIMPLE,
+    VIRTUAL
 } from 'Util/Product';
 import getStore from 'Util/Store';
 
@@ -372,7 +373,7 @@ export const getExtensionAttributes = (product) => {
         return { bundle_options: Array.from(productOptions || []) };
     }
 
-    if (type_id === SIMPLE && (productOptions || productOptionsMulti)) {
+    if ((type_id === SIMPLE || type_id === VIRTUAL) && (productOptions || productOptionsMulti)) {
         return {
             customizable_options: productOptions || [],
             customizable_options_multi: productOptionsMulti || []
@@ -450,6 +451,32 @@ export const getBooleanLabel = (label, isBoolean = false) => {
 
     return +label ? __('Yes') : __('No');
 };
+
+/** @namespace Util/Product/filterConfigurableOptions */
+export const filterConfigurableOptions = (options, variants) => (
+    Object.values(options).reduce((acc, option) => {
+        const { attribute_values, attribute_code } = option;
+
+        // show option if it exist as variant for configurable product
+        const filteredOptions = attribute_values.reduce((acc, value) => {
+            const isVariantExist = variants.find(({ attributes }) => {
+                const { attribute_value: foundValue } = attributes[attribute_code] || {};
+
+                return value === foundValue;
+            });
+
+            if (isVariantExist) {
+                acc.push(value);
+            }
+
+            return acc;
+        }, []);
+
+        acc.push({ ...option, attribute_values: filteredOptions });
+
+        return acc;
+    }, [])
+);
 
 /** @namespace Util/Product/validateProductQuantity */
 export const validateProductQuantity = (quantity, stockItem) => {

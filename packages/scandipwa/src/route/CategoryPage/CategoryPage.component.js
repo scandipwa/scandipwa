@@ -19,13 +19,12 @@ import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategorySort from 'Component/CategorySort';
 import ContentWrapper from 'Component/ContentWrapper';
+import FilterIcon from 'Component/FilterIcon';
+import GridIcon from 'Component/GridIcon';
 import Html from 'Component/Html';
+import ListIcon from 'Component/ListIcon';
 import Loader from 'Component/Loader';
-import FilterIcon from 'Style/Icons/Filter';
-import GridIcon from 'Style/Icons/Grid';
-import ListIcon from 'Style/Icons/List';
 import { CategoryTreeType } from 'Type/Category';
-import { DeviceType } from 'Type/Device';
 import { FilterInputType, FilterType } from 'Type/ProductList';
 import { isCrawler, isSSR } from 'Util/Browser';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -70,8 +69,6 @@ export class CategoryPage extends PureComponent {
         isMatchingListFilter: PropTypes.bool,
         isMatchingInfoFilter: PropTypes.bool,
         totalPages: PropTypes.number,
-        device: DeviceType.isRequired,
-        is_anchor: PropTypes.bool,
         isMobile: PropTypes.bool.isRequired,
         onGridButtonClick: PropTypes.func.isRequired,
         onListButtonClick: PropTypes.func.isRequired,
@@ -87,10 +84,9 @@ export class CategoryPage extends PureComponent {
         isCurrentCategoryLoaded: false,
         isMatchingInfoFilter: false,
         totalPages: 1,
-        is_anchor: true,
-        search: '',
         defaultPlpType: '',
         plpTypes: [],
+        search: '',
         appliedFiltersCount: 0,
         selectedLayoutType: ''
     };
@@ -310,13 +306,13 @@ export class CategoryPage extends PureComponent {
     }
 
     renderItemsCount(isVisibleOnMobile = false) {
-        const { isMatchingListFilter, device } = this.props;
+        const { isMatchingListFilter, isMobile } = this.props;
 
-        if (isVisibleOnMobile && !device.isMobile) {
+        if (isVisibleOnMobile && !isMobile) {
             return null;
         }
 
-        if (!isVisibleOnMobile && device.isMobile) {
+        if (!isVisibleOnMobile && isMobile) {
             return null;
         }
 
